@@ -56,10 +56,11 @@ class _LocationCard extends State<LocationCard> {
                   ),
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Column(
                       mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         GestureDetector(
                           onTap: () async {
@@ -81,7 +82,7 @@ class _LocationCard extends State<LocationCard> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
+                          margin: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 16.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'Directions',
@@ -106,10 +107,10 @@ class _LocationCard extends State<LocationCard> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+                          margin: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'Share Location',
+                            text: 'Share',
                             textAlign: TextAlign.center,
                             color: Color(ColorConstants.primary_black),
                           ),

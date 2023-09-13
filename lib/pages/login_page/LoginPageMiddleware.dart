@@ -9,6 +9,7 @@ import 'package:dandylight/data_layer/firebase/collections/UserCollection.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ResponseDao.dart';
+import 'package:dandylight/models/FontTheme.dart';
 import 'package:dandylight/models/PoseLibraryGroup.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
@@ -41,6 +42,7 @@ import '../../data_layer/local_db/daos/PoseLibraryGroupDao.dart';
 import '../../data_layer/local_db/daos/PriceProfileDao.dart';
 import '../../data_layer/local_db/daos/ReminderDao.dart';
 import '../../models/Client.dart';
+import '../../models/ColorTheme.dart';
 import '../../models/Job.dart';
 import '../../models/JobStage.dart';
 import '../../models/JobType.dart';
@@ -367,6 +369,22 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         accountCreatedDate: DateTime.now(),
         onBoardingComplete: false,
         isSubscribed: false,
+        bannerImageSelected: false,
+        logoSelected: false,
+        logoCharacter: store.state.loginPageState.businessName.substring(0, 0) ?? 'D',
+        selectedColorTheme: ColorTheme(
+          themeName: 'default',
+          iconColor: ColorConstants.getString(ColorConstants.getBlueDark()),
+          iconTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
+          buttonColor: ColorConstants.getString(ColorConstants.getPeachDark()),
+          buttonTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
+          bannerColor: ColorConstants.getString(ColorConstants.getBlueLight()),
+        ),
+        selectedFontTheme: FontTheme(
+            themeName: 'default',
+            iconFont: FontTheme.SIGNATURE2,
+            mainFont: FontTheme.OPEN_SANS,
+        ),
       );
       await ProfileDao.insertOrUpdate(newProfile);
 
@@ -453,8 +471,8 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       Client client1 = Client(
           id: null,
           documentId: '',
-          firstName: 'Example Client',
-          lastName: '',
+          firstName: 'Client',
+          lastName: 'Name',
           email: 'sampleuser@dandylight.com',
           phone: '(555)555-5555',
           instagramProfileUrl: 'https://www.instagram.com/dandy.light/',
@@ -492,8 +510,9 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         completedStages: [JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED)],
         priceProfile: (await PriceProfileDao.getAllSortedByName()).first,
         createdDate: DateTime.now(),
+        client: (await ClientDao.getAll()).first,
         depositAmount: 0,
-        location: location,
+        location: (await LocationDao.getAllSortedMostFrequent()).first,
       );
       await JobDao.insertOrUpdate(jobToSave);
 

@@ -89,7 +89,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
                 fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                text: pageState.profile.firstName + ' ' + pageState.profile.lastName,
+                text: pageState.profile.firstName ?? '' + ' ' + pageState.profile.lastName ?? '',
                 isBold: true,
               ),
             ),
@@ -132,7 +132,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
                 fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                text: pageState.job.client.getClientFullName(),
+                text: pageState.job.client?.getClientFullName(),
                 isBold: true,
               ),
             ),
@@ -140,7 +140,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: 'email: ' + pageState.job.client.email,
+                text: 'email: ' + pageState.job.client?.email,
                 fontFamily: pageState.profile.selectedFontTheme.mainFont,
                 textAlign: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextAlign.start : TextAlign.center,
               ),

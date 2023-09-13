@@ -4,7 +4,6 @@ import 'package:dandylight/models/LineItem.dart';
 import 'package:dandylight/pages/new_invoice_page/NewDiscountDialog.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/RateTypeSelection.dart';
 import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 
@@ -345,7 +344,7 @@ double calculateRemainingBalance(NewInvoicePageState previousState, double disco
   double taxableAmount = subtotal - discountAmount;
   return taxableAmount - (previousState.selectedJob.isDepositPaid() ? previousState.selectedJob.depositAmount : 0) + (includeTax ? (taxableAmount * (taxRate/100)) : 0.0);
 }
-
+//TODO fix pdf sales tax amount && when marking as paid, profile gets wiped in Database
 double calculateRemainingBalanceInit(double discountAmount, bool includeTax, double taxRate, bool isDepositPaid, double depositAmount, double subtotal) {
   double taxableAmount = subtotal - discountAmount;
   return taxableAmount - (isDepositPaid ? depositAmount : 0) + (includeTax ? (taxableAmount * (taxRate/100)) : 0.0);

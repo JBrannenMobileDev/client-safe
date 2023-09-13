@@ -33,8 +33,11 @@ import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
 import '../../data_layer/local_db/daos/PoseSubmittedGroupDao.dart';
+import '../../models/ColorTheme.dart';
+import '../../models/FontTheme.dart';
 import '../../models/Pose.dart';
 import '../../models/SingleExpense.dart';
+import '../../utils/ColorConstants.dart';
 import '../../utils/IntentLauncherUtil.dart';
 import '../new_reminder_page/WhenSelectionWidget.dart';
 
@@ -145,7 +148,8 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   Future<void> _updateProfileWithShowcaseSeen(Store<AppState> store, UpdateProfileWithShowcaseSeen action, NextDispatcher next) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.hasSeenShowcase = true;
-    ProfileDao.update(profile);
+    await ProfileDao.update(profile);
+    store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
   }
 
   Future<void> _setUnseenFeaturedPosesToSeen(Store<AppState> store, SetUnseenFeaturedPosesAsSeenAction action) async {
@@ -282,6 +286,26 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       allJobs = await JobDao.getAllJobs();
       store.dispatch(SetJobToStateAction(store.state.dashboardPageState, allJobs, singleExpenses, recurringExpenses, expenses));
     });
+
+    if(profile.selectedColorTheme == null && profile.selectedFontTheme == null) {
+      profile.bannerImageSelected = false;
+      profile.logoSelected = false;
+      profile.logoCharacter = profile.businessName.substring(0,0) ?? 'D';
+      profile.selectedColorTheme = ColorTheme(
+        themeName: 'default',
+        iconColor: ColorConstants.getString(ColorConstants.getBlueDark()),
+        iconTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
+        buttonColor: ColorConstants.getString(ColorConstants.getPeachDark()),
+        buttonTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
+        bannerColor: ColorConstants.getString(ColorConstants.getBlueLight()),
+      );
+      profile.selectedFontTheme = FontTheme(
+        themeName: 'default',
+        iconFont: FontTheme.SIGNATURE2,
+        mainFont: FontTheme.OPEN_SANS,
+      );
+      ProfileDao.update(profile);
+    }
   }
 
   Future<void> _loadClients(Store<AppState> store, action, NextDispatcher next) async {

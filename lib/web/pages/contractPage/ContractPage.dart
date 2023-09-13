@@ -304,7 +304,7 @@ class _ContractPageState extends State<ContractPage> {
                   margin: EdgeInsets.only(top: 0, bottom: 8),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
-                    text: pageState.job.client.getClientFullName(),
+                    text: pageState.job.client?.getClientFullName(),
                   ),
                 )
               ],

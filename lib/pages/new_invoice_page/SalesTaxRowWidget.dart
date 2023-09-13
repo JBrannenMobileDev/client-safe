@@ -89,7 +89,7 @@ class _SalesTaxRowWidgetPageState extends State<SalesTaxRowWidget> with TickerPr
               ) : SizedBox(),
               pageState.isSalesTaxChecked ? TextDandyLight(
                 type: TextDandyLight.LARGE_TEXT,
-                text: pageState.salesTaxPercent > 0 ? TextFormatterUtil.formatDecimalDigitsCurrency((pageState.total * (pageState.salesTaxPercent/100)), 2) : '\$0',
+                text: pageState.salesTaxPercent > 0 ? TextFormatterUtil.formatDecimalDigitsCurrency(((pageState.subtotal - pageState.discountValue) * (pageState.salesTaxPercent/100)), 2) : '\$0',
                 textAlign: TextAlign.start,
                 color: Color(
                     pageState.salesTaxPercent > 0.0

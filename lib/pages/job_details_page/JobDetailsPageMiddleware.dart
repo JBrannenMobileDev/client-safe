@@ -39,6 +39,7 @@ import '../../models/Invoice.dart';
 import '../../models/JobReminder.dart';
 import '../../models/Pose.dart';
 import '../../models/Profile.dart';
+import '../../models/Proposal.dart';
 import '../../models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
 import '../../utils/CalendarSyncUtil.dart';
 import '../../utils/ImageUtil.dart';
@@ -453,7 +454,12 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchClientForJob(Store<AppState> store, NextDispatcher next, SetJobInfo action) async{
+    if(action.job.proposal == null) {
+      action.job.proposal = Proposal();
+      JobDao.update(action.job);
+    }
     store.dispatch(SetJobAction(store.state.jobDetailsPageState, action.job));
+
     if(action.job.location != null) {
       store.dispatch(SetLocationImageAction(store.state.jobDetailsPageState, await FileStorage.getLocationImageFile(action.job.location)));
     }

@@ -158,7 +158,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                   child: TextDandyLight(
                                     type: TextDandyLight.LARGE_TEXT,
                                     fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                                    text: pageState.job.client.getClientFullName(),
+                                    text: pageState.job.client?.getClientFullName(),
                                     color: Color(ColorConstants.getPrimaryWhite()),
                                     addShadow: pageState.profile.bannerImageSelected ? true : false,
                                   ),
@@ -230,7 +230,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                 Container(
                                   child: TextDandyLight(
                                     type: TextDandyLight.LARGE_TEXT,
-                                    text: pageState.job.client.getClientFullName(),
+                                    text: pageState.job.client?.getClientFullName(),
                                     textAlign: TextAlign.center,
                                     fontFamily: pageState.profile.selectedFontTheme.mainFont,
                                     color: Color(ColorConstants.getPrimaryWhite()),
