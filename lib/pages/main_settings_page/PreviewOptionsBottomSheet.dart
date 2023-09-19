@@ -1,16 +1,15 @@
+import 'package:dandylight/navigation/routes/RouteNames.dart';
 import 'package:dandylight/pages/pose_library_group_page/LibraryPoseGroupPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redux/redux.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../AppState.dart';
-import '../../../utils/DandyToastUtil.dart';
-import '../../../utils/analytics/EventNames.dart';
-import '../../../utils/analytics/EventSender.dart';
 import '../../../widgets/TextDandyLight.dart';
+import 'MainSettingsPageState.dart';
 
 
 class PreviewOptionsBottomSheet extends StatefulWidget {
@@ -27,12 +26,12 @@ class _PreviewOptionsBottomSheetState extends State<PreviewOptionsBottomSheet> w
   final List<String> options = ['Client Portal', 'Contract PDF', 'Invoice PDF'];
 
   Widget _buildItem(BuildContext context, int index) {
-    return StoreConnector<AppState, LibraryPoseGroupPageState>(
-      converter: (store) => LibraryPoseGroupPageState.fromStore(store),
-      builder: (BuildContext context, LibraryPoseGroupPageState pageState) =>
+    return StoreConnector<AppState, MainSettingsPageState>(
+      converter: (store) => MainSettingsPageState.fromStore(store),
+      builder: (BuildContext context, MainSettingsPageState pageState) =>
           GestureDetector(
             onTap: () {
-
+              _launchBrandingPreviewURL(pageState.profile.uid);
             },
             child: Container(
               margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
@@ -110,4 +109,6 @@ class _PreviewOptionsBottomSheetState extends State<PreviewOptionsBottomSheet> w
            ),
          ),
     );
+
+  void _launchBrandingPreviewURL(String uid) async => await canLaunchUrl(Uri.parse('https://clientsafe-21962.web.app/' + RouteNames.BRANDING_PREVIEW + '/' + uid)) ? await launchUrl(Uri.parse('https://clientsafe-21962.web.app/' + RouteNames.BRANDING_PREVIEW + '/' + uid)) : throw 'Could not launch';
 }

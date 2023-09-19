@@ -16,6 +16,7 @@ class ClientPortalPageState{
   final String jobId;
   final String errorMsg;
   final bool isLoading;
+  final bool isBrandingPreview;
   final Function(String) onClientSignatureSaved;
   final Function(bool) onMarkAsPaidSelected;
   final Function(bool) onMarkAsPaidDepositSelected;
@@ -38,6 +39,7 @@ class ClientPortalPageState{
     @required this.errorMsg,
     @required this.isLoading,
     @required this.resetErrorMsg,
+    @required this.isBrandingPreview,
   });
 
   ClientPortalPageState copyWith({
@@ -49,6 +51,7 @@ class ClientPortalPageState{
     String jobId,
     String errorMsg,
     bool isLoading,
+    bool isBrandingPreview,
     Function(String) onClientSignatureSaved,
     Function(bool) onMarkAsPaidSelected,
     Function(bool) onMarkAsPaidDepositSelected,
@@ -71,6 +74,7 @@ class ClientPortalPageState{
       jobId: jobId ?? this.jobId,
       isLoading: isLoading ?? this.isLoading,
       resetErrorMsg: resetErrorMsg ?? this.resetErrorMsg,
+      isBrandingPreview: isBrandingPreview ?? this.isBrandingPreview,
     );
   }
 
@@ -89,6 +93,7 @@ class ClientPortalPageState{
     onDownloadInvoiceSelected: null,
     isLoading: false,
     resetErrorMsg: null,
+    isBrandingPreview: false,
   );
 
   factory ClientPortalPageState.fromStore(Store<AppState> store) {
@@ -101,6 +106,7 @@ class ClientPortalPageState{
       jobId: store.state.clientPortalPageState.jobId,
       errorMsg: store.state.clientPortalPageState.errorMsg,
       isLoading: store.state.clientPortalPageState.isLoading,
+      isBrandingPreview: store.state.clientPortalPageState.isBrandingPreview,
       onClientSignatureSaved: (signature) {
         store.dispatch(SetLoadingStateAction(store.state.clientPortalPageState, true));
         store.dispatch(SaveClientSignatureAction(store.state.clientPortalPageState, signature));
@@ -128,6 +134,7 @@ class ClientPortalPageState{
       jobId.hashCode^
       errorMsg.hashCode ^
       isLoading.hashCode ^
+      isBrandingPreview.hashCode ^
       onMarkAsPaidDepositSelected.hashCode;
 
   @override
@@ -139,6 +146,7 @@ class ClientPortalPageState{
               proposal == other.proposal &&
               invoice == other.invoice &&
               userId == other.userId &&
+              isBrandingPreview == other.isBrandingPreview &&
               jobId == other.jobId &&
               errorMsg == other.errorMsg &&
               isLoading == other.isLoading &&

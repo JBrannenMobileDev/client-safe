@@ -10,7 +10,14 @@ class FetchProposalDataAction{
   final ClientPortalPageState pageState;
   final String userId;
   final String jobId;
-  FetchProposalDataAction(this.pageState, this.userId, this.jobId);
+  final bool isBrandingPreview;
+  FetchProposalDataAction(this.pageState, this.userId, this.jobId, this.isBrandingPreview);
+}
+
+class SetBrandingPreviewStateAction{
+  final ClientPortalPageState pageState;
+  final bool isBrandingPreview;
+  SetBrandingPreviewStateAction(this.pageState, this.isBrandingPreview);
 }
 
 class SaveClientSignatureAction{

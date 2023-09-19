@@ -8,7 +8,14 @@ final clientPortalReducer = combineReducers<ClientPortalPageState>([
   TypedReducer<ClientPortalPageState, SetProfileAction>(_setProfile),
   TypedReducer<ClientPortalPageState, SetErrorStateAction>(_setErrorMsg),
   TypedReducer<ClientPortalPageState, SetLoadingStateAction>(_setLoadingState),
+  TypedReducer<ClientPortalPageState, SetBrandingPreviewStateAction>(_setBrandingPreviewState),
 ]);
+
+ClientPortalPageState _setBrandingPreviewState(ClientPortalPageState previousState, SetBrandingPreviewStateAction action){
+  return previousState.copyWith(
+    isBrandingPreview: action.isBrandingPreview,
+  );
+}
 
 ClientPortalPageState _setLoadingState(ClientPortalPageState previousState, SetLoadingStateAction action){
   return previousState.copyWith(

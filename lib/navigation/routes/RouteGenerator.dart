@@ -14,7 +14,15 @@ class RouteGenerator {
       var id = uri.pathSegments[1];
       var params = id.split('+');
       return _GeneratePageRoute(
-          widget: ProposalPage(userId: params[0], jobId: params[1]),
+          widget: ProposalPage(userId: params[0], jobId: params[1], isBrandingPreview: false),
+          routeName: settings.name
+      );
+    }
+
+    if(uri.pathSegments.length == 2 && uri.pathSegments.first == RouteNames.BRANDING_PREVIEW) {
+      var uid = uri.pathSegments[1];
+      return _GeneratePageRoute(
+          widget: ProposalPage(userId: uid, jobId: null, isBrandingPreview: true),
           routeName: settings.name
       );
     }

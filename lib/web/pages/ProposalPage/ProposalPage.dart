@@ -3,14 +3,12 @@ import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/web/pages/ClientPortalActions.dart';
 import 'package:dandylight/web/pages/contractPage/ContractPage.dart';
 import 'package:dandylight/web/pages/posesPage/ClientPosesPage.dart';
-import 'package:dandylight/widgets/DividerWidget.dart';
 import 'package:dandylight/widgets/TextDandyLight.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
-import '../../../pages/poses_page/PosesPage.dart';
 import '../../../utils/ColorConstants.dart';
 import '../../../widgets/DandyLightNetworkImage.dart';
 import '../ClientPortalPageState.dart';
@@ -20,12 +18,13 @@ import '../invoicePage/InvoicePage.dart';
 class ProposalPage extends StatefulWidget {
   final String userId;
   final String jobId;
+  final bool isBrandingPreview;
 
-  ProposalPage({this.userId, this.jobId});
+  ProposalPage({this.userId, this.jobId, this.isBrandingPreview});
 
   @override
   State<StatefulWidget> createState() {
-    return _SignContractPageState(userId, jobId);
+    return _SignContractPageState(userId, jobId, isBrandingPreview);
   }
 }
 
@@ -39,8 +38,9 @@ class _SignContractPageState extends State<ProposalPage> {
 
   final String userId;
   final String jobId;
+  final bool isBrandingPreview;
 
-  _SignContractPageState(this.userId, this.jobId);
+  _SignContractPageState(this.userId, this.jobId, this.isBrandingPreview);
 
   String selectedPage = DETAILS;
   bool isHoveredDetails = false;
@@ -54,7 +54,8 @@ class _SignContractPageState extends State<ProposalPage> {
   Widget build(BuildContext context) =>
       StoreConnector<AppState, ClientPortalPageState>(
           onInit: (store) {
-            store.dispatch(FetchProposalDataAction(store.state.clientPortalPageState, userId, jobId));
+            store.dispatch(SetBrandingPreviewStateAction(store.state.clientPortalPageState, isBrandingPreview));
+            store.dispatch(FetchProposalDataAction(store.state.clientPortalPageState, userId, jobId, isBrandingPreview));
           },
           converter: (Store<AppState> store) => ClientPortalPageState.fromStore(store),
           builder: (BuildContext context, ClientPortalPageState pageState) => Scaffold(
