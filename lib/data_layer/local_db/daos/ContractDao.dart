@@ -7,7 +7,7 @@ import 'package:dandylight/data_layer/repositories/FileStorage.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
-import 'package:sembast/sembast.dart';
+import 'package:sembast/sembast.dart' as sembast;
 import 'package:uuid/uuid.dart';
 
 import '../../../models/Contract.dart';
@@ -17,11 +17,11 @@ class ContractDao extends Equatable{
   static const String CONTRACT_STORE_NAME = 'contract';
   // A Store with int keys and Map<String, dynamic> values.
   // This Store acts like a persistent map, values of which are Client objects converted to Map
-  static final _contractStore = intMapStoreFactory.store(CONTRACT_STORE_NAME);
+  static final _contractStore = sembast.intMapStoreFactory.store(CONTRACT_STORE_NAME);
 
   // Private getter to shorten the amount of code needed to get the
   // singleton instance of an opened database.
-  static Future<Database> get _db async => await SembastDb.instance.database;
+  static Future<sembast.Database> get _db async => await SembastDb.instance.database;
 
   static Future<Contract> insert(Contract contract) async {
     contract.documentId = Uuid().v1();
@@ -59,7 +59,7 @@ class ContractDao extends Equatable{
 
   static Future<Contract> getById(String contractDocumentId) async{
     if((await getAll()).length > 0) {
-      final finder = Finder(filter: Filter.equals('documentId', contractDocumentId));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', contractDocumentId));
       final recordSnapshots = await _contractStore.find(await _db, finder: finder);
       // Making a List<profileId> out of List<RecordSnapshot>
       List<Contract> contracts = recordSnapshots.map((snapshot) {
@@ -77,7 +77,7 @@ class ContractDao extends Equatable{
     }
   }
 
-  static Future<Stream<List<RecordSnapshot>>> getContractsStream() async {
+  static Future<Stream<List<sembast.RecordSnapshot>>> getContractsStream() async {
     var query = _contractStore.query();
     return query.onSnapshots(await _db);
   }
@@ -89,7 +89,7 @@ class ContractDao extends Equatable{
   static Future<Contract> update(Contract contract) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.equals('documentId', contract.documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', contract.documentId));
     await _contractStore.update(
       await _db,
       contract.toMap(),
@@ -103,7 +103,7 @@ class ContractDao extends Equatable{
   static Future updateLocalOnly(Contract contract) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.equals('documentId', contract.documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', contract.documentId));
     await _contractStore.update(
       await _db,
       contract.toMap(),
@@ -113,7 +113,7 @@ class ContractDao extends Equatable{
 
   static Future delete(String documentId) async {
     await FileStorage.deleteFileContract(await getById(documentId));
-    final finder = Finder(filter: Filter.equals('documentId', documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
     int countOfUpdatedItems = await _contractStore.delete(
       await _db,
       finder: finder,
@@ -159,7 +159,7 @@ class ContractDao extends Equatable{
 
   static Future<void> _deleteAllLocalContracts(List<Contract> allLocalContracts) async {
     for(Contract contract in allLocalContracts) {
-      final finder = Finder(filter: Filter.equals('documentId', contract.documentId));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', contract.documentId));
       await _contractStore.delete(
         await _db,
         finder: finder,
@@ -179,7 +179,7 @@ class ContractDao extends Equatable{
       List<Contract> matchingFireStoreContracts = allFireStoreContracts.where((fireStoreContract) => localContract.documentId == fireStoreContract.documentId).toList();
       if(matchingFireStoreContracts !=  null && matchingFireStoreContracts.length > 0) {
         Contract fireStoreContract = matchingFireStoreContracts.elementAt(0);
-        final finder = Finder(filter: Filter.equals('documentId', fireStoreContract.documentId));
+        final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStoreContract.documentId));
         await _contractStore.update(
           await _db,
           fireStoreContract.toMap(),
@@ -187,7 +187,7 @@ class ContractDao extends Equatable{
         );
       } else {
         //Contract does nto exist on cloud. so delete from local.
-        final finder = Finder(filter: Filter.equals('documentId', localContract.documentId));
+        final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', localContract.documentId));
         await _contractStore.delete(
           await _db,
           finder: finder,

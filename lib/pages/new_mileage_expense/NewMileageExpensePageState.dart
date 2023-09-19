@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/models/Profile.dart';
@@ -34,7 +34,7 @@ class NewMileageExpensePageState {
   final String searchText;
   final double lat;
   final double lng;
-  final Location selectedSearchLocation;
+  final LocationDandy selectedSearchLocation;
   final Profile profile;
   final String selectedHomeLocationName;
   final String startLocationName;
@@ -47,10 +47,10 @@ class NewMileageExpensePageState {
   final LatLng endLocation;
   final String filterType;
   final Function(String) onFilterChanged;
-  final Location selectedLocation;
-  final List<Location> locations;
+  final LocationDandy selectedLocation;
+  final List<LocationDandy> locations;
   final List<File> imageFiles;
-  final Function(Location) onLocationSelected;
+  final Function(LocationDandy) onLocationSelected;
   final String documentPath;
 
   NewMileageExpensePageState({
@@ -112,7 +112,7 @@ class NewMileageExpensePageState {
     double lng,
     String searchText,
     List<PlacesLocation> locationResults,
-    Location selectedSearchLocation,
+    LocationDandy selectedSearchLocation,
     Profile profile,
     String selectedHomeLocationName,
     String startLocationName,
@@ -125,10 +125,10 @@ class NewMileageExpensePageState {
     LatLng endLocation,
     String filterType,
     Function(String) onFilterChanged,
-    Location selectedLocation,
-    List<Location> locations,
+    LocationDandy selectedLocation,
+    List<LocationDandy> locations,
     List<File> imageFiles,
-    Function(Location) onLocationSelected,
+    Function(LocationDandy) onLocationSelected,
     String documentPath,
   }){
     return NewMileageExpensePageState(

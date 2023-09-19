@@ -6,7 +6,7 @@ import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/MileageExpenseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Charge.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/MileageExpense.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
@@ -141,10 +141,10 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void loadLocations(Store<AppState> store, NextDispatcher next, LoadNewMileageLocationsAction action) async {
-    List<Location> locations = await LocationDao.getAllSortedMostFrequent();
+    List<LocationDandy> locations = await LocationDao.getAllSortedMostFrequent();
     List<File> imageFiles = [];
 
-    for(Location location in locations) {
+    for(LocationDandy location in locations) {
       imageFiles.add(await FileStorage.getLocationImageFile(location));
     }
 
@@ -152,10 +152,10 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void getLocationData(Store<AppState> store, NextDispatcher next, FetchLastKnowPosition action) async {
-    List<Location> locations = await LocationDao.getAllSortedMostFrequent();
+    List<LocationDandy> locations = await LocationDao.getAllSortedMostFrequent();
     List<File> imageFiles = [];
 
-    for(Location location in locations) {
+    for(LocationDandy location in locations) {
       imageFiles.add(await FileStorage.getLocationImageFile(location));
     }
     store.dispatch(SetMileageLocationsAction(store.state.newMileageExpensePageState, locations, imageFiles));
@@ -178,13 +178,13 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
     }
 
     (await LocationDao.getLocationsStream()).listen((locationSnapshots) async {
-      List<Location> locations = [];
+      List<LocationDandy> locations = [];
       List<File> imageFiles = [];
       for(RecordSnapshot locationSnapshot in locationSnapshots) {
-        locations.add(Location.fromMap(locationSnapshot.value));
+        locations.add(LocationDandy.fromMap(locationSnapshot.value));
       }
 
-      for(Location location in locations) {
+      for(LocationDandy location in locations) {
         imageFiles.add(await FileStorage.getLocationImageFile(location));
       }
       store.dispatch(SetMileageLocationsAction(store.state.newMileageExpensePageState, locations, imageFiles));

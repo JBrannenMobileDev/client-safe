@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:device_calendar/device_calendar.dart';
@@ -122,13 +122,13 @@ class SetSelectedPriceProfile{
 
 class SetSelectedLocation{
   final NewJobPageState pageState;
-  final Location location;
+  final LocationDandy location;
   SetSelectedLocation(this.pageState, this.location);
 }
 
 class SetSelectedOneTimeLocation{
   final NewJobPageState pageState;
-  final Location location;
+  final LocationDandy location;
   SetSelectedOneTimeLocation(this.pageState, this.location);
 }
 
@@ -172,7 +172,7 @@ class SetAllToStateAction{
   final NewJobPageState pageState;
   final List<Client> allClients;
   final List<PriceProfile> allPriceProfiles;
-  final List<Location> allLocations;
+  final List<LocationDandy> allLocations;
   final List<Job> upcomingJobs;
   final List<File> imageFiles;
   final List<JobType> jobTypes;

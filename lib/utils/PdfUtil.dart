@@ -6,7 +6,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 import 'package:http/http.dart' show get;
-import '../models/Branding.dart';
 import '../models/Client.dart';
 import '../models/Contract.dart';
 import '../models/FontTheme.dart';
@@ -15,7 +14,6 @@ import '../models/Job.dart';
 import '../models/LineItem.dart';
 import '../models/Profile.dart';
 import '../models/Proposal.dart';
-import 'ColorConstants.dart';
 import 'TextFormatterUtil.dart';
 
 class PdfUtil {
@@ -43,7 +41,7 @@ class PdfUtil {
   /**
    * The following methods are for web app
    */
-  static Future<Document> generateInvoicePdfFromInvoice(Invoice invoice, Job job, Client client, Profile profile, Branding branding) async {
+  static Future<Document> generateInvoicePdfFromInvoice(Invoice invoice, Job job, Client client, Profile profile) async {
     return await generateInvoice(
         job,
         client,
@@ -59,9 +57,6 @@ class PdfUtil {
         invoice.salesTaxRate,
         invoice.unpaidAmount,
         invoice.depositPaid,
-        branding.logoUrl,
-        branding.logoColor,
-        branding.logoTextColor,
     );
   }
 
@@ -80,16 +75,13 @@ class PdfUtil {
       double salesTaxPercent,
       double unpaidAmount,
       bool depositPaid,
-      String logoUrl,
-      String logoColor,
-      String logoTextColor,
   ) async {
     var response;
-    var data;
+    var logoImageData;
 
-    if(logoUrl != null) {
-      response = await get(Uri.parse(logoUrl));
-      data = response.bodyBytes;
+    if(profile.logoSelected && profile.logoUrl != null) {
+      response = await get(Uri.parse(profile.logoUrl));
+      logoImageData = response.bodyBytes;
     }
 
     String zelleInfo = profile.zellePhoneEmail != null && profile.zellePhoneEmail.isNotEmpty
@@ -120,6 +112,7 @@ class PdfUtil {
     final Document pdf = Document();
 
     String fontFamilyPath = FontTheme.getFilePath(profile.selectedFontTheme.mainFont);
+    String fontFamilyIconTextPath = FontTheme.getFilePath(profile.selectedFontTheme.iconFont);
     bool makeTextBold = FontTheme.shouldUseBold(profile.selectedFontTheme.mainFont);
 
     pdf.addPage(MultiPage(
@@ -129,7 +122,7 @@ class PdfUtil {
           bold:
               Font.ttf(await rootBundle.load(fontFamilyPath)),
           italic:
-              Font.ttf(await rootBundle.load(fontFamilyPath)),
+              Font.ttf(await rootBundle.load(fontFamilyIconTextPath)),
           boldItalic:
               Font.ttf(await rootBundle.load(fontFamilyPath)),
         ),
@@ -168,7 +161,7 @@ class PdfUtil {
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        logoUrl != null ? Padding(
+                        logoImageData != null ? Padding(
                           padding: EdgeInsets.only(right: 16),
                           child: Container(
                               alignment: Alignment.centerLeft,
@@ -180,35 +173,14 @@ class PdfUtil {
                                 child: Container(
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: PdfColor.fromHex(logoColor),
+                                    color: PdfColor.fromHex(profile.selectedColorTheme.iconColor),
                                   ),
                                   width: 150,
                                   height: 150,
-                                  child: Image(MemoryImage(data),),
+                                  child: Image(MemoryImage(logoImageData),),
                                 ),
                               )
                             ),
-                        ) : SizedBox(),
-                        logoUrl == null ? Padding(
-                          padding: EdgeInsets.only(right: 16),
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: 75,
-                            width: 75,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: PdfColor.fromHex(logoColor)
-                            ),
-                            child: Text(
-                                profile.logoCharacter != null
-                                    ? profile.logoCharacter
-                                    : '',
-                                style: Theme.of(context)
-                                    .defaultTextStyle
-                                    .copyWith(fontSize: 56, color: PdfColor.fromHex(logoTextColor),
-                                    fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal)
-                            ),
-                          ),
                         ) : SizedBox(),
                         Text(
                             profile.businessName != null
@@ -291,7 +263,7 @@ class PdfUtil {
                 padding: EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: PdfColor.fromHex('#e3e1da'),
+                  color: PdfColor.fromHex(profile.selectedColorTheme.buttonColor),
                 ),
                 child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -304,7 +276,7 @@ class PdfUtil {
                             textScaleFactor: 0.85,
                             textAlign: TextAlign.left,
                             style: TextStyle(
-                                color: PdfColor.fromHex('#444444'),
+                                color: PdfColor.fromHex(profile.selectedColorTheme.buttonTextColor),
                                 fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                             )
                         ),
@@ -318,7 +290,7 @@ class PdfUtil {
                                 textScaleFactor: 0.85,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
-                                    color: PdfColor.fromHex('#444444'),
+                                    color: PdfColor.fromHex(profile.selectedColorTheme.buttonTextColor),
                                     fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                                 )
                             ),
@@ -328,7 +300,7 @@ class PdfUtil {
                             alignment: Alignment.centerRight,
                             child: Text('Price',
                                 textScaleFactor: 0.85, textAlign: TextAlign.right, style: TextStyle(
-                                    color: PdfColor.fromHex('#444444'),
+                                    color: PdfColor.fromHex(profile.selectedColorTheme.buttonTextColor),
                                     fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                                 )),
                           ),
@@ -340,7 +312,7 @@ class PdfUtil {
                                 textScaleFactor: 0.85,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
-                                    color: PdfColor.fromHex('#444444'),
+                                    color: PdfColor.fromHex(profile.selectedColorTheme.buttonTextColor),
                                     fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                                 )
                             ),

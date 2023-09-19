@@ -50,7 +50,7 @@ import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 import '../data_layer/local_db/daos/ProfileDao.dart';
 import '../models/JobReminder.dart';
 import '../models/JobType.dart';
-import '../models/Location.dart';
+import '../models/LocationDandy.dart';
 import '../models/Profile.dart';
 import '../pages/calendar_selection_page/CalendarSelectionPage.dart';
 import '../pages/login_page/ShowResetPasswordSentDialog.dart';
@@ -211,7 +211,7 @@ class UserOptionsUtil {
     );
   }
 
-  static void showNewJobSelectFromMapDialog(BuildContext context, Function(LatLng) onLocationSaved, double lat, double lng, Function(Location) saveSelectedLocation){
+  static void showNewJobSelectFromMapDialog(BuildContext context, Function(LatLng) onLocationSaved, double lat, double lng, Function(LocationDandy) saveSelectedLocation){
     showDialog(
       context: context,
       builder: (BuildContext context) {

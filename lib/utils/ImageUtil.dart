@@ -7,7 +7,7 @@ import 'package:dandylight/utils/PlatformInfo.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../models/Location.dart';
+import '../models/LocationDandy.dart';
 
 class ImageUtil{
   static const String CAMERA_BG = "assets/images/backgrounds/cameras_background.png";

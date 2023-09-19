@@ -6,17 +6,17 @@ import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
-import 'package:sembast/sembast.dart';
+import 'package:sembast/sembast.dart' as sembast;
 
 class ProfileDao extends Equatable{
   static const String PROFILE_STORE_NAME = 'profile';
   // A Store with int keys and Map<String, dynamic> values.
   // This Store acts like a persistent map, values of which are Client objects converted to Map
-  static final _profileStore = intMapStoreFactory.store(PROFILE_STORE_NAME);
+  static final _profileStore = sembast.intMapStoreFactory.store(PROFILE_STORE_NAME);
 
   // Private getter to shorten the amount of code needed to get the
   // singleton instance of an opened database.
-  static Future<Database> get _db async => await SembastDb.instance.database;
+  static Future<sembast.Database> get _db async => await SembastDb.instance.database;
 
   static Future insert(Profile profile) async {
     await _profileStore.add(await _db, profile.toMap());
@@ -29,7 +29,7 @@ class ProfileDao extends Equatable{
     if(profiles != null && profiles.isNotEmpty) {
       Profile profile = profiles.elementAt(0);
       profile.profileLastChangeDate = DateTime.now();
-      final finder = Finder(filter: Filter.equals('uid', profile.uid));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('uid', profile.uid));
       await _profileStore.update(
         await _db,
         profile.toMap(),
@@ -65,7 +65,7 @@ class ProfileDao extends Equatable{
   static Future update(Profile profile) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.equals('uid', profile.uid));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('uid', profile.uid));
     await _profileStore.update(
       await _db,
       profile.toMap(),
@@ -78,7 +78,7 @@ class ProfileDao extends Equatable{
   static Future updateLocalOnly(Profile profile) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.equals('uid', profile.uid));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('uid', profile.uid));
     await _profileStore.update(
       await _db,
       profile.toMap(),
@@ -87,7 +87,7 @@ class ProfileDao extends Equatable{
   }
 
   static Future delete(Profile profile) async {
-    final finder = Finder(filter: Filter.equals('uid', profile.uid));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('uid', profile.uid));
     await _profileStore.delete(
       await _db,
       finder: finder,
@@ -96,8 +96,8 @@ class ProfileDao extends Equatable{
   }
 
   static Future<List<Profile>> getAllSortedByFirstName() async {
-    final finder = Finder(sortOrders: [
-      SortOrder('firstName'),
+    final finder = sembast.Finder(sortOrders: [
+      sembast.SortOrder('firstName'),
     ]);
 
     final recordSnapshots = await _profileStore.find(await _db, finder: finder);
@@ -151,7 +151,7 @@ class ProfileDao extends Equatable{
     await updateLocalOnly(fireStoreProfile);
   }
 
-  static Future<Stream<List<RecordSnapshot>>> getProfileStream() async {
+  static Future<Stream<List<sembast.RecordSnapshot>>> getProfileStream() async {
     var query = _profileStore.query();
     return query.onSnapshots(await _db);
   }
@@ -168,7 +168,7 @@ class ProfileDao extends Equatable{
     List<Profile> profiles = await getAll();
 
     for(Profile profile in profiles) {
-        final finder = Finder(filter: Filter.equals('uid', profile.uid));
+        final finder = sembast.Finder(filter: sembast.Filter.equals('uid', profile.uid));
         await _profileStore.delete(
           await _db,
           finder: finder,

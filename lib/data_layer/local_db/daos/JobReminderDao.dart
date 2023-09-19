@@ -2,29 +2,25 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/data_layer/firebase/collections/JobReminderCollection.dart';
-import 'package:dandylight/data_layer/firebase/collections/ReminderCollection.dart';
-import 'package:dandylight/data_layer/firebase/collections/SingleExpenseCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/models/Profile.dart';
-import 'package:dandylight/models/ReminderDandyLight.dart';
-import 'package:dandylight/models/SingleExpense.dart';
 import 'package:dandylight/utils/NotificationHelper.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
-import 'package:sembast/sembast.dart';
+import 'package:sembast/sembast.dart' as sembast;
 import 'package:uuid/uuid.dart';
 
 class JobReminderDao extends Equatable{
   static const String JOB_REMINDER_STORE_NAME = 'jobReminder';
   // A Store with int keys and Map<String, dynamic> values.
   // This Store acts like a persistent map, values of which are Client objects converted to Map
-  static final _jobReminderStore = intMapStoreFactory.store(JOB_REMINDER_STORE_NAME);
+  static final _jobReminderStore = sembast.intMapStoreFactory.store(JOB_REMINDER_STORE_NAME);
 
   // Private getter to shorten the amount of code needed to get the
   // singleton instance of an opened database.
-  static Future<Database> get _db async => await SembastDb.instance.database;
+  static Future<sembast.Database> get _db async => await SembastDb.instance.database;
 
   static Future insertAll(List<JobReminder> reminders) async {
     for(JobReminder reminder in reminders) {
@@ -74,7 +70,7 @@ class JobReminderDao extends Equatable{
   static Future update(JobReminder reminder) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.equals('documentId', reminder.documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', reminder.documentId));
     await _jobReminderStore.update(
       await _db,
       reminder.toMap(),
@@ -87,7 +83,7 @@ class JobReminderDao extends Equatable{
   static Future updateLocalOnly(JobReminder reminder) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.equals('documentId', reminder.documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', reminder.documentId));
     await _jobReminderStore.update(
       await _db,
       reminder.toMap(),
@@ -96,7 +92,7 @@ class JobReminderDao extends Equatable{
   }
 
   static Future delete(String documentId) async {
-    final finder = Finder(filter: Filter.equals('documentId', documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
     await _jobReminderStore.delete(
       await _db,
       finder: finder,
@@ -116,7 +112,7 @@ class JobReminderDao extends Equatable{
 
   static Future<List<JobReminder>> getRemindersByJobId(String documentId) async{
     if((await getAll()).length > 0) {
-      final finder = Finder(filter: Filter.equals('jobDocumentId', documentId));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('jobDocumentId', documentId));
       final recordSnapshots = await _jobReminderStore.find(await _db, finder: finder);
       return recordSnapshots.map((snapshot) {
         final reminder = JobReminder.fromMap(snapshot.value);
@@ -130,7 +126,7 @@ class JobReminderDao extends Equatable{
 
   static Future<JobReminder> getReminderById(String documentId) async{
     if((await getAll()).length > 0) {
-      final finder = Finder(filter: Filter.equals('documentId', documentId));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
       final recordSnapshots = await _jobReminderStore.find(await _db, finder: finder);
       List<JobReminder> reminders = recordSnapshots.map((snapshot) {
         final reminder = JobReminder.fromMap(snapshot.value);
@@ -147,7 +143,7 @@ class JobReminderDao extends Equatable{
     }
   }
 
-  static Future<Stream<List<RecordSnapshot>>> getReminderStream() async {
+  static Future<Stream<List<sembast.RecordSnapshot>>> getReminderStream() async {
     var query = _jobReminderStore.query();
     return query.onSnapshots(await _db);
   }
@@ -181,7 +177,7 @@ class JobReminderDao extends Equatable{
 
   static Future<void> _deleteAllLocalReminders(List<JobReminder> allLocalReminders) async {
     for(JobReminder reminder in allLocalReminders) {
-      final finder = Finder(filter: Filter.equals('documentId', reminder.documentId));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', reminder.documentId));
       await _jobReminderStore.delete(
         await _db,
         finder: finder,
@@ -201,7 +197,7 @@ class JobReminderDao extends Equatable{
       List<JobReminder> matchingFireStoreReminders = allFireStoreReminders.where((fireStoreReminder) => localReminder.documentId == fireStoreReminder.documentId).toList();
       if(matchingFireStoreReminders !=  null && matchingFireStoreReminders.length > 0) {
         JobReminder fireStoreReminder = matchingFireStoreReminders.elementAt(0);
-        final finder = Finder(filter: Filter.equals('documentId', fireStoreReminder.documentId));
+        final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStoreReminder.documentId));
         await _jobReminderStore.update(
           await _db,
           fireStoreReminder.toMap(),
@@ -209,7 +205,7 @@ class JobReminderDao extends Equatable{
         );
       } else {
         //client does nto exist on cloud. so delete from local.
-        final finder = Finder(filter: Filter.equals('documentId', localReminder.documentId));
+        final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', localReminder.documentId));
         await _jobReminderStore.delete(
           await _db,
           finder: finder,

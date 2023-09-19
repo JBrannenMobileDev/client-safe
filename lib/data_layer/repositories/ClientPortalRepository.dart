@@ -21,8 +21,8 @@ class ClientPortalRepository {
     return await functions.saveClientSignature(userId, jobId, clientSignature);
   }
 
-  Future<int> updateInvoiceAsPaid(String userId, String jobId, String invoiceId, bool isPaid) async {
-    return await functions.updateInvoiceAsPaid(userId, jobId, invoiceId, isPaid);
+  Future<int> updateInvoiceAsPaid(String userId, String jobId, String invoiceId, bool isPaid, double balancePaidAmount, double unpaidAmount) async {
+    return await functions.updateInvoiceAsPaid(userId, jobId, invoiceId, isPaid, balancePaidAmount, unpaidAmount);
   }
 
   Future<int> updateInvoiceAsDepositPaid(String userId, String jobId, String invoiceId, bool isPaid) async {

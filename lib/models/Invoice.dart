@@ -100,15 +100,15 @@ class Invoice {
       depositPaid: map['depositPaid'],
       invoicePaid: map['invoicePaid'],
       priceProfile: PriceProfile.fromMap(map['priceProfile']),
-      discount: map['discount'],
-      total: map['total'],
-      subtotal: map['subtotal'],
-      balancePaidAmount: map['balancePaidAmount'],
-      unpaidAmount: map['unpaidAmount'],
+      discount: map['discount']?.toDouble(),
+      total: map['total']?.toDouble(),
+      subtotal: map['subtotal']?.toDouble(),
+      balancePaidAmount: map['balancePaidAmount']?.toDouble(),
+      unpaidAmount: map['unpaidAmount']?.toDouble(),
       lineItems: convertMapsToLineItems(map['lineItems']),
-      depositAmount: map['depositAmount'],
-      salesTaxAmount: map['salesTaxAmount'],
-      salesTaxRate: map['salesTaxRate'],
+      depositAmount: map['depositAmount']?.toDouble(),
+      salesTaxAmount: map['salesTaxAmount']?.toDouble(),
+      salesTaxRate: map['salesTaxRate']?.toDouble(),
     );
   }
 

@@ -28,6 +28,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -46,13 +47,14 @@ import '../../models/ColorTheme.dart';
 import '../../models/Job.dart';
 import '../../models/JobStage.dart';
 import '../../models/JobType.dart';
-import '../../models/Location.dart';
+import '../../models/LocationDandy.dart';
 import '../../models/Pose.dart';
 import '../../models/PriceProfile.dart';
 import '../../models/Response.dart';
 import '../../utils/AppleSignInAvailable.dart';
 import '../../utils/ImageUtil.dart';
 import '../../utils/PushNotificationsManager.dart';
+import '../../utils/permissions/UserPermissionsUtil.dart';
 import '../new_reminder_page/WhenSelectionWidget.dart';
 import 'LoginPageActions.dart';
 
@@ -371,7 +373,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         isSubscribed: false,
         bannerImageSelected: false,
         logoSelected: false,
-        logoCharacter: store.state.loginPageState.businessName.substring(0, 0) ?? 'D',
+        logoCharacter: store.state.loginPageState.businessName.substring(0, 1) ?? 'D',
         selectedColorTheme: ColorTheme(
           themeName: 'default',
           iconColor: ColorConstants.getString(ColorConstants.getBlueDark()),
@@ -483,7 +485,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       await ClientDao.insertOrUpdate(client1);
 
       //Create Sample Location
-      Location location = Location(
+      LocationDandy location = LocationDandy.LocationDandy(
         id: null,
         documentId: '',
         locationName: "Santa Rosa",

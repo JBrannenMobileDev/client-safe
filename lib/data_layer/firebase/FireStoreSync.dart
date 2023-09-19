@@ -24,7 +24,7 @@ import 'package:dandylight/models/DiscountCodes.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/MileageExpense.dart';
 import 'package:dandylight/models/NextInvoiceNumber.dart';
 import 'package:dandylight/models/Pose.dart';
@@ -136,8 +136,8 @@ class FireStoreSync {
         LocationDao.getLocationsStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                Location location = Location.fromMap(snapshot.doc.data());
-                Location locationFromLocal = await LocationDao.getById(location.documentId);
+                LocationDandy location = LocationDandy.fromMap(snapshot.doc.data());
+                LocationDandy locationFromLocal = await LocationDao.getById(location.documentId);
                 if(locationFromLocal != null) {
                     LocationDao.updateLocalOnly(location);
                 }else {

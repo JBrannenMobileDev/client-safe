@@ -7,7 +7,7 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 
 import '../../models/JobReminder.dart';
 import '../../models/JobType.dart';
-import '../../models/Location.dart';
+import '../../models/LocationDandy.dart';
 import '../../models/MileageExpense.dart';
 import '../../models/Pose.dart';
 import '../../models/Profile.dart';
@@ -137,6 +137,6 @@ class SetGoToAsSeenAction {
 
 class LaunchDrivingDirectionsAction {
   final DashboardPageState pageState;
-  final Location location;
+  final LocationDandy location;
   LaunchDrivingDirectionsAction(this.pageState, this.location);
 }

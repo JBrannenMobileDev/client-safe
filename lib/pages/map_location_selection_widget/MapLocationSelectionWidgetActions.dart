@@ -1,4 +1,4 @@
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
 import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidgetState.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -23,7 +23,7 @@ class FetchSearchLocationDetails{
 
 class SetSelectedSearchLocation{
   final MapLocationSelectionWidgetState pageState;
-  final Location selectedSearchLocation;
+  final LocationDandy selectedSearchLocation;
   SetSelectedSearchLocation(this.pageState, this.selectedSearchLocation);
 }
 

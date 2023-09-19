@@ -1,7 +1,7 @@
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/JobStage.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 
 import 'JobType.dart';
@@ -17,7 +17,7 @@ class Job {
   String clientName;
   String jobTitle;
   PriceProfile priceProfile;
-  Location location;
+  LocationDandy location;
   String notes;
   DateTime paymentReceivedDate;
   DateTime depositReceivedDate;
@@ -72,7 +72,7 @@ class Job {
     String clientName,
     String jobTitle,
     PriceProfile priceProfile,
-    Location location,
+    LocationDandy location,
     String notes,
     DateTime selectedDate,
     DateTime selectedTime,
@@ -157,7 +157,7 @@ class Job {
       clientName: map['clientName'],
       jobTitle: map['jobTitle'],
       notes: map['notes'],
-      addOnCost: map['addOnCost'],
+      addOnCost: map['addOnCost']?.toDouble(),
       depositReceivedDate: map['depositReceivedDate'] != null && map['depositReceivedDate'] != "" ? DateTime.parse(map['depositReceivedDate']) : null,
       selectedDate: map['selectedDate'] != "" && map['selectedDate'] != null ? DateTime.parse(map['selectedDate']) : null,
       selectedTime: map['selectedTime'] != "" && map['selectedTime'] != null ? DateTime.parse(map['selectedTime']) : null,
@@ -167,7 +167,7 @@ class Job {
       type: JobType.fromMap(map['type']),
       stage: JobStage.fromMap(map['stage']),
       client: map['client'] != null ? Client.fromMap(map['client']) : null,
-      location: map['location'] != null ? Location.fromMap(map['location']) : null,
+      location: map['location'] != null ? LocationDandy.fromMap(map['location']) : null,
       priceProfile: map['priceProfile'] != null ? PriceProfile.fromMap(map['priceProfile']) : null,
       invoice: map['invoice'] != null ? Invoice.fromMap(map['invoice']) : null,
       completedStages: convertMapsToJobStages(map['completedStages']),

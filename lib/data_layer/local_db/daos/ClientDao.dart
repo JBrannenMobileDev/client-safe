@@ -9,18 +9,18 @@ import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
-import 'package:sembast/sembast.dart';
+import 'package:sembast/sembast.dart' as sembast;
 import 'package:uuid/uuid.dart';
 
 class ClientDao extends Equatable{
   static const String CLIENT_STORE_NAME = 'clients';
   // A Store with int keys and Map<String, dynamic> values.
   // This Store acts like a persistent map, values of which are Client objects converted to Map
-  static final _clientStore = intMapStoreFactory.store(CLIENT_STORE_NAME);
+  static final _clientStore = sembast.intMapStoreFactory.store(CLIENT_STORE_NAME);
 
   // Private getter to shorten the amount of code needed to get the
   // singleton instance of an opened database.
-  static Future<Database> get _db async => await SembastDb.instance.database;
+  static Future<sembast.Database> get _db async => await SembastDb.instance.database;
 
   static Future<String> insert(Client client) async {
     client.documentId = Uuid().v1();
@@ -57,7 +57,7 @@ class ClientDao extends Equatable{
     }
   }
 
-  static Future<Stream<List<RecordSnapshot>>> getClientsStream() async {
+  static Future<Stream<List<sembast.RecordSnapshot>>> getClientsStream() async {
     var query = _clientStore.query();
     return query.onSnapshots(await _db);
   }
@@ -69,7 +69,7 @@ class ClientDao extends Equatable{
   static Future update(Client client) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.equals('documentId', client.documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', client.documentId));
     await _clientStore.update(
       await _db,
       client.toMap(),
@@ -87,7 +87,7 @@ class ClientDao extends Equatable{
   static Future updateLocalOnly(Client client) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.equals('documentId', client.documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', client.documentId));
     await _clientStore.update(
       await _db,
       client.toMap(),
@@ -96,7 +96,7 @@ class ClientDao extends Equatable{
   }
 
   static Future delete(Client client) async {
-    final finder = Finder(filter: Filter.equals('documentId', client.documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', client.documentId));
     await _clientStore.delete(
       await _db,
       finder: finder,
@@ -126,8 +126,8 @@ class ClientDao extends Equatable{
   }
 
   static Future<List<Client>> getAllSortedByFirstName() async {
-    final finder = Finder(sortOrders: [
-      SortOrder('firstName'),
+    final finder = sembast.Finder(sortOrders: [
+      sembast.SortOrder('firstName'),
     ]);
 
     final recordSnapshots = await _clientStore.find(await _db, finder: finder);
@@ -153,7 +153,7 @@ class ClientDao extends Equatable{
 
   static Future<Client> getClientById(String clientDocumentId) async{
     if((await getAll()).length > 0) {
-      final finder = Finder(filter: Filter.equals('documentId', clientDocumentId));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', clientDocumentId));
       final recordSnapshots = await _clientStore.find(await _db, finder: finder);
       // Making a List<Client> out of List<RecordSnapshot>
       List<Client> clients = recordSnapshots.map((snapshot) {
@@ -193,7 +193,7 @@ class ClientDao extends Equatable{
 
   static Future<void> _deleteAllLocalClients(List<Client> allLocalClients) async {
     for(Client client in allLocalClients) {
-      final finder = Finder(filter: Filter.equals('documentId', client.documentId));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', client.documentId));
       await _clientStore.delete(
         await _db,
         finder: finder,
@@ -213,7 +213,7 @@ class ClientDao extends Equatable{
       List<Client> matchingFireStoreClients = allFireStoreClients.where((fireStoreClient) => localClient.documentId == fireStoreClient.documentId).toList();
       if(matchingFireStoreClients !=  null && matchingFireStoreClients.length > 0) {
         Client fireStoreClient = matchingFireStoreClients.elementAt(0);
-        final finder = Finder(filter: Filter.equals('documentId', fireStoreClient.documentId));
+        final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStoreClient.documentId));
         await _clientStore.update(
           await _db,
           fireStoreClient.toMap(),
@@ -221,7 +221,7 @@ class ClientDao extends Equatable{
         );
       } else {
         //client does nto exist on cloud. so delete from local.
-        final finder = Finder(filter: Filter.equals('documentId', localClient.documentId));
+        final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', localClient.documentId));
         await _clientStore.delete(
           await _db,
           finder: finder,

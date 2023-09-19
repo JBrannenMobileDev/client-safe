@@ -1,6 +1,6 @@
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/JobStage.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 

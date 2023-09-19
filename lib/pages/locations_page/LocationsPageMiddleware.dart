@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/pages/locations_page/LocationsActions.dart';
 import 'package:dandylight/utils/IntentLauncherUtil.dart';
 import 'package:redux/redux.dart';
@@ -38,9 +38,9 @@ class LocationsPageMiddleware extends MiddlewareClass<AppState> {
 
   void fetchLocations(Store<AppState> store, NextDispatcher next) async {
    (await LocationDao.getLocationsStream()).listen((snapshots) async {
-      List<Location> streamLocations = [];
+      List<LocationDandy> streamLocations = [];
       for(RecordSnapshot clientSnapshot in snapshots) {
-        streamLocations.add(Location.fromMap(clientSnapshot.value));
+        streamLocations.add(LocationDandy.fromMap(clientSnapshot.value));
       }
       store.dispatch(SetLocationsAction(store.state.locationsPageState, streamLocations));
     });

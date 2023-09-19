@@ -230,9 +230,6 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
       pageState.salesTaxPercent,
       pageState.unpaidAmount,
       pageState.isDepositChecked,
-      null,
-      '#d49a89',
-      '#ffffff',
     );
     await PdfUtil.savePdfFile(store.state.newInvoicePageState.invoiceNumber, pdf);
   }

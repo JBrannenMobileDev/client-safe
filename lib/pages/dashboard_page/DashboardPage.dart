@@ -26,6 +26,7 @@ import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -42,6 +43,7 @@ import 'package:showcaseview/showcaseview.dart';
 import '../../models/Job.dart';
 import '../../models/Profile.dart';
 import '../../utils/NotificationHelper.dart';
+import '../../utils/PushNotificationsManager.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -99,6 +101,8 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
 
   initState() {
     super.initState();
+
+    setupInteractedMessage();
 
     _animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 500));
 
@@ -160,11 +164,11 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
   static void notificationTapBackground(NotificationResponse notificationResponse) async {
     print('notification(${notificationResponse.id}) action tapped: ''${notificationResponse.actionId} with'' payload: ${notificationResponse.payload}');
 
-    // if((notificationResponse.payload?.isNotEmpty ?? false) && notificationResponse.payload == JobReminder.MILEAGE_EXPENSE_ID) {
-    //   Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    //   profile.showNewMileageExpensePage = true;
-    //   ProfileDao.update(profile);
-    // }
+    if((notificationResponse.payload?.isNotEmpty ?? false) && notificationResponse.payload == JobReminder.MILEAGE_EXPENSE_ID) {
+      Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+      profile.showNewMileageExpensePage = true;
+      ProfileDao.update(profile);
+    }
   }
 
   void _showRestorePurchasesSheet(BuildContext context, String restoreMessage) {
@@ -196,6 +200,29 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
     );
   }
 
+  // It is assumed that all messages contain a data field with the key 'type'
+  Future<void> setupInteractedMessage() async {
+    // Get any messages which caused the application to open from
+    // a terminated state.
+    RemoteMessage initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+
+    // If the message also contains a data property with a "type" of "chat",
+    // navigate to a chat screen
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+    }
+
+    // Also handle any interaction when the app is in the background via a
+    // Stream listener
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  }
+
+  void _handleMessage(RemoteMessage message) {
+    if (message.data['click_action'] == 'invoice') {
+      NavigationUtil.onInvoiceNotificationSelected(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, DashboardPageState>(
         onInit: (store) async {
@@ -211,15 +238,21 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
           notificationHelper.setTapBackgroundMethod(notificationTapBackground);
 
           //If permanently denied we do not want to bug the user every time they log in.  We will prompt every time they start a job instead. Also they can change the permission from the app settings.
-
-          bool isGranted = (await UserPermissionsUtil.getPermissionStatus(Permission.notification)).isGranted;
+          Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+          bool isGranted = profile.deviceTokens.length > 0 ? (await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context)) : (await UserPermissionsUtil.getPermissionStatus(Permission.notification)).isGranted;
+          profile.pushNotificationsEnabled = isGranted;
+          ProfileDao.update(profile);
           if(isGranted) {
-            await notificationHelper.initNotifications();
+            await notificationHelper.initNotifications(context);
             if(allJobs.length > 1 || allJobs.elementAt(0).clientName != "Example Client") {
               if(allReminders.length > 0) {
                 NotificationHelper().createAndUpdatePendingNotifications();
               }
             }
+
+            String token = await PushNotificationsManager().getToken();
+            profile.addUniqueDeviceToken(token);
+            ProfileDao.update(profile);
           }
 
           if(store.state.dashboardPageState.profile != null && store.state.dashboardPageState.profile.shouldShowRestoreSubscription) {

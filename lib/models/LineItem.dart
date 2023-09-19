@@ -26,7 +26,7 @@ class LineItem {
     return LineItem(
       id: map['id'],
       itemName: map['itemName'],
-      itemPrice: map['itemPrice'],
+      itemPrice: map['itemPrice']?.toDouble(),
       itemQuantity: map['itemQuantity'],
     );
   }

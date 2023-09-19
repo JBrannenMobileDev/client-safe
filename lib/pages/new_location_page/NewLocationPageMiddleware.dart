@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/api_clients/GoogleApiClient.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart' as jobs;
 import 'package:dandylight/pages/new_location_page/NewLocationActions.dart';
@@ -47,7 +47,7 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchLocationDetails(Store<AppState> store, NextDispatcher next, FetchSearchLocationDetails action) async {
-    Location selectedSearchLocation = Location(latitude: action.selectedSearchLocation.lat, longitude: action.selectedSearchLocation.lon);
+    LocationDandy selectedSearchLocation = LocationDandy.LocationDandy(latitude: action.selectedSearchLocation.lat, longitude: action.selectedSearchLocation.lon);
     store.dispatch(SetSelectedSearchLocation(store.state.newLocationPageState, selectedSearchLocation));
   }
 
@@ -57,27 +57,27 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchLocations(Store<AppState> store, NextDispatcher next) async{
-    List<Location> locations = await LocationDao.getAllSortedMostFrequent();
+    List<LocationDandy> locations = await LocationDao.getAllSortedMostFrequent();
     next(SetLocationsAction(store.state.newLocationPageState, locations));
 
     (await LocationDao.getLocationsStream()).listen((locationSnapshots) {
-      List<Location> locations = List();
+      List<LocationDandy> locations = List();
       for(RecordSnapshot locationSnapshot in locationSnapshots) {
-        locations.add(Location.fromMap(locationSnapshot.value));
+        locations.add(LocationDandy.fromMap(locationSnapshot.value));
       }
       store.dispatch(SetLocationsAction(store.state.newLocationPageState, locations));
     });
   }
 
   void _saveLocation(Store<AppState> store, SaveLocationAction action, NextDispatcher next) async{
-    Location location = Location();
+    LocationDandy location = LocationDandy.LocationDandy();
     location.id = action.pageState.id;
     location.documentId = action.pageState.documentId;
     location.locationName = action.pageState.locationName;
     location.latitude = action.pageState.newLocationLatitude;
     location.longitude = action.pageState.newLocationLongitude;
 
-    Location locationWithId = await LocationDao.insertOrUpdate(location);
+    LocationDandy locationWithId = await LocationDao.insertOrUpdate(location);
 
     await FileStorage.saveLocationImageFile(action.pageState.imagePath, locationWithId);
 
@@ -96,7 +96,7 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
 
   void _deleteLocation(Store<AppState> store, DeleteLocation action, NextDispatcher next) async{
     await LocationDao.delete(action.pageState.documentId);
-    Location location = await LocationDao.getById(action.pageState.documentId);
+    LocationDandy location = await LocationDao.getById(action.pageState.documentId);
     if(location != null) {
       await LocationDao.delete(action.pageState.documentId);
     }

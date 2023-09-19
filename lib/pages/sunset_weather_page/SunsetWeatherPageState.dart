@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
 import 'package:dandylight/models/rest_models/AccuWeatherModels/hourlyForecast/HourWeather.dart';
 import 'package:dandylight/models/rest_models/AccuWeatherModels/hourlyForecast/HourlyResponse.dart';
@@ -42,10 +42,10 @@ class SunsetWeatherPageState {
   final Function() onSaveLocationSelected;
   final Function() onCanceledSelected;
   final Function() onBackPressed;
-  final List<Location> locations;
+  final List<LocationDandy> locations;
   final List<File> locationImages;
-  final Location selectedLocation;
-  final Function(Location) onLocationSelected;
+  final LocationDandy selectedLocation;
+  final Function(LocationDandy) onLocationSelected;
   final Function() onLocationSaved;
   final String documentPath;
   final LatLng currentMapLatLng;
@@ -58,7 +58,7 @@ class SunsetWeatherPageState {
   final String searchText;
   final List<PlacesLocation> locationsResults;
   final Function(PlacesLocation) onSearchLocationSelected;
-  final Location selectedSearchLocation;
+  final LocationDandy selectedSearchLocation;
   final Function() chooseLocationSelected;
   final Function() clearPageState;
 
@@ -143,10 +143,10 @@ class SunsetWeatherPageState {
     Function() onSaveLocationSelected,
     Function() onCanceledSelected,
     Function() onBackPressed,
-    List<Location> locations,
+    List<LocationDandy> locations,
     List<File> locationImages,
-    Location selectedLocation,
-    Function(Location) onLocationSelected,
+    LocationDandy selectedLocation,
+    Function(LocationDandy) onLocationSelected,
     String documentPath,
     Function() onLocationSaved,
     LatLng currentMapLatLng,
@@ -158,7 +158,7 @@ class SunsetWeatherPageState {
     String searchText,
     List<PlacesLocation> locationResults,
     Function(PlacesLocation) onSearchLocationSelected,
-    Location selectedSearchLocation,
+    LocationDandy selectedSearchLocation,
     Function(String) onThrottleGetLocations,
     Function() chooseLocationSelected,
     Function() clearPageState,

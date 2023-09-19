@@ -11,7 +11,7 @@ import 'package:redux/redux.dart';
 import '../../AppState.dart';
 import '../../models/JobReminder.dart';
 import '../../models/JobStage.dart';
-import '../../models/Location.dart';
+import '../../models/LocationDandy.dart';
 import '../../models/Pose.dart';
 import '../../models/Profile.dart';
 import 'JobTypePieChartRowData.dart';
@@ -58,7 +58,7 @@ class DashboardPageState {
   final Function() onShowcaseSeen;
   final Function() markAllAsSeen;
   final Function() onGoToSeen;
-  final Function(Location) drivingDirectionsSelected;
+  final Function(LocationDandy) drivingDirectionsSelected;
 
   DashboardPageState({
     this.jobsProfitTotal,
@@ -145,7 +145,7 @@ class DashboardPageState {
     Profile profile,
     purchases.CustomerInfo subscriptionState,
     Function() onGoToSeen,
-    Function(Location) drivingDirectionsSelected,
+    Function(LocationDandy) drivingDirectionsSelected,
   }){
     return DashboardPageState(
       jobsProfitTotal: jobsProfitTotal ?? this.jobsProfitTotal,

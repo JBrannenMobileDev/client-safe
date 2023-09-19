@@ -51,8 +51,8 @@ class DandylightFunctionsApi {
     return response.statusCode;
   }
 
-  Future<int> updateInvoiceAsPaid(String userId, String jobId, String invoiceId, bool isPaid) async {
-    final url = '$_baseUrl/updateInvoiceAsPaid/?userId=$userId&jobId=$jobId&invoiceId=$invoiceId&isPaid=$isPaid';
+  Future<int> updateInvoiceAsPaid(String userId, String jobId, String invoiceId, bool isPaid, double balancePaidAmount, double unpaidAmount) async {
+    final url = '$_baseUrl/updateInvoiceAsPaid/?userId=$userId&jobId=$jobId&invoiceId=$invoiceId&isPaid=$isPaid&balancePaidAmount=$balancePaidAmount&unpaidAmount=$unpaidAmount';
     final response = await this.httpClient.put(Uri.parse(url));
 
     if (response.statusCode != 200) {

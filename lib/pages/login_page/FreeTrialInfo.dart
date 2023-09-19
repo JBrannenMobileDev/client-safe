@@ -61,7 +61,7 @@ class _FreeTrialInfo extends State<FreeTrialInfo> {
                   margin: EdgeInsets.only(top: 16),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
-                    text: 'NO CARD REQUIRED\nThen only \$9.99/month',
+                    text: 'NO CARD REQUIRED\n\$9.99/month',
                     textAlign: TextAlign.center,
                     color: Color(ColorConstants.getPrimaryBlack()),
                   ),

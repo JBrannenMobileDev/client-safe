@@ -14,7 +14,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../models/Job.dart';
-import '../../models/Location.dart';
+import '../../models/LocationDandy.dart';
 import '../../models/Pose.dart';
 import '../../models/PoseGroup.dart';
 import '../../models/Profile.dart';
@@ -23,7 +23,7 @@ import '../local_db/daos/PoseDao.dart';
 import '../local_db/daos/ProfileDao.dart';
 
 class FileStorage {
-  static saveLocationImageFile(String imagePath, Location location) async {
+  static saveLocationImageFile(String imagePath, LocationDandy location) async {
     await _uploadLocationImageFile(imagePath, location);
   }
 
@@ -55,7 +55,7 @@ class FileStorage {
     await _uploadContractFile(contractPath, contract);
   }
 
-  static void deleteLocationFileImage(Location location) async {
+  static void deleteLocationFileImage(LocationDandy location) async {
     _deleteLocationImageFileFromCloud(location);
   }
 
@@ -73,7 +73,7 @@ class FileStorage {
     launchUrl(uri);
   }
 
-  static Future<File> getLocationImageFile(Location location) async {
+  static Future<File> getLocationImageFile(LocationDandy location) async {
     final storageRef = FirebaseStorage.instance.ref();
     final cloudFilePath = storageRef.child(location.address == "exampleJob" ? _buildExampleLocationImagePath(location) : _buildLocationImagePath(location));
     String imageUrl = null;
@@ -194,7 +194,7 @@ class FileStorage {
     await ProfileDao.update(profile);
   }
 
-  static _updateLocationImageUrl(Location locationToUpdate, String imageUrl) async {
+  static _updateLocationImageUrl(LocationDandy locationToUpdate, String imageUrl) async {
     locationToUpdate.imageUrl = imageUrl;
     await LocationDao.update(locationToUpdate);
   }
@@ -216,7 +216,7 @@ class FileStorage {
     return await DandylightCacheManager.instance.getSingleFile(contractUrl);
   }
 
-  static _deleteLocationImageFileFromCloud(Location location) async {
+  static _deleteLocationImageFileFromCloud(LocationDandy location) async {
     try{
       if(location != null) {
         final storageRef = FirebaseStorage.instance.ref();
@@ -245,7 +245,7 @@ class FileStorage {
     }
   }
 
-  static _uploadLocationImageFile(String imagePath, Location location) async {
+  static _uploadLocationImageFile(String imagePath, LocationDandy location) async {
     final storageRef = FirebaseStorage.instance.ref();
 
     final uploadTask = storageRef
@@ -494,7 +494,7 @@ class FileStorage {
     _updatePoseImageUrl(pose, await cloudFilePath.getDownloadURL(), group, null);
   }
 
-  static _fetchAndSaveLocationImageDownloadUrl(Location location) async {
+  static _fetchAndSaveLocationImageDownloadUrl(LocationDandy location) async {
     final storageRef = FirebaseStorage.instance.ref();
     final cloudFilePath = storageRef.child(_buildLocationImagePath(location));
     _updateLocationImageUrl(location, await cloudFilePath.getDownloadURL());
@@ -530,11 +530,11 @@ class FileStorage {
     });
   }
 
-  static String _buildExampleLocationImagePath(Location location) {
+  static String _buildExampleLocationImagePath(LocationDandy location) {
     return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/dandyLight/exampleLocation/Screen Shot 2023-05-20 at 9.58.02 AM.png";
   }
 
-  static String _buildLocationImagePath(Location location) {
+  static String _buildLocationImagePath(LocationDandy location) {
     return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/locations/${location.documentId}.jpg";
   }
 

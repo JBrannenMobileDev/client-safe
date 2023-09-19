@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dandylight/data_layer/api_clients/AccuWeatherClient.dart';
 import 'package:dandylight/data_layer/api_clients/GoogleApiClient.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
 import 'package:dandylight/models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
 import 'package:dandylight/models/rest_models/AccuWeatherModels/hourlyForecast/HourlyResponse.dart';
@@ -59,7 +59,7 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
     List<File> imageFiles = [];
 
     if(store.state.sunsetWeatherPageState.locations != null) {
-      for(Location location in store.state.sunsetWeatherPageState.locations) {
+      for(LocationDandy location in store.state.sunsetWeatherPageState.locations) {
         imageFiles.add(await FileStorage.getLocationImageFile(location));
       }
 
@@ -68,7 +68,7 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchLocationDetails(Store<AppState> store, NextDispatcher next, FetchSearchLocationDetails action) async {
-    Location selectedSearchLocation = Location(latitude: action.selectedSearchLocation.lat, longitude: action.selectedSearchLocation.lon);
+    LocationDandy selectedSearchLocation = LocationDandy.LocationDandy(latitude: action.selectedSearchLocation.lat, longitude: action.selectedSearchLocation.lon);
     store.dispatch(SetSelectedSearchLocation(store.state.sunsetWeatherPageState, selectedSearchLocation));
   }
 
@@ -108,7 +108,7 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void updateWeatherAndSunsetData(Store<AppState> store, NextDispatcher next, OnLocationSavedAction action) async {
-    Location selectedLocation = store.state.sunsetWeatherPageState.selectedLocation;
+    LocationDandy selectedLocation = store.state.sunsetWeatherPageState.selectedLocation;
     if(selectedLocation != null) {
       store.dispatch(SetLocationNameAction(store.state.sunsetWeatherPageState, selectedLocation.locationName));
 
@@ -145,9 +145,9 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
         store.dispatch(SetLocationNameAction(store.state.sunsetWeatherPageState, address.elementAt(0).thoroughfare + ', ' + address.elementAt(0).locality));
 
         (await LocationDao.getLocationsStream()).listen((locationSnapshots) {
-          List<Location> locations = [];
+          List<LocationDandy> locations = [];
           for(RecordSnapshot locationSnapshot in locationSnapshots) {
-            locations.add(Location.fromMap(locationSnapshot.value));
+            locations.add(LocationDandy.fromMap(locationSnapshot.value));
           }
           store.dispatch(SetLocationsAction(store.state.sunsetWeatherPageState, locations));
         });

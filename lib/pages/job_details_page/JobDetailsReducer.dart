@@ -1,6 +1,6 @@
 import 'package:dandylight/models/EventDandyLight.dart';
 import 'package:dandylight/models/Job.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/pages/job_details_page/document_items/DocumentItem.dart';
@@ -357,7 +357,7 @@ JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobAction 
     documents.add(InvoiceDocument());
   }
   action.job.completedStages.sort((a, b) => a.compareTo(b));
-  Location newLocation = action.job.location != null ? action.job.location : null;
+  LocationDandy newLocation = action.job.location != null ? action.job.location : null;
   return previousState.copyWith(
     job: action.job,
     selectedLocation: newLocation,

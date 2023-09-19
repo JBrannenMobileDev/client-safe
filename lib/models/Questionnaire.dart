@@ -26,8 +26,8 @@ class Questionnaire {
     return Questionnaire(
       id: map['id'],
       selectedFilter: map['selectedFilter'],
-      rate: map['rate'],
-      percentage: map['percentage'],
+      rate: map['rate']?.toDouble(),
+      percentage: map['percentage']?.toDouble(),
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
 import 'package:dandylight/models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
 import 'package:dandylight/models/rest_models/AccuWeatherModels/hourlyForecast/HourlyResponse.dart';
@@ -19,7 +19,7 @@ class FilterSelectorChangedAction{
 
 class LoadInitialLocationAndDateComingFromNewJobAction{
   final SunsetWeatherPageState pageState;
-  final Location location;
+  final LocationDandy location;
   final DateTime date;
   LoadInitialLocationAndDateComingFromNewJobAction(this.pageState, this.location, this.date);
 }
@@ -74,7 +74,7 @@ class SetSelectedDateAction{
 class SetForecastAction{
   final SunsetWeatherPageState pageState;
   final ForecastFiveDayResponse forecast5days;
-  final List<Location> locations;
+  final List<LocationDandy> locations;
   SetForecastAction(this.pageState, this.forecast5days, this.locations);
 }
 
@@ -86,7 +86,7 @@ class SetHourlyForecastAction{
 
 class SetSelectedLocationAction{
   final SunsetWeatherPageState pageState;
-  final Location selectedLocation;
+  final LocationDandy selectedLocation;
   SetSelectedLocationAction(this.pageState, this.selectedLocation);
 }
 
@@ -150,7 +150,7 @@ class FetchSearchLocationDetails{
 
 class SetSelectedSearchLocation{
   final SunsetWeatherPageState pageState;
-  final Location selectedSearchLocation;
+  final LocationDandy selectedSearchLocation;
   SetSelectedSearchLocation(this.pageState, this.selectedSearchLocation);
 }
 
@@ -167,6 +167,6 @@ class ClearPageStateAction{
 
 class SetLocationsAction{
   final SunsetWeatherPageState pageState;
-  final List<Location> locations;
+  final List<LocationDandy> locations;
   SetLocationsAction(this.pageState, this.locations);
 }

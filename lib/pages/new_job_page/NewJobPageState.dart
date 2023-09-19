@@ -6,7 +6,7 @@ import 'package:dandylight/models/EventDandyLight.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/models/JobType.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
@@ -40,8 +40,8 @@ class NewJobPageState {
   final String oneTimePrice;
   final PriceProfile selectedPriceProfile;
   final Profile profile;
-  final Location selectedLocation;
-  final Location oneTimeLocation;
+  final LocationDandy selectedLocation;
+  final LocationDandy oneTimeLocation;
   final DateTime selectedDate;
   final DateTime selectedStartTime;
   final DateTime selectedEndTime;
@@ -52,7 +52,7 @@ class NewJobPageState {
   final List<Client> allClients;
   final List<Client> filteredClients;
   final List<PriceProfile> pricingProfiles;
-  final List<Location> locations;
+  final List<LocationDandy> locations;
   final List<File> imageFiles;
   final List<EventDandyLight> eventList;
   final List<Event> deviceEvents;
@@ -66,7 +66,7 @@ class NewJobPageState {
   final Function(String) onClientFirstNameTextChanged;
   final Function() onClearInputSelected;
   final Function(PriceProfile) onPriceProfileSelected;
-  final Function(Location) onLocationSelected;
+  final Function(LocationDandy) onLocationSelected;
   final Function(DateTime) onDateSelected;
   final Function(JobType) onJobTypeSelected;
   final Function(DateTime) onStartTimeSelected;
@@ -75,7 +75,7 @@ class NewJobPageState {
   final Function(DateTime) onMonthChanged;
   final Function() onSunsetWeatherSelected;
   final Function(String) onOneTimePriceChanged;
-  final Function(Location) onLocationSearchResultSelected;
+  final Function(LocationDandy) onLocationSearchResultSelected;
   final double lat;
   final double lon;
   final Function(bool) onCalendarEnabled;
@@ -159,11 +159,11 @@ class NewJobPageState {
     String clientFirstName,
     String clientSearchText,
     PriceProfile selectedPriceProfile,
-    Location selectedLocation,
+    LocationDandy selectedLocation,
     List<Client> allClients,
     List<Client> filteredClients,
     List<PriceProfile> pricingProfiles,
-    List<Location> locations,
+    List<LocationDandy> locations,
     List<File> imageFiles,
     Profile profile,
     DateTime selectedDate,
@@ -184,7 +184,7 @@ class NewJobPageState {
     Function(Client) onClientSelected,
     Function() onClearInputSelected,
     Function(PriceProfile) onPriceProfileSelected,
-    Function(Location) onLocationSelected,
+    Function(LocationDandy) onLocationSelected,
     Function(DateTime) onDateSelected,
     Function(JobType) onJobTypeSelected,
     Function(DateTime) onStartTimeSelected,
@@ -195,10 +195,10 @@ class NewJobPageState {
     Function(String) onOneTimePriceChanged,
     String oneTimePrice,
     Function(DateTime) onEndTimeSelected,
-    Function(Location) onLocationSearchResultSelected,
+    Function(LocationDandy) onLocationSearchResultSelected,
     double lat,
     double lon,
-    Location oneTimeLocation,
+    LocationDandy oneTimeLocation,
     Function(bool) onCalendarEnabled,
     Function() onSkipSelected,
   }){

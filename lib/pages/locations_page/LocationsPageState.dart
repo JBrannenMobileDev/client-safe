@@ -1,7 +1,7 @@
 
 import 'dart:io';
 
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/locations_page/LocationsActions.dart';
 import 'package:dandylight/pages/new_location_page/NewLocationActions.dart';
@@ -11,11 +11,11 @@ import '../../AppState.dart';
 
 class LocationsPageState{
 
-  final List<Location> locations;
+  final List<LocationDandy> locations;
   final bool shouldClear;
-  final Function(Location) onLocationSelected;
-  final Function(Location) onDrivingDirectionsSelected;
-  final Function(Location) onShareLocationSelected;
+  final Function(LocationDandy) onLocationSelected;
+  final Function(LocationDandy) onDrivingDirectionsSelected;
+  final Function(LocationDandy) onShareLocationSelected;
   final Function() clearNewLocationState;
 
 
@@ -29,11 +29,11 @@ class LocationsPageState{
   });
 
   LocationsPageState copyWith({
-    List<Location> locations,
+    List<LocationDandy> locations,
     bool shouldClear,
     Function(int) onLocationSelected,
-    Function(Location) onDrivingDirectionsSelected,
-    Function(Location) onShareLocationSelected,
+    Function(LocationDandy) onDrivingDirectionsSelected,
+    Function(LocationDandy) onShareLocationSelected,
     Function() clearNewLocationState,
   }){
     return LocationsPageState(

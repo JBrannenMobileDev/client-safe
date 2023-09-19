@@ -133,7 +133,7 @@ class _SelectSalesTaxRateDialog extends State<SelectSalesTaxRateDialog> with Aut
                             ),
                             onPressed: () {
                               pageState.onSalesTaxRateChanged(enteredRate);
-                              showSuccessAnimation();
+                              Navigator.of(context).pop();
                             },
                             child: TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
@@ -184,29 +184,6 @@ class _SelectSalesTaxRateDialog extends State<SelectSalesTaxRateDialog> with Aut
       overlayEntry.remove();
       overlayEntry = null;
     }
-  }
-
-  void showSuccessAnimation(){
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Padding(
-          padding: EdgeInsets.all(96.0),
-          child: FlareActor(
-            "assets/animations/success_check.flr",
-            alignment: Alignment.center,
-            fit: BoxFit.contain,
-            animation: "show_check",
-            callback: onFlareCompleted,
-          ),
-        );
-      },
-    );
-  }
-
-  void onFlareCompleted(String unused) {
-    Navigator.of(context).pop(true);
-    Navigator.of(context).pop(true);
   }
 
   @override

@@ -45,11 +45,11 @@ class MileageExpense {
       documentId: map['documentId'],
       totalMiles: map['totalMiles'],
       isRoundTrip: map['isRoundTrip'],
-      startLat: map['startLat'],
-      startLng: map['startLng'],
-      deductionRate: map['deductionRate'],
-      endLat: map['endLat'],
-      endLng: map['endLng'],
+      startLat: map['startLat']?.toDouble(),
+      startLng: map['startLng']?.toDouble(),
+      deductionRate: map['deductionRate']?.toDouble(),
+      endLat: map['endLat']?.toDouble(),
+      endLng: map['endLng']?.toDouble(),
       charge: Charge.fromMap(map['charge']),
     );
   }

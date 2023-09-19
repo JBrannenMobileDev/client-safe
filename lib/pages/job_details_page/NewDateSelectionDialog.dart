@@ -90,9 +90,9 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
               Expanded(child: CalendarUtil.buildEventList(
                   pageState.selectedDate,
                   pageState.eventList,
-                  pageState.selectedDate.year,
-                  pageState.selectedDate.month,
-                  pageState.selectedDate.day,
+                  pageState.selectedDate != null ? pageState.selectedDate.year : DateTime.now().year,
+                  pageState.selectedDate != null ? pageState.selectedDate.month : DateTime.now().month,
+                  pageState.selectedDate != null ? pageState.selectedDate.day : DateTime.now().day,
                   pageState.jobs,
                   pageState.onJobClicked,
                 ),
@@ -143,13 +143,13 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
     _events = pageState.eventList;
     return TableCalendar(
       locale: 'en_US',
-      eventLoader: (day) => _events.where((event) => isSameDay(event.selectedDate,day)).toList(), //THIS IS IMPORTANT,
+      eventLoader: (day) => _events.where((event) => isSameDay(event.selectedDate ?? DateTime.now() ,day)).toList(), //THIS IS IMPORTANT,
       calendarFormat: CalendarFormat.month,
       startingDayOfWeek: StartingDayOfWeek.sunday,
       availableGestures: AvailableGestures.all,
       firstDay: DateTime.utc(2010, 10, 16),
       lastDay: DateTime.utc(2100, 3, 14),
-      focusedDay: pageState.selectedDate,
+      focusedDay: pageState.selectedDate ?? DateTime.now(),
       availableCalendarFormats: const {
         CalendarFormat.month: '',
         CalendarFormat.week: '',
@@ -157,7 +157,7 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
       onPageChanged: (focusedDay) {
         pageState.onMonthChanged(focusedDay);
       },
-      selectedDayPredicate: (day) => isSameDay(pageState.selectedDate, day),
+      selectedDayPredicate: (day) => isSameDay(pageState.selectedDate ?? DateTime.now(), day),
       calendarStyle: CalendarStyle(
         outsideDaysVisible: true,
         outsideTextStyle: TextStyle().copyWith(

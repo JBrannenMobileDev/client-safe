@@ -12,8 +12,7 @@ import 'package:dandylight/utils/CalendarSyncUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/analytics/EventNames.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:sembast/sembast.dart';
+import 'package:sembast/sembast.dart' as sembast;
 import 'package:uuid/uuid.dart';
 
 import '../../../models/JobStage.dart';
@@ -24,11 +23,11 @@ class JobDao extends Equatable{
   static const String JOB_STORE_NAME = 'jobs';
   // A Store with int keys and Map<String, dynamic> values.
   // This Store acts like a persistent map, values of which are Client objects converted to Map
-  static final _jobStore = intMapStoreFactory.store(JOB_STORE_NAME);
+  static final _jobStore = sembast.intMapStoreFactory.store(JOB_STORE_NAME);
 
   // Private getter to shorten the amount of code needed to get the
   // singleton instance of an opened database.
-  static Future<Database> get _db async => await SembastDb.instance.database;
+  static Future<sembast.Database> get _db async => await SembastDb.instance.database;
 
   static Future insert(Job job) async {
     job.documentId = Uuid().v1();
@@ -92,7 +91,7 @@ class JobDao extends Equatable{
       }
     }
 
-    final finder = Finder(filter: Filter.equals('documentId', job.documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', job.documentId));
     await _jobStore.update(
       await _db,
       job.toMap(),
@@ -106,7 +105,7 @@ class JobDao extends Equatable{
   static Future updateLocalOnly(Job job) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.equals('documentId', job.documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', job.documentId));
     await _jobStore.update(
       await _db,
       job.toMap(),
@@ -115,7 +114,7 @@ class JobDao extends Equatable{
   }
 
   static Future delete(Job job) async {
-    final finder = Finder(filter: Filter.equals('documentId', job.documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', job.documentId));
     await _jobStore.delete(
       await _db,
       finder: finder,
@@ -141,7 +140,7 @@ class JobDao extends Equatable{
 
   static Future<Job> getJobById(String jobDocumentId) async{
     if((await getAllJobs()).length > 0) {
-      final finder = Finder(filter: Filter.equals('documentId', jobDocumentId));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', jobDocumentId));
       final recordSnapshots = await _jobStore.find(await _db, finder: finder);
       List<Job> jobs = recordSnapshots.map((snapshot) {
         final job = Job.fromMap(snapshot.value);
@@ -158,7 +157,7 @@ class JobDao extends Equatable{
     }
   }
 
-  static Future<Stream<List<RecordSnapshot>>> getJobsStream() async {
+  static Future<Stream<List<sembast.RecordSnapshot>>> getJobsStream() async {
     var query = _jobStore.query();
     return query.onSnapshots(await _db);
   }
@@ -192,7 +191,7 @@ class JobDao extends Equatable{
 
   static Future<void> _deleteAllLocalJobs(List<Job> allLocalJobs) async {
     for(Job job in allLocalJobs) {
-      final finder = Finder(filter: Filter.equals('documentId', job.documentId));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', job.documentId));
       await _jobStore.delete(
         await _db,
         finder: finder,
@@ -212,7 +211,7 @@ class JobDao extends Equatable{
       List<Job> matchingFireStoreJobs = allFireStoreJobs.where((fireStoreJob) => localJob.documentId == fireStoreJob.documentId).toList();
       if(matchingFireStoreJobs !=  null && matchingFireStoreJobs.length > 0) {
         Job fireStoreJob = matchingFireStoreJobs.elementAt(0);
-        final finder = Finder(filter: Filter.equals('documentId', fireStoreJob.documentId));
+        final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStoreJob.documentId));
         await _jobStore.update(
           await _db,
           fireStoreJob.toMap(),
@@ -220,7 +219,7 @@ class JobDao extends Equatable{
         );
       } else {
         //Job does nto exist on cloud. so delete from local.
-        final finder = Finder(filter: Filter.equals('documentId', localJob.documentId));
+        final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', localJob.documentId));
         await _jobStore.delete(
           await _db,
           finder: finder,

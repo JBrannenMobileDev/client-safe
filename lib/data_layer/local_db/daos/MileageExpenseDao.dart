@@ -8,18 +8,18 @@ import 'package:dandylight/models/MileageExpense.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
-import 'package:sembast/sembast.dart';
+import 'package:sembast/sembast.dart' as sembast;
 import 'package:uuid/uuid.dart';
 
 class MileageExpenseDao extends Equatable{
   static const String MILEAGE_EXPENSE_STORE_NAME = 'mileageExpense';
   // A Store with int keys and Map<String, dynamic> values.
   // This Store acts like a persistent map, values of which are Client objects converted to Map
-  static final _mileageExpenseStore = intMapStoreFactory.store(MILEAGE_EXPENSE_STORE_NAME);
+  static final _mileageExpenseStore = sembast.intMapStoreFactory.store(MILEAGE_EXPENSE_STORE_NAME);
 
   // Private getter to shorten the amount of code needed to get the
   // singleton instance of an opened database.
-  static Future<Database> get _db async => await SembastDb.instance.database;
+  static Future<sembast.Database> get _db async => await SembastDb.instance.database;
 
   static Future insert(MileageExpense mileageExpense) async {
     mileageExpense.documentId = Uuid().v1();
@@ -56,7 +56,7 @@ class MileageExpenseDao extends Equatable{
   static Future update(MileageExpense mileageExpense) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.equals('documentId', mileageExpense.documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', mileageExpense.documentId));
     await _mileageExpenseStore.update(
       await _db,
       mileageExpense.toMap(),
@@ -71,7 +71,7 @@ class MileageExpenseDao extends Equatable{
   static Future updateLocalOnly(MileageExpense mileageExpense) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.equals('documentId', mileageExpense));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', mileageExpense));
     await _mileageExpenseStore.update(
       await _db,
       mileageExpense.toMap(),
@@ -80,7 +80,7 @@ class MileageExpenseDao extends Equatable{
   }
 
   static Future delete(String documentId) async {
-    final finder = Finder(filter: Filter.equals('documentId', documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
     await _mileageExpenseStore.delete(
       await _db,
       finder: finder,
@@ -100,7 +100,7 @@ class MileageExpenseDao extends Equatable{
 
   static Future<MileageExpense> getMileageExpenseById(String documentId) async{
     if((await getAll()).length > 0) {
-      final finder = Finder(filter: Filter.equals('documentId', documentId));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
       final recordSnapshots = await _mileageExpenseStore.find(await _db, finder: finder);
       return recordSnapshots.map((snapshot) {
         final expense = MileageExpense.fromMap(snapshot.value);
@@ -112,7 +112,7 @@ class MileageExpenseDao extends Equatable{
     }
   }
 
-  static Future<Stream<List<RecordSnapshot>>> getMileageExpenseStream() async {
+  static Future<Stream<List<sembast.RecordSnapshot>>> getMileageExpenseStream() async {
     var query = _mileageExpenseStore.query();
     return query.onSnapshots(await _db);
   }
@@ -146,7 +146,7 @@ class MileageExpenseDao extends Equatable{
 
   static Future<void> _deleteAllLocalMileageExpenses(List<MileageExpense> allLocalMileageExpenses) async {
     for(MileageExpense expense in allLocalMileageExpenses) {
-      final finder = Finder(filter: Filter.equals('documentId', expense.documentId));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', expense.documentId));
       await _mileageExpenseStore.delete(
         await _db,
         finder: finder,
@@ -166,7 +166,7 @@ class MileageExpenseDao extends Equatable{
       List<MileageExpense> matchingFireStoreMileageExpenses = allFireStoreMileageExpenses.where((fireStoreMileageExpense) => localMileageExpense.documentId == fireStoreMileageExpense.documentId).toList();
       if(matchingFireStoreMileageExpenses !=  null && matchingFireStoreMileageExpenses.length > 0) {
         MileageExpense fireStoreMileageExpense = matchingFireStoreMileageExpenses.elementAt(0);
-        final finder = Finder(filter: Filter.equals('documentId', fireStoreMileageExpense.documentId));
+        final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStoreMileageExpense.documentId));
         await _mileageExpenseStore.update(
           await _db,
           fireStoreMileageExpense.toMap(),
@@ -174,7 +174,7 @@ class MileageExpenseDao extends Equatable{
         );
       } else {
         //client does nto exist on cloud. so delete from local.
-        final finder = Finder(filter: Filter.equals('documentId', localMileageExpense.documentId));
+        final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', localMileageExpense.documentId));
         await _mileageExpenseStore.delete(
           await _db,
           finder: finder,

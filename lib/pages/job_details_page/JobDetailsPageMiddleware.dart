@@ -11,9 +11,8 @@ import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/models/JobType.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PriceProfile.dart';
-import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
@@ -25,7 +24,6 @@ import 'package:dandylight/utils/analytics/EventNames.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:dandylight/utils/sunrise_sunset_library/sunrise_sunset.dart';
 import 'package:device_calendar/device_calendar.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 import 'package:http/http.dart' as http;
@@ -44,8 +42,6 @@ import '../../models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveD
 import '../../utils/CalendarSyncUtil.dart';
 import '../../utils/ImageUtil.dart';
 import '../../utils/UidUtil.dart';
-import '../new_reminder_page/WhenSelectionWidget.dart';
-import '../pose_group_page/GroupImage.dart';
 
 class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -345,23 +341,23 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchLocations(Store<AppState> store, action, NextDispatcher next) async{
-    List<Location> locations = await LocationDao.getAllSortedMostFrequent();
+    List<LocationDandy> locations = await LocationDao.getAllSortedMostFrequent();
     List<File> imageFiles = [];
 
-    for(Location location in locations) {
+    for(LocationDandy location in locations) {
       imageFiles.add(await FileStorage.getLocationImageFile(location));
     }
 
     store.dispatch(SetLocationsAction(store.state.jobDetailsPageState, locations, imageFiles));
 
     (await LocationDao.getLocationsStream()).listen((locationSnapshots) async {
-      List<Location> locations = [];
+      List<LocationDandy> locations = [];
       List<File> imageFiles = [];
       for(RecordSnapshot locationSnapshot in locationSnapshots) {
-        locations.add(Location.fromMap(locationSnapshot.value));
+        locations.add(LocationDandy.fromMap(locationSnapshot.value));
       }
 
-      for(Location location in locations) {
+      for(LocationDandy location in locations) {
         imageFiles.add(await FileStorage.getLocationImageFile(location));
       }
       store.dispatch(SetLocationsAction(store.state.jobDetailsPageState, locations, imageFiles));
@@ -403,7 +399,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       List<JobReminder> jobReminders = await JobReminderDao.getRemindersByJobId(action.pageState.job.documentId);
       JobReminder reminderToUpdate = null;
       if(jobReminders.isNotEmpty) {
-        reminderToUpdate = await jobReminders.firstWhere((reminder) => reminder.payload == JobReminder.MILEAGE_EXPENSE_ID);
+        reminderToUpdate = await jobReminders.firstWhere((reminder) => reminder.payload == JobReminder.MILEAGE_EXPENSE_ID, orElse: () => null);
       }
 
       if(reminderToUpdate != null) {
@@ -440,7 +436,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void _fetchSunsetTime(Store<AppState> store, action, NextDispatcher next) async{
     if(store.state.jobDetailsPageState != null) {
-      Location selectedLocation = store.state.jobDetailsPageState.job.location;
+      LocationDandy selectedLocation = store.state.jobDetailsPageState.job.location;
       DateTime selectedDate = store.state.jobDetailsPageState.job.selectedDate;
       if(selectedLocation != null && selectedDate != null) {
         final response = await SunriseSunset.getResults(date: selectedDate, latitude: selectedLocation.latitude, longitude: selectedLocation.longitude);

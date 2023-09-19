@@ -1,4 +1,4 @@
-class Location {
+class LocationDandy {
   int id;
   String documentId;
   String locationName;
@@ -9,7 +9,7 @@ class Location {
   String imageUrl;
 
 
-  Location({
+  LocationDandy.LocationDandy({
     this.id,
     this.documentId,
     this.locationName,
@@ -32,12 +32,12 @@ class Location {
     };
   }
 
-  static Location fromMap(Map<String, dynamic> map) {
-    return Location(
+  static LocationDandy fromMap(Map<String, dynamic> map) {
+    return LocationDandy.LocationDandy(
       documentId: map['documentId'],
       locationName: map['locationName'],
-      latitude: map['latitude'],
-      longitude: map['longitude'],
+      latitude: map['latitude']?.toDouble(),
+      longitude: map['longitude']?.toDouble(),
       address: map['address'],
       numOfSessionsAtThisLocation: map['numOfSessionsAtThisLocation'],
       imageUrl: map['imageUrl'],

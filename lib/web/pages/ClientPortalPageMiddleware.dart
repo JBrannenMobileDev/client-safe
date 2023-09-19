@@ -8,7 +8,6 @@ import 'package:dandylight/utils/PdfUtil.dart';
 import 'package:pdf/widgets.dart';
 import 'package:redux/redux.dart';
 import '../../data_layer/api_clients/DandylightFunctionsClient.dart';
-import '../../models/Branding.dart';
 import '../../models/Invoice.dart';
 import 'ClientPortalActions.dart';
 import 'package:http/http.dart' as http;
@@ -59,11 +58,6 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
         action.pageState.job,
         action.pageState.job.client,
         action.pageState.profile,
-        Branding(
-          logoUrl: action.pageState.profile.logoUrl,
-          logoColor: action.pageState.profile.selectedColorTheme.iconColor,
-          logoTextColor: action.pageState.profile.selectedColorTheme.iconTextColor,
-        )
     );
     FileStorage.webDownload(await pdf.save(), action.pageState.job.client.firstName + '_' + action.pageState.job.client.lastName + '_invoice');
   }
@@ -86,12 +80,24 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
   void _updateProposalInvoicePaid(Store<AppState> store, UpdateProposalInvoicePaidAction action, NextDispatcher next) async{
     Invoice invoice = action.pageState.invoice;
     invoice.invoicePaid = action.isPaid;
-    invoice.balancePaidAmount = invoice.unpaidAmount;
-    invoice.unpaidAmount = invoice.calculateUnpaidAmount();
+    if(action.isPaid) {
+      invoice.balancePaidAmount = invoice.unpaidAmount;
+      invoice.unpaidAmount = invoice.calculateUnpaidAmount();
+    } else {
+      invoice.balancePaidAmount = 0.0;
+      invoice.unpaidAmount = invoice.total - (invoice.depositPaid ? invoice.depositAmount : 0.0);
+    }
 
     store.dispatch(SetInvoiceAction(store.state.clientPortalPageState, invoice));
     ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
-    await repository.updateInvoiceAsPaid(action.pageState.userId, action.pageState.jobId, action.pageState.invoice.documentId, action.isPaid);
+    await repository.updateInvoiceAsPaid(
+        action.pageState.userId,
+        action.pageState.jobId,
+        action.pageState.invoice.documentId,
+        action.isPaid,
+        invoice.balancePaidAmount,
+        invoice.unpaidAmount,
+    );
   }
 
   void _updateProposalInvoiceDepositPaid(Store<AppState> store, UpdateProposalInvoiceDepositPaidAction action, NextDispatcher next) async{

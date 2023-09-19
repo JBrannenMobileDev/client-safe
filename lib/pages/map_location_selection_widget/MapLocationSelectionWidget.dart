@@ -13,13 +13,13 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:redux/redux.dart';
 
-import '../../models/Location.dart';
+import '../../models/LocationDandy.dart';
 import '../../utils/Shadows.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class MapLocationSelectionWidget extends StatefulWidget {
   final Function(LatLng) onMapLocationSaved;
-  final Function(Location) saveSelectedLocation;
+  final Function(LocationDandy) saveSelectedLocation;
   final double lat;
   final double lng;
 
@@ -39,7 +39,7 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
   final FocusNode _searchFocus = FocusNode();
 
   final Function(LatLng) onMapLocationSaved;
-  final Function(Location) saveSelectedLocation;
+  final Function(LocationDandy) saveSelectedLocation;
 
   final double lat;
   final double lng;
@@ -126,7 +126,7 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
                       if(pageState.selectedSearchLocation != null) {
                         saveSelectedLocation(pageState.selectedSearchLocation);
                       }else {
-                        saveSelectedLocation(Location(
+                        saveSelectedLocation(LocationDandy.LocationDandy(
                             latitude: pageState.lat,
                             longitude: pageState.lng,
                           locationName: 'One-Time Location'

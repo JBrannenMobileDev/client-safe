@@ -5,7 +5,7 @@ import 'package:dandylight/models/EventDandyLight.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
@@ -34,9 +34,9 @@ class JobDetailsPageState {
   final String jobTitleText;
   final double unsavedAddOnCostAmount;
   final int unsavedTipAmount;
-  final List<Location> locations;
-  final Location selectedLocation;
-  final Function(Location) onLocationSelected;
+  final List<LocationDandy> locations;
+  final LocationDandy selectedLocation;
+  final Function(LocationDandy) onLocationSelected;
   final List<int> expandedIndexes;
   final String documentPath;
   final PriceProfile selectedPriceProfile;
@@ -70,7 +70,7 @@ class JobDetailsPageState {
   final Function() onSaveSelectedDate;
   final Function(Client) onClientClicked;
   final Function(Job) onJobClicked;
-  final Function(Location) onLocationSaveSelected;
+  final Function(LocationDandy) onLocationSaveSelected;
   final Function(String) onJobTitleTextChanged;
   final Function() onNameChangeSaved;
   final Function() onJobTypeSaveSelected;
@@ -91,7 +91,7 @@ class JobDetailsPageState {
   final Function(String) onNotesTextChanged;
   final Function() setOnBoardingComplete;
   final Function() onSunsetWeatherSelected;
-  final Function(Location) onDrivingDirectionsSelected;
+  final Function(LocationDandy) onDrivingDirectionsSelected;
 
   JobDetailsPageState({
     @required this.job,
@@ -184,10 +184,10 @@ class JobDetailsPageState {
     List<Job> jobs,
     JobType jobType,
     String jobTitleText,
-    List<Location> locations,
+    List<LocationDandy> locations,
     List<JobReminder> reminders,
-    Location selectedLocation,
-    Function(Location) onLocationSelected,
+    LocationDandy selectedLocation,
+    Function(LocationDandy) onLocationSelected,
     List<int> expandedIndexes,
     String documentPath,
     Invoice invoice,
@@ -214,7 +214,7 @@ class JobDetailsPageState {
     Function() onSaveSelectedDate,
     Function(Client) onClientClicked,
     Function(Job) onJobClicked,
-    Function(Location) onLocationSaveSelected,
+    Function(LocationDandy) onLocationSaveSelected,
     Function(String) onJobTitleTextChanged,
     Function() onNameChangeSaved,
     Function(JobType) onJobTypeSaveSelected,
@@ -240,7 +240,7 @@ class JobDetailsPageState {
     String notes,
     Function() setOnBoardingComplete,
     Function() onSunsetWeatherSelected,
-    Function(Location) onDrivingDirectionsSelected,
+    Function(LocationDandy) onDrivingDirectionsSelected,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,

@@ -12,7 +12,7 @@ import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/models/JobType.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
@@ -115,7 +115,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchSunsetTime(Store<AppState> store, action, NextDispatcher next) async{
-    Location selectedLocation = store.state.newJobPageState.selectedLocation;
+    LocationDandy selectedLocation = store.state.newJobPageState.selectedLocation;
     DateTime selectedDate = store.state.newJobPageState.selectedDate;
     if(selectedLocation != null && selectedDate != null) {
       final response = await SunriseSunset.getResults(date: selectedDate, latitude: selectedLocation.latitude, longitude: selectedLocation.longitude);
@@ -126,12 +126,12 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
   void _loadAll(Store<AppState> store, action, NextDispatcher next) async {
     List<PriceProfile> allPriceProfiles = await PriceProfileDao.getAllSortedByName();
     List<Client> allClients = await ClientDao.getAllSortedByFirstName();
-    List<Location> allLocations = await LocationDao.getAllSortedMostFrequent();
+    List<LocationDandy> allLocations = await LocationDao.getAllSortedMostFrequent();
     List<Job> upcomingJobs = await JobDao.getAllJobs();
     List<JobType> jobTypes = await JobTypeDao.getAll();
     List<File> imageFiles = [];
 
-    for(Location location in allLocations) {
+    for(LocationDandy location in allLocations) {
       try{
         imageFiles.add(await FileStorage.getLocationImageFile(location));
       } on Exception {
@@ -154,14 +154,14 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     });
 
     (await LocationDao.getLocationsStream()).listen((locationSnapshots) async {
-      List<Location> locations = [];
+      List<LocationDandy> locations = [];
       List<File> imageFiles = [];
 
       for(RecordSnapshot locationSnapshot in locationSnapshots) {
-        locations.add(Location.fromMap(locationSnapshot.value));
+        locations.add(LocationDandy.fromMap(locationSnapshot.value));
       }
 
-      for(Location location in locations) {
+      for(LocationDandy location in locations) {
         try{
           imageFiles.add(await FileStorage.getLocationImageFile(location));
         } on Exception {

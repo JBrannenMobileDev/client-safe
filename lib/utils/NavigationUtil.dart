@@ -1,6 +1,7 @@
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
+import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPage.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/RecurringExpenseDetails.dart';
 import 'package:dandylight/pages/calendar_page/CalendarPage.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPage.dart';
@@ -30,7 +31,7 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 
 import '../models/Job.dart';
 import '../models/JobStage.dart';
-import '../models/Location.dart';
+import '../models/LocationDandy.dart';
 import '../pages/dashboard_page/DashboardPageState.dart';
 import '../pages/main_settings_page/EditBrandingPage.dart';
 import '../pages/poses_page/PosesPage.dart';
@@ -55,7 +56,7 @@ class NavigationUtil {
   static onRecurringChargeSelected(BuildContext context, RecurringExpense recurringExpense) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => RecurringExpenseDetailsPage(recurringExpense)));
   }
-  static onSelectMapLocation(BuildContext context, Function(LatLng) onLocationSaved, double lat, double lng, Function(Location) saveSelectedLocation) {
+  static onSelectMapLocation(BuildContext context, Function(LatLng) onLocationSaved, double lat, double lng, Function(LocationDandy) saveSelectedLocation) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => MapLocationSelectionWidget(onLocationSaved, lat, lng, saveSelectedLocation)));
   }
   static onSignOutSelected(BuildContext context) async {
@@ -66,6 +67,9 @@ class NavigationUtil {
   }
   static onIncomeAndExpenseSettingsSelected(BuildContext context) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => IncomeAndExpenseSettingsPage()));
+  }
+  static onInvoiceNotificationSelected(BuildContext context) {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => IncomeAndExpensesPage()));
   }
   static onPaymentRequestInfoSelected(BuildContext context) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => PaymentRequestInfoPage()));
