@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:js' as js;
 
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
@@ -12,11 +13,23 @@ import 'package:geolocator/geolocator.dart';
 import 'package:share_extend/share_extend.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:universal_html/html.dart' as html;
 
-import 'PdfUtil.dart';
-import 'TextFormatterUtil.dart';
+import '../PdfUtil.dart';
+import '../TextFormatterUtil.dart';
 
 class IntentLauncherUtil{
+  static Future<void> openDrivingDirectionsFromWebsite(String destinationLat, String destinationLng) async {
+    Position originPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    String origin = originPosition.latitude.toString() + "," + originPosition.longitude.toString();
+    String destination = destinationLat + "," + destinationLng;
+    String url = "https://www.google.com/maps/dir/?api=1&origin=" + origin + "&destination=" + destination + "&travelmode=driving&dir_action=navigate";
+    html.window.open(
+      url,
+      'Driving Directions',
+    );
+  }
+
   static Future<bool> launchURL(String url) async {
     Uri uri = Uri.tryParse(url.trimLeft());
     if (await canLaunchUrl(uri)) {
@@ -147,10 +160,10 @@ class IntentLauncherUtil{
     } else {
       String url = "https://www.google.com/maps/dir/?api=1&origin=" + origin + "&destination=" + destination + "&travelmode=driving&dir_action=navigate";
       if (await canLaunch(url)) {
-    await launch(url, forceSafariVC: false);
-    } else {
-    throw 'Could not launch $url';
+        await launch(url, forceSafariVC: false);
+      } else {
+        throw 'Could not launch $url';
+      }
     }
-  }
   }
 }

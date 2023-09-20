@@ -18,7 +18,7 @@ import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
-import 'package:dandylight/utils/IntentLauncherUtil.dart';
+import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/NotificationHelper.dart';
 import 'package:dandylight/utils/analytics/EventNames.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';

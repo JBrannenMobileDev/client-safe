@@ -7,7 +7,7 @@ import 'package:dandylight/pages/client_details_page/SendMessageOptionsBottomShe
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
-import 'package:dandylight/utils/IntentLauncherUtil.dart';
+import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';

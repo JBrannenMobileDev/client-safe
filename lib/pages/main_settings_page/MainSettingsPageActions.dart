@@ -116,6 +116,11 @@ class ResizeBannerMobileImageAction {
   ResizeBannerMobileImageAction(this.pageState, this.image);
 }
 
+class SavePreviewBrandingAction {
+  final MainSettingsPageState pageState;
+  SavePreviewBrandingAction(this.pageState);
+}
+
 class SaveBrandingAction {
   final MainSettingsPageState pageState;
   SaveBrandingAction(this.pageState);

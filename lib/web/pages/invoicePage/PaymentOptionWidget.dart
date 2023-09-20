@@ -1,5 +1,5 @@
 import 'package:dandylight/utils/DeviceType.dart';
-import 'package:dandylight/utils/IntentLauncherUtil.dart';
+import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -17,17 +17,18 @@ class PaymentOptionWidget extends StatefulWidget {
   final String link;
   final String phone;
   final String email;
+  final String name;
   final String sendSms;
   final String sendEmail;
   final String messageBody;
   final String messageTitle;
   final String type;
 
-  PaymentOptionWidget({this.title, this.message, this.link, this.phone, this.email, this.sendSms, this.sendEmail, this.messageBody, this.messageTitle, this.type});
+  PaymentOptionWidget({this.title, this.message, this.link, this.phone, this.email, this.sendSms, this.sendEmail, this.messageBody, this.messageTitle, this.type, this.name});
 
   @override
   State<StatefulWidget> createState() {
-    return _PaymentOptionWidgetState(title, message, link, phone, email, sendSms, sendEmail, messageBody, messageTitle, type);
+    return _PaymentOptionWidgetState(title, message, link, phone, email, sendSms, sendEmail, messageBody, messageTitle, type, name);
   }
 }
 
@@ -37,20 +38,21 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
   final String link;
   final String phone;
   final String email;
+  final String name;
   final String sendSms;
   final String sendEmail;
   final String messageBody;
   final String messageTitle;
   final String type;
 
-  _PaymentOptionWidgetState(this.title, this.message, this.link, this.phone, this.email, this.sendSms, this.sendEmail, this.messageBody, this.messageTitle, this.type);
+  _PaymentOptionWidgetState(this.title, this.message, this.link, this.phone, this.email, this.sendSms, this.sendEmail, this.messageBody, this.messageTitle, this.type, this.name);
 
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, ClientPortalPageState>(
   converter: (Store<AppState> store) => ClientPortalPageState.fromStore(store),
   builder: (BuildContext context, ClientPortalPageState pageState) => Container(
       margin: EdgeInsets.only(left: 16, right: 16),
-      width: 264,
+      width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 264 : MediaQuery.of(context).size.width-32,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -111,6 +113,16 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
               textAlign: TextAlign.center,
               type: TextDandyLight.SMALL_TEXT,
               text: phone,
+              isBold: true,
+            ),
+          ) : SizedBox(),
+          name != null ? Container(
+            margin: EdgeInsets.only(top: 16),
+            child: TextDandyLight(
+              fontFamily: pageState.profile.selectedFontTheme.mainFont,
+              textAlign: TextAlign.center,
+              type: TextDandyLight.SMALL_TEXT,
+              text: name,
               isBold: true,
             ),
           ) : SizedBox(),
@@ -194,7 +206,7 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
       child: Container(
         padding: EdgeInsets.all(16),
         height: 250,
-        width: 400,
+        width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 400 : MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             color: Color(ColorConstants.getPrimaryWhite())

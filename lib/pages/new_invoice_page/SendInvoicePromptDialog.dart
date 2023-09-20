@@ -1,6 +1,6 @@
 
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/IntentLauncherUtil.dart';
+import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

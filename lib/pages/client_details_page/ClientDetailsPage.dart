@@ -9,7 +9,7 @@ import 'package:dandylight/pages/client_details_page/NotesWidget.dart';
 import 'package:dandylight/pages/client_details_page/SelectSavedResponseBottomSheet.dart';
 import 'package:dandylight/pages/client_details_page/SendMessageOptionsBottomSheet.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
-import 'package:dandylight/utils/IntentLauncherUtil.dart';
+import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';

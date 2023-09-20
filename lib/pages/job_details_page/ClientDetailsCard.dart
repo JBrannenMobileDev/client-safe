@@ -4,7 +4,7 @@ import 'package:dandylight/pages/common_widgets/ClientSafeButton.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
-import 'package:dandylight/utils/IntentLauncherUtil.dart';
+import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';

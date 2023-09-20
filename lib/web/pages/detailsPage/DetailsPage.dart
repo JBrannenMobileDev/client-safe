@@ -1,14 +1,14 @@
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DeviceType.dart';
+import 'package:dandylight/widgets/DividerWidget.dart';
 import 'package:dandylight/widgets/TextDandyLight.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 
-import '../../../AppState.dart';
-import '../../../utils/ColorConstants.dart';
-import '../../../utils/IntentLauncherUtil.dart';
-import '../../../widgets/DividerWidget.dart';
+import '../../../utils/intentLauncher/IntentLauncherUtil.dart' if (dart.library.html) '../../../utils/intentLauncher/IntentLauncherUtilWeb.dart';
 import '../ClientPortalPageState.dart';
 
 class DetailsPage extends StatefulWidget {
@@ -197,11 +197,11 @@ class _DetailsPagePageState extends State<DetailsPage> {
                 textAlign: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextAlign.start : TextAlign.center,
               ),
             ),
-            MouseRegion(
+            DeviceType.getDeviceTypeByContext(context) == Type.Website ? MouseRegion(
               child: GestureDetector(
                 onTap: () {
                   if(pageState.job.location != null) {
-                    IntentLauncherUtil.launchDrivingDirections(
+                    IntentLauncherUtil.openDrivingDirectionsFromWebsite(
                         pageState.job.location.latitude.toString(),
                         pageState.job.location.longitude.toString()
                     );
@@ -236,7 +236,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
                   isHoveredDirections = false;
                 });
               },
-            ),
+            ) : SizedBox(),
           ],
         ),
       ),

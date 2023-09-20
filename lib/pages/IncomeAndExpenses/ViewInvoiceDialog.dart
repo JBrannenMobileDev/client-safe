@@ -11,7 +11,7 @@ import 'package:dandylight/pages/IncomeAndExpenses/ViewInvoiceSubtotalRowWidget.
 import 'package:dandylight/pages/new_invoice_page/GrayDividerWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
-import 'package:dandylight/utils/IntentLauncherUtil.dart';
+import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/PdfUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';

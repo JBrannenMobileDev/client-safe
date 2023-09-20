@@ -38,7 +38,7 @@ import '../../models/FontTheme.dart';
 import '../../models/Pose.dart';
 import '../../models/SingleExpense.dart';
 import '../../utils/ColorConstants.dart';
-import '../../utils/IntentLauncherUtil.dart';
+import '../../utils/intentLauncher/IntentLauncherUtil.dart';
 import '../new_reminder_page/WhenSelectionWidget.dart';
 
 class DashboardPageMiddleware extends MiddlewareClass<AppState> {

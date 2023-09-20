@@ -10,7 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../navigation/routes/RouteNames.dart';
 import '../../utils/Shadows.dart';
 import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -187,7 +189,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                     padding: EdgeInsets.only(bottom: 32),
                     child: GestureDetector(
                       onTap: () {
-                        _showPreviewOptionsBottomSheet(context);
+                        _launchBrandingPreviewURL(pageState.profile.uid);
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -236,4 +238,6 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
     Navigator.of(context).pop(true);
     Navigator.of(context).pop(true);
   }
+
+  void _launchBrandingPreviewURL(String uid) async => await canLaunchUrl(Uri.parse('https://clientsafe-21962.web.app/' + RouteNames.BRANDING_PREVIEW + '/' + uid)) ? await launchUrl(Uri.parse('https://clientsafe-21962.web.app/' + RouteNames.BRANDING_PREVIEW + '/' + uid), mode: LaunchMode.platformDefault) : throw 'Could not launch';
 }

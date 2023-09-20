@@ -327,16 +327,43 @@ class MainSettingsPageState{
       generate50DiscountCode: () => store.dispatch(Generate50DiscountCodeAction(store.state.mainSettingsPageState)),
       generateFreeDiscountCode: () => store.dispatch(GenerateFreeDiscountCodeAction(store.state.mainSettingsPageState)),
       onInstaUrlChanged: (url) => store.dispatch(SetUrlToStateAction(store.state.mainSettingsPageState, url)),
-      onLogoUploaded: (imageFile) => store.dispatch(ResizeLogoImageAction(store.state.mainSettingsPageState, imageFile)),
-      onLogoImageSelected: (isLogoImageSelected) => store.dispatch(SetLogoSelectionAction(store.state.mainSettingsPageState, isLogoImageSelected)),
-      onColorSaved: (color, id) => store.dispatch(SaveColorAction(store.state.mainSettingsPageState, color, id)),
-      onFontSaved: (fontFamily, id) => store.dispatch(SetSelectedFontAction(store.state.mainSettingsPageState, fontFamily, id)),
-      onLogoLetterChanged: (logoLetter) => store.dispatch(SetLogoLetterAction(store.state.mainSettingsPageState, logoLetter)),
-      onBannerUploaded: (imageFile) => store.dispatch(ResizeBannerImageAction(store.state.mainSettingsPageState, imageFile)),
-      onBannerImageSelected: (isBannerImageSelected) => store.dispatch(SetBannerSelectionAction(store.state.mainSettingsPageState, isBannerImageSelected)),
+      onLogoUploaded: (imageFile) async {
+        await store.dispatch(ResizeLogoImageAction(store.state.mainSettingsPageState, imageFile));
+        store.dispatch(SavePreviewBrandingAction(store.state.mainSettingsPageState));
+      },
+      onLogoImageSelected: (isLogoImageSelected) async {
+        await store.dispatch(SetLogoSelectionAction(store.state.mainSettingsPageState, isLogoImageSelected));
+        store.dispatch(SavePreviewBrandingAction(store.state.mainSettingsPageState));
+      },
+      onColorSaved: (color, id) async {
+        await store.dispatch(SaveColorAction(store.state.mainSettingsPageState, color, id));
+        store.dispatch(SavePreviewBrandingAction(store.state.mainSettingsPageState));
+      },
+      onFontSaved: (fontFamily, id) async {
+        store.dispatch(SetSelectedFontAction(store.state.mainSettingsPageState, fontFamily, id));
+        store.dispatch(SavePreviewBrandingAction(store.state.mainSettingsPageState));
+      },
+      onLogoLetterChanged: (logoLetter) async {
+        await store.dispatch(SetLogoLetterAction(store.state.mainSettingsPageState, logoLetter));
+        store.dispatch(SavePreviewBrandingAction(store.state.mainSettingsPageState));
+      },
+      onBannerUploaded: (imageFile) async {
+        await store.dispatch(ResizeBannerImageAction(store.state.mainSettingsPageState, imageFile));
+        store.dispatch(SavePreviewBrandingAction(store.state.mainSettingsPageState));
+      },
+      onBannerImageSelected: (isBannerImageSelected) async {
+        await store.dispatch(SetBannerSelectionAction(store.state.mainSettingsPageState, isBannerImageSelected));
+        store.dispatch(SavePreviewBrandingAction(store.state.mainSettingsPageState));
+      },
       onPublishChangesSelected: () => store.dispatch(SaveBrandingAction(store.state.mainSettingsPageState)),
-      onBannerWebUploaded: (imageFile) => store.dispatch(ResizeBannerWebImageAction(store.state.mainSettingsPageState, imageFile)),
-      onBannerMobileUploaded: (imageFile) => store.dispatch(ResizeBannerMobileImageAction(store.state.mainSettingsPageState, imageFile)),
+      onBannerWebUploaded: (imageFile) async {
+        await store.dispatch(ResizeBannerWebImageAction(store.state.mainSettingsPageState, imageFile));
+        store.dispatch(SavePreviewBrandingAction(store.state.mainSettingsPageState));
+      },
+      onBannerMobileUploaded: (imageFile) async {
+        await store.dispatch(ResizeBannerMobileImageAction(store.state.mainSettingsPageState, imageFile));
+        store.dispatch(SavePreviewBrandingAction(store.state.mainSettingsPageState));
+      },
     );
   }
 

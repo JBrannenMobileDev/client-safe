@@ -43,7 +43,8 @@ class _PayNowPageState extends State<PayNowPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            padding: DeviceType.getDeviceTypeByContext(context) == Type.Website ? EdgeInsets.only(left: 72, right: 72) : EdgeInsets.only(),
+            padding: DeviceType.getDeviceTypeByContext(context) == Type.Website ? EdgeInsets.only(left: 72, right: 72) : EdgeInsets.only(left: 16, right: 16),
+            width: DeviceType.getDeviceTypeByContext(context) != Type.Website ? MediaQuery.of(context).size.width : null,
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.white),
                 borderRadius: new BorderRadius.all(Radius.circular(16.0))),
@@ -71,7 +72,7 @@ class _PayNowPageState extends State<PayNowPage> {
                         child: Container(
                           margin: EdgeInsets.only(top: 16),
                           alignment: Alignment.topRight,
-                          width: 438,
+                          width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 438 : MediaQuery.of(context).size.width,
                           child: Icon(Icons.close_sharp, color: Color(ColorConstants.getPrimaryBlack()), size: 32,),
                         ),
                       ),
@@ -233,6 +234,10 @@ class _PayNowPageState extends State<PayNowPage> {
       }
     }
 
+    if(result.length == 0) {
+      result.add(buildErrorWidget(pageState));
+    }
+
     return Container(
       margin: EdgeInsets.only(top: 64, bottom: 64),
       child: Column(
@@ -247,8 +252,8 @@ class _PayNowPageState extends State<PayNowPage> {
     return PaymentOptionWidget(
       title: 'Zelle',
       message: 'Please send funds to our bank account through Zelle by using our mobile phone number or email then mark as paid above.',
-      phone: pageState.profile.phone,
-      email: pageState.profile.email,
+      name: pageState.profile.zelleFullName,
+      email: pageState.profile.zellePhoneEmail,
       type: type,
     );
   }

@@ -9,7 +9,7 @@ class ColorConstants{
   static const int black_overlay_medium = 0x50000000;
   static const int black_overlay_dark = 0x75000000;
   static const int primary_black = 0xff444444;
-  static const int primary = 0xFF00c6f2;
+  static const int primary = 0xff444444;
   static const int error_red = 0xffed4337;
 
   static const int primary_pricing_profile = 0xffFD716D;

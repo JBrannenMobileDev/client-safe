@@ -9,6 +9,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../AppState.dart';
 import '../../../widgets/TextDandyLight.dart';
+import '../../utils/PdfUtil.dart';
+import '../IncomeAndExpenses/PdfViewerPage.dart';
 import 'MainSettingsPageState.dart';
 
 
@@ -31,7 +33,18 @@ class _PreviewOptionsBottomSheetState extends State<PreviewOptionsBottomSheet> w
       builder: (BuildContext context, MainSettingsPageState pageState) =>
           GestureDetector(
             onTap: () {
-              _launchBrandingPreviewURL(pageState.profile.uid);
+              switch(options.elementAt(index)) {
+                case 'Client Portal':
+                  _launchBrandingPreviewURL(pageState.profile.uid);
+                  break;
+                case 'Contract PDF':
+
+                  break;
+                case 'Invoice PDF':
+
+                  break;
+
+              }
             },
             child: Container(
               margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
@@ -110,5 +123,5 @@ class _PreviewOptionsBottomSheetState extends State<PreviewOptionsBottomSheet> w
          ),
     );
 
-  void _launchBrandingPreviewURL(String uid) async => await canLaunchUrl(Uri.parse('https://clientsafe-21962.web.app/' + RouteNames.BRANDING_PREVIEW + '/' + uid)) ? await launchUrl(Uri.parse('https://clientsafe-21962.web.app/' + RouteNames.BRANDING_PREVIEW + '/' + uid)) : throw 'Could not launch';
+  void _launchBrandingPreviewURL(String uid) async => await canLaunchUrl(Uri.parse('https://clientsafe-21962.web.app/' + RouteNames.BRANDING_PREVIEW + '/' + uid)) ? await launchUrl(Uri.parse('https://clientsafe-21962.web.app/' + RouteNames.BRANDING_PREVIEW + '/' + uid), mode: LaunchMode.platformDefault) : throw 'Could not launch';
 }

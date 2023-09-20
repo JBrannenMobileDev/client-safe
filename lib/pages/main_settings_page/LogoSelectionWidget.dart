@@ -150,8 +150,7 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                               loading ? LoadingAnimationWidget.fourRotatingDots(
                                 color: Color(ColorConstants.getPeachDark()),
                                 size: 48,
-                              )
-                                  : Container(
+                              ) : Container(
                                 child: TextDandyLight(
                                   type: TextDandyLight
                                       .MEDIUM_TEXT,

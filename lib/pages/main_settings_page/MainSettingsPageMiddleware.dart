@@ -79,6 +79,42 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveBrandingAction) {
       _saveBranding(store, action, next);
     }
+    if(action is SavePreviewBrandingAction) {
+      _savePreviewBranding(store, action, next);
+    }
+  }
+
+  void _savePreviewBranding(Store<AppState> store, SavePreviewBrandingAction action, NextDispatcher next) async {
+    ColorTheme colorTheme = ColorTheme(
+      themeName: 'default',
+      iconColor: ColorConstants.getHex(action.pageState.currentIconColor),
+      iconTextColor: ColorConstants.getHex(action.pageState.currentIconTextColor),
+      buttonColor: ColorConstants.getHex(action.pageState.currentButtonColor),
+      buttonTextColor: ColorConstants.getHex(action.pageState.currentButtonTextColor),
+      bannerColor: ColorConstants.getHex(action.pageState.currentBannerColor),
+    );
+
+    FontTheme fontTheme = FontTheme(
+        themeName: 'default',
+        iconFont: action.pageState.currentIconFont,
+        mainFont: action.pageState.currentFont
+    );
+
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.previewLogoSelected = action.pageState.logoImageSelected;
+    profile.previewBannerImageSelected = action.pageState.bannerImageSelected;
+    profile.previewColorTheme = colorTheme;
+    profile.previewFontTheme = fontTheme;
+    profile.previewLogoCharacter = action.pageState.logoCharacter;
+
+    await ProfileDao.update(profile);
+    if(action.pageState.logoImageSelected && action.pageState.resizedLogoImage != null) {
+      await FileStorage.saveProfilePreviewIconImageFile(action.pageState.resizedLogoImage.path, action.pageState.profile);
+    }
+    if(action.pageState.bannerImageSelected && action.pageState.bannerWebImage != null && action.pageState.bannerMobileImage != null) {
+      FileStorage.savePreviewBannerWebImageFile(action.pageState.bannerWebImage.path, action.pageState.profile);
+      FileStorage.savePreviewBannerMobileImageFile(action.pageState.bannerMobileImage.path, action.pageState.profile);
+    }
   }
 
   void _saveBranding(Store<AppState> store, SaveBrandingAction action, NextDispatcher next) async {

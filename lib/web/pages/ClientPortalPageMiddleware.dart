@@ -5,6 +5,7 @@ import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/Proposal.dart';
 import 'package:dandylight/utils/PdfUtil.dart';
+import 'package:dandylight/web/pages/ClientPortalPageState.dart';
 import 'package:pdf/widgets.dart';
 import 'package:redux/redux.dart';
 import '../../data_layer/api_clients/DandylightFunctionsClient.dart';
@@ -50,6 +51,13 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
       job = buildExampleJob();
       job.invoice = buildExampleInvoice();
       job.proposal = buildExampleProposal();
+      profile.venmoLink = profile.venmoLink != null ? profile.venmoLink : 'https://venmo.com/code?user_id=1696790113943552886';
+      profile.venmoEnabled = true;
+      profile.zelleEnabled = true;
+      profile.phone = profile.phone != null ? profile.phone : '(888)888-8888';
+      profile.cashEnabled = true;
+      profile.selectedColorTheme = profile.previewColorTheme;
+      profile.selectedFontTheme = profile.previewFontTheme;
     } else {
       job = await repository.fetchJob(action.userId, action.jobId);
     }
@@ -164,13 +172,13 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
   Proposal buildExampleProposal() {
     return Proposal(
       includePoses: true,
-      detailsMessage: 'Hi Jason, \nI\'m so excited to book in your photoshoot! Let\'s make this official.\n\nTo lock in your date, please review and sign the contract and pay the deposit.\n\nChat soon,\nShawna Brannen',
+      detailsMessage: 'Hi (Client first name), \nI\'m so excited to book in your photoshoot! Let\'s make this official.\n\nTo lock in your date, please review and sign the contract and pay the deposit.\n\nChat soon',
       contract: Contract(
           photographerSignedDate: DateTime.now(),
           clientSignedDate: DateTime.now(),
           signedByClient: false,
           clientSignature: '',
-          photographerSignature: 'DandyLight',
+          photographerSignature: 'Yourame',
           contractName: 'Wedding Contract',
           terms: 'THIS AGREEMENT is made as of July 4, 2023 (the “Effective Date”) between Jason Bent with a primary contact address of Client AddressClient Address FILL (“Client”), and Vintage Vibes Photography (“Photographer”).\n'+
               '\n'+
@@ -288,13 +296,13 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
       selectedTime: DateTime.now(),
       selectedEndTime: DateTime.now(),
       client: Client(
-          firstName: 'Jason',
-          lastName: 'Bent',
-          email: 'jbent@gmail.com',
-          phone: '(951)295-0348'
+          firstName: 'Client',
+          lastName: 'Name',
+          email: 'clientEmail@gmail.com',
+          phone: '(888)888-8888'
       ),
       location: LocationDandy.LocationDandy(
-        address: '42161 Delmonte St. Temecula CA 92591',
+        address: '47781 Monte St. Temecula CA 92591',
         latitude: 28374634,
         longitude: 28374643,
       ),

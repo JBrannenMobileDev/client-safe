@@ -29,7 +29,7 @@ class ClientSafeApp extends StatelessWidget {
         color: Color(ColorConstants.getPrimaryColor()),
         title: 'dandylight',
         theme: ThemeData(
-          primaryColor: Color(ColorConstants.getPrimaryColor()),
+          primaryColor: Color(ColorConstants.getPrimaryWhite()),
           iconTheme: IconThemeData(color: Color(ColorConstants.getPrimaryBlack())),
           primaryIconTheme: Theme.of(context).primaryIconTheme.copyWith(
               color: Color(ColorConstants.getPrimaryBlack()),
@@ -45,7 +45,7 @@ class ClientSafeApp extends StatelessWidget {
         title: 'dandylight',
         home: LoginPage(),
         theme: ThemeData(
-          primaryColor: Color(ColorConstants.getPrimaryColor()),
+          primaryColor: Color(ColorConstants.getPrimaryWhite()),
           iconTheme: IconThemeData(color: Color(ColorConstants.getPrimaryBlack())),
           primaryIconTheme: Theme.of(context).primaryIconTheme.copyWith(
             color: Color(ColorConstants.getPrimaryBlack()),

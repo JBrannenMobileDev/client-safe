@@ -6,7 +6,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
-import '../../utils/IntentLauncherUtil.dart';
+import '../../utils/intentLauncher/IntentLauncherUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';

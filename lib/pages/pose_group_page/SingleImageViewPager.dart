@@ -18,7 +18,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../models/Job.dart';
 import '../../models/Pose.dart';
 import '../../utils/DandyToastUtil.dart';
-import '../../utils/IntentLauncherUtil.dart';
+import '../../utils/intentLauncher/IntentLauncherUtil.dart';
 import '../../utils/VibrateUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';

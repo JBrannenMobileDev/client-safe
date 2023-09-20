@@ -7,7 +7,7 @@ import 'package:dandylight/pages/main_settings_page/DeleteAccountPage.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/IntentLauncherUtil.dart';
+import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';

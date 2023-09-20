@@ -4,7 +4,7 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/pages/locations_page/LocationsActions.dart';
-import 'package:dandylight/utils/IntentLauncherUtil.dart';
+import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 import 'package:share_plus/share_plus.dart';

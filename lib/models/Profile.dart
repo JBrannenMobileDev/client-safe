@@ -35,8 +35,16 @@ class Profile{
   String bannerWebUrl;
   String bannerMobileUrl;
   String logoCharacter;
+  bool previewLogoSelected;
+  bool previewBannerImageSelected;
+  String previewLogoUrl;
+  String previewBannerWebUrl;
+  String previewBannerMobileUrl;
+  String previewLogoCharacter;
   ColorTheme selectedColorTheme;
   FontTheme selectedFontTheme;
+  ColorTheme previewColorTheme;
+  FontTheme previewFontTheme;
   bool pushNotificationsEnabled = false;
   bool calendarEnabled = false;
   bool showNewMileageExpensePage = false;
@@ -129,12 +137,18 @@ class Profile{
     this.jobsCreatedCount,
     this.instagramName,
     this.logoUrl,
+    this.previewLogoUrl,
     this.bannerWebUrl,
+    this.previewBannerWebUrl,
+    this.previewBannerMobileUrl,
+    this.previewBannerImageSelected,
     this.bannerMobileUrl,
     this.licenseNumber,
     this.selectedColorTheme,
     this.selectedFontTheme,
     this.logoSelected,
+    this.previewLogoSelected,
+    this.previewLogoCharacter,
     this.logoCharacter,
     this.bannerImageSelected,
     this.zelleEnabled,
@@ -142,6 +156,8 @@ class Profile{
     this.cashAppEnabled,
     this.applePayEnabled,
     this.cashEnabled,
+    this.previewFontTheme,
+    this.previewColorTheme,
   });
 
   Profile copyWith({
@@ -190,9 +206,17 @@ class Profile{
     String bannerWebUrl,
     String bannerMobileUrl,
     String logoCharacter,
+    bool previewLogoSelected,
+    String previewLogoUrl,
+    String previewBannerWebUrl,
+    String previewBannerMobileUrl,
+    bool previewBannerImageSelected,
+    String previewLogoCharacter,
     double salesTaxRate,
     ColorTheme selectedColorTheme,
+    ColorTheme previewColorTheme,
     FontTheme selectedFontTheme,
+    FontTheme previewFontTheme,
     DateTime lastSignIn,
     DateTime clientsLastChangeDate,
     DateTime invoicesLastChangeDate,
@@ -285,6 +309,14 @@ class Profile{
       cashAppEnabled: cashAppEnabled ?? this.cashAppEnabled,
       applePayEnabled: applePayEnabled ?? this.applePayEnabled,
       cashEnabled: cashEnabled ?? this.cashEnabled,
+      previewColorTheme: previewColorTheme ?? this.previewColorTheme,
+      previewFontTheme: previewFontTheme ?? this.previewFontTheme,
+      previewLogoCharacter: previewLogoCharacter ?? this.previewLogoCharacter,
+      previewLogoSelected: previewLogoSelected ?? this.previewLogoSelected,
+      previewLogoUrl: previewLogoUrl ?? this.previewLogoUrl,
+      previewBannerWebUrl: previewBannerWebUrl ?? this.previewBannerWebUrl,
+      previewBannerMobileUrl: previewBannerMobileUrl ?? this.previewBannerMobileUrl,
+      previewBannerImageSelected: previewBannerImageSelected ?? this.previewBannerImageSelected,
     );
   }
 
@@ -317,6 +349,7 @@ class Profile{
       'pushNotificationsEnabled' : pushNotificationsEnabled,
       'calendarEnabled' : calendarEnabled,
       'bannerImageSelected' : bannerImageSelected ?? false,
+      'previewBannerImageSelected' : previewBannerImageSelected ?? false,
       'instagramName' : instagramName ?? "",
       'shouldShowRestoreSubscription' : shouldShowRestoreSubscription ?? false,
       'showNewMileageExpensePage' : showNewMileageExpensePage ?? true,
@@ -330,7 +363,12 @@ class Profile{
       'logoUrl' : logoUrl,
       'bannerWebUrl' : bannerWebUrl,
       'bannerMobileUrl' : bannerMobileUrl,
+      'previewLogoSelected' : previewLogoSelected ?? false,
+      'previewLogoUrl' : previewLogoUrl,
+      'previewBannerWebUrl' : previewBannerWebUrl,
+      'previewBannerMobileUrl' : previewBannerMobileUrl,
       'logoCharacter' : logoCharacter,
+      'previewLogoCharacter' : previewLogoCharacter,
       'jobsCreatedCount' : jobsCreatedCount ?? 0,
       'termsOfServiceAndPrivacyPolicyChecked' : termsOfServiceAndPrivacyPolicyChecked,
       'lastSignIn' : lastSignIn?.millisecondsSinceEpoch ?? null,
@@ -358,6 +396,8 @@ class Profile{
       'hasSeenIncomeInfo' : hasSeenIncomeInfo,
       'selectedFontTheme' : selectedFontTheme?.toMap() ?? null,
       'selectedColorTheme' : selectedColorTheme?.toMap() ?? null,
+      'previewFontTheme' : previewFontTheme?.toMap() ?? null,
+      'previewColorTheme' : previewColorTheme?.toMap() ?? null,
       'cashEnabled' : cashEnabled ?? false,
     };
   }
@@ -394,7 +434,13 @@ class Profile{
       logoUrl: map['logoUrl'],
       bannerWebUrl: map['bannerWebUrl'],
       bannerMobileUrl: map['bannerMobileUrl'],
+      previewBannerImageSelected: map['previewBannerImageSelected'] != null ? map['previewBannerImageSelected'] : false,
+      previewLogoSelected: map['previewLogoSelected'] != null ? map['previewLogoSelected'] : false,
+      previewLogoUrl: map['previewLogoUrl'],
+      previewBannerWebUrl: map['previewBannerWebUrl'],
+      previewBannerMobileUrl: map['previewBannerMobileUrl'],
       logoCharacter: map['logoCharacter'] != null ? map['logoCharacter'] : null,
+      previewLogoCharacter: map['previewLogoCharacter'] != null ? map['previewLogoCharacter'] : null,
       instagramName: map['instagramName'] != null ? map['instagramName'] : '',
       jobsCreatedCount: map['jobsCreatedCount'] != null ? map['jobsCreatedCount'] : 0,
       showRequestPaymentLinksDialog: map['showRequestPaymentLinksDialog'] != null ? map['showRequestPaymentLinksDialog'] : true,
@@ -410,6 +456,8 @@ class Profile{
       hasSeenIncomeInfo: map['hasSeenIncomeInfo'] != null ? map['hasSeenIncomeInfo'] : false,
       selectedColorTheme: map['selectedColorTheme'] != null ? ColorTheme.fromMap(map['selectedColorTheme']) : null,
       selectedFontTheme: map['selectedFontTheme'] != null ? FontTheme.fromMap(map['selectedFontTheme']) : null,
+      previewColorTheme: map['previewColorTheme'] != null ? ColorTheme.fromMap(map['previewColorTheme']) : null,
+      previewFontTheme: map['previewFontTheme'] != null ? FontTheme.fromMap(map['previewFontTheme']) : null,
       lastSignIn: map['lastSignIn'] != null? DateTime.fromMillisecondsSinceEpoch(map['lastSignIn']) : null,
       clientsLastChangeDate: map['clientsLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['clientsLastChangeDate']) : null,
       invoicesLastChangeDate: map['invoicesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['invoicesLastChangeDate']) : null,
