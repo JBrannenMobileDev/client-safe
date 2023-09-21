@@ -110,21 +110,18 @@ class PdfUtil {
             : '';
 
     final Document pdf = Document();
-
-    String fontFamilyPath = FontTheme.getFilePath(profile.selectedFontTheme.mainFont);
-    String fontFamilyIconTextPath = FontTheme.getFilePath(profile.selectedFontTheme.iconFont);
     bool makeTextBold = FontTheme.shouldUseBold(profile.selectedFontTheme.mainFont);
 
     pdf.addPage(MultiPage(
         theme: ThemeData.withFont(
           base: Font.ttf(
-              await rootBundle.load(fontFamilyPath)),
+              await rootBundle.load('assets/fonts/OpenSans-VariableFont_wdth,wght.ttf')),
           bold:
-              Font.ttf(await rootBundle.load(fontFamilyPath)),
+          Font.ttf(await rootBundle.load('assets/fonts/OpenSans-VariableFont_wdth,wght.ttf')),
           italic:
-              Font.ttf(await rootBundle.load(fontFamilyIconTextPath)),
+          Font.ttf(await rootBundle.load('assets/fonts/signature.ttf')),
           boldItalic:
-              Font.ttf(await rootBundle.load(fontFamilyPath)),
+          Font.ttf(await rootBundle.load('assets/fonts/OpenSans-VariableFont_wdth,wght.ttf')),
         ),
         pageFormat:
             PdfPageFormat.letter.copyWith(marginBottom: 1 * PdfPageFormat.cm),

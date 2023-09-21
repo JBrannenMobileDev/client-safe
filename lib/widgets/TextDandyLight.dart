@@ -111,11 +111,11 @@ class TextDandyLight extends StatelessWidget {
     }
 
     if(fontFamily == FontTheme.MONTSERRAT) {
-      isBold = true;
+      isBold = false;
     }
 
     if(fontFamily == FontTheme.Raleway) {
-      isBold = true;
+      isBold = false;
     }
 
     size = FontTheme.getIconFontSize(type, fontFamily);
@@ -134,10 +134,6 @@ class TextDandyLight extends StatelessWidget {
 
     if(fontFamily == FontTheme.Minimal) {
       size = size + 6;
-    }
-
-    if(fontFamily == FontTheme.SafiraMarch) {
-      size = size - 8;
     }
 
     return Container(

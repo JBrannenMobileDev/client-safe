@@ -144,7 +144,7 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
                       return PaymentConfirmationWidget(pageState);
                     }
                 );
-                IntentLauncherUtil.sendSMSWithBody(sendSms, messageBody);
+                IntentLauncherUtil.sendSMS(sendSms);
               },
               child: Container(
                 margin: EdgeInsets.only(top: 32),

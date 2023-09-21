@@ -43,12 +43,24 @@ class FileStorage {
     await _uploadProfileIconImageFile(pathLarge, profile);
   }
 
+  static saveProfilePreviewIconImageFile(String pathLarge, Profile profile) async {
+    await _uploadProfilePreviewIconImageFile(pathLarge, profile);
+  }
+
   static saveBannerWebImageFile(String pathLarge, Profile profile) async {
     await _uploadBannerWebImageFile(pathLarge, profile);
   }
 
   static saveBannerMobileImageFile(String pathLarge, Profile profile) async {
     await _uploadBannerMobileImageFile(pathLarge, profile);
+  }
+
+  static savePreviewBannerWebImageFile(String pathLarge, Profile profile) async {
+    await _uploadPreviewBannerWebImageFile(pathLarge, profile);
+  }
+
+  static savePreviewBannerMobileImageFile(String pathLarge, Profile profile) async {
+    await _uploadPreviewBannerMobileImageFile(pathLarge, profile);
   }
 
   static saveContractFile(String contractPath, Contract contract) async {
@@ -182,6 +194,12 @@ class FileStorage {
     await ProfileDao.update(profile);
   }
 
+  static _updateProfilePreviewIconImageUrlLarge(Profile profileToUpdate, String imageUrl) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.previewLogoUrl = imageUrl;
+    await ProfileDao.update(profile);
+  }
+
   static _updateBannerWebImageUrlLarge(Profile profileToUpdate, String imageUrl) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.bannerWebUrl = imageUrl;
@@ -191,6 +209,18 @@ class FileStorage {
   static _updateBannerMobileImageUrlLarge(Profile profileToUpdate, String imageUrl) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.bannerMobileUrl = imageUrl;
+    await ProfileDao.update(profile);
+  }
+
+  static _updatePreviewBannerWebImageUrlLarge(Profile profileToUpdate, String imageUrl) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.previewBannerWebUrl = imageUrl;
+    await ProfileDao.update(profile);
+  }
+
+  static _updatePreviewBannerMobileImageUrlLarge(Profile profileToUpdate, String imageUrl) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.previewBannerMobileUrl = imageUrl;
     await ProfileDao.update(profile);
   }
 
@@ -396,6 +426,37 @@ class FileStorage {
     }
   }
 
+  static _uploadProfilePreviewIconImageFile(String imagePathLarge, Profile profile) async {
+    final storageRef = FirebaseStorage.instance.ref();
+
+    if(imagePathLarge != null) {
+      final uploadTaskLarge = storageRef
+          .child(_buildProfilePreviewIconImagePath(imagePathLarge))
+          .putFile(File(imagePathLarge));
+
+      uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+        switch (taskSnapshot.state) {
+          case TaskState.running:
+            final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
+            print("Upload is $progress% complete.");
+            break;
+          case TaskState.paused:
+            print("Upload is paused.");
+            break;
+          case TaskState.canceled:
+            print("Upload was canceled");
+            break;
+          case TaskState.error:
+          // Handle unsuccessful uploads
+            break;
+          case TaskState.success:
+            _fetchAndSaveProfilePreviewIconImageDownloadUrlLarge(imagePathLarge, profile);
+            break;
+        }
+      });
+    }
+  }
+
   static _uploadBannerWebImageFile(String imagePathLarge, Profile profile) async {
     final storageRef = FirebaseStorage.instance.ref();
 
@@ -458,6 +519,68 @@ class FileStorage {
     }
   }
 
+  static _uploadPreviewBannerWebImageFile(String imagePathLarge, Profile profile) async {
+    final storageRef = FirebaseStorage.instance.ref();
+
+    if(imagePathLarge != null) {
+      final uploadTaskLarge = storageRef
+          .child(_buildPreviewBannerWebImagePath(imagePathLarge))
+          .putFile(File(imagePathLarge));
+
+      uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+        switch (taskSnapshot.state) {
+          case TaskState.running:
+            final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
+            print("Upload is $progress% complete.");
+            break;
+          case TaskState.paused:
+            print("Upload is paused.");
+            break;
+          case TaskState.canceled:
+            print("Upload was canceled");
+            break;
+          case TaskState.error:
+          // Handle unsuccessful uploads
+            break;
+          case TaskState.success:
+            _fetchAndSavePreviewBannerWebImageDownloadUrlLarge(imagePathLarge, profile);
+            break;
+        }
+      });
+    }
+  }
+
+  static _uploadPreviewBannerMobileImageFile(String imagePathLarge, Profile profile) async {
+    final storageRef = FirebaseStorage.instance.ref();
+
+    if(imagePathLarge != null) {
+      final uploadTaskLarge = storageRef
+          .child(_buildPreviewBannerMobileImagePath(imagePathLarge))
+          .putFile(File(imagePathLarge));
+
+      uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+        switch (taskSnapshot.state) {
+          case TaskState.running:
+            final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
+            print("Upload is $progress% complete.");
+            break;
+          case TaskState.paused:
+            print("Upload is paused.");
+            break;
+          case TaskState.canceled:
+            print("Upload was canceled");
+            break;
+          case TaskState.error:
+          // Handle unsuccessful uploads
+            break;
+          case TaskState.success:
+            _fetchAndSavePreviewBannerMobileImageDownloadUrlLarge(imagePathLarge, profile);
+            break;
+        }
+      });
+    }
+  }
+
   static _fetchAndSaveLibraryPoseImageDownloadUrl(Pose pose, PoseLibraryGroup group) async {
     final storageRef = FirebaseStorage.instance.ref();
     final cloudFilePath = storageRef.child(_buildPoseLibraryImagePath(pose));
@@ -476,6 +599,12 @@ class FileStorage {
     await _updateProfileIconImageUrlLarge(profile, await cloudFilePath.getDownloadURL());
   }
 
+  static _fetchAndSaveProfilePreviewIconImageDownloadUrlLarge(String imagePathLarge, Profile profile) async {
+    final storageRef = FirebaseStorage.instance.ref();
+    final cloudFilePath = storageRef.child(_buildProfilePreviewIconImagePath(imagePathLarge));
+    await _updateProfilePreviewIconImageUrlLarge(profile, await cloudFilePath.getDownloadURL());
+  }
+
   static _fetchAndSaveBannerWebImageDownloadUrlLarge(String imagePathLarge, Profile profile) async {
     final storageRef = FirebaseStorage.instance.ref();
     final cloudFilePath = storageRef.child(_buildBannerWebImagePath(imagePathLarge));
@@ -486,6 +615,18 @@ class FileStorage {
     final storageRef = FirebaseStorage.instance.ref();
     final cloudFilePath = storageRef.child(_buildBannerMobileImagePath(imagePathLarge));
     await _updateBannerMobileImageUrlLarge(profile, await cloudFilePath.getDownloadURL());
+  }
+
+  static _fetchAndSavePreviewBannerWebImageDownloadUrlLarge(String imagePathLarge, Profile profile) async {
+    final storageRef = FirebaseStorage.instance.ref();
+    final cloudFilePath = storageRef.child(_buildPreviewBannerWebImagePath(imagePathLarge));
+    await _updatePreviewBannerWebImageUrlLarge(profile, await cloudFilePath.getDownloadURL());
+  }
+
+  static _fetchAndSavePreviewBannerMobileImageDownloadUrlLarge(String imagePathLarge, Profile profile) async {
+    final storageRef = FirebaseStorage.instance.ref();
+    final cloudFilePath = storageRef.child(_buildPreviewBannerMobileImagePath(imagePathLarge));
+    await _updatePreviewBannerMobileImageUrlLarge(profile, await cloudFilePath.getDownloadURL());
   }
 
   static _fetchAndSavePoseImageDownloadUrl(Pose pose, PoseGroup group) async {
@@ -554,12 +695,24 @@ class FileStorage {
     return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/profile/${localImagePath}logoImage.jpg";
   }
 
+  static String _buildProfilePreviewIconImagePath(String localImagePath) {
+    return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/profile/${localImagePath}previewLogoImage.jpg";
+  }
+
   static String _buildBannerWebImagePath(String localImagePath) {
     return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/profile/${localImagePath}bannerWebImage.jpg";
   }
 
   static String _buildBannerMobileImagePath(String localImagePath) {
     return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/profile/${localImagePath}bannerMobileImage.jpg";
+  }
+
+  static String _buildPreviewBannerWebImagePath(String localImagePath) {
+    return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/profile/${localImagePath}previewBannerWebImage.jpg";
+  }
+
+  static String _buildPreviewBannerMobileImagePath(String localImagePath) {
+    return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/profile/${localImagePath}previewBannerMobileImage.jpg";
   }
 
   static String _buildPoseLibraryImagePathSmall(Pose pose) {

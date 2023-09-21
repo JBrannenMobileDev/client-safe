@@ -8,7 +8,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 
-import '../../../utils/intentLauncher/IntentLauncherUtil.dart' if (dart.library.html) '../../../utils/intentLauncher/IntentLauncherUtilWeb.dart';
+import '../../../utils/intentLauncher/IntentLauncherUtil.dart';
 import '../ClientPortalPageState.dart';
 
 class DetailsPage extends StatefulWidget {

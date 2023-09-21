@@ -1,11 +1,9 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/repositories/ClientPortalRepository.dart';
-import 'package:dandylight/data_layer/repositories/FileStorage.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/Proposal.dart';
 import 'package:dandylight/utils/PdfUtil.dart';
-import 'package:dandylight/web/pages/ClientPortalPageState.dart';
 import 'package:pdf/widgets.dart';
 import 'package:redux/redux.dart';
 import '../../data_layer/api_clients/DandylightFunctionsClient.dart';
@@ -15,6 +13,7 @@ import '../../models/Invoice.dart';
 import '../../models/JobStage.dart';
 import '../../models/LineItem.dart';
 import '../../models/Pose.dart';
+import '../../utils/intentLauncher/IntentLauncherUtil.dart';
 import 'ClientPortalActions.dart';
 import 'package:http/http.dart' as http;
 import '../../models/LocationDandy.dart';
@@ -58,6 +57,12 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
       profile.cashEnabled = true;
       profile.selectedColorTheme = profile.previewColorTheme;
       profile.selectedFontTheme = profile.previewFontTheme;
+      profile.bannerImageSelected = profile.previewBannerImageSelected;
+      profile.bannerMobileUrl = profile.previewBannerMobileUrl;
+      profile.bannerWebUrl = profile.previewBannerWebUrl;
+      profile.logoUrl = profile.previewLogoUrl;
+      profile.logoSelected = profile.previewLogoSelected;
+      profile.logoCharacter = profile.previewLogoCharacter;
     } else {
       job = await repository.fetchJob(action.userId, action.jobId);
     }
@@ -70,7 +75,7 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
 
   void _generateContract(Store<AppState> store, GenerateContractForClientAction action, NextDispatcher next) async{
     Document pdf = await PdfUtil.generateContract(action.pageState.proposal.contract, action.pageState.proposal, action.pageState.profile, action.pageState.job);
-    FileStorage.webDownload(await pdf.save(), action.pageState.job.client.firstName + '_' + action.pageState.job.client.lastName + '_contract');
+    IntentLauncherUtil.download(await pdf.save(), downloadName: action.pageState.job.client.firstName + '_' + action.pageState.job.client.lastName + '_contract.pdf');
   }
 
   void _generateInvoice(Store<AppState> store, GenerateInvoiceForClientAction action, NextDispatcher next) async{
@@ -80,7 +85,7 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
         action.pageState.job.client,
         action.pageState.profile,
     );
-    FileStorage.webDownload(await pdf.save(), action.pageState.job.client.firstName + '_' + action.pageState.job.client.lastName + '_invoice');
+    IntentLauncherUtil.download(await pdf.save(), downloadName: action.pageState.job.client.firstName + '_' + action.pageState.job.client.lastName + '_invoice.pdf');
   }
 
   void _saveClientSignature(Store<AppState> store, SaveClientSignatureAction action, NextDispatcher next) async{

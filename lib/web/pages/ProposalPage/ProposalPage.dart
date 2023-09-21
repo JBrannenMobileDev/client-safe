@@ -11,6 +11,7 @@ import 'package:redux/redux.dart';
 import '../../../AppState.dart';
 import '../../../utils/ColorConstants.dart';
 import '../../../widgets/DandyLightNetworkImage.dart';
+import '../../../widgets/DividerWidget.dart';
 import '../ClientPortalPageState.dart';
 import '../detailsPage/DetailsPage.dart';
 import '../invoicePage/InvoicePage.dart';
@@ -98,7 +99,7 @@ class _SignContractPageState extends State<ProposalPage> {
                               height: 150,
                               width: 150,
                               decoration: BoxDecoration(
-                                boxShadow: ElevationToShadow[4],
+                                boxShadow: ElevationToShadow[0],
                                 shape: BoxShape.circle,
                                 color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
                               ),
@@ -126,7 +127,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                 height: 150,
                                 width: 150,
                                 decoration: BoxDecoration(
-                                    boxShadow: ElevationToShadow[4],
+                                    boxShadow: ElevationToShadow[0],
                                     shape: BoxShape.circle,
                                     color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
                                 ),
@@ -150,7 +151,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                     type: TextDandyLight.EXTRA_LARGE_TEXT,
                                     fontFamily: pageState.profile.selectedFontTheme.mainFont,
                                     text: pageState.profile.businessName,
-                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                    color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme.bannerColor) && !pageState.profile.bannerImageSelected ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
                                     addShadow: pageState.profile.bannerImageSelected ? true : false,
                                   ),
                                 ),
@@ -160,7 +161,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     fontFamily: pageState.profile.selectedFontTheme.mainFont,
                                     text: pageState.job.client?.getClientFullName(),
-                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                    color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme.bannerColor) && !pageState.profile.bannerImageSelected ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
                                     addShadow: pageState.profile.bannerImageSelected ? true : false,
                                   ),
                                 )
@@ -177,7 +178,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                   height: 150,
                                   width: 150,
                                   decoration: BoxDecoration(
-                                    boxShadow: ElevationToShadow[4],
+                                    boxShadow: ElevationToShadow[0],
                                     shape: BoxShape.circle,
                                     color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
                                   ),
@@ -224,7 +225,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                     text: pageState.profile.businessName,
                                     fontFamily: pageState.profile.selectedFontTheme.mainFont,
                                     textAlign: TextAlign.center,
-                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                    color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme.bannerColor) && !pageState.profile.bannerImageSelected ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
                                     addShadow: pageState.profile.bannerImageSelected ? true : false,
                                   ),
                                 ),
@@ -234,7 +235,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                     text: pageState.job.client?.getClientFullName(),
                                     textAlign: TextAlign.center,
                                     fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                    color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme.bannerColor) && !pageState.profile.bannerImageSelected ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
                                     addShadow: pageState.profile.bannerImageSelected ? true : false,
                                   ),
                                 )
@@ -248,7 +249,7 @@ class _SignContractPageState extends State<ProposalPage> {
                       margin: EdgeInsets.only(top: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MediaQuery.of(context).size.height/2 - 124 : 300, bottom: 124),
                       width: 1440,
                       decoration: BoxDecoration(
-                        boxShadow: ElevationToShadow[DeviceType.getDeviceTypeByContext(context) == Type.Website ? 2 : 0],
+                        boxShadow: ElevationToShadow[DeviceType.getDeviceTypeByContext(context) == Type.Website && (!ColorConstants.isWhiteString(pageState.profile.selectedColorTheme.bannerColor) || pageState.profile.bannerImageSelected) ? 2 : 0],
                         color: Color(ColorConstants.getPrimaryWhite()),
                         borderRadius: BorderRadius.circular(16)
                       ),

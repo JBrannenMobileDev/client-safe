@@ -51,6 +51,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
       StoreConnector<AppState, MainSettingsPageState>(
         onInit: (store) {
           store.dispatch(ClearBrandingStateAction(store.state.mainSettingsPageState, store.state.mainSettingsPageState.profile));
+          store.dispatch(SavePreviewBrandingAction(store.state.mainSettingsPageState));
         },
         converter: (Store<AppState> store) => MainSettingsPageState.fromStore(store),
         builder: (BuildContext context, MainSettingsPageState pageState) => WillPopScope(

@@ -9,6 +9,7 @@ import 'package:dandylight/models/DiscountCodes.dart';
 import 'package:dandylight/models/FontTheme.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/Suggestion.dart';
+import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/utils/AdminCheckUtil.dart';
 import 'package:dandylight/utils/CalendarSyncUtil.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -85,35 +86,39 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _savePreviewBranding(Store<AppState> store, SavePreviewBrandingAction action, NextDispatcher next) async {
+    savePreview(action.pageState);
+  }
+
+  void savePreview(MainSettingsPageState pageState) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     ColorTheme colorTheme = ColorTheme(
       themeName: 'default',
-      iconColor: ColorConstants.getHex(action.pageState.currentIconColor),
-      iconTextColor: ColorConstants.getHex(action.pageState.currentIconTextColor),
-      buttonColor: ColorConstants.getHex(action.pageState.currentButtonColor),
-      buttonTextColor: ColorConstants.getHex(action.pageState.currentButtonTextColor),
-      bannerColor: ColorConstants.getHex(action.pageState.currentBannerColor),
+      iconColor: ColorConstants.getHex(pageState.currentIconColor),
+      iconTextColor: ColorConstants.getHex(pageState.currentIconTextColor),
+      buttonColor: ColorConstants.getHex(pageState.currentButtonColor),
+      buttonTextColor: ColorConstants.getHex(pageState.currentButtonTextColor),
+      bannerColor: ColorConstants.getHex(pageState.currentBannerColor),
     );
 
     FontTheme fontTheme = FontTheme(
         themeName: 'default',
-        iconFont: action.pageState.currentIconFont,
-        mainFont: action.pageState.currentFont
+        iconFont: pageState.currentIconFont,
+        mainFont: pageState.currentFont
     );
 
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.previewLogoSelected = action.pageState.logoImageSelected;
-    profile.previewBannerImageSelected = action.pageState.bannerImageSelected;
+    profile.previewLogoSelected = pageState.logoImageSelected;
+    profile.previewBannerImageSelected = pageState.bannerImageSelected;
     profile.previewColorTheme = colorTheme;
     profile.previewFontTheme = fontTheme;
-    profile.previewLogoCharacter = action.pageState.logoCharacter;
+    profile.previewLogoCharacter = pageState.logoCharacter;
 
     await ProfileDao.update(profile);
-    if(action.pageState.logoImageSelected && action.pageState.resizedLogoImage != null) {
-      await FileStorage.saveProfilePreviewIconImageFile(action.pageState.resizedLogoImage.path, action.pageState.profile);
+    if(pageState.logoImageSelected && pageState.resizedLogoImage != null) {
+      await FileStorage.saveProfilePreviewIconImageFile(pageState.resizedLogoImage.path, pageState.profile);
     }
-    if(action.pageState.bannerImageSelected && action.pageState.bannerWebImage != null && action.pageState.bannerMobileImage != null) {
-      FileStorage.savePreviewBannerWebImageFile(action.pageState.bannerWebImage.path, action.pageState.profile);
-      FileStorage.savePreviewBannerMobileImageFile(action.pageState.bannerMobileImage.path, action.pageState.profile);
+    if(pageState.bannerImageSelected && pageState.bannerWebImage != null && pageState.bannerMobileImage != null) {
+      FileStorage.savePreviewBannerWebImageFile(pageState.bannerWebImage.path, pageState.profile);
+      FileStorage.savePreviewBannerMobileImageFile(pageState.bannerMobileImage.path, pageState.profile);
     }
   }
 
@@ -159,7 +164,8 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
       ..writeToFile(appDocumentDirectory.path + '/$uniqueFileName' + 'logo.jpg');
     await cmdLarge.execute();
     XFile resizedImage = XFile(appDocumentDirectory.path + '/$uniqueFileName' + 'logo.jpg');
-    store.dispatch(SetResizedLogoImageAction(store.state.mainSettingsPageState, resizedImage));
+    await store.dispatch(SetResizedLogoImageAction(store.state.mainSettingsPageState, resizedImage));
+    savePreview(store.state.mainSettingsPageState);
   }
 
   void _resizeBannerImage(Store<AppState> store, ResizeBannerImageAction action, NextDispatcher next) async {
@@ -177,6 +183,7 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     await cmdLarge.execute();
     XFile resizedImage = XFile(appDocumentDirectory.path + '/$uniqueFileName' + 'banner.jpg');
     store.dispatch(SetResizedBannerWebImageAction(store.state.mainSettingsPageState, resizedImage));
+    savePreview(store.state.mainSettingsPageState);
   }
 
   void _resizeBannerMobileImage(Store<AppState> store, ResizeBannerMobileImageAction action, NextDispatcher next) async {
@@ -189,6 +196,7 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     await cmdLarge.execute();
     XFile resizedImage = XFile(appDocumentDirectory.path + '/$uniqueFileName' + 'banner.jpg');
     store.dispatch(SetResizedBannerMobileImageAction(store.state.mainSettingsPageState, resizedImage));
+    savePreview(store.state.mainSettingsPageState);
   }
 
   void generate50DiscountCode(Store<AppState> store, Generate50DiscountCodeAction action, NextDispatcher next) async{

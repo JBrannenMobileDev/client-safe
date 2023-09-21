@@ -329,7 +329,6 @@ class MainSettingsPageState{
       onInstaUrlChanged: (url) => store.dispatch(SetUrlToStateAction(store.state.mainSettingsPageState, url)),
       onLogoUploaded: (imageFile) async {
         await store.dispatch(ResizeLogoImageAction(store.state.mainSettingsPageState, imageFile));
-        store.dispatch(SavePreviewBrandingAction(store.state.mainSettingsPageState));
       },
       onLogoImageSelected: (isLogoImageSelected) async {
         await store.dispatch(SetLogoSelectionAction(store.state.mainSettingsPageState, isLogoImageSelected));

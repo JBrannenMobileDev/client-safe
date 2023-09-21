@@ -211,6 +211,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, ResizeBannerWebImageAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, ResizeBannerMobileImageAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveBrandingAction>(MainSettingsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SavePreviewBrandingAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SavePushNotificationSettingAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveCalendarSettingAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveUpdatedUserProfileAction>(MainSettingsPageMiddleware()));

@@ -11,7 +11,6 @@ class FontTheme {
   static const String SIGNATURE3  = 'Signature3';
   static const String Walkaway  = 'Walkaway';
   static const String VanillaRavioli  = 'Vanilla Ravioli';
-  static const String SafiraMarch  = 'Safira March';
   static const String RoundedElegance  = 'Rounded Elegance';
   static const String Roboto  = 'Roboto';
   static const String Raleway  = 'Raleway';
@@ -49,7 +48,6 @@ class FontTheme {
       GontserraRegular,
       Walkaway,
       VanillaRavioli,
-      SafiraMarch,
       RoundedElegance,
       Roboto,
       Raleway,
@@ -131,7 +129,6 @@ class FontTheme {
           case GeosansLight:
             return EdgeInsets.only(left: 0, top: 4, right: 0, bottom: 0);
           case VanillaRavioli:
-          case SafiraMarch:
           case RoundedElegance:
           case QuicksandBook:
           case QuicksandLight:
@@ -290,7 +287,6 @@ class FontTheme {
         return fontSize;
         break;
       case SIGNATURE2:
-      case SafiraMarch:
         return fontSize-16;
         break;
       case GreateVibes:
@@ -341,9 +337,6 @@ class FontTheme {
         break;
       case SIGNATURE2:
         return 'assets/fonts/signature.ttf';
-        break;
-      case SafiraMarch:
-        return 'assets/fonts/Safira March.otf';
         break;
       case GreateVibes:
         return 'assets/fonts/GreatVibes-Regular.ttf';
@@ -452,7 +445,6 @@ class FontTheme {
         break;
       case SIGNATURE1:
       case SIGNATURE2:
-      case SafiraMarch:
       case GreateVibes:
       case SIGNATURE3:
       case ModernSans:

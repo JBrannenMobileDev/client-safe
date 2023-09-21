@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:android_intent_plus/android_intent.dart';
@@ -12,6 +13,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:share_extend/share_extend.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:universal_html/html.dart' as html;
+
 
 import '../PdfUtil.dart';
 import '../TextFormatterUtil.dart';
@@ -22,6 +25,28 @@ class IntentLauncherUtil{
     String origin = originPosition.latitude.toString() + "," + originPosition.longitude.toString();
     String destination = destinationLat + "," + destinationLng;
     String url = "https://www.google.com/maps/dir/?api=1&origin=" + origin + "&destination=" + destination + "&travelmode=driving&dir_action=navigate";
+    html.window.open(
+      url,
+      'Driving Directions',
+    );
+  }
+
+  static void download(List<int> bytes, {String downloadName,}) {
+    // Encode our file in base64
+    final _base64 = base64Encode(bytes);
+    // Create the link with the file
+    final anchor =
+    html.AnchorElement(href: 'data:application/octet-stream;base64,$_base64')
+      ..target = 'blank';
+    // add the name
+    if (downloadName != null) {
+      anchor.download = downloadName;
+    }
+    // trigger download
+    html.document.body.append(anchor);
+    anchor.click();
+    anchor.remove();
+    return;
   }
 
   static Future<bool> launchURL(String url) async {

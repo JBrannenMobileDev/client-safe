@@ -59,7 +59,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
               ),
             ),
             Container(
-              height: 342,
+              height: 542,
               margin: EdgeInsets.only(bottom: 164),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -94,7 +94,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                                 image: FileImage(File(pageState.bannerImage.path)),
                               ),
                             ) : Container(
-                              height: 164,
+                              height: 328,
                               child: ClipRRect(
                                 borderRadius: new BorderRadius.only(
                                     topRight: Radius.circular(16),
@@ -108,7 +108,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                               ),
                             ) : Container(
                               alignment: Alignment.center,
-                              height: 164,
+                              height: 328,
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: pageState.currentBannerColor,
@@ -120,7 +120,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                             ),
                             !pageState.bannerImageSelected ? Container(
                               alignment: Alignment.center,
-                              height: 164,
+                              height: 328,
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: pageState.currentBannerColor,
@@ -144,7 +144,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                                 ),
                                 Container(
                                   alignment: Alignment.center,
-                                  height: 164,
+                                  height: 328,
                                   child: TextDandyLight(
                                     type: TextDandyLight.LARGE_TEXT,
                                     fontFamily: pageState.currentFont,
