@@ -75,6 +75,8 @@ import 'package:dandylight/pages/responses_page/ResponsesActions.dart';
 import 'package:dandylight/pages/responses_page/ResponsesPageMiddleware.dart';
 import 'package:dandylight/pages/review_poses_page/ReviewPosesActions.dart';
 import 'package:dandylight/pages/review_poses_page/ReviewPosesPageMiddleware.dart';
+import 'package:dandylight/pages/share_with_client_page/ShareWithClientActions.dart';
+import 'package:dandylight/pages/share_with_client_page/ShareWithClientPageMiddleware.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageActions.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageMiddleware.dart';
 import 'package:dandylight/pages/upload_pose_page/UploadPoseActions.dart';
@@ -298,5 +300,6 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveClientSignatureAction>(ClientPortalMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, GenerateContractForClientAction>(ClientPortalMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, GenerateInvoiceForClientAction>(ClientPortalMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchProfileAction>(ShareWithClientPageMiddleware()));
   return middlewareList;
 }

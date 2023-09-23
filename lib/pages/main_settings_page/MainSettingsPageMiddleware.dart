@@ -10,6 +10,7 @@ import 'package:dandylight/models/FontTheme.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/Suggestion.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
+import 'package:dandylight/pages/share_with_client_page/ShareWithClientActions.dart';
 import 'package:dandylight/utils/AdminCheckUtil.dart';
 import 'package:dandylight/utils/CalendarSyncUtil.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -146,6 +147,7 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     profile.selectedColorTheme = colorTheme;
     profile.selectedFontTheme = fontTheme;
     profile.logoCharacter = action.pageState.logoCharacter;
+    profile.hasSetupBrand = true;
 
     await ProfileDao.update(profile);
     if(action.pageState.logoImageSelected && action.pageState.resizedLogoImage != null) {
@@ -157,6 +159,7 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     }
 
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    store.dispatch(FetchProfileAction(store.state.shareWithClientPageState));
   }
 
   void _resizeImage(Store<AppState> store, ResizeLogoImageAction action, NextDispatcher next) async {
@@ -281,6 +284,7 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
       phone: TextFormatterUtil.formatPhoneNum(store.state.mainSettingsPageState.businessPhone),
       email: store.state.mainSettingsPageState.businessEmail,
     ));
+    store.dispatch(FetchProfileAction(store.state.shareWithClientPageState));
   }
 
   void sendSuggestion(Store<AppState> store, SendSuggestionAction action, NextDispatcher next) async{

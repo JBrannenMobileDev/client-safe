@@ -43,11 +43,11 @@ class _EditAccountPageState extends State<EditAccountPage>
   Widget build(BuildContext context) =>
       StoreConnector<AppState, MainSettingsPageState>(
         onInit: (store) {
-          if(store.state.mainSettingsPageState.firstName.isNotEmpty)firstNameTextController.text = store.state.mainSettingsPageState.firstName;
-          if(store.state.mainSettingsPageState.lastName.isNotEmpty)lastNameTextController.text = store.state.mainSettingsPageState.lastName;
-          if(store.state.mainSettingsPageState.businessName.isNotEmpty)businessNameTextController.text = store.state.mainSettingsPageState.businessName;
-          if(store.state.mainSettingsPageState.businessPhone.isNotEmpty)businessPhoneTextController.text = store.state.mainSettingsPageState.businessPhone;
-          if(store.state.mainSettingsPageState.businessEmail.isNotEmpty)businessEmailTextController.text = store.state.mainSettingsPageState.businessEmail;
+          if(store.state.mainSettingsPageState.firstName.isNotEmpty)firstNameTextController.text = profile.firstName ?? '';
+          if(store.state.mainSettingsPageState.lastName.isNotEmpty)lastNameTextController.text = profile.lastName ?? '';
+          if(store.state.mainSettingsPageState.businessName.isNotEmpty)businessNameTextController.text = profile.businessName ?? '';
+          if(store.state.mainSettingsPageState.businessPhone.isNotEmpty)businessPhoneTextController.text = profile.phone ?? '';
+          if(store.state.mainSettingsPageState.businessEmail.isNotEmpty)businessEmailTextController.text = profile.email ?? '';
         },
         converter: (Store<AppState> store) => MainSettingsPageState.fromStore(store),
         builder: (BuildContext context, MainSettingsPageState pageState) => Scaffold(
@@ -165,6 +165,8 @@ class _EditAccountPageState extends State<EditAccountPage>
                                     focusNode: businessNameFocusNode,
                                     onFocusAction: () {
                                       businessNameFocusNode.unfocus();
+                                      FocusScope.of(context)
+                                          .requestFocus(businessEmailFocusNode);
                                     },
                                     capitalization: TextCapitalization.words,
                                     enabled: true,
@@ -182,17 +184,19 @@ class _EditAccountPageState extends State<EditAccountPage>
                                   LoginTextField(
                                     maxLines: 1,
                                     controller: businessEmailTextController,
-                                    hintText: 'Business email',
-                                    labelText: 'Business email',
+                                    hintText: 'Business name',
+                                    labelText: 'Business name',
                                     inputType: TextInputType.emailAddress,
                                     height: 64.0,
                                     inputTypeError: '',
-                                    onTextInputChanged: (email) => pageState.onBusinessEmailChanged(email),
+                                    onTextInputChanged: (firstNameText) => pageState.onBusinessEmailChanged(firstNameText),
                                     onEditingCompleted: null,
                                     keyboardAction: TextInputAction.next,
                                     focusNode: businessEmailFocusNode,
                                     onFocusAction: () {
                                       businessEmailFocusNode.unfocus();
+                                      FocusScope.of(context)
+                                          .requestFocus(businessPhoneFocusNode);
                                     },
                                     enabled: true,
                                     obscureText: false,

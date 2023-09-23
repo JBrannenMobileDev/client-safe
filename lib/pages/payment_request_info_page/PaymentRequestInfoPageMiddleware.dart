@@ -4,6 +4,7 @@ import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:redux/redux.dart';
 
+import '../share_with_client_page/ShareWithClientActions.dart';
 import 'PaymentRequestInfoPageActions.dart';
 
 class PaymentRequestInfoPageMiddleware extends MiddlewareClass<AppState> {
@@ -61,60 +62,65 @@ class PaymentRequestInfoPageMiddleware extends MiddlewareClass<AppState> {
   void updateZelleSelection(Store<AppState> store, NextDispatcher next, UpdateProfileWithZelleStateAction action)async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.zelleEnabled = action.enabled;
-    ProfileDao.update(profile);
+    updateProfile(profile, store);
   }
 
   void updateVenmoSelection(Store<AppState> store, NextDispatcher next, UpdateProfileWithVenmoStateAction action)async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.venmoEnabled = action.enabled;
-    ProfileDao.update(profile);
+    updateProfile(profile, store);
   }
 
   void updateCashAppSelection(Store<AppState> store, NextDispatcher next, UpdateProfileWithCashAppStateAction action)async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.cashAppEnabled = action.enabled;
-    ProfileDao.update(profile);
+    updateProfile(profile, store);
   }
 
   void updateApplePaySelection(Store<AppState> store, NextDispatcher next, UpdateProfileWithApplePayStateAction action)async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.applePayEnabled = action.enabled;
-    ProfileDao.update(profile);
+    updateProfile(profile, store);
   }
 
   void updateCashSelection(Store<AppState> store, NextDispatcher next, UpdateProfileWithCashStateAction action)async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.cashEnabled = action.enabled;
-    ProfileDao.update(profile);
+    updateProfile(profile, store);
   }
 
   void saveZellePhoneEmail(Store<AppState> store, NextDispatcher next, SaveZellePhoneEmailInput action)async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.zellePhoneEmail = action.pageState.zellePhoneEmail;
-    ProfileDao.update(profile);
+    updateProfile(profile, store);
   }
 
   void saveZelleFullName(Store<AppState> store, NextDispatcher next, SaveZelleFullNameInput action)async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.zelleFullName = action.pageState.zelleFullName;
-    ProfileDao.update(profile);
+    updateProfile(profile, store);
   }
 
   void saveVenmoInput(Store<AppState> store, NextDispatcher next, SaveVenmoInput action)async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.venmoLink = action.pageState.venmoLink;
-    ProfileDao.update(profile);
+    updateProfile(profile, store);
   }
 
   void saveCashAppInput(Store<AppState> store, NextDispatcher next, SaveCashAppInput action)async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.cashAppLink = action.pageState.cashAppLink;
-    ProfileDao.update(profile);
+    updateProfile(profile, store);
   }
 
   void saveApplePayPhone(Store<AppState> store, NextDispatcher next, SaveApplePayInput action)async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.applePayPhone = action.pageState.applePayPhone;
-    ProfileDao.update(profile);
+    updateProfile(profile, store);
+  }
+
+  void updateProfile(Profile profile, Store<AppState> store) async {
+    await ProfileDao.update(profile);
+    store.dispatch(FetchProfileAction(store.state.shareWithClientPageState));
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 import '../../../AppState.dart';
 import '../../../utils/NavigationUtil.dart';
@@ -116,8 +117,8 @@ class ProfileAndJobsCard extends StatelessWidget {
                 onTap: () {
                   NavigationUtil.onEditBrandingSelected(context);
                 },
-                child: pageState.profile.logoSelected ? Container(
-                  child: pageState.profile.logoUrl != null && pageState.profile.logoUrl.isNotEmpty ? ClipRRect(
+                child:  pageState.profile.hasSetupBrand ? pageState.profile.logoSelected ? Container(
+                  child: pageState.profile.logoUrl != null && pageState.profile.logoUrl.isNotEmpty && pageState.profile.hasSetupBrand ? ClipRRect(
                     borderRadius: new BorderRadius.circular(82.0),
                     child: Container(
                         decoration: BoxDecoration(
@@ -140,23 +141,12 @@ class ProfileAndJobsCard extends StatelessWidget {
                         width: 96,
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Color(ColorConstants.getPrimaryWhite())),
-                      ),
-                      CustomPaint(
-                        size: Size(96, 96),
-                        foregroundPainter: DandyLightPainter(
-                            completeColor: Color(ColorConstants.getPrimaryGreyMedium()),
-                            width: 2
-                        ),
+                            color: Color(ColorConstants.getPeachDark())),
                       ),
                       Container(
-                        child: TextDandyLight(
-                          type: TextDandyLight
-                              .MEDIUM_TEXT,
-                          textAlign: TextAlign.center,
-                          text: 'Upload\nimage\n( .jpg or .png )',
-                          color: Color(ColorConstants
-                              .getPrimaryGreyMedium()),
+                        child: LoadingAnimationWidget.fourRotatingDots(
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                          size: 48,
                         ),
                       ),
                     ],
@@ -181,6 +171,26 @@ class ProfileAndJobsCard extends StatelessWidget {
                       text: pageState.profile.logoCharacter.substring(0, 1),
                       color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconTextColor),
                     )
+                  ],
+                ) : Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      height: 96,
+                      width: 96,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(ColorConstants.getPeachDark())),
+                    ),
+                    Container(
+                      child: TextDandyLight(
+                        type: TextDandyLight.LARGE_TEXT,
+                        textAlign: TextAlign.center,
+                        text: 'Setup\nBrand',
+                        color: Color(ColorConstants.getPrimaryWhite()),
+                      ),
+                    ),
                   ],
                 ),
               ),

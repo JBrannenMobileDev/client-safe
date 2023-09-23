@@ -79,7 +79,7 @@ class LoginTextField extends StatelessWidget {
                   color: Color(ColorConstants.getBlueLight())),
             ),
             keyboardType: inputType,
-            textCapitalization: capitalization,
+            textCapitalization: capitalization ?? TextCapitalization.none,
             onEditingComplete: onEditingCompleted,
             inputFormatters: inputFormatter != null ? inputFormatter : null,
             style: new TextStyle(

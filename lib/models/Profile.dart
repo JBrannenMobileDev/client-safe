@@ -19,6 +19,7 @@ class Profile{
   bool cashAppEnabled;
   bool applePayEnabled;
   bool cashEnabled;
+  bool hasSetupBrand;
   String zellePhoneEmail;
   String zelleFullName;
   String venmoLink;
@@ -160,6 +161,7 @@ class Profile{
     this.previewFontTheme,
     this.previewColorTheme,
     this.clientMessage,
+    this.hasSetupBrand,
   });
 
   Profile copyWith({
@@ -203,6 +205,7 @@ class Profile{
     bool cashAppEnabled,
     bool applePayEnabled,
     bool cashEnabled,
+    bool hasSetupBrand,
     int jobsCreatedCount,
     bool logoSelected,
     String logoUrl,
@@ -321,6 +324,7 @@ class Profile{
       previewBannerMobileUrl: previewBannerMobileUrl ?? this.previewBannerMobileUrl,
       previewBannerImageSelected: previewBannerImageSelected ?? this.previewBannerImageSelected,
       clientMessage: clientMessage ?? this.clientMessage,
+      hasSetupBrand: hasSetupBrand ?? this.hasSetupBrand,
     );
   }
 
@@ -364,6 +368,7 @@ class Profile{
       'usesSalesTax' : usesSalesTax ?? false,
       'isSubscribed' : isSubscribed ?? false,
       'logoSelected' : logoSelected ?? false,
+      'hasSetupBrand' : hasSetupBrand ?? false,
       'logoUrl' : logoUrl,
       'bannerWebUrl' : bannerWebUrl,
       'bannerMobileUrl' : bannerMobileUrl,
@@ -437,6 +442,7 @@ class Profile{
       instagramUrl: map['instagramUrl'],
       bannerImageSelected: map['bannerImageSelected'] != null ? map['bannerImageSelected'] : false,
       logoSelected: map['logoSelected'] != null ? map['logoSelected'] : false,
+      hasSetupBrand: map['hasSetupBrand'] != null ? map['hasSetupBrand'] : false,
       logoUrl: map['logoUrl'],
       bannerWebUrl: map['bannerWebUrl'],
       bannerMobileUrl: map['bannerMobileUrl'],
@@ -516,5 +522,13 @@ class Profile{
     if(deviceTokens == null) deviceTokens = [];
     deviceTokens = deviceTokens.toList();
     return deviceTokens.length <= 1;
+  }
+
+  bool paymentOptionsSelected() {
+    return zelleEnabled || venmoEnabled || cashAppEnabled || applePayEnabled || cashEnabled;
+  }
+
+  bool isProfileComplete() {
+    return businessName.isNotEmpty && (email.isNotEmpty || phone.isNotEmpty) && firstName.isNotEmpty;
   }
 }
