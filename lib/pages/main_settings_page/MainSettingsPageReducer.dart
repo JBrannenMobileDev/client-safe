@@ -17,6 +17,8 @@ final mainSettingsPageReducer = combineReducers<MainSettingsPageState>([
   TypedReducer<MainSettingsPageState, SetFirstNameAction>(_updateFirstName),
   TypedReducer<MainSettingsPageState, SetLastNameAction>(_updateLastName),
   TypedReducer<MainSettingsPageState, SetBusinessNameAction>(_updateBusinessName),
+  TypedReducer<MainSettingsPageState, SetBusinessEmailAction>(_updateBusinessEmail),
+  TypedReducer<MainSettingsPageState, SetBusinessPhoneAction>(_updateBusinessPhone),
   TypedReducer<MainSettingsPageState, SetDeleteProgressAction>(_updateDeleteProgress),
   TypedReducer<MainSettingsPageState, SavePasswordAction>(_updatePassword),
   TypedReducer<MainSettingsPageState, SetPasswordErrorAction>(_passwordError),
@@ -296,6 +298,18 @@ MainSettingsPageState _updateBusinessName(MainSettingsPageState previousState, S
   );
 }
 
+MainSettingsPageState _updateBusinessEmail(MainSettingsPageState previousState, SetBusinessEmailAction action){
+  return previousState.copyWith(
+    businessEmail: action.email,
+  );
+}
+
+MainSettingsPageState _updateBusinessPhone(MainSettingsPageState previousState, SetBusinessPhoneAction action){
+  return previousState.copyWith(
+    businessPhone: action.phone,
+  );
+}
+
 MainSettingsPageState _setPushNotificationsState(MainSettingsPageState previousState, UpdatePushNotificationEnabled action){
   return previousState.copyWith(
     pushNotificationsEnabled: action.enabled,
@@ -313,6 +327,8 @@ MainSettingsPageState _setUserProfileInfo(MainSettingsPageState previousState, L
     firstName: action.profile.firstName,
     lastName: action.profile.lastName,
     businessName: action.profile.businessName,
+    businessEmail: action.profile.email,
+    businessPhone: action.profile.phone,
     profile: action.profile,
   );
 }

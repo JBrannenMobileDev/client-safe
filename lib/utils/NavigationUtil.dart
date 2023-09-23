@@ -35,6 +35,7 @@ import '../models/LocationDandy.dart';
 import '../pages/dashboard_page/DashboardPageState.dart';
 import '../pages/main_settings_page/EditBrandingPage.dart';
 import '../pages/poses_page/PosesPage.dart';
+import '../pages/share_with_client_page/ShareWithClientPage.dart';
 
 class NavigationUtil {
   static onShowSubscribeNowPage(BuildContext context) async {
@@ -76,6 +77,9 @@ class NavigationUtil {
   }
   static onEditProfileSelected(BuildContext context, Profile profile) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => EditAccountPage(profile)));
+  }
+  static onShareWIthClientSelected(BuildContext context, Job job) {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ShareWithClientPage(job: job)));
   }
   static onEditBrandingSelected(BuildContext context) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => EditBrandingPage()));

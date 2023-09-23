@@ -7,6 +7,7 @@ import 'package:dandylight/pages/client_details_page/SendMessageOptionsBottomShe
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
+import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
@@ -423,6 +424,7 @@ class _StageItemState extends State<StageItem>
                                 EventSender().sendEvent(eventName: EventNames.BT_STAGE_ACTION, properties: {EventNames.ACTIVE_STAGE_PARAM_NAME : JobStage.STAGE_2_FOLLOWUP_SENT});
                                 break;
                               case JobStage.STAGE_3_PROPOSAL_SENT:
+                                NavigationUtil.onShareWIthClientSelected(context, pageState.job);
                                 break;
                               case JobStage.STAGE_4_PROPOSAL_SIGNED:
                                 break;
@@ -555,8 +557,7 @@ class _StageItemState extends State<StageItem>
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_3_PROPOSAL_SENT);
         stageTitle = isStageCompleted ? 'Contract sent!' : 'Contract sent?';
         stageSubtitle = '';
-        // actionButtonText = 'Send';
-        actionButtonText = '';
+        actionButtonText = 'Send';
         actionIcon = Icons.email;
         break;
       case JobStage.STAGE_4_PROPOSAL_SIGNED:
@@ -565,8 +566,7 @@ class _StageItemState extends State<StageItem>
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_4_PROPOSAL_SIGNED);
         stageTitle = isStageCompleted ? 'Contract signed!' : 'Contract signed?';
         stageSubtitle = '';
-        // actionButtonText = 'Resend';
-        actionButtonText = '';
+        actionButtonText = 'Resend';
         actionIcon = Icons.email;
         break;
       case JobStage.STAGE_5_DEPOSIT_RECEIVED:

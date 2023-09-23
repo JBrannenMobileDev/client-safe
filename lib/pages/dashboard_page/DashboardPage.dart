@@ -8,9 +8,8 @@ import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/GoToJobPosesBottomSheet.dart';
-import 'package:dandylight/pages/dashboard_page/widgets/ActiveJobsHomeCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/JobTypeBreakdownPieChart.dart';
-import 'package:dandylight/pages/dashboard_page/widgets/JobsThisWeekHomeCard.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/ProfileAndJobsCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/LeadSourcesPieChart.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/RestorePurchasesBottomSheet.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/StageStatsHomeCard.dart';
@@ -18,7 +17,6 @@ import 'package:dandylight/pages/dashboard_page/widgets/MonthlyProfitLineChart.d
 import 'package:dandylight/pages/dashboard_page/widgets/StartAJobButton.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPage.dart';
-import 'package:dandylight/utils/AdminCheckUtil.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
@@ -35,7 +33,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -80,6 +77,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
   GlobalKey _one = GlobalKey();
   GlobalKey _two = GlobalKey();
   GlobalKey _three = GlobalKey();
+  GlobalKey _four = GlobalKey();
 
   ScrollController _scrollController;
   bool dialVisible = true;
@@ -96,7 +94,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
   Tween<Offset> offsetDownTween;
 
   void _startShowcase() {
-    ShowCaseWidget.of(context).startShowCase([_one, _two, _three]);
+    ShowCaseWidget.of(context).startShowCase([_one, _two, _three, _four]);
   }
 
   initState() {
@@ -126,7 +124,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
   }
 
   void _runAnimation() async {
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 4; i++) {
       await _animationController.forward();
       await _animationController.reverse();
     }
@@ -315,7 +313,12 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
         builder: (BuildContext context, DashboardPageState pageState) {
           return Scaffold(
             backgroundColor: Color(ColorConstants.getBlueLight()),
-            floatingActionButton: Showcase(
+            floatingActionButton:  Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+              Showcase(
               key: _one,
               targetPadding: EdgeInsets.only(right: 0, left: 0, bottom: 0, top: 0),
               targetShapeBorder: CircleBorder(),
@@ -326,83 +329,105 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                 fontWeight: TextDandyLight.getFontWeight(),
                 color: Color(ColorConstants.getPrimaryBlack()),
               ),
-              child:
-
-              SpeedDial(
-                childMargin: EdgeInsets.only(right: 18.0, bottom: 20.0),
-                child: getFabIcon(),
-                visible: dialVisible,
-                // If true user is forced to close dial manually
-                // by tapping main button and overlay is not rendered.
-                closeManually: false,
-                curve: Curves.bounceIn,
-                overlayColor: Colors.black,
-                overlayOpacity: 0.5,
-                tooltip: 'Speed Dial',
-                heroTag: 'speed-dial-hero-tag',
-                backgroundColor: Color(ColorConstants.getBlueDark()),
-                foregroundColor: Colors.black,
-                elevation: 8.0,
-                shape: CircleBorder(),
-                onOpen: () {
-                  setState(() {
-                    isFabExpanded = true;
-                  });
-                },
-                onClose: () {
-                  setState(() {
-                    isFabExpanded = false;
-                  });
-                },
-                children: [
-                  SpeedDialChild(
-                    child: Icon(Icons.business_center),
-                    backgroundColor: Color(ColorConstants.getBlueLight()),
-                    labelWidget: Container(
-                      alignment: Alignment.center,
-                      height: 42.0,
-                      width: 156.0,
-                      decoration: BoxDecoration(
-                        boxShadow: ElevationToShadow[4],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(21.0),
-                      ),
-                      child: TextDandyLight(
-                        type: TextDandyLight.MEDIUM_TEXT,
-                        text: 'Start new job',
-                        color: Color(ColorConstants.getPrimaryBlack()),
-                      ),
-                    ),
-                    onTap: () {
-                      UserOptionsUtil.showNewJobDialog(context, false);
-                      EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "Dashboard"});
+              child: SpeedDial(
+                    childMargin: EdgeInsets.only(right: 18.0, bottom: 20.0),
+                    child: getFabIcon(),
+                    visible: dialVisible,
+                    // If true user is forced to close dial manually
+                    // by tapping main button and overlay is not rendered.
+                    closeManually: false,
+                    curve: Curves.bounceIn,
+                    overlayColor: Colors.black,
+                    overlayOpacity: 0.5,
+                    tooltip: 'Speed Dial',
+                    heroTag: 'speed-dial-hero-tag',
+                    backgroundColor: Color(ColorConstants.getBlueDark()),
+                    foregroundColor: Colors.black,
+                    elevation: 8.0,
+                    shape: CircleBorder(),
+                    onOpen: () {
+                      setState(() {
+                        isFabExpanded = true;
+                      });
                     },
-                  ),
-                  SpeedDialChild(
-                    child: Icon(Icons.person_add),
-                    backgroundColor: Color(ColorConstants.getPeachDark()),
-                    labelWidget: Container(
-                      alignment: Alignment.center,
-                      height: 42.0,
-                      width: 138.0,
-                      decoration: BoxDecoration(
-                        boxShadow: ElevationToShadow[4],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(21.0),
-                      ),
-                      child: TextDandyLight(
-                        type: TextDandyLight.MEDIUM_TEXT,
-                        text: 'New contact',
-                        color: Color(ColorConstants.getPrimaryBlack()),
-                      ),
-                    ),
-                    onTap: () {
-                      UserOptionsUtil.showNewContactDialog(context, false);
-                      EventSender().sendEvent(eventName: EventNames.BT_ADD_NEW_CONTACT, properties: {EventNames.CONTACT_PARAM_COMING_FROM : "Dashboard Page"});
+                    onClose: () {
+                      setState(() {
+                        isFabExpanded = false;
+                      });
                     },
+                    children: [
+                      SpeedDialChild(
+                        child: Icon(Icons.business_center),
+                        backgroundColor: Color(ColorConstants.getBlueLight()),
+                        labelWidget: Container(
+                          alignment: Alignment.center,
+                          height: 42.0,
+                          width: 156.0,
+                          decoration: BoxDecoration(
+                            boxShadow: ElevationToShadow[4],
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(21.0),
+                          ),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Start new job',
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                        ),
+                        onTap: () {
+                          UserOptionsUtil.showNewJobDialog(context, false);
+                          EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "Dashboard"});
+                        },
+                      ),
+                      SpeedDialChild(
+                        child: Icon(Icons.person_add),
+                        backgroundColor: Color(ColorConstants.getPeachDark()),
+                        labelWidget: Container(
+                          alignment: Alignment.center,
+                          height: 42.0,
+                          width: 138.0,
+                          decoration: BoxDecoration(
+                            boxShadow: ElevationToShadow[4],
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(21.0),
+                          ),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'New contact',
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                        ),
+                        onTap: () {
+                          UserOptionsUtil.showNewContactDialog(context, false);
+                          EventSender().sendEvent(eventName: EventNames.BT_ADD_NEW_CONTACT, properties: {EventNames.CONTACT_PARAM_COMING_FROM : "Dashboard Page"});
+                        },
+                      ),
+                    ],
                   ),
-                ],
               ),
+                  pageState.profile != null && !pageState.profile.isSubscribed && !pageState.profile.isFreeForLife ? GestureDetector(
+                    onTap: () {
+                      NavigationUtil.onManageSubscriptionSelected(context, pageState.profile);
+                      EventSender().sendEvent(eventName: EventNames.BT_SUBSCRIBE_NOW);
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(top: 8),
+                      width: 132,
+                      alignment: Alignment.center,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(24),
+                        color: Color(ColorConstants.getPeachDark()),
+                        boxShadow: ElevationToShadow[6],
+                      ),
+                      child: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                          text: "Subscribe"
+                      ),
+                    ),
+                  ) : SizedBox(),
+                ],
             ),
             body: Container(
               child: Stack(
@@ -448,28 +473,39 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                         pinned: false,
                         floating: false,
                         forceElevated: false,
-                        expandedHeight: 175.0,
-                        title: pageState.profile != null && !pageState.profile.isSubscribed && !pageState.profile.isFreeForLife ? GestureDetector(
-                          onTap: () {
-                            NavigationUtil.onManageSubscriptionSelected(context, pageState.profile);
-                            EventSender().sendEvent(eventName: EventNames.BT_SUBSCRIBE_NOW);
-                          },
-                          child: Container(
-                            width: 132,
-                            alignment: Alignment.center,
-                            height: 36,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(24),
-                              color: Color(ColorConstants.getPeachDark()),
-                              boxShadow: ElevationToShadow[2],
-                            ),
-                            child: TextDandyLight(
-                                type: TextDandyLight.LARGE_TEXT,
-                                color: Color(ColorConstants.getPrimaryWhite()),
-                                text: "Subscribe"
-                            ),
-                          ),
-                        ) : SizedBox(),
+                        title: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(top: 4.0),
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      'DandyLight',
+                                      textScaleFactor: 1,
+                                      style: TextStyle(
+                                        fontSize: 36.0,
+                                        fontFamily: 'simple',
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(
+                                            ColorConstants.getPrimaryWhite()),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin:
+                                    EdgeInsets.only(left: 57.0, top: 2.0),
+                                    height: 64.0,
+                                    decoration: BoxDecoration(
+                                      color: Colors.transparent,
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                            ImageUtil.LOGIN_BG_LOGO_FLOWER),
+                                        fit: BoxFit.fitHeight,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                        ),
                         leading: Showcase(
                           key: _two,
                           targetPadding: EdgeInsets.only(right: 13, bottom: 7, top: 6),
@@ -577,58 +613,28 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                             ),
                           ),
                         ],
-                        flexibleSpace: new FlexibleSpaceBar(
-                          background: Stack(
-                            alignment: Alignment.topCenter,
-                            children: <Widget>[
-                              SafeArea(
-                                child: Stack(
-                                  alignment: Alignment.topCenter,
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsets.only(top: 78.0),
-                                      child: Text(
-                                        'DandyLight',
-                                        textScaleFactor: 1,
-                                        style: TextStyle(
-                                          fontSize: 56.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(
-                                              ColorConstants.getPrimaryWhite()),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin:
-                                      EdgeInsets.only(left: 89.0, top: 48.0),
-                                      height: 116.0,
-                                      decoration: BoxDecoration(
-                                        color: Colors.transparent,
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              ImageUtil.LOGIN_BG_LOGO_FLOWER),
-                                          fit: BoxFit.fitHeight,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                       ),
                       pageState.areJobsLoaded ? SliverList(
                           delegate: new SliverChildListDelegate(<Widget>[
                             SlideTransition(
                                 position: offsetAnimationUp,
-                                child: pageState.activeJobs == null || pageState.activeJobs.length > 0
-                                    ? JobsThisWeekHomeCard()
-                                    : StartAJobButton(pageState: pageState)),
+                                child: Showcase(
+                                  key: _four,
+                                  targetPadding: EdgeInsets.only(right: 0, left: 0, bottom: 0, top: 0),
+                                  targetShapeBorder: CircleBorder(),
+                                  description: 'Setup your Brand here! \nWhen sharing items with your clients, \nyour brand will be used to style your Client Portal.',
+                                  descTextStyle: TextStyle(
+                                    fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                                    fontFamily: TextDandyLight.getFontFamily(),
+                                    fontWeight: TextDandyLight.getFontWeight(),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
+                                  ),
+                                  child: ProfileAndJobsCard()
+                                ),
+                            ),
                             SlideTransition(
                                 position: offsetAnimationUp,
-                                child: ActiveJobsHomeCard()
+                                child: pageState.activeJobs == null || pageState.activeJobs.length == 0 ? StartAJobButton(pageState: pageState) : SizedBox(),
                             ),
                             SlideTransition(
                                 position: offsetAnimationUp,

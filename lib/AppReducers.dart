@@ -36,6 +36,7 @@ import 'package:dandylight/pages/reminders_page/RemindersPageReducer.dart';
 import 'package:dandylight/pages/job_types/JobTypesPageReducer.dart';
 import 'package:dandylight/pages/responses_page/ResponsesPageReducer.dart';
 import 'package:dandylight/pages/review_poses_page/ReviewPosesPageReducer.dart';
+import 'package:dandylight/pages/share_with_client_page/ShareWithClientPageReducer.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageReducer.dart';
 import 'package:dandylight/pages/upload_pose_page/UploadPosePageReducer.dart';
 import 'package:dandylight/web/pages/ClientPortalPageReducer.dart';
@@ -82,4 +83,5 @@ AppState appReducers(AppState state, dynamic action) =>
         uploadPosePageState: uploadPoseReducer(state.uploadPosePageState, action),
         reviewPosesPageState: reviewPosesReducer(state.reviewPosesPageState, action),
         clientPortalPageState: clientPortalReducer(state.clientPortalPageState, action),
+        shareWithClientPageState: shareWithClientReducer(state.shareWithClientPageState, action),
     );

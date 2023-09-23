@@ -185,6 +185,18 @@ class SetBusinessNameAction{
   SetBusinessNameAction(this.pageState, this.name);
 }
 
+class SetBusinessEmailAction{
+  final MainSettingsPageState pageState;
+  final String email;
+  SetBusinessEmailAction(this.pageState, this.email);
+}
+
+class SetBusinessPhoneAction{
+  final MainSettingsPageState pageState;
+  final String phone;
+  SetBusinessPhoneAction(this.pageState, this.phone);
+}
+
 class SaveUpdatedUserProfileAction{
   final MainSettingsPageState pageState;
   SaveUpdatedUserProfileAction(this.pageState);

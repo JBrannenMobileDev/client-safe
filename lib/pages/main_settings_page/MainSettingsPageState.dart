@@ -16,6 +16,8 @@ class MainSettingsPageState{
   final String firstName;
   final String lastName;
   final String businessName;
+  final String businessEmail;
+  final String businessPhone;
   final String discountCode;
   final Profile profile;
   final bool isDeleteInProgress;
@@ -45,6 +47,8 @@ class MainSettingsPageState{
   final Function(String) onFirstNameChanged;
   final Function(String) onLastNameChanged;
   final Function(String) onBusinessNameChanged;
+  final Function(String) onBusinessEmailChanged;
+  final Function(String) onBusinessPhoneChanged;
   final Function() onSaveUpdatedProfile;
   final Function(String) onSendSuggestionSelected;
   final Function() onDeleteAccountSelected;
@@ -115,6 +119,10 @@ class MainSettingsPageState{
     @required this.bannerWebImage,
     @required this.onBannerWebUploaded,
     @required this.onBannerMobileUploaded,
+    @required this.businessEmail,
+    @required this.businessPhone,
+    @required this.onBusinessEmailChanged,
+    @required this.onBusinessPhoneChanged,
   });
 
   MainSettingsPageState copyWith({
@@ -123,6 +131,8 @@ class MainSettingsPageState{
     String firstName,
     String lastName,
     String businessName,
+    String businessEmail,
+    String businessPhone,
     Profile profile,
     bool isDeleteInProgress,
     bool isDeleteFinished,
@@ -149,6 +159,8 @@ class MainSettingsPageState{
     Function(String) onFirstNameChanged,
     Function(String) onLastNameChanged,
     Function(String) onBusinessNameChanged,
+    Function(String) onBusinessEmailChanged,
+    Function(String) onBusinessPhoneChanged,
     Function() onSignOutSelected,
     Function(bool) onPushNotificationsChanged,
     Function(bool) onCalendarChanged,
@@ -182,6 +194,8 @@ class MainSettingsPageState{
       onFirstNameChanged: onFirstNameChanged ?? this.onFirstNameChanged,
       onLastNameChanged: onLastNameChanged ?? this.onLastNameChanged,
       onBusinessNameChanged: onBusinessNameChanged ?? this.onBusinessNameChanged,
+      onBusinessEmailChanged: onBusinessEmailChanged ?? this.onBusinessEmailChanged,
+      onBusinessPhoneChanged: onBusinessPhoneChanged ?? this.onBusinessPhoneChanged,
       onSaveUpdatedProfile: onSaveUpdatedProfile ?? this.onSaveUpdatedProfile,
       profile: profile ?? this.profile,
       onSendSuggestionSelected: onSendSuggestionSelected ?? this.onSendSuggestionSelected,
@@ -222,6 +236,8 @@ class MainSettingsPageState{
       bannerMobileImage: bannerMobileImage ?? this.bannerMobileImage,
       onBannerWebUploaded: onBannerWebUploaded ?? this.onBannerWebUploaded,
       onBannerMobileUploaded: onBannerMobileUploaded ?? this.onBannerMobileUploaded,
+      businessEmail: businessEmail ?? this.businessEmail,
+      businessPhone: businessPhone ?? this.businessPhone,
     );
   }
 
@@ -234,9 +250,13 @@ class MainSettingsPageState{
     firstName: '',
     lastName: '',
     businessName: '',
+    businessEmail: '',
+    businessPhone: '',
     onFirstNameChanged: null,
     onLastNameChanged: null,
     onBusinessNameChanged: null,
+    onBusinessEmailChanged: null,
+    onBusinessPhoneChanged: null,
     onSaveUpdatedProfile: null,
     profile: null,
     onSendSuggestionSelected: null,
@@ -309,6 +329,8 @@ class MainSettingsPageState{
       bannerImageSelected: store.state.mainSettingsPageState.bannerImageSelected,
       bannerWebImage: store.state.mainSettingsPageState.bannerWebImage,
       bannerMobileImage: store.state.mainSettingsPageState.bannerMobileImage,
+      businessEmail: store.state.mainSettingsPageState.businessEmail,
+      businessPhone: store.state.mainSettingsPageState.businessPhone,
       onSignOutSelected: () {
         store.dispatch(RemoveDeviceTokenAction(store.state.mainSettingsPageState));
         store.dispatch(ResetLoginState(store.state.loginPageState));
@@ -320,6 +342,8 @@ class MainSettingsPageState{
       onFirstNameChanged: (firstName) => store.dispatch(SetFirstNameAction(store.state.mainSettingsPageState, firstName)),
       onLastNameChanged: (lastName) => store.dispatch(SetLastNameAction(store.state.mainSettingsPageState, lastName)),
       onBusinessNameChanged: (businessName) => store.dispatch(SetBusinessNameAction(store.state.mainSettingsPageState, businessName)),
+      onBusinessEmailChanged: (businessEmail) => store.dispatch(SetBusinessEmailAction(store.state.mainSettingsPageState, businessEmail)),
+      onBusinessPhoneChanged: (businessPhone) => store.dispatch(SetBusinessPhoneAction(store.state.mainSettingsPageState, businessPhone)),
       onSaveUpdatedProfile: () => store.dispatch(SaveUpdatedUserProfileAction(store.state.mainSettingsPageState)),
       onSendSuggestionSelected: (suggestion) => store.dispatch(SendSuggestionAction(store.state.mainSettingsPageState, suggestion)),
       onDeleteAccountSelected: () => store.dispatch(DeleteAccountAction(store.state.mainSettingsPageState)),
@@ -376,6 +400,8 @@ class MainSettingsPageState{
       onCalendarChanged.hashCode ^
       firstName.hashCode ^
       bannerImage.hashCode ^
+      onBusinessEmailChanged.hashCode ^
+      onBusinessPhoneChanged.hashCode ^
       onBannerUploaded.hashCode ^
       logoImageSelected.hashCode ^
       lastName.hashCode ^
@@ -388,6 +414,8 @@ class MainSettingsPageState{
       bannerImageSelected.hashCode ^
       onBannerImageSelected.hashCode ^
       profile.hashCode ^
+      businessEmail.hashCode^
+      businessPhone.hashCode ^
       onSendSuggestionSelected.hashCode ^
       onDeleteAccountSelected.hashCode ^
       isDeleteFinished.hashCode ^
@@ -439,6 +467,8 @@ class MainSettingsPageState{
               onBusinessNameChanged == other.onBusinessNameChanged &&
               onSaveUpdatedProfile == other.onSaveUpdatedProfile &&
               profile == other.profile &&
+              businessEmail == other.businessEmail &&
+              businessPhone == other.businessPhone &&
               bannerImageSelected == other.bannerImageSelected &&
               onBannerImageSelected == other.onBannerImageSelected &&
               bannerImage == other.bannerImage &&
@@ -455,6 +485,8 @@ class MainSettingsPageState{
               generate50DiscountCode == other.generate50DiscountCode &&
               discountCode == other.discountCode &&
               isAdmin == other.isAdmin &&
+              onBusinessEmailChanged == other.onBusinessEmailChanged &&
+              onBusinessPhoneChanged == other.onBusinessPhoneChanged &&
               generateFreeDiscountCode == other.generateFreeDiscountCode &&
               onInstaUrlChanged == other.onInstaUrlChanged &&
               currentBannerColor == other.currentBannerColor &&

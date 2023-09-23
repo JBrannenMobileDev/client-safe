@@ -13,6 +13,7 @@ class Profile{
   String email;
   String phone;
   String businessName;
+  String clientMessage;
   bool zelleEnabled;
   bool venmoEnabled;
   bool cashAppEnabled;
@@ -158,6 +159,7 @@ class Profile{
     this.cashEnabled,
     this.previewFontTheme,
     this.previewColorTheme,
+    this.clientMessage,
   });
 
   Profile copyWith({
@@ -179,6 +181,7 @@ class Profile{
     String applePayPhone,
     String instagramUrl,
     String instagramName,
+    String clientMessage,
     double latDefaultHome,
     double lngDefaultHome,
     bool pushNotificationsEnabled,
@@ -317,6 +320,7 @@ class Profile{
       previewBannerWebUrl: previewBannerWebUrl ?? this.previewBannerWebUrl,
       previewBannerMobileUrl: previewBannerMobileUrl ?? this.previewBannerMobileUrl,
       previewBannerImageSelected: previewBannerImageSelected ?? this.previewBannerImageSelected,
+      clientMessage: clientMessage ?? this.clientMessage,
     );
   }
 
@@ -399,6 +403,7 @@ class Profile{
       'previewFontTheme' : previewFontTheme?.toMap() ?? null,
       'previewColorTheme' : previewColorTheme?.toMap() ?? null,
       'cashEnabled' : cashEnabled ?? false,
+      'clientMessage' : clientMessage ?? '',
     };
   }
 
@@ -422,6 +427,7 @@ class Profile{
       lastName: map['lastName'],
       email: map['email'],
       phone: map['phone'],
+      clientMessage: map['clientMessage'],
       businessName: map['businessName'],
       latDefaultHome: map['latDefaultHome']?.toDouble(),
       lngDefaultHome: map['lngDefaultHome']?.toDouble(),

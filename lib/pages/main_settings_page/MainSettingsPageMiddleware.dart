@@ -16,6 +16,7 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/EnvironmentUtil.dart';
 import 'package:dandylight/utils/NotificationHelper.dart';
 import 'package:dandylight/utils/PushNotificationsManager.dart';
+import 'package:dandylight/utils/TextFormatterUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/analytics/EventNames.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
@@ -29,6 +30,7 @@ import '../../data_layer/local_db/SembastDb.dart';
 import '../../data_layer/repositories/DiscountCodesRepository.dart';
 import '../../data_layer/repositories/FileStorage.dart';
 import '../../utils/UUID.dart';
+import '../dashboard_page/DashboardPageActions.dart';
 import '../login_page/LoginPageActions.dart';
 import 'MainSettingsPageActions.dart';
 import 'package:image/image.dart' as img;
@@ -153,6 +155,8 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
       FileStorage.saveBannerWebImageFile(action.pageState.bannerWebImage.path, action.pageState.profile);
       FileStorage.saveBannerMobileImageFile(action.pageState.bannerMobileImage.path, action.pageState.profile);
     }
+
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 
   void _resizeImage(Store<AppState> store, ResizeLogoImageAction action, NextDispatcher next) async {
@@ -274,6 +278,8 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
       firstName: store.state.mainSettingsPageState.firstName,
       lastName: store.state.mainSettingsPageState.lastName,
       businessName: store.state.mainSettingsPageState.businessName,
+      phone: TextFormatterUtil.formatPhoneNum(store.state.mainSettingsPageState.businessPhone),
+      email: store.state.mainSettingsPageState.businessEmail,
     ));
   }
 

@@ -29,9 +29,13 @@ class _EditAccountPageState extends State<EditAccountPage>
   TextEditingController firstNameTextController = TextEditingController();
   TextEditingController lastNameTextController = TextEditingController();
   TextEditingController businessNameTextController = TextEditingController();
+  TextEditingController businessEmailTextController = TextEditingController();
+  TextEditingController businessPhoneTextController = TextEditingController();
   final firstNameFocusNode = FocusNode();
   final lastNameFocusNode = FocusNode();
   final businessNameFocusNode = FocusNode();
+  final businessEmailFocusNode = FocusNode();
+  final businessPhoneFocusNode = FocusNode();
 
   _EditAccountPageState(this.profile);
 
@@ -42,6 +46,8 @@ class _EditAccountPageState extends State<EditAccountPage>
           if(store.state.mainSettingsPageState.firstName.isNotEmpty)firstNameTextController.text = store.state.mainSettingsPageState.firstName;
           if(store.state.mainSettingsPageState.lastName.isNotEmpty)lastNameTextController.text = store.state.mainSettingsPageState.lastName;
           if(store.state.mainSettingsPageState.businessName.isNotEmpty)businessNameTextController.text = store.state.mainSettingsPageState.businessName;
+          if(store.state.mainSettingsPageState.businessPhone.isNotEmpty)businessPhoneTextController.text = store.state.mainSettingsPageState.businessPhone;
+          if(store.state.mainSettingsPageState.businessEmail.isNotEmpty)businessEmailTextController.text = store.state.mainSettingsPageState.businessEmail;
         },
         converter: (Store<AppState> store) => MainSettingsPageState.fromStore(store),
         builder: (BuildContext context, MainSettingsPageState pageState) => Scaffold(
@@ -155,10 +161,65 @@ class _EditAccountPageState extends State<EditAccountPage>
                                     inputTypeError: '',
                                     onTextInputChanged: (firstNameText) => pageState.onBusinessNameChanged(firstNameText),
                                     onEditingCompleted: null,
-                                    keyboardAction: TextInputAction.done,
+                                    keyboardAction: TextInputAction.next,
                                     focusNode: businessNameFocusNode,
                                     onFocusAction: () {
                                       businessNameFocusNode.unfocus();
+                                    },
+                                    capitalization: TextCapitalization.words,
+                                    enabled: true,
+                                    obscureText: false,
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 56.0, top: 8.0),
+                                    alignment: Alignment.centerLeft,
+                                    child: TextDandyLight(
+                                      type: TextDandyLight.EXTRA_SMALL_TEXT,
+                                      text: 'Business email',
+                                      color: Color(ColorConstants.getPrimaryBlack()),
+                                    ),
+                                  ),
+                                  LoginTextField(
+                                    maxLines: 1,
+                                    controller: businessEmailTextController,
+                                    hintText: 'Business email',
+                                    labelText: 'Business email',
+                                    inputType: TextInputType.emailAddress,
+                                    height: 64.0,
+                                    inputTypeError: '',
+                                    onTextInputChanged: (email) => pageState.onBusinessEmailChanged(email),
+                                    onEditingCompleted: null,
+                                    keyboardAction: TextInputAction.next,
+                                    focusNode: businessEmailFocusNode,
+                                    onFocusAction: () {
+                                      businessEmailFocusNode.unfocus();
+                                    },
+                                    enabled: true,
+                                    obscureText: false,
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 56.0, top: 8.0),
+                                    alignment: Alignment.centerLeft,
+                                    child: TextDandyLight(
+                                      type: TextDandyLight.EXTRA_SMALL_TEXT,
+                                      text: 'Business phone',
+                                      color: Color(ColorConstants.getPrimaryBlack()),
+                                    ),
+                                  ),
+                                  LoginTextField(
+                                    maxLines: 1,
+                                    controller: businessPhoneTextController,
+                                    hintText: 'Business phone',
+                                    labelText: 'Business phone',
+                                    inputType: TextInputType.phone,
+                                    height: 64.0,
+                                    inputTypeError: '',
+                                    onTextInputChanged: (phone) => pageState.onBusinessPhoneChanged(phone),
+                                    onEditingCompleted: null,
+                                    keyboardAction: TextInputAction.done,
+                                    focusNode: businessPhoneFocusNode,
+                                    onFocusAction: () {
+                                      businessPhoneFocusNode.unfocus();
                                     },
                                     capitalization: TextCapitalization.words,
                                     enabled: true,
