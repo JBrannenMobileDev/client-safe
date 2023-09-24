@@ -301,5 +301,6 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, GenerateContractForClientAction>(ClientPortalMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, GenerateInvoiceForClientAction>(ClientPortalMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchProfileAction>(ShareWithClientPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveProposalAction>(ShareWithClientPageMiddleware()));
   return middlewareList;
 }

@@ -9,6 +9,7 @@ import 'package:dandylight/utils/UidUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:share_plus/share_plus.dart';
@@ -18,6 +19,7 @@ import '../../models/Job.dart';
 import '../../models/Profile.dart';
 import '../../navigation/routes/RouteNames.dart';
 import '../../utils/Shadows.dart';
+import '../../utils/styles/Styles.dart';
 import '../../widgets/DandyLightTextField.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'ShareWithClientPageState.dart';
@@ -62,11 +64,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
           await store.dispatch(FetchProfileAction(store.state.shareWithClientPageState));
           store.dispatch(SetJobShareWithClientAction(store.state.shareWithClientPageState, job));
           profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-          String clientMessage = "Hi ${job.client.firstName},\nI\'m so excited to book in your photoshoot! Let\'s make this official.\n\nTo lock in your date, please review and sign the contract and pay the deposit.\n\nChat soon";
-          messageController.value = messageController.value.copyWith(text: profile.clientMessage.isNotEmpty ? profile.clientMessage : clientMessage);
-          if(profile.clientMessage.isEmpty) {
-            store.dispatch(SetClientMessageAction(store.state.shareWithClientPageState, clientMessage));
-          }
+          messageController.value = messageController.value.copyWith(text: job.proposal.detailsMessage);
         },
         onWillChange: (previous, current) {
           setState(() {
@@ -74,7 +72,57 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
           });
         },
         converter: (Store<AppState> store) => ShareWithClientPageState.fromStore(store),
-        builder: (BuildContext context, ShareWithClientPageState pageState) => Scaffold(
+        builder: (BuildContext context, ShareWithClientPageState pageState) => WillPopScope(
+          onWillPop: () async {
+            bool willLeave = false;
+            // show the confirm dialog
+            if(!pageState.areChangesSaved) {
+              await showDialog(
+                  context: context,
+                  builder: (_) => Device.get().isIos ?
+                  CupertinoAlertDialog(
+                    title: new Text('Exit without saving changes?'),
+                    content: new Text('If you continue any changes made will not be saved. Selecting the "Preview" or "Share" button will save the changes.'),
+                    actions: <Widget>[
+                      TextButton(
+                        style: Styles.getButtonStyle(),
+                        onPressed: () {
+                          willLeave = true;
+                          Navigator.of(context).pop();
+                        },
+                        child: new Text('Yes'),
+                      ),
+                      TextButton(
+                        style: Styles.getButtonStyle(),
+                        onPressed: () => Navigator.of(context).pop(false),
+                        child: new Text('No'),
+                      ),
+                    ],
+                  ) : AlertDialog(
+                    title: new Text('Exit without saving changes?'),
+                    content: new Text('If you continue any changes made will not be saved. Selecting the "Preview" or "Share" button will save the changes.'),
+                    actions: <Widget>[
+                      TextButton(
+                        style: Styles.getButtonStyle(),
+                        onPressed: () {
+                          willLeave = true;
+                          Navigator.of(context).pop();
+                        },
+                        child: new Text('Yes'),
+                      ),
+                      TextButton(
+                        style: Styles.getButtonStyle(),
+                        onPressed: () => Navigator.of(context).pop(false),
+                        child: new Text('No'),
+                      ),
+                    ],
+                  ));
+            } else {
+              willLeave = true;
+            }
+            return willLeave;
+          },
+          child: Scaffold(
           backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
           body: Stack(
             children: [
@@ -388,6 +436,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                 padding: EdgeInsets.only(bottom: 96),
                 child: GestureDetector(
                   onTap: () {
+                    pageState.saveProposal();
                     _launchBrandingPreviewURL(profile.uid, job.documentId);
                   },
                   child: Container(
@@ -402,7 +451,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                     ),
                     child: TextDandyLight(
                       type: TextDandyLight.LARGE_TEXT,
-                      text: 'View as client',
+                      text: 'Preview',
                       textAlign: TextAlign.center,
                       color: Color(ColorConstants.getPrimaryWhite()),
                     ),
@@ -416,29 +465,8 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                 padding: EdgeInsets.only(bottom: 32),
                 child: GestureDetector(
                   onTap: () {
-                    String shareMessage = 'Select the link below to view your job details.';
-                    if(pageState.contractSelected && pageState.invoiceSelected && pageState.posesSelected) {
-                      shareMessage = 'Select the link below to view your job details, sign the contract, view/pay the invoice and view poses for inspiration.';
-                    }
-                    if(pageState.contractSelected && pageState.invoiceSelected) {
-                      shareMessage = 'Select the link below to view your job details, sign the contract and view/pay the invoice.';
-                    }
-                    if(pageState.contractSelected && pageState.posesSelected) {
-                      shareMessage = 'Select the link below to view your job details, sign the contract and view poses for inspiration.';
-                    }
-                    if(pageState.invoiceSelected && pageState.posesSelected) {
-                      shareMessage = 'Select the link below to view your job details, view/pay the invoice and view poses for inspiration.';
-                    }
-                    if(pageState.invoiceSelected) {
-                      shareMessage = 'Select the link below to view your job details and view/pay the invoice.';
-                    }
-                    if(pageState.contractSelected) {
-                      shareMessage = 'Select the link below to view your job details and sign the contract.';
-                    }
-                    if(pageState.posesSelected) {
-                      shareMessage = 'Select the link below to view your job details and view poses for inspiration.';
-                    }
-                    Share.share(shareMessage + '\n\nhttps://dandylight.com/clientPortal/${profile.uid}+${job.documentId}');
+                    pageState.saveProposal();
+                    Share.share('(Example Message)\n\nHey ${job.client.firstName},\n\nThank you so much for choosing me to be your photographer! To make our collaboration simple i have a client portal that will be the hub of all the job details. Here is what it can do.\n\n1. Contract Signing\n2. Invoice Payment\n3. Job details\n4. Pose board for inspiration\n\nAccess the portal here:' + '\nhttps://dandylight.com/clientPortal/${profile.uid}+${job.documentId}\n\n\nExcited to create memorable moments with you!\n\nThank you again,\n${profile.firstName}');
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -461,6 +489,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
               )
             ],
           ),
+        ),
         ),
       );
 

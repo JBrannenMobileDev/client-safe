@@ -59,7 +59,7 @@ class _PayNowPageState extends State<PayNowPage> {
                       alignment: Alignment.topCenter,
                       margin: EdgeInsets.only(top: 32, bottom: 32),
                       child: TextDandyLight(
-                        type: TextDandyLight.EXTRA_LARGE_TEXT,
+                        type: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextDandyLight.EXTRA_LARGE_TEXT : TextDandyLight.LARGE_TEXT,
                         fontFamily: pageState.profile.selectedFontTheme.mainFont,
                         text: 'Payment Options',
                       ),
@@ -290,7 +290,7 @@ class _PayNowPageState extends State<PayNowPage> {
   Widget buildCashWidget(ClientPortalPageState pageState) {
     return PaymentOptionWidget(
       title: 'Cash',
-      message: 'Pay with cash by agreed upon due date. Send a message to let ' + pageState.profile.firstName + ' know, then mark as paid above.',
+      message: 'Pay with cash by agreed upon due date. Send a message to coordinate payment with ' + pageState.profile.firstName + '. Once payment is complete, mark as paid above.',
       sendSms: pageState.profile.phone,
       sendEmail: pageState.profile.email,
       messageTitle: 'Invoice Response - Pay by cash',

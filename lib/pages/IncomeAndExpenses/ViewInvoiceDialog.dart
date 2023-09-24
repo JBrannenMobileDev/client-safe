@@ -11,6 +11,7 @@ import 'package:dandylight/pages/IncomeAndExpenses/ViewInvoiceSubtotalRowWidget.
 import 'package:dandylight/pages/new_invoice_page/GrayDividerWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
+import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/PdfUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
@@ -20,7 +21,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../navigation/routes/RouteNames.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'ViewSalesTaxRowWidget.dart';
 
@@ -235,9 +238,7 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                           ),
                                           GestureDetector(
                                             onTap: () async {
-                                              IntentLauncherUtil.shareInvoice(invoice);
-                                              if(onSendInvoiceSelected != null) await onSendInvoiceSelected();
-                                              await pageState.onInvoiceSent(invoice);
+                                              NavigationUtil.onShareWIthClientSelected(context, job);
                                             },
                                             child: Container(
                                               margin: EdgeInsets.only(top: 4.0, bottom: 4.0),
@@ -253,35 +254,7 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                                 children: <Widget>[
                                                   TextDandyLight(
                                                     type: TextDandyLight.MEDIUM_TEXT,
-                                                    text: invoice.sentDate != null ? 'Resend' : 'Send'+ ' invoice',
-                                                    textAlign: TextAlign.center,
-                                                    color: Color(ColorConstants.getPrimaryWhite()),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          GestureDetector(
-                                            onTap: () async {
-                                              IntentLauncherUtil.sharePaymentLinks();
-                                              if(onSendInvoiceSelected != null) await onSendInvoiceSelected();
-                                              await pageState.onInvoiceSent(invoice);
-                                            },
-                                            child: Container(
-                                              margin: EdgeInsets.only(top: 4.0, bottom: 4.0),
-                                              padding: EdgeInsets.all(12.0),
-                                              height: 54.0,
-                                              width: 250.0,
-                                              decoration: BoxDecoration(
-                                                  color: Color(ColorConstants.getPeachDark()),
-                                                  borderRadius: BorderRadius.circular(36.0)
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  TextDandyLight(
-                                                    type: TextDandyLight.MEDIUM_TEXT,
-                                                    text: 'Share Payment Links',
+                                                    text: 'View in Client Portal',
                                                     textAlign: TextAlign.center,
                                                     color: Color(ColorConstants.getPrimaryWhite()),
                                                   )

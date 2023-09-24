@@ -5,17 +5,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../models/Job.dart';
+import '../../utils/NavigationUtil.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class SendInvoicePromptDialog extends StatefulWidget {
   final int invoiceId;
   final Function onSendInvoiceSelected;
+  final Job job;
 
-  SendInvoicePromptDialog(this.invoiceId, this.onSendInvoiceSelected);
+  SendInvoicePromptDialog(this.invoiceId, this.onSendInvoiceSelected, this.job);
 
   @override
   _SendInvoicePromptDialogState createState() {
-    return _SendInvoicePromptDialogState(invoiceId, onSendInvoiceSelected);
+    return _SendInvoicePromptDialogState(invoiceId, onSendInvoiceSelected, job);
   }
 }
 
@@ -24,8 +27,9 @@ class _SendInvoicePromptDialogState extends State<SendInvoicePromptDialog>
   final jobTitleTextController = TextEditingController();
   final int invoiceId;
   final Function onSendInvoiceSelected;
+  final Job job;
 
-  _SendInvoicePromptDialogState(this.invoiceId, this.onSendInvoiceSelected);
+  _SendInvoicePromptDialogState(this.invoiceId, this.onSendInvoiceSelected, this.job);
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +62,8 @@ class _SendInvoicePromptDialogState extends State<SendInvoicePromptDialog>
                       GestureDetector(
                         onTap: () {
                           onSendInvoiceSelected != null ? onSendInvoiceSelected() : DoNothingAction();
-                          IntentLauncherUtil.shareInvoiceById(invoiceId);
                           Navigator.of(context).pop();
+                          NavigationUtil.onShareWIthClientSelected(context, job);
                         },
                         child: Container(
                           height: 96.0,

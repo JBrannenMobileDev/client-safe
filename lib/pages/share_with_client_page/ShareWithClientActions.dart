@@ -31,6 +31,11 @@ class SetPosesCheckBox{
   SetPosesCheckBox(this.pageState, this.checked);
 }
 
+class SaveProposalAction {
+  final ShareWithClientPageState pageState;
+  SaveProposalAction(this.pageState);
+}
+
 class FetchProfileAction{
   final ShareWithClientPageState pageState;
   FetchProfileAction(this.pageState);

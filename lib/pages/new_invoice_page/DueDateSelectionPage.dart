@@ -52,7 +52,15 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
                         pickerMode: DateTimePickerMode.date,
                         onConfirm: (dateTime, intList) {
                           pageState.onDueDateSelected(dateTime);
-                        }
+                        },
+                        pickerTheme: DateTimePickerTheme(
+                          cancelTextStyle: TextStyle(
+                            color: Color(ColorConstants.getPrimaryBlack())
+                          ),
+                          confirmTextStyle: TextStyle(
+                              color: Color(ColorConstants.getPrimaryBlack())
+                          ),
+                        )
                     );
                   },
                   child: pageState.dueDate != null ?

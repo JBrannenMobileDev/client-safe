@@ -39,7 +39,7 @@ class _InvoicePageState extends State<InvoicePage> {
                   alignment: Alignment.topCenter,
                   margin: EdgeInsets.only(top: 32, bottom: 48),
                   child: TextDandyLight(
-                    type: TextDandyLight.EXTRA_LARGE_TEXT,
+                    type: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextDandyLight.EXTRA_LARGE_TEXT : TextDandyLight.LARGE_TEXT,
                     fontFamily: pageState.profile.selectedFontTheme.mainFont,
                     text: 'Invoice',
                   ),

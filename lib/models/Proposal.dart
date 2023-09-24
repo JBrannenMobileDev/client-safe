@@ -25,6 +25,8 @@ class Proposal {
   bool questionnaireSeenByClient = false;
   bool feedbackSeenByClient = false;
   bool includePoses = false;
+  bool includeContract = false;
+  bool includeInvoice = false;
 
   Proposal({
       this.detailsMessage,
@@ -38,6 +40,8 @@ class Proposal {
       this.feedback,
       this.includePoses,
       this.id,
+      this.includeInvoice,
+      this.includeContract,
   });
 
   Map<String, dynamic> toMap() {
@@ -52,6 +56,8 @@ class Proposal {
       'questionnaire' : questionnaire?.toMap(),
       'feedback' : feedback?.toMap(),
       'includePoses' : includePoses,
+      'includeInvoice' : includeInvoice,
+      'includeContract' : includeContract,
     };
   }
 
@@ -67,6 +73,8 @@ class Proposal {
       questionnaire: map['questionnaire'] != null ? Questionnaire.fromMap(map['questionnaire']) : null,
       feedback: map['feedback'] != null ? Feedback.fromMap(map['feedback']) : null,
       includePoses: map['includePoses'] != null ? map['includePoses'] : false,
+      includeInvoice: map['includeInvoice'] != null ? map['includeInvoice'] : false,
+      includeContract: map['includeContract'] != null ? map['includeContract'] : false,
     );
   }
 }

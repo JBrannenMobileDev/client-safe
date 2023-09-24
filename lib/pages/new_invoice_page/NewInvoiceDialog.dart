@@ -254,7 +254,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
             callback: (String unused) {
               Navigator.of(context).pop(true);
               Navigator.of(context).pop(true);
-              UserOptionsUtil.showSendInvoicePromptDialog(context, invoiceId, pageState.onInvoiceSent);
+              UserOptionsUtil.showSendInvoicePromptDialog(context, invoiceId, pageState.onInvoiceSent, pageState.selectedJob);
             },
           ),
         );

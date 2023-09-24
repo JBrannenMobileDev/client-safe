@@ -557,7 +557,7 @@ class _StageItemState extends State<StageItem>
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_3_PROPOSAL_SENT);
         stageTitle = isStageCompleted ? 'Contract sent!' : 'Contract sent?';
         stageSubtitle = '';
-        actionButtonText = 'Send';
+        actionButtonText = job.contract != null ? 'Send' : 'New Contract';
         actionIcon = Icons.email;
         break;
       case JobStage.STAGE_4_PROPOSAL_SIGNED:

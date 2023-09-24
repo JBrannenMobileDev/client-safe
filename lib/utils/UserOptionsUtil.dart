@@ -265,11 +265,11 @@ class UserOptionsUtil {
     );
   }
 
-  static void showSendInvoicePromptDialog(BuildContext context, int invoiceId, Function onSendInvoiceSelected) {
+  static void showSendInvoicePromptDialog(BuildContext context, int invoiceId, Function onSendInvoiceSelected, Job job) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return SendInvoicePromptDialog(invoiceId, onSendInvoiceSelected);
+        return SendInvoicePromptDialog(invoiceId, onSendInvoiceSelected, job);
       },
     );
   }

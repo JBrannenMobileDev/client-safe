@@ -237,10 +237,10 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
 
           //If permanently denied we do not want to bug the user every time they log in.  We will prompt every time they start a job instead. Also they can change the permission from the app settings.
           Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-          bool isGranted = profile.deviceTokens.length > 0 ? (await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context)) : (await UserPermissionsUtil.getPermissionStatus(Permission.notification)).isGranted;
-          profile.pushNotificationsEnabled = isGranted;
+          bool isNotificationsGranted = profile.deviceTokens.length > 0 ? (await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context)) : (await UserPermissionsUtil.getPermissionStatus(Permission.notification)).isGranted;
+          profile.pushNotificationsEnabled = isNotificationsGranted;
           ProfileDao.update(profile);
-          if(isGranted) {
+          if(isNotificationsGranted) {
             await notificationHelper.initNotifications(context);
             if(allJobs.length > 1 || allJobs.elementAt(0).clientName != "Example Client") {
               if(allReminders.length > 0) {
@@ -285,7 +285,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
             }
           }
 
-          bool isCalendarGranted = (await UserPermissionsUtil.getPermissionStatus(Permission.calendar)).isGranted;
+          bool isCalendarGranted = profile.deviceTokens.length > 0 ? (await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendar, context: context)) : (await UserPermissionsUtil.getPermissionStatus(Permission.calendar)).isGranted;
           if(isCalendarGranted && store.state.dashboardPageState.profile != null && !store.state.dashboardPageState.profile.calendarEnabled) {
             Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
             profile.calendarEnabled = true;

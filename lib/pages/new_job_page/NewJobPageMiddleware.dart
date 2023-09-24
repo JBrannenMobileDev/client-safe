@@ -181,7 +181,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     });
   }
 
-  void _saveNewJob(Store<AppState> store, action, NextDispatcher next) async {
+  void _saveNewJob(Store<AppState> store, SaveNewJobAction action, NextDispatcher next) async {
     Client resultClient = store.state.newJobPageState.selectedClient;
 
     String jobTitle = '';
@@ -209,7 +209,9 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
           : store.state.newJobPageState.oneTimePrice.isNotEmpty ? PriceProfile(rateType: Invoice.RATE_TYPE_FLAT_RATE, profileName: 'Photoshoot Price', flatRate: double.parse(store.state.newJobPageState.oneTimePrice), icon: ImageUtil.getRandomPriceProfileIcon()) : null,
       createdDate: DateTime.now(),
       depositAmount: store.state.newJobPageState.selectedPriceProfile != null ? store.state.newJobPageState.selectedPriceProfile.deposit?.toInt() : 0,
-      proposal: Proposal()
+      proposal: Proposal(
+        detailsMessage: "(Example client portal message)\n\nHi ${resultClient.firstName},\nI wanted to thank you again for choosing our photography services. We're excited to work with you to capture your special moments.\n\nTo make things official, kindly review and sign the contract. It outlines our agreement's essential details.\n\nIf you have any questions, please don't hesitate to ask.\n\nBest regards,\n\n${action.pageState.profile.firstName} ${action.pageState.profile.lastName ?? ''}\n${action.pageState.profile.businessName ?? ''}"
+      )
       );
 
     await JobDao.insertOrUpdate(jobToSave);

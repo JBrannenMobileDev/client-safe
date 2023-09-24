@@ -22,6 +22,9 @@ class PushNotificationsManager {
 
   Future<String> getToken() async {
     try {
+      if(!_initialized) {
+        await init();
+      }
       return await _firebaseMessaging.getToken();
     } catch (e) {
       return null;
