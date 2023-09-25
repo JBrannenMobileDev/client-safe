@@ -41,6 +41,8 @@ class MainSettingsPageState{
   final String currentFont;
   final String logoCharacter;
   final bool showPublishButton;
+  final double uploadProgress;
+  final bool uploadInProgress;
   final Function() onSignOutSelected;
   final Function(bool) onPushNotificationsChanged;
   final Function(bool) onCalendarChanged;
@@ -123,6 +125,8 @@ class MainSettingsPageState{
     @required this.businessPhone,
     @required this.onBusinessEmailChanged,
     @required this.onBusinessPhoneChanged,
+    @required this.uploadInProgress,
+    @required this.uploadProgress,
   });
 
   MainSettingsPageState copyWith({
@@ -156,6 +160,8 @@ class MainSettingsPageState{
     String currentFont,
     String logoCharacter,
     bool showPublishButton,
+    double uploadProgress,
+    bool uploadInProgress,
     Function(String) onFirstNameChanged,
     Function(String) onLastNameChanged,
     Function(String) onBusinessNameChanged,
@@ -238,6 +244,8 @@ class MainSettingsPageState{
       onBannerMobileUploaded: onBannerMobileUploaded ?? this.onBannerMobileUploaded,
       businessEmail: businessEmail ?? this.businessEmail,
       businessPhone: businessPhone ?? this.businessPhone,
+      uploadProgress: uploadProgress ?? this.uploadProgress,
+      uploadInProgress: uploadInProgress ?? this.uploadInProgress,
     );
   }
 
@@ -297,6 +305,8 @@ class MainSettingsPageState{
     bannerMobileImage: null,
     onBannerMobileUploaded: null,
     onBannerWebUploaded: null,
+    uploadProgress: 0.0,
+    uploadInProgress: false,
   );
 
   factory MainSettingsPageState.fromStore(Store<AppState> store) {
@@ -331,6 +341,8 @@ class MainSettingsPageState{
       bannerMobileImage: store.state.mainSettingsPageState.bannerMobileImage,
       businessEmail: store.state.mainSettingsPageState.businessEmail,
       businessPhone: store.state.mainSettingsPageState.businessPhone,
+      uploadProgress: store.state.mainSettingsPageState.uploadProgress,
+      uploadInProgress: store.state.mainSettingsPageState.uploadInProgress,
       onSignOutSelected: () {
         store.dispatch(RemoveDeviceTokenAction(store.state.mainSettingsPageState));
         store.dispatch(ResetLoginState(store.state.loginPageState));
@@ -444,6 +456,8 @@ class MainSettingsPageState{
       bannerMobileImage.hashCode ^
       onBannerWebUploaded.hashCode ^
       onBannerMobileUploaded.hashCode ^
+      uploadProgress.hashCode ^
+      uploadInProgress.hashCode ^
       onSignOutSelected.hashCode;
 
   @override
@@ -495,6 +509,8 @@ class MainSettingsPageState{
               currentButtonTextColor == other.currentButtonTextColor &&
               currentIconFont == other.currentIconFont &&
               currentFont == other.currentFont &&
+              uploadProgress == other.uploadProgress &&
+              uploadInProgress == other.uploadInProgress &&
               logoCharacter == other.logoCharacter &&
               onColorSaved == other.onColorSaved &&
               onFontSaved == other.onFontSaved &&

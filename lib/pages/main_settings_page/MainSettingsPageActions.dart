@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../models/ColorTheme.dart';
@@ -227,6 +228,13 @@ class SetDeleteProgressAction {
 class SetPasswordErrorAction {
   final MainSettingsPageState pageState;
   SetPasswordErrorAction(this.pageState);
+}
+
+class SetImageUploadProgressStateAction{
+  final MainSettingsPageState pageState;
+  final bool inProgress;
+  final double progress;
+  SetImageUploadProgressStateAction(this.pageState, this.inProgress, this.progress);
 }
 
 class SavePasswordAction {

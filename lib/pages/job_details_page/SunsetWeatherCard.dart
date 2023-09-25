@@ -40,7 +40,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
             behavior: HitTestBehavior.opaque,
             child: Container(
               margin: EdgeInsets.only(left: 16, top: 26, right: 16),
-              height: 254,
+              height: 300,
               decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
                 borderRadius: BorderRadius.circular(16.0),
@@ -58,7 +58,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 44),
+                    margin: EdgeInsets.only(top: 64),
                     child: pageState.weatherIcon.isNotEmpty ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,8 +102,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                                 ],
                               ),
                               Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
                                   Container(
                                     child: TextDandyLight(
@@ -173,12 +172,12 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 144, left: 16, right: 0, bottom: 8),
+                    padding: EdgeInsets.only(top: 164, left: 16, right: 0, bottom: 8),
                     child: pageState.selectedLocation != null && pageState.selectedDate != null ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
                               margin: EdgeInsets.only(right: 16, top: 11),

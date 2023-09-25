@@ -21,6 +21,7 @@ import 'package:dandylight/utils/TextFormatterUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/analytics/EventNames.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
@@ -89,10 +90,10 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _savePreviewBranding(Store<AppState> store, SavePreviewBrandingAction action, NextDispatcher next) async {
-    savePreview(action.pageState);
+    savePreview(action.pageState, store);
   }
 
-  void savePreview(MainSettingsPageState pageState) async {
+  void savePreview(MainSettingsPageState pageState, Store<AppState> store) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     ColorTheme colorTheme = ColorTheme(
       themeName: 'default',
@@ -117,11 +118,12 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
 
     await ProfileDao.update(profile);
     if(pageState.logoImageSelected && pageState.resizedLogoImage != null) {
-      await FileStorage.saveProfilePreviewIconImageFile(pageState.resizedLogoImage.path, pageState.profile);
+      FileStorage.saveProfilePreviewIconImageFile(pageState.resizedLogoImage.path, pageState.profile, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
     }
+
     if(pageState.bannerImageSelected && pageState.bannerWebImage != null && pageState.bannerMobileImage != null) {
-      FileStorage.savePreviewBannerWebImageFile(pageState.bannerWebImage.path, pageState.profile);
-      FileStorage.savePreviewBannerMobileImageFile(pageState.bannerMobileImage.path, pageState.profile);
+      FileStorage.savePreviewBannerWebImageFile(pageState.bannerWebImage.path, pageState.profile, (taskSnapshot) => () => {});
+      FileStorage.savePreviewBannerMobileImageFile(pageState.bannerMobileImage.path, pageState.profile, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
     }
   }
 
@@ -151,11 +153,11 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
 
     await ProfileDao.update(profile);
     if(action.pageState.logoImageSelected && action.pageState.resizedLogoImage != null) {
-      await FileStorage.saveProfileIconImageFile(action.pageState.resizedLogoImage.path, action.pageState.profile);
+      await FileStorage.saveProfileIconImageFile(action.pageState.resizedLogoImage.path, action.pageState.profile, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
     }
     if(action.pageState.bannerImageSelected && action.pageState.bannerWebImage != null && action.pageState.bannerMobileImage != null) {
-      FileStorage.saveBannerWebImageFile(action.pageState.bannerWebImage.path, action.pageState.profile);
-      FileStorage.saveBannerMobileImageFile(action.pageState.bannerMobileImage.path, action.pageState.profile);
+      FileStorage.saveBannerWebImageFile(action.pageState.bannerWebImage.path, action.pageState.profile, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
+      FileStorage.saveBannerMobileImageFile(action.pageState.bannerMobileImage.path, action.pageState.profile, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
     }
 
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
@@ -172,7 +174,7 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     await cmdLarge.execute();
     XFile resizedImage = XFile(appDocumentDirectory.path + '/$uniqueFileName' + 'logo.jpg');
     await store.dispatch(SetResizedLogoImageAction(store.state.mainSettingsPageState, resizedImage));
-    savePreview(store.state.mainSettingsPageState);
+    savePreview(store.state.mainSettingsPageState, store);
   }
 
   void _resizeBannerImage(Store<AppState> store, ResizeBannerImageAction action, NextDispatcher next) async {
@@ -190,7 +192,7 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     await cmdLarge.execute();
     XFile resizedImage = XFile(appDocumentDirectory.path + '/$uniqueFileName' + 'banner.jpg');
     store.dispatch(SetResizedBannerWebImageAction(store.state.mainSettingsPageState, resizedImage));
-    savePreview(store.state.mainSettingsPageState);
+    savePreview(store.state.mainSettingsPageState, store);
   }
 
   void _resizeBannerMobileImage(Store<AppState> store, ResizeBannerMobileImageAction action, NextDispatcher next) async {
@@ -203,7 +205,7 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     await cmdLarge.execute();
     XFile resizedImage = XFile(appDocumentDirectory.path + '/$uniqueFileName' + 'banner.jpg');
     store.dispatch(SetResizedBannerMobileImageAction(store.state.mainSettingsPageState, resizedImage));
-    savePreview(store.state.mainSettingsPageState);
+    savePreview(store.state.mainSettingsPageState, store);
   }
 
   void generate50DiscountCode(Store<AppState> store, Generate50DiscountCodeAction action, NextDispatcher next) async{
@@ -316,5 +318,13 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     } else {
       store.dispatch(SetPasswordErrorAction(store.state.mainSettingsPageState));
     }
+  }
+
+  void handleImageUploadProgress(TaskSnapshot taskSnapshot, Store<AppState> store) {
+    store.dispatch(SetImageUploadProgressStateAction(
+      store.state.mainSettingsPageState,
+        (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) < 1.0,
+      (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes)
+    ));
   }
 }

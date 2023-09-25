@@ -35,8 +35,15 @@ final mainSettingsPageReducer = combineReducers<MainSettingsPageState>([
   TypedReducer<MainSettingsPageState, ClearBrandingStateAction>(_clearBranding),
   TypedReducer<MainSettingsPageState, SetSelectedFontAction>(_SetSelectedFont),
   TypedReducer<MainSettingsPageState, SetLogoLetterAction>(_setLogoLetter),
-
+  TypedReducer<MainSettingsPageState, SetImageUploadProgressStateAction>(_setUploadProgress),
 ]);
+
+MainSettingsPageState _setUploadProgress(MainSettingsPageState previousState, SetImageUploadProgressStateAction action){
+  return previousState.copyWith(
+    uploadProgress: action.progress,
+    uploadInProgress: action.inProgress,
+  );
+}
 
 MainSettingsPageState _setLogoLetter(MainSettingsPageState previousState, SetLogoLetterAction action){
   bool showPublishButton = showPublishChangesButton(

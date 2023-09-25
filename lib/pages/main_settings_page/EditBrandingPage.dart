@@ -4,11 +4,13 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -20,7 +22,6 @@ import 'BannerSelectionWidget.dart';
 import 'ColorThemeSelectionWidget.dart';
 import 'FontThemeSelectionWidget.dart';
 import 'LogoSelectionWidget.dart';
-import 'PreviewOptionsBottomSheet.dart';
 
 class EditBrandingPage extends StatefulWidget {
 
@@ -31,20 +32,9 @@ class EditBrandingPage extends StatefulWidget {
 }
 
 class _EditBrandingPageState extends State<EditBrandingPage> with TickerProviderStateMixin {
+  _isProgressDialogShowing(BuildContext context) => progressContext != null && ModalRoute.of(progressContext)?.isCurrent == true;
 
-  void _showPreviewOptionsBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isDismissible: true,
-      enableDrag: true,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
-      builder: (context) {
-        return PreviewOptionsBottomSheet();
-      },
-    );
-  }
+  BuildContext progressContext = null;
 
   @override
   Widget build(BuildContext context) =>
@@ -53,6 +43,12 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
           await store.dispatch(LoadSettingsFromProfile(store.state.mainSettingsPageState));
           store.dispatch(ClearBrandingStateAction(store.state.mainSettingsPageState, store.state.mainSettingsPageState.profile));
           store.dispatch(SavePreviewBrandingAction(store.state.mainSettingsPageState));
+        },
+        onDidChange: (previous, current) {
+          if(previous.uploadInProgress && !current.uploadInProgress && _isProgressDialogShowing(context)) {
+            Navigator.of(context).pop();
+            _launchBrandingPreviewURL(UidUtil().getUid());
+          };
         },
         converter: (Store<AppState> store) => MainSettingsPageState.fromStore(store),
         builder: (BuildContext context, MainSettingsPageState pageState) => WillPopScope(
@@ -191,7 +187,44 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                     padding: EdgeInsets.only(bottom: 32),
                     child: GestureDetector(
                       onTap: () {
-                        _launchBrandingPreviewURL(pageState.profile.uid);
+                        if(!pageState.uploadInProgress) {
+                          _launchBrandingPreviewURL(pageState.profile.uid);
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              setState(() {
+                                progressContext = context;
+                              });
+                              return AlertDialog(
+                                title: TextDandyLight(
+                                  textAlign: TextAlign.center,
+                                  text: 'Pleas wait a moment\nwhile we prepare your preview...',
+                                  type: TextDandyLight.MEDIUM_TEXT,
+                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16)
+                                ),
+                                titlePadding: const EdgeInsets.only(top: 8, left: 16, right: 16),
+                                contentPadding: const EdgeInsets.all(0),
+                                content: Container(
+                                  height: 96,
+                                  width: 250,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                    borderRadius: new BorderRadius.circular(16.0),
+                                  ),
+                                  child: LoadingAnimationWidget.fourRotatingDots(
+                                    color: Color(ColorConstants.getPeachDark()),
+                                    size: 48,
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        }
                       },
                       child: Container(
                         alignment: Alignment.center,

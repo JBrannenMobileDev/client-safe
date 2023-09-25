@@ -142,7 +142,12 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
             if(scrollPosition == -2) scrollPosition = 0;
           }
               return pageState.job != null ? Scaffold(
-                floatingActionButton: SpeedDial(
+                floatingActionButton: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SpeedDial(
                   // both default to 16
                   childMargin: EdgeInsets.only(right: 18.0, bottom: 20.0),
                   // this is ignored if animatedIcon is non null
@@ -341,6 +346,29 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                     //   },
                     // ),
                   ],
+                ),
+                      GestureDetector(
+                        onTap: () {
+                          NavigationUtil.onShareWIthClientSelected(context, pageState.job);
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(top: 8),
+                          width: 200,
+                          alignment: Alignment.center,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(24),
+                            color: Color(ColorConstants.getPeachDark()),
+                            boxShadow: ElevationToShadow[6],
+                          ),
+                          child: TextDandyLight(
+                              type: TextDandyLight.LARGE_TEXT,
+                              color: Color(ColorConstants.getPrimaryWhite()),
+                              text: "Share With Client"
+                          ),
+                        ),
+                      )
+                ],
                 ),
                 body: Container(
                 child: Stack(

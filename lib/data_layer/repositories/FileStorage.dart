@@ -39,28 +39,28 @@ class FileStorage {
     await _uploadSubmittedPoseImageFile(pathLarge, pose);
   }
 
-  static saveProfileIconImageFile(String pathLarge, Profile profile) async {
-    await _uploadProfileIconImageFile(pathLarge, profile);
+  static saveProfileIconImageFile(String pathLarge, Profile profile, Function(TaskSnapshot) handleProgress) async {
+    await _uploadProfileIconImageFile(pathLarge, profile, handleProgress);
   }
 
-  static saveProfilePreviewIconImageFile(String pathLarge, Profile profile) async {
-    await _uploadProfilePreviewIconImageFile(pathLarge, profile);
+  static saveProfilePreviewIconImageFile(String pathLarge, Profile profile, Function(TaskSnapshot) handleProgress) async {
+    await _uploadProfilePreviewIconImageFile(pathLarge, profile, handleProgress);
   }
 
-  static saveBannerWebImageFile(String pathLarge, Profile profile) async {
-    await _uploadBannerWebImageFile(pathLarge, profile);
+  static saveBannerWebImageFile(String pathLarge, Profile profile, Function(TaskSnapshot) handleProgress) async {
+    await _uploadBannerWebImageFile(pathLarge, profile, handleProgress);
   }
 
-  static saveBannerMobileImageFile(String pathLarge, Profile profile) async {
-    await _uploadBannerMobileImageFile(pathLarge, profile);
+  static saveBannerMobileImageFile(String pathLarge, Profile profile, Function(TaskSnapshot) handleProgress) async {
+    await _uploadBannerMobileImageFile(pathLarge, profile, handleProgress);
   }
 
-  static savePreviewBannerWebImageFile(String pathLarge, Profile profile) async {
-    await _uploadPreviewBannerWebImageFile(pathLarge, profile);
+  static savePreviewBannerWebImageFile(String pathLarge, Profile profile, Function(TaskSnapshot) handleProgress) async {
+    await _uploadPreviewBannerWebImageFile(pathLarge, profile, handleProgress);
   }
 
-  static savePreviewBannerMobileImageFile(String pathLarge, Profile profile) async {
-    await _uploadPreviewBannerMobileImageFile(pathLarge, profile);
+  static savePreviewBannerMobileImageFile(String pathLarge, Profile profile, Function(TaskSnapshot) handleProgress) async {
+    await _uploadPreviewBannerMobileImageFile(pathLarge, profile, handleProgress);
   }
 
   static saveContractFile(String contractPath, Contract contract) async {
@@ -395,7 +395,7 @@ class FileStorage {
     }
   }
 
-  static _uploadProfileIconImageFile(String imagePathLarge, Profile profile) async {
+  static _uploadProfileIconImageFile(String imagePathLarge, Profile profile, Function(TaskSnapshot) handleProgress) async {
     final storageRef = FirebaseStorage.instance.ref();
 
     if(imagePathLarge != null) {
@@ -404,6 +404,7 @@ class FileStorage {
           .putFile(File(imagePathLarge));
 
       uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+        handleProgress(taskSnapshot);
         switch (taskSnapshot.state) {
           case TaskState.running:
             final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
@@ -419,6 +420,7 @@ class FileStorage {
           // Handle unsuccessful uploads
             break;
           case TaskState.success:
+            print("Upload was successful");
             _fetchAndSaveProfileIconImageDownloadUrlLarge(imagePathLarge, profile);
             break;
         }
@@ -426,7 +428,7 @@ class FileStorage {
     }
   }
 
-  static _uploadProfilePreviewIconImageFile(String imagePathLarge, Profile profile) async {
+  static _uploadProfilePreviewIconImageFile(String imagePathLarge, Profile profile, Function(TaskSnapshot) handleProgress) async {
     final storageRef = FirebaseStorage.instance.ref();
 
     if(imagePathLarge != null) {
@@ -435,6 +437,7 @@ class FileStorage {
           .putFile(File(imagePathLarge));
 
       uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+        handleProgress(taskSnapshot);
         switch (taskSnapshot.state) {
           case TaskState.running:
             final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
@@ -457,7 +460,7 @@ class FileStorage {
     }
   }
 
-  static _uploadBannerWebImageFile(String imagePathLarge, Profile profile) async {
+  static _uploadBannerWebImageFile(String imagePathLarge, Profile profile, Function(TaskSnapshot) handleProgress) async {
     final storageRef = FirebaseStorage.instance.ref();
 
     if(imagePathLarge != null) {
@@ -466,6 +469,7 @@ class FileStorage {
           .putFile(File(imagePathLarge));
 
       uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+        handleProgress(taskSnapshot);
         switch (taskSnapshot.state) {
           case TaskState.running:
             final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
@@ -488,7 +492,7 @@ class FileStorage {
     }
   }
 
-  static _uploadBannerMobileImageFile(String imagePathLarge, Profile profile) async {
+  static _uploadBannerMobileImageFile(String imagePathLarge, Profile profile, Function(TaskSnapshot) handleProgress) async {
     final storageRef = FirebaseStorage.instance.ref();
 
     if(imagePathLarge != null) {
@@ -497,6 +501,7 @@ class FileStorage {
           .putFile(File(imagePathLarge));
 
       uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+        handleProgress(taskSnapshot);
         switch (taskSnapshot.state) {
           case TaskState.running:
             final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
@@ -519,7 +524,7 @@ class FileStorage {
     }
   }
 
-  static _uploadPreviewBannerWebImageFile(String imagePathLarge, Profile profile) async {
+  static _uploadPreviewBannerWebImageFile(String imagePathLarge, Profile profile, Function(TaskSnapshot) handleProgress) async {
     final storageRef = FirebaseStorage.instance.ref();
 
     if(imagePathLarge != null) {
@@ -528,6 +533,7 @@ class FileStorage {
           .putFile(File(imagePathLarge));
 
       uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+        handleProgress(taskSnapshot);
         switch (taskSnapshot.state) {
           case TaskState.running:
             final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
@@ -550,7 +556,7 @@ class FileStorage {
     }
   }
 
-  static _uploadPreviewBannerMobileImageFile(String imagePathLarge, Profile profile) async {
+  static _uploadPreviewBannerMobileImageFile(String imagePathLarge, Profile profile, Function(TaskSnapshot) handleProgress) async {
     final storageRef = FirebaseStorage.instance.ref();
 
     if(imagePathLarge != null) {
@@ -559,6 +565,7 @@ class FileStorage {
           .putFile(File(imagePathLarge));
 
       uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+        handleProgress(taskSnapshot);
         switch (taskSnapshot.state) {
           case TaskState.running:
             final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);

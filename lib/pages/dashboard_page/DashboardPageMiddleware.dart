@@ -248,6 +248,27 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetJobTypeChartData(store.state.dashboardPageState, allJobs, allJobTypes));
     store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
 
+    (await ProfileDao.getProfileStream()).listen((profilesSnapshots) async {
+      List<Profile> profiles = [];
+      for(RecordSnapshot record in profilesSnapshots) {
+        profiles.add(Profile.fromMap(record.value));
+      }
+
+      Profile newProfile = null;
+      String uid = UidUtil().getUid();
+      for(Profile profile in profiles) {
+        if(profile.uid == uid) {
+          newProfile = profile;
+        }
+      }
+      
+      if(newProfile != null) {
+        if(profile.logoUrl != newProfile.logoUrl) {
+          store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, newProfile));
+        }
+      }
+    });
+
     await purchases.Purchases.logIn(store.state.dashboardPageState.profile.uid);
 
     (await JobTypeDao.getJobTypeStream()).listen((jobSnapshots) async {
