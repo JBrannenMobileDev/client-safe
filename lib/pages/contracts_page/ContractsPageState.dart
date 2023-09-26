@@ -1,3 +1,4 @@
+import 'package:dandylight/models/Contract.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderActions.dart';
 import 'package:dandylight/pages/reminders_page/RemindersActions.dart' as collectionReminder;
@@ -8,53 +9,46 @@ import '../../AppState.dart';
 
 class ContractsPageState{
 
-  final List<ReminderDandyLight> reminders;
-  final Function(ReminderDandyLight) onReminderSelected;
-  final Function(ReminderDandyLight) onDeleteReminderSelected;
+  final List<Contract> contracts;
+  final Function(Contract) onContractSelected;
 
   ContractsPageState({
-    @required this.reminders,
-    @required this.onReminderSelected,
-    @required this.onDeleteReminderSelected,
+    @required this.contracts,
+    @required this.onContractSelected,
   });
 
   ContractsPageState copyWith({
-    List<ReminderDandyLight> reminders,
-    Function(ReminderDandyLight) onReminderSelected,
-    Function(ReminderDandyLight) onDeleteReminderSelected,
+    List<Contract> contracts,
+    Function(Contract) onContractSelected,
   }){
     return ContractsPageState(
-      reminders: reminders?? this.reminders,
-      onReminderSelected: onReminderSelected?? this.onReminderSelected,
-      onDeleteReminderSelected: onDeleteReminderSelected?? this.onDeleteReminderSelected,
+      contracts: contracts?? this.contracts,
+      onContractSelected: onContractSelected?? this.onContractSelected,
     );
   }
 
   factory ContractsPageState.initial() => ContractsPageState(
-    reminders: List(),
-    onReminderSelected: null,
-    onDeleteReminderSelected: null,
+    contracts: [],
+    onContractSelected: null,
   );
 
   factory ContractsPageState.fromStore(Store<AppState> store) {
     return ContractsPageState(
-      reminders: store.state.remindersPageState.reminders,
-      onReminderSelected: (reminder) => store.dispatch(LoadExistingReminderData(store.state.newReminderPageState, reminder)),
-      onDeleteReminderSelected: (reminder) => store.dispatch(collectionReminder.DeleteReminderAction(store.state.remindersPageState, reminder)),
+      contracts: store.state.contractsPageState.contracts,
+      // onContractSelected: (contract) => store.dispatch(LoadContractDataAction(store.state.newReminderPageState, contract)),
+      onContractSelected: null,
     );
   }
 
   @override
   int get hashCode =>
-      reminders.hashCode ^
-      onReminderSelected.hashCode ^
-      onDeleteReminderSelected.hashCode;
+      contracts.hashCode ^
+      onContractSelected.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
           other is ContractsPageState &&
-              reminders == other.reminders &&
-              onReminderSelected == other.onReminderSelected &&
-              onDeleteReminderSelected == other.onDeleteReminderSelected;
+              contracts == other.contracts &&
+              onContractSelected == other.onContractSelected;
 }

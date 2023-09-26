@@ -41,7 +41,7 @@ class ContractListWidget extends StatelessWidget {
                     margin: EdgeInsets.only(right: 16.0, left: 8.0),
                     height: 36.0,
                     width: 36.0,
-                    child: Image.asset('assets/images/job_progress/proposal_sent.png', color: Color(ColorConstants.getBlueDark())),
+                    child: Image.asset('assets/images/collection_icons/contract_icon_white.png', color: Color(ColorConstants.getBlueDark())),
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width - 120,

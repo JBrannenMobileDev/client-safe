@@ -86,7 +86,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                                       type: TextDandyLight.MEDIUM_TEXT,
                                       text: ImageUtil.getCollectionIconName(collectionIcons.elementAt(index)),
                                       textAlign: TextAlign.center,
-                                      color: const Color(ColorConstants.primary_black),
+                                      color: Color(index < 7 ? ColorConstants.primary_black : ColorConstants.getPrimaryGreyMedium()),
                                     ),
                                   ),
                                 ),
@@ -149,15 +149,15 @@ class _CollectionsPageState extends State<CollectionsPage> {
         );
         break;
       case 7:
-        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getPeachLight()));
+        DandyToastUtil.showToast("Coming 2024! \nThis feature is not ready yet.", Color(ColorConstants.getPrimaryGreyMedium()));
         EventSender().sendEvent(eventName: EventNames.NAV_TO_AUTOMATED_BOOKING);
         break;
       case 8:
-        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getPeachDark()));
+        DandyToastUtil.showToast("Coming 2023! \nThis feature is not ready yet.", Color(ColorConstants.getPrimaryGreyMedium()));
         EventSender().sendEvent(eventName: EventNames.NAV_TO_QUESTIONNAIRES);
         break;
       case 9:
-        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getBlueLight()));
+        DandyToastUtil.showToast("Coming 2024! \nThis feature is not ready yet.", Color(ColorConstants.getPrimaryGreyMedium()));
         EventSender().sendEvent(eventName: EventNames.NAV_TO_CLIENT_GUIDES);
         break;
     }
@@ -188,13 +188,16 @@ class _CollectionsPageState extends State<CollectionsPage> {
         color = Color(ColorConstants.getBlueLight());
         break;
       case 7:
-        color = Color(ColorConstants.getPeachLight());
+        // color = Color(ColorConstants.getPeachLight());
+        color = Color(ColorConstants.getPrimaryBackgroundGrey());
         break;
       case 8:
-        color = Color(ColorConstants.getPeachDark());
+        // color = Color(ColorConstants.getPeachDark());
+        color = Color(ColorConstants.getPrimaryBackgroundGrey());
         break;
       case 9:
-        color = Color(ColorConstants.getBlueLight());
+        // color = Color(ColorConstants.getBlueLight());
+        color = Color(ColorConstants.getPrimaryBackgroundGrey());
         break;
     }
     return color;

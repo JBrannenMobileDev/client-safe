@@ -1,21 +1,15 @@
-import 'package:dandylight/models/ReminderDandyLight.dart';
 
+import '../../models/Contract.dart';
 import 'ContractsPageState.dart';
 
-class FetchRemindersAction{
+class FetchContractsAction{
   final ContractsPageState pageState;
-  FetchRemindersAction(this.pageState);
+  FetchContractsAction(this.pageState);
 }
 
-class SetRemindersAction{
+class SetContractsAction{
   final ContractsPageState pageState;
-  final List<ReminderDandyLight> reminders;
-  SetRemindersAction(this.pageState, this.reminders);
-}
-
-class DeleteReminderAction{
-  final ContractsPageState pageState;
-  final ReminderDandyLight reminder;
-  DeleteReminderAction(this.pageState, this.reminder);
+  final List<Contract> contracts;
+  SetContractsAction(this.pageState, this.contracts);
 }
 

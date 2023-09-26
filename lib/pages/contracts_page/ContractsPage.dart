@@ -1,6 +1,7 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
+import 'package:dandylight/pages/contracts_page/ContractsActions.dart';
+import 'package:dandylight/pages/contracts_page/ContractsPageState.dart';
 import 'package:dandylight/pages/reminders_page/RemindersActions.dart';
 import 'package:dandylight/pages/reminders_page/RemindersPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -31,12 +32,12 @@ class _ContractsPageState extends State<ContractsPage> with TickerProviderStateM
   }
 
   @override
-  Widget build(BuildContext context) => StoreConnector<AppState, RemindersPageState>(
+  Widget build(BuildContext context) => StoreConnector<AppState, ContractsPageState>(
         onInit: (store) {
-          store.dispatch(FetchRemindersAction(store.state.remindersPageState));
+          store.dispatch(FetchContractsAction(store.state.contractsPageState));
         },
-        converter: (Store<AppState> store) => RemindersPageState.fromStore(store),
-        builder: (BuildContext context, RemindersPageState pageState) =>
+        converter: (Store<AppState> store) => ContractsPageState.fromStore(store),
+        builder: (BuildContext context, ContractsPageState pageState) =>
             Scaffold(
               body: Container(
                 decoration: BoxDecoration(
@@ -56,7 +57,7 @@ class _ContractsPageState extends State<ContractsPage> with TickerProviderStateM
                       title: Center(
                         child: TextDandyLight(
                           type: TextDandyLight.LARGE_TEXT,
-                          text: "Reminders",
+                          text: "Contracts",
                           color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
@@ -77,25 +78,44 @@ class _ContractsPageState extends State<ContractsPage> with TickerProviderStateM
                     SliverList(
                       delegate: new SliverChildListDelegate(
                         <Widget>[
-                          pageState.reminders.length > 0 ? ListView.builder(
+                          pageState.contracts.length > 0 ? ListView.builder(
                             reverse: false,
                             padding: new EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 64.0),
                             shrinkWrap: true,
                             controller: _scrollController,
                             physics: ClampingScrollPhysics(),
                             key: _listKey,
-                            itemCount: pageState.reminders.length,
+                            itemCount: pageState.contracts.length,
                             itemBuilder: _buildItem,
                           ) :
                           Padding(
                             padding: EdgeInsets.only(left: 64.0, top: 48.0, right: 64.0),
                             child: TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
-                              text: "You have not created any reminders yet. To create a new reminder, select the plus icon.",
+                              text: "You have not created any contracts yet. To create a new contract, select the plus icon.",
                               textAlign: TextAlign.center,
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
+                          pageState.contracts.length == 0 ? Container(
+                            margin: EdgeInsets.only(top: 32),
+                            alignment: Alignment.center,
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: 200,
+                              height: 54,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(27),
+                                  color: Color(ColorConstants.getBlueDark())
+                              ),
+                              child: TextDandyLight(
+                                type: TextDandyLight.LARGE_TEXT,
+                                text: "New Contract",
+                                textAlign: TextAlign.center,
+                                color: Color(ColorConstants.getPrimaryWhite()),
+                              ),
+                            ),
+                          ) : SizedBox(),
                         ],
                       ),
                     ),
