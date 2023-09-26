@@ -1,4 +1,5 @@
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
+import 'package:dandylight/models/Contract.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPage.dart';
@@ -24,6 +25,7 @@ import 'package:dandylight/pages/review_poses_page/ReviewPosesPage.dart';
 import 'package:dandylight/pages/subscribe_now_page/SubscribeNowPage.dart';
 import 'package:dandylight/pages/upload_pose_page/UploadPosePage.dart';
 import 'package:dandylight/utils/UidUtil.dart';
+import 'package:dandylight/web/pages/contractPage/ContractPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -32,6 +34,7 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 import '../models/Job.dart';
 import '../models/JobStage.dart';
 import '../models/LocationDandy.dart';
+import '../pages/contract_edit_page/ContractEditPage.dart';
 import '../pages/dashboard_page/DashboardPageState.dart';
 import '../pages/main_settings_page/EditBrandingPage.dart';
 import '../pages/poses_page/PosesPage.dart';
@@ -83,6 +86,9 @@ class NavigationUtil {
   }
   static onEditBrandingSelected(BuildContext context) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => EditBrandingPage()));
+  }
+  static onContractSelected(BuildContext context, Contract contract) {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ContractEditPage()));
   }
   static onManageSubscriptionSelected(BuildContext context, Profile profile) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ManageSubscriptionPage(profile)));

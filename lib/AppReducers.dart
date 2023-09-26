@@ -5,6 +5,7 @@ import 'package:dandylight/pages/calendar_selection_page/CalendarSelectionPageRe
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageReducer.dart';
 import 'package:dandylight/pages/clients_page/ClientsPageReducer.dart';
 import 'package:dandylight/pages/collections_page/CollectionsPageReducer.dart';
+import 'package:dandylight/pages/contract_edit_page/ContractEditPageReducer.dart';
 import 'package:dandylight/pages/contracts_page/ContractsPageReducer.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageReducer.dart';
 import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPageReducer.dart';
@@ -86,4 +87,5 @@ AppState appReducers(AppState state, dynamic action) =>
         clientPortalPageState: clientPortalReducer(state.clientPortalPageState, action),
         shareWithClientPageState: shareWithClientReducer(state.shareWithClientPageState, action),
         contractsPageState: contractsReducer(state.contractsPageState, action),
+        contractEditPageState: contractEditReducer(state.contractEditPageState, action),
     );

@@ -5,6 +5,7 @@ import 'package:dandylight/pages/contracts_page/ContractsPageState.dart';
 import 'package:dandylight/pages/reminders_page/RemindersActions.dart';
 import 'package:dandylight/pages/reminders_page/RemindersPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -64,7 +65,7 @@ class _ContractsPageState extends State<ContractsPage> with TickerProviderStateM
                       actions: <Widget>[
                         GestureDetector(
                           onTap: () {
-                            UserOptionsUtil.showNewReminderDialog(context, null);
+                            NavigationUtil.onContractSelected(context, null);
                           },
                           child: Container(
                             margin: EdgeInsets.only(right: 26.0),
@@ -92,7 +93,7 @@ class _ContractsPageState extends State<ContractsPage> with TickerProviderStateM
                             padding: EdgeInsets.only(left: 64.0, top: 48.0, right: 64.0),
                             child: TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
-                              text: "You have not created any contracts yet. To create a new contract, select the plus icon.",
+                              text: "You have not created any contracts yet.",
                               textAlign: TextAlign.center,
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),
@@ -100,19 +101,24 @@ class _ContractsPageState extends State<ContractsPage> with TickerProviderStateM
                           pageState.contracts.length == 0 ? Container(
                             margin: EdgeInsets.only(top: 32),
                             alignment: Alignment.center,
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: 200,
-                              height: 54,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(27),
-                                  color: Color(ColorConstants.getBlueDark())
-                              ),
-                              child: TextDandyLight(
-                                type: TextDandyLight.LARGE_TEXT,
-                                text: "New Contract",
-                                textAlign: TextAlign.center,
-                                color: Color(ColorConstants.getPrimaryWhite()),
+                            child: GestureDetector(
+                              onTap: () {
+                                NavigationUtil.onContractSelected(context, null);
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: 200,
+                                height: 54,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(27),
+                                    color: Color(ColorConstants.getBlueDark())
+                                ),
+                                child: TextDandyLight(
+                                  type: TextDandyLight.LARGE_TEXT,
+                                  text: "New Contract",
+                                  textAlign: TextAlign.center,
+                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                ),
                               ),
                             ),
                           ) : SizedBox(),
@@ -137,8 +143,7 @@ class _ContractsPageState extends State<ContractsPage> with TickerProviderStateM
   }
 
   onReminderSelected(ReminderDandyLight reminder, RemindersPageState pageState,  BuildContext context) {
-    pageState.onReminderSelected(reminder);
-    UserOptionsUtil.showNewReminderDialog(context, reminder);
+    NavigationUtil.onContractSelected(context, null);
   }
 
   bool get _isMinimized {

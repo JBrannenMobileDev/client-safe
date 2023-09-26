@@ -3,6 +3,7 @@ import 'package:dandylight/pages/calendar_page/CalendarPageState.dart';
 import 'package:dandylight/pages/calendar_selection_page/CalendarSelectionPageState.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageState.dart';
 import 'package:dandylight/pages/collections_page/CollectionsPageState.dart';
+import 'package:dandylight/pages/contract_edit_page/ContractEditPageState.dart';
 import 'package:dandylight/pages/contracts_page/ContractsPageState.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPageState.dart';
@@ -87,6 +88,7 @@ class AppState {
   final ClientPortalPageState clientPortalPageState;
   final ShareWithClientPageState shareWithClientPageState;
   final ContractsPageState contractsPageState;
+  final ContractEditPageState contractEditPageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -131,6 +133,7 @@ class AppState {
     @required this.clientPortalPageState,
     @required this.shareWithClientPageState,
     @required this.contractsPageState,
+    @required this.contractEditPageState,
   });
 
   factory AppState.initial() {
@@ -177,6 +180,7 @@ class AppState {
       clientPortalPageState: ClientPortalPageState.initial(),
       shareWithClientPageState: ShareWithClientPageState.initial(),
       contractsPageState: ContractsPageState.initial(),
+      contractEditPageState: ContractEditPageState.initial(),
     );
   }
 
@@ -223,6 +227,7 @@ class AppState {
     ClientPortalPageState clientPortalPageState,
     ShareWithClientPageState shareWithClientPageState,
     ContractsPageState contractsPageState,
+    ContractEditPageState contractEditPageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -267,6 +272,7 @@ class AppState {
       clientPortalPageState: clientPortalPageState ?? this.clientPortalPageState,
       shareWithClientPageState: shareWithClientPageState ?? this.shareWithClientPageState,
       contractsPageState: contractsPageState ?? this.contractsPageState,
+      contractEditPageState: contractEditPageState ?? this.contractEditPageState,
     );
   }
 
@@ -313,6 +319,7 @@ class AppState {
     clientPortalPageState.hashCode ^
     shareWithClientPageState.hashCode ^
     contractsPageState.hashCode ^
+    contractEditPageState.hashCode ^
     incomeAndExpensesPageState.hashCode ;
 
   @override
@@ -360,5 +367,6 @@ class AppState {
               reviewPosesPageState == other.reviewPosesPageState &&
               shareWithClientPageState == other.shareWithClientPageState &&
               contractsPageState == other.contractsPageState &&
+              contractEditPageState == other.contractEditPageState &&
               incomeAndExpensesPageState == other.incomeAndExpensesPageState;
 }
