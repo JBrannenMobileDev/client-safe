@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
+import '../../data_layer/local_db/daos/ProfileDao.dart';
+import '../../utils/UidUtil.dart';
 import '../../widgets/DandyLightNetworkImage.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'FontSelectionBottomSheet.dart';
@@ -41,8 +43,8 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
   @override
   Widget build(BuildContext context) =>
       StoreConnector<AppState, MainSettingsPageState>(
-        onInit: (store) {
-          store.dispatch(ClearBrandingStateAction(store.state.mainSettingsPageState, store.state.mainSettingsPageState.profile));
+        onInit: (store) async {
+          store.dispatch(ClearBrandingStateAction(store.state.mainSettingsPageState, await ProfileDao.getMatchingProfile(UidUtil().getUid())));
         },
         converter: (Store<AppState> store) => MainSettingsPageState.fromStore(store),
         builder: (BuildContext context, MainSettingsPageState pageState) => Column(

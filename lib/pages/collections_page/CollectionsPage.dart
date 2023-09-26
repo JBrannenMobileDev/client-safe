@@ -7,13 +7,13 @@ import 'package:dandylight/pages/reminders_page/RemindersPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
-import 'package:dandylight/utils/analytics/DeviceInfo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../../utils/DeviceType.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
+import '../contracts_page/ContractsPage.dart';
 import '../poses_page/PosesPage.dart';
 import '../responses_page/ResponsesPage.dart';
 
@@ -143,8 +143,10 @@ class _CollectionsPageState extends State<CollectionsPage> {
         );
         break;
       case 6:
-        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getBlueLight()));
         EventSender().sendEvent(eventName: EventNames.NAV_TO_CONTRACTS);
+        Navigator.of(context).push(
+          new MaterialPageRoute(builder: (context) => ContractsPage()),
+        );
         break;
       case 7:
         DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getPeachLight()));

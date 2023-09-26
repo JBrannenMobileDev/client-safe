@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -41,7 +42,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
       StoreConnector<AppState, MainSettingsPageState>(
         onInit: (store) async {
           await store.dispatch(LoadSettingsFromProfile(store.state.mainSettingsPageState));
-          store.dispatch(ClearBrandingStateAction(store.state.mainSettingsPageState, store.state.mainSettingsPageState.profile));
+          store.dispatch(ClearBrandingStateAction(store.state.mainSettingsPageState, await ProfileDao.getMatchingProfile(UidUtil().getUid())));
           store.dispatch(SavePreviewBrandingAction(store.state.mainSettingsPageState));
         },
         onDidChange: (previous, current) {
@@ -274,5 +275,5 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
     Navigator.of(context).pop(true);
   }
 
-  void _launchBrandingPreviewURL(String uid) async => await canLaunchUrl(Uri.parse('https://clientsafe-21962.web.app/' + RouteNames.BRANDING_PREVIEW + '/' + uid)) ? await launchUrl(Uri.parse('https://clientsafe-21962.web.app/' + RouteNames.BRANDING_PREVIEW + '/' + uid), mode: LaunchMode.platformDefault) : throw 'Could not launch';
+  void _launchBrandingPreviewURL(String uid) async => await canLaunchUrl(Uri.parse('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid)) ? await launchUrl(Uri.parse('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid), mode: LaunchMode.platformDefault) : throw 'Could not launch';
 }

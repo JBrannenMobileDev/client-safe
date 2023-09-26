@@ -13,6 +13,8 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 
+import '../../data_layer/local_db/daos/ProfileDao.dart';
+import '../../utils/UidUtil.dart';
 import '../../widgets/DandyLightNetworkImage.dart';
 import '../../widgets/TextDandyLight.dart';
 
@@ -30,10 +32,10 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
   @override
   Widget build(BuildContext context) =>
       StoreConnector<AppState, MainSettingsPageState>(
-        onInit: (store) {
+        onInit: (store) async {
           store.dispatch(ClearBrandingStateAction(
               store.state.mainSettingsPageState,
-              store.state.mainSettingsPageState.profile));
+              await ProfileDao.getMatchingProfile(UidUtil().getUid())));
           if(store.state.mainSettingsPageState.profile.bannerImageSelected) {
             selections[0] = true;
             selections[1] = false;

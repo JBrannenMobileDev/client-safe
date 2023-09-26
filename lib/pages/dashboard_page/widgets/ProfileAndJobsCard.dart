@@ -165,7 +165,7 @@ class ProfileAndJobsCard extends StatelessWidget {
                               : ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor)),
                     ),
                     TextDandyLight(
-                      type: TextDandyLight.EXTRA_LARGE_TEXT,
+                      type: TextDandyLight.EXTRA_EXTRA_LARGE_TEXT,
                       fontFamily: pageState.profile.selectedFontTheme.iconFont,
                       textAlign: TextAlign.center,
                       text: pageState.profile.logoCharacter.substring(0, 1),
@@ -183,13 +183,26 @@ class ProfileAndJobsCard extends StatelessWidget {
                           shape: BoxShape.circle,
                           color: Color(ColorConstants.getPeachDark())),
                     ),
-                    Container(
-                      child: TextDandyLight(
-                        type: TextDandyLight.LARGE_TEXT,
-                        textAlign: TextAlign.center,
-                        text: 'Setup\nBrand',
-                        color: Color(ColorConstants.getPrimaryWhite()),
-                      ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(bottom: 4),
+                          alignment: Alignment.center,
+                          height: 24.0,
+                          width: 24.0,
+                          child: Image.asset('assets/images/icons/file_upload.png', color: Color(ColorConstants.getPeachLight()),),
+                        ),
+                        Container(
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            textAlign: TextAlign.center,
+                            text: 'Upload\nLogo',
+                            color: Color(ColorConstants.getPeachLight()),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

@@ -284,7 +284,7 @@ class MainSettingsPageState{
     resizedLogoImage: null,
     logoImageSelected: false,
     onLogoImageSelected: null,
-    logoCharacter: null,
+    logoCharacter: ' ',
     currentBannerColor: Color(ColorConstants.getBlueDark()),
     currentIconTextColor: Color(ColorConstants.getPrimaryWhite()),
     currentIconColor: Color(ColorConstants.getPeachDark()),

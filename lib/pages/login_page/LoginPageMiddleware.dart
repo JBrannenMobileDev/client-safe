@@ -373,7 +373,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         isSubscribed: false,
         bannerImageSelected: false,
         logoSelected: false,
-        logoCharacter: store.state.loginPageState.businessName.substring(0, 1) ?? 'D',
+        logoCharacter: store.state.loginPageState.businessName != null && store.state.loginPageState.businessName.length > 0 ? store.state.loginPageState.businessName.substring(0, 1) : 'D',
         selectedColorTheme: ColorTheme(
           themeName: 'default',
           iconColor: ColorConstants.getString(ColorConstants.getBlueDark()),
@@ -384,7 +384,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         ),
         selectedFontTheme: FontTheme(
             themeName: 'default',
-            iconFont: FontTheme.SIGNATURE2,
+            iconFont: FontTheme.SIGNATURE3,
             mainFont: FontTheme.OPEN_SANS,
         ),
       );
@@ -608,6 +608,28 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           await EventSender().setUserProfileData(EventNames.BUSINESS_NAME, profile.businessName);
           await EventSender().setUserProfileData(EventNames.BUILD_VERSION, (await PackageInfo.fromPlatform()).version);
           await EventSender().setUserProfileData(EventNames.BUILD_NUMBER, (await PackageInfo.fromPlatform()).buildNumber);
+
+          if(profile.selectedColorTheme == null) {
+            profile.selectedColorTheme = ColorTheme(
+              themeName: 'default',
+              iconColor: ColorConstants.getString(ColorConstants.getBlueDark()),
+              iconTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
+              buttonColor: ColorConstants.getString(ColorConstants.getPeachDark()),
+              buttonTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
+              bannerColor: ColorConstants.getString(ColorConstants.getBlueLight()),
+            );
+          }
+          if(profile.selectedFontTheme == null) {
+            profile.selectedFontTheme = FontTheme(
+              themeName: 'default',
+              iconFont: FontTheme.SIGNATURE2,
+              mainFont: FontTheme.OPEN_SANS,
+            );
+          }
+          if(profile.logoCharacter == null || profile.logoCharacter.length == 0) {
+            profile.logoCharacter = profile.businessName != null && profile.businessName.length > 0 ? profile.businessName.substring(0,1) : 'D';
+          }
+          await ProfileDao.update(profile);
         }
         store.dispatch(SetIsUserVerifiedAction(store.state.loginPageState, user.emailVerified));
         store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));

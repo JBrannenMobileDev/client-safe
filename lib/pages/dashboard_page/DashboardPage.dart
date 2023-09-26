@@ -44,6 +44,7 @@ import '../../utils/PushNotificationsManager.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
+import '../main_settings_page/MainSettingsPageActions.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({Key key, this.destination, this.comingFromLogin}) : super(key: key);

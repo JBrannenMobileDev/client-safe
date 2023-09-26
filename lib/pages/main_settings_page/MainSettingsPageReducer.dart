@@ -105,21 +105,20 @@ MainSettingsPageState _SetSelectedFont(MainSettingsPageState previousState, SetS
 
 MainSettingsPageState _clearBranding(MainSettingsPageState previousState, ClearBrandingStateAction action){
   return previousState.copyWith(
-    currentIconColor: ColorConstants.hexToColor(action.profile.selectedColorTheme.iconColor ?? ColorConstants.getPeachDark()),
-    currentIconTextColor: ColorConstants.hexToColor(action.profile.selectedColorTheme.iconTextColor ?? ColorConstants.getPrimaryWhite()),
-    currentButtonColor: ColorConstants.hexToColor(action.profile.selectedColorTheme.buttonColor ?? ColorConstants.getPeachDark()),
-    currentButtonTextColor: ColorConstants.hexToColor(action.profile.selectedColorTheme.buttonTextColor ?? ColorConstants.getPrimaryWhite()),
-    currentBannerColor: ColorConstants.hexToColor(action.profile.selectedColorTheme.bannerColor ?? ColorConstants.getBlueDark()),
+    profile: action.profile,
+    currentIconColor: action.profile.selectedColorTheme != null ? ColorConstants.hexToColor(action.profile.selectedColorTheme.iconColor) : Color(ColorConstants.getPeachDark()),
+    currentIconTextColor: action.profile.selectedColorTheme != null ? ColorConstants.hexToColor(action.profile.selectedColorTheme.iconTextColor) : Color(ColorConstants.getPrimaryWhite()),
+    currentButtonColor: action.profile.selectedColorTheme != null ? ColorConstants.hexToColor(action.profile.selectedColorTheme.buttonColor) : Color(ColorConstants.getPeachDark()),
+    currentButtonTextColor: action.profile.selectedColorTheme != null ? ColorConstants.hexToColor(action.profile.selectedColorTheme.buttonTextColor) : Color(ColorConstants.getPrimaryWhite()),
+    currentBannerColor: action.profile.selectedColorTheme != null ? ColorConstants.hexToColor(action.profile.selectedColorTheme.bannerColor) : Color(ColorConstants.getBlueDark()),
     logoImageSelected: action.profile.logoSelected,
     bannerImageSelected: action.profile.bannerImageSelected,
     bannerImage: null,
     resizedLogoImage: null,
     showPublishButton: false,
-    currentIconFont: action.profile.selectedFontTheme.iconFont ?? FontTheme.SIGNATURE2,
-    currentFont: action.profile.selectedFontTheme.mainFont ?? FontTheme.OPEN_SANS,
-    logoCharacter: action.profile.logoCharacter != null
-        ? action.profile.logoCharacter : action.profile.businessName != null && action.profile.businessName.length > 0
-        ? action.profile.businessName.substring(0, 1) : 'D',
+    currentIconFont: action.profile.selectedFontTheme != null ? action.profile.selectedFontTheme.iconFont : FontTheme.SIGNATURE2,
+    currentFont: action.profile.selectedFontTheme != null ? action.profile.selectedFontTheme.mainFont : FontTheme.OPEN_SANS,
+    logoCharacter: action.profile.logoCharacter,
   );
 }
 

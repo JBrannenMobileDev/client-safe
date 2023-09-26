@@ -8,6 +8,8 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
+import '../../data_layer/local_db/daos/ProfileDao.dart';
+import '../../utils/UidUtil.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class ColorThemeSelectionWidget extends StatefulWidget {
@@ -24,8 +26,8 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
   @override
   Widget build(BuildContext context) =>
       StoreConnector<AppState, MainSettingsPageState>(
-        onInit: (store) {
-          store.dispatch(ClearBrandingStateAction(store.state.mainSettingsPageState, store.state.mainSettingsPageState.profile));
+        onInit: (store) async {
+          store.dispatch(ClearBrandingStateAction(store.state.mainSettingsPageState, await ProfileDao.getMatchingProfile(UidUtil().getUid())));
         },
         converter: (Store<AppState> store) => MainSettingsPageState.fromStore(store),
         builder: (BuildContext context, MainSettingsPageState pageState) => Column(

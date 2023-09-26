@@ -3,9 +3,11 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -44,12 +46,14 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
   }
 
   @override
-  Widget build(BuildContext context) =>
-      StoreConnector<AppState, MainSettingsPageState>(
-        onInit: (store) {
-          store.dispatch(ClearBrandingStateAction(
-              store.state.mainSettingsPageState,
-              store.state.mainSettingsPageState.profile));
+  Widget build(BuildContext context) => StoreConnector<AppState, MainSettingsPageState>(
+        onInit: (store) async {
+          store.dispatch(
+              ClearBrandingStateAction(
+                store.state.mainSettingsPageState,
+                await ProfileDao.getMatchingProfile(UidUtil().getUid())
+              )
+          );
           if(store.state.mainSettingsPageState.profile.logoSelected) {
             selections[0] = true;
             selections[1] = false;
@@ -181,8 +185,7 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                               type: TextDandyLight.BRAND_LOGO,
                               fontFamily: pageState.currentIconFont,
                               textAlign: TextAlign.center,
-                              text: pageState.logoCharacter
-                                  .substring(0, 1),
+                              text: pageState.logoCharacter.substring(0, 1),
                               color: pageState.currentIconTextColor,
                             )
                           ],
