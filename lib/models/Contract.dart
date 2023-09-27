@@ -5,6 +5,7 @@ class Contract {
   String photographerSignature;
   String clientSignature;
   String terms;
+  String jsonTerms;
   bool signedByClient = false;
   bool signedByPhotographer = false;
   DateTime clientSignedDate;
@@ -17,6 +18,7 @@ class Contract {
     this.documentId,
     this.contractName,
     this.terms,
+    this.jsonTerms,
     this.signedByClient,
     this.signedByPhotographer,
     this.photographerSignature,
@@ -30,6 +32,7 @@ class Contract {
       'documentId' : documentId,
       'contractName': contractName,
       'terms' : terms,
+      'jsonTerms' : jsonTerms,
       'signedByClient' : signedByClient,
       'signedByPhotographer' : signedByPhotographer,
       'photographerSignature' : photographerSignature,
@@ -44,6 +47,7 @@ class Contract {
       documentId: map['documentId'],
       contractName: map['contractName'],
       terms: map['terms'],
+      jsonTerms: map['jsonTerms'],
       signedByClient: map['signedByClient'],
       signedByPhotographer: map['signedByPhotographer'],
       photographerSignature: map['photographerSignature'],

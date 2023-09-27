@@ -10,6 +10,10 @@ import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.da
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageMiddleware.dart';
 import 'package:dandylight/pages/clients_page/ClientsPageActions.dart';
 import 'package:dandylight/pages/clients_page/ClientsPageMiddleware.dart';
+import 'package:dandylight/pages/contract_edit_page/ContractEditActions.dart';
+import 'package:dandylight/pages/contract_edit_page/ContractEditPageMiddleware.dart';
+import 'package:dandylight/pages/contracts_page/ContractsActions.dart';
+import 'package:dandylight/pages/contracts_page/ContractsPageMiddleware.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageMiddleware.dart';
 import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPageActions.dart';
@@ -302,5 +306,8 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, GenerateInvoiceForClientAction>(ClientPortalMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchProfileAction>(ShareWithClientPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveProposalAction>(ShareWithClientPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveContractAction>(ContractEditPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, DeleteContractAction>(ContractEditPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchContractsAction>(ContractsPageMiddleware()));
   return middlewareList;
 }

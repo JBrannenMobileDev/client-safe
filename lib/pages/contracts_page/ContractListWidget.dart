@@ -5,16 +5,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../models/Contract.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class ContractListWidget extends StatelessWidget {
-  final ReminderDandyLight reminder;
+  final Contract contract;
   var pageState;
-  final Function onReminderSelected;
+  final Function onContractSelected;
   final Color backgroundColor;
   final Color textColor;
 
-  ContractListWidget(this.reminder, this.pageState, this.onReminderSelected, this.backgroundColor, this.textColor);
+  ContractListWidget(this.contract, this.pageState, this.onContractSelected, this.backgroundColor, this.textColor);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class ContractListWidget extends StatelessWidget {
           ),
         ),
         onPressed: () {
-          onReminderSelected(reminder, pageState, context);
+          onContractSelected(pageState, context, contract);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,7 +48,7 @@ class ContractListWidget extends StatelessWidget {
                     width: MediaQuery.of(context).size.width - 120,
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      text: reminder.description,
+                      text: contract.contractName,
                       textAlign: TextAlign.start,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

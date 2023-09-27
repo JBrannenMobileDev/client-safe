@@ -91,6 +91,7 @@ dependencies:
   flutter_colorpicker: ^1.0.3
   image_cropper: ^4.0.1
   universal_html: ^2.0.9
+  flutter_quill: ^7.1.16+1
   modal_bottom_sheet:
     git:
       url: https://github.com/CoolDude53/modal_bottom_sheet.git

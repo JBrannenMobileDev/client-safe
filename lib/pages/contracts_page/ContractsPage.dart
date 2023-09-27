@@ -1,4 +1,5 @@
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/models/Contract.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/contracts_page/ContractsActions.dart';
 import 'package:dandylight/pages/contracts_page/ContractsPageState.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import '../../widgets/TextDandyLight.dart';
+import '../contract_edit_page/NewContractOptionsBottomSheet.dart';
 import 'ContractListWidget.dart';
 
 class ContractsPage extends StatefulWidget {
@@ -32,6 +34,20 @@ class _ContractsPageState extends State<ContractsPage> with TickerProviderStateM
     _scrollController = ScrollController()..addListener(() => setState(() {}));
   }
 
+  void _showGetStartedBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return NewContractOptionsBottomSheet();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, ContractsPageState>(
         onInit: (store) {
@@ -40,110 +56,115 @@ class _ContractsPageState extends State<ContractsPage> with TickerProviderStateM
         converter: (Store<AppState> store) => ContractsPageState.fromStore(store),
         builder: (BuildContext context, ContractsPageState pageState) =>
             Scaffold(
-              body: Container(
-                decoration: BoxDecoration(
-                  color: Color(ColorConstants.getPrimaryWhite()),
-                ),
-                child: CustomScrollView(
-                  slivers: <Widget>[
-                    SliverAppBar(
-                      iconTheme: IconThemeData(
-                        color: Color(ColorConstants.getBlueDark()), //change your color here
-                      ),
-                      brightness: Brightness.light,
-                      backgroundColor: _isMinimized ? _getAppBarColor() : Colors.transparent,
-                      pinned: true,
-                      centerTitle: true,
-                      elevation: 0.0,
-                      title: Center(
-                        child: TextDandyLight(
-                          type: TextDandyLight.LARGE_TEXT,
-                          text: "Contracts",
-                          color: Color(ColorConstants.getPrimaryBlack()),
+              body: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Color(ColorConstants.getPrimaryWhite()),
+                    ),
+                    child: CustomScrollView(
+                      slivers: <Widget>[
+                        SliverAppBar(
+                          iconTheme: IconThemeData(
+                            color: Color(ColorConstants.getBlueDark()), //change your color here
+                          ),
+                          brightness: Brightness.light,
+                          backgroundColor: _isMinimized ? _getAppBarColor() : Colors.transparent,
+                          pinned: true,
+                          centerTitle: true,
+                          elevation: 0.0,
+                          title: Center(
+                            child: TextDandyLight(
+                              type: TextDandyLight.LARGE_TEXT,
+                              text: "Contracts",
+                              color: Color(ColorConstants.getPrimaryBlack()),
+                            ),
+                          ),
+                          actions: <Widget>[
+                            GestureDetector(
+                              onTap: () {
+                                _showGetStartedBottomSheet(context);
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(right: 26.0),
+                                height: 24.0,
+                                width: 24.0,
+                                child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getBlueDark()),),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      actions: <Widget>[
-                        GestureDetector(
-                          onTap: () {
-                            NavigationUtil.onContractSelected(context, null);
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(right: 26.0),
-                            height: 24.0,
-                            width: 24.0,
-                            child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getBlueDark()),),
+                        SliverList(
+                          delegate: new SliverChildListDelegate(
+                            <Widget>[
+                              pageState.contracts.length > 0 ? ListView.builder(
+                                reverse: false,
+                                padding: new EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 64.0),
+                                shrinkWrap: true,
+                                controller: _scrollController,
+                                physics: ClampingScrollPhysics(),
+                                key: _listKey,
+                                itemCount: pageState.contracts.length,
+                                itemBuilder: _buildItem,
+                              ) :
+                              Padding(
+                                padding: EdgeInsets.only(left: 64.0, top: 32.0, right: 64.0),
+                                child: TextDandyLight(
+                                  type: TextDandyLight.SMALL_TEXT,
+                                  text: "You have not created any contracts yet.",
+                                  textAlign: TextAlign.center,
+                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
-                    SliverList(
-                      delegate: new SliverChildListDelegate(
-                        <Widget>[
-                          pageState.contracts.length > 0 ? ListView.builder(
-                            reverse: false,
-                            padding: new EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 64.0),
-                            shrinkWrap: true,
-                            controller: _scrollController,
-                            physics: ClampingScrollPhysics(),
-                            key: _listKey,
-                            itemCount: pageState.contracts.length,
-                            itemBuilder: _buildItem,
-                          ) :
-                          Padding(
-                            padding: EdgeInsets.only(left: 64.0, top: 48.0, right: 64.0),
-                            child: TextDandyLight(
-                              type: TextDandyLight.SMALL_TEXT,
-                              text: "You have not created any contracts yet.",
-                              textAlign: TextAlign.center,
-                              color: Color(ColorConstants.getPrimaryBlack()),
-                            ),
-                          ),
-                          pageState.contracts.length == 0 ? Container(
-                            margin: EdgeInsets.only(top: 32),
-                            alignment: Alignment.center,
-                            child: GestureDetector(
-                              onTap: () {
-                                NavigationUtil.onContractSelected(context, null);
-                              },
-                              child: Container(
-                                alignment: Alignment.center,
-                                width: 200,
-                                height: 54,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(27),
-                                    color: Color(ColorConstants.getBlueDark())
-                                ),
-                                child: TextDandyLight(
-                                  type: TextDandyLight.LARGE_TEXT,
-                                  text: "New Contract",
-                                  textAlign: TextAlign.center,
-                                  color: Color(ColorConstants.getPrimaryWhite()),
-                                ),
-                              ),
-                            ),
-                          ) : SizedBox(),
-                        ],
+                  ),
+                  pageState.contracts.length == 0 ? Container(
+                    margin: EdgeInsets.only(bottom: 48),
+                    alignment: Alignment.bottomCenter,
+                    child: GestureDetector(
+                      onTap: () {
+                        _showGetStartedBottomSheet(context);
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: 216,
+                        height: 48,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(27),
+                            color: Color(ColorConstants.getBlueDark())
+                        ),
+                        child: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                          text: "New Contract",
+                          textAlign: TextAlign.center,
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                        ),
                       ),
                     ),
-                  ],
-                ),
+                  ) : SizedBox(),
+                ],
               ),
             ),
       );
 
   Widget _buildItem(BuildContext context, int index) {
-    return StoreConnector<AppState, RemindersPageState>(
-      converter: (store) => RemindersPageState.fromStore(store),
-      builder: (BuildContext context, RemindersPageState pageState) =>
+    return StoreConnector<AppState, ContractsPageState>(
+      converter: (store) => ContractsPageState.fromStore(store),
+      builder: (BuildContext context, ContractsPageState pageState) =>
           Container(
             margin: EdgeInsets.only(top: 0.0, bottom: 8.0),
-            child: ContractListWidget(pageState.reminders.elementAt(index), pageState, onReminderSelected, Color(ColorConstants.getBlueLight()), Color(ColorConstants.getPrimaryBlack())),
+            child: ContractListWidget(pageState.contracts.elementAt(index), pageState, onOptionSelected, Color(ColorConstants.getBlueLight()), Color(ColorConstants.getPrimaryBlack())),
           ),
     );
   }
 
-  onReminderSelected(ReminderDandyLight reminder, RemindersPageState pageState,  BuildContext context) {
-    NavigationUtil.onContractSelected(context, null);
+  onOptionSelected(ContractsPageState pageState, BuildContext context, Contract contract) {
+    NavigationUtil.onContractSelected(context, contract, contract.contractName, false);
   }
 
   bool get _isMinimized {

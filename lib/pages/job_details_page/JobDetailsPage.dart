@@ -73,7 +73,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
         return Device.get().isIos ?
         CupertinoAlertDialog(
           title: new Text('Are you sure?'),
-          content: new Text('All data for this job will be gone forever!'),
+          content: new Text('All data for this job will be permanently deleted!'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
@@ -91,7 +91,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
           ],
         ) : AlertDialog(
           title: new Text('Are you sure?'),
-          content: new Text('All data for this job will be gone forever!'),
+          content: new Text('All data for this job will be permanently deleted!'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),

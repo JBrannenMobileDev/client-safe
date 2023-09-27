@@ -104,8 +104,7 @@ class _EditAccountPageState extends State<EditAccountPage>
                                     focusNode: firstNameFocusNode,
                                     onFocusAction: () {
                                       firstNameFocusNode.unfocus();
-                                      FocusScope.of(context)
-                                          .requestFocus(lastNameFocusNode);
+                                      FocusScope.of(context).requestFocus(lastNameFocusNode);
                                     },
                                     capitalization: TextCapitalization.words,
                                     enabled: true,
