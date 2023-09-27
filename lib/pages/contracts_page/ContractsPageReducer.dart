@@ -8,6 +8,7 @@ final contractsReducer = combineReducers<ContractsPageState>([
 
 ContractsPageState _setContracts(ContractsPageState previousState, SetContractsAction action){
   return previousState.copyWith(
-    contracts: action.contracts
+    contracts: action.contracts,
+    contractTemplates: action.contractTemplates,
   );
 }

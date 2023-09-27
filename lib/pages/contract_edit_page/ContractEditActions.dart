@@ -2,6 +2,7 @@
 import 'package:flutter_quill/flutter_quill.dart';
 
 import '../../models/Contract.dart';
+import '../../models/Profile.dart';
 import 'ContractEditPageState.dart';
 
 class SetContractAction{
@@ -12,7 +13,8 @@ class SetContractAction{
 
 class ClearContractEditState {
   final ContractEditPageState pageState;
-  ClearContractEditState(this.pageState);
+  final bool isNew;
+  ClearContractEditState(this.pageState, this.isNew);
 }
 
 class SaveContractAction{
@@ -30,5 +32,16 @@ class SetContractNameAction {
 class DeleteContractAction {
   final ContractEditPageState pageState;
   DeleteContractAction(this.pageState);
+}
+
+class FetchProfileForContractEditAction {
+  final ContractEditPageState pageState;
+  FetchProfileForContractEditAction(this.pageState);
+}
+
+class SetProfileForContractEditAction {
+  final ContractEditPageState pageState;
+  final Profile profile;
+  SetProfileForContractEditAction(this.pageState, this.profile);
 }
 

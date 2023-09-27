@@ -9,9 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 
 import '../../models/Contract.dart';
+import '../../models/FontTheme.dart';
 import '../../utils/ImageUtil.dart';
 import '../../utils/Shadows.dart';
 import '../../utils/styles/Styles.dart';
@@ -33,6 +35,7 @@ class ContractEditPage extends StatefulWidget {
 }
 
 class _ContractEditPageState extends State<ContractEditPage> with TickerProviderStateMixin {
+  TextEditingController _clientSignatureController = TextEditingController();
   quill.QuillController _controller;
   final FocusNode titleFocusNode = FocusNode();
   final FocusNode contractFocusNode = FocusNode();
@@ -58,11 +61,12 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
   Widget build(BuildContext context) =>
       StoreConnector<AppState, ContractEditPageState>(
         onInit: (store) {
-          store.dispatch(ClearContractEditState(store.state.contractEditPageState));
+          store.dispatch(ClearContractEditState(store.state.contractEditPageState, isNew));
           if(contract != null) {
             store.dispatch(SetContractAction(store.state.contractEditPageState, contract));
           }
           store.dispatch(SetContractNameAction(store.state.contractEditPageState, contractName));
+          store.dispatch(FetchProfileForContractEditAction(store.state.contractEditPageState));
         },
         converter: (Store<AppState> store) => ContractEditPageState.fromStore(store),
         builder: (BuildContext context, ContractEditPageState pageState) => WillPopScope(
@@ -145,7 +149,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                               width: 250,
                             child: TextFormField(
                                 focusNode: titleFocusNode,
-                                initialValue: contract != null ? contract.contractName : contractName,
+                                initialValue: !isNew ? contract.contractName : contractName,
                                 enabled: true,
                                 cursorColor: Color(ColorConstants.getPrimaryBlack()),
                                 onChanged: (text) {
@@ -191,8 +195,19 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                             <Widget>[
                               Container(
                                 color: Color(ColorConstants.getPrimaryWhite()),
-                                margin: EdgeInsets.only(left: 16, right: 16, top: 96),
+                                margin: EdgeInsets.only(left: 16, right: 16, top: 96, bottom: 48),
                                 child: getEditor(),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left:16, top: 8, bottom: 8),
+                                child: TextDandyLight(
+                                  type: TextDandyLight.LARGE_TEXT,
+                                  text: 'Signatures',
+                                  isBold: true,
+                                ),
+                              ),
+                              Column(
+                                children: signatures(pageState),
                               ),
                               Container(
                                 height: 164,
@@ -344,5 +359,171 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
         );
       },
     );
+  }
+
+  List<Widget> signatures(ContractEditPageState pageState) {
+    return [
+      Container(
+        width: 410,
+        margin: EdgeInsets.only(bottom: 64, left: 16, right: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 0, bottom: 8),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Date: ',
+                    isBold: true,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 0, bottom: 8),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text:
+                    DateFormat('EEE, MMMM dd, yyyy').format(DateTime.now()),
+                  ),
+                )
+              ],
+            ),
+            Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 0, bottom: 8),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Photographer Name: ',
+                    isBold: true,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 0, bottom: 8),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: pageState.profile != null ? (pageState.profile.firstName + ' ' +
+                        pageState.profile.lastName) : '',
+                  ),
+                )
+              ],
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 8),
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: 'Photographer Signature:',
+                textAlign:
+                TextAlign.center,
+                isBold: true,
+              ),
+            ),
+            TextFormField(
+              initialValue: pageState.profile != null ? (pageState.profile.firstName + ' ' +
+                  pageState.profile.lastName) : 'Photographer Name',
+              enabled: false,
+              cursorColor: Color(ColorConstants.getPrimaryBlack()),
+              textCapitalization: TextCapitalization.words,
+              style: TextStyle(
+                  fontFamily: FontTheme.SIGNATURE2,
+                  fontSize: 48,
+                  fontWeight: FontWeight.bold),
+              decoration: InputDecoration(
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Color(ColorConstants.getPrimaryBlack())),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Color(ColorConstants.getPrimaryBlack())),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+      Container(
+        width: 410,
+        margin: EdgeInsets.only(bottom: 64, left: 16, right: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 0, bottom: 8),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Date: ',
+                    isBold: true,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 0, bottom: 8),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: DateFormat('EEE, MMMM dd, yyyy').format(
+                        pageState.contract != null && pageState.contract.clientSignedDate != null
+                            ? pageState.contract.clientSignedDate
+                            : DateTime.now()),
+                  ),
+                )
+              ],
+            ),
+            Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 0, bottom: 8),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Client Name: ',
+                    isBold: true,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 0, bottom: 8),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Client Name',
+                  ),
+                )
+              ],
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 8),
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: 'Client Signature:',
+                textAlign:
+                TextAlign.center,
+                isBold: true,
+              ),
+            ),
+            TextField(
+              enabled: false,
+              controller: _clientSignatureController,
+              cursorColor: Color(ColorConstants.getPrimaryBlack()),
+              textCapitalization: TextCapitalization.words,
+              style: TextStyle(
+                  fontFamily: FontTheme.SIGNATURE2,
+                  fontSize: 48,
+                  fontWeight: FontWeight.bold,
+                  color: Color(ColorConstants.getPrimaryBlack())),
+              decoration: InputDecoration(
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Color(ColorConstants.getPrimaryBlack())),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Color(ColorConstants.getPrimaryBlack())),
+                ),
+              ),
+            )
+          ],
+        ),
+      )
+    ];
   }
 }

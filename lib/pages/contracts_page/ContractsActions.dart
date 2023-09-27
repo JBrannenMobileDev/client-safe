@@ -10,6 +10,7 @@ class FetchContractsAction{
 class SetContractsAction{
   final ContractsPageState pageState;
   final List<Contract> contracts;
-  SetContractsAction(this.pageState, this.contracts);
+  final List<Contract> contractTemplates;
+  SetContractsAction(this.pageState, this.contracts, this.contractTemplates);
 }
 

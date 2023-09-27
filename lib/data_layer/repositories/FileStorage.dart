@@ -63,20 +63,12 @@ class FileStorage {
     await _uploadPreviewBannerMobileImageFile(pathLarge, profile, handleProgress);
   }
 
-  static saveContractFile(String contractPath, Contract contract) async {
-    await _uploadContractFile(contractPath, contract);
-  }
-
   static void deleteLocationFileImage(LocationDandy location) async {
     _deleteLocationImageFileFromCloud(location);
   }
 
   static void deletePoseFileImage(Pose pose) async {
     _deletePoseImageFileFromCloud(pose);
-  }
-
-  static void deleteFileContract(Contract contract) async {
-    _deleteContractFileFromCloud(contract);
   }
 
   //Intended for flutter web

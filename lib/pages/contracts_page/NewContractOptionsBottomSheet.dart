@@ -1,9 +1,7 @@
 import 'package:dandylight/models/Contract.dart';
 import 'package:dandylight/navigation/routes/RouteNames.dart';
-import 'package:dandylight/pages/contract_edit_page/ContractEditPageState.dart';
 import 'package:dandylight/pages/pose_library_group_page/LibraryPoseGroupPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/ContractTemplatesUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -13,6 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../AppState.dart';
 import '../../../widgets/TextDandyLight.dart';
 import '../../utils/NavigationUtil.dart';
+import 'ContractsPageState.dart';
 
 
 class NewContractOptionsBottomSheet extends StatefulWidget {
@@ -29,9 +28,9 @@ class _NewContractOptionsBottomSheetState extends State<NewContractOptionsBottom
   final List<String> options = ['Blank Contract', 'General (template)', 'Wedding (template)', 'Portrait (template)'];
 
   Widget _buildItem(BuildContext context, int index) {
-    return StoreConnector<AppState, ContractEditPageState>(
-      converter: (store) => ContractEditPageState.fromStore(store),
-      builder: (BuildContext context, ContractEditPageState pageState) =>
+    return StoreConnector<AppState, ContractsPageState>(
+      converter: (store) => ContractsPageState.fromStore(store),
+      builder: (BuildContext context, ContractsPageState pageState) =>
           GestureDetector(
             onTap: () {
               switch(options.elementAt(index)) {
@@ -41,17 +40,17 @@ class _NewContractOptionsBottomSheetState extends State<NewContractOptionsBottom
                   break;
                 case 'General (template)':
                   Navigator.of(context).pop();
-                  Contract generalContract = ContractTemplatesUtil.getGeneralContract();
+                  Contract generalContract = null;
                   NavigationUtil.onContractSelected(context, generalContract, generalContract.contractName, true);
                   break;
                 case 'Wedding (template)':
                   Navigator.of(context).pop();
-                  Contract weddingContract = ContractTemplatesUtil.getWeddingContract();
+                  Contract weddingContract = pageState.contractTemplates.firstWhere((template) => template.contractName == options.elementAt(index));
                   NavigationUtil.onContractSelected(context, weddingContract, "Wedding Contract", true);
                   break;
                 case 'Portrait (template)':
                   Navigator.of(context).pop();
-                  Contract portraitContract = ContractTemplatesUtil.getPortraitContract();
+                  Contract portraitContract = null;
                   NavigationUtil.onContractSelected(context, portraitContract, "Portrait Contract", true);
                   break;
               }

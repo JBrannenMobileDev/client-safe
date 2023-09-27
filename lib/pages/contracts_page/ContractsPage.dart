@@ -14,7 +14,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import '../../widgets/TextDandyLight.dart';
-import '../contract_edit_page/NewContractOptionsBottomSheet.dart';
+import 'NewContractOptionsBottomSheet.dart';
 import 'ContractListWidget.dart';
 
 class ContractsPage extends StatefulWidget {

@@ -308,6 +308,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveProposalAction>(ShareWithClientPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveContractAction>(ContractEditPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteContractAction>(ContractEditPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchProfileForContractEditAction>(ContractEditPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchContractsAction>(ContractsPageMiddleware()));
   return middlewareList;
 }

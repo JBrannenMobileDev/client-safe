@@ -6,6 +6,7 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/firebase/FireStoreSync.dart';
 import 'package:dandylight/data_layer/firebase/FirebaseAuthentication.dart';
 import 'package:dandylight/data_layer/firebase/collections/UserCollection.dart';
+import 'package:dandylight/data_layer/local_db/daos/ContractTemplateDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ResponseDao.dart';
@@ -173,6 +174,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
     await ProfileDao.insertLocal(existingProfile);
     await FireStoreSync().dandyLightAppInitializationSync(existingProfile.uid);
     await PoseLibraryGroupDao.syncAllFromFireStore();
+    await ContractTemplateDao.syncAllFromFireStore();
     ProfileDao.updateUserLoginTime(existingProfile.uid);
     String token = await PushNotificationsManager().getToken();
     bool newDevice = false;
@@ -274,6 +276,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
             await ProfileDao.insertLocal(fireStoreProfile);
             await FireStoreSync().dandyLightAppInitializationSync(authResult.user.uid);
             await PoseLibraryGroupDao.syncAllFromFireStore();
+            await ContractTemplateDao.syncAllFromFireStore();
           }
         }
         if (authResult.user != null && authResult.user.emailVerified) {
@@ -519,6 +522,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       await JobDao.insertOrUpdate(jobToSave);
 
       await PoseLibraryGroupDao.syncAllFromFireStore();
+      await ContractTemplateDao.syncAllFromFireStore();
       PoseLibraryGroup libraryGroup = (await PoseLibraryGroupDao.getAllSortedMostFrequent()).first;
       if(libraryGroup.poses.length > 7) {
         List<Pose> posesToAdd = libraryGroup.poses.sublist(0, 7);
@@ -537,6 +541,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           store.dispatch(UpdateNavigateToOnBoardingAction(store.state.loginPageState, true));
         });
         await PoseLibraryGroupDao.syncAllFromFireStore();
+        await ContractTemplateDao.syncAllFromFireStore();
         EventSender().sendEvent(eventName: EventNames.USER_SIGNED_IN_CHECK, properties: {
           EventNames.SIGN_IN_CHECKED_PARAM_USER_UID : user.uid,
           EventNames.SIGN_IN_CHECKED_PARAM_PROFILE_UID : newProfile?.uid ?? "profile = null",
@@ -642,6 +647,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           setShouldShowOnBoarding(store, profile);
         });
         await PoseLibraryGroupDao.syncAllFromFireStore();
+        await ContractTemplateDao.syncAllFromFireStore();
         EventSender().sendEvent(eventName: EventNames.USER_SIGNED_IN_CHECK, properties: {
           EventNames.SIGN_IN_CHECKED_PARAM_USER_UID : user.uid,
           EventNames.SIGN_IN_CHECKED_PARAM_PROFILE_UID : profile?.uid ?? "profile = null",
