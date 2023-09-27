@@ -1,13 +1,9 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Contract.dart';
-import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/contracts_page/ContractsActions.dart';
 import 'package:dandylight/pages/contracts_page/ContractsPageState.dart';
-import 'package:dandylight/pages/reminders_page/RemindersActions.dart';
-import 'package:dandylight/pages/reminders_page/RemindersPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
-import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -18,15 +14,22 @@ import 'NewContractOptionsBottomSheet.dart';
 import 'ContractListWidget.dart';
 
 class ContractsPage extends StatefulWidget {
+  final String jobDocumentId;
+
+  ContractsPage({this.jobDocumentId = null});
+
   @override
   State<StatefulWidget> createState() {
-    return _ContractsPageState();
+    return _ContractsPageState(jobDocumentId);
   }
 }
 
 class _ContractsPageState extends State<ContractsPage> with TickerProviderStateMixin {
   ScrollController _scrollController;
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  final String jobDocumentId;
+
+  _ContractsPageState(this.jobDocumentId);
 
   @override
   void initState() {
@@ -77,7 +80,7 @@ class _ContractsPageState extends State<ContractsPage> with TickerProviderStateM
                           title: Center(
                             child: TextDandyLight(
                               type: TextDandyLight.LARGE_TEXT,
-                              text: "Contracts",
+                              text: jobDocumentId != null ? 'Select A Contract' : "Contracts",
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
@@ -164,7 +167,12 @@ class _ContractsPageState extends State<ContractsPage> with TickerProviderStateM
   }
 
   onOptionSelected(ContractsPageState pageState, BuildContext context, Contract contract) {
-    NavigationUtil.onContractSelected(context, contract, contract.contractName, false);
+    if(jobDocumentId != null) {
+      pageState.onSaveToJobSelected(contract, jobDocumentId);
+      Navigator.of(context).pop();
+    } else {
+      NavigationUtil.onContractSelected(context, contract, contract.contractName, false, jobDocumentId);
+    }
   }
 
   bool get _isMinimized {

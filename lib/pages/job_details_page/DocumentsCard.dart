@@ -15,9 +15,8 @@ import '../../widgets/TextDandyLight.dart';
 
 class DocumentsCard extends StatelessWidget {
   final Function onSendInvoiceSelected;
-  final Function onDeleteInvoiceSelected;
 
-  DocumentsCard({this.pageState, this.onSendInvoiceSelected, this.onDeleteInvoiceSelected});
+  DocumentsCard({this.pageState, this.onSendInvoiceSelected});
 
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
@@ -29,7 +28,6 @@ class DocumentsCard extends StatelessWidget {
       padding: EdgeInsets.only(top: 26.0),
       child: Container(
         width: double.maxFinite,
-        height: 132.0,
         margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
         decoration: new BoxDecoration(
             color: Color(ColorConstants.getPrimaryWhite()),
@@ -79,10 +77,17 @@ class DocumentsCard extends StatelessWidget {
     return TextButton(
       style: Styles.getButtonStyle(),
       onPressed: () async {
-        UserOptionsUtil.showViewInvoiceDialog(context, pageState.invoice, await JobDao.getJobById(pageState.invoice.jobDocumentId), onSendInvoiceSelected);
+        switch(item.getDocumentType()) {
+          case DocumentItem.DOCUMENT_TYPE_INVOICE:
+            UserOptionsUtil.showViewInvoiceDialog(context, pageState.invoice, await JobDao.getJobById(pageState.invoice.jobDocumentId), onSendInvoiceSelected);
+            break;
+          case DocumentItem.DOCUMENT_TYPE_CONTRACT:
+
+            break;
+        }
       },
       child: Container(
-        height: 48.0,
+        height: 54.0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -98,22 +103,20 @@ class DocumentsCard extends StatelessWidget {
                 ),
                 Container(
                   padding: EdgeInsets.only(left: 8.0),
-                  child: TextDandyLight(
-                    type: TextDandyLight.MEDIUM_TEXT,
-                    text: item.getDocumentType(),
-                    textAlign: TextAlign.start,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  child: item.buildTitle(context),
                 ),
               ],
             ),
             GestureDetector(
               onTap: () {
-                if(pageState.documents.elementAt(index).getDocumentType() == DocumentItem.DOCUMENT_TYPE_INVOICE){
-                  _ackAlert(context, pageState);
-                }
+                switch(item.getDocumentType()) {
+                  case DocumentItem.DOCUMENT_TYPE_INVOICE:
+                    _ackAlert(context, pageState);
+                    break;
+                  case DocumentItem.DOCUMENT_TYPE_CONTRACT:
+                    _ackContractAlert(context, pageState);
+                    break;
+                };
               },
               child: Container(
                 margin: EdgeInsets.only(right: 12.0),
@@ -135,7 +138,7 @@ class DocumentsCard extends StatelessWidget {
         return Device.get().isIos ?
         CupertinoAlertDialog(
           title: new Text('Are you sure?'),
-          content: new Text('This invoice will be gone forever!'),
+          content: new Text('This invoice will be permanently deleted.'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
@@ -146,7 +149,6 @@ class DocumentsCard extends StatelessWidget {
               style: Styles.getButtonStyle(),
               onPressed: () {
                 pageState.onDeleteInvoiceSelected(pageState.invoice);
-                onDeleteInvoiceSelected();
                 Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),
@@ -154,7 +156,7 @@ class DocumentsCard extends StatelessWidget {
           ],
         ) : AlertDialog(
           title: new Text('Are you sure?'),
-          content: new Text('This invoice will be gone forever!'),
+          content: new Text('This invoice will be permanently deleted.'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
@@ -165,7 +167,52 @@ class DocumentsCard extends StatelessWidget {
               style: Styles.getButtonStyle(),
               onPressed: () {
                 pageState.onDeleteInvoiceSelected(pageState.invoice);
-                onDeleteInvoiceSelected();
+                Navigator.of(context).pop(true);
+              },
+              child: new Text('Yes'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _ackContractAlert(BuildContext context, JobDetailsPageState pageState) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Device.get().isIos ?
+        CupertinoAlertDialog(
+          title: new Text('Are you sure?'),
+          content: new Text('This contract will be permanently removed from this job.'),
+          actions: <Widget>[
+            TextButton(
+              style: Styles.getButtonStyle(),
+              onPressed: () => Navigator.of(context).pop(false),
+              child: new Text('No'),
+            ),
+            TextButton(
+              style: Styles.getButtonStyle(),
+              onPressed: () {
+                pageState.onDeleteContractSelected(pageState.job.contract);
+                Navigator.of(context).pop(true);
+              },
+              child: new Text('Yes'),
+            ),
+          ],
+        ) : AlertDialog(
+          title: new Text('Are you sure?'),
+          content: new Text('This invoice will be permanently removed from this job.'),
+          actions: <Widget>[
+            TextButton(
+              style: Styles.getButtonStyle(),
+              onPressed: () => Navigator.of(context).pop(false),
+              child: new Text('No'),
+            ),
+            TextButton(
+              style: Styles.getButtonStyle(),
+              onPressed: () {
+                pageState.onDeleteContractSelected(pageState.job.contract);
                 Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),

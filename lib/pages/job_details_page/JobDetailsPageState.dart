@@ -16,6 +16,7 @@ import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
+import '../../models/Contract.dart';
 import '../../models/JobType.dart';
 import '../sunset_weather_page/SunsetWeatherPageActions.dart';
 
@@ -82,6 +83,7 @@ class JobDetailsPageState {
   final Function() onClearUnsavedTip;
   final Function() onAddInvoiceSelected;
   final Function(Invoice) onDeleteInvoiceSelected;
+  final Function(Contract) onDeleteContractSelected;
   final Function(Invoice) onInvoiceSent;
   final Function() onBackPressed;
   final Function(JobReminder) onDeleteReminderSelected;
@@ -166,6 +168,7 @@ class JobDetailsPageState {
     @required this.onSunsetWeatherSelected,
     @required this.onDrivingDirectionsSelected,
     @required this.poseFilePaths,
+    @required this.onDeleteContractSelected,
   });
 
   JobDetailsPageState copyWith({
@@ -225,6 +228,7 @@ class JobDetailsPageState {
     Function() onAddInvoiceSelected,
     List<DocumentItem> documents,
     Function(Invoice) onDeleteInvoiceSelected,
+    Function(Contract) onDeleteContractSelected,
     Function(Invoice) onInvoiceSent,
     Function(int) onAddToTip,
     Function() onSaveTipChange,
@@ -315,6 +319,7 @@ class JobDetailsPageState {
       onSunsetWeatherSelected: onSunsetWeatherSelected ?? this.onSunsetWeatherSelected,
       onDrivingDirectionsSelected: onDrivingDirectionsSelected ?? this.onDrivingDirectionsSelected,
       poseFilePaths: poseFilePaths ?? this.poseFilePaths,
+      onDeleteContractSelected: onDeleteContractSelected ?? this.onDeleteContractSelected,
     );
   }
 
@@ -385,6 +390,7 @@ class JobDetailsPageState {
           store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, store.state.jobDetailsPageState.job));
         },
         onDeleteInvoiceSelected: (invoice) => store.dispatch(OnDeleteInvoiceSelectedAction(store.state.jobDetailsPageState, invoice)),
+        onDeleteContractSelected: (contract) => store.dispatch(OnDeleteContractSelectedAction(store.state.jobDetailsPageState, contract)),
         onInvoiceSent: (invoice) => store.dispatch(InvoiceSentAction(store.state.jobDetailsPageState, invoice)),
         onBackPressed: () => store.dispatch(FetchJobsAction(store.state.jobsPageState)),
         onDeleteReminderSelected: (reminder) => store.dispatch(DeleteReminderFromJobAction(store.state.jobDetailsPageState, reminder)),
@@ -411,6 +417,7 @@ class JobDetailsPageState {
     stageScrollOffset: 200.0,
     newStagAnimationIndex: 2,
     eventList: [],
+    onDeleteContractSelected: null,
     deviceEvents: [],
     jobs: [],
     jobTitleText: "",
@@ -489,6 +496,7 @@ class JobDetailsPageState {
       onAddToDeposit.hashCode ^
       onSaveAddOnCost.hashCode ^
       job.hashCode ^
+      onDeleteContractSelected.hashCode ^
       weatherIcon.hashCode ^
       tempLow.hashCode ^
       tempHigh.hashCode ^
@@ -557,6 +565,7 @@ class JobDetailsPageState {
               sunset == other.sunset &&
               eveningBlueHour == other.eveningBlueHour &&
               jobTypes == other.jobTypes &&
+              onDeleteContractSelected == other.onDeleteContractSelected &&
               selectedDate == other.selectedDate &&
               deviceEvents == other.deviceEvents &&
               unsavedTipAmount == other.unsavedTipAmount &&

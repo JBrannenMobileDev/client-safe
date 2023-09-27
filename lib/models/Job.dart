@@ -153,7 +153,7 @@ class Job {
       'proposal' : proposal?.toMap() ?? null,
       'contract' : contract?.toMap() ?? null,
     };
-  }
+  } after deleting contract from job the job does not update.
 
   static Job fromMap(Map<String, dynamic> map) {
     return Job(

@@ -25,12 +25,13 @@ class ContractEditPage extends StatefulWidget {
   final Contract contract;
   final String contractName;
   final bool isNew;
+  final String jobDocumentId;
 
-  ContractEditPage({this.contract, this.contractName, this.isNew});
+  ContractEditPage({this.contract, this.contractName, this.isNew, this.jobDocumentId});
 
   @override
   State<StatefulWidget> createState() {
-    return _ContractEditPageState(contract, contractName, isNew);
+    return _ContractEditPageState(contract, contractName, isNew, jobDocumentId);
   }
 }
 
@@ -43,9 +44,10 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
   final Contract contract;
   final String contractName;
   final bool isNew;
+  final String jobDocumentId;
   bool hasUnsavedChanges = true;
 
-  _ContractEditPageState(this.contract, this.contractName, this.isNew);
+  _ContractEditPageState(this.contract, this.contractName, this.isNew, this.jobDocumentId);
 
 
   @override
@@ -243,7 +245,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                         ),
                         child: TextDandyLight(
                           type: TextDandyLight.LARGE_TEXT,
-                          text: 'Save Contract',
+                          text: jobDocumentId != null ? 'Save to Job' : 'Save Contract',
                           textAlign: TextAlign.center,
                           color: Color(ColorConstants.getPrimaryWhite()),
                         ),
@@ -330,7 +332,11 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteSelected();
+                if(jobDocumentId != null) {
+                  pageState.deleteFromJob();
+                } else {
+                  pageState.onDeleteSelected();
+                }
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
@@ -349,7 +355,11 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteSelected();
+                if(jobDocumentId != null) {
+                  pageState.deleteFromJob();
+                } else {
+                  pageState.onDeleteSelected();
+                }
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },

@@ -14,3 +14,10 @@ class SetContractsAction{
   SetContractsAction(this.pageState, this.contracts, this.contractTemplates);
 }
 
+class SaveContractToJobAction {
+  final ContractsPageState pageState;
+  final Contract contract;
+  final String jobDocumentId;
+  SaveContractToJobAction(this.pageState, this.contract, this.jobDocumentId);
+}
+

@@ -13,7 +13,7 @@ import 'package:dandylight/pages/job_details_page/NewDateSelectionDialog.dart';
 import 'package:dandylight/pages/job_details_page/PricePackageChangeDialog.dart.dart';
 import 'package:dandylight/pages/job_details_page/ReminderViewDialog.dart';
 import 'package:dandylight/pages/job_details_page/TipChangeDialog.dart';
-import 'package:dandylight/pages/job_details_page/document_items/InvoiceOptionsDialog.dart';
+import 'package:dandylight/pages/job_details_page/InvoiceOptionsDialog.dart';
 import 'package:dandylight/pages/login_page/ShowAccountCreatedDialog.dart';
 import 'package:dandylight/pages/new_contact_pages/DeviceContactsPage.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPage.dart';

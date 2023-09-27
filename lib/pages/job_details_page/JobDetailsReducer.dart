@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 
 import '../../models/rest_models/AccuWeatherModels/forecastFiveDay/DailyForecasts.dart';
+import 'document_items/ContractDocument.dart';
 
 final jobDetailsReducer = combineReducers<JobDetailsPageState>([
   TypedReducer<JobDetailsPageState, SetJobAction>(_setJobInfo),
@@ -355,6 +356,9 @@ JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobAction 
   List<DocumentItem> documents = [];
   if(action.job.invoice != null) {
     documents.add(InvoiceDocument());
+  }
+  if(action.job.contract != null) {
+    documents.add(ContractDocument(contractName: action.job.contract.contractName));
   }
   action.job.completedStages.sort((a, b) => a.compareTo(b));
   LocationDandy newLocation = action.job.location != null ? action.job.location : null;

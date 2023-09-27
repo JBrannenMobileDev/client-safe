@@ -24,6 +24,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../../utils/DandyToastUtil.dart';
 import '../../../widgets/TextDandyLight.dart';
 import '../../client_details_page/SelectSavedResponseBottomSheet.dart';
+import '../../contracts_page/ContractsPage.dart';
 import '../../poses_page/PosesPage.dart';
 
 class StageItem extends StatefulWidget {
@@ -424,7 +425,13 @@ class _StageItemState extends State<StageItem>
                                 EventSender().sendEvent(eventName: EventNames.BT_STAGE_ACTION, properties: {EventNames.ACTIVE_STAGE_PARAM_NAME : JobStage.STAGE_2_FOLLOWUP_SENT});
                                 break;
                               case JobStage.STAGE_3_PROPOSAL_SENT:
-                                NavigationUtil.onShareWIthClientSelected(context, pageState.job);
+                                if(pageState.job.contract == null) {
+                                  Navigator.of(context).push(
+                                    new MaterialPageRoute(builder: (context) => ContractsPage(jobDocumentId: pageState.job.documentId)),
+                                  );
+                                } else {
+                                  NavigationUtil.onShareWIthClientSelected(context, pageState.job);
+                                }
                                 break;
                               case JobStage.STAGE_4_PROPOSAL_SIGNED:
                                 break;

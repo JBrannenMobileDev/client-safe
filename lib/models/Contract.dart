@@ -37,8 +37,8 @@ class Contract {
       'signedByPhotographer' : signedByPhotographer,
       'photographerSignature' : photographerSignature,
       'clientSignature' : clientSignature,
-      'clientSignedDate' : clientSignedDate,
-      'photographerSignedDate' : photographerSignedDate,
+      'clientSignedDate' : clientSignedDate != null ? clientSignedDate.toString() : "",
+      'photographerSignedDate' : photographerSignedDate != null ? photographerSignedDate.toString() : "",
     };
   }
 
@@ -52,8 +52,8 @@ class Contract {
       signedByPhotographer: map['signedByPhotographer'],
       photographerSignature: map['photographerSignature'],
       clientSignature: map['clientSignature'],
-      photographerSignedDate: map['photographerSignedDate'],
-      clientSignedDate: map['clientSignedDate'],
+      photographerSignedDate: map['photographerSignedDate'] != "" && map['photographerSignedDate'] != null ? DateTime.parse(map['photographerSignedDate']) : null,
+      clientSignedDate: map['clientSignedDate'] != "" && map['clientSignedDate'] != null ? DateTime.parse(map['clientSignedDate']) : null,
     );
   }
 }

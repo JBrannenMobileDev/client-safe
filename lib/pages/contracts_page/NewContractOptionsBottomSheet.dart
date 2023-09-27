@@ -15,10 +15,13 @@ import 'ContractsPageState.dart';
 
 
 class NewContractOptionsBottomSheet extends StatefulWidget {
+  final String jobDocumentId;
+
+  NewContractOptionsBottomSheet({this.jobDocumentId = null});
 
   @override
   State<StatefulWidget> createState() {
-    return _NewContractOptionsBottomSheetState();
+    return _NewContractOptionsBottomSheetState(jobDocumentId);
   }
 }
 
@@ -26,6 +29,9 @@ class _NewContractOptionsBottomSheetState extends State<NewContractOptionsBottom
   final ScrollController _controller = ScrollController();
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   final List<String> options = ['Blank Contract', 'General (template)', 'Wedding (template)', 'Portrait (template)'];
+  final String jobDocumentId;
+
+  _NewContractOptionsBottomSheetState(this.jobDocumentId);
 
   Widget _buildItem(BuildContext context, int index) {
     return StoreConnector<AppState, ContractsPageState>(
@@ -36,22 +42,22 @@ class _NewContractOptionsBottomSheetState extends State<NewContractOptionsBottom
               switch(options.elementAt(index)) {
                 case 'Blank Contract':
                   Navigator.of(context).pop();
-                  NavigationUtil.onContractSelected(context, null, "Blank Contract", true);
+                  NavigationUtil.onContractSelected(context, null, "Blank Contract", true, jobDocumentId);
                   break;
                 case 'General (template)':
                   Navigator.of(context).pop();
                   Contract generalContract = null;
-                  NavigationUtil.onContractSelected(context, generalContract, generalContract.contractName, true);
+                  NavigationUtil.onContractSelected(context, generalContract, generalContract.contractName, true, jobDocumentId);
                   break;
                 case 'Wedding (template)':
                   Navigator.of(context).pop();
                   Contract weddingContract = pageState.contractTemplates.firstWhere((template) => template.contractName == options.elementAt(index));
-                  NavigationUtil.onContractSelected(context, weddingContract, "Wedding Contract", true);
+                  NavigationUtil.onContractSelected(context, weddingContract, "Wedding Contract", true, jobDocumentId);
                   break;
                 case 'Portrait (template)':
                   Navigator.of(context).pop();
                   Contract portraitContract = null;
-                  NavigationUtil.onContractSelected(context, portraitContract, "Portrait Contract", true);
+                  NavigationUtil.onContractSelected(context, portraitContract, "Portrait Contract", true, jobDocumentId);
                   break;
               }
             },

@@ -107,6 +107,9 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is OnDeleteInvoiceSelectedAction){
       deleteInvoice(store, action, next);
     }
+    if(action is OnDeleteContractSelectedAction){
+      deleteContract(store, action, next);
+    }
     if(action is InvoiceSentAction){
       updateInvoiceToSent(store, action, next);
     }
@@ -271,6 +274,17 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
     store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, store.state.incomeAndExpensesPageState.selectedYear));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+  }
+
+  void deleteContract(Store<AppState> store, OnDeleteContractSelectedAction action, NextDispatcher next) async {
+    List<JobStage> completedJobStages = store.state.jobDetailsPageState.job.completedStages.toList();
+    completedJobStages.remove(JobStage(stage: JobStage.STAGE_3_PROPOSAL_SENT));
+    Job jobToSave = store.state.jobDetailsPageState.job;
+    jobToSave.completedStages = completedJobStages;
+    jobToSave.contract = null;
+
+    await JobDao.insertOrUpdate(jobToSave);
+    await JobDao.insertOrUpdate(jobToSave);
   }
 
   void _updateJobAddOnCost(Store<AppState> store, SaveAddOnCostAction action, NextDispatcher next) async{

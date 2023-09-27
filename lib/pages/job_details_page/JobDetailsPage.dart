@@ -36,6 +36,7 @@ import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../utils/permissions/UserPermissionsUtil.dart';
 import '../../widgets/TextDandyLight.dart';
+import '../contracts_page/ContractsPage.dart';
 import 'IncomeCard.dart';
 import 'JobDetailsCard.dart';
 import 'JobNotesWidget.dart';
@@ -176,30 +177,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                     });
                   },
                   children: [
-                    SpeedDialChild(
-                      child: Icon(Icons.add),
-                      backgroundColor: Color(ColorConstants.getBlueLight()),
-                      labelWidget: Container(
-                        alignment: Alignment.center,
-                        height: 42.0,
-                        decoration: BoxDecoration(
-                          boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(21.0),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                          child: TextDandyLight(
-                            type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'Tip',
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        UserOptionsUtil.showTipChangeDialog(context);
-                      },
-                    ),
+
                     // SpeedDialChild(
                     //   child: Icon(Icons.add),
                     //   backgroundColor: Color(ColorConstants.getBlueLight()),
@@ -242,7 +220,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                     //     child: Padding(
                     //       padding: EdgeInsets.only(left: 16.0, right: 16.0),
                     //       child: Text(
-                    //         'Questionaire',
+                    //         'Questionnaire',
                     //         style: TextStyle(
                     //           fontFamily: 'simple',
                     //           fontSize: 22.0,
@@ -256,6 +234,8 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                     //
                     //   },
                     // ),
+
+
                     SpeedDialChild(
                       child: Icon(Icons.add),
                       backgroundColor: Color(ColorConstants.getBlueLight()),
@@ -271,13 +251,15 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                           padding: EdgeInsets.only(left: 16.0, right: 16.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'Reminder',
+                            text: 'Contract',
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ),
                       onTap: () {
-                        UserOptionsUtil.showNewJobReminderDialog(context, pageState.job);
+                        Navigator.of(context).push(
+                          new MaterialPageRoute(builder: (context) => ContractsPage(jobDocumentId: pageState.job.documentId)),
+                        );
                       },
                     ),
                     SpeedDialChild(
@@ -317,34 +299,54 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         }
                       },
                     ),
-                    // SpeedDialChild(
-                    //   child: Icon(Icons.add),
-                    //   backgroundColor: Color(ColorConstants.getBlueLight()),
-                    //   labelWidget: Container(
-                    //     alignment: Alignment.center,
-                    //     height: 42.0,
-                    //     decoration: BoxDecoration(
-                    //       boxShadow: ElevationToShadow[4],
-                    //       color: Colors.white,
-                    //       borderRadius: BorderRadius.circular(21.0),
-                    //     ),
-                    //     child: Padding(
-                    //       padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                    //       child: Text(
-                    //         'Contract',
-                    //         style: TextStyle(
-                    //           fontFamily: 'simple',
-                    //           fontSize: 22.0,
-                    //           fontWeight: FontWeight.w600,
-                    //           color: Color(ColorConstants.getPrimaryBlack()),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    //   onTap: () {
-                    //
-                    //   },
-                    // ),
+                    SpeedDialChild(
+                      child: Icon(Icons.add),
+                      backgroundColor: Color(ColorConstants.getBlueLight()),
+                      labelWidget: Container(
+                        alignment: Alignment.center,
+                        height: 42.0,
+                        decoration: BoxDecoration(
+                          boxShadow: ElevationToShadow[4],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(21.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Reminder',
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        UserOptionsUtil.showNewJobReminderDialog(context, pageState.job);
+                      },
+                    ),
+                    SpeedDialChild(
+                      child: Icon(Icons.add),
+                      backgroundColor: Color(ColorConstants.getBlueLight()),
+                      labelWidget: Container(
+                        alignment: Alignment.center,
+                        height: 42.0,
+                        decoration: BoxDecoration(
+                          boxShadow: ElevationToShadow[4],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(21.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Tip',
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        UserOptionsUtil.showTipChangeDialog(context);
+                      },
+                    ),
                   ],
                 ),
                       GestureDetector(
@@ -465,7 +467,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                               ClientDetailsCard(pageState: pageState),
                               // IncomeCard(onSendInvoiceSelected: onSendInvoiceSelected),
                               JobNotesWidget(),
-                              DocumentsCard(pageState: pageState, onSendInvoiceSelected: onSendInvoiceSelected, onDeleteInvoiceSelected: onDeleteInvoiceSelected),
+                              DocumentsCard(pageState: pageState, onSendInvoiceSelected: onSendInvoiceSelected),
                               RemindersCard(pageState: pageState),
                             ])),
                       ],
@@ -510,13 +512,6 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
     pageStateLocal.removeExpandedIndex(7);
     pageStateLocal.setNewIndexForStageAnimation((JobStage.getIndexOfCurrentStage(pageStateLocal.job.stage.stage, pageStateLocal.job.type.stages)));
     VibrateUtil.vibrateHeavy();
-  }
-
-  void onDeleteInvoiceSelected() {
-    // pageStateLocal.onStageUndo(pageStateLocal.job, 7);
-    // pageStateLocal.removeExpandedIndex(7);
-    // pageStateLocal.setNewIndexForStageAnimation((JobStage.getIndexOfCurrentStage(pageStateLocal.job.stage.stage, pageStateLocal.job.type.stages)));
-    // VibrateUtil.vibrateHeavy();
   }
 
   void _onAddButtonPressed(BuildContext context) {

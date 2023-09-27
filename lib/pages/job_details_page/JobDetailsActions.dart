@@ -8,6 +8,7 @@ import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:device_calendar/device_calendar.dart';
 
+import '../../models/Contract.dart';
 import '../../models/JobReminder.dart';
 import '../../models/JobType.dart';
 import '../../models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
@@ -355,6 +356,12 @@ class OnDeleteInvoiceSelectedAction{
   final JobDetailsPageState pageState;
   final Invoice invoice;
   OnDeleteInvoiceSelectedAction(this.pageState, this.invoice);
+}
+
+class OnDeleteContractSelectedAction{
+  final JobDetailsPageState pageState;
+  final Contract contract;
+  OnDeleteContractSelectedAction(this.pageState, this.contract);
 }
 
 class InvoiceSentAction{
