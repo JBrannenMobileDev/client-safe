@@ -42,6 +42,7 @@ class Profile{
   String previewBannerWebUrl;
   String previewBannerMobileUrl;
   String previewLogoCharacter;
+  String previewJsonContract;
   ColorTheme selectedColorTheme;
   FontTheme selectedFontTheme;
   ColorTheme previewColorTheme;
@@ -160,6 +161,7 @@ class Profile{
     this.previewFontTheme,
     this.previewColorTheme,
     this.hasSetupBrand,
+    this.previewJsonContract,
   });
 
   Profile copyWith({
@@ -213,6 +215,7 @@ class Profile{
     String previewLogoUrl,
     String previewBannerWebUrl,
     String previewBannerMobileUrl,
+    String previewJsonContract,
     bool previewBannerImageSelected,
     String previewLogoCharacter,
     double salesTaxRate,
@@ -321,6 +324,7 @@ class Profile{
       previewBannerMobileUrl: previewBannerMobileUrl ?? this.previewBannerMobileUrl,
       previewBannerImageSelected: previewBannerImageSelected ?? this.previewBannerImageSelected,
       hasSetupBrand: hasSetupBrand ?? this.hasSetupBrand,
+      previewJsonContract: previewJsonContract ?? this.previewJsonContract,
     );
   }
 
@@ -374,6 +378,7 @@ class Profile{
       'previewBannerMobileUrl' : previewBannerMobileUrl,
       'logoCharacter' : logoCharacter,
       'previewLogoCharacter' : previewLogoCharacter,
+      'previewJsonContract' : previewJsonContract,
       'jobsCreatedCount' : jobsCreatedCount ?? 0,
       'termsOfServiceAndPrivacyPolicyChecked' : termsOfServiceAndPrivacyPolicyChecked,
       'lastSignIn' : lastSignIn?.millisecondsSinceEpoch ?? null,
@@ -427,6 +432,7 @@ class Profile{
       lastName: map['lastName'],
       email: map['email'],
       phone: map['phone'],
+      previewJsonContract: map['previewJsonContract'],
       businessName: map['businessName'],
       latDefaultHome: map['latDefaultHome']?.toDouble(),
       lngDefaultHome: map['lngDefaultHome']?.toDouble(),

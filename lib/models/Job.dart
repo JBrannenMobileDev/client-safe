@@ -30,7 +30,6 @@ class Job {
   JobStage stage;
   Client client;
   Invoice invoice;
-  Contract contract;
   int depositAmount = 0;
   double addOnCost;
   int tipAmount = 0;
@@ -64,7 +63,6 @@ class Job {
     this.poses,
     this.client,
     this.proposal,
-    this.contract,
   });
 
   Job copyWith({
@@ -93,7 +91,6 @@ class Job {
     List<Pose> poses,
     Client client,
     Proposal proposal,
-    Contract contract,
   }){
     return Job(
       id: id?? this.id,
@@ -121,7 +118,6 @@ class Job {
       poses: poses ?? this.poses,
       client: client ?? this.client,
       proposal: proposal ?? this.proposal,
-      contract: contract ?? this.contract
     );
   }
 
@@ -151,9 +147,8 @@ class Job {
       'tipAmount' : tipAmount,
       'addOnCost' : addOnCost,
       'proposal' : proposal?.toMap() ?? null,
-      'contract' : contract?.toMap() ?? null,
     };
-  } after deleting contract from job the job does not update.
+  }
 
   static Job fromMap(Map<String, dynamic> map) {
     return Job(
@@ -181,7 +176,6 @@ class Job {
       depositAmount: map['depositAmount'],
       tipAmount: map['tipAmount'],
       proposal: map['proposal'] != null ? Proposal.fromMap(map['proposal']) : null,
-      contract: map['contract'] != null ? Contract.fromMap(map['contract']) : null,
     );
   }
 

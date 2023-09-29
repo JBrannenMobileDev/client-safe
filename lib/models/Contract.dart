@@ -12,7 +12,6 @@ class Contract {
   DateTime photographerSignedDate;
 
 
-
   Contract({
     this.id,
     this.documentId,
@@ -37,8 +36,8 @@ class Contract {
       'signedByPhotographer' : signedByPhotographer,
       'photographerSignature' : photographerSignature,
       'clientSignature' : clientSignature,
-      'clientSignedDate' : clientSignedDate != null ? clientSignedDate.toString() : "",
-      'photographerSignedDate' : photographerSignedDate != null ? photographerSignedDate.toString() : "",
+      'clientSignedDate' : clientSignedDate?.millisecondsSinceEpoch ?? null,
+      'photographerSignedDate' : photographerSignedDate?.millisecondsSinceEpoch ?? null,
     };
   }
 
@@ -52,8 +51,8 @@ class Contract {
       signedByPhotographer: map['signedByPhotographer'],
       photographerSignature: map['photographerSignature'],
       clientSignature: map['clientSignature'],
-      photographerSignedDate: map['photographerSignedDate'] != "" && map['photographerSignedDate'] != null ? DateTime.parse(map['photographerSignedDate']) : null,
-      clientSignedDate: map['clientSignedDate'] != "" && map['clientSignedDate'] != null ? DateTime.parse(map['clientSignedDate']) : null,
+      photographerSignedDate: map['photographerSignedDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['photographerSignedDate']) : null,
+      clientSignedDate: map['clientSignedDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['clientSignedDate']) : null,
     );
   }
 }

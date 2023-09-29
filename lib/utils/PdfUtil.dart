@@ -937,7 +937,7 @@ class PdfUtil {
                     ),
                     Container(
                       child: Text(
-                          contract.signedByClient ? (profile.firstName + ' ' + profile.lastName) : '',
+                          contract.signedByPhotographer ? (profile.firstName + ' ' + profile.lastName) : '',
                           textScaleFactor: .85,
                           style: TextStyle(
                             font: signatureFont,

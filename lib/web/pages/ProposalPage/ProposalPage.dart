@@ -11,7 +11,6 @@ import 'package:redux/redux.dart';
 import '../../../AppState.dart';
 import '../../../utils/ColorConstants.dart';
 import '../../../widgets/DandyLightNetworkImage.dart';
-import '../../../widgets/DividerWidget.dart';
 import '../ClientPortalPageState.dart';
 import '../detailsPage/DetailsPage.dart';
 import '../invoicePage/InvoicePage.dart';

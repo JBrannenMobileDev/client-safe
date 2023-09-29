@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/FontTheme.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -8,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
+
 
 import '../ClientPortalPageState.dart';
 import 'package:redux/redux.dart';
@@ -21,6 +25,8 @@ class ContractPage extends StatefulWidget {
 
 class _ContractPageState extends State<ContractPage> {
   TextEditingController _clientSignatureController = TextEditingController();
+  final FocusNode contractFocusNode = FocusNode();
+  quill.QuillController _controller;
   bool isHoveredSubmit = false;
   bool isHoveredDownloadPDF = false;
 
@@ -28,9 +34,14 @@ class _ContractPageState extends State<ContractPage> {
   Widget build(BuildContext context) =>
       StoreConnector<AppState, ClientPortalPageState>(
         onInit: (current) {
-          _clientSignatureController.text =
-              current.state.clientPortalPageState.proposal.contract
-                  .clientSignature;
+          if(current.state.clientPortalPageState.proposal.contract.clientSignature != null && current.state.clientPortalPageState.proposal.contract.clientSignature.length > 0) {
+            _clientSignatureController.text = current.state.clientPortalPageState.proposal.contract.clientSignature;
+          }
+
+          _controller = quill.QuillController(
+              document: quill.Document.fromJson(jsonDecode(current.state.clientPortalPageState.proposal.contract.jsonTerms)),
+              selection: TextSelection.collapsed(offset: 0)
+          );
         },
         onDidChange: (previous, current) {
           if (previous.errorMsg.isEmpty && current.errorMsg.isNotEmpty) {
@@ -38,8 +49,7 @@ class _ContractPageState extends State<ContractPage> {
             current.resetErrorMsg();
           }
         },
-        converter: (Store<AppState> store) =>
-            ClientPortalPageState.fromStore(store),
+        converter: (Store<AppState> store) => ClientPortalPageState.fromStore(store),
         builder: (BuildContext context, ClientPortalPageState pageState) =>
             Container(
               alignment: Alignment.topCenter,
@@ -119,11 +129,7 @@ class _ContractPageState extends State<ContractPage> {
                   ),
                   Container(
                     margin: EdgeInsets.only(bottom: 64, left: 32, right: 32),
-                    child: TextDandyLight(
-                      type: TextDandyLight.MEDIUM_TEXT,
-                      text: pageState.proposal.contract.terms,
-                      isBold: false,
-                    ),
+                    child: getEditor(),
                   ),
                   Container(
                     margin: EdgeInsets.only(bottom: 32, left: 32, right: 32),
@@ -147,8 +153,7 @@ class _ContractPageState extends State<ContractPage> {
                       child: GestureDetector(
                         onTap: () {
                           if (!pageState.proposal.contract.signedByClient) {
-                            pageState.onClientSignatureSaved(
-                                _clientSignatureController.text);
+                            pageState.onClientSignatureSaved(_clientSignatureController.text);
                           }
                         },
                         child: Container(
@@ -228,7 +233,7 @@ class _ContractPageState extends State<ContractPage> {
                     type: TextDandyLight.MEDIUM_TEXT,
                     text:
                     DateFormat('EEE, MMMM dd, yyyy').format(
-                        pageState.proposal.contract.photographerSignedDate),
+                        pageState.proposal.contract.photographerSignedDate != null ? pageState.proposal.contract.photographerSignedDate : DateTime.now()),
                   ),
                 )
               ],
@@ -273,7 +278,7 @@ class _ContractPageState extends State<ContractPage> {
               textCapitalization: TextCapitalization.words,
               style: TextStyle(
                   fontFamily: FontTheme.SIGNATURE2,
-                  fontSize: 48,
+                  fontSize: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 48 : 26,
                   fontWeight: FontWeight.bold),
               decoration: InputDecoration(
                 enabledBorder: UnderlineInputBorder(
@@ -355,7 +360,7 @@ class _ContractPageState extends State<ContractPage> {
               textCapitalization: TextCapitalization.words,
               style: TextStyle(
                   fontFamily: FontTheme.SIGNATURE2,
-                  fontSize: 48,
+                  fontSize: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 48 : 26,
                   fontWeight: FontWeight.bold,
                   color: Color(ColorConstants.getPrimaryBlack())),
               decoration: InputDecoration(
@@ -373,5 +378,18 @@ class _ContractPageState extends State<ContractPage> {
         ),
       )
     ];
+  }
+
+  Widget getEditor() {
+    return quill.QuillEditor(
+      controller: _controller,
+      scrollable: true,
+      scrollController: ScrollController(),
+      focusNode: contractFocusNode,
+      padding: EdgeInsets.all(0),
+      autoFocus: true,
+      readOnly: true,
+      expands: false,
+    );
   }
 }

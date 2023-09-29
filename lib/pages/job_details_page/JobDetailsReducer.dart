@@ -39,7 +39,7 @@ final jobDetailsReducer = combineReducers<JobDetailsPageState>([
   TypedReducer<JobDetailsPageState, SetDeviceEventsAction>(_setDeviceEvents),
   TypedReducer<JobDetailsPageState, SetJobDetailsSelectedDateAction>(_setSelectedDate),
   TypedReducer<JobDetailsPageState, SetAllJobTypesAction>(_setJobTypes),
-  TypedReducer<JobDetailsPageState, DeleteInvoiceFromLocalStateAction>(_deleteInvoice),
+  TypedReducer<JobDetailsPageState, DeleteDocumentFromLocalStateAction>(_deleteDocument),
   TypedReducer<JobDetailsPageState, ClearPreviousStateAction>(_clearState),
   TypedReducer<JobDetailsPageState, SaveJobNotesAction>(_setNotes),
   TypedReducer<JobDetailsPageState, SetForecastAction>(_setForecast),
@@ -191,21 +191,29 @@ JobDetailsPageState _clearState(JobDetailsPageState previousState, ClearPrevious
   return JobDetailsPageState.initial();
 }
 
-JobDetailsPageState _deleteInvoice(JobDetailsPageState previousState, DeleteInvoiceFromLocalStateAction action) {
+JobDetailsPageState _deleteDocument(JobDetailsPageState previousState, DeleteDocumentFromLocalStateAction action) {
   List<DocumentItem> documents = previousState.documents;
 
-  DocumentItem documentToReplace;
+  DocumentItem documentToDelete;
   for(DocumentItem documentItem in documents){
-    if(documentItem.getDocumentType() == DocumentItem.DOCUMENT_TYPE_INVOICE){
-      documentToReplace = documentItem;
+    switch(action.documentType) {
+      case DocumentItem.DOCUMENT_TYPE_INVOICE:
+        if(documentItem.getDocumentType() == DocumentItem.DOCUMENT_TYPE_INVOICE){
+          documentToDelete = documentItem;
+          action.pageState.job.invoice = null;
+        }
+        break;
+      case DocumentItem.DOCUMENT_TYPE_CONTRACT:
+        if(documentItem.getDocumentType() == DocumentItem.DOCUMENT_TYPE_CONTRACT){
+          documentToDelete = documentItem;
+        }
+        break;
     }
   }
 
-  if(documentToReplace != null){
-    documents.remove(documentToReplace);
+  if(documentToDelete != null){
+    documents.remove(documentToDelete);
   }
-
-  action.pageState.job.invoice = null;
 
   return previousState.copyWith(
     job: action.pageState.job,
@@ -357,8 +365,8 @@ JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobAction 
   if(action.job.invoice != null) {
     documents.add(InvoiceDocument());
   }
-  if(action.job.contract != null) {
-    documents.add(ContractDocument(contractName: action.job.contract.contractName));
+  if(action.job.proposal.contract != null) {
+    documents.add(ContractDocument(contractName: action.job.proposal.contract.contractName));
   }
   action.job.completedStages.sort((a, b) => a.compareTo(b));
   LocationDandy newLocation = action.job.location != null ? action.job.location : null;

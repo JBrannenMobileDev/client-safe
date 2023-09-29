@@ -44,6 +44,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
           await store.dispatch(LoadSettingsFromProfile(store.state.mainSettingsPageState));
           store.dispatch(ClearBrandingStateAction(store.state.mainSettingsPageState, await ProfileDao.getMatchingProfile(UidUtil().getUid())));
           store.dispatch(SavePreviewBrandingAction(store.state.mainSettingsPageState));
+          store.dispatch(SavePreviewJsonContractAction(store.state.mainSettingsPageState));
         },
         onDidChange: (previous, current) {
           if(previous.uploadInProgress && !current.uploadInProgress && _isProgressDialogShowing(context)) {
@@ -275,5 +276,8 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
     Navigator.of(context).pop(true);
   }
 
-  void _launchBrandingPreviewURL(String uid) async => await canLaunchUrl(Uri.parse('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid)) ? await launchUrl(Uri.parse('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid), mode: LaunchMode.platformDefault) : throw 'Could not launch';
+  void _launchBrandingPreviewURL(String uid) async {
+    print('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid);
+    await canLaunchUrl(Uri.parse('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid)) ? await launchUrl(Uri.parse('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid), mode: LaunchMode.platformDefault) : throw 'Could not launch';
+  }
 }

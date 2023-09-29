@@ -11,6 +11,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import '../../widgets/TextDandyLight.dart';
+import 'MainSettingsPageActions.dart';
 
 class EditAccountPage extends StatefulWidget {
   final Profile profile;
@@ -43,11 +44,12 @@ class _EditAccountPageState extends State<EditAccountPage>
   Widget build(BuildContext context) =>
       StoreConnector<AppState, MainSettingsPageState>(
         onInit: (store) {
-          if(store.state.mainSettingsPageState.firstName.isNotEmpty)firstNameTextController.text = profile.firstName ?? '';
-          if(store.state.mainSettingsPageState.lastName.isNotEmpty)lastNameTextController.text = profile.lastName ?? '';
-          if(store.state.mainSettingsPageState.businessName.isNotEmpty)businessNameTextController.text = profile.businessName ?? '';
-          if(store.state.mainSettingsPageState.businessPhone.isNotEmpty)businessPhoneTextController.text = profile.phone ?? '';
-          if(store.state.mainSettingsPageState.businessEmail.isNotEmpty)businessEmailTextController.text = profile.email ?? '';
+          store.dispatch(LoadUserProfileDataAction(store.state.mainSettingsPageState, profile));
+          if(profile.firstName.isNotEmpty)firstNameTextController.text = profile.firstName ?? '';
+          if(profile.lastName.isNotEmpty)lastNameTextController.text = profile.lastName ?? '';
+          if(profile.businessName.isNotEmpty)businessNameTextController.text = profile.businessName ?? '';
+          if(profile.phone.isNotEmpty)businessPhoneTextController.text = profile.phone ?? '';
+          if(profile.email.isNotEmpty)businessEmailTextController.text = profile.email ?? '';
         },
         converter: (Store<AppState> store) => MainSettingsPageState.fromStore(store),
         builder: (BuildContext context, MainSettingsPageState pageState) => Scaffold(

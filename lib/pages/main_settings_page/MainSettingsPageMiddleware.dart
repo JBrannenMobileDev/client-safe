@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,6 +6,7 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/firebase/FirebaseAuthentication.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/ColorTheme.dart';
+import 'package:dandylight/models/Contract.dart';
 import 'package:dandylight/models/DiscountCodes.dart';
 import 'package:dandylight/models/FontTheme.dart';
 import 'package:dandylight/models/Profile.dart';
@@ -29,6 +31,7 @@ import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
 import '../../data_layer/local_db/SembastDb.dart';
+import '../../data_layer/local_db/daos/ContractTemplateDao.dart';
 import '../../data_layer/repositories/DiscountCodesRepository.dart';
 import '../../data_layer/repositories/FileStorage.dart';
 import '../../utils/UUID.dart';
@@ -87,6 +90,16 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SavePreviewBrandingAction) {
       _savePreviewBranding(store, action, next);
     }
+    if(action is SavePreviewJsonContractAction) {
+      _setPreviewJsonContract(store, action, next);
+    }
+  }
+
+  void _setPreviewJsonContract(Store<AppState> store, SavePreviewJsonContractAction action, NextDispatcher next) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    Contract contractTemplate = (await ContractTemplateDao.getAll()).first;
+    profile.previewJsonContract = contractTemplate.jsonTerms;
+    ProfileDao.update(profile);
   }
 
   void _savePreviewBranding(Store<AppState> store, SavePreviewBrandingAction action, NextDispatcher next) async {

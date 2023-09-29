@@ -136,9 +136,10 @@ class SetNewInvoice{
   SetNewInvoice(this.pageState, this.invoice);
 }
 
-class DeleteInvoiceFromLocalStateAction{
+class DeleteDocumentFromLocalStateAction{
   final JobDetailsPageState pageState;
-  DeleteInvoiceFromLocalStateAction(this.pageState);
+  final String documentType;
+  DeleteDocumentFromLocalStateAction(this.pageState, this.documentType);
 }
 
 class SetSunsetTimeForJobAction{

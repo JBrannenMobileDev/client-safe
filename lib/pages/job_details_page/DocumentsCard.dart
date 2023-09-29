@@ -194,7 +194,7 @@ class DocumentsCard extends StatelessWidget {
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteContractSelected(pageState.job.contract);
+                pageState.onDeleteContractSelected(pageState.job.proposal.contract);
                 Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),
@@ -212,7 +212,7 @@ class DocumentsCard extends StatelessWidget {
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteContractSelected(pageState.job.contract);
+                pageState.onDeleteContractSelected(pageState.job.proposal.contract);
                 Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),

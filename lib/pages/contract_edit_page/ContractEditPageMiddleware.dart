@@ -46,6 +46,7 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
         terms: action.quillContract.toPlainText(),
         jsonTerms: jsonEncode(action.quillContract.toDelta().toJson()),
         signedByPhotographer: true,
+        signedByClient: false,
       );
       if(action.pageState.isNew) {
         contract.documentId = null;
@@ -56,6 +57,8 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
         contract.documentId = null;
       }
       contract.contractName = action.pageState.contractName;
+      contract.signedByClient = false;
+      contract.signedByPhotographer = true;
       contract.terms = action.quillContract.toPlainText();
       contract.jsonTerms = jsonEncode(action.quillContract.toDelta().toJson());
     }

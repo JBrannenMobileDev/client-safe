@@ -122,6 +122,11 @@ class SavePreviewBrandingAction {
   SavePreviewBrandingAction(this.pageState);
 }
 
+class SavePreviewJsonContractAction {
+  final MainSettingsPageState pageState;
+  SavePreviewJsonContractAction(this.pageState);
+}
+
 class SaveBrandingAction {
   final MainSettingsPageState pageState;
   SaveBrandingAction(this.pageState);

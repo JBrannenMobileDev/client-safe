@@ -16,6 +16,7 @@ import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
+import 'package:dandylight/pages/job_details_page/document_items/DocumentItem.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
@@ -254,7 +255,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     await JobDao.update(job);
 
     action.invoice.sentDate = DateTime.now();
-    await InvoiceDao.update(action.invoice, store.state.jobDetailsPageState.job);
+    await InvoiceDao.update(action.invoice, job);
     store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
     store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, store.state.incomeAndExpensesPageState.selectedYear));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
@@ -270,7 +271,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
     await JobDao.insertOrUpdate(jobToSave);
     await JobDao.insertOrUpdate(jobToSave);
-    store.dispatch(DeleteInvoiceFromLocalStateAction(store.state.jobDetailsPageState));
+    store.dispatch(DeleteDocumentFromLocalStateAction(store.state.jobDetailsPageState, DocumentItem.DOCUMENT_TYPE_INVOICE));
     store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
     store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, store.state.incomeAndExpensesPageState.selectedYear));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
@@ -281,10 +282,12 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     completedJobStages.remove(JobStage(stage: JobStage.STAGE_3_PROPOSAL_SENT));
     Job jobToSave = store.state.jobDetailsPageState.job;
     jobToSave.completedStages = completedJobStages;
-    jobToSave.contract = null;
+    jobToSave.proposal.contract = null;
 
     await JobDao.insertOrUpdate(jobToSave);
     await JobDao.insertOrUpdate(jobToSave);
+    store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
+    store.dispatch(DeleteDocumentFromLocalStateAction(store.state.jobDetailsPageState, DocumentItem.DOCUMENT_TYPE_CONTRACT));
   }
 
   void _updateJobAddOnCost(Store<AppState> store, SaveAddOnCostAction action, NextDispatcher next) async{

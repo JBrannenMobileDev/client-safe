@@ -20,7 +20,6 @@ import '../../models/Profile.dart';
 import '../../navigation/routes/RouteNames.dart';
 import '../../utils/Shadows.dart';
 import '../../utils/styles/Styles.dart';
-import '../../widgets/DandyLightTextField.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'ShareWithClientPageState.dart';
 import 'ShareWithClientTextField.dart';
@@ -64,7 +63,11 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
           await store.dispatch(FetchProfileAction(store.state.shareWithClientPageState));
           store.dispatch(SetJobShareWithClientAction(store.state.shareWithClientPageState, job));
           profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-          messageController.value = messageController.value.copyWith(text: job.proposal.detailsMessage);
+          String clientMessage = "(Example client portal message)\n\nHi ${job.client.firstName},\nI wanted to thank you again for choosing our photography services. We're excited to work with you to capture your special moments.\n\nTo make things official, kindly review and sign the contract. It outlines our agreement's essential details.\n\nIf you have any questions, please don't hesitate to ask.\n\nBest regards,\n\n${profile.firstName} ${profile.lastName ?? ''}\n${profile.businessName ?? ''}";
+          messageController.value = messageController.value.copyWith(text: job.proposal.detailsMessage.isNotEmpty ? job.proposal.detailsMessage : clientMessage);
+          if(job.proposal.detailsMessage.isEmpty) {
+            store.dispatch(SetClientMessageAction(store.state.shareWithClientPageState, clientMessage));
+          }
         },
         onWillChange: (previous, current) {
           setState(() {
@@ -497,6 +500,9 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
     _messageFocusNode.unfocus();
   }
 
-  void _launchBrandingPreviewURL(String uid, String jobId) async => await canLaunchUrl(Uri.parse('https://clientsafe-21962.web.app/' + RouteNames.CLIENT_PORTAL + '/' + uid + '+' + jobId)) ? await launchUrl(Uri.parse('https://clientsafe-21962.web.app/' + RouteNames.CLIENT_PORTAL + '/' + uid + '+' + jobId), mode: LaunchMode.platformDefault) : throw 'Could not launch';
+  void _launchBrandingPreviewURL(String uid, String jobId) async {
+    print('https://DandyLight.com/' + RouteNames.CLIENT_PORTAL + '/' + uid + '+' + jobId);
+    await canLaunchUrl(Uri.parse('https://DandyLight.com/' + RouteNames.CLIENT_PORTAL + '/' + uid + '+' + jobId)) ? await launchUrl(Uri.parse('https://DandyLight.com/' + RouteNames.CLIENT_PORTAL + '/' + uid + '+' + jobId), mode: LaunchMode.platformDefault) : throw 'Could not launch';
+  }
 
 }

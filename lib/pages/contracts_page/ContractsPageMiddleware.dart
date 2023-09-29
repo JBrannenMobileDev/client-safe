@@ -1,12 +1,15 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/ContractDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Contract.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
 import '../../data_layer/local_db/daos/ContractTemplateDao.dart';
 import '../../models/Job.dart';
+import '../../models/Profile.dart';
 import '../job_details_page/JobDetailsActions.dart';
 import 'ContractsActions.dart';
 
@@ -26,11 +29,15 @@ class ContractsPageMiddleware extends MiddlewareClass<AppState> {
     Contract contract = action.contract;
     contract.photographerSignedDate = DateTime.now();
     contract.signedByPhotographer = true;
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    contract.photographerSignature = '${profile.firstName} ${profile.lastName}';
+    contract.signedByClient = false;
+    contract.clientSignature = '';
 
     //TODO populate contract with dynamic content.
 
     Job job = await JobDao.getJobById(action.jobDocumentId);
-    job.contract = contract;
+    job.proposal.contract = contract;
     await JobDao.update(job);
     store.dispatch(SetJobInfoWithJobDocumentId(store.state.jobDetailsPageState, job.documentId));
   }
