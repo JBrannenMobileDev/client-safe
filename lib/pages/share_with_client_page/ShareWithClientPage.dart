@@ -469,7 +469,8 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                 child: GestureDetector(
                   onTap: () {
                     pageState.saveProposal();
-                    Share.share('(Example Message)\n\nHey ${job.client.firstName},\n\nThank you so much for choosing me to be your photographer! To make our collaboration simple i have a client portal that will be the hub of all the job details. Here is what it can do.\n\n1. Contract Signing\n2. Invoice Payment\n3. Job details\n4. Pose board for inspiration\n\nAccess the portal here:' + '\nhttps://dandylight.com/clientPortal/${profile.uid}+${job.documentId}\n\n\nExcited to create memorable moments with you!\n\nThank you again,\n${profile.firstName}');
+                    Share.share('(Example Message)\n\nHey ${job.client.firstName},\n\nThank you so much for choosing me to be your photographer! To make our collaboration simple i have a client portal that will be the hub for all the job details. Here is what it can do.\n\n1. Contract Signing\n2. Invoice Payment\n3. Job details\n4. Pose board for inspiration\n\nAccess the portal here:' + '\nhttps://dandylight.com/clientPortal/${profile.uid}+${job.documentId}\n\n\nExcited to create memorable moments with you!\n\nThank you again,\n${profile.firstName}');
+                    Navigator.of(context).pop();
                   },
                   child: Container(
                     alignment: Alignment.center,

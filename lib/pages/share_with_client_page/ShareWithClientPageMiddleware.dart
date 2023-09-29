@@ -35,14 +35,6 @@ class ShareWithClientPageMiddleware extends MiddlewareClass<AppState> {
       await store.dispatch(InvoiceSentAction(store.state.jobDetailsPageState, job.invoice));
     }
     next(SaveProposalAction(store.state.shareWithClientPageState));
-
-    // (await JobDao.getJobsStream()).listen((jobSnapshots) async {
-    //   List<Job> jobs = List();
-    //   for(RecordSnapshot clientSnapshot in jobSnapshots) {
-    //     jobs.add(Job.fromMap(clientSnapshot.value));
-    //   }
-    //   store.dispatch(SetClientJobsAction(store.state.clientDetailsPageState, jobs));
-    // });
   }
 
   void fetchProfile(Store<AppState> store, FetchProfileAction action, NextDispatcher next) async {
