@@ -39,6 +39,7 @@ class _SignContractPageState extends State<ProposalPage> {
   final String userId;
   final String jobId;
   final bool isBrandingPreview;
+  final ScrollController _controller = ScrollController();
 
   _SignContractPageState(this.userId, this.jobId, this.isBrandingPreview);
 
@@ -61,6 +62,7 @@ class _SignContractPageState extends State<ProposalPage> {
           builder: (BuildContext context, ClientPortalPageState pageState) => Scaffold(
           backgroundColor: Color(ColorConstants.getPrimaryWhite()),
           body: SingleChildScrollView(
+            controller: _controller,
             child: pageState.profile != null && pageState.proposal != null ? Container(
               width: double.infinity,
               alignment: Alignment.center,
@@ -678,7 +680,7 @@ class _SignContractPageState extends State<ProposalPage> {
         result = DetailsPage();
         break;
       case CONTRACT:
-        result = ContractPage();
+        result = ContractPage(scrollController: _controller);
         break;
       case INVOICE:
         result = InvoicePage();

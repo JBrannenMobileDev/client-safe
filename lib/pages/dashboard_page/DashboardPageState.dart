@@ -49,7 +49,7 @@ class DashboardPageState {
   final Function() onSearchClientsClicked;
   final Function(Action) onActionItemClicked;
   final Function(Client) onLeadClicked;
-  final Function(Job) onJobClicked;
+  final Function(String) onJobClicked;
   final Function(JobReminder) onReminderSelected;
   final Function() onViewAllHideSelected;
   final Function() onViewAllHideLeadsSelected;
@@ -128,7 +128,7 @@ class DashboardPageState {
     Function() onSearchClientsClicked,
     Function(Action) onActionItemClicked,
     Function(Client) onLeadClicked,
-    Function(Job) onJobClicked,
+    Function(String) onJobClicked,
     Function() onViewAllHideSelected,
     Function() onViewAllHideLeadsSelected,
     List<JobReminder> reminders,

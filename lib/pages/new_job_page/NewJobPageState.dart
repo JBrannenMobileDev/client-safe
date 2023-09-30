@@ -381,7 +381,7 @@ class NewJobPageState {
       onJobTypeSelected: (jobType) => store.dispatch(SetSelectedJobTypeAction(store.state.newJobPageState, jobType)),
       onStartTimeSelected: (time) => store.dispatch(SetSelectedStartTimeAction(store.state.newJobPageState, time)),
       onEndTimeSelected: (time) => store.dispatch(SetSelectedEndTimeAction(store.state.newJobPageState, time)),
-      onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
+      onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId)),
       onMonthChanged: (month) => store.dispatch(FetchNewJobDeviceEvents(store.state.newJobPageState, month)),
       onClientFirstNameTextChanged: (firstName) => store.dispatch(SetClientFirstNameAction(store.state.newJobPageState, firstName)),
       onSunsetWeatherSelected: () => store.dispatch(sunsetPageActions.LoadInitialLocationAndDateComingFromNewJobAction(store.state.sunsetWeatherPageState, store.state.newJobPageState.selectedLocation, store.state.newJobPageState.selectedDate)),

@@ -17,9 +17,13 @@ import '../ClientPortalPageState.dart';
 import 'package:redux/redux.dart';
 
 class ContractPage extends StatefulWidget {
+  final ScrollController scrollController;
+
+  ContractPage({this.scrollController});
+
   @override
   State<StatefulWidget> createState() {
-    return _ContractPageState();
+    return _ContractPageState(scrollController);
   }
 }
 
@@ -27,8 +31,19 @@ class _ContractPageState extends State<ContractPage> {
   TextEditingController _clientSignatureController = TextEditingController();
   final FocusNode contractFocusNode = FocusNode();
   quill.QuillController _controller;
+  final ScrollController scrollController;
   bool isHoveredSubmit = false;
   bool isHoveredDownloadPDF = false;
+
+  _ContractPageState(this.scrollController);
+
+  void _scrollDown() {
+    scrollController.animateTo(
+      scrollController.position.maxScrollExtent,
+      duration: Duration(seconds: 2),
+      curve: Curves.fastOutSlowIn,
+    );
+  }
 
   @override
   Widget build(BuildContext context) =>
@@ -72,57 +87,114 @@ class _ContractPageState extends State<ContractPage> {
                         margin: EdgeInsets.only(top: 24, right: 16),
                         alignment: Alignment.centerRight,
                         width: 1080,
-                        child: MouseRegion(
-                          child: GestureDetector(
-                            onTap: () {
-                              pageState.onDownloadContractSelected();
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: DeviceType.getDeviceTypeByContext(
-                                  context) == Type.Website ? 116 : 48,
-                              height: 48,
-                              margin: EdgeInsets.only(bottom: 8),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(24),
-                                  color: Color(ColorConstants.getPeachDark())),
-                              child: Row(
-                                mainAxisAlignment: DeviceType
-                                    .getDeviceTypeByContext(context) ==
-                                    Type.Website
-                                    ? MainAxisAlignment.spaceEvenly
-                                    : MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: 24,
-                                    width: 24,
-                                    child: Image.asset(
-                                      "images/download_white.png",
-                                    ),
+                        child: Column(
+                          children: [
+                            MouseRegion(
+                              child: GestureDetector(
+                                onTap: () {
+                                  pageState.onDownloadContractSelected();
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  width: DeviceType.getDeviceTypeByContext(
+                                      context) == Type.Website ? 116 : 48,
+                                  height: 48,
+                                  margin: EdgeInsets.only(bottom: 8),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(24),
+                                      color: Color(ColorConstants.getPeachDark())),
+                                  child: Row(
+                                    mainAxisAlignment: DeviceType
+                                        .getDeviceTypeByContext(context) ==
+                                        Type.Website
+                                        ? MainAxisAlignment.spaceEvenly
+                                        : MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: 24,
+                                        width: 24,
+                                        child: Image.asset(
+                                          "images/download_white.png",
+                                        ),
+                                      ),
+                                      DeviceType.getDeviceTypeByContext(context) ==
+                                          Type.Website ? TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: 'PDF',
+                                        color: Color(
+                                            ColorConstants.getPrimaryWhite()),
+                                        isBold: isHoveredDownloadPDF,
+                                      ) : SizedBox(),
+                                    ],
                                   ),
-                                  DeviceType.getDeviceTypeByContext(context) ==
-                                      Type.Website ? TextDandyLight(
-                                    type: TextDandyLight.MEDIUM_TEXT,
-                                    text: 'PDF',
-                                    color: Color(
-                                        ColorConstants.getPrimaryWhite()),
-                                    isBold: isHoveredDownloadPDF,
-                                  ) : SizedBox(),
-                                ],
+                                ),
                               ),
+                              cursor: SystemMouseCursors.click,
+                              onHover: (event) {
+                                setState(() {
+                                  isHoveredDownloadPDF = true;
+                                });
+                              },
+                              onExit: (event) {
+                                setState(() {
+                                  isHoveredDownloadPDF = false;
+                                });
+                              },
                             ),
-                          ),
-                          cursor: SystemMouseCursors.click,
-                          onHover: (event) {
-                            setState(() {
-                              isHoveredDownloadPDF = true;
-                            });
-                          },
-                          onExit: (event) {
-                            setState(() {
-                              isHoveredDownloadPDF = false;
-                            });
-                          },
+                            MouseRegion(
+                              child: GestureDetector(
+                                onTap: () {
+                                  _scrollDown();
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  width: DeviceType.getDeviceTypeByContext(
+                                      context) == Type.Website ? 116 : 48,
+                                  height: 48,
+                                  margin: EdgeInsets.only(bottom: 8),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(24),
+                                      color: Color(ColorConstants.getPeachDark())),
+                                  child: Row(
+                                    mainAxisAlignment: DeviceType
+                                        .getDeviceTypeByContext(context) ==
+                                        Type.Website
+                                        ? MainAxisAlignment.spaceEvenly
+                                        : MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: 24,
+                                        width: 24,
+                                        child: ImageIcon(
+                                          AssetImage("images/scroll_down.png"),
+                                          color: Color(ColorConstants.getPrimaryWhite()),
+                                        )
+                                      ),
+                                      DeviceType.getDeviceTypeByContext(context) ==
+                                          Type.Website ? TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: 'Scroll',
+                                        color: Color(
+                                            ColorConstants.getPrimaryWhite()),
+                                        isBold: isHoveredDownloadPDF,
+                                      ) : SizedBox(),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              cursor: SystemMouseCursors.click,
+                              onHover: (event) {
+                                setState(() {
+                                  isHoveredDownloadPDF = true;
+                                });
+                              },
+                              onExit: (event) {
+                                setState(() {
+                                  isHoveredDownloadPDF = false;
+                                });
+                              },
+                            )
+                          ],
                         ),
                       )
                     ],
@@ -202,7 +274,7 @@ class _ContractPageState extends State<ContractPage> {
                     ),
                   ),
                   SizedBox(
-                    height: 164,
+                    height: 64,
                   )
                 ],
               ),

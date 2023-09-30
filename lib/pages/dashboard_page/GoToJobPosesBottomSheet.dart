@@ -66,7 +66,7 @@ class _GoToJobPosesBottomSheetState extends State<GoToJobPosesBottomSheet> with 
                      ),
                      GestureDetector(
                        onTap: () {
-                         pageState.onJobClicked(job);
+                         pageState.onJobClicked(job.documentId);
                          Navigator.of(context).pop();
                          NavigationUtil.onJobPosesSelected(context);
                          EventSender().sendEvent(eventName: EventNames.NAV_TO_JOB_POSES_FROM_BOTTOM_SHEET);
@@ -88,7 +88,7 @@ class _GoToJobPosesBottomSheetState extends State<GoToJobPosesBottomSheet> with 
                      ),
                      GestureDetector(
                        onTap: () {
-                         pageState.onJobClicked(job);
+                         pageState.onJobClicked(job.documentId);
                          Navigator.of(context).pop();
                          NavigationUtil.onJobTapped(context, false);
                          EventSender().sendEvent(eventName: EventNames.NAV_TO_JOB_POSES_FROM_BOTTOM_SHEET);

@@ -225,7 +225,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
 
     Job jobWithDocumentId = await JobDao.getJobBycreatedDate(jobToSave.createdDate);
     if(jobWithDocumentId != null) {
-      store.dispatch(jobDetails.SetJobInfo(store.state.jobDetailsPageState, jobWithDocumentId));
+      store.dispatch(jobDetails.SetJobInfo(store.state.jobDetailsPageState, jobWithDocumentId.documentId));
     } else {
       GlobalKeyUtil.instance.navigatorKey.currentState.pop();
     }

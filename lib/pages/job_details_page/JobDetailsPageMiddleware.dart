@@ -467,19 +467,20 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchClientForJob(Store<AppState> store, NextDispatcher next, SetJobInfo action) async{
-    if(action.job.proposal == null) {
-      action.job.proposal = Proposal();
-      JobDao.update(action.job);
+    Job job = await JobDao.getJobById(action.jobDocumentId);
+    if(job.proposal == null) {
+      job.proposal = Proposal();
+      JobDao.update(job);
     }
-    store.dispatch(SetJobAction(store.state.jobDetailsPageState, action.job));
+    store.dispatch(SetJobAction(store.state.jobDetailsPageState, job));
 
-    if(action.job.location != null) {
-      store.dispatch(SetLocationImageAction(store.state.jobDetailsPageState, await FileStorage.getLocationImageFile(action.job.location)));
+    if(job.location != null) {
+      store.dispatch(SetLocationImageAction(store.state.jobDetailsPageState, await FileStorage.getLocationImageFile(job.location)));
     }
-    Client client = await ClientDao.getClientById(action.job.clientDocumentId);
+    Client client = await ClientDao.getClientById(job.clientDocumentId);
     store.dispatch(SetClientAction(store.state.jobDetailsPageState, client));
     _fetchDeviceEventsForMonth(store, null, next);
-    fetchSunsetWeatherForSelectedDate(store, next, action.job);
+    fetchSunsetWeatherForSelectedDate(store, next, job);
   }
 
   void setJobInfoWithId(Store<AppState> store, NextDispatcher next, SetJobInfoWithJobDocumentId action) async{

@@ -156,7 +156,7 @@ class ClientDetailsPageState {
       onMessageClientClicked: () => store.dispatch(null),
       onEmailClientClicked: () => store.dispatch(null),
       onStartNewJobClicked: (client) => store.dispatch(InitializeNewContactPageAction(store.state.newJobPageState, client)),
-      onJobSelected: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
+      onJobSelected: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId)),
       onInstagramSelected: () => store.dispatch(InstagramSelectedAction(store.state.clientDetailsPageState)),
       onCustomLeadSourceTextChanged: (customLead) => store.dispatch(UpdateTempCustomLeadNameAction(store.state.clientDetailsPageState, customLead)),
       onLeadSourceSelected: (leadSource) => store.dispatch(SetTempLeadSourceAction(store.state.clientDetailsPageState, leadSource)),

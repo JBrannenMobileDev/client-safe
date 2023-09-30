@@ -64,7 +64,7 @@ class JobsPageState {
       activeJobs: store.state.jobsPageState.activeJobs,
       jobsCompleted: store.state.jobsPageState.jobsCompleted,
       onFilterChanged: (filterType) => store.dispatch(FilterChangedAction(store.state.jobsPageState, filterType)),
-      onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
+      onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId)),
     );
   }
 

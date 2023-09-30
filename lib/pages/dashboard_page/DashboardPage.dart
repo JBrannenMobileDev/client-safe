@@ -204,9 +204,6 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
     // Get any messages which caused the application to open from
     // a terminated state.
     RemoteMessage initialMessage = await FirebaseMessaging.instance.getInitialMessage();
-
-    // If the message also contains a data property with a "type" of "chat",
-    // navigate to a chat screen
     if (initialMessage != null) {
       _handleMessage(initialMessage);
     }
@@ -219,6 +216,10 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
   void _handleMessage(RemoteMessage message) {
     if (message.data['click_action'] == 'invoice') {
       NavigationUtil.onInvoiceNotificationSelected(context);
+    }
+    if (message.data['click_action'] == 'contract') {
+      String jobDocumentId = message.data['jobId'];
+      NavigationUtil.onContractNotificationSelected(context, jobDocumentId);
     }
   }
 

@@ -75,6 +75,9 @@ class NavigationUtil {
   static onInvoiceNotificationSelected(BuildContext context) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => IncomeAndExpensesPage()));
   }
+  static onContractNotificationSelected(BuildContext context, String documentId) {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => JobDetailsPage(jobDocumentId: documentId,)));
+  }
   static onPaymentRequestInfoSelected(BuildContext context) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => PaymentRequestInfoPage()));
   }

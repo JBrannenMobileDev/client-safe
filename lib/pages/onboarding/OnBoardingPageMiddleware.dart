@@ -26,6 +26,6 @@ class OnBoardingPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _setSampleJob(Store<AppState> store, SetJobForDetailsPage action, NextDispatcher next) async{
-    store.dispatch(SetJobInfo(store.state.jobDetailsPageState, (await JobDao.getAllJobs()).first));
+    store.dispatch(SetJobInfo(store.state.jobDetailsPageState, (await JobDao.getAllJobs()).first.documentId));
   }
 }

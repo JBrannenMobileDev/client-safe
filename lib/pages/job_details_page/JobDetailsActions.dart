@@ -15,8 +15,8 @@ import '../../models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveD
 
 class SetJobInfo{
   final JobDetailsPageState pageState;
-  final Job job;
-  SetJobInfo(this.pageState, this.job);
+  final String jobDocumentId;
+  SetJobInfo(this.pageState, this.jobDocumentId);
 }
 
 class SetSunsetTimeAction{

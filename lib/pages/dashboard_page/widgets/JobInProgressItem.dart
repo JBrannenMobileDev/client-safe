@@ -20,7 +20,7 @@ class JobInProgressItem extends StatelessWidget{
     return TextButton(
       style: Styles.getButtonStyle(),
       onPressed: () {
-        pageState.onJobClicked(job);
+        pageState.onJobClicked(job.documentId);
         NavigationUtil.onJobTapped(context, false);
       },
       child: Padding(

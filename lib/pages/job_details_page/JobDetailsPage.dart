@@ -45,13 +45,14 @@ import 'PosesCard.dart';
 import 'SunsetWeatherCard.dart';
 
 class JobDetailsPage extends StatefulWidget {
-  const JobDetailsPage({Key key, this.destination, this.comingFromOnBoarding}) : super(key: key);
+  const JobDetailsPage({Key key, this.destination, this.comingFromOnBoarding = false, this.jobDocumentId}) : super(key: key);
   final JobDetailsPage destination;
   final bool comingFromOnBoarding;
+  final String jobDocumentId;
 
   @override
   State<StatefulWidget> createState() {
-    return _JobDetailsPageState(comingFromOnBoarding);
+    return _JobDetailsPageState(comingFromOnBoarding, jobDocumentId);
   }
 }
 
@@ -61,11 +62,12 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
   ScrollController _stagesScrollController = ScrollController(keepScrollOffset: true);
   double scrollPosition = -2;
   bool comingFromOnBoarding;
-  _JobDetailsPageState(this.comingFromOnBoarding);
+  _JobDetailsPageState(this.comingFromOnBoarding, this.jobDocumentId);
   bool sliverCollapsed = false;
   bool isFabExpanded = false;
   bool dialVisible = true;
   JobDetailsPageState pageStateLocal;
+  String jobDocumentId;
 
   Future<void> _ackAlert(BuildContext context, JobDetailsPageState pageState) {
     return showDialog<void>(
@@ -118,6 +120,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
     return StoreConnector<AppState, JobDetailsPageState>(
         converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
         onInit: (appState) => {
+            appState.dispatch(SetJobInfo(appState.state.jobDetailsPageState, jobDocumentId)),
             appState.dispatch(FetchTimeOfSunsetJobAction(appState.state.jobDetailsPageState)),
             appState.dispatch(FetchJobDetailsPricePackagesAction(appState.state.jobDetailsPageState)),
             appState.dispatch(FetchJobDetailsLocationsAction(appState.state.jobDetailsPageState)),

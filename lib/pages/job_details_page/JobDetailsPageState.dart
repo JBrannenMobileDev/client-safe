@@ -373,7 +373,7 @@ class JobDetailsPageState {
         onNewEndTimeSelected: (newTime) => store.dispatch(UpdateJobEndTimeAction(store.state.jobDetailsPageState, newTime)),
         onSaveSelectedDate: () => store.dispatch(UpdateJobDateAction(store.state.jobDetailsPageState)),
         onClientClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
-        onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
+        onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId)),
         onLocationSelected: (location) => store.dispatch(SetNewSelectedLocation(store.state.jobDetailsPageState, location)),
         onLocationSaveSelected: (location) => store.dispatch(UpdateNewLocationAction(store.state.jobDetailsPageState, location)),
         onJobTitleTextChanged: (newText) => store.dispatch(UpdateJobNameAction(store.state.jobDetailsPageState, newText)),
