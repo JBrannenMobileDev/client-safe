@@ -12,7 +12,7 @@ class ContractEditPageState{
   final Contract contract;
   final Profile profile;
   final bool isNew;
-  final Function(Document) onContractSaved;
+  final Function(Document, String) onContractSaved;
   final Function() onDeleteSelected;
   final Function(String) onNameChanged;
   final Function() deleteFromJob;
@@ -33,7 +33,7 @@ class ContractEditPageState{
     Contract contract,
     Profile profile,
     bool isNew,
-    Function(Document) onContractSaved,
+    Function(Document, String) onContractSaved,
     Function(String) onNameChanged,
     Function() onDeleteSelected,
     Function() deleteFromJob,
@@ -68,7 +68,7 @@ class ContractEditPageState{
       profile: store.state.contractEditPageState.profile,
       isNew: store.state.contractEditPageState.isNew,
       deleteFromJob: store.state.contractEditPageState.deleteFromJob,
-      onContractSaved: (contract) => store.dispatch(SaveContractAction(store.state.contractEditPageState, contract)),
+      onContractSaved: (contract, jobDocumentId) => store.dispatch(SaveContractAction(store.state.contractEditPageState, contract, jobDocumentId)),
       onNameChanged: (contractName) => store.dispatch(SetContractNameAction(store.state.contractEditPageState, contractName)),
       onDeleteSelected: () => store.dispatch(DeleteContractAction(store.state.contractEditPageState)),
     );

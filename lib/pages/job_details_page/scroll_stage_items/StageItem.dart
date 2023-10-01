@@ -434,6 +434,7 @@ class _StageItemState extends State<StageItem>
                                 }
                                 break;
                               case JobStage.STAGE_4_PROPOSAL_SIGNED:
+                                NavigationUtil.onShareWIthClientSelected(context, pageState.job);
                                 break;
                               case JobStage.STAGE_5_DEPOSIT_RECEIVED:
                                 IntentLauncherUtil.shareDepositRequest(pageState.job.depositAmount);
@@ -466,7 +467,7 @@ class _StageItemState extends State<StageItem>
                                   EventSender().sendEvent(eventName: EventNames.BT_SEND_INVOICE);
                                 }else {
                                   pageState.onAddInvoiceSelected();
-                                  UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected);
+                                  UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected, true);
                                 }
                                 EventSender().sendEvent(eventName: EventNames.BT_STAGE_ACTION, properties: {EventNames.ACTIVE_STAGE_PARAM_NAME : JobStage.STAGE_8_PAYMENT_REQUESTED});
                                 break;
@@ -476,7 +477,7 @@ class _StageItemState extends State<StageItem>
                                   pageState.onInvoiceSent(pageState.invoice);
                                 }else {
                                   pageState.onAddInvoiceSelected();
-                                  UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected);
+                                  UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected, true);
                                 }
                                 EventSender().sendEvent(eventName: EventNames.BT_STAGE_ACTION, properties: {EventNames.ACTIVE_STAGE_PARAM_NAME : JobStage.STAGE_9_PAYMENT_RECEIVED});
                                 break;

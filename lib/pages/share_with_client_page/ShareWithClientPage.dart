@@ -4,6 +4,7 @@ import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/pages/share_with_client_page/ShareWithClientActions.dart';
 
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:redux/redux.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -18,6 +20,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../models/Job.dart';
 import '../../models/Profile.dart';
 import '../../navigation/routes/RouteNames.dart';
+import '../../utils/InputDoneView.dart';
 import '../../utils/Shadows.dart';
 import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -39,6 +42,8 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
   Profile profile;
   final messageController = TextEditingController();
   final FocusNode _messageFocusNode = FocusNode();
+  OverlayEntry overlayEntry;
+  bool isKeyboardVisible = false;
 
   _ShareWithClientPageState(this.job);
 
@@ -56,6 +61,27 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
     }
   }
 
+  showOverlay(BuildContext context) {
+    if (overlayEntry != null) return;
+    OverlayState overlayState = Overlay.of(context);
+    overlayEntry = OverlayEntry(builder: (context) {
+      return Positioned(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+          right: 0.0,
+          left: 0.0,
+          child: InputDoneView());
+    });
+
+    overlayState.insert(overlayEntry);
+  }
+
+  removeOverlay() {
+    if (overlayEntry != null) {
+      overlayEntry.remove();
+      overlayEntry = null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) =>
       StoreConnector<AppState, ShareWithClientPageState>(
@@ -64,10 +90,25 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
           store.dispatch(SetJobShareWithClientAction(store.state.shareWithClientPageState, job));
           profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
           String clientMessage = "(Example client portal message)\n\nHi ${job.client.firstName},\nI wanted to thank you again for choosing our photography services. We're excited to work with you to capture your special moments.\n\nTo make things official, kindly review and sign the contract. It outlines our agreement's essential details.\n\nIf you have any questions, please don't hesitate to ask.\n\nBest regards,\n\n${profile.firstName} ${profile.lastName ?? ''}\n${profile.businessName ?? ''}";
-          messageController.value = messageController.value.copyWith(text: job.proposal.detailsMessage.isNotEmpty ? job.proposal.detailsMessage : clientMessage);
+          messageController.value = messageController.value.copyWith(text: job.proposal.detailsMessage != null && job.proposal.detailsMessage.isNotEmpty ? job.proposal.detailsMessage : clientMessage);
           if(job.proposal.detailsMessage.isEmpty) {
             store.dispatch(SetClientMessageAction(store.state.shareWithClientPageState, clientMessage));
           }
+
+          KeyboardVisibilityNotification().addNewListener(
+              onShow: () {
+                showOverlay(context);
+                setState(() {
+                  isKeyboardVisible = true;
+                });
+              },
+              onHide: () {
+                removeOverlay();
+                setState(() {
+                  isKeyboardVisible = false;
+                });
+              }
+          );
         },
         onWillChange: (previous, current) {
           setState(() {
@@ -432,7 +473,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                   ),
                 ],
               ),
-              Container(
+              !isKeyboardVisible ? Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
                 alignment: Alignment.bottomCenter,
@@ -440,7 +481,17 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                 child: GestureDetector(
                   onTap: () {
                     pageState.saveProposal();
-                    _launchBrandingPreviewURL(profile.uid, job.documentId);
+                    if(pageState.profile.isProfileComplete() && pageState.profile.hasSetupBrand) {
+                      _launchBrandingPreviewURL(profile.uid, job.documentId);
+                    } else {
+                      String toastMessage = '';
+                      if(!pageState.profile.isProfileComplete()) {
+                        toastMessage = 'Please complete your profile first.';
+                      } else if(!pageState.profile.hasSetupBrand) {
+                        toastMessage = 'Please setup your brand first.';
+                      }
+                      DandyToastUtil.showErrorToast(toastMessage);
+                    }
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -460,8 +511,8 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                     ),
                   ),
                 ),
-              ),
-              Container(
+              ) : SizedBox(),
+              !isKeyboardVisible ? Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
                 alignment: Alignment.bottomCenter,
@@ -469,8 +520,20 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                 child: GestureDetector(
                   onTap: () {
                     pageState.saveProposal();
-                    Share.share('(Example Message)\n\nHey ${job.client.firstName},\n\nThank you so much for choosing me to be your photographer! To make our collaboration simple i have a client portal that will be the hub for all the job details. Here is what it can do.\n\n1. Contract Signing\n2. Invoice Payment\n3. Job details\n4. Pose board for inspiration\n\nAccess the portal here:' + '\nhttps://dandylight.com/clientPortal/${profile.uid}+${job.documentId}\n\n\nExcited to create memorable moments with you!\n\nThank you again,\n${profile.firstName}');
-                    Navigator.of(context).pop();
+                    if(pageState.profile.isProfileComplete() && pageState.profile.hasSetupBrand && pageState.profile.paymentOptionsSelected()) {
+                      Share.share('(Example Message)\n\nHey ${job.client.firstName},\n\nThank you so much for choosing me to be your photographer! To make our collaboration simple i have a client portal that will be the hub for all the job details. Here is what it can do.\n\n1. Contract Signing\n2. Invoice Payment\n3. Job details\n4. Pose board for inspiration\n\nAccess the portal here:' + '\nhttps://dandylight.com/clientPortal/${profile.uid}+${job.documentId}\n\n\nExcited to create memorable moments with you!\n\nThank you again,\n${profile.firstName}');
+                      Navigator.of(context).pop();
+                    } else {
+                      String toastMessage = '';
+                      if(!pageState.profile.isProfileComplete()) {
+                        toastMessage = 'Please complete your profile first.';
+                      } else if(!pageState.profile.hasSetupBrand) {
+                        toastMessage = 'Please setup your brand first.';
+                      } else if(!pageState.profile.paymentOptionsSelected()) {
+                        toastMessage = 'Please setup your payment options first.';
+                      }
+                      DandyToastUtil.showErrorToast(toastMessage);
+                    }
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -490,7 +553,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                     ),
                   ),
                 ),
-              )
+              ) : SizedBox()
             ],
           ),
         ),

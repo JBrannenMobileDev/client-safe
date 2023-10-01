@@ -89,7 +89,7 @@ class _AllInvoicesPageState extends State<AllInvoicesPage> {
                         actions: <Widget>[
                           GestureDetector(
                             onTap: () {
-                              UserOptionsUtil.showNewInvoiceDialog(context, null);
+                              UserOptionsUtil.showNewInvoiceDialog(context, null, true);
                             },
                             child: Container(
                               margin: EdgeInsets.only(right: 12.0),

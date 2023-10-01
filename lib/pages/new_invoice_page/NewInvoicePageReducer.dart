@@ -29,6 +29,7 @@ final newInvoicePageReducer = combineReducers<NewInvoicePageState>([
   TypedReducer<NewInvoicePageState, SaveNewDiscountAction>(_saveNewDiscount),
   TypedReducer<NewInvoicePageState, UpdateNewDiscountSelectorAction>(_updateDiscountSelector),
   TypedReducer<NewInvoicePageState, SetSelectedDueDate>(_setDueDate),
+  TypedReducer<NewInvoicePageState, SetSelectedDepositDueDate>(_setDepositDueDate),
   TypedReducer<NewInvoicePageState, SetDepositCheckBoxStateAction>(_setDepositCheckState),
   TypedReducer<NewInvoicePageState, SetSalesTaxCheckBoxStateAction>(_setSalesTaxCheckState),
   TypedReducer<NewInvoicePageState, SetSelectedSalesTaxRate>(_setSalesTaxRate),
@@ -68,6 +69,12 @@ NewInvoicePageState _setPdfSavedFlag(NewInvoicePageState previousState, UpdatePd
 NewInvoicePageState _setDueDate(NewInvoicePageState previousState, SetSelectedDueDate action) {
   return previousState.copyWith(
     dueDate: action.selectedDueDate,
+  );
+}
+
+NewInvoicePageState _setDepositDueDate(NewInvoicePageState previousState, SetSelectedDepositDueDate action) {
+  return previousState.copyWith(
+    depositDueDate: action.selectedDueDate,
   );
 }
 
@@ -243,7 +250,7 @@ NewInvoicePageState _updateFlatRate(NewInvoicePageState previousState, UpdateFla
 NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSelectedJobAction action) {
   List<LineItem> lineItems = [];
   Job selectedJob = action.selectedJob;
-  double depositAmount = selectedJob.depositAmount?.toDouble();
+  double depositAmount = selectedJob.priceProfile.deposit?.toDouble();
   double remainingBalance;
   double total;
   Discount discount;
@@ -342,7 +349,7 @@ NewInvoicePageState _filterJobs(NewInvoicePageState previousState, FilterJobList
 double calculateRemainingBalance(NewInvoicePageState previousState, double discountAmount, bool includeTax, double taxRate) {
   double subtotal = _calculateSubtotal(previousState);
   double taxableAmount = subtotal - discountAmount;
-  return taxableAmount - (previousState.selectedJob.isDepositPaid() ? previousState.selectedJob.depositAmount : 0) + (includeTax ? (taxableAmount * (taxRate/100)) : 0.0);
+  return taxableAmount - (previousState.selectedJob.isDepositPaid() ? previousState.selectedJob.priceProfile.deposit : 0) + (includeTax ? (taxableAmount * (taxRate/100)) : 0.0);
 }
 //TODO fix pdf sales tax amount && when marking as paid, profile gets wiped in Database
 double calculateRemainingBalanceInit(double discountAmount, bool includeTax, double taxRate, bool isDepositPaid, double depositAmount, double subtotal) {

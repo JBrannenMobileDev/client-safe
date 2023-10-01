@@ -634,7 +634,6 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           if(profile.logoCharacter == null || profile.logoCharacter.length == 0) {
             profile.logoCharacter = profile.businessName != null && profile.businessName.length > 0 ? profile.businessName.substring(0,1) : 'D';
           }
-          await ProfileDao.update(profile);
         }
         store.dispatch(SetIsUserVerifiedAction(store.state.loginPageState, user.emailVerified));
         store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
@@ -652,6 +651,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           EventNames.SIGN_IN_CHECKED_PARAM_USER_UID : user.uid,
           EventNames.SIGN_IN_CHECKED_PARAM_PROFILE_UID : profile?.uid ?? "profile = null",
         });
+        await ProfileDao.update(profile);
       } else {
         store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
         _auth.signOut();

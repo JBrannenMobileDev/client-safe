@@ -20,7 +20,8 @@ class ClearContractEditState {
 class SaveContractAction{
   final ContractEditPageState pageState;
   final Document quillContract;
-  SaveContractAction(this.pageState, this.quillContract);
+  final String jobDocumentId;
+  SaveContractAction(this.pageState, this.quillContract, this.jobDocumentId);
 }
 
 class SetContractNameAction {

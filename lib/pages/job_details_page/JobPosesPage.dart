@@ -100,9 +100,7 @@ class JobPosesPage extends StatelessWidget{
                 alignment: Alignment.bottomCenter,
                 child: GestureDetector(
                   onTap: () {
-                    Share.shareFiles(
-                        pageState.poseFilePaths,
-                        subject: 'Example Poses');
+                    NavigationUtil.onShareWIthClientSelected(context, pageState.job);
                     EventSender().sendEvent(eventName: EventNames.BT_SHARE_JOB_POSES);
                   },
                   child: Container(

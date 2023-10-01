@@ -55,8 +55,10 @@ class NewInvoicePageState {
   final String newDiscountFilter;
   final Discount discount;
   final DateTime dueDate;
+  final DateTime depositDueDate;
   final bool invoicePdfSaved;
   final Function(DateTime) onDueDateSelected;
+  final Function(DateTime) onDepositDueDateSelected;
   final Function() onEditSelected;
   final Function() onDeleteDiscountSelected;
   final Function(String) onNewDiscountFilterChanged;
@@ -151,6 +153,8 @@ class NewInvoicePageState {
     @required this.onSalesTaxRateChanged,
     @required this.onInvoiceSent,
     @required this.subtotal,
+    @required this.depositDueDate,
+    @required this.onDepositDueDateSelected,
   });
 
   NewInvoicePageState copyWith({
@@ -186,8 +190,10 @@ class NewInvoicePageState {
     String newDiscountFilter,
     bool invoicePdfSaved,
     DateTime dueDate,
+    DateTime depositDueDate,
     double subtotal,
     Function(DateTime) dueDateSelected,
+    Function(DateTime) onDepositDueDateSelected,
     Function() onEditSelected,
     Function(String) onNewDiscountFilterChanged,
     Function(String) onNewDiscountRateTextChanged,
@@ -273,6 +279,7 @@ class NewInvoicePageState {
       newDiscountFilter: newDiscountFilter ?? this.newDiscountFilter,
       onEditSelected: onEditSelected ?? this.onEditSelected,
       dueDate: dueDate ?? this.dueDate,
+      onDepositDueDateSelected: onDepositDueDateSelected ?? this.onDepositDueDateSelected,
       onDueDateSelected:  onDueDateSelected ?? this.onDueDateSelected,
       onDepositActionPressed: onDepositActionPressed ?? this.onDepositActionPressed,
       generateInvoicePdf: generateInvoicePdf ?? this.generateInvoicePdf,
@@ -286,6 +293,7 @@ class NewInvoicePageState {
       onSalesTaxRateChanged: onSalesTaxRateChanged ?? this.onSalesTaxRateChanged,
       onInvoiceSent: onInvoiceSent ?? this.onInvoiceSent,
       subtotal: subtotal ?? this.subtotal,
+      depositDueDate: depositDueDate ?? this.depositDueDate,
     );
   }
 
@@ -325,6 +333,7 @@ class NewInvoicePageState {
         newLineItemName: '',
         newLineItemRate: '',
         newLineItemQuantity: '',
+        onDepositDueDateSelected: null,
         onNewLineItemCanceled: null,
         onNewLineItemNameTextChanged: null,
         onNewLineItemQuantityTextChanged: null,
@@ -345,6 +354,7 @@ class NewInvoicePageState {
         isInEditMode: false,
         onEditSelected: null,
         dueDate: null,
+        depositDueDate: null,
         onDueDateSelected: null,
         onDepositActionPressed: null,
         invoicePdfSaved: null,
@@ -400,7 +410,9 @@ class NewInvoicePageState {
       salesTaxPercent: store.state.newInvoicePageState.salesTaxPercent,
       isSalesTaxChecked: store.state.newInvoicePageState.isSalesTaxChecked,
       subtotal: store.state.newInvoicePageState.subtotal,
+      depositDueDate: store.state.newInvoicePageState.depositDueDate,
       onDueDateSelected: (dueDate) => store.dispatch(SetSelectedDueDate(store.state.newInvoicePageState, dueDate)),
+      onDepositDueDateSelected: (dueDate) => store.dispatch(SetSelectedDepositDueDate(store.state.newInvoicePageState, dueDate)),
       onNewDiscountFilterChanged: (selectorName) => store.dispatch(UpdateNewDiscountSelectorAction(store.state.newInvoicePageState, selectorName)),
       onNewDiscountCancelSelected: () => store.dispatch(ClearNewDiscountAction(store.state.newInvoicePageState)),
       onNewDiscountSavedSelected: () => store.dispatch(SaveNewDiscountAction(store.state.newInvoicePageState)),
@@ -447,6 +459,8 @@ class NewInvoicePageState {
       filteredJobs.hashCode ^
       allClients.hashCode ^
       lineItems.hashCode ^
+      onDepositDueDateSelected.hashCode ^
+      depositDueDate.hashCode ^
       onSavePressed.hashCode ^
       onCancelPressed.hashCode ^
       onNextPressed.hashCode ^
@@ -500,11 +514,13 @@ class NewInvoicePageState {
           pageViewIndex == other.pageViewIndex &&
           saveButtonEnabled == other.saveButtonEnabled &&
           shouldClear == other.shouldClear &&
+          onDepositDueDateSelected == other.onDepositDueDateSelected &&
           isFinishedFetchingClients == other.isFinishedFetchingClients &&
           selectedJob == other.selectedJob &&
           jobSearchText == other.jobSearchText &&
           filteredJobs == other.filteredJobs &&
           allClients == other.allClients &&
+          depositDueDate == other.depositDueDate &&
           lineItems == other.lineItems &&
           onSavePressed == other.onSavePressed &&
           onCancelPressed == other.onCancelPressed &&

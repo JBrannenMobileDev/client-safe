@@ -61,17 +61,11 @@ class InvoiceItem extends StatelessWidget{
                       padding: EdgeInsets.only(top: 2.0),
                       child: TextDandyLight(
                         type: TextDandyLight.SMALL_TEXT,
-                        text: (invoice.isOverdue() ? 'OVERDUE' : invoice.sentDate != null
-                                ? (invoice.dueDate != null
-                                    ? ('Due: ' +
-                                        DateFormat('MMM dd, yyyy')
-                                            .format(invoice.dueDate))
-                                    : 'no due date')
-                                : 'Unsent') + ' • ' + (invoice.unpaidAmount != null
-                                ? TextFormatterUtil.formatDecimalDigitsCurrency(invoice.unpaidAmount, 2)
+                        text: (invoice.isOverdue() ? 'OVERDUE' :  (invoice.dueDate != null ? ('Due: ' + DateFormat('MMM dd, yyyy').format(invoice.dueDate))
+                                    : 'no due date')) + ' • ' + (invoice.unpaidAmount != null ? TextFormatterUtil.formatDecimalDigitsCurrency(invoice.unpaidAmount, 2)
                                 : '0'),
                         textAlign: TextAlign.start,
-                        color: invoice.isOverdue() ? Color(ColorConstants.getPeachDark()) : Color(invoice.sentDate != null ? ColorConstants.primary_black : ColorConstants.getPeachDark()),
+                        color: invoice.isOverdue() ? Color(ColorConstants.getPeachDark()) : Color(ColorConstants.primary_black),
                       ),
                     ),
                   ],

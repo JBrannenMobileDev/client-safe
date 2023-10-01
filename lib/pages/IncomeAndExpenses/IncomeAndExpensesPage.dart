@@ -326,7 +326,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                           UserOptionsUtil.showPaymentLinksRequestDialog(context);
                           pageState.setPaymentRequestAsSeen();
                         } else {
-                          UserOptionsUtil.showNewInvoiceDialog(context, null);
+                          UserOptionsUtil.showNewInvoiceDialog(context, null, true);
                         }
                       },
                     ),

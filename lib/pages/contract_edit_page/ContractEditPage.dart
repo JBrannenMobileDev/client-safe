@@ -10,11 +10,13 @@ import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:redux/redux.dart';
 
 import '../../models/Contract.dart';
 import '../../models/FontTheme.dart';
 import '../../utils/ImageUtil.dart';
+import '../../utils/InputDoneView.dart';
 import '../../utils/Shadows.dart';
 import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -46,6 +48,8 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
   final bool isNew;
   final String jobDocumentId;
   bool hasUnsavedChanges = true;
+  OverlayEntry overlayEntry;
+  bool isKeyboardVisible = false;
 
   _ContractEditPageState(this.contract, this.contractName, this.isNew, this.jobDocumentId);
 
@@ -59,6 +63,54 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
     super.initState();
   }
 
+  Future<void> _ackSaveChangesAlert(BuildContext context, ContractEditPageState pageState) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Device.get().isIos ?
+        CupertinoAlertDialog(
+          title: new Text('Are you sure?'),
+          content: new Text('This contract is already signed by your client. Changing this contract will remove the client signature and you will have to request the client to sign this contract again.'),
+          actions: <Widget>[
+            TextButton(
+              style: Styles.getButtonStyle(),
+              onPressed: () => Navigator.of(context).pop(false),
+              child: new Text('No'),
+            ),
+            TextButton(
+              style: Styles.getButtonStyle(),
+              onPressed: () {
+                pageState.onContractSaved(_controller.document, jobDocumentId);
+                Navigator.of(context).pop(true);
+                showSuccessAnimation();
+              },
+              child: new Text('Yes'),
+            ),
+          ],
+        ) : AlertDialog(
+          title: new Text('Are you sure?'),
+          content: new Text('This contract is already signed by your client. Changing this contract will remove the client signature and you will have to request the client to sign this contract again.'),
+          actions: <Widget>[
+            TextButton(
+              style: Styles.getButtonStyle(),
+              onPressed: () => Navigator.of(context).pop(false),
+              child: new Text('No'),
+            ),
+            TextButton(
+              style: Styles.getButtonStyle(),
+              onPressed: () {
+                pageState.onContractSaved(_controller.document, jobDocumentId);
+                Navigator.of(context).pop(true);
+                showSuccessAnimation();
+              },
+              child: new Text('Yes'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) =>
       StoreConnector<AppState, ContractEditPageState>(
@@ -69,6 +121,21 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
           }
           store.dispatch(SetContractNameAction(store.state.contractEditPageState, contractName));
           store.dispatch(FetchProfileForContractEditAction(store.state.contractEditPageState));
+
+          KeyboardVisibilityNotification().addNewListener(
+              onShow: () {
+                showOverlay(context);
+                setState(() {
+                  isKeyboardVisible = true;
+                });
+              },
+              onHide: () {
+                removeOverlay();
+                setState(() {
+                  isKeyboardVisible = false;
+                });
+              }
+          );
         },
         converter: (Store<AppState> store) => ContractEditPageState.fromStore(store),
         builder: (BuildContext context, ContractEditPageState pageState) => WillPopScope(
@@ -121,6 +188,67 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
               return willLeave;
             },
             child: Scaffold(
+              appBar: AppBar(
+                iconTheme: IconThemeData(
+                  color: Color(ColorConstants.getPrimaryBlack()), //change your color here
+                ),
+                backgroundColor: Color(ColorConstants.getPrimaryWhite()),
+                actions: <Widget>[
+                  !isNew && (jobDocumentId == null || jobDocumentId.isEmpty) ? IconButton(
+                    icon: ImageIcon(ImageUtil.getTrashIconWhite(), color: Color(ColorConstants.getPeachDark()),),
+                    tooltip: 'Delete Job',
+                    onPressed: () {
+                      _ackDeleteAlert(context, pageState);
+                    },
+                  ) : SizedBox(),
+                ],
+                centerTitle: true,
+                elevation: 0.0,
+                title: Container(
+                  width: 250,
+                  child: TextFormField(
+                      focusNode: titleFocusNode,
+                      initialValue: !isNew ? contract.contractName : contractName,
+                      enabled: true,
+                      cursorColor: Color(ColorConstants.getPrimaryBlack()),
+                      onChanged: (text) {
+                        setState(() {});
+                        pageState.onNameChanged(text);
+                      },
+                      decoration: InputDecoration(
+                        alignLabelWithHint: true,
+                        labelStyle: TextStyle(
+                            fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                            fontFamily: TextDandyLight.getFontFamily(),
+                            fontWeight: TextDandyLight.getFontWeight(),
+                            color: Color(ColorConstants.getPrimaryBlack())
+                        ),
+                        hintText: 'Contract Name',
+                        fillColor: Colors.white,
+                        enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(ColorConstants.getPrimaryBlack()),
+                              width: 4.0,
+                            )),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                            width: 4.0,
+                          ),
+                        ),
+                        contentPadding: EdgeInsets.all(16),
+                        isDense: true,
+                      ),
+                      keyboardType: TextInputType.name,
+                      maxLines: 1,
+                      style: TextStyle(
+                          fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                          fontFamily: TextDandyLight.getFontFamily(),
+                          fontWeight: TextDandyLight.getFontWeight(),
+                          color: Color(ColorConstants.getPrimaryBlack()))
+                  ),
+                ),
+              ),
               backgroundColor: Color(ColorConstants.getPrimaryWhite()),
               body: Stack(
                 children: [
@@ -128,99 +256,33 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                     decoration: BoxDecoration(
                       color: Color(ColorConstants.getPrimaryWhite()),
                     ),
-                    child: CustomScrollView(
-                      slivers: <Widget>[
-                        SliverAppBar(
-                            iconTheme: IconThemeData(
-                              color: Color(ColorConstants.getPrimaryBlack()), //change your color here
-                            ),
-                            backgroundColor: Color(ColorConstants.getPrimaryWhite()),
-                          actions: <Widget>[
-                            !isNew ? IconButton(
-                              icon: ImageIcon(ImageUtil.getTrashIconWhite(), color: Color(ColorConstants.getPeachDark()),),
-                              tooltip: 'Delete Job',
-                              onPressed: () {
-                                _ackAlert(context, pageState);
-                              },
-                            ) : SizedBox(),
-                          ],
-                            pinned: true,
-                            centerTitle: true,
-                            elevation: 0.0,
-                            title: Container(
-                              width: 250,
-                            child: TextFormField(
-                                focusNode: titleFocusNode,
-                                initialValue: !isNew ? contract.contractName : contractName,
-                                enabled: true,
-                                cursorColor: Color(ColorConstants.getPrimaryBlack()),
-                                onChanged: (text) {
-                                  setState(() {});
-                                  pageState.onNameChanged(text);
-                                },
-                                decoration: InputDecoration(
-                                  alignLabelWithHint: true,
-                                  labelStyle: TextStyle(
-                                      fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
-                                      fontFamily: TextDandyLight.getFontFamily(),
-                                      fontWeight: TextDandyLight.getFontWeight(),
-                                      color: Color(ColorConstants.getPrimaryBlack())
-                                  ),
-                                  hintText: 'Contract Name',
-                                  fillColor: Colors.white,
-                                  enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(ColorConstants.getPrimaryBlack()),
-                                        width: 4.0,
-                                      )),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color(ColorConstants.getPrimaryBlack()),
-                                      width: 4.0,
-                                    ),
-                                  ),
-                                  contentPadding: EdgeInsets.all(16),
-                                  isDense: true,
-                                ),
-                                keyboardType: TextInputType.name,
-                                maxLines: 1,
-                                style: TextStyle(
-                                    fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
-                                    fontFamily: TextDandyLight.getFontFamily(),
-                                    fontWeight: TextDandyLight.getFontWeight(),
-                                    color: Color(ColorConstants.getPrimaryBlack()))
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            color: Color(ColorConstants.getPrimaryWhite()),
+                            margin: EdgeInsets.only(left: 16, right: 16, top: 124, bottom: 48),
+                            child: getEditor(),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left:16, top: 8, bottom: 8),
+                            child: TextDandyLight(
+                              type: TextDandyLight.LARGE_TEXT,
+                              text: 'Signatures',
+                              isBold: true,
                             ),
                           ),
-                        ),
-                        SliverList(
-                          delegate: new SliverChildListDelegate(
-                            <Widget>[
-                              Container(
-                                color: Color(ColorConstants.getPrimaryWhite()),
-                                margin: EdgeInsets.only(left: 16, right: 16, top: 96, bottom: 48),
-                                child: getEditor(),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(left:16, top: 8, bottom: 8),
-                                child: TextDandyLight(
-                                  type: TextDandyLight.LARGE_TEXT,
-                                  text: 'Signatures',
-                                  isBold: true,
-                                ),
-                              ),
-                              Column(
-                                children: signatures(pageState),
-                              ),
-                              Container(
-                                height: 164,
-                              )
-                            ],
+                          Column(
+                            children: signatures(pageState),
                           ),
-                        ),
+                          Container(
+                            height: 164,
+                          )
                       ],
+                      ),
                     ),
                   ),
-                  Container(
+                  !isKeyboardVisible ? Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
                     alignment: Alignment.bottomCenter,
@@ -230,8 +292,12 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                         setState(() {
                           hasUnsavedChanges = false;
                         });
-                        pageState.onContractSaved(_controller.document);
-                        showSuccessAnimation();
+                        if(jobDocumentId != null && jobDocumentId.isNotEmpty) {
+                          _ackSaveChangesAlert(context, pageState);
+                        } else {
+                          pageState.onContractSaved(_controller.document, jobDocumentId);
+                          showSuccessAnimation();
+                        }
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -245,16 +311,15 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                         ),
                         child: TextDandyLight(
                           type: TextDandyLight.LARGE_TEXT,
-                          text: jobDocumentId != null ? 'Save to Job' : 'Save Contract',
+                          text: jobDocumentId != null ? 'Save Changes' : 'Save Contract',
                           textAlign: TextAlign.center,
                           color: Color(ColorConstants.getPrimaryWhite()),
                         ),
                       ),
                     ),
-                  ),
+                  ) : SizedBox(),
                   Container(
                     color: Color(ColorConstants.getPrimaryWhite()),
-                    margin: EdgeInsets.only(top: 114),
                     padding: EdgeInsets.only(bottom: 4, top: 18),
                     child: quill.QuillToolbar.basic(
                       controller: _controller,
@@ -270,6 +335,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                       showSubscript: false,
                       showSuperscript: false,
                       showLink: false,
+                      showAlignmentButtons: true,
                     ),
                   )
                 ],
@@ -315,7 +381,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
     Navigator.of(context).pop(true);
   }
 
-  Future<void> _ackAlert(BuildContext context, ContractEditPageState pageState) {
+  Future<void> _ackDeleteAlert(BuildContext context, ContractEditPageState pageState) {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -369,6 +435,27 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
         );
       },
     );
+  }
+
+  showOverlay(BuildContext context) {
+    if (overlayEntry != null) return;
+    OverlayState overlayState = Overlay.of(context);
+    overlayEntry = OverlayEntry(builder: (context) {
+      return Positioned(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+          right: 0.0,
+          left: 0.0,
+          child: InputDoneView());
+    });
+
+    overlayState.insert(overlayEntry);
+  }
+
+  removeOverlay() {
+    if (overlayEntry != null) {
+      overlayEntry.remove();
+      overlayEntry = null;
+    }
   }
 
   List<Widget> signatures(ContractEditPageState pageState) {

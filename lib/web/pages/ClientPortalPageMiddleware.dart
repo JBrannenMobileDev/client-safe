@@ -133,18 +133,20 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _updateProposalInvoiceDepositPaid(Store<AppState> store, UpdateProposalInvoiceDepositPaidAction action, NextDispatcher next) async{
-    Invoice invoice = action.pageState.invoice;
-    invoice.depositPaid = action.isPaid;
-    if(action.isPaid) {
-      invoice.unpaidAmount = invoice.unpaidAmount - invoice.depositAmount;
-    } else {
-      invoice.unpaidAmount = invoice.unpaidAmount + invoice.depositAmount;
-    }
-    store.dispatch(SetInvoiceAction(store.state.clientPortalPageState, invoice));
+    if(!action.pageState.invoice.invoicePaid) {
+      Invoice invoice = action.pageState.invoice;
+      invoice.depositPaid = action.isPaid;
+      if(action.isPaid) {
+        invoice.unpaidAmount = invoice.unpaidAmount - invoice.depositAmount;
+      } else {
+        invoice.unpaidAmount = invoice.unpaidAmount + invoice.depositAmount;
+      }
+      store.dispatch(SetInvoiceAction(store.state.clientPortalPageState, invoice));
 
-    if(!action.pageState.isBrandingPreview) {
-      ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
-      await repository.updateInvoiceAsDepositPaid(action.pageState.userId, action.pageState.jobId, action.pageState.invoice.documentId, action.isPaid);
+      if(!action.pageState.isBrandingPreview) {
+        ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
+        await repository.updateInvoiceAsDepositPaid(action.pageState.userId, action.pageState.jobId, action.pageState.invoice.documentId, action.isPaid, invoice.unpaidAmount);
+      }
     }
   }
 

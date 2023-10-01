@@ -61,7 +61,7 @@ class _InvoiceOptionsDialogState extends State<InvoiceOptionsDialog>
                         onTap: () {
                         Navigator.of(context).pop();
                         pageState.onAddInvoiceSelected();
-                        UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected);
+                        UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected, true);
                         },
                         child: Container(
                           height: 112.0,

@@ -173,6 +173,12 @@ class SetSelectedDueDate{
   SetSelectedDueDate(this.pageState, this.selectedDueDate);
 }
 
+class SetSelectedDepositDueDate{
+  final NewInvoicePageState pageState;
+  final DateTime selectedDueDate;
+  SetSelectedDepositDueDate(this.pageState, this.selectedDueDate);
+}
+
 class UpdateDepositStatusAction{
   final NewInvoicePageState pageState;
   final bool isChecked;

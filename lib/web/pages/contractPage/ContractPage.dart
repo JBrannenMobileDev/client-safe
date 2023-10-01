@@ -166,7 +166,7 @@ class _ContractPageState extends State<ContractPage> {
                                         height: 24,
                                         width: 24,
                                         child: ImageIcon(
-                                          AssetImage("images/scroll_down.png"),
+                                          AssetImage("images/scroll_down_white.png"),
                                           color: Color(ColorConstants.getPrimaryWhite()),
                                         )
                                       ),

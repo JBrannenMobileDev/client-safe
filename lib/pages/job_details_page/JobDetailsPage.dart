@@ -37,7 +37,6 @@ import '../../utils/analytics/EventSender.dart';
 import '../../utils/permissions/UserPermissionsUtil.dart';
 import '../../widgets/TextDandyLight.dart';
 import '../contracts_page/ContractsPage.dart';
-import 'IncomeCard.dart';
 import 'JobDetailsCard.dart';
 import 'JobNotesWidget.dart';
 import 'LocationCard.dart';
@@ -121,12 +120,6 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
         converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
         onInit: (appState) => {
             appState.dispatch(SetJobInfo(appState.state.jobDetailsPageState, jobDocumentId)),
-            appState.dispatch(FetchTimeOfSunsetJobAction(appState.state.jobDetailsPageState)),
-            appState.dispatch(FetchJobDetailsPricePackagesAction(appState.state.jobDetailsPageState)),
-            appState.dispatch(FetchJobDetailsLocationsAction(appState.state.jobDetailsPageState)),
-            appState.dispatch(FetchJobRemindersAction(appState.state.jobDetailsPageState)),
-            appState.dispatch(FetchAllJobTypesAction(appState.state.jobDetailsPageState)),
-            appState.dispatch(FetchJobPosesAction(appState.state.jobDetailsPageState)),
         },
         onDidChange: (prev, pageState) {
           pageStateLocal = pageState;
@@ -293,7 +286,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                           }
                           if(!containsInvoice) {
                             pageState.onAddInvoiceSelected();
-                            UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected);
+                            UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected, true);
                           }else{
                             UserOptionsUtil.showInvoiceOptionsDialog(context, onSendInvoiceSelected);
                           }
@@ -465,12 +458,11 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                             delegate: new SliverChildListDelegate(<Widget>[
                               PosesCard(pageState: pageState),
                               JobDetailsCard(),
+                              DocumentsCard(pageState: pageState, onSendInvoiceSelected: onSendInvoiceSelected),
                               SunsetWeatherCard(),
                               LocationCard(),
                               ClientDetailsCard(pageState: pageState),
-                              // IncomeCard(onSendInvoiceSelected: onSendInvoiceSelected),
                               JobNotesWidget(),
-                              DocumentsCard(pageState: pageState, onSendInvoiceSelected: onSendInvoiceSelected),
                               RemindersCard(pageState: pageState),
                             ])),
                       ],

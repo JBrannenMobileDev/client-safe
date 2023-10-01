@@ -193,7 +193,7 @@ IncomeAndExpensesPageState _setJobSearchText(IncomeAndExpensesPageState previous
 }
 
 IncomeAndExpensesPageState _setTipInfo(IncomeAndExpensesPageState previousState, SetTipTotalsAction action) {
-  List<Job> jobsSelectedYear = action.allJobs.where((job) => job.selectedDate.year == previousState.selectedYear).toList();
+  List<Job> jobsSelectedYear = action.allJobs.where((job) => (job.selectedDate != null ? job.selectedDate.year : 0) == previousState.selectedYear).toList();
   int totalTipsForYear = 0;
   for(Job job in jobsSelectedYear) {
     if(job != null && job.tipAmount != null) {

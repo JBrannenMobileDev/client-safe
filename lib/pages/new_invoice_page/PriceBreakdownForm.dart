@@ -1,5 +1,5 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/new_invoice_page/InputDoneViewNewInvoice.dart';
+import 'package:dandylight/pages/new_invoice_page/InputDoneView.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoiceTextField.dart';
 import 'package:dandylight/pages/new_pricing_profile_page/RateTypeSelection.dart';
@@ -100,10 +100,10 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
                   LineItemListWidget(pageState, false),
                   GrayDividerWidget(),
                   SubtotalRowWidget(pageState),
-                  Job.containsStage(pageState.selectedJob.type.stages, JobStage.STAGE_5_DEPOSIT_RECEIVED) ? DepositRowWidget() : SizedBox(),
                   DiscountRowWidget(pageState),
                   SalesTaxRowWidget(),
                   GrayDividerWidget(),
+                  pageState.selectedJob.priceProfile.deposit > 0 ? DepositRowWidget() : SizedBox(),
                   BalanceDueWidget(pageState),
                 ],
               )
@@ -120,7 +120,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
           bottom: MediaQuery.of(context).viewInsets.bottom,
           right: 0.0,
           left: 0.0,
-          child: InputDoneViewNewInvoice());
+          child: InputDoneView());
     });
 
     overlayState.insert(overlayEntry);

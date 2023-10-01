@@ -200,13 +200,17 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchJobPoses(Store<AppState> store) async {
+    _fetchJobPosesWithJob(store, store.state.jobDetailsPageState.job);
+  }
+
+  void _fetchJobPosesWithJob(Store<AppState> store, Job job) async {
     List<String> paths = [];
-    if(store.state.jobDetailsPageState.job != null) {
-      for(Pose pose in store.state.jobDetailsPageState.job.poses) {
+    if(job != null) {
+      for(Pose pose in job.poses) {
         if(pose.isLibraryPose()) {
-          paths.add((await FileStorage.getPoseImageFile(pose, null, true, store.state.jobDetailsPageState.job)).path);
+          paths.add((await FileStorage.getPoseImageFile(pose, null, true, job)).path);
         } else {
-          paths.add((await FileStorage.getPoseImageFile(pose, null, false, store.state.jobDetailsPageState.job)).path);
+          paths.add((await FileStorage.getPoseImageFile(pose, null, false, job)).path);
         }
       }
       store.dispatch(SetPoseFilePathsAction(store.state.jobDetailsPageState, paths));
@@ -452,6 +456,10 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchSunsetTime(Store<AppState> store, action, NextDispatcher next) async{
+    _fetchSunsetTimeWithJob(store, store.state.jobDetailsPageState.job);
+  }
+
+  void _fetchSunsetTimeWithJob(Store<AppState> store, Job job) async {
     if(store.state.jobDetailsPageState != null) {
       LocationDandy selectedLocation = store.state.jobDetailsPageState.job.location;
       DateTime selectedDate = store.state.jobDetailsPageState.job.selectedDate;
@@ -468,19 +476,27 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void fetchClientForJob(Store<AppState> store, NextDispatcher next, SetJobInfo action) async{
     Job job = await JobDao.getJobById(action.jobDocumentId);
-    if(job.proposal == null) {
-      job.proposal = Proposal();
-      JobDao.update(job);
-    }
-    store.dispatch(SetJobAction(store.state.jobDetailsPageState, job));
+    if(job != null) {
+      if(job.proposal == null) {
+        job.proposal = Proposal();
+        await JobDao.update(job);
+      }
+      await store.dispatch(SetJobAction(store.state.jobDetailsPageState, job));
 
-    if(job.location != null) {
-      store.dispatch(SetLocationImageAction(store.state.jobDetailsPageState, await FileStorage.getLocationImageFile(job.location)));
+      if(job.location != null) {
+        store.dispatch(SetLocationImageAction(store.state.jobDetailsPageState, await FileStorage.getLocationImageFile(job.location)));
+      }
+      Client client = await ClientDao.getClientById(job.clientDocumentId);
+      store.dispatch(SetClientAction(store.state.jobDetailsPageState, client));
+      _fetchDeviceEventsForMonth(store, null, next);
+      fetchSunsetWeatherForSelectedDate(store, next, job);
     }
-    Client client = await ClientDao.getClientById(job.clientDocumentId);
-    store.dispatch(SetClientAction(store.state.jobDetailsPageState, client));
-    _fetchDeviceEventsForMonth(store, null, next);
-    fetchSunsetWeatherForSelectedDate(store, next, job);
+    _fetchSunsetTimeWithJob(store, job);
+    store.dispatch(FetchJobDetailsPricePackagesAction(store.state.jobDetailsPageState));
+    store.dispatch(FetchJobDetailsLocationsAction(store.state.jobDetailsPageState));
+    _fetchRemindersWithJob(store, next, job);
+    store.dispatch(FetchAllJobTypesAction(store.state.jobDetailsPageState));
+    _fetchJobPosesWithJob(store, job);
   }
 
   void setJobInfoWithId(Store<AppState> store, NextDispatcher next, SetJobInfoWithJobDocumentId action) async{
@@ -624,7 +640,11 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchReminders(Store<AppState> store, FetchJobRemindersAction action,NextDispatcher next) async{
-    List<JobReminder> reminders = await JobReminderDao.getRemindersByJobId(action.pageState.job.documentId);
+    _fetchRemindersWithJob(store, next, action.pageState.job);
+  }
+
+  void _fetchRemindersWithJob(Store<AppState> store, NextDispatcher next, Job job) async {
+    List<JobReminder> reminders = await JobReminderDao.getRemindersByJobId(job.documentId);
     next(SetRemindersAction(store.state.jobDetailsPageState, reminders));
   }
 

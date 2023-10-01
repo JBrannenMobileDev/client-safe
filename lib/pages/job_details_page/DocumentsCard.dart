@@ -3,6 +3,7 @@ import 'package:dandylight/pages/IncomeAndExpenses/InvoiceItem.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/pages/job_details_page/document_items/DocumentItem.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
@@ -35,7 +36,6 @@ class DocumentsCard extends StatelessWidget {
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-
                   Container(
                     width: double.infinity,
                     margin: EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 8.0),
@@ -82,7 +82,7 @@ class DocumentsCard extends StatelessWidget {
             UserOptionsUtil.showViewInvoiceDialog(context, pageState.invoice, await JobDao.getJobById(pageState.invoice.jobDocumentId), onSendInvoiceSelected);
             break;
           case DocumentItem.DOCUMENT_TYPE_CONTRACT:
-
+            NavigationUtil.onContractSelected(context, pageState.job.proposal.contract, pageState.job.proposal.contract.contractName, false, pageState.job.documentId);
             break;
         }
       },

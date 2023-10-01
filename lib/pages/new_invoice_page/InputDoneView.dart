@@ -9,13 +9,10 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../widgets/TextDandyLight.dart';
 
-class InputDoneViewNewInvoice extends StatelessWidget {
+class InputDoneView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, NewInvoicePageState>(
-      converter: (store) => NewInvoicePageState.fromStore(store),
-      builder: (BuildContext context, NewInvoicePageState pageState) =>
-          Container(
+    return Container(
         width: double.infinity,
         color: Colors.transparent,
         child: Align(
@@ -44,7 +41,6 @@ class InputDoneViewNewInvoice extends StatelessWidget {
             ),
           ),
         ),
-      ),
     );
   }
 }
