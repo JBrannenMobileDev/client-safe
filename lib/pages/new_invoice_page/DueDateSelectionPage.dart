@@ -41,7 +41,7 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 32.0),
+                margin: EdgeInsets.only(top: 16.0),
                 alignment: Alignment.center,
                 child: TextButton(
                   style: Styles.getButtonStyle(),
@@ -109,16 +109,18 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
                   ),
                 ),
               ),
-              Center(
+              Container(
+                alignment: Alignment.topCenter,
+                margin: EdgeInsets.only(top: 64),
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
                   text: 'Select a deposit due date',
-                  textAlign: TextAlign.start,
+                  textAlign: TextAlign.center,
                   color: Color(ColorConstants.primary_black),
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 32.0),
+                margin: EdgeInsets.only(top: 16.0),
                 alignment: Alignment.center,
                 child: TextButton(
                   style: Styles.getButtonStyle(),

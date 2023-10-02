@@ -79,38 +79,6 @@ class _InvoiceReviewPageState extends State<InvoiceReviewPage> with AutomaticKee
                   color: Color(ColorConstants.primary_black),
                 ),
               ) : SizedBox(),
-              Expanded(
-                child: Center(
-                  child: GestureDetector(
-                    onTap: () async {
-                      String path = await PdfUtil.getInvoiceFilePath(pageState.invoiceNumber);
-                      Navigator.of(context).push(new MaterialPageRoute(builder: (context) => PdfViewerPage(path: path)));
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(12.0),
-                      height: 72.0,
-                      width: 200.0,
-                      decoration: BoxDecoration(
-                          color: Color(ColorConstants.getBlueLight()),
-                          borderRadius: BorderRadius.circular(36.0)
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Image.asset(
-                              'assets/images/icons/pdf_icon_white.png'),
-                          TextDandyLight(
-                            type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'View PDF',
-                            textAlign: TextAlign.center,
-                            color: Color(ColorConstants.getPrimaryWhite()),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
             ],
           ),
         ],

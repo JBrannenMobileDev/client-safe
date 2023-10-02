@@ -45,11 +45,11 @@ class _EditAccountPageState extends State<EditAccountPage>
       StoreConnector<AppState, MainSettingsPageState>(
         onInit: (store) {
           store.dispatch(LoadUserProfileDataAction(store.state.mainSettingsPageState, profile));
-          if(profile.firstName.isNotEmpty)firstNameTextController.text = profile.firstName ?? '';
-          if(profile.lastName.isNotEmpty)lastNameTextController.text = profile.lastName ?? '';
-          if(profile.businessName.isNotEmpty)businessNameTextController.text = profile.businessName ?? '';
-          if(profile.phone.isNotEmpty)businessPhoneTextController.text = profile.phone ?? '';
-          if(profile.email.isNotEmpty)businessEmailTextController.text = profile.email ?? '';
+          if(profile.firstName != null && profile.firstName.isNotEmpty)firstNameTextController.text = profile.firstName ?? '';
+          if(profile.lastName != null && profile.lastName.isNotEmpty)lastNameTextController.text = profile.lastName ?? '';
+          if(profile.businessName != null && profile.businessName.isNotEmpty)businessNameTextController.text = profile.businessName ?? '';
+          if(profile.phone != null && profile.phone.isNotEmpty)businessPhoneTextController.text = profile.phone ?? '';
+          if(profile.email != null && profile.email.isNotEmpty)businessEmailTextController.text = profile.email ?? '';
         },
         converter: (Store<AppState> store) => MainSettingsPageState.fromStore(store),
         builder: (BuildContext context, MainSettingsPageState pageState) => Scaffold(

@@ -644,8 +644,10 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchRemindersWithJob(Store<AppState> store, NextDispatcher next, Job job) async {
-    List<JobReminder> reminders = await JobReminderDao.getRemindersByJobId(job.documentId);
-    next(SetRemindersAction(store.state.jobDetailsPageState, reminders));
+    if(job != null) {
+      List<JobReminder> reminders = await JobReminderDao.getRemindersByJobId(job.documentId);
+      next(SetRemindersAction(store.state.jobDetailsPageState, reminders));
+    }
   }
 
   void _deleteReminder(Store<AppState> store, DeleteReminderFromJobAction action, NextDispatcher next) async {
@@ -663,6 +665,4 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     }
     return 0;
   }
-
-
 }

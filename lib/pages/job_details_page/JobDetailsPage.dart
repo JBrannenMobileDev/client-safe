@@ -360,7 +360,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                             boxShadow: ElevationToShadow[6],
                           ),
                           child: TextDandyLight(
-                              type: TextDandyLight.LARGE_TEXT,
+                              type: TextDandyLight.MEDIUM_TEXT,
                               color: Color(ColorConstants.getPrimaryWhite()),
                               text: "Share With Client"
                           ),

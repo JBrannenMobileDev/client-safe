@@ -211,33 +211,6 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                         children: <Widget>[
                                           GestureDetector(
                                             onTap: () async {
-                                              String path = await PdfUtil.getInvoiceFilePath(invoice.invoiceId);
-                                              Navigator.of(context).push(new MaterialPageRoute(builder: (context) => PdfViewerPage(path: path)));
-                                            },
-                                            child: Container(
-                                              margin: EdgeInsets.only(top: 4.0, bottom: 4.0),
-                                              padding: EdgeInsets.all(12.0),
-                                              height: 54.0,
-                                              width: 250.0,
-                                              decoration: BoxDecoration(
-                                                  color: Color(ColorConstants.getPeachDark()),
-                                                  borderRadius: BorderRadius.circular(36.0)
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  TextDandyLight(
-                                                    type: TextDandyLight.MEDIUM_TEXT,
-                                                    text: 'View PDF',
-                                                    textAlign: TextAlign.center,
-                                                    color: Color(ColorConstants.getPrimaryWhite()),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          GestureDetector(
-                                            onTap: () async {
                                               NavigationUtil.onShareWIthClientSelected(context, job);
                                             },
                                             child: Container(
