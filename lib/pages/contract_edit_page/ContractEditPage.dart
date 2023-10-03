@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/pages/contract_edit_page/InsertJobDetailBottomSheet.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
@@ -121,6 +122,20 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
     );
   }
 
+  void _showInsertSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return InsertJobDetailBottomSheet(_controller);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) =>
       StoreConnector<AppState, ContractEditPageState>(
@@ -198,208 +213,6 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
               return willLeave;
             },
             child: Scaffold(
-              floatingActionButton: Container(
-                margin: EdgeInsets.only(bottom: 48),
-                child: SpeedDial(
-                  // both default to 16
-                  childMargin: EdgeInsets.only(right: 18.0, bottom: 20.0),
-                  // this is ignored if animatedIcon is non null
-                  child: getFabIcon(),
-                  visible: true,
-                  // If true user is forced to close dial manually
-                  // by tapping main button and overlay is not rendered.
-                  closeManually: false,
-                  curve: Curves.bounceIn,
-                  overlayColor: Colors.black,
-                  overlayOpacity: 0.5,
-                  tooltip: 'Speed Dial',
-                  heroTag: 'speed-dial-hero-tag',
-                  backgroundColor: Color(ColorConstants.getBlueDark()),
-                  foregroundColor: Colors.black,
-                  elevation: 8.0,
-                  shape: CircleBorder(),
-                  onOpen: () {
-                    setState(() {
-                      isFabExpanded = true;
-                    });
-                  },
-                  onClose: () {
-                    setState(() {
-                      isFabExpanded = false;
-                    });
-                  },
-                  children: [
-                    SpeedDialChild(
-                      child: Icon(Icons.add),
-                      backgroundColor: Color(ColorConstants.getBlueLight()),
-                      labelWidget: Container(
-                        alignment: Alignment.center,
-                        height: 42.0,
-                        decoration: BoxDecoration(
-                          boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(21.0),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                          child: TextDandyLight(
-                            type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'Insert Client Name',
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        _insertAndFormat('<<clientName>>');
-                      },
-                    ),
-                    SpeedDialChild(
-                      child: Icon(Icons.add),
-                      backgroundColor: Color(ColorConstants.getBlueLight()),
-                      labelWidget: Container(
-                        alignment: Alignment.center,
-                        height: 42.0,
-                        decoration: BoxDecoration(
-                          boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(21.0),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                          child: TextDandyLight(
-                            type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'Insert location address',
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        _insertAndFormat('<<locationAddress>>');
-                      },
-                    ),
-                    SpeedDialChild(
-                      child: Icon(Icons.add),
-                      backgroundColor: Color(ColorConstants.getBlueLight()),
-                      labelWidget: Container(
-                        alignment: Alignment.center,
-                        height: 42.0,
-                        decoration: BoxDecoration(
-                          boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(21.0),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                          child: TextDandyLight(
-                            type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'Insert session date',
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        _insertAndFormat('<<sessionDate>>');
-                      },
-                    ),
-                    SpeedDialChild(
-                      child: Icon(Icons.add),
-                      backgroundColor: Color(ColorConstants.getBlueLight()),
-                      labelWidget: Container(
-                        alignment: Alignment.center,
-                        height: 42.0,
-                        decoration: BoxDecoration(
-                          boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(21.0),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                          child: TextDandyLight(
-                            type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'Insert retainer amount',
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        _insertAndFormat('<<retainerAmount>>');
-                      },
-                    ),
-                    SpeedDialChild(
-                      child: Icon(Icons.add),
-                      backgroundColor: Color(ColorConstants.getBlueLight()),
-                      labelWidget: Container(
-                        alignment: Alignment.center,
-                        height: 42.0,
-                        decoration: BoxDecoration(
-                          boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(21.0),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                          child: TextDandyLight(
-                            type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'Insert retainer due date',
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        _insertAndFormat('<<retainerDueDate>>');
-                      },
-                    ),
-                    SpeedDialChild(
-                      child: Icon(Icons.add),
-                      backgroundColor: Color(ColorConstants.getBlueLight()),
-                      labelWidget: Container(
-                        alignment: Alignment.center,
-                        height: 42.0,
-                        decoration: BoxDecoration(
-                          boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(21.0),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                          child: TextDandyLight(
-                            type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'Insert total cost',
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        _insertAndFormat('<<totalCost>>');
-                      },
-                    ),
-                    SpeedDialChild(
-                      child: Icon(Icons.add),
-                      backgroundColor: Color(ColorConstants.getBlueLight()),
-                      labelWidget: Container(
-                        alignment: Alignment.center,
-                        height: 42.0,
-                        decoration: BoxDecoration(
-                          boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(21.0),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                          child: TextDandyLight(
-                            type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'Insert cost due date',
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        _insertAndFormat('<<costDueDate>>');
-                      },
-                    ),
-                  ],
-                ),
-              ),
               appBar: AppBar(
                 iconTheme: IconThemeData(
                   color: Color(ColorConstants.getPrimaryBlack()), //change your color here
@@ -534,7 +347,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                     margin: EdgeInsets.only(bottom: 96),
                     child: GestureDetector(
                       onTap: () {
-                       //TODO build bottom sheet to select desired job data to insert.
+                       _showInsertSheet();
                       },
                       child: Container(
                         alignment: Alignment.center,

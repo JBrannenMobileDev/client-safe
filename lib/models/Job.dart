@@ -10,6 +10,57 @@ import 'Pose.dart';
 import 'Proposal.dart';
 
 class Job {
+  static const String DETAIL_CLIENT_NAME = "[ClientName]";
+  static const String DETAIL_CLIENT_EMAIL = "[ClientEmail]";
+  static const String DETAIL_CLIENT_PHONE = "[ClientPhone]";
+  static const String DETAIL_PHOTOGRAPHER_NAME = "[PhotographerName]";
+  static const String DETAIL_BUSINESS_NAME = "[PhotographerBusinessName]";
+  static const String DETAIL_LOCATION_ADDRESS = "[LocationAddress]";
+  static const String DETAIL_SESSION_DATE = "[SessionDate]";
+  static const String DETAIL_RETAINER_PRICE = "[RetainerPrice]";
+  static const String DETAIL_RETAINER_DUE_DATE = "[RetainerDueDate]";
+  static const String DETAIL_TOTAL = "[Total]";
+  static const String DETAIL_TOTAL_DUE_DATE = "[TotalDueDate]";
+
+  static String getDetailDisplayName(String detailConstant) {
+    String result = '';
+    switch(detailConstant) {
+      case DETAIL_CLIENT_NAME:
+        result = 'Client Name';
+        break;
+      case DETAIL_CLIENT_EMAIL:
+        result = 'Client Email';
+        break;
+      case DETAIL_CLIENT_PHONE:
+        result = 'Client Phone';
+        break;
+      case DETAIL_PHOTOGRAPHER_NAME:
+        result = 'Photographer Name';
+        break;
+      case DETAIL_BUSINESS_NAME:
+        result = 'Photographer Business Name';
+        break;
+      case DETAIL_LOCATION_ADDRESS:
+        result = 'Location Address';
+        break;
+      case DETAIL_SESSION_DATE:
+        result = 'Session Date';
+        break;
+      case DETAIL_RETAINER_PRICE:
+        result = 'Retainer Price';
+        break;
+      case DETAIL_RETAINER_DUE_DATE:
+        result = 'Retainer Due Date';
+        break;
+      case DETAIL_TOTAL:
+        result = 'Total';
+        break;
+      case DETAIL_TOTAL_DUE_DATE:
+        result = 'Total Due Date';
+        break;
+    }
+    return result;
+  }
 
   int id;
   String documentId;
