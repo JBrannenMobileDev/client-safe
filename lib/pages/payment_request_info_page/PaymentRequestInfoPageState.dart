@@ -9,11 +9,15 @@ class PaymentRequestInfoPageState{
   final bool cashAppEnabled;
   final bool applePayEnabled;
   final bool cashEnabled;
+  final bool otherEnabled;
   final String zellePhoneEmail;
   final String zelleFullName;
   final String venmoLink;
   final String cashAppLink;
   final String applePayPhone;
+  final String otherMessage;
+  final Function(bool) onOtherSelected;
+  final Function(String) onOtherMessageChanged;
   final Function(bool) onZelleSelected;
   final Function(String) onZelleTextPhoneEmailChanged;
   final Function(String) onZelleTextFullNameChanged;
@@ -29,6 +33,7 @@ class PaymentRequestInfoPageState{
   final Function() onVenmoInputDone;
   final Function() onCashAppInputDone;
   final Function() onApplePayInputDone;
+  final Function() onOtherInputDone;
 
   PaymentRequestInfoPageState({
     @required this.zelleEnabled,
@@ -56,6 +61,11 @@ class PaymentRequestInfoPageState{
     @required this.onApplePayInputDone,
     @required this.cashEnabled,
     @required this.onCashSelected,
+    @required this.otherEnabled,
+    @required this.onOtherMessageChanged,
+    @required this.onOtherSelected,
+    @required this.otherMessage,
+    @required this.onOtherInputDone,
   });
 
   PaymentRequestInfoPageState copyWith({
@@ -64,11 +74,13 @@ class PaymentRequestInfoPageState{
     bool cashAppEnabled,
     bool applePayEnabled,
     bool cashEnabled,
+    bool otherEnabled,
     String zellePhoneEmail,
     String zelleFullName,
     String venmoLink,
     String cashAppLink,
     String applePayPhone,
+    String otherMessage,
     Function() onSignOutSelected,
     Function(bool) onZelleSelected,
     Function(String) onZelleTextPhoneEmailChanged,
@@ -85,6 +97,9 @@ class PaymentRequestInfoPageState{
     Function() onVenmoInputDone,
     Function() onCashAppInputDone,
     Function() onApplePayInputDone,
+    Function(bool) onOtherSelected,
+    Function(String) onOtherMessageChanged,
+    Function() onOtherInputDone,
   }){
     return PaymentRequestInfoPageState(
       zelleEnabled: zelleEnabled ?? this.zelleEnabled,
@@ -112,6 +127,11 @@ class PaymentRequestInfoPageState{
       onApplePayInputDone: onApplePayInputDone ?? this.onApplePayInputDone,
       cashEnabled: cashEnabled ?? this.cashEnabled,
       onCashSelected: onCashSelected ?? this.onCashSelected,
+      otherEnabled: otherEnabled ?? this.otherEnabled,
+      onOtherMessageChanged: onOtherMessageChanged ?? this.onOtherMessageChanged,
+      onOtherSelected: onOtherSelected ?? this.onOtherSelected,
+      otherMessage: otherMessage ?? this.otherMessage,
+      onOtherInputDone: onOtherInputDone ?? this.onOtherInputDone,
     );
   }
 
@@ -141,6 +161,11 @@ class PaymentRequestInfoPageState{
     onApplePayInputDone: null,
     cashEnabled: false,
     onCashSelected: null,
+    onOtherSelected: null,
+    onOtherMessageChanged: null,
+    otherEnabled: false,
+    otherMessage: '',
+    onOtherInputDone: null,
   );
 
   factory PaymentRequestInfoPageState.fromStore(Store<AppState> store) {
@@ -155,6 +180,8 @@ class PaymentRequestInfoPageState{
       cashAppLink: store.state.paymentRequestInfoPageState.cashAppLink,
       applePayPhone: store.state.paymentRequestInfoPageState.applePayPhone,
       cashEnabled: store.state.paymentRequestInfoPageState.cashEnabled,
+      otherEnabled: store.state.paymentRequestInfoPageState.otherEnabled,
+      otherMessage: store.state.paymentRequestInfoPageState.otherMessage,
       onZelleSelected: (enabled) {
         store.dispatch(UpdateProfileWithZelleStateAction(store.state.paymentRequestInfoPageState, enabled));
         store.dispatch(SaveZelleStateAction(store.state.paymentRequestInfoPageState, enabled));
@@ -175,6 +202,10 @@ class PaymentRequestInfoPageState{
         store.dispatch(UpdateProfileWithCashStateAction(store.state.paymentRequestInfoPageState, enabled));
         store.dispatch(SaveCashStateAction(store.state.paymentRequestInfoPageState, enabled));
       },
+      onOtherSelected: (enabled) {
+        store.dispatch(UpdateProfileWithOtherStateAction(store.state.paymentRequestInfoPageState, enabled));
+        store.dispatch(SaveOtherStateAction(store.state.paymentRequestInfoPageState, enabled));
+      },
       onZelleTextPhoneEmailChanged: (input) => store.dispatch(SetZellePhoneEmailTextAction(store.state.paymentRequestInfoPageState, input)),
       onZelleTextFullNameChanged: (input) => store.dispatch(SetZelleFullNameTextAction(store.state.paymentRequestInfoPageState, input)),
       onVenmoTextChanged: (input) => store.dispatch(SetVenmoLinkTextAction(store.state.paymentRequestInfoPageState, input)),
@@ -185,6 +216,8 @@ class PaymentRequestInfoPageState{
       onVenmoInputDone: () => store.dispatch(SaveVenmoInput(store.state.paymentRequestInfoPageState)),
       onCashAppInputDone: () => store.dispatch(SaveCashAppInput(store.state.paymentRequestInfoPageState)),
       onApplePayInputDone: () => store.dispatch(SaveApplePayInput(store.state.paymentRequestInfoPageState)),
+      onOtherMessageChanged: (input) => store.dispatch(SetOtherTextAction(store.state.paymentRequestInfoPageState, input)),
+      onOtherInputDone: () => store.dispatch(SaveOtherInput(store.state.paymentRequestInfoPageState)),
     );
   }
 
@@ -204,6 +237,7 @@ class PaymentRequestInfoPageState{
       onCashAppTextChanged.hashCode ^
       onApplePayTextChanged.hashCode ^
       zellePhoneEmail.hashCode ^
+      onOtherInputDone.hashCode ^
       zelleFullName.hashCode ^
       venmoLink.hashCode ^
       cashAppLink.hashCode ^
@@ -212,6 +246,10 @@ class PaymentRequestInfoPageState{
       onVenmoInputDone.hashCode ^
       onCashAppInputDone.hashCode ^
       onApplePayInputDone.hashCode ^
+      onOtherSelected.hashCode ^
+      onOtherMessageChanged.hashCode ^
+      otherMessage.hashCode ^
+      otherEnabled.hashCode ^
       applePayPhone.hashCode;
 
   @override
@@ -229,6 +267,7 @@ class PaymentRequestInfoPageState{
               onZelleTextPhoneEmailChanged == other.onZelleTextPhoneEmailChanged &&
               onZelleTextFullNameChanged == other.onZelleTextFullNameChanged &&
               onVenmoTextChanged == other.onVenmoTextChanged &&
+              onOtherInputDone == other.onOtherInputDone &&
               onCashAppTextChanged == other.onCashAppTextChanged &&
               onApplePayTextChanged == other.onApplePayTextChanged &&
               zelleFullName == other.zelleFullName &&
@@ -240,5 +279,9 @@ class PaymentRequestInfoPageState{
               onVenmoInputDone == other.onVenmoInputDone &&
               onCashAppInputDone == other.onCashAppInputDone &&
               onApplePayInputDone == other.onApplePayInputDone &&
+              otherEnabled == other.otherEnabled &&
+              onOtherMessageChanged == other.onOtherMessageChanged &&
+              onOtherSelected == other.onOtherSelected &&
+              otherMessage == other.otherMessage &&
               applePayPhone == other.applePayPhone;
 }

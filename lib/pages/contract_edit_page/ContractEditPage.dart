@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl/intl.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:redux/redux.dart';
@@ -50,6 +51,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
   bool hasUnsavedChanges = true;
   OverlayEntry overlayEntry;
   bool isKeyboardVisible = false;
+  bool isFabExpanded = false;
 
   _ContractEditPageState(this.contract, this.contractName, this.isNew, this.jobDocumentId);
 
@@ -61,6 +63,14 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
         selection: TextSelection.collapsed(offset: 0)
     ) : quill.QuillController.basic();
     super.initState();
+  }
+
+  getFabIcon() {
+    if(isFabExpanded){
+      return Icon(Icons.close, color: Color(ColorConstants.getPrimaryWhite()));
+    }else{
+      return Icon(Icons.add, color: Color(ColorConstants.getPrimaryWhite()));
+    }
   }
 
   Future<void> _ackSaveChangesAlert(BuildContext context, ContractEditPageState pageState) {
@@ -188,6 +198,208 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
               return willLeave;
             },
             child: Scaffold(
+              floatingActionButton: Container(
+                margin: EdgeInsets.only(bottom: 48),
+                child: SpeedDial(
+                  // both default to 16
+                  childMargin: EdgeInsets.only(right: 18.0, bottom: 20.0),
+                  // this is ignored if animatedIcon is non null
+                  child: getFabIcon(),
+                  visible: true,
+                  // If true user is forced to close dial manually
+                  // by tapping main button and overlay is not rendered.
+                  closeManually: false,
+                  curve: Curves.bounceIn,
+                  overlayColor: Colors.black,
+                  overlayOpacity: 0.5,
+                  tooltip: 'Speed Dial',
+                  heroTag: 'speed-dial-hero-tag',
+                  backgroundColor: Color(ColorConstants.getBlueDark()),
+                  foregroundColor: Colors.black,
+                  elevation: 8.0,
+                  shape: CircleBorder(),
+                  onOpen: () {
+                    setState(() {
+                      isFabExpanded = true;
+                    });
+                  },
+                  onClose: () {
+                    setState(() {
+                      isFabExpanded = false;
+                    });
+                  },
+                  children: [
+                    SpeedDialChild(
+                      child: Icon(Icons.add),
+                      backgroundColor: Color(ColorConstants.getBlueLight()),
+                      labelWidget: Container(
+                        alignment: Alignment.center,
+                        height: 42.0,
+                        decoration: BoxDecoration(
+                          boxShadow: ElevationToShadow[4],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(21.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Insert Client Name',
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        _insertAndFormat('<<clientName>>');
+                      },
+                    ),
+                    SpeedDialChild(
+                      child: Icon(Icons.add),
+                      backgroundColor: Color(ColorConstants.getBlueLight()),
+                      labelWidget: Container(
+                        alignment: Alignment.center,
+                        height: 42.0,
+                        decoration: BoxDecoration(
+                          boxShadow: ElevationToShadow[4],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(21.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Insert location address',
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        _insertAndFormat('<<locationAddress>>');
+                      },
+                    ),
+                    SpeedDialChild(
+                      child: Icon(Icons.add),
+                      backgroundColor: Color(ColorConstants.getBlueLight()),
+                      labelWidget: Container(
+                        alignment: Alignment.center,
+                        height: 42.0,
+                        decoration: BoxDecoration(
+                          boxShadow: ElevationToShadow[4],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(21.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Insert session date',
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        _insertAndFormat('<<sessionDate>>');
+                      },
+                    ),
+                    SpeedDialChild(
+                      child: Icon(Icons.add),
+                      backgroundColor: Color(ColorConstants.getBlueLight()),
+                      labelWidget: Container(
+                        alignment: Alignment.center,
+                        height: 42.0,
+                        decoration: BoxDecoration(
+                          boxShadow: ElevationToShadow[4],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(21.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Insert retainer amount',
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        _insertAndFormat('<<retainerAmount>>');
+                      },
+                    ),
+                    SpeedDialChild(
+                      child: Icon(Icons.add),
+                      backgroundColor: Color(ColorConstants.getBlueLight()),
+                      labelWidget: Container(
+                        alignment: Alignment.center,
+                        height: 42.0,
+                        decoration: BoxDecoration(
+                          boxShadow: ElevationToShadow[4],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(21.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Insert retainer due date',
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        _insertAndFormat('<<retainerDueDate>>');
+                      },
+                    ),
+                    SpeedDialChild(
+                      child: Icon(Icons.add),
+                      backgroundColor: Color(ColorConstants.getBlueLight()),
+                      labelWidget: Container(
+                        alignment: Alignment.center,
+                        height: 42.0,
+                        decoration: BoxDecoration(
+                          boxShadow: ElevationToShadow[4],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(21.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Insert total cost',
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        _insertAndFormat('<<totalCost>>');
+                      },
+                    ),
+                    SpeedDialChild(
+                      child: Icon(Icons.add),
+                      backgroundColor: Color(ColorConstants.getBlueLight()),
+                      labelWidget: Container(
+                        alignment: Alignment.center,
+                        height: 42.0,
+                        decoration: BoxDecoration(
+                          boxShadow: ElevationToShadow[4],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(21.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Insert cost due date',
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        _insertAndFormat('<<costDueDate>>');
+                      },
+                    ),
+                  ],
+                ),
+              ),
               appBar: AppBar(
                 iconTheme: IconThemeData(
                   color: Color(ColorConstants.getPrimaryBlack()), //change your color here
@@ -283,9 +495,8 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                     ),
                   ),
                   !isKeyboardVisible ? Container(
-                    width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
-                    alignment: Alignment.bottomCenter,
+                    alignment: Alignment.bottomRight,
                     padding: EdgeInsets.only(bottom: 32),
                     child: GestureDetector(
                       onTap: () {
@@ -302,8 +513,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                       child: Container(
                         alignment: Alignment.center,
                         height: 54,
-                        width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.only(left: 32, right: 32),
+                        margin: EdgeInsets.only(left: 16, right: 16),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(32),
                           color: Color(ColorConstants.getPeachDark()),
@@ -318,6 +528,32 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                       ),
                     ),
                   ) : SizedBox(),
+                  Container(
+                    height: MediaQuery.of(context).size.height,
+                    alignment: Alignment.bottomRight,
+                    margin: EdgeInsets.only(bottom: 96),
+                    child: GestureDetector(
+                      onTap: () {
+                       //TODO build bottom sheet to select desired job data to insert.
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 54,
+                        margin: EdgeInsets.only(left: 16, right: 16),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(32),
+                          color: Color(ColorConstants.getBlueDark()),
+                          boxShadow: ElevationToShadow[4],
+                        ),
+                        child: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                          text: 'Insert Job Data',
+                          textAlign: TextAlign.center,
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                        ),
+                      ),
+                    ),
+                  ),
                   Container(
                     color: Color(ColorConstants.getPrimaryWhite()),
                     padding: EdgeInsets.only(bottom: 4, top: 18),
@@ -622,5 +858,11 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
         ),
       )
     ];
+  }
+
+  void _insertAndFormat(String name) {
+    _controller.replaceText(_controller.selection.baseOffset, 0, name, null);
+    _controller.formatText(_controller.selection.baseOffset, name.length, quill.Attribute.fromKeyValue('bold', true));
+    _controller.formatText(_controller.selection.baseOffset, name.length, quill.Attribute.fromKeyValue('color', "#d49a89"));
   }
 }

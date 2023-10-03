@@ -47,10 +47,10 @@ class _PayNowPageState extends State<PayNowPage> {
             width: DeviceType.getDeviceTypeByContext(context) != Type.Website ? MediaQuery.of(context).size.width : null,
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.white),
-                borderRadius: new BorderRadius.all(Radius.circular(16.0))),
+                borderRadius: new BorderRadius.all(Radius.circular(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 16 : 0))),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
+              mainAxisSize: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MainAxisSize.min : MainAxisSize.max,
               children: [
                 Stack(
                   alignment: Alignment.topCenter,
@@ -62,6 +62,7 @@ class _PayNowPageState extends State<PayNowPage> {
                         type: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextDandyLight.EXTRA_LARGE_TEXT : TextDandyLight.LARGE_TEXT,
                         fontFamily: pageState.profile.selectedFontTheme.mainFont,
                         text: 'Payment Options',
+                        isBold: true,
                       ),
                     ),
                     DeviceType.getDeviceTypeByContext(context) != Type.Website ? MouseRegion(
@@ -143,9 +144,10 @@ class _PayNowPageState extends State<PayNowPage> {
                   margin: EdgeInsets.only(top: 8, bottom: 48),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
+                    textAlign: TextAlign.center,
                     fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                    text: 'Please mark as paid above once payment is complete.',
-                    color: Color(ColorConstants.getPrimaryBlack()),
+                    text: 'Please mark as paid once payment is complete.',
+                    color: Color(ColorConstants.error_red),
                     isBold: true,
                   ),
                 ),
@@ -166,6 +168,7 @@ class _PayNowPageState extends State<PayNowPage> {
     if(pageState.profile.cashAppEnabled) enabledOptions.add(buildCashAppWidget(pageState));
     if(pageState.profile.applePayEnabled) enabledOptions.add(buildApplePayWidget(pageState));
     if(pageState.profile.zelleEnabled) enabledOptions.add(buildZelleWidget(pageState));
+    if(pageState.profile.otherEnabled) enabledOptions.add(buildOtherWidget(pageState));
     
     if(DeviceType.getDeviceTypeByContext(context) != Type.Website) {
       return getMobileList(pageState, enabledOptions);
@@ -186,6 +189,7 @@ class _PayNowPageState extends State<PayNowPage> {
         break;
       case 4:
       case 5:
+      case 6:
         return buildBothRowsWeb(pageState, enabledOptions);
         break;
       default:
@@ -254,6 +258,14 @@ class _PayNowPageState extends State<PayNowPage> {
       message: 'Please send funds to our bank account through Zelle by using our mobile phone number or email then mark as paid above.',
       name: pageState.profile.zelleFullName,
       email: pageState.profile.zellePhoneEmail,
+      type: type,
+    );
+  }
+
+  Widget buildOtherWidget(ClientPortalPageState pageState) {
+    return PaymentOptionWidget(
+      title: '',
+      message: pageState.profile.otherMessage,
       type: type,
     );
   }

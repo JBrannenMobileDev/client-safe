@@ -29,6 +29,9 @@ class PaymentRequestInfoPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveApplePayInput){
       saveApplePayPhone(store, next, action);
     }
+    if(action is SaveOtherInput){
+      saveOtherMessage(store, next, action);
+    }
     if(action is UpdateProfileWithZelleStateAction) {
       updateZelleSelection(store, next, action);
     }
@@ -44,6 +47,9 @@ class PaymentRequestInfoPageMiddleware extends MiddlewareClass<AppState> {
     if(action is UpdateProfileWithCashStateAction) {
       updateCashSelection(store, next, action);
     }
+    if(action is UpdateProfileWithOtherStateAction) {
+      updateOtherSelection(store, next, action);
+    }
   }
 
   void loadSettings(Store<AppState> store, NextDispatcher next) async{
@@ -57,6 +63,8 @@ class PaymentRequestInfoPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetCashAppLinkTextAction(store.state.paymentRequestInfoPageState, profile.cashAppLink));
     store.dispatch(SaveApplePayStateAction(store.state.paymentRequestInfoPageState, profile.applePayEnabled));
     store.dispatch(SetApplePayPhoneTextAction(store.state.paymentRequestInfoPageState, profile.applePayPhone));
+    store.dispatch(SetOtherTextAction(store.state.paymentRequestInfoPageState, profile.otherMessage));
+    store.dispatch(SaveOtherStateAction(store.state.paymentRequestInfoPageState, profile.otherEnabled));
   }
 
   void updateZelleSelection(Store<AppState> store, NextDispatcher next, UpdateProfileWithZelleStateAction action)async{
@@ -89,6 +97,12 @@ class PaymentRequestInfoPageMiddleware extends MiddlewareClass<AppState> {
     updateProfile(profile, store);
   }
 
+  void updateOtherSelection(Store<AppState> store, NextDispatcher next, UpdateProfileWithOtherStateAction action)async{
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.otherEnabled = action.enabled;
+    updateProfile(profile, store);
+  }
+
   void saveZellePhoneEmail(Store<AppState> store, NextDispatcher next, SaveZellePhoneEmailInput action)async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.zellePhoneEmail = action.pageState.zellePhoneEmail;
@@ -116,6 +130,12 @@ class PaymentRequestInfoPageMiddleware extends MiddlewareClass<AppState> {
   void saveApplePayPhone(Store<AppState> store, NextDispatcher next, SaveApplePayInput action)async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.applePayPhone = action.pageState.applePayPhone;
+    updateProfile(profile, store);
+  }
+
+  void saveOtherMessage(Store<AppState> store, NextDispatcher next, SaveOtherInput action)async{
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.otherMessage = action.pageState.otherMessage;
     updateProfile(profile, store);
   }
 

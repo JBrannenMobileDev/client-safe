@@ -9,11 +9,13 @@ final paymentRequestInfoPageReducer = combineReducers<PaymentRequestInfoPageStat
   TypedReducer<PaymentRequestInfoPageState, SaveCashAppStateAction>(_saveCashAppState),
   TypedReducer<PaymentRequestInfoPageState, SaveApplePayStateAction>(_saveApplePayState),
   TypedReducer<PaymentRequestInfoPageState, SaveCashStateAction>(_saveCashState),
+  TypedReducer<PaymentRequestInfoPageState, SaveOtherStateAction>(_saveOtherState),
   TypedReducer<PaymentRequestInfoPageState, SetZellePhoneEmailTextAction>(_setZellePhoneEmailText),
   TypedReducer<PaymentRequestInfoPageState, SetZelleFullNameTextAction>(_setZelleFullNameText),
   TypedReducer<PaymentRequestInfoPageState, SetVenmoLinkTextAction>(_setVenmoLinkText),
   TypedReducer<PaymentRequestInfoPageState, SetCashAppLinkTextAction>(_setCashAppLinkText),
   TypedReducer<PaymentRequestInfoPageState, SetApplePayPhoneTextAction>(_setApplePayPhoneText),
+  TypedReducer<PaymentRequestInfoPageState, SetOtherTextAction>(_setOtherText),
 ]);
 
 PaymentRequestInfoPageState _setZellePhoneEmailText(PaymentRequestInfoPageState previousState, SetZellePhoneEmailTextAction action){
@@ -46,6 +48,12 @@ PaymentRequestInfoPageState _setApplePayPhoneText(PaymentRequestInfoPageState pr
   );
 }
 
+PaymentRequestInfoPageState _setOtherText(PaymentRequestInfoPageState previousState, SetOtherTextAction action){
+  return previousState.copyWith(
+    otherMessage: action.input,
+  );
+}
+
 PaymentRequestInfoPageState _saveZelleState(PaymentRequestInfoPageState previousState, SaveZelleStateAction action){
   return previousState.copyWith(
     zelleEnabled: action.enabled,
@@ -73,5 +81,11 @@ PaymentRequestInfoPageState _saveApplePayState(PaymentRequestInfoPageState previ
 PaymentRequestInfoPageState _saveCashState(PaymentRequestInfoPageState previousState, SaveCashStateAction action){
   return previousState.copyWith(
     cashEnabled: action.enabled,
+  );
+}
+
+PaymentRequestInfoPageState _saveOtherState(PaymentRequestInfoPageState previousState, SaveOtherStateAction action){
+  return previousState.copyWith(
+    otherEnabled: action.enabled,
   );
 }

@@ -18,6 +18,7 @@ class Profile{
   bool cashAppEnabled;
   bool applePayEnabled;
   bool cashEnabled;
+  bool otherEnabled;
   bool hasSetupBrand;
   String zellePhoneEmail;
   String zelleFullName;
@@ -26,6 +27,7 @@ class Profile{
   String applePayPhone;
   String instagramUrl;
   String instagramName;
+  String otherMessage;
   double latDefaultHome;
   double lngDefaultHome;
   double salesTaxRate;
@@ -162,6 +164,8 @@ class Profile{
     this.previewColorTheme,
     this.hasSetupBrand,
     this.previewJsonContract,
+    this.otherMessage,
+    this.otherEnabled,
   });
 
   Profile copyWith({
@@ -205,12 +209,14 @@ class Profile{
     bool applePayEnabled,
     bool cashEnabled,
     bool hasSetupBrand,
+    bool otherEnabled,
     int jobsCreatedCount,
     bool logoSelected,
     String logoUrl,
     String bannerWebUrl,
     String bannerMobileUrl,
     String logoCharacter,
+    String otherMessage,
     bool previewLogoSelected,
     String previewLogoUrl,
     String previewBannerWebUrl,
@@ -325,6 +331,8 @@ class Profile{
       previewBannerImageSelected: previewBannerImageSelected ?? this.previewBannerImageSelected,
       hasSetupBrand: hasSetupBrand ?? this.hasSetupBrand,
       previewJsonContract: previewJsonContract ?? this.previewJsonContract,
+      otherMessage: otherMessage ?? this.otherMessage,
+      otherEnabled: otherEnabled ?? this.otherEnabled,
     );
   }
 
@@ -409,11 +417,14 @@ class Profile{
       'previewFontTheme' : previewFontTheme?.toMap() ?? null,
       'previewColorTheme' : previewColorTheme?.toMap() ?? null,
       'cashEnabled' : cashEnabled ?? false,
+      'otherEnabled' : otherEnabled ?? false,
+      'otherMessage' : otherMessage,
     };
   }
 
   static Profile fromMap(Map<String, dynamic> map) {
     return Profile(
+      otherEnabled: map['otherEnabled'] != null ? map['otherEnabled'] : false,
       uid: map['uid'],
       zelleEnabled: map['zelleEnabled'] != null ? map['zelleEnabled'] : false,
       venmoEnabled: map['venmoEnabled'] != null ? map['venmoEnabled'] : false,
@@ -422,6 +433,7 @@ class Profile{
       cashEnabled: map['cashEnabled'] != null ? map['cashEnabled'] : false,
       zelleFullName: map['zelleFullName'],
       zellePhoneEmail: map['zellePhoneEmail'],
+      otherMessage: map['otherMessage'],
       venmoLink: map['venmoLink'],
       cashAppLink: map['cashAppLink'],
       applePayPhone: map['applePayPhone'],
@@ -525,7 +537,7 @@ class Profile{
   }
 
   bool paymentOptionsSelected() {
-    return zelleEnabled || venmoEnabled || cashAppEnabled || applePayEnabled || cashEnabled;
+    return zelleEnabled || venmoEnabled || cashAppEnabled || applePayEnabled || cashEnabled || otherEnabled;
   }
 
   bool isProfileComplete() {

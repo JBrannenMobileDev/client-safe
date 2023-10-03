@@ -28,6 +28,7 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
   final venmoLinkTextController = TextEditingController();
   final cashAppLinkTextController = TextEditingController();
   final applePayLinkTextController = TextEditingController();
+  final otherTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, PaymentRequestInfoPageState>(
@@ -47,6 +48,9 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
           }
           if(store.state.paymentRequestInfoPageState.applePayPhone?.isNotEmpty == true) {
             applePayLinkTextController.text = store.state.paymentRequestInfoPageState.applePayPhone;
+          }
+          if(store.state.paymentRequestInfoPageState.otherMessage?.isNotEmpty == true) {
+            otherTextController.text = store.state.paymentRequestInfoPageState.otherMessage;
           }
         },
     onDidChange: (previous, current) {
@@ -87,6 +91,14 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
         applePayLinkTextController.selection = TextSelection.fromPosition(
           TextPosition(
             offset: applePayLinkTextController.text.length,
+          ),
+        );
+      }
+      if(previous.otherMessage.isEmpty && current.otherMessage?.isNotEmpty == true) {
+        otherTextController.text = current.otherMessage;
+        otherTextController.selection = TextSelection.fromPosition(
+          TextPosition(
+            offset: otherTextController.text.length,
           ),
         );
       }
@@ -165,7 +177,7 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                   ],
                                 ),
                                 pageState.zelleEnabled ? Container(
-                                  margin: EdgeInsets.only(top: 16.0, bottom: 0.0),
+                                  margin: EdgeInsets.only(top: 16.0, bottom: 8.0),
                                   child: TextDandyLight(
                                     type: TextDandyLight.SMALL_TEXT,
                                     text: 'Please provide the mobile number or email associated with your Zelle account.',
@@ -185,7 +197,7 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                   capitalization: TextCapitalization.none,
                                 ) : SizedBox(),
                                 pageState.zelleEnabled ? Container(
-                                  margin: EdgeInsets.only(top: 24.0, bottom: 0.0),
+                                  margin: EdgeInsets.only(top: 24.0, bottom: 8.0),
                                   child: TextDandyLight(
                                     type: TextDandyLight.SMALL_TEXT,
                                     text: 'Please provide the full name associated with your Zelle account.',
@@ -245,7 +257,7 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                   ],
                                 ),
                                 pageState.venmoEnabled ? Container(
-                                  margin: EdgeInsets.only(top: 16.0, bottom: 0.0),
+                                  margin: EdgeInsets.only(top: 16.0, bottom: 8.0),
                                   child: TextDandyLight(
                                     type: TextDandyLight.SMALL_TEXT,
                                     text: 'Please provide the shareable payment link for your Venmo account.',
@@ -305,7 +317,7 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                   ],
                                 ),
                                 pageState.cashAppEnabled ? Container(
-                                  margin: EdgeInsets.only(top: 16.0, bottom: 0.0),
+                                  margin: EdgeInsets.only(top: 16.0, bottom: 8.0),
                                   child: TextDandyLight(
                                     type: TextDandyLight.SMALL_TEXT,
                                     text: 'Please provide the shareable payment link for your Cash App account.',
@@ -388,7 +400,7 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 0.0, bottom: 128.0),
+                            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 0.0, bottom: 16.0),
                             padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
                             decoration: BoxDecoration(
                               color: Color(ColorConstants.getPrimaryWhite()),
@@ -432,6 +444,67 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                     textAlign: TextAlign.start,
                                     color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
+                                ) : SizedBox(),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 0.0, bottom: 128.0),
+                            padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
+                            decoration: BoxDecoration(
+                              color: Color(ColorConstants.getPrimaryWhite()),
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      text: 'Other',
+                                      textAlign: TextAlign.center,
+                                      color: Color(ColorConstants.getPrimaryBlack()),
+                                    ),
+                                    Device.get().isIos?
+                                    CupertinoSwitch(
+                                      trackColor: Color(ColorConstants.getBlueLight()),
+                                      activeColor: Color(ColorConstants.getBlueDark()),
+                                      onChanged: (enabled) {
+                                        pageState.onOtherSelected(enabled);
+                                      },
+                                      value: pageState.otherEnabled,
+                                    ) : Switch(
+                                      activeTrackColor: Color(ColorConstants.getBlueLight()),
+                                      inactiveTrackColor: Color(ColorConstants.getBlueLight()),
+                                      activeColor: Color(ColorConstants.getBlueDark()),
+                                      onChanged: (enabled) {
+                                        pageState.onOtherSelected(enabled);
+                                      },
+                                      value: pageState.otherEnabled,
+                                    )
+                                  ],
+                                ),
+                                pageState.otherEnabled ? Container(
+                                  margin: EdgeInsets.only(top: 16.0, bottom: 8.0),
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.SMALL_TEXT,
+                                    text: 'Please provide the details of this payment method for your clients to see when they receive their invoice.',
+                                    textAlign: TextAlign.start,
+                                    color: Color(ColorConstants.getPrimaryBlack()),
+                                  ),
+                                ) : SizedBox(),
+                                pageState.otherEnabled ? DandyLightSettingsTextField(
+                                  controller: otherTextController,
+                                  hintText: 'Message',
+                                  inputType: TextInputType.text,
+                                  focusNode: null,
+                                  maxLines: 50,
+                                  onFocusAction: pageState.onOtherInputDone,
+                                  height: 132.0,
+                                  onTextInputChanged: pageState.onOtherMessageChanged,
+                                  keyboardAction: TextInputAction.done,
+                                  capitalization: TextCapitalization.sentences,
                                 ) : SizedBox(),
                               ],
                             ),

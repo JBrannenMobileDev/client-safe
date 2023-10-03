@@ -25,6 +25,7 @@ import '../../utils/Shadows.dart';
 import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'ShareWithClientPageState.dart';
+import 'ShareWithClientSetupBottomSheet.dart';
 import 'ShareWithClientTextField.dart';
 
 class ShareWithClientPage extends StatefulWidget {
@@ -44,6 +45,9 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
   final FocusNode _messageFocusNode = FocusNode();
   OverlayEntry overlayEntry;
   bool isKeyboardVisible = false;
+  bool initialSetupState = false;
+  _isThisPageShowing(BuildContext context) => pageContext != null && ModalRoute.of(pageContext)?.isCurrent == true;
+  BuildContext pageContext = null;
 
   _ShareWithClientPageState(this.job);
 
@@ -82,10 +86,25 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
     }
   }
 
+  void _showSetupSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: false,
+      enableDrag: false,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return ShareWithClientSetupBottomSheet();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) =>
       StoreConnector<AppState, ShareWithClientPageState>(
         onInit: (store) async {
+          pageContext = context;
           await store.dispatch(FetchProfileAction(store.state.shareWithClientPageState));
           store.dispatch(SetJobShareWithClientAction(store.state.shareWithClientPageState, job));
           profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
@@ -109,11 +128,30 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                 });
               }
           );
+          setState(() {
+            initialSetupState = !profile.isProfileComplete() || !profile.hasSetupBrand || !profile.paymentOptionsSelected();
+          });
         },
         onWillChange: (previous, current) {
           setState(() {
             profile = current.profile;
           });
+        },
+        onDidChange: (previous, current) {
+          if(initialSetupState) {
+            setState(() {
+              initialSetupState = false;
+            });
+            _showSetupSheet(context);
+          } else {
+            bool shouldShowCurrent = !current.profile.isProfileComplete() || !current.profile.hasSetupBrand || !current.profile.paymentOptionsSelected();
+            bool shouldShowPrevious = !previous.profile.isProfileComplete() || !previous.profile.hasSetupBrand || !previous.profile.paymentOptionsSelected();
+            if(shouldShowCurrent && !shouldShowPrevious) {
+              if(_isThisPageShowing(context)) {
+                _showSetupSheet(context);
+              }
+            }
+          }
         },
         converter: (Store<AppState> store) => ShareWithClientPageState.fromStore(store),
         builder: (BuildContext context, ShareWithClientPageState pageState) => WillPopScope(
@@ -473,87 +511,92 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                   ),
                 ],
               ),
-              !isKeyboardVisible ? Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                alignment: Alignment.bottomCenter,
-                padding: EdgeInsets.only(bottom: 96),
-                child: GestureDetector(
-                  onTap: () {
-                    pageState.saveProposal();
-                    if(pageState.profile.isProfileComplete() && pageState.profile.hasSetupBrand) {
-                      _launchBrandingPreviewURL(profile.uid, job.documentId);
-                    } else {
-                      String toastMessage = '';
-                      if(!pageState.profile.isProfileComplete()) {
-                        toastMessage = 'Please complete your profile first.';
-                      } else if(!pageState.profile.hasSetupBrand) {
-                        toastMessage = 'Please setup your brand first.';
-                      }
-                      DandyToastUtil.showErrorToast(toastMessage);
-                    }
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: 54,
-                    width: MediaQuery.of(context).size.width,
-                    margin: EdgeInsets.only(left: 32, right: 32),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(32),
-                      color: Color(ColorConstants.getPeachDark()),
-                      boxShadow: ElevationToShadow[4],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  !isKeyboardVisible ? Container(
+                    width: MediaQuery.of(context).size.width/2,
+                    height: MediaQuery.of(context).size.height,
+                    alignment: Alignment.bottomCenter,
+                    padding: EdgeInsets.only(bottom: 32),
+                    child: GestureDetector(
+                      onTap: () {
+                        pageState.saveProposal();
+                        if(pageState.profile.isProfileComplete() && pageState.profile.hasSetupBrand && pageState.profile.paymentOptionsSelected()) {
+                          _launchBrandingPreviewURL(profile.uid, job.documentId);
+                        } else {
+                          String toastMessage = '';
+                          if(!pageState.profile.isProfileComplete()) {
+                            toastMessage = 'Please complete your profile first.';
+                          } else if(!pageState.profile.hasSetupBrand) {
+                            toastMessage = 'Please setup your brand first.';
+                          }
+                          DandyToastUtil.showErrorToast(toastMessage);
+                        }
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 54,
+                        width: MediaQuery.of(context).size.width/2,
+                        margin: EdgeInsets.only(left: 32, right: 8),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(32),
+                          color: Color(ColorConstants.getPeachDark()),
+                          boxShadow: ElevationToShadow[4],
+                        ),
+                        child: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                          text: 'Preview',
+                          textAlign: TextAlign.center,
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                        ),
+                      ),
                     ),
-                    child: TextDandyLight(
-                      type: TextDandyLight.LARGE_TEXT,
-                      text: 'Preview',
-                      textAlign: TextAlign.center,
-                      color: Color(ColorConstants.getPrimaryWhite()),
+                  ) : SizedBox(),
+                  !isKeyboardVisible ? Container(
+                    width: MediaQuery.of(context).size.width/2,
+                    height: MediaQuery.of(context).size.height,
+                    alignment: Alignment.bottomCenter,
+                    padding: EdgeInsets.only(bottom: 32),
+                    child: GestureDetector(
+                      onTap: () {
+                        pageState.saveProposal();
+                        if(pageState.profile.isProfileComplete() && pageState.profile.hasSetupBrand && pageState.profile.paymentOptionsSelected()) {
+                          Share.share('(Example Message)\n\nHey ${job.client.firstName},\n\nThank you so much for choosing me to be your photographer! To make our collaboration simple i have a client portal that will be the hub for all the job details. Here is what it can do.\n\n1. Contract Signing\n2. Invoice Payment\n3. Job details\n4. Pose board for inspiration\n\nAccess the portal here:' + '\nhttps://dandylight.com/clientPortal/${profile.uid}+${job.documentId}\n\n\nExcited to create memorable moments with you!\n\nThank you again,\n${profile.firstName}');
+                          Navigator.of(context).pop();
+                        } else {
+                          String toastMessage = '';
+                          if(!pageState.profile.isProfileComplete()) {
+                            toastMessage = 'Please complete your profile first.';
+                          } else if(!pageState.profile.hasSetupBrand) {
+                            toastMessage = 'Please setup your brand first.';
+                          } else if(!pageState.profile.paymentOptionsSelected()) {
+                            toastMessage = 'Please setup your payment options first.';
+                          }
+                          DandyToastUtil.showErrorToast(toastMessage);
+                        }
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 54,
+                        width: MediaQuery.of(context).size.width/2,
+                        margin: EdgeInsets.only(left: 8, right: 32),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(32),
+                          color: Color(ColorConstants.getPeachDark()),
+                          boxShadow: ElevationToShadow[4],
+                        ),
+                        child: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                          text: 'Share',
+                          textAlign: TextAlign.center,
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ) : SizedBox(),
-              !isKeyboardVisible ? Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                alignment: Alignment.bottomCenter,
-                padding: EdgeInsets.only(bottom: 32),
-                child: GestureDetector(
-                  onTap: () {
-                    pageState.saveProposal();
-                    if(pageState.profile.isProfileComplete() && pageState.profile.hasSetupBrand && pageState.profile.paymentOptionsSelected()) {
-                      Share.share('(Example Message)\n\nHey ${job.client.firstName},\n\nThank you so much for choosing me to be your photographer! To make our collaboration simple i have a client portal that will be the hub for all the job details. Here is what it can do.\n\n1. Contract Signing\n2. Invoice Payment\n3. Job details\n4. Pose board for inspiration\n\nAccess the portal here:' + '\nhttps://dandylight.com/clientPortal/${profile.uid}+${job.documentId}\n\n\nExcited to create memorable moments with you!\n\nThank you again,\n${profile.firstName}');
-                      Navigator.of(context).pop();
-                    } else {
-                      String toastMessage = '';
-                      if(!pageState.profile.isProfileComplete()) {
-                        toastMessage = 'Please complete your profile first.';
-                      } else if(!pageState.profile.hasSetupBrand) {
-                        toastMessage = 'Please setup your brand first.';
-                      } else if(!pageState.profile.paymentOptionsSelected()) {
-                        toastMessage = 'Please setup your payment options first.';
-                      }
-                      DandyToastUtil.showErrorToast(toastMessage);
-                    }
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: 54,
-                    width: MediaQuery.of(context).size.width,
-                    margin: EdgeInsets.only(left: 32, right: 32),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(32),
-                      color: Color(ColorConstants.getPeachDark()),
-                      boxShadow: ElevationToShadow[4],
-                    ),
-                    child: TextDandyLight(
-                      type: TextDandyLight.LARGE_TEXT,
-                      text: 'Share',
-                      textAlign: TextAlign.center,
-                      color: Color(ColorConstants.getPrimaryWhite()),
-                    ),
-                  ),
-                ),
-              ) : SizedBox()
+                  ) : SizedBox()
+                ],
+              ),
             ],
           ),
         ),
