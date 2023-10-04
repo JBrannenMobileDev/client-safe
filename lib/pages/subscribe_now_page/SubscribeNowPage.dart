@@ -100,6 +100,29 @@ class _SubscribeNowPageState extends State<SubscribeNowPage> with TickerProvider
                           Padding(
                             padding: EdgeInsets.only(left: 32, right: 32),
                             child: Container(
+                              alignment: Alignment.centerLeft,
+                              margin: EdgeInsets.only(top: 4, left: 32, right: 32),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(Icons.check, color: Color(ColorConstants.getPrimaryBlack()),),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 16),
+                                    child: TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      text: 'Unlimited contracts',
+                                      textAlign: TextAlign.start,
+                                      maxLines: 2,
+                                      color: Color(ColorConstants.getPrimaryBlack()),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 32, right: 32),
+                            child: Container(
                             alignment: Alignment.centerLeft,
                             margin: EdgeInsets.only(top: 4, left: 32, right: 32),
                             child: Row(
@@ -142,6 +165,29 @@ class _SubscribeNowPageState extends State<SubscribeNowPage> with TickerProvider
                               ],
                             ),
                           ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 32, right: 32),
+                            child: Container(
+                              alignment: Alignment.centerLeft,
+                              margin: EdgeInsets.only(top: 4, left: 32, right: 32),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(Icons.check, color: Color(ColorConstants.getPrimaryBlack()),),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 16),
+                                    child: TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      text: 'Beautiful client portal',
+                                      textAlign: TextAlign.start,
+                                      maxLines: 2,
+                                      color: Color(ColorConstants.getPrimaryBlack()),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 32, right: 32),
@@ -292,30 +338,6 @@ class _SubscribeNowPageState extends State<SubscribeNowPage> with TickerProvider
                                     padding: EdgeInsets.only(left: 16),
                                     child: TextDandyLight(
                                       type: TextDandyLight.MEDIUM_TEXT,
-                                      text: 'Unlimited contracts',
-                                      textAlign: TextAlign.start,
-                                      maxLines: 2,
-                                      color: Color(ColorConstants.getPrimaryGreyMedium()),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 32, right: 32),
-                            child: Container(
-                              alignment: Alignment.centerLeft,
-                              margin: EdgeInsets.only(top: 4, left: 32, right: 32),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Icon(Icons.check, color: Color(ColorConstants.getPrimaryGreyMedium()),),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 16),
-                                    child: TextDandyLight(
-                                      type: TextDandyLight.MEDIUM_TEXT,
                                       text: 'Unlimited questionnaires',
                                       textAlign: TextAlign.start,
                                       maxLines: 2,
@@ -341,30 +363,6 @@ class _SubscribeNowPageState extends State<SubscribeNowPage> with TickerProvider
                                     child: TextDandyLight(
                                       type: TextDandyLight.MEDIUM_TEXT,
                                       text: 'Automated booking',
-                                      textAlign: TextAlign.start,
-                                      maxLines: 2,
-                                      color: Color(ColorConstants.getPrimaryGreyMedium()),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 32, right: 32),
-                            child: Container(
-                              alignment: Alignment.centerLeft,
-                              margin: EdgeInsets.only(top: 4, left: 32, right: 32),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Icon(Icons.check, color: Color(ColorConstants.getPrimaryGreyMedium()),),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 16),
-                                    child: TextDandyLight(
-                                      type: TextDandyLight.MEDIUM_TEXT,
-                                      text: 'Unlimited proposals',
                                       textAlign: TextAlign.start,
                                       maxLines: 2,
                                       color: Color(ColorConstants.getPrimaryGreyMedium()),

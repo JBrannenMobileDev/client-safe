@@ -44,7 +44,7 @@ class _InsertJobDetailBottomSheetState extends State<InsertJobDetailBottomSheet>
   void _insertAndFormat(String name) {
     _controller.replaceText(_controller.selection.baseOffset, 0, name, null);
     _controller.formatText(_controller.selection.baseOffset, name.length, quill.Attribute.fromKeyValue('bold', true));
-    _controller.formatText(_controller.selection.baseOffset, name.length, quill.Attribute.fromKeyValue('color', "#d49a89"));
+    _controller.moveCursorToPosition(_controller.selection.baseOffset + name.length);
   }
 
   @override
@@ -74,7 +74,7 @@ class _InsertJobDetailBottomSheetState extends State<InsertJobDetailBottomSheet>
                        margin: EdgeInsets.only(top: 8, bottom: 16, left: 16, right: 16),
                        child: TextDandyLight(
                          type: TextDandyLight.SMALL_TEXT,
-                         text: 'When a job detail is inserted into this contract template, you will see a placeholder for the detail that will later be populated automatically from whichever job this contract is added to.',
+                         text: 'The job detail selected below will be auto-populated by DandyLight for any job that you add this contract to.',
                          textAlign: TextAlign.center,
                          color: Color(ColorConstants.primary_black),
                        ),

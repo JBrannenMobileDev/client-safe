@@ -672,10 +672,4 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
       )
     ];
   }
-
-  void _insertAndFormat(String name) {
-    _controller.replaceText(_controller.selection.baseOffset, 0, name, null);
-    _controller.formatText(_controller.selection.baseOffset, name.length, quill.Attribute.fromKeyValue('bold', true));
-    _controller.formatText(_controller.selection.baseOffset, name.length, quill.Attribute.fromKeyValue('color', "#d49a89"));
-  }
 }

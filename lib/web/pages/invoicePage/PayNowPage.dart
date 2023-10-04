@@ -164,9 +164,9 @@ class _PayNowPageState extends State<PayNowPage> {
     List<Widget> enabledOptions = [];
     
     if(pageState.profile.venmoEnabled) enabledOptions.add(buildVenmoWidget(pageState));
+    if(pageState.profile.wireEnabled) enabledOptions.add(buildWireWidget(pageState));
     if(pageState.profile.cashEnabled) enabledOptions.add(buildCashWidget(pageState));
     if(pageState.profile.cashAppEnabled) enabledOptions.add(buildCashAppWidget(pageState));
-    if(pageState.profile.applePayEnabled) enabledOptions.add(buildApplePayWidget(pageState));
     if(pageState.profile.zelleEnabled) enabledOptions.add(buildZelleWidget(pageState));
     if(pageState.profile.otherEnabled) enabledOptions.add(buildOtherWidget(pageState));
     
@@ -302,11 +302,19 @@ class _PayNowPageState extends State<PayNowPage> {
   Widget buildCashWidget(ClientPortalPageState pageState) {
     return PaymentOptionWidget(
       title: 'Cash',
-      message: 'Pay with cash by agreed upon due date. Send a message to coordinate payment with ' + pageState.profile.firstName + '. Once payment is complete, mark as paid above.',
+      message: pageState.profile.cashMessage != null && pageState.profile.cashMessage.isNotEmpty ? pageState.profile.cashMessage : 'Please send me a message to coordinate a cash payment.',
       sendSms: pageState.profile.phone,
       sendEmail: pageState.profile.email,
       messageTitle: 'Invoice Response - Pay by cash',
       messageBody: 'Hi ' + pageState.profile.firstName + ', i will be paying with cash. How would you like me to get the cash to you?',
+      type: type,
+    );
+  }
+
+  Widget buildWireWidget(ClientPortalPageState pageState) {
+    return PaymentOptionWidget(
+      title: 'Wire/E-Transfer',
+      message: pageState.profile.wireMessage != null && pageState.profile.wireMessage.isNotEmpty ? pageState.profile.wireMessage : 'Please contact me for wire transfer details.',
       type: type,
     );
   }

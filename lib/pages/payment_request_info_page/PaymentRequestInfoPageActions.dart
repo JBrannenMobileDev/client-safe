@@ -42,6 +42,12 @@ class UpdateProfileWithOtherStateAction {
   UpdateProfileWithOtherStateAction(this.pageState, this.enabled);
 }
 
+class UpdateProfileWithWireStateAction {
+  final PaymentRequestInfoPageState pageState;
+  final bool enabled;
+  UpdateProfileWithWireStateAction(this.pageState, this.enabled);
+}
+
 class LoadPaymentSettingsFromProfile{
   final PaymentRequestInfoPageState pageState;
   LoadPaymentSettingsFromProfile(this.pageState);
@@ -63,6 +69,12 @@ class SaveOtherStateAction{
   final PaymentRequestInfoPageState pageState;
   final bool enabled;
   SaveOtherStateAction(this.pageState, this.enabled);
+}
+
+class SaveWireStateAction{
+  final PaymentRequestInfoPageState pageState;
+  final bool enabled;
+  SaveWireStateAction(this.pageState, this.enabled);
 }
 
 class SaveApplePayStateAction{
@@ -87,6 +99,18 @@ class SetOtherTextAction{
   final PaymentRequestInfoPageState pageState;
   final String input;
   SetOtherTextAction(this.pageState, this.input);
+}
+
+class SetWireTextAction{
+  final PaymentRequestInfoPageState pageState;
+  final String input;
+  SetWireTextAction(this.pageState, this.input);
+}
+
+class SetCashTextAction{
+  final PaymentRequestInfoPageState pageState;
+  final String input;
+  SetCashTextAction(this.pageState, this.input);
 }
 
 class SetZelleFullNameTextAction{
@@ -136,6 +160,16 @@ class SaveCashAppInput{
 class SaveOtherInput{
   final PaymentRequestInfoPageState pageState;
   SaveOtherInput(this.pageState);
+}
+
+class SaveWireInput{
+  final PaymentRequestInfoPageState pageState;
+  SaveWireInput(this.pageState);
+}
+
+class SaveCashInput{
+  final PaymentRequestInfoPageState pageState;
+  SaveCashInput(this.pageState);
 }
 
 class SaveApplePayInput{

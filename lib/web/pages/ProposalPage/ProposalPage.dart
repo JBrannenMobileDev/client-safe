@@ -61,120 +61,44 @@ class _SignContractPageState extends State<ProposalPage> {
           converter: (Store<AppState> store) => ClientPortalPageState.fromStore(store),
           builder: (BuildContext context, ClientPortalPageState pageState) => Scaffold(
           backgroundColor: Color(ColorConstants.getPrimaryWhite()),
-          body: SingleChildScrollView(
-            controller: _controller,
-            child: pageState.profile != null && pageState.proposal != null ? Container(
-              width: double.infinity,
-              alignment: Alignment.center,
-              child: Container(
-                color: Color(ColorConstants.getPrimaryWhite()),
-                width: double.infinity,
-                child: Stack(
-                  alignment: Alignment.topCenter,
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      child: Stack(
-                        alignment: Alignment.centerLeft,
-                        children: [
-                          pageState.profile?.bannerWebUrl != null && pageState.profile?.bannerMobileUrl != null && pageState.profile?.bannerImageSelected == true ? Container(
-                            height: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MediaQuery.of(context).size.height/2 : 300,
-                            decoration: BoxDecoration(
-                              color: Colors.transparent,
-                            ),
-                            child: DandyLightNetworkImage(
-                                DeviceType.getDeviceTypeByContext(context) == Type.Website ? pageState.profile.bannerWebUrl : pageState.profile.bannerMobileUrl,
-                                borderRadius: 0,
-                                color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.bannerColor),
-                            ),
-                          ) : Container(
-                            height: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MediaQuery.of(context).size.height/2 : 300,
-                            decoration: BoxDecoration(
-                              color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.bannerColor),
-                            ),
-                          ),
-                          DeviceType.getDeviceTypeByContext(context) == Type.Website && pageState.profile?.logoUrl != null && pageState.profile?.logoSelected == true ? Padding(
-                            padding: EdgeInsets.only(left: calculateLogoMargin(MediaQuery.of(context).size.width), bottom: 124),
-                            child: Container(
-                              alignment: Alignment.center,
-                              height: 150,
-                              width: 150,
-                              decoration: BoxDecoration(
-                                boxShadow: ElevationToShadow[0],
-                                shape: BoxShape.circle,
-                                color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
-                              ),
-                              child: ClipRRect(
-                                  borderRadius: new BorderRadius.circular(75.0),
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
-                                      ),
-                                      width: 150,
-                                      height: 150,
-                                      child: DandyLightNetworkImage(
-                                          pageState.profile.logoUrl,
-                                          color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
-                                      ),
-                                ),
-                              ),
-                            ),
-                          ) : SizedBox(),
-                          DeviceType.getDeviceTypeByContext(context) == Type.Website && pageState.profile?.logoSelected == false ? Padding(
-                            padding: EdgeInsets.only(left: calculateLogoMargin(MediaQuery.of(context).size.width), bottom: 124),
-                            child: Container(
-                              alignment: Alignment.center,
-                                height: 150,
-                                width: 150,
+          body: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              SingleChildScrollView(
+                controller: _controller,
+                child: pageState.profile != null && pageState.proposal != null ? Container(
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  child: Container(
+                    color: Color(ColorConstants.getPrimaryWhite()),
+                    width: double.infinity,
+                    child: Stack(
+                      alignment: Alignment.topCenter,
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          child: Stack(
+                            alignment: Alignment.centerLeft,
+                            children: [
+                              pageState.profile?.bannerWebUrl != null && pageState.profile?.bannerMobileUrl != null && pageState.profile?.bannerImageSelected == true ? Container(
+                                height: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MediaQuery.of(context).size.height/2 : 300,
                                 decoration: BoxDecoration(
-                                    boxShadow: ElevationToShadow[0],
-                                    shape: BoxShape.circle,
-                                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
+                                  color: Colors.transparent,
                                 ),
-                              child: TextDandyLight(
-                                type: TextDandyLight.BRAND_LOGO,
-                                text: pageState.profile.logoCharacter,
-                                fontFamily: pageState.profile.selectedFontTheme.iconFont,
-                                color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconTextColor),
+                                child: DandyLightNetworkImage(
+                                  DeviceType.getDeviceTypeByContext(context) == Type.Website ? pageState.profile.bannerWebUrl : pageState.profile.bannerMobileUrl,
+                                  borderRadius: 0,
+                                  color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.bannerColor),
+                                ),
+                              ) : Container(
+                                height: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MediaQuery.of(context).size.height/2 : 300,
+                                decoration: BoxDecoration(
+                                  color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.bannerColor),
+                                ),
                               ),
-                            ),
-                          ) : SizedBox(),
-                          DeviceType.getDeviceTypeByContext(context) == Type.Website ? Container(
-                            margin: EdgeInsets.only(bottom: 124),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(left: calculateCompanyNameMargin(MediaQuery.of(context).size.width)),
-                                  child: TextDandyLight(
-                                    type: TextDandyLight.EXTRA_LARGE_TEXT,
-                                    fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                                    text: pageState.profile.businessName,
-                                    color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme.bannerColor) && !pageState.profile.bannerImageSelected ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
-                                    addShadow: pageState.profile.bannerImageSelected ? true : false,
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: calculateCompanyNameMargin(MediaQuery.of(context).size.width)),
-                                  child: TextDandyLight(
-                                    type: TextDandyLight.LARGE_TEXT,
-                                    fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                                    text: pageState.job.client?.getClientFullName(),
-                                    color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme.bannerColor) && !pageState.profile.bannerImageSelected ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
-                                    addShadow: pageState.profile.bannerImageSelected ? true : false,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ) : Container(
-                            alignment: Alignment.center,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                pageState.profile?.logoUrl != null  && pageState.profile.logoSelected ? Container(
+                              DeviceType.getDeviceTypeByContext(context) == Type.Website && pageState.profile?.logoUrl != null && pageState.profile?.logoSelected == true ? Padding(
+                                padding: EdgeInsets.only(left: calculateLogoMargin(MediaQuery.of(context).size.width), bottom: 124),
+                                child: Container(
                                   alignment: Alignment.center,
                                   height: 150,
                                   width: 150,
@@ -198,93 +122,166 @@ class _SignContractPageState extends State<ProposalPage> {
                                       ),
                                     ),
                                   ),
-                                ) : Stack(
+                                ),
+                              ) : SizedBox(),
+                              DeviceType.getDeviceTypeByContext(context) == Type.Website && pageState.profile?.logoSelected == false ? Padding(
+                                padding: EdgeInsets.only(left: calculateLogoMargin(MediaQuery.of(context).size.width), bottom: 124),
+                                child: Container(
                                   alignment: Alignment.center,
+                                  height: 150,
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                    boxShadow: ElevationToShadow[0],
+                                    shape: BoxShape.circle,
+                                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
+                                  ),
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.BRAND_LOGO,
+                                    text: pageState.profile.logoCharacter,
+                                    fontFamily: pageState.profile.selectedFontTheme.iconFont,
+                                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconTextColor),
+                                  ),
+                                ),
+                              ) : SizedBox(),
+                              DeviceType.getDeviceTypeByContext(context) == Type.Website ? Container(
+                                margin: EdgeInsets.only(bottom: 124),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                      alignment: Alignment.center,
-                                      height: 132,
-                                      width: 132,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor)
+                                      margin: EdgeInsets.only(left: calculateCompanyNameMargin(MediaQuery.of(context).size.width)),
+                                      child: TextDandyLight(
+                                        type: TextDandyLight.EXTRA_LARGE_TEXT,
+                                        fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                                        text: pageState.profile.businessName,
+                                        color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme.bannerColor) && !pageState.profile.bannerImageSelected ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
+                                        addShadow: pageState.profile.bannerImageSelected ? true : false,
                                       ),
                                     ),
-                                    TextDandyLight(
-                                      type: TextDandyLight.BRAND_LOGO,
-                                      fontFamily: pageState.profile.selectedFontTheme.iconFont,
-                                      textAlign: TextAlign.center,
-                                      text: pageState.profile.logoCharacter,
-                                      color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconTextColor),
+                                    Container(
+                                      margin: EdgeInsets.only(left: calculateCompanyNameMargin(MediaQuery.of(context).size.width)),
+                                      child: TextDandyLight(
+                                        type: TextDandyLight.LARGE_TEXT,
+                                        fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                                        text: pageState.job.client?.getClientFullName(),
+                                        color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme.bannerColor) && !pageState.profile.bannerImageSelected ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
+                                        addShadow: pageState.profile.bannerImageSelected ? true : false,
+                                      ),
                                     )
                                   ],
                                 ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 16),
-                                  child: TextDandyLight(
-                                    type: TextDandyLight.EXTRA_LARGE_TEXT,
-                                    text: pageState.profile.businessName,
-                                    fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                                    textAlign: TextAlign.center,
-                                    color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme.bannerColor) && !pageState.profile.bannerImageSelected ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
-                                    addShadow: pageState.profile.bannerImageSelected ? true : false,
-                                  ),
+                              ) : Container(
+                                alignment: Alignment.center,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    pageState.profile?.logoUrl != null  && pageState.profile.logoSelected ? Container(
+                                      alignment: Alignment.center,
+                                      height: 150,
+                                      width: 150,
+                                      decoration: BoxDecoration(
+                                        boxShadow: ElevationToShadow[0],
+                                        shape: BoxShape.circle,
+                                        color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: new BorderRadius.circular(75.0),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
+                                          ),
+                                          width: 150,
+                                          height: 150,
+                                          child: DandyLightNetworkImage(
+                                            pageState.profile.logoUrl,
+                                            color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
+                                          ),
+                                        ),
+                                      ),
+                                    ) : Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        Container(
+                                          alignment: Alignment.center,
+                                          height: 132,
+                                          width: 132,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor)
+                                          ),
+                                        ),
+                                        TextDandyLight(
+                                          type: TextDandyLight.BRAND_LOGO,
+                                          fontFamily: pageState.profile.selectedFontTheme.iconFont,
+                                          textAlign: TextAlign.center,
+                                          text: pageState.profile.logoCharacter,
+                                          color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconTextColor),
+                                        )
+                                      ],
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 16),
+                                      child: TextDandyLight(
+                                        type: TextDandyLight.EXTRA_LARGE_TEXT,
+                                        text: pageState.profile.businessName,
+                                        fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                                        textAlign: TextAlign.center,
+                                        color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme.bannerColor) && !pageState.profile.bannerImageSelected ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
+                                        addShadow: pageState.profile.bannerImageSelected ? true : false,
+                                      ),
+                                    ),
+                                    Container(
+                                      child: TextDandyLight(
+                                        type: TextDandyLight.LARGE_TEXT,
+                                        text: pageState.job.client?.getClientFullName(),
+                                        textAlign: TextAlign.center,
+                                        fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                                        color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme.bannerColor) && !pageState.profile.bannerImageSelected ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
+                                        addShadow: pageState.profile.bannerImageSelected ? true : false,
+                                      ),
+                                    )
+                                  ],
                                 ),
-                                Container(
-                                  child: TextDandyLight(
-                                    type: TextDandyLight.LARGE_TEXT,
-                                    text: pageState.job.client?.getClientFullName(),
-                                    textAlign: TextAlign.center,
-                                    fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                                    color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme.bannerColor) && !pageState.profile.bannerImageSelected ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
-                                    addShadow: pageState.profile.bannerImageSelected ? true : false,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MediaQuery.of(context).size.height/2 - 124 : 300, bottom: 124),
-                      width: 1440,
-                      decoration: BoxDecoration(
-                        boxShadow: ElevationToShadow[DeviceType.getDeviceTypeByContext(context) == Type.Website && (!ColorConstants.isWhiteString(pageState.profile.selectedColorTheme.bannerColor) || pageState.profile.bannerImageSelected) ? 2 : 0],
-                        color: Color(ColorConstants.getPrimaryWhite()),
-                        borderRadius: BorderRadius.circular(16)
-                      ),
-                      child: DeviceType.getDeviceTypeByContext(context) == Type.Website ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: _menuButtons(pageState),
-                            ),
-                          ),
-                          _getSelectedPage(selectedPage),
-                        ],
-                      ) : Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: _menuButtonsSmallScreen(pageState),
-                            ),
+                              ),
+                            ],
                           ),
                         ),
-                        _getSelectedPage(selectedPage),
+                        Container(
+                          margin: EdgeInsets.only(top: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MediaQuery.of(context).size.height/2 - 124 : 300, bottom: 124),
+                          width: 1440,
+                          decoration: BoxDecoration(
+                              boxShadow: ElevationToShadow[DeviceType.getDeviceTypeByContext(context) == Type.Website && (!ColorConstants.isWhiteString(pageState.profile.selectedColorTheme.bannerColor) || pageState.profile.bannerImageSelected) ? 2 : 0],
+                              color: Color(ColorConstants.getPrimaryWhite()),
+                              borderRadius: BorderRadius.circular(16)
+                          ),
+                          child: DeviceType.getDeviceTypeByContext(context) == Type.Website ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: _menuButtons(pageState),
+                                ),
+                              ),
+                              _getSelectedPage(selectedPage),
+                            ],
+                          ) : Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              _getSelectedPage(selectedPage),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
-                    ),
-                  ],
-                ),
+                  ),
+                ) : Container(),
               ),
-            ) : Container(),
+              DeviceType.getDeviceTypeByContext(context) != Type.Website ? _menuButtonsSmallScreen(pageState) : SizedBox()
+            ],
           ),
         )
       );
@@ -481,196 +478,84 @@ class _SignContractPageState extends State<ProposalPage> {
     ];
   }
 
-  List<Widget> _menuButtonsSmallScreen(ClientPortalPageState pageState) {
-    return [
-      GestureDetector(
-        onTap: () {
-          setState(() {
-            selectedPage = DETAILS;
-          });
-        },
-        child: MouseRegion(
-          child: Container(
-            alignment: Alignment.center,
-            height: 64,
-            width: 100,
-            child: TextDandyLight(
-              type: TextDandyLight.SMALL_TEXT,
-              fontFamily: pageState.profile.selectedFontTheme.mainFont,
-              text: 'Details',
-              isBold: selectedPage == DETAILS,
-              color: Colors.black,
+  Widget _menuButtonsSmallScreen(ClientPortalPageState pageState) {
+    return UnconstrainedBox(
+      child: Container(
+        height: 54,
+        padding: EdgeInsets.only(left: 16, right: 16),
+        margin: EdgeInsets.only(bottom: 16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(27),
+          color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor),
+          boxShadow: ElevationToShadow[4],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  selectedPage = DETAILS;
+                });
+              },
+              child: Container(
+                margin: EdgeInsets.only(left: 12, right: 12),
+                height: 26,
+                width: 26,
+                child: Image.asset(
+                  selectedPage == DETAILS ? "navIcons/home_solid.png" : "navIcons/home_outline.png",
+                ),
+              ),
             ),
-          ),
-          cursor: SystemMouseCursors.click,
-          onHover: (event) {
-            setState(() {
-              isHoveredDetails = true;
-            });
-          },
-          onExit: (event) {
-            setState(() {
-              isHoveredDetails = false;
-            });
-          },
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  selectedPage = CONTRACT;
+                });
+              },
+              child: Container(
+                margin: EdgeInsets.only(left: 12, right: 12),
+                height: 26,
+                width: 26,
+                child: Image.asset(
+                  selectedPage == CONTRACT ? "navIcons/contract_solid.png" : "navIcons/contract_outline.png",
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  selectedPage = INVOICE;
+                });
+              },
+              child: Container(
+                margin: EdgeInsets.only(left: 12, right: 12),
+                height: 26,
+                width: 26,
+                child: Image.asset(
+                  selectedPage == INVOICE ? "navIcons/invoice_solid.png" : "navIcons/invoice_outline.png",
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  selectedPage = POSES;
+                });
+              },
+              child: Container(
+                margin: EdgeInsets.only(left: 12, right: 12),
+                height: 26,
+                width: 26,
+                child: Image.asset(
+                  selectedPage == POSES ? "navIcons/image_solid.png" : "navIcons/image_outline.png",
+                ),
+              ),
+            ),
+          ],
         ),
       ),
-      pageState.proposal?.contract != null ? GestureDetector(
-        onTap: () {
-          setState(() {
-            selectedPage = CONTRACT;
-          });
-        },
-        child: MouseRegion(
-          child: Container(
-            alignment: Alignment.center,
-            height: 64,
-            width: 100,
-            child: TextDandyLight(
-              type: TextDandyLight.SMALL_TEXT,
-              fontFamily: pageState.profile.selectedFontTheme.mainFont,
-              text: 'Contract',
-              isBold: selectedPage == CONTRACT,
-            ),
-          ),
-          cursor: SystemMouseCursors.click,
-          onHover: (event) {
-            setState(() {
-              isHoveredContract = true;
-            });
-          },
-          onExit: (event) {
-            setState(() {
-              isHoveredContract = false;
-            });
-          },
-        ),
-      ) : SizedBox(),
-      pageState.invoice != null ? GestureDetector(
-        onTap: () {
-          setState(() {
-            selectedPage = INVOICE;
-          });
-        },
-        child: MouseRegion(
-          child: Container(
-            alignment: Alignment.center,
-            height: 64,
-            width: 100,
-            child: TextDandyLight(
-              type: TextDandyLight.SMALL_TEXT,
-              fontFamily: pageState.profile.selectedFontTheme.mainFont,
-              text: 'Invoice',
-              isBold: selectedPage == INVOICE,
-            ),
-          ),
-          cursor: SystemMouseCursors.click,
-          onHover: (event) {
-            setState(() {
-              isHoveredInvoice = true;
-            });
-          },
-          onExit: (event) {
-            setState(() {
-              isHoveredInvoice = false;
-            });
-          },
-        ),
-      ) : SizedBox(),
-      pageState.proposal?.includePoses ? GestureDetector(
-        onTap: () {
-          setState(() {
-            selectedPage = POSES;
-          });
-        },
-        child: MouseRegion(
-          child: Container(
-            alignment: Alignment.center,
-            height: 64,
-            width: 100,
-            child: TextDandyLight(
-              type: TextDandyLight.SMALL_TEXT,
-              fontFamily: pageState.profile.selectedFontTheme.mainFont,
-              text: 'Poses',
-              isBold: selectedPage == POSES,
-            ),
-          ),
-          cursor: SystemMouseCursors.click,
-          onHover: (event) {
-            setState(() {
-              isHoveredPoses = true;
-            });
-          },
-          onExit: (event) {
-            setState(() {
-              isHoveredPoses = false;
-            });
-          },
-        ),
-      ) : SizedBox(),
-      pageState.proposal?.questionnaire != null ? GestureDetector(
-        onTap: () {
-          setState(() {
-            selectedPage = QUESTIONNAIRE;
-          });
-        },
-        child: MouseRegion(
-          child: Container(
-            alignment: Alignment.center,
-            height: 64,
-            width: 100,
-            child: TextDandyLight(
-              type: TextDandyLight.SMALL_TEXT,
-              fontFamily: pageState.profile.selectedFontTheme.mainFont,
-              text: 'Questionnaire',
-              isBold: selectedPage == QUESTIONNAIRE,
-            ),
-          ),
-          cursor: SystemMouseCursors.click,
-          onHover: (event) {
-            setState(() {
-              isHoveredQuestionnaire = true;
-            });
-          },
-          onExit: (event) {
-            setState(() {
-              isHoveredQuestionnaire = false;
-            });
-          },
-        ),
-      ) : SizedBox(),
-      pageState.proposal?.feedback != null ? GestureDetector(
-        onTap: () {
-          setState(() {
-            selectedPage = FEEDBACK;
-          });
-        },
-        child: MouseRegion(
-          child: Container(
-            alignment: Alignment.center,
-            height: 64,
-            width: 100,
-            child: TextDandyLight(
-              type: TextDandyLight.SMALL_TEXT,
-              fontFamily: pageState.profile.selectedFontTheme.mainFont,
-              text: 'Feedback',
-              isBold: selectedPage == FEEDBACK,
-            ),
-          ),
-          cursor: SystemMouseCursors.click,
-          onHover: (event) {
-            setState(() {
-              isHoveredFeedback = true;
-            });
-          },
-          onExit: (event) {
-            setState(() {
-              isHoveredFeedback = false;
-            });
-          },
-        ),
-      ) : SizedBox(),
-    ];
+    );
   }
 
   _getSelectedPage(String selectedPage) {

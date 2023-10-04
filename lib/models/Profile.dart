@@ -19,6 +19,7 @@ class Profile{
   bool applePayEnabled;
   bool cashEnabled;
   bool otherEnabled;
+  bool wireEnabled;
   bool hasSetupBrand;
   String zellePhoneEmail;
   String zelleFullName;
@@ -28,6 +29,8 @@ class Profile{
   String instagramUrl;
   String instagramName;
   String otherMessage;
+  String cashMessage;
+  String wireMessage;
   double latDefaultHome;
   double lngDefaultHome;
   double salesTaxRate;
@@ -166,6 +169,9 @@ class Profile{
     this.previewJsonContract,
     this.otherMessage,
     this.otherEnabled,
+    this.wireMessage,
+    this.wireEnabled,
+    this.cashMessage,
   });
 
   Profile copyWith({
@@ -187,6 +193,7 @@ class Profile{
     String applePayPhone,
     String instagramUrl,
     String instagramName,
+    String cashMessage,
     double latDefaultHome,
     double lngDefaultHome,
     bool pushNotificationsEnabled,
@@ -210,6 +217,8 @@ class Profile{
     bool cashEnabled,
     bool hasSetupBrand,
     bool otherEnabled,
+    bool wireEnabled,
+    String wireMessage,
     int jobsCreatedCount,
     bool logoSelected,
     String logoUrl,
@@ -333,6 +342,9 @@ class Profile{
       previewJsonContract: previewJsonContract ?? this.previewJsonContract,
       otherMessage: otherMessage ?? this.otherMessage,
       otherEnabled: otherEnabled ?? this.otherEnabled,
+      wireEnabled: wireEnabled ?? this.wireEnabled,
+      wireMessage: wireMessage ?? this.wireMessage,
+      cashMessage: cashMessage ?? this.cashMessage,
     );
   }
 
@@ -352,6 +364,7 @@ class Profile{
       'venmoEnabled' : venmoEnabled ?? false,
       'cashAppEnabled' : cashAppEnabled ?? false,
       'applePayEnabled' : applePayEnabled ?? false,
+      'wireEnabled' : wireEnabled ?? false,
       'zelleFullName' : zelleFullName,
       'zellePhoneEmail' : zellePhoneEmail,
       'venmoLink' : venmoLink,
@@ -419,12 +432,15 @@ class Profile{
       'cashEnabled' : cashEnabled ?? false,
       'otherEnabled' : otherEnabled ?? false,
       'otherMessage' : otherMessage,
+      'wireMessage' : wireMessage,
+      'cashMessage' : cashMessage,
     };
   }
 
   static Profile fromMap(Map<String, dynamic> map) {
     return Profile(
       otherEnabled: map['otherEnabled'] != null ? map['otherEnabled'] : false,
+      wireEnabled: map['wireEnabled'] != null ? map['wireEnabled'] : false,
       uid: map['uid'],
       zelleEnabled: map['zelleEnabled'] != null ? map['zelleEnabled'] : false,
       venmoEnabled: map['venmoEnabled'] != null ? map['venmoEnabled'] : false,
@@ -434,6 +450,7 @@ class Profile{
       zelleFullName: map['zelleFullName'],
       zellePhoneEmail: map['zellePhoneEmail'],
       otherMessage: map['otherMessage'],
+      wireMessage: map['wireMessage'],
       venmoLink: map['venmoLink'],
       cashAppLink: map['cashAppLink'],
       applePayPhone: map['applePayPhone'],
@@ -537,7 +554,7 @@ class Profile{
   }
 
   bool paymentOptionsSelected() {
-    return zelleEnabled || venmoEnabled || cashAppEnabled || applePayEnabled || cashEnabled || otherEnabled;
+    return zelleEnabled || venmoEnabled || cashAppEnabled || applePayEnabled || cashEnabled || otherEnabled || wireEnabled;
   }
 
   bool isProfileComplete() {

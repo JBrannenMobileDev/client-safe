@@ -29,6 +29,8 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
   final cashAppLinkTextController = TextEditingController();
   final applePayLinkTextController = TextEditingController();
   final otherTextController = TextEditingController();
+  final wireTextController = TextEditingController();
+  final cashTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, PaymentRequestInfoPageState>(
@@ -51,6 +53,14 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
           }
           if(store.state.paymentRequestInfoPageState.otherMessage?.isNotEmpty == true) {
             otherTextController.text = store.state.paymentRequestInfoPageState.otherMessage;
+          }
+          if(store.state.paymentRequestInfoPageState.wireMessage?.isNotEmpty == true) {
+            wireTextController.text = store.state.paymentRequestInfoPageState.wireMessage;
+          }
+          if(store.state.paymentRequestInfoPageState.cashMessage?.isNotEmpty == true) {
+            cashTextController.text = store.state.paymentRequestInfoPageState.cashMessage;
+          } else {
+            cashTextController.text = '(Example message) Please send me a message to coordinate a cash payment.  Thank you!';
           }
         },
     onDidChange: (previous, current) {
@@ -102,6 +112,14 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
           ),
         );
       }
+      if(previous.wireMessage.isEmpty && current.wireMessage?.isNotEmpty == true) {
+        wireTextController.text = current.wireMessage;
+        wireTextController.selection = TextSelection.fromPosition(
+          TextPosition(
+            offset: wireTextController.text.length,
+          ),
+        );
+      }
     },
         converter: (Store<AppState> store) => PaymentRequestInfoPageState.fromStore(store),
         builder: (BuildContext context, PaymentRequestInfoPageState pageState) =>
@@ -140,7 +158,189 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 16.0),
+                            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 0.0, bottom: 16.0),
+                            padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
+                            decoration: BoxDecoration(
+                              color: Color(ColorConstants.getPrimaryWhite()),
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      text: 'Venmo',
+                                      textAlign: TextAlign.center,
+                                      color: Color(ColorConstants.getPrimaryBlack()),
+                                    ),
+                                    Device.get().isIos?
+                                    CupertinoSwitch(
+                                      trackColor: Color(ColorConstants.getBlueLight()),
+                                      activeColor: Color(ColorConstants.getBlueDark()),
+                                      onChanged: (enabled) {
+                                        pageState.onVenmoSelected(enabled);
+                                      },
+                                      value: pageState.venmoEnabled,
+                                    ) : Switch(
+                                      activeTrackColor: Color(ColorConstants.getBlueLight()),
+                                      inactiveTrackColor: Color(ColorConstants.getBlueLight()),
+                                      activeColor: Color(ColorConstants.getBlueDark()),
+                                      onChanged: (enabled) {
+                                        pageState.onVenmoSelected(enabled);
+                                      },
+                                      value: pageState.venmoEnabled,
+                                    )
+                                  ],
+                                ),
+                                pageState.venmoEnabled ? Container(
+                                  margin: EdgeInsets.only(top: 16.0, bottom: 8.0),
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.SMALL_TEXT,
+                                    text: 'Please provide the shareable payment link for your Venmo account.',
+                                    textAlign: TextAlign.start,
+                                    color: Color(ColorConstants.getPrimaryBlack()),
+                                  ),
+                                ) : SizedBox(),
+                                pageState.venmoEnabled ? DandyLightSettingsTextField(
+                                  controller: venmoLinkTextController,
+                                  hintText: 'Payment link',
+                                  inputType: TextInputType.url,
+                                  focusNode: null,
+                                  onFocusAction: pageState.onVenmoInputDone,
+                                  height: 66.0,
+                                  onTextInputChanged: pageState.onVenmoTextChanged,
+                                  keyboardAction: TextInputAction.done,
+                                  capitalization: TextCapitalization.none,
+                                ) : SizedBox(),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 0.0, bottom: 16.0),
+                            padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
+                            decoration: BoxDecoration(
+                              color: Color(ColorConstants.getPrimaryWhite()),
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      text: 'Wire Transfer/E-Transfer',
+                                      textAlign: TextAlign.center,
+                                      color: Color(ColorConstants.getPrimaryBlack()),
+                                    ),
+                                    Device.get().isIos?
+                                    CupertinoSwitch(
+                                      trackColor: Color(ColorConstants.getBlueLight()),
+                                      activeColor: Color(ColorConstants.getBlueDark()),
+                                      onChanged: (enabled) {
+                                        pageState.onWireSelected(enabled);
+                                      },
+                                      value: pageState.wireEnabled,
+                                    ) : Switch(
+                                      activeTrackColor: Color(ColorConstants.getBlueLight()),
+                                      inactiveTrackColor: Color(ColorConstants.getBlueLight()),
+                                      activeColor: Color(ColorConstants.getBlueDark()),
+                                      onChanged: (enabled) {
+                                        pageState.onWireSelected(enabled);
+                                      },
+                                      value: pageState.wireEnabled,
+                                    )
+                                  ],
+                                ),
+                                pageState.wireEnabled ? Container(
+                                  margin: EdgeInsets.only(top: 16.0, bottom: 8.0),
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.SMALL_TEXT,
+                                    text: 'Please provide the Wire Transfer/E-Transfer details your client will need to perform a transfer. This information will be shown to your client on the invoice page in your client portal.',
+                                    textAlign: TextAlign.start,
+                                    color: Color(ColorConstants.getPrimaryBlack()),
+                                  ),
+                                ) : SizedBox(),
+                                pageState.wireEnabled ? DandyLightSettingsTextField(
+                                  controller: wireTextController,
+                                  hintText: 'Details',
+                                  inputType: TextInputType.text,
+                                  focusNode: null,
+                                  maxLines: 50,
+                                  onFocusAction: pageState.onWireInputDone,
+                                  height: 132.0,
+                                  onTextInputChanged: pageState.onWireMessageChanged,
+                                  keyboardAction: TextInputAction.done,
+                                  capitalization: TextCapitalization.sentences,
+                                ) : SizedBox(),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 0.0, bottom: 16.0),
+                            padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
+                            decoration: BoxDecoration(
+                              color: Color(ColorConstants.getPrimaryWhite()),
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      text: 'Cash',
+                                      textAlign: TextAlign.center,
+                                      color: Color(ColorConstants.getPrimaryBlack()),
+                                    ),
+                                    Device.get().isIos?
+                                    CupertinoSwitch(
+                                      trackColor: Color(ColorConstants.getBlueLight()),
+                                      activeColor: Color(ColorConstants.getBlueDark()),
+                                      onChanged: (enabled) {
+                                        pageState.onCashSelected(enabled);
+                                      },
+                                      value: pageState.cashEnabled,
+                                    ) : Switch(
+                                      activeTrackColor: Color(ColorConstants.getBlueLight()),
+                                      inactiveTrackColor: Color(ColorConstants.getBlueLight()),
+                                      activeColor: Color(ColorConstants.getBlueDark()),
+                                      onChanged: (enabled) {
+                                        pageState.onCashSelected(enabled);
+                                      },
+                                      value: pageState.cashEnabled,
+                                    )
+                                  ],
+                                ),
+                                pageState.cashEnabled ? Container(
+                                  margin: EdgeInsets.only(top: 16.0, bottom: 8.0),
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.SMALL_TEXT,
+                                    text: 'By enabling Cash, your clients will be informed on their invoice that cash is an option for payment. Please add a message below for your client to see when they select "Pay with cash" from their invoice.',
+                                    textAlign: TextAlign.start,
+                                    color: Color(ColorConstants.getPrimaryBlack()),
+                                  ),
+                                ) : SizedBox(),
+                                pageState.cashEnabled ? DandyLightSettingsTextField(
+                                  controller: cashTextController,
+                                  hintText: 'Message',
+                                  inputType: TextInputType.text,
+                                  focusNode: null,
+                                  maxLines: 50,
+                                  onFocusAction: pageState.onCashInputDone,
+                                  height: 132.0,
+                                  onTextInputChanged: pageState.onCashMessageChanged,
+                                  keyboardAction: TextInputAction.done,
+                                  capitalization: TextCapitalization.sentences,
+                                ) : SizedBox(),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 0.0, bottom: 16.0),
                             padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
                             decoration: BoxDecoration(
                               color: Color(ColorConstants.getPrimaryWhite()),
@@ -219,66 +419,7 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                               ],
                             ),
                           ),
-                          Container(
-                            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 0.0, bottom: 16.0),
-                            padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
-                            decoration: BoxDecoration(
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                              borderRadius: BorderRadius.circular(16.0),
-                            ),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    TextDandyLight(
-                                      type: TextDandyLight.MEDIUM_TEXT,
-                                      text: 'Venmo',
-                                      textAlign: TextAlign.center,
-                                      color: Color(ColorConstants.getPrimaryBlack()),
-                                    ),
-                                    Device.get().isIos?
-                                    CupertinoSwitch(
-                                      trackColor: Color(ColorConstants.getBlueLight()),
-                                      activeColor: Color(ColorConstants.getBlueDark()),
-                                      onChanged: (enabled) {
-                                        pageState.onVenmoSelected(enabled);
-                                      },
-                                      value: pageState.venmoEnabled,
-                                    ) : Switch(
-                                      activeTrackColor: Color(ColorConstants.getBlueLight()),
-                                      inactiveTrackColor: Color(ColorConstants.getBlueLight()),
-                                      activeColor: Color(ColorConstants.getBlueDark()),
-                                      onChanged: (enabled) {
-                                        pageState.onVenmoSelected(enabled);
-                                      },
-                                      value: pageState.venmoEnabled,
-                                    )
-                                  ],
-                                ),
-                                pageState.venmoEnabled ? Container(
-                                  margin: EdgeInsets.only(top: 16.0, bottom: 8.0),
-                                  child: TextDandyLight(
-                                    type: TextDandyLight.SMALL_TEXT,
-                                    text: 'Please provide the shareable payment link for your Venmo account.',
-                                    textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.getPrimaryBlack()),
-                                  ),
-                                ) : SizedBox(),
-                                pageState.venmoEnabled ? DandyLightSettingsTextField(
-                                  controller: venmoLinkTextController,
-                                  hintText: 'Payment link',
-                                  inputType: TextInputType.url,
-                                  focusNode: null,
-                                  onFocusAction: pageState.onVenmoInputDone,
-                                  height: 66.0,
-                                  onTextInputChanged: pageState.onVenmoTextChanged,
-                                  keyboardAction: TextInputAction.done,
-                                  capitalization: TextCapitalization.none,
-                                ) : SizedBox(),
-                              ],
-                            ),
-                          ),
+
                           Container(
                             margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 0.0, bottom: 16.0),
                             padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
@@ -339,115 +480,66 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                               ],
                             ),
                           ),
-                          Container(
-                            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 0.0, bottom: 16.0),
-                            padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
-                            decoration: BoxDecoration(
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                              borderRadius: BorderRadius.circular(16.0),
-                            ),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    TextDandyLight(
-                                      type: TextDandyLight.MEDIUM_TEXT,
-                                      text: 'Apple Pay',
-                                      textAlign: TextAlign.center,
-                                      color: Color(ColorConstants.getPrimaryBlack()),
-                                    ),
-                                    Device.get().isIos?
-                                    CupertinoSwitch(
-                                      trackColor: Color(ColorConstants.getBlueLight()),
-                                      activeColor: Color(ColorConstants.getBlueDark()),
-                                      onChanged: (enabled) {
-                                        pageState.onApplePaySelected(enabled);
-                                      },
-                                      value: pageState.applePayEnabled,
-                                    ) : Switch(
-                                      activeTrackColor: Color(ColorConstants.getBlueLight()),
-                                      inactiveTrackColor: Color(ColorConstants.getBlueLight()),
-                                      activeColor: Color(ColorConstants.getBlueDark()),
-                                      onChanged: (enabled) {
-                                        pageState.onApplePaySelected(enabled);
-                                      },
-                                      value: pageState.applePayEnabled,
-                                    )
-                                  ],
-                                ),
-                                pageState.applePayEnabled ? Container(
-                                  margin: EdgeInsets.only(top: 16.0, bottom: 0.0),
-                                  child: TextDandyLight(
-                                    type: TextDandyLight.SMALL_TEXT,
-                                    text: 'Please provide the phone number associated with your Apple Pay',
-                                    textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.getPrimaryBlack()),
-                                  ),
-                                ) : SizedBox(),
-                                pageState.applePayEnabled ? DandyLightSettingsTextField(
-                                  controller: applePayLinkTextController,
-                                  hintText: 'Phone number',
-                                  inputType: TextInputType.text,
-                                  focusNode: null,
-                                  onFocusAction: pageState.onApplePayInputDone,
-                                  height: 66.0,
-                                  onTextInputChanged: pageState.onApplePayTextChanged,
-                                  keyboardAction: TextInputAction.done,
-                                  capitalization: TextCapitalization.none,
-                                ) : SizedBox(),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 0.0, bottom: 16.0),
-                            padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
-                            decoration: BoxDecoration(
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                              borderRadius: BorderRadius.circular(16.0),
-                            ),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    TextDandyLight(
-                                      type: TextDandyLight.MEDIUM_TEXT,
-                                      text: 'Cash',
-                                      textAlign: TextAlign.center,
-                                      color: Color(ColorConstants.getPrimaryBlack()),
-                                    ),
-                                    Device.get().isIos?
-                                    CupertinoSwitch(
-                                      trackColor: Color(ColorConstants.getBlueLight()),
-                                      activeColor: Color(ColorConstants.getBlueDark()),
-                                      onChanged: (enabled) {
-                                        pageState.onCashSelected(enabled);
-                                      },
-                                      value: pageState.cashEnabled,
-                                    ) : Switch(
-                                      activeTrackColor: Color(ColorConstants.getBlueLight()),
-                                      inactiveTrackColor: Color(ColorConstants.getBlueLight()),
-                                      activeColor: Color(ColorConstants.getBlueDark()),
-                                      onChanged: (enabled) {
-                                        pageState.onCashSelected(enabled);
-                                      },
-                                      value: pageState.cashEnabled,
-                                    )
-                                  ],
-                                ),
-                                pageState.cashEnabled ? Container(
-                                  margin: EdgeInsets.only(top: 16.0, bottom: 0.0),
-                                  child: TextDandyLight(
-                                    type: TextDandyLight.SMALL_TEXT,
-                                    text: 'By enabling "Cash", your clients will be informed on their invoice that cash is an option for payment.',
-                                    textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.getPrimaryBlack()),
-                                  ),
-                                ) : SizedBox(),
-                              ],
-                            ),
-                          ),
+                          // Container(
+                          //   margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 0.0, bottom: 16.0),
+                          //   padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
+                          //   decoration: BoxDecoration(
+                          //     color: Color(ColorConstants.getPrimaryWhite()),
+                          //     borderRadius: BorderRadius.circular(16.0),
+                          //   ),
+                          //   child: Column(
+                          //     children: [
+                          //       Row(
+                          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //         children: [
+                          //           TextDandyLight(
+                          //             type: TextDandyLight.MEDIUM_TEXT,
+                          //             text: 'Apple Pay',
+                          //             textAlign: TextAlign.center,
+                          //             color: Color(ColorConstants.getPrimaryBlack()),
+                          //           ),
+                          //           Device.get().isIos?
+                          //           CupertinoSwitch(
+                          //             trackColor: Color(ColorConstants.getBlueLight()),
+                          //             activeColor: Color(ColorConstants.getBlueDark()),
+                          //             onChanged: (enabled) {
+                          //               pageState.onApplePaySelected(enabled);
+                          //             },
+                          //             value: pageState.applePayEnabled,
+                          //           ) : Switch(
+                          //             activeTrackColor: Color(ColorConstants.getBlueLight()),
+                          //             inactiveTrackColor: Color(ColorConstants.getBlueLight()),
+                          //             activeColor: Color(ColorConstants.getBlueDark()),
+                          //             onChanged: (enabled) {
+                          //               pageState.onApplePaySelected(enabled);
+                          //             },
+                          //             value: pageState.applePayEnabled,
+                          //           )
+                          //         ],
+                          //       ),
+                          //       pageState.applePayEnabled ? Container(
+                          //         margin: EdgeInsets.only(top: 16.0, bottom: 0.0),
+                          //         child: TextDandyLight(
+                          //           type: TextDandyLight.SMALL_TEXT,
+                          //           text: 'Please provide the phone number associated with your Apple Pay',
+                          //           textAlign: TextAlign.start,
+                          //           color: Color(ColorConstants.getPrimaryBlack()),
+                          //         ),
+                          //       ) : SizedBox(),
+                          //       pageState.applePayEnabled ? DandyLightSettingsTextField(
+                          //         controller: applePayLinkTextController,
+                          //         hintText: 'Phone number',
+                          //         inputType: TextInputType.text,
+                          //         focusNode: null,
+                          //         onFocusAction: pageState.onApplePayInputDone,
+                          //         height: 66.0,
+                          //         onTextInputChanged: pageState.onApplePayTextChanged,
+                          //         keyboardAction: TextInputAction.done,
+                          //         capitalization: TextCapitalization.none,
+                          //       ) : SizedBox(),
+                          //     ],
+                          //   ),
+                          // ),
                           Container(
                             margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 0.0, bottom: 128.0),
                             padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),

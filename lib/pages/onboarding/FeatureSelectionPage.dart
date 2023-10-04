@@ -42,7 +42,7 @@ class _FeatureSelectionPage extends State<FeatureSelectionPage> {
                         textAlign: TextAlign.center,
                         type: TextDandyLight.LARGE_TEXT,
                         isBold: true,
-                        text: "What features of Dandylight are you most interested in?",
+                        text: "What features of DandyLight are you most interested in?",
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
@@ -96,6 +96,24 @@ class _FeatureSelectionPage extends State<FeatureSelectionPage> {
                         activeColor: Color(ColorConstants.getPeachDark()),
                         onChanged: (selected) {
                           pageState.onFeatureSelected(OnBoardingPageState.POSES, selected);
+                        },
+                        controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                      margin: EdgeInsets.only(left: 24.0, right: 24.0, top: 8.0, bottom: 0.0),
+                      alignment: Alignment.center,
+                      height: 54.0,
+                      decoration: BoxDecoration(
+                          color: Color(pageState.contractsSelected ? ColorConstants.getPeachLight() : ColorConstants.getPrimaryBackgroundGrey()),
+                          borderRadius: BorderRadius.circular(36.0)),
+                      child: CheckboxListTile(
+                        title: Text('Contracts'),
+                        value: pageState.contractsSelected,
+                        activeColor: Color(ColorConstants.getPeachDark()),
+                        onChanged: (selected) {
+                          pageState.onFeatureSelected(OnBoardingPageState.CONTRACTS, selected);
                         },
                         controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                       ),

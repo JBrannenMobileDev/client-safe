@@ -10,12 +10,15 @@ final paymentRequestInfoPageReducer = combineReducers<PaymentRequestInfoPageStat
   TypedReducer<PaymentRequestInfoPageState, SaveApplePayStateAction>(_saveApplePayState),
   TypedReducer<PaymentRequestInfoPageState, SaveCashStateAction>(_saveCashState),
   TypedReducer<PaymentRequestInfoPageState, SaveOtherStateAction>(_saveOtherState),
+  TypedReducer<PaymentRequestInfoPageState, SaveWireStateAction>(_saveWireState),
   TypedReducer<PaymentRequestInfoPageState, SetZellePhoneEmailTextAction>(_setZellePhoneEmailText),
   TypedReducer<PaymentRequestInfoPageState, SetZelleFullNameTextAction>(_setZelleFullNameText),
   TypedReducer<PaymentRequestInfoPageState, SetVenmoLinkTextAction>(_setVenmoLinkText),
   TypedReducer<PaymentRequestInfoPageState, SetCashAppLinkTextAction>(_setCashAppLinkText),
   TypedReducer<PaymentRequestInfoPageState, SetApplePayPhoneTextAction>(_setApplePayPhoneText),
   TypedReducer<PaymentRequestInfoPageState, SetOtherTextAction>(_setOtherText),
+  TypedReducer<PaymentRequestInfoPageState, SetWireTextAction>(_setWireText),
+  TypedReducer<PaymentRequestInfoPageState, SetCashTextAction>(_setCashText),
 ]);
 
 PaymentRequestInfoPageState _setZellePhoneEmailText(PaymentRequestInfoPageState previousState, SetZellePhoneEmailTextAction action){
@@ -54,6 +57,18 @@ PaymentRequestInfoPageState _setOtherText(PaymentRequestInfoPageState previousSt
   );
 }
 
+PaymentRequestInfoPageState _setWireText(PaymentRequestInfoPageState previousState, SetWireTextAction action){
+  return previousState.copyWith(
+    wireMessage: action.input,
+  );
+}
+
+PaymentRequestInfoPageState _setCashText(PaymentRequestInfoPageState previousState, SetCashTextAction action){
+  return previousState.copyWith(
+    cashMessage: action.input,
+  );
+}
+
 PaymentRequestInfoPageState _saveZelleState(PaymentRequestInfoPageState previousState, SaveZelleStateAction action){
   return previousState.copyWith(
     zelleEnabled: action.enabled,
@@ -87,5 +102,11 @@ PaymentRequestInfoPageState _saveCashState(PaymentRequestInfoPageState previousS
 PaymentRequestInfoPageState _saveOtherState(PaymentRequestInfoPageState previousState, SaveOtherStateAction action){
   return previousState.copyWith(
     otherEnabled: action.enabled,
+  );
+}
+
+PaymentRequestInfoPageState _saveWireState(PaymentRequestInfoPageState previousState, SaveWireStateAction action){
+  return previousState.copyWith(
+    wireEnabled: action.enabled,
   );
 }
