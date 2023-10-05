@@ -11,6 +11,7 @@ import 'package:dandylight/pages/new_location_page/NewLocationActions.dart';
 import 'package:dandylight/pages/locations_page/LocationsActions.dart' as locations;
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpenseActions.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:redux/redux.dart';
@@ -76,6 +77,10 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
     location.locationName = action.pageState.locationName;
     location.latitude = action.pageState.newLocationLatitude;
     location.longitude = action.pageState.newLocationLongitude;
+    if(location.latitude != null && location.longitude != null) {
+      final coordinatesEnd = Coordinates(location.latitude, location.longitude);
+      location.address = (await Geocoder.local.findAddressesFromCoordinates(coordinatesEnd)).elementAt(0).addressLine;
+    }
 
     LocationDandy locationWithId = await LocationDao.insertOrUpdate(location);
 

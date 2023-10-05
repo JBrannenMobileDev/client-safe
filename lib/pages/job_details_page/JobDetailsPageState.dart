@@ -18,6 +18,7 @@ import 'package:redux/redux.dart';
 import '../../AppState.dart';
 import '../../models/Contract.dart';
 import '../../models/JobType.dart';
+import '../../models/Pose.dart';
 import '../sunset_weather_page/SunsetWeatherPageActions.dart';
 
 class JobDetailsPageState {

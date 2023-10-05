@@ -176,6 +176,12 @@ class EventNames {
   static const String BUILD_VERSION = "build_version";
   static const String BUILD_NUMBER = "build_number";
   static const String JOB_COUNT = "job_count";
+  static const String IS_BRANDING_LOGO_IMAGE_SELECTED = "is_branding_logo_image_selected";
+  static const String IS_BRANDING_LOGO_CHARACTER_SELECTED = "is_branding_logo_character_selected";
+  static const String IS_BRANDING_BANNER_IMAGE_SELECTED = "is_branding_banner_image_selected";
+  static const String IS_BRANDING_BANNER_COLOR_SELECTED = "is_branding_banner_color_selected";
+  static const String BRANDING_MAIN_FONT = "branding_main_font";
+  static const String BRANDING_ICON_FONT = "branding_icon_font";
 
   //Subscription
   static const String USER_SUBSCRIBED = "user_subscribed";
@@ -212,4 +218,31 @@ class EventNames {
   static const String ON_BOARDING_COMPLETED_BY_PARAM = "on_boarding_completed_add_first_job_skipped";
   static const String ON_BOARDING_LEAD_SOURCE_SELECTED = "on_boarding_lead_source_selected";
   static const String ON_BOARDING_LEAD_SOURCE_SELECTED_PARAM = "on_boarding_lead_source_selected_param";
+
+  //Branding
+  static const String BRANDING_EDIT_FROM_DASHBOARD = "branding_edit_from_dashboard";
+  static const String BRANDING_EDIT_FROM_SHARE = "branding_edit_from_share";
+  static const String BRANDING_EDIT_FROM_SETTINGS = "branding_edit_from_settings";
+  static const String BRANDING_PREVIEW_SELECTED = "branding_preview_selected";
+  static const String BRANDING_PUBLISHED_CHANGES = "branding_published_changes";
+  static const String BRANDING_CHANGED_LOGO_CHARACTER = "branding_changed_logo_character";
+  static const String BRANDING_UPLOADED_ICON = "branding_uploaded_icon";
+  static const String BRANDING_LOGO_IMAGE_SELECTED = "branding_logo_image_selected";
+  static const String BRANDING_ICON_COLOR_CHANGED = "branding_icon_color_changed";
+  static const String BRANDING_ICON_TEXT_COLOR_CHANGED = "branding_icon_text_color_changed";
+  static const String BRANDING_BUTTON_COLOR_CHANGED = "branding_button_color_changed";
+  static const String BRANDING_BUTTON_TEXT_COLOR_CHANGED = "branding_button_text_color_changed";
+  static const String BRANDING_BANNER_COLOR_CHANGED = "branding_banner_color_changed";
+  static const String BRANDING_ICON_FONT_CHANGED = "branding_icon_color_changed";
+  static const String BRANDING_ICON_FONT_CHANGED_PARAM = "branding_icon_color_changed";
+  static const String BRANDING_MAIN_FONT_CHANGED = "branding_icon_color_changed";
+  static const String BRANDING_MAIN_FONT_CHANGED_PARAM = "branding_icon_color_changed";
+  static const String BRANDING_BANNER_COLOR_SELECTED = "branding_banner_color_selected";
+  static const String BRANDING_BANNER_IMAGE_SELECTED = "branding_banner_image_selected";
+  static const String BRANDING_BANNER_IMAGE_UPLOADED = "branding_banner_image_uploaded";
+
+
+  //Client Portal
+
+  //Contracts
 }

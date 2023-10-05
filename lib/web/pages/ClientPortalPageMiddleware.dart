@@ -6,6 +6,7 @@ import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/Proposal.dart';
 import 'package:dandylight/utils/PdfUtil.dart';
+import 'package:dandylight/utils/TextFormatterUtil.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/widgets.dart';
 import 'package:redux/redux.dart';
@@ -255,8 +256,8 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
     replaceAll(document, Job.DETAIL_SESSION_DATE, job.selectedDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(job.selectedDate) : 'NA');
     replaceAll(document, Job.DETAIL_RETAINER_DUE_DATE, job.invoice.depositDueDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(job.invoice.depositDueDate) : 'NA');
     replaceAll(document, Job.DETAIL_TOTAL_DUE_DATE, job.invoice.dueDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(job.invoice.dueDate) : 'NA');
-    replaceAll(document, Job.DETAIL_RETAINER_PRICE, job.invoice.depositAmount != null ? job.invoice.depositAmount : 'NA');
-    replaceAll(document, Job.DETAIL_TOTAL, job.invoice.total != null ? job.invoice.total : 'NA');
+    replaceAll(document, Job.DETAIL_RETAINER_PRICE, job.invoice.depositAmount != null ? TextFormatterUtil.formatDecimalCurrency(job.invoice.depositAmount) : 'NA');
+    replaceAll(document, Job.DETAIL_TOTAL, job.invoice.total != null ? TextFormatterUtil.formatDecimalCurrency(job.invoice.total) : 'NA');
 
     job.proposal.contract.jsonTerms = jsonEncode(document.toDelta().toJson());
 

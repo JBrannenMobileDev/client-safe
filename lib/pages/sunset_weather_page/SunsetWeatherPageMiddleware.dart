@@ -6,18 +6,13 @@ import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
 import 'package:dandylight/models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
-import 'package:dandylight/models/rest_models/AccuWeatherModels/hourlyForecast/HourlyResponse.dart';
-import 'package:dandylight/models/rest_models/Forecast7Days.dart';
-import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/data_layer/api_clients/WeatherApiClient.dart';
 import 'package:dandylight/data_layer/repositories/WeatherRepository.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageActions.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 

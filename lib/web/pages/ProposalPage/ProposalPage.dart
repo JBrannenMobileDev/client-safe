@@ -538,29 +538,29 @@ class _SignContractPageState extends State<ProposalPage> {
           height: 300,
           width: double.infinity,
           alignment: Alignment.topLeft,
-          padding: EdgeInsets.only(top: 4, left: 4),
+          padding: EdgeInsets.only(top: 16, left: 16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               pageState.profile?.logoUrl != null  && pageState.profile.logoSelected ? Container(
                 alignment: Alignment.center,
-                height: 48,
-                width: 48,
+                height: 42,
+                width: 42,
                 decoration: BoxDecoration(
                   boxShadow: ElevationToShadow[0],
                   shape: BoxShape.circle,
                   color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
                 ),
                 child: ClipRRect(
-                  borderRadius: new BorderRadius.circular(24.0),
+                  borderRadius: new BorderRadius.circular(21.0),
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
                     ),
-                    width: 48,
-                    height: 48,
+                    width: 42,
+                    height: 42,
                     child: DandyLightNetworkImage(
                       pageState.profile.logoUrl,
                       color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
@@ -569,11 +569,11 @@ class _SignContractPageState extends State<ProposalPage> {
                 ),
               ) : Stack(
                 alignment: Alignment.center,
-                children: [
+                children: [      //TODO fix the glitchy loading in jobDetails page.  probaly because of a steam
                   Container(
                     alignment: Alignment.center,
-                    height: 48,
-                    width: 48,
+                    height: 42,
+                    width: 42,
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor)
@@ -675,7 +675,7 @@ class _SignContractPageState extends State<ProposalPage> {
           Container(
             margin: EdgeInsets.only(top: 16),
             child: TextDandyLight(
-              type: TextDandyLight.EXTRA_LARGE_TEXT,
+              type: TextDandyLight.LARGE_TEXT,
               text: pageState.profile.businessName,
               fontFamily: pageState.profile.selectedFontTheme.mainFont,
               textAlign: TextAlign.center,
@@ -685,7 +685,7 @@ class _SignContractPageState extends State<ProposalPage> {
           ),
           Container(
             child: TextDandyLight(
-              type: TextDandyLight.LARGE_TEXT,
+              type: TextDandyLight.MEDIUM_TEXT,
               text: pageState.job.client?.getClientFullName(),
               textAlign: TextAlign.center,
               fontFamily: pageState.profile.selectedFontTheme.mainFont,
