@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/repositories/ClientPortalRepository.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/Proposal.dart';
 import 'package:dandylight/utils/PdfUtil.dart';
+import 'package:intl/intl.dart';
 import 'package:pdf/widgets.dart';
 import 'package:redux/redux.dart';
 import '../../data_layer/api_clients/DandylightFunctionsClient.dart';
@@ -17,6 +20,8 @@ import '../../utils/intentLauncher/IntentLauncherUtil.dart';
 import 'ClientPortalActions.dart';
 import 'package:http/http.dart' as http;
 import '../../models/LocationDandy.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
+
 
 class ClientPortalMiddleware extends MiddlewareClass<AppState> {
 
@@ -65,6 +70,7 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
       profile.logoCharacter = profile.previewLogoCharacter;
     } else {
       job = await repository.fetchJob(action.userId, action.jobId);
+      job = populateContractWithJobData(job, profile);
     }
 
     store.dispatch(SetProposalAction(store.state.clientPortalPageState, job.proposal));
@@ -204,11 +210,12 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
       selectedDate: DateTime.now(),
       selectedTime: DateTime.now(),
       selectedEndTime: DateTime.now(),
+      clientName: 'Client Name',
       client: Client(
           firstName: 'Client',
           lastName: 'Name',
           email: 'clientEmail@gmail.com',
-          phone: '(888)888-8888'
+          phone: '(888)888-8888',
       ),
       location: LocationDandy.LocationDandy(
         address: '47781 Monte St. Temecula CA 92591',
@@ -233,5 +240,33 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
         JobStage(stage: JobStage.STAGE_2_FOLLOWUP_SENT)
       ],
     );
+  }
+
+  Job populateContractWithJobData(Job job, Profile profile) {
+    String contractJson = job.proposal.contract.jsonTerms;
+    quill.Document document = quill.Document.fromJson(jsonDecode(contractJson));
+
+    replaceAll(document, Job.DETAIL_BUSINESS_NAME, profile.businessName != null ? profile.businessName : 'Photographer');
+    replaceAll(document, Job.DETAIL_PHOTOGRAPHER_NAME, (profile.firstName != null ? profile.firstName : 'Photographer') + (profile.lastName != null ? ' ' + profile.lastName : ''));
+    replaceAll(document, Job.DETAIL_CLIENT_NAME, job.clientName != null ? job.clientName : 'Client');
+    replaceAll(document, Job.DETAIL_CLIENT_PHONE, job.client.phone != null ? job.client.phone : 'NA');
+    replaceAll(document, Job.DETAIL_CLIENT_EMAIL, job.client.email != null ? job.client.email : 'NA');
+    replaceAll(document, Job.DETAIL_LOCATION_ADDRESS, job.location != null && job.location.address != null ? job.location.address : 'NA');
+    replaceAll(document, Job.DETAIL_SESSION_DATE, job.selectedDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(job.selectedDate) : 'NA');
+    replaceAll(document, Job.DETAIL_RETAINER_DUE_DATE, job.invoice.depositDueDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(job.invoice.depositDueDate) : 'NA');
+    replaceAll(document, Job.DETAIL_TOTAL_DUE_DATE, job.invoice.dueDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(job.invoice.dueDate) : 'NA');
+    replaceAll(document, Job.DETAIL_RETAINER_PRICE, job.invoice.depositAmount != null ? job.invoice.depositAmount : 'NA');
+    replaceAll(document, Job.DETAIL_TOTAL, job.invoice.total != null ? job.invoice.total : 'NA');
+
+    job.proposal.contract.jsonTerms = jsonEncode(document.toDelta().toJson());
+
+    return job;
+  }
+
+  void replaceAll(quill.Document document, String item, String replacement) {
+    while((document.search(item)).length > 0) {
+      int matchOffset = document.search(item).first;
+      document.replace(matchOffset, item.length, replacement);
+    }
   }
 }

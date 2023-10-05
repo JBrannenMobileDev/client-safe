@@ -28,8 +28,7 @@ class _InvoicePageState extends State<InvoicePage> {
       converter: (Store<AppState> store) => ClientPortalPageState.fromStore(store),
       builder: (BuildContext context, ClientPortalPageState pageState) => Container(
         alignment: Alignment.topCenter,
-        width: 1080,
-        color: Color(ColorConstants.getPrimaryWhite()),
+        width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 1080 : MediaQuery.of(context).size.width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -47,7 +46,7 @@ class _InvoicePageState extends State<InvoicePage> {
                 Container(
                   margin: EdgeInsets.only(top: 32, right: 16),
                   alignment: Alignment.centerRight,
-                  width: 1080,
+                  width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 1080 : MediaQuery.of(context).size.width,
                   child: MouseRegion(
                     child: GestureDetector(
                       onTap: () {
@@ -99,7 +98,7 @@ class _InvoicePageState extends State<InvoicePage> {
             ),
             pageState.invoice.depositAmount > 0 ? Container(
               margin: EdgeInsets.only(left: 16, right: 16, bottom: 16),
-              width: 1080,
+              width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 1080 : MediaQuery.of(context).size.width,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -247,7 +246,7 @@ class _InvoicePageState extends State<InvoicePage> {
             ) : SizedBox(),
             Container(
               margin: EdgeInsets.only(left: 16, right: 16, bottom: 16),
-              width: 1080,
+              width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 1080 : MediaQuery.of(context).size.width,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -380,7 +379,7 @@ class _InvoicePageState extends State<InvoicePage> {
               ),
             ),
             Container(
-              width: 1080,
+              width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 1080 : MediaQuery.of(context).size.width,
               height: 54,
               margin: EdgeInsets.only(left: 16, right: 16, top: 16),
               padding: EdgeInsets.only(left: 32, right: 32),
@@ -419,7 +418,7 @@ class _InvoicePageState extends State<InvoicePage> {
             ),
             Container(
               margin: EdgeInsets.only(top: 16, bottom: 16, left: 16, right: 16),
-              width: 1080,
+              width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 1080 : MediaQuery.of(context).size.width,
               height: 1,
               color: Color(ColorConstants.getPrimaryBackgroundGrey()),
             ),
@@ -533,7 +532,7 @@ class _InvoicePageState extends State<InvoicePage> {
             ),
             Container(
               margin: EdgeInsets.only(top: 16, bottom: 16, left: 16, right: 16),
-              width: 1080,
+              width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 1080 : MediaQuery.of(context).size.width,
               height: 1,
               color: Color(ColorConstants.getPrimaryBackgroundGrey()),
             ),
@@ -605,7 +604,7 @@ class _InvoicePageState extends State<InvoicePage> {
     List<Widget> items = [];
     pageState.invoice.lineItems.forEach((lineItem) {
       items.add(Container(
-        width: 1080,
+        width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 1080 : MediaQuery.of(context).size.width,
         margin: EdgeInsets.only(left: 16, right: 16, top: 16),
         padding: EdgeInsets.only(left: 32, right: 32),
         child: Row(

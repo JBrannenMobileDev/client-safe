@@ -128,7 +128,10 @@ class StackedGrid extends StatelessWidget {
           borderRadius: BorderRadius.circular(16), // Image border
           child: Container(
             width: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : 2.25),
-            child: Image.network(pose.imageUrl, fit: BoxFit.cover),
+            child: Image.network(
+                pose.imageUrl,
+                fit: BoxFit.cover,
+            ),
           ),
         ),
       ),

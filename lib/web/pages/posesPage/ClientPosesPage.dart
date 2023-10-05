@@ -24,6 +24,7 @@ class _ClientPosesPageState extends State<ClientPosesPage> {
         Container(
           padding: EdgeInsets.only(bottom: 32),
           child: Column(
+            mainAxisSize: MainAxisSize.max,
             children: [
               Container(
                 alignment: Alignment.topCenter,

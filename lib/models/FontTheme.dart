@@ -117,7 +117,7 @@ class FontTheme {
             return EdgeInsets.only(left: 0, top: 32, right: 8, bottom: 0);
             break;
           case SIGNATURE2:
-            return EdgeInsets.only(left: 8, top: 16, right: 0, bottom: 0);
+            return EdgeInsets.only(left: 8, top: 0, right: 0, bottom: 0);
             break;
           case SIGNATURE3:
             return EdgeInsets.only(left: 0, top: 24, right: 0, bottom: 0);

@@ -14,7 +14,7 @@ class Job {
   static const String DETAIL_CLIENT_EMAIL = "[ClientEmail]";
   static const String DETAIL_CLIENT_PHONE = "[ClientPhone]";
   static const String DETAIL_PHOTOGRAPHER_NAME = "[PhotographerName]";
-  static const String DETAIL_BUSINESS_NAME = "[PhotographerBusinessName]";
+  static const String DETAIL_BUSINESS_NAME = '[PhotographerBusinessName]';
   static const String DETAIL_LOCATION_ADDRESS = "[LocationAddress]";
   static const String DETAIL_SESSION_DATE = "[SessionDate]";
   static const String DETAIL_RETAINER_PRICE = "[RetainerPrice]";

@@ -68,8 +68,7 @@ class _ContractPageState extends State<ContractPage> {
         builder: (BuildContext context, ClientPortalPageState pageState) =>
             Container(
               alignment: Alignment.topCenter,
-              width: 1080,
-              color: Color(ColorConstants.getPrimaryWhite()),
+              width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 1080 : MediaQuery.of(context).size.width,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -86,7 +85,7 @@ class _ContractPageState extends State<ContractPage> {
                       Container(
                         margin: EdgeInsets.only(top: 24, right: 16),
                         alignment: Alignment.centerRight,
-                        width: 1080,
+                        width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 1080 : MediaQuery.of(context).size.width,
                         child: Column(
                           children: [
                             MouseRegion(

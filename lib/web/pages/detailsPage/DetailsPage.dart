@@ -26,45 +26,45 @@ class _DetailsPagePageState extends State<DetailsPage> {
       converter: (Store<AppState> store) => ClientPortalPageState.fromStore(store),
       builder: (BuildContext context, ClientPortalPageState pageState) =>
           Container(
-        alignment: Alignment.topCenter,
-        width: 1080,
-        color: Color(ColorConstants.getPrimaryWhite()),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              alignment: Alignment.topCenter,
-              margin: EdgeInsets.only(top: 32, bottom: 48),
-              child: TextDandyLight(
-                type: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextDandyLight.EXTRA_LARGE_TEXT : TextDandyLight.LARGE_TEXT,
-                fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                text: 'Details',
-              ),
+            padding: EdgeInsets.only(left: 16, right: 16),
+            alignment: Alignment.topCenter,
+            width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 1080 : MediaQuery.of(context).size.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  alignment: Alignment.topCenter,
+                  margin: EdgeInsets.only(top: 32, bottom: 48),
+                  child: TextDandyLight(
+                    type: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextDandyLight.EXTRA_LARGE_TEXT : TextDandyLight.LARGE_TEXT,
+                    fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                    text: 'Details',
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(bottom: 16),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: pageState.proposal?.detailsMessage,
+                    fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                  ),
+                ),
+                DividerWidget(width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 1080 : MediaQuery.of(context).size.width,),
+                Container(
+                  margin: EdgeInsets.only(bottom: 64),
+                  alignment: Alignment.topCenter,
+                  child: DeviceType.getDeviceTypeByContext(context) == Type.Website ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: _infoItems(pageState),
+                  ) : Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: _infoItems(pageState),
+                  ),
+                ),
+              ],
             ),
-            Container(
-              margin: EdgeInsets.only(bottom: 16, left: 32, right: 32),
-              child: TextDandyLight(
-                type: TextDandyLight.MEDIUM_TEXT,
-                text: pageState.proposal?.detailsMessage,
-                fontFamily: pageState.profile.selectedFontTheme.mainFont,
-              ),
-            ),
-            DividerWidget(width: 1080),
-            Container(
-              margin: EdgeInsets.only(bottom: 64),
-              alignment: Alignment.topCenter,
-              child: DeviceType.getDeviceTypeByContext(context) == Type.Website ? Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: _infoItems(pageState),
-              ) : Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: _infoItems(pageState),
-              ),
-            ),
-          ],
-        ),
           ),
       );
 
