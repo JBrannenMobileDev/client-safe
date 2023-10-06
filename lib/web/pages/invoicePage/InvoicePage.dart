@@ -9,6 +9,8 @@ import 'package:redux/redux.dart';
 import '../../../AppState.dart';
 import '../../../utils/ColorConstants.dart';
 import '../../../utils/TextFormatterUtil.dart';
+import '../../../utils/analytics/EventNames.dart';
+import '../../../utils/analytics/EventSender.dart';
 import '../ClientPortalPageState.dart';
 
 class InvoicePage extends StatefulWidget {
@@ -51,6 +53,7 @@ class _InvoicePageState extends State<InvoicePage> {
                     child: GestureDetector(
                       onTap: () {
                         pageState.onDownloadInvoiceSelected();
+                        EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_INVOICE_PDF_DOWNLOADED);
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -199,6 +202,7 @@ class _InvoicePageState extends State<InvoicePage> {
                                   );
                                 },
                               );
+                              EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_DEPOSIT_PAY_NOW_SELECTED);
                             } else {
                               if(!pageState.invoice.invoicePaid) {
                                 pageState.onMarkAsPaidDepositSelected(false);
@@ -329,6 +333,7 @@ class _InvoicePageState extends State<InvoicePage> {
                                       type: PayNowPage.TYPE_BALANCE);
                                 },
                               );
+                              EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_TOTAL_PAY_NOW_SELECTED);
                             } else {
                               pageState.onMarkAsPaidSelected(false);
                             }

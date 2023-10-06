@@ -259,8 +259,12 @@ class EventNames {
   static const String SETUP_BUSINESS_INFO_FROM_SHARE = "SETUP_BUSINESS_INFO_FROM_SHARE";
   static const String SETUP_PAYMENT_OPTIONS_FROM_SHARE = "SETUP_PAYMENT_OPTIONS_FROM_SHARE";
 
+  //Website
+  static const String WEBSITE_VIEWED = "website_viewed";
+
   //Client Portal
   static const String CLIENT_PORTAL_VIEWED = "client_portal_viewed";
+  static const String CLIENT_PORTAL_PREVIEW_VIEWED = "client_portal_preview_viewed";
   static const String CLIENT_PORTAL_CONTRACT_SELECTED = "client_portal_contract_selected";
   static const String CLIENT_PORTAL_INVOICE_SELECTED = "client_portal_invoice_selected";
   static const String CLIENT_PORTAL_POSES_SELECTED = "client_portal_poses_selected";

@@ -17,6 +17,8 @@ import '../../models/Invoice.dart';
 import '../../models/JobStage.dart';
 import '../../models/LineItem.dart';
 import '../../models/Pose.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../../utils/intentLauncher/IntentLauncherUtil.dart';
 import 'ClientPortalActions.dart';
 import 'package:http/http.dart' as http;
@@ -109,6 +111,7 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
       action.pageState.job.proposal = proposal;
       store.dispatch(SetJobAction(store.state.clientPortalPageState, action.pageState.job));
       store.dispatch(SetProposalAction(store.state.clientPortalPageState, proposal));
+      EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_CONTRACT_SIGNED);
     }
     store.dispatch(SetLoadingStateAction(store.state.clientPortalPageState, false));
   }
@@ -136,6 +139,7 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
         invoice.balancePaidAmount,
         invoice.unpaidAmount,
       );
+      EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_TOTAL_MARKED_AS_PAID);
     }
   }
 
@@ -152,7 +156,14 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
 
       if(!action.pageState.isBrandingPreview) {
         ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
-        await repository.updateInvoiceAsDepositPaid(action.pageState.userId, action.pageState.jobId, action.pageState.invoice.documentId, action.isPaid, invoice.unpaidAmount);
+        await repository.updateInvoiceAsDepositPaid(
+            action.pageState.userId,
+            action.pageState.jobId,
+            action.pageState.invoice.documentId,
+            action.isPaid,
+            invoice.unpaidAmount
+        );
+        EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_DEPOSIT_MARKED_AS_PAID);
       }
     }
   }

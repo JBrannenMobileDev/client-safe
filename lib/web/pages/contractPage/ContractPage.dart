@@ -13,6 +13,8 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 
 
+import '../../../utils/analytics/EventNames.dart';
+import '../../../utils/analytics/EventSender.dart';
 import '../ClientPortalPageState.dart';
 import 'package:redux/redux.dart';
 
@@ -92,6 +94,7 @@ class _ContractPageState extends State<ContractPage> {
                               child: GestureDetector(
                                 onTap: () {
                                   pageState.onDownloadContractSelected();
+                                  EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_CONTRACT_PDF_DOWNLOADED);
                                 },
                                 child: Container(
                                   alignment: Alignment.center,
@@ -144,6 +147,7 @@ class _ContractPageState extends State<ContractPage> {
                               child: GestureDetector(
                                 onTap: () {
                                   _scrollDown();
+                                  EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_CONTRACT_SCROLL_SELECTED);
                                 },
                                 child: Container(
                                   alignment: Alignment.center,

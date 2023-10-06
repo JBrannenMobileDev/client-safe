@@ -10,6 +10,8 @@ import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
 import '../../../utils/ColorConstants.dart';
+import '../../../utils/analytics/EventNames.dart';
+import '../../../utils/analytics/EventSender.dart';
 import '../../../widgets/DandyLightNetworkImage.dart';
 import '../ClientPortalPageState.dart';
 import '../detailsPage/DetailsPage.dart';
@@ -221,6 +223,7 @@ class _SignContractPageState extends State<ProposalPage> {
           setState(() {
             selectedPage = DETAILS;
           });
+          EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_HOME_SELECTED);
         },
         child: MouseRegion(
           child: Container(
@@ -253,6 +256,7 @@ class _SignContractPageState extends State<ProposalPage> {
           setState(() {
             selectedPage = CONTRACT;
           });
+          EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_CONTRACT_SELECTED);
         },
         child: MouseRegion(
           child: Container(
@@ -284,6 +288,7 @@ class _SignContractPageState extends State<ProposalPage> {
           setState(() {
             selectedPage = INVOICE;
           });
+          EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_INVOICE_SELECTED);
         },
         child: MouseRegion(
           child: Container(
@@ -315,6 +320,7 @@ class _SignContractPageState extends State<ProposalPage> {
           setState(() {
             selectedPage = POSES;
           });
+          EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_POSES_SELECTED);
         },
         child: MouseRegion(
           child: Container(
@@ -424,6 +430,7 @@ class _SignContractPageState extends State<ProposalPage> {
                 setState(() {
                   selectedPage = DETAILS;
                 });
+                EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_HOME_SELECTED);
               },
               child: Container(
                 margin: EdgeInsets.only(left: 12, right: 12),
@@ -439,6 +446,7 @@ class _SignContractPageState extends State<ProposalPage> {
                 setState(() {
                   selectedPage = CONTRACT;
                 });
+                EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_INVOICE_SELECTED);
               },
               child: Container(
                 margin: EdgeInsets.only(left: 12, right: 12),
@@ -454,6 +462,7 @@ class _SignContractPageState extends State<ProposalPage> {
                 setState(() {
                   selectedPage = INVOICE;
                 });
+                EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_INVOICE_SELECTED);
               },
               child: Container(
                 margin: EdgeInsets.only(left: 12, right: 12),
@@ -469,6 +478,7 @@ class _SignContractPageState extends State<ProposalPage> {
                 setState(() {
                   selectedPage = POSES;
                 });
+                EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_POSES_SELECTED);
               },
               child: Container(
                 margin: EdgeInsets.only(left: 12, right: 12),

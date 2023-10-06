@@ -7,6 +7,8 @@ import 'package:redux/redux.dart';
 import '../../../AppState.dart';
 import '../../../utils/ColorConstants.dart';
 import '../../../utils/TextFormatterUtil.dart';
+import '../../../utils/analytics/EventNames.dart';
+import '../../../utils/analytics/EventSender.dart';
 import '../../../widgets/DividerWidget.dart';
 import '../ClientPortalPageState.dart';
 import 'PaymentOptionWidget.dart';

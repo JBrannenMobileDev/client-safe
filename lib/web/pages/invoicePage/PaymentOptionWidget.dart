@@ -7,6 +7,8 @@ import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
 import '../../../utils/ColorConstants.dart';
+import '../../../utils/analytics/EventNames.dart';
+import '../../../utils/analytics/EventSender.dart';
 import '../../../widgets/TextDandyLight.dart';
 import '../ClientPortalPageState.dart';
 import 'PayNowPage.dart';
@@ -86,6 +88,12 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
                   }
                 );
                 IntentLauncherUtil.launchURL(link);
+                if(title == 'Venmo') {
+                  EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_VENMO_LINK_SELECTED);
+                }
+                if(title == 'CashApp') {
+                  EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_CASHAPP_LINK_SELECTED);
+                }
               },
               child: Container(
                 margin: EdgeInsets.only(top: 32),
@@ -145,6 +153,7 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
                     }
                 );
                 IntentLauncherUtil.sendSMS(sendSms);
+                EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_CASH_SEND_SMS_SELECTED);
               },
               child: Container(
                 margin: EdgeInsets.only(top: 32),
@@ -175,6 +184,7 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
                     }
                 );
                 IntentLauncherUtil.sendEmail(sendEmail, messageTitle, messageBody);
+                EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_CASH_SEND_EMAIL_SELECTED);
               },
               child: Container(
                 margin: EdgeInsets.only(top: 32),
