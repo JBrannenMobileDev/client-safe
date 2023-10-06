@@ -32,7 +32,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
+                DeviceType.getDeviceTypeByContext(context) == Type.Website ? Container(
                   alignment: Alignment.topCenter,
                   margin: EdgeInsets.only(top: 32, bottom: 48),
                   child: TextDandyLight(
@@ -40,9 +40,82 @@ class _DetailsPagePageState extends State<DetailsPage> {
                     fontFamily: pageState.profile.selectedFontTheme.mainFont,
                     text: 'Details',
                   ),
+                ) : Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(top:16, bottom: 12, left: 32, right: 32),
+                  height: 64,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(6),
+                            margin: EdgeInsets.only(left: 0, right: 8),
+                            height: 26,
+                            width: 26,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(13),
+                                color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
+                            ),
+                            child: Image.asset("icons/calendar_white.png"),
+                          ),
+                          TextDandyLight(
+                            type: TextDandyLight.SMALL_TEXT,
+                            fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                            text: (pageState.job.selectedDate != null
+                                ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.job.selectedDate)
+                                : 'TBD'),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(6),
+                            margin: EdgeInsets.only(left: 0, right: 8, top: 4),
+                            height: 26,
+                            width: 26,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(13),
+                                color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
+                            ),
+                            child: Image.asset("icons/clock_white.png"),
+                          ),
+                          TextDandyLight(
+                            type: TextDandyLight.SMALL_TEXT,
+                            fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                            text: (pageState.job.selectedTime != null && pageState.job.selectedTime != null ? DateFormat('h:mma').format(pageState.job.selectedTime) + ' - ' + DateFormat('h:mma').format(pageState.job.selectedEndTime) : 'TBD'),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(6),
+                            margin: EdgeInsets.only(left: 0, right: 8, top: 4),
+                            height: 26,
+                            width: 26,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(13),
+                                color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
+                            ),
+                            child: Image.asset("icons/pin_white.png"),
+                          ),
+                          TextDandyLight(
+                            type: TextDandyLight.SMALL_TEXT,
+                            fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                            text: (pageState.job.location != null && pageState.job.location.address != null ? pageState.job.location.address : 'TBD'),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
+                DividerWidget(width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 1080 : MediaQuery.of(context).size.width,),
                 Container(
-                  margin: EdgeInsets.only(bottom: 16),
+                  margin: EdgeInsets.only(bottom: 16, top: 0),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: pageState.proposal?.detailsMessage,
