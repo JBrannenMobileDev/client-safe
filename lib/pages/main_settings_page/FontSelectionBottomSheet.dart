@@ -8,6 +8,8 @@ import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
 import '../../../widgets/TextDandyLight.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 
 
 class FontSelectionBottomSheet extends StatefulWidget {
@@ -80,6 +82,12 @@ class _FontSelectionBottomSheetPageState extends State<FontSelectionBottomSheet>
               onTap: () {
                 pageState.onFontSaved(allFonts.elementAt(index), id);
                 Navigator.of(context).pop();
+                if(id == FontTheme.ICON_FONT_ID) {
+                  EventSender().sendEvent(eventName: EventNames.BRANDING_ICON_FONT_CHANGED);
+                }
+                if(id == FontTheme.MAIN_FONT_ID) {
+                  EventSender().sendEvent(eventName: EventNames.BRANDING_MAIN_FONT_CHANGED);
+                }
               },
               child: Container(
                 margin: EdgeInsets.only(top: 12, bottom: 12),

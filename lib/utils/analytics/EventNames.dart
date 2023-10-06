@@ -181,7 +181,10 @@ class EventNames {
   static const String IS_BRANDING_BANNER_IMAGE_SELECTED = "is_branding_banner_image_selected";
   static const String IS_BRANDING_BANNER_COLOR_SELECTED = "is_branding_banner_color_selected";
   static const String BRANDING_MAIN_FONT = "branding_main_font";
+  static const String BRANDING_MAIN_FONT_PARAM = "branding_main_font_param";
   static const String BRANDING_ICON_FONT = "branding_icon_font";
+  static const String BRANDING_ICON_FONT_PARAM = "branding_icon_font_param";
+  static const String IS_PORTAL_SETUP_COMPLETE = "is_portal_setup_complete";
 
   //Subscription
   static const String USER_SUBSCRIBED = "user_subscribed";
@@ -228,21 +231,46 @@ class EventNames {
   static const String BRANDING_CHANGED_LOGO_CHARACTER = "branding_changed_logo_character";
   static const String BRANDING_UPLOADED_ICON = "branding_uploaded_icon";
   static const String BRANDING_LOGO_IMAGE_SELECTED = "branding_logo_image_selected";
+  static const String BRANDING_LOGO_CHARACTER_SELECTED = "branding_logo_character_selected";
   static const String BRANDING_ICON_COLOR_CHANGED = "branding_icon_color_changed";
   static const String BRANDING_ICON_TEXT_COLOR_CHANGED = "branding_icon_text_color_changed";
   static const String BRANDING_BUTTON_COLOR_CHANGED = "branding_button_color_changed";
   static const String BRANDING_BUTTON_TEXT_COLOR_CHANGED = "branding_button_text_color_changed";
   static const String BRANDING_BANNER_COLOR_CHANGED = "branding_banner_color_changed";
   static const String BRANDING_ICON_FONT_CHANGED = "branding_icon_color_changed";
-  static const String BRANDING_ICON_FONT_CHANGED_PARAM = "branding_icon_color_changed";
   static const String BRANDING_MAIN_FONT_CHANGED = "branding_icon_color_changed";
-  static const String BRANDING_MAIN_FONT_CHANGED_PARAM = "branding_icon_color_changed";
   static const String BRANDING_BANNER_COLOR_SELECTED = "branding_banner_color_selected";
   static const String BRANDING_BANNER_IMAGE_SELECTED = "branding_banner_image_selected";
   static const String BRANDING_BANNER_IMAGE_UPLOADED = "branding_banner_image_uploaded";
 
+  //Share with client page
+  static const String SHARE_WITH_CLIENT_FROM_JOB = "share_with_client_from_job";
+  static const String SHARE_WITH_CLIENT_FROM_INVOICE_STAGE = "share_with_client_from_invoice_stage";
+  static const String SHARE_WITH_CLIENT_FROM_CONTRACT_STAGE = "share_with_client_from_contract_stage";
+  static const String SHARE_WITH_CLIENT_FROM_SEND_INVOICE_PROMPT = "share_with_client_from_send_invoice_prompt";
+  static const String SHARE_WITH_CLIENT_FROM_JOB_POSES_PAGE = "share_with_client_from_job_poses_page";
+  static const String SHARE_WITH_CLIENT_FROM_VIEW_INVOICE_PAGE = "share_with_client_from_view_invoice_page";
+  static const String SHARE_WITH_CLIENT_PREVIEW_SELECTED = "share_with_client_preview_selected";
+  static const String SHARE_WITH_CLIENT_SHARE_SELECTED = "share_with_client_share_selected";
+  static const String SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_INVOICE = "share_with_client_share_selected_param_invoice";
+  static const String SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_CONTRACT = "share_with_client_share_selected_param_contract";
+  static const String SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_POSES = "share_with_client_share_selected_param_poses";
+  static const String SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK = "share_with_client_share_selected_param_link";
+  static const String SETUP_BUSINESS_INFO_FROM_SHARE = "SETUP_BUSINESS_INFO_FROM_SHARE";
+  static const String SETUP_PAYMENT_OPTIONS_FROM_SHARE = "SETUP_PAYMENT_OPTIONS_FROM_SHARE";
 
   //Client Portal
 
+
   //Contracts
+  static const String CONTRACT_CREATED = "contract_created";
+  static const String CONTRACT_CREATED_FROM_PARAM = "contract_created_from_param";
+  static const String CONTRACT_ADDED_TO_JOB = "contract_added_to_job";
+  static const String CONTRACT_DATA_INSERTED = "contract_data_inserted";
+  static const String CONTRACT_DATA_INSERTED_PARAM = "contract_data_inserted_param";
+
+
+  //Push notifications
+  static const String NOTIFICATION_CONTRACT_APP_LAUNCH = "notifications_contract_app_launch";
+  static const String NOTIFICATION_INVOICE_APP_LAUNCH = "notifications_invoice_app_launch";
 }

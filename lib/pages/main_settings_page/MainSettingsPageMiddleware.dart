@@ -175,6 +175,8 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
 
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(FetchProfileAction(store.state.shareWithClientPageState));
+
+    EventSender().sendEvent(eventName: EventNames.BRANDING_PUBLISHED_CHANGES);
   }
 
   void _resizeImage(Store<AppState> store, ResizeLogoImageAction action, NextDispatcher next) async {

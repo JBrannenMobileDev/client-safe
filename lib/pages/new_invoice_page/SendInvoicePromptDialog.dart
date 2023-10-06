@@ -7,6 +7,8 @@ import 'package:flutter/widgets.dart';
 
 import '../../models/Job.dart';
 import '../../utils/NavigationUtil.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class SendInvoicePromptDialog extends StatefulWidget {
@@ -64,6 +66,7 @@ class _SendInvoicePromptDialogState extends State<SendInvoicePromptDialog>
                           onSendInvoiceSelected != null ? onSendInvoiceSelected() : DoNothingAction();
                           Navigator.of(context).pop();
                           NavigationUtil.onShareWIthClientSelected(context, job);
+                          EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_FROM_SEND_INVOICE_PROMPT);
                         },
                         child: Container(
                           height: 96.0,

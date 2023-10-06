@@ -14,7 +14,8 @@ class SetContractAction{
 class ClearContractEditState {
   final ContractEditPageState pageState;
   final bool isNew;
-  ClearContractEditState(this.pageState, this.isNew);
+  final String contractName;
+  ClearContractEditState(this.pageState, this.isNew, this.contractName);
 }
 
 class SaveContractAction{

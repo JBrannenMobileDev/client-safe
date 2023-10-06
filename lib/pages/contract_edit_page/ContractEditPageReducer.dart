@@ -19,6 +19,7 @@ ContractEditPageState _clearState(ContractEditPageState previousState, ClearCont
   ContractEditPageState pageState = ContractEditPageState.initial();
   return pageState.copyWith(
     isNew: action.isNew,
+    newFromName: action.contractName,
   );
 }
 

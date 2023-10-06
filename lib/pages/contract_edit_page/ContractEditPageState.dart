@@ -12,6 +12,7 @@ class ContractEditPageState{
   final Contract contract;
   final Profile profile;
   final bool isNew;
+  final String newFromName;
   final Function(Document, String) onContractSaved;
   final Function() onDeleteSelected;
   final Function(String) onNameChanged;
@@ -26,6 +27,7 @@ class ContractEditPageState{
     @required this.profile,
     @required this.isNew,
     @required this.deleteFromJob,
+    @required this.newFromName,
   });
 
   ContractEditPageState copyWith({
@@ -33,6 +35,7 @@ class ContractEditPageState{
     Contract contract,
     Profile profile,
     bool isNew,
+    String newFromName,
     Function(Document, String) onContractSaved,
     Function(String) onNameChanged,
     Function() onDeleteSelected,
@@ -47,6 +50,7 @@ class ContractEditPageState{
       profile: profile ?? this.profile,
       isNew: isNew ?? this.isNew,
       deleteFromJob: deleteFromJob ?? this.deleteFromJob,
+      newFromName: newFromName ?? this.newFromName,
     );
   }
 
@@ -58,6 +62,7 @@ class ContractEditPageState{
     onDeleteSelected: null,
     profile: null,
     isNew: false,
+    newFromName: '',
     deleteFromJob: null,
   );
 
@@ -68,6 +73,7 @@ class ContractEditPageState{
       profile: store.state.contractEditPageState.profile,
       isNew: store.state.contractEditPageState.isNew,
       deleteFromJob: store.state.contractEditPageState.deleteFromJob,
+      newFromName: store.state.contractEditPageState.newFromName,
       onContractSaved: (contract, jobDocumentId) => store.dispatch(SaveContractAction(store.state.contractEditPageState, contract, jobDocumentId)),
       onNameChanged: (contractName) => store.dispatch(SetContractNameAction(store.state.contractEditPageState, contractName)),
       onDeleteSelected: () => store.dispatch(DeleteContractAction(store.state.contractEditPageState)),
@@ -82,6 +88,7 @@ class ContractEditPageState{
       onDeleteSelected.hashCode ^
       profile.hashCode^
       isNew.hashCode ^
+      newFromName.hashCode ^
       deleteFromJob.hashCode ^
       onContractSaved.hashCode;
 
@@ -95,6 +102,7 @@ class ContractEditPageState{
               onDeleteSelected == other.onDeleteSelected &&
               profile == other.profile &&
               isNew == other.isNew &&
+              newFromName == other.newFromName &&
               deleteFromJob == other.deleteFromJob &&
               onContractSaved == other.onContractSaved;
 }

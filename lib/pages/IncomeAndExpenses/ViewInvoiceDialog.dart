@@ -24,6 +24,8 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../navigation/routes/RouteNames.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'ViewSalesTaxRowWidget.dart';
 
@@ -212,6 +214,7 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                           GestureDetector(
                                             onTap: () async {
                                               NavigationUtil.onShareWIthClientSelected(context, job);
+                                              EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_FROM_VIEW_INVOICE_PAGE);
                                             },
                                             child: Container(
                                               margin: EdgeInsets.only(top: 4.0, bottom: 4.0),

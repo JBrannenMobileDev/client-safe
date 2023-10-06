@@ -216,10 +216,12 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
   void _handleMessage(RemoteMessage message) {
     if (message.data['click_action'] == 'invoice') {
       NavigationUtil.onInvoiceNotificationSelected(context);
+      EventSender().sendEvent(eventName: EventNames.NOTIFICATION_INVOICE_APP_LAUNCH);
     }
     if (message.data['click_action'] == 'contract') {
       String jobDocumentId = message.data['jobId'];
       NavigationUtil.onContractNotificationSelected(context, jobDocumentId);
+      EventSender().sendEvent(eventName: EventNames.NOTIFICATION_CONTRACT_APP_LAUNCH);
     }
   }
 

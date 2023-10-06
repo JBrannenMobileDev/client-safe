@@ -6,6 +6,8 @@ import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
 import '../../utils/NavigationUtil.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'ShareWithClientPageState.dart';
 
@@ -125,6 +127,7 @@ class _BottomSheetPageState extends State<ShareWithClientSetupBottomSheet> with 
                    GestureDetector(
                      onTap: () {
                        NavigationUtil.onEditBrandingSelected(context);
+                       EventSender().sendEvent(eventName: EventNames.BRANDING_EDIT_FROM_SHARE);
                      },
                      child: Container(
                        height: 48,

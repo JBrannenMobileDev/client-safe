@@ -6,6 +6,7 @@ import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UidUtil.dart';
+import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../navigation/routes/RouteNames.dart';
 import '../../utils/Shadows.dart';
+import '../../utils/analytics/EventNames.dart';
 import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'BannerSelectionWidget.dart';
@@ -191,6 +193,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                       onTap: () {
                         if(!pageState.uploadInProgress) {
                           _launchBrandingPreviewURL(pageState.profile.uid);
+                          EventSender().sendEvent(eventName: EventNames.BRANDING_PREVIEW_SELECTED);
                         } else {
                           showDialog(
                             context: context,

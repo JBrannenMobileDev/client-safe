@@ -23,8 +23,7 @@ class InputDoneView extends StatelessWidget {
           child: Container(
             alignment: Alignment.center,
             width: 100.0,
-            padding: EdgeInsets.only(
-                top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
+            padding: EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
             decoration: BoxDecoration(
               color: Color(ColorConstants.getPeachDark()),
               borderRadius: BorderRadius.only(topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0)),

@@ -10,6 +10,8 @@ import 'package:flutter_quill/flutter_quill.dart' as quill;
 import '../../../AppState.dart';
 import '../../../widgets/TextDandyLight.dart';
 import '../../models/Job.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 
 class InsertJobDetailBottomSheet extends StatefulWidget {
   final quill.QuillController _controller;
@@ -45,6 +47,10 @@ class _InsertJobDetailBottomSheetState extends State<InsertJobDetailBottomSheet>
     _controller.replaceText(_controller.selection.baseOffset, 0, name, null);
     _controller.formatText(_controller.selection.baseOffset, name.length, quill.Attribute.fromKeyValue('bold', true));
     _controller.moveCursorToPosition(_controller.selection.baseOffset + name.length);
+
+    EventSender().sendEvent(eventName: EventNames.CONTRACT_DATA_INSERTED, properties: {
+      EventNames.CONTRACT_DATA_INSERTED_PARAM : name,
+    });
   }
 
   @override

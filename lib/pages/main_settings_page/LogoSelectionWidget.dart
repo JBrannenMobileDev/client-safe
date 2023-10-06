@@ -15,6 +15,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../../widgets/DandyLightNetworkImage.dart';
 import '../../widgets/DandyLightPainter.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -103,6 +105,7 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                             getDeviceImage(pageState);
                           } else {
                             _showChangeLetterBottomSheet(context);
+                            EventSender().sendEvent(eventName: EventNames.BRANDING_CHANGED_LOGO_CHARACTER);
                           }
                         },
                         child: pageState.logoImageSelected ? Container(
@@ -224,10 +227,12 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                                 selections[0] = true;
                                 selections[1] = false;
                                 pageState.onLogoImageSelected(true);
+                                EventSender().sendEvent(eventName: EventNames.BRANDING_LOGO_IMAGE_SELECTED);
                               } else {
                                 selections[1] = true;
                                 selections[0] = false;
                                 pageState.onLogoImageSelected(false);
+                                EventSender().sendEvent(eventName: EventNames.BRANDING_LOGO_CHARACTER_SELECTED);
                               }
                             });
                         },
@@ -269,6 +274,7 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
         });
       } else {
         pageState.onLogoUploaded(localImage);
+        EventSender().sendEvent(eventName: EventNames.BRANDING_UPLOADED_ICON);
       }
     } catch (ex) {
       print(ex.toString());

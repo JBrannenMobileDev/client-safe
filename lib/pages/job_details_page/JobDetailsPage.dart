@@ -348,6 +348,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                       GestureDetector(
                         onTap: () {
                           NavigationUtil.onShareWIthClientSelected(context, pageState.job);
+                          EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_FROM_JOB);
                         },
                         child: Container(
                           margin: EdgeInsets.only(top: 8),

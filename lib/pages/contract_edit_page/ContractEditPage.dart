@@ -20,6 +20,8 @@ import '../../models/FontTheme.dart';
 import '../../utils/ImageUtil.dart';
 import '../../utils/InputDoneView.dart';
 import '../../utils/Shadows.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'ContractEditActions.dart';
@@ -140,7 +142,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
   Widget build(BuildContext context) =>
       StoreConnector<AppState, ContractEditPageState>(
         onInit: (store) {
-          store.dispatch(ClearContractEditState(store.state.contractEditPageState, isNew));
+          store.dispatch(ClearContractEditState(store.state.contractEditPageState, isNew, contractName));
           if(contract != null) {
             store.dispatch(SetContractAction(store.state.contractEditPageState, contract));
           }
@@ -341,7 +343,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                       ),
                     ),
                   ) : SizedBox(),
-                  Container(
+                  !isKeyboardVisible ? Container(
                     height: MediaQuery.of(context).size.height,
                     alignment: Alignment.bottomRight,
                     margin: EdgeInsets.only(bottom: 96),
@@ -355,6 +357,32 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                         margin: EdgeInsets.only(left: 16, right: 16),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(32),
+                          color: Color(ColorConstants.getBlueDark()),
+                          boxShadow: ElevationToShadow[4],
+                        ),
+                        child: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                          text: 'Insert Job Data',
+                          textAlign: TextAlign.center,
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                        ),
+                      ),
+                    ),
+                  ) : Container(
+                    height: MediaQuery.of(context).size.height,
+                    alignment: Alignment.bottomCenter,
+                    margin: EdgeInsets.only(bottom: 0),
+                    child: GestureDetector(
+                      onTap: () {
+                        _showInsertSheet();
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 54,
+                        width: 176,
+                        margin: EdgeInsets.only(left: 16, right: 16),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(topRight: Radius.circular(24), topLeft: Radius.circular(24)),
                           color: Color(ColorConstants.getBlueDark()),
                           boxShadow: ElevationToShadow[4],
                         ),

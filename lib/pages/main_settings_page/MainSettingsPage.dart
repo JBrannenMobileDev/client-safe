@@ -24,6 +24,8 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../utils/DandyToastUtil.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'GenerateDiscountCodeBottomSheet.dart';
 import 'SuggestionsPage.dart';
@@ -157,6 +159,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                     style: Styles.getButtonStyle(),
                                     onPressed: () {
                                       NavigationUtil.onEditBrandingSelected(context);
+                                      EventSender().sendEvent(eventName: EventNames.BRANDING_EDIT_FROM_SETTINGS);
                                     },
                                     child: SizedBox(
                                       height: 48.0,

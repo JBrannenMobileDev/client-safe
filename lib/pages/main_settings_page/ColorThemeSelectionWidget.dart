@@ -10,6 +10,8 @@ import 'package:redux/redux.dart';
 
 import '../../data_layer/local_db/daos/ProfileDao.dart';
 import '../../utils/UidUtil.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class ColorThemeSelectionWidget extends StatefulWidget {
@@ -79,6 +81,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                             setState(() {
                               tempSelectionColor = pageState.currentIconColor;
                             });
+                            EventSender().sendEvent(eventName: EventNames.BRANDING_ICON_COLOR_CHANGED);
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -183,6 +186,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                             setState(() {
                               tempSelectionColor = pageState.currentIconTextColor;
                             });
+                            EventSender().sendEvent(eventName: EventNames.BRANDING_ICON_TEXT_COLOR_CHANGED);
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -287,6 +291,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                             setState(() {
                               tempSelectionColor = pageState.currentButtonColor;
                             });
+                            EventSender().sendEvent(eventName: EventNames.BRANDING_BUTTON_COLOR_CHANGED);
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -391,6 +396,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                             setState(() {
                               tempSelectionColor = pageState.currentButtonTextColor;
                             });
+                            EventSender().sendEvent(eventName: EventNames.BRANDING_BUTTON_TEXT_COLOR_CHANGED);
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -495,6 +501,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                             setState(() {
                               tempSelectionColor = pageState.currentBannerColor;
                             });
+                            EventSender().sendEvent(eventName: EventNames.BRANDING_BANNER_COLOR_CHANGED);
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {

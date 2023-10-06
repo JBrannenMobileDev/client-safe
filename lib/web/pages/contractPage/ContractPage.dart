@@ -458,6 +458,7 @@ class _ContractPageState extends State<ContractPage> {
       scrollController: ScrollController(),
       focusNode: contractFocusNode,
       padding: EdgeInsets.all(0),
+      showCursor: false,
       autoFocus: true,
       readOnly: true,
       expands: false,

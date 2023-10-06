@@ -12,6 +12,8 @@ import '../../data_layer/local_db/daos/ContractTemplateDao.dart';
 import '../../models/Contract.dart';
 import '../../models/Job.dart';
 import '../../models/JobStage.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../job_details_page/JobDetailsActions.dart';
 import 'ContractEditActions.dart';
 
@@ -97,6 +99,11 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
         contract.jsonTerms = jsonEncode(action.quillContract.toDelta().toJson());
       }
       await ContractDao.insertOrUpdate(contract);
+      if(action.pageState.isNew) {
+        EventSender().sendEvent(eventName: EventNames.CONTRACT_CREATED, properties: {
+          EventNames.CONTRACT_CREATED_FROM_PARAM : action.pageState.newFromName,
+        }); 
+      }
     }
   }
 

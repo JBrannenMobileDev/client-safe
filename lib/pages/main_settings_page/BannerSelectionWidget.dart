@@ -15,6 +15,8 @@ import 'package:redux/redux.dart';
 
 import '../../data_layer/local_db/daos/ProfileDao.dart';
 import '../../utils/UidUtil.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../../widgets/DandyLightNetworkImage.dart';
 import '../../widgets/TextDandyLight.dart';
 
@@ -203,10 +205,12 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                                 selections[0] = true;
                                 selections[1] = false;
                                 pageState.onBannerImageSelected(true);
+                                EventSender().sendEvent(eventName: EventNames.BRANDING_BANNER_IMAGE_SELECTED);
                               } else {
                                 selections[1] = true;
                                 selections[0] = false;
                                 pageState.onBannerImageSelected(false);
+                                EventSender().sendEvent(eventName: EventNames.BRANDING_BANNER_COLOR_SELECTED);
                               }
                             });
                         },
@@ -239,6 +243,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
         pageState.onBannerWebUploaded(localWebImage);
         pageState.onBannerMobileUploaded(localMobileImage);
         pageState.onBannerUploaded(localImage);
+        EventSender().sendEvent(eventName: EventNames.BRANDING_BANNER_IMAGE_UPLOADED);
       } else {
         DandyToastUtil.showErrorToast('Image not loaded');
       }

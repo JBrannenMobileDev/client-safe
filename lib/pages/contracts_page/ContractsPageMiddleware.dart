@@ -10,6 +10,8 @@ import 'package:sembast/sembast.dart';
 import '../../data_layer/local_db/daos/ContractTemplateDao.dart';
 import '../../models/Job.dart';
 import '../../models/Profile.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../job_details_page/JobDetailsActions.dart';
 import 'ContractsActions.dart';
 
@@ -33,12 +35,10 @@ class ContractsPageMiddleware extends MiddlewareClass<AppState> {
     contract.photographerSignature = '${profile.firstName} ${profile.lastName}';
     contract.signedByClient = false;
     contract.clientSignature = '';
-
-    //TODO populate contract with dynamic content.
-
     Job job = await JobDao.getJobById(action.jobDocumentId);
     job.proposal.contract = contract;
     await JobDao.update(job);
+    EventSender().sendEvent(eventName: EventNames.CONTRACT_ADDED_TO_JOB);
     store.dispatch(SetJobInfoWithJobDocumentId(store.state.jobDetailsPageState, job.documentId));
   }
 

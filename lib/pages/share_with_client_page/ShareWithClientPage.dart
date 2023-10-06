@@ -22,6 +22,8 @@ import '../../models/Profile.dart';
 import '../../navigation/routes/RouteNames.dart';
 import '../../utils/InputDoneView.dart';
 import '../../utils/Shadows.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'ShareWithClientPageState.dart';
@@ -55,12 +57,15 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
     switch (value) {
       case 'Branding':
         NavigationUtil.onEditBrandingSelected(context);
+        EventSender().sendEvent(eventName: EventNames.BRANDING_EDIT_FROM_SHARE);
         break;
       case 'Business Info':
         NavigationUtil.onEditProfileSelected(context, profile);
+        EventSender().sendEvent(eventName: EventNames.SETUP_BUSINESS_INFO_FROM_SHARE);
         break;
       case 'Payment Options':
         NavigationUtil.onPaymentRequestInfoSelected(context);
+        EventSender().sendEvent(eventName: EventNames.SETUP_PAYMENT_OPTIONS_FROM_SHARE);
         break;
     }
   }
@@ -131,6 +136,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
           setState(() {
             initialSetupState = !profile.isProfileComplete() || !profile.hasSetupBrand || !profile.paymentOptionsSelected();
           });
+          EventSender().setUserProfileData(EventNames.IS_PORTAL_SETUP_COMPLETE, !initialSetupState);
         },
         onWillChange: (previous, current) {
           setState(() {
@@ -267,61 +273,6 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                   SliverList(
                     delegate: new SliverChildListDelegate(
                       <Widget>[
-                        profile != null && !profile.hasSetupBrand ? Container(
-                          alignment: Alignment.center,
-                          child: GestureDetector(
-                            onTap: () {
-                              NavigationUtil.onEditBrandingSelected(context);
-                            },
-                            child: Container(
-                              width: 264,
-                              height: 54,
-                              margin: EdgeInsets.only(top: 16, bottom: 8),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: Color(ColorConstants.getPeachDark()),
-                                borderRadius: BorderRadius.circular(27),
-                              ),
-                              child: TextDandyLight(
-                                type: TextDandyLight.LARGE_TEXT,
-                                text: 'Setup Branding',
-                                color: Color(ColorConstants.getPrimaryWhite()),
-                              ),
-                            ),
-                          ),
-                        ) : SizedBox(),
-                        profile != null && !profile.hasSetupBrand ? Container(
-                          padding: EdgeInsets.only(left: 64, right: 64),
-                          child: TextDandyLight(
-                            type: TextDandyLight.SMALL_TEXT,
-                            textAlign: TextAlign.center,
-                            text: 'Branding will be used to customize your client portal.',
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
-                        ) : SizedBox(),
-                        profile != null && !profile.isProfileComplete() ? Container(
-                          alignment: Alignment.center,
-                          child: GestureDetector(
-                            onTap: () {
-                              NavigationUtil.onEditProfileSelected(context, profile);
-                            },
-                            child: Container(
-                              width: 264,
-                              height: 54,
-                              margin: EdgeInsets.only(top: 32, bottom: 8),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: Color(ColorConstants.getPeachDark()),
-                                borderRadius: BorderRadius.circular(27),
-                              ),
-                              child: TextDandyLight(
-                                type: TextDandyLight.LARGE_TEXT,
-                                text: 'Setup Business Info',
-                                color: Color(ColorConstants.getPrimaryWhite()),
-                              ),
-                            ),
-                          ),
-                        ) : SizedBox(),
                         profile != null && !profile.isProfileComplete() ? Container(
                           padding: EdgeInsets.only(left: 64, right: 64),
                           child: TextDandyLight(
@@ -524,6 +475,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                         pageState.saveProposal();
                         if(pageState.profile.isProfileComplete() && pageState.profile.hasSetupBrand && pageState.profile.paymentOptionsSelected()) {
                           _launchBrandingPreviewURL(profile.uid, job.documentId);
+                          EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_PREVIEW_SELECTED);
                         } else {
                           String toastMessage = '';
                           if(!pageState.profile.isProfileComplete()) {
@@ -563,6 +515,12 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                         pageState.saveProposal();
                         if(pageState.profile.isProfileComplete() && pageState.profile.hasSetupBrand && pageState.profile.paymentOptionsSelected()) {
                           Share.share('(Example Message)\n\nHey ${job.client.firstName},\n\nThank you so much for choosing me to be your photographer! To make our collaboration simple i have a client portal that will be the hub for all the job details. Here is what it can do.\n\n1. Contract Signing\n2. Invoice Payment\n3. Job details\n4. Pose board for inspiration\n\nAccess the portal here:' + '\nhttps://dandylight.com/clientPortal/${profile.uid}+${job.documentId}\n\n\nExcited to create memorable moments with you!\n\nThank you again,\n${profile.firstName}');
+                          EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED, properties: {
+                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_INVOICE : pageState.invoiceSelected,
+                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_CONTRACT : pageState.contractSelected,
+                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_POSES : pageState.posesSelected,
+                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK : 'https://dandylight.com/clientPortal/${profile.uid}+${job.documentId}',
+                          });
                           Navigator.of(context).pop();
                         } else {
                           String toastMessage = '';
