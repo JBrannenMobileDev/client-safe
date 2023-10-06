@@ -260,7 +260,23 @@ class EventNames {
   static const String SETUP_PAYMENT_OPTIONS_FROM_SHARE = "SETUP_PAYMENT_OPTIONS_FROM_SHARE";
 
   //Client Portal
-
+  static const String CLIENT_PORTAL_VIEWED = "client_portal_viewed";
+  static const String CLIENT_PORTAL_CONTRACT_SELECTED = "client_portal_contract_selected";
+  static const String CLIENT_PORTAL_INVOICE_SELECTED = "client_portal_invoice_selected";
+  static const String CLIENT_PORTAL_POSES_SELECTED = "client_portal_poses_selected";
+  static const String CLIENT_PORTAL_HOME_SELECTED = "client_portal_home_selected";
+  static const String CLIENT_PORTAL_CONTRACT_SIGNED = "client_portal_contract_signed";
+  static const String CLIENT_PORTAL_DEPOSIT_PAY_NOW_SELECTED = "client_portal_deposit_pay_now_selected";
+  static const String CLIENT_PORTAL_TOTAL_PAY_NOW_SELECTED = "client_portal_total_pay_now_selected";
+  static const String CLIENT_PORTAL_DEPOSIT_MARKED_AS_PAID = "client_portal_deposit_marked_as_paid";
+  static const String CLIENT_PORTAL_TOTAL_MARKED_AS_PAID = "client_portal_total_marked_as_paid";
+  static const String CLIENT_PORTAL_CONTRACT_PDF_DOWNLOADED = "client_portal_contract_pdf_downloaded";
+  static const String CLIENT_PORTAL_INVOICE_PDF_DOWNLOADED = "client_portal_invoice_pdf_downloaded";
+  static const String CLIENT_PORTAL_CONTRACT_SCROLL_SELECTED = "client_portal_contract_scroll_selected";
+  static const String CLIENT_PORTAL_VENMO_LINK_SELECTED = "client_portal_venmo_link_selected";
+  static const String CLIENT_PORTAL_CASH_SEND_SMS_SELECTED = "client_portal_cash_send_sms_selected";
+  static const String CLIENT_PORTAL_CASH_SEND_EMAIL_SELECTED = "client_portal_cash_send_email_selected";
+  static const String CLIENT_PORTAL_CASHAPP_LINK_SELECTED = "client_portal_cashapp_link_selected";
 
   //Contracts
   static const String CONTRACT_CREATED = "contract_created";
