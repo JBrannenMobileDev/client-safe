@@ -26,7 +26,7 @@ class StageStatsHomeCard extends StatelessWidget {
       padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
       decoration: new BoxDecoration(
           color: Color(ColorConstants.getPrimaryWhite()),
-          borderRadius: new BorderRadius.all(Radius.circular(24.0))),
+          borderRadius: new BorderRadius.all(Radius.circular(16.0))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[

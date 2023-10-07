@@ -78,7 +78,7 @@ class BarChartState extends State<BarChartWidget> {
       int y, {
         bool isTouched = false,
         bool isNegative = false,
-        Color barColor = const Color(0xffE6CE97),
+        Color barColor = const Color(ColorConstants.grey),
         Color barColorNegative = const Color(ColorConstants.peach_dark),
         Color touchedBarColor = const Color(0xff557571),
         double width = 22,

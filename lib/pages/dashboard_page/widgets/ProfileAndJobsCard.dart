@@ -21,12 +21,12 @@ class ProfileAndJobsCard extends StatelessWidget {
   Widget build(BuildContext context) => StoreConnector<AppState, DashboardPageState>(
     converter: (Store<AppState> store) => DashboardPageState.fromStore(store),
     builder: (BuildContext context, DashboardPageState pageState) =>  Container(
-      margin: EdgeInsets.only(bottom: 32, top: 16),
+      margin: EdgeInsets.only(bottom: 32, top: 32),
       child: Stack(
         alignment: Alignment.center,
         children: [
           Container(
-            margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0),
+            margin: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0),
             height: 72.0,
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
