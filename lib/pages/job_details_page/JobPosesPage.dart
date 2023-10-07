@@ -40,7 +40,7 @@ class JobPosesPage extends StatelessWidget{
   Widget build(BuildContext context) => StoreConnector<AppState, JobDetailsPageState>(
       converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) => Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(ColorConstants.getPrimaryWhite()),
       body: Stack(
             alignment: AlignmentDirectional.centerEnd,
             children: <Widget>[
@@ -50,7 +50,7 @@ class JobPosesPage extends StatelessWidget{
                     iconTheme: IconThemeData(
                       color: Color(ColorConstants.getPeachDark()), //change your color here
                     ),
-                    backgroundColor: Colors.white,
+                    backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                     elevation: 4.0,
                     snap: true,
                     floating: true,

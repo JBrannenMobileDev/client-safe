@@ -105,7 +105,7 @@ class _SelectSalesTaxRateDialog extends State<SelectSalesTaxRateDialog> with Aut
                         children: <Widget>[
                           TextButton(
                             style: Styles.getButtonStyle(
-                              color: Colors.white,
+                              color: Color(ColorConstants.getPrimaryWhite()),
                               textColor: Color(ColorConstants.primary_black),
                               left: 8.0,
                               top: 8.0,
@@ -124,7 +124,7 @@ class _SelectSalesTaxRateDialog extends State<SelectSalesTaxRateDialog> with Aut
                           ),
                           TextButton(
                             style: Styles.getButtonStyle(
-                              color: Colors.white,
+                              color: Color(ColorConstants.getPrimaryWhite()),
                               textColor: Color(ColorConstants.primary_black),
                               left: 8.0,
                               top: 8.0,

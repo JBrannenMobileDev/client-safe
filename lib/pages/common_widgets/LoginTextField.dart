@@ -71,7 +71,7 @@ class LoginTextField extends StatelessWidget {
             },
             decoration: InputDecoration.collapsed(
               hintText: hintText,
-              fillColor: Colors.white,
+              fillColor: Color(ColorConstants.getPrimaryWhite()),
               hintStyle: new TextStyle(
                   fontFamily: TextDandyLight.getFontFamily(),
                   fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),

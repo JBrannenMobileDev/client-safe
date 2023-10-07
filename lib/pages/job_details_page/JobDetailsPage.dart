@@ -182,7 +182,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                     //     height: 42.0,
                     //     decoration: BoxDecoration(
                     //       boxShadow: ElevationToShadow[4],
-                    //       color: Colors.white,
+                    //       color: Color(ColorConstants.getPrimaryWhite()),
                     //       borderRadius: BorderRadius.circular(21.0),
                     //     ),
                     //     child: Padding(
@@ -210,7 +210,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                     //     height: 42.0,
                     //     decoration: BoxDecoration(
                     //       boxShadow: ElevationToShadow[4],
-                    //       color: Colors.white,
+                    //       color: Color(ColorConstants.getPrimaryWhite()),
                     //       borderRadius: BorderRadius.circular(21.0),
                     //     ),
                     //     child: Padding(
@@ -240,7 +240,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         height: 42.0,
                         decoration: BoxDecoration(
                           boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
+                          color: Color(ColorConstants.getPrimaryWhite()),
                           borderRadius: BorderRadius.circular(21.0),
                         ),
                         child: Padding(
@@ -266,7 +266,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         height: 42.0,
                         decoration: BoxDecoration(
                           boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
+                          color: Color(ColorConstants.getPrimaryWhite()),
                           borderRadius: BorderRadius.circular(21.0),
                         ),
                         child: Padding(
@@ -303,7 +303,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         height: 42.0,
                         decoration: BoxDecoration(
                           boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
+                          color: Color(ColorConstants.getPrimaryWhite()),
                           borderRadius: BorderRadius.circular(21.0),
                         ),
                         child: Padding(
@@ -327,7 +327,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         height: 42.0,
                         decoration: BoxDecoration(
                           boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
+                          color: Color(ColorConstants.getPrimaryWhite()),
                           borderRadius: BorderRadius.circular(21.0),
                         ),
                         child: Padding(

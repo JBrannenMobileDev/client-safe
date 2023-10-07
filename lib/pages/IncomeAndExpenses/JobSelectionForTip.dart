@@ -80,7 +80,7 @@ class _JobSelectionForTipState extends State<JobSelectionForTip> with AutomaticK
                                 fontFamily: TextDandyLight.getFontFamily(),
                                 fontWeight: TextDandyLight.getFontWeight(),
                                 color: Color(ColorConstants.primary_black)),
-                            fillColor: Colors.white,
+                            fillColor: Color(ColorConstants.getPrimaryWhite()),
                             contentPadding: EdgeInsets.all(10.0),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25.0),
@@ -131,8 +131,8 @@ class _JobSelectionForTipState extends State<JobSelectionForTip> with AutomaticK
                           decoration: new BoxDecoration(
                             gradient: new LinearGradient(
                                 colors: [
-                                  Colors.white,
-                                  Colors.white.withOpacity(0.0),
+                                  Color(ColorConstants.getPrimaryWhite()),
+                                  Color(ColorConstants.getPrimaryWhite()).withOpacity(0.0),
                                 ],
                                 begin: const FractionalOffset(0.0, 1.0),
                                 end: const FractionalOffset(0.0, 0.0),

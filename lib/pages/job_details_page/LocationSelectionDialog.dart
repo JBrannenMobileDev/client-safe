@@ -144,7 +144,7 @@ class _LocationSelectionDialogState
                         onPressed: () {
                           UserOptionsUtil.showNewLocationDialog(context);
                         },
-                        icon: Icon(Icons.add, color: Colors.white),
+                        icon: Icon(Icons.add, color: Color(ColorConstants.getPrimaryWhite())),
                         urlText: "",
                         color: ColorConstants.getBlueDark()
                     ),

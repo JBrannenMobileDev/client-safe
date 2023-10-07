@@ -59,7 +59,7 @@ class NewContactTextField extends StatelessWidget {
                       color: Color(ColorConstants.getPrimaryBlack())
                   ),
                   hintText: hintText,
-                  fillColor: Colors.white,
+                  fillColor: Color(ColorConstants.getPrimaryWhite()),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: BorderSide(

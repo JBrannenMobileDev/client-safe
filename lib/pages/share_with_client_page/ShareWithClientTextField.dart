@@ -46,7 +46,7 @@ class ShareWithClientTextField extends StatelessWidget {
                       color: Color(ColorConstants.getPrimaryBlack())
                   ),
                   hintText: hintText,
-                  fillColor: Colors.white,
+                  fillColor: Color(ColorConstants.getPrimaryWhite()),
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,
                   enabledBorder: InputBorder.none,

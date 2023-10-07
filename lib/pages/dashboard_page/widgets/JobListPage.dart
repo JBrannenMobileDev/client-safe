@@ -39,7 +39,7 @@ class JobListPage extends StatelessWidget{
         jobs = stage != null ? JobUtil.getJobsForStage(currentPageState.activeJobs, stage) : isActiveJobs ? currentPageState.activeJobs : currentPageState.jobsThisWeek;
       },
       builder: (BuildContext context, DashboardPageState pageState) => Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(ColorConstants.getPrimaryWhite()),
       body: Stack(
         alignment: AlignmentDirectional.centerEnd,
         children: <Widget>[
@@ -47,7 +47,7 @@ class JobListPage extends StatelessWidget{
             slivers: <Widget>[
               SliverAppBar(
                 brightness: Brightness.light,
-                backgroundColor: Colors.white,
+                backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                 pinned: true,
                 floating: false,
                 forceElevated: false,

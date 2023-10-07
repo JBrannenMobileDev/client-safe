@@ -66,7 +66,7 @@ class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with Aut
                     Container(
                       margin: EdgeInsets.only(right: 16.0),
                       child: Checkbox(
-                        checkColor: Colors.white,
+                        checkColor: Color(ColorConstants.getPrimaryWhite()),
                         fillColor: MaterialStateProperty.resolveWith(getColor),
                         value: pageState.checkAllTypes,
                         onChanged: (bool isChecked) {

@@ -88,7 +88,7 @@ class CalendarWidget extends StatefulWidget {
                 Container(
                     alignment: Alignment.centerRight,
                     child: Checkbox(
-                        checkColor: Colors.white,
+                        checkColor: Color(ColorConstants.getPrimaryWhite()),
                         fillColor: MaterialStateProperty.resolveWith(getColor),
                         value: checkedValue,
                         onChanged: (isChecked) {

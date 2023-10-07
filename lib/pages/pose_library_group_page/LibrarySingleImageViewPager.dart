@@ -218,7 +218,7 @@ class _LibrarySingleImageViewPagerState extends State<LibrarySingleImageViewPage
       builder: (BuildContext context, LibraryPoseGroupPageState pageState) =>
           Scaffold(
             key: scaffoldKey,
-            backgroundColor: Colors.white,
+            backgroundColor: Color(ColorConstants.getPrimaryWhite()),
             appBar: AppBar(
               iconTheme: IconThemeData(color: Color(ColorConstants.getPeachDark())),
               centerTitle: true,
@@ -228,7 +228,7 @@ class _LibrarySingleImageViewPagerState extends State<LibrarySingleImageViewPage
                 text: groupName,
                 color: Color(ColorConstants.getPeachDark()),
               ),
-              backgroundColor: Colors.white,
+              backgroundColor: Color(ColorConstants.getPrimaryWhite()),
               actions: [
                 GestureDetector(
                   onTap: () {

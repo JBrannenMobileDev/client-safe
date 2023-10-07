@@ -46,7 +46,7 @@ class ClientSafeButton extends StatelessWidget{
                   borderRadius: new BorderRadius.circular(32.0),
                   side: BorderSide(color: Color(color))),
             color: Color(color),
-            textColor: Colors.white,
+            textColor: Color(ColorConstants.getPrimaryWhite()),
           ),
           onPressed: () => urlText.length > 0 ? onPressed(urlText) : onPressed(),
           child: Row(
@@ -56,13 +56,13 @@ class ClientSafeButton extends StatelessWidget{
               icon != null ? IconButton(
                 padding: EdgeInsets.all(0.0),
                 icon: icon,
-                color: Colors.white,
+                color: Color(ColorConstants.getPrimaryWhite()),
                 onPressed: null,
               ) : SizedBox(),
               text.isNotEmpty ? TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: text,
-                color: Colors.white,
+                color: Color(ColorConstants.getPrimaryWhite()),
               ) : SizedBox(),
             ],
           ),

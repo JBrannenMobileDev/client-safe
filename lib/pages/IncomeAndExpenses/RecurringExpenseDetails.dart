@@ -32,7 +32,7 @@ class _RecurringExpenseDetailsPageState extends State<RecurringExpenseDetailsPag
     return StoreConnector<AppState, IncomeAndExpensesPageState>(
         converter: (store) => IncomeAndExpensesPageState.fromStore(store),
         builder: (BuildContext context, IncomeAndExpensesPageState pageState) => Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Color(ColorConstants.getPrimaryWhite()),
           body: Stack(
                 alignment: AlignmentDirectional.centerEnd,
                 children: <Widget>[
@@ -41,7 +41,7 @@ class _RecurringExpenseDetailsPageState extends State<RecurringExpenseDetailsPag
                       SliverAppBar(
                         iconTheme: IconThemeData(color: Color(ColorConstants.getPrimaryBlack())),
                         brightness: Brightness.light,
-                        backgroundColor: Colors.white,
+                        backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                         pinned: true,
                         centerTitle: true,
                         title: TextDandyLight(

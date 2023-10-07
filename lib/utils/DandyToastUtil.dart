@@ -12,7 +12,7 @@ class DandyToastUtil {
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 3,
         backgroundColor: Color(ColorConstants.getPeachDark()),
-        textColor: Colors.white,
+        textColor: Color(ColorConstants.getPrimaryWhite()),
         fontSize: 16.0
     );
   }
@@ -25,7 +25,7 @@ class DandyToastUtil {
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 3,
         backgroundColor: color,
-        textColor: Colors.white,
+        textColor: Color(ColorConstants.getPrimaryWhite()),
         fontSize: 16.0,
     );
   }
@@ -38,7 +38,7 @@ class DandyToastUtil {
       gravity: gravity,
       timeInSecForIosWeb: 1,
       backgroundColor: color,
-      textColor: Colors.white,
+      textColor: Color(ColorConstants.getPrimaryWhite()),
       fontSize: 18.0,
     );
   }

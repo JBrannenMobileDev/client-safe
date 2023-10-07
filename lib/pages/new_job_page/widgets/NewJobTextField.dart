@@ -71,7 +71,7 @@ class NewJobTextField extends StatelessWidget {
                   fontFamily: TextDandyLight.getFontFamily(),
                   fontWeight: TextDandyLight.getFontWeight(),
                   color: Color(ColorConstants.getBlueLight())),
-              fillColor: Colors.white,
+              fillColor: Color(ColorConstants.getPrimaryWhite()),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(25.0),
                 borderSide: BorderSide(

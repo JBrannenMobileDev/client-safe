@@ -164,25 +164,25 @@ class _CollectionsPageState extends State<CollectionsPage> {
   }
 
   Color getCircleColor(int index) {
-    Color color = Color(ColorConstants.getPeachDark());
+    Color color = Color(ColorConstants.getBlueLight());
     switch(index) {
       case 0:
         color = Color(ColorConstants.getBlueLight());
         break;
       case 1:
-        color = Color(ColorConstants.getPeachLight());
+        color = Color(ColorConstants.getBlueLight());
         break;
       case 2:
-        color = Color(ColorConstants.getPeachDark());
+        color = Color(ColorConstants.getBlueLight());
         break;
       case 3:
         color = Color(ColorConstants.getBlueLight());
         break;
       case 4:
-        color = Color(ColorConstants.getPeachLight());
+        color = Color(ColorConstants.getBlueLight());
         break;
       case 5:
-        color = Color(ColorConstants.getPeachDark());
+        color = Color(ColorConstants.getBlueLight());
         break;
       case 6:
         color = Color(ColorConstants.getBlueLight());

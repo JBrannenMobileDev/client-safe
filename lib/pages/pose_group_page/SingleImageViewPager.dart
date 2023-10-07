@@ -238,10 +238,10 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
       converter: (store) => PoseGroupPageState.fromStore(store),
       builder: (BuildContext context, PoseGroupPageState pageState) =>
           Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: Color(ColorConstants.getPrimaryWhite()),
             appBar: AppBar(
               iconTheme: IconThemeData(color: Color(ColorConstants.getPeachDark())),
-              backgroundColor: Colors.white,
+              backgroundColor: Color(ColorConstants.getPrimaryWhite()),
               centerTitle: true,
               elevation: 0.0,
               title: TextDandyLight(

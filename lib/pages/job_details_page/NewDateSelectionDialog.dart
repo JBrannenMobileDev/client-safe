@@ -70,7 +70,7 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
 
           padding: EdgeInsets.only(left: 8.0, right: 8.0),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Color(ColorConstants.getPrimaryWhite()),
             borderRadius: BorderRadius.all(Radius.circular(16.0)),
           ),
           child: Column(

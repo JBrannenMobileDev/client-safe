@@ -96,7 +96,7 @@ class _DecisionPagerState extends State<DecisionPager> {
       builder: (BuildContext context, PosesPageState pageState) =>
           Scaffold(
             key: scaffoldKey,
-            backgroundColor: Colors.white,
+            backgroundColor: Color(ColorConstants.getPrimaryWhite()),
             appBar: AppBar(
               iconTheme: IconThemeData(color: Color(ColorConstants.getPeachDark())),
               centerTitle: true,
@@ -106,7 +106,7 @@ class _DecisionPagerState extends State<DecisionPager> {
                 text: (currentPageIndex + 1).toString() + ' out of ' + pageCount.toString(),
                 color: Color(ColorConstants.getPeachDark()),
               ),
-              backgroundColor: Colors.white,
+              backgroundColor: Color(ColorConstants.getPrimaryWhite()),
               actions: [
 
               ],

@@ -82,7 +82,7 @@ class _ChangeIconLetterBottomSheetPageState extends State<ChangeIconLetterBottom
                                  color: Color(ColorConstants.getPrimaryBlack())
                              ),
                              hintText: 'Icon Letter',
-                             fillColor: Colors.white,
+                             fillColor: Color(ColorConstants.getPrimaryWhite()),
                              focusedBorder: OutlineInputBorder(
                                borderSide: BorderSide(
                                  color: Color(ColorConstants.getPrimaryGreyMedium()),

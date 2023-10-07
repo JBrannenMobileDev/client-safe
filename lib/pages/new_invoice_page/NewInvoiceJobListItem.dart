@@ -54,7 +54,7 @@ class NewInvoiceJobListItem extends StatelessWidget {
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: pageState.filteredJobs.elementAt(index).jobTitle,
                         textAlign: TextAlign.start,
-                        color: pageState.filteredJobs.elementAt(index).documentId == pageState.selectedJob?.documentId ? Colors.white : Color(ColorConstants.primary_black),
+                        color: pageState.filteredJobs.elementAt(index).documentId == pageState.selectedJob?.documentId ? Color(ColorConstants.getPrimaryWhite()) : Color(ColorConstants.primary_black),
                       ),
                     ],
                   ),

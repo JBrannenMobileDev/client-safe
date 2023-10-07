@@ -20,7 +20,7 @@ class JobTypeBreakdownPieChart extends StatelessWidget{
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
-                borderRadius: new BorderRadius.all(Radius.circular(16.0))),
+                borderRadius: new BorderRadius.all(Radius.circular(12.0))),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [

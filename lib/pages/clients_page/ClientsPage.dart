@@ -66,7 +66,7 @@ class _ClientsPageState extends State<ClientsPage> {
         onInit: (store) => store.dispatch(FetchClientData(store.state.clientsPageState)),
         converter: (store) => ClientsPageState.fromStore(store),
         builder: (BuildContext context, ClientsPageState pageState) => Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Color(ColorConstants.getPrimaryWhite()),
           body: Stack(
                 alignment: AlignmentDirectional.centerEnd,
                 children: <Widget>[
@@ -74,7 +74,7 @@ class _ClientsPageState extends State<ClientsPage> {
                     slivers: <Widget>[
                       SliverAppBar(
                         brightness: Brightness.light,
-                        backgroundColor: Colors.white,
+                        backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                         pinned: true,
                         centerTitle: true,
                         title: Container(

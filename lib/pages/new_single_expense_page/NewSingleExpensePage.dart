@@ -125,14 +125,14 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
                         children: <Widget>[
                           TextButton(
                             style: Styles.getButtonStyle(
-                              color: Colors.white,
+                              color: Color(ColorConstants.getPrimaryWhite()),
                               textColor: Color(ColorConstants.primary_black),
                               left: 8.0,
                               top: 8.0,
                               right: 8.0,
                               bottom: 8.0,
                             ),
-                            // disabledColor: Colors.white,
+                            // disabledColor: Color(ColorConstants.getPrimaryWhite()),
                             // disabledTextColor:
                             //     Color(ColorConstants.primary_bg_grey),
                             // splashColor: Color(ColorConstants.getPrimaryColor()),
@@ -148,14 +148,14 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
                           ),
                           TextButton(
                             style: Styles.getButtonStyle(
-                              color: Colors.white,
+                              color: Color(ColorConstants.getPrimaryWhite()),
                               textColor: Color(ColorConstants.primary_black),
                               left: 8.0,
                               top: 8.0,
                               right: 8.0,
                               bottom: 8.0,
                             ),
-                            // disabledColor: Colors.white,
+                            // disabledColor: Color(ColorConstants.getPrimaryWhite()),
                             // disabledTextColor:
                             //     Color(ColorConstants.primary_bg_grey),
                             // splashColor: Color(ColorConstants.getPrimaryColor()),

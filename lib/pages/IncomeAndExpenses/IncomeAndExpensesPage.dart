@@ -312,7 +312,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         width: 124.0,
                         decoration: BoxDecoration(
                           boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
+                          color: Color(ColorConstants.getPrimaryWhite()),
                           borderRadius: BorderRadius.circular(21.0),
                         ),
                         child: TextDandyLight(
@@ -339,7 +339,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         width: 64.0,
                         decoration: BoxDecoration(
                           boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
+                          color: Color(ColorConstants.getPrimaryWhite()),
                           borderRadius: BorderRadius.circular(21.0),
                         ),
                         child: TextDandyLight(
@@ -362,7 +362,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                           width: 184.0,
                           decoration: BoxDecoration(
                             boxShadow: ElevationToShadow[4],
-                            color: Colors.white,
+                            color: Color(ColorConstants.getPrimaryWhite()),
                             borderRadius: BorderRadius.circular(21.0),
                           ),
                           child: TextDandyLight(
@@ -384,7 +384,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         width: 156.0,
                         decoration: BoxDecoration(
                           boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
+                          color: Color(ColorConstants.getPrimaryWhite()),
                           borderRadius: BorderRadius.circular(21.0),
                         ),
                         child: TextDandyLight(
@@ -406,7 +406,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         width: 172.0,
                         decoration: BoxDecoration(
                           boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
+                          color: Color(ColorConstants.getPrimaryWhite()),
                           borderRadius: BorderRadius.circular(21.0),
                         ),
                         child: TextDandyLight(

@@ -204,7 +204,7 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
       builder: (BuildContext context, PosesPageState pageState) =>
           Scaffold(
             key: scaffoldKey,
-            backgroundColor: Colors.white,
+            backgroundColor: Color(ColorConstants.getPrimaryWhite()),
             appBar: AppBar(
               iconTheme: IconThemeData(color: Color(ColorConstants.getPeachDark())),
               centerTitle: true,
@@ -214,7 +214,7 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
                 text: groupName,
                 color: Color(ColorConstants.getPeachDark()),
               ),
-              backgroundColor: Colors.white,
+              backgroundColor: Color(ColorConstants.getPrimaryWhite()),
               actions: [
                 GestureDetector(
                   onTap: () {

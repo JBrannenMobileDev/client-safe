@@ -22,7 +22,7 @@ class JobHistoryListPage extends StatelessWidget{
   Widget build(BuildContext context)=> StoreConnector<AppState, ClientDetailsPageState>(
       converter: (Store<AppState> store) => ClientDetailsPageState.fromStore(store),
       builder: (BuildContext context, ClientDetailsPageState pageState) => Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(ColorConstants.getPrimaryWhite()),
       body: Stack(
         alignment: AlignmentDirectional.centerEnd,
         children: <Widget>[
@@ -30,7 +30,7 @@ class JobHistoryListPage extends StatelessWidget{
             slivers: <Widget>[
               SliverAppBar(
                 brightness: Brightness.light,
-                backgroundColor: Colors.white,
+                backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                 pinned: true,
                 floating: false,
                 forceElevated: false,

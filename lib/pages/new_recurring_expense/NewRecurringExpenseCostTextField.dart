@@ -47,7 +47,7 @@ class NewRecurringExpenseCostTextField extends StatelessWidget {
                   alignLabelWithHint: true,
                   labelText: 'Cost',
                   hintText: hintText,
-                  fillColor: Colors.white,
+                  fillColor: Color(ColorConstants.getPrimaryWhite()),
                   labelStyle: TextStyle(
                       fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_LARGE_TEXT),
                       fontFamily: TextDandyLight.getFontFamily(),

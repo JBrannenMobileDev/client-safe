@@ -77,7 +77,7 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                           decoration: InputDecoration(
                             alignLabelWithHint: true,
                             hintText: "Job name",
-                            fillColor: Colors.white,
+                            fillColor: Color(ColorConstants.getPrimaryWhite()),
                             contentPadding: EdgeInsets.all(10.0),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25.0),

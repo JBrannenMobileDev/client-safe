@@ -168,7 +168,7 @@ class _PricingProfileSelectionFormState
               pageState.pricingProfiles.elementAt(index - 1),
               pageState,
               onProfileSelected,
-              pageState.selectedPriceProfile?.documentId == pageState.pricingProfiles.elementAt(index - 1)?.documentId && pageState.oneTimePrice.isEmpty ? Color(ColorConstants.getPrimaryBackgroundGrey()) : Colors.white,
+              pageState.selectedPriceProfile?.documentId == pageState.pricingProfiles.elementAt(index - 1)?.documentId && pageState.oneTimePrice.isEmpty ? Color(ColorConstants.getPrimaryBackgroundGrey()) : Color(ColorConstants.getPrimaryWhite()),
               Color(ColorConstants.getPrimaryBlack())),
       ),
     );

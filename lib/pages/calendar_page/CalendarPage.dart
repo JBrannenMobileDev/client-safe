@@ -92,7 +92,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
           children: <Widget>[
             Container(
               height: Device.get().isIphoneX ? 560.0 : 540.0,
-              color: Colors.white,
+              color: Color(ColorConstants.getPrimaryWhite()),
             ),
             SafeArea(
               child: Container(

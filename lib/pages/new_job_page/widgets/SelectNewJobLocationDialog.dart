@@ -60,7 +60,7 @@ class _SelectNewJobLocationDialog extends State<SelectNewJobLocationDialog> {
                           children: <Widget>[
                             TextButton(
                               style: Styles.getButtonStyle(
-                                color: Colors.white,
+                                color: Color(ColorConstants.getPrimaryWhite()),
                                 textColor: Color(ColorConstants.primary_black),
                                 left: 8.0,
                                 top: 8.0,

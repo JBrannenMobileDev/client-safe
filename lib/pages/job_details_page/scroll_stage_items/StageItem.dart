@@ -136,7 +136,7 @@ class _StageItemState extends State<StageItem>
         duration: Duration(milliseconds: 300)
     );
 
-    _checkCircleBgColor = ColorTween(begin: Colors.white, end: Color(ColorConstants.getPrimaryWhite())).animate(_stageCompleteAnimation);
+    _checkCircleBgColor = ColorTween(begin: Color(ColorConstants.getPrimaryWhite()), end: Color(ColorConstants.getPrimaryWhite())).animate(_stageCompleteAnimation);
     _checkCircleBgColorCompleted = ColorTween(begin: Color(ColorConstants.getPeachDark()), end: Color(ColorConstants.getPeachDark())).animate(_newStageCompleteAnimation);
     _textColor = ColorTween(begin: Color(ColorConstants.getBlueDark()), end: Color(ColorConstants.getPeachDark())).animate(_stageCompleteAnimation);
     _checkCircleCheckSize = Tween<double>(begin: 20.0, end: 10.0).animate(CurvedAnimation(
@@ -260,7 +260,7 @@ class _StageItemState extends State<StageItem>
                         right: index == pageState.job.type.stages.length-1 ? 72.0 : 0.0,
                     ),
                     height: 4.0,
-                    color: Colors.white,
+                    color: Color(ColorConstants.getPrimaryWhite()),
                   ),
                   isCurrentStage ? FadeTransition(
                     opacity: _pulsingCircleOpacity,
@@ -270,7 +270,7 @@ class _StageItemState extends State<StageItem>
                       height: _pulsingCircleSize.value,
                       width: _pulsingCircleSize.value,
                       decoration: new BoxDecoration(
-                        color: Colors.white30,
+                        color: Color(ColorConstants.getPrimaryWhite()).withOpacity(.3),
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -296,7 +296,7 @@ class _StageItemState extends State<StageItem>
                     padding: EdgeInsets.all(isCurrentStage ? _mainCirclePadding.value : _mainCirclePaddingReversed.value),
                     decoration: BoxDecoration(
                       borderRadius: new BorderRadius.circular(56.0),
-                      color: Colors.white,
+                      color: Color(ColorConstants.getPrimaryWhite()),
                     ),
                     child: Container(
                         decoration: BoxDecoration(
@@ -511,7 +511,7 @@ class _StageItemState extends State<StageItem>
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: actionButtonText,
                               textAlign: TextAlign.start,
-                              color: Colors.white,
+                              color: Color(ColorConstants.getPrimaryWhite()),
                             ),
                           ),
                         ),) : SizedBox(),

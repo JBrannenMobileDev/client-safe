@@ -188,7 +188,7 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
                     onPressed: () {
                       UserOptionsUtil.showNewPriceProfileDialog(context);
                     },
-                    icon: Icon(Icons.add, color: Colors.white),
+                    icon: Icon(Icons.add, color: Color(ColorConstants.getPrimaryWhite())),
                     urlText: "",
                       color: ColorConstants.getBlueDark()
                   ),
@@ -265,7 +265,7 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
             onProfileSelected,
             pageState.selectedPriceProfile == pageState.priceProfiles.elementAt(index - 1) && isOneTimePriceEmpty(oneTimePrice)
                 ? Color(ColorConstants.getBlueDark())
-                : Colors.white,pageState.selectedPriceProfile == pageState.priceProfiles.elementAt(index - 1) && isOneTimePriceEmpty(oneTimePrice)
+                : Color(ColorConstants.getPrimaryWhite()),pageState.selectedPriceProfile == pageState.priceProfiles.elementAt(index - 1) && isOneTimePriceEmpty(oneTimePrice)
             ? Color(ColorConstants.getPrimaryWhite())
             : Color(ColorConstants.getPrimaryBlack())),
       ),

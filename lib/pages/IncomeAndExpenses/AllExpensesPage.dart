@@ -83,7 +83,7 @@ class _AllExpensesPageState extends State<AllExpensesPage> {
         },
         converter: (store) => IncomeAndExpensesPageState.fromStore(store),
         builder: (BuildContext context, IncomeAndExpensesPageState pageState) => Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Color(ColorConstants.getPrimaryWhite()),
           body: Stack(
                 alignment: AlignmentDirectional.centerEnd,
                 children: <Widget>[
@@ -91,7 +91,7 @@ class _AllExpensesPageState extends State<AllExpensesPage> {
                     slivers: <Widget>[
                       SliverAppBar(
                         brightness: Brightness.light,
-                        backgroundColor: Colors.white,
+                        backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                         pinned: true,
                         centerTitle: true,
                         leading: IconButton(

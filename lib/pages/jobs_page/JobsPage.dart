@@ -63,7 +63,7 @@ class _JobsPageState extends State<JobsPage> {
           }
         },
         builder: (BuildContext context, JobsPageState pageState) => Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Color(ColorConstants.getPrimaryWhite()),
           body: Stack(
                 alignment: AlignmentDirectional.centerEnd,
                 children: <Widget>[
@@ -71,7 +71,7 @@ class _JobsPageState extends State<JobsPage> {
                     slivers: <Widget>[
                       SliverAppBar(
                         brightness: Brightness.light,
-                        backgroundColor: Colors.white,
+                        backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                         pinned: true,
                         centerTitle: true,
                         title: Container(

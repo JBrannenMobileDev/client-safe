@@ -27,7 +27,7 @@ class StartAJobButton extends StatelessWidget {
         alignment: Alignment.center,
         decoration: new BoxDecoration(
             color: Color(ColorConstants.getBlueDark()),
-            borderRadius: new BorderRadius.all(Radius.circular(16.0))),
+            borderRadius: new BorderRadius.all(Radius.circular(12.0))),
         child: TextDandyLight(
           type: TextDandyLight.LARGE_TEXT,
           text: 'START NEW JOB',

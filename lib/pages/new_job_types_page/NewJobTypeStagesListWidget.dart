@@ -69,7 +69,7 @@ class NewJobTypeStagesListWidget extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(left: 8.0, right: 8.0, top: 2.0, bottom: 2.0),
               child: Checkbox(
-                  checkColor: Colors.white,
+                  checkColor: Color(ColorConstants.getPrimaryWhite()),
                   fillColor: MaterialStateProperty.resolveWith(getColor),
                   value: pageState.selectedJobStages.contains(pageState.allJobStages.elementAt(index)),
                   onChanged: (bool isChecked) {

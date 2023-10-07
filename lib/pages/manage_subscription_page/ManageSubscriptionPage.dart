@@ -724,7 +724,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
               child: AppBar(
                 title: Text(''),// You can add title here
                 leading: new IconButton(
-                  icon: new Icon((Device.get().isIos ? CupertinoIcons.back : Icons.arrow_back), color: Colors.white),
+                  icon: new Icon((Device.get().isIos ? CupertinoIcons.back : Icons.arrow_back), color: Color(ColorConstants.getPrimaryWhite())),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
                 backgroundColor: Colors.transparent, //You can make this transparent

@@ -87,7 +87,7 @@ class _NewResponseCategoryPageState extends State<NewResponseCategoryPage> {
                             children: <Widget>[
                               TextButton(
                                 style: Styles.getButtonStyle(
-                                  color: Colors.white,
+                                  color: Color(ColorConstants.getPrimaryWhite()),
                                   textColor: Color(ColorConstants.primary_black),
                                   left: 8.0,
                                   top: 8.0,
@@ -106,7 +106,7 @@ class _NewResponseCategoryPageState extends State<NewResponseCategoryPage> {
                               ),
                               TextButton(
                                 style: Styles.getButtonStyle(
-                                  color: Colors.white,
+                                  color: Color(ColorConstants.getPrimaryWhite()),
                                   textColor: Color(ColorConstants.primary_black),
                                   left: 8.0,
                                   top: 8.0,

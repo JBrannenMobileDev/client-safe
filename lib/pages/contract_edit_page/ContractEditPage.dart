@@ -251,7 +251,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                             color: Color(ColorConstants.getPrimaryBlack())
                         ),
                         hintText: 'Contract Name',
-                        fillColor: Colors.white,
+                        fillColor: Color(ColorConstants.getPrimaryWhite()),
                         enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: Color(ColorConstants.getPrimaryBlack()),

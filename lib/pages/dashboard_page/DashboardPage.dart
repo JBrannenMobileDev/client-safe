@@ -43,8 +43,8 @@ import '../../utils/NotificationHelper.dart';
 import '../../utils/PushNotificationsManager.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../../widgets/DandyLightNetworkImage.dart';
 import '../../widgets/TextDandyLight.dart';
-import '../main_settings_page/MainSettingsPageActions.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({Key key, this.destination, this.comingFromLogin}) : super(key: key);
@@ -369,7 +369,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                           width: 156.0,
                           decoration: BoxDecoration(
                             boxShadow: ElevationToShadow[4],
-                            color: Colors.white,
+                            color: Color(ColorConstants.getPrimaryWhite()),
                             borderRadius: BorderRadius.circular(21.0),
                           ),
                           child: TextDandyLight(
@@ -392,7 +392,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                           width: 138.0,
                           decoration: BoxDecoration(
                             boxShadow: ElevationToShadow[4],
-                            color: Colors.white,
+                            color: Color(ColorConstants.getPrimaryWhite()),
                             borderRadius: BorderRadius.circular(21.0),
                           ),
                           child: TextDandyLight(
@@ -437,6 +437,23 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
               child: Stack(
                 alignment: Alignment.topCenter,
                 children: <Widget>[
+                  // Container(
+                  //   height: 264,
+                  //   width: MediaQuery.of(context).size.width,
+                  //   child: ClipRRect(
+                  //     borderRadius: new BorderRadius.only(
+                  //       topRight: Radius.circular(16),
+                  //       topLeft: Radius.circular(16),
+                  //       bottomRight: Radius.circular(16),
+                  //       bottomLeft: Radius.circular(16)
+                  //     ),
+                  //     child: DandyLightNetworkImage(
+                  //       pageState.profile.bannerMobileUrl,
+                  //       color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.bannerColor),
+                  //       borderRadius: 0,
+                  //     ),
+                  //   ),
+                  // ),
                   Container(
                     alignment: Alignment.bottomRight,
                     height: MediaQuery.of(context).size.height,
@@ -458,11 +475,11 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                       ),
                     ),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Color(ColorConstants.getBlueLight()),
-                    ),
-                  ),
+                  // Container(
+                  //   decoration: BoxDecoration(
+                  //     color: Color(ColorConstants.getBlueLight()),
+                  //   ),
+                  // ),
                   CustomScrollView(
                     physics: new ClampingScrollPhysics(),
                     controller: _scrollController,
@@ -691,7 +708,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
             height: 132.0,
             decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
-                borderRadius: new BorderRadius.all(Radius.circular(16.0))),
+                borderRadius: new BorderRadius.all(Radius.circular(12.0))),
             child: Stack(
               alignment: Alignment.topCenter,
               children: [
@@ -725,7 +742,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
             height: 132.0,
             decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
-                borderRadius: new BorderRadius.all(Radius.circular(16.0))),
+                borderRadius: new BorderRadius.all(Radius.circular(12.0))),
             child: Stack(
               alignment: Alignment.topCenter,
               children: [

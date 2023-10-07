@@ -74,7 +74,7 @@ class _ReminderSelectionPageState extends State<ReminderSelectionWidget> with Au
                     Container(
                       margin: EdgeInsets.only(right: 8.0),
                       child: Checkbox(
-                        checkColor: Colors.white,
+                        checkColor: Color(ColorConstants.getPrimaryWhite()),
                         fillColor: MaterialStateProperty.resolveWith(getColor),
                         value: pageState.checkAllReminders,
                         onChanged: (bool isChecked) {

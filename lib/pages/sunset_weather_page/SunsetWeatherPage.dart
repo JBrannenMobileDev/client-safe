@@ -43,7 +43,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
       converter: (store) => SunsetWeatherPageState.fromStore(store),
       builder: (BuildContext context, SunsetWeatherPageState pageState) =>
           Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Color(ColorConstants.getPrimaryWhite()),
         body: Stack(
           alignment: AlignmentDirectional.centerEnd,
           children: <Widget>[
@@ -51,7 +51,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
               slivers: <Widget>[
                 SliverAppBar(
                   brightness: Brightness.light,
-                  backgroundColor: Colors.white,
+                  backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                   pinned: true,
                   centerTitle: true,
                   leading: IconButton(
