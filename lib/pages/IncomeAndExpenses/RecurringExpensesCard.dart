@@ -41,7 +41,7 @@ class RecurringExpensesCard extends StatelessWidget{
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: 'Recurring Expenses (' + pageState.selectedYear.toString() + ')',
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                       pageState.recurringExpensesForSelectedYear != null && pageState.recurringExpensesForSelectedYear.length > 3 ? TextButton(
                         style: Styles.getButtonStyle(),
@@ -56,7 +56,7 @@ class RecurringExpensesCard extends StatelessWidget{
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'View all(' + pageState.recurringExpensesForSelectedYear.length.toString() + ')',
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ) : SizedBox(),
@@ -90,7 +90,7 @@ class RecurringExpensesCard extends StatelessWidget{
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: 'You have zero recurring expenses.',
                     textAlign: TextAlign.center,
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
               ],

@@ -639,7 +639,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: pageState.mainButtonsVisible ? 'Sign in' : (pageState.isForgotPasswordViewVisible ? 'Sign in' : 'Create Account'),
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ),
@@ -654,7 +654,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'Forgot password ?',
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ),

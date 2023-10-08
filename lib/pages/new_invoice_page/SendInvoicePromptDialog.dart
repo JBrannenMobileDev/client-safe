@@ -55,7 +55,7 @@ class _SendInvoicePromptDialogState extends State<SendInvoicePromptDialog>
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: 'Would you like to send this invoice now ?',
                       textAlign: TextAlign.center,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   Row(

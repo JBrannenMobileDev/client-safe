@@ -82,7 +82,7 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: "Select a new date for this job.",
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               _buildTableCalendarWithBuilders(pageState),
@@ -111,7 +111,7 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: 'Cancel',
                         textAlign: TextAlign.center,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     TextButton(
@@ -125,7 +125,7 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: 'Save',
                         textAlign: TextAlign.center,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                   ],
@@ -167,7 +167,7 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
           fontWeight: TextDandyLight.getFontWeight(),
         ),
         defaultTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black),
+          color: Color(ColorConstants.getPrimaryBlack()),
           fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),
@@ -191,13 +191,13 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
           fontWeight: TextDandyLight.getFontWeight(),
         ),
         weekendTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black),
+          color: Color(ColorConstants.getPrimaryBlack()),
           fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),
         ),
         holidayTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black),
+          color: Color(ColorConstants.getPrimaryBlack()),
           fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),
@@ -205,13 +205,13 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
       ),
       daysOfWeekStyle: DaysOfWeekStyle(
         weekdayStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black),
+          color: Color(ColorConstants.getPrimaryBlack()),
           fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),
         ),
         weekendStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black),
+          color: Color(ColorConstants.getPrimaryBlack()),
           fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),
@@ -221,7 +221,7 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
         titleCentered: true,
         formatButtonVisible: false,
         titleTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black),
+          color: Color(ColorConstants.getPrimaryBlack()),
           fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),
@@ -243,7 +243,7 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
               child: TextDandyLight(
                 type: TextDandyLight.SMALL_TEXT,
                 text: '${date.day}',
-                color: Color(ColorConstants.primary_black),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ),
           );
@@ -329,7 +329,7 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
       width: 8.0,
       height: 8.0,
       decoration: BoxDecoration(
-          shape: BoxShape.circle, color: Color(!event.isPersonalEvent ? ColorConstants.primary_black : ColorConstants.getPrimaryBackgroundGrey())),
+          shape: BoxShape.circle, color: Color(!event.isPersonalEvent ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryBackgroundGrey())),
     );
   }
 

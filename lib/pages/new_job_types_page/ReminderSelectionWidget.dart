@@ -56,7 +56,7 @@ class _ReminderSelectionPageState extends State<ReminderSelectionWidget> with Au
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: "Select what reminders you want for this job type. You may also add your own.",
                     textAlign: TextAlign.start,
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                 pageState.allDandyLightReminders.length > 0 ? Row(
@@ -109,7 +109,7 @@ class _ReminderSelectionPageState extends State<ReminderSelectionWidget> with Au
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: "You have not created any reminders yet.",
                         textAlign: TextAlign.center,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     ClientSafeButton(

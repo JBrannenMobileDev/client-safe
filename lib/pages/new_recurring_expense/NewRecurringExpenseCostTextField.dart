@@ -90,7 +90,7 @@ class NewRecurringExpenseCostTextField extends StatelessWidget {
                     fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_LARGE_TEXT),
                     fontFamily: TextDandyLight.getFontFamily(),
                     fontWeight: TextDandyLight.getFontWeight(),
-                    color: Color(ColorConstants.primary_black)),
+                    color: Color(ColorConstants.getPrimaryBlack())),
               )
     );
   }

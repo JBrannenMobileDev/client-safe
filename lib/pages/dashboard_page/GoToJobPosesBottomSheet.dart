@@ -52,7 +52,7 @@ class _GoToJobPosesBottomSheetState extends State<GoToJobPosesBottomSheet> with 
                          type: TextDandyLight.LARGE_TEXT,
                          text: 'Current Photoshoot',
                          textAlign: TextAlign.center,
-                         color: Color(ColorConstants.primary_black),
+                         color: Color(ColorConstants.getPrimaryBlack()),
                        ),
                      ),
                      Container(
@@ -61,7 +61,7 @@ class _GoToJobPosesBottomSheetState extends State<GoToJobPosesBottomSheet> with 
                          type: TextDandyLight.MEDIUM_TEXT,
                          text: job.jobTitle,
                          textAlign: TextAlign.center,
-                         color: Color(ColorConstants.primary_black),
+                         color: Color(ColorConstants.getPrimaryBlack()),
                        ),
                      ),
                      GestureDetector(

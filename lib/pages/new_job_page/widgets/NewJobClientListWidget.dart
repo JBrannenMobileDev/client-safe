@@ -49,7 +49,7 @@ class NewJobClientListWidget extends StatelessWidget {
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: pageState.filteredClients.elementAt(clientIndex).getClientFullName(),
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ],
                   ),

@@ -52,7 +52,7 @@ class _NameChangeDialogState extends State<NameChangeDialog>
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: "Enter a simple and descriptive name for this job.",
                         textAlign: TextAlign.center,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     NewJobTextField(
@@ -76,7 +76,7 @@ class _NameChangeDialogState extends State<NameChangeDialog>
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'Cancel',
                             textAlign: TextAlign.center,
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                         TextButton(
@@ -90,7 +90,7 @@ class _NameChangeDialogState extends State<NameChangeDialog>
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'Save',
                             textAlign: TextAlign.center,
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ],

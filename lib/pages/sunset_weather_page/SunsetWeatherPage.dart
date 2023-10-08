@@ -69,7 +69,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                     child: TextDandyLight(
                       type: TextDandyLight.LARGE_TEXT,
                       text: "Sunset & Weather",
-                      color: const Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                 ),

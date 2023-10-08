@@ -65,7 +65,7 @@ class PaidInvoiceItem extends StatelessWidget{
                                 ? TextFormatterUtil.formatDecimalDigitsCurrency(invoice.total - invoice.discount, 2)
                                 : '0'),
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                   ],

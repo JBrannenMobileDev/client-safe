@@ -54,7 +54,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                       type: TextDandyLight.LARGE_TEXT,
                       text: 'Sunset & Weather',
                       textAlign: TextAlign.center,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   Container(

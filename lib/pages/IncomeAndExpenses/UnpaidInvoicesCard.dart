@@ -41,7 +41,7 @@ class UnpaidInvoicesCard extends StatelessWidget{
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: 'Unpaid Invoices',
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                       pageState.unpaidInvoices != null && pageState.unpaidInvoices.length > 3 ? TextButton(
                         style: Styles.getButtonStyle(),
@@ -56,7 +56,7 @@ class UnpaidInvoicesCard extends StatelessWidget{
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'View all (' + pageState.unpaidInvoices.length.toString() + ')',
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ) : SizedBox(),
@@ -79,7 +79,7 @@ class UnpaidInvoicesCard extends StatelessWidget{
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: 'You have zero unpaid invoices.',
                     textAlign: TextAlign.center,
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
               ],

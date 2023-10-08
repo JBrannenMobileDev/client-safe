@@ -34,7 +34,7 @@ class ClientListWidget extends StatelessWidget {
               margin: EdgeInsets.only(left: 8.0, right: 16.0, top: 4.0),
               height: 44.0,
               width: 44.0,
-              child: Image.asset('assets/images/icons/profile_icon.png', color: Color(ColorConstants.getPrimaryColor()),),
+              child: Image.asset('assets/images/icons/profile_icon.png', color: Color(ColorConstants.getPeachDark()),),
             ),
             Expanded(
               child: Container(
@@ -49,7 +49,7 @@ class ClientListWidget extends StatelessWidget {
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: getClient(clientIndex, pageState).getClientFullName(),
                         textAlign: TextAlign.start,
-                        color: const Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                       TextDandyLight(
                         type: TextDandyLight.SMALL_TEXT,

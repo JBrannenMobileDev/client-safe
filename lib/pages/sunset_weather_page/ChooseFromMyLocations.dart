@@ -49,7 +49,7 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: "Select a Location",
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               Padding(
@@ -88,7 +88,7 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                     TextButton(
                       style: Styles.getButtonStyle(
                         color: Color(ColorConstants.getPrimaryWhite()),
-                        textColor: Color(ColorConstants.primary_black),
+                        textColor: Color(ColorConstants.getPrimaryBlack()),
                         left: 8.0,
                         top: 8.0,
                         right: 8.0,
@@ -105,13 +105,13 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: 'Cancel',
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     TextButton(
                       style: Styles.getButtonStyle(
                         color: Color(ColorConstants.getPrimaryWhite()),
-                        textColor: Color(ColorConstants.primary_black),
+                        textColor: Color(ColorConstants.getPrimaryBlack()),
                         left: 8.0,
                         top: 8.0,
                         right: 8.0,
@@ -130,7 +130,7 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: 'Save',
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                   ],
@@ -148,7 +148,7 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: "Select a location for this job",
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               Padding(
@@ -157,7 +157,7 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: "You do not have any locations saved to your collection. Select the + Location button to create a new location.",
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               TextButton(

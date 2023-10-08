@@ -38,7 +38,7 @@ class JobHistoryListPage extends StatelessWidget{
                 title: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
                   text: 'Job History',
-                  color: const Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
                 leading: IconButton(
                   icon: const Icon(Icons.close),

@@ -39,7 +39,7 @@ class StageStatsItem extends StatelessWidget{
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: JobStage.getStageText(stage),
                   textAlign: TextAlign.start,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ],
             ),
@@ -51,7 +51,7 @@ class StageStatsItem extends StatelessWidget{
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: jobs.length.toString(),
                     textAlign: TextAlign.start,
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                 Container(

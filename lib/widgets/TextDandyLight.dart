@@ -8,6 +8,7 @@ import '../utils/TextFormatterUtil.dart';
 class TextDandyLight extends StatelessWidget {
   static const String BRAND_LOGO = 'brand_logo';
   static const String BRAND_LOGO_SMALL = 'brand_logo_small';
+  static const String INCOME_EXPENSE_TOTAL = 'income_expense_total';
   static const String EXTRA_EXTRA_LARGE_TEXT = 'extra_extra_large_text';
   static const String EXTRA_LARGE_TEXT = 'extra_large_text';
   static const String LARGE_TEXT = 'large_text';
@@ -31,6 +32,9 @@ class TextDandyLight extends StatelessWidget {
         break;
       case BRAND_LOGO_SMALL:
         size = 58;
+        break;
+      case INCOME_EXPENSE_TOTAL:
+        size = 52;
         break;
       case EXTRA_EXTRA_LARGE_TEXT:
         size = 46;

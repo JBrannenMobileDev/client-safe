@@ -65,7 +65,7 @@ class InvoiceItem extends StatelessWidget{
                                     : 'no due date')) + ' • ' + (invoice.unpaidAmount != null ? TextFormatterUtil.formatDecimalDigitsCurrency(invoice.unpaidAmount, 2)
                                 : '0'),
                         textAlign: TextAlign.start,
-                        color: invoice.isOverdue() ? Color(ColorConstants.getPeachDark()) : Color(ColorConstants.primary_black),
+                        color: invoice.isOverdue() ? Color(ColorConstants.getPeachDark()) : Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                   ],

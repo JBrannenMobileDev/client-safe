@@ -44,7 +44,7 @@ class _SelectLocationOptionsDialog extends State<SelectLocationOptionsDialog> wi
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: "Select from your collection of locations or select a new location from a map.",
                 textAlign: TextAlign.center,
-                color: Color(ColorConstants.primary_black),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ),
             Row(

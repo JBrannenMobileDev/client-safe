@@ -70,7 +70,7 @@ class _BottomSheetPageState extends State<SaveToMyPosesBottomSheet> with TickerP
                            type: TextDandyLight.LARGE_TEXT,
                            text: 'Save to My Poses',
                            textAlign: TextAlign.center,
-                           color: Color(ColorConstants.primary_black),
+                           color: Color(ColorConstants.getPrimaryBlack()),
                          ),
                        ),
                        pageState.myPoseGroups.length > 0 ? SingleChildScrollView(

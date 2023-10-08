@@ -25,7 +25,7 @@ class MonthlyProfitLineChart extends StatelessWidget{
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: 'Monthly Net Profit',
                     textAlign: TextAlign.start,
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                 BarChartWidget(monthsData: pageState.lineChartMonthData),

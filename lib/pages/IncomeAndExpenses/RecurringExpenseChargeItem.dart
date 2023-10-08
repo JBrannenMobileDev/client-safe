@@ -60,7 +60,7 @@ class RecurringExpenseChargeItem extends StatelessWidget{
                                 fontSize: 20.0,
                                 fontFamily: 'simple',
                                 fontWeight: FontWeight.w800,
-                                color: Color(charge.isPaid ? ColorConstants.primary_black : ColorConstants.getPeachDark()),
+                                color: Color(charge.isPaid ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
                               ),
                             ),
                           ],
@@ -69,7 +69,7 @@ class RecurringExpenseChargeItem extends StatelessWidget{
                       TextDandyLight(
                           type: TextDandyLight.MEDIUM_TEXT,
                           amount: charge.chargeAmount,
-                          color: Color(charge.isPaid ? ColorConstants.primary_black : ColorConstants.getPeachDark()),
+                          color: Color(charge.isPaid ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
                           isCurrency: true
                       ),
                     ],
@@ -94,7 +94,7 @@ class RecurringExpenseChargeItem extends StatelessWidget{
                     type: TextDandyLight.SMALL_TEXT,
                     text: charge.isPaid ? 'Paid' : 'Unpaid',
                     textAlign: TextAlign.start,
-                    color: Color(charge.isPaid ? ColorConstants.primary_black : ColorConstants.getPeachDark()),
+                    color: Color(charge.isPaid ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
                   ),
                 ],
               ),

@@ -55,7 +55,7 @@ class BarChartState extends State<BarChartWidget> {
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: 'No income data available. Receive payment to see income stats.',
                       textAlign: TextAlign.center,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ) : SizedBox(),
                   Expanded(
@@ -78,9 +78,9 @@ class BarChartState extends State<BarChartWidget> {
       int y, {
         bool isTouched = false,
         bool isNegative = false,
-        Color barColor = const Color(ColorConstants.grey),
+        Color barColor = const Color(ColorConstants.blue_light),
         Color barColorNegative = const Color(ColorConstants.peach_dark),
-        Color touchedBarColor = const Color(0xff557571),
+        Color touchedBarColor = const Color(ColorConstants.blue_dark),
         double width = 22,
         List<int> showTooltips = const [],
       }) {

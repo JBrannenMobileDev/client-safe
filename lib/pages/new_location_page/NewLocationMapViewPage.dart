@@ -62,7 +62,7 @@ class _NewLocationMapViewPage extends State<NewLocationMapViewPage> with Automat
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: "Select a map location to use for driving directions.",
                 textAlign: TextAlign.start,
-                color: Color(ColorConstants.primary_black),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ),
             GestureDetector(

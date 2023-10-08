@@ -37,7 +37,7 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
                   type: TextDandyLight.LARGE_TEXT,
                   text: 'Select a due date',
                   textAlign: TextAlign.start,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               Container(
@@ -116,7 +116,7 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
                   type: TextDandyLight.LARGE_TEXT,
                   text: 'Select a deposit due date',
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               Container(

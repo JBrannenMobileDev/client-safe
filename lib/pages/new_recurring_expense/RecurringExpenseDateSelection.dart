@@ -38,7 +38,7 @@ class _RecurringExpenseDateSelectionState extends State<RecurringExpenseDateSele
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: 'Select the date when you started paying for this recurring expense',
                   textAlign: TextAlign.start,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               Container(

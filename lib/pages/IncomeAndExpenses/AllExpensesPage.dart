@@ -101,7 +101,7 @@ class _AllExpensesPageState extends State<AllExpensesPage> {
                         title: TextDandyLight(
                           type: TextDandyLight.LARGE_TEXT,
                           text: 'All Expenses (' + pageState.selectedYear.toString() + ')',
-                          color: const Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                         actions: <Widget>[
 

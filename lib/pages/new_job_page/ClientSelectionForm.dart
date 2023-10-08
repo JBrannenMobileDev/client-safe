@@ -61,7 +61,7 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                     type: TextDandyLight.LARGE_TEXT,
                     text: "Who is this job for?",
                     textAlign: TextAlign.start,
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                 Container(
@@ -91,7 +91,7 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: 'Or',
                     textAlign: TextAlign.start,
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                 Container(

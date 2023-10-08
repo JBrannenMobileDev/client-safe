@@ -83,7 +83,7 @@ class _AllInvoicesPageState extends State<AllInvoicesPage> {
                           child: TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
                             text: "All Invoices",
-                            color: const Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                         actions: <Widget>[

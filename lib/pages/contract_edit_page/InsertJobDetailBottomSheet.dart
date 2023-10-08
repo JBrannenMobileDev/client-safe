@@ -73,7 +73,7 @@ class _InsertJobDetailBottomSheetState extends State<InsertJobDetailBottomSheet>
                          type: TextDandyLight.LARGE_TEXT,
                          text: 'Insert Job Detail',
                          textAlign: TextAlign.center,
-                         color: Color(ColorConstants.primary_black),
+                         color: Color(ColorConstants.getPrimaryBlack()),
                        ),
                      ),
                      Container(
@@ -82,7 +82,7 @@ class _InsertJobDetailBottomSheetState extends State<InsertJobDetailBottomSheet>
                          type: TextDandyLight.SMALL_TEXT,
                          text: 'The job detail selected below will be auto-populated by DandyLight for any job that you add this contract to.',
                          textAlign: TextAlign.center,
-                         color: Color(ColorConstants.primary_black),
+                         color: Color(ColorConstants.getPrimaryBlack()),
                        ),
                      ),
                      Container(

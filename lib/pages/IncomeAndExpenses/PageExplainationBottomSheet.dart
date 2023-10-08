@@ -41,7 +41,7 @@ class _BottomSheetPageState extends State<PageExplainationBottomSheet> with Tick
                        type: TextDandyLight.LARGE_TEXT,
                        text: 'About this page',
                        textAlign: TextAlign.center,
-                       color: Color(ColorConstants.primary_black),
+                       color: Color(ColorConstants.getPrimaryBlack()),
                      ),
                    ),
                    Container(
@@ -50,7 +50,7 @@ class _BottomSheetPageState extends State<PageExplainationBottomSheet> with Tick
                        type: TextDandyLight.MEDIUM_TEXT,
                        text: 'Your income is tracked automatically when your receive payment or complete a job.\n\nYou can generate a new invoice here or on your job details page.',
                        textAlign: TextAlign.center,
-                       color: Color(ColorConstants.primary_black),
+                       color: Color(ColorConstants.getPrimaryBlack()),
                      ),
                    ),
                  ],

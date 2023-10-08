@@ -55,7 +55,7 @@ class JobListPage extends StatelessWidget{
                 title: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
                   text: pageTitle,
-                  color: const Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
                 leading: IconButton(
                   icon: const Icon(Icons.close),

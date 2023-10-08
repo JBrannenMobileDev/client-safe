@@ -50,7 +50,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                     type: TextDandyLight.LARGE_TEXT,
                     text: 'Details',
                     textAlign: TextAlign.center,
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                 GestureDetector(
@@ -72,7 +72,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       Container(
@@ -107,7 +107,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       Container(
@@ -143,7 +143,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
-                          color: Color(pageState.job.selectedDate != null ? ColorConstants.primary_black : ColorConstants.error_red),
+                          color: Color(pageState.job.selectedDate != null ? ColorConstants.getPrimaryBlack() : ColorConstants.error_red),
                         ),
                       ),
                       Container(
@@ -285,7 +285,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
-                                        color: Color(pageState.job.selectedTime != null ? ColorConstants.primary_black : ColorConstants.error_red),
+                                        color: Color(pageState.job.selectedTime != null ? ColorConstants.getPrimaryBlack() : ColorConstants.error_red),
                                       )
                                     ],
                                   ),
@@ -419,7 +419,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
-                                        color: Color(pageState.job.selectedEndTime != null ? ColorConstants.primary_black : ColorConstants.error_red),
+                                        color: Color(pageState.job.selectedEndTime != null ? ColorConstants.getPrimaryBlack() : ColorConstants.error_red),
                                       )
                                     ],
                                   ),

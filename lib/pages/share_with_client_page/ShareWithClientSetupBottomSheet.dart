@@ -74,7 +74,7 @@ class _BottomSheetPageState extends State<ShareWithClientSetupBottomSheet> with 
                        type: TextDandyLight.LARGE_TEXT,
                        text: 'Client Portal Setup',
                        textAlign: TextAlign.center,
-                       color: Color(ColorConstants.primary_black),
+                       color: Color(ColorConstants.getPrimaryBlack()),
                      ),
                    ),
                    Container(
@@ -83,7 +83,7 @@ class _BottomSheetPageState extends State<ShareWithClientSetupBottomSheet> with 
                        type: TextDandyLight.MEDIUM_TEXT,
                        text: '(required)',
                        textAlign: TextAlign.center,
-                       color: Color(ColorConstants.primary_black),
+                       color: Color(ColorConstants.getPrimaryBlack()),
                      ),
                    ),
                    GestureDetector(

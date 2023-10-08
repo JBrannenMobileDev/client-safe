@@ -70,7 +70,7 @@ class SingleExpenseItem extends StatelessWidget{
                               type: TextDandyLight.SMALL_TEXT,
                               text: DateFormat('MMM dd, yyyy').format(singleExpense.charge.chargeDate) + '  •  ',
                               textAlign: TextAlign.start,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                             TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,

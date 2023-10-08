@@ -37,7 +37,7 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
               type: TextDandyLight.MEDIUM_TEXT,
                 text: "Select a time for this job.",
                 textAlign: TextAlign.center,
-              color: Color(ColorConstants.primary_black),
+              color: Color(ColorConstants.getPrimaryBlack()),
             ),
             pageState.sunsetDateTime != null ? Padding(
               padding: EdgeInsets.only(top: 8.0),

@@ -65,7 +65,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: '1.',
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     Container(
@@ -79,7 +79,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: 'When do you want this reminder to be sent?',
                               textAlign: TextAlign.start,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                         ],
@@ -174,7 +174,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                           type: TextDandyLight.MEDIUM_TEXT,
                           text: '2.',
                           textAlign: TextAlign.start,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       Container(
@@ -188,7 +188,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                   (pageState.when == WhenSelectionWidget.ON ? WhenSelectionWidget.BEFORE : pageState.when) +
                                   ' the shoot you want the reminder to be sent.',
                               textAlign: TextAlign.start,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ],
                         ),
@@ -225,7 +225,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: 'Days',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -234,7 +234,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: 'Weeks',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -243,7 +243,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: 'Months',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                               ],
@@ -267,7 +267,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '1',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -276,7 +276,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '2',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -285,7 +285,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '3',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -294,7 +294,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '4',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -303,7 +303,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '5',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -312,7 +312,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '6',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -321,7 +321,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '7',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -330,7 +330,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '8',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -339,7 +339,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '9',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -348,7 +348,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '10',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -357,7 +357,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '11',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -366,7 +366,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '12',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -375,7 +375,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '13',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -384,7 +384,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '14',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -393,7 +393,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '15',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -402,7 +402,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '16',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -411,7 +411,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '17',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -420,7 +420,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '18',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -429,7 +429,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '19',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -438,7 +438,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '20',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -447,7 +447,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '21',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -456,7 +456,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '22',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -465,7 +465,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '23',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -474,7 +474,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '24',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -483,7 +483,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '25',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -492,7 +492,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '26',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -501,7 +501,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '27',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -510,7 +510,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '28',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -519,7 +519,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '29',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -528,7 +528,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: '30',
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                               ],

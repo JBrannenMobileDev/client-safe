@@ -81,7 +81,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
                 type: TextDandyLight.LARGE_TEXT,
                 text: 'Price Breakdown',
                 textAlign: TextAlign.start,
-                color: Color(ColorConstants.primary_black),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
               Container(
                 alignment: Alignment.centerLeft,

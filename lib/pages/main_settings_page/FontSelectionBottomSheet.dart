@@ -51,7 +51,7 @@ class _FontSelectionBottomSheetPageState extends State<FontSelectionBottomSheet>
                        type: TextDandyLight.LARGE_TEXT,
                        text: 'Select a Font',
                        textAlign: TextAlign.center,
-                       color: Color(ColorConstants.primary_black),
+                       color: Color(ColorConstants.getPrimaryBlack()),
                      ),
                    ),
                    SingleChildScrollView(

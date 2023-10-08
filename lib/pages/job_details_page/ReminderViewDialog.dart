@@ -57,7 +57,7 @@ class _ReminderViewDialogState extends State<ReminderViewDialog> with AutomaticK
                         text: 'Job Reminder',
                         textAlign: TextAlign.center,
                         maxLines: 4,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     Container(
@@ -79,7 +79,7 @@ class _ReminderViewDialogState extends State<ReminderViewDialog> with AutomaticK
                               text: jobReminder.reminder.description,
                               textAlign: TextAlign.start,
                               maxLines: 4,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                           Container(
@@ -91,7 +91,7 @@ class _ReminderViewDialogState extends State<ReminderViewDialog> with AutomaticK
                               jobReminder.reminder.amount.toString() + ' ' + (jobReminder.reminder.amount == 1 ? jobReminder.reminder.daysWeeksMonths.substring(0, jobReminder.reminder.daysWeeksMonths.length - 1) : jobReminder.reminder.daysWeeksMonths) + ' ' + jobReminder.reminder.when,
                               textAlign: TextAlign.start,
                               maxLines: 4,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           )
                         ],

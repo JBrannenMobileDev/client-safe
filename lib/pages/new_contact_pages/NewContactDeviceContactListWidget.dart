@@ -49,7 +49,7 @@ class NewContactDeviceContactListWidget extends StatelessWidget {
                         type: TextDandyLight.EXTRA_SMALL_TEXT,
                         text: pageState.filteredDeviceContacts.elementAt(clientIndex).displayName?? 'Name not available',
                         textAlign: TextAlign.start,
-                        color: pageState.filteredDeviceContacts.elementAt(clientIndex).identifier == pageState.selectedDeviceContact?.identifier ? Color(ColorConstants.getPrimaryWhite()) : Color(ColorConstants.primary_black),
+                        color: pageState.filteredDeviceContacts.elementAt(clientIndex).identifier == pageState.selectedDeviceContact?.identifier ? Color(ColorConstants.getPrimaryWhite()) : Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ],
                   ),

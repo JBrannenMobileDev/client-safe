@@ -41,7 +41,7 @@ class PaidInvoiceCard extends StatelessWidget{
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: 'Paid Invoices',
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                       pageState.paidInvoices != null && pageState.paidInvoices.length > 3 ? TextButton(
                         style: Styles.getButtonStyle(),
@@ -56,7 +56,7 @@ class PaidInvoiceCard extends StatelessWidget{
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'View all (' + pageState.paidInvoices.length.toString() + ')',
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ) : SizedBox(),
@@ -79,7 +79,7 @@ class PaidInvoiceCard extends StatelessWidget{
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: 'You have zero paid invoices.',
                     textAlign: TextAlign.center,
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
               ],

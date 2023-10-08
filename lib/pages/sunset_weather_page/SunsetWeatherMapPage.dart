@@ -267,7 +267,7 @@ class _SunsetWeatherMapPage extends State<SunsetWeatherMapPage> {
                       child: IconButton(
                         icon: Icon(Device.get().isIos ? Icons.arrow_back_ios : Icons.arrow_back),
                         tooltip: 'Back',
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                         onPressed: () => Navigator.of(context).pop(true),
                       ),
                     ),

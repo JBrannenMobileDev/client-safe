@@ -175,7 +175,7 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
                                 type: TextDandyLight.MEDIUM_TEXT,
                                 text: 'Cancel',
                                 textAlign: TextAlign.center,
-                                color: Color(ColorConstants.primary_black),
+                                color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
                             TextButton(
@@ -188,7 +188,7 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
                                 type: TextDandyLight.MEDIUM_TEXT,
                                 text: 'Save',
                                 textAlign: TextAlign.center,
-                                color: Color(ColorConstants.primary_black),
+                                color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
                           ],

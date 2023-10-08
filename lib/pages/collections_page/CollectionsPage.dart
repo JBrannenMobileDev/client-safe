@@ -45,7 +45,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
                   text: "My Collections",
-                  color: const Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
             ),
@@ -77,7 +77,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                                     color: getCircleColor(index),
                                     shape: BoxShape.circle,
                                   ),
-                                  child: Image.asset(collectionIcons.elementAt(index)),
+                                  child: Image.asset(collectionIcons.elementAt(index), color: Color(index > 6 ? ColorConstants.getBlueLight() : ColorConstants.getPrimaryWhite()),),
                                 ),
                                 Center(
                                   child: Container(
@@ -86,7 +86,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                                       type: TextDandyLight.MEDIUM_TEXT,
                                       text: ImageUtil.getCollectionIconName(collectionIcons.elementAt(index)),
                                       textAlign: TextAlign.center,
-                                      color: Color(index < 7 ? ColorConstants.primary_black : ColorConstants.getPrimaryGreyMedium()),
+                                      color: Color(index > 6 ? ColorConstants.getBlueLight() : ColorConstants.getPrimaryBlack()),
                                     ),
                                   ),
                                 ),
@@ -164,40 +164,40 @@ class _CollectionsPageState extends State<CollectionsPage> {
   }
 
   Color getCircleColor(int index) {
-    Color color = Color(ColorConstants.getBlueLight());
+    Color color = Color(ColorConstants.getPeachDark());
     switch(index) {
       case 0:
         color = Color(ColorConstants.getBlueLight());
         break;
       case 1:
-        color = Color(ColorConstants.getBlueLight());
+        color = Color(ColorConstants.getPeachMedium());
         break;
       case 2:
-        color = Color(ColorConstants.getBlueLight());
+        color = Color(ColorConstants.getPeachDark());
         break;
       case 3:
         color = Color(ColorConstants.getBlueLight());
         break;
       case 4:
-        color = Color(ColorConstants.getBlueLight());
+        color = Color(ColorConstants.getPeachMedium());
         break;
       case 5:
-        color = Color(ColorConstants.getBlueLight());
+        color = Color(ColorConstants.getPeachDark());
         break;
       case 6:
         color = Color(ColorConstants.getBlueLight());
         break;
       case 7:
         // color = Color(ColorConstants.getPeachLight());
-        color = Color(ColorConstants.getPrimaryBackgroundGrey());
+        color = Color(ColorConstants.getBlueLight()).withOpacity(0.5);
         break;
       case 8:
         // color = Color(ColorConstants.getPeachDark());
-        color = Color(ColorConstants.getPrimaryBackgroundGrey());
+        color = Color(ColorConstants.getBlueLight()).withOpacity(0.5);
         break;
       case 9:
         // color = Color(ColorConstants.getBlueLight());
-        color = Color(ColorConstants.getPrimaryBackgroundGrey());
+        color = Color(ColorConstants.getBlueLight()).withOpacity(0.5);
         break;
     }
     return color;

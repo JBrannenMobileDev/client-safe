@@ -259,6 +259,9 @@ class FontTheme {
       case TextDandyLight.BRAND_LOGO_SMALL:
         size = getIconFontByFontAndSize(58, fontFamily);
         break;
+      case TextDandyLight.INCOME_EXPENSE_TOTAL:
+        size = 52;
+        break;
       case TextDandyLight.EXTRA_EXTRA_LARGE_TEXT:
         size = 48;
         break;

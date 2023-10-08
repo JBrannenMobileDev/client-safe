@@ -50,7 +50,7 @@ class _ReminderDescriptionWidgetState extends State<ReminderDescriptionWidget> {
                           type: TextDandyLight.MEDIUM_TEXT,
                           text: 'What would you like to say in this reminder?',
                           textAlign: TextAlign.start,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       DandyLightTextField(

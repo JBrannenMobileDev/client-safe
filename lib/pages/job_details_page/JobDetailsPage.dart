@@ -384,13 +384,13 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                       slivers: <Widget>[
                         new SliverAppBar(
                           iconTheme: IconThemeData(
-                            color: Color(ColorConstants.getBlueDark()), //change your color here
+                            color: Color(ColorConstants.getPrimaryBlack()), //change your color here
                           ),
                           systemOverlayStyle: SystemUiOverlayStyle.light,
                           title: TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
                             text: pageState.job.jobTitle,
-                            color: Color(ColorConstants.getBlueDark()),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                             overflow: TextOverflow.fade,
                           ),
                           centerTitle: true,

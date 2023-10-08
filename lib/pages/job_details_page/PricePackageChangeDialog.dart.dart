@@ -87,7 +87,7 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
                           type: TextDandyLight.MEDIUM_TEXT,
                           text: "Input a one time price \nor select a price package",
                           textAlign: TextAlign.center,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       GestureDetector(
@@ -132,7 +132,7 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'Cancel',
                             textAlign: TextAlign.center,
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                         TextButton(
@@ -146,7 +146,7 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'Save',
                             textAlign: TextAlign.center,
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ],
@@ -164,7 +164,7 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
                       type: TextDandyLight.LARGE_TEXT,
                       text: "Select a Price Package",
                       textAlign: TextAlign.center,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   Padding(
@@ -174,7 +174,7 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
                       text: "You do not have any pricing packages setup. "
                           "Select the button below to create a new pricing package.",
                       textAlign: TextAlign.center,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   ClientSafeButton(
@@ -206,7 +206,7 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'Cancel',
                             textAlign: TextAlign.center,
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ],
@@ -254,7 +254,7 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: "Or",
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
             ],

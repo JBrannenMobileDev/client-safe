@@ -51,7 +51,7 @@ class _InvoiceOptionsDialogState extends State<InvoiceOptionsDialog>
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: 'This job already has an invoice. Would you like to replace it with a new invoice?',
                       textAlign: TextAlign.center,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   Row(

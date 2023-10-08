@@ -117,7 +117,7 @@ class _NewContactPageState extends State<NewContactPage> {
                             type: TextDandyLight.LARGE_TEXT,
                             text: pageState.shouldClear ? "New Contact" : "Edit Contact",
                             textAlign: TextAlign.start,
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                           Container(
                             margin: EdgeInsets.only(right: 300.0),
@@ -167,7 +167,7 @@ class _NewContactPageState extends State<NewContactPage> {
                           TextButton(
                             style: Styles.getButtonStyle(
                               color: Color(ColorConstants.getPrimaryWhite()),
-                              textColor: Color(ColorConstants.primary_black),
+                              textColor: Color(ColorConstants.getPrimaryBlack()),
                               left: 8.0,
                               top: 8.0,
                               right: 8.0,
@@ -182,13 +182,13 @@ class _NewContactPageState extends State<NewContactPage> {
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: pageState.pageViewIndex == 0 ? "Cancel" : "Back",
                               textAlign: TextAlign.start,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                           TextButton(
                             style: Styles.getButtonStyle(
                               color: Color(ColorConstants.getPrimaryWhite()),
-                              textColor: Color(ColorConstants.primary_black),
+                              textColor: Color(ColorConstants.getPrimaryBlack()),
                               left: 8.0,
                               top: 8.0,
                               right: 8.0,
@@ -205,7 +205,7 @@ class _NewContactPageState extends State<NewContactPage> {
                                   ? "Save"
                                   : "Next",
                               textAlign: TextAlign.start,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                         ],

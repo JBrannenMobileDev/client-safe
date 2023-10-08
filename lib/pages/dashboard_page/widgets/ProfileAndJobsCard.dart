@@ -28,7 +28,6 @@ class ProfileAndJobsCard extends StatelessWidget {
           Container(
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0),
             height: 72.0,
-            width: 316,
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
                 borderRadius: new BorderRadius.all(Radius.circular(42.0))),
@@ -44,7 +43,7 @@ class ProfileAndJobsCard extends StatelessWidget {
                     decoration: new BoxDecoration(
                         color: Color(ColorConstants.getPrimaryWhite()),
                         borderRadius: new BorderRadius.all(Radius.circular(42.0))),
-                    width: (MediaQuery.of(context).size.width - 32) / 3.5,
+                    width: (MediaQuery.of(context).size.width - 32) / 3,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -53,13 +52,13 @@ class ProfileAndJobsCard extends StatelessWidget {
                           type: TextDandyLight.MEDIUM_TEXT,
                           text: pageState.jobsThisWeek != null ? pageState.jobsThisWeek.length.toString() : '',
                           textAlign: TextAlign.center,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                         TextDandyLight(
                           type: TextDandyLight.SMALL_TEXT,
                           text: 'This week',
                           textAlign: TextAlign.center,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ],
                     ),
@@ -67,7 +66,7 @@ class ProfileAndJobsCard extends StatelessWidget {
                 ),
                 Container(
                   height: 1,
-                  width: (MediaQuery.of(context).size.width - 72) / 3.5,
+                  width: (MediaQuery.of(context).size.width - 72) / 3,
                 ),
                 GestureDetector(
                   onTap: () {
@@ -78,7 +77,7 @@ class ProfileAndJobsCard extends StatelessWidget {
                     decoration: new BoxDecoration(
                         color: Color(ColorConstants.getPrimaryWhite()),
                         borderRadius: new BorderRadius.all(Radius.circular(42.0))),
-                    width: (MediaQuery.of(context).size.width - 32) / 3.5,
+                    width: (MediaQuery.of(context).size.width - 32) / 3,
                     child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -87,13 +86,13 @@ class ProfileAndJobsCard extends StatelessWidget {
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: pageState.activeJobs != null ? pageState.activeJobs.length.toString() : '',
                         textAlign: TextAlign.center,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                       TextDandyLight(
                         type: TextDandyLight.SMALL_TEXT,
                         text: 'Active',
                         textAlign: TextAlign.center,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ],
                   ),
@@ -107,7 +106,7 @@ class ProfileAndJobsCard extends StatelessWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  // boxShadow: ElevationToShadow[2],
+                  boxShadow: ElevationToShadow[2],
                   shape: BoxShape.circle,
                   color: Color(ColorConstants.getPrimaryWhite()),
                 ),

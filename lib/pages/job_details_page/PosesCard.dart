@@ -50,7 +50,7 @@ class PosesCard extends StatelessWidget {
                   type: TextDandyLight.LARGE_TEXT,
                   text: 'Poses',
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               pageState.job.poses.length > 0 ? Stack(

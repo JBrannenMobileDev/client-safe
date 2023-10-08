@@ -45,7 +45,7 @@ class _NewLocationImage extends State<NewLocationImage> with AutomaticKeepAliveC
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: "Take or select a picture of this location.",
                 textAlign: TextAlign.start,
-                color: Color(ColorConstants.primary_black),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ),
             Row(

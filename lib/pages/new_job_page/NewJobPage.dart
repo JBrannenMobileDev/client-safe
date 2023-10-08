@@ -149,7 +149,7 @@ class _NewJobPageState extends State<NewJobPage>{
                             type: TextDandyLight.LARGE_TEXT,
                             text: pageState.shouldClear ? "New Job" : pageState.comingFromClientDetails ? "New Job" : "Edit Job",
                             textAlign: TextAlign.start,
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                         Row(
@@ -234,7 +234,7 @@ class _NewJobPageState extends State<NewJobPage>{
                           TextButton(
                             style: Styles.getButtonStyle(
                               color: Color(ColorConstants.getPrimaryWhite()),
-                              textColor: Color(ColorConstants.primary_black),
+                              textColor: Color(ColorConstants.getPrimaryBlack()),
                               left: 8.0,
                               top: 8.0,
                               right: 8.0,
@@ -247,13 +247,13 @@ class _NewJobPageState extends State<NewJobPage>{
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: pageState.pageViewIndex == 0 ? "Cancel" : "Back",
                               textAlign: TextAlign.start,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                           TextButton(
                             style: Styles.getButtonStyle(
                               color: Color(ColorConstants.getPrimaryWhite()),
-                              textColor: Color(ColorConstants.primary_black),
+                              textColor: Color(ColorConstants.getPrimaryBlack()),
                               left: 8.0,
                               top: 8.0,
                               right: 8.0,
@@ -267,7 +267,7 @@ class _NewJobPageState extends State<NewJobPage>{
                               text: pageState.pageViewIndex == pageCount
                                   ? "Save" : getNextBtText(pageState),
                               textAlign: TextAlign.start,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                         ],

@@ -43,7 +43,7 @@ class ImportantDatesWidget extends StatelessWidget {
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: 'Important Dates',
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               Row(
@@ -67,7 +67,7 @@ class ImportantDatesWidget extends StatelessWidget {
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: pageState.client.importantDates.length == 1 ? '1 Date' : pageState.client.importantDates.length.toString() + ' Dates',
                             textAlign: TextAlign.start,
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                         Container(

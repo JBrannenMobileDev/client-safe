@@ -60,7 +60,7 @@ class NewJobCalendarItem extends StatelessWidget{
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: job.jobTitle,
                               textAlign: TextAlign.start,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                           job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null
@@ -78,14 +78,14 @@ class NewJobCalendarItem extends StatelessWidget{
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: 'Stage: ' + job.stage.stage,
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                       TextDandyLight(
                         type: TextDandyLight.SMALL_TEXT,
                         text: _getSubtext(job),
                         textAlign: TextAlign.start,
                         color: job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null
-                            ? Color(ColorConstants.primary_black) : Color(ColorConstants.getPeachDark()),
+                            ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPeachDark()),
                       ),
                     ],
                   ),

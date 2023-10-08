@@ -56,7 +56,7 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: 'Select the start and end locations for this mileage trip.',
                 textAlign: TextAlign.start,
-                color: Color(ColorConstants.primary_black),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ),
             Padding(
@@ -65,7 +65,7 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: 'Start location:',
                 textAlign: TextAlign.start,
-                color: Color(ColorConstants.primary_black),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ),
             GestureDetector(
@@ -111,7 +111,7 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: 'End location:',
                 textAlign: TextAlign.start,
-                color: Color(ColorConstants.primary_black),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ),
             GestureDetector(
@@ -182,7 +182,7 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: 'Miles driven',
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     Padding(
@@ -203,7 +203,7 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                               type: TextDandyLight.LARGE_TEXT,
                               text: 'mi',
                               textAlign: TextAlign.start,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                         ],
@@ -220,7 +220,7 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: 'Potential deduction',
                         textAlign: TextAlign.end,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     Padding(

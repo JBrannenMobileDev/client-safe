@@ -10,7 +10,7 @@ class ColorConstants{
   static const int black_overlay_dark = 0x75000000;
   static const int primary_black = 0xff444444;
   static const int primary = 0xff444444;
-  static const int error_red = 0xffed4337;
+  static const int error_red = 0xffbb755d;
 
   static const int primary_pricing_profile = 0xffFD716D;
   static const int primary_locations = 0xff93DEAC;
@@ -21,20 +21,23 @@ class ColorConstants{
   static const int primary_bg_grey = 0xffD4D5C7;
   static const int primary_bg_grey_dark = 0xffD4D5C7;
   static const int primary_divider = 0xffe0e0e0;
-  static const int white = 0xffFCF8F5;
+  static const int white = 0xffF5EBE4;
 
   //Set 3
   static const int gold = 0xffE6CE97;
   static const int gold_dark = 0xffE6CE97;
   static const int blue_dark = 0xff838F87;
-  static const int blue_light = 0xffC8CCC6;
+  static const int blue_light = 0xffCFCAC0;//CCC4B8
+  static const int light_grey = 0xffe4e1dc;
   // static const int blue_light = 0xffD6D2C1;
   // static const int blue_light = 0xffDDDED5;
   // static const int blue_light = 0xffD6DDD8;
   static const int peach_dark = 0xffCF9D8C;
+  static const int peach_medium = 0xffEBD0BC;
 
   // static const int peach_dark = 0xffD19B86;
-  static const int peach_light = 0xffFBE3D6;
+  static const int light_background = 0xffF0E3DA;
+  static const int peach_light = 0xffEBD0BC;
   static const int grey_alt = 0xff868982;
   static const int grey = 0xffe3e1da;
   static const int grey_medium = 0xffD2D0C9;
@@ -57,7 +60,7 @@ class ColorConstants{
   }
 
   static int getPrimaryColor(){
-    return grey;
+    return blue_light;
   }
   static int getPrimaryDarkColor(){
     return gold_dark;
@@ -68,7 +71,7 @@ class ColorConstants{
   }
 
   static int getPrimaryBackgroundGrey(){
-    return grey;
+    return blue_light;
   }
 
   static int getPrimaryGreyMedium() {
@@ -76,11 +79,15 @@ class ColorConstants{
   }
 
   static int getPrimaryGreyLight() {
-    return grey_light;
+    return light_grey;
   }
 
   static int getPeachDark(){
     return peach_dark;
+  }
+
+  static int getPeachMedium(){
+    return peach_medium;
   }
 
   static int getBlueDark(){

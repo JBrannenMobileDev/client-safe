@@ -102,7 +102,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                type: TextDandyLight.LARGE_TEXT,
                text: 'Submit Pose',
                textAlign: TextAlign.center,
-               color: Color(ColorConstants.primary_black),
+               color: Color(ColorConstants.getPrimaryBlack()),
              ),
              backgroundColor: Color(ColorConstants.getPrimaryWhite()),
              elevation: 0,

@@ -93,7 +93,7 @@ class _AddTipDialogState extends State<AddTipDialog> with AutomaticKeepAliveClie
                                 type: TextDandyLight.MEDIUM_TEXT,
                                 text: pageState.pageViewIndex == 0 ? 'Cancel' : 'Back',
                                 textAlign: TextAlign.center,
-                                color: Color(ColorConstants.primary_black),
+                                color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
                             TextButton(
@@ -107,7 +107,7 @@ class _AddTipDialogState extends State<AddTipDialog> with AutomaticKeepAliveClie
                                     ? 'Save'
                                     : 'Next',
                                 textAlign: TextAlign.center,
-                                color: Color(ColorConstants.primary_black),
+                                color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
                           ],

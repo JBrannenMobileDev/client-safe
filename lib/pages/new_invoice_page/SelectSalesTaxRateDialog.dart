@@ -82,7 +82,7 @@ class _SelectSalesTaxRateDialog extends State<SelectSalesTaxRateDialog> with Aut
                         type: TextDandyLight.LARGE_TEXT,
                         text: "Enter Sales Tax Rate",
                         textAlign: TextAlign.center,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     Container(
@@ -106,7 +106,7 @@ class _SelectSalesTaxRateDialog extends State<SelectSalesTaxRateDialog> with Aut
                           TextButton(
                             style: Styles.getButtonStyle(
                               color: Color(ColorConstants.getPrimaryWhite()),
-                              textColor: Color(ColorConstants.primary_black),
+                              textColor: Color(ColorConstants.getPrimaryBlack()),
                               left: 8.0,
                               top: 8.0,
                               right: 8.0,
@@ -119,13 +119,13 @@ class _SelectSalesTaxRateDialog extends State<SelectSalesTaxRateDialog> with Aut
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: 'Cancel',
                               textAlign: TextAlign.start,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                           TextButton(
                             style: Styles.getButtonStyle(
                               color: Color(ColorConstants.getPrimaryWhite()),
-                              textColor: Color(ColorConstants.primary_black),
+                              textColor: Color(ColorConstants.getPrimaryBlack()),
                               left: 8.0,
                               top: 8.0,
                               right: 8.0,
@@ -139,7 +139,7 @@ class _SelectSalesTaxRateDialog extends State<SelectSalesTaxRateDialog> with Aut
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: 'Save',
                               textAlign: TextAlign.start,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                         ],

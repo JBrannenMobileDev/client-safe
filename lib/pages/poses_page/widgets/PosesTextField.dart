@@ -74,7 +74,7 @@ class PosesTextField extends StatelessWidget {
                   fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
                   fontFamily: TextDandyLight.getFontFamily(),
                   fontWeight: TextDandyLight.getFontWeight(),
-                  color: Color(ColorConstants.primary_black)),
+                  color: Color(ColorConstants.getPrimaryBlack())),
               hintText: hintText,
               hintStyle: TextStyle(
                   fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
@@ -118,7 +118,7 @@ class PosesTextField extends StatelessWidget {
               fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
               fontFamily: TextDandyLight.getFontFamily(),
               fontWeight: TextDandyLight.getFontWeight(),
-              color: Color(ColorConstants.primary_black),
+              color: Color(ColorConstants.getPrimaryBlack()),
             ),
           )),
     );

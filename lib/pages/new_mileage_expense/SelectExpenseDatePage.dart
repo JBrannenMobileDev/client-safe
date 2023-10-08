@@ -38,7 +38,7 @@ class _SelectExpenseDatePageState extends State<SelectExpenseDatePage> with Auto
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: 'Select the date that this expense was charged.',
                   textAlign: TextAlign.start,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               Container(

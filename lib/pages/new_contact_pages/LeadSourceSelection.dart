@@ -51,7 +51,7 @@ class _LeadSourceSelection extends State<LeadSourceSelection>
                     pageState.newContactFirstName +
                     " hear about your business?",
                 textAlign: TextAlign.start,
-                color: Color(ColorConstants.primary_black),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ),
             GridView.builder(
@@ -98,7 +98,7 @@ class _LeadSourceSelection extends State<LeadSourceSelection>
                           type: TextDandyLight.EXTRA_SMALL_TEXT,
                           text: ImageUtil.getLeadSourceText(leadSourceIconsWhite.elementAt(index)),
                           textAlign: TextAlign.center,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ],
                     ),

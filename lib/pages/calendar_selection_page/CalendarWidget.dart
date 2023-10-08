@@ -70,7 +70,7 @@ class CalendarWidget extends StatefulWidget {
                               .accountName,
                           textAlign: TextAlign.start,
                           maxLines: 1,
-                          color: const Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                         TextDandyLight(
                           type: TextDandyLight.SMALL_TEXT,

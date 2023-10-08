@@ -59,7 +59,7 @@ class JobPosesPage extends StatelessWidget{
                     title: TextDandyLight(
                       type: TextDandyLight.LARGE_TEXT,
                       text: pageState.job.jobTitle,
-                      color: const Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                       actions: <Widget>[
                         GestureDetector(

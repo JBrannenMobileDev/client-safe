@@ -64,7 +64,7 @@ class _CalendarSelectionPageState extends State<CalendarSelectionPage> {
                   child: TextDandyLight(
                     type: TextDandyLight.LARGE_TEXT,
                     text: "Calendar Selection",
-                    color: const Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                 Container(
@@ -72,7 +72,7 @@ class _CalendarSelectionPageState extends State<CalendarSelectionPage> {
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: "Please select what calendars you would like to sync with the DandyLight calendar",
-                    color: const Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                     textAlign: TextAlign.center,
                   ),
                 ),

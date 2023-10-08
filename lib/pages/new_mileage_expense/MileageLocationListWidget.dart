@@ -49,7 +49,7 @@ class MileageLocationListWidget extends StatelessWidget {
                       margin:
                           EdgeInsets.only(top: 8.0),
                       decoration: BoxDecoration(
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                           borderRadius: new BorderRadius.circular(16.0),
                           gradient: LinearGradient(
                               begin: FractionalOffset.center,
@@ -68,7 +68,7 @@ class MileageLocationListWidget extends StatelessWidget {
                       margin:
                           EdgeInsets.only(top: 8.0),
                       decoration: BoxDecoration(
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                           borderRadius: new BorderRadius.circular(16.0),
                           gradient: LinearGradient(
                               begin: FractionalOffset.center,
@@ -101,7 +101,7 @@ class MileageLocationListWidget extends StatelessWidget {
                 text: pageState.locations.elementAt(locationIndex).locationName,
                 textAlign: TextAlign.center,
                 color: pageState.selectedLocation != pageState.locations.elementAt(locationIndex)
-                    ? const Color(ColorConstants.primary_black)
+                    ? Color(ColorConstants.getPrimaryBlack())
                     : Color(ColorConstants.getPeachDark()),
               ),
             ),

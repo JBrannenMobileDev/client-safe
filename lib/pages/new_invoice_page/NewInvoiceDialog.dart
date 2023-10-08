@@ -93,7 +93,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                           type: TextDandyLight.MEDIUM_TEXT,
                           text: "Invoice " + pageState.invoiceNumber.toString(),
                           textAlign: TextAlign.center,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                     ],
@@ -134,7 +134,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                                   type: TextDandyLight.MEDIUM_TEXT,
                                   text: pageState.pageViewIndex == 0 || ((pageState.pageViewIndex == 1) && hasJumpToBeenCalled) || ((pageState.pageViewIndex == 1) && (!shouldClear && !hasJumpToBeenCalled)) ? 'Cancel' : 'Back',
                                   textAlign: TextAlign.center,
-                                  color: Color(ColorConstants.primary_black),
+                                  color: Color(ColorConstants.getPrimaryBlack()),
                                 ),
                               ),
                               TextButton(
@@ -148,7 +148,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                                       ? 'Save'
                                       : 'Next',
                                   textAlign: TextAlign.center,
-                                  color: Color(ColorConstants.primary_black),
+                                  color: Color(ColorConstants.getPrimaryBlack()),
                                 ),
                               ),
                             ],

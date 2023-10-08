@@ -62,7 +62,7 @@ class _NewResponsePageState extends State<NewResponseBottomSheet> {
                           type: TextDandyLight.MEDIUM_TEXT,
                           text: 'Cancel',
                           textAlign: TextAlign.start,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       TextButton(
@@ -74,7 +74,7 @@ class _NewResponsePageState extends State<NewResponseBottomSheet> {
                           type: TextDandyLight.MEDIUM_TEXT,
                           text: 'Save',
                           textAlign: TextAlign.start,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                     ],
@@ -85,7 +85,7 @@ class _NewResponsePageState extends State<NewResponseBottomSheet> {
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: 'New $parentGroup Response',
                   textAlign: TextAlign.start,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               Container(
@@ -96,7 +96,7 @@ class _NewResponsePageState extends State<NewResponseBottomSheet> {
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: 'Title',
                   textAlign: TextAlign.start,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               Container(
@@ -129,7 +129,7 @@ class _NewResponsePageState extends State<NewResponseBottomSheet> {
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: 'Response',
                   textAlign: TextAlign.start,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               Container(

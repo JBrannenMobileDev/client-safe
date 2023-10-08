@@ -69,7 +69,7 @@ class _BottomSheetPageState extends State<SelectSavedResponseBottomSheet> with T
                       type: TextDandyLight.LARGE_TEXT,
                       text: 'Select a message to send',
                       textAlign: TextAlign.center,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   pageState.showNoSavedResponsesError ? Container(

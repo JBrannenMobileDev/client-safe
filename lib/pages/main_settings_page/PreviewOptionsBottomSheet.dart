@@ -69,7 +69,7 @@ class _PreviewOptionsBottomSheetState extends State<PreviewOptionsBottomSheet> w
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: options.elementAt(index),
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ],
                   ),
@@ -105,7 +105,7 @@ class _PreviewOptionsBottomSheetState extends State<PreviewOptionsBottomSheet> w
                          type: TextDandyLight.MEDIUM_TEXT,
                          text: 'What do you want to preview?',
                          textAlign: TextAlign.center,
-                         color: Color(ColorConstants.primary_black),
+                         color: Color(ColorConstants.getPrimaryBlack()),
                        ),
                      ),
                      ListView.builder(

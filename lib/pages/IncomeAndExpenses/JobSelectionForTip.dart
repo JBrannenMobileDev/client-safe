@@ -44,7 +44,7 @@ class _JobSelectionForTipState extends State<JobSelectionForTip> with AutomaticK
                   type: TextDandyLight.LARGE_TEXT,
                   text: "What job is the tip for?",
                   textAlign: TextAlign.start,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
                 Stack(
                   alignment: Alignment.center,
@@ -79,7 +79,7 @@ class _JobSelectionForTipState extends State<JobSelectionForTip> with AutomaticK
                                 fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
                                 fontFamily: TextDandyLight.getFontFamily(),
                                 fontWeight: TextDandyLight.getFontWeight(),
-                                color: Color(ColorConstants.primary_black)),
+                                color: Color(ColorConstants.getPrimaryBlack())),
                             fillColor: Color(ColorConstants.getPrimaryWhite()),
                             contentPadding: EdgeInsets.all(10.0),
                             focusedBorder: OutlineInputBorder(
@@ -103,7 +103,7 @@ class _JobSelectionForTipState extends State<JobSelectionForTip> with AutomaticK
                               fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
                               fontFamily: TextDandyLight.getFontFamily(),
                               fontWeight: TextDandyLight.getFontWeight(),
-                              color: Color(ColorConstants.primary_black)),
+                              color: Color(ColorConstants.getPrimaryBlack())),
                         )),
                   ],
                 ),
@@ -155,7 +155,7 @@ class _JobSelectionForTipState extends State<JobSelectionForTip> with AutomaticK
                             ? "There are no matching jobs for the name entered."
                             : "You have not started any jobs yet.",
                         textAlign: TextAlign.center,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     ClientSafeButton(

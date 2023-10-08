@@ -46,7 +46,7 @@ class ClientDetailsCard extends StatelessWidget {
                     type: TextDandyLight.LARGE_TEXT,
                     text: pageState.client?.getClientFullName(),
                     textAlign: TextAlign.center,
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                 Row(

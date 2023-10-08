@@ -99,7 +99,7 @@ class CostTextField extends StatelessWidget {
                     fontSize: TextDandyLight.getFontSize(TextDandyLight.LARGE_TEXT),
                     fontFamily: TextDandyLight.getFontFamily(),
                     fontWeight: TextDandyLight.getFontWeight(),
-                    color: Color(enabled ? ColorConstants.primary_black : ColorConstants.getBlueLight())),
+                    color: Color(enabled ? ColorConstants.getPrimaryBlack() : ColorConstants.getBlueLight())),
               )
     );
   }

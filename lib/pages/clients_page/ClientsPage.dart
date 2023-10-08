@@ -81,7 +81,7 @@ class _ClientsPageState extends State<ClientsPage> {
                           child: TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
                             text: "Contacts",
-                            color: const Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                         actions: <Widget>[
@@ -94,7 +94,7 @@ class _ClientsPageState extends State<ClientsPage> {
                               margin: EdgeInsets.only(right: 26.0),
                               height: 24.0,
                               width: 24.0,
-                              child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getBlueDark()),),
+                              child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPrimaryBlack()),),
                             ),
                           ),
                         ],
@@ -104,7 +104,7 @@ class _ClientsPageState extends State<ClientsPage> {
                             margin: EdgeInsets.only(bottom: 16.0),
                             child: CupertinoSlidingSegmentedControl<int>(
                               backgroundColor: Color(ColorConstants.getPrimaryWhite()),
-                              thumbColor: Color(ColorConstants.getBlueDark()),
+                              thumbColor: Color(ColorConstants.getBlueLight()),
                               children: genders,
                               onValueChanged: (int filterTypeIndex) {
                                 setState(() {

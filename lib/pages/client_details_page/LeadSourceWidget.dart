@@ -47,7 +47,7 @@ class LeadSourceWidget extends StatelessWidget {
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: 'Lead Source',
                       textAlign: TextAlign.start,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   Row(
@@ -73,7 +73,7 @@ class LeadSourceWidget extends StatelessWidget {
                                 type: TextDandyLight.MEDIUM_TEXT,
                                 text: _getLeadSourceName(pageState),
                                 textAlign: TextAlign.start,
-                                color: Color(ColorConstants.primary_black),
+                                color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
                             Container(

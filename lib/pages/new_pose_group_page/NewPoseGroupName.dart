@@ -41,7 +41,7 @@ class _NewPoseGroupName extends State<NewPoseGroupName> with AutomaticKeepAliveC
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: "Enter a simple and descriptive name for this pose collection. ",
                 textAlign: TextAlign.start,
-                color: Color(ColorConstants.primary_black),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ),
             NewPoseGroupTextField(

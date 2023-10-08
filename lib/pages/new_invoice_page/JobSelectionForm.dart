@@ -46,7 +46,7 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                   type: TextDandyLight.LARGE_TEXT,
                   text: "What job is this invoice for?",
                   textAlign: TextAlign.start,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
                 Stack(
                   alignment: Alignment.center,
@@ -100,7 +100,7 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                               fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
                               fontFamily: TextDandyLight.getFontFamily(),
                               fontWeight: TextDandyLight.getFontWeight(),
-                              color: Color(ColorConstants.primary_black)),
+                              color: Color(ColorConstants.getPrimaryBlack())),
                         )),
                   ],
                 ),
@@ -136,7 +136,7 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                             ? "There are no matching jobs for the name entered."
                             : "You have not started any jobs yet.",
                         textAlign: TextAlign.center,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                   ],

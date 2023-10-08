@@ -105,7 +105,7 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
                               type: TextDandyLight.LARGE_TEXT,
                               text: pageState.shouldClear ? "New Mileage Trip" : "Edit Mileage Trip",
                               textAlign: TextAlign.start,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                             !pageState.shouldClear ? GestureDetector(
                               onTap: () {
@@ -155,7 +155,7 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
                             TextButton(
                               style: Styles.getButtonStyle(
                                 color: Color(ColorConstants.getPrimaryWhite()),
-                                textColor: Color(ColorConstants.primary_black),
+                                textColor: Color(ColorConstants.getPrimaryBlack()),
                                 left: 8.0,
                                 top: 8.0,
                                 right: 8.0,
@@ -172,13 +172,13 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
                                 type: TextDandyLight.MEDIUM_TEXT,
                                 text: pageState.pageViewIndex == 0 ? "Cancel" : "Back",
                                 textAlign: TextAlign.start,
-                                color: Color(ColorConstants.primary_black),
+                                color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
                             TextButton(
                               style: Styles.getButtonStyle(
                                 color: Color(ColorConstants.getPrimaryWhite()),
-                                textColor: Color(ColorConstants.primary_black),
+                                textColor: Color(ColorConstants.getPrimaryBlack()),
                                 left: 8.0,
                                 top: 8.0,
                                 right: 8.0,
@@ -197,7 +197,7 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
                                     ? "Save"
                                     : "Next",
                                 textAlign: TextAlign.start,
-                                color: Color(ColorConstants.primary_black),
+                                color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
                           ],

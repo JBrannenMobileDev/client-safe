@@ -47,7 +47,7 @@ class _RecurringExpenseDetailsPageState extends State<RecurringExpenseDetailsPag
                         title: TextDandyLight(
                           type: TextDandyLight.LARGE_TEXT,
                           text: selectedExpense.expenseName + ' Charges',
-                          color: const Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                         actions: <Widget>[
                           GestureDetector(

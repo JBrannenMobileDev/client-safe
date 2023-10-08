@@ -43,7 +43,7 @@ class DocumentsCard extends StatelessWidget {
                       type: TextDandyLight.LARGE_TEXT,
                       text: 'Documents',
                       textAlign: TextAlign.center,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
               ),
               pageState.documents.length > 0
@@ -63,7 +63,7 @@ class DocumentsCard extends StatelessWidget {
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: 'No documents have been added to this job yet.',
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
             ]),

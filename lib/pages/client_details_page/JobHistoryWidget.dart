@@ -47,7 +47,7 @@ class JobHistoryWidget extends StatelessWidget {
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: 'Job History',
                       textAlign: TextAlign.start,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   Row(
@@ -74,7 +74,7 @@ class JobHistoryWidget extends StatelessWidget {
                                 text: (pageState.clientJobs != null &&
                                     pageState.clientJobs.length > 0) ? pageState.clientJobs.length == 1 ? '1 Job' : pageState.clientJobs.length.toString() + ' Jobs' : '0 Jobs',
                                 textAlign: TextAlign.start,
-                                color: Color(ColorConstants.primary_black),
+                                color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
                             Container(

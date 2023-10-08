@@ -41,7 +41,7 @@ class _NewProfileName extends State<NewProfileName> with AutomaticKeepAliveClien
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: "Enter a simple and descriptive name for this price profile. \n\n(Example: One Hour Price, Fall Special Price)",
                 textAlign: TextAlign.start,
-                color: Color(ColorConstants.primary_black),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ),
             DandyLightTextField(

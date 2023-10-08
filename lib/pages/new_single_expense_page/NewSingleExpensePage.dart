@@ -75,7 +75,7 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
                             type: TextDandyLight.LARGE_TEXT,
                             text: pageState.shouldClear ? "New Single Expense" : "Edit Single Expense",
                             textAlign: TextAlign.start,
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                           !pageState.shouldClear ? GestureDetector(
                             onTap: () {
@@ -126,7 +126,7 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
                           TextButton(
                             style: Styles.getButtonStyle(
                               color: Color(ColorConstants.getPrimaryWhite()),
-                              textColor: Color(ColorConstants.primary_black),
+                              textColor: Color(ColorConstants.getPrimaryBlack()),
                               left: 8.0,
                               top: 8.0,
                               right: 8.0,
@@ -143,13 +143,13 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: pageState.pageViewIndex == 0 ? "Cancel" : "Back",
                               textAlign: TextAlign.start,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                           TextButton(
                             style: Styles.getButtonStyle(
                               color: Color(ColorConstants.getPrimaryWhite()),
-                              textColor: Color(ColorConstants.primary_black),
+                              textColor: Color(ColorConstants.getPrimaryBlack()),
                               left: 8.0,
                               top: 8.0,
                               right: 8.0,
@@ -168,7 +168,7 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
                                   ? "Save"
                                   : "Next",
                               textAlign: TextAlign.start,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                         ],

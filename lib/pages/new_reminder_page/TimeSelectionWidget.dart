@@ -58,7 +58,7 @@ class _TimeSelectionWidgetState extends State<TimeSelectionWidget> {
                           type: TextDandyLight.MEDIUM_TEXT,
                           text: "Select a time for this job reminder.",
                           textAlign: TextAlign.center,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                     ],

@@ -80,7 +80,7 @@ class _TipChangeDialogState extends State<TipChangeDialog>
                           type: TextDandyLight.LARGE_TEXT,
                           text: "Select the tip amount",
                           textAlign: TextAlign.center,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       Container(
@@ -89,7 +89,7 @@ class _TipChangeDialogState extends State<TipChangeDialog>
                           type: TextDandyLight.EXTRA_EXTRA_LARGE_TEXT,
                           text: "\$" + pageState.unsavedTipAmount.toString(),
                           textAlign: TextAlign.center,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       Row(
@@ -263,7 +263,7 @@ class _TipChangeDialogState extends State<TipChangeDialog>
                                 type: TextDandyLight.MEDIUM_TEXT,
                                 text: 'Cancel',
                                 textAlign: TextAlign.center,
-                                color: Color(ColorConstants.primary_black),
+                                color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
                             TextButton(
@@ -277,7 +277,7 @@ class _TipChangeDialogState extends State<TipChangeDialog>
                                 type: TextDandyLight.MEDIUM_TEXT,
                                 text: 'Save',
                                 textAlign: TextAlign.center,
-                                color: Color(ColorConstants.primary_black),
+                                color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
                           ],

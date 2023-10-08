@@ -50,7 +50,7 @@ class _JobTypeNameSelectionWidgetState extends State<JobTypeNameSelectionWidget>
                           type: TextDandyLight.MEDIUM_TEXT,
                           text: 'What do you want to name this Job Type?',
                           textAlign: TextAlign.start,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       DandyLightTextField(

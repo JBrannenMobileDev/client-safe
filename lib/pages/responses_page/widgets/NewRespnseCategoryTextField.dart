@@ -85,7 +85,7 @@ class NewResponseCategoryTextField extends StatelessWidget {
                     fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
                     fontFamily: TextDandyLight.getFontFamily(),
                     fontWeight: TextDandyLight.getFontWeight(),
-                    color: Color(ColorConstants.primary_black)),
+                    color: Color(ColorConstants.getPrimaryBlack())),
               )),
     );
   }

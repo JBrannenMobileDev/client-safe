@@ -36,7 +36,7 @@ class _HomeState extends State<HomePage> {
       bottomNavigationBar: new Theme(
         data: Theme.of(context).copyWith(
           canvasColor: Color(ColorConstants.getBlueLight()),
-          primaryColor: Color(ColorConstants.primary_black),
+          primaryColor: Color(ColorConstants.getPrimaryBlack()),
           textTheme: Theme
               .of(context)
               .textTheme
@@ -60,7 +60,7 @@ class _HomeState extends State<HomePage> {
                     icon: Icon(
                       Icons.people,
                       size: 30.0,
-                      color: _currentIndex == 0 ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
+                      color: _currentIndex == 0 ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getBlueLight()),
                     ),
                 ),
                 BottomNavigationBarItem(
@@ -68,7 +68,7 @@ class _HomeState extends State<HomePage> {
                     icon: Icon(
                       Icons.monetization_on,
                       size: 28.0,
-                      color: _currentIndex == 1 ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
+                      color: _currentIndex == 1 ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getBlueLight()),
                     ),
                 ),
                 BottomNavigationBarItem(
@@ -76,7 +76,7 @@ class _HomeState extends State<HomePage> {
                     icon: Image.asset('assets/images/menu/home_icon.png',
                       height: 26.0,
                       width: 26.0,
-                      color: _currentIndex == 2 ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
+                      color: _currentIndex == 2 ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getBlueLight()),
                     ),
                 ),
                 BottomNavigationBarItem(
@@ -84,7 +84,7 @@ class _HomeState extends State<HomePage> {
                     icon: Icon(
                       Icons.business_center,
                       size: 28.0,
-                      color: _currentIndex == 3 ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
+                      color: _currentIndex == 3 ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getBlueLight()),
                     ),
                 ),
                 BottomNavigationBarItem(
@@ -92,7 +92,7 @@ class _HomeState extends State<HomePage> {
                     icon: Image.asset('assets/images/menu/collections_icon.png',
                       height: 22.0,
                       width: 22.0,
-                      color: _currentIndex == 4 ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
+                      color: _currentIndex == 4 ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getBlueLight()),
                     ),
                 ),
               ],

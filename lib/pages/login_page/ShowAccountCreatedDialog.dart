@@ -55,7 +55,7 @@ class ShowAccountCreatedDialog extends StatelessWidget {
                   type: TextDandyLight.LARGE_TEXT,
                   text: 'VERIFY THROUGH EMAIL',
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               Padding(
@@ -64,7 +64,7 @@ class ShowAccountCreatedDialog extends StatelessWidget {
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: 'After verification is complete you will be able to sign in to DandyLight.',
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               GestureDetector(

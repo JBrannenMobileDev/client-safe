@@ -36,7 +36,7 @@ class StageStatsHomeCard extends StatelessWidget {
               type: TextDandyLight.MEDIUM_TEXT,
               text: 'Active Stages',
               textAlign: TextAlign.start,
-              color: Color(ColorConstants.primary_black),
+              color: Color(ColorConstants.getPrimaryBlack()),
             ),
           ),
           pageState.allUserStages.length > 0 ? ListView.builder(
@@ -54,7 +54,7 @@ class StageStatsHomeCard extends StatelessWidget {
               type: TextDandyLight.MEDIUM_TEXT,
               text: 'No Active jobs.  Start a new job to see your progress.',
               textAlign: TextAlign.center,
-              color: Color(ColorConstants.primary_black),
+              color: Color(ColorConstants.getPrimaryBlack()),
             ),
           )
         ],

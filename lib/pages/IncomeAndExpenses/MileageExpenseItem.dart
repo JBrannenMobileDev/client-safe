@@ -77,7 +77,7 @@ class MileageExpenseItem extends StatelessWidget{
                               type: TextDandyLight.SMALL_TEXT,
                               text: 'mi  •  ',
                               textAlign: TextAlign.start,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                             TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,

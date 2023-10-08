@@ -76,7 +76,7 @@ class _SaveToJobBottomSheetState extends State<SaveToJobBottomSheet> with Ticker
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: pageState.activeJobs.elementAt(index).jobTitle,
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ],
                   ),
@@ -115,7 +115,7 @@ class _SaveToJobBottomSheetState extends State<SaveToJobBottomSheet> with Ticker
                          type: TextDandyLight.LARGE_TEXT,
                          text: 'Save to Job',
                          textAlign: TextAlign.center,
-                         color: Color(ColorConstants.primary_black),
+                         color: Color(ColorConstants.getPrimaryBlack()),
                        ),
                      ),
                      SingleChildScrollView(

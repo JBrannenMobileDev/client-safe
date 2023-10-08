@@ -46,7 +46,7 @@ class _SelectNewJobLocationDialog extends State<SelectNewJobLocationDialog> {
                           type: TextDandyLight.LARGE_TEXT,
                             text: "New Location",
                             textAlign: TextAlign.center,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       Container(
@@ -61,7 +61,7 @@ class _SelectNewJobLocationDialog extends State<SelectNewJobLocationDialog> {
                             TextButton(
                               style: Styles.getButtonStyle(
                                 color: Color(ColorConstants.getPrimaryWhite()),
-                                textColor: Color(ColorConstants.primary_black),
+                                textColor: Color(ColorConstants.getPrimaryBlack()),
                                 left: 8.0,
                                 top: 8.0,
                                 right: 8.0,
@@ -74,7 +74,7 @@ class _SelectNewJobLocationDialog extends State<SelectNewJobLocationDialog> {
                                 type: TextDandyLight.MEDIUM_TEXT,
                                 text: 'Cancel',
                                 textAlign: TextAlign.start,
-                                color: Color(ColorConstants.primary_black),
+                                color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
                           ],

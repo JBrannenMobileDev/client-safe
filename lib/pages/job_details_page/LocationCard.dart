@@ -52,7 +52,7 @@ class _LocationCard extends State<LocationCard> {
                     type: TextDandyLight.LARGE_TEXT,
                     text: 'Location',
                     textAlign: TextAlign.center,
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                 Row(
@@ -87,7 +87,7 @@ class _LocationCard extends State<LocationCard> {
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'Directions',
                             textAlign: TextAlign.center,
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                         GestureDetector(
@@ -112,7 +112,7 @@ class _LocationCard extends State<LocationCard> {
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'Share',
                             textAlign: TextAlign.center,
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ],
@@ -159,7 +159,7 @@ class _LocationCard extends State<LocationCard> {
                             text: pageState.job.location == null ? 'Location not selected' :
                             pageState.job.location.locationName,
                             textAlign: TextAlign.center,
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ],

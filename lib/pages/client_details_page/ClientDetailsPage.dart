@@ -40,12 +40,12 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
       builder: (BuildContext context, ClientDetailsPageState pageState) =>
           Scaffold(
             key: scaffoldKey,
-            backgroundColor: Color(ColorConstants.grey),
+            backgroundColor: Color(ColorConstants.getBlueLight()),
             body: CustomScrollView(
               slivers: <Widget>[
                 SliverAppBar(
                   brightness: Brightness.light,
-                  backgroundColor: Color(ColorConstants.grey),
+                  backgroundColor: Color(ColorConstants.getBlueLight()),
                   expandedHeight: 264.0,
                   pinned: true,
                   floating: false,
@@ -54,7 +54,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                   title: TextDandyLight(
                     type: TextDandyLight.LARGE_TEXT,
                     text: pageState.client?.getClientFullName() ?? "",
-                    color: const Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                   actions: <Widget>[
                     GestureDetector(
@@ -114,7 +114,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                                 .width / 3,
                             child: Image.asset(
                               'assets/images/icons/profile_icon.png',
-                              color: Color(ColorConstants.getPrimaryColor()),),
+                              color: Color(ColorConstants.getPeachDark()),),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -133,7 +133,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                                   padding: EdgeInsets.all(12.0),
                                   decoration: BoxDecoration(
                                     color: Color(
-                                        ColorConstants.getPrimaryColor()),
+                                        ColorConstants.getPeachDark()),
                                     borderRadius: BorderRadius.circular(32.0),
                                   ),
                                   height: 64.0,
@@ -155,7 +155,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                                   padding: EdgeInsets.all(12.0),
                                   decoration: BoxDecoration(
                                     color: Color(
-                                        ColorConstants.getPrimaryColor()),
+                                        ColorConstants.getPeachDark()),
                                     borderRadius: BorderRadius.circular(32.0),
                                   ),
                                   height: 64.0,
@@ -178,7 +178,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                                   padding: EdgeInsets.all(12.0),
                                   decoration: BoxDecoration(
                                     color: Color(
-                                        ColorConstants.getPrimaryColor()),
+                                        ColorConstants.getPeachDark()),
                                     borderRadius: BorderRadius.circular(32.0),
                                   ),
                                   height: 64.0,
@@ -200,7 +200,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                                   padding: EdgeInsets.all(12.0),
                                   decoration: BoxDecoration(
                                     color: Color(
-                                        ColorConstants.getPrimaryColor()),
+                                        ColorConstants.getPeachDark()),
                                     borderRadius: BorderRadius.circular(32.0),
                                   ),
                                   height: 64.0,

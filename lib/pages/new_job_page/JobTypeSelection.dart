@@ -40,7 +40,7 @@ class _JobTypeSelection extends State<JobTypeSelection>
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: 'Select a job type',
                     textAlign: TextAlign.start,
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                 pageState.jobTypes.length > 0 ? Container(
@@ -58,7 +58,7 @@ class _JobTypeSelection extends State<JobTypeSelection>
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: 'You have not saved any job types. To create a new job type please select the plus icon.\n\n(Example: Wedding, Engagement, Family, etc...)',
                     textAlign: TextAlign.center,
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
               ],

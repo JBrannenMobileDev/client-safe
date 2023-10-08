@@ -89,7 +89,7 @@ class _NameAndGenderState extends State<NameAndGender>
                               fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
                               fontFamily: TextDandyLight.getFontFamily(),
                               fontWeight: TextDandyLight.getFontWeight(),
-                              color: Color(ColorConstants.primary_black)),
+                              color: Color(ColorConstants.getPrimaryBlack())),
                           textInputAction: TextInputAction.go,
                           maxLines: 1,
                           autofocus: true,
@@ -105,7 +105,7 @@ class _NameAndGenderState extends State<NameAndGender>
                                 fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
                                 fontFamily: TextDandyLight.getFontFamily(),
                                 fontWeight: TextDandyLight.getFontWeight(),
-                                color: Color(ColorConstants.primary_black)),
+                                color: Color(ColorConstants.getPrimaryBlack())),
                             fillColor: Color(ColorConstants.getPrimaryWhite()),
                             contentPadding: EdgeInsets.all(10.0),
                             focusedBorder: OutlineInputBorder(

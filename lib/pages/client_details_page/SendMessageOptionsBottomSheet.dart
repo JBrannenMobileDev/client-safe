@@ -73,7 +73,7 @@ class _BottomSheetPageState extends State<SendMessageOptionsBottomSheet> with Ti
                       type: TextDandyLight.LARGE_TEXT,
                       text: 'Select a message to send',
                       textAlign: TextAlign.center,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   GestureDetector(

@@ -55,7 +55,7 @@ class JobDetailsLocationListWidget extends StatelessWidget {
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: pageState.locations.elementAt(locationIndex).locationName,
                 textAlign: TextAlign.center,
-                color: const Color(ColorConstants.primary_black),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ),
           ),

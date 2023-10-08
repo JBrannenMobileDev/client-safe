@@ -38,7 +38,7 @@ class _ExpenseDateSelectionState extends State<ExpenseDateSelection> with Automa
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: 'Select the date that this expense was charged.',
                   textAlign: TextAlign.start,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               Container(

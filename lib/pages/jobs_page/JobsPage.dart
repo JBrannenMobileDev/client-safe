@@ -78,7 +78,7 @@ class _JobsPageState extends State<JobsPage> {
                           child: TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
                             text: "Jobs",
-                            color: const Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                         actions: <Widget>[
@@ -91,7 +91,7 @@ class _JobsPageState extends State<JobsPage> {
                               margin: EdgeInsets.only(right: 26.0),
                               height: 24.0,
                               width: 24.0,
-                              child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPeachDark()),),
+                              child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPrimaryBlack()),),
                             ),
                           ),
                         ],
@@ -101,7 +101,7 @@ class _JobsPageState extends State<JobsPage> {
                             margin: EdgeInsets.only(bottom: 16.0),
                             child: CupertinoSlidingSegmentedControl<int>(
                               backgroundColor: Color(ColorConstants.getPrimaryWhite()),
-                              thumbColor: Color(ColorConstants.getBlueDark()),
+                              thumbColor: Color(ColorConstants.getBlueLight()),
                               children: jobTypes,
                               onValueChanged: (int filterTypeIndex) {
                                 setState(() {

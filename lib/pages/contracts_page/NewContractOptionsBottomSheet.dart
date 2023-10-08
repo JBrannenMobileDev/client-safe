@@ -84,7 +84,7 @@ class _NewContractOptionsBottomSheetState extends State<NewContractOptionsBottom
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: options.elementAt(index),
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ],
                   ),
@@ -120,7 +120,7 @@ class _NewContractOptionsBottomSheetState extends State<NewContractOptionsBottom
                          type: TextDandyLight.MEDIUM_TEXT,
                          text: 'How would you like to start?',
                          textAlign: TextAlign.center,
-                         color: Color(ColorConstants.primary_black),
+                         color: Color(ColorConstants.getPrimaryBlack()),
                        ),
                      ),
                      ListView.builder(
