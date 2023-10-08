@@ -21,7 +21,7 @@ class ColorConstants{
   static const int primary_bg_grey = 0xffD4D5C7;
   static const int primary_bg_grey_dark = 0xffD4D5C7;
   static const int primary_divider = 0xffe0e0e0;
-  static const int white = 0xffF5EBE4;
+  static const int white = 0xffFFF8F2;
 
   //Set 3
   static const int gold = 0xffE6CE97;
