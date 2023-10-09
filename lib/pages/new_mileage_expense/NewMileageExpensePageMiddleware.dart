@@ -12,7 +12,7 @@ import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpenseActions.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
-import 'package:geocoder/geocoder.dart';
+import 'package:geocoder2/geocoder2.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 import 'package:path_provider/path_provider.dart';
@@ -20,6 +20,7 @@ import 'package:redux/redux.dart';
 import 'package:http/http.dart' as http;
 import 'package:sembast/sembast.dart';
 
+import '../../credentials.dart';
 import '../../data_layer/repositories/FileStorage.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
@@ -38,9 +39,6 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
     if(action is FetchLastKnowPosition){
       getLocationData(store, next, action);
     }
-    if(action is UpdateStartLocationAction){
-      updateStartLocation(store, action, next);
-    }
     if(action is UpdateEndLocationAction){
       updateEndLocation(store, action, next);
     }
@@ -57,13 +55,10 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
 
   void loadExistingMileageExpense(Store<AppState> store, NextDispatcher next, LoadExistingMileageExpenseAction action) async {
     store.dispatch(SetExistingMileageExpenseAction(store.state.newMileageExpensePageState, action.mileageExpense));
-    final coordinatesStart = Coordinates(action.mileageExpense.startLat, action.mileageExpense.startLng);
-    var addressesStart = await Geocoder.local.findAddressesFromCoordinates(coordinatesStart);
-    store.dispatch(SetStartLocationNameAction(store.state.newMileageExpensePageState, LatLng(action.mileageExpense.startLat, action.mileageExpense.startLng), addressesStart.elementAt(0).thoroughfare + ', ' + addressesStart.elementAt(0).locality));
-
-    final coordinatesEnd = Coordinates(action.mileageExpense.startLat, action.mileageExpense.startLng);
-    var addressesEnd = await Geocoder.local.findAddressesFromCoordinates(coordinatesEnd);
-    store.dispatch(SetEndLocationNameAction(store.state.newMileageExpensePageState, LatLng(action.mileageExpense.endLat, action.mileageExpense.endLng), addressesEnd.elementAt(0).thoroughfare + ', ' + addressesEnd.elementAt(0).locality));
+    GeoData startAddress = await getAddress(action.mileageExpense.startLat, action.mileageExpense.startLng);
+    store.dispatch(SetStartLocationNameAction(store.state.newMileageExpensePageState, LatLng(action.mileageExpense.startLat, action.mileageExpense.startLng), startAddress.address));
+    GeoData endAddress = await getAddress(action.mileageExpense.endLat, action.mileageExpense.endLng);
+    store.dispatch(SetEndLocationNameAction(store.state.newMileageExpensePageState, LatLng(action.mileageExpense.endLat, action.mileageExpense.endLng), endAddress.address));
 
     LatLng startLatLngToUse = LatLng(action.mileageExpense.startLat, action.mileageExpense.startLng);
     LatLng endLatLngToUse = LatLng(action.mileageExpense.endLat, action.mileageExpense.endLng);
@@ -95,9 +90,14 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void updateEndLocation(Store<AppState> store, UpdateEndLocationAction action, NextDispatcher next) async{
-    final coordinatesEnd = Coordinates(action.endLocation.latitude, action.endLocation.longitude);
-    var addressesEnd = await Geocoder.local.findAddressesFromCoordinates(coordinatesEnd);
-    store.dispatch(SetEndLocationNameAction(store.state.newMileageExpensePageState, LatLng(action.endLocation.latitude, action.endLocation.longitude), addressesEnd.elementAt(0).thoroughfare + ', ' + addressesEnd.elementAt(0).locality));
+    GeoData endAddress = null;
+    try{
+      endAddress = await getAddress(action.endLocation.latitude, action.endLocation.longitude);
+    } catch(e) {
+      print(e);
+    }
+
+    store.dispatch(SetEndLocationNameAction(store.state.newMileageExpensePageState, LatLng(action.endLocation.latitude, action.endLocation.longitude), endAddress.address));
 
    LatLng startLatLngToUse;
     if(store.state.newMileageExpensePageState.startLocation == null) {
@@ -111,22 +111,6 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
     }
     if(startLatLngToUse != null) {
       _calculateAndSetDistance(action.endLocation, startLatLngToUse, store);
-    }
-  }
-
-  void updateStartLocation(Store<AppState> store, UpdateStartLocationAction action, NextDispatcher next) async{
-    final coordinatesEnd = Coordinates(action.startLocation.latitude, action.startLocation.longitude);
-    var addressesStart = await Geocoder.local.findAddressesFromCoordinates(coordinatesEnd);
-    store.dispatch(SetStartLocationNameAction(store.state.newMileageExpensePageState, LatLng(action.startLocation.latitude, action.startLocation.longitude), addressesStart.elementAt(0).thoroughfare + ', ' + addressesStart.elementAt(0).locality));
-
-    LatLng endLatLngToUse;
-    if(store.state.newMileageExpensePageState.endLocation == null) {
-      endLatLngToUse = null;
-    }else {
-      endLatLngToUse = store.state.newMileageExpensePageState.endLocation;
-    }
-    if(endLatLngToUse != null) {
-      _calculateAndSetDistance(endLatLngToUse, action.startLocation, store);
     }
   }
 
@@ -167,9 +151,8 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
     if(profile != null) {
       store.dispatch(SetProfileData(store.state.newMileageExpensePageState, profile));
       if(profile.hasDefaultHome()){
-        final coordinatesEnd = Coordinates(profile.latDefaultHome, profile.lngDefaultHome);
-        var addressesStart = await Geocoder.local.findAddressesFromCoordinates(coordinatesEnd);
-        store.dispatch(SetLocationNameAction(store.state.newMileageExpensePageState, addressesStart.elementAt(0).thoroughfare + ', ' + addressesStart.elementAt(0).locality));
+        GeoData address = await getAddress(profile.latDefaultHome, profile.lngDefaultHome);
+        store.dispatch(SetLocationNameAction(store.state.newMileageExpensePageState, address.address));
       }
     }
     Position positionLastKnown = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
@@ -192,18 +175,40 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void saveHomeLocation(Store<AppState> store, SaveHomeLocationAction action, NextDispatcher next) async{
-    final coordinatesEnd = Coordinates(action.startLocation.latitude, action.startLocation.longitude);
-    var address = await Geocoder.local.findAddressesFromCoordinates(coordinatesEnd);
-    store.dispatch(SetLocationNameAction(store.state.newMileageExpensePageState, address.elementAt(0).thoroughfare + ', ' + address.elementAt(0).locality));
+    GeoData homeAddress = await getAddress(action.startLocation.latitude, action.startLocation.longitude);
+    store.dispatch(SetLocationNameAction(store.state.newMileageExpensePageState, homeAddress.address));
     Profile profile = store.state.newMileageExpensePageState.profile;
     profile.latDefaultHome = action.startLocation.latitude;
     profile.lngDefaultHome = action.startLocation.longitude;
     await ProfileDao.insertOrUpdate(profile);
     store.dispatch(SetProfileData(store.state.newMileageExpensePageState, profile));
+    updateStartLocation(store, homeAddress, action.startLocation.latitude, action.startLocation.longitude, action.startLocation);
+  }
+
+  void updateStartLocation(Store<AppState> store, GeoData address, double lat, double lon, LatLng startLocation) async{
+    store.dispatch(SetStartLocationNameAction(store.state.newMileageExpensePageState, LatLng(lat, lon), address.address));
+
+    LatLng endLatLngToUse;
+    if(store.state.newMileageExpensePageState.endLocation == null) {
+      endLatLngToUse = null;
+    }else {
+      endLatLngToUse = store.state.newMileageExpensePageState.endLocation;
+    }
+    if(endLatLngToUse != null) {
+      _calculateAndSetDistance(endLatLngToUse, startLocation, store);
+    }
   }
 
   void _calculateAndSetDistance(LatLng endLocation, LatLng startLocation, Store<AppState> store) async{
     double milesDriven = await GoogleApiClient(httpClient: http.Client()).getTravelDistance(startLocation, endLocation);
     store.dispatch(SetMilesDrivenAction(store.state.newMileageExpensePageState, milesDriven));
+  }
+
+  Future<GeoData> getAddress(double lat, double lng) async {
+    return await Geocoder2.getDataFromCoordinates(
+        latitude: lat,
+        longitude: lng,
+        googleMapApiKey: PLACES_API_KEY
+    );
   }
 }

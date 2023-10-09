@@ -42,8 +42,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
                   ),
                 ) : Container(
                   alignment: Alignment.center,
-                  margin: EdgeInsets.only(top:16, bottom: 12, left: 32, right: 32),
-                  height: 64,
+                  margin: EdgeInsets.only(top:16, bottom: 0, left: 16, right: 16),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -62,19 +61,19 @@ class _DetailsPagePageState extends State<DetailsPage> {
                             child: Image.asset("icons/calendar_white.png"),
                           ),
                           TextDandyLight(
-                            type: TextDandyLight.SMALL_TEXT,
-                            fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                            text: (pageState.job.selectedDate != null
-                                ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.job.selectedDate)
-                                : 'TBD'),
-                          ),
+                              type: TextDandyLight.SMALL_TEXT,
+                              fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                              text: (pageState.job.selectedDate != null
+                                  ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.job.selectedDate)
+                                  : 'TBD'),
+                            ),
                         ],
                       ),
                       Row(
                         children: [
                           Container(
                             padding: EdgeInsets.all(6),
-                            margin: EdgeInsets.only(left: 0, right: 8, top: 4),
+                            margin: EdgeInsets.only(left: 0, right: 8, top: 8),
                             height: 26,
                             width: 26,
                             decoration: BoxDecoration(
@@ -83,18 +82,22 @@ class _DetailsPagePageState extends State<DetailsPage> {
                             ),
                             child: Image.asset("icons/clock_white.png"),
                           ),
-                          TextDandyLight(
-                            type: TextDandyLight.SMALL_TEXT,
-                            fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                            text: (pageState.job.selectedTime != null && pageState.job.selectedTime != null ? DateFormat('h:mma').format(pageState.job.selectedTime) + ' - ' + DateFormat('h:mma').format(pageState.job.selectedEndTime) : 'TBD'),
+                          Container(
+                            margin: EdgeInsets.only(top: 8),
+                            child: TextDandyLight(
+                              type: TextDandyLight.SMALL_TEXT,
+                              fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                              text: (pageState.job.selectedTime != null && pageState.job.selectedTime != null ? DateFormat('h:mma').format(pageState.job.selectedTime) + ' - ' + DateFormat('h:mma').format(pageState.job.selectedEndTime) : 'TBD'),
+                            ),
                           ),
                         ],
                       ),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
                             padding: EdgeInsets.all(6),
-                            margin: EdgeInsets.only(left: 0, right: 8, top: 4),
+                            margin: EdgeInsets.only(left: 0, right: 8, top: 8),
                             height: 26,
                             width: 26,
                             decoration: BoxDecoration(
@@ -103,11 +106,23 @@ class _DetailsPagePageState extends State<DetailsPage> {
                             ),
                             child: Image.asset("icons/pin_white.png"),
                           ),
-                          TextDandyLight(
-                            type: TextDandyLight.SMALL_TEXT,
-                            fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                            text: (pageState.job.location != null && pageState.job.location.address != null ? pageState.job.location.address : 'TBD'),
-                          )
+                          Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  if(pageState.job.location != null && pageState.job.location.address != null) {
+                                    IntentLauncherUtil.launchDrivingDirections(pageState.job.location.latitude.toString(), pageState.job.location.longitude.toString());
+                                  }
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(top: 8),
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.SMALL_TEXT,
+                                    fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                                    text: (pageState.job.location != null && pageState.job.location.address != null ? pageState.job.location.address : 'TBD'),
+                                  ),
+                                ),
+                              )
+                          ),
                         ],
                       ),
                     ],

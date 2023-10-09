@@ -77,7 +77,7 @@ class _LocationOptionsMileageExpenseDialogState extends State<LocationOptionsMil
                                 color: Color(ColorConstants.getBlueDark()),
                                 shape: BoxShape.circle,
                               ),
-                              child: Image.asset('assets/images/icons/collections_icon_white.png'),
+                              child: Image.asset('assets/images/menu/collections_icon.png', color: Color(ColorConstants.getPrimaryWhite())),
                             ),
                             TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
@@ -113,7 +113,7 @@ class _LocationOptionsMileageExpenseDialogState extends State<LocationOptionsMil
                                 shape: BoxShape.circle,
                               ),
                               child: Image.asset(
-                                  'assets/images/icons/location_icon_white.png'),
+                                  'assets/images/icons/pin_white.png'),
                             ),
                             TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,

@@ -239,14 +239,14 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       monthToUse = store.state.jobDetailsPageState.selectedDate;
     }
 
-    if(profile.calendarEnabled) {
+    if(profile.calendarEnabled && monthToUse != null) {
       DateTime startDate = DateTime(monthToUse.year, monthToUse.month - 1, 1);
       DateTime endDate = DateTime(monthToUse.year, monthToUse.month + 1, 1);
 
       List<Event> deviceEvents = await CalendarSyncUtil.getDeviceEventsForDateRange(startDate, endDate);
       store.dispatch(SetDeviceEventsAction(store.state.jobDetailsPageState, deviceEvents));
+      store.dispatch(SetJobDetailsSelectedDateAction(store.state.jobDetailsPageState, monthToUse));
     }
-    store.dispatch(SetJobDetailsSelectedDateAction(store.state.jobDetailsPageState, monthToUse));
   }
 
   void updateInvoiceToSent(Store<AppState> store, InvoiceSentAction action, NextDispatcher next) async {

@@ -7,6 +7,7 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
+import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -24,6 +25,7 @@ import '../../utils/InputDoneView.dart';
 import '../../utils/Shadows.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../../utils/intentLauncher/IntentLauncherUtil.dart';
 import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'ShareWithClientPageState.dart';
@@ -109,11 +111,11 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
   Widget build(BuildContext context) =>
       StoreConnector<AppState, ShareWithClientPageState>(
         onInit: (store) async {
+          profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
           pageContext = context;
           await store.dispatch(FetchProfileAction(store.state.shareWithClientPageState));
           store.dispatch(SetJobShareWithClientAction(store.state.shareWithClientPageState, job));
-          profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-          String clientMessage = "(Example client portal message)\n\nHi ${job.client.firstName},\nI wanted to thank you again for choosing our photography services. We're excited to work with you to capture your special moments.\n\nTo make things official, kindly review and sign the contract. It outlines our agreement's essential details.\n\nIf you have any questions, please don't hesitate to ask.\n\nBest regards,\n\n${profile.firstName} ${profile.lastName ?? ''}\n${profile.businessName ?? ''}";
+          String clientMessage = "(Example message in client portal)\n\nHi ${job.client.firstName},\nI wanted to thank you again for choosing our photography services. We're excited to work with you to capture your special moments.\n\nTo make things official, kindly review and sign the contract. It outlines our agreement's essential details.\n\nIf you have any questions, please don't hesitate to ask.\n\nBest regards,\n\n${profile.firstName} ${profile.lastName ?? ''}\n${profile.businessName ?? ''}";
           messageController.value = messageController.value.copyWith(text: job.proposal.detailsMessage != null && job.proposal.detailsMessage.isNotEmpty ? job.proposal.detailsMessage : clientMessage);
           if(job.proposal.detailsMessage.isEmpty) {
             store.dispatch(SetClientMessageAction(store.state.shareWithClientPageState, clientMessage));
@@ -474,7 +476,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                       onTap: () {
                         pageState.saveProposal();
                         if(pageState.profile.isProfileComplete() && pageState.profile.hasSetupBrand && pageState.profile.paymentOptionsSelected()) {
-                          _launchBrandingPreviewURL(profile.uid, job.documentId);
+                          IntentLauncherUtil.launchBrandingPreviewURL(UidUtil().getUid(), job.documentId);
                           EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_PREVIEW_SELECTED);
                         } else {
                           String toastMessage = '';
@@ -514,7 +516,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                       onTap: () {
                         pageState.saveProposal();
                         if(pageState.profile.isProfileComplete() && pageState.profile.hasSetupBrand && pageState.profile.paymentOptionsSelected()) {
-                          Share.share('(Example Message)\n\nHey ${job.client.firstName},\n\nThank you so much for choosing me to be your photographer! To make our collaboration simple i have a client portal that will be the hub for all the job details. Here is what it can do.\n\n1. Contract Signing\n2. Invoice Payment\n3. Job details\n4. Pose board for inspiration\n\nAccess the portal here:' + '\nhttps://dandylight.com/clientPortal/${profile.uid}+${job.documentId}\n\n\nExcited to create memorable moments with you!\n\nThank you again,\n${profile.firstName}');
+                          Share.share('[Your message goes here]\n\nAccess your client portal here:' + '\nhttps://dandylight.com/clientPortal/${profile.uid}+${job.documentId}');
                           EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED, properties: {
                             EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_INVOICE : pageState.invoiceSelected,
                             EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_CONTRACT : pageState.contractSelected,
@@ -564,10 +566,4 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
   void onAction(){
     _messageFocusNode.unfocus();
   }
-
-  void _launchBrandingPreviewURL(String uid, String jobId) async {
-    print('https://DandyLight.com/' + RouteNames.CLIENT_PORTAL + '/' + uid + '+' + jobId);
-    await canLaunchUrl(Uri.parse('https://DandyLight.com/' + RouteNames.CLIENT_PORTAL + '/' + uid + '+' + jobId)) ? await launchUrl(Uri.parse('https://DandyLight.com/' + RouteNames.CLIENT_PORTAL + '/' + uid + '+' + jobId), mode: LaunchMode.platformDefault) : throw 'Could not launch';
-  }
-
 }

@@ -153,7 +153,7 @@ class UserOptionsUtil {
 
   static void showNewJobDialog(BuildContext context, bool comingFromOnBoarding) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    if(profile.isSubscribed || profile.jobsCreatedCount < 4 || profile.isFreeForLife) {
+    if(profile.isSubscribed || profile.jobsCreatedCount < 6 || profile.isFreeForLife) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -350,7 +350,7 @@ class UserOptionsUtil {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return NewInvoiceDialog(onSendInvoiceSelected, shouldClear);
+        return NewInvoiceDialog(onSendInvoiceSelected: onSendInvoiceSelected, shouldClear: shouldClear);
       },
     );
   }

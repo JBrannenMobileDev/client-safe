@@ -129,7 +129,9 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                               height: 32.0,
                               width: 32.0,
                               child: Image.asset(
-                                  'assets/images/icons/settings_icon_white.png'),
+                                  'assets/images/icons/settings.png',
+                                  color: Color(ColorConstants.getPrimaryWhite())
+                              ),
                             ),
                           )
                         ],
@@ -211,7 +213,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                           ],
                                         ),
                                         Container(
-                                          margin: EdgeInsets.only(top: 16.0),
+                                          margin: EdgeInsets.only(top: 0.0),
                                           child: TextDandyLight(
                                             type: TextDandyLight.INCOME_EXPENSE_TOTAL,
                                                 amount: selectedIndex == 0 ? pageState.totalTips + pageState.incomeForSelectedYear : pageState.expensesForSelectedYear,

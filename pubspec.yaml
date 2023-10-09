@@ -61,7 +61,6 @@ dependencies:
   uuid: ^3.0.6
   flutter_local_notifications: ^15.1.1
   rxdart: ^0.26.0
-  geocoder: ^0.2.1
   device_calendar: ^4.2.0
   firebase_storage: ^11.2.6
   flutter_cache_manager: ^3.3.0
@@ -92,6 +91,7 @@ dependencies:
   image_cropper: ^4.0.1
   universal_html: ^2.0.9
   flutter_quill: ^7.1.16+1
+  geocoder2: ^1.4.0
   modal_bottom_sheet:
     git:
       url: https://github.com/CoolDude53/modal_bottom_sheet.git
@@ -123,6 +123,39 @@ flutter:
 
     - assets/images/dandy_light_app_icon.png
     - assets/images/dandy_light_logo_icon.png
+
+    - assets/images/icons/calendar.png
+    - assets/images/icons/settings.png
+    - assets/images/icons/contact_book.png
+    - assets/images/icons/income_expense.png
+    - assets/images/icons/jobs.png
+    - assets/images/icons/trash_can.png
+    - assets/images/icons/sms.png
+    - assets/images/icons/chat.png
+    - assets/images/icons/contract.png
+    - assets/images/icons/contract_signed.png
+    - assets/images/icons/complete.png
+    - assets/images/icons/camera.png
+    - assets/images/icons/photo.png
+    - assets/images/icons/invoice.png
+    - assets/images/icons/income_received.png
+    - assets/images/icons/computer.png
+    - assets/images/icons/planning.png
+    - assets/images/icons/feedback_requested.png
+    - assets/images/icons/feedback_received.png
+    - assets/images/icons/directions.png
+    - assets/images/icons/chat_circle.png
+    - assets/images/icons/phone_circle.png
+    - assets/images/icons/email_circle.png
+    - assets/images/icons/instagram_circle.png
+    - assets/images/icons/credit_card.png
+    - assets/images/icons/download.png
+    - assets/images/icons/pin_white.png
+    - assets/images/icons/cancel.png
+    - assets/images/icons/subscription.png
+    - assets/images/icons/job_type.png
+    - assets/images/icons/client_guide.png
+
 
     - assets/images/backgrounds/home_background_2.png
     - assets/images/backgrounds/home_background_3.png

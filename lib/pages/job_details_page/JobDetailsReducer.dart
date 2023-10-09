@@ -56,7 +56,7 @@ JobDetailsPageState _setPoseFilePaths(JobDetailsPageState previousState, SetPose
 JobDetailsPageState _setForecast(JobDetailsPageState previousState, SetForecastAction action){
   DailyForecasts matchingDay;
   for(DailyForecasts forecastDay in action.forecast5days.dailyForecasts){
-    if(DateFormat('yyyy-MM-dd').format(previousState.selectedDate) == DateFormat('yyyy-MM-dd').format(DateTime.parse(forecastDay.date))) {
+    if(previousState.selectedDate != null && DateFormat('yyyy-MM-dd').format(previousState.selectedDate) == DateFormat('yyyy-MM-dd').format(DateTime.parse(forecastDay.date))) {
       matchingDay = forecastDay;
       break;
     }
@@ -366,7 +366,10 @@ JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobAction 
     documents.add(InvoiceDocument());
   }
   if(action.job.proposal.contract != null) {
-    documents.add(ContractDocument(contractName: action.job.proposal.contract.contractName));
+    documents.add(ContractDocument(
+        contractName: action.job.proposal.contract.contractName,
+        isSigned: action.job.proposal.contract.signedByClient
+    ));
   }
   action.job.completedStages.sort((a, b) => a.compareTo(b));
   LocationDandy newLocation = action.job.location != null ? action.job.location : null;

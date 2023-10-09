@@ -1,5 +1,3 @@
-import 'package:dandylight/pages/client_details_page/ClientDetailsPageState.dart';
-import 'package:dandylight/widgets/DandyLightTextField.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -259,7 +257,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                             height: 78,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(16),
-                                color: Color(ColorConstants.getPrimaryBackgroundGrey())
+                                color: Color(ColorConstants.getBlueLight()).withOpacity(0.25)
                             ),
                             child: Column(
                               children: [
@@ -393,7 +391,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                             height: 78,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(16),
-                                color: Color(ColorConstants.getPrimaryBackgroundGrey())
+                                color: Color(ColorConstants.getBlueLight()).withOpacity(0.25)
                             ),
                             child: Column(
                               children: [

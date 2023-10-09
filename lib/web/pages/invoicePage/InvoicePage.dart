@@ -390,7 +390,7 @@ class _InvoicePageState extends State<InvoicePage> {
               padding: EdgeInsets.only(left: 32, right: 32),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: Color(ColorConstants.getPrimaryBackgroundGrey())
+                color: Color(ColorConstants.getLightGreyWeb())
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

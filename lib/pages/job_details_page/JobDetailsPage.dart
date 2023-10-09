@@ -158,7 +158,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                   overlayOpacity: 0.5,
                   tooltip: 'Speed Dial',
                   heroTag: 'speed-dial-hero-tag',
-                  backgroundColor: Color(ColorConstants.getBlueDark()),
+                  backgroundColor: Color(ColorConstants.getPeachDark()),
                   foregroundColor: Colors.black,
                   elevation: 8.0,
                   shape: CircleBorder(),
@@ -286,8 +286,9 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                           }
                           if(!containsInvoice) {
                             pageState.onAddInvoiceSelected();
-                            UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected, true);
+                            UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected, false);
                           }else{
+                            pageState.onAddInvoiceSelected();
                             UserOptionsUtil.showInvoiceOptionsDialog(context, onSendInvoiceSelected);
                           }
                         } else {
@@ -422,7 +423,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                                       type: TextDandyLight.MEDIUM_TEXT,
                                       text: 'Job Stages',
                                       textAlign: TextAlign.center,
-                                      color: Color(ColorConstants.getBlueDark()),
+                                      color: Color(ColorConstants.getPrimaryBlack()),
                                     ),
                               ),
                             ),

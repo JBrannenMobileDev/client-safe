@@ -100,7 +100,7 @@ class JobPosesPage extends StatelessWidget{
                 alignment: Alignment.bottomCenter,
                 child: GestureDetector(
                   onTap: () {
-                    NavigationUtil.onShareWIthClientSelected(context, pageState.job);
+                    NavigationUtil.onShareWIthClientSelected(context, pageState.job, );
                     EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_FROM_JOB_POSES_PAGE);                  },
                   child: Container(
                     margin: EdgeInsets.only(bottom: 36),

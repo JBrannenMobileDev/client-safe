@@ -180,15 +180,15 @@ class MileageExpensesCard extends StatelessWidget {
 
   double getContainerHeight(int length, IncomeAndExpensesPageState pageState) {
     if(length == 0) {
-      return 186.0;
+      return 196.0;
     }else if(length == 1) {
-      return 261.0;
+      return 271.0;
     }else if(length == 2) {
-      return 336.0;
+      return 346.0;
     }else if(length == 3) {
-      return 412.0;
+      return 422.0;
     }else {
-      return 432.0;
+      return 442.0;
     }
   }
 

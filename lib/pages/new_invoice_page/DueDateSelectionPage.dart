@@ -76,7 +76,7 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
                           shape: BoxShape.circle,
                         ),
                         child: Image.asset(
-                            'assets/images/icons/calendar_icon_white.png'),
+                            'assets/images/icons/calendar.png', color: Color(ColorConstants.getPrimaryWhite()),),
                       ),
                       Container(
                         padding: EdgeInsets.only(bottom: 2.0, left: 16.0, right: 16.0),
@@ -105,7 +105,7 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
                       shape: BoxShape.circle,
                     ),
                     child: Image.asset(
-                        'assets/images/icons/calendar_icon_white.png'),
+                      'assets/images/icons/calendar.png', color: Color(ColorConstants.getPrimaryWhite()),),
                   ),
                 ),
               ),
@@ -155,7 +155,7 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
                           shape: BoxShape.circle,
                         ),
                         child: Image.asset(
-                            'assets/images/icons/calendar_icon_white.png'),
+                          'assets/images/icons/calendar.png', color: Color(ColorConstants.getPrimaryWhite()),),
                       ),
                       Container(
                         padding: EdgeInsets.only(bottom: 2.0, left: 16.0, right: 16.0),
@@ -184,7 +184,7 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
                       shape: BoxShape.circle,
                     ),
                     child: Image.asset(
-                        'assets/images/icons/calendar_icon_white.png'),
+                      'assets/images/icons/calendar.png', color: Color(ColorConstants.getPrimaryWhite()),),
                   ),
                 ),
               ),

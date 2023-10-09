@@ -76,9 +76,9 @@ class _LocationCard extends State<LocationCard> {
                             width: 96,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16),
-                              color: Color(ColorConstants.getPrimaryBackgroundGrey())
+                              color: Color(ColorConstants.getBlueLight()).withOpacity(0.25)
                             ),
-                            child: Image.asset("assets/images/icons/driving_directions_icon_white.png", color: Color(ColorConstants.getPrimaryBlack()),),
+                            child: Image.asset("assets/images/icons/directions.png", color: Color(ColorConstants.getBlueDark()),),
                           ),
                         ),
                         Container(
@@ -101,9 +101,9 @@ class _LocationCard extends State<LocationCard> {
                             width: 96,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(16),
-                                color: Color(ColorConstants.getPrimaryBackgroundGrey())
+                                color: Color(ColorConstants.getBlueLight()).withOpacity(0.25)
                             ),
-                            child: Image.asset("assets/images/icons/file_upload.png", color: Color(ColorConstants.getPrimaryBlack()),),
+                            child: Image.asset("assets/images/icons/file_upload.png", color: Color(ColorConstants.getBlueDark()),),
                           ),
                         ),
                         Container(
@@ -131,14 +131,14 @@ class _LocationCard extends State<LocationCard> {
                             width: 200,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16),
-                              color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                              color: Color(ColorConstants.getBlueLight()).withOpacity(0.25)
                             ),
                             child: DandyLightNetworkImage(
                               pageState.selectedLocation.imageUrl,
-                              color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                              color: Color(ColorConstants.getBlueLight()).withOpacity(0.25),
                               errorType: pageState.selectedLocation.imageUrl != null && pageState.selectedLocation.imageUrl.isNotEmpty ? DandyLightNetworkImage.ERROR_TYPE_INTERNET : DandyLightNetworkImage.ERROR_TYPE_NO_IMAGE,
                               errorIconSize: pageState.selectedLocation.imageUrl != null && pageState.selectedLocation.imageUrl.isNotEmpty ? 44 : 96,
-                              errorIconColor: Color(ColorConstants.getPrimaryBlack()),
+                              errorIconColor: Color(ColorConstants.getBlueDark()),
                               borderRadius: 16,
                             ),
                           ) : Container(
@@ -147,9 +147,9 @@ class _LocationCard extends State<LocationCard> {
                             width: 200,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16),
-                              color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                              color: Color(ColorConstants.getBlueLight()).withOpacity(0.25)
                             ),
-                            child: Image.asset("assets/images/icons/plus.png", color: Color(ColorConstants.getPrimaryBlack())),
+                            child: Image.asset("assets/images/icons/plus.png", color: Color(ColorConstants.getBlueDark())),
                           ),
                         ),
                         Container(

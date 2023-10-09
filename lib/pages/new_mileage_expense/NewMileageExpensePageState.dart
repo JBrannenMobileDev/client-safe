@@ -248,7 +248,6 @@ class NewMileageExpensePageState {
       },
       onStartLocationChanged: (latLng) => {
         store.dispatch(SaveHomeLocationAction(store.state.newMileageExpensePageState, latLng)),
-        store.dispatch(UpdateStartLocationAction(store.state.newMileageExpensePageState, latLng))
       },
       onEndLocationChanged: (latLng) => store.dispatch(UpdateEndLocationAction(store.state.newMileageExpensePageState, latLng)),
       onExpenseDateSelected: (expenseDate) => store.dispatch(SetExpenseDateAction(store.state.newMileageExpensePageState, expenseDate)),

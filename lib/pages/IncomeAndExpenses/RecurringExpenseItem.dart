@@ -34,12 +34,7 @@ class RecurringExpenseItem extends StatelessWidget{
                     margin: EdgeInsets.only(right: 18.0, top: 0.0),
                     height: 42.0,
                     width: 42.0,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(recurringExpense.cancelDate == null ? 'assets/images/icons/coins_icon_peach.png' : 'assets/images/icons/cancel_icon_peach.png'),
-                        fit: BoxFit.contain,
-                      ),
-                    ),
+                    child: Image.asset(recurringExpense.cancelDate == null ? 'assets/images/icons/income_received.png' : 'assets/images/icons/cancel.png', color: Color(ColorConstants.getPeachDark()),),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

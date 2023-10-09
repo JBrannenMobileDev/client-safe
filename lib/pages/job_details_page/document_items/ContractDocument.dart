@@ -6,7 +6,8 @@ import '../../../widgets/TextDandyLight.dart';
 
 class ContractDocument implements DocumentItem {
   final String contractName;
-  ContractDocument({this.contractName});
+  final bool isSigned;
+  ContractDocument({this.contractName, this.isSigned = false});
 
   @override
   Widget buildIconItem(BuildContext context) {
@@ -14,17 +15,29 @@ class ContractDocument implements DocumentItem {
       margin: EdgeInsets.only(right: 18.0, top: 0.0),
       height: 42.0,
       width: 42.0,
-      child: Image.asset('assets/images/collection_icons/contract_icon_white.png', color: Color(ColorConstants.getPeachDark()),),
+      child: Image.asset(isSigned ? 'assets/images/icons/contract_signed.png' : 'assets/images/icons/contract.png', color: Color(ColorConstants.getPeachDark()),),
     );
   }
 
   @override
   Widget buildTitle(BuildContext context) {
-    return TextDandyLight(
-      type: TextDandyLight.MEDIUM_TEXT,
-      text: contractName,
-      textAlign: TextAlign.start,
-      color: Color(ColorConstants.getPrimaryBlack()),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextDandyLight(
+          type: TextDandyLight.MEDIUM_TEXT,
+          text: contractName,
+          textAlign: TextAlign.start,
+          color: Color(ColorConstants.getPrimaryBlack()),
+        ),
+        isSigned ? TextDandyLight(
+          type: TextDandyLight.MEDIUM_TEXT,
+          text: '(Signed)',
+          textAlign: TextAlign.start,
+          color: Color(ColorConstants.getPeachDark()),
+        ) : SizedBox()
+      ],
     );
   }
 

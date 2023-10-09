@@ -36,12 +36,7 @@ class MileageExpenseItem extends StatelessWidget{
                     margin: EdgeInsets.only(right: 18.0, top: 0.0),
                     height: 42.0,
                     width: 42.0,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/icons/driving_directions_icon_peach.png'),
-                        fit: BoxFit.contain,
-                      ),
-                    ),
+                    child: Image.asset('assets/images/icons/directions.png', color: Color(ColorConstants.getPeachDark()),),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

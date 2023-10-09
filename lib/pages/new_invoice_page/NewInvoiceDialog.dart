@@ -16,13 +16,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../models/Job.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class NewInvoiceDialog extends StatefulWidget {
   final Function onSendInvoiceSelected;
   final bool shouldClear;
 
-  NewInvoiceDialog(this.onSendInvoiceSelected, this.shouldClear);
+  NewInvoiceDialog({this.onSendInvoiceSelected, this.shouldClear});
 
   @override
   _NewInvoiceDialogState createState() {
@@ -50,7 +51,6 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
       onInit: (appState) async {
         if(shouldClear) appState.dispatch(ClearStateAction(appState.state.newInvoicePageState));
         appState.dispatch(FetchAllInvoiceJobsAction(appState.state.newInvoicePageState));
-        await appState.dispatch(SetSalesTaxCheckBoxStateAction(appState.state.newInvoicePageState, appState.state.newInvoicePageState.isSalesTaxChecked));
       },
       onDidChange: (prev, pageState) {
         if(!shouldClear && !hasJumpToBeenCalled) {

@@ -6,7 +6,7 @@ import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
 import 'package:dandylight/models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
-import 'package:geocoder/geocoder.dart';
+import 'package:geocoder2/geocoder2.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:dandylight/AppState.dart';
@@ -16,6 +16,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
+import '../../credentials.dart';
 import '../../data_layer/repositories/FileStorage.dart';
 import '../../models/rest_models/AccuWeatherModels/hourlyForecast/HourWeather.dart';
 import '../../utils/sunrise_sunset_library/sunrise_sunset.dart';
@@ -76,9 +77,8 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
     LatLng latLng = store.state.sunsetWeatherPageState.currentMapLatLng;
     if(latLng != null) {
 
-      final coordinatesEnd = Coordinates(latLng.latitude, latLng.longitude);
-      var address = await Geocoder.local.findAddressesFromCoordinates(coordinatesEnd);
-      store.dispatch(SetLocationNameAction(store.state.sunsetWeatherPageState, address.elementAt(0).thoroughfare + ', ' + address.elementAt(0).locality));
+      GeoData address = await getAddress(latLng.latitude, latLng.longitude);
+      store.dispatch(SetLocationNameAction(store.state.sunsetWeatherPageState, address.address));
 
       final response = await SunriseSunset.getResults(date: DateTime.now(), latitude: latLng.latitude, longitude: latLng.longitude);
       store.dispatch(
@@ -135,9 +135,8 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
       if(positionLastKnown != null) {
         store.dispatch(SetInitialMapLatLng(store.state.sunsetWeatherPageState, positionLastKnown.latitude, positionLastKnown.longitude));
 
-        final coordinatesEnd = Coordinates(positionLastKnown.latitude, positionLastKnown.longitude);
-        var address = await Geocoder.local.findAddressesFromCoordinates(coordinatesEnd);
-        store.dispatch(SetLocationNameAction(store.state.sunsetWeatherPageState, address.elementAt(0).thoroughfare + ', ' + address.elementAt(0).locality));
+        GeoData address = await getAddress(positionLastKnown.latitude, positionLastKnown.longitude);
+        store.dispatch(SetLocationNameAction(store.state.sunsetWeatherPageState, address.address));
 
         (await LocationDao.getLocationsStream()).listen((locationSnapshots) {
           List<LocationDandy> locations = [];
@@ -256,5 +255,13 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
       }
       store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast5days, await LocationDao.getAllSortedMostFrequent()));
     }
+  }
+
+  Future<GeoData> getAddress(double lat, double lng) async {
+    return await Geocoder2.getDataFromCoordinates(
+        latitude: lat,
+        longitude: lng,
+        googleMapApiKey: PLACES_API_KEY
+    );
   }
 }

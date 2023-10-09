@@ -46,7 +46,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                 SliverAppBar(
                   brightness: Brightness.light,
                   backgroundColor: Color(ColorConstants.getBlueLight()),
-                  expandedHeight: 264.0,
+                  expandedHeight: 244.0,
                   pinned: true,
                   floating: false,
                   forceElevated: false,
@@ -80,13 +80,15 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                         height: 24.0,
                         width: 24.0,
                         child: Image.asset(
-                            'assets/images/icons/trash_icon_peach.png'),
+                            'assets/images/icons/trash_can.png',
+                            color: Color(ColorConstants.getPeachDark())
+                        ),
                       ),
                     ),
                   ],
                   leading: IconButton(
                     icon: const Icon(Icons.close),
-                    color: Color(ColorConstants.getPrimaryColor()),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                     tooltip: 'Close',
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -103,113 +105,84 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                       ),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Container(
-                            margin: EdgeInsets.only(top: 96.0),
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width / 3,
+                            width: 96,
                             child: Image.asset(
                               'assets/images/icons/profile_icon.png',
                               color: Color(ColorConstants.getPeachDark()),),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              GestureDetector(
-                                onTap: () {
-                                  if (pageState.client.phone != null &&
-                                      pageState.client.phone.length > 0) {
-                                    onCallPressed(pageState.client.phone);
-                                  } else {
-                                    DandyToastUtil.showErrorToast(
-                                        'No phone number saved yet');
-                                  }
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(12.0),
-                                  decoration: BoxDecoration(
-                                    color: Color(
-                                        ColorConstants.getPeachDark()),
-                                    borderRadius: BorderRadius.circular(32.0),
+                          Container(
+                            margin: EdgeInsets.only(bottom: 24, top: 16),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                GestureDetector(
+                                  onTap: () {
+                                    if (pageState.client.phone != null &&
+                                        pageState.client.phone.length > 0) {
+                                      onCallPressed(pageState.client.phone);
+                                    } else {
+                                      DandyToastUtil.showErrorToast(
+                                          'No phone number saved yet');
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 48.0,
+                                    width: 48.0,
+                                    child: Image.asset('assets/images/icons/phone_circle.png', color: Color(ColorConstants.getPeachDark())),
                                   ),
-                                  height: 64.0,
-                                  width: 64.0,
-                                  child: Image.asset(
-                                      'assets/images/icons/phonecall_icon_white.png'),
                                 ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  if (pageState.client.phone != null && pageState.client.phone.length > 0) {
-                                    onSMSPressed(pageState.client.phone, context);
-                                  } else {
-                                    DandyToastUtil.showErrorToast(
-                                        'No phone number saved yet');
-                                  }
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(12.0),
-                                  decoration: BoxDecoration(
-                                    color: Color(
-                                        ColorConstants.getPeachDark()),
-                                    borderRadius: BorderRadius.circular(32.0),
+                                GestureDetector(
+                                  onTap: () {
+                                    if (pageState.client.phone != null && pageState.client.phone.length > 0) {
+                                      onSMSPressed(pageState.client.phone, context);
+                                    } else {
+                                      DandyToastUtil.showErrorToast(
+                                          'No phone number saved yet');
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 54.0,
+                                    width: 54.0,
+                                    child: Image.asset('assets/images/icons/chat_circle.png', color: Color(ColorConstants.getPeachDark())),
                                   ),
-                                  height: 64.0,
-                                  width: 64.0,
-                                  child: Image.asset(
-                                      'assets/images/icons/sms_icon_white.png'),
                                 ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  if (pageState.client.email != null &&
-                                      pageState.client.email.length > 0) {
-                                    onEmailPressed(pageState.client.email, context);
-                                  } else {
-                                    DandyToastUtil.showErrorToast(
-                                        'No email saved yet');
-                                  }
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(12.0),
-                                  decoration: BoxDecoration(
-                                    color: Color(
-                                        ColorConstants.getPeachDark()),
-                                    borderRadius: BorderRadius.circular(32.0),
+                                GestureDetector(
+                                  onTap: () {
+                                    if (pageState.client.email != null &&
+                                        pageState.client.email.length > 0) {
+                                      onEmailPressed(pageState.client.email, context);
+                                    } else {
+                                      DandyToastUtil.showErrorToast(
+                                          'No email saved yet');
+                                    }
+                                  },
+                                  child:Container(
+                                    height: 54.0,
+                                    width: 54.0,
+                                    child: Image.asset('assets/images/icons/email_circle.png', color: Color(ColorConstants.getPeachDark())),
                                   ),
-                                  height: 64.0,
-                                  width: 64.0,
-                                  child: Image.asset(
-                                      'assets/images/icons/email_icon_white.png'),
                                 ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  if (pageState.client.instagramProfileUrl != null && pageState.client.instagramProfileUrl.length > 0) {
-                                    IntentLauncherUtil.launchURL(pageState.client.instagramProfileUrl);
-                                  } else {
-                                    DandyToastUtil.showErrorToast(
-                                        'No Instagram URL saved yet');
-                                  }
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(12.0),
-                                  decoration: BoxDecoration(
-                                    color: Color(
-                                        ColorConstants.getPeachDark()),
-                                    borderRadius: BorderRadius.circular(32.0),
+                                GestureDetector(
+                                  onTap: () {
+                                    if (pageState.client.instagramProfileUrl != null && pageState.client.instagramProfileUrl.length > 0) {
+                                      IntentLauncherUtil.launchURL(pageState.client.instagramProfileUrl);
+                                    } else {
+                                      DandyToastUtil.showErrorToast(
+                                          'No Instagram URL saved yet');
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 48.0,
+                                    width: 48.0,
+                                    child: Image.asset('assets/images/icons/instagram_circle.png', color: Color(ColorConstants.getPeachDark())),
                                   ),
-                                  height: 64.0,
-                                  width: 64.0,
-                                  child: Image.asset(
-                                      'assets/images/icons/instagram_icon_white.png'),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       ),

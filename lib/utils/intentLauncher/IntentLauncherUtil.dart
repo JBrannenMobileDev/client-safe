@@ -16,6 +16,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:universal_html/html.dart' as html;
 
 
+import '../../navigation/routes/RouteNames.dart';
 import '../PdfUtil.dart';
 import '../TextFormatterUtil.dart';
 
@@ -184,5 +185,10 @@ class IntentLauncherUtil{
         throw 'Could not launch $url';
       }
     }
+  }
+
+  static void launchBrandingPreviewURL(String uid, String jobId) async {
+    print('https://DandyLight.com/' + RouteNames.CLIENT_PORTAL + '/' + uid + '+' + jobId);
+    await canLaunchUrl(Uri.parse('https://DandyLight.com/' + RouteNames.CLIENT_PORTAL + '/' + uid + '+' + jobId)) ? await launchUrl(Uri.parse('https://DandyLight.com/' + RouteNames.CLIENT_PORTAL + '/' + uid + '+' + jobId), mode: LaunchMode.platformDefault) : throw 'Could not launch';
   }
 }

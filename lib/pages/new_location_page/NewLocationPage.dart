@@ -112,7 +112,7 @@ class _NewLocationPageState extends State<NewLocationPage> {
                                 child: IconButton(
                                   icon: const Icon(Icons.save),
                                   tooltip: 'Save',
-                                  color: Color(ColorConstants.getBlueDark()),
+                                  color: Color(ColorConstants.getPeachDark()),
                                   onPressed: () {
                                     showSuccessAnimation();
                                     pageState.onSaveLocationSelected();

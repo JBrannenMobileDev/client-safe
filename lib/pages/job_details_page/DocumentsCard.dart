@@ -120,9 +120,9 @@ class DocumentsCard extends StatelessWidget {
               },
               child: Container(
                 margin: EdgeInsets.only(right: 12.0),
-                height: 24.0,
-                width: 24.0,
-                child: Image.asset('assets/images/icons/trash_icon_peach.png'),
+                height: 26.0,
+                width: 26.0,
+                child: Image.asset('assets/images/icons/trash_can.png', color: Color(ColorConstants.getPeachDark()),)
               ),
             ),
           ],

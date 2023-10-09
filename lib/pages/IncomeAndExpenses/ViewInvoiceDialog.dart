@@ -24,6 +24,7 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../navigation/routes/RouteNames.dart';
+import '../../utils/UidUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -123,7 +124,7 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       IconButton(
-                        icon: ImageIcon(ImageUtil.getTrashIconPeach(), color: Color(ColorConstants.getPeachDark()),),
+                        icon: Image.asset('assets/images/icons/trash_can.png', color: Color(ColorConstants.getPeachDark()), height: 26,),
                         tooltip: 'Delete Invoice',
                         onPressed: () {
                           _ackAlert(context, pageState);
@@ -213,7 +214,7 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                         children: <Widget>[
                                           GestureDetector(
                                             onTap: () async {
-                                              NavigationUtil.onShareWIthClientSelected(context, job);
+                                              IntentLauncherUtil.launchBrandingPreviewURL(UidUtil().getUid(), job.documentId);
                                               EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_FROM_VIEW_INVOICE_PAGE);
                                             },
                                             child: Container(

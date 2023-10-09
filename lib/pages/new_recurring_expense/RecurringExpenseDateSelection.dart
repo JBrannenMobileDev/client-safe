@@ -30,10 +30,10 @@ class _RecurringExpenseDateSelectionState extends State<RecurringExpenseDateSele
       Stack(
         children: <Widget>[
           Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(left: 16.0),
+                margin: EdgeInsets.only(left: 16.0, right: 16),
                 child: TextDandyLight(
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: 'Select the date when you started paying for this recurring expense',
@@ -51,6 +51,14 @@ class _RecurringExpenseDateSelectionState extends State<RecurringExpenseDateSele
                         context,
                         dateFormat: 'MMMM dd yyyy',
                         pickerMode: DateTimePickerMode.date,
+                        pickerTheme: DateTimePickerTheme(
+                          cancelTextStyle: TextStyle(
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                          confirmTextStyle: TextStyle(
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                        ),
                         onConfirm: (dateTime, intList) {
                           pageState.onExpenseDateSelected(dateTime);
                         }
@@ -69,7 +77,7 @@ class _RecurringExpenseDateSelectionState extends State<RecurringExpenseDateSele
                           shape: BoxShape.circle,
                         ),
                         child: Image.asset(
-                            'assets/images/icons/calendar_icon_white.png'),
+                            'assets/images/icons/calendar.png', color: Color(ColorConstants.getPrimaryWhite()),),
                       ),
                       Container(
                         padding: EdgeInsets.only(bottom: 2.0, left: 16.0, right: 16.0),
@@ -98,7 +106,7 @@ class _RecurringExpenseDateSelectionState extends State<RecurringExpenseDateSele
                       shape: BoxShape.circle,
                     ),
                     child: Image.asset(
-                        'assets/images/icons/calendar_icon_white.png'),
+                      'assets/images/icons/calendar.png', color: Color(ColorConstants.getPrimaryWhite()),),
                   ),
                 ),
               ),

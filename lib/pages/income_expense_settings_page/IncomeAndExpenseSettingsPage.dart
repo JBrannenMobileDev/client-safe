@@ -87,9 +87,9 @@ class _IncomeAndExpenseSettingsPageState extends State<IncomeAndExpenseSettingsP
                                             Container(
                                               alignment: Alignment.center,
                                               margin: EdgeInsets.only(right: 16.0),
-                                              height: 28.0,
-                                              width: 28.0,
-                                              child: Image.asset('assets/images/collection_icons/pricing_profile_icons/wallet_icon_gold.png', color: Color(ColorConstants.getPrimaryBlack(),)),
+                                              height: 32.0,
+                                              width: 32.0,
+                                              child: Image.asset('assets/images/icons/credit_card.png', color: Color(ColorConstants.getPrimaryBlack(),)),
                                             ),
                                             TextDandyLight(
                                               type: TextDandyLight.MEDIUM_TEXT,
@@ -133,9 +133,9 @@ class _IncomeAndExpenseSettingsPageState extends State<IncomeAndExpenseSettingsP
                                               Container(
                                                 alignment: Alignment.center,
                                                 margin: EdgeInsets.only(right: 16.0),
-                                                height: 28.0,
-                                                width: 28.0,
-                                                child: Icon(Platform.isIOS ? CupertinoIcons.share : Icons.share, color: Color(ColorConstants.getPrimaryBlack()),),
+                                                height: 32.0,
+                                                width: 32.0,
+                                                child:  Image.asset("assets/images/icons/download.png", color: Color(ColorConstants.getPrimaryBlack()),),
                                               ),
                                               TextDandyLight(
                                                 type: TextDandyLight.MEDIUM_TEXT,

@@ -36,12 +36,7 @@ class JobHistoryItem extends StatelessWidget{
                   margin: EdgeInsets.only(right: 18.0, top: 4.0),
                   height: 38.0,
                   width: 38.0,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: job.stage.getStageImage(),
-                      fit: BoxFit.contain,
-                    ),
-                  ),
+                  child: job.stage.getStageImage(Color(ColorConstants.getPeachDark())),
                 ),
                 Flexible(
                   child: Column(

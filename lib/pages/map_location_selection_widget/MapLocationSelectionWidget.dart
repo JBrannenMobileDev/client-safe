@@ -142,7 +142,7 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
                     decoration: BoxDecoration(
                         boxShadow: ElevationToShadow[2],
                         borderRadius: BorderRadius.circular(26.0),
-                        color: Color(ColorConstants.getPrimaryColor())),
+                        color: Color(ColorConstants.getPeachDark())),
                     child: TextDandyLight(
                       type: TextDandyLight.LARGE_TEXT,
                       text: 'Save',

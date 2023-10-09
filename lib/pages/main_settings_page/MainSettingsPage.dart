@@ -266,7 +266,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                             height: 32.0,
                                             width: 32.0,
                                             child: Image.asset(
-                                                'assets/images/icons/manage_subscription_icon_black.png'),
+                                                'assets/images/icons/subscription.png', color: Color(ColorConstants.getPrimaryBlack()),),
                                           ),
                                           TextDandyLight(
                                             type: TextDandyLight.MEDIUM_TEXT,

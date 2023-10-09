@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../models/LocationDandy.dart';
+import 'ColorConstants.dart';
 
 class ImageUtil{
   static const String CAMERA_BG = "assets/images/backgrounds/cameras_background.png";
@@ -67,20 +68,20 @@ class ImageUtil{
   ];
 
   static List<String> jobStageIcons = [
-    'assets/images/job_progress/inquiry_received.png',
-    'assets/images/job_progress/followup_sent.png',
-    'assets/images/job_progress/proposal_sent.png',
-    'assets/images/job_progress/proposal_signed.png',
-    'assets/images/job_progress/deposit_received.png',
-    'assets/images/job_progress/planning_complete.png',
-    'assets/images/job_progress/session_complete.png',
-    'assets/images/job_progress/payment_requested.png',
-    'assets/images/job_progress/payment_received.png',
-    'assets/images/job_progress/editing_complete.png',
-    'assets/images/job_progress/gallery_sent.png',
+    'assets/images/icons/sms.png',
+    'assets/images/icons/chat.png',
+    'assets/images/icons/contract.png',
+    'assets/images/icons/contract_signed.png',
+    'assets/images/icons/income_received.png',
+    'assets/images/icons/planning.png',
+    'assets/images/icons/camera.png',
+    'assets/images/icons/invoice.png',
+    'assets/images/icons/income_received.png',
+    'assets/images/icons/computer.png',
+    'assets/images/icons/photo.png',
     'assets/images/job_progress/feedback_requested.png',
     'assets/images/job_progress/feedback_received.png',
-    'assets/images/job_progress/job_complete.png',
+    'assets/images/icons/complete.png',
   ];
 
   static List<String> leadSourceIconsWhite = [
@@ -147,14 +148,14 @@ class ImageUtil{
   static List<String> collectionIcons = [
     'assets/images/collection_icons/reminder_icon_white.png',
     'assets/images/collection_icons/poses_icon_white.png',
-    'assets/images/icons/briefcase_icon_white.png',
-    'assets/images/collection_icons/packages_icon_white.png',
-    'assets/images/collection_icons/location_icon_white.png',
+    'assets/images/icons/job_type.png',
+    'assets/images/icons/income_received.png',
+    'assets/images/icons/pin_white.png',
     'assets/images/collection_icons/auto_responses_icon_white.png',
-    'assets/images/collection_icons/contract_icon_white.png',
-    'assets/images/icons/calendar_icon_white.png',
+    'assets/images/icons/contract_signed.png',
+    'assets/images/icons/calendar.png',
     'assets/images/collection_icons/questionaire_icon_white.png',
-    'assets/images/collection_icons/workflow_icon_white.png',
+    'assets/images/icons/client_guide.png',
   ];
 
   static String locationPin = 'assets/images/collection_icons/location_pin_blue.png';
@@ -293,22 +294,22 @@ class ImageUtil{
   static String getCollectionIconName(String fileLocation){
     String iconName = '';
     switch(fileLocation){
-      case 'assets/images/icons/briefcase_icon_white.png':
+      case 'assets/images/icons/job_type.png':
         iconName = 'Job Types';
         break;
       case 'assets/images/collection_icons/poses_icon_white.png':
         iconName = 'Poses';
         break;
-      case 'assets/images/collection_icons/location_icon_white.png':
+      case 'assets/images/icons/pin_white.png':
         iconName = 'Locations';
         break;
       case 'assets/images/collection_icons/reminder_icon_white.png':
         iconName = 'Reminders';
         break;
-      case 'assets/images/collection_icons/packages_icon_white.png':
+      case 'assets/images/icons/income_received.png':
         iconName = 'Price Packages';
         break;
-      case 'assets/images/collection_icons/contract_icon_white.png':
+      case 'assets/images/icons/contract_signed.png':
         iconName = 'Contracts';
         break;
       case 'assets/images/collection_icons/checklist_icon_white.png':
@@ -317,7 +318,7 @@ class ImageUtil{
       case 'assets/images/collection_icons/questionaire_icon_white.png':
         iconName = 'Questionnaires';
         break;
-      case 'assets/images/collection_icons/workflow_icon_white.png':
+      case 'assets/images/icons/client_guide.png':
         iconName = 'Client Guides';
         break;
       case 'assets/images/collection_icons/auto_responses_icon_white.png':
@@ -326,7 +327,7 @@ class ImageUtil{
       case 'assets/images/collection_icons/automation_icon_white.png':
         iconName = 'Automation';
         break;
-      case 'assets/images/icons/calendar_icon_white.png':
+      case 'assets/images/icons/calendar.png':
         iconName = 'Automated Booking';
         break;
     }
@@ -354,14 +355,10 @@ class ImageUtil{
   }
 
   static AssetImage getTrashIconWhite() {
-    return AssetImage('assets/images/icons/trash_icon_white.png');
+    return AssetImage('assets/images/icons/trash_can.png');
   }
 
-  static AssetImage getTrashIconPeach() {
-    return AssetImage('assets/images/icons/trash_icon_peach.png');
-  }
-
-  static AssetImage getJobStageImageFromStage(JobStage stage) {
+  static Image getJobStageImageFromStage(JobStage stage, bool isCurrentStage) {
     String imageLocation = '';
     switch(stage.stage){
       case JobStage.STAGE_1_INQUIRY_RECEIVED:
@@ -407,7 +404,10 @@ class ImageUtil{
         imageLocation = jobStageIcons[13];
         break;
     }
-    return AssetImage(imageLocation);
+    return Image.asset(
+      imageLocation,
+      color: Color(isCurrentStage ? ColorConstants.getPeachDark() : ColorConstants.getBlueLight()),
+    );
   }
 
   static const String DANDYLIGHT_LOGO_ICON = "dandy_light_logo_icon.png";

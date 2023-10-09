@@ -79,9 +79,9 @@ class ClientDetailsCard extends StatelessWidget {
                           }
                         },
                         child: Container(
-                          height: 42.0,
-                          width: 42.0,
-                          child: Image.asset('assets/images/icons/phonecall_icon_peach.png'),
+                          height: 48.0,
+                          width: 48.0,
+                          child: Image.asset('assets/images/icons/phone_circle.png', color: Color(ColorConstants.getPeachDark())),
                         ),
                     ),
                     GestureDetector(
@@ -101,9 +101,9 @@ class ClientDetailsCard extends StatelessWidget {
                           }
                         },
                         child: Container(
-                          height: 42.0,
-                          width: 42.0,
-                          child: Image.asset('assets/images/icons/sms_icon_peach.png'),
+                          height: 54.0,
+                          width: 54.0,
+                          child: Image.asset('assets/images/icons/chat_circle.png', color: Color(ColorConstants.getPeachDark())),
                         ),
                     ),
                     GestureDetector(
@@ -123,9 +123,9 @@ class ClientDetailsCard extends StatelessWidget {
                           }
                         },
                         child: Container(
-                          height: 42.0,
-                          width: 42.0,
-                          child: Image.asset('assets/images/icons/email_icon_peach.png'),
+                          height: 54.0,
+                          width: 54.0,
+                          child: Image.asset('assets/images/icons/email_circle.png', color: Color(ColorConstants.getPeachDark())),
                         ),
                     ),
                     GestureDetector(
@@ -137,9 +137,9 @@ class ClientDetailsCard extends StatelessWidget {
                           }
                         },
                         child: Container(
-                          height: 42.0,
-                          width: 42.0,
-                          child: Image.asset('assets/images/icons/instagram_icon_peach.png'),
+                          height: 48.0,
+                          width: 48.0,
+                          child: Image.asset('assets/images/icons/instagram_circle.png', color: Color(ColorConstants.getPeachDark())),
                         ),
                     ),
                   ],

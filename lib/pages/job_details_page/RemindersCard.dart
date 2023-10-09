@@ -126,7 +126,7 @@ class RemindersCard extends StatelessWidget {
                 margin: EdgeInsets.only(right: 8.0),
                 height: 24.0,
                 width: 24.0,
-                child: Image.asset('assets/images/icons/trash_icon_peach.png'),
+                child: Image.asset('assets/images/icons/trash_can.png', color: Color(ColorConstants.getPeachDark())),
               ),
             ),
           ],

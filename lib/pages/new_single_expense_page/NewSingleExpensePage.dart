@@ -87,7 +87,7 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
                               height: 24.0,
                               width: 375.0,
                               child: Image.asset(
-                                  'assets/images/icons/trash_icon_gold.png'),
+                                  'assets/images/icons/trash_can.png', color: Color(ColorConstants.getPeachDark()),),
                             ),
                           ) : SizedBox(),
                           !pageState.shouldClear ? Container(
@@ -95,7 +95,7 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
                             child: IconButton(
                               icon: const Icon(Icons.save),
                               tooltip: 'Save',
-                              color: Color(ColorConstants.getPrimaryColor()),
+                              color: Color(ColorConstants.getPeachDark()),
                               onPressed: () {
                                 showSuccessAnimation();
                                 pageState.onSavePressed();

@@ -111,15 +111,15 @@ class RecurringExpensesCard extends StatelessWidget{
 
   double getContainerHeight(int length, IncomeAndExpensesPageState pageState) {
     if(length == 0) {
-      return 160.0;
+      return 170.0;
     }else if(length == 1) {
-      return 240.0;
+      return 250.0;
     }else if(length == 2) {
-      return 314.0;
+      return 324.0;
     }else if(length == 3) {
-      return 388.0;
+      return 398.0;
     }else {
-      return 403;
+      return 413;
     }
   }
 

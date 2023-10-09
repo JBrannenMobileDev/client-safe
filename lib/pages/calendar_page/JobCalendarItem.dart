@@ -35,19 +35,14 @@ class JobCalendarItem extends StatelessWidget{
           alignment: Alignment.centerRight,
           children: <Widget>[
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: job != null ? CrossAxisAlignment.start : CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
                   alignment: Alignment.topRight,
                   margin: EdgeInsets.only(right: 18.0, top: 4.0),
                   height: 38.0,
                   width: 38.0,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: job != null ? job.stage.getStageImage() : AssetImage('assets/images/icons/schedule_grey_dark.png'),
-                      fit: BoxFit.contain,
-                    ),
-                  ),
+                  child: job != null ? job.stage.getStageImage(Color(ColorConstants.getPeachDark())) : Image.asset('assets/images/icons/calendar.png', color: Color(ColorConstants.getBlueLight()),),
                 ),
                 Flexible(
                   child: Column(
