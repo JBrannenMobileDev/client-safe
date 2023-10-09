@@ -22,31 +22,6 @@ class ImageUtil{
   static const String INCOME_BG = "assets/images/backgrounds/income_background_lighter.png";
   static const String EXPENSES_BG = "assets/images/backgrounds/expenses_background_peach.png";
 
-  // static List<String> profileIcons = [
-  //
-  // ]
-
-  static List<String> femaleIcons = [
-    "assets/images/people/girl1.png",
-    "assets/images/people/girl2.png",
-    "assets/images/people/girl3.png",
-    "assets/images/people/girl4.png",
-    "assets/images/people/girl5.png",
-    "assets/images/people/girl7.png",
-    "assets/images/people/girl6.png",
-    "assets/images/people/girl8.png"
-  ];
-  static List<String> maleIcons = [
-    "assets/images/people/boy1.png",
-    "assets/images/people/boy2.png",
-    "assets/images/people/boy3.png",
-    "assets/images/people/boy4.png",
-    "assets/images/people/boy5.png",
-    "assets/images/people/boy7.png",
-    "assets/images/people/boy6.png",
-    "assets/images/people/boy8.png"
-  ];
-
   static List<String> jobIcons = [
     'assets/images/job_types/commercial_advertising.png',
     'assets/images/job_types/anniversary.png',
@@ -83,67 +58,6 @@ class ImageUtil{
     'assets/images/job_progress/feedback_received.png',
     'assets/images/icons/complete.png',
   ];
-
-  static List<String> leadSourceIconsWhite = [
-    'assets/images/icons/word_of_mouth_icon_white.png',
-    'assets/images/icons/instagram_icon_white.png',
-    'assets/images/icons/free_giveaway_icon_white.png',
-    'assets/images/icons/website_icon_white.png',
-    'assets/images/icons/business_card_icon_white.png',
-    'assets/images/icons/facebook_icon_white.png',
-    'assets/images/icons/wordpress_icon_white.png',
-    'assets/images/icons/email_icon_white.png',
-  ];
-
-  static List<String> leadSourceIconsPeach = [
-    'assets/images/icons/word_of_mouth_icon_peach.png',
-    'assets/images/icons/instagram_icon_peach_light.png',
-    'assets/images/icons/free_giveaway_icon_peach.png',
-    'assets/images/icons/website_icon_peach.png',
-    'assets/images/icons/business_card_icon_peach.png',
-    'assets/images/icons/facebook_icon_peach.png',
-    'assets/images/icons/wordpress_icon_peach.png',
-    'assets/images/icons/email_icon_peach_light.png',
-  ];
-
-  static String getLeadSourceText(String fileLocation){
-    String leadSourceTitle = Client.LEAD_SOURCE_OTHER;
-    switch(fileLocation){
-      case 'assets/images/icons/word_of_mouth_icon_white.png':
-      case 'assets/images/icons/word_of_mouth_icon_peach.png':
-        leadSourceTitle = Client.LEAD_SOURCE_WORD_OF_MOUTH;
-        break;
-      case 'assets/images/icons/instagram_icon_white.png':
-      case 'assets/images/icons/instagram_icon_peach_light.png':
-        leadSourceTitle = Client.LEAD_SOURCE_INSTAGRAM;
-        break;
-      case 'assets/images/icons/free_giveaway_icon_white.png':
-      case 'assets/images/icons/free_giveaway_icon_peach.png':
-        leadSourceTitle = Client.LEAD_SOURCE_GIVEAWAY;
-        break;
-      case 'assets/images/icons/website_icon_white.png':
-      case 'assets/images/icons/website_icon_peach.png':
-        leadSourceTitle = Client.LEAD_SOURCE_WEBSITE;
-        break;
-      case 'assets/images/icons/business_card_icon_white.png':
-      case 'assets/images/icons/business_card_icon_peach.png':
-        leadSourceTitle = Client.LEAD_SOURCE_BUSINESS_CARD;
-        break;
-      case 'assets/images/icons/facebook_icon_white.png':
-      case 'assets/images/icons/facebook_icon_peach.png':
-        leadSourceTitle = Client.LEAD_SOURCE_FACEBOOK;
-        break;
-      case 'assets/images/icons/wordpress_icon_white.png':
-      case 'assets/images/icons/wordpress_icon_peach.png':
-        leadSourceTitle = Client.LEAD_SOURCE_SOURCE_WORDPRESS;
-        break;
-      case 'assets/images/icons/email_icon_white.png':
-      case 'assets/images/icons/email_icon_peach_light.png':
-        leadSourceTitle = Client.LEAD_SOURCE_OTHER;
-        break;
-    }
-    return leadSourceTitle;
-  }
 
   static List<String> collectionIcons = [
     'assets/images/collection_icons/reminder_icon_white.png',
@@ -336,10 +250,6 @@ class ImageUtil{
 
   static AssetImage getRandomJobIcon(){
     return AssetImage(jobIcons[Random().nextInt(15)]);
-  }
-
-  static AssetImage getRandomPersonIcon() {
-    return AssetImage(femaleIcons[Random().nextInt(8)]);
   }
 
   static AssetImage getDefaultPricingProfileIcon() {

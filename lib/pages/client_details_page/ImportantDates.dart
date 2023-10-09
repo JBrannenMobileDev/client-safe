@@ -162,7 +162,7 @@ class _ImportantDates extends State<ImportantDates> {
                         ),
                         isSelected(index, pageState)
                             ? Container(
-                                margin: EdgeInsets.only(top: 52.0),
+                                margin: EdgeInsets.only(top: 32.0),
                                 child: TextDandyLight(
                                   type: TextDandyLight.EXTRA_SMALL_TEXT,
                                   text: ImportantDates.getDateForChipIndex(
@@ -171,7 +171,7 @@ class _ImportantDates extends State<ImportantDates> {
                                 ),
                               )
                             : Container(
-                                margin: EdgeInsets.only(top: 52.0),
+                                margin: EdgeInsets.only(top: 32.0),
                                 child: Text(
                                   "",
                                   style: TextStyle(

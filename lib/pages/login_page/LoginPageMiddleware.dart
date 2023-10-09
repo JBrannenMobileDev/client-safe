@@ -18,7 +18,6 @@ import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/InputValidator.dart';
-import 'package:dandylight/utils/NotificationHelper.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:dandylight/utils/analytics/EventNames.dart';
@@ -29,8 +28,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:uuid/uuid.dart';
@@ -39,7 +36,6 @@ import '../../data_layer/local_db/SembastDb.dart';
 import '../../data_layer/local_db/daos/ClientDao.dart';
 import '../../data_layer/local_db/daos/JobDao.dart';
 import '../../data_layer/local_db/daos/JobTypeDao.dart';
-import '../../data_layer/local_db/daos/PoseDao.dart';
 import '../../data_layer/local_db/daos/PoseLibraryGroupDao.dart';
 import '../../data_layer/local_db/daos/PriceProfileDao.dart';
 import '../../data_layer/local_db/daos/ReminderDao.dart';
@@ -481,7 +477,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           email: 'sampleuser@dandylight.com',
           phone: '(555)555-5555',
           instagramProfileUrl: 'https://www.instagram.com/dandy.light/',
-          leadSource: ImageUtil.leadSourceIconsWhite.elementAt(0),
+          leadSource: Client.LEAD_SOURCE_WORD_OF_MOUTH,
           customLeadSourceName: '',
           createdDate: DateTime.now()
       );

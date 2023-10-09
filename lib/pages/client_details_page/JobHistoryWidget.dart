@@ -58,7 +58,7 @@ class JobHistoryWidget extends StatelessWidget {
                         height: 38.0,
                         width: 38.0,
                         child: Image.asset(
-                          'assets/images/icons/briefcase_icon_white.png',
+                          'assets/images/icons/job_type.png',
                           color: Color(ColorConstants.peach_dark),),
                       ),
                       Expanded(

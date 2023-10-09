@@ -406,6 +406,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                       CupertinoSwitch(
                                         trackColor: Color(ColorConstants.getBlueLight()),
                                         activeColor: Color(ColorConstants.getBlueDark()),
+                                        thumbColor: Color(ColorConstants.getPrimaryWhite()),
                                         onChanged: (enabled) async {
                                           bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context);
                                           if(isGranted) pageState.onPushNotificationsChanged(enabled);
@@ -449,6 +450,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                       CupertinoSwitch(
                                         trackColor: Color(ColorConstants.getBlueLight()),
                                         activeColor: Color(ColorConstants.getBlueDark()),
+                                        thumbColor: Color(ColorConstants.getPrimaryWhite()),
                                         onChanged: (enabled) async {
                                           bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendar, context: context);
                                           if(isGranted) {
@@ -655,7 +657,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                               margin: EdgeInsets.only(right: 16.0),
                                               height: 28.0,
                                               width: 28.0,
-                                              child: Image.asset('assets/images/icons/trash_icon_white.png', color: Color(ColorConstants.getPrimaryBlack(),)),
+                                              child: Image.asset('assets/images/icons/trash_can.png', color: Color(ColorConstants.getPrimaryBlack(),)),
                                             ),
                                             TextDandyLight(
                                               type: TextDandyLight.MEDIUM_TEXT,

@@ -53,7 +53,7 @@ class ImportantDatesWidget extends StatelessWidget {
                     height: 38.0,
                     width: 38.0,
                     child: Image.asset(
-                      'assets/images/icons/calendar_icon_peach.png',
+                      'assets/images/icons/calendar.png',
                       color: Color(ColorConstants.peach_dark),
                     ),
                   ),

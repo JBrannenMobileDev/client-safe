@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../models/Client.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'NewContactTextField.dart';
 
@@ -26,8 +27,6 @@ class _LeadSourceSelection extends State<LeadSourceSelection>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    List<String> leadSourceIconsWhite = ImageUtil.leadSourceIconsWhite;
-    List<String> leadSourceIconsPeach = ImageUtil.leadSourceIconsPeach;
     return StoreConnector<AppState, NewContactPageState>(
       onInit: (store) {
         customLeadController.value = customLeadController.value.copyWith(text:store.state.newContactPageState.customLeadSourceName);
@@ -54,14 +53,14 @@ class _LeadSourceSelection extends State<LeadSourceSelection>
                 color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ),
-            GridView.builder(
+            GridView.builder( use chips instead
                 shrinkWrap: true,
                 itemCount: 8,
                 gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4, childAspectRatio: 0.8),
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
                     onTap: () {
-                      pageState.onLeadSourceSelected(leadSourceIconsWhite.elementAt(index));
+                      pageState.onLeadSourceSelected(leadSourceIconsWhite.elementAt(index));   convert to use chips!
                     },
                     child:
                     Column(
@@ -85,11 +84,9 @@ class _LeadSourceSelection extends State<LeadSourceSelection>
                               margin: EdgeInsets.only(bottom: 8.0),
                               height: 36.0,
                               width: 36.0,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(pageState.leadSource != null && getIconPosition(pageState, leadSourceIconsWhite) == index ? leadSourceIconsWhite.elementAt(index) : leadSourceIconsPeach.elementAt(index)),
-                                  fit: BoxFit.contain,
-                                ),
+                              child: Image.asset(
+                                pageState.leadSource,
+                                color: Color(pageState.leadSource != null && getIconPosition(pageState, leadSourceIconsWhite) == index ? ColorConstants.getPrimaryWhite() : ColorConstants.getPeachDark()),
                               ),
                             ),
                           ],
@@ -106,7 +103,7 @@ class _LeadSourceSelection extends State<LeadSourceSelection>
                 }),
             Container(
 
-              child: pageState.leadSource == 'assets/images/icons/email_icon_white.png' ? NewContactTextField(
+              child: pageState.leadSource == Client.LEAD_SOURCE_OTHER ? NewContactTextField(
                   customLeadController,
                   "Custom Name",
                   TextInputType.text,

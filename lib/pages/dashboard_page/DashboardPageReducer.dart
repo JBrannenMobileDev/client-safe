@@ -385,15 +385,15 @@ DashboardPageState _setClients(DashboardPageState previousState, SetClientsDashb
   List<LeadSourcePieChartRowData> rowData = [];
 
   for(Client client in allClientsFromThisYear) {
-    groupedList.putIfAbsent(client.customLeadSourceName != null && client.customLeadSourceName.isNotEmpty ? client.customLeadSourceName : ImageUtil.getLeadSourceText(client.leadSource), () => <Client>[]).add(client);
+    groupedList.putIfAbsent(client.customLeadSourceName != null && client.customLeadSourceName.isNotEmpty ? client.customLeadSourceName : client.leadSource, () => <Client>[]).add(client);
   }
 
   var seen = Set<String>();
-  List<Client> allLeadSourceNames = allClientsFromThisYear.where((client) => seen.add(client.customLeadSourceName != null && client.customLeadSourceName.isNotEmpty ? client.customLeadSourceName : ImageUtil.getLeadSourceText(client.leadSource))).toList();
+  List<Client> allLeadSourceNames = allClientsFromThisYear.where((client) => seen.add(client.customLeadSourceName != null && client.customLeadSourceName.isNotEmpty ? client.customLeadSourceName : client.leadSource)).toList();
 
   int index = 0;
   for(Client client in allLeadSourceNames) {
-    String leadSourceName = client.customLeadSourceName != null && client.customLeadSourceName.isNotEmpty ? client.customLeadSourceName : ImageUtil.getLeadSourceText(client.leadSource);
+    String leadSourceName = client.customLeadSourceName != null && client.customLeadSourceName.isNotEmpty ? client.customLeadSourceName : client.leadSource;
     List<Client> clientsForLeadName = groupedList[leadSourceName];
 
     if(clientsForLeadName != null) {

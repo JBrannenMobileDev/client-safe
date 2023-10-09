@@ -179,6 +179,7 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                     CupertinoSwitch(
                                       trackColor: Color(ColorConstants.getBlueLight()),
                                       activeColor: Color(ColorConstants.getBlueDark()),
+                                      thumbColor: Color(ColorConstants.getPrimaryWhite()),
                                       onChanged: (enabled) {
                                         pageState.onVenmoSelected(enabled);
                                       },
@@ -239,6 +240,7 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                     CupertinoSwitch(
                                       trackColor: Color(ColorConstants.getBlueLight()),
                                       activeColor: Color(ColorConstants.getBlueDark()),
+                                      thumbColor: Color(ColorConstants.getPrimaryWhite()),
                                       onChanged: (enabled) {
                                         pageState.onWireSelected(enabled);
                                       },
@@ -300,6 +302,7 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                     CupertinoSwitch(
                                       trackColor: Color(ColorConstants.getBlueLight()),
                                       activeColor: Color(ColorConstants.getBlueDark()),
+                                      thumbColor: Color(ColorConstants.getPrimaryWhite()),
                                       onChanged: (enabled) {
                                         pageState.onCashSelected(enabled);
                                       },
@@ -361,6 +364,7 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                     CupertinoSwitch(
                                       trackColor: Color(ColorConstants.getBlueLight()),
                                       activeColor: Color(ColorConstants.getBlueDark()),
+                                      thumbColor: Color(ColorConstants.getPrimaryWhite()),
                                       onChanged: (enabled) {
                                         pageState.onZelleSelected(enabled);
                                       },
@@ -442,6 +446,7 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                     CupertinoSwitch(
                                       trackColor: Color(ColorConstants.getBlueLight()),
                                       activeColor: Color(ColorConstants.getBlueDark()),
+                                      thumbColor: Color(ColorConstants.getPrimaryWhite()),
                                       onChanged: (enabled) {
                                         pageState.onCashAppSelected(enabled);
                                       },
@@ -562,6 +567,7 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                     CupertinoSwitch(
                                       trackColor: Color(ColorConstants.getBlueLight()),
                                       activeColor: Color(ColorConstants.getBlueDark()),
+                                      thumbColor: Color(ColorConstants.getPrimaryWhite()),
                                       onChanged: (enabled) {
                                         pageState.onOtherSelected(enabled);
                                       },

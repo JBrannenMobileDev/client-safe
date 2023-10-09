@@ -47,13 +47,7 @@ class CalendarWidget extends StatefulWidget {
                   margin: EdgeInsets.only(left: 8.0, right: 16.0),
                   height: 44.0,
                   width: 44.0,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(
-                          'assets/images/icons/calendar_icon_peach.png'),
-                      fit: BoxFit.contain,
-                    ),
-                  ),
+                  child: Image.asset('assets/images/icons/calendar.png', color: Color(ColorConstants.getPeachDark()),),
                 ),
                 Container(
                   height: 64.0,

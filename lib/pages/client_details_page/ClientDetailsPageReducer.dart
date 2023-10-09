@@ -1,5 +1,6 @@
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:redux/redux.dart';
+import '../../models/Client.dart';
 import '../../models/ImportantDate.dart';
 import '../../models/Response.dart';
 import '../../models/ResponsesListItem.dart';
@@ -55,6 +56,9 @@ ClientDetailsPageState _setLeadSource(ClientDetailsPageState previousState, SetT
 }
 
 ClientDetailsPageState _setClient(ClientDetailsPageState previousState, InitializeClientDetailsAction action){
+  if(Client.isOldSource(action.client.leadSource)) {
+    action.client.leadSource = Client.mapOldLeadSourceToNew(action.client.leadSource);
+  }
   return previousState.copyWith(
     client: action.client,
     leadSource: action.client.leadSource,
