@@ -180,7 +180,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                              margin: EdgeInsets.only(right: 16, top: 11),
+                              margin: EdgeInsets.only(right: 16, top: 0),
                               height: 82,
                               width: 64,
                               decoration: BoxDecoration(
@@ -201,7 +201,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Container(
-                                  width: 220,
+                                  width: MediaQuery.of(context).size.width - 168,
                                   height: 32,
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -229,7 +229,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                                   ),
                                 ),
                                 Container(
-                                  width: 220,
+                                  width: MediaQuery.of(context).size.width - 168,
                                   height: 32,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -257,7 +257,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                                   ),
                                 ),
                                 Container(
-                                  width: 220,
+                                  width: MediaQuery.of(context).size.width - 168,
                                   height: 32,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -207,7 +207,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       completedStages: [JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED)],
       location: store.state.newJobPageState.selectedLocation,
       priceProfile: store.state.newJobPageState.selectedPriceProfile != null && store.state.newJobPageState.oneTimePrice.isEmpty ? store.state.newJobPageState.selectedPriceProfile
-          : store.state.newJobPageState.oneTimePrice.isNotEmpty ? PriceProfile(rateType: Invoice.RATE_TYPE_FLAT_RATE, profileName: 'Photoshoot Price', flatRate: double.parse(store.state.newJobPageState.oneTimePrice), icon: ImageUtil.getRandomPriceProfileIcon()) : null,
+          : store.state.newJobPageState.oneTimePrice.isNotEmpty ? PriceProfile(rateType: Invoice.RATE_TYPE_FLAT_RATE, profileName: 'Photoshoot Price', flatRate: double.parse(store.state.newJobPageState.oneTimePrice), icon: 'assets/images/icons/income_received.png') : null,
       createdDate: DateTime.now(),
       depositAmount: store.state.newJobPageState.selectedPriceProfile != null ? store.state.newJobPageState.selectedPriceProfile.deposit?.toInt() : 0,
       proposal: Proposal(

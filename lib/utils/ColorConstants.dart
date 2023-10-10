@@ -23,15 +23,9 @@ class ColorConstants{
   static const int primary_divider = 0xffe0e0e0;
   static const int white = 0xffFFFEFC;
 
-  //Set 3
-  static const int gold = 0xffE6CE97;
-  static const int gold_dark = 0xffE6CE97;
   static const int blue_dark = 0xff838F87;
-  static const int blue_light = 0xffD3D9CE;//0xffD6D4C5
+  static const int blue_light = 0xffD4D9D2;//0xffD6D4C5
   static const int light_grey = 0xffe4e1dc;
-  // static const int blue_light = 0xffD6D2C1;
-  // static const int blue_light = 0xffDDDED5;
-  // static const int blue_light = 0xffD6DDD8;
   static const int peach_dark = 0xffCF9D8C;
   static const int peach_medium = 0xffEBD0BC;
 
@@ -61,9 +55,6 @@ class ColorConstants{
 
   static int getPrimaryColor(){
     return blue_light;
-  }
-  static int getPrimaryDarkColor(){
-    return gold_dark;
   }
 
   static int getLightGreyWeb() {
@@ -111,7 +102,7 @@ class ColorConstants{
   }
 
   static int getPieChartColor(int index) {
-    List<int> colors = [gold, peach_dark, blue_light, blue_dark, peach_light, grey ];
+    List<int> colors = [black, peach_dark, blue_light, blue_dark, peach_light, grey ];
     while(index > 5) {
       index = index - 6;
     }
@@ -119,7 +110,7 @@ class ColorConstants{
   }
 
   static int getRandomProfileColor() {
-    List<int> colors = [gold, peach_dark, blue_light, blue_dark, peach_light];
+    List<int> colors = [black, peach_dark, blue_light, blue_dark, peach_light];
     var intValue = Random().nextInt(5);
     return colors[intValue];
   }

@@ -98,7 +98,7 @@ class _NewLocationPageState extends State<NewLocationPage> {
                                   height: 24.0,
                                   width: 24.0,
                                   child: Image.asset(
-                                      'assets/images/icons/trash_icon_blue.png'),
+                                      'assets/images/icons/trash_can.png', color: Color(ColorConstants.getPeachDark()),),
                                 ),
                               ) : SizedBox(),
                               TextDandyLight(

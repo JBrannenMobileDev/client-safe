@@ -156,6 +156,8 @@ flutter:
     - assets/images/icons/job_type.png
     - assets/images/icons/client_guide.png
     - assets/images/icons/question.png
+    - assets/images/backgrounds/login_bg.jpg
+    - assets/images/icons/select.png
 
 
     - assets/images/backgrounds/home_background_2.png

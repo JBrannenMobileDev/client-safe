@@ -22,26 +22,6 @@ class ImageUtil{
   static const String INCOME_BG = "assets/images/backgrounds/income_background_lighter.png";
   static const String EXPENSES_BG = "assets/images/backgrounds/expenses_background_peach.png";
 
-  static List<String> jobIcons = [
-    'assets/images/job_types/commercial_advertising.png',
-    'assets/images/job_types/anniversary.png',
-    'assets/images/job_types/real_estate_architecture.png',
-    'assets/images/job_types/birthday.png',
-    'assets/images/job_types/boudoir.png',
-    'assets/images/job_types/breastfeeding.png',
-    'assets/images/job_types/engagement.png',
-    'assets/images/job_types/event.png',
-    'assets/images/job_types/family_portrait.png',
-    'assets/images/people/girl3.png',
-    'assets/images/job_types/maternity.png',
-    'assets/images/job_types/modeling.png',
-    'assets/images/job_types/nature.png',
-    'assets/images/job_types/newborn.png',
-    'assets/images/job_types/other.png',
-    'assets/images/job_types/pet.png',
-    'assets/images/job_types/wedding.png',
-  ];
-
   static List<String> jobStageIcons = [
     'assets/images/icons/sms.png',
     'assets/images/icons/chat.png',
@@ -73,12 +53,6 @@ class ImageUtil{
   ];
 
   static String locationPin = 'assets/images/collection_icons/location_pin_blue.png';
-  static String reminderIcon = 'assets/images/collection_icons/reminder_icon_white.png';
-
-  static String getRandomPriceProfileIcon() {
-    var intValue = Random().nextInt(7);
-    return pricingProfileIcons[intValue];
-  }
 
   static List<String> pricingProfileIcons = [
     'assets/images/collection_icons/pricing_profile_icons/money_stacks_icon_gold.png',
@@ -108,101 +82,6 @@ class ImageUtil{
 
   static AssetImage getJobStageCompleteIconWhite() {
     return AssetImage('assets/images/job_progress/white_check.png');
-  }
-
-  static AssetImage getUndoImageAsset() {
-    return AssetImage('assets/images/job_progress/undo.png');
-  }
-
-  static String getJobStageText(String icon) {
-    switch(icon) {
-      case 'assets/images/job_progress/inquiry_received.png':
-        return 'Inquiry received';
-      case 'assets/images/job_progress/followup_sent.png':
-        return 'Followup sent';
-      case 'assets/images/job_progress/proposal_sent.png':
-        return 'Contract sent';
-      case 'assets/images/job_progress/proposal_signed.png':
-        return 'Contract signed';
-      case 'assets/images/job_progress/planning_complete.png':
-        return 'Planning complete';
-      case 'assets/images/job_progress/session_complete.png':
-        return 'Session complete';
-      case 'assets/images/job_progress/editing_complete.png':
-        return 'Editing complete';
-      case 'assets/images/job_progress/gallery_sent.png':
-        return 'Gallery sent';
-      case 'assets/images/job_progress/payment_requested.png':
-        return 'Payment requested';
-      case 'assets/images/job_progress/feedback_requested.png':
-        return 'Feedback requested';
-      case 'assets/images/job_progress/feedback_received.png':
-        return 'Feedback Received';
-      case 'assets/images/job_progress/payment_received.png':
-        return 'Payment received';
-      case 'assets/images/job_progress/deposit_received.png':
-        return 'Deposit received';
-      case 'assets/images/job_progress/job_complete.png':
-        return 'Job Complete';
-    }
-    return'';
-  }
-
-  static String getJobTypeText(String icon) {
-    switch(icon){
-      case 'assets/images/job_types/anniversary.png':
-        return 'Anniversary';
-        break;
-      case 'assets/images/job_types/birthday.png':
-        return 'Birthday';
-        break;
-      case 'assets/images/job_types/Boudoir.png':
-        return 'Boudoir';
-        break;
-      case 'assets/images/job_types/breastfeeding.png':
-        return 'Breastfeeding';
-        break;
-      case 'assets/images/job_types/commercial_advertising.png':
-        return 'Advertising';
-        break;
-      case 'assets/images/job_types/engagement.png':
-        return 'Engagement';
-        break;
-      case 'assets/images/job_types/family_portrait.png':
-        return 'Family';
-        break;
-      case 'assets/images/job_types/maternity.png':
-        return 'Maternity';
-        break;
-      case 'assets/images/job_types/modeling.png':
-        return 'Modeling';
-        break;
-      case 'assets/images/job_types/nature.png':
-        return 'Nature';
-        break;
-      case 'assets/images/job_types/newborn.png':
-        return 'Newborn';
-        break;
-      case 'assets/images/job_types/other.png':
-        return 'Other';
-        break;
-      case 'assets/images/job_types/pet.png':
-        return 'Pet';
-        break;
-      case 'assets/images/job_types/real_estate_architecture.png':
-        return 'Architecture';
-        break;
-      case 'assets/images/job_types/wedding.png':
-        return 'Wedding';
-        break;
-      case 'assets/images/job_types/event.png':
-        return 'Event';
-        break;
-      case 'assets/images/people/girl3.png':
-        return 'Headshots';
-        break;
-    }
-    return '';
   }
 
   static String getCollectionIconName(String fileLocation){
@@ -246,10 +125,6 @@ class ImageUtil{
         break;
     }
     return iconName;
-  }
-
-  static AssetImage getRandomJobIcon(){
-    return AssetImage(jobIcons[Random().nextInt(15)]);
   }
 
   static AssetImage getDefaultPricingProfileIcon() {

@@ -450,7 +450,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         documentId: '',
         profileName: 'Standard 1hr (EXAMPLE)',
         flatRate: 350.00,
-        icon: ImageUtil.getRandomPriceProfileIcon(),
+        icon: 'assets/images/icons/income_received.png',
         includeSalesTax: false,
         salesTaxPercent: 0.0,
         deposit: 0.0,

@@ -14,7 +14,7 @@ class Client{
   static const String LEAD_SOURCE_PINTEREST = "Pinterest";
   static const String LEAD_SOURCE_BUSINESS_CARD = "Business Card";
   static const String LEAD_SOURCE_WEBSITE = "Website";
-  static const String LEAD_SOURCE_BLOG = "BLOG";
+  static const String LEAD_SOURCE_BLOG = "Blog";
   static const String LEAD_SOURCE_GIVEAWAY = "Free Giveaway";
   static const String LEAD_SOURCE_PAID_AD = "Paid Ad";
   static const String LEAD_SOURCE_OTHER = "Other";

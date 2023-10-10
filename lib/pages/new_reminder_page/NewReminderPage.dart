@@ -124,7 +124,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
                               height: 24.0,
                               width: 375.0,
                               child: Image.asset(
-                                  'assets/images/icons/trash_icon_gold.png'),
+                                  'assets/images/icons/trash_can.png', color: Color(ColorConstants.getPeachDark()),),
                             ),
                           ) : SizedBox(),
                           !pageState.shouldClear ? Container(

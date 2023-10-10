@@ -43,7 +43,6 @@ import '../../utils/NotificationHelper.dart';
 import '../../utils/PushNotificationsManager.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
-import '../../widgets/DandyLightNetworkImage.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -543,8 +542,8 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                               },
                               child: Container(
                                 padding: EdgeInsets.only(left: 16.0),
-                                height: 32.0,
-                                width: 32.0,
+                                height: 26.0,
+                                width: 26.0,
                                 child: Image.asset(
                                     'assets/images/icons/sunset_icon_white.png', color: Color(ColorConstants.getPrimaryWhite(),)),
                               ),
@@ -573,8 +572,8 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                                   .animate(_animationController),
                                               child: Container(
                                                 margin: EdgeInsets.only(right: 16.0),
-                                                height: 36.0,
-                                                width: 36.0,
+                                                height: 28.0,
+                                                width: 28.0,
                                                 child: Image.asset(
                                                     'assets/images/collection_icons/reminder_icon_white.png', color: Color(ColorConstants.getPrimaryWhite(),)),
                                               )),
@@ -603,8 +602,8 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                               },
                               child: Container(
                                 margin: EdgeInsets.only(right: 16.0),
-                                height: 32.0,
-                                width: 32.0,
+                                height: 26.0,
+                                width: 26.0,
                                 child: Image.asset(
                                     'assets/images/icons/calendar.png', color: Color(ColorConstants.getPrimaryWhite(),)),
                               ),
@@ -619,8 +618,8 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                               },
                               child: Container(
                                 margin: EdgeInsets.only(right: 16.0),
-                                height: 32.0,
-                                width: 32.0,
+                                height: 26.0,
+                                width: 26.0,
                                 child: Image.asset(
                                     'assets/images/icons/settings.png', color: Color(ColorConstants.getPrimaryWhite(),)),
                               ),

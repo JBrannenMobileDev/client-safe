@@ -66,7 +66,7 @@ class _NewLocationImage extends State<NewLocationImage> with AutomaticKeepAliveC
                       color: Color(ColorConstants.getBlueDark()),
                       shape: BoxShape.circle,
                     ),
-                    child: Image.asset('assets/images/icons/camera_icon_white.png'),
+                    child: Image.asset('assets/images/icons/camera.png', color: Color(ColorConstants.getPrimaryWhite()),),
                   ),
 
                 ),
@@ -85,7 +85,7 @@ class _NewLocationImage extends State<NewLocationImage> with AutomaticKeepAliveC
                       color: Color(ColorConstants.getBlueDark()),
                       shape: BoxShape.circle,
                     ),
-                    child: Image.asset('assets/images/icons/image_icon_white.png'),
+                    child: Image.asset('assets/images/icons/photo.png', color: Color(ColorConstants.getPrimaryWhite()),),
                   ),
 
                 )

@@ -49,7 +49,7 @@ class JobTypesListWidget extends StatelessWidget {
                         margin: EdgeInsets.only(right: 16.0, left: 16.0),
                         height: 36.0,
                         width: 36.0,
-                        child: Image.asset('assets/images/icons/briefcase_icon_peach_dark.png', color: Color(ColorConstants.getPrimaryBlack()),),
+                        child: Image.asset('assets/images/icons/job_type.png', color: Color(ColorConstants.getPrimaryBlack()),),
                       ),
                       Container(
                         child: TextDandyLight(

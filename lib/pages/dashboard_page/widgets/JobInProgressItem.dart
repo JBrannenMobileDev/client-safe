@@ -46,7 +46,7 @@ class JobInProgressItem extends StatelessWidget{
 
                         children: <Widget>[
                           Padding(
-                            padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
+                            padding: EdgeInsets.only(bottom: 4.0, top: 0.0),
                             child: TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: job.jobTitle,

@@ -126,7 +126,7 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
                               height: 24.0,
                               width: 375.0,
                               child: Image.asset(
-                                  'assets/images/icons/trash_icon_peach.png'),
+                                  'assets/images/icons/trash_can.png', color: Color(ColorConstants.getPeachDark()),),
                             ),
                           ) : SizedBox(),
                           !pageState.shouldClear && currentPageIndex != 2 ? Container(

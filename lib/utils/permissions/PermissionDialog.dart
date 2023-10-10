@@ -184,16 +184,16 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
 
   String getIconFileLocation(Permission permission) {
     if(permission == Permission.calendar) {
-      return "assets/images/icons/calendar_bold_black.png";
+      return "assets/images/icons/calendar.png";
     }
     if(permission == Permission.notification) {
       return "assets/images/icons/reminder_icon_white.png";
     }
     if(permission == Permission.locationWhenInUse || permission == Permission.location || permission == Permission.locationAlways) {
-      return "assets/images/icons/location_icon_black.png";
+      return "assets/images/icons/pin_white.png";
     }
     if(permission == Permission.camera) {
-      return "assets/images/icons/camera_icon_white.png";
+      return "assets/images/icons/camera.png";
     }
     if(permission == Permission.contacts) {
       return "assets/images/icons/contacts_icon.png";
@@ -212,22 +212,22 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
       return "Calendar permission is required to sync your DandyLight calendar with your personal calendars.";
     }
     if(permission == Permission.notification) {
-      return "Notifications permission is required to be able to schedule custom reminders for your jobs.";
+      return "Notifications permission is required to allow custom reminders and to notify you when a contract has been signed or invoice paid.";
     }
     if(permission == Permission.locationWhenInUse || permission == Permission.location || permission == Permission.locationAlways) {
       return "Location permission is required for the Sunset, Weather and location features to work properly.";
     }
     if(permission == Permission.camera) {
-      return "Camera permission is needed to capture a picture for this location.";
+      return "Camera permission is needed to capture a picture for a location.";
     }
     if(permission == Permission.contacts) {
-      return "Contacts permission is required to be able to import your contacts into DandyLight";
+      return "Contacts permission is required to sync your DandyLight contacts with your device contacts.";
     }
     if(permission == Permission.photos) {
-      return "Photos permission is required for uploading your images.";
+      return "Photos permission is required for uploading images.";
     }
     if(permission == Permission.storage) {
-      return "File Storage permission is required for saving pose and location images.";
+      return "File Storage permission is required for saving poses and location images.";
     }
     return "Permission";
   }

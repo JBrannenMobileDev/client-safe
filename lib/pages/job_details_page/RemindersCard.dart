@@ -91,6 +91,7 @@ class RemindersCard extends StatelessWidget {
         height: 54.0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Expanded(
               child: Row(

@@ -63,7 +63,7 @@ class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
       documentId: store.state.pricingProfilePageState.documentId,
       profileName: store.state.pricingProfilePageState.profileName,
       flatRate: store.state.pricingProfilePageState.flatRate,
-      icon: ImageUtil.getRandomPriceProfileIcon(),
+      icon: 'assets/images/icons/income_received.png',
       includeSalesTax: store.state.pricingProfilePageState.includeSalesTax,
       salesTaxPercent: store.state.pricingProfilePageState.taxPercent,
       deposit: store.state.pricingProfilePageState.deposit != null ? store.state.pricingProfilePageState.deposit : 0,

@@ -58,7 +58,7 @@ class LeadSourceWidget extends StatelessWidget {
                         height: 38.0,
                         width: 38.0,
                         child: Image.asset(
-                          pageState.client.leadSource,
+                          'assets/images/icons/profile_icon.png',
                           color: Color(ColorConstants.peach_dark),),
                       ),
                       Expanded(

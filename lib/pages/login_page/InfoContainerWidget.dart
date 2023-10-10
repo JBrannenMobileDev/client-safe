@@ -40,8 +40,8 @@ class _InfoContainerWidget extends State<InfoContainerWidget> {
                 ),
                 child: Container(
                   width: 325,
-                  height: 270,
-                  padding: EdgeInsets.all(24),
+                  height: 205,
+                  padding: EdgeInsets.only(top: 16, bottom: 16, left: 24, right: 24),
                   color: Color(ColorConstants.getPrimaryWhite()).withOpacity(1),
                   child: contentWidget,
                 ),
