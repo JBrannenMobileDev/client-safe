@@ -37,7 +37,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
             height: 266,
             decoration: BoxDecoration(
               color: Color(ColorConstants.getPrimaryWhite()),
-              borderRadius: BorderRadius.circular(16.0),
+              borderRadius: BorderRadius.circular(12.0),
             ),
             child: Column(
               children: [
@@ -256,7 +256,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                             margin: EdgeInsets.only(right: 8),
                             height: 78,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
+                                borderRadius: BorderRadius.circular(12),
                                 color: Color(ColorConstants.getBlueLight()).withOpacity(0.25)
                             ),
                             child: Column(
@@ -390,7 +390,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                             margin: EdgeInsets.only(left: 8),
                             height: 78,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
+                                borderRadius: BorderRadius.circular(12),
                                 color: Color(ColorConstants.getBlueLight()).withOpacity(0.25)
                             ),
                             child: Column(

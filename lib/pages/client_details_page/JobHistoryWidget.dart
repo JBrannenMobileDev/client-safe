@@ -34,7 +34,7 @@ class JobHistoryWidget extends StatelessWidget {
                   left: 16, top: 16, right: 16, bottom: 16),
               decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
-                borderRadius: BorderRadius.circular(16.0),
+                borderRadius: BorderRadius.circular(12.0),
               ),
               child: Column(
                 children: [

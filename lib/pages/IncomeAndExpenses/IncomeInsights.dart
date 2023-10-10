@@ -23,16 +23,16 @@ class IncomeInsights extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.only(bottom: 24.0),
+            padding: EdgeInsets.only(bottom: 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  width: (MediaQuery.of(context).size.width / 2) - (28),
+                  width: (MediaQuery.of(context).size.width / 2) - (21),
                   height: 120.0,
                   decoration: BoxDecoration(
                       color: Color(ColorConstants.getPrimaryWhite()),
-                      borderRadius: new BorderRadius.all(Radius.circular(24.0))),
+                      borderRadius: new BorderRadius.all(Radius.circular(12.0))),
                   child: Stack(
                     alignment: Alignment.topCenter,
                     children: [
@@ -58,11 +58,11 @@ class IncomeInsights extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  width: (MediaQuery.of(context).size.width / 2) - (28),
+                  width: (MediaQuery.of(context).size.width / 2) - (21),
                   height: 120.0,
                   decoration: BoxDecoration(
                       color: Color(ColorConstants.getPrimaryWhite()),
-                      borderRadius: new BorderRadius.all(Radius.circular(24.0))),
+                      borderRadius: new BorderRadius.all(Radius.circular(12.0))),
                   child: Stack(
                     alignment: Alignment.topCenter,
                     children: [
@@ -94,11 +94,11 @@ class IncomeInsights extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                width: (MediaQuery.of(context).size.width / 2) - (28),
+                width: (MediaQuery.of(context).size.width / 2) - (21),
                 height: 120.0,
                 decoration: BoxDecoration(
                     color: Color(ColorConstants.getPrimaryWhite()),
-                    borderRadius: new BorderRadius.all(Radius.circular(24.0))),
+                    borderRadius: new BorderRadius.all(Radius.circular(12.0))),
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: [
@@ -124,11 +124,11 @@ class IncomeInsights extends StatelessWidget {
                 ),
               ),
               Container(
-                width: (MediaQuery.of(context).size.width / 2) - (28),
+                width: (MediaQuery.of(context).size.width / 2) - (21),
                 height: 120.0,
                 decoration: BoxDecoration(
                     color: Color(ColorConstants.getPrimaryWhite()),
-                    borderRadius: new BorderRadius.all(Radius.circular(24.0))),
+                    borderRadius: new BorderRadius.all(Radius.circular(12.0))),
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: [

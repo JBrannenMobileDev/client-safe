@@ -91,6 +91,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                   child: DandyLightNetworkImage(
                                     DeviceType.getDeviceTypeByContext(context) == Type.Website ? pageState.profile.bannerWebUrl : pageState.profile.bannerMobileUrl,
                                     borderRadius: 0,
+                                    resizeWidth: 2160,
                                     color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.bannerColor),
                                   ),
                                 ) : Container(

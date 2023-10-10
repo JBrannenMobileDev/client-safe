@@ -37,7 +37,7 @@ class DandyLightNetworkImage extends StatelessWidget {
         cacheManager: DandylightCacheManager.instance,
         fadeInDuration: Duration(milliseconds: 200),
         fadeOutDuration: Duration(milliseconds: 400),
-        memCacheWidth: 650,
+        memCacheWidth: resizeWidth,
         imageUrl: imageUrl,
         imageBuilder: (context, imageProvider) => Container(
           decoration: BoxDecoration(

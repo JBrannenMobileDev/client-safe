@@ -34,7 +34,7 @@ class LeadSourceWidget extends StatelessWidget {
               height: 104,
               decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
-                borderRadius: BorderRadius.circular(16.0),
+                borderRadius: BorderRadius.circular(12.0),
               ),
               child: Column(
                 children: [

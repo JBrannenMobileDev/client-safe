@@ -27,7 +27,7 @@ class BarChartState extends State<BarChartWidget> {
   Widget build(BuildContext context) {
     bool noData = true;
     for(LineChartMonthData data in widget.monthsData) {
-      if(data.income > 1) {
+      if(data.income != 0) {
         noData = false;
       }
     }

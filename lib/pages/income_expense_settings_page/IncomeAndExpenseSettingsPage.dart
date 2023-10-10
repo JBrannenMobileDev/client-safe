@@ -62,7 +62,7 @@ class _IncomeAndExpenseSettingsPageState extends State<IncomeAndExpenseSettingsP
                             padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
                             decoration: BoxDecoration(
                               color: Color(ColorConstants.getPrimaryWhite()),
-                              borderRadius: BorderRadius.circular(16.0),
+                              borderRadius: BorderRadius.circular(12.0),
                             ),
                             child: Column(
                               children: <Widget>[

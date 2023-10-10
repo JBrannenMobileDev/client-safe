@@ -255,23 +255,24 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
   }
 
   Job populateContractWithJobData(Job job, Profile profile) {
-    String contractJson = job.proposal.contract.jsonTerms;
-    quill.Document document = quill.Document.fromJson(jsonDecode(contractJson));
+    if(job.proposal.contract != null) {
+      String contractJson = job.proposal.contract.jsonTerms;
+      quill.Document document = quill.Document.fromJson(jsonDecode(contractJson));
 
-    replaceAll(document, Job.DETAIL_BUSINESS_NAME, profile.businessName != null ? profile.businessName : 'Photographer');
-    replaceAll(document, Job.DETAIL_PHOTOGRAPHER_NAME, (profile.firstName != null ? profile.firstName : 'Photographer') + (profile.lastName != null ? ' ' + profile.lastName : ''));
-    replaceAll(document, Job.DETAIL_CLIENT_NAME, job.clientName != null ? job.clientName : 'Client');
-    replaceAll(document, Job.DETAIL_CLIENT_PHONE, job.client.phone != null ? job.client.phone : 'NA');
-    replaceAll(document, Job.DETAIL_CLIENT_EMAIL, job.client.email != null ? job.client.email : 'NA');
-    replaceAll(document, Job.DETAIL_LOCATION_ADDRESS, job.location != null && job.location.address != null ? job.location.address : 'NA');
-    replaceAll(document, Job.DETAIL_SESSION_DATE, job.selectedDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(job.selectedDate) : 'NA');
-    replaceAll(document, Job.DETAIL_RETAINER_DUE_DATE, job.invoice.depositDueDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(job.invoice.depositDueDate) : 'NA');
-    replaceAll(document, Job.DETAIL_TOTAL_DUE_DATE, job.invoice.dueDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(job.invoice.dueDate) : 'NA');
-    replaceAll(document, Job.DETAIL_RETAINER_PRICE, job.invoice.depositAmount != null ? TextFormatterUtil.formatDecimalCurrency(job.invoice.depositAmount) : 'NA');
-    replaceAll(document, Job.DETAIL_TOTAL, job.invoice.total != null ? TextFormatterUtil.formatDecimalCurrency(job.invoice.total) : 'NA');
+      replaceAll(document, Job.DETAIL_BUSINESS_NAME, profile.businessName != null ? profile.businessName : 'Photographer');
+      replaceAll(document, Job.DETAIL_PHOTOGRAPHER_NAME, (profile.firstName != null ? profile.firstName : 'Photographer') + (profile.lastName != null ? ' ' + profile.lastName : ''));
+      replaceAll(document, Job.DETAIL_CLIENT_NAME, job.clientName != null ? job.clientName : 'Client');
+      replaceAll(document, Job.DETAIL_CLIENT_PHONE, job.client.phone != null ? job.client.phone : 'NA');
+      replaceAll(document, Job.DETAIL_CLIENT_EMAIL, job.client.email != null ? job.client.email : 'NA');
+      replaceAll(document, Job.DETAIL_LOCATION_ADDRESS, job.location != null && job.location.address != null ? job.location.address : 'NA');
+      replaceAll(document, Job.DETAIL_SESSION_DATE, job.selectedDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(job.selectedDate) : 'NA');
+      replaceAll(document, Job.DETAIL_RETAINER_DUE_DATE, job.invoice != null && job.invoice.depositDueDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(job.invoice.depositDueDate) : 'NA');
+      replaceAll(document, Job.DETAIL_TOTAL_DUE_DATE, job.invoice != null && job.invoice.dueDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(job.invoice.dueDate) : 'NA');
+      replaceAll(document, Job.DETAIL_RETAINER_PRICE, job.invoice != null && job.invoice.depositAmount != null ? TextFormatterUtil.formatDecimalCurrency(job.invoice.depositAmount) : 'NA');
+      replaceAll(document, Job.DETAIL_TOTAL, job.invoice != null && job.invoice.total != null ? TextFormatterUtil.formatDecimalCurrency(job.invoice.total) : 'NA');
 
-    job.proposal.contract.jsonTerms = jsonEncode(document.toDelta().toJson());
-
+      job.proposal.contract.jsonTerms = jsonEncode(document.toDelta().toJson());
+    }
     return job;
   }
 

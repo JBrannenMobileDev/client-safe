@@ -152,11 +152,13 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
             });
             _showSetupSheet(context);
           } else {
-            bool shouldShowCurrent = !current.profile.isProfileComplete() || !current.profile.hasSetupBrand || !current.profile.paymentOptionsSelected();
-            bool shouldShowPrevious = !previous.profile.isProfileComplete() || !previous.profile.hasSetupBrand || !previous.profile.paymentOptionsSelected();
-            if(shouldShowCurrent && !shouldShowPrevious) {
-              if(_isThisPageShowing(context)) {
-                _showSetupSheet(context);
+            if(previous.profile != null && current.profile != null) {
+              bool shouldShowCurrent = !current.profile.isProfileComplete() || !current.profile.hasSetupBrand || !current.profile.paymentOptionsSelected();
+              bool shouldShowPrevious = !previous.profile.isProfileComplete() || !previous.profile.hasSetupBrand || !previous.profile.paymentOptionsSelected();
+              if(shouldShowCurrent && !shouldShowPrevious) {
+                if(_isThisPageShowing(context)) {
+                  _showSetupSheet(context);
+                }
               }
             }
           }

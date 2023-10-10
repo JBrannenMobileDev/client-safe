@@ -43,7 +43,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
               height: 300,
               decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
-                borderRadius: BorderRadius.circular(16.0),
+                borderRadius: BorderRadius.circular(12.0),
               ),
               child: Stack(
                 alignment: Alignment.topCenter,
@@ -184,7 +184,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                               height: 82,
                               width: 64,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
+                                borderRadius: BorderRadius.circular(12),
                                 color: Color(ColorConstants.getPeachDark()),
                               ),
                               child: Container(

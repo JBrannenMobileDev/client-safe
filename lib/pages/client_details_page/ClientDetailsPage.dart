@@ -100,7 +100,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.vertical(
                               top: Radius.circular(0),
-                              bottom: Radius.circular(32)),
+                              bottom: Radius.circular(24)),
                           color: Color(ColorConstants.getPrimaryWhite())
                       ),
                       child: Column(
