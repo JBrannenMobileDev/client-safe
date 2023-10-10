@@ -130,6 +130,32 @@ class CheckForGoToJobAction {
   CheckForGoToJobAction(this.pageState);
 }
 
+class CheckForReviewRequestAction {
+  final DashboardPageState pageState;
+  final bool shouldShow;
+  CheckForReviewRequestAction(this.pageState, this.shouldShow);
+}
+
+class CheckForPMFSurveyAction {
+  final DashboardPageState pageState;
+  final bool shouldShow;
+  CheckForPMFSurveyAction(this.pageState, this.shouldShow);
+}
+
+class UpdateCanShowPMFSurveyAction {
+  final DashboardPageState pageState;
+  final bool canShow;
+  final DateTime lastSeenDate;
+  UpdateCanShowPMFSurveyAction(this.pageState, this.canShow, this.lastSeenDate);
+}
+
+class UpdateCanShowRequestReviewAction {
+  final DashboardPageState pageState;
+  final bool canShow;
+  final DateTime lastSeenDate;
+  UpdateCanShowRequestReviewAction(this.pageState, this.canShow, this.lastSeenDate);
+}
+
 class SetGoToAsSeenAction {
   final DashboardPageState pageState;
   SetGoToAsSeenAction(this.pageState);

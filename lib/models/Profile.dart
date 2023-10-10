@@ -21,6 +21,10 @@ class Profile{
   bool otherEnabled;
   bool wireEnabled;
   bool hasSetupBrand;
+  bool canShowAppReview; //set to false if user clicks do not show again or if they click the request action
+  bool canShowPMFSurvey; //set to false if user clicks do not show again or if they click the request action
+  DateTime requestReviewDate;
+  DateTime requestPMFSurveyDate;
   String zellePhoneEmail;
   String zelleFullName;
   String venmoLink;
@@ -172,6 +176,10 @@ class Profile{
     this.wireMessage,
     this.wireEnabled,
     this.cashMessage,
+    this.canShowAppReview,
+    this.canShowPMFSurvey,
+    this.requestPMFSurveyDate,
+    this.requestReviewDate,
   });
 
   Profile copyWith({
@@ -218,6 +226,10 @@ class Profile{
     bool hasSetupBrand,
     bool otherEnabled,
     bool wireEnabled,
+    bool canShowAppReview,
+    bool canShowPMFSurvey,
+    DateTime requestReviewDate,
+    DateTime requestPMFSurveyDate,
     String wireMessage,
     int jobsCreatedCount,
     bool logoSelected,
@@ -345,6 +357,10 @@ class Profile{
       wireEnabled: wireEnabled ?? this.wireEnabled,
       wireMessage: wireMessage ?? this.wireMessage,
       cashMessage: cashMessage ?? this.cashMessage,
+      canShowAppReview: canShowAppReview ?? this.canShowAppReview,
+      canShowPMFSurvey: canShowPMFSurvey ?? this.canShowPMFSurvey,
+      requestPMFSurveyDate: requestPMFSurveyDate ?? this.requestPMFSurveyDate,
+      requestReviewDate: requestReviewDate ?? this.requestReviewDate,
     );
   }
 
@@ -365,6 +381,8 @@ class Profile{
       'cashAppEnabled' : cashAppEnabled ?? false,
       'applePayEnabled' : applePayEnabled ?? false,
       'wireEnabled' : wireEnabled ?? false,
+      'canShowPMFSurvey' : canShowPMFSurvey ?? true,
+      'canShowAppReview' : canShowAppReview ?? true,
       'zelleFullName' : zelleFullName,
       'zellePhoneEmail' : zellePhoneEmail,
       'venmoLink' : venmoLink,
@@ -422,6 +440,8 @@ class Profile{
       'responsesLastChangeDate' : responsesLastChangeDate?.millisecondsSinceEpoch ?? null,
       'poseLibraryGroupLastChangeDate' : poseLibraryGroupLastChangeDate?.millisecondsSinceEpoch ?? null,
       'discountCodesLastChangedTime' : discountCodesLastChangedTime?.millisecondsSinceEpoch ?? null,
+      'requestReviewDate' : requestReviewDate?.millisecondsSinceEpoch ?? null,
+      'requestPMFSurveyDate' : requestPMFSurveyDate?.millisecondsSinceEpoch ?? null,
       'accountCreatedDate' : accountCreatedDate?.millisecondsSinceEpoch ?? DateTime(2023, 2, 1).millisecondsSinceEpoch,
       'salesTaxRate' : salesTaxRate,
       'hasSeenIncomeInfo' : hasSeenIncomeInfo,
@@ -467,6 +487,8 @@ class Profile{
       lngDefaultHome: map['lngDefaultHome']?.toDouble(),
       pushNotificationsEnabled: map['pushNotificationsEnabled'],
       calendarEnabled: map['calendarEnabled'] != null ? map['calendarEnabled'] : false,
+      canShowAppReview: map['canShowAppReview'] != null ? map['canShowAppReview'] : true,
+      canShowPMFSurvey: map['canShowPMFSurvey'] != null ? map['canShowPMFSurvey'] : true,
       salesTaxRate: map['salesTaxRate']?.toDouble(),
       instagramUrl: map['instagramUrl'],
       bannerImageSelected: map['bannerImageSelected'] != null ? map['bannerImageSelected'] : false,
@@ -520,6 +542,8 @@ class Profile{
       discountCodesLastChangedTime: map['discountCodesLastChangedTime'] != null ? DateTime.fromMillisecondsSinceEpoch(map['discountCodesLastChangedTime']) : null,
       accountCreatedDate: map['accountCreatedDate'] != null ? DateTime.fromMillisecondsSinceEpoch(map['accountCreatedDate']) : DateTime(2023, 2, 1),
       poseLibraryGroupLastChangeDate: map['poseLibraryGroupLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['poseLibraryGroupLastChangeDate']) : null,
+      requestPMFSurveyDate: map['requestPMFSurveyDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['requestPMFSurveyDate']) : null,
+      requestReviewDate: map['requestReviewDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['requestReviewDate']) : null,
     );
   }
 

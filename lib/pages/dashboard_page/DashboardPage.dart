@@ -44,6 +44,8 @@ import '../../utils/PushNotificationsManager.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
+import 'RequestAppReviewBottomSheet.dart';
+import 'RequestPMFSurveyBottomSheet.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({Key key, this.destination, this.comingFromLogin}) : super(key: key);
@@ -84,6 +86,8 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
   bool isFabExpanded = false;
   bool comingFromLogin;
   bool goToHasBeenSeen = false;
+  bool hasSeenPMFRequest = false;
+  bool hasSeenRequestReview = false;
 
   _DashboardPageState(this.comingFromLogin);
 
@@ -198,6 +202,34 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
     );
   }
 
+  void _showRequestAppReviewBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return RequestAppReviewBottomSheet();
+      },
+    );
+  }
+
+  void _showRequestPMFBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return RequestPMFSurveyBottomSheet();
+      },
+    );
+  }
+
   // It is assumed that all messages contain a data field with the key 'type'
   Future<void> setupInteractedMessage() async {
     // Get any messages which caused the application to open from
@@ -230,6 +262,8 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
           store.dispatch(new InitDashboardPageAction(store.state.dashboardPageState));
           store.dispatch(new LoadJobsAction(store.state.dashboardPageState));
           store.dispatch(CheckForGoToJobAction(store.state.dashboardPageState));
+          store.dispatch(CheckForPMFSurveyAction(store.state.dashboardPageState, false));
+          store.dispatch(CheckForReviewRequestAction(store.state.dashboardPageState, false));
           if(store.state.dashboardPageState.unseenNotificationCount > 0) {
             _runAnimation();
           }
@@ -296,19 +330,27 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
           }
         },
         onDidChange: (previous, current) async {
-          if(!goToHasBeenSeen && !current.goToSeen && current.goToPosesJob != null){
+          if(!current.hasSeenShowcase) {
+            _startShowcase();
+            current.onShowcaseSeen();
+          } else if(!goToHasBeenSeen && !current.goToSeen && current.goToPosesJob != null){
             _showGoToJobPosesSheet(context, current.goToPosesJob);
             setState(() {
               goToHasBeenSeen = true;
             });
             current.onGoToSeen();
-          }
-          if(!previous.shouldShowNewMileageExpensePage && current.shouldShowNewMileageExpensePage) {
+          } else if(!previous.shouldShowNewMileageExpensePage && current.shouldShowNewMileageExpensePage) {
             UserOptionsUtil.showNewMileageExpenseSelected(context);
-          }
-          if(!current.hasSeenShowcase) {
-            _startShowcase();
-            current.onShowcaseSeen();
+          } else if(!hasSeenRequestReview && !previous.shouldShowRequestReview && current.shouldShowRequestReview) {
+            setState(() {
+              hasSeenRequestReview = true;
+            });
+            _showRequestAppReviewBottomSheet(context);
+          } else if(!hasSeenPMFRequest && !previous.shouldShowPMFRequest && current.shouldShowPMFRequest) {
+            setState(() {
+              hasSeenPMFRequest = true;
+            });
+            _showRequestPMFBottomSheet(context);
           }
         },
 

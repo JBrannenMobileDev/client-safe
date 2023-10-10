@@ -92,6 +92,7 @@ dependencies:
   universal_html: ^2.0.9
   flutter_quill: ^7.1.16+1
   geocoder2: ^1.4.0
+  in_app_review: ^2.0.6
   modal_bottom_sheet:
     git:
       url: https://github.com/CoolDude53/modal_bottom_sheet.git
@@ -104,7 +105,7 @@ flutter_icons:
   ios: true
   image_path: "assets/images/dandy_light_app_icon.png"
   remove_alpha_ios: true
-  adaptive_icon_background: "#BCC6C0"
+  adaptive_icon_background: "#D4D9D2"
   adaptive_icon_foreground: "assets/images/app_icon_adaptive_android.png"
 
 dev_dependencies:
@@ -159,20 +160,7 @@ flutter:
     - assets/images/backgrounds/login_bg.jpg
     - assets/images/icons/select.png
 
-
-    - assets/images/backgrounds/home_background_2.png
-    - assets/images/backgrounds/home_background_3.png
-    - assets/images/backgrounds/home_background_4.png
     - assets/images/backgrounds/image_background.png
-    - assets/images/backgrounds/income_background_lighter.png
-    - assets/images/backgrounds/expenses_background_lighter.png
-    - assets/images/backgrounds/job_details_background.png
-    - assets/images/backgrounds/expenses_background_peach.png
-    - assets/images/backgrounds/login_background.png
-    - assets/images/backgrounds/login_background_blue_mountain.png
-    - assets/images/backgrounds/login_background_peach_dark_mountain.png
-    - assets/images/backgrounds/login_background_peach_mountain.png
-    - assets/images/backgrounds/login_background_sun.png
 
     - assets/images/instagram_logo_icon.png
 
@@ -409,11 +397,7 @@ flutter:
 
     - assets/animations/success_check.flr
 
-    - assets/images/backgrounds/image_background.png
-    - assets/images/backgrounds/largebackground.png
-    - assets/images/backgrounds/sample_brand.png
     - assets/images/backgrounds/flowerBgLaunch.png
-    - assets/images/backgrounds/bannerImage.png
     - assets/images/calendar.png
     - assets/images/clock.png
     - assets/images/alert.png

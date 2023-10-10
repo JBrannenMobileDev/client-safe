@@ -71,6 +71,18 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     if(action is CheckForGoToJobAction) {
       _checkForGoToJob(store, action);
     }
+    if(action is CheckForReviewRequestAction) {
+      _checkForReviewRequest(store, action, next);
+    }
+    if(action is CheckForPMFSurveyAction) {
+      _checkForPMFSurvey(store, action, next);
+    }
+    if(action is UpdateCanShowPMFSurveyAction) {
+      _updateCanShowPMF(store, action, next);
+    }
+    if(action is UpdateCanShowRequestReviewAction) {
+      _updateCanShowReviewRequest(store, action, next);
+    }
     if(action is LaunchDrivingDirectionsAction) {
       _launchDrivingDirections(store, action);
     }
@@ -79,10 +91,40 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
+  Future<void> _updateCanShowPMF(Store<AppState> store, UpdateCanShowPMFSurveyAction action, NextDispatcher next) async {
+    next(CheckForPMFSurveyAction(store.state.dashboardPageState, action.canShow));
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.canShowPMFSurvey = action.canShow;
+    profile.requestPMFSurveyDate = action.lastSeenDate;
+    await ProfileDao.update(profile);
+  }
+
+  Future<void> _updateCanShowReviewRequest(Store<AppState> store, UpdateCanShowRequestReviewAction action, NextDispatcher next) async {
+    next(CheckForReviewRequestAction(store.state.dashboardPageState, action.canShow));
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.canShowAppReview = action.canShow;
+    profile.requestReviewDate = action.lastSeenDate;
+    await ProfileDao.update(profile);
+  }
+
   void _launchDrivingDirections(Store<AppState> store, LaunchDrivingDirectionsAction action) async {
     IntentLauncherUtil.launchDrivingDirections(
         action.location.latitude.toString(),
         action.location.longitude.toString());
+  }
+
+  Future<void> _checkForReviewRequest(Store<AppState> store, CheckForReviewRequestAction action, NextDispatcher next) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(profile.isSubscribed && profile.jobsCreatedCount > 5 && profile.canShowAppReview && hasBeenLongEnoughSinceLastRequest(profile.requestReviewDate)) {
+      next(CheckForReviewRequestAction(store.state.dashboardPageState, true));
+    }
+  }
+
+  Future<void> _checkForPMFSurvey(Store<AppState> store, CheckForPMFSurveyAction action, NextDispatcher next) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(profile.isSubscribed && profile.jobsCreatedCount > 12 && profile.canShowPMFSurvey && hasBeenLongEnoughSinceLastRequest(profile.requestPMFSurveyDate)) {
+      next(CheckForPMFSurveyAction(store.state.dashboardPageState, true));
+    }
   }
 
   Future<void> _checkForGoToJob(Store<AppState> store, CheckForGoToJobAction action) async {
@@ -331,5 +373,11 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       print(e);
     }
     return currentInfo;
+  }
+
+  bool hasBeenLongEnoughSinceLastRequest(DateTime lastRequestDate) {
+    DateTime oneWeekAgo = DateTime.now();
+    oneWeekAgo.add(Duration(days: -7));
+    return lastRequestDate.isBefore(oneWeekAgo);
   }
 }

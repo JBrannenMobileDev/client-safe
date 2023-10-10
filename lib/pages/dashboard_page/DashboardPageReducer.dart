@@ -36,7 +36,21 @@ final dashboardPageReducer = combineReducers<DashboardPageState>([
   TypedReducer<DashboardPageState, SetGoToPosesJob>(_setGoToJobPoses),
   TypedReducer<DashboardPageState, SetGoToAsSeenAction>(_setGoToAsSeen),
   TypedReducer<DashboardPageState, SetUnseenFeaturedPosesAction>(_setUnseenFeaturedPoses),
+  TypedReducer<DashboardPageState, CheckForPMFSurveyAction>(_setCanShowPMF),
+  TypedReducer<DashboardPageState, CheckForReviewRequestAction>(_setCanShowRequestReview),
 ]);
+
+DashboardPageState _setCanShowPMF(DashboardPageState previousState, CheckForPMFSurveyAction action) {
+  return previousState.copyWith(
+    shouldShowPMFRequest: action.shouldShow,
+  );
+}
+
+DashboardPageState _setCanShowRequestReview(DashboardPageState previousState, CheckForReviewRequestAction action) {
+  return previousState.copyWith(
+    shouldShowRequestReview: action.shouldShow,
+  );
+}
 
 DashboardPageState _setUnseenFeaturedPoses(DashboardPageState previousState, SetUnseenFeaturedPosesAction action) {
   return previousState.copyWith(

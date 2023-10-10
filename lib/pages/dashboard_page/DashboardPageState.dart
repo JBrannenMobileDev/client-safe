@@ -25,6 +25,8 @@ class DashboardPageState {
   final bool hasSeenShowcase;
   final bool goToSeen;
   final bool areJobsLoaded;
+  final bool shouldShowRequestReview;
+  final bool shouldShowPMFRequest;
   final Job goToPosesJob;
   final int leadConversionRate;
   final int unconvertedLeadCount;
@@ -59,6 +61,8 @@ class DashboardPageState {
   final Function() markAllAsSeen;
   final Function() onGoToSeen;
   final Function(LocationDandy) drivingDirectionsSelected;
+  final Function(bool, DateTime) updateCanShowPMF;
+  final Function(bool, DateTime) updateCanShowRequestReview;
 
   DashboardPageState({
     this.jobsProfitTotal,
@@ -102,6 +106,10 @@ class DashboardPageState {
     this.drivingDirectionsSelected,
     this.areJobsLoaded,
     this.unseenFeaturedPoses,
+    this.shouldShowPMFRequest,
+    this.shouldShowRequestReview,
+    this.updateCanShowPMF,
+    this.updateCanShowRequestReview,
   });
 
   DashboardPageState copyWith({
@@ -111,6 +119,8 @@ class DashboardPageState {
     bool hasSeenShowcase,
     bool goToSeen,
     bool areJobsLoaded,
+    bool shouldShowPMFRequest,
+    bool shouldShowRequestReview,
     int leadConversionRate,
     Job goToPosesJob,
     int unconvertedLeadCount,
@@ -146,6 +156,8 @@ class DashboardPageState {
     purchases.CustomerInfo subscriptionState,
     Function() onGoToSeen,
     Function(LocationDandy) drivingDirectionsSelected,
+    Function(bool, DateTime) updateCanShowPMF,
+    Function(bool, DateTime) updateCanShowRequestReview,
   }){
     return DashboardPageState(
       jobsProfitTotal: jobsProfitTotal ?? this.jobsProfitTotal,
@@ -189,6 +201,10 @@ class DashboardPageState {
       drivingDirectionsSelected: drivingDirectionsSelected ?? this.drivingDirectionsSelected,
       areJobsLoaded: areJobsLoaded ?? this.areJobsLoaded,
       unseenFeaturedPoses: unseenFeaturedPoses ?? this.unseenFeaturedPoses,
+      shouldShowPMFRequest: shouldShowPMFRequest ?? this.shouldShowPMFRequest,
+      shouldShowRequestReview: shouldShowRequestReview ?? this.shouldShowRequestReview,
+      updateCanShowPMF: updateCanShowPMF ?? this.updateCanShowPMF,
+      updateCanShowRequestReview: updateCanShowRequestReview ?? this.updateCanShowRequestReview,
     );
   }
 
@@ -224,6 +240,8 @@ class DashboardPageState {
       goToSeen: store.state.dashboardPageState.goToSeen,
       areJobsLoaded: store.state.dashboardPageState.areJobsLoaded,
       unseenFeaturedPoses: store.state.dashboardPageState.unseenFeaturedPoses,
+      shouldShowPMFRequest: store.state.dashboardPageState.shouldShowPMFRequest,
+      shouldShowRequestReview: store.state.dashboardPageState.shouldShowRequestReview,
       onLeadClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
       onJobClicked: (job) {
         store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job));
@@ -246,6 +264,8 @@ class DashboardPageState {
       markAllAsSeen: () => store.dispatch(MarkAllAsSeenAction(store.state.dashboardPageState)),
       onGoToSeen: () => store.dispatch(SetGoToAsSeenAction(store.state.dashboardPageState)),
       drivingDirectionsSelected: (location) => store.dispatch(LaunchDrivingDirectionsAction(store.state.dashboardPageState, location)),
+      updateCanShowRequestReview: (canShow, lastSeenDate) => store.dispatch(UpdateCanShowRequestReviewAction(store.state.dashboardPageState, canShow, lastSeenDate)),
+      updateCanShowPMF: (canShow, lastSeenDate) => store.dispatch(UpdateCanShowPMFSurveyAction(store.state.dashboardPageState, canShow, lastSeenDate))
     );
   }
 
@@ -288,7 +308,11 @@ class DashboardPageState {
     onGoToSeen: null,
     drivingDirectionsSelected: null,
     areJobsLoaded: false,
+    shouldShowRequestReview: false,
+    shouldShowPMFRequest: false,
     unseenFeaturedPoses: [],
+    updateCanShowRequestReview: null,
+    updateCanShowPMF: null,
   );
 
   @override
@@ -330,7 +354,11 @@ class DashboardPageState {
       goToSeen.hashCode ^
       onGoToSeen.hashCode ^
       areJobsLoaded.hashCode ^
+      shouldShowRequestReview.hashCode ^
+      shouldShowPMFRequest.hashCode ^
       unseenFeaturedPoses.hashCode ^
+      updateCanShowPMF.hashCode ^
+      updateCanShowRequestReview.hashCode ^
       isMinimized.hashCode;
 
   @override
@@ -374,6 +402,10 @@ class DashboardPageState {
               onGoToSeen == other.onGoToSeen &&
               drivingDirectionsSelected == other.drivingDirectionsSelected &&
               areJobsLoaded == other.areJobsLoaded &&
+              shouldShowRequestReview == other.shouldShowRequestReview &&
+              shouldShowPMFRequest == other.shouldShowPMFRequest &&
               unseenFeaturedPoses == other.unseenFeaturedPoses &&
+              updateCanShowPMF == other.updateCanShowPMF &&
+              updateCanShowRequestReview == other.updateCanShowRequestReview &&
               isMinimized == other.isMinimized;
 }
