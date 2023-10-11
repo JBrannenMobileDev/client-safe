@@ -95,6 +95,7 @@ class _LeadSourceSelectionWidget extends State<LeadSourceSelectionWidget> {
                     padding: EdgeInsets.only(left: 24, right: 24),
                     child: Container(
                       child: Wrap(
+                        alignment: WrapAlignment.center,
                         spacing: 8.0,
                         children: List<Widget>.generate(
                           _chipLabels.length,
@@ -108,19 +109,13 @@ class _LeadSourceSelectionWidget extends State<LeadSourceSelectionWidget> {
                                           type: TextDandyLight.SMALL_TEXT,
                                           text: _chipLabels.elementAt(index),
                                           textAlign: TextAlign.start,
-                                          color: Color(ColorConstants.getPrimaryBlack()),
+                                          color: Color(isSelected(index, modalPageState) ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
                                         ),
-                                        isSelected(index, modalPageState)
-                                            ? Padding(
-                                          padding: EdgeInsets.only(left: 4.0),
-                                          child: Icon(Icons.close, size: 20,),
-                                        )
-                                            : SizedBox(),
                                       ],
                                     ),
                                     backgroundColor:
-                                    Color(ColorConstants.primary_bg_grey),
-                                    selectedColor: Color(ColorConstants.getBlueLight()),
+                                    Color(ColorConstants.getBlueLight()),
+                                    selectedColor: Color(ColorConstants.getBlueDark()),
                                     selected: modalPageState.leadSource == _chipLabels.elementAt(index),
                                     onSelected: (bool selected) {
                                       setState(() {

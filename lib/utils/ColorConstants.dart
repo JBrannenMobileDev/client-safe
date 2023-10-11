@@ -102,7 +102,7 @@ class ColorConstants{
   }
 
   static int getPieChartColor(int index) {
-    List<int> colors = [black, peach_dark, blue_light, blue_dark, peach_light, grey ];
+    List<int> colors = [peach_dark, blue_light, blue_dark, peach_light, black, grey ];
     while(index > 5) {
       index = index - 6;
     }

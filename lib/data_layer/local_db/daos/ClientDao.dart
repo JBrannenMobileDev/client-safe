@@ -76,7 +76,7 @@ class ClientDao extends Equatable{
       finder: finder,
     );
     await ClientCollection().updateClient(client);
-    await client.jobs.forEach((job) async {
+    await client.jobs?.forEach((job) async {
       job.client = client;
       job.clientName = client.getClientFullName();
       await JobDao.update(job);

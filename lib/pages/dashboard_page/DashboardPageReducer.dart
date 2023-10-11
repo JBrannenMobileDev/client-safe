@@ -18,6 +18,7 @@ import 'package:redux/redux.dart';
 
 import '../../models/JobStage.dart';
 import '../../models/JobType.dart';
+import '../../models/LeadSource.dart';
 import '../../utils/ImageUtil.dart';
 import 'DashboardPageActions.dart';
 import 'DashboardPageState.dart';
@@ -407,7 +408,14 @@ DashboardPageState _setClients(DashboardPageState previousState, SetClientsDashb
   List<LeadSourcePieChartRowData> rowData = [];
 
   for(Client client in allClientsFromThisYear) {
-    groupedList.putIfAbsent(client.customLeadSourceName != null && client.customLeadSourceName.isNotEmpty ? client.customLeadSourceName : client.leadSource, () => <Client>[]).add(client);
+    String newLeadSource = '';
+    if(Client.isOldSource(client.leadSource)) {
+      newLeadSource = Client.mapOldLeadSourceToNew(client.leadSource);
+      client.leadSource = newLeadSource;
+    } else {
+      newLeadSource = client.leadSource;
+    }
+    groupedList.putIfAbsent(client.customLeadSourceName != null && client.customLeadSourceName.isNotEmpty ? client.customLeadSourceName : newLeadSource, () => <Client>[]).add(client);
   }
 
   var seen = Set<String>();
@@ -416,6 +424,9 @@ DashboardPageState _setClients(DashboardPageState previousState, SetClientsDashb
   int index = 0;
   for(Client client in allLeadSourceNames) {
     String leadSourceName = client.customLeadSourceName != null && client.customLeadSourceName.isNotEmpty ? client.customLeadSourceName : client.leadSource;
+    if(Client.isOldSource(leadSourceName)) {
+      leadSourceName = Client.mapOldLeadSourceToNew(leadSourceName);
+    }
     List<Client> clientsForLeadName = groupedList[leadSourceName];
 
     if(clientsForLeadName != null) {
