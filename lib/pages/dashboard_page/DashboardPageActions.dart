@@ -5,6 +5,7 @@ import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
+import '../../models/AppSettings.dart';
 import '../../models/JobReminder.dart';
 import '../../models/JobType.dart';
 import '../../models/LocationDandy.dart';
@@ -143,7 +144,14 @@ class CheckForAppUpdateAction {
 class SetShouldShowUpdateAction {
   final DashboardPageState pageState;
   final bool shouldShow;
-  SetShouldShowUpdateAction(this.pageState, this.shouldShow);
+  final AppSettings appSettings;
+  SetShouldShowUpdateAction(this.pageState, this.shouldShow, this.appSettings);
+}
+
+class SetUpdateSeenTimestampAction {
+  final DashboardPageState pageState;
+  final DateTime lastSeenDate;
+  SetUpdateSeenTimestampAction(this.pageState, this.lastSeenDate);
 }
 
 class CheckForPMFSurveyAction {

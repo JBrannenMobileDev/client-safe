@@ -44,6 +44,7 @@ import '../../utils/PushNotificationsManager.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
+import 'AppUpdateBottomSheet.dart';
 import 'RequestAppReviewBottomSheet.dart';
 import 'RequestPMFSurveyBottomSheet.dart';
 
@@ -231,7 +232,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
     );
   }
 
-  void _showAppUpdateBottomSheet(BuildContext context) {
+  void _showAppUpdateBottomSheet(BuildContext context, DashboardPageState pageState) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -240,9 +241,11 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
       backgroundColor: Colors.transparent,
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
-        return RequestPMFSurveyBottomSheet(); //TODO actually build update sheet
+        return AppUpdateBottomSheet();
       },
-    );
+    ).whenComplete( () {
+      pageState.markUpdateAsSeen(pageState.appSettings);
+    });
   }
 
   // It is assumed that all messages contain a data field with the key 'type'
@@ -349,8 +352,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
           if(!hasSeenAPpUpdate && !previous.shouldShowAppUpdate && current.shouldShowAppUpdate) {
             setState(() {
               hasSeenAPpUpdate = true;
-              current.markUpdateAsSeen();
-              _showAppUpdateBottomSheet(context);
+              _showAppUpdateBottomSheet(context, current);
             });
           } else if(!current.hasSeenShowcase) {
             _startShowcase();

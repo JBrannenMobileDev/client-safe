@@ -9,6 +9,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
+import '../../models/AppSettings.dart';
 import '../../models/JobReminder.dart';
 import '../../models/JobStage.dart';
 import '../../models/LocationDandy.dart';
@@ -48,6 +49,7 @@ class DashboardPageState {
   final List<LeadSourcePieChartRowData> leadSourcePieChartRowData;
   final List<Pose> unseenFeaturedPoses;
   final Profile profile;
+  final AppSettings appSettings;
   final Function() onAddClicked;
   final Function() onSearchClientsClicked;
   final Function(Action) onActionItemClicked;
@@ -64,7 +66,7 @@ class DashboardPageState {
   final Function(LocationDandy) drivingDirectionsSelected;
   final Function(bool, DateTime) updateCanShowPMF;
   final Function(bool, DateTime) updateCanShowRequestReview;
-  final Function() markUpdateAsSeen;
+  final Function(AppSettings) markUpdateAsSeen;
 
   DashboardPageState({
     this.jobsProfitTotal,
@@ -114,6 +116,7 @@ class DashboardPageState {
     this.updateCanShowRequestReview,
     this.shouldShowAppUpdate,
     this.markUpdateAsSeen,
+    this.appSettings,
   });
 
   DashboardPageState copyWith({
@@ -159,11 +162,12 @@ class DashboardPageState {
     List<LeadSourcePieChartRowData> leadSourcePieChartRowData,
     Profile profile,
     purchases.CustomerInfo subscriptionState,
+    AppSettings appSettings,
     Function() onGoToSeen,
     Function(LocationDandy) drivingDirectionsSelected,
     Function(bool, DateTime) updateCanShowPMF,
     Function(bool, DateTime) updateCanShowRequestReview,
-    Function() markUpdateAsSeen,
+    Function(AppSettings) markUpdateAsSeen,
   }){
     return DashboardPageState(
       jobsProfitTotal: jobsProfitTotal ?? this.jobsProfitTotal,
@@ -213,6 +217,7 @@ class DashboardPageState {
       updateCanShowRequestReview: updateCanShowRequestReview ?? this.updateCanShowRequestReview,
       shouldShowAppUpdate : shouldShowAppUpdate ?? this.shouldShowAppUpdate,
       markUpdateAsSeen: markUpdateAsSeen ?? this.markUpdateAsSeen,
+      appSettings: appSettings ?? this.appSettings,
     );
   }
 
@@ -251,6 +256,7 @@ class DashboardPageState {
       shouldShowPMFRequest: store.state.dashboardPageState.shouldShowPMFRequest,
       shouldShowRequestReview: store.state.dashboardPageState.shouldShowRequestReview,
       shouldShowAppUpdate: store.state.dashboardPageState.shouldShowAppUpdate,
+      appSettings: store.state.dashboardPageState.appSettings,
       onLeadClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
       onJobClicked: (job) {
         store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job));
@@ -275,7 +281,10 @@ class DashboardPageState {
       drivingDirectionsSelected: (location) => store.dispatch(LaunchDrivingDirectionsAction(store.state.dashboardPageState, location)),
       updateCanShowRequestReview: (canShow, lastSeenDate) => store.dispatch(UpdateCanShowRequestReviewAction(store.state.dashboardPageState, canShow, lastSeenDate)),
       updateCanShowPMF: (canShow, lastSeenDate) => store.dispatch(UpdateCanShowPMFSurveyAction(store.state.dashboardPageState, canShow, lastSeenDate)),
-      markUpdateAsSeen: () => store.dispatch(SetShouldShowUpdateAction(store.state.dashboardPageState, false)),
+      markUpdateAsSeen: (appSettings) {
+        store.dispatch(SetShouldShowUpdateAction(store.state.dashboardPageState, false, appSettings));
+        store.dispatch(SetUpdateSeenTimestampAction(store.state.dashboardPageState, DateTime.now()));
+      },
     );
   }
 
@@ -296,6 +305,7 @@ class DashboardPageState {
     onJobClicked: null,
     isMinimized: true,
     allJobs: [],
+    appSettings: null,
     lineChartMonthData: List.filled(6, LineChartMonthData(income: 1)),
     onViewAllHideSelected: null,
     isLeadsMinimized: true,
@@ -373,6 +383,7 @@ class DashboardPageState {
       updateCanShowPMF.hashCode ^
       updateCanShowRequestReview.hashCode ^
       markUpdateAsSeen.hashCode ^
+      appSettings.hashCode ^
       isMinimized.hashCode;
 
   @override
@@ -412,6 +423,7 @@ class DashboardPageState {
               jobTypePieChartRowData == other.jobTypePieChartRowData &&
               leadSourcePieChartRowData == other.leadSourcePieChartRowData &&
               profile == other.profile &&
+              appSettings == other.appSettings &&
               goToPosesJob == other.goToPosesJob &&
               goToSeen == other.goToSeen &&
               onGoToSeen == other.onGoToSeen &&

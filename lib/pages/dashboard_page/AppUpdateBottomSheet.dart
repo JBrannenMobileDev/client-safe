@@ -2,10 +2,12 @@ import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
+import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:open_store/open_store.dart';
 import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
@@ -17,124 +19,68 @@ import 'DashboardPageState.dart';
 
 
 class AppUpdateBottomSheet extends StatefulWidget {
-  final Job job;
-
-  AppUpdateBottomSheet(this.job);
 
   @override
   State<StatefulWidget> createState() {
-    return _AppUpdateBottomSheetState(job);
+    return _AppUpdateBottomSheetState();
   }
 }
 
 class _AppUpdateBottomSheetState extends State<AppUpdateBottomSheet> with TickerProviderStateMixin {
-  final Job job;
-
-  _AppUpdateBottomSheetState(this.job);
 
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, DashboardPageState>(
     converter: (Store<AppState> store) => DashboardPageState.fromStore(store),
     builder: (BuildContext context, DashboardPageState pageState) =>
          Container(
-           height: 332,
+           height: 296,
            width: MediaQuery.of(context).size.width,
            decoration: BoxDecoration(
                borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
                color: Color(ColorConstants.getPrimaryWhite())),
-           padding: EdgeInsets.only(left: 16.0, right: 16.0),
+           padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16),
              child: Column(
-                   mainAxisAlignment: MainAxisAlignment.start,
-                   children: <Widget>[
-                     Container(
-                       margin: EdgeInsets.only(top: 24, bottom: 0),
-                       child: TextDandyLight(
-                         type: TextDandyLight.LARGE_TEXT,
-                         text: 'Current Photoshoot',
-                         textAlign: TextAlign.center,
-                         color: Color(ColorConstants.getPrimaryBlack()),
-                       ),
-                     ),
-                     Container(
-                       margin: EdgeInsets.only(top: 8, bottom: 32),
-                       child: TextDandyLight(
-                         type: TextDandyLight.MEDIUM_TEXT,
-                         text: job.jobTitle,
-                         textAlign: TextAlign.center,
-                         color: Color(ColorConstants.getPrimaryBlack()),
-                       ),
-                     ),
-                     GestureDetector(
-                       onTap: () {
-                         pageState.onJobClicked(job.documentId);
-                         Navigator.of(context).pop();
-                         NavigationUtil.onJobPosesSelected(context);
-                         EventSender().sendEvent(eventName: EventNames.NAV_TO_JOB_POSES_FROM_BOTTOM_SHEET);
-                       },
-                       child: Container(
-                         height: 48,
-                         width: 250,
-                         alignment: Alignment.center,
-                         decoration: BoxDecoration(
-                           borderRadius: BorderRadius.circular(32),
-                           color: Color(ColorConstants.getPeachDark()),
-                         ),
-                         child: TextDandyLight(
-                           type: TextDandyLight.MEDIUM_TEXT,
-                           color: Color(ColorConstants.getPrimaryWhite()),
-                           text: 'Job Poses',
-                         ),
-                       ),
-                     ),
-                     GestureDetector(
-                       onTap: () {
-                         pageState.onJobClicked(job.documentId);
-                         Navigator.of(context).pop();
-                         NavigationUtil.onJobTapped(context, false);
-                         EventSender().sendEvent(eventName: EventNames.NAV_TO_JOB_POSES_FROM_BOTTOM_SHEET);
-                       },
-                       child: Container(
-                         margin: EdgeInsets.only(top: 16),
-                         height: 48,
-                         width: 250,
-                         alignment: Alignment.center,
-                         decoration: BoxDecoration(
-                           borderRadius: BorderRadius.circular(32),
-                           color: Color(ColorConstants.getPeachDark()),
-                         ),
-                         child: TextDandyLight(
-                           type: TextDandyLight.MEDIUM_TEXT,
-                           color: Color(ColorConstants.getPrimaryWhite()),
-                           text: 'Job Details',
-                         ),
-                       ),
-                     ),
-                     GestureDetector(
-                       onTap: () {
-                         if(job.location != null) {
-                           pageState.drivingDirectionsSelected(job.location);
-                         } else {
-                            DandyToastUtil.showErrorToast('No location set for this job.');
-                         }
-                       },
-                       child: Container(
-                         margin: EdgeInsets.only(top: 16),
-                         height: 48,
-                         width: 250,
-                         alignment: Alignment.center,
-                         decoration: BoxDecoration(
-                           borderRadius: BorderRadius.circular(32),
-                           color: job.location != null ? Color(ColorConstants.getPeachDark()) : Color(ColorConstants.getPrimaryGreyMedium()),
-                         ),
-                         child: TextDandyLight(
-                           type: TextDandyLight.MEDIUM_TEXT,
-                           color: Color(ColorConstants.getPrimaryWhite()),
-                           text: 'Driving Directions',
-                         ),
-                       ),
-                     ),
-                   ],
-           ),
+               children: [
+                  Container(
+                    margin: EdgeInsets.only(bottom: 16, left: 12, right: 12),
+                    child: TextDandyLight(
+                      type: TextDandyLight.LARGE_TEXT,
+                      text: pageState.appSettings.updateTitle,
+                    ),
+                  ),
+                 Container(
+                   margin: EdgeInsets.only(bottom: 48, left: 16, right: 16),
+                   child: TextDandyLight(
+                     type: TextDandyLight.MEDIUM_TEXT,
+                     textAlign: TextAlign.center,
+                     text: pageState.appSettings.updateMessage,
+                   ),
+                 ),
+                  GestureDetector(
+                    onTap: () {
+                      OpenStore.instance.open(
+                          appStoreId: '6444910643', // AppStore id of your app for iOS
+                          androidAppBundleId: 'com.dandylight.mobile', // Android app bundle package name
+                      );
+                      EventSender().sendEvent(eventName: EventNames.BT_UPDATE_APP);
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 54,
+                      width: 200,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(27),
+                          color: Color(ColorConstants.getPeachDark())
+                      ),
+                      child: TextDandyLight(
+                        type: TextDandyLight.LARGE_TEXT,
+                        text: 'Update App',
+                        color: Color(ColorConstants.getPrimaryWhite()),
+                      ),
+                    ),
+                  ),
+               ],
+             ),
          ),
     );
 }

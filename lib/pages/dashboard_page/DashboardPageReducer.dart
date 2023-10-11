@@ -44,6 +44,7 @@ final dashboardPageReducer = combineReducers<DashboardPageState>([
 DashboardPageState setShouldShowUpdate(DashboardPageState previousState, SetShouldShowUpdateAction action) {
   return previousState.copyWith(
     shouldShowAppUpdate: action.shouldShow,
+    appSettings: action.appSettings,
   );
 }
 

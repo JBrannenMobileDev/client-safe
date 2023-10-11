@@ -25,6 +25,7 @@ class Profile{
   bool canShowPMFSurvey; //set to false if user clicks do not show again or if they click the request action
   DateTime requestReviewDate;
   DateTime requestPMFSurveyDate;
+  DateTime updateLastSeenDate;
   String zellePhoneEmail;
   String zelleFullName;
   String venmoLink;
@@ -180,6 +181,7 @@ class Profile{
     this.canShowPMFSurvey,
     this.requestPMFSurveyDate,
     this.requestReviewDate,
+    this.updateLastSeenDate,
   });
 
   Profile copyWith({
@@ -230,6 +232,7 @@ class Profile{
     bool canShowPMFSurvey,
     DateTime requestReviewDate,
     DateTime requestPMFSurveyDate,
+    DateTime updateLastSeenDate,
     String wireMessage,
     int jobsCreatedCount,
     bool logoSelected,
@@ -361,6 +364,7 @@ class Profile{
       canShowPMFSurvey: canShowPMFSurvey ?? this.canShowPMFSurvey,
       requestPMFSurveyDate: requestPMFSurveyDate ?? this.requestPMFSurveyDate,
       requestReviewDate: requestReviewDate ?? this.requestReviewDate,
+      updateLastSeenDate: updateLastSeenDate ?? this.updateLastSeenDate,
     );
   }
 
@@ -442,6 +446,7 @@ class Profile{
       'discountCodesLastChangedTime' : discountCodesLastChangedTime?.millisecondsSinceEpoch ?? null,
       'requestReviewDate' : requestReviewDate?.millisecondsSinceEpoch ?? null,
       'requestPMFSurveyDate' : requestPMFSurveyDate?.millisecondsSinceEpoch ?? null,
+      'updateLastSeenDate' : updateLastSeenDate?.millisecondsSinceEpoch ?? null,
       'accountCreatedDate' : accountCreatedDate?.millisecondsSinceEpoch ?? DateTime(2023, 2, 1).millisecondsSinceEpoch,
       'salesTaxRate' : salesTaxRate,
       'hasSeenIncomeInfo' : hasSeenIncomeInfo,
@@ -544,6 +549,7 @@ class Profile{
       poseLibraryGroupLastChangeDate: map['poseLibraryGroupLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['poseLibraryGroupLastChangeDate']) : null,
       requestPMFSurveyDate: map['requestPMFSurveyDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['requestPMFSurveyDate']) : null,
       requestReviewDate: map['requestReviewDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['requestReviewDate']) : null,
+      updateLastSeenDate: map['updateLastSeenDate'] != null ? DateTime.fromMillisecondsSinceEpoch(map['updateLastSeenDate']) : null,
     );
   }
 

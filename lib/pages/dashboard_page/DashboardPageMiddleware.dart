@@ -47,7 +47,6 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       await _loadClients(store, action, next);
       await _loadJobReminders(store, action, next);
       await _fetchSubscriptionState(store, next);
-      await _checkForAppUpdate(store);
     }
     if(action is SetNotificationToSeen) {
       _setNotificationToSeen(store, action);
@@ -88,6 +87,17 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     if(action is CheckForAppUpdateAction) {
       _checkForUpdate(store, action);
     }
+    if(action is SetUpdateSeenTimestampAction) {
+      _setUpdateLastSeenTime(store, action);
+    }
+  }
+
+  Future<void> _setUpdateLastSeenTime(Store<AppState> store, SetUpdateSeenTimestampAction action) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.updateLastSeenDate = action.lastSeenDate;
+    await ProfileDao.update(profile);
+    store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
+    store.dispatch(SetShouldShowUpdateAction(store.state.dashboardPageState, false, (await AppSettingsDao.getAll())?.first));
   }
 
   Future<void> _updateCanShowPMF(Store<AppState> store, UpdateCanShowPMFSurveyAction action, NextDispatcher next) async {
@@ -110,20 +120,21 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
 
   void _checkForUpdate(Store<AppState> store, CheckForAppUpdateAction action) async {
     AppSettings settings = (await AppSettingsDao.getAll())?.first;
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     if(settings != null) {
       if(settings.show) {
         PackageInfo packageInfo = await PackageInfo.fromPlatform();
         Version currentVersion = Version.parse(packageInfo.version);
         Version latestVersion = Version.parse(settings.currentBuildVersionNumber);
 
-        if (latestVersion > currentVersion) {
-          store.dispatch(SetShouldShowUpdateAction(store.state.dashboardPageState, true));
+        if (latestVersion > currentVersion && (profile.updateLastSeenDate == null || (profile.updateLastSeenDate != null && hasBeenLongEnoughSinceLastRequest(profile.updateLastSeenDate, 1)))) {
+          store.dispatch(SetShouldShowUpdateAction(store.state.dashboardPageState, true, settings));
         } else {
-          store.dispatch(SetShouldShowUpdateAction(store.state.dashboardPageState, false));
+          store.dispatch(SetShouldShowUpdateAction(store.state.dashboardPageState, false, settings));
         }
       }
     } else {
-      store.dispatch(SetShouldShowUpdateAction(store.state.dashboardPageState, false));
+      store.dispatch(SetShouldShowUpdateAction(store.state.dashboardPageState, false, settings));
     }
   }
 
@@ -135,7 +146,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
 
   Future<void> _checkForReviewRequest(Store<AppState> store, CheckForReviewRequestAction action, NextDispatcher next) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    if(profile.isSubscribed && profile.jobsCreatedCount > 5 && profile.canShowAppReview && hasBeenLongEnoughSinceLastRequest(profile.requestReviewDate)) {
+    if(profile.isSubscribed && profile.jobsCreatedCount > 5 && profile.canShowAppReview && hasBeenLongEnoughSinceLastRequest(profile.requestReviewDate, 7)) {
       next(SetShouldAppReview(store.state.dashboardPageState, true));
     } else {
       next(SetShouldAppReview(store.state.dashboardPageState, false));
@@ -144,7 +155,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
 
   Future<void> _checkForPMFSurvey(Store<AppState> store, CheckForPMFSurveyAction action, NextDispatcher next) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    if(profile.isSubscribed && profile.jobsCreatedCount > 12 && profile.canShowPMFSurvey && hasBeenLongEnoughSinceLastRequest(profile.requestPMFSurveyDate)) {
+    if(profile.isSubscribed && profile.jobsCreatedCount > 12 && profile.canShowPMFSurvey && hasBeenLongEnoughSinceLastRequest(profile.requestPMFSurveyDate, 7)) {
       next(SetShouldShowPMF(store.state.dashboardPageState, true));
     } else {
       next(SetShouldShowPMF(store.state.dashboardPageState, false));
@@ -180,14 +191,6 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.shouldShowRestoreSubscription = false;
     ProfileDao.update(profile);
-  }
-
-  Future<void> _checkForAppUpdate(Store<AppState> store) async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    String deviceVersion = packageInfo.version;
-    String highestVersion = EnvironmentUtil().getCurrentBuildNumber();
-    bool showAppUpdateDialog = highestVersion != deviceVersion;
-
   }
 
   Future<void> _fetchSubscriptionState(Store<AppState> store, NextDispatcher next) async {
@@ -401,9 +404,9 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     return currentInfo;
   }
 
-  bool hasBeenLongEnoughSinceLastRequest(DateTime lastRequestDate) {
-    DateTime oneWeekAgo = DateTime.now();
-    oneWeekAgo.add(Duration(days: -7));
+  bool hasBeenLongEnoughSinceLastRequest(DateTime lastRequestDate, int minTimeDays) {
+    final DateTime now = DateTime.now();
+    final oneWeekAgo = now.subtract(Duration(days: minTimeDays));
     return lastRequestDate.isBefore(oneWeekAgo);
   }
 }
