@@ -85,6 +85,7 @@ dependencies:
   google_sign_in: ^6.0.2
   pin_code_fields: ^7.4.0
   image: ^4.0.17
+  version: ^3.0.2
   cached_network_image: ^3.2.3
   url_launcher_web: ^2.0.18
   flutter_colorpicker: ^1.0.3

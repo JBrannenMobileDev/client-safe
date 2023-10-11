@@ -132,14 +132,35 @@ class CheckForGoToJobAction {
 
 class CheckForReviewRequestAction {
   final DashboardPageState pageState;
+  CheckForReviewRequestAction(this.pageState);
+}
+
+class CheckForAppUpdateAction {
+  final DashboardPageState pageState;
+  CheckForAppUpdateAction(this.pageState);
+}
+
+class SetShouldShowUpdateAction {
+  final DashboardPageState pageState;
   final bool shouldShow;
-  CheckForReviewRequestAction(this.pageState, this.shouldShow);
+  SetShouldShowUpdateAction(this.pageState, this.shouldShow);
 }
 
 class CheckForPMFSurveyAction {
   final DashboardPageState pageState;
+  CheckForPMFSurveyAction(this.pageState);
+}
+
+class SetShouldShowPMF {
+  final DashboardPageState pageState;
   final bool shouldShow;
-  CheckForPMFSurveyAction(this.pageState, this.shouldShow);
+  SetShouldShowPMF(this.pageState, this.shouldShow);
+}
+
+class SetShouldAppReview {
+  final DashboardPageState pageState;
+  final bool shouldShow;
+  SetShouldAppReview(this.pageState, this.shouldShow);
 }
 
 class UpdateCanShowPMFSurveyAction {

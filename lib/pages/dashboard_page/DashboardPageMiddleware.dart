@@ -2,16 +2,16 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/data_layer/local_db/daos/AppSettingsDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ClientDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobTypeDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/MileageExpenseDao.dart';
-import 'package:dandylight/data_layer/local_db/daos/PoseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/RecurringExpenseDao.dart';
-import 'package:dandylight/data_layer/local_db/daos/ReminderDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/SingleExpenseDao.dart';
+import 'package:dandylight/models/AppSettings.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
@@ -26,20 +26,16 @@ import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:dandylight/utils/EnvironmentUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:flutter/services.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
+import 'package:version/version.dart';
 
 import '../../data_layer/local_db/daos/PoseSubmittedGroupDao.dart';
-import '../../models/ColorTheme.dart';
-import '../../models/FontTheme.dart';
 import '../../models/Pose.dart';
 import '../../models/SingleExpense.dart';
-import '../../utils/ColorConstants.dart';
 import '../../utils/intentLauncher/IntentLauncherUtil.dart';
-import '../main_settings_page/MainSettingsPageActions.dart';
 import '../new_reminder_page/WhenSelectionWidget.dart';
 
 class DashboardPageMiddleware extends MiddlewareClass<AppState> {
@@ -89,22 +85,46 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SetUnseenFeaturedPosesAsSeenAction) {
       _setUnseenFeaturedPosesToSeen(store, action);
     }
+    if(action is CheckForAppUpdateAction) {
+      _checkForUpdate(store, action);
+    }
   }
 
   Future<void> _updateCanShowPMF(Store<AppState> store, UpdateCanShowPMFSurveyAction action, NextDispatcher next) async {
-    next(CheckForPMFSurveyAction(store.state.dashboardPageState, action.canShow));
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.canShowPMFSurvey = action.canShow;
     profile.requestPMFSurveyDate = action.lastSeenDate;
     await ProfileDao.update(profile);
+    store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
+
   }
 
   Future<void> _updateCanShowReviewRequest(Store<AppState> store, UpdateCanShowRequestReviewAction action, NextDispatcher next) async {
-    next(CheckForReviewRequestAction(store.state.dashboardPageState, action.canShow));
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.canShowAppReview = action.canShow;
     profile.requestReviewDate = action.lastSeenDate;
     await ProfileDao.update(profile);
+    store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
+
+  }
+
+  void _checkForUpdate(Store<AppState> store, CheckForAppUpdateAction action) async {
+    AppSettings settings = (await AppSettingsDao.getAll())?.first;
+    if(settings != null) {
+      if(settings.show) {
+        PackageInfo packageInfo = await PackageInfo.fromPlatform();
+        Version currentVersion = Version.parse(packageInfo.version);
+        Version latestVersion = Version.parse(settings.currentBuildVersionNumber);
+
+        if (latestVersion > currentVersion) {
+          store.dispatch(SetShouldShowUpdateAction(store.state.dashboardPageState, true));
+        } else {
+          store.dispatch(SetShouldShowUpdateAction(store.state.dashboardPageState, false));
+        }
+      }
+    } else {
+      store.dispatch(SetShouldShowUpdateAction(store.state.dashboardPageState, false));
+    }
   }
 
   void _launchDrivingDirections(Store<AppState> store, LaunchDrivingDirectionsAction action) async {
@@ -116,14 +136,18 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   Future<void> _checkForReviewRequest(Store<AppState> store, CheckForReviewRequestAction action, NextDispatcher next) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     if(profile.isSubscribed && profile.jobsCreatedCount > 5 && profile.canShowAppReview && hasBeenLongEnoughSinceLastRequest(profile.requestReviewDate)) {
-      next(CheckForReviewRequestAction(store.state.dashboardPageState, true));
+      next(SetShouldAppReview(store.state.dashboardPageState, true));
+    } else {
+      next(SetShouldAppReview(store.state.dashboardPageState, false));
     }
   }
 
   Future<void> _checkForPMFSurvey(Store<AppState> store, CheckForPMFSurveyAction action, NextDispatcher next) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     if(profile.isSubscribed && profile.jobsCreatedCount > 12 && profile.canShowPMFSurvey && hasBeenLongEnoughSinceLastRequest(profile.requestPMFSurveyDate)) {
-      next(CheckForPMFSurveyAction(store.state.dashboardPageState, true));
+      next(SetShouldShowPMF(store.state.dashboardPageState, true));
+    } else {
+      next(SetShouldShowPMF(store.state.dashboardPageState, false));
     }
   }
 
@@ -279,17 +303,19 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _loadAllJobs(Store<AppState> store) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
+
     List<Job> allJobs = await JobDao.getAllJobs();
     List<JobType> allJobTypes = await JobTypeDao.getAll();
     List<SingleExpense> singleExpenses = await SingleExpenseDao.getAll();
     List<MileageExpense> mileageExpenses = await MileageExpenseDao.getAll();
     List<RecurringExpense> recurringExpenses = await RecurringExpenseDao.getAll();
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+
 
     store.dispatch(SetJobsDataAction(store.state.jobsPageState, allJobs));
     store.dispatch(SetJobToStateAction(store.state.dashboardPageState, allJobs, singleExpenses, recurringExpenses, mileageExpenses));
     store.dispatch(SetJobTypeChartData(store.state.dashboardPageState, allJobs, allJobTypes));
-    store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
 
     (await ProfileDao.getProfileStream()).listen((profilesSnapshots) async {
       List<Profile> profiles = [];

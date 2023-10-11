@@ -36,17 +36,24 @@ final dashboardPageReducer = combineReducers<DashboardPageState>([
   TypedReducer<DashboardPageState, SetGoToPosesJob>(_setGoToJobPoses),
   TypedReducer<DashboardPageState, SetGoToAsSeenAction>(_setGoToAsSeen),
   TypedReducer<DashboardPageState, SetUnseenFeaturedPosesAction>(_setUnseenFeaturedPoses),
-  TypedReducer<DashboardPageState, CheckForPMFSurveyAction>(_setCanShowPMF),
-  TypedReducer<DashboardPageState, CheckForReviewRequestAction>(_setCanShowRequestReview),
+  TypedReducer<DashboardPageState, SetShouldShowPMF>(_setShouldShowPMF),
+  TypedReducer<DashboardPageState, SetShouldAppReview>(setShouldShowAppReview),
+  TypedReducer<DashboardPageState, SetShouldShowUpdateAction>(setShouldShowUpdate),
 ]);
 
-DashboardPageState _setCanShowPMF(DashboardPageState previousState, CheckForPMFSurveyAction action) {
+DashboardPageState setShouldShowUpdate(DashboardPageState previousState, SetShouldShowUpdateAction action) {
+  return previousState.copyWith(
+    shouldShowAppUpdate: action.shouldShow,
+  );
+}
+
+DashboardPageState _setShouldShowPMF(DashboardPageState previousState, SetShouldShowPMF action) {
   return previousState.copyWith(
     shouldShowPMFRequest: action.shouldShow,
   );
 }
 
-DashboardPageState _setCanShowRequestReview(DashboardPageState previousState, CheckForReviewRequestAction action) {
+DashboardPageState setShouldShowAppReview(DashboardPageState previousState, SetShouldAppReview action) {
   return previousState.copyWith(
     shouldShowRequestReview: action.shouldShow,
   );

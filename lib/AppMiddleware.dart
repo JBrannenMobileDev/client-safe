@@ -127,8 +127,10 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, UpdateProfileRestorePurchasesSeen>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, MarkAllAsSeenAction>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, CheckForGoToJobAction>(DashboardPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, UpdateCanShowPMFSurveyAction>(DashboardPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, UpdateCanShowRequestReviewAction>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, CheckForReviewRequestAction>(DashboardPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, CheckForReviewRequestAction>(DashboardPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, CheckForAppUpdateAction>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, CheckForPMFSurveyAction>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateCanShowPMFSurveyAction>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LaunchDrivingDirectionsAction>(DashboardPageMiddleware()));

@@ -28,6 +28,11 @@ class EventNames {
   static const String BT_VIEW_NEW_MILEAGE_FROM_NOTIFICATIONS = "bt_view_new_mileage_from_notifications";
   static const String BT_VIEW_JOB_DETAILS_FROM_NOTIFICATIONS = "bt_view_job_details_from_notifications";
   static const String BT_RESTORE_PURCHASES_SHEET = "bt_restore_purchases_sheet";
+  static const String BT_TAKE_PMF_SURVEY = "bt_take_pmf_survey";
+  static const String BT_SHARE_WITH_FRIEND = "bt_share_with_friend";
+  static const String BT_REVIEW_APP = "bt_review_app";
+  static const String BT_ENJOYING_DANDY_LIGHT_NO = "bt_enjoying_dandy_light_no";
+  static const String BT_ENJOYING_DANDY_LIGHT_YES = "bt_enjoying_dandy_light_yes";
 
   static const String BT_STAGE_COMPLETE = "bt_stage_complete";
   static const String STAGE_COMPLETE_PARAM_STAGE = "stage_complete_param_stage";

@@ -88,6 +88,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
   bool goToHasBeenSeen = false;
   bool hasSeenPMFRequest = false;
   bool hasSeenRequestReview = false;
+  bool hasSeenAPpUpdate = false;
 
   _DashboardPageState(this.comingFromLogin);
 
@@ -230,6 +231,20 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
     );
   }
 
+  void _showAppUpdateBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return RequestPMFSurveyBottomSheet(); //TODO actually build update sheet
+      },
+    );
+  }
+
   // It is assumed that all messages contain a data field with the key 'type'
   Future<void> setupInteractedMessage() async {
     // Get any messages which caused the application to open from
@@ -262,8 +277,9 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
           store.dispatch(new InitDashboardPageAction(store.state.dashboardPageState));
           store.dispatch(new LoadJobsAction(store.state.dashboardPageState));
           store.dispatch(CheckForGoToJobAction(store.state.dashboardPageState));
-          store.dispatch(CheckForPMFSurveyAction(store.state.dashboardPageState, false));
-          store.dispatch(CheckForReviewRequestAction(store.state.dashboardPageState, false));
+          store.dispatch(CheckForPMFSurveyAction(store.state.dashboardPageState));
+          store.dispatch(CheckForReviewRequestAction(store.state.dashboardPageState));
+          store.dispatch(CheckForAppUpdateAction(store.state.dashboardPageState));
           if(store.state.dashboardPageState.unseenNotificationCount > 0) {
             _runAnimation();
           }
@@ -330,7 +346,13 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
           }
         },
         onDidChange: (previous, current) async {
-          if(!current.hasSeenShowcase) {
+          if(!hasSeenAPpUpdate && !previous.shouldShowAppUpdate && current.shouldShowAppUpdate) {
+            setState(() {
+              hasSeenAPpUpdate = true;
+              current.markUpdateAsSeen();
+              _showAppUpdateBottomSheet(context);
+            });
+          } else if(!current.hasSeenShowcase) {
             _startShowcase();
             current.onShowcaseSeen();
           } else if(!goToHasBeenSeen && !current.goToSeen && current.goToPosesJob != null){

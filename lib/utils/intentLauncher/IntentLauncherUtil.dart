@@ -191,4 +191,8 @@ class IntentLauncherUtil{
     print('https://DandyLight.com/' + RouteNames.CLIENT_PORTAL + '/' + uid + '+' + jobId);
     await canLaunchUrl(Uri.parse('https://DandyLight.com/' + RouteNames.CLIENT_PORTAL + '/' + uid + '+' + jobId)) ? await launchUrl(Uri.parse('https://DandyLight.com/' + RouteNames.CLIENT_PORTAL + '/' + uid + '+' + jobId), mode: LaunchMode.platformDefault) : throw 'Could not launch';
   }
+
+  static void launchPMFSurvey() async {
+    await canLaunchUrl(Uri.parse('https://y9so063tn9w.typeform.com/to/FLNlGIHx')) ? await launchUrl(Uri.parse('https://y9so063tn9w.typeform.com/to/FLNlGIHx'), mode: LaunchMode.platformDefault) : throw 'Could not launch';
+  }
 }
