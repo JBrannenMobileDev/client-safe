@@ -102,7 +102,7 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
       if(action.pageState.isNew) {
         EventSender().sendEvent(eventName: EventNames.CONTRACT_CREATED, properties: {
           EventNames.CONTRACT_CREATED_FROM_PARAM : action.pageState.newFromName,
-        }); 
+        });
       }
     }
   }

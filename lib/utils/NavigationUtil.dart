@@ -36,6 +36,7 @@ import '../models/JobStage.dart';
 import '../models/LocationDandy.dart';
 import '../pages/contract_edit_page/ContractEditPage.dart';
 import '../pages/dashboard_page/DashboardPageState.dart';
+import '../pages/job_details_page/JobDetailsPageState.dart';
 import '../pages/main_settings_page/EditBrandingPage.dart';
 import '../pages/poses_page/PosesPage.dart';
 import '../pages/share_with_client_page/ShareWithClientPage.dart';
@@ -90,8 +91,8 @@ class NavigationUtil {
   static onEditBrandingSelected(BuildContext context) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => EditBrandingPage()));
   }
-  static onContractSelected(BuildContext context, Contract contract, String contractName, bool isNew, String jobDocumentId) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ContractEditPage(contract: contract, contractName: contractName, isNew: isNew, jobDocumentId: jobDocumentId,)));
+  static onContractSelected(BuildContext context, Contract contract, String contractName, bool isNew, String jobDocumentId, Function(BuildContext) onDeleteFromJob) {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ContractEditPage(contract: contract, contractName: contractName, isNew: isNew, jobDocumentId: jobDocumentId, deleteFromJob: onDeleteFromJob)));
   }
   static onManageSubscriptionSelected(BuildContext context, Profile profile) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ManageSubscriptionPage(profile)));

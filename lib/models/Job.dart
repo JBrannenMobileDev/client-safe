@@ -10,17 +10,23 @@ import 'Pose.dart';
 import 'Proposal.dart';
 
 class Job {
-  static const String DETAIL_CLIENT_NAME = "[ClientName]";
-  static const String DETAIL_CLIENT_EMAIL = "[ClientEmail]";
-  static const String DETAIL_CLIENT_PHONE = "[ClientPhone]";
-  static const String DETAIL_PHOTOGRAPHER_NAME = "[PhotographerName]";
-  static const String DETAIL_BUSINESS_NAME = '[PhotographerBusinessName]';
-  static const String DETAIL_LOCATION_ADDRESS = "[LocationAddress]";
-  static const String DETAIL_SESSION_DATE = "[SessionDate]";
-  static const String DETAIL_RETAINER_PRICE = "[RetainerPrice]";
-  static const String DETAIL_RETAINER_DUE_DATE = "[RetainerDueDate]";
+  static const String DETAIL_CLIENT_NAME = "[Client Name]";
+  static const String DETAIL_CLIENT_EMAIL = "[Client Email]";
+  static const String DETAIL_CLIENT_PHONE = "[Client Phone]";
+  static const String DETAIL_PHOTOGRAPHER_NAME = "[Photographer Name]";
+  static const String DETAIL_PHOTOGRAPHER_EMAIL = "[Photographer Email]";
+  static const String DETAIL_PHOTOGRAPHER_PHONE = "[Photographer Phone]";
+  static const String DETAIL_BUSINESS_NAME = '[Photographer Business Name]';
+  static const String DETAIL_LOCATION_ADDRESS = "[Location Address]";
+  static const String DETAIL_SESSION_DATE = "[Session Date]";
+  static const String DETAIL_RETAINER_PRICE = "[Retainer]";
+  static const String DETAIL_RETAINER_DUE_DATE = "[Retainer Due Date]";
+  static const String DETAIL_REMAINING_BALANCE = "[Remaining Balance]";
+  static const String DETAIL_TOTAL_DUE_DATE = "[Total Due Date]";
+  static const String DETAIL_EFFECTIVE_DATE = "[Effective Date]";
+  static const String DETAIL_START_TIME = "[Start Time]";
+  static const String DETAIL_END_TIME = "[End Time]";
   static const String DETAIL_TOTAL = "[Total]";
-  static const String DETAIL_TOTAL_DUE_DATE = "[TotalDueDate]";
 
   static String getDetailDisplayName(String detailConstant) {
     String result = '';

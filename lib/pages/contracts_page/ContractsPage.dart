@@ -171,7 +171,7 @@ class _ContractsPageState extends State<ContractsPage> with TickerProviderStateM
       pageState.onSaveToJobSelected(contract, jobDocumentId);
       Navigator.of(context).pop();
     } else {
-      NavigationUtil.onContractSelected(context, contract, contract.contractName, false, jobDocumentId);
+      NavigationUtil.onContractSelected(context, contract, contract.contractName, false, jobDocumentId, null);
     }
   }
 

@@ -82,7 +82,7 @@ class DocumentsCard extends StatelessWidget {
             UserOptionsUtil.showViewInvoiceDialog(context, pageState.invoice, await JobDao.getJobById(pageState.invoice.jobDocumentId), onSendInvoiceSelected);
             break;
           case DocumentItem.DOCUMENT_TYPE_CONTRACT:
-            NavigationUtil.onContractSelected(context, pageState.job.proposal.contract, pageState.job.proposal.contract.contractName, false, pageState.job.documentId);
+            NavigationUtil.onContractSelected(context, pageState.job.proposal.contract, pageState.job.proposal.contract.contractName, false, pageState.job.documentId, _ackContractAlert);
             break;
         }
       },
@@ -107,22 +107,13 @@ class DocumentsCard extends StatelessWidget {
                 ),
               ],
             ),
-            GestureDetector(
-              onTap: () {
-                switch(item.getDocumentType()) {
-                  case DocumentItem.DOCUMENT_TYPE_INVOICE:
-                    _ackAlert(context, pageState);
-                    break;
-                  case DocumentItem.DOCUMENT_TYPE_CONTRACT:
-                    _ackContractAlert(context, pageState);
-                    break;
-                };
-              },
-              child: Container(
-                margin: EdgeInsets.only(right: 12.0),
-                height: 26.0,
-                width: 26.0,
-                child: Image.asset('assets/images/icons/trash_can.png', color: Color(ColorConstants.getPeachDark()),)
+            Container(
+              height: 36,
+              margin: EdgeInsets.only(right: 16),
+              alignment: Alignment.centerRight,
+              child: Icon(
+                Icons.chevron_right,
+                color: Color(ColorConstants.getPrimaryBackgroundGrey()),
               ),
             ),
           ],
@@ -177,7 +168,7 @@ class DocumentsCard extends StatelessWidget {
     );
   }
 
-  Future<void> _ackContractAlert(BuildContext context, JobDetailsPageState pageState) {
+  Future<void> _ackContractAlert(BuildContext context) {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -195,7 +186,8 @@ class DocumentsCard extends StatelessWidget {
               style: Styles.getButtonStyle(),
               onPressed: () {
                 pageState.onDeleteContractSelected(pageState.job.proposal.contract);
-                Navigator.of(context).pop(true);
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
               },
               child: new Text('Yes'),
             ),

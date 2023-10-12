@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/contract_edit_page/InsertJobDetailBottomSheet.dart';
+import 'package:dandylight/pages/job_details_page/JobDetailsReducer.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,6 +25,7 @@ import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
+import '../job_details_page/JobDetailsPageState.dart';
 import 'ContractEditActions.dart';
 import 'ContractEditPageState.dart';
 
@@ -32,12 +34,13 @@ class ContractEditPage extends StatefulWidget {
   final String contractName;
   final bool isNew;
   final String jobDocumentId;
+  final Function(BuildContext) deleteFromJob;
 
-  ContractEditPage({this.contract, this.contractName, this.isNew, this.jobDocumentId});
+  ContractEditPage({this.contract, this.contractName, this.isNew, this.jobDocumentId, this.deleteFromJob});
 
   @override
   State<StatefulWidget> createState() {
-    return _ContractEditPageState(contract, contractName, isNew, jobDocumentId);
+    return _ContractEditPageState(contract, contractName, isNew, jobDocumentId, deleteFromJob);
   }
 }
 
@@ -51,12 +54,13 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
   final String contractName;
   final bool isNew;
   final String jobDocumentId;
+  final Function(BuildContext) deleteFromJob;
   bool hasUnsavedChanges = true;
   OverlayEntry overlayEntry;
   bool isKeyboardVisible = false;
   bool isFabExpanded = false;
 
-  _ContractEditPageState(this.contract, this.contractName, this.isNew, this.jobDocumentId);
+  _ContractEditPageState(this.contract, this.contractName, this.isNew, this.jobDocumentId, this.deleteFromJob);
 
 
   @override
@@ -221,11 +225,15 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                 ),
                 backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                 actions: <Widget>[
-                  !isNew && (jobDocumentId == null || jobDocumentId.isEmpty) ? IconButton(
+                  !isNew ? IconButton(
                     icon: ImageIcon(ImageUtil.getTrashIconWhite(), color: Color(ColorConstants.getPeachDark()),),
                     tooltip: 'Delete Job',
                     onPressed: () {
-                      _ackDeleteAlert(context, pageState);
+                      if(jobDocumentId != null && jobDocumentId.isNotEmpty) {
+                        deleteFromJob(context);
+                      }else {
+                        _ackDeleteAlert(context, pageState);
+                      }
                     },
                   ) : SizedBox(),
                 ],
@@ -266,7 +274,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                         contentPadding: EdgeInsets.all(16),
                         isDense: true,
                       ),
-                      keyboardType: TextInputType.name,
+                      keyboardType: TextInputType.text,
                       maxLines: 1,
                       style: TextStyle(
                           fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
@@ -332,7 +340,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(32),
                           color: Color(ColorConstants.getPeachDark()),
-                          boxShadow: ElevationToShadow[4],
+                          // boxShadow: ElevationToShadow[4],
                         ),
                         child: TextDandyLight(
                           type: TextDandyLight.LARGE_TEXT,
@@ -343,22 +351,23 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                       ),
                     ),
                   ) : SizedBox(),
-                  !isKeyboardVisible ? Container(
+                  isKeyboardVisible ? Container(
                     height: MediaQuery.of(context).size.height,
-                    alignment: Alignment.bottomRight,
-                    margin: EdgeInsets.only(bottom: 96),
+                    alignment: Alignment.bottomLeft,
+                    margin: EdgeInsets.only(bottom: !isKeyboardVisible ? 96 : 0),
                     child: GestureDetector(
                       onTap: () {
                        _showInsertSheet();
                       },
                       child: Container(
                         alignment: Alignment.center,
-                        height: 54,
-                        margin: EdgeInsets.only(left: 16, right: 16),
+                        height: !isKeyboardVisible ? 54 : 43,
+                        width: !isKeyboardVisible ? MediaQuery.of(context).size.width : 200,
+                        margin: EdgeInsets.only(left: !isKeyboardVisible ? 16 : 8, right: 16),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(32),
+                          borderRadius: !isKeyboardVisible ? BorderRadius.circular(28) : BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
                           color: Color(ColorConstants.getBlueDark()),
-                          boxShadow: ElevationToShadow[4],
+                          // boxShadow: ElevationToShadow[4],
                         ),
                         child: TextDandyLight(
                           type: TextDandyLight.LARGE_TEXT,
@@ -368,33 +377,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                         ),
                       ),
                     ),
-                  ) : Container(
-                    height: MediaQuery.of(context).size.height,
-                    alignment: Alignment.bottomCenter,
-                    margin: EdgeInsets.only(bottom: 0),
-                    child: GestureDetector(
-                      onTap: () {
-                        _showInsertSheet();
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 54,
-                        width: 176,
-                        margin: EdgeInsets.only(left: 16, right: 16),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(topRight: Radius.circular(24), topLeft: Radius.circular(24)),
-                          color: Color(ColorConstants.getBlueDark()),
-                          boxShadow: ElevationToShadow[4],
-                        ),
-                        child: TextDandyLight(
-                          type: TextDandyLight.LARGE_TEXT,
-                          text: 'Insert Job Data',
-                          textAlign: TextAlign.center,
-                          color: Color(ColorConstants.getPrimaryWhite()),
-                        ),
-                      ),
-                    ),
-                  ),
+                  ) : SizedBox(),
                   Container(
                     color: Color(ColorConstants.getPrimaryWhite()),
                     padding: EdgeInsets.only(bottom: 4, top: 18),

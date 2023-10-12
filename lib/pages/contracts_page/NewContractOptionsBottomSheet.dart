@@ -42,22 +42,23 @@ class _NewContractOptionsBottomSheetState extends State<NewContractOptionsBottom
               switch(options.elementAt(index)) {
                 case 'Blank Contract':
                   Navigator.of(context).pop();
-                  NavigationUtil.onContractSelected(context, null, "Blank Contract", true, jobDocumentId);
+                  Contract generalContract = pageState.contractTemplates.firstWhere((template) => template.contractName == options.elementAt(index));
+                  NavigationUtil.onContractSelected(context, generalContract, "Blank Contract", true, jobDocumentId, null);
                   break;
                 case 'General (template)':
                   Navigator.of(context).pop();
-                  Contract generalContract = null;
-                  NavigationUtil.onContractSelected(context, generalContract, generalContract.contractName, true, jobDocumentId);
+                  Contract generalContract = pageState.contractTemplates.firstWhere((template) => template.contractName == options.elementAt(index));
+                  NavigationUtil.onContractSelected(context, generalContract, "General Contract", true, jobDocumentId, null);
                   break;
                 case 'Wedding (template)':
                   Navigator.of(context).pop();
                   Contract weddingContract = pageState.contractTemplates.firstWhere((template) => template.contractName == options.elementAt(index));
-                  NavigationUtil.onContractSelected(context, weddingContract, "Wedding Contract", true, jobDocumentId);
+                  NavigationUtil.onContractSelected(context, weddingContract, "Wedding Contract", true, jobDocumentId, null);
                   break;
                 case 'Portrait (template)':
                   Navigator.of(context).pop();
-                  Contract portraitContract = null;
-                  NavigationUtil.onContractSelected(context, portraitContract, "Portrait Contract", true, jobDocumentId);
+                  Contract portraitContract = pageState.contractTemplates.firstWhere((template) => template.contractName == options.elementAt(index));
+                  NavigationUtil.onContractSelected(context, portraitContract, "Portrait Contract", true, jobDocumentId, null);
                   break;
               }
             },
