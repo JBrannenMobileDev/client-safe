@@ -45,7 +45,8 @@ class ContractEditPage extends StatefulWidget {
 }
 
 class _ContractEditPageState extends State<ContractEditPage> with TickerProviderStateMixin {
-  TextEditingController _clientSignatureController = TextEditingController();
+  TextEditingController _clientSignatureController = TextEditingController(text: "Photographer Name");
+  TextEditingController _photogSigController = TextEditingController();
   quill.QuillController _controller;
   final FocusNode titleFocusNode = FocusNode();
   final FocusNode contractFocusNode = FocusNode();
@@ -167,6 +168,10 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                 });
               }
           );
+        },
+        onDidChange: (prev, current) {
+          _photogSigController.text = current.profile != null ? (current.profile.firstName + ' ' +
+              current.profile.lastName) : 'Photographer Name';
         },
         converter: (Store<AppState> store) => ContractEditPageState.fromStore(store),
         builder: (BuildContext context, ContractEditPageState pageState) => WillPopScope(
@@ -576,9 +581,8 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                 isBold: true,
               ),
             ),
-            TextFormField(
-              initialValue: pageState.profile != null ? (pageState.profile.firstName + ' ' +
-                  pageState.profile.lastName) : 'Photographer Name',
+            TextField(
+              controller: _photogSigController,
               enabled: false,
               cursorColor: Color(ColorConstants.getPrimaryBlack()),
               textCapitalization: TextCapitalization.words,
