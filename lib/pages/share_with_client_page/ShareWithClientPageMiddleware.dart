@@ -29,7 +29,13 @@ class ShareWithClientPageMiddleware extends MiddlewareClass<AppState> {
     proposal.includeInvoice = action.pageState.invoiceSelected;
     proposal.includeContract = action.pageState.contractSelected;
     proposal.detailsMessage = action.pageState.clientMessage;
+
+    if(proposal.contract.firstSharedDate == null){
+      proposal.contract.firstSharedDate = DateTime.now();
+    }
+
     job.proposal = proposal;
+
     await JobDao.update(job);
     if(proposal.includeInvoice) {
       await store.dispatch(InvoiceSentAction(store.state.jobDetailsPageState, job.invoice));

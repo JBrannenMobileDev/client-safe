@@ -10,6 +10,7 @@ class Contract {
   bool signedByPhotographer = false;
   DateTime clientSignedDate;
   DateTime photographerSignedDate;
+  DateTime firstSharedDate;
 
 
   Contract({
@@ -24,6 +25,7 @@ class Contract {
     this.clientSignature,
     this.clientSignedDate,
     this.photographerSignedDate,
+    this.firstSharedDate,
   });
 
   Map<String, dynamic> toMap() {
@@ -38,6 +40,7 @@ class Contract {
       'clientSignature' : clientSignature,
       'clientSignedDate' : clientSignedDate?.millisecondsSinceEpoch ?? null,
       'photographerSignedDate' : photographerSignedDate?.millisecondsSinceEpoch ?? null,
+      'firstSharedDate' : firstSharedDate?.millisecondsSinceEpoch ?? null,
     };
   }
 
@@ -53,6 +56,7 @@ class Contract {
       clientSignature: map['clientSignature'],
       photographerSignedDate: map['photographerSignedDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['photographerSignedDate']) : null,
       clientSignedDate: map['clientSignedDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['clientSignedDate']) : null,
+      firstSharedDate: map['firstSharedDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['firstSharedDate']) : null,
     );
   }
 }

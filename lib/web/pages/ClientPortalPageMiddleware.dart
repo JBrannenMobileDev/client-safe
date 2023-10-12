@@ -262,14 +262,20 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
       replaceAll(document, Job.DETAIL_BUSINESS_NAME, profile.businessName != null ? profile.businessName : 'Photographer');
       replaceAll(document, Job.DETAIL_PHOTOGRAPHER_NAME, (profile.firstName != null ? profile.firstName : 'Photographer') + (profile.lastName != null ? ' ' + profile.lastName : ''));
       replaceAll(document, Job.DETAIL_CLIENT_NAME, job.clientName != null ? job.clientName : 'Client');
-      replaceAll(document, Job.DETAIL_CLIENT_PHONE, job.client.phone != null ? job.client.phone : 'NA');
-      replaceAll(document, Job.DETAIL_CLIENT_EMAIL, job.client.email != null ? job.client.email : 'NA');
-      replaceAll(document, Job.DETAIL_LOCATION_ADDRESS, job.location != null && job.location.address != null ? job.location.address : 'NA');
-      replaceAll(document, Job.DETAIL_SESSION_DATE, job.selectedDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(job.selectedDate) : 'NA');
-      replaceAll(document, Job.DETAIL_RETAINER_DUE_DATE, job.invoice != null && job.invoice.depositDueDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(job.invoice.depositDueDate) : 'NA');
-      replaceAll(document, Job.DETAIL_TOTAL_DUE_DATE, job.invoice != null && job.invoice.dueDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(job.invoice.dueDate) : 'NA');
-      replaceAll(document, Job.DETAIL_RETAINER_PRICE, job.invoice != null && job.invoice.depositAmount != null ? TextFormatterUtil.formatDecimalCurrency(job.invoice.depositAmount) : 'NA');
-      replaceAll(document, Job.DETAIL_TOTAL, job.invoice != null && job.invoice.total != null ? TextFormatterUtil.formatDecimalCurrency(job.invoice.total) : 'NA');
+      replaceAll(document, Job.DETAIL_CLIENT_PHONE, job.client.phone != null ? job.client.phone : 'N/A');
+      replaceAll(document, Job.DETAIL_CLIENT_EMAIL, job.client.email != null ? job.client.email : 'N/A');
+      replaceAll(document, Job.DETAIL_LOCATION_ADDRESS, job.location != null && job.location.address != null ? job.location.address : 'TBD');
+      replaceAll(document, Job.DETAIL_SESSION_DATE, job.selectedDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(job.selectedDate) : 'TBD');
+      replaceAll(document, Job.DETAIL_RETAINER_DUE_DATE, job.invoice != null && job.invoice.depositDueDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(job.invoice.depositDueDate) : 'TBD');
+      replaceAll(document, Job.DETAIL_TOTAL_DUE_DATE, job.invoice != null && job.invoice.dueDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(job.invoice.dueDate) : 'TBD');
+      replaceAll(document, Job.DETAIL_RETAINER_PRICE, job.invoice != null && job.invoice.depositAmount != null ? TextFormatterUtil.formatDecimalCurrency(job.invoice.depositAmount) : 'TBD');
+      replaceAll(document, Job.DETAIL_TOTAL, job.invoice != null && job.invoice.total != null ? TextFormatterUtil.formatDecimalCurrency(job.invoice.total) : 'N/A');
+      replaceAll(document, Job.DETAIL_EFFECTIVE_DATE, job.proposal.contract != null && job.proposal.contract.firstSharedDate != null ? job.proposal.contract.firstSharedDate : DateFormat('EEE, MMMM dd, yyyy').format(DateTime.now()));
+      replaceAll(document, Job.DETAIL_START_TIME, job.selectedTime != null ? DateFormat('h:mm a').format(job.selectedTime) : 'TBD');
+      replaceAll(document, Job.DETAIL_END_TIME, job.selectedEndTime != null ? DateFormat('h:mm a').format(job.selectedEndTime) : 'TBD');
+      replaceAll(document, Job.DETAIL_PHOTOGRAPHER_EMAIL, profile.email != null && profile.email.isNotEmpty ? profile.email : 'N/A');
+      replaceAll(document, Job.DETAIL_PHOTOGRAPHER_PHONE, profile.phone != null && profile.phone.isNotEmpty ? profile.phone : 'N/A');
+      replaceAll(document, Job.DETAIL_REMAINING_BALANCE,  job.invoice != null ? TextFormatterUtil.formatDecimalCurrency(job.invoice.total - job.invoice.depositAmount) : 'N/A');
 
       job.proposal.contract.jsonTerms = jsonEncode(document.toDelta().toJson());
     }
