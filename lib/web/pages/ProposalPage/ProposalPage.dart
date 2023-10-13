@@ -210,7 +210,7 @@ class _SignContractPageState extends State<ProposalPage> {
                     ),
                   ) : Container(),
                 ),
-                DeviceType.getDeviceTypeByContext(context) != Type.Website ? _menuButtonsSmallScreen(pageState) : SizedBox()
+                DeviceType.getDeviceTypeByContext(context) != Type.Website && _menuButtonsSmallScreen(pageState) != null ? _menuButtonsSmallScreen(pageState) : SizedBox()
               ],
             ),
           ),
@@ -414,7 +414,8 @@ class _SignContractPageState extends State<ProposalPage> {
   }
 
   Widget _menuButtonsSmallScreen(ClientPortalPageState pageState) {
-    return Container(
+    if(pageState.proposal.contract != null || pageState.invoice != null || pageState.job.poses != null && pageState.job.poses.length > 0) {
+      return Container(
         height: 54,
         margin: EdgeInsets.only(left: 8, right: 8),
         padding: EdgeInsets.only(left: 16, right: 16),
@@ -442,7 +443,7 @@ class _SignContractPageState extends State<ProposalPage> {
                 ),
               ),
             ),
-            GestureDetector(
+            pageState.proposal.contract != null ? GestureDetector(
               onTap: () {
                 setState(() {
                   selectedPage = CONTRACT;
@@ -457,8 +458,8 @@ class _SignContractPageState extends State<ProposalPage> {
                   selectedPage == CONTRACT ? "navIcons/contract_solid.png" : "navIcons/contract_outline.png",
                 ),
               ),
-            ),
-            GestureDetector(
+            ) : SizedBox(),
+            pageState.invoice != null ? GestureDetector(
               onTap: () {
                 setState(() {
                   selectedPage = INVOICE;
@@ -473,8 +474,8 @@ class _SignContractPageState extends State<ProposalPage> {
                   selectedPage == INVOICE ? "navIcons/invoice_solid.png" : "navIcons/invoice_outline.png",
                 ),
               ),
-            ),
-            GestureDetector(
+            ) : SizedBox(),
+            pageState.job.poses != null && pageState.job.poses.length > 0 ? GestureDetector(
               onTap: () {
                 setState(() {
                   selectedPage = POSES;
@@ -489,10 +490,13 @@ class _SignContractPageState extends State<ProposalPage> {
                   selectedPage == POSES ? "navIcons/image_solid.png" : "navIcons/image_outline.png",
                 ),
               ),
-            ),
+            ) : SizedBox(),
           ],
         ),
-    );
+      );
+    } else {
+      return null;
+    }
   }
 
   _getSelectedPage(String selectedPage) {
