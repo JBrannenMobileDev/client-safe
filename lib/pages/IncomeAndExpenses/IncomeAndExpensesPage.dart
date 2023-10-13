@@ -200,7 +200,15 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                                     dateFormat:'yyyy',
                                                     onConfirm: (dateTime, intList) {
                                                       pageState.onYearChanged(dateTime.year);
-                                                    }
+                                                    },
+                                                      pickerTheme: DateTimePickerTheme(
+                                                        cancelTextStyle: TextStyle(
+                                                            color: Color(ColorConstants.getPrimaryBlack())
+                                                        ),
+                                                        confirmTextStyle: TextStyle(
+                                                            color: Color(ColorConstants.getPrimaryBlack())
+                                                        ),
+                                                      )
                                                   );
                                                 },
                                                 child: TextDandyLight(

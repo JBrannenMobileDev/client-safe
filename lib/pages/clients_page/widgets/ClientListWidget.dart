@@ -79,9 +79,13 @@ class ClientListWidget extends StatelessWidget {
   String _buildSubtitleText(ClientsPageState pageState, int clientIndex) {
     Client client = getClient(clientIndex, pageState);
     String textToDisplay = "";
+    String resultLeadSource = client.leadSource;
+    if(Client.isOldSource(resultLeadSource)) {
+      resultLeadSource = Client.mapOldLeadSourceToNew(resultLeadSource);
+    }
     if (client.jobs?.length ?? 0 > 0) {
     } else {
-      textToDisplay = "Lead source:  " + (client.customLeadSourceName != null && client.customLeadSourceName.isNotEmpty ? client.customLeadSourceName : client.leadSource);
+      textToDisplay = "Lead source:  " + (client.customLeadSourceName != null && client.customLeadSourceName.isNotEmpty ? client.customLeadSourceName : resultLeadSource);
     }
     return textToDisplay;
   }

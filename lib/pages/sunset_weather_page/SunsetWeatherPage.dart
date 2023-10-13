@@ -239,7 +239,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                           UserOptionsUtil.showSelectLocationDialog(context);
                         },
                         child: Container(
-                          margin: EdgeInsets.only(left: 16, right: 8),
+                          margin: EdgeInsets.only(left: 16, right: 16),
                           height: 48.0,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(26.0),
@@ -280,6 +280,14 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                             DatePicker.showDatePicker(context,
                                 dateFormat: 'MMMM dd yyyy',
                                 pickerMode: DateTimePickerMode.date,
+                                pickerTheme: DateTimePickerTheme(
+                                  cancelTextStyle: TextStyle(
+                                      color: Color(ColorConstants.getPrimaryBlack())
+                                  ),
+                                  confirmTextStyle: TextStyle(
+                                      color: Color(ColorConstants.getPrimaryBlack())
+                                  ),
+                                ),
                                 onConfirm: (dateTime, intList) {
                               pageState.onDateSelected(dateTime);
                             });

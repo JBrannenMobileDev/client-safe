@@ -221,7 +221,7 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
     return Job(
       selectedDate: DateTime.now(),
       selectedTime: DateTime.now(),
-      selectedEndTime: DateTime.now(),
+      selectedEndTime: DateTime.now().add(Duration(hours: 1)),
       clientName: 'Client Name',
       client: Client(
           firstName: 'Client',

@@ -195,7 +195,6 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                       JobHistoryWidget(),
                       NotesWidget(),
                       LeadSourceWidget(),
-                      ImportantDatesWidget(),
                     ],
                   ),
                 ),

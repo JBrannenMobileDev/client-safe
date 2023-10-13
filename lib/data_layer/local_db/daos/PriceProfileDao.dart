@@ -112,7 +112,9 @@ class PriceProfileDao extends Equatable{
     await _priceProfileStore.delete(
       await _db,
       finder: finder,
-    );
+    ).catchError((e) {
+      print(e);
+    });
     await PriceProfileCollection().deletePriceProfile(profile.documentId);
     _updateLastChangedTime();
   }
