@@ -46,7 +46,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
-  static const String SIGN_IN_WITH_GOOGLE = 'Sign in with Google';
+  // static const String SIGN_IN_WITH_GOOGLE = 'Sign in with Google';
   static const String SIGN_IN_WITH_FACEBOOK = 'Sign in with Facebook';
   static const String CREATE_ACCOUNT = 'Create Account';
 
@@ -454,7 +454,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               //     lightPeachMountainsStep1,
               //   ],
               // ),
-              pageState.mainButtonsVisible ? Container(
+              selectedButton != CREATE_ACCOUNT ? Container(
                 alignment: Alignment.topCenter,
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
@@ -537,7 +537,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               height: 48.0,
                               width: 232.0,
                               decoration: BoxDecoration(
-                                  color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+                                  color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.6),
                                   borderRadius: BorderRadius.circular(36.0)),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -561,42 +561,42 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             ),
                           ) : SizedBox(),
                         ),
-                        DeviceType.getDeviceType() == Type.Tablet && !pageState.mainButtonsVisible ? SizedBox() : SlideTransition(
-                          position: hideMainButtonsStep,
-                          child: Platform.isAndroid ? GestureDetector(
-                            onTap: () {
-                              pageState.onSignUpWithGoogleSelected();
-                            },
-                            child: Container(
-                              padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                              alignment: Alignment.centerLeft,
-                              height: 48.0,
-                              width: 232,
-                              decoration: BoxDecoration(
-                                  color: Color(ColorConstants.getPrimaryWhite()),
-                                  borderRadius: BorderRadius.circular(36.0)),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Container(
-                                    margin: EdgeInsets.only(right: 16.0),
-                                    height: 22.0,
-                                    width: 22.0,
-                                    child: Image.asset(
-                                      'assets/images/icons/google.png',
-                                      color: Color(ColorConstants.getPeachDark()),
-                                    ),
-                                  ),
-                                  TextDandyLight(
-                                    text: 'Sign up with Google',
-                                    type: TextDandyLight.MEDIUM_TEXT,
-                                    color: Color(ColorConstants.getPeachDark()),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ) : SizedBox(),
-                        ),
+                        // DeviceType.getDeviceType() == Type.Tablet && !pageState.mainButtonsVisible ? SizedBox() : SlideTransition(
+                        //   position: hideMainButtonsStep,
+                        //   child: Platform.isAndroid ? GestureDetector(
+                        //     onTap: () {
+                        //       pageState.onSignUpWithGoogleSelected();
+                        //     },
+                        //     child: Container(
+                        //       padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                        //       alignment: Alignment.centerLeft,
+                        //       height: 48.0,
+                        //       width: 232,
+                        //       decoration: BoxDecoration(
+                        //           color: Color(ColorConstants.getPrimaryWhite()),
+                        //           borderRadius: BorderRadius.circular(36.0)),
+                        //       child: Row(
+                        //         mainAxisAlignment: MainAxisAlignment.center,
+                        //         children: <Widget>[
+                        //           Container(
+                        //             margin: EdgeInsets.only(right: 16.0),
+                        //             height: 22.0,
+                        //             width: 22.0,
+                        //             child: Image.asset(
+                        //               'assets/images/icons/google.png',
+                        //               color: Color(ColorConstants.getPeachDark()),
+                        //             ),
+                        //           ),
+                        //           TextDandyLight(
+                        //             text: 'Sign up with Google',
+                        //             type: TextDandyLight.MEDIUM_TEXT,
+                        //             color: Color(ColorConstants.getPeachDark()),
+                        //           )
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ) : SizedBox(),
+                        // ),
                         DeviceType.getDeviceType() == Type.Tablet && !pageState.mainButtonsVisible ? SizedBox() : SlideTransition(
                           position: hideMainButtonsStep,
                           child: GestureDetector(
@@ -618,7 +618,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               height: 48.0,
                               width: 232.0,
                               decoration: BoxDecoration(
-                                  color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+                                  color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.6),
                                   borderRadius: BorderRadius.circular(36.0)),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -768,7 +768,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           alignment: Alignment.centerLeft,
                           height: 54.0,
                           decoration: BoxDecoration(
-                              color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+                              color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.6),
                               borderRadius: BorderRadius.circular(36.0)),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -792,43 +792,43 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         ),
                       )) : SizedBox(),
 
-                      DeviceType.getDeviceType() == Type.Tablet && pageState.mainButtonsVisible || pageState.showLoginLoadingAnimation ? SizedBox() : Platform.isAndroid ? SlideTransition(
-                          position: showLoginButtonsStep,
-                          child: GestureDetector(
-                        onTap: () {
-                          pageState.onSignUpWithGoogleSelected();
-                        },
-                        child: Container(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                          margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 0.0, bottom: 8.0),
-                          alignment: Alignment.centerLeft,
-                          height: 54.0,
-                          decoration: BoxDecoration(
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                              borderRadius: BorderRadius.circular(36.0)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(right: 16.0),
-                                height: 24.0,
-                                width: 24.0,
-                                child: Image.asset(
-                                  'assets/images/icons/google.png',
-                                ),
-                              ),
-                              TextDandyLight(
-                                text: 'Sign in with Google',
-                                type: TextDandyLight.LARGE_TEXT,
-                                color: Color(ColorConstants.getPrimaryBlack()),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ) : SizedBox(),
+                    //   DeviceType.getDeviceType() == Type.Tablet && pageState.mainButtonsVisible || pageState.showLoginLoadingAnimation ? SizedBox() : Platform.isAndroid ? SlideTransition(
+                    //       position: showLoginButtonsStep,
+                    //       child: GestureDetector(
+                    //     onTap: () {
+                    //       pageState.onSignUpWithGoogleSelected();
+                    //     },
+                    //     child: Container(
+                    //       padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                    //       margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 0.0, bottom: 8.0),
+                    //       alignment: Alignment.centerLeft,
+                    //       height: 54.0,
+                    //       decoration: BoxDecoration(
+                    //           color: Color(ColorConstants.getPrimaryWhite()),
+                    //           borderRadius: BorderRadius.circular(36.0)),
+                    //       child: Row(
+                    //         mainAxisAlignment: MainAxisAlignment.center,
+                    //         children: <Widget>[
+                    //           Container(
+                    //             margin: EdgeInsets.only(right: 16.0),
+                    //             height: 24.0,
+                    //             width: 24.0,
+                    //             child: Image.asset(
+                    //               'assets/images/icons/google.png',
+                    //             ),
+                    //           ),
+                    //           TextDandyLight(
+                    //             text: 'Sign in with Google',
+                    //             type: TextDandyLight.LARGE_TEXT,
+                    //             color: Color(ColorConstants.getPrimaryBlack()),
+                    //           )
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ) : SizedBox(),
 
-                    DeviceType.getDeviceType() == Type.Tablet && pageState.mainButtonsVisible || pageState.showLoginLoadingAnimation ? SizedBox() : SlideTransition(
+                    DeviceType.getDeviceType() == Type.Tablet && pageState.mainButtonsVisible || pageState.showLoginLoadingAnimation || Platform.isAndroid ? SizedBox() : SlideTransition(
                     position: showLoginButtonsStep,
                     child: Container(
                         margin: EdgeInsets.only(top: 8, bottom: 8),
@@ -1121,30 +1121,31 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
-              ) : selectedButton == SIGN_IN_WITH_GOOGLE ? SafeArea(
-                child: Container(
-                  alignment: Alignment.bottomCenter,
-                  child: GestureDetector(
-                    onTap: () {
-                      pageState.onContinueWithGoogleSubmitted();
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(top: 8.0, left: 64.0, right: 64.0),
-                      alignment: Alignment.center,
-                      height: 64.0,
-                      decoration: BoxDecoration(
-                          color: Color(ColorConstants.getPeachDark()),
-                          borderRadius: BorderRadius.circular(32.0)),
-                      child: TextDandyLight(
-                        type: TextDandyLight.LARGE_TEXT,
-                        text: 'Sign in with Google',
-                        textAlign: TextAlign.center,
-                        color: Color(ColorConstants.getPrimaryWhite()),
-                      ),
-                    ),
-                  ),
-                ),
               ) : SizedBox(),
+              // selectedButton == SIGN_IN_WITH_GOOGLE ? SafeArea(
+              //   child: Container(
+              //     alignment: Alignment.bottomCenter,
+              //     child: GestureDetector(
+              //       onTap: () {
+              //         pageState.onContinueWithGoogleSubmitted();
+              //       },
+              //       child: Container(
+              //         margin: EdgeInsets.only(top: 8.0, left: 64.0, right: 64.0),
+              //         alignment: Alignment.center,
+              //         height: 64.0,
+              //         decoration: BoxDecoration(
+              //             color: Color(ColorConstants.getPeachDark()),
+              //             borderRadius: BorderRadius.circular(32.0)),
+              //         child: TextDandyLight(
+              //           type: TextDandyLight.LARGE_TEXT,
+              //           text: 'Sign in with Google',
+              //           textAlign: TextAlign.center,
+              //           color: Color(ColorConstants.getPrimaryWhite()),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ) : SizedBox(),
               Positioned(
                 left: 8.0,
                 child: SafeArea(
