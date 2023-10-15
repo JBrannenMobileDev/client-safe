@@ -119,7 +119,8 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _checkForUpdate(Store<AppState> store, CheckForAppUpdateAction action) async {
-    AppSettings settings = (await AppSettingsDao.getAll())?.first;
+    List<AppSettings> settingsList = (await AppSettingsDao.getAll());
+    AppSettings settings = settingsList != null && settingsList.length > 0 ? settingsList.first : null;
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     if(settings != null) {
       if(settings.show) {
@@ -310,6 +311,12 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
 
     List<Job> allJobs = await JobDao.getAllJobs();
+    await allJobs.forEach((job) async {
+      job.paymentReceivedDate = job.createdDate;
+      await JobDao.update(job);
+    });
+    allJobs = await JobDao.getAllJobs();
+
     List<JobType> allJobTypes = await JobTypeDao.getAll();
     List<SingleExpense> singleExpenses = await SingleExpenseDao.getAll();
     List<MileageExpense> mileageExpenses = await MileageExpenseDao.getAll();

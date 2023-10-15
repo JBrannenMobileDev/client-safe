@@ -12,7 +12,6 @@ import '../../../utils/Shadows.dart';
 import '../../../utils/analytics/EventNames.dart';
 import '../../../utils/analytics/EventSender.dart';
 import '../../../widgets/DandyLightNetworkImage.dart';
-import '../../../widgets/DandyLightPainter.dart';
 import '../../../widgets/TextDandyLight.dart';
 
 class ProfileAndJobsCard extends StatelessWidget {
@@ -30,7 +29,7 @@ class ProfileAndJobsCard extends StatelessWidget {
             height: 72.0,
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
-                borderRadius: new BorderRadius.all(Radius.circular(42.0))),
+                borderRadius: new BorderRadius.all(Radius.circular(12.0))),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

@@ -156,7 +156,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                       Container(
                                         margin: EdgeInsets.only(left: calculateCompanyNameMargin(MediaQuery.of(context).size.width)),
                                         child: TextDandyLight(
-                                          type: TextDandyLight.EXTRA_LARGE_TEXT,
+                                          type: TextDandyLight.EXTRA_EXTRA_LARGE_TEXT,
                                           fontFamily: pageState.profile.selectedFontTheme.mainFont,
                                           text: pageState.job.client?.getClientFullName(),
                                           color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme.bannerColor) && !pageState.profile.bannerImageSelected ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
@@ -584,18 +584,19 @@ class _SignContractPageState extends State<ProposalPage> {
                 ),
               ) : Stack(
                 alignment: Alignment.center,
-                children: [      //TODO fix the glitchy loading in jobDetails page.  probaly because of a steam
+                children: [
                   Container(
                     alignment: Alignment.center,
                     height: 42,
                     width: 42,
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor)
+                        color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
+                        boxShadow: ElevationToShadow[4],
                     ),
                   ),
                   TextDandyLight(
-                    type: TextDandyLight.EXTRA_LARGE_TEXT,
+                    type: TextDandyLight.SMALL_TEXT,
                     fontFamily: pageState.profile.selectedFontTheme.iconFont,
                     textAlign: TextAlign.center,
                     text: pageState.profile.logoCharacter,
@@ -620,7 +621,7 @@ class _SignContractPageState extends State<ProposalPage> {
         Container(
           alignment: Alignment.center,
           child: TextDandyLight(
-            type: TextDandyLight.LARGE_TEXT,
+            type: TextDandyLight.EXTRA_LARGE_TEXT,
             text: pageState.job.clientName,
             fontFamily: pageState.profile.selectedFontTheme.mainFont,
             textAlign: TextAlign.center,

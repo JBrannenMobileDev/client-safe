@@ -838,6 +838,51 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                     ),
                                   ),
                                 ),
+                                TextButton(
+                                  style: Styles.getButtonStyle(),
+                                  onPressed: () {
+                                    pageState.populateAccountWithData();
+                                  },
+                                  child: SizedBox(
+                                    height: 48.0,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Row(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Container(
+                                              alignment: Alignment.center,
+                                              margin: EdgeInsets.only(right: 16.0),
+                                              height: 28.0,
+                                              width: 28.0,
+                                              child: Icon(
+                                                Icons.document_scanner_outlined,
+                                                color: Color(ColorConstants.getPrimaryBlack()),
+                                              ),
+                                            ),
+                                            TextDandyLight(
+                                              type: TextDandyLight.MEDIUM_TEXT,
+                                              text: 'Populate account with data',
+                                              textAlign: TextAlign.center,
+                                              color: Color(ColorConstants.getPrimaryBlack()),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                          child: Icon(
+                                            Icons.document_scanner_outlined,
+                                            color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ) : SizedBox(),

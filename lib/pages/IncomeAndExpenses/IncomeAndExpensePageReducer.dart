@@ -278,6 +278,7 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
   }
 
   for(Job job in jobsWithOnlyDepositReceived){
+    if(job.depositReceivedDate != null) {
       if(job.depositReceivedDate.year == action.year) {
         totalForSelectedYear = totalForSelectedYear + job.depositAmount;
       }
@@ -294,6 +295,7 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
       if(job.depositReceivedDate.year == lastMonthLastYearDate.year && job.depositReceivedDate.month == lastMonthLastYearDate.month) {
         lastMonthLastYear = lastMonthLastYear + job.depositAmount;
       }
+    }
   }
 
   for(Job job in action.allJobs.where((job) => job.isPaymentReceived() == true).toList()) {

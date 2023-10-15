@@ -68,6 +68,7 @@ class MainSettingsPageState{
   final Function(String) onLogoLetterChanged;
   final Function(bool) onBannerImageSelected;
   final Function() onPublishChangesSelected;
+  final Function() populateAccountWithData;
 
   MainSettingsPageState({
     @required this.pushNotificationsEnabled,
@@ -127,6 +128,7 @@ class MainSettingsPageState{
     @required this.onBusinessPhoneChanged,
     @required this.uploadInProgress,
     @required this.uploadProgress,
+    @required this.populateAccountWithData,
   });
 
   MainSettingsPageState copyWith({
@@ -187,6 +189,7 @@ class MainSettingsPageState{
     Function(String) onLogoLetterChanged,
     Function(bool) onBannerImageSelected,
     Function() onPublishChangesSelected,
+    Function() populateAccountWithData,
   }){
     return MainSettingsPageState(
       pushNotificationsEnabled: pushNotificationsEnabled ?? this.pushNotificationsEnabled,
@@ -246,6 +249,7 @@ class MainSettingsPageState{
       businessPhone: businessPhone ?? this.businessPhone,
       uploadProgress: uploadProgress ?? this.uploadProgress,
       uploadInProgress: uploadInProgress ?? this.uploadInProgress,
+      populateAccountWithData: populateAccountWithData ?? this.populateAccountWithData,
     );
   }
 
@@ -307,6 +311,7 @@ class MainSettingsPageState{
     onBannerWebUploaded: null,
     uploadProgress: 0.0,
     uploadInProgress: false,
+    populateAccountWithData: null,
   );
 
   factory MainSettingsPageState.fromStore(Store<AppState> store) {
@@ -363,6 +368,7 @@ class MainSettingsPageState{
       generate50DiscountCode: () => store.dispatch(Generate50DiscountCodeAction(store.state.mainSettingsPageState)),
       generateFreeDiscountCode: () => store.dispatch(GenerateFreeDiscountCodeAction(store.state.mainSettingsPageState)),
       onInstaUrlChanged: (url) => store.dispatch(SetUrlToStateAction(store.state.mainSettingsPageState, url)),
+      populateAccountWithData: () => store.dispatch(PopulateAccountWithData(store.state.mainSettingsPageState)),
       onLogoUploaded: (imageFile) async {
         await store.dispatch(ResizeLogoImageAction(store.state.mainSettingsPageState, imageFile));
       },
@@ -421,6 +427,7 @@ class MainSettingsPageState{
       businessName.hashCode ^
       onFirstNameChanged.hashCode ^
       onLastNameChanged.hashCode ^
+      populateAccountWithData.hashCode ^
       onBusinessNameChanged.hashCode ^
       onSaveUpdatedProfile.hashCode ^
       bannerImageSelected.hashCode ^
@@ -493,6 +500,7 @@ class MainSettingsPageState{
               isDeleteFinished == other.isDeleteFinished &&
               isDeleteInProgress == other.isDeleteInProgress &&
               password == other.password &&
+              populateAccountWithData == other.populateAccountWithData &&
               logoImageSelected == other.logoImageSelected &&
               onPasswordChanged == other.onPasswordChanged &&
               passwordErrorMessage == other.passwordErrorMessage &&

@@ -231,6 +231,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveUpdatedUserProfileAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, RemoveDeviceTokenAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SendSuggestionAction>(MainSettingsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, PopulateAccountWithData>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteAccountAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, Generate50DiscountCodeAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, GenerateFreeDiscountCodeAction>(MainSettingsPageMiddleware()));

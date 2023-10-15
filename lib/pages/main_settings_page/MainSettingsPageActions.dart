@@ -276,3 +276,8 @@ class SetUrlToStateAction {
   SetUrlToStateAction(this.pageState, this.instaUrl);
 }
 
+class PopulateAccountWithData {
+  final MainSettingsPageState pageState;
+  PopulateAccountWithData(this.pageState);
+}
+

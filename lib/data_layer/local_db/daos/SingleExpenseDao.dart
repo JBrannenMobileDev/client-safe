@@ -100,11 +100,12 @@ class SingleExpenseDao extends Equatable{
     if((await getAll()).length > 0) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
       final recordSnapshots = await _singleExpenseStore.find(await _db, finder: finder);
-      return recordSnapshots.map((snapshot) {
+      List<SingleExpense> list = recordSnapshots.map((snapshot) {
         final expense = SingleExpense.fromMap(snapshot.value);
         expense.id = snapshot.key;
         return expense;
-      }).toList().elementAt(0);
+      }).toList();
+      return list != null && list.length > 0 ? list.first : null;
     } else {
       return null;
     }

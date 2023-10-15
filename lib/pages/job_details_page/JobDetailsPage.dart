@@ -353,7 +353,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         },
                         child: Container(
                           margin: EdgeInsets.only(top: 8),
-                          width: 200,
+                          width: 164,
                           alignment: Alignment.center,
                           height: 48,
                           decoration: BoxDecoration(
@@ -372,7 +372,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                 ),
                 body: Container(
                 child: Stack(
-                  alignment: Alignment.bottomCenter,
+                  alignment: Alignment.bottomLeft,
                   children: <Widget>[
                     Container(
                       decoration: BoxDecoration(
@@ -485,7 +485,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         height: 54.0,
                         width: 96,
                         decoration: BoxDecoration(
-                            color: Color(ColorConstants.getPeachDark()),
+                            color: Color(ColorConstants.getBlueDark()),
                             borderRadius: BorderRadius.circular(36.0),
                         ),
                         child: TextDandyLight(
