@@ -6,6 +6,7 @@ import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:sembast/sembast.dart' as sembast;
 
 class ProfileDao extends Equatable{
@@ -25,18 +26,15 @@ class ProfileDao extends Equatable{
   }
 
   static Future<void> _updateLastChangedTime() async {
-    List<Profile> profiles = await ProfileDao.getAll();
-    if(profiles != null && profiles.isNotEmpty) {
-      Profile profile = profiles.elementAt(0);
-      profile.profileLastChangeDate = DateTime.now();
-      final finder = sembast.Finder(filter: sembast.Filter.equals('uid', profile.uid));
-      await _profileStore.update(
-        await _db,
-        profile.toMap(),
-        finder: finder,
-      );
-      await UserCollection().updateUser(profile);
-    }
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.profileLastChangeDate = DateTime.now();
+    final finder = sembast.Finder(filter: sembast.Filter.equals('uid', profile.uid));
+    await _profileStore.update(
+      await _db,
+      profile.toMap(),
+      finder: finder,
+    );
+    await UserCollection().updateUser(profile);
   }
 
   static Future insertLocal(Profile profile) async {

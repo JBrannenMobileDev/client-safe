@@ -1,9 +1,6 @@
 import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
-import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
-import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
@@ -16,6 +13,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../models/Profile.dart';
 import '../../navigation/routes/RouteNames.dart';
 import '../../utils/Shadows.dart';
 import '../../utils/analytics/EventNames.dart';
@@ -23,30 +21,36 @@ import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'BannerSelectionWidget.dart';
 import 'ColorThemeSelectionWidget.dart';
+import 'EditBrandingPageActions.dart';
+import 'EditBrandingPageState.dart';
 import 'FontThemeSelectionWidget.dart';
 import 'LogoSelectionWidget.dart';
 
 class EditBrandingPage extends StatefulWidget {
+  final Profile profile;
+
+  EditBrandingPage({this.profile});
 
   @override
   State<StatefulWidget> createState() {
-    return _EditBrandingPageState();
+    return _EditBrandingPageState(profile);
   }
 }
 
 class _EditBrandingPageState extends State<EditBrandingPage> with TickerProviderStateMixin {
   _isProgressDialogShowing(BuildContext context) => progressContext != null && ModalRoute.of(progressContext)?.isCurrent == true;
-
+  final Profile profile;
   BuildContext progressContext = null;
+
+  _EditBrandingPageState(this.profile);
 
   @override
   Widget build(BuildContext context) =>
-      StoreConnector<AppState, MainSettingsPageState>(
-        onInit: (store) async {
-          await store.dispatch(LoadSettingsFromProfile(store.state.mainSettingsPageState));
-          store.dispatch(ClearBrandingStateAction(store.state.mainSettingsPageState, await ProfileDao.getMatchingProfile(UidUtil().getUid())));
-          store.dispatch(SavePreviewBrandingAction(store.state.mainSettingsPageState));
-          store.dispatch(SavePreviewJsonContractAction(store.state.mainSettingsPageState));
+      StoreConnector<AppState, EditBrandingPageState>(
+        onInit: (store) {
+          store.dispatch(InitializeBranding(store.state.editBrandingPageState, profile));
+          // store.dispatch(SavePreviewBrandingAction(store.state.mainSettingsPageState));
+          // store.dispatch(SavePreviewJsonContractAction(store.state.mainSettingsPageState));
         },
         onDidChange: (previous, current) {
           if(previous.uploadInProgress && !current.uploadInProgress && _isProgressDialogShowing(context)) {
@@ -54,8 +58,8 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
             _launchBrandingPreviewURL(UidUtil().getUid());
           };
         },
-        converter: (Store<AppState> store) => MainSettingsPageState.fromStore(store),
-        builder: (BuildContext context, MainSettingsPageState pageState) => WillPopScope(
+        converter: (Store<AppState> store) => EditBrandingPageState.fromStore(store),
+        builder: (BuildContext context, EditBrandingPageState pageState) => WillPopScope(
             onWillPop: () async {
               bool willLeave = false;
               // show the confirm dialog
@@ -71,6 +75,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                           style: Styles.getButtonStyle(),
                           onPressed: () {
                             willLeave = true;
+                            pageState.clearBrandingState(pageState.profile);
                             Navigator.of(context).pop();
                           },
                           child: new Text('Yes'),
@@ -89,6 +94,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                           style: Styles.getButtonStyle(),
                           onPressed: () {
                             willLeave = true;
+                            pageState.clearBrandingState(pageState.profile);
                             Navigator.of(context).pop();
                           },
                           child: new Text('Yes'),

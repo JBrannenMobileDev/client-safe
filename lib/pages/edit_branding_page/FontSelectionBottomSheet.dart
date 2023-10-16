@@ -1,5 +1,4 @@
 import 'package:dandylight/models/FontTheme.dart';
-import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -10,6 +9,7 @@ import '../../../AppState.dart';
 import '../../../widgets/TextDandyLight.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import 'EditBrandingPageState.dart';
 
 
 class FontSelectionBottomSheet extends StatefulWidget {
@@ -32,11 +32,10 @@ class _FontSelectionBottomSheetPageState extends State<FontSelectionBottomSheet>
   _FontSelectionBottomSheetPageState(this.id);
 
   @override
-  Widget build(BuildContext context) => StoreConnector<AppState, MainSettingsPageState>(
-    converter: (Store<AppState> store) => MainSettingsPageState.fromStore(store),
-    builder: (BuildContext context, MainSettingsPageState pageState) =>
+  Widget build(BuildContext context) => StoreConnector<AppState, EditBrandingPageState>(
+    converter: (Store<AppState> store) => EditBrandingPageState.fromStore(store),
+    builder: (BuildContext context, EditBrandingPageState pageState) =>
          Container(
-
                decoration: BoxDecoration(
                    borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
                    color: Color(ColorConstants.getPrimaryWhite())),
@@ -75,9 +74,9 @@ class _FontSelectionBottomSheetPageState extends State<FontSelectionBottomSheet>
     );
 
   Widget _buildItem(BuildContext context, int index) {
-    return StoreConnector<AppState, MainSettingsPageState>(
-        converter: (store) => MainSettingsPageState.fromStore(store),
-        builder: (BuildContext context, MainSettingsPageState pageState) =>
+    return StoreConnector<AppState, EditBrandingPageState>(
+        converter: (store) => EditBrandingPageState.fromStore(store),
+        builder: (BuildContext context, EditBrandingPageState pageState) =>
             GestureDetector(
               onTap: () {
                 pageState.onFontSaved(allFonts.elementAt(index), id);

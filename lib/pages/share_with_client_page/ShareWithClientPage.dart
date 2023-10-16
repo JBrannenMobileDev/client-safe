@@ -58,7 +58,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
   void handleClick(String value) {
     switch (value) {
       case 'Branding':
-        NavigationUtil.onEditBrandingSelected(context);
+        NavigationUtil.onEditBrandingSelected(context, profile);
         EventSender().sendEvent(eventName: EventNames.BRANDING_EDIT_FROM_SHARE);
         break;
       case 'Business Info':

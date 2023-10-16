@@ -3,11 +3,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
-import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
-import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/UidUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -15,14 +11,17 @@ import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 
+import '../../models/Profile.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/DandyLightNetworkImage.dart';
 import '../../widgets/DandyLightPainter.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'ChangeIconLetterBottomSheet.dart';
+import 'EditBrandingPageState.dart';
 
 class LogoSelectionWidget extends StatefulWidget {
+
   @override
   State<StatefulWidget> createState() {
     return _LogoSelectionWidgetState();
@@ -48,15 +47,9 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
   }
 
   @override
-  Widget build(BuildContext context) => StoreConnector<AppState, MainSettingsPageState>(
-        onInit: (store) async {
-          store.dispatch(
-              ClearBrandingStateAction(
-                store.state.mainSettingsPageState,
-                await ProfileDao.getMatchingProfile(UidUtil().getUid())
-              )
-          );
-          if(store.state.mainSettingsPageState.profile.logoSelected) {
+  Widget build(BuildContext context) => StoreConnector<AppState, EditBrandingPageState>(
+        onInit: (store) {
+          if(store.state.dashboardPageState.profile.logoSelected) {
             selections[0] = true;
             selections[1] = false;
           } else {
@@ -65,8 +58,8 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
           }
         },
         converter: (Store<AppState> store) =>
-            MainSettingsPageState.fromStore(store),
-        builder: (BuildContext context, MainSettingsPageState pageState) =>
+            EditBrandingPageState.fromStore(store),
+        builder: (BuildContext context, EditBrandingPageState pageState) =>
             Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -256,10 +249,9 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
         ),
       );
 
-  Future getDeviceImage(MainSettingsPageState pageState) async {
+  Future getDeviceImage(EditBrandingPageState pageState) async {
     try {
-      XFile localImage =
-          await ImagePicker().pickImage(source: ImageSource.gallery);
+      XFile localImage = await ImagePicker().pickImage(source: ImageSource.gallery);
       CroppedFile croppedImage = await ImageCropper().cropImage(
         sourcePath: localImage.path,
         maxWidth: 300,

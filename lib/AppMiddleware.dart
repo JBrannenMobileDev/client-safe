@@ -16,6 +16,7 @@ import 'package:dandylight/pages/contracts_page/ContractsActions.dart';
 import 'package:dandylight/pages/contracts_page/ContractsPageMiddleware.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageMiddleware.dart';
+import 'package:dandylight/pages/edit_branding_page/EditBrandingPageMiddleware.dart';
 import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPageActions.dart';
 import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPageMiddleware.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
@@ -88,6 +89,8 @@ import 'package:dandylight/pages/upload_pose_page/UploadPosePageMiddleware.dart'
 import 'package:dandylight/web/pages/ClientPortalActions.dart';
 import 'package:dandylight/web/pages/ClientPortalPageMiddleware.dart';
 import 'package:redux/redux.dart';
+
+import 'pages/edit_branding_page/EditBrandingPageActions.dart';
 
 List<Middleware<AppState>> createAppMiddleware() {
   List<Middleware<AppState>> middlewareList = [];
@@ -219,13 +222,13 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SignUpWithGoogleAction>(LoginPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoginAction>(LoginPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadSettingsFromProfile>(MainSettingsPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, ResizeLogoImageAction>(MainSettingsPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, ResizeBannerImageAction>(MainSettingsPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, ResizeBannerWebImageAction>(MainSettingsPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, ResizeBannerMobileImageAction>(MainSettingsPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, SaveBrandingAction>(MainSettingsPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, SavePreviewBrandingAction>(MainSettingsPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, SavePreviewJsonContractAction>(MainSettingsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, ResizeLogoImageAction>(EditBrandingPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, ResizeBannerImageAction>(EditBrandingPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, ResizeBannerWebImageAction>(EditBrandingPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, ResizeBannerMobileImageAction>(EditBrandingPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveBrandingAction>(EditBrandingPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SavePreviewBrandingAction>(EditBrandingPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SavePreviewJsonContractAction>(EditBrandingPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SavePushNotificationSettingAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveCalendarSettingAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveUpdatedUserProfileAction>(MainSettingsPageMiddleware()));

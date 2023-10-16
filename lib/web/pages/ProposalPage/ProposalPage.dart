@@ -416,6 +416,7 @@ class _SignContractPageState extends State<ProposalPage> {
   Widget _menuButtonsSmallScreen(ClientPortalPageState pageState) {
     if(pageState.proposal.contract != null || pageState.invoice != null || pageState.job.poses != null && pageState.job.poses.length > 0) {
       return Container(
+        alignment: Alignment.center,
         height: 54,
         margin: EdgeInsets.only(left: 8, right: 8),
         padding: EdgeInsets.only(left: 16, right: 16),
@@ -592,7 +593,7 @@ class _SignContractPageState extends State<ProposalPage> {
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
-                        boxShadow: ElevationToShadow[4],
+                        boxShadow: ElevationToShadow[1],
                     ),
                   ),
                   TextDandyLight(

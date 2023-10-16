@@ -1,5 +1,4 @@
 import 'package:dandylight/models/FontTheme.dart';
-import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -10,6 +9,7 @@ import 'package:redux/redux.dart';
 import '../../../AppState.dart';
 import '../../../widgets/TextDandyLight.dart';
 import '../../utils/KeyboardUtil.dart';
+import 'EditBrandingPageState.dart';
 
 
 class ChangeIconLetterBottomSheet extends StatefulWidget {
@@ -24,9 +24,9 @@ class _ChangeIconLetterBottomSheetPageState extends State<ChangeIconLetterBottom
   TextEditingController controller = TextEditingController();
 
   @override
-  Widget build(BuildContext context) => StoreConnector<AppState, MainSettingsPageState>(
-    converter: (Store<AppState> store) => MainSettingsPageState.fromStore(store),
-    builder: (BuildContext context, MainSettingsPageState pageState) =>
+  Widget build(BuildContext context) => StoreConnector<AppState, EditBrandingPageState>(
+    converter: (Store<AppState> store) => EditBrandingPageState.fromStore(store),
+    builder: (BuildContext context, EditBrandingPageState pageState) =>
          Container(
            height: KeyboardUtil.isVisible(context) ? 584 : 250,
                decoration: BoxDecoration(

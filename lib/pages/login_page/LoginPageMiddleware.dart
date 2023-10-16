@@ -622,7 +622,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
               iconTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
               buttonColor: ColorConstants.getString(ColorConstants.getPeachDark()),
               buttonTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
-              bannerColor: ColorConstants.getString(ColorConstants.getBlueLight()),
+              bannerColor: ColorConstants.getString(ColorConstants.getPeachLight()),
             );
           }
           if(profile.selectedFontTheme == null) {

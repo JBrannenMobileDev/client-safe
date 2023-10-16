@@ -454,7 +454,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               //     lightPeachMountainsStep1,
               //   ],
               // ),
-              pageState.mainButtonsVisible || selectedButton != CREATE_ACCOUNT ? Container(
+              !pageState.isUserVerified  && selectedButton == null ? Container(
                 alignment: Alignment.topCenter,
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
@@ -1170,6 +1170,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               !pageState.isCurrentUserCheckComplete && !pageState.navigateToHome ? Center(
                 child: Container(
                   decoration: BoxDecoration(
+                    color: Color(ColorConstants.getBlueLight()),
                     image: DecorationImage(
                       fit: BoxFit.fitWidth,
                       image: AssetImage("assets/images/backgrounds/flowerBgLaunch.png"),
@@ -1354,7 +1355,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   type: TextDandyLight.LARGE_TEXT,
                   text: 'Try for free',
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.getBlueDark()),
+                  color: Color(ColorConstants.getPrimaryWhite()),
                 ),
               ),
               Container(
@@ -1364,7 +1365,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   type: TextDandyLight.LARGE_TEXT,
                   text: 'No credit card required',
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.getBlueDark()),
+                  color: Color(ColorConstants.getPrimaryWhite()),
                 ),
               ),
             Container(
@@ -1374,7 +1375,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: 'Creating an account will start your free trial. You will not be charged automatically. Once you reach your 3 job limit, a subscription will be required to gain access to unlimited jobs.',
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.getBlueDark()),
+                  color: Color(ColorConstants.getPrimaryWhite()),
                 ),
             ),
               Row(
@@ -1390,7 +1391,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         type: TextDandyLight.SMALL_TEXT,
                         text: 'Terms of Use',
                         textAlign: TextAlign.center,
-                        color: Color(ColorConstants.getBlueDark()),
+                        color: Color(ColorConstants.getPrimaryWhite()),
                       ),
                     ),
                   ) : TextButton(
@@ -1403,7 +1404,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         type: TextDandyLight.SMALL_TEXT,
                         text: 'Terms of service',
                         textAlign: TextAlign.center,
-                        color: Color(ColorConstants.getBlueDark()),
+                        color: Color(ColorConstants.getPrimaryWhite()),
                       ),
                     ),
                   ),
@@ -1417,7 +1418,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         type: TextDandyLight.SMALL_TEXT,
                         text: 'Privacy Policy',
                         textAlign: TextAlign.center,
-                        color: Color(ColorConstants.getBlueDark()),
+                        color: Color(ColorConstants.getPrimaryWhite()),
                       ),
                     ),
                   ),

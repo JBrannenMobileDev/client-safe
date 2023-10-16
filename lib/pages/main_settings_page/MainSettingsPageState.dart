@@ -69,6 +69,7 @@ class MainSettingsPageState{
   final Function(bool) onBannerImageSelected;
   final Function() onPublishChangesSelected;
   final Function() populateAccountWithData;
+  final Function(Profile) clearBrandingState;
 
   MainSettingsPageState({
     @required this.pushNotificationsEnabled,
@@ -129,6 +130,7 @@ class MainSettingsPageState{
     @required this.uploadInProgress,
     @required this.uploadProgress,
     @required this.populateAccountWithData,
+    @required this.clearBrandingState,
   });
 
   MainSettingsPageState copyWith({
@@ -190,6 +192,7 @@ class MainSettingsPageState{
     Function(bool) onBannerImageSelected,
     Function() onPublishChangesSelected,
     Function() populateAccountWithData,
+    Function(Profile) clearBrandingState,
   }){
     return MainSettingsPageState(
       pushNotificationsEnabled: pushNotificationsEnabled ?? this.pushNotificationsEnabled,
@@ -250,6 +253,7 @@ class MainSettingsPageState{
       uploadProgress: uploadProgress ?? this.uploadProgress,
       uploadInProgress: uploadInProgress ?? this.uploadInProgress,
       populateAccountWithData: populateAccountWithData ?? this.populateAccountWithData,
+      clearBrandingState: clearBrandingState ?? this.clearBrandingState,
     );
   }
 
@@ -312,6 +316,7 @@ class MainSettingsPageState{
     uploadProgress: 0.0,
     uploadInProgress: false,
     populateAccountWithData: null,
+    clearBrandingState: null,
   );
 
   factory MainSettingsPageState.fromStore(Store<AppState> store) {
@@ -369,42 +374,6 @@ class MainSettingsPageState{
       generateFreeDiscountCode: () => store.dispatch(GenerateFreeDiscountCodeAction(store.state.mainSettingsPageState)),
       onInstaUrlChanged: (url) => store.dispatch(SetUrlToStateAction(store.state.mainSettingsPageState, url)),
       populateAccountWithData: () => store.dispatch(PopulateAccountWithData(store.state.mainSettingsPageState)),
-      onLogoUploaded: (imageFile) async {
-        await store.dispatch(ResizeLogoImageAction(store.state.mainSettingsPageState, imageFile));
-      },
-      onLogoImageSelected: (isLogoImageSelected) async {
-        await store.dispatch(SetLogoSelectionAction(store.state.mainSettingsPageState, isLogoImageSelected));
-        store.dispatch(SavePreviewBrandingAction(store.state.mainSettingsPageState));
-      },
-      onColorSaved: (color, id) async {
-        await store.dispatch(SaveColorAction(store.state.mainSettingsPageState, color, id));
-        store.dispatch(SavePreviewBrandingAction(store.state.mainSettingsPageState));
-      },
-      onFontSaved: (fontFamily, id) async {
-        store.dispatch(SetSelectedFontAction(store.state.mainSettingsPageState, fontFamily, id));
-        store.dispatch(SavePreviewBrandingAction(store.state.mainSettingsPageState));
-      },
-      onLogoLetterChanged: (logoLetter) async {
-        await store.dispatch(SetLogoLetterAction(store.state.mainSettingsPageState, logoLetter));
-        store.dispatch(SavePreviewBrandingAction(store.state.mainSettingsPageState));
-      },
-      onBannerUploaded: (imageFile) async {
-        await store.dispatch(ResizeBannerImageAction(store.state.mainSettingsPageState, imageFile));
-        store.dispatch(SavePreviewBrandingAction(store.state.mainSettingsPageState));
-      },
-      onBannerImageSelected: (isBannerImageSelected) async {
-        await store.dispatch(SetBannerSelectionAction(store.state.mainSettingsPageState, isBannerImageSelected));
-        store.dispatch(SavePreviewBrandingAction(store.state.mainSettingsPageState));
-      },
-      onPublishChangesSelected: () => store.dispatch(SaveBrandingAction(store.state.mainSettingsPageState)),
-      onBannerWebUploaded: (imageFile) async {
-        await store.dispatch(ResizeBannerWebImageAction(store.state.mainSettingsPageState, imageFile));
-        store.dispatch(SavePreviewBrandingAction(store.state.mainSettingsPageState));
-      },
-      onBannerMobileUploaded: (imageFile) async {
-        await store.dispatch(ResizeBannerMobileImageAction(store.state.mainSettingsPageState, imageFile));
-        store.dispatch(SavePreviewBrandingAction(store.state.mainSettingsPageState));
-      },
     );
   }
 
@@ -421,6 +390,7 @@ class MainSettingsPageState{
       onBusinessEmailChanged.hashCode ^
       onBusinessPhoneChanged.hashCode ^
       onBannerUploaded.hashCode ^
+      clearBrandingState.hashCode ^
       logoImageSelected.hashCode ^
       lastName.hashCode ^
       showPublishButton.hashCode ^
@@ -488,6 +458,7 @@ class MainSettingsPageState{
               onBusinessNameChanged == other.onBusinessNameChanged &&
               onSaveUpdatedProfile == other.onSaveUpdatedProfile &&
               profile == other.profile &&
+              clearBrandingState == other.clearBrandingState &&
               businessEmail == other.businessEmail &&
               businessPhone == other.businessPhone &&
               bannerImageSelected == other.bannerImageSelected &&

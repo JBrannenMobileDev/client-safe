@@ -1,7 +1,5 @@
 import 'dart:ui';
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
-import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -13,6 +11,7 @@ import '../../utils/UidUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
+import 'EditBrandingPageState.dart';
 
 class ColorThemeSelectionWidget extends StatefulWidget {
 
@@ -27,12 +26,9 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
 
   @override
   Widget build(BuildContext context) =>
-      StoreConnector<AppState, MainSettingsPageState>(
-        onInit: (store) async {
-          store.dispatch(ClearBrandingStateAction(store.state.mainSettingsPageState, await ProfileDao.getMatchingProfile(UidUtil().getUid())));
-        },
-        converter: (Store<AppState> store) => MainSettingsPageState.fromStore(store),
-        builder: (BuildContext context, MainSettingsPageState pageState) => Column(
+      StoreConnector<AppState, EditBrandingPageState>(
+        converter: (Store<AppState> store) => EditBrandingPageState.fromStore(store),
+        builder: (BuildContext context, EditBrandingPageState pageState) => Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [

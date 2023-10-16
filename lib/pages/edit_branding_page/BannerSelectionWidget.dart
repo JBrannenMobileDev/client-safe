@@ -3,8 +3,6 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
-import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:flutter/material.dart';
@@ -13,12 +11,11 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 
-import '../../data_layer/local_db/daos/ProfileDao.dart';
-import '../../utils/UidUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/DandyLightNetworkImage.dart';
 import '../../widgets/TextDandyLight.dart';
+import 'EditBrandingPageState.dart';
 
 class BannerSelectionWidget extends StatefulWidget {
   @override
@@ -33,12 +30,9 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
 
   @override
   Widget build(BuildContext context) =>
-      StoreConnector<AppState, MainSettingsPageState>(
+      StoreConnector<AppState, EditBrandingPageState>(
         onInit: (store) async {
-          store.dispatch(ClearBrandingStateAction(
-              store.state.mainSettingsPageState,
-              await ProfileDao.getMatchingProfile(UidUtil().getUid())));
-          if(store.state.mainSettingsPageState.profile.bannerImageSelected) {
+          if(store.state.dashboardPageState.profile.bannerImageSelected) {
             selections[0] = true;
             selections[1] = false;
           } else {
@@ -47,8 +41,8 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
           }
         },
         converter: (Store<AppState> store) =>
-            MainSettingsPageState.fromStore(store),
-        builder: (BuildContext context, MainSettingsPageState pageState) =>
+            EditBrandingPageState.fromStore(store),
+        builder: (BuildContext context, EditBrandingPageState pageState) =>
             Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -63,7 +57,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
               ),
             ),
             Container(
-              height: 542,
+              height: 332,
               margin: EdgeInsets.only(bottom: 164),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -97,8 +91,8 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                                 height: 164,
                                 image: FileImage(File(pageState.bannerImage.path)),
                               ),
-                            ) : Container(
-                              height: 328,
+                            ) : pageState.profile.bannerMobileUrl != null ? Container(
+                              height: 164,
                               child: ClipRRect(
                                 borderRadius: new BorderRadius.only(
                                     topRight: Radius.circular(16),
@@ -112,7 +106,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                               ),
                             ) : Container(
                               alignment: Alignment.center,
-                              height: 328,
+                              height: 164,
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: pageState.currentBannerColor,
@@ -121,10 +115,10 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                                     topLeft: Radius.circular(16)
                                 ),
                               ),
-                            ),
+                            ) : SizedBox(),
                             !pageState.bannerImageSelected ? Container(
                               alignment: Alignment.center,
-                              height: 328,
+                              height: 164,
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: pageState.currentBannerColor,
@@ -148,7 +142,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                                 ),
                                 Container(
                                   alignment: Alignment.center,
-                                  height: 328,
+                                  height: 164,
                                   child: TextDandyLight(
                                     type: TextDandyLight.LARGE_TEXT,
                                     fontFamily: pageState.currentFont,
@@ -233,7 +227,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
         ),
       );
 
-  Future getDeviceImage(MainSettingsPageState pageState) async {
+  Future getDeviceImage(EditBrandingPageState pageState) async {
     try {
       XFile localImage = await ImagePicker().pickImage(source: ImageSource.gallery);
       XFile localWebImage = XFile((await CropImageForWeb(localImage.path)).path);

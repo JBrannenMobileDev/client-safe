@@ -26,6 +26,7 @@ import '../../../widgets/TextDandyLight.dart';
 import '../../client_details_page/SelectSavedResponseBottomSheet.dart';
 import '../../contracts_page/ContractsPage.dart';
 import '../../poses_page/PosesPage.dart';
+import '../document_items/DocumentItem.dart';
 
 class StageItem extends StatefulWidget {
   final int index;
@@ -464,8 +465,21 @@ class _StageItemState extends State<StageItem>
                                   _newStageCompleteAnimation.reset();
                                   _stageCompleteAnimation.forward();
                                 }else {
-                                  pageState.onAddInvoiceSelected();
-                                  UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected, true);
+                                  if(pageState.job.priceProfile != null) {
+                                    bool containsInvoice = false;
+                                    for(DocumentItem document in pageState.documents){
+                                      if(document.getDocumentType() == DocumentItem.DOCUMENT_TYPE_INVOICE) containsInvoice = true;
+                                    }
+                                    if(!containsInvoice) {
+                                      pageState.onAddInvoiceSelected();
+                                      UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected, false);
+                                    }else{
+                                      pageState.onAddInvoiceSelected();
+                                      UserOptionsUtil.showInvoiceOptionsDialog(context, onSendInvoiceSelected);
+                                    }
+                                  } else {
+                                    DandyToastUtil.showErrorToast('Please select a price package for this job before creating an invoice.');
+                                  }
                                 }
                                 EventSender().sendEvent(eventName: EventNames.BT_STAGE_ACTION, properties: {EventNames.ACTIVE_STAGE_PARAM_NAME : JobStage.STAGE_8_PAYMENT_REQUESTED});
                                 break;

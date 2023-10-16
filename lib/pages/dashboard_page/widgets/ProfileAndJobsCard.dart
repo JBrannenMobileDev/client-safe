@@ -114,7 +114,7 @@ class ProfileAndJobsCard extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  NavigationUtil.onEditBrandingSelected(context);
+                  NavigationUtil.onEditBrandingSelected(context, pageState.profile);
                   EventSender().sendEvent(eventName: EventNames.BRANDING_EDIT_FROM_DASHBOARD);
                 },
                 child:  pageState.profile.hasSetupBrand ? pageState.profile.logoSelected ? Container(

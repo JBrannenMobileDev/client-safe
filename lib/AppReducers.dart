@@ -8,6 +8,7 @@ import 'package:dandylight/pages/collections_page/CollectionsPageReducer.dart';
 import 'package:dandylight/pages/contract_edit_page/ContractEditPageReducer.dart';
 import 'package:dandylight/pages/contracts_page/ContractsPageReducer.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageReducer.dart';
+import 'package:dandylight/pages/edit_branding_page/EditBrandingPageReducer.dart';
 import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPageReducer.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsReducer.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageReducer.dart';
@@ -88,4 +89,5 @@ AppState appReducers(AppState state, dynamic action) =>
         shareWithClientPageState: shareWithClientReducer(state.shareWithClientPageState, action),
         contractsPageState: contractsReducer(state.contractsPageState, action),
         contractEditPageState: contractEditReducer(state.contractEditPageState, action),
+        editBrandingPageState: editBrandingReducer(state.editBrandingPageState, action),
     );

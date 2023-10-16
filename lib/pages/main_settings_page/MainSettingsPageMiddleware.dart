@@ -83,158 +83,9 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is GenerateFreeDiscountCodeAction) {
       generateFreeDiscountCode(store, action, next);
     }
-    if(action is ResizeLogoImageAction) {
-      _resizeImage(store, action, next);
-    }
-    if(action is ResizeBannerImageAction) {
-      _resizeBannerImage(store, action, next);
-    }
-    if(action is ResizeBannerWebImageAction) {
-      _resizeBannerWebImage(store, action, next);
-    }
-    if(action is ResizeBannerMobileImageAction) {
-      _resizeBannerMobileImage(store, action, next);
-    }
-    if(action is SaveBrandingAction) {
-      _saveBranding(store, action, next);
-    }
-    if(action is SavePreviewBrandingAction) {
-      _savePreviewBranding(store, action, next);
-    }
-    if(action is SavePreviewJsonContractAction) {
-      _setPreviewJsonContract(store, action, next);
-    }
     if(action is PopulateAccountWithData) {
       _generateAccountData(store, action, next);
     }
-  }
-
-  void _setPreviewJsonContract(Store<AppState> store, SavePreviewJsonContractAction action, NextDispatcher next) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    Contract contractTemplate = (await ContractTemplateDao.getAll()).first;
-    profile.previewJsonContract = contractTemplate.jsonTerms;
-    ProfileDao.update(profile);
-  }
-
-  void _savePreviewBranding(Store<AppState> store, SavePreviewBrandingAction action, NextDispatcher next) async {
-    savePreview(action.pageState, store);
-  }
-
-  void savePreview(MainSettingsPageState pageState, Store<AppState> store) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    ColorTheme colorTheme = ColorTheme(
-      themeName: 'default',
-      iconColor: ColorConstants.getHex(pageState.currentIconColor),
-      iconTextColor: ColorConstants.getHex(pageState.currentIconTextColor),
-      buttonColor: ColorConstants.getHex(pageState.currentButtonColor),
-      buttonTextColor: ColorConstants.getHex(pageState.currentButtonTextColor),
-      bannerColor: ColorConstants.getHex(pageState.currentBannerColor),
-    );
-
-    FontTheme fontTheme = FontTheme(
-        themeName: 'default',
-        iconFont: pageState.currentIconFont,
-        mainFont: pageState.currentFont
-    );
-
-    profile.previewLogoSelected = pageState.logoImageSelected;
-    profile.previewBannerImageSelected = pageState.bannerImageSelected;
-    profile.previewColorTheme = colorTheme;
-    profile.previewFontTheme = fontTheme;
-    profile.previewLogoCharacter = pageState.logoCharacter;
-
-    await ProfileDao.update(profile);
-    if(pageState.logoImageSelected && pageState.resizedLogoImage != null) {
-      FileStorage.saveProfilePreviewIconImageFile(pageState.resizedLogoImage.path, pageState.profile, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
-    }
-
-    if(pageState.bannerImageSelected && pageState.bannerWebImage != null && pageState.bannerMobileImage != null) {
-      FileStorage.savePreviewBannerWebImageFile(pageState.bannerWebImage.path, pageState.profile, (taskSnapshot) => () => {});
-      FileStorage.savePreviewBannerMobileImageFile(pageState.bannerMobileImage.path, pageState.profile, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
-    }
-  }
-
-  void _saveBranding(Store<AppState> store, SaveBrandingAction action, NextDispatcher next) async {
-    ColorTheme colorTheme = ColorTheme(
-      themeName: 'default',
-      iconColor: ColorConstants.getHex(action.pageState.currentIconColor),
-      iconTextColor: ColorConstants.getHex(action.pageState.currentIconTextColor),
-      buttonColor: ColorConstants.getHex(action.pageState.currentButtonColor),
-      buttonTextColor: ColorConstants.getHex(action.pageState.currentButtonTextColor),
-      bannerColor: ColorConstants.getHex(action.pageState.currentBannerColor),
-    );
-
-    FontTheme fontTheme = FontTheme(
-      themeName: 'default',
-      iconFont: action.pageState.currentIconFont,
-      mainFont: action.pageState.currentFont
-    );
-
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.logoSelected = action.pageState.logoImageSelected;
-    profile.bannerImageSelected = action.pageState.bannerImageSelected;
-    profile.selectedColorTheme = colorTheme;
-    profile.selectedFontTheme = fontTheme;
-    profile.logoCharacter = action.pageState.logoCharacter;
-    profile.hasSetupBrand = true;
-
-    await ProfileDao.update(profile);
-    if(action.pageState.logoImageSelected && action.pageState.resizedLogoImage != null) {
-      await FileStorage.saveProfileIconImageFile(action.pageState.resizedLogoImage.path, action.pageState.profile, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
-    }
-    if(action.pageState.bannerImageSelected && action.pageState.bannerWebImage != null && action.pageState.bannerMobileImage != null) {
-      FileStorage.saveBannerWebImageFile(action.pageState.bannerWebImage.path, action.pageState.profile, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
-      FileStorage.saveBannerMobileImageFile(action.pageState.bannerMobileImage.path, action.pageState.profile, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
-    }
-
-    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
-    store.dispatch(FetchProfileAction(store.state.shareWithClientPageState));
-
-    EventSender().sendEvent(eventName: EventNames.BRANDING_PUBLISHED_CHANGES);
-  }
-
-  void _resizeImage(Store<AppState> store, ResizeLogoImageAction action, NextDispatcher next) async {
-    final Directory appDocumentDirectory = await getApplicationDocumentsDirectory();
-    final String uniqueFileName = Uuid().generateV4();
-    final cmdLarge = img.Command()
-      ..decodeImageFile(action.image.path)
-      ..copyResize(width: 300)
-      ..writeToFile(appDocumentDirectory.path + '/$uniqueFileName' + 'logo.jpg');
-    await cmdLarge.execute();
-    XFile resizedImage = XFile(appDocumentDirectory.path + '/$uniqueFileName' + 'logo.jpg');
-    await store.dispatch(SetResizedLogoImageAction(store.state.mainSettingsPageState, resizedImage));
-    savePreview(store.state.mainSettingsPageState, store);
-  }
-
-  void _resizeBannerImage(Store<AppState> store, ResizeBannerImageAction action, NextDispatcher next) async {
-    XFile resizedImage = XFile(action.image.path);
-    store.dispatch(SetResizedBannerImageAction(store.state.mainSettingsPageState, resizedImage));
-  }
-
-  void _resizeBannerWebImage(Store<AppState> store, ResizeBannerWebImageAction action, NextDispatcher next) async {
-    final Directory appDocumentDirectory = await getApplicationDocumentsDirectory();
-    final String uniqueFileName = Uuid().generateV4();
-    final cmdLarge = img.Command()
-      ..decodeImageFile(action.image.path)
-      ..copyResize(width: 1920)
-      ..writeToFile(appDocumentDirectory.path + '/$uniqueFileName' + 'banner.jpg');
-    await cmdLarge.execute();
-    XFile resizedImage = XFile(appDocumentDirectory.path + '/$uniqueFileName' + 'banner.jpg');
-    store.dispatch(SetResizedBannerWebImageAction(store.state.mainSettingsPageState, resizedImage));
-    savePreview(store.state.mainSettingsPageState, store);
-  }
-
-  void _resizeBannerMobileImage(Store<AppState> store, ResizeBannerMobileImageAction action, NextDispatcher next) async {
-    final Directory appDocumentDirectory = await getApplicationDocumentsDirectory();
-    final String uniqueFileName = Uuid().generateV4();
-    final cmdLarge = img.Command()
-      ..decodeImageFile(action.image.path)
-      ..copyResize(width: 1080)
-      ..writeToFile(appDocumentDirectory.path + '/$uniqueFileName' + 'banner.jpg');
-    await cmdLarge.execute();
-    XFile resizedImage = XFile(appDocumentDirectory.path + '/$uniqueFileName' + 'banner.jpg');
-    store.dispatch(SetResizedBannerMobileImageAction(store.state.mainSettingsPageState, resizedImage));
-    savePreview(store.state.mainSettingsPageState, store);
   }
 
   void generate50DiscountCode(Store<AppState> store, Generate50DiscountCodeAction action, NextDispatcher next) async{
@@ -264,10 +115,6 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
         }
       }
     );
-
-    if(profile.selectedColorTheme != null) {
-      store.dispatch(SetColorThemeAction(store.state.mainSettingsPageState, profile.selectedColorTheme));
-    }
   }
 
   void savePushNotificationSetting(Store<AppState> store, SavePushNotificationSettingAction action, NextDispatcher next) async{
@@ -347,14 +194,6 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     } else {
       store.dispatch(SetPasswordErrorAction(store.state.mainSettingsPageState));
     }
-  }
-
-  void handleImageUploadProgress(TaskSnapshot taskSnapshot, Store<AppState> store) {
-    store.dispatch(SetImageUploadProgressStateAction(
-      store.state.mainSettingsPageState,
-        (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) < 1.0,
-      (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes)
-    ));
   }
 
   void _generateAccountData(Store<AppState> store, PopulateAccountWithData action, NextDispatcher next) async {

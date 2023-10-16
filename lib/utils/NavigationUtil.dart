@@ -37,7 +37,7 @@ import '../models/LocationDandy.dart';
 import '../pages/contract_edit_page/ContractEditPage.dart';
 import '../pages/dashboard_page/DashboardPageState.dart';
 import '../pages/job_details_page/JobDetailsPageState.dart';
-import '../pages/main_settings_page/EditBrandingPage.dart';
+import '../pages/edit_branding_page/EditBrandingPage.dart';
 import '../pages/poses_page/PosesPage.dart';
 import '../pages/share_with_client_page/ShareWithClientPage.dart';
 
@@ -88,8 +88,8 @@ class NavigationUtil {
   static onShareWIthClientSelected(BuildContext context, Job job) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ShareWithClientPage(job: job)));
   }
-  static onEditBrandingSelected(BuildContext context) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => EditBrandingPage()));
+  static onEditBrandingSelected(BuildContext context, Profile profile) {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => EditBrandingPage(profile: profile)));
   }
   static onContractSelected(BuildContext context, Contract contract, String contractName, bool isNew, String jobDocumentId, Function(BuildContext) onDeleteFromJob) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ContractEditPage(contract: contract, contractName: contractName, isNew: isNew, jobDocumentId: jobDocumentId, deleteFromJob: onDeleteFromJob)));

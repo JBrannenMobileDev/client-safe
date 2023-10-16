@@ -6,6 +6,7 @@ import 'package:dandylight/pages/collections_page/CollectionsPageState.dart';
 import 'package:dandylight/pages/contract_edit_page/ContractEditPageState.dart';
 import 'package:dandylight/pages/contracts_page/ContractsPageState.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
+import 'package:dandylight/pages/edit_branding_page/EditBrandingPageState.dart';
 import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPageState.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageState.dart';
@@ -89,6 +90,7 @@ class AppState {
   final ShareWithClientPageState shareWithClientPageState;
   final ContractsPageState contractsPageState;
   final ContractEditPageState contractEditPageState;
+  final EditBrandingPageState editBrandingPageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -134,6 +136,7 @@ class AppState {
     @required this.shareWithClientPageState,
     @required this.contractsPageState,
     @required this.contractEditPageState,
+    @required this.editBrandingPageState,
   });
 
   factory AppState.initial() {
@@ -181,6 +184,7 @@ class AppState {
       shareWithClientPageState: ShareWithClientPageState.initial(),
       contractsPageState: ContractsPageState.initial(),
       contractEditPageState: ContractEditPageState.initial(),
+      editBrandingPageState: EditBrandingPageState.initial(),
     );
   }
 
@@ -228,6 +232,7 @@ class AppState {
     ShareWithClientPageState shareWithClientPageState,
     ContractsPageState contractsPageState,
     ContractEditPageState contractEditPageState,
+    EditBrandingPageState editBrandingPageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -273,6 +278,7 @@ class AppState {
       shareWithClientPageState: shareWithClientPageState ?? this.shareWithClientPageState,
       contractsPageState: contractsPageState ?? this.contractsPageState,
       contractEditPageState: contractEditPageState ?? this.contractEditPageState,
+      editBrandingPageState: editBrandingPageState ?? this.editBrandingPageState,
     );
   }
 

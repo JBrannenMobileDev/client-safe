@@ -299,7 +299,7 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
   }
 
   for(Job job in action.allJobs.where((job) => job.isPaymentReceived() == true).toList()) {
-    if(job.invoice == null) {
+    if(job.invoice == null && job.paymentReceivedDate != null) {
       if(job.paymentReceivedDate.year == action.year) {
         totalForSelectedYear = totalForSelectedYear + job.getJobCost();
       }

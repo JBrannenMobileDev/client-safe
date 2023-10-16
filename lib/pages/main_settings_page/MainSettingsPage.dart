@@ -158,7 +158,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                   TextButton(
                                     style: Styles.getButtonStyle(),
                                     onPressed: () {
-                                      NavigationUtil.onEditBrandingSelected(context);
+                                      NavigationUtil.onEditBrandingSelected(context, pageState.profile);
                                       EventSender().sendEvent(eventName: EventNames.BRANDING_EDIT_FROM_SETTINGS);
                                     },
                                     child: SizedBox(
