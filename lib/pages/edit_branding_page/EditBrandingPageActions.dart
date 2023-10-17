@@ -44,10 +44,9 @@ class SetSelectedFontThemeAction {
   SetSelectedFontThemeAction(this.pageState, this.theme);
 }
 
-class ClearBrandingStateAction {
+class ClearBrandingPreviewStateAction {
   final EditBrandingPageState pageState;
-  final Profile profile;
-  ClearBrandingStateAction(this.pageState, this.profile);
+  ClearBrandingPreviewStateAction(this.pageState);
 }
 
 class SetSelectedFontAction {
@@ -107,11 +106,6 @@ class ResizeBannerMobileImageAction {
 class SavePreviewBrandingAction {
   final EditBrandingPageState pageState;
   SavePreviewBrandingAction(this.pageState);
-}
-
-class SavePreviewJsonContractAction {
-  final EditBrandingPageState pageState;
-  SavePreviewJsonContractAction(this.pageState);
 }
 
 class SaveBrandingAction {

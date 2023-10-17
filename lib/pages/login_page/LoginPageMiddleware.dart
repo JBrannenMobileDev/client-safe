@@ -11,6 +11,7 @@ import 'package:dandylight/data_layer/local_db/daos/ContractTemplateDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ResponseDao.dart';
+import 'package:dandylight/data_layer/repositories/FileStorage.dart';
 import 'package:dandylight/models/FontTheme.dart';
 import 'package:dandylight/models/PoseLibraryGroup.dart';
 import 'package:dandylight/models/Profile.dart';
@@ -373,15 +374,17 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         accountCreatedDate: DateTime.now(),
         onBoardingComplete: false,
         isSubscribed: false,
-        bannerImageSelected: false,
+        bannerImageSelected: true,
+        bannerMobileUrl: await FileStorage.fetchImagePathForExampleBannerMobile(),
+        bannerWebUrl: await FileStorage.fetchImagePathForExampleBannerWeb(),
         logoSelected: false,
         logoCharacter: store.state.loginPageState.businessName != null && store.state.loginPageState.businessName.length > 0 ? store.state.loginPageState.businessName.substring(0, 1) : 'D',
         selectedColorTheme: ColorTheme(
           themeName: 'default',
           iconColor: ColorConstants.getString(ColorConstants.getBlueDark()),
-          iconTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
+          iconTextColor: ColorConstants.getString(ColorConstants.getWhiteWhite()),
           buttonColor: ColorConstants.getString(ColorConstants.getPeachDark()),
-          buttonTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
+          buttonTextColor: ColorConstants.getString(ColorConstants.getWhiteWhite()),
           bannerColor: ColorConstants.getString(ColorConstants.getBlueLight()),
         ),
         selectedFontTheme: FontTheme(
@@ -500,12 +503,13 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
 
       //Create sample job
       DateTime currentTime = DateTime.now();
+      Client client = (await ClientDao.getAll()).first;
       Job jobToSave = Job(
         id: null,
         documentId: store.state.newJobPageState.documentId,
-        clientDocumentId: (await ClientDao.getAll()).first.documentId,
-        clientName: (await ClientDao.getAll()).first.getClientFullName(),
-        jobTitle: (await ClientDao.getAll()).first.firstName + ' - Example Job',
+        clientDocumentId: client.documentId,
+        clientName: client.getClientFullName(),
+        jobTitle: client.firstName + ' - Example Job',
         selectedDate: DateTime.now().add(Duration(days: 3)),
         selectedTime: DateTime(currentTime.year, currentTime.month, currentTime.day, 18, 45),
         selectedEndTime: DateTime(currentTime.year, currentTime.month, currentTime.day, 19, 45),
@@ -514,7 +518,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         completedStages: [JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED)],
         priceProfile: (await PriceProfileDao.getAllSortedByName()).first,
         createdDate: DateTime.now(),
-        client: (await ClientDao.getAll()).first,
+        client: client,
         depositAmount: 0,
         location: (await LocationDao.getAllSortedMostFrequent()).first,
       );

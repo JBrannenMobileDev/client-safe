@@ -640,6 +640,18 @@ class FileStorage {
     _updateLocationImageUrl(location, await cloudFilePath.getDownloadURL());
   }
 
+  static Future<String> fetchImagePathForExampleBannerWeb() async {
+    final storageRef = FirebaseStorage.instance.ref();
+    final cloudFilePath = storageRef.child(_buildExampleBannerWebImagePath());
+    return await cloudFilePath.getDownloadURL();
+  }
+
+  static Future<String> fetchImagePathForExampleBannerMobile() async {
+    final storageRef = FirebaseStorage.instance.ref();
+    final cloudFilePath = storageRef.child(_buildExampleBannerMobileImagePath());
+    return await cloudFilePath.getDownloadURL();
+  }
+
   static _uploadContractFile(String contractPath, Contract contract) async {
     final storageRef = FirebaseStorage.instance.ref();
 
@@ -708,6 +720,14 @@ class FileStorage {
 
   static String _buildPreviewBannerWebImagePath(String localImagePath) {
     return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/profile/${localImagePath}previewBannerWebImage.jpg";
+  }
+
+  static String _buildExampleBannerWebImagePath() {
+    return "/env/prod/images/dandyLight/profile/banner_web.jpg";
+  }
+
+  static String _buildExampleBannerMobileImagePath() {
+    return "/env/prod/images/dandyLight/profile/banner_mobile.jpg";
   }
 
   static String _buildPreviewBannerMobileImagePath(String localImagePath) {

@@ -27,30 +27,23 @@ import 'FontThemeSelectionWidget.dart';
 import 'LogoSelectionWidget.dart';
 
 class EditBrandingPage extends StatefulWidget {
-  final Profile profile;
-
-  EditBrandingPage({this.profile});
 
   @override
   State<StatefulWidget> createState() {
-    return _EditBrandingPageState(profile);
+    return _EditBrandingPageState();
   }
 }
 
 class _EditBrandingPageState extends State<EditBrandingPage> with TickerProviderStateMixin {
   _isProgressDialogShowing(BuildContext context) => progressContext != null && ModalRoute.of(progressContext)?.isCurrent == true;
-  final Profile profile;
   BuildContext progressContext = null;
 
-  _EditBrandingPageState(this.profile);
 
   @override
   Widget build(BuildContext context) =>
       StoreConnector<AppState, EditBrandingPageState>(
         onInit: (store) {
-          store.dispatch(InitializeBranding(store.state.editBrandingPageState, profile));
-          // store.dispatch(SavePreviewBrandingAction(store.state.mainSettingsPageState));
-          // store.dispatch(SavePreviewJsonContractAction(store.state.mainSettingsPageState));
+          store.dispatch(ClearBrandingPreviewStateAction(store.state.editBrandingPageState));
         },
         onDidChange: (previous, current) {
           if(previous.uploadInProgress && !current.uploadInProgress && _isProgressDialogShowing(context)) {
@@ -75,7 +68,6 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                           style: Styles.getButtonStyle(),
                           onPressed: () {
                             willLeave = true;
-                            pageState.clearBrandingState(pageState.profile);
                             Navigator.of(context).pop();
                           },
                           child: new Text('Yes'),
@@ -94,7 +86,6 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                           style: Styles.getButtonStyle(),
                           onPressed: () {
                             willLeave = true;
-                            pageState.clearBrandingState(pageState.profile);
                             Navigator.of(context).pop();
                           },
                           child: new Text('Yes'),

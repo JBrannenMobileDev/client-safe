@@ -248,6 +248,7 @@ class FontTheme {
         }
         break;
     }
+    return EdgeInsets.all(0);
   }
 
   static double getIconFontSize(String fontSize, String fontFamily) {

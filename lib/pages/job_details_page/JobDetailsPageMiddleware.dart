@@ -250,19 +250,21 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void updateInvoiceToSent(Store<AppState> store, InvoiceSentAction action, NextDispatcher next) async {
-    Job job = await JobDao.getJobById(action.pageState.job.documentId);
-    List<JobStage> completedStages = job.completedStages;
-    if(!Job.containsStage(completedStages, JobStage.STAGE_8_PAYMENT_REQUESTED)) {
-      completedStages.add(JobStage(stage: JobStage.STAGE_8_PAYMENT_REQUESTED));
-    }
-    job.completedStages = completedStages;
-    await JobDao.update(job);
+    if(action.invoice != null) {
+      Job job = await JobDao.getJobById(action.pageState.job.documentId);
+      List<JobStage> completedStages = job.completedStages;
+      if(!Job.containsStage(completedStages, JobStage.STAGE_8_PAYMENT_REQUESTED)) {
+        completedStages.add(JobStage(stage: JobStage.STAGE_8_PAYMENT_REQUESTED));
+      }
+      job.completedStages = completedStages;
+      await JobDao.update(job);
 
-    action.invoice.sentDate = DateTime.now();
-    await InvoiceDao.update(action.invoice, job);
-    store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
-    store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, store.state.incomeAndExpensesPageState.selectedYear));
-    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+      action.invoice.sentDate = DateTime.now();
+      await InvoiceDao.update(action.invoice, job);
+      store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
+      store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, store.state.incomeAndExpensesPageState.selectedYear));
+      store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    }
   }
 
   void deleteInvoice(Store<AppState> store, OnDeleteInvoiceSelectedAction action, NextDispatcher next) async {
@@ -460,7 +462,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchSunsetTimeWithJob(Store<AppState> store, Job job) async {
-    if(store.state.jobDetailsPageState != null) {
+    if(store.state.jobDetailsPageState.job != null && store.state.jobDetailsPageState.job.location != null) {
       LocationDandy selectedLocation = store.state.jobDetailsPageState.job.location;
       DateTime selectedDate = store.state.jobDetailsPageState.job.selectedDate;
       if(selectedLocation != null && selectedDate != null) {
@@ -477,6 +479,12 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   void fetchClientForJob(Store<AppState> store, NextDispatcher next, SetJobInfo action) async{
     Job job = await JobDao.getJobById(action.jobDocumentId);
     if(job != null) {
+      if(job.client == null && job.clientDocumentId != null && job.clientDocumentId.isNotEmpty) {
+        Client client = await ClientDao.getClientById(job.clientDocumentId);
+        job.client = client;
+        await JobDao.update(job);
+      }
+
       if(job.proposal == null) {
         job.proposal = Proposal();
         await JobDao.update(job);

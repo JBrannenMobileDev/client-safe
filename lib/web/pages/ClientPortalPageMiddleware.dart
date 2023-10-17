@@ -262,8 +262,8 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
       replaceAll(document, Job.DETAIL_BUSINESS_NAME, profile.businessName != null ? profile.businessName : 'Photographer');
       replaceAll(document, Job.DETAIL_PHOTOGRAPHER_NAME, (profile.firstName != null ? profile.firstName : 'Photographer') + (profile.lastName != null ? ' ' + profile.lastName : ''));
       replaceAll(document, Job.DETAIL_CLIENT_NAME, job.clientName != null ? job.clientName : 'Client');
-      replaceAll(document, Job.DETAIL_CLIENT_PHONE, job.client.phone != null ? job.client.phone : 'Client phone: N/A');
-      replaceAll(document, Job.DETAIL_CLIENT_EMAIL, job.client.email != null ? job.client.email : 'Client email: N/A');
+      replaceAll(document, Job.DETAIL_CLIENT_PHONE, job.client != null && job.client.phone != null ? job.client.phone : 'Client phone: N/A');
+      replaceAll(document, Job.DETAIL_CLIENT_EMAIL, job.client != null && job.client.email != null ? job.client.email : 'Client email: N/A');
       replaceAll(document, Job.DETAIL_LOCATION_ADDRESS, job.location != null && job.location.address != null ? job.location.address : 'TBD');
       replaceAll(document, Job.DETAIL_SESSION_DATE, job.selectedDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(job.selectedDate) : 'TBD');
       replaceAll(document, Job.DETAIL_RETAINER_DUE_DATE, job.invoice != null && job.invoice.depositDueDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(job.invoice.depositDueDate) : 'TBD');

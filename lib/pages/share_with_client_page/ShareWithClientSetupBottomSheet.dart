@@ -126,7 +126,7 @@ class _BottomSheetPageState extends State<ShareWithClientSetupBottomSheet> with 
                    ),
                    GestureDetector(
                      onTap: () {
-                       NavigationUtil.onEditBrandingSelected(context, pageState.profile);
+                       NavigationUtil.onEditBrandingSelected(context);
                        EventSender().sendEvent(eventName: EventNames.BRANDING_EDIT_FROM_SHARE);
                      },
                      child: Container(

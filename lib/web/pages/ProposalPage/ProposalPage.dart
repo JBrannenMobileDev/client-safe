@@ -1,3 +1,4 @@
+import 'package:dandylight/models/FontTheme.dart';
 import 'package:dandylight/utils/DeviceType.dart';
 import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/web/pages/ClientPortalActions.dart';
@@ -413,86 +414,102 @@ class _SignContractPageState extends State<ProposalPage> {
     ];
   }
 
+  List<Widget> buildButtonList(ClientPortalPageState pageState) {
+    List<Widget> result = [GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedPage = DETAILS;
+        });
+        EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_HOME_SELECTED);
+      },
+      child: Container(
+        margin: EdgeInsets.only(left: 16, right: 16),
+        height: 26,
+        width: 26,
+        child: Image.asset(
+          selectedPage == DETAILS ? "navIcons/home_solid.png" : "navIcons/home_outline.png",
+        ),
+      ),
+    )];
+
+    if(pageState.proposal.contract != null && pageState.proposal.includeContract) {
+      result.add(GestureDetector(
+        onTap: () {
+          setState(() {
+            selectedPage = CONTRACT;
+          });
+          EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_INVOICE_SELECTED);
+        },
+        child: Container(
+          margin: EdgeInsets.only(left: 16, right: 16),
+          height: 26,
+          width: 26,
+          child: Image.asset(
+            selectedPage == CONTRACT ? "navIcons/contract_solid.png" : "navIcons/contract_outline.png",
+          ),
+        ),
+      ));
+    }
+
+    if(pageState.invoice != null && pageState.proposal.includeInvoice) {
+      result.add(GestureDetector(
+        onTap: () {
+          setState(() {
+            selectedPage = INVOICE;
+          });
+          EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_INVOICE_SELECTED);
+        },
+        child: Container(
+          margin: EdgeInsets.only(left: 16, right: 16),
+          height: 26,
+          width: 26,
+          child: Image.asset(
+            selectedPage == INVOICE ? "navIcons/invoice_solid.png" : "navIcons/invoice_outline.png",
+          ),
+        ),
+      ));
+    }
+
+    if(pageState.job.poses != null && pageState.job.poses.length > 0 && pageState.proposal.includePoses) {
+      result.add(GestureDetector(
+        onTap: () {
+          setState(() {
+            selectedPage = POSES;
+          });
+          EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_POSES_SELECTED);
+        },
+        child: Container(
+          margin: EdgeInsets.only(left: 16, right: 16),
+          height: 26,
+          width: 26,
+          child: Image.asset(
+            selectedPage == POSES ? "navIcons/image_solid.png" : "navIcons/image_outline.png",
+          ),
+        ),
+      ));
+    }
+
+    return result;
+  }
+
   Widget _menuButtonsSmallScreen(ClientPortalPageState pageState) {
     if(pageState.proposal.contract != null || pageState.invoice != null || pageState.job.poses != null && pageState.job.poses.length > 0) {
-      return Container(
-        alignment: Alignment.center,
-        height: 54,
-        margin: EdgeInsets.only(left: 8, right: 8),
-        padding: EdgeInsets.only(left: 16, right: 16),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
-          color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor),
-          boxShadow: ElevationToShadow[4],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  selectedPage = DETAILS;
-                });
-                EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_HOME_SELECTED);
-              },
-              child: Container(
-                margin: EdgeInsets.only(left: 12, right: 12),
-                height: 26,
-                width: 26,
-                child: Image.asset(
-                  selectedPage == DETAILS ? "navIcons/home_solid.png" : "navIcons/home_outline.png",
-                ),
-              ),
-            ),
-            pageState.proposal.contract != null ? GestureDetector(
-              onTap: () {
-                setState(() {
-                  selectedPage = CONTRACT;
-                });
-                EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_INVOICE_SELECTED);
-              },
-              child: Container(
-                margin: EdgeInsets.only(left: 12, right: 12),
-                height: 26,
-                width: 26,
-                child: Image.asset(
-                  selectedPage == CONTRACT ? "navIcons/contract_solid.png" : "navIcons/contract_outline.png",
-                ),
-              ),
-            ) : SizedBox(),
-            pageState.invoice != null ? GestureDetector(
-              onTap: () {
-                setState(() {
-                  selectedPage = INVOICE;
-                });
-                EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_INVOICE_SELECTED);
-              },
-              child: Container(
-                margin: EdgeInsets.only(left: 12, right: 12),
-                height: 26,
-                width: 26,
-                child: Image.asset(
-                  selectedPage == INVOICE ? "navIcons/invoice_solid.png" : "navIcons/invoice_outline.png",
-                ),
-              ),
-            ) : SizedBox(),
-            pageState.job.poses != null && pageState.job.poses.length > 0 ? GestureDetector(
-              onTap: () {
-                setState(() {
-                  selectedPage = POSES;
-                });
-                EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_POSES_SELECTED);
-              },
-              child: Container(
-                margin: EdgeInsets.only(left: 12, right: 12),
-                height: 26,
-                width: 26,
-                child: Image.asset(
-                  selectedPage == POSES ? "navIcons/image_solid.png" : "navIcons/image_outline.png",
-                ),
-              ),
-            ) : SizedBox(),
-          ],
+      List<Widget> buttons = buildButtonList(pageState);
+      return UnconstrainedBox(
+        child: Container(
+          alignment: Alignment.center,
+          height: 54,
+          margin: EdgeInsets.only(left: 8, right: 8),
+          padding: EdgeInsets.only(left: 16, right: 16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+            color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor),
+            boxShadow: ElevationToShadow[4],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: buttons,
+          ),
         ),
       );
     } else {
@@ -596,12 +613,16 @@ class _SignContractPageState extends State<ProposalPage> {
                         boxShadow: ElevationToShadow[1],
                     ),
                   ),
-                  TextDandyLight(
-                    type: TextDandyLight.SMALL_TEXT,
-                    fontFamily: pageState.profile.selectedFontTheme.iconFont,
-                    textAlign: TextAlign.center,
-                    text: pageState.profile.logoCharacter,
-                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconTextColor),
+                  Container(
+                    margin: getMargin(pageState.profile.selectedFontTheme.iconFont),
+                    child: TextDandyLight(
+                      type: TextDandyLight.EXTRA_LARGE_TEXT,
+                      fontFamily: pageState.profile.selectedFontTheme.iconFont,
+                      textAlign: TextAlign.center,
+                      text: pageState.profile.logoCharacter,
+                      isMobileWeb: true,
+                      color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme.iconTextColor) ? ColorConstants.getPrimaryBlack() : ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconTextColor),
+                    ),
                   )
                 ],
               ),
@@ -713,5 +734,21 @@ class _SignContractPageState extends State<ProposalPage> {
         ],
       ),
     );
+  }
+
+  EdgeInsets getMargin(String iconFont) {
+    if(iconFont == FontTheme.SIGNATURE1) {
+      return EdgeInsets.only(bottom: 16, left: 10);
+    }
+
+    if(iconFont == FontTheme.SIGNATURE2) {
+      return EdgeInsets.only(bottom: 6, left: 4);
+    }
+
+    if(iconFont == FontTheme.SIGNATURE3) {
+      return EdgeInsets.only(top: 4);
+    }
+
+    return EdgeInsets.all(0);
   }
 }

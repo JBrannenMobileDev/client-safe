@@ -88,8 +88,8 @@ class NavigationUtil {
   static onShareWIthClientSelected(BuildContext context, Job job) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ShareWithClientPage(job: job)));
   }
-  static onEditBrandingSelected(BuildContext context, Profile profile) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => EditBrandingPage(profile: profile)));
+  static onEditBrandingSelected(BuildContext context) {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => EditBrandingPage()));
   }
   static onContractSelected(BuildContext context, Contract contract, String contractName, bool isNew, String jobDocumentId, Function(BuildContext) onDeleteFromJob) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ContractEditPage(contract: contract, contractName: contractName, isNew: isNew, jobDocumentId: jobDocumentId, deleteFromJob: onDeleteFromJob)));

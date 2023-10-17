@@ -17,7 +17,6 @@ final editBrandingReducer = combineReducers<EditBrandingPageState>([
   TypedReducer<EditBrandingPageState, SetLogoSelectionAction>(_setLogoSelection),
   TypedReducer<EditBrandingPageState, SetBannerSelectionAction>(_setBannerSelection),
   TypedReducer<EditBrandingPageState, SaveColorAction>(_setColor),
-  TypedReducer<EditBrandingPageState, ClearBrandingStateAction>(_clearBranding),
   TypedReducer<EditBrandingPageState, SetSelectedFontAction>(_SetSelectedFont),
   TypedReducer<EditBrandingPageState, SetLogoLetterAction>(_setLogoLetter),
   TypedReducer<EditBrandingPageState, SetImageUploadProgressStateAction>(_setUploadProgress),
@@ -111,27 +110,6 @@ EditBrandingPageState _SetSelectedFont(EditBrandingPageState previousState, SetS
   );
 }
 
-EditBrandingPageState _clearBranding(EditBrandingPageState previousState, ClearBrandingStateAction action){
-  return previousState.copyWith(
-    profile: action.profile,
-    currentIconColor: action.profile.selectedColorTheme != null ? ColorConstants.hexToColor(action.profile.selectedColorTheme.iconColor) : Color(ColorConstants.getPeachDark()),
-    currentIconTextColor: action.profile.selectedColorTheme != null ? ColorConstants.hexToColor(action.profile.selectedColorTheme.iconTextColor) : Color(ColorConstants.getPrimaryWhite()),
-    currentButtonColor: action.profile.selectedColorTheme != null ? ColorConstants.hexToColor(action.profile.selectedColorTheme.buttonColor) : Color(ColorConstants.getPeachDark()),
-    currentButtonTextColor: action.profile.selectedColorTheme != null ? ColorConstants.hexToColor(action.profile.selectedColorTheme.buttonTextColor) : Color(ColorConstants.getPrimaryWhite()),
-    currentBannerColor: action.profile.selectedColorTheme != null ? ColorConstants.hexToColor(action.profile.selectedColorTheme.bannerColor) : Color(ColorConstants.getBlueDark()),
-    logoImageSelected: action.profile.logoSelected,
-    bannerImageSelected: action.profile.bannerImageSelected,
-    bannerImage: null,
-    resizedLogoImage: null,
-    bannerMobileImage: null,
-    bannerWebImage: null,
-    showPublishButton: false,
-    currentIconFont: action.profile.selectedFontTheme != null ? action.profile.selectedFontTheme.iconFont : FontTheme.SIGNATURE2,
-    currentFont: action.profile.selectedFontTheme != null ? action.profile.selectedFontTheme.mainFont : FontTheme.OPEN_SANS,
-    logoCharacter: action.profile.logoCharacter,
-  );
-}
-
 EditBrandingPageState _setColor(EditBrandingPageState previousState, SaveColorAction action){
   Color bannerColorToSave = action.pageState.currentBannerColor;
   Color buttonColorToSave = action.pageState.currentButtonColor;
@@ -195,7 +173,7 @@ EditBrandingPageState _setLogoSelection(EditBrandingPageState previousState, Set
     action.pageState.profile,
     action.pageState.profile.logoSelected, action.isLogoSelected,
     action.pageState.profile.bannerImageSelected, action.pageState.bannerImageSelected,
-    action.pageState.profile.logoCharacter ?? 'M', action.pageState.logoCharacter,
+    action.pageState.profile.logoCharacter ?? '', action.pageState.logoCharacter,
     action.pageState.resizedLogoImage, action.pageState.resizedLogoImage,
     action.pageState.bannerImage, action.pageState.bannerImage,
   );

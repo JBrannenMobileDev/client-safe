@@ -36,7 +36,7 @@ class EditBrandingPageState{
   final Function(String) onLogoLetterChanged;
   final Function(bool) onBannerImageSelected;
   final Function() onPublishChangesSelected;
-  final Function(Profile) clearBrandingState;
+  final Function() clearBrandingState;
 
   EditBrandingPageState({
     @required this.profile,
@@ -99,7 +99,7 @@ class EditBrandingPageState{
     Function(String) onLogoLetterChanged,
     Function(bool) onBannerImageSelected,
     Function() onPublishChangesSelected,
-    Function(Profile) clearBrandingState,
+    Function() clearBrandingState,
   }){
     return EditBrandingPageState(
       profile: profile ?? this.profile,
@@ -142,7 +142,7 @@ class EditBrandingPageState{
     onLogoImageSelected: null,
     logoCharacter: ' ',
     currentBannerColor: Color(ColorConstants.getBlueDark()),
-    currentIconTextColor: Color(ColorConstants.getPrimaryWhite()),
+    currentIconTextColor: Color(ColorConstants.getWhiteWhite()),
     currentIconColor: Color(ColorConstants.getPeachDark()),
     currentButtonColor: Color(ColorConstants.getPeachDark()),
     currentButtonTextColor: Color(ColorConstants.getPrimaryWhite()),
@@ -186,7 +186,7 @@ class EditBrandingPageState{
       bannerMobileImage: store.state.editBrandingPageState.bannerMobileImage,
       uploadProgress: store.state.editBrandingPageState.uploadProgress,
       uploadInProgress: store.state.editBrandingPageState.uploadInProgress,
-      clearBrandingState: (profile) => store.dispatch(ClearBrandingStateAction(store.state.editBrandingPageState, profile)),
+      clearBrandingState: () => store.dispatch(ClearBrandingPreviewStateAction(store.state.editBrandingPageState)),
       onLogoUploaded: (imageFile) async {
         await store.dispatch(ResizeLogoImageAction(store.state.editBrandingPageState, imageFile));
       },

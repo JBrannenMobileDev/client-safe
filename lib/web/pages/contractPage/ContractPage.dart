@@ -159,18 +159,13 @@ class _ContractPageState extends State<ContractPage> {
                                       borderRadius: BorderRadius.circular(24),
                                       color: Color(ColorConstants.getPeachDark())),
                                   child: Row(
-                                    mainAxisAlignment: DeviceType
-                                        .getDeviceTypeByContext(context) ==
-                                        Type.Website
-                                        ? MainAxisAlignment.spaceEvenly
-                                        : MainAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Container(
                                         height: 24,
                                         width: 24,
                                         child: ImageIcon(
-                                          AssetImage("images/scroll_down_white.png"),
-                                          color: Color(ColorConstants.getPrimaryWhite()),
+                                          AssetImage("images/scroll_down_white.png")
                                         )
                                       ),
                                       DeviceType.getDeviceTypeByContext(context) ==

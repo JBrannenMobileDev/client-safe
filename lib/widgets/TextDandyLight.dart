@@ -1,5 +1,6 @@
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/extensions.dart';
 import 'package:intl/intl.dart';
 
 import '../models/FontTheme.dart';
@@ -74,6 +75,7 @@ class TextDandyLight extends StatelessWidget {
   TextOverflow overflow;
   int maxLines;
   bool addShadow = false;
+  bool isMobileWeb = false;
 
   TextDandyLight({
     @required this.type,
@@ -91,6 +93,7 @@ class TextDandyLight extends StatelessWidget {
     this.decimalPlaces,
     this.addShadow,
     this.isThin,
+    this.isMobileWeb
   });
 
   @override
@@ -104,6 +107,7 @@ class TextDandyLight extends StatelessWidget {
     if(isNumber == null) isNumber = false;
     if(addShadow == null) addShadow = false;
     if(fontFamily == null) fontFamily = getFontFamily();
+    if(isMobileWeb == null) isMobileWeb = false;
     if(isNumber) {
       text = NumberFormat("###,###,###,###").format(amount);
     }
@@ -116,6 +120,9 @@ class TextDandyLight extends StatelessWidget {
 
     if(fontFamily == FontTheme.MONTSERRAT) {
       isBold = false;
+      if(isMobileWeb) {
+        size = size + 12;
+      }
     }
 
     if(fontFamily == FontTheme.Raleway) {
@@ -125,11 +132,27 @@ class TextDandyLight extends StatelessWidget {
     size = FontTheme.getIconFontSize(type, fontFamily);
 
     if(fontFamily == FontTheme.SIGNATURE2) {
-      size = size + 6;
+      if(isMobileWeb) {
+        size = size - 10;
+      } else {
+        size = size + 6;
+      }
     }
 
     if(fontFamily == FontTheme.SIGNATURE1) {
-      size = size + 8;
+      if(isMobileWeb) {
+        size = size - 6;
+      } else {
+        size = size + 6;
+      }
+    }
+
+    if(fontFamily == FontTheme.SIGNATURE3) {
+      if(isMobileWeb) {
+        size = size - 4;
+      } else {
+        size = size + 8;
+      }
     }
 
     if(fontFamily == FontTheme.Princ) {

@@ -1,20 +1,9 @@
 import 'dart:io';
-import 'dart:math';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/data_layer/firebase/FirebaseAuthentication.dart';
-import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
-import 'package:dandylight/data_layer/local_db/daos/JobTypeDao.dart';
-import 'package:dandylight/data_layer/local_db/daos/PriceProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/ColorTheme.dart';
 import 'package:dandylight/models/Contract.dart';
-import 'package:dandylight/models/DiscountCodes.dart';
 import 'package:dandylight/models/FontTheme.dart';
-import 'package:dandylight/models/Job.dart';
-import 'package:dandylight/models/JobType.dart';
-import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/edit_branding_page/EditBrandingPageActions.dart';
 import 'package:dandylight/pages/share_with_client_page/ShareWithClientActions.dart';
@@ -57,16 +46,25 @@ class EditBrandingPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SavePreviewBrandingAction) {
       _savePreviewBranding(store, action, next);
     }
-    if(action is SavePreviewJsonContractAction) {
-      _setPreviewJsonContract(store, action, next);
+    if(action is ClearBrandingPreviewStateAction) {
+      _resetBrandingPreviewInProfile(store, action);
     }
   }
 
-  void _setPreviewJsonContract(Store<AppState> store, SavePreviewJsonContractAction action, NextDispatcher next) async {
+  void _resetBrandingPreviewInProfile(Store<AppState> store, ClearBrandingPreviewStateAction action) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     Contract contractTemplate = (await ContractTemplateDao.getAll()).first;
     profile.previewJsonContract = contractTemplate.jsonTerms;
-    ProfileDao.update(profile);
+    profile.previewLogoSelected = profile.logoSelected;
+    profile.previewBannerImageSelected = profile.bannerImageSelected;
+    profile.previewColorTheme = profile.selectedColorTheme;
+    profile.previewFontTheme = profile.selectedFontTheme;
+    profile.previewLogoCharacter = profile.logoCharacter;
+    profile.previewBannerWebUrl = profile.bannerWebUrl;
+    profile.previewLogoUrl = profile.logoUrl;
+    profile.previewBannerMobileUrl = profile.bannerMobileUrl;
+    await ProfileDao.update(profile);
+    store.dispatch(InitializeBranding(store.state.editBrandingPageState, profile));
   }
 
   void _savePreviewBranding(Store<AppState> store, SavePreviewBrandingAction action, NextDispatcher next) async {
