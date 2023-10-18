@@ -75,6 +75,7 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
         }
         store.dispatch(UndoStageAction(store.state.jobDetailsPageState, job, index));
       }
+      store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId));
     } else {
       if(action.pageState.contract == null) {
         contract = Contract(

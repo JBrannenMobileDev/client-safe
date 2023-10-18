@@ -13,6 +13,7 @@ import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ResponseDao.dart';
 import 'package:dandylight/data_layer/repositories/FileStorage.dart';
 import 'package:dandylight/models/FontTheme.dart';
+import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/PoseLibraryGroup.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
@@ -43,12 +44,15 @@ import '../../data_layer/local_db/daos/PriceProfileDao.dart';
 import '../../data_layer/local_db/daos/ReminderDao.dart';
 import '../../models/Client.dart';
 import '../../models/ColorTheme.dart';
+import '../../models/Contract.dart';
 import '../../models/Job.dart';
 import '../../models/JobStage.dart';
 import '../../models/JobType.dart';
+import '../../models/LineItem.dart';
 import '../../models/LocationDandy.dart';
 import '../../models/Pose.dart';
 import '../../models/PriceProfile.dart';
+import '../../models/Proposal.dart';
 import '../../models/Response.dart';
 import '../../utils/AppleSignInAvailable.dart';
 import '../../utils/ImageUtil.dart';
@@ -375,22 +379,40 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         onBoardingComplete: false,
         isSubscribed: false,
         bannerImageSelected: true,
+        previewBannerImageSelected: true,
         bannerMobileUrl: await FileStorage.fetchImagePathForExampleBannerMobile(),
+        previewBannerMobileUrl: await FileStorage.fetchImagePathForExampleBannerMobile(),
         bannerWebUrl: await FileStorage.fetchImagePathForExampleBannerWeb(),
+        previewBannerWebUrl: await FileStorage.fetchImagePathForExampleBannerWeb(),
         logoSelected: false,
+        previewLogoSelected: false,
         logoCharacter: store.state.loginPageState.businessName != null && store.state.loginPageState.businessName.length > 0 ? store.state.loginPageState.businessName.substring(0, 1) : 'D',
+        previewLogoCharacter: store.state.loginPageState.businessName != null && store.state.loginPageState.businessName.length > 0 ? store.state.loginPageState.businessName.substring(0, 1) : 'D',
         selectedColorTheme: ColorTheme(
           themeName: 'default',
           iconColor: ColorConstants.getString(ColorConstants.getBlueDark()),
           iconTextColor: ColorConstants.getString(ColorConstants.getWhiteWhite()),
           buttonColor: ColorConstants.getString(ColorConstants.getPeachDark()),
           buttonTextColor: ColorConstants.getString(ColorConstants.getWhiteWhite()),
-          bannerColor: ColorConstants.getString(ColorConstants.getBlueLight()),
+          bannerColor: ColorConstants.getString(ColorConstants.getPeachLight()),
+        ),
+        previewColorTheme: ColorTheme(
+          themeName: 'default',
+          iconColor: ColorConstants.getString(ColorConstants.getBlueDark()),
+          iconTextColor: ColorConstants.getString(ColorConstants.getWhiteWhite()),
+          buttonColor: ColorConstants.getString(ColorConstants.getPeachDark()),
+          buttonTextColor: ColorConstants.getString(ColorConstants.getWhiteWhite()),
+          bannerColor: ColorConstants.getString(ColorConstants.getPeachLight()),
         ),
         selectedFontTheme: FontTheme(
             themeName: 'default',
             iconFont: FontTheme.SIGNATURE3,
             mainFont: FontTheme.OPEN_SANS,
+        ),
+        previewFontTheme: FontTheme(
+          themeName: 'default',
+          iconFont: FontTheme.SIGNATURE3,
+          mainFont: FontTheme.OPEN_SANS,
         ),
       );
       await ProfileDao.insertOrUpdate(newProfile);
@@ -459,7 +481,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         icon: 'assets/images/icons/income_received.png',
         includeSalesTax: false,
         salesTaxPercent: 0.0,
-        deposit: 0.0,
+        deposit: 50.0,
       );
       await PriceProfileDao.insertOrUpdate(priceProfile);
 
@@ -521,17 +543,48 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         client: client,
         depositAmount: 0,
         location: (await LocationDao.getAllSortedMostFrequent()).first,
+        invoice: Invoice(
+          clientName: 'Example Client',
+          jobName: client.firstName + ' - Example Job',
+          unpaidAmount: 350.0,
+          createdDate: DateTime.now(),
+          dueDate: DateTime.now().add(Duration(days: 7)),
+          depositDueDate: DateTime.now(),
+          depositPaid: false,
+          invoicePaid: false,
+          priceProfile: (await PriceProfileDao.getAllSortedByName()).first,
+          discount: 0,
+          depositAmount: 50,
+          total: 350,
+          lineItems: [LineItem(
+              itemName: (await PriceProfileDao.getAllSortedByName()).first.profileName,
+              itemPrice: (await PriceProfileDao.getAllSortedByName()).first.flatRate,
+              itemQuantity: 1
+          )],
+          sentDate: DateTime.now(),
+          salesTaxAmount: 0,
+          salesTaxRate: 0.0,
+          subtotal: 350.0,
+        ),
+        proposal: Proposal(
+          detailsMessage: "(Example client portal message)\n\nHi ${client.firstName},\nI wanted to thank you again for choosing our photography services. We're excited to work with you to capture your special moments.\n\nTo make things official, kindly review and sign the contract. It outlines our agreement's essential details.\n\nIf you have any questions, please don't hesitate to ask.\n\nBest regards,\n\n${newProfile.firstName ?? 'First name'} ${newProfile.lastName ?? 'Last name'}\n${newProfile.businessName ?? 'Business name'}",
+        )
       );
       await JobDao.insertOrUpdate(jobToSave);
 
       await PoseLibraryGroupDao.syncAllFromFireStore();
       await ContractTemplateDao.syncAllFromFireStore();
       await AppSettingsDao.syncAllFromFireStore();
-      PoseLibraryGroup libraryGroup = (await PoseLibraryGroupDao.getAllSortedMostFrequent()).first;
-      if(libraryGroup.poses.length > 7) {
-        List<Pose> posesToAdd = libraryGroup.poses.sublist(0, 7);
-        await _saveSelectedPoseToJob(store, (await JobDao.getAllJobs()).first, posesToAdd);
-      }
+      List<PoseLibraryGroup> libraryGroups = (await PoseLibraryGroupDao.getAllSortedMostFrequent());
+      List<Pose> posesToAdd = [];
+      libraryGroups.forEach((group) {
+        group.poses.forEach((pose) {
+          if(pose.documentId == 'b7381a00-ef76-11ed-bf2a-61f5f61596d7' || pose.documentId == 'cdfc7600-e9f4-11ed-a07e-d5fa14ffadc7'|| pose.documentId == 'cd8a7a50-e9f4-11ed-b398-2f4d404a1892' || pose.documentId == 'b2729860-e9f4-11ed-b73d-a9e7c5067fa2') {
+            posesToAdd.add(pose);
+          }
+        });
+      });
+      await _saveSelectedPoseToJob(store, (await JobDao.getAllJobs()).first, posesToAdd);
 
       if(signInType == EMAIL) {
         await store.dispatch(SetShowAccountCreatedDialogAction(store.state.loginPageState, true, user));
@@ -623,9 +676,9 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
             profile.selectedColorTheme = ColorTheme(
               themeName: 'default',
               iconColor: ColorConstants.getString(ColorConstants.getBlueDark()),
-              iconTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
+              iconTextColor: ColorConstants.getString(ColorConstants.getWhiteWhite()),
               buttonColor: ColorConstants.getString(ColorConstants.getPeachDark()),
-              buttonTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
+              buttonTextColor: ColorConstants.getString(ColorConstants.getWhiteWhite()),
               bannerColor: ColorConstants.getString(ColorConstants.getPeachLight()),
             );
           }
@@ -639,27 +692,42 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           if(profile.logoCharacter == null || profile.logoCharacter.length == 0) {
             profile.logoCharacter = profile.businessName != null && profile.businessName.length > 0 ? profile.businessName.substring(0,1) : 'D';
           }
-        }
-        store.dispatch(SetIsUserVerifiedAction(store.state.loginPageState, user.emailVerified));
-        store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
-        store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
-        UidUtil().setUid(user.uid);
-        await EventSender().setUserIdentity(user.uid);
-        await FireStoreSync().dandyLightAppInitializationSync(user.uid).then((value) async {
+          if(profile.bannerMobileUrl == null) {
+            profile.bannerMobileUrl = await FileStorage.fetchImagePathForExampleBannerMobile();
+          }
+          if(profile.bannerWebUrl == null) {
+            profile.bannerWebUrl = await FileStorage.fetchImagePathForExampleBannerWeb();
+          }
+
+          store.dispatch(SetIsUserVerifiedAction(store.state.loginPageState, user.emailVerified));
+          store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
+          store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
+          UidUtil().setUid(user.uid);
+          await EventSender().setUserIdentity(user.uid);
+          await FireStoreSync().dandyLightAppInitializationSync(user.uid).then((value) async {
+            store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
+            ProfileDao.updateUserLoginTime(user.uid);
+            setShouldShowOnBoarding(store, profile);
+          });
+          await PoseLibraryGroupDao.syncAllFromFireStore();
+          await ContractTemplateDao.syncAllFromFireStore();
+          await AppSettingsDao.syncAllFromFireStore();
+          EventSender().sendEvent(eventName: EventNames.USER_SIGNED_IN_CHECK, properties: {
+            EventNames.SIGN_IN_CHECKED_PARAM_USER_UID : user.uid,
+            EventNames.SIGN_IN_CHECKED_PARAM_PROFILE_UID : profile?.uid ?? "profile = null",
+          });
+          if(profile != null) {
+            await ProfileDao.update(profile);
+          }
+        } else {
           store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
-          ProfileDao.updateUserLoginTime(user.uid);
-          setShouldShowOnBoarding(store, profile);
-        });
-        await PoseLibraryGroupDao.syncAllFromFireStore();
-        await ContractTemplateDao.syncAllFromFireStore();
-        await AppSettingsDao.syncAllFromFireStore();
-        EventSender().sendEvent(eventName: EventNames.USER_SIGNED_IN_CHECK, properties: {
-          EventNames.SIGN_IN_CHECKED_PARAM_USER_UID : user.uid,
-          EventNames.SIGN_IN_CHECKED_PARAM_PROFILE_UID : profile?.uid ?? "profile = null",
-        });
-        await ProfileDao.update(profile);
+          store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, true));
+          _auth.signOut();
+          await SembastDb.instance.deleteAllLocalData();
+        }
       } else {
         store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
+        store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, true));
         _auth.signOut();
         await SembastDb.instance.deleteAllLocalData();
       }

@@ -723,11 +723,11 @@ class FileStorage {
   }
 
   static String _buildExampleBannerWebImagePath() {
-    return "/env/prod/images/dandyLight/profile/banner_web.jpg";
+    return "/env/prod/images/dandyLight/banner_web.jpg";
   }
 
   static String _buildExampleBannerMobileImagePath() {
-    return "/env/prod/images/dandyLight/profile/banner_mobile.jpg";
+    return "/env/prod/images/dandyLight/banner_mobile.jpg";
   }
 
   static String _buildPreviewBannerMobileImagePath(String localImagePath) {

@@ -36,6 +36,7 @@ class _ContractPageState extends State<ContractPage> {
   final ScrollController scrollController;
   bool isHoveredSubmit = false;
   bool isHoveredDownloadPDF = false;
+  bool isHoveredScrollDown = false;
 
   _ContractPageState(this.scrollController);
 
@@ -159,13 +160,18 @@ class _ContractPageState extends State<ContractPage> {
                                       borderRadius: BorderRadius.circular(24),
                                       color: Color(ColorConstants.getPeachDark())),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisAlignment: DeviceType
+                                        .getDeviceTypeByContext(context) ==
+                                        Type.Website
+                                        ? MainAxisAlignment.spaceEvenly
+                                        : MainAxisAlignment.center,
                                     children: [
                                       Container(
                                         height: 24,
                                         width: 24,
                                         child: ImageIcon(
-                                          AssetImage("images/scroll_down_white.png")
+                                          AssetImage("images/scroll_down_white.png"),
+                                          color: Color(ColorConstants.getPrimaryWhite()),
                                         )
                                       ),
                                       DeviceType.getDeviceTypeByContext(context) ==
@@ -174,7 +180,7 @@ class _ContractPageState extends State<ContractPage> {
                                         text: 'Scroll',
                                         color: Color(
                                             ColorConstants.getPrimaryWhite()),
-                                        isBold: isHoveredDownloadPDF,
+                                        isBold: isHoveredScrollDown,
                                       ) : SizedBox(),
                                     ],
                                   ),
@@ -183,12 +189,12 @@ class _ContractPageState extends State<ContractPage> {
                               cursor: SystemMouseCursors.click,
                               onHover: (event) {
                                 setState(() {
-                                  isHoveredDownloadPDF = true;
+                                  isHoveredScrollDown = true;
                                 });
                               },
                               onExit: (event) {
                                 setState(() {
-                                  isHoveredDownloadPDF = false;
+                                  isHoveredScrollDown = false;
                                 });
                               },
                             )
@@ -322,8 +328,8 @@ class _ContractPageState extends State<ContractPage> {
                   margin: EdgeInsets.only(top: 0, bottom: 8),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
-                    text: pageState.profile.firstName + ' ' +
-                        pageState.profile.lastName,
+                    text: pageState.profile.firstName != null ? pageState.profile.firstName : "First name" + ' ' +
+                        pageState.profile.lastName != null ? pageState.profile.lastName : 'Last name',
                   ),
                 )
               ],
@@ -341,8 +347,8 @@ class _ContractPageState extends State<ContractPage> {
               ),
             ),
             TextFormField(
-              initialValue: pageState.profile.firstName + ' ' +
-                  pageState.profile.lastName,
+              initialValue: pageState.profile.firstName != null ? pageState.profile.firstName : "First name" + ' ' +
+                  pageState.profile.lastName != null ? pageState.profile.lastName : 'Last name',
               enabled: false,
               cursorColor: Color(ColorConstants.getPrimaryBlack()),
               textCapitalization: TextCapitalization.words,

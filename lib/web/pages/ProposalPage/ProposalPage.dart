@@ -169,7 +169,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                         child: TextDandyLight(
                                           type: TextDandyLight.LARGE_TEXT,
                                           fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                                          text: pageState.profile.businessName,
+                                          text: pageState.profile.businessName != null ? pageState.profile.businessName : 'Your Business Name',
                                           color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme.bannerColor) && !pageState.profile.bannerImageSelected ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
                                           addShadow: pageState.profile.bannerImageSelected ? true : false,
                                         ),
@@ -621,7 +621,7 @@ class _SignContractPageState extends State<ProposalPage> {
                       textAlign: TextAlign.center,
                       text: pageState.profile.logoCharacter,
                       isMobileWeb: true,
-                      color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme.iconTextColor) ? ColorConstants.getPrimaryBlack() : ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconTextColor),
+                      color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme.iconColor) ? Color(ColorConstants.getPrimaryBlack()) : ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconTextColor),
                     ),
                   )
                 ],
@@ -630,7 +630,7 @@ class _SignContractPageState extends State<ProposalPage> {
                 margin: EdgeInsets.only(left: 8),
                 child: TextDandyLight(
                   type: TextDandyLight.MEDIUM_TEXT,
-                  text: pageState.profile.businessName,
+                  text: pageState.profile.businessName != null ? pageState.profile.businessName : 'Your Business Name',
                   fontFamily: pageState.profile.selectedFontTheme.mainFont,
                   textAlign: TextAlign.center,
                   color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme.bannerColor) && !pageState.profile.bannerImageSelected ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
@@ -714,7 +714,7 @@ class _SignContractPageState extends State<ProposalPage> {
             margin: EdgeInsets.only(top: 16),
             child: TextDandyLight(
               type: TextDandyLight.LARGE_TEXT,
-              text: pageState.profile.businessName,
+              text: pageState.profile.businessName != null ? pageState.profile.businessName : 'Your Business Name',
               fontFamily: pageState.profile.selectedFontTheme.mainFont,
               textAlign: TextAlign.center,
               color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme.bannerColor) && !pageState.profile.bannerImageSelected ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),

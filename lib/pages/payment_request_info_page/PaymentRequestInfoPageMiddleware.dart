@@ -76,6 +76,9 @@ class PaymentRequestInfoPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SaveOtherStateAction(store.state.paymentRequestInfoPageState, profile.otherEnabled));
     store.dispatch(SetWireTextAction(store.state.paymentRequestInfoPageState, profile.wireMessage));
     store.dispatch(SaveWireStateAction(store.state.paymentRequestInfoPageState, profile.wireEnabled));
+    store.dispatch(SaveCashStateAction(store.state.paymentRequestInfoPageState, profile.cashEnabled));
+    store.dispatch(SetCashTextAction(store.state.paymentRequestInfoPageState, profile.cashMessage));
+
   }
 
   void updateZelleSelection(Store<AppState> store, NextDispatcher next, UpdateProfileWithZelleStateAction action)async{

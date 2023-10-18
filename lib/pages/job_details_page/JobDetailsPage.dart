@@ -30,8 +30,11 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../navigation/routes/RouteNames.dart';
 import '../../utils/NavigationUtil.dart';
+import '../../utils/UidUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../utils/permissions/UserPermissionsUtil.dart';
@@ -346,7 +349,28 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                     ),
                   ],
                 ),
-                      GestureDetector(
+                      comingFromOnBoarding ? GestureDetector(
+                        onTap: () {
+                          _launchBrandingPreviewURL(UidUtil().getUid());
+                          EventSender().sendEvent(eventName: EventNames.ON_BOARDING_PREVIEW_CLIENT_PORTAL_SELECTED);
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(top: 8),
+                          width: 196,
+                          alignment: Alignment.center,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(24),
+                            color: Color(ColorConstants.getPeachDark()),
+                            boxShadow: ElevationToShadow[6],
+                          ),
+                          child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              color: Color(ColorConstants.getPrimaryWhite()),
+                              text: "Preview Client Portal"
+                          ),
+                        ),
+                      ) : GestureDetector(
                         onTap: () {
                           NavigationUtil.onShareWIthClientSelected(context, pageState.job);
                           EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_FROM_JOB);
@@ -372,7 +396,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                 ),
                 body: Container(
                 child: Stack(
-                  alignment: Alignment.bottomLeft,
+                  alignment: Alignment.topRight,
                   children: <Widget>[
                     Container(
                       decoration: BoxDecoration(
@@ -404,13 +428,13 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                           forceElevated: false,
                           expandedHeight: 305.0,
                           actions: <Widget>[
-                            new IconButton(
+                            !comingFromOnBoarding ? IconButton(
                               icon: ImageIcon(ImageUtil.getTrashIconWhite()),
                               tooltip: 'Delete Job',
                               onPressed: () {
                                 _ackAlert(context, pageState);
                               },
-                            ),
+                            ) : SizedBox(),
                           ],
                           flexibleSpace: new FlexibleSpaceBar(
                             background: Stack(
@@ -480,9 +504,9 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                       },
                       child: Container(
                         padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                        margin: EdgeInsets.only(left: 24.0, right: 24.0, top: 8.0, bottom: 32.0),
+                        margin: EdgeInsets.only(left: 24.0, right: 8.0, top: 66.0, bottom: 32.0),
                         alignment: Alignment.center,
-                        height: 54.0,
+                        height: 42.0,
                         width: 96,
                         decoration: BoxDecoration(
                             color: Color(ColorConstants.getBlueDark()),
@@ -568,5 +592,10 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
   void onFlareCompleted(String unused, ) {
     Navigator.of(context).pop(true);
     Navigator.of(context).pop(true);
+  }
+
+  void _launchBrandingPreviewURL(String uid) async {
+    print('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid);
+    await canLaunchUrl(Uri.parse('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid)) ? await launchUrl(Uri.parse('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid), mode: LaunchMode.platformDefault) : throw 'Could not launch';
   }
 }

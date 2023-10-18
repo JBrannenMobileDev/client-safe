@@ -331,7 +331,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                         setState(() {
                           hasUnsavedChanges = false;
                         });
-                        if(jobDocumentId != null && jobDocumentId.isNotEmpty) {
+                        if(jobDocumentId != null && jobDocumentId.isNotEmpty && contract.signedByClient) {
                           _ackSaveChangesAlert(context, pageState);
                         } else {
                           pageState.onContractSaved(_controller.document, jobDocumentId);

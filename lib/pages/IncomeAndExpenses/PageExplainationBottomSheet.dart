@@ -48,7 +48,7 @@ class _BottomSheetPageState extends State<PageExplainationBottomSheet> with Tick
                      margin: EdgeInsets.only(top: 8, bottom: 24.0, left: 24, right: 24),
                      child: TextDandyLight(
                        type: TextDandyLight.MEDIUM_TEXT,
-                       text: 'Your income is tracked automatically when your receive payment or complete a job.\n\nYou can generate a new invoice here or on your job details page.',
+                       text: 'Your income is tracked automatically when you receive payment or complete a job.\n\nYou can generate a new invoice here or on your job details page.',
                        textAlign: TextAlign.center,
                        color: Color(ColorConstants.getPrimaryBlack()),
                      ),

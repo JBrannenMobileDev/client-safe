@@ -58,13 +58,13 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
       job = buildExampleJob();
       job.invoice = buildExampleInvoice();
       job.proposal = buildExampleProposal(profile.previewJsonContract);
-      profile.venmoLink = profile.venmoLink != null ? profile.venmoLink : 'https://venmo.com/code?user_id=1696790113943552886';
+      profile.venmoLink = profile.venmoLink != null ? profile.venmoLink : 'https://venmo.com/code?user_id=';
       profile.venmoEnabled = true;
       profile.zelleEnabled = true;
       profile.phone = profile.phone != null ? profile.phone : '(888)888-8888';
       profile.cashEnabled = true;
       profile.selectedColorTheme = profile.previewColorTheme;
-      profile.selectedFontTheme = profile.previewFontTheme;
+      profile.selectedFontTheme = profile.previewFontTheme;  test preview from onboarding with new account
       profile.bannerImageSelected = profile.previewBannerImageSelected;
       profile.bannerMobileUrl = profile.previewBannerMobileUrl;
       profile.bannerWebUrl = profile.previewBannerWebUrl;
