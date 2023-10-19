@@ -6,7 +6,9 @@ import 'package:dandylight/pages/share_with_client_page/ShareWithClientActions.d
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
+import 'package:dandylight/utils/ShareOptionsBottomSheet.dart';
 import 'package:dandylight/utils/UidUtil.dart';
+import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,7 @@ import 'package:redux/redux.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../models/Client.dart';
 import '../../models/Job.dart';
 import '../../models/Profile.dart';
 import '../../navigation/routes/RouteNames.dart';
@@ -467,27 +470,16 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                     padding: EdgeInsets.only(bottom: 32),
                     child: GestureDetector(
                       onTap: () {
-                        pageState.saveProposal();
-                        if(pageState.profile.isProfileComplete() && pageState.profile.hasSetupBrand && pageState.profile.paymentOptionsSelected()) {
-                          Share.share('[Your message goes here]\n\nAccess your client portal here:' + '\nhttps://dandylight.com/clientPortal/${profile.uid}+${job.documentId} \n\nPowered by DandyLight');
+                          String message = '[Your message goes here]\n\nAccess your client portal here:' + '\nhttps://dandylight.com/clientPortal/${profile.uid}+${job.documentId} \n\nPowered by DandyLight';
+                          String emailTitle = pageState.profile.businessName != null && pageState.profile.businessName.isNotEmpty ? pageState.profile.businessName + ' - Session details' : pageState.profile.firstName != null && pageState.profile.firstName.isNotEmpty ? pageState.profile.firstName + ' - Session details' : 'Session details';
+                          UserOptionsUtil.showShareOptionsSheet(context, pageState.job.client, message,  emailTitle);
                           EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED, properties: {
                             EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_INVOICE : pageState.invoiceSelected,
                             EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_CONTRACT : pageState.contractSelected,
                             EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_POSES : pageState.posesSelected,
                             EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK : 'https://dandylight.com/clientPortal/${profile.uid}+${job.documentId}',
                           });
-                          Navigator.of(context).pop();
-                        } else {
-                          String toastMessage = '';
-                          if(!pageState.profile.isProfileComplete()) {
-                            toastMessage = 'Please complete your profile first.';
-                          } else if(!pageState.profile.hasSetupBrand) {
-                            toastMessage = 'Please setup your brand first.';
-                          } else if(!pageState.profile.paymentOptionsSelected()) {
-                            toastMessage = 'Please setup your payment options first.';
-                          }
-                          DandyToastUtil.showErrorToast(toastMessage);
-                        }
+                          pageState.saveProposal();
                       },
                       child: Container(
                         alignment: Alignment.center,

@@ -1,4 +1,3 @@
-
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
@@ -42,12 +41,17 @@ import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/analytics/EventNames.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
+import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
+import 'package:dandylight/widgets/TextDandyLight.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../data_layer/local_db/daos/ProfileDao.dart';
+import '../models/Client.dart';
 import '../models/JobReminder.dart';
 import '../models/JobType.dart';
 import '../models/LocationDandy.dart';
@@ -59,6 +63,7 @@ import '../pages/new_job_page/widgets/SelectNewJobLocationDialog.dart';
 import '../pages/new_job_page/widgets/SelectNewJobLocationOptionsDialog.dart';
 import '../pages/new_job_types_page/NewJobTypePage.dart';
 import 'ColorConstants.dart';
+import 'ShareOptionsBottomSheet.dart';
 
 class UserOptionsUtil {
   static void showNewContactDialog(BuildContext context, bool comingFromNewJob){
@@ -493,45 +498,16 @@ class UserOptionsUtil {
         });
   }
 
-  static void showCollectionOptionsSheet(BuildContext context) {
+  static void showShareOptionsSheet(BuildContext context, Client client, String message, String emailTitle) {
     showModalBottomSheet(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
         context: context,
-        builder: (BuildContext context) {
-          return Container(
-            height: 233.0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                ListTile(
-                  leading: Icon(Icons.monetization_on),
-                  title: Text("New Pricing Profile"),
-                  onTap: () {
-                    showNewPriceProfileDialog(context);
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.location_on),
-                  title: Text("New Photoshoot Location"),
-                  onTap: () {
-                    showNewLocationDialog(context);
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.insert_drive_file),
-                  title: Text("New Contract Template"),
-                  onTap: () {},
-                ),
-                ListTile(
-                  leading: Icon(Icons.image),
-                  title: Text("New Example Pose"),
-                  onTap: () {},
-                ),
-              ],
-            ),
-          );
+        isScrollControlled: true,
+        isDismissible: true,
+        enableDrag: true,
+        backgroundColor: Colors.transparent,
+        barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+        builder: (context) {
+          return ShareOptionsBottomSheet(client, message, emailTitle);
         });
   }
 }

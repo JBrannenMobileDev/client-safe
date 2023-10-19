@@ -161,6 +161,8 @@ flutter:
     - assets/images/icons/question.png
     - assets/images/backgrounds/login_bg.jpg
     - assets/images/icons/select.png
+    - assets/images/icons/other.png
+    - assets/images/icons/link.png
 
     - assets/images/backgrounds/image_background.png
 

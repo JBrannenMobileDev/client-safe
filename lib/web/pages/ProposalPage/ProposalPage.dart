@@ -715,7 +715,7 @@ class _SignContractPageState extends State<ProposalPage> {
             ],
           ),
           Container(
-            margin: EdgeInsets.only(top: 16),
+            margin: EdgeInsets.only(top: 12),
             child: TextDandyLight(
               type: TextDandyLight.LARGE_TEXT,
               text: pageState.profile.businessName != null ? pageState.profile.businessName : 'Your Business Name',
