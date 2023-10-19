@@ -191,6 +191,9 @@ class EventNames {
   static const String BRANDING_ICON_FONT = "branding_icon_font";
   static const String BRANDING_ICON_FONT_PARAM = "branding_icon_font_param";
   static const String IS_PORTAL_SETUP_COMPLETE = "is_portal_setup_complete";
+  static const String IS_BRANDING_SETUP_COMPLETE = "is_branding_setup_complete";
+  static const String IS_PAYMENT_OPTIONS_SETUP_COMPLETE = "is_payment_options_setup_complete";
+  static const String IS_PROFILE_SETUP_COMPLETE = "is_profile_setup_complete";
 
   //Subscription
   static const String USER_SUBSCRIBED = "user_subscribed";

@@ -8,20 +8,15 @@ import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobTypeDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PriceProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
-import 'package:dandylight/models/ColorTheme.dart';
-import 'package:dandylight/models/Contract.dart';
 import 'package:dandylight/models/DiscountCodes.dart';
-import 'package:dandylight/models/FontTheme.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobType.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/Suggestion.dart';
-import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/pages/share_with_client_page/ShareWithClientActions.dart';
 import 'package:dandylight/utils/AdminCheckUtil.dart';
 import 'package:dandylight/utils/CalendarSyncUtil.dart';
-import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/EnvironmentUtil.dart';
 import 'package:dandylight/utils/NotificationHelper.dart';
 import 'package:dandylight/utils/PushNotificationsManager.dart';
@@ -29,27 +24,18 @@ import 'package:dandylight/utils/TextFormatterUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/analytics/EventNames.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
 import '../../data_layer/local_db/SembastDb.dart';
 import '../../data_layer/local_db/daos/ClientDao.dart';
-import '../../data_layer/local_db/daos/ContractTemplateDao.dart';
 import '../../data_layer/repositories/DiscountCodesRepository.dart';
-import '../../data_layer/repositories/FileStorage.dart';
 import '../../models/Client.dart';
-import '../../models/Invoice.dart';
 import '../../models/JobStage.dart';
 import '../../models/Proposal.dart';
-import '../../utils/UUID.dart';
-import '../dashboard_page/DashboardPageActions.dart';
 import '../login_page/LoginPageActions.dart';
 import 'MainSettingsPageActions.dart';
-import 'package:image/image.dart' as img;
 
 class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -162,6 +148,11 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
       phone: TextFormatterUtil.formatPhoneNum(store.state.mainSettingsPageState.businessPhone),
       email: store.state.mainSettingsPageState.businessEmail,
     ));
+    if(store.state.mainSettingsPageState.firstName.isNotEmpty && store.state.mainSettingsPageState.lastName.isNotEmpty && store.state.mainSettingsPageState.businessName.isNotEmpty && (store.state.mainSettingsPageState.businessPhone.isNotEmpty || store.state.mainSettingsPageState.businessEmail.isNotEmpty)) {
+      EventSender().setUserProfileData(EventNames.IS_PROFILE_SETUP_COMPLETE, true);
+    } else {
+      EventSender().setUserProfileData(EventNames.IS_PROFILE_SETUP_COMPLETE, false);
+    }
     store.dispatch(FetchProfileAction(store.state.shareWithClientPageState));
   }
 

@@ -128,6 +128,7 @@ class EditBrandingPageMiddleware extends MiddlewareClass<AppState> {
     profile.selectedFontTheme = fontTheme;
     profile.logoCharacter = action.pageState.logoCharacter;
     profile.hasSetupBrand = true;
+    EventSender().setUserProfileData(EventNames.IS_BRANDING_SETUP_COMPLETE, true);
 
     await ProfileDao.update(profile);
     if(action.pageState.logoImageSelected && action.pageState.resizedLogoImage != null) {

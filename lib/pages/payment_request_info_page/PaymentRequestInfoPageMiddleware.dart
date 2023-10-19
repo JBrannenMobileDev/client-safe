@@ -4,6 +4,8 @@ import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:redux/redux.dart';
 
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../share_with_client_page/ShareWithClientActions.dart';
 import 'PaymentRequestInfoPageActions.dart';
 
@@ -174,5 +176,11 @@ class PaymentRequestInfoPageMiddleware extends MiddlewareClass<AppState> {
   void updateProfile(Profile profile, Store<AppState> store) async {
     await ProfileDao.update(profile);
     store.dispatch(FetchProfileAction(store.state.shareWithClientPageState));
+
+    if(profile.paymentOptionsSelected()) {
+      EventSender().setUserProfileData(EventNames.IS_PAYMENT_OPTIONS_SETUP_COMPLETE, true);
+    } else {
+      EventSender().setUserProfileData(EventNames.IS_PAYMENT_OPTIONS_SETUP_COMPLETE, false);
+    }
   }
 }
