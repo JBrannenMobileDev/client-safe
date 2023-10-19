@@ -63,7 +63,7 @@ class _ContractPageState extends State<ContractPage> {
         },
         onDidChange: (previous, current) {
           if (previous.errorMsg.isEmpty && current.errorMsg.isNotEmpty) {
-            DandyToastUtil.showErrorToast(current.errorMsg);
+            // DandyToastUtil.showErrorToast(current.errorMsg);  dont need to show an error message for now.
             current.resetErrorMsg();
           }
         },

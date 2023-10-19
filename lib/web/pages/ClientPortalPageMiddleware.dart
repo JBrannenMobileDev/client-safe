@@ -100,20 +100,25 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
   void _saveClientSignature(Store<AppState> store, SaveClientSignatureAction action, NextDispatcher next) async{
     Proposal proposal = action.pageState.proposal;
 
-    ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
-    int errorCode = await repository.saveClientSignature(action.pageState.userId, action.pageState.jobId, action.signature);
-    if(errorCode != 200) {
-      store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "There was an error saving your signature. Please try again."));
+    if(action.signature == null || action.signature.isEmpty) {
+      store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "Please sign the contract before saving your signature."));
+      store.dispatch(SetLoadingStateAction(store.state.clientPortalPageState, false));
     } else {
-      proposal.contract.clientSignature = action.signature;
-      proposal.contract.signedByClient = true;
-      proposal.contract.clientSignedDate = DateTime.now();
-      action.pageState.job.proposal = proposal;
-      store.dispatch(SetJobAction(store.state.clientPortalPageState, action.pageState.job));
-      store.dispatch(SetProposalAction(store.state.clientPortalPageState, proposal));
-      EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_CONTRACT_SIGNED);
+      ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
+      int errorCode = await repository.saveClientSignature(action.pageState.userId, action.pageState.jobId, action.signature);
+      if(errorCode != 200) {
+        store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "There was an error saving your signature. Please try again."));
+      } else {
+        proposal.contract.clientSignature = action.signature;
+        proposal.contract.signedByClient = true;
+        proposal.contract.clientSignedDate = DateTime.now();
+        action.pageState.job.proposal = proposal;
+        store.dispatch(SetJobAction(store.state.clientPortalPageState, action.pageState.job));
+        store.dispatch(SetProposalAction(store.state.clientPortalPageState, proposal));
+        EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_CONTRACT_SIGNED);
+      }
+      store.dispatch(SetLoadingStateAction(store.state.clientPortalPageState, false));
     }
-    store.dispatch(SetLoadingStateAction(store.state.clientPortalPageState, false));
   }
 
   void _updateProposalInvoicePaid(Store<AppState> store, UpdateProposalInvoicePaidAction action, NextDispatcher next) async{

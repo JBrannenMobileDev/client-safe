@@ -62,7 +62,9 @@ class _SignContractPageState extends State<ProposalPage> {
             store.dispatch(FetchProposalDataAction(store.state.clientPortalPageState, userId, jobId, isBrandingPreview));
           },
           converter: (Store<AppState> store) => ClientPortalPageState.fromStore(store),
-          builder: (BuildContext context, ClientPortalPageState pageState) => Scaffold(
+          builder: (BuildContext context, ClientPortalPageState pageState) => WillPopScope(
+              onWillPop: () async => null,
+              child: Scaffold(
           backgroundColor: Color(ColorConstants.getPrimaryWhite()),
           body: Container(
             height: MediaQuery.of(context).size.height,
@@ -215,7 +217,8 @@ class _SignContractPageState extends State<ProposalPage> {
               ],
             ),
           ),
-        )
+        ),
+          ),
       );
 
   List<Widget> _menuButtons(ClientPortalPageState pageState) {

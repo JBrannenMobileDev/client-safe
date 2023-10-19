@@ -109,7 +109,7 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
                   ),
                 ),
               ),
-              Container(
+              pageState.isDepositChecked ? Container(
                 alignment: Alignment.topCenter,
                 margin: EdgeInsets.only(top: 64),
                 child: TextDandyLight(
@@ -118,8 +118,8 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
                   textAlign: TextAlign.center,
                   color: Color(ColorConstants.getPrimaryBlack()),
                 ),
-              ),
-              Container(
+              ) : SizedBox(),
+              pageState.isDepositChecked ? Container(
                 margin: EdgeInsets.only(top: 16.0),
                 alignment: Alignment.center,
                 child: TextButton(
@@ -187,7 +187,7 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
                       'assets/images/icons/calendar.png', color: Color(ColorConstants.getPrimaryWhite()),),
                   ),
                 ),
-              ),
+              ) : SizedBox(),
             ],
           ),
         ],
