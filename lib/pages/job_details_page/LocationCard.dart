@@ -92,7 +92,8 @@ class _LocationCard extends State<LocationCard> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Share.share('Hi ${pageState.job.clientName.split(' ')[0]}, here are the driving directions to the location we discussed. \n${pageState.selectedLocation.locationName}\n\nhttps://www.google.com/maps/search/?api=1&query=${pageState.selectedLocation.latitude},${pageState.selectedLocation.longitude}');
+                            String message = 'Hi ${pageState.job.clientName.split(' ')[0]}, here are the driving directions to the location we discussed. \n${pageState.selectedLocation.locationName}\n\nhttps://www.google.com/maps/search/?api=1&query=${pageState.selectedLocation.latitude},${pageState.selectedLocation.longitude}';
+                            UserOptionsUtil.showShareOptionsSheet(context, pageState.client, message, 'Location details');
                           },
                           behavior: HitTestBehavior.opaque,
                           child: Container(

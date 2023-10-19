@@ -8,7 +8,6 @@ import 'package:dandylight/pages/job_details_page/ClientDetailsCard.dart';
 import 'package:dandylight/pages/job_details_page/DocumentsCard.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
-import 'package:dandylight/pages/job_details_page/JobInfoCard.dart';
 import 'package:dandylight/pages/job_details_page/RemindersCard.dart';
 import 'package:dandylight/pages/job_details_page/document_items/DocumentItem.dart';
 import 'package:dandylight/pages/job_details_page/scroll_stage_items/StageItem.dart';

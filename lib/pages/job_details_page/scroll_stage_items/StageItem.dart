@@ -447,7 +447,8 @@ class _StageItemState extends State<StageItem>
                                 EventSender().sendEvent(eventName: EventNames.BT_STAGE_ACTION, properties: {EventNames.ACTIVE_STAGE_PARAM_NAME : JobStage.STAGE_6_PLANNING_COMPLETE});
                                 break;
                               case JobStage.STAGE_7_SESSION_COMPLETE:
-                                Share.share('Here are the driving directions. \nLocation: ${pageState.job.location.locationName}\n\nhttps://www.google.com/maps/search/?api=1&query=${pageState.job.location.latitude},${pageState.job.location.longitude}');
+                                String message = 'Hi ${pageState.job.clientName.split(' ')[0]}, here are the driving directions to the location we discussed. \n${pageState.selectedLocation.locationName}\n\nhttps://www.google.com/maps/search/?api=1&query=${pageState.selectedLocation.latitude},${pageState.selectedLocation.longitude}';
+                                UserOptionsUtil.showShareOptionsSheet(context, pageState.client, message, 'Location details');
                                 EventSender().sendEvent(eventName: EventNames.BT_STAGE_ACTION, properties: {EventNames.ACTIVE_STAGE_PARAM_NAME : JobStage.STAGE_7_SESSION_COMPLETE});
                                 break;
                               case JobStage.STAGE_8_PAYMENT_REQUESTED:
@@ -613,7 +614,7 @@ class _StageItemState extends State<StageItem>
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_7_SESSION_COMPLETE);
         stageTitle = isStageCompleted ? 'Session complete!' : 'Session complete?';
         stageSubtitle = '';
-        actionButtonText = job.location != null ? 'Send location' : '';
+        actionButtonText = job.location != null ? 'Share location' : '';
         break;
       case JobStage.STAGE_8_PAYMENT_REQUESTED:
         stageImage = ImageUtil.getJobStageImageFromStage(job.type.stages.elementAt(index), isCurrentStage);
