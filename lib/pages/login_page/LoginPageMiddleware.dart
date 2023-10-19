@@ -406,12 +406,12 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         ),
         selectedFontTheme: FontTheme(
             themeName: 'default',
-            iconFont: FontTheme.SIGNATURE3,
+            iconFont: FontTheme.Moredya,
             mainFont: FontTheme.OPEN_SANS,
         ),
         previewFontTheme: FontTheme(
           themeName: 'default',
-          iconFont: FontTheme.SIGNATURE3,
+          iconFont: FontTheme.Moredya,
           mainFont: FontTheme.OPEN_SANS,
         ),
       );
@@ -685,7 +685,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           if(profile.selectedFontTheme == null) {
             profile.selectedFontTheme = FontTheme(
               themeName: 'default',
-              iconFont: FontTheme.SIGNATURE2,
+              iconFont: FontTheme.Moredya,
               mainFont: FontTheme.OPEN_SANS,
             );
           }

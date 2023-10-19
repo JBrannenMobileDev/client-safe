@@ -87,7 +87,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
                             child: TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
                               fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                              text: (pageState.job.selectedTime != null && pageState.job.selectedTime != null ? DateFormat('h:mma').format(pageState.job.selectedTime) + ' - ' + DateFormat('h:mma').format(pageState.job.selectedEndTime) : 'TBD'),
+                              text: (pageState.job.selectedTime != null ? DateFormat('h:mma').format(pageState.job.selectedTime) + ' - ' +( pageState.job.selectedEndTime != null ? DateFormat('h:mma').format(pageState.job.selectedEndTime) : 'TBD') : 'TBD'),
                             ),
                           ),
                         ],
@@ -128,8 +128,9 @@ class _DetailsPagePageState extends State<DetailsPage> {
                     ],
                   ),
                 ),
+                DividerWidget(width: DeviceType.getDeviceTypeByContext(context) != Type.Website ? 1080 : 0),
                 Container(
-                  margin: EdgeInsets.only(bottom: 16, top: 0),
+                  margin: EdgeInsets.only(bottom: 16, top: 0, left: 16, right: 16),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: pageState.proposal?.detailsMessage,
@@ -158,7 +159,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
   List<Widget> _infoItems(ClientPortalPageState pageState) {
     return [
       Container(
-        width: 360,
+        width: 324,
         margin: EdgeInsets.only(bottom: 32),
         child: Column(
           crossAxisAlignment: DeviceType.getDeviceTypeByContext(context) == Type.Website ? CrossAxisAlignment.start : CrossAxisAlignment.center,
@@ -201,7 +202,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
         ),
       ),
       Container(
-        width: 360,
+        width: 324,
         margin: EdgeInsets.only(bottom: 32),
         child: Column(
           crossAxisAlignment: DeviceType.getDeviceTypeByContext(context) == Type.Website ? CrossAxisAlignment.start : CrossAxisAlignment.center,
@@ -243,92 +244,90 @@ class _DetailsPagePageState extends State<DetailsPage> {
           ],
         ),
       ),
-      Expanded(
-        child: Container(
-          width: 360,
-          margin: EdgeInsets.only(bottom: 32),
-          child: Column(
-            crossAxisAlignment: DeviceType.getDeviceTypeByContext(context) == Type.Website ? CrossAxisAlignment.start : CrossAxisAlignment.center,
-            children: [
-              Container(
-                margin: EdgeInsets.only(top: 0, bottom: 16),
-                child: TextDandyLight(
-                  type: TextDandyLight.LARGE_TEXT,
-                  fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                  text: 'JOB INFO',
-                ),
+      Container(
+        width: 400,
+        margin: EdgeInsets.only(bottom: 32),
+        child: Column(
+          crossAxisAlignment: DeviceType.getDeviceTypeByContext(context) == Type.Website ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: 0, bottom: 16),
+              child: TextDandyLight(
+                type: TextDandyLight.LARGE_TEXT,
+                fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                text: 'JOB INFO',
               ),
-              Container(
-                margin: EdgeInsets.only(bottom: 8),
-                child: TextDandyLight(
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 8),
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                text: 'Date: ' + (pageState.job.selectedDate != null
+                    ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.job.selectedDate)
+                    : 'TBD'),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 8),
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                text: 'Time: ' + (pageState.job.selectedTime != null ? DateFormat('h:mma').format(pageState.job.selectedTime) + ' - ' +( pageState.job.selectedEndTime != null ? DateFormat('h:mma').format(pageState.job.selectedEndTime) : 'TBD') : 'TBD'),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 16),
+              child: TextDandyLight(
                   type: TextDandyLight.MEDIUM_TEXT,
                   fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                  text: 'Date: ' + (pageState.job.selectedDate != null
-                      ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.job.selectedDate)
-                      : 'TBD'),
+                  maxLines: 3,
+                  overflow: TextOverflow.visible,
+                  text: 'Where: ' + (pageState.job.location != null && pageState.job.location.address != null ? pageState.job.location.address : 'TBD'),
+                  textAlign: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextAlign.start : TextAlign.center,
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(bottom: 8),
-                child: TextDandyLight(
-                  type: TextDandyLight.MEDIUM_TEXT,
-                  fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                  text: 'Time: ' + (pageState.job.selectedTime != null && pageState.job.selectedTime != null ? DateFormat('h:mma').format(pageState.job.selectedTime) + ' - ' + DateFormat('h:mma').format(pageState.job.selectedEndTime) : 'TBD'),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(bottom: 16),
-                child: TextDandyLight(
+            DeviceType.getDeviceTypeByContext(context) == Type.Website ? MouseRegion(
+              child: GestureDetector(
+                onTap: () {
+                  if(pageState.job.location != null) {
+                    IntentLauncherUtil.openDrivingDirectionsFromWebsite(
+                        pageState.job.location.latitude.toString(),
+                        pageState.job.location.longitude.toString()
+                    );
+                  }
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  width: 200,
+                  height: 48,
+                  margin: EdgeInsets.only(bottom: 8),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(24),
+                      color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
+                  ),
+                  child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Driving directions',
                     fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                    maxLines: 3,
-                    overflow: TextOverflow.visible,
-                    text: 'Where: ' + (pageState.job.location != null && pageState.job.location.address != null ? pageState.job.location.address : 'TBD'),
-                    textAlign: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextAlign.start : TextAlign.center,
-                  ),
-              ),
-              DeviceType.getDeviceTypeByContext(context) == Type.Website ? MouseRegion(
-                child: GestureDetector(
-                  onTap: () {
-                    if(pageState.job.location != null) {
-                      IntentLauncherUtil.openDrivingDirectionsFromWebsite(
-                          pageState.job.location.latitude.toString(),
-                          pageState.job.location.longitude.toString()
-                      );
-                    }
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    width: 200,
-                    height: 48,
-                    margin: EdgeInsets.only(bottom: 8),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(24),
-                        color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
-                    ),
-                    child: TextDandyLight(
-                      type: TextDandyLight.MEDIUM_TEXT,
-                      text: 'Driving directions',
-                      fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                      color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonTextColor),
-                      isBold: isHoveredDirections,
-                    ),
+                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonTextColor),
+                    isBold: isHoveredDirections,
                   ),
                 ),
-                cursor: SystemMouseCursors.click,
-                onHover: (event) {
-                  setState(() {
-                    isHoveredDirections = true;
-                  });
-                },
-                onExit: (event) {
-                  setState(() {
-                    isHoveredDirections = false;
-                  });
-                },
-              ) : SizedBox(),
-            ],
-          ),
+              ),
+              cursor: SystemMouseCursors.click,
+              onHover: (event) {
+                setState(() {
+                  isHoveredDirections = true;
+                });
+              },
+              onExit: (event) {
+                setState(() {
+                  isHoveredDirections = false;
+                });
+              },
+            ) : SizedBox(),
+          ],
         ),
       ),
     ];

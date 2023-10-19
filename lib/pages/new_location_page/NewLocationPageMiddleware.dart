@@ -82,7 +82,9 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
 
     LocationDandy locationWithId = await LocationDao.insertOrUpdate(location);
 
-    await FileStorage.saveLocationImageFile(action.pageState.imagePath, locationWithId);
+    if(action.pageState.imagePath != null) {
+      await FileStorage.saveLocationImageFile(action.pageState.imagePath, locationWithId);
+    }
 
     EventSender().sendEvent(eventName: EventNames.CREATED_LOCATION, properties: {
       EventNames.LOCATION_PARAM_NAME : location.locationName,

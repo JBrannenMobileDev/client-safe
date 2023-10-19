@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/clients_page/ClientsPageActions.dart';
 import 'package:dandylight/pages/clients_page/ClientsPageState.dart';
@@ -16,10 +18,13 @@ class ClientsPage extends StatefulWidget {
   static const String FILTER_TYPE_CLIENTS = "Clients";
   static const String FILTER_TYPE_LEADS = "Leads";
   static const String FILTER_TYPE_ALL = "All";
+  final bool comingFromUnconverted;
+
+  ClientsPage({this.comingFromUnconverted});
 
   @override
   State<StatefulWidget> createState() {
-    return _ClientsPageState();
+    return _ClientsPageState(comingFromUnconverted);
   }
 }
 
@@ -29,12 +34,16 @@ class _ClientsPageState extends State<ClientsPage> {
   int selectorIndex = 0;
   ScrollController _controller = ScrollController();
   Map<int, Widget> genders;
-  List<String> alphabetList;
+  bool comingFromUnconverted;
+
+  _ClientsPageState(this.comingFromUnconverted);
 
   @override
   void initState() {
     super.initState();
-    alphabetList = List<String>.generate(alphabet.length, (index) => alphabet[index]);
+    if(comingFromUnconverted != null && comingFromUnconverted) {
+      selectorIndex = 2;
+    }
   }
 
   @override
@@ -68,11 +77,20 @@ class _ClientsPageState extends State<ClientsPage> {
         builder: (BuildContext context, ClientsPageState pageState) => Scaffold(
           backgroundColor: Color(ColorConstants.getPrimaryWhite()),
           body: Stack(
-                alignment: AlignmentDirectional.centerEnd,
+                alignment: Alignment.topLeft,
                 children: <Widget>[
                   CustomScrollView(
                     slivers: <Widget>[
                       SliverAppBar(
+                        leading: comingFromUnconverted != null && comingFromUnconverted ? GestureDetector(
+                          onTap:(){
+                            Navigator.of(context).pop();
+                          },
+                          child: Icon(
+                            Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
+                            color: Color(ColorConstants.getPrimaryBlack()),//add color of your choice
+                          ),
+                        ) : SizedBox(),
                         brightness: Brightness.light,
                         backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                         pinned: true,

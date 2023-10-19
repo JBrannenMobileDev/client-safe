@@ -493,7 +493,7 @@ class _SignContractPageState extends State<ProposalPage> {
   }
 
   Widget _menuButtonsSmallScreen(ClientPortalPageState pageState) {
-    if(pageState.proposal.contract != null || pageState.invoice != null || pageState.job.poses != null && pageState.job.poses.length > 0) {
+    if((pageState.proposal.contract != null && pageState.proposal.includeContract) || (pageState.invoice != null && pageState.proposal.includeInvoice) || (pageState.job.poses != null && pageState.job.poses.length > 0 && pageState.proposal.includePoses)) {
       List<Widget> buttons = buildButtonList(pageState);
       return UnconstrainedBox(
         child: Container(
@@ -670,7 +670,6 @@ class _SignContractPageState extends State<ProposalPage> {
             height: 132,
             width: 132,
             decoration: BoxDecoration(
-              boxShadow: ElevationToShadow[0],
               shape: BoxShape.circle,
               color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
             ),
@@ -680,6 +679,7 @@ class _SignContractPageState extends State<ProposalPage> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
+                  boxShadow: ElevationToShadow[1],
                 ),
                 width: 132,
                 height: 132,
@@ -698,7 +698,8 @@ class _SignContractPageState extends State<ProposalPage> {
                 width: 132,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor)
+                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
+                  boxShadow: ElevationToShadow[1],
                 ),
               ),
               TextDandyLight(

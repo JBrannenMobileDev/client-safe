@@ -233,6 +233,7 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
 
       store.dispatch(SetComingFromNewJobAction(store.state.sunsetWeatherPageState, true));
       store.dispatch(SetSelectedDateAction(store.state.sunsetWeatherPageState, selectedDate));
+      store.dispatch(SetLocationNameAction(store.state.sunsetWeatherPageState, action.location.locationName));
 
       final response = await SunriseSunset.getResults(date: selectedDate, latitude: lat, longitude: long);
       store.dispatch(

@@ -238,7 +238,9 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                           pageState.chooseLocationSelected();
                           UserOptionsUtil.showSelectLocationDialog(context);
                         },
-                        child: Container(
+                        child: Expanded(
+                          child: Container(
+                          alignment: Alignment.center,
                           margin: EdgeInsets.only(left: 16, right: 16),
                           height: 48.0,
                           decoration: BoxDecoration(
@@ -254,8 +256,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                 child: Image.asset(
                                     'assets/images/icons/pin_white.png', color: Color(ColorConstants.getPrimaryWhite()),),
                               ),
-                              Expanded(
-                                  child: Container(
+                              Container(
                                     margin: EdgeInsets.only(right: 8),
                                     child: TextDandyLight(
                                       type: TextDandyLight.MEDIUM_TEXT,
@@ -266,9 +267,9 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                       color: Color(ColorConstants.getPrimaryWhite()),
                                     ),
                                   )
-                              ),
                             ],
                           ),
+                        ),
                         ),
                       ),
                       Container(

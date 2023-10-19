@@ -146,7 +146,7 @@ class EditBrandingPageState{
     currentIconColor: Color(ColorConstants.getPeachDark()),
     currentButtonColor: Color(ColorConstants.getPeachDark()),
     currentButtonTextColor: Color(ColorConstants.getPrimaryWhite()),
-    currentIconFont: FontTheme.SIGNATURE2,
+    currentIconFont: FontTheme.Moredya,
     currentFont: FontTheme.OPEN_SANS,
     onColorSaved: null,
     showPublishButton: false,

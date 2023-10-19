@@ -83,64 +83,13 @@ class _PayNowPageState extends State<PayNowPage> {
                     ) : SizedBox(),
                   ],
                 ),
+                DeviceType.getDeviceTypeByContext(context) == Type.Website ?
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(left: 32, right: 32),
-                      height: 72,
-                      alignment: Alignment.center,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TextDandyLight(
-                              type: TextDandyLight.MEDIUM_TEXT,
-                              text: 'Balance due',
-                              fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                              color: Color(ColorConstants.getPrimaryBlack())
-                          ),
-                          TextDandyLight(
-                              type: TextDandyLight.EXTRA_LARGE_TEXT,
-                              fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                              text: TextFormatterUtil.formatDecimalCurrency(amount),
-                              color: Color(ColorConstants.getPrimaryBlack())
-                          )
-                        ],
-                      ),
-                    ),
-                    MouseRegion(
-                      child: GestureDetector(
-                        onTap: () {
-                          switch(type) {
-                            case PayNowPage.TYPE_RETAINER:
-                              pageState.onMarkAsPaidDepositSelected(true);
-                              break;
-                            case PayNowPage.TYPE_BALANCE:
-                              pageState.onMarkAsPaidSelected(true);
-                              break;
-                          }
-                          Navigator.of(context).pop();
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                          width: 175,
-                          height: 48,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(24),
-                              color: Color(ColorConstants.getPrimaryBackgroundGrey())
-                          ),
-                          child: TextDandyLight(
-                            type: TextDandyLight.MEDIUM_TEXT,
-                            fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                            text: 'MARK AS PAID',
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
-                        ),
-                      ),
-                      cursor: SystemMouseCursors.click,
-                    )
-                  ],
+                  children: getBalanceAndMarkItems(pageState),
+                ) : Column(
+                  children: getBalanceAndMarkItems(pageState),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 8, bottom: 48),
@@ -161,6 +110,64 @@ class _PayNowPageState extends State<PayNowPage> {
       ),
     ),
   );
+
+  getBalanceAndMarkItems(ClientPortalPageState pageState) {
+    return [
+      Container(
+        padding: EdgeInsets.only(left: 32, right: 32),
+        height: 72,
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: 'Balance due',
+                fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                color: Color(ColorConstants.getPrimaryBlack())
+            ),
+            TextDandyLight(
+                type: TextDandyLight.EXTRA_LARGE_TEXT,
+                fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                text: TextFormatterUtil.formatDecimalCurrency(amount),
+                color: Color(ColorConstants.getPrimaryBlack())
+            )
+          ],
+        ),
+      ),
+      MouseRegion(
+        child: GestureDetector(
+          onTap: () {
+            switch(type) {
+              case PayNowPage.TYPE_RETAINER:
+                pageState.onMarkAsPaidDepositSelected(true);
+                break;
+              case PayNowPage.TYPE_BALANCE:
+                pageState.onMarkAsPaidSelected(true);
+                break;
+            }
+            Navigator.of(context).pop();
+          },
+          child: Container(
+            alignment: Alignment.center,
+            width: 175,
+            height: 48,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(24),
+                color: Color(ColorConstants.getPrimaryBackgroundGrey())
+            ),
+            child: TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+              fontFamily: pageState.profile.selectedFontTheme.mainFont,
+              text: 'MARK AS PAID',
+              color: Color(ColorConstants.getPrimaryBlack()),
+            ),
+          ),
+        ),
+        cursor: SystemMouseCursors.click,
+      )
+    ];
+  }
 
   Widget BuildPaymentOptionsWidget(ClientPortalPageState pageState) {
     List<Widget> enabledOptions = [];

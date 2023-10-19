@@ -64,7 +64,7 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
       profile.phone = profile.phone != null ? profile.phone : '(888)888-8888';
       profile.cashEnabled = true;
       profile.selectedColorTheme = profile.previewColorTheme;
-      profile.selectedFontTheme = profile.previewFontTheme;  test preview from onboarding with new account
+      profile.selectedFontTheme = profile.previewFontTheme;  //test preview from onboarding with new account
       profile.bannerImageSelected = profile.previewBannerImageSelected;
       profile.bannerMobileUrl = profile.previewBannerMobileUrl;
       profile.bannerWebUrl = profile.previewBannerWebUrl;

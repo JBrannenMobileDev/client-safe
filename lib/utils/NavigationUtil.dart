@@ -7,6 +7,7 @@ import 'package:dandylight/pages/IncomeAndExpenses/RecurringExpenseDetails.dart'
 import 'package:dandylight/pages/calendar_page/CalendarPage.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPage.dart';
 import 'package:dandylight/pages/client_details_page/JobHistoryListPage.dart';
+import 'package:dandylight/pages/clients_page/ClientsPage.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/JobListPage.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/ReminderNotificationsPage.dart';
 import 'package:dandylight/pages/home_page/HomePage.dart';
@@ -48,6 +49,9 @@ class NavigationUtil {
   }
   static onClientTapped(BuildContext context) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ClientDetailsPage()));
+  }
+  static onUnconvertedLeadsSelected(BuildContext context) {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ClientsPage(comingFromUnconverted: true)));
   }
   static onReviewPosesSelected(BuildContext context) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ReviewPosesPage()));

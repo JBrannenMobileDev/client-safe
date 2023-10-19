@@ -295,7 +295,6 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
           Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
           bool isNotificationsGranted = profile.deviceTokens.length > 0 ? (await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context)) : (await UserPermissionsUtil.getPermissionStatus(Permission.notification)).isGranted;
           profile.pushNotificationsEnabled = isNotificationsGranted;
-          ProfileDao.update(profile);
           if(isNotificationsGranted) {
             await notificationHelper.initNotifications(context);
             if(allJobs.length > 1 || allJobs.elementAt(0).clientName != "Example Client") {
@@ -306,6 +305,8 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
 
             String token = await PushNotificationsManager().getToken();
             profile.addUniqueDeviceToken(token);
+            Profile mostRecent = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+            profile.hasSeenShowcase = mostRecent.hasSeenShowcase;
             ProfileDao.update(profile);
           }
 
@@ -701,7 +702,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                   key: _four,
                                   targetPadding: EdgeInsets.only(right: 0, left: 0, bottom: 0, top: 0),
                                   targetShapeBorder: CircleBorder(),
-                                  description: 'Setup your Brand here! \nWhen sharing items with your clients, \nyour brand will be used to style your Client Portal.',
+                                  description: 'Setup your Brand and view your upcoming jobs here! \nWhen sharing items with your clients, \nyour brand will be used to style your Client Portal.',
                                   descTextStyle: TextStyle(
                                     fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
                                     fontFamily: TextDandyLight.getFontFamily(),
@@ -802,38 +803,43 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
               ],
             ),
           ),
-          Container(
-            width: (MediaQuery.of(context).size.width / 2) - (25),
-            height: 132.0,
-            decoration: BoxDecoration(
-                color: Color(ColorConstants.getPrimaryWhite()),
-                borderRadius: new BorderRadius.all(Radius.circular(12.0))),
-            child: Stack(
-              alignment: Alignment.topCenter,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 8.0),
-                  child: TextDandyLight(
-                    type: TextDandyLight.SMALL_TEXT,
-                    text: 'Leads\nUnconverted',
-                    textAlign: TextAlign.center,
-                    color: Color(ColorConstants.getPrimaryBlack()),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 58.0),
-                  child: Text(
-                    pageState.unconvertedLeadCount.toString(),
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 38,
-                      fontFamily: TextDandyLight.getFontFamily(),
-                      fontWeight: TextDandyLight.getFontWeight(),
+          GestureDetector(
+            onTap: () {
+              NavigationUtil.onUnconvertedLeadsSelected(context);
+            },
+            child: Container(
+              width: (MediaQuery.of(context).size.width / 2) - (25),
+              height: 132.0,
+              decoration: BoxDecoration(
+                  color: Color(ColorConstants.getPrimaryWhite()),
+                  borderRadius: new BorderRadius.all(Radius.circular(12.0))),
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 8.0),
+                    child: TextDandyLight(
+                      type: TextDandyLight.SMALL_TEXT,
+                      text: 'Leads\nUnconverted',
+                      textAlign: TextAlign.center,
                       color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: EdgeInsets.only(top: 58.0),
+                    child: Text(
+                      pageState.unconvertedLeadCount.toString(),
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 38,
+                        fontFamily: TextDandyLight.getFontFamily(),
+                        fontWeight: TextDandyLight.getFontWeight(),
+                        color: Color(ColorConstants.getPrimaryBlack()),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

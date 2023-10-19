@@ -165,57 +165,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
           }
         },
         converter: (Store<AppState> store) => ShareWithClientPageState.fromStore(store),
-        builder: (BuildContext context, ShareWithClientPageState pageState) => WillPopScope(
-          onWillPop: () async {
-            bool willLeave = false;
-            // show the confirm dialog
-            if(!pageState.areChangesSaved) {
-              await showDialog(
-                  context: context,
-                  builder: (_) => Device.get().isIos ?
-                  CupertinoAlertDialog(
-                    title: new Text('Exit without saving changes?'),
-                    content: new Text('If you continue any changes made will not be saved. Selecting the "Preview" or "Share" button will save the changes.'),
-                    actions: <Widget>[
-                      TextButton(
-                        style: Styles.getButtonStyle(),
-                        onPressed: () {
-                          willLeave = true;
-                          Navigator.of(context).pop();
-                        },
-                        child: new Text('Yes'),
-                      ),
-                      TextButton(
-                        style: Styles.getButtonStyle(),
-                        onPressed: () => Navigator.of(context).pop(false),
-                        child: new Text('No'),
-                      ),
-                    ],
-                  ) : AlertDialog(
-                    title: new Text('Exit without saving changes?'),
-                    content: new Text('If you continue any changes made will not be saved. Selecting the "Preview" or "Share" button will save the changes.'),
-                    actions: <Widget>[
-                      TextButton(
-                        style: Styles.getButtonStyle(),
-                        onPressed: () {
-                          willLeave = true;
-                          Navigator.of(context).pop();
-                        },
-                        child: new Text('Yes'),
-                      ),
-                      TextButton(
-                        style: Styles.getButtonStyle(),
-                        onPressed: () => Navigator.of(context).pop(false),
-                        child: new Text('No'),
-                      ),
-                    ],
-                  ));
-            } else {
-              willLeave = true;
-            }
-            return willLeave;
-          },
-          child: Scaffold(
+        builder: (BuildContext context, ShareWithClientPageState pageState) => Scaffold(
           backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
           body: Stack(
             children: [
@@ -562,7 +512,6 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
               ),
             ],
           ),
-        ),
         ),
       );
 

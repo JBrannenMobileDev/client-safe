@@ -105,7 +105,8 @@ class _ContractPageState extends State<ContractPage> {
                                   margin: EdgeInsets.only(bottom: 8),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(24),
-                                      color: Color(ColorConstants.getPeachDark())),
+                                      color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor),
+                                  ),
                                   child: Row(
                                     mainAxisAlignment: DeviceType
                                         .getDeviceTypeByContext(context) ==
@@ -158,7 +159,8 @@ class _ContractPageState extends State<ContractPage> {
                                   margin: EdgeInsets.only(bottom: 8),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(24),
-                                      color: Color(ColorConstants.getPeachDark())),
+                                      color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor),
+                                  ),
                                   child: Row(
                                     mainAxisAlignment: DeviceType
                                         .getDeviceTypeByContext(context) ==
@@ -169,9 +171,10 @@ class _ContractPageState extends State<ContractPage> {
                                       Container(
                                         height: 24,
                                         width: 24,
-                                        child: ImageIcon(
-                                          AssetImage("images/scroll_down_white.png"),
-                                          color: Color(ColorConstants.getPrimaryWhite()),
+                                        child: Image.asset(
+                                            "images/scroll_down_white.png",
+                                            color: Color(ColorConstants.getPrimaryWhite()
+                                          ),
                                         )
                                       ),
                                       DeviceType.getDeviceTypeByContext(context) ==

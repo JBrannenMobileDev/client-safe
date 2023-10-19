@@ -153,11 +153,13 @@ class _LocationCard extends State<LocationCard> {
                           ),
                         ),
                         Container(
+                          width: 200,
                           margin: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: pageState.job.location == null ? 'Location not selected' :
                             pageState.job.location.locationName,
+                            maxLines: 1,
                             textAlign: TextAlign.center,
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),

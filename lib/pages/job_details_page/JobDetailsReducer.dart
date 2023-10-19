@@ -363,7 +363,10 @@ JobDetailsPageState _updateScrollOffset(JobDetailsPageState previousState, Updat
 JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobAction action){
   List<DocumentItem> documents = [];
   if(action.job.invoice != null) {
-    documents.add(InvoiceDocument());
+    documents.add(InvoiceDocument(
+      isPaid: action.job.invoice.invoicePaid,
+      depositPaid: action.job.invoice.depositPaid,
+    ));
   }
   if(action.job.proposal.contract != null) {
     documents.add(ContractDocument(
