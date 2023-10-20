@@ -231,47 +231,6 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                   SliverList(
                     delegate: new SliverChildListDelegate(
                       <Widget>[
-                        profile != null && !profile.isProfileComplete() ? Container(
-                          padding: EdgeInsets.only(left: 64, right: 64),
-                          child: TextDandyLight(
-                            type: TextDandyLight.SMALL_TEXT,
-                            textAlign: TextAlign.center,
-                            text: 'Business info is used in the client portal to share your contact information.',
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
-                        ) : SizedBox(),
-                        profile != null && !profile.paymentOptionsSelected() ? Container(
-                          alignment: Alignment.center,
-                          child: GestureDetector(
-                            onTap: () {
-                              NavigationUtil.onPaymentRequestInfoSelected(context);
-                            },
-                            child: Container(
-                              width: 264,
-                              height: 54,
-                              margin: EdgeInsets.only(top: 32, bottom: 8),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: Color(ColorConstants.getPeachDark()),
-                                borderRadius: BorderRadius.circular(27),
-                              ),
-                              child: TextDandyLight(
-                                type: TextDandyLight.LARGE_TEXT,
-                                text: 'Setup Payment Options',
-                                color: Color(ColorConstants.getPrimaryWhite()),
-                              ),
-                            ),
-                          ),
-                        ) : SizedBox(),
-                        profile != null && !profile.paymentOptionsSelected() ? Container(
-                          padding: EdgeInsets.only(left: 64, right: 64),
-                          child: TextDandyLight(
-                            type: TextDandyLight.SMALL_TEXT,
-                            textAlign: TextAlign.center,
-                            text: 'Selected options will be presented to your client when they select "Pay Now" in the client portal.',
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
-                        ) : SizedBox(),
                         Container(
                           margin: EdgeInsets.only(top: 32, bottom: 8),
                           width: double.infinity,

@@ -525,6 +525,44 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
+                        Platform.isIOS ? SlideTransition(
+                            position: hideMainButtonsStep,
+                            child: GestureDetector(
+                              onTap: () {
+                                pageState.onSignUpWithAppleSelected();
+                              },
+                              child: Container(
+                                width: 232,
+                                padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                                margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 0.0, bottom: 8.0),
+                                alignment: Alignment.centerLeft,
+                                height: 46.0,
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: <Widget>[
+
+                                        TextDandyLight(
+                                          text: 'FREE TRIAL',
+                                          type: TextDandyLight.MEDIUM_TEXT,
+                                          isBold: true,
+                                          color: Color(ColorConstants.getPrimaryBlack()),
+                                        )
+                                      ],
+                                    ),
+                                    Container(
+                                      child: TextDandyLight(
+                                        text: 'NO CARD REQUIRED',
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        isBold: true,
+                                        color: Color(ColorConstants.getPrimaryBlack()),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )) : SizedBox(),
                         DeviceType.getDeviceType() == Type.Tablet && !pageState.mainButtonsVisible ? SizedBox() : SlideTransition(
                           position: hideMainButtonsStep,
                           child: Platform.isIOS && pageState.isLoginWithAppleAvailable ? GestureDetector(
@@ -1353,7 +1391,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 margin: EdgeInsets.only(top: 32.0, left: 32, right: 32),
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
-                  text: 'Try for free',
+                  text: 'Free trial',
                   textAlign: TextAlign.center,
                   color: Color(ColorConstants.getPrimaryWhite()),
                 ),

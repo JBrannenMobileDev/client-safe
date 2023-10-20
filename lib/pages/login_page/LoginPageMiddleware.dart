@@ -279,7 +279,6 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
             await ProfileDao.insertLocal(fireStoreProfile);
             await FireStoreSync().dandyLightAppInitializationSync(authResult.user.uid);
             await PoseLibraryGroupDao.syncAllFromFireStore();
-            await ContractTemplateDao.syncAllFromFireStore();
             await AppSettingsDao.syncAllFromFireStore();
           }
         }
@@ -366,6 +365,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           await ProfileDao.delete(profile);
         }
       }
+      await ContractTemplateDao.syncAllFromFireStore();
       Profile newProfile = Profile(
         uid: user.uid,
         referralUid: Uuid().v1().substring(0, 8),
@@ -414,6 +414,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           iconFont: FontTheme.Moredya,
           mainFont: FontTheme.OPEN_SANS,
         ),
+        previewJsonContract: (await ContractTemplateDao.getAll()).first.jsonTerms,
       );
       await ProfileDao.insertOrUpdate(newProfile);
 

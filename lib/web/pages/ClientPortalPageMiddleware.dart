@@ -57,7 +57,7 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
     if(action.isBrandingPreview) {
       job = buildExampleJob();
       job.invoice = buildExampleInvoice();
-      job.proposal = buildExampleProposal(profile.previewJsonContract);
+      job.proposal = buildExampleProposal(profile.previewJsonContract, profile.firstName);
       profile.venmoLink = profile.venmoLink != null ? profile.venmoLink : 'https://venmo.com/code?user_id=';
       profile.venmoEnabled = true;
       profile.zelleEnabled = true;
@@ -202,12 +202,13 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
     );
   }
 
-  Proposal buildExampleProposal(String jsonContract) {
+  Proposal buildExampleProposal(String jsonContract, String photographerName) {
+    if(photographerName == null || photographerName.isEmpty) photographerName = 'Photographer Name';
     return Proposal(
       includePoses: true,
       includeContract: true,
       includeInvoice: true,
-      detailsMessage: 'Hi (Client first name), \nI\'m so excited to book in your photoshoot! Let\'s make this official.\n\nTo lock in your date, please review and sign the contract and pay the deposit.\n\nChat soon',
+      detailsMessage: 'Hi (Client first name), \nWe\'re delighted to welcome you as our newest client at [Your Photography Studio Name] and look forward to capturing beautiful moments together.\n\nBefore we embark on this exciting journey, please take a moment to review and sign our photography contract. It outlines essential details to ensure a smooth experience.\n\nSelect the document icon below to view and sign the contract.\n\nFeel free to reach out if you have any questions. Once the contract is signed, we\'ll be all set to bring your vision to life.\n\nThank you for choosing us, and we can\'t wait to create lasting memories with you.\n\nBest regards,\n$photographerName',
       contract: Contract(
           photographerSignedDate: DateTime.now(),
           clientSignedDate: DateTime.now(),

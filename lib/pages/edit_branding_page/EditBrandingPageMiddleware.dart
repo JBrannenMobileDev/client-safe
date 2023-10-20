@@ -53,6 +53,7 @@ class EditBrandingPageMiddleware extends MiddlewareClass<AppState> {
 
   void _resetBrandingPreviewInProfile(Store<AppState> store, ClearBrandingPreviewStateAction action) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    await ContractTemplateDao.syncAllFromFireStore();
     Contract contractTemplate = (await ContractTemplateDao.getAll()).first;
     profile.previewJsonContract = contractTemplate.jsonTerms;
     profile.previewLogoSelected = profile.logoSelected;
@@ -63,8 +64,8 @@ class EditBrandingPageMiddleware extends MiddlewareClass<AppState> {
     profile.previewBannerWebUrl = profile.bannerWebUrl;
     profile.previewLogoUrl = profile.logoUrl;
     profile.previewBannerMobileUrl = profile.bannerMobileUrl;
-    await ProfileDao.update(profile);
     store.dispatch(InitializeBranding(store.state.editBrandingPageState, profile));
+    await ProfileDao.update(profile);
   }
 
   void _savePreviewBranding(Store<AppState> store, SavePreviewBrandingAction action, NextDispatcher next) async {

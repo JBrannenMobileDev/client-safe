@@ -93,7 +93,6 @@ class _DetailsPagePageState extends State<DetailsPage> {
                         ],
                       ),
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
                             padding: EdgeInsets.all(6),

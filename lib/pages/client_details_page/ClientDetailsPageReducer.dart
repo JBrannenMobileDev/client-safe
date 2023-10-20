@@ -56,7 +56,7 @@ ClientDetailsPageState _setLeadSource(ClientDetailsPageState previousState, SetT
 }
 
 ClientDetailsPageState _setClient(ClientDetailsPageState previousState, InitializeClientDetailsAction action){
-  if(Client.isOldSource(action.client.leadSource)) {
+  if(action.client.leadSource != null && Client.isOldSource(action.client.leadSource)) {
     action.client.leadSource = Client.mapOldLeadSourceToNew(action.client.leadSource);
   }
   return previousState.copyWith(

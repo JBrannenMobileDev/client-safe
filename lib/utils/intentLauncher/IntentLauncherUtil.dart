@@ -189,7 +189,7 @@ class IntentLauncherUtil{
 
   static void launchBrandingPreviewURL(String uid, String jobId) async {
     print('https://DandyLight.com/' + RouteNames.CLIENT_PORTAL + '/' + uid + '+' + jobId);
-    await canLaunchUrl(Uri.parse('https://DandyLight.com/' + RouteNames.CLIENT_PORTAL + '/' + uid + '+' + jobId)) ? await launchUrl(Uri.parse('https://DandyLight.com/' + RouteNames.CLIENT_PORTAL + '/' + uid + '+' + jobId), mode: LaunchMode.platformDefault) : throw 'Could not launch';
+    await canLaunchUrl(Uri.parse('https://DandyLight.com/' + RouteNames.CLIENT_PORTAL + '/' + uid + '+' + jobId)) ? await launchUrl(Uri.parse('https://DandyLight.com/' + RouteNames.CLIENT_PORTAL + '/' + uid + '+' + jobId), mode: LaunchMode.externalApplication) : throw 'Could not launch';
   }
 
   static void launchPMFSurvey() async {

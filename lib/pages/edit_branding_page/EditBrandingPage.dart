@@ -189,7 +189,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                     child: GestureDetector(
                       onTap: () {
                         if(!pageState.uploadInProgress) {
-                          _launchBrandingPreviewURL(pageState.profile.uid);
+                          _launchBrandingPreviewURL(UidUtil().getUid());
                           EventSender().sendEvent(eventName: EventNames.BRANDING_PREVIEW_SELECTED);
                         } else {
                           showDialog(
@@ -278,6 +278,6 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
 
   void _launchBrandingPreviewURL(String uid) async {
     print('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid);
-    await canLaunchUrl(Uri.parse('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid)) ? await launchUrl(Uri.parse('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid), mode: LaunchMode.platformDefault) : throw 'Could not launch';
+    await canLaunchUrl(Uri.parse('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid)) ? await launchUrl(Uri.parse('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid), mode: LaunchMode.externalApplication) : throw 'Could not launch';
   }
 }

@@ -240,7 +240,7 @@ class _ContractPageState extends State<ContractPage> {
                           width: 200,
                           height: 48,
                           margin: EdgeInsets.only(
-                              bottom: 0, top: 32, right: 32),
+                              bottom: 0, top: 32),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(24),
                               color: Color(
@@ -415,7 +415,7 @@ class _ContractPageState extends State<ContractPage> {
                   margin: EdgeInsets.only(top: 0, bottom: 8),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
-                    text: pageState.job.client?.getClientFullName(),
+                    text: pageState.job.client != null ? pageState.job.client.getClientFullName() : 'Client Name',
                   ),
                 )
               ],

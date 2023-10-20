@@ -347,6 +347,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
             Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
             profile.calendarEnabled = true;
             ProfileDao.update(profile);
+            UserOptionsUtil.showCalendarSelectionDialog(context, null);
           }
         },
         onDidChange: (previous, current) async {
@@ -525,7 +526,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                     height: MediaQuery.of(context).size.height,
                     width: MediaQuery.of(context).size.width,
                     child: Showcase(
-                      key: _three,
+                      key: _four,
                       targetPadding: EdgeInsets.only(right: -8, left: 8, bottom: 55, top: -55),
                       targetShapeBorder: CircleBorder(),
                       description: 'Get started here!  \nThis is your collections page where \nyou can setup the details for your business',
@@ -699,7 +700,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                             SlideTransition(
                                 position: offsetAnimationUp,
                                 child: Showcase(
-                                  key: _four,
+                                  key: _three,
                                   targetPadding: EdgeInsets.only(right: 0, left: 0, bottom: 0, top: 0),
                                   targetShapeBorder: CircleBorder(),
                                   description: 'Setup your Brand and view your upcoming jobs here! \nWhen sharing items with your clients, \nyour brand will be used to style your Client Portal.',

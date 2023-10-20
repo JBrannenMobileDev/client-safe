@@ -595,6 +595,6 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
 
   void _launchBrandingPreviewURL(String uid) async {
     print('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid);
-    await canLaunchUrl(Uri.parse('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid)) ? await launchUrl(Uri.parse('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid), mode: LaunchMode.platformDefault) : throw 'Could not launch';
+    await canLaunchUrl(Uri.parse('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid)) ? await launchUrl(Uri.parse('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid), mode: LaunchMode.externalApplication) : throw 'Could not launch';
   }
 }
