@@ -52,3 +52,9 @@ class SetJobShareWithClientAction{
   final Job job;
   SetJobShareWithClientAction(this.pageState, this.job);
 }
+
+class SetAllJobsAction {
+  final ShareWithClientPageState pageState;
+  final List<Job> jobs;
+  SetAllJobsAction(this.pageState, this.jobs);
+}

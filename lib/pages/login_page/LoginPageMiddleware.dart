@@ -386,8 +386,8 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         previewBannerWebUrl: await FileStorage.fetchImagePathForExampleBannerWeb(),
         logoSelected: false,
         previewLogoSelected: false,
-        logoCharacter: store.state.loginPageState.businessName != null && store.state.loginPageState.businessName.length > 0 ? store.state.loginPageState.businessName.substring(0, 1) : 'D',
-        previewLogoCharacter: store.state.loginPageState.businessName != null && store.state.loginPageState.businessName.length > 0 ? store.state.loginPageState.businessName.substring(0, 1) : 'D',
+        logoCharacter: store.state.loginPageState.businessName != null && store.state.loginPageState.businessName.length > 0 ? store.state.loginPageState.businessName.substring(0, 1) : 'A',
+        previewLogoCharacter: store.state.loginPageState.businessName != null && store.state.loginPageState.businessName.length > 0 ? store.state.loginPageState.businessName.substring(0, 1) : 'A',
         selectedColorTheme: ColorTheme(
           themeName: 'default',
           iconColor: ColorConstants.getString(ColorConstants.getBlueDark()),
@@ -673,6 +673,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           await EventSender().setUserProfileData(EventNames.BUILD_VERSION, (await PackageInfo.fromPlatform()).version);
           await EventSender().setUserProfileData(EventNames.BUILD_NUMBER, (await PackageInfo.fromPlatform()).buildNumber);
 
+          await ContractTemplateDao.syncAllFromFireStore();
           if(profile.selectedColorTheme == null) {
             profile.selectedColorTheme = ColorTheme(
               themeName: 'default',
@@ -682,6 +683,25 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
               buttonTextColor: ColorConstants.getString(ColorConstants.getWhiteWhite()),
               bannerColor: ColorConstants.getString(ColorConstants.getPeachLight()),
             );
+            profile.previewColorTheme = ColorTheme(
+              themeName: 'default',
+              iconColor: ColorConstants.getString(ColorConstants.getBlueDark()),
+              iconTextColor: ColorConstants.getString(ColorConstants.getWhiteWhite()),
+              buttonColor: ColorConstants.getString(ColorConstants.getPeachDark()),
+              buttonTextColor: ColorConstants.getString(ColorConstants.getWhiteWhite()),
+              bannerColor: ColorConstants.getString(ColorConstants.getPeachLight()),
+            );
+            profile.bannerImageSelected = true;
+            profile.previewBannerImageSelected = true;
+            profile.bannerMobileUrl = await FileStorage.fetchImagePathForExampleBannerMobile();
+            profile.previewBannerMobileUrl = await FileStorage.fetchImagePathForExampleBannerMobile();
+            profile.bannerWebUrl = await FileStorage.fetchImagePathForExampleBannerWeb();
+            profile.previewBannerWebUrl = await FileStorage.fetchImagePathForExampleBannerWeb();
+            profile.logoSelected = false;
+            profile.previewLogoSelected = false;
+            profile.logoCharacter = store.state.loginPageState.businessName != null && store.state.loginPageState.businessName.length > 0 ? store.state.loginPageState.businessName.substring(0, 1) : 'A';
+            profile.previewLogoCharacter = store.state.loginPageState.businessName != null && store.state.loginPageState.businessName.length > 0 ? store.state.loginPageState.businessName.substring(0, 1) : 'A';
+            profile.previewJsonContract = (await ContractTemplateDao.getAll()).first.jsonTerms;
           }
           if(profile.selectedFontTheme == null) {
             profile.selectedFontTheme = FontTheme(
@@ -689,9 +709,14 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
               iconFont: FontTheme.Moredya,
               mainFont: FontTheme.OPEN_SANS,
             );
+            profile.previewFontTheme = FontTheme(
+              themeName: 'default',
+              iconFont: FontTheme.Moredya,
+              mainFont: FontTheme.OPEN_SANS,
+            );
           }
           if(profile.logoCharacter == null || profile.logoCharacter.length == 0) {
-            profile.logoCharacter = profile.businessName != null && profile.businessName.length > 0 ? profile.businessName.substring(0,1) : 'D';
+            profile.logoCharacter = profile.businessName != null && profile.businessName.length > 0 ? profile.businessName.substring(0,1) : 'A';
           }
           if(profile.bannerMobileUrl == null) {
             profile.bannerMobileUrl = await FileStorage.fetchImagePathForExampleBannerMobile();
@@ -711,7 +736,6 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
             setShouldShowOnBoarding(store, profile);
           });
           await PoseLibraryGroupDao.syncAllFromFireStore();
-          await ContractTemplateDao.syncAllFromFireStore();
           await AppSettingsDao.syncAllFromFireStore();
           EventSender().sendEvent(eventName: EventNames.USER_SIGNED_IN_CHECK, properties: {
             EventNames.SIGN_IN_CHECKED_PARAM_USER_UID : user.uid,

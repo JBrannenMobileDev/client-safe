@@ -1,6 +1,7 @@
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
+import 'package:dandylight/pages/share_with_client_page/ChooseMessageBottomSheet.dart';
 import 'package:dandylight/pages/share_with_client_page/ShareWithClientActions.dart';
 
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -108,6 +109,26 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
         return ShareWithClientSetupBottomSheet();
       },
     );
+  }
+
+  void _showChooseMessageSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return ChooseMessageBottomSheet(_setSelectedMessage);
+      },
+    );
+  }
+
+  void _setSelectedMessage(String message) {
+    setState(() {
+      messageController.value = messageController.value.copyWith(text: message);
+    });
   }
 
   @override
@@ -242,31 +263,67 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
-                        Container(
-                          height: 232,
-                          margin: EdgeInsets.only(left: 16, right: 16),
-                          padding: EdgeInsets.only(top: 16),
-                          decoration: BoxDecoration(
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                              borderRadius: BorderRadius.circular(24)
-                          ),
-                          child: Container(
-                            margin: EdgeInsets.only(left: 20.0, right: 20.0),
-                            child: ShareWithClientTextField(
-                              messageController,
-                              '',
-                              TextInputType.multiline,
-                              200.0,
-                              pageState.onMessageChanged,
-                              'noError',
-                              TextInputAction.newline,
-                              _messageFocusNode,
-                              onAction,
-                              TextCapitalization.sentences,
-                              null,
-                              true,
+                        Stack(
+                          alignment: Alignment.bottomCenter,
+                          children: [
+                            Container(
+                              height: 264,
+                              margin: EdgeInsets.only(left: 16, right: 16),
+                              padding: EdgeInsets.only(top: 16),
+                              decoration: BoxDecoration(
+                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                  borderRadius: BorderRadius.circular(24)
+                              ),
+                              child: Container(
+                                margin: EdgeInsets.only(left: 20.0, right: 20.0),
+                                child: ShareWithClientTextField(
+                                  messageController,
+                                  '',
+                                  TextInputType.multiline,
+                                  200.0,
+                                  pageState.onMessageChanged,
+                                  'noError',
+                                  TextInputAction.newline,
+                                  _messageFocusNode,
+                                  onAction,
+                                  TextCapitalization.sentences,
+                                  null,
+                                  true,
+                                ),
+                              ),
                             ),
-                          ),
+                            profile != null && profile.jobsCreatedCount > 1 ? GestureDetector(
+                              onTap: () {
+                                _showChooseMessageSheet(context);
+                              },
+                              child: !isKeyboardVisible ? Container(
+                                alignment: Alignment.center,
+                                height: 48,
+                                width: 264,
+                                margin: EdgeInsets.only(bottom: 0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(topRight: Radius.circular(24), topLeft: Radius.circular(24)),
+                                  color: Color(ColorConstants.getPeachDark()),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Container(
+                                      height: 24,
+                                      width: 24,
+                                      child: Image.asset('assets/images/icons/previous.png', color: Color(ColorConstants.getPrimaryWhite())),
+                                    ),
+                                    TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      text: 'Load from previous',
+                                      textAlign: TextAlign.center,
+                                      color: Color(ColorConstants.getPrimaryWhite()),
+                                    )
+                                  ],
+                                ) ,
+                              ) : SizedBox(),
+                            ) : SizedBox()
+                          ],
                         ),
                         Container(
                           margin: EdgeInsets.only(top: 32, bottom: 8),

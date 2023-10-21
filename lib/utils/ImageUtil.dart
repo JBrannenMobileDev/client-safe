@@ -40,13 +40,13 @@ class ImageUtil{
   ];
 
   static List<String> collectionIcons = [
-    'assets/images/collection_icons/reminder_icon_white.png',
+    'assets/images/icons/contract_signed.png',
     'assets/images/collection_icons/poses_icon_white.png',
     'assets/images/icons/job_type.png',
     'assets/images/icons/income_received.png',
     'assets/images/icons/pin_white.png',
     'assets/images/collection_icons/auto_responses_icon_white.png',
-    'assets/images/icons/contract_signed.png',
+    'assets/images/collection_icons/reminder_icon_white.png',
     'assets/images/icons/calendar.png',
     'assets/images/collection_icons/questionaire_icon_white.png',
     'assets/images/icons/client_guide.png',

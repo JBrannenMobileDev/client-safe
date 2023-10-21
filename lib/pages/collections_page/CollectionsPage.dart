@@ -107,9 +107,9 @@ class _CollectionsPageState extends State<CollectionsPage> {
   void onCollectionSelected(int index){
     switch(index){
       case 0:
-        EventSender().sendEvent(eventName: EventNames.NAV_TO_COLLECTION_REMINDERS);
+        EventSender().sendEvent(eventName: EventNames.NAV_TO_CONTRACTS);
         Navigator.of(context).push(
-          new MaterialPageRoute(builder: (context) => RemindersPage()),
+          new MaterialPageRoute(builder: (context) => ContractsPage()),
         );
         break;
       case 1:
@@ -143,9 +143,9 @@ class _CollectionsPageState extends State<CollectionsPage> {
         );
         break;
       case 6:
-        EventSender().sendEvent(eventName: EventNames.NAV_TO_CONTRACTS);
+        EventSender().sendEvent(eventName: EventNames.NAV_TO_COLLECTION_REMINDERS);
         Navigator.of(context).push(
-          new MaterialPageRoute(builder: (context) => ContractsPage()),
+          new MaterialPageRoute(builder: (context) => RemindersPage()),
         );
         break;
       case 7:

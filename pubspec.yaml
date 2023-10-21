@@ -164,6 +164,7 @@ flutter:
     - assets/images/icons/other.png
     - assets/images/icons/link.png
     - assets/images/icons/no_card_required.png
+    - assets/images/icons/previous.png
 
     - assets/images/backgrounds/image_background.png
 

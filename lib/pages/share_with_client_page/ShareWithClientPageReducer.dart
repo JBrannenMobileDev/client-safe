@@ -12,7 +12,14 @@ final shareWithClientReducer = combineReducers<ShareWithClientPageState>([
   TypedReducer<ShareWithClientPageState, SetProfileShareWIthClientAction>(_setProfile),
   TypedReducer<ShareWithClientPageState, SetJobShareWithClientAction>(_setJob),
   TypedReducer<ShareWithClientPageState, SaveProposalAction>(_setAreChangesSavedState),
+  TypedReducer<ShareWithClientPageState, SetAllJobsAction>(_setAllJobs),
 ]);
+
+ShareWithClientPageState _setAllJobs(ShareWithClientPageState previousState, SetAllJobsAction action){
+  return previousState.copyWith(
+    jobs: action.jobs,
+  );
+}
 
 ShareWithClientPageState _setAreChangesSavedState(ShareWithClientPageState previousState, SaveProposalAction action){
   return previousState.copyWith(

@@ -15,6 +15,7 @@ class ShareWithClientPageState{
   final bool areChangesSaved;
   final String clientMessage;
   final Job job;
+  final List<Job> jobs;
   final Function(String) onMessageChanged;
   final Function() onProposalShared;
   final Function(bool) onContractCheckBoxSelected;
@@ -38,6 +39,7 @@ class ShareWithClientPageState{
     @required this.job,
     @required this.saveProposal,
     @required this.areChangesSaved,
+    @required this.jobs,
   });
 
   ShareWithClientPageState copyWith({
@@ -49,6 +51,7 @@ class ShareWithClientPageState{
     bool areChangesSaved,
     String clientMessage,
     Job job,
+    List<Job> jobs,
     Function(String) onMessageChanged,
     Function() onProposalShared,
     Function(bool) onContractCheckBoxSelected,
@@ -71,6 +74,7 @@ class ShareWithClientPageState{
       job: job ?? this.job,
       saveProposal: saveProposal ?? this.saveProposal,
       areChangesSaved: areChangesSaved ?? this.areChangesSaved,
+      jobs: jobs ?? this.jobs,
     );
   }
 
@@ -89,6 +93,7 @@ class ShareWithClientPageState{
     job: null,
     saveProposal: null,
     areChangesSaved: true,
+    jobs: [],
   );
 
   factory ShareWithClientPageState.fromStore(Store<AppState> store) {
@@ -101,6 +106,7 @@ class ShareWithClientPageState{
       clientMessage: store.state.shareWithClientPageState.clientMessage,
       job: store.state.shareWithClientPageState.job,
       areChangesSaved: store.state.shareWithClientPageState.areChangesSaved,
+      jobs: store.state.shareWithClientPageState.jobs,
       onMessageChanged: (message) => store.dispatch(SetClientMessageAction(store.state.shareWithClientPageState, message)),
       onProposalShared: () => store.dispatch(ProposalSharedAction(store.state.shareWithClientPageState)),
       onContractCheckBoxSelected: (checked) => store.dispatch(SetContractCheckBox(store.state.shareWithClientPageState, checked)),
@@ -125,6 +131,7 @@ class ShareWithClientPageState{
       job.hashCode ^
       saveProposal.hashCode ^
       areChangesSaved.hashCode ^
+      jobs.hashCode ^
       onPosesCheckBoxSelected.hashCode;
   @override
   bool operator ==(Object other) =>
@@ -143,5 +150,6 @@ class ShareWithClientPageState{
               clientMessage == other.clientMessage &&
               saveProposal == other.saveProposal &&
               areChangesSaved == other.areChangesSaved &&
+              jobs == other.jobs &&
               onPosesCheckBoxSelected == other.onPosesCheckBoxSelected;
 }
