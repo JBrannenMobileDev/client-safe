@@ -20,7 +20,7 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../models/Job.dart';
 import '../../models/Pose.dart';
-import '../../utils/IntentLauncherUtil.dart';
+import '../../utils/intentLauncher/IntentLauncherUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -204,7 +204,7 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
       builder: (BuildContext context, PosesPageState pageState) =>
           Scaffold(
             key: scaffoldKey,
-            backgroundColor: Colors.white,
+            backgroundColor: Color(ColorConstants.getPrimaryWhite()),
             appBar: AppBar(
               iconTheme: IconThemeData(color: Color(ColorConstants.getPeachDark())),
               centerTitle: true,
@@ -214,7 +214,7 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
                 text: groupName,
                 color: Color(ColorConstants.getPeachDark()),
               ),
-              backgroundColor: Colors.white,
+              backgroundColor: Color(ColorConstants.getPrimaryWhite()),
               actions: [
                 GestureDetector(
                   onTap: () {

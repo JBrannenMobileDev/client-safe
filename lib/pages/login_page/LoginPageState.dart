@@ -249,7 +249,7 @@ class LoginPageState {
     onLoginEmailChanged: null,
     onLoginPasswordChanged: null,
     navigateToHome: false,
-    mainButtonsVisible: true,
+    mainButtonsVisible: false,
     isForgotPasswordViewVisible: false,
     showResendMessage: false,
     onClearLoginErrorShake: null,

@@ -34,12 +34,7 @@ class NewInvoiceJobListItem extends StatelessWidget {
               margin: EdgeInsets.only(left: 8.0, right: 16.0, top: 2.0, bottom: 2.0),
               height: 44.0,
               width: 44.0,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: pageState.filteredJobs.elementAt(index).stage.getStageImage(),
-                  fit: BoxFit.contain,
-                ),
-              ),
+              child: pageState.filteredJobs.elementAt(index).stage.getStageImage(Color(ColorConstants.getPeachDark())),
             ),
             Expanded(
               child: Container(
@@ -54,7 +49,7 @@ class NewInvoiceJobListItem extends StatelessWidget {
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: pageState.filteredJobs.elementAt(index).jobTitle,
                         textAlign: TextAlign.start,
-                        color: pageState.filteredJobs.elementAt(index).documentId == pageState.selectedJob?.documentId ? Colors.white : Color(ColorConstants.primary_black),
+                        color: pageState.filteredJobs.elementAt(index).documentId == pageState.selectedJob?.documentId ? Color(ColorConstants.getPrimaryWhite()) : Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ],
                   ),

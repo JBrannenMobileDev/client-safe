@@ -39,8 +39,8 @@ class VewInvoiceLineItemListWidget extends StatelessWidget{
           decoration: new BoxDecoration(
             gradient: new LinearGradient(
                 colors: [
-                  Colors.white,
-                  Colors.white.withOpacity(0.0),
+                  Color(ColorConstants.getPrimaryWhite()),
+                  Color(ColorConstants.getPrimaryWhite()).withOpacity(0.0),
                 ],
                 begin: const FractionalOffset(0.0, 1.0),
                 end: const FractionalOffset(0.0, 0.0),

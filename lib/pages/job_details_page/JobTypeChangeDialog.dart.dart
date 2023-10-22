@@ -55,7 +55,7 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
                           type: TextDandyLight.LARGE_TEXT,
                           text: 'Select a job type',
                           textAlign: TextAlign.start,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       GestureDetector(
@@ -96,7 +96,7 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'Cancel',
                             textAlign: TextAlign.center,
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                         TextButton(
@@ -110,7 +110,7 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'Save',
                             textAlign: TextAlign.center,
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ],

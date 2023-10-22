@@ -2,7 +2,7 @@
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
@@ -24,8 +24,7 @@ class SetAllJobsAction {
   final List<Client> allClients;
   final int newInvoiceNumber;
   final double salesTaxRate;
-  final bool includeSalesTax;
-  SetAllJobsAction(this.pageState, this.allJobs, this.allClients, this.newInvoiceNumber, this.salesTaxRate, this.includeSalesTax);
+  SetAllJobsAction(this.pageState, this.allJobs, this.allClients, this.newInvoiceNumber, this.salesTaxRate);
 }
 
 class IncrementPageViewIndex{
@@ -172,6 +171,12 @@ class SetSelectedDueDate{
   final NewInvoicePageState pageState;
   final DateTime selectedDueDate;
   SetSelectedDueDate(this.pageState, this.selectedDueDate);
+}
+
+class SetSelectedDepositDueDate{
+  final NewInvoicePageState pageState;
+  final DateTime selectedDueDate;
+  SetSelectedDepositDueDate(this.pageState, this.selectedDueDate);
 }
 
 class UpdateDepositStatusAction{

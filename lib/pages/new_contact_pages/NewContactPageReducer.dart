@@ -43,7 +43,6 @@ NewContactPageState _setIsComingFromNewJob(NewContactPageState previousState, Se
 NewContactPageState _setCustomLeadSourceName(NewContactPageState previousState, UpdateCustomLeadNameAction action){
   return previousState.copyWith(
     customLeadSourceName: action.customName,
-    leadSource: '',
   );
 }
 

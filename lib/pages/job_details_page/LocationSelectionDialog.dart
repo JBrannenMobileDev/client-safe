@@ -4,7 +4,6 @@ import 'package:dandylight/pages/job_details_page/JobDetailsLocationListWidget.d
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
-import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +52,7 @@ class _LocationSelectionDialogState
                             type: TextDandyLight.LARGE_TEXT,
                             text: "Select a location for this job",
                             textAlign: TextAlign.center,
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                         GestureDetector(
@@ -103,7 +102,7 @@ class _LocationSelectionDialogState
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: 'Cancel',
                               textAlign: TextAlign.center,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                         ],
@@ -121,7 +120,7 @@ class _LocationSelectionDialogState
                         type: TextDandyLight.LARGE_TEXT,
                         text: "Select a location for this job",
                         textAlign: TextAlign.center,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     Padding(
@@ -130,7 +129,7 @@ class _LocationSelectionDialogState
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: "Select the button below to create a new location.",
                         textAlign: TextAlign.center,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     ClientSafeButton(
@@ -144,7 +143,7 @@ class _LocationSelectionDialogState
                         onPressed: () {
                           UserOptionsUtil.showNewLocationDialog(context);
                         },
-                        icon: Icon(Icons.add, color: Colors.white),
+                        icon: Icon(Icons.add, color: Color(ColorConstants.getPrimaryWhite())),
                         urlText: "",
                         color: ColorConstants.getBlueDark()
                     ),
@@ -162,7 +161,7 @@ class _LocationSelectionDialogState
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: 'Cancel',
                               textAlign: TextAlign.center,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                         ],

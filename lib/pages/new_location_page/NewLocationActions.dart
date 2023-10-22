@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
 import 'package:dandylight/pages/locations_page/LocationsPageState.dart';
 import 'package:dandylight/pages/new_location_page/NewLocationPageState.dart';
@@ -17,13 +17,13 @@ class FetchLocationsAction{
 
 class LoadExistingLocationData{
   final NewLocationPageState pageState;
-  final Location location;
+  final LocationDandy location;
   LoadExistingLocationData(this.pageState, this.location);
 }
 
 class SetLocationsAction{
   final NewLocationPageState pageState;
-  final List<Location> locations;
+  final List<LocationDandy> locations;
   SetLocationsAction(this.pageState, this.locations);
 }
 
@@ -102,7 +102,7 @@ class FetchSearchLocationDetails{
 
 class SetSelectedSearchLocation{
   final NewLocationPageState pageState;
-  final Location selectedSearchLocation;
+  final LocationDandy selectedSearchLocation;
   SetSelectedSearchLocation(this.pageState, this.selectedSearchLocation);
 }
 

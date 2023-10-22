@@ -71,7 +71,7 @@ class DandyLightLibraryTextField extends StatelessWidget {
                   fontFamily: TextDandyLight.getFontFamily(),
                   fontWeight: TextDandyLight.getFontWeight(),
                   color: Color(ColorConstants.getPrimaryBlack())),
-              fillColor: Colors.white,
+              fillColor: Color(ColorConstants.getPrimaryWhite()),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(radius),
                 borderSide: BorderSide(

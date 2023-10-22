@@ -1,5 +1,5 @@
 class RouteNames {
-  static const String SIGN_CONTRACT = '/signContract';
-  static const String ANSWER_QUESTIONNAIRE = '/answerQuestionnaire';
+  static const String CLIENT_PORTAL = 'clientPortal';
+  static const String BRANDING_PREVIEW = 'brandingPreview';
   static const String LANDING_PAGE = '/';
 }

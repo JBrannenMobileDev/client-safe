@@ -70,7 +70,7 @@ class NewInvoiceTextField extends StatelessWidget {
                   fontWeight: TextDandyLight.getFontWeight(),
                   color: Color(ColorConstants.getPrimaryBlack())),
               hintText: hintText,
-              fillColor: Colors.white,
+              fillColor: Color(ColorConstants.getPrimaryWhite()),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(25.0),
                 borderSide: BorderSide(

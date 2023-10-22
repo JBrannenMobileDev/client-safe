@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/pages/locations_page/LocationsPageState.dart';
 
 class FetchLocationsAction{
@@ -10,19 +10,19 @@ class FetchLocationsAction{
 
 class SetLocationsAction{
   final LocationsPageState pageState;
-  final List<Location> locations;
+  final List<LocationDandy> locations;
   SetLocationsAction(this.pageState, this.locations);
 }
 
 class DrivingDirectionsSelected{
   final LocationsPageState pageState;
-  final Location location;
+  final LocationDandy location;
   DrivingDirectionsSelected(this.pageState, this.location);
 }
 
 class ShareLocationSelected{
   final LocationsPageState pageState;
-  final Location location;
+  final LocationDandy location;
   ShareLocationSelected(this.pageState, this.location);
 }
 

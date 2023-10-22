@@ -45,7 +45,7 @@ class RecurringExpense {
     return RecurringExpense(
       documentId: map['documentId'],
       expenseName: map['expenseName'],
-      cost: map['cost'],
+      cost: map['cost']?.toDouble(),
       billingPeriod: map['billingPeriod'],
       isAutoPay: map['isAutoPay'],
       initialChargeDate: map['initialChargeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['initialChargeDate']) : null,

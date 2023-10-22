@@ -28,7 +28,7 @@ class DiscountRowWidget extends StatelessWidget{
                     type: TextDandyLight.LARGE_TEXT,
                     text: 'Discount' + (pageState.discount?.selectedFilter == NewDiscountDialog.SELECTOR_TYPE_PERCENTAGE && pageState.discountValue > 0.0
                         ? ' (' +
-                        pageState.discount.percentage.truncate().toString() + '%)'
+                        pageState.discount.percentage.toString() + '%)'
                         : ''),
                     textAlign: TextAlign.start,
                     color: Color(ColorConstants.getPrimaryBlack()),

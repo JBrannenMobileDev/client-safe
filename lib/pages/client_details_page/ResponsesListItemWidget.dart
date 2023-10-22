@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../../../utils/ColorConstants.dart';
-import '../../utils/IntentLauncherUtil.dart';
+import '../../utils/intentLauncher/IntentLauncherUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';

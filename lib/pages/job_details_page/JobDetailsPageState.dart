@@ -5,7 +5,7 @@ import 'package:dandylight/models/EventDandyLight.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
@@ -16,7 +16,9 @@ import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
+import '../../models/Contract.dart';
 import '../../models/JobType.dart';
+import '../../models/Pose.dart';
 import '../sunset_weather_page/SunsetWeatherPageActions.dart';
 
 class JobDetailsPageState {
@@ -34,9 +36,9 @@ class JobDetailsPageState {
   final String jobTitleText;
   final double unsavedAddOnCostAmount;
   final int unsavedTipAmount;
-  final List<Location> locations;
-  final Location selectedLocation;
-  final Function(Location) onLocationSelected;
+  final List<LocationDandy> locations;
+  final LocationDandy selectedLocation;
+  final Function(LocationDandy) onLocationSelected;
   final List<int> expandedIndexes;
   final String documentPath;
   final PriceProfile selectedPriceProfile;
@@ -70,7 +72,7 @@ class JobDetailsPageState {
   final Function() onSaveSelectedDate;
   final Function(Client) onClientClicked;
   final Function(Job) onJobClicked;
-  final Function(Location) onLocationSaveSelected;
+  final Function(LocationDandy) onLocationSaveSelected;
   final Function(String) onJobTitleTextChanged;
   final Function() onNameChangeSaved;
   final Function() onJobTypeSaveSelected;
@@ -82,6 +84,7 @@ class JobDetailsPageState {
   final Function() onClearUnsavedTip;
   final Function() onAddInvoiceSelected;
   final Function(Invoice) onDeleteInvoiceSelected;
+  final Function(Contract) onDeleteContractSelected;
   final Function(Invoice) onInvoiceSent;
   final Function() onBackPressed;
   final Function(JobReminder) onDeleteReminderSelected;
@@ -91,7 +94,7 @@ class JobDetailsPageState {
   final Function(String) onNotesTextChanged;
   final Function() setOnBoardingComplete;
   final Function() onSunsetWeatherSelected;
-  final Function(Location) onDrivingDirectionsSelected;
+  final Function(LocationDandy) onDrivingDirectionsSelected;
 
   JobDetailsPageState({
     @required this.job,
@@ -166,6 +169,7 @@ class JobDetailsPageState {
     @required this.onSunsetWeatherSelected,
     @required this.onDrivingDirectionsSelected,
     @required this.poseFilePaths,
+    @required this.onDeleteContractSelected,
   });
 
   JobDetailsPageState copyWith({
@@ -184,10 +188,10 @@ class JobDetailsPageState {
     List<Job> jobs,
     JobType jobType,
     String jobTitleText,
-    List<Location> locations,
+    List<LocationDandy> locations,
     List<JobReminder> reminders,
-    Location selectedLocation,
-    Function(Location) onLocationSelected,
+    LocationDandy selectedLocation,
+    Function(LocationDandy) onLocationSelected,
     List<int> expandedIndexes,
     String documentPath,
     Invoice invoice,
@@ -214,7 +218,7 @@ class JobDetailsPageState {
     Function() onSaveSelectedDate,
     Function(Client) onClientClicked,
     Function(Job) onJobClicked,
-    Function(Location) onLocationSaveSelected,
+    Function(LocationDandy) onLocationSaveSelected,
     Function(String) onJobTitleTextChanged,
     Function() onNameChangeSaved,
     Function(JobType) onJobTypeSaveSelected,
@@ -225,6 +229,7 @@ class JobDetailsPageState {
     Function() onAddInvoiceSelected,
     List<DocumentItem> documents,
     Function(Invoice) onDeleteInvoiceSelected,
+    Function(Contract) onDeleteContractSelected,
     Function(Invoice) onInvoiceSent,
     Function(int) onAddToTip,
     Function() onSaveTipChange,
@@ -240,7 +245,7 @@ class JobDetailsPageState {
     String notes,
     Function() setOnBoardingComplete,
     Function() onSunsetWeatherSelected,
-    Function(Location) onDrivingDirectionsSelected,
+    Function(LocationDandy) onDrivingDirectionsSelected,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
@@ -315,6 +320,7 @@ class JobDetailsPageState {
       onSunsetWeatherSelected: onSunsetWeatherSelected ?? this.onSunsetWeatherSelected,
       onDrivingDirectionsSelected: onDrivingDirectionsSelected ?? this.onDrivingDirectionsSelected,
       poseFilePaths: poseFilePaths ?? this.poseFilePaths,
+      onDeleteContractSelected: onDeleteContractSelected ?? this.onDeleteContractSelected,
     );
   }
 
@@ -368,7 +374,7 @@ class JobDetailsPageState {
         onNewEndTimeSelected: (newTime) => store.dispatch(UpdateJobEndTimeAction(store.state.jobDetailsPageState, newTime)),
         onSaveSelectedDate: () => store.dispatch(UpdateJobDateAction(store.state.jobDetailsPageState)),
         onClientClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
-        onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
+        onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId)),
         onLocationSelected: (location) => store.dispatch(SetNewSelectedLocation(store.state.jobDetailsPageState, location)),
         onLocationSaveSelected: (location) => store.dispatch(UpdateNewLocationAction(store.state.jobDetailsPageState, location)),
         onJobTitleTextChanged: (newText) => store.dispatch(UpdateJobNameAction(store.state.jobDetailsPageState, newText)),
@@ -380,11 +386,12 @@ class JobDetailsPageState {
         onAddToDeposit: (amountToAdd) => store.dispatch(AddToAddOnCostAction(store.state.jobDetailsPageState, amountToAdd)),
         onSaveAddOnCost: () => store.dispatch(SaveAddOnCostAction(store.state.jobDetailsPageState)),
         onClearUnsavedDeposit: () => store.dispatch(ClearUnsavedDepositAction(store.state.jobDetailsPageState)),
-        onAddInvoiceSelected: () {
-          store.dispatch(SetShouldClearAction(store.state.newInvoicePageState, false));
+        onAddInvoiceSelected: () async {
+          await store.dispatch(SetShouldClearAction(store.state.newInvoicePageState, false));
           store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, store.state.jobDetailsPageState.job));
         },
         onDeleteInvoiceSelected: (invoice) => store.dispatch(OnDeleteInvoiceSelectedAction(store.state.jobDetailsPageState, invoice)),
+        onDeleteContractSelected: (contract) => store.dispatch(OnDeleteContractSelectedAction(store.state.jobDetailsPageState, contract)),
         onInvoiceSent: (invoice) => store.dispatch(InvoiceSentAction(store.state.jobDetailsPageState, invoice)),
         onBackPressed: () => store.dispatch(FetchJobsAction(store.state.jobsPageState)),
         onDeleteReminderSelected: (reminder) => store.dispatch(DeleteReminderFromJobAction(store.state.jobDetailsPageState, reminder)),
@@ -411,6 +418,7 @@ class JobDetailsPageState {
     stageScrollOffset: 200.0,
     newStagAnimationIndex: 2,
     eventList: [],
+    onDeleteContractSelected: null,
     deviceEvents: [],
     jobs: [],
     jobTitleText: "",
@@ -489,6 +497,7 @@ class JobDetailsPageState {
       onAddToDeposit.hashCode ^
       onSaveAddOnCost.hashCode ^
       job.hashCode ^
+      onDeleteContractSelected.hashCode ^
       weatherIcon.hashCode ^
       tempLow.hashCode ^
       tempHigh.hashCode ^
@@ -557,6 +566,7 @@ class JobDetailsPageState {
               sunset == other.sunset &&
               eveningBlueHour == other.eveningBlueHour &&
               jobTypes == other.jobTypes &&
+              onDeleteContractSelected == other.onDeleteContractSelected &&
               selectedDate == other.selectedDate &&
               deviceEvents == other.deviceEvents &&
               unsavedTipAmount == other.unsavedTipAmount &&

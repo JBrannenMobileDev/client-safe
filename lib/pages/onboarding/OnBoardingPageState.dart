@@ -11,6 +11,7 @@ class OnBoardingPageState{
   static const String MILEAGE_TRACKING = "mileage_tracking";
   static const String INVOICES = "invoices";
   static const String BUSINESS_ANALYTICS = "business_analytics";
+  static const String CONTRACTS = "contracts";
   static const String OTHER = "other";
   static const String HAS_JOB_YES = "has_job_yes";
   static const String HAS_JOB_NO = "has_job_no";
@@ -20,6 +21,7 @@ class OnBoardingPageState{
   final bool posesSelected;
   final bool mileageTrackingSelected;
   final bool invoicesSelected;
+  final bool contractsSelected;
   final bool analyticsSelected;
   final bool featuresContinueEnabled;
   final bool otherSelected;
@@ -49,6 +51,7 @@ class OnBoardingPageState{
     @required this.otherSelected,
     @required this.leadSources,
     @required this.onLeadSourceSelected,
+    @required this.contractsSelected,
   });
 
   OnBoardingPageState copyWith({
@@ -60,6 +63,7 @@ class OnBoardingPageState{
     bool featuresContinueEnabled,
     bool mileageTrackingSelected,
     bool otherSelected,
+    bool contractsSelected,
     int pagerIndex,
     String selectedOptionHasJob,
     List<LeadSource> leadSources,
@@ -86,6 +90,7 @@ class OnBoardingPageState{
       otherSelected: otherSelected ?? this.otherSelected,
       leadSources: leadSources ?? this.leadSources,
       onLeadSourceSelected: onLeadSourceSelected ?? this.onLeadSourceSelected,
+      contractsSelected: contractsSelected ?? this.contractsSelected,
     );
   }
 
@@ -106,6 +111,7 @@ class OnBoardingPageState{
     onHasJobAnswered: null,
     leadSources: [],
     onLeadSourceSelected: null,
+    contractsSelected: false,
   );
 
   factory OnBoardingPageState.fromStore(Store<AppState> store) {
@@ -121,6 +127,7 @@ class OnBoardingPageState{
       selectedOptionHasJob: store.state.onBoardingPageState.selectedOptionHasJob,
       otherSelected: store.state.onBoardingPageState.otherSelected,
       leadSources: store.state.onBoardingPageState.leadSources,
+      contractsSelected: store.state.onBoardingPageState.contractsSelected,
       onFeatureSelected: (featureName, isSelected) => store.dispatch(SetFeatureSelectedStateAction(store.state.onBoardingPageState, featureName, isSelected)),
       setPagerIndex: (index) => store.dispatch(SetPagerIndexAction(store.state.onBoardingPageState, index)),
       onViewSampleJobSelected: () => store.dispatch(SetJobForDetailsPage(store.state.onBoardingPageState)),
@@ -143,6 +150,7 @@ class OnBoardingPageState{
       onLeadSourceSelected.hashCode ^
       mileageTrackingSelected.hashCode ^
       onViewSampleJobSelected.hashCode ^
+      contractsSelected.hashCode^
       selectedOptionHasJob.hashCode ^
       onHasJobAnswered.hashCode ^
       otherSelected.hashCode ^
@@ -167,5 +175,6 @@ class OnBoardingPageState{
               otherSelected == other.otherSelected &&
               leadSources == other.leadSources &&
               onLeadSourceSelected == other.onLeadSourceSelected &&
+              contractsSelected == other.contractsSelected &&
               incomeExpensesSelected == other.incomeExpensesSelected;
 }

@@ -80,7 +80,7 @@ class _AddOnCostChangeDialogState extends State<AddOnCostChangeDialog>
                           type: TextDandyLight.LARGE_TEXT,
                           text: "Select the Add-on cost amount",
                           textAlign: TextAlign.center,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       Padding(
@@ -89,7 +89,7 @@ class _AddOnCostChangeDialogState extends State<AddOnCostChangeDialog>
                           type: TextDandyLight.MEDIUM_TEXT,
                           text: "This amount will be added to the current price of this job.",
                           textAlign: TextAlign.center,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       Container(
@@ -98,7 +98,7 @@ class _AddOnCostChangeDialogState extends State<AddOnCostChangeDialog>
                           type: TextDandyLight.EXTRA_EXTRA_LARGE_TEXT,
                           text: "\$" + pageState.unsavedAddOnCostAmount.toString(),
                           textAlign: TextAlign.center,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       Row(
@@ -273,7 +273,7 @@ class _AddOnCostChangeDialogState extends State<AddOnCostChangeDialog>
                                 type: TextDandyLight.LARGE_TEXT,
                                 text: 'Cancel',
                                 textAlign: TextAlign.center,
-                                color: Color(ColorConstants.primary_black),
+                                color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
                             TextButton(
@@ -287,7 +287,7 @@ class _AddOnCostChangeDialogState extends State<AddOnCostChangeDialog>
                                 type: TextDandyLight.LARGE_TEXT,
                                 text: 'Save',
                                 textAlign: TextAlign.center,
-                                color: Color(ColorConstants.primary_black),
+                                color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
                           ],

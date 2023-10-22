@@ -7,7 +7,7 @@ import 'package:dandylight/data_layer/repositories/FileStorage.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
-import 'package:sembast/sembast.dart';
+import 'package:sembast/sembast.dart' as sembast;
 import 'package:uuid/uuid.dart';
 
 import '../../../models/Pose.dart';
@@ -17,11 +17,11 @@ class PoseDao extends Equatable{
   static const String POSE_STORE_NAME = 'pose';
   // A Store with int keys and Map<String, dynamic> values.
   // This Store acts like a persistent map, values of which are Client objects converted to Map
-  static final _PoseStore = intMapStoreFactory.store(POSE_STORE_NAME);
+  static final _PoseStore = sembast.intMapStoreFactory.store(POSE_STORE_NAME);
 
   // Private getter to shorten the amount of code needed to get the
   // singleton instance of an opened database.
-  static Future<Database> get _db async => await SembastDb.instance.database;
+  static Future<sembast.Database> get _db async => await SembastDb.instance.database;
 
   static Future<Pose> insert(Pose pose) async {
     pose.documentId = Uuid().v1();
@@ -59,7 +59,7 @@ class PoseDao extends Equatable{
 
   static Future<Pose> getPoseByImageUrl(Pose pose) async{
     if((await getAllSortedMostFrequent()).length > 0) {
-      final finder = Finder(filter: Filter.equals('imageUrl', pose.imageUrl));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('imageUrl', pose.imageUrl));
       final recordSnapshots = await _PoseStore.find(await _db, finder: finder);
       // Making a List<profileId> out of List<RecordSnapshot>
       List<Pose> poses = recordSnapshots.map((snapshot) {
@@ -79,7 +79,7 @@ class PoseDao extends Equatable{
 
   static Future<Pose> getById(String poseDocumentId) async{
     if((await getAllSortedMostFrequent()).length > 0) {
-      final finder = Finder(filter: Filter.equals('documentId', poseDocumentId));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', poseDocumentId));
       final recordSnapshots = await _PoseStore.find(await _db, finder: finder);
       // Making a List<profileId> out of List<RecordSnapshot>
       List<Pose> poses = recordSnapshots.map((snapshot) {
@@ -97,7 +97,7 @@ class PoseDao extends Equatable{
     }
   }
 
-  static Future<Stream<List<RecordSnapshot>>> getPosesStream() async {
+  static Future<Stream<List<sembast.RecordSnapshot>>> getPosesStream() async {
     var query = _PoseStore.query();
     return query.onSnapshots(await _db);
   }
@@ -109,7 +109,7 @@ class PoseDao extends Equatable{
   static Future<Pose> update(Pose pose) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.equals('documentId', pose.documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', pose.documentId));
     await _PoseStore.update(
       await _db,
       pose.toMap(),
@@ -123,7 +123,7 @@ class PoseDao extends Equatable{
   static Future updateLocalOnly(Pose pose) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.equals('documentId', pose.documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', pose.documentId));
     await _PoseStore.update(
       await _db,
       pose.toMap(),
@@ -133,7 +133,7 @@ class PoseDao extends Equatable{
 
   static Future delete(String documentId) async {
     await FileStorage.deletePoseFileImage(await getById(documentId));
-    final finder = Finder(filter: Filter.equals('documentId', documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
     int countOfUpdatedItems = await _PoseStore.delete(
       await _db,
       finder: finder,
@@ -144,8 +144,8 @@ class PoseDao extends Equatable{
   }
 
   static Future<List<Pose>> getAllSortedMostFrequent() async {
-    final finder = Finder(sortOrders: [
-      SortOrder('numOfSessionsAtThisPose'),
+    final finder = sembast.Finder(sortOrders: [
+      sembast.SortOrder('numOfSessionsAtThisPose'),
     ]);
 
     final recordSnapshots = await _PoseStore.find(await _db, finder: finder).catchError((error) {
@@ -185,7 +185,7 @@ class PoseDao extends Equatable{
 
   static Future<void> _deleteAllLocalPoses(List<Pose> allLocalPoses) async {
     for(Pose location in allLocalPoses) {
-      final finder = Finder(filter: Filter.equals('documentId', location.documentId));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', location.documentId));
       await _PoseStore.delete(
         await _db,
         finder: finder,
@@ -205,7 +205,7 @@ class PoseDao extends Equatable{
       List<Pose> matchingFireStorePoses = allFireStorePoses.where((fireStorePose) => localPose.documentId == fireStorePose.documentId).toList();
       if(matchingFireStorePoses !=  null && matchingFireStorePoses.length > 0) {
         Pose fireStorePose = matchingFireStorePoses.elementAt(0);
-        final finder = Finder(filter: Filter.equals('documentId', fireStorePose.documentId));
+        final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStorePose.documentId));
         await _PoseStore.update(
           await _db,
           fireStorePose.toMap(),
@@ -213,7 +213,7 @@ class PoseDao extends Equatable{
         );
       } else {
         //Pose does nto exist on cloud. so delete from local.
-        final finder = Finder(filter: Filter.equals('documentId', localPose.documentId));
+        final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', localPose.documentId));
         await _PoseStore.delete(
           await _db,
           finder: finder,

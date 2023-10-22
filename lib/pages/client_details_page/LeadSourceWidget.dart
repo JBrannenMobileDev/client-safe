@@ -34,7 +34,7 @@ class LeadSourceWidget extends StatelessWidget {
               height: 104,
               decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
-                borderRadius: BorderRadius.circular(16.0),
+                borderRadius: BorderRadius.circular(12.0),
               ),
               child: Column(
                 children: [
@@ -47,7 +47,7 @@ class LeadSourceWidget extends StatelessWidget {
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: 'Lead Source',
                       textAlign: TextAlign.start,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   Row(
@@ -58,7 +58,7 @@ class LeadSourceWidget extends StatelessWidget {
                         height: 38.0,
                         width: 38.0,
                         child: Image.asset(
-                          pageState.client.leadSource,
+                          'assets/images/icons/profile_icon.png',
                           color: Color(ColorConstants.peach_dark),),
                       ),
                       Expanded(
@@ -73,7 +73,7 @@ class LeadSourceWidget extends StatelessWidget {
                                 type: TextDandyLight.MEDIUM_TEXT,
                                 text: _getLeadSourceName(pageState),
                                 textAlign: TextAlign.start,
-                                color: Color(ColorConstants.primary_black),
+                                color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
                             Container(
@@ -97,7 +97,7 @@ class LeadSourceWidget extends StatelessWidget {
   }
 
   String _getLeadSourceName(ClientDetailsPageState pageState) {
-    return (pageState.client.customLeadSourceName != null && pageState.client.customLeadSourceName.isNotEmpty ? pageState.client.customLeadSourceName : ImageUtil.getLeadSourceText(pageState.client.leadSource));
+    return (pageState.client.customLeadSourceName != null && pageState.client.customLeadSourceName.isNotEmpty ? pageState.client.customLeadSourceName : pageState.client.leadSource);
 
   }
 }

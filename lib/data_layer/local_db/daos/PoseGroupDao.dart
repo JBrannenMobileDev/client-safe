@@ -7,7 +7,7 @@ import 'package:dandylight/models/PoseGroup.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
-import 'package:sembast/sembast.dart';
+import 'package:sembast/sembast.dart' as sembast;
 import 'package:uuid/uuid.dart';
 
 import '../../firebase/collections/PoseGroupCollection.dart';
@@ -16,11 +16,11 @@ class PoseGroupDao extends Equatable{
   static const String POSE_GROUP_STORE_NAME = 'poseGroup';
   // A Store with int keys and Map<String, dynamic> values.
   // This Store acts like a persistent map, values of which are Client objects converted to Map
-  static final _PoseGroupGroupStore = intMapStoreFactory.store(POSE_GROUP_STORE_NAME);
+  static final _PoseGroupGroupStore = sembast.intMapStoreFactory.store(POSE_GROUP_STORE_NAME);
 
   // Private getter to shorten the amount of code needed to get the
   // singleton instance of an opened database.
-  static Future<Database> get _db async => await SembastDb.instance.database;
+  static Future<sembast.Database> get _db async => await SembastDb.instance.database;
 
   static Future<PoseGroup> insert(PoseGroup pose) async {
     pose.documentId = Uuid().v1();
@@ -58,7 +58,7 @@ class PoseGroupDao extends Equatable{
 
   static Future<PoseGroup> getById(String poseDocumentId) async{
     if((await getAllSortedMostFrequent()).length > 0) {
-      final finder = Finder(filter: Filter.equals('documentId', poseDocumentId));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', poseDocumentId));
       final recordSnapshots = await _PoseGroupGroupStore.find(await _db, finder: finder);
       // Making a List<profileId> out of List<RecordSnapshot>
       List<PoseGroup> poses = recordSnapshots.map((snapshot) {
@@ -76,7 +76,7 @@ class PoseGroupDao extends Equatable{
     }
   }
 
-  static Future<Stream<List<RecordSnapshot>>> getPoseGroupsStream() async {
+  static Future<Stream<List<sembast.RecordSnapshot>>> getPoseGroupsStream() async {
     var query = _PoseGroupGroupStore.query();
     return query.onSnapshots(await _db);
   }
@@ -88,7 +88,7 @@ class PoseGroupDao extends Equatable{
   static Future<PoseGroup> update(PoseGroup pose) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.equals('documentId', pose.documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', pose.documentId));
     await _PoseGroupGroupStore.update(
       await _db,
       pose.toMap(),
@@ -102,7 +102,7 @@ class PoseGroupDao extends Equatable{
   static Future updateLocalOnly(PoseGroup pose) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.equals('documentId', pose.documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', pose.documentId));
     await _PoseGroupGroupStore.update(
       await _db,
       pose.toMap(),
@@ -111,7 +111,7 @@ class PoseGroupDao extends Equatable{
   }
 
   static Future delete(String documentId) async {
-    final finder = Finder(filter: Filter.equals('documentId', documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
     await _PoseGroupGroupStore.delete(
       await _db,
       finder: finder,
@@ -123,8 +123,8 @@ class PoseGroupDao extends Equatable{
   }
 
   static Future<List<PoseGroup>> getAllSortedMostFrequent() async {
-    final finder = Finder(sortOrders: [
-      SortOrder('numOfSessionsAtThisPoseGroup'),
+    final finder = sembast.Finder(sortOrders: [
+      sembast.SortOrder('numOfSessionsAtThisPoseGroup'),
     ]);
 
     final recordSnapshots = await _PoseGroupGroupStore.find(await _db, finder: finder).catchError((error) {
@@ -164,7 +164,7 @@ class PoseGroupDao extends Equatable{
 
   static Future<void> _deleteAllLocalPoseGroups(List<PoseGroup> allLocalPoseGroups) async {
     for(PoseGroup location in allLocalPoseGroups) {
-      final finder = Finder(filter: Filter.equals('documentId', location.documentId));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', location.documentId));
       await _PoseGroupGroupStore.delete(
         await _db,
         finder: finder,
@@ -184,7 +184,7 @@ class PoseGroupDao extends Equatable{
       List<PoseGroup> matchingFireStorePoseGroups = allFireStorePoseGroups.where((fireStorePoseGroup) => localPoseGroup.documentId == fireStorePoseGroup.documentId).toList();
       if(matchingFireStorePoseGroups !=  null && matchingFireStorePoseGroups.length > 0) {
         PoseGroup fireStorePoseGroup = matchingFireStorePoseGroups.elementAt(0);
-        final finder = Finder(filter: Filter.equals('documentId', fireStorePoseGroup.documentId));
+        final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStorePoseGroup.documentId));
         await _PoseGroupGroupStore.update(
           await _db,
           fireStorePoseGroup.toMap(),
@@ -192,7 +192,7 @@ class PoseGroupDao extends Equatable{
         );
       } else {
         //PoseGroup does nto exist on cloud. so delete from local.
-        final finder = Finder(filter: Filter.equals('documentId', localPoseGroup.documentId));
+        final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', localPoseGroup.documentId));
         await _PoseGroupGroupStore.delete(
           await _db,
           finder: finder,

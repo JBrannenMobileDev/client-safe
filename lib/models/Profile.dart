@@ -1,6 +1,5 @@
-
-import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
-import 'package:dandylight/utils/AdminCheckUtil.dart';
+import 'ColorTheme.dart';
+import 'FontTheme.dart';
 
 class Profile{
   int id;
@@ -10,9 +9,23 @@ class Profile{
   List<dynamic> calendarIdsToSync;
   String firstName;
   String lastName;
+  String licenseNumber;
   String email;
   String phone;
   String businessName;
+  bool zelleEnabled;
+  bool venmoEnabled;
+  bool cashAppEnabled;
+  bool applePayEnabled;
+  bool cashEnabled;
+  bool otherEnabled;
+  bool wireEnabled;
+  bool hasSetupBrand;
+  bool canShowAppReview; //set to false if user clicks do not show again or if they click the request action
+  bool canShowPMFSurvey; //set to false if user clicks do not show again or if they click the request action
+  DateTime requestReviewDate;
+  DateTime requestPMFSurveyDate;
+  DateTime updateLastSeenDate;
   String zellePhoneEmail;
   String zelleFullName;
   String venmoLink;
@@ -20,10 +33,30 @@ class Profile{
   String applePayPhone;
   String instagramUrl;
   String instagramName;
+  String otherMessage;
+  String cashMessage;
+  String wireMessage;
   double latDefaultHome;
   double lngDefaultHome;
   double salesTaxRate;
   int jobsCreatedCount;
+  bool logoSelected;
+  bool bannerImageSelected;
+  String logoUrl;
+  String bannerWebUrl;
+  String bannerMobileUrl;
+  String logoCharacter;
+  bool previewLogoSelected;
+  bool previewBannerImageSelected;
+  String previewLogoUrl;
+  String previewBannerWebUrl;
+  String previewBannerMobileUrl;
+  String previewLogoCharacter;
+  String previewJsonContract;
+  ColorTheme selectedColorTheme;
+  FontTheme selectedFontTheme;
+  ColorTheme previewColorTheme;
+  FontTheme previewFontTheme;
   bool pushNotificationsEnabled = false;
   bool calendarEnabled = false;
   bool showNewMileageExpensePage = false;
@@ -115,6 +148,40 @@ class Profile{
     this.isSubscribed,
     this.jobsCreatedCount,
     this.instagramName,
+    this.logoUrl,
+    this.previewLogoUrl,
+    this.bannerWebUrl,
+    this.previewBannerWebUrl,
+    this.previewBannerMobileUrl,
+    this.previewBannerImageSelected,
+    this.bannerMobileUrl,
+    this.licenseNumber,
+    this.selectedColorTheme,
+    this.selectedFontTheme,
+    this.logoSelected,
+    this.previewLogoSelected,
+    this.previewLogoCharacter,
+    this.logoCharacter,
+    this.bannerImageSelected,
+    this.zelleEnabled,
+    this.venmoEnabled,
+    this.cashAppEnabled,
+    this.applePayEnabled,
+    this.cashEnabled,
+    this.previewFontTheme,
+    this.previewColorTheme,
+    this.hasSetupBrand,
+    this.previewJsonContract,
+    this.otherMessage,
+    this.otherEnabled,
+    this.wireMessage,
+    this.wireEnabled,
+    this.cashMessage,
+    this.canShowAppReview,
+    this.canShowPMFSurvey,
+    this.requestPMFSurveyDate,
+    this.requestReviewDate,
+    this.updateLastSeenDate,
   });
 
   Profile copyWith({
@@ -128,6 +195,7 @@ class Profile{
     String businessName,
     String email,
     String phone,
+    String licenseNumber,
     String zellePhoneEmail,
     String zelleFullName,
     String venmoLink,
@@ -135,10 +203,12 @@ class Profile{
     String applePayPhone,
     String instagramUrl,
     String instagramName,
+    String cashMessage,
     double latDefaultHome,
     double lngDefaultHome,
     bool pushNotificationsEnabled,
     bool calendarEnabled,
+    bool bannerImageSelected,
     bool showNewMileageExpensePage,
     bool termsOfServiceAndPrivacyPolicyChecked,
     bool showRequestPaymentLinksDialog,
@@ -150,8 +220,39 @@ class Profile{
     bool isFreeForLife,
     bool onBoardingComplete,
     bool isSubscribed,
+    bool zelleEnabled,
+    bool venmoEnabled,
+    bool cashAppEnabled,
+    bool applePayEnabled,
+    bool cashEnabled,
+    bool hasSetupBrand,
+    bool otherEnabled,
+    bool wireEnabled,
+    bool canShowAppReview,
+    bool canShowPMFSurvey,
+    DateTime requestReviewDate,
+    DateTime requestPMFSurveyDate,
+    DateTime updateLastSeenDate,
+    String wireMessage,
     int jobsCreatedCount,
+    bool logoSelected,
+    String logoUrl,
+    String bannerWebUrl,
+    String bannerMobileUrl,
+    String logoCharacter,
+    String otherMessage,
+    bool previewLogoSelected,
+    String previewLogoUrl,
+    String previewBannerWebUrl,
+    String previewBannerMobileUrl,
+    String previewJsonContract,
+    bool previewBannerImageSelected,
+    String previewLogoCharacter,
     double salesTaxRate,
+    ColorTheme selectedColorTheme,
+    ColorTheme previewColorTheme,
+    FontTheme selectedFontTheme,
+    FontTheme previewFontTheme,
     DateTime lastSignIn,
     DateTime clientsLastChangeDate,
     DateTime invoicesLastChangeDate,
@@ -230,6 +331,40 @@ class Profile{
       isFreeForLife: isFreeForLife ?? this.isFreeForLife,
       onBoardingComplete: onBoardingComplete ?? this.onBoardingComplete,
       isSubscribed: isSubscribed ?? this.isSubscribed,
+      logoUrl: logoUrl ?? this.logoUrl,
+      bannerWebUrl: bannerWebUrl ?? this.bannerWebUrl,
+      bannerMobileUrl: bannerMobileUrl ?? this.bannerMobileUrl,
+      licenseNumber: licenseNumber ?? this.licenseNumber,
+      selectedColorTheme: selectedColorTheme ?? this.selectedColorTheme,
+      selectedFontTheme: selectedFontTheme ?? this.selectedFontTheme,
+      logoSelected: logoSelected ?? this.logoSelected,
+      logoCharacter: logoCharacter ?? this.logoCharacter,
+      bannerImageSelected: bannerImageSelected ?? this.bannerImageSelected,
+      zelleEnabled: zelleEnabled ?? this.zelleEnabled,
+      venmoEnabled: venmoEnabled ?? this.venmoEnabled,
+      cashAppEnabled: cashAppEnabled ?? this.cashAppEnabled,
+      applePayEnabled: applePayEnabled ?? this.applePayEnabled,
+      cashEnabled: cashEnabled ?? this.cashEnabled,
+      previewColorTheme: previewColorTheme ?? this.previewColorTheme,
+      previewFontTheme: previewFontTheme ?? this.previewFontTheme,
+      previewLogoCharacter: previewLogoCharacter ?? this.previewLogoCharacter,
+      previewLogoSelected: previewLogoSelected ?? this.previewLogoSelected,
+      previewLogoUrl: previewLogoUrl ?? this.previewLogoUrl,
+      previewBannerWebUrl: previewBannerWebUrl ?? this.previewBannerWebUrl,
+      previewBannerMobileUrl: previewBannerMobileUrl ?? this.previewBannerMobileUrl,
+      previewBannerImageSelected: previewBannerImageSelected ?? this.previewBannerImageSelected,
+      hasSetupBrand: hasSetupBrand ?? this.hasSetupBrand,
+      previewJsonContract: previewJsonContract ?? this.previewJsonContract,
+      otherMessage: otherMessage ?? this.otherMessage,
+      otherEnabled: otherEnabled ?? this.otherEnabled,
+      wireEnabled: wireEnabled ?? this.wireEnabled,
+      wireMessage: wireMessage ?? this.wireMessage,
+      cashMessage: cashMessage ?? this.cashMessage,
+      canShowAppReview: canShowAppReview ?? this.canShowAppReview,
+      canShowPMFSurvey: canShowPMFSurvey ?? this.canShowPMFSurvey,
+      requestPMFSurveyDate: requestPMFSurveyDate ?? this.requestPMFSurveyDate,
+      requestReviewDate: requestReviewDate ?? this.requestReviewDate,
+      updateLastSeenDate: updateLastSeenDate ?? this.updateLastSeenDate,
     );
   }
 
@@ -245,6 +380,13 @@ class Profile{
       'lastName' : lastName,
       'email' : email,
       'phone' : phone,
+      'zelleEnabled' : zelleEnabled ?? false,
+      'venmoEnabled' : venmoEnabled ?? false,
+      'cashAppEnabled' : cashAppEnabled ?? false,
+      'applePayEnabled' : applePayEnabled ?? false,
+      'wireEnabled' : wireEnabled ?? false,
+      'canShowPMFSurvey' : canShowPMFSurvey ?? true,
+      'canShowAppReview' : canShowAppReview ?? true,
       'zelleFullName' : zelleFullName,
       'zellePhoneEmail' : zellePhoneEmail,
       'venmoLink' : venmoLink,
@@ -257,6 +399,8 @@ class Profile{
       'showRequestPaymentLinksDialog' : showRequestPaymentLinksDialog,
       'pushNotificationsEnabled' : pushNotificationsEnabled,
       'calendarEnabled' : calendarEnabled,
+      'bannerImageSelected' : bannerImageSelected ?? true,
+      'previewBannerImageSelected' : previewBannerImageSelected ?? false,
       'instagramName' : instagramName ?? "",
       'shouldShowRestoreSubscription' : shouldShowRestoreSubscription ?? false,
       'showNewMileageExpensePage' : showNewMileageExpensePage ?? true,
@@ -266,6 +410,18 @@ class Profile{
       'onBoardingComplete' : onBoardingComplete ?? false,
       'usesSalesTax' : usesSalesTax ?? false,
       'isSubscribed' : isSubscribed ?? false,
+      'logoSelected' : logoSelected ?? false,
+      'hasSetupBrand' : hasSetupBrand ?? false,
+      'logoUrl' : logoUrl,
+      'bannerWebUrl' : bannerWebUrl,
+      'bannerMobileUrl' : bannerMobileUrl,
+      'previewLogoSelected' : previewLogoSelected ?? false,
+      'previewLogoUrl' : previewLogoUrl,
+      'previewBannerWebUrl' : previewBannerWebUrl,
+      'previewBannerMobileUrl' : previewBannerMobileUrl,
+      'logoCharacter' : logoCharacter,
+      'previewLogoCharacter' : previewLogoCharacter,
+      'previewJsonContract' : previewJsonContract,
       'jobsCreatedCount' : jobsCreatedCount ?? 0,
       'termsOfServiceAndPrivacyPolicyChecked' : termsOfServiceAndPrivacyPolicyChecked,
       'lastSignIn' : lastSignIn?.millisecondsSinceEpoch ?? null,
@@ -288,17 +444,38 @@ class Profile{
       'responsesLastChangeDate' : responsesLastChangeDate?.millisecondsSinceEpoch ?? null,
       'poseLibraryGroupLastChangeDate' : poseLibraryGroupLastChangeDate?.millisecondsSinceEpoch ?? null,
       'discountCodesLastChangedTime' : discountCodesLastChangedTime?.millisecondsSinceEpoch ?? null,
+      'requestReviewDate' : requestReviewDate?.millisecondsSinceEpoch ?? null,
+      'requestPMFSurveyDate' : requestPMFSurveyDate?.millisecondsSinceEpoch ?? null,
+      'updateLastSeenDate' : updateLastSeenDate?.millisecondsSinceEpoch ?? null,
       'accountCreatedDate' : accountCreatedDate?.millisecondsSinceEpoch ?? DateTime(2023, 2, 1).millisecondsSinceEpoch,
       'salesTaxRate' : salesTaxRate,
       'hasSeenIncomeInfo' : hasSeenIncomeInfo,
+      'selectedFontTheme' : selectedFontTheme?.toMap() ?? null,
+      'selectedColorTheme' : selectedColorTheme?.toMap() ?? null,
+      'previewFontTheme' : previewFontTheme?.toMap() ?? null,
+      'previewColorTheme' : previewColorTheme?.toMap() ?? null,
+      'cashEnabled' : cashEnabled ?? false,
+      'otherEnabled' : otherEnabled ?? false,
+      'otherMessage' : otherMessage,
+      'wireMessage' : wireMessage,
+      'cashMessage' : cashMessage,
     };
   }
 
   static Profile fromMap(Map<String, dynamic> map) {
     return Profile(
+      otherEnabled: map['otherEnabled'] != null ? map['otherEnabled'] : false,
+      wireEnabled: map['wireEnabled'] != null ? map['wireEnabled'] : false,
       uid: map['uid'],
+      zelleEnabled: map['zelleEnabled'] != null ? map['zelleEnabled'] : false,
+      venmoEnabled: map['venmoEnabled'] != null ? map['venmoEnabled'] : false,
+      cashAppEnabled: map['cashAppEnabled'] != null ? map['cashAppEnabled'] : false,
+      applePayEnabled: map['applePayEnabled'] != null ? map['applePayEnabled'] : false,
+      cashEnabled: map['cashEnabled'] != null ? map['cashEnabled'] : false,
       zelleFullName: map['zelleFullName'],
       zellePhoneEmail: map['zellePhoneEmail'],
+      otherMessage: map['otherMessage'],
+      wireMessage: map['wireMessage'],
       venmoLink: map['venmoLink'],
       cashAppLink: map['cashAppLink'],
       applePayPhone: map['applePayPhone'],
@@ -309,13 +486,29 @@ class Profile{
       lastName: map['lastName'],
       email: map['email'],
       phone: map['phone'],
+      previewJsonContract: map['previewJsonContract'],
       businessName: map['businessName'],
-      latDefaultHome: map['latDefaultHome'],
-      lngDefaultHome: map['lngDefaultHome'],
+      latDefaultHome: map['latDefaultHome']?.toDouble(),
+      lngDefaultHome: map['lngDefaultHome']?.toDouble(),
       pushNotificationsEnabled: map['pushNotificationsEnabled'],
       calendarEnabled: map['calendarEnabled'] != null ? map['calendarEnabled'] : false,
-      salesTaxRate: map['salesTaxRate'],
+      canShowAppReview: map['canShowAppReview'] != null ? map['canShowAppReview'] : true,
+      canShowPMFSurvey: map['canShowPMFSurvey'] != null ? map['canShowPMFSurvey'] : true,
+      salesTaxRate: map['salesTaxRate']?.toDouble(),
       instagramUrl: map['instagramUrl'],
+      bannerImageSelected: map['bannerImageSelected'] != null ? map['bannerImageSelected'] : true,
+      logoSelected: map['logoSelected'] != null ? map['logoSelected'] : false,
+      hasSetupBrand: map['hasSetupBrand'] != null ? map['hasSetupBrand'] : false,
+      logoUrl: map['logoUrl'],
+      bannerWebUrl: map['bannerWebUrl'],
+      bannerMobileUrl: map['bannerMobileUrl'],
+      previewBannerImageSelected: map['previewBannerImageSelected'] != null ? map['previewBannerImageSelected'] : false,
+      previewLogoSelected: map['previewLogoSelected'] != null ? map['previewLogoSelected'] : false,
+      previewLogoUrl: map['previewLogoUrl'],
+      previewBannerWebUrl: map['previewBannerWebUrl'],
+      previewBannerMobileUrl: map['previewBannerMobileUrl'],
+      logoCharacter: map['logoCharacter'] != null ? map['logoCharacter'] : null,
+      previewLogoCharacter: map['previewLogoCharacter'] != null ? map['previewLogoCharacter'] : null,
       instagramName: map['instagramName'] != null ? map['instagramName'] : '',
       jobsCreatedCount: map['jobsCreatedCount'] != null ? map['jobsCreatedCount'] : 0,
       showRequestPaymentLinksDialog: map['showRequestPaymentLinksDialog'] != null ? map['showRequestPaymentLinksDialog'] : true,
@@ -329,6 +522,10 @@ class Profile{
       isSubscribed: map['isSubscribed'] != null ? map['isSubscribed'] : false,
       termsOfServiceAndPrivacyPolicyChecked: map['termsOfServiceAndPrivacyPolicyChecked'],
       hasSeenIncomeInfo: map['hasSeenIncomeInfo'] != null ? map['hasSeenIncomeInfo'] : false,
+      selectedColorTheme: map['selectedColorTheme'] != null ? ColorTheme.fromMap(map['selectedColorTheme']) : null,
+      selectedFontTheme: map['selectedFontTheme'] != null ? FontTheme.fromMap(map['selectedFontTheme']) : null,
+      previewColorTheme: map['previewColorTheme'] != null ? ColorTheme.fromMap(map['previewColorTheme']) : null,
+      previewFontTheme: map['previewFontTheme'] != null ? FontTheme.fromMap(map['previewFontTheme']) : null,
       lastSignIn: map['lastSignIn'] != null? DateTime.fromMillisecondsSinceEpoch(map['lastSignIn']) : null,
       clientsLastChangeDate: map['clientsLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['clientsLastChangeDate']) : null,
       invoicesLastChangeDate: map['invoicesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['invoicesLastChangeDate']) : null,
@@ -350,6 +547,9 @@ class Profile{
       discountCodesLastChangedTime: map['discountCodesLastChangedTime'] != null ? DateTime.fromMillisecondsSinceEpoch(map['discountCodesLastChangedTime']) : null,
       accountCreatedDate: map['accountCreatedDate'] != null ? DateTime.fromMillisecondsSinceEpoch(map['accountCreatedDate']) : DateTime(2023, 2, 1),
       poseLibraryGroupLastChangeDate: map['poseLibraryGroupLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['poseLibraryGroupLastChangeDate']) : null,
+      requestPMFSurveyDate: map['requestPMFSurveyDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['requestPMFSurveyDate']) : null,
+      requestReviewDate: map['requestReviewDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['requestReviewDate']) : null,
+      updateLastSeenDate: map['updateLastSeenDate'] != null ? DateTime.fromMillisecondsSinceEpoch(map['updateLastSeenDate']) : null,
     );
   }
 
@@ -381,5 +581,13 @@ class Profile{
     if(deviceTokens == null) deviceTokens = [];
     deviceTokens = deviceTokens.toList();
     return deviceTokens.length <= 1;
+  }
+
+  bool paymentOptionsSelected() {
+    return zelleEnabled || venmoEnabled || cashAppEnabled || applePayEnabled || cashEnabled || otherEnabled || wireEnabled;
+  }
+
+  bool isProfileComplete() {
+    return businessName.isNotEmpty && (email.isNotEmpty || phone.isNotEmpty) && firstName.isNotEmpty;
   }
 }

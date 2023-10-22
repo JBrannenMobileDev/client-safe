@@ -6,6 +6,48 @@ class SaveZelleStateAction{
   SaveZelleStateAction(this.pageState, this.enabled);
 }
 
+class UpdateProfileWithZelleStateAction {
+  final PaymentRequestInfoPageState pageState;
+  final bool enabled;
+  UpdateProfileWithZelleStateAction(this.pageState, this.enabled);
+}
+
+class UpdateProfileWithVenmoStateAction {
+  final PaymentRequestInfoPageState pageState;
+  final bool enabled;
+  UpdateProfileWithVenmoStateAction(this.pageState, this.enabled);
+}
+
+class UpdateProfileWithCashAppStateAction {
+  final PaymentRequestInfoPageState pageState;
+  final bool enabled;
+  UpdateProfileWithCashAppStateAction(this.pageState, this.enabled);
+}
+
+class UpdateProfileWithApplePayStateAction {
+  final PaymentRequestInfoPageState pageState;
+  final bool enabled;
+  UpdateProfileWithApplePayStateAction(this.pageState, this.enabled);
+}
+
+class UpdateProfileWithCashStateAction {
+  final PaymentRequestInfoPageState pageState;
+  final bool enabled;
+  UpdateProfileWithCashStateAction(this.pageState, this.enabled);
+}
+
+class UpdateProfileWithOtherStateAction {
+  final PaymentRequestInfoPageState pageState;
+  final bool enabled;
+  UpdateProfileWithOtherStateAction(this.pageState, this.enabled);
+}
+
+class UpdateProfileWithWireStateAction {
+  final PaymentRequestInfoPageState pageState;
+  final bool enabled;
+  UpdateProfileWithWireStateAction(this.pageState, this.enabled);
+}
+
 class LoadPaymentSettingsFromProfile{
   final PaymentRequestInfoPageState pageState;
   LoadPaymentSettingsFromProfile(this.pageState);
@@ -23,16 +65,52 @@ class SaveCashAppStateAction{
   SaveCashAppStateAction(this.pageState, this.enabled);
 }
 
+class SaveOtherStateAction{
+  final PaymentRequestInfoPageState pageState;
+  final bool enabled;
+  SaveOtherStateAction(this.pageState, this.enabled);
+}
+
+class SaveWireStateAction{
+  final PaymentRequestInfoPageState pageState;
+  final bool enabled;
+  SaveWireStateAction(this.pageState, this.enabled);
+}
+
 class SaveApplePayStateAction{
   final PaymentRequestInfoPageState pageState;
   final bool enabled;
   SaveApplePayStateAction(this.pageState, this.enabled);
 }
 
+class SaveCashStateAction{
+  final PaymentRequestInfoPageState pageState;
+  final bool enabled;
+  SaveCashStateAction(this.pageState, this.enabled);
+}
+
 class SetZellePhoneEmailTextAction{
   final PaymentRequestInfoPageState pageState;
   final String input;
   SetZellePhoneEmailTextAction(this.pageState, this.input);
+}
+
+class SetOtherTextAction{
+  final PaymentRequestInfoPageState pageState;
+  final String input;
+  SetOtherTextAction(this.pageState, this.input);
+}
+
+class SetWireTextAction{
+  final PaymentRequestInfoPageState pageState;
+  final String input;
+  SetWireTextAction(this.pageState, this.input);
+}
+
+class SetCashTextAction{
+  final PaymentRequestInfoPageState pageState;
+  final String input;
+  SetCashTextAction(this.pageState, this.input);
 }
 
 class SetZelleFullNameTextAction{
@@ -77,6 +155,21 @@ class SaveVenmoInput{
 class SaveCashAppInput{
   final PaymentRequestInfoPageState pageState;
   SaveCashAppInput(this.pageState);
+}
+
+class SaveOtherInput{
+  final PaymentRequestInfoPageState pageState;
+  SaveOtherInput(this.pageState);
+}
+
+class SaveWireInput{
+  final PaymentRequestInfoPageState pageState;
+  SaveWireInput(this.pageState);
+}
+
+class SaveCashInput{
+  final PaymentRequestInfoPageState pageState;
+  SaveCashInput(this.pageState);
 }
 
 class SaveApplePayInput{

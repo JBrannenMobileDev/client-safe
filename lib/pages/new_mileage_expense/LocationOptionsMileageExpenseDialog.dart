@@ -54,7 +54,7 @@ class _LocationOptionsMileageExpenseDialogState extends State<LocationOptionsMil
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: "Select from your collection of locations or select a new location from a map.",
                       textAlign: TextAlign.center,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   Row(
@@ -71,13 +71,13 @@ class _LocationOptionsMileageExpenseDialogState extends State<LocationOptionsMil
                             Container(
                               margin: EdgeInsets.only(bottom: 8.0),
                               padding: EdgeInsets.all(24.0),
-                              height: MediaQuery.of(context).size.width/4,
-                              width: MediaQuery.of(context).size.width/4,
+                              height: 96,
+                              width: 96,
                               decoration: BoxDecoration(
                                 color: Color(ColorConstants.getBlueDark()),
                                 shape: BoxShape.circle,
                               ),
-                              child: Image.asset('assets/images/icons/collections_icon_white.png'),
+                              child: Image.asset('assets/images/menu/collections_icon.png', color: Color(ColorConstants.getPrimaryWhite())),
                             ),
                             TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
@@ -106,14 +106,14 @@ class _LocationOptionsMileageExpenseDialogState extends State<LocationOptionsMil
                             Container(
                               margin: EdgeInsets.only(bottom: 8.0),
                               padding: EdgeInsets.all(24.0),
-                              height: MediaQuery.of(context).size.width/4,
-                              width: MediaQuery.of(context).size.width/4,
+                              height: 96,
+                              width: 96,
                               decoration: BoxDecoration(
                                 color: Color(ColorConstants.getBlueDark()),
                                 shape: BoxShape.circle,
                               ),
                               child: Image.asset(
-                                  'assets/images/icons/location_icon_white.png'),
+                                  'assets/images/icons/pin_white.png'),
                             ),
                             TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,

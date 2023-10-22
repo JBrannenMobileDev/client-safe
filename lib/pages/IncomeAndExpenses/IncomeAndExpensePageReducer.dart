@@ -193,7 +193,7 @@ IncomeAndExpensesPageState _setJobSearchText(IncomeAndExpensesPageState previous
 }
 
 IncomeAndExpensesPageState _setTipInfo(IncomeAndExpensesPageState previousState, SetTipTotalsAction action) {
-  List<Job> jobsSelectedYear = action.allJobs.where((job) => job.selectedDate.year == previousState.selectedYear).toList();
+  List<Job> jobsSelectedYear = action.allJobs.where((job) => (job.selectedDate != null ? job.selectedDate.year : 0) == previousState.selectedYear).toList();
   int totalTipsForYear = 0;
   for(Job job in jobsSelectedYear) {
     if(job != null && job.tipAmount != null) {
@@ -278,6 +278,7 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
   }
 
   for(Job job in jobsWithOnlyDepositReceived){
+    if(job.depositReceivedDate != null) {
       if(job.depositReceivedDate.year == action.year) {
         totalForSelectedYear = totalForSelectedYear + job.depositAmount;
       }
@@ -294,10 +295,11 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
       if(job.depositReceivedDate.year == lastMonthLastYearDate.year && job.depositReceivedDate.month == lastMonthLastYearDate.month) {
         lastMonthLastYear = lastMonthLastYear + job.depositAmount;
       }
+    }
   }
 
   for(Job job in action.allJobs.where((job) => job.isPaymentReceived() == true).toList()) {
-    if(job.invoice == null) {
+    if(job.invoice == null && job.paymentReceivedDate != null) {
       if(job.paymentReceivedDate.year == action.year) {
         totalForSelectedYear = totalForSelectedYear + job.getJobCost();
       }

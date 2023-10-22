@@ -5,7 +5,10 @@ import 'package:dandylight/pages/calendar_selection_page/CalendarSelectionPageRe
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageReducer.dart';
 import 'package:dandylight/pages/clients_page/ClientsPageReducer.dart';
 import 'package:dandylight/pages/collections_page/CollectionsPageReducer.dart';
+import 'package:dandylight/pages/contract_edit_page/ContractEditPageReducer.dart';
+import 'package:dandylight/pages/contracts_page/ContractsPageReducer.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageReducer.dart';
+import 'package:dandylight/pages/edit_branding_page/EditBrandingPageReducer.dart';
 import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPageReducer.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsReducer.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageReducer.dart';
@@ -36,8 +39,10 @@ import 'package:dandylight/pages/reminders_page/RemindersPageReducer.dart';
 import 'package:dandylight/pages/job_types/JobTypesPageReducer.dart';
 import 'package:dandylight/pages/responses_page/ResponsesPageReducer.dart';
 import 'package:dandylight/pages/review_poses_page/ReviewPosesPageReducer.dart';
+import 'package:dandylight/pages/share_with_client_page/ShareWithClientPageReducer.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageReducer.dart';
 import 'package:dandylight/pages/upload_pose_page/UploadPosePageReducer.dart';
+import 'package:dandylight/web/pages/ClientPortalPageReducer.dart';
 
 AppState appReducers(AppState state, dynamic action) =>
     AppState(
@@ -80,4 +85,9 @@ AppState appReducers(AppState state, dynamic action) =>
         onBoardingPageState: onBoardingReducer(state.onBoardingPageState, action),
         uploadPosePageState: uploadPoseReducer(state.uploadPosePageState, action),
         reviewPosesPageState: reviewPosesReducer(state.reviewPosesPageState, action),
+        clientPortalPageState: clientPortalReducer(state.clientPortalPageState, action),
+        shareWithClientPageState: shareWithClientReducer(state.shareWithClientPageState, action),
+        contractsPageState: contractsReducer(state.contractsPageState, action),
+        contractEditPageState: contractEditReducer(state.contractEditPageState, action),
+        editBrandingPageState: editBrandingReducer(state.editBrandingPageState, action),
     );

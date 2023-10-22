@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../models/Client.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'NewContactTextField.dart';
 
@@ -23,11 +24,15 @@ class _LeadSourceSelection extends State<LeadSourceSelection>
   final customLeadController = TextEditingController();
   final FocusNode _customLeadFocusNode = FocusNode();
 
+  List<String> _chipLabels = Client.getLeadSources();
+
+  bool isSelected(int index, NewContactPageState pageState) {
+    return _chipLabels.elementAt(index) == pageState.leadSource;
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    List<String> leadSourceIconsWhite = ImageUtil.leadSourceIconsWhite;
-    List<String> leadSourceIconsPeach = ImageUtil.leadSourceIconsPeach;
     return StoreConnector<AppState, NewContactPageState>(
       onInit: (store) {
         customLeadController.value = customLeadController.value.copyWith(text:store.state.newContactPageState.customLeadSourceName);
@@ -38,9 +43,9 @@ class _LeadSourceSelection extends State<LeadSourceSelection>
       converter: (store) => NewContactPageState.fromStore(store),
       builder: (BuildContext context, NewContactPageState pageState) =>
           Container(
-        margin: EdgeInsets.only(left: 16.0, right: 16.0),
+        margin: EdgeInsets.only(left: 0.0, right: 0.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Container(
@@ -51,62 +56,52 @@ class _LeadSourceSelection extends State<LeadSourceSelection>
                     pageState.newContactFirstName +
                     " hear about your business?",
                 textAlign: TextAlign.start,
-                color: Color(ColorConstants.primary_black),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ),
-            GridView.builder(
-                shrinkWrap: true,
-                itemCount: 8,
-                gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4, childAspectRatio: 0.8),
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                    onTap: () {
-                      pageState.onLeadSourceSelected(leadSourceIconsWhite.elementAt(index));
-                    },
-                    child:
-                    Column(
-                      children: <Widget>[
-                        Stack(
-                          alignment: Alignment.center,
-                          children: <Widget>[
-                            pageState.leadSource != null && getIconPosition(pageState, leadSourceIconsWhite) == index ? new Container(
-                              margin: EdgeInsets.only(bottom: 8.0),
-                              height: 46.0,
-                              width: 46.0,
-                              decoration: new BoxDecoration(
-                                color: Color(ColorConstants.getBlueLight()),
-                                borderRadius: BorderRadius.circular(12.0),
-                              ),
-                            ) : SizedBox(
-                              height: 54.0,
-                              width: 46.0,
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(bottom: 8.0),
-                              height: 36.0,
-                              width: 36.0,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(pageState.leadSource != null && getIconPosition(pageState, leadSourceIconsWhite) == index ? leadSourceIconsWhite.elementAt(index) : leadSourceIconsPeach.elementAt(index)),
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        TextDandyLight(
-                          type: TextDandyLight.EXTRA_SMALL_TEXT,
-                          text: ImageUtil.getLeadSourceText(leadSourceIconsWhite.elementAt(index)),
-                          textAlign: TextAlign.center,
-                          color: Color(ColorConstants.primary_black),
-                        ),
-                      ],
-                    ),
-                  );
-                }),
             Container(
-
-              child: pageState.leadSource == 'assets/images/icons/email_icon_white.png' ? NewContactTextField(
+              padding: EdgeInsets.only(left: 24, right: 24),
+              child: Container(
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 8.0,
+                  children: List<Widget>.generate(
+                    _chipLabels.length,
+                        (int index) {
+                      return Container(
+                        child: ChoiceChip(
+                          label: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              TextDandyLight(
+                                type: TextDandyLight.SMALL_TEXT,
+                                text: _chipLabels.elementAt(index),
+                                textAlign: TextAlign.start,
+                                color: Color(isSelected(index, pageState) ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
+                              ),
+                            ],
+                          ),
+                          backgroundColor:
+                          Color(ColorConstants.primary_bg_grey),
+                          selectedColor: Color(isSelected(index, pageState) ? ColorConstants.getBlueDark() : ColorConstants.getBlueLight()),
+                          selected: pageState.leadSource == _chipLabels.elementAt(index),
+                          onSelected: (bool selected) {
+                            setState(() {
+                              if (selected) {
+                                pageState.onLeadSourceSelected(_chipLabels.elementAt(index));
+                              }
+                            });
+                          },
+                        ),
+                      );
+                    },
+                  ).toList(),
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 32, right: 32),
+              child: pageState.leadSource == Client.LEAD_SOURCE_OTHER ? NewContactTextField(
                   customLeadController,
                   "Custom Name",
                   TextInputType.text,

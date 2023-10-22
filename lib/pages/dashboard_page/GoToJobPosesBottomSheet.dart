@@ -52,7 +52,7 @@ class _GoToJobPosesBottomSheetState extends State<GoToJobPosesBottomSheet> with 
                          type: TextDandyLight.LARGE_TEXT,
                          text: 'Current Photoshoot',
                          textAlign: TextAlign.center,
-                         color: Color(ColorConstants.primary_black),
+                         color: Color(ColorConstants.getPrimaryBlack()),
                        ),
                      ),
                      Container(
@@ -61,12 +61,12 @@ class _GoToJobPosesBottomSheetState extends State<GoToJobPosesBottomSheet> with 
                          type: TextDandyLight.MEDIUM_TEXT,
                          text: job.jobTitle,
                          textAlign: TextAlign.center,
-                         color: Color(ColorConstants.primary_black),
+                         color: Color(ColorConstants.getPrimaryBlack()),
                        ),
                      ),
                      GestureDetector(
                        onTap: () {
-                         pageState.onJobClicked(job);
+                         pageState.onJobClicked(job.documentId);
                          Navigator.of(context).pop();
                          NavigationUtil.onJobPosesSelected(context);
                          EventSender().sendEvent(eventName: EventNames.NAV_TO_JOB_POSES_FROM_BOTTOM_SHEET);
@@ -88,7 +88,7 @@ class _GoToJobPosesBottomSheetState extends State<GoToJobPosesBottomSheet> with 
                      ),
                      GestureDetector(
                        onTap: () {
-                         pageState.onJobClicked(job);
+                         pageState.onJobClicked(job.documentId);
                          Navigator.of(context).pop();
                          NavigationUtil.onJobTapped(context, false);
                          EventSender().sendEvent(eventName: EventNames.NAV_TO_JOB_POSES_FROM_BOTTOM_SHEET);

@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../AppState.dart';
+import '../../models/Client.dart';
 import '../../utils/ImageUtil.dart';
 import '../../widgets/TextDandyLight.dart';
 import '../new_contact_pages/NewContactPageState.dart';
@@ -25,10 +26,14 @@ class _LeadSourceSelectionWidget extends State<LeadSourceSelectionWidget> {
   final customLeadController = TextEditingController();
   final FocusNode _customLeadFocusNode = FocusNode();
 
+  List<String> _chipLabels = Client.getLeadSources();
+
+  bool isSelected(int index, ClientDetailsPageState pageState) {
+    return _chipLabels.elementAt(index) == pageState.leadSource;
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<String> leadSourceIconsWhite = ImageUtil.leadSourceIconsWhite;
-    List<String> leadSourceIconsPeach = ImageUtil.leadSourceIconsPeach;
     return StoreConnector<AppState, ClientDetailsPageState>(
       onInit: (store) {
         customLeadController.value = customLeadController.value.copyWith(text:store.state.clientDetailsPageState.customLeadSourceName);
@@ -59,7 +64,7 @@ class _LeadSourceSelectionWidget extends State<LeadSourceSelectionWidget> {
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: 'Cancel',
                               textAlign: TextAlign.start,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                           TextButton(
@@ -71,7 +76,7 @@ class _LeadSourceSelectionWidget extends State<LeadSourceSelectionWidget> {
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: 'Save',
                               textAlign: TextAlign.start,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                         ],
@@ -82,76 +87,54 @@ class _LeadSourceSelectionWidget extends State<LeadSourceSelectionWidget> {
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: 'Select a lead source',
                       textAlign: TextAlign.start,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   Container(
                     height: 232,
                     padding: EdgeInsets.only(left: 24, right: 24),
-                    child: GridView.builder(
-                        shrinkWrap: true,
-                        itemCount: 8,
-                        physics: NeverScrollableScrollPhysics(),
-                        gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4, childAspectRatio: 0.8),
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                            onTap: () {
-                              modalPageState.onLeadSourceSelected(
-                                  leadSourceIconsWhite.elementAt(index));
-                            },
-                            child: Column(
-                              children: <Widget>[
-                                Stack(
-                                  alignment: Alignment.center,
-                                  children: <Widget>[
-                                    modalPageState.leadSource != null && getIconPosition(modalPageState, leadSourceIconsWhite) == index
-                                        ? new Container(
-                                      margin: EdgeInsets.only(bottom: 8.0),
-                                      height: 46.0,
-                                      width: 46.0,
-                                      decoration: new BoxDecoration(
-                                        color: Color(
-                                            ColorConstants.getBlueLight()),
-                                        borderRadius:
-                                        BorderRadius.circular(12.0),
-                                      ),
-                                    )
-                                        : SizedBox(
-                                      height: 54.0,
-                                      width: 46.0,
+                    child: Container(
+                      child: Wrap(
+                        alignment: WrapAlignment.center,
+                        spacing: 8.0,
+                        children: List<Widget>.generate(
+                          _chipLabels.length,
+                              (int index) {
+                            return Container(
+                                  child: ChoiceChip(
+                                    label: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        TextDandyLight(
+                                          type: TextDandyLight.SMALL_TEXT,
+                                          text: _chipLabels.elementAt(index),
+                                          textAlign: TextAlign.start,
+                                          color: Color(isSelected(index, modalPageState) ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
+                                        ),
+                                      ],
                                     ),
-                                    Container(
-                                      margin: EdgeInsets.only(bottom: 8.0),
-                                      height: 36.0,
-                                      width: 36.0,
-                                      child: Image.asset(
-                                        leadSourceIconsPeach.elementAt(index),
-                                        color: Color(
-                                            modalPageState.leadSource != null &&
-                                                getIconPosition(modalPageState,
-                                                    leadSourceIconsWhite) ==
-                                                    index
-                                                ? ColorConstants.getPrimaryWhite()
-                                                : ColorConstants.getPeachDark()),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                TextDandyLight(
-                                  type: TextDandyLight.EXTRA_SMALL_TEXT,
-                                  text: ImageUtil.getLeadSourceText(leadSourceIconsWhite.elementAt(index)),
-                                  textAlign: TextAlign.center,
-                                  color: Color(ColorConstants.primary_black),
-                                ),
-                              ],
-                            ),
-                          );
-                        }),
+                                    backgroundColor:
+                                    Color(ColorConstants.getBlueLight()),
+                                    selectedColor: Color(ColorConstants.getBlueDark()),
+                                    selected: modalPageState.leadSource == _chipLabels.elementAt(index),
+                                    onSelected: (bool selected) {
+                                      setState(() {
+                                        if (selected) {
+                                          modalPageState.onLeadSourceSelected(_chipLabels.elementAt(index));
+                                        }
+                                      });
+                                    },
+                                  ),
+                            );
+                          },
+                        ).toList(),
+                      ),
+                    ),
                   ),
                   Container(
                     height: 82.0,
                     width: 275,
-                    child: modalPageState.leadSource == 'assets/images/icons/email_icon_white.png'
+                    child: modalPageState.leadSource == Client.LEAD_SOURCE_OTHER
                         ? ClientDetailsTextView(
                       customLeadController,
                       "Custom Name",
@@ -175,11 +158,6 @@ class _LeadSourceSelectionWidget extends State<LeadSourceSelectionWidget> {
               ),
             ),
     );
-  }
-
-  String _getLeadSourceName(ClientDetailsPageState pageState) {
-    return (pageState.client.customLeadSourceName != null && pageState.client.customLeadSourceName.isNotEmpty ? pageState.client.customLeadSourceName : ImageUtil.getLeadSourceText(pageState.client.leadSource));
-
   }
 
   void onAction(){

@@ -9,9 +9,10 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
+import '../../models/AppSettings.dart';
 import '../../models/JobReminder.dart';
 import '../../models/JobStage.dart';
-import '../../models/Location.dart';
+import '../../models/LocationDandy.dart';
 import '../../models/Pose.dart';
 import '../../models/Profile.dart';
 import 'JobTypePieChartRowData.dart';
@@ -25,6 +26,9 @@ class DashboardPageState {
   final bool hasSeenShowcase;
   final bool goToSeen;
   final bool areJobsLoaded;
+  final bool shouldShowRequestReview;
+  final bool shouldShowPMFRequest;
+  final bool shouldShowAppUpdate;
   final Job goToPosesJob;
   final int leadConversionRate;
   final int unconvertedLeadCount;
@@ -45,11 +49,12 @@ class DashboardPageState {
   final List<LeadSourcePieChartRowData> leadSourcePieChartRowData;
   final List<Pose> unseenFeaturedPoses;
   final Profile profile;
+  final AppSettings appSettings;
   final Function() onAddClicked;
   final Function() onSearchClientsClicked;
   final Function(Action) onActionItemClicked;
   final Function(Client) onLeadClicked;
-  final Function(Job) onJobClicked;
+  final Function(String) onJobClicked;
   final Function(JobReminder) onReminderSelected;
   final Function() onViewAllHideSelected;
   final Function() onViewAllHideLeadsSelected;
@@ -58,7 +63,10 @@ class DashboardPageState {
   final Function() onShowcaseSeen;
   final Function() markAllAsSeen;
   final Function() onGoToSeen;
-  final Function(Location) drivingDirectionsSelected;
+  final Function(LocationDandy) drivingDirectionsSelected;
+  final Function(bool, DateTime) updateCanShowPMF;
+  final Function(bool, DateTime) updateCanShowRequestReview;
+  final Function(AppSettings) markUpdateAsSeen;
 
   DashboardPageState({
     this.jobsProfitTotal,
@@ -102,6 +110,13 @@ class DashboardPageState {
     this.drivingDirectionsSelected,
     this.areJobsLoaded,
     this.unseenFeaturedPoses,
+    this.shouldShowPMFRequest,
+    this.shouldShowRequestReview,
+    this.updateCanShowPMF,
+    this.updateCanShowRequestReview,
+    this.shouldShowAppUpdate,
+    this.markUpdateAsSeen,
+    this.appSettings,
   });
 
   DashboardPageState copyWith({
@@ -111,6 +126,9 @@ class DashboardPageState {
     bool hasSeenShowcase,
     bool goToSeen,
     bool areJobsLoaded,
+    bool shouldShowPMFRequest,
+    bool shouldShowRequestReview,
+    bool shouldShowAppUpdate,
     int leadConversionRate,
     Job goToPosesJob,
     int unconvertedLeadCount,
@@ -128,7 +146,7 @@ class DashboardPageState {
     Function() onSearchClientsClicked,
     Function(Action) onActionItemClicked,
     Function(Client) onLeadClicked,
-    Function(Job) onJobClicked,
+    Function(String) onJobClicked,
     Function() onViewAllHideSelected,
     Function() onViewAllHideLeadsSelected,
     List<JobReminder> reminders,
@@ -144,8 +162,12 @@ class DashboardPageState {
     List<LeadSourcePieChartRowData> leadSourcePieChartRowData,
     Profile profile,
     purchases.CustomerInfo subscriptionState,
+    AppSettings appSettings,
     Function() onGoToSeen,
-    Function(Location) drivingDirectionsSelected,
+    Function(LocationDandy) drivingDirectionsSelected,
+    Function(bool, DateTime) updateCanShowPMF,
+    Function(bool, DateTime) updateCanShowRequestReview,
+    Function(AppSettings) markUpdateAsSeen,
   }){
     return DashboardPageState(
       jobsProfitTotal: jobsProfitTotal ?? this.jobsProfitTotal,
@@ -189,6 +211,13 @@ class DashboardPageState {
       drivingDirectionsSelected: drivingDirectionsSelected ?? this.drivingDirectionsSelected,
       areJobsLoaded: areJobsLoaded ?? this.areJobsLoaded,
       unseenFeaturedPoses: unseenFeaturedPoses ?? this.unseenFeaturedPoses,
+      shouldShowPMFRequest: shouldShowPMFRequest ?? this.shouldShowPMFRequest,
+      shouldShowRequestReview: shouldShowRequestReview ?? this.shouldShowRequestReview,
+      updateCanShowPMF: updateCanShowPMF ?? this.updateCanShowPMF,
+      updateCanShowRequestReview: updateCanShowRequestReview ?? this.updateCanShowRequestReview,
+      shouldShowAppUpdate : shouldShowAppUpdate ?? this.shouldShowAppUpdate,
+      markUpdateAsSeen: markUpdateAsSeen ?? this.markUpdateAsSeen,
+      appSettings: appSettings ?? this.appSettings,
     );
   }
 
@@ -224,6 +253,10 @@ class DashboardPageState {
       goToSeen: store.state.dashboardPageState.goToSeen,
       areJobsLoaded: store.state.dashboardPageState.areJobsLoaded,
       unseenFeaturedPoses: store.state.dashboardPageState.unseenFeaturedPoses,
+      shouldShowPMFRequest: store.state.dashboardPageState.shouldShowPMFRequest,
+      shouldShowRequestReview: store.state.dashboardPageState.shouldShowRequestReview,
+      shouldShowAppUpdate: store.state.dashboardPageState.shouldShowAppUpdate,
+      appSettings: store.state.dashboardPageState.appSettings,
       onLeadClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
       onJobClicked: (job) {
         store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job));
@@ -246,6 +279,12 @@ class DashboardPageState {
       markAllAsSeen: () => store.dispatch(MarkAllAsSeenAction(store.state.dashboardPageState)),
       onGoToSeen: () => store.dispatch(SetGoToAsSeenAction(store.state.dashboardPageState)),
       drivingDirectionsSelected: (location) => store.dispatch(LaunchDrivingDirectionsAction(store.state.dashboardPageState, location)),
+      updateCanShowRequestReview: (canShow, lastSeenDate) => store.dispatch(UpdateCanShowRequestReviewAction(store.state.dashboardPageState, canShow, lastSeenDate)),
+      updateCanShowPMF: (canShow, lastSeenDate) => store.dispatch(UpdateCanShowPMFSurveyAction(store.state.dashboardPageState, canShow, lastSeenDate)),
+      markUpdateAsSeen: (appSettings) {
+        store.dispatch(SetShouldShowUpdateAction(store.state.dashboardPageState, false, appSettings));
+        store.dispatch(SetUpdateSeenTimestampAction(store.state.dashboardPageState, DateTime.now()));
+      },
     );
   }
 
@@ -266,6 +305,7 @@ class DashboardPageState {
     onJobClicked: null,
     isMinimized: true,
     allJobs: [],
+    appSettings: null,
     lineChartMonthData: List.filled(6, LineChartMonthData(income: 1)),
     onViewAllHideSelected: null,
     isLeadsMinimized: true,
@@ -273,6 +313,7 @@ class DashboardPageState {
     onReminderSelected: null,
     onNotificationsSelected: null,
     onNotificationViewClosed: null,
+    shouldShowAppUpdate: false,
     jobsThisWeek: [],
     jobTypeBreakdownData: [],
     leadSourcesData: [],
@@ -288,7 +329,12 @@ class DashboardPageState {
     onGoToSeen: null,
     drivingDirectionsSelected: null,
     areJobsLoaded: false,
+    shouldShowRequestReview: false,
+    shouldShowPMFRequest: false,
     unseenFeaturedPoses: [],
+    updateCanShowRequestReview: null,
+    updateCanShowPMF: null,
+    markUpdateAsSeen: null,
   );
 
   @override
@@ -318,6 +364,7 @@ class DashboardPageState {
       onNotificationsSelected.hashCode ^
       onNotificationViewClosed.hashCode ^
       jobsThisWeek.hashCode ^
+      shouldShowAppUpdate.hashCode ^
       subscriptionState.hashCode ^
       leadConversionRate.hashCode ^
       unconvertedLeadCount.hashCode ^
@@ -330,7 +377,13 @@ class DashboardPageState {
       goToSeen.hashCode ^
       onGoToSeen.hashCode ^
       areJobsLoaded.hashCode ^
+      shouldShowRequestReview.hashCode ^
+      shouldShowPMFRequest.hashCode ^
       unseenFeaturedPoses.hashCode ^
+      updateCanShowPMF.hashCode ^
+      updateCanShowRequestReview.hashCode ^
+      markUpdateAsSeen.hashCode ^
+      appSettings.hashCode ^
       isMinimized.hashCode;
 
   @override
@@ -351,6 +404,7 @@ class DashboardPageState {
               onJobClicked == other.onJobClicked &&
               onAddClicked == other.onAddClicked &&
               activeJobs == other.activeJobs &&
+              shouldShowAppUpdate == other.shouldShowAppUpdate &&
               allUserStages == other.allUserStages &&
               onViewAllHideSelected == other.onViewAllHideSelected &&
               lineChartMonthData == other.lineChartMonthData &&
@@ -369,11 +423,17 @@ class DashboardPageState {
               jobTypePieChartRowData == other.jobTypePieChartRowData &&
               leadSourcePieChartRowData == other.leadSourcePieChartRowData &&
               profile == other.profile &&
+              appSettings == other.appSettings &&
               goToPosesJob == other.goToPosesJob &&
               goToSeen == other.goToSeen &&
               onGoToSeen == other.onGoToSeen &&
               drivingDirectionsSelected == other.drivingDirectionsSelected &&
               areJobsLoaded == other.areJobsLoaded &&
+              shouldShowRequestReview == other.shouldShowRequestReview &&
+              shouldShowPMFRequest == other.shouldShowPMFRequest &&
               unseenFeaturedPoses == other.unseenFeaturedPoses &&
+              updateCanShowPMF == other.updateCanShowPMF &&
+              updateCanShowRequestReview == other.updateCanShowRequestReview &&
+              markUpdateAsSeen == other.markUpdateAsSeen &&
               isMinimized == other.isMinimized;
 }

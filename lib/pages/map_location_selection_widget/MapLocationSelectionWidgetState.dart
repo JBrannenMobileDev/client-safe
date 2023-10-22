@@ -1,5 +1,5 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
 import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidgetActions.dart';
 import 'package:flutter/widgets.dart';
@@ -13,7 +13,7 @@ class MapLocationSelectionWidgetState {
   final String searchText;
   final double lat;
   final double lng;
-  final Location selectedSearchLocation;
+  final LocationDandy selectedSearchLocation;
   final List<PlacesLocation> locationResults;
   final Function(PlacesLocation) onSearchLocationSelected;
   final Function(LatLng) onMapLocationChanged;
@@ -42,7 +42,7 @@ class MapLocationSelectionWidgetState {
     Function(PlacesLocation) onSearchLocationSelected,
     Function(String) onThrottleGetLocations,
     List<PlacesLocation> locationsResults,
-    Location selectedSearchLocation,
+    LocationDandy selectedSearchLocation,
     Function() onClearSearchTextSelected,
   }){
     return MapLocationSelectionWidgetState(

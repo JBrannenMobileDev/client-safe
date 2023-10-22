@@ -38,7 +38,7 @@ class _SelectExpenseDatePageState extends State<SelectExpenseDatePage> with Auto
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: 'Select the date that this expense was charged.',
                   textAlign: TextAlign.start,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               Container(
@@ -51,6 +51,14 @@ class _SelectExpenseDatePageState extends State<SelectExpenseDatePage> with Auto
                         context,
                         dateFormat: 'MMMM dd yyyy',
                         pickerMode: DateTimePickerMode.date,
+                        pickerTheme: DateTimePickerTheme(
+                          cancelTextStyle: TextStyle(
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                          confirmTextStyle: TextStyle(
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                        ),
                         onConfirm: (dateTime, intList) {
                           pageState.onExpenseDateSelected(dateTime);
                         }
@@ -69,7 +77,7 @@ class _SelectExpenseDatePageState extends State<SelectExpenseDatePage> with Auto
                           shape: BoxShape.circle,
                         ),
                         child: Image.asset(
-                            'assets/images/icons/calendar_icon_white.png'),
+                            'assets/images/icons/calendar.png', color: Color(ColorConstants.getPrimaryWhite()),),
                       ),
                       Container(
                         padding: EdgeInsets.only(bottom: 2.0, left: 16.0, right: 16.0),
@@ -98,7 +106,7 @@ class _SelectExpenseDatePageState extends State<SelectExpenseDatePage> with Auto
                       shape: BoxShape.circle,
                     ),
                     child: Image.asset(
-                        'assets/images/icons/calendar_icon_white.png'),
+                      'assets/images/icons/calendar.png', color: Color(ColorConstants.getPrimaryWhite()),),
                   ),
                 ),
               ),

@@ -1,6 +1,6 @@
 import 'package:dandylight/models/EventDandyLight.dart';
 import 'package:dandylight/models/Job.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/pages/job_details_page/document_items/DocumentItem.dart';
@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 
 import '../../models/rest_models/AccuWeatherModels/forecastFiveDay/DailyForecasts.dart';
+import 'document_items/ContractDocument.dart';
 
 final jobDetailsReducer = combineReducers<JobDetailsPageState>([
   TypedReducer<JobDetailsPageState, SetJobAction>(_setJobInfo),
@@ -38,7 +39,7 @@ final jobDetailsReducer = combineReducers<JobDetailsPageState>([
   TypedReducer<JobDetailsPageState, SetDeviceEventsAction>(_setDeviceEvents),
   TypedReducer<JobDetailsPageState, SetJobDetailsSelectedDateAction>(_setSelectedDate),
   TypedReducer<JobDetailsPageState, SetAllJobTypesAction>(_setJobTypes),
-  TypedReducer<JobDetailsPageState, DeleteInvoiceFromLocalStateAction>(_deleteInvoice),
+  TypedReducer<JobDetailsPageState, DeleteDocumentFromLocalStateAction>(_deleteDocument),
   TypedReducer<JobDetailsPageState, ClearPreviousStateAction>(_clearState),
   TypedReducer<JobDetailsPageState, SaveJobNotesAction>(_setNotes),
   TypedReducer<JobDetailsPageState, SetForecastAction>(_setForecast),
@@ -55,7 +56,7 @@ JobDetailsPageState _setPoseFilePaths(JobDetailsPageState previousState, SetPose
 JobDetailsPageState _setForecast(JobDetailsPageState previousState, SetForecastAction action){
   DailyForecasts matchingDay;
   for(DailyForecasts forecastDay in action.forecast5days.dailyForecasts){
-    if(DateFormat('yyyy-MM-dd').format(previousState.selectedDate) == DateFormat('yyyy-MM-dd').format(DateTime.parse(forecastDay.date))) {
+    if(previousState.selectedDate != null && DateFormat('yyyy-MM-dd').format(previousState.selectedDate) == DateFormat('yyyy-MM-dd').format(DateTime.parse(forecastDay.date))) {
       matchingDay = forecastDay;
       break;
     }
@@ -190,21 +191,29 @@ JobDetailsPageState _clearState(JobDetailsPageState previousState, ClearPrevious
   return JobDetailsPageState.initial();
 }
 
-JobDetailsPageState _deleteInvoice(JobDetailsPageState previousState, DeleteInvoiceFromLocalStateAction action) {
+JobDetailsPageState _deleteDocument(JobDetailsPageState previousState, DeleteDocumentFromLocalStateAction action) {
   List<DocumentItem> documents = previousState.documents;
 
-  DocumentItem documentToReplace;
+  DocumentItem documentToDelete;
   for(DocumentItem documentItem in documents){
-    if(documentItem.getDocumentType() == DocumentItem.DOCUMENT_TYPE_INVOICE){
-      documentToReplace = documentItem;
+    switch(action.documentType) {
+      case DocumentItem.DOCUMENT_TYPE_INVOICE:
+        if(documentItem.getDocumentType() == DocumentItem.DOCUMENT_TYPE_INVOICE){
+          documentToDelete = documentItem;
+          action.pageState.job.invoice = null;
+        }
+        break;
+      case DocumentItem.DOCUMENT_TYPE_CONTRACT:
+        if(documentItem.getDocumentType() == DocumentItem.DOCUMENT_TYPE_CONTRACT){
+          documentToDelete = documentItem;
+        }
+        break;
     }
   }
 
-  if(documentToReplace != null){
-    documents.remove(documentToReplace);
+  if(documentToDelete != null){
+    documents.remove(documentToDelete);
   }
-
-  action.pageState.job.invoice = null;
 
   return previousState.copyWith(
     job: action.pageState.job,
@@ -354,10 +363,19 @@ JobDetailsPageState _updateScrollOffset(JobDetailsPageState previousState, Updat
 JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobAction action){
   List<DocumentItem> documents = [];
   if(action.job.invoice != null) {
-    documents.add(InvoiceDocument());
+    documents.add(InvoiceDocument(
+      isPaid: action.job.invoice.invoicePaid,
+      depositPaid: action.job.invoice.depositPaid,
+    ));
+  }
+  if(action.job.proposal.contract != null) {
+    documents.add(ContractDocument(
+        contractName: action.job.proposal.contract.contractName,
+        isSigned: action.job.proposal.contract.signedByClient
+    ));
   }
   action.job.completedStages.sort((a, b) => a.compareTo(b));
-  Location newLocation = action.job.location != null ? action.job.location : null;
+  LocationDandy newLocation = action.job.location != null ? action.job.location : null;
   return previousState.copyWith(
     job: action.job,
     selectedLocation: newLocation,

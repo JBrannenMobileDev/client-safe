@@ -1,6 +1,6 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/api_clients/GoogleApiClient.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
 import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidgetActions.dart';
 import 'package:geolocator/geolocator.dart';
@@ -24,7 +24,7 @@ class MapLocationSelectionWidgetMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchLocationDetails(Store<AppState> store, NextDispatcher next, FetchSearchLocationDetails action) async {
-    Location selectedSearchLocation = await Location(latitude: action.selectedSearchLocation.lat, longitude: action.selectedSearchLocation.lon, locationName: action.selectedSearchLocation.name, address: action.selectedSearchLocation.address);
+    LocationDandy selectedSearchLocation = await LocationDandy.LocationDandy(latitude: action.selectedSearchLocation.lat, longitude: action.selectedSearchLocation.lon, locationName: action.selectedSearchLocation.name, address: action.selectedSearchLocation.address);
     store.dispatch(SetSelectedSearchLocation(store.state.mapLocationSelectionWidgetState, selectedSearchLocation));
   }
 

@@ -21,14 +21,6 @@ class PricingProfilesPageMiddleware extends MiddlewareClass<AppState> {
   void fetchProfiles(Store<AppState> store, NextDispatcher next) async{
       List<PriceProfile> priceProfiles = await PriceProfileDao.getAllSortedByName();
       next(SetPricingProfilesAction(store.state.pricingProfilesPageState, priceProfiles));
-
-      (await PriceProfileDao.getPriceProfilesStream()).listen((snapshots) async {
-        List<PriceProfile> priceProfilesToUpdate = List();
-        for(RecordSnapshot clientSnapshot in snapshots) {
-          priceProfilesToUpdate.add(PriceProfile.fromMap(clientSnapshot.value));
-        }
-        store.dispatch(SetPricingProfilesAction(store.state.pricingProfilesPageState, priceProfilesToUpdate));
-      });
   }
 
   void _deletePricingProfile(Store<AppState> store, action, NextDispatcher next) async{

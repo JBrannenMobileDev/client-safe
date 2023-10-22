@@ -187,7 +187,7 @@ class _NewLineItemDialogState extends State<NewLineItemDialog>
                                 type: TextDandyLight.EXTRA_SMALL_TEXT,
                                 text: 'Cancel',
                                 textAlign: TextAlign.center,
-                                color: Color(ColorConstants.primary_black),
+                                color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
                             TextButton(
@@ -200,7 +200,7 @@ class _NewLineItemDialogState extends State<NewLineItemDialog>
                                 type: TextDandyLight.EXTRA_SMALL_TEXT,
                                 text: 'Save',
                                 textAlign: TextAlign.center,
-                                color: Color(ColorConstants.primary_black),
+                                color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
                           ],

@@ -41,7 +41,7 @@ class _TipChangePageState extends State<TipChangePage>
                           type: TextDandyLight.MEDIUM_TEXT,
                           text: "Select the tip amount received.",
                           textAlign: TextAlign.center,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       Container(
@@ -50,7 +50,7 @@ class _TipChangePageState extends State<TipChangePage>
                           type: TextDandyLight.EXTRA_EXTRA_LARGE_TEXT,
                           text: "\$" + pageState.unsavedTipAmount.toString(),
                           textAlign: TextAlign.center,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       Row(

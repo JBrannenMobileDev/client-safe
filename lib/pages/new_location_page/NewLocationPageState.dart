@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
 import 'package:dandylight/pages/new_location_page/NewLocationActions.dart';
 import 'package:flutter/widgets.dart';
@@ -21,7 +21,7 @@ class NewLocationPageState{
   final double newLocationLongitude;
   final String imagePath;
   final LatLng selectedLatLng;
-  final List<Location> locations;
+  final List<LocationDandy> locations;
   final Function(LatLng) onLocationChanged;
   final Function() onSaveLocationSelected;
   final Function() onDeleteSelected;
@@ -31,7 +31,7 @@ class NewLocationPageState{
   final Function() onBackPressed;
   final Function(String) saveImagePath;
   final String searchText;
-  final Location selectedSearchLocation;
+  final LocationDandy selectedSearchLocation;
   final List<PlacesLocation> locationsResults;
   final Function(LatLng) onMapLocationChanged;
   final Function() onMapLocationSaved;
@@ -85,11 +85,11 @@ class NewLocationPageState{
     double newLocationLongitude,
     String imagePath,
     String documentFilePath,
-    List<Location> locations,
+    List<LocationDandy> locations,
     LatLng selectedLatLng,
     Function(int) onLocationChanged,
     Function() onDeleteLocationSelected,
-    Function(Location) onSaveLocationSelected,
+    Function(LocationDandy) onSaveLocationSelected,
     Function() onDeleteSelected,
     Function() onCanceledSelected,
     Function(String) onLocationNameChanged,
@@ -97,7 +97,7 @@ class NewLocationPageState{
     Function() onBackPressed,
     Function(String) saveImagePath,
     String searchText,
-    Location selectedSearchLocation,
+    LocationDandy selectedSearchLocation,
     List<PlacesLocation> locationsResults,
     Function(LatLng) onMapLocationChanged,
     Function() onMapLocationSaved,

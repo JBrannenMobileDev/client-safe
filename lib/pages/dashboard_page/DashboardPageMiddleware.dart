@@ -2,16 +2,16 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/data_layer/local_db/daos/AppSettingsDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ClientDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobTypeDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/MileageExpenseDao.dart';
-import 'package:dandylight/data_layer/local_db/daos/PoseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/RecurringExpenseDao.dart';
-import 'package:dandylight/data_layer/local_db/daos/ReminderDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/SingleExpenseDao.dart';
+import 'package:dandylight/models/AppSettings.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
@@ -26,16 +26,16 @@ import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:dandylight/utils/EnvironmentUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:flutter/services.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
+import 'package:version/version.dart';
 
 import '../../data_layer/local_db/daos/PoseSubmittedGroupDao.dart';
 import '../../models/Pose.dart';
 import '../../models/SingleExpense.dart';
-import '../../utils/IntentLauncherUtil.dart';
+import '../../utils/intentLauncher/IntentLauncherUtil.dart';
 import '../new_reminder_page/WhenSelectionWidget.dart';
 
 class DashboardPageMiddleware extends MiddlewareClass<AppState> {
@@ -47,7 +47,6 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       await _loadClients(store, action, next);
       await _loadJobReminders(store, action, next);
       await _fetchSubscriptionState(store, next);
-      await _checkForAppUpdate(store);
     }
     if(action is SetNotificationToSeen) {
       _setNotificationToSeen(store, action);
@@ -67,11 +66,76 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     if(action is CheckForGoToJobAction) {
       _checkForGoToJob(store, action);
     }
+    if(action is CheckForReviewRequestAction) {
+      _checkForReviewRequest(store, action, next);
+    }
+    if(action is CheckForPMFSurveyAction) {
+      _checkForPMFSurvey(store, action, next);
+    }
+    if(action is UpdateCanShowPMFSurveyAction) {
+      _updateCanShowPMF(store, action, next);
+    }
+    if(action is UpdateCanShowRequestReviewAction) {
+      _updateCanShowReviewRequest(store, action, next);
+    }
     if(action is LaunchDrivingDirectionsAction) {
       _launchDrivingDirections(store, action);
     }
     if(action is SetUnseenFeaturedPosesAsSeenAction) {
       _setUnseenFeaturedPosesToSeen(store, action);
+    }
+    if(action is CheckForAppUpdateAction) {
+      _checkForUpdate(store, action);
+    }
+    if(action is SetUpdateSeenTimestampAction) {
+      _setUpdateLastSeenTime(store, action);
+    }
+  }
+
+  Future<void> _setUpdateLastSeenTime(Store<AppState> store, SetUpdateSeenTimestampAction action) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.updateLastSeenDate = action.lastSeenDate;
+    await ProfileDao.update(profile);
+    store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
+    store.dispatch(SetShouldShowUpdateAction(store.state.dashboardPageState, false, (await AppSettingsDao.getAll())?.first));
+  }
+
+  Future<void> _updateCanShowPMF(Store<AppState> store, UpdateCanShowPMFSurveyAction action, NextDispatcher next) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.canShowPMFSurvey = action.canShow;
+    profile.requestPMFSurveyDate = action.lastSeenDate;
+    await ProfileDao.update(profile);
+    store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
+
+  }
+
+  Future<void> _updateCanShowReviewRequest(Store<AppState> store, UpdateCanShowRequestReviewAction action, NextDispatcher next) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.canShowAppReview = action.canShow;
+    profile.requestReviewDate = action.lastSeenDate;
+    await ProfileDao.update(profile);
+    store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
+
+  }
+
+  void _checkForUpdate(Store<AppState> store, CheckForAppUpdateAction action) async {
+    List<AppSettings> settingsList = (await AppSettingsDao.getAll());
+    AppSettings settings = settingsList != null && settingsList.length > 0 ? settingsList.first : null;
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(settings != null) {
+      if(settings.show) {
+        PackageInfo packageInfo = await PackageInfo.fromPlatform();
+        Version currentVersion = Version.parse(packageInfo.version);
+        Version latestVersion = Version.parse(settings.currentBuildVersionNumber);
+
+        if (latestVersion > currentVersion && (profile.updateLastSeenDate == null || (profile.updateLastSeenDate != null && hasBeenLongEnoughSinceLastRequest(profile.updateLastSeenDate, 1)))) {
+          store.dispatch(SetShouldShowUpdateAction(store.state.dashboardPageState, true, settings));
+        } else {
+          store.dispatch(SetShouldShowUpdateAction(store.state.dashboardPageState, false, settings));
+        }
+      }
+    } else {
+      store.dispatch(SetShouldShowUpdateAction(store.state.dashboardPageState, false, settings));
     }
   }
 
@@ -79,6 +143,24 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     IntentLauncherUtil.launchDrivingDirections(
         action.location.latitude.toString(),
         action.location.longitude.toString());
+  }
+
+  Future<void> _checkForReviewRequest(Store<AppState> store, CheckForReviewRequestAction action, NextDispatcher next) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(profile.isSubscribed && profile.jobsCreatedCount > 5 && profile.canShowAppReview && hasBeenLongEnoughSinceLastRequest(profile.requestReviewDate, 7)) {
+      next(SetShouldAppReview(store.state.dashboardPageState, true));
+    } else {
+      next(SetShouldAppReview(store.state.dashboardPageState, false));
+    }
+  }
+
+  Future<void> _checkForPMFSurvey(Store<AppState> store, CheckForPMFSurveyAction action, NextDispatcher next) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(profile.isSubscribed && profile.jobsCreatedCount > 12 && profile.canShowPMFSurvey && hasBeenLongEnoughSinceLastRequest(profile.requestPMFSurveyDate, 7)) {
+      next(SetShouldShowPMF(store.state.dashboardPageState, true));
+    } else {
+      next(SetShouldShowPMF(store.state.dashboardPageState, false));
+    }
   }
 
   Future<void> _checkForGoToJob(Store<AppState> store, CheckForGoToJobAction action) async {
@@ -112,14 +194,6 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     ProfileDao.update(profile);
   }
 
-  Future<void> _checkForAppUpdate(Store<AppState> store) async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    String deviceVersion = packageInfo.version;
-    String highestVersion = EnvironmentUtil().getCurrentBuildNumber();
-    bool showAppUpdateDialog = highestVersion != deviceVersion;
-
-  }
-
   Future<void> _fetchSubscriptionState(Store<AppState> store, NextDispatcher next) async {
     purchases.CustomerInfo subscriptionState = await _getSubscriptionState();
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
@@ -145,7 +219,8 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   Future<void> _updateProfileWithShowcaseSeen(Store<AppState> store, UpdateProfileWithShowcaseSeen action, NextDispatcher next) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.hasSeenShowcase = true;
-    ProfileDao.update(profile);
+    await ProfileDao.update(profile);
+    store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
   }
 
   Future<void> _setUnseenFeaturedPosesToSeen(Store<AppState> store, SetUnseenFeaturedPosesAsSeenAction action) async {
@@ -232,17 +307,46 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _loadAllJobs(Store<AppState> store) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
+
     List<Job> allJobs = await JobDao.getAllJobs();
+    await allJobs.forEach((job) async {
+      job.paymentReceivedDate = job.createdDate;
+      await JobDao.update(job);
+    });
+    allJobs = await JobDao.getAllJobs();
+
     List<JobType> allJobTypes = await JobTypeDao.getAll();
     List<SingleExpense> singleExpenses = await SingleExpenseDao.getAll();
     List<MileageExpense> mileageExpenses = await MileageExpenseDao.getAll();
     List<RecurringExpense> recurringExpenses = await RecurringExpenseDao.getAll();
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+
 
     store.dispatch(SetJobsDataAction(store.state.jobsPageState, allJobs));
     store.dispatch(SetJobToStateAction(store.state.dashboardPageState, allJobs, singleExpenses, recurringExpenses, mileageExpenses));
     store.dispatch(SetJobTypeChartData(store.state.dashboardPageState, allJobs, allJobTypes));
-    store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
+
+    (await ProfileDao.getProfileStream()).listen((profilesSnapshots) async {
+      List<Profile> profiles = [];
+      for(RecordSnapshot record in profilesSnapshots) {
+        profiles.add(Profile.fromMap(record.value));
+      }
+
+      Profile newProfile = null;
+      String uid = UidUtil().getUid();
+      for(Profile profile in profiles) {
+        if(profile.uid == uid) {
+          newProfile = profile;
+        }
+      }
+
+      if(newProfile != null) {
+        if(profile.logoUrl != newProfile.logoUrl) {
+          store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, newProfile));
+        }
+      }
+    });
 
     await purchases.Purchases.logIn(store.state.dashboardPageState.profile.uid);
 
@@ -305,5 +409,11 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       print(e);
     }
     return currentInfo;
+  }
+
+  bool hasBeenLongEnoughSinceLastRequest(DateTime lastRequestDate, int minTimeDays) {
+    final DateTime now = DateTime.now();
+    final oneWeekAgo = now.subtract(Duration(days: minTimeDays));
+    return lastRequestDate.isBefore(oneWeekAgo);
   }
 }

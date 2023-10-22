@@ -28,7 +28,7 @@ class ShowAccountCreatedDialog extends StatelessWidget {
           ),
 
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
 
               Padding(
@@ -37,21 +37,34 @@ class ShowAccountCreatedDialog extends StatelessWidget {
                   type: TextDandyLight.EXTRA_EXTRA_LARGE_TEXT,
                   text: 'Success!',
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.getPrimaryColor()),
+                  color: Color(ColorConstants.getPeachDark()),
                 ),
               ),
               Container(
                 height: 96.0,
                 width: 96.0,
-                child: Image.asset('assets/images/icons/confirm_icon_gold.png'),
+                child: Icon(
+                  Icons.check,
+                  color: Color(ColorConstants.getPeachDark()),
+                  size: 96,
+                )
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
+                child: TextDandyLight(
+                  type: TextDandyLight.LARGE_TEXT,
+                  text: 'VERIFY THROUGH EMAIL',
+                  textAlign: TextAlign.center,
+                  color: Color(ColorConstants.getPrimaryBlack()),
+                ),
               ),
               Padding(
                 padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
                 child: TextDandyLight(
                   type: TextDandyLight.MEDIUM_TEXT,
-                  text: 'Next we will send you a verification email. After verification is complete you will be able to sign in to DandyLight.',
+                  text: 'After verification is complete you will be able to sign in to DandyLight.',
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               GestureDetector(

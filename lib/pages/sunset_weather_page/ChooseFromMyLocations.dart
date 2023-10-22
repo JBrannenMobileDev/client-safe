@@ -49,7 +49,7 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: "Select a Location",
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               Padding(
@@ -87,14 +87,14 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                   children: <Widget>[
                     TextButton(
                       style: Styles.getButtonStyle(
-                        color: Colors.white,
-                        textColor: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryWhite()),
+                        textColor: Color(ColorConstants.getPrimaryBlack()),
                         left: 8.0,
                         top: 8.0,
                         right: 8.0,
                         bottom: 8.0,
                       ),
-                      // disabledColor: Colors.white,
+                      // disabledColor: Color(ColorConstants.getPrimaryWhite()),
                       // disabledTextColor:
                       // Color(ColorConstants.primary_bg_grey),
                       // splashColor: Color(ColorConstants.getPrimaryColor()),
@@ -105,19 +105,19 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: 'Cancel',
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     TextButton(
                       style: Styles.getButtonStyle(
-                        color: Colors.white,
-                        textColor: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryWhite()),
+                        textColor: Color(ColorConstants.getPrimaryBlack()),
                         left: 8.0,
                         top: 8.0,
                         right: 8.0,
                         bottom: 8.0,
                       ),
-                      // disabledColor: Colors.white,
+                      // disabledColor: Color(ColorConstants.getPrimaryWhite()),
                       // disabledTextColor:
                       // Color(ColorConstants.primary_bg_grey),
                       // splashColor: Color(ColorConstants.getPrimaryColor()),
@@ -130,7 +130,7 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: 'Save',
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                   ],
@@ -148,7 +148,7 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: "Select a location for this job",
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               Padding(
@@ -157,7 +157,7 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: "You do not have any locations saved to your collection. Select the + Location button to create a new location.",
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               TextButton(

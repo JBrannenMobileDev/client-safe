@@ -34,7 +34,7 @@ class JobHistoryWidget extends StatelessWidget {
                   left: 16, top: 16, right: 16, bottom: 16),
               decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
-                borderRadius: BorderRadius.circular(16.0),
+                borderRadius: BorderRadius.circular(12.0),
               ),
               child: Column(
                 children: [
@@ -47,7 +47,7 @@ class JobHistoryWidget extends StatelessWidget {
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: 'Job History',
                       textAlign: TextAlign.start,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   Row(
@@ -58,7 +58,7 @@ class JobHistoryWidget extends StatelessWidget {
                         height: 38.0,
                         width: 38.0,
                         child: Image.asset(
-                          'assets/images/icons/briefcase_icon_white.png',
+                          'assets/images/icons/job_type.png',
                           color: Color(ColorConstants.peach_dark),),
                       ),
                       Expanded(
@@ -74,7 +74,7 @@ class JobHistoryWidget extends StatelessWidget {
                                 text: (pageState.clientJobs != null &&
                                     pageState.clientJobs.length > 0) ? pageState.clientJobs.length == 1 ? '1 Job' : pageState.clientJobs.length.toString() + ' Jobs' : '0 Jobs',
                                 textAlign: TextAlign.start,
-                                color: Color(ColorConstants.primary_black),
+                                color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
                             Container(

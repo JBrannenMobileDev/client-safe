@@ -92,7 +92,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
           children: <Widget>[
             Container(
               height: Device.get().isIphoneX ? 560.0 : 540.0,
-              color: Colors.white,
+              color: Color(ColorConstants.getPrimaryWhite()),
             ),
             SafeArea(
               child: Container(
@@ -124,7 +124,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
                   text: "Calendar",
-                  color: const Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
             ),
@@ -187,7 +187,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
           fontWeight: TextDandyLight.getFontWeight(),
         ),
         defaultTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black),  fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          color: Color(ColorConstants.getPrimaryBlack()),  fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),),
         selectedTextStyle: TextStyle().copyWith(
@@ -203,21 +203,21 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),),
         weekendTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black),  fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          color: Color(ColorConstants.getPrimaryBlack()),  fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),),
         holidayTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black),  fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          color: Color(ColorConstants.getPrimaryBlack()),  fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),),
       ),
       daysOfWeekStyle: DaysOfWeekStyle(
         weekdayStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black),  fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
+          color: Color(ColorConstants.getPrimaryBlack()),  fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),),
         weekendStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black),  fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
+          color: Color(ColorConstants.getPrimaryBlack()),  fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),),
       ),
@@ -225,7 +225,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
         titleCentered: true,
         formatButtonVisible: false,
         titleTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black),  fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+          color: Color(ColorConstants.getPrimaryBlack()),  fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),),
       ),
@@ -337,7 +337,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
       width: 8.0,
       height: 8.0,
       decoration: BoxDecoration(
-          shape: BoxShape.circle, color: Color(!event.isPersonalEvent ? ColorConstants.primary_black : ColorConstants.getPrimaryBackgroundGrey())),
+          shape: BoxShape.circle, color: Color(!event.isPersonalEvent ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryBackgroundGrey())),
     );
   }
 }

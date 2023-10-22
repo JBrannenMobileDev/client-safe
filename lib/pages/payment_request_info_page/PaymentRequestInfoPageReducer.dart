@@ -8,11 +8,17 @@ final paymentRequestInfoPageReducer = combineReducers<PaymentRequestInfoPageStat
   TypedReducer<PaymentRequestInfoPageState, SaveVenmoStateAction>(_saveVenmoState),
   TypedReducer<PaymentRequestInfoPageState, SaveCashAppStateAction>(_saveCashAppState),
   TypedReducer<PaymentRequestInfoPageState, SaveApplePayStateAction>(_saveApplePayState),
+  TypedReducer<PaymentRequestInfoPageState, SaveCashStateAction>(_saveCashState),
+  TypedReducer<PaymentRequestInfoPageState, SaveOtherStateAction>(_saveOtherState),
+  TypedReducer<PaymentRequestInfoPageState, SaveWireStateAction>(_saveWireState),
   TypedReducer<PaymentRequestInfoPageState, SetZellePhoneEmailTextAction>(_setZellePhoneEmailText),
   TypedReducer<PaymentRequestInfoPageState, SetZelleFullNameTextAction>(_setZelleFullNameText),
   TypedReducer<PaymentRequestInfoPageState, SetVenmoLinkTextAction>(_setVenmoLinkText),
   TypedReducer<PaymentRequestInfoPageState, SetCashAppLinkTextAction>(_setCashAppLinkText),
   TypedReducer<PaymentRequestInfoPageState, SetApplePayPhoneTextAction>(_setApplePayPhoneText),
+  TypedReducer<PaymentRequestInfoPageState, SetOtherTextAction>(_setOtherText),
+  TypedReducer<PaymentRequestInfoPageState, SetWireTextAction>(_setWireText),
+  TypedReducer<PaymentRequestInfoPageState, SetCashTextAction>(_setCashText),
 ]);
 
 PaymentRequestInfoPageState _setZellePhoneEmailText(PaymentRequestInfoPageState previousState, SetZellePhoneEmailTextAction action){
@@ -45,6 +51,24 @@ PaymentRequestInfoPageState _setApplePayPhoneText(PaymentRequestInfoPageState pr
   );
 }
 
+PaymentRequestInfoPageState _setOtherText(PaymentRequestInfoPageState previousState, SetOtherTextAction action){
+  return previousState.copyWith(
+    otherMessage: action.input,
+  );
+}
+
+PaymentRequestInfoPageState _setWireText(PaymentRequestInfoPageState previousState, SetWireTextAction action){
+  return previousState.copyWith(
+    wireMessage: action.input,
+  );
+}
+
+PaymentRequestInfoPageState _setCashText(PaymentRequestInfoPageState previousState, SetCashTextAction action){
+  return previousState.copyWith(
+    cashMessage: action.input,
+  );
+}
+
 PaymentRequestInfoPageState _saveZelleState(PaymentRequestInfoPageState previousState, SaveZelleStateAction action){
   return previousState.copyWith(
     zelleEnabled: action.enabled,
@@ -66,5 +90,23 @@ PaymentRequestInfoPageState _saveCashAppState(PaymentRequestInfoPageState previo
 PaymentRequestInfoPageState _saveApplePayState(PaymentRequestInfoPageState previousState, SaveApplePayStateAction action){
   return previousState.copyWith(
     applePayEnabled: action.enabled,
+  );
+}
+
+PaymentRequestInfoPageState _saveCashState(PaymentRequestInfoPageState previousState, SaveCashStateAction action){
+  return previousState.copyWith(
+    cashEnabled: action.enabled,
+  );
+}
+
+PaymentRequestInfoPageState _saveOtherState(PaymentRequestInfoPageState previousState, SaveOtherStateAction action){
+  return previousState.copyWith(
+    otherEnabled: action.enabled,
+  );
+}
+
+PaymentRequestInfoPageState _saveWireState(PaymentRequestInfoPageState previousState, SaveWireStateAction action){
+  return previousState.copyWith(
+    wireEnabled: action.enabled,
   );
 }

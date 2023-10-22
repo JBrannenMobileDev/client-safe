@@ -11,21 +11,20 @@ import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/models/JobType.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PriceProfile.dart';
-import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
+import 'package:dandylight/pages/job_details_page/document_items/DocumentItem.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
-import 'package:dandylight/utils/IntentLauncherUtil.dart';
+import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/NotificationHelper.dart';
 import 'package:dandylight/utils/analytics/EventNames.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:dandylight/utils/sunrise_sunset_library/sunrise_sunset.dart';
 import 'package:device_calendar/device_calendar.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 import 'package:http/http.dart' as http;
@@ -39,12 +38,11 @@ import '../../models/Invoice.dart';
 import '../../models/JobReminder.dart';
 import '../../models/Pose.dart';
 import '../../models/Profile.dart';
+import '../../models/Proposal.dart';
 import '../../models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
 import '../../utils/CalendarSyncUtil.dart';
 import '../../utils/ImageUtil.dart';
 import '../../utils/UidUtil.dart';
-import '../new_reminder_page/WhenSelectionWidget.dart';
-import '../pose_group_page/GroupImage.dart';
 
 class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -109,6 +107,9 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is OnDeleteInvoiceSelectedAction){
       deleteInvoice(store, action, next);
+    }
+    if(action is OnDeleteContractSelectedAction){
+      deleteContract(store, action, next);
     }
     if(action is InvoiceSentAction){
       updateInvoiceToSent(store, action, next);
@@ -199,13 +200,17 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchJobPoses(Store<AppState> store) async {
+    _fetchJobPosesWithJob(store, store.state.jobDetailsPageState.job);
+  }
+
+  void _fetchJobPosesWithJob(Store<AppState> store, Job job) async {
     List<String> paths = [];
-    if(store.state.jobDetailsPageState.job != null) {
-      for(Pose pose in store.state.jobDetailsPageState.job.poses) {
+    if(job != null) {
+      for(Pose pose in job.poses) {
         if(pose.isLibraryPose()) {
-          paths.add((await FileStorage.getPoseImageFile(pose, null, true, store.state.jobDetailsPageState.job)).path);
+          paths.add((await FileStorage.getPoseImageFile(pose, null, true, job)).path);
         } else {
-          paths.add((await FileStorage.getPoseImageFile(pose, null, false, store.state.jobDetailsPageState.job)).path);
+          paths.add((await FileStorage.getPoseImageFile(pose, null, false, job)).path);
         }
       }
       store.dispatch(SetPoseFilePathsAction(store.state.jobDetailsPageState, paths));
@@ -234,30 +239,32 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       monthToUse = store.state.jobDetailsPageState.selectedDate;
     }
 
-    if(profile.calendarEnabled) {
+    if(profile.calendarEnabled && monthToUse != null) {
       DateTime startDate = DateTime(monthToUse.year, monthToUse.month - 1, 1);
       DateTime endDate = DateTime(monthToUse.year, monthToUse.month + 1, 1);
 
       List<Event> deviceEvents = await CalendarSyncUtil.getDeviceEventsForDateRange(startDate, endDate);
       store.dispatch(SetDeviceEventsAction(store.state.jobDetailsPageState, deviceEvents));
+      store.dispatch(SetJobDetailsSelectedDateAction(store.state.jobDetailsPageState, monthToUse));
     }
-    store.dispatch(SetJobDetailsSelectedDateAction(store.state.jobDetailsPageState, monthToUse));
   }
 
   void updateInvoiceToSent(Store<AppState> store, InvoiceSentAction action, NextDispatcher next) async {
-    Job job = await JobDao.getJobById(action.pageState.job.documentId);
-    List<JobStage> completedStages = job.completedStages;
-    if(!Job.containsStage(completedStages, JobStage.STAGE_8_PAYMENT_REQUESTED)) {
-      completedStages.add(JobStage(stage: JobStage.STAGE_8_PAYMENT_REQUESTED));
-    }
-    job.completedStages = completedStages;
-    await JobDao.update(job);
+    if(action.invoice != null) {
+      Job job = await JobDao.getJobById(action.pageState.job.documentId);
+      List<JobStage> completedStages = job.completedStages;
+      if(!Job.containsStage(completedStages, JobStage.STAGE_8_PAYMENT_REQUESTED)) {
+        completedStages.add(JobStage(stage: JobStage.STAGE_8_PAYMENT_REQUESTED));
+      }
+      job.completedStages = completedStages;
+      await JobDao.update(job);
 
-    action.invoice.sentDate = DateTime.now();
-    await InvoiceDao.update(action.invoice, store.state.jobDetailsPageState.job);
-    store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
-    store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, store.state.incomeAndExpensesPageState.selectedYear));
-    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+      action.invoice.sentDate = DateTime.now();
+      await InvoiceDao.update(action.invoice, job);
+      store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
+      store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, store.state.incomeAndExpensesPageState.selectedYear));
+      store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    }
   }
 
   void deleteInvoice(Store<AppState> store, OnDeleteInvoiceSelectedAction action, NextDispatcher next) async {
@@ -270,10 +277,23 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
     await JobDao.insertOrUpdate(jobToSave);
     await JobDao.insertOrUpdate(jobToSave);
-    store.dispatch(DeleteInvoiceFromLocalStateAction(store.state.jobDetailsPageState));
+    store.dispatch(DeleteDocumentFromLocalStateAction(store.state.jobDetailsPageState, DocumentItem.DOCUMENT_TYPE_INVOICE));
     store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
     store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, store.state.incomeAndExpensesPageState.selectedYear));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+  }
+
+  void deleteContract(Store<AppState> store, OnDeleteContractSelectedAction action, NextDispatcher next) async {
+    List<JobStage> completedJobStages = store.state.jobDetailsPageState.job.completedStages.toList();
+    completedJobStages.remove(JobStage(stage: JobStage.STAGE_3_PROPOSAL_SENT));
+    Job jobToSave = store.state.jobDetailsPageState.job;
+    jobToSave.completedStages = completedJobStages;
+    jobToSave.proposal.contract = null;
+
+    await JobDao.insertOrUpdate(jobToSave);
+    await JobDao.insertOrUpdate(jobToSave);
+    store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
+    store.dispatch(DeleteDocumentFromLocalStateAction(store.state.jobDetailsPageState, DocumentItem.DOCUMENT_TYPE_CONTRACT));
   }
 
   void _updateJobAddOnCost(Store<AppState> store, SaveAddOnCostAction action, NextDispatcher next) async{
@@ -299,7 +319,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   void _updateJobPriceProfile(Store<AppState> store, SaveUpdatedPricePackageAction action, NextDispatcher next) async{
     Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
       priceProfile: store.state.jobDetailsPageState.selectedPriceProfile != null && action.oneTimePrice.isEmpty ? store.state.jobDetailsPageState.selectedPriceProfile
-          : action.oneTimePrice.isNotEmpty ? PriceProfile(rateType: Invoice.RATE_TYPE_FLAT_RATE, profileName: 'Photoshoot Price', flatRate: double.parse(action.oneTimePrice), icon: ImageUtil.getRandomPriceProfileIcon()) : null,
+          : action.oneTimePrice.isNotEmpty ? PriceProfile(rateType: Invoice.RATE_TYPE_FLAT_RATE, profileName: 'Photoshoot Price', flatRate: double.parse(action.oneTimePrice), icon: 'assets/images/icons/income_received.png') : null,
       depositAmount: action.pageState.selectedPriceProfile.deposit.toInt(),
     );
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
@@ -344,23 +364,23 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchLocations(Store<AppState> store, action, NextDispatcher next) async{
-    List<Location> locations = await LocationDao.getAllSortedMostFrequent();
+    List<LocationDandy> locations = await LocationDao.getAllSortedMostFrequent();
     List<File> imageFiles = [];
 
-    for(Location location in locations) {
+    for(LocationDandy location in locations) {
       imageFiles.add(await FileStorage.getLocationImageFile(location));
     }
 
     store.dispatch(SetLocationsAction(store.state.jobDetailsPageState, locations, imageFiles));
 
     (await LocationDao.getLocationsStream()).listen((locationSnapshots) async {
-      List<Location> locations = [];
+      List<LocationDandy> locations = [];
       List<File> imageFiles = [];
       for(RecordSnapshot locationSnapshot in locationSnapshots) {
-        locations.add(Location.fromMap(locationSnapshot.value));
+        locations.add(LocationDandy.fromMap(locationSnapshot.value));
       }
 
-      for(Location location in locations) {
+      for(LocationDandy location in locations) {
         imageFiles.add(await FileStorage.getLocationImageFile(location));
       }
       store.dispatch(SetLocationsAction(store.state.jobDetailsPageState, locations, imageFiles));
@@ -402,7 +422,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       List<JobReminder> jobReminders = await JobReminderDao.getRemindersByJobId(action.pageState.job.documentId);
       JobReminder reminderToUpdate = null;
       if(jobReminders.isNotEmpty) {
-        reminderToUpdate = await jobReminders.firstWhere((reminder) => reminder.payload == JobReminder.MILEAGE_EXPENSE_ID);
+        reminderToUpdate = await jobReminders.firstWhere((reminder) => reminder.payload == JobReminder.MILEAGE_EXPENSE_ID, orElse: () => null);
       }
 
       if(reminderToUpdate != null) {
@@ -438,8 +458,12 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchSunsetTime(Store<AppState> store, action, NextDispatcher next) async{
-    if(store.state.jobDetailsPageState != null) {
-      Location selectedLocation = store.state.jobDetailsPageState.job.location;
+    _fetchSunsetTimeWithJob(store, store.state.jobDetailsPageState.job);
+  }
+
+  void _fetchSunsetTimeWithJob(Store<AppState> store, Job job) async {
+    if(store.state.jobDetailsPageState.job != null && store.state.jobDetailsPageState.job.location != null) {
+      LocationDandy selectedLocation = store.state.jobDetailsPageState.job.location;
       DateTime selectedDate = store.state.jobDetailsPageState.job.selectedDate;
       if(selectedLocation != null && selectedDate != null) {
         final response = await SunriseSunset.getResults(date: selectedDate, latitude: selectedLocation.latitude, longitude: selectedLocation.longitude);
@@ -453,14 +477,34 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchClientForJob(Store<AppState> store, NextDispatcher next, SetJobInfo action) async{
-    store.dispatch(SetJobAction(store.state.jobDetailsPageState, action.job));
-    if(action.job.location != null) {
-      store.dispatch(SetLocationImageAction(store.state.jobDetailsPageState, await FileStorage.getLocationImageFile(action.job.location)));
+    Job job = await JobDao.getJobById(action.jobDocumentId);
+    if(job != null) {
+      if(job.client == null && job.clientDocumentId != null && job.clientDocumentId.isNotEmpty) {
+        Client client = await ClientDao.getClientById(job.clientDocumentId);
+        job.client = client;
+        await JobDao.update(job);
+      }
+
+      if(job.proposal == null) {
+        job.proposal = Proposal();
+        await JobDao.update(job);
+      }
+      await store.dispatch(SetJobAction(store.state.jobDetailsPageState, job));
+
+      if(job.location != null) {
+        store.dispatch(SetLocationImageAction(store.state.jobDetailsPageState, await FileStorage.getLocationImageFile(job.location)));
+      }
+      Client client = await ClientDao.getClientById(job.clientDocumentId);
+      store.dispatch(SetClientAction(store.state.jobDetailsPageState, client));
+      _fetchDeviceEventsForMonth(store, null, next);
+      fetchSunsetWeatherForSelectedDate(store, next, job);
     }
-    Client client = await ClientDao.getClientById(action.job.clientDocumentId);
-    store.dispatch(SetClientAction(store.state.jobDetailsPageState, client));
-    _fetchDeviceEventsForMonth(store, null, next);
-    fetchSunsetWeatherForSelectedDate(store, next, action.job);
+    _fetchSunsetTimeWithJob(store, job);
+    store.dispatch(FetchJobDetailsPricePackagesAction(store.state.jobDetailsPageState));
+    store.dispatch(FetchJobDetailsLocationsAction(store.state.jobDetailsPageState));
+    _fetchRemindersWithJob(store, next, job);
+    store.dispatch(FetchAllJobTypesAction(store.state.jobDetailsPageState));
+    _fetchJobPosesWithJob(store, job);
   }
 
   void setJobInfoWithId(Store<AppState> store, NextDispatcher next, SetJobInfoWithJobDocumentId action) async{
@@ -604,8 +648,14 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchReminders(Store<AppState> store, FetchJobRemindersAction action,NextDispatcher next) async{
-    List<JobReminder> reminders = await JobReminderDao.getRemindersByJobId(action.pageState.job.documentId);
-    next(SetRemindersAction(store.state.jobDetailsPageState, reminders));
+    _fetchRemindersWithJob(store, next, action.pageState.job);
+  }
+
+  void _fetchRemindersWithJob(Store<AppState> store, NextDispatcher next, Job job) async {
+    if(job != null) {
+      List<JobReminder> reminders = await JobReminderDao.getRemindersByJobId(job.documentId);
+      next(SetRemindersAction(store.state.jobDetailsPageState, reminders));
+    }
   }
 
   void _deleteReminder(Store<AppState> store, DeleteReminderFromJobAction action, NextDispatcher next) async {
@@ -623,6 +673,4 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     }
     return 0;
   }
-
-
 }

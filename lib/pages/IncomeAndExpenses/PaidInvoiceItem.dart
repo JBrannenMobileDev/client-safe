@@ -37,12 +37,7 @@ class PaidInvoiceItem extends StatelessWidget{
                   margin: EdgeInsets.only(right: 18.0, top: 0.0),
                   height: 42.0,
                   width: 42.0,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/icons/invoices_icon_peach.png'),
-                      fit: BoxFit.contain,
-                    ),
-                  ),
+                  child: Image.asset('assets/images/icons/invoice.png', color: Color(ColorConstants.getPeachDark())),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,7 +60,7 @@ class PaidInvoiceItem extends StatelessWidget{
                                 ? TextFormatterUtil.formatDecimalDigitsCurrency(invoice.total - invoice.discount, 2)
                                 : '0'),
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                   ],

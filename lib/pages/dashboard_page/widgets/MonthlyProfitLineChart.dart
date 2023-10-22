@@ -16,7 +16,7 @@ class MonthlyProfitLineChart extends StatelessWidget{
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
-                borderRadius: new BorderRadius.all(Radius.circular(24.0))),
+                borderRadius: new BorderRadius.all(Radius.circular(12.0))),
             child: Column(
               children: [
                 Padding(
@@ -25,7 +25,7 @@ class MonthlyProfitLineChart extends StatelessWidget{
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: 'Monthly Net Profit',
                     textAlign: TextAlign.start,
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                 BarChartWidget(monthsData: pageState.lineChartMonthData),

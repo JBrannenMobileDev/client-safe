@@ -1,6 +1,14 @@
+import 'dart:ui';
+
+import 'package:dandylight/models/ColorTheme.dart';
+import 'package:dandylight/models/FontTheme.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
+
+import '../../models/Profile.dart';
+import '../../utils/ColorConstants.dart';
 
 final mainSettingsPageReducer = combineReducers<MainSettingsPageState>([
   TypedReducer<MainSettingsPageState, UpdatePushNotificationEnabled>(_setPushNotificationsState),
@@ -9,6 +17,8 @@ final mainSettingsPageReducer = combineReducers<MainSettingsPageState>([
   TypedReducer<MainSettingsPageState, SetFirstNameAction>(_updateFirstName),
   TypedReducer<MainSettingsPageState, SetLastNameAction>(_updateLastName),
   TypedReducer<MainSettingsPageState, SetBusinessNameAction>(_updateBusinessName),
+  TypedReducer<MainSettingsPageState, SetBusinessEmailAction>(_updateBusinessEmail),
+  TypedReducer<MainSettingsPageState, SetBusinessPhoneAction>(_updateBusinessPhone),
   TypedReducer<MainSettingsPageState, SetDeleteProgressAction>(_updateDeleteProgress),
   TypedReducer<MainSettingsPageState, SavePasswordAction>(_updatePassword),
   TypedReducer<MainSettingsPageState, SetPasswordErrorAction>(_passwordError),
@@ -75,6 +85,18 @@ MainSettingsPageState _updateBusinessName(MainSettingsPageState previousState, S
   );
 }
 
+MainSettingsPageState _updateBusinessEmail(MainSettingsPageState previousState, SetBusinessEmailAction action){
+  return previousState.copyWith(
+    businessEmail: action.email,
+  );
+}
+
+MainSettingsPageState _updateBusinessPhone(MainSettingsPageState previousState, SetBusinessPhoneAction action){
+  return previousState.copyWith(
+    businessPhone: action.phone,
+  );
+}
+
 MainSettingsPageState _setPushNotificationsState(MainSettingsPageState previousState, UpdatePushNotificationEnabled action){
   return previousState.copyWith(
     pushNotificationsEnabled: action.enabled,
@@ -92,6 +114,61 @@ MainSettingsPageState _setUserProfileInfo(MainSettingsPageState previousState, L
     firstName: action.profile.firstName,
     lastName: action.profile.lastName,
     businessName: action.profile.businessName,
+    businessEmail: action.profile.email,
+    businessPhone: action.profile.phone,
     profile: action.profile,
   );
+}
+
+bool showPublishChangesButton(
+    Color iconColorToSave,
+    Color iconTextColorToSave,
+    Color buttonColorToSave,
+    Color buttonTextColorToSave,
+    Color bannerColorToSave,
+    String iconFont,
+    String mainFont,
+    Profile profile,
+    bool logoImageSelected,
+    bool newLogoImageSelected,
+    bool bannerImageSelected,
+    bool newBannerImageSelected,
+    String currentLogoLetter,
+    String newLogoLetter,
+    XFile currentLogoImage,
+    XFile newLogoImage,
+    XFile currentBannerImage,
+    XFile newBannerImage,
+) {
+  bool showPublishButton = false;
+
+  if(profile.selectedFontTheme.iconFont != iconFont) {
+    showPublishButton = true;
+  }
+  if(profile.selectedFontTheme.mainFont != mainFont) {
+    showPublishButton = true;
+  }
+  if(profile.selectedColorTheme.bannerColor != ColorConstants.getHex(bannerColorToSave)) {
+    showPublishButton = true;
+  }
+  if(profile.selectedColorTheme.buttonColor != ColorConstants.getHex(buttonColorToSave)) {
+    showPublishButton = true;
+  }
+  if(profile.selectedColorTheme.buttonTextColor != ColorConstants.getHex(buttonTextColorToSave)) {
+    showPublishButton = true;
+  }
+  if(profile.selectedColorTheme.iconColor != ColorConstants.getHex(iconColorToSave)) {
+    showPublishButton = true;
+  }
+  if(profile.selectedColorTheme.iconTextColor != ColorConstants.getHex(iconTextColorToSave)) {
+    showPublishButton = true;
+  }
+
+  if(logoImageSelected != newLogoImageSelected) showPublishButton = true;
+  if(bannerImageSelected != newBannerImageSelected) showPublishButton = true;
+  if(currentLogoLetter != newLogoLetter) showPublishButton = true;
+  if(currentLogoImage != null && currentLogoImage.path != newLogoImage.path) showPublishButton = true;
+  if(currentBannerImage != null && currentBannerImage.path != newBannerImage.path) showPublishButton = true;
+
+  return showPublishButton;
 }

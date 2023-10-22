@@ -43,7 +43,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
       converter: (store) => SunsetWeatherPageState.fromStore(store),
       builder: (BuildContext context, SunsetWeatherPageState pageState) =>
           Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Color(ColorConstants.getPrimaryWhite()),
         body: Stack(
           alignment: AlignmentDirectional.centerEnd,
           children: <Widget>[
@@ -51,14 +51,14 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
               slivers: <Widget>[
                 SliverAppBar(
                   brightness: Brightness.light,
-                  backgroundColor: Colors.white,
+                  backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                   pinned: true,
                   centerTitle: true,
                   leading: IconButton(
                     icon: Icon(Device.get().isIos
                         ? Icons.arrow_back_ios
                         : Icons.arrow_back),
-                    color: Color(ColorConstants.getPrimaryColor()),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                     tooltip: 'Close',
                     onPressed: () {
                       pageState.clearPageState();
@@ -69,7 +69,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                     child: TextDandyLight(
                       type: TextDandyLight.LARGE_TEXT,
                       text: "Sunset & Weather",
-                      color: const Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                 ),
@@ -239,6 +239,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                           UserOptionsUtil.showSelectLocationDialog(context);
                         },
                         child: Container(
+                          alignment: Alignment.center,
                           margin: EdgeInsets.only(left: 16, right: 16),
                           height: 48.0,
                           decoration: BoxDecoration(
@@ -248,22 +249,23 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Container(
-                                margin: EdgeInsets.only(right: 16.0),
+                                margin: EdgeInsets.only(right: 8.0, left: 16),
                                 height: 26.0,
                                 width: 26.0,
                                 child: Image.asset(
-                                    'assets/images/icons/location_icon_white.png'),
+                                    'assets/images/icons/pin_white.png', color: Color(ColorConstants.getPrimaryWhite()),),
                               ),
                               Container(
-                                child: TextDandyLight(
-                                  type: TextDandyLight.MEDIUM_TEXT,
-                                  text: pageState.locationName,
-                                  textAlign: TextAlign.start,
-                                  overflow: TextOverflow.fade,
-                                  maxLines: 1,
-                                  color: Color(ColorConstants.getPrimaryWhite()),
-                                ),
-                              ),
+                                width: MediaQuery.of(context).size.width - 116,
+                                    child: TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      text: pageState.locationName,
+                                      textAlign: TextAlign.start,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      color: Color(ColorConstants.getPrimaryWhite()),
+                                    ),
+                                  )
                             ],
                           ),
                         ),
@@ -277,6 +279,14 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                             DatePicker.showDatePicker(context,
                                 dateFormat: 'MMMM dd yyyy',
                                 pickerMode: DateTimePickerMode.date,
+                                pickerTheme: DateTimePickerTheme(
+                                  cancelTextStyle: TextStyle(
+                                      color: Color(ColorConstants.getPrimaryBlack())
+                                  ),
+                                  confirmTextStyle: TextStyle(
+                                      color: Color(ColorConstants.getPrimaryBlack())
+                                  ),
+                                ),
                                 onConfirm: (dateTime, intList) {
                               pageState.onDateSelected(dateTime);
                             });

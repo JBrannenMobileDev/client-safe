@@ -41,7 +41,7 @@ class _NewRecurringExpenseName extends State<NewRecurringExpenseName> with Autom
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: "Enter a simple and descriptive name for this recurring expense. \n\ne.g. (Lightroom) or (Cell phone plan)",
                 textAlign: TextAlign.start,
-                color: Color(ColorConstants.primary_black),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ),
             DandyLightTextField(

@@ -29,7 +29,7 @@ class RemindersCard extends StatelessWidget {
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
-                borderRadius: new BorderRadius.all(Radius.circular(24.0))),
+                borderRadius: new BorderRadius.all(Radius.circular(12.0))),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -40,7 +40,7 @@ class RemindersCard extends StatelessWidget {
                         type: TextDandyLight.LARGE_TEXT,
                         text: 'Reminders',
                         textAlign: TextAlign.center,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                 ),
                 pageState.reminders.length > 0
@@ -67,7 +67,7 @@ class RemindersCard extends StatelessWidget {
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: "You have not added any reminders to this job yet. Select the (+) icon to add a reminder.",
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                   ],
@@ -91,6 +91,7 @@ class RemindersCard extends StatelessWidget {
         height: 54.0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Expanded(
               child: Row(
@@ -112,7 +113,7 @@ class RemindersCard extends StatelessWidget {
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 3,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                 ],
@@ -126,7 +127,7 @@ class RemindersCard extends StatelessWidget {
                 margin: EdgeInsets.only(right: 8.0),
                 height: 24.0,
                 width: 24.0,
-                child: Image.asset('assets/images/icons/trash_icon_peach.png'),
+                child: Image.asset('assets/images/icons/trash_can.png', color: Color(ColorConstants.getPeachDark())),
               ),
             ),
           ],

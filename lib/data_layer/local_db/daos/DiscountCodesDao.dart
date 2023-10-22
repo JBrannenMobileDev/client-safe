@@ -3,11 +3,9 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/data_layer/firebase/collections/DiscountCodesCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
-import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/DiscountCodes.dart';
-import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
-import 'package:sembast/sembast.dart';
+import 'package:sembast/sembast.dart' as sembast;
 
 import '../../../models/Profile.dart';
 
@@ -15,11 +13,11 @@ class DiscountCodesDao extends Equatable{
   static const String DISCOUNT_CODES_STORE_NAME = 'discountCodes';
   // A Store with int keys and Map<String, dynamic> values.
   // This Store acts like a persistent map, values of which are Client objects converted to Map
-  static final _discountCodesStore = intMapStoreFactory.store(DISCOUNT_CODES_STORE_NAME);
+  static final _discountCodesStore = sembast.intMapStoreFactory.store(DISCOUNT_CODES_STORE_NAME);
 
   // Private getter to shorten the amount of code needed to get the
   // singleton instance of an opened database.
-  static Future<Database> get _db async => await SembastDb.instance.database;
+  static Future<sembast.Database> get _db async => await SembastDb.instance.database;
 
   static Future insert(DiscountCodes discountCodes) async {
     await _discountCodesStore.add(await _db, discountCodes.toMap());
@@ -48,7 +46,7 @@ class DiscountCodesDao extends Equatable{
   static Future update(DiscountCodes discount) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.equals('type', discount.type));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('type', discount.type));
     await _discountCodesStore.update(
       await _db,
       discount.toMap(),
@@ -60,7 +58,7 @@ class DiscountCodesDao extends Equatable{
   static Future updateLocalOnly(DiscountCodes discount) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.equals('type', discount.type));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('type', discount.type));
     await _discountCodesStore.update(
       await _db,
       discount.toMap(),
@@ -69,7 +67,7 @@ class DiscountCodesDao extends Equatable{
   }
 
   static Future delete(DiscountCodes discount) async {
-    final finder = Finder(filter: Filter.equals('type', discount.type));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('type', discount.type));
     await _discountCodesStore.delete(
       await _db,
       finder: finder,
@@ -110,7 +108,7 @@ class DiscountCodesDao extends Equatable{
 
   static Future<void> _deleteAllLocal(List<DiscountCodes> discounts) async {
     for(DiscountCodes discount in discounts) {
-      final finder = Finder(filter: Filter.equals('type', discount.type));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('type', discount.type));
       await _discountCodesStore.delete(
         await _db,
         finder: finder,
@@ -130,7 +128,7 @@ class DiscountCodesDao extends Equatable{
       List<DiscountCodes> matchingFireStore = allFireStore.where((fireStore) => localDiscount.type == fireStore.type).toList();
       if(matchingFireStore !=  null && matchingFireStore.length > 0) {
         DiscountCodes fireStore = matchingFireStore.elementAt(0);
-        final finder = Finder(filter: Filter.equals('type', fireStore.type));
+        final finder = sembast.Finder(filter: sembast.Filter.equals('type', fireStore.type));
         await _discountCodesStore.update(
           await _db,
           fireStore.toMap(),
@@ -138,7 +136,7 @@ class DiscountCodesDao extends Equatable{
         );
       } else {
         //Location does nto exist on cloud. so delete from local.
-        final finder = Finder(filter: Filter.equals('type', localDiscount.type));
+        final finder = sembast.Finder(filter: sembast.Filter.equals('type', localDiscount.type));
         await _discountCodesStore.delete(
           await _db,
           finder: finder,
@@ -159,7 +157,7 @@ class DiscountCodesDao extends Equatable{
 
   static Future<DiscountCodes> getDiscountCodesByType(String type) async{
     if((await getAll()).length > 0) {
-      final finder = Finder(filter: Filter.equals('type', type));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('type', type));
       final recordSnapshots = await _discountCodesStore.find(await _db, finder: finder);
       List<DiscountCodes> discounts = recordSnapshots.map((snapshot) {
         final expense = DiscountCodes.fromMap(snapshot.value);

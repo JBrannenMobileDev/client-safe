@@ -5,9 +5,12 @@ import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/models/Profile.dart';
+import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
+import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -35,7 +38,7 @@ class NotificationHelper {
 
   FlutterLocalNotificationsPlugin flutterNotificationPlugin;
 
-  Future<void> initNotifications() async {
+  Future<void> initNotifications(BuildContext context) async {
     flutterNotificationPlugin = FlutterLocalNotificationsPlugin();
 
     const MethodChannel platform = MethodChannel('dandylight_mobile');
@@ -67,9 +70,14 @@ class NotificationHelper {
           case NotificationResponseType.selectedNotification:
             print('Notification selected');
             if(notificationResponse.payload == JobReminder.MILEAGE_EXPENSE_ID) {
+              UserOptionsUtil.showNewMileageExpenseSelected(context);
+            }else if(notificationResponse.payload == JobReminder.POSE_FEATURED_ID) {
               Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
               profile.showNewMileageExpensePage = true;
               ProfileDao.update(profile);
+            } else {
+              // Job job = await JobDao.getJobById(notificationResponse.payload);
+              NavigationUtil.onJobTapped(context, false);
             }
             break;
           case NotificationResponseType.selectedNotificationAction:

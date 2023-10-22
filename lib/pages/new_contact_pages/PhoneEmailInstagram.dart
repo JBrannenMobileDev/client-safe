@@ -55,8 +55,9 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
   OverlayEntry overlayEntry;
 
   @override
-  Widget build(BuildContext context) =>
-      StoreConnector<AppState, NewContactPageState>(
+  Widget build(BuildContext context) {
+        super.build(context);
+        return StoreConnector<AppState, NewContactPageState>(
         onInit: (store) {
           phoneTextController.text = store.state.newContactPageState.newContactPhone;
           emailTextController.text = store.state.newContactPageState.newContactEmail;
@@ -82,7 +83,7 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
                   phoneTextController,
                   "Phone",
                   TextInputType.phone,
-                  60.0,
+                  64.0,
                   pageState.onPhoneTextChanged,
                   NewContactPageState.ERROR_PHONE_INVALID,
                   TextInputAction.next,
@@ -100,7 +101,7 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
                   emailTextController,
                   "Email",
                   TextInputType.emailAddress,
-                  60.0,
+                  64.0,
                   pageState.onEmailTextChanged,
                   NewContactPageState.ERROR_EMAIL_NAME_INVALID,
                   TextInputAction.next,
@@ -115,7 +116,7 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
                   instagramUrlTextController,
                   "Instagram URL",
                   TextInputType.url,
-                  60.0,
+                  64.0,
                   pageState.onInstagramUrlChanged,
                   NewContactPageState.ERROR_INSTAGRAM_URL_INVALID,
                   TextInputAction.done,
@@ -130,6 +131,7 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
           ),
         ),
       );
+      }
 
   void onPhoneAction(){
     _phoneFocus.unfocus();

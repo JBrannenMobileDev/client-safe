@@ -4,7 +4,7 @@ import 'package:dandylight/pages/common_widgets/ClientSafeButton.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
-import 'package:dandylight/utils/IntentLauncherUtil.dart';
+import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -35,7 +35,7 @@ class ClientDetailsCard extends StatelessWidget {
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
-                borderRadius: new BorderRadius.all(Radius.circular(24.0))),
+                borderRadius: new BorderRadius.all(Radius.circular(12.0))),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -46,7 +46,7 @@ class ClientDetailsCard extends StatelessWidget {
                     type: TextDandyLight.LARGE_TEXT,
                     text: pageState.client?.getClientFullName(),
                     textAlign: TextAlign.center,
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                 Row(
@@ -79,9 +79,9 @@ class ClientDetailsCard extends StatelessWidget {
                           }
                         },
                         child: Container(
-                          height: 42.0,
-                          width: 42.0,
-                          child: Image.asset('assets/images/icons/phonecall_icon_peach.png'),
+                          height: 48.0,
+                          width: 48.0,
+                          child: Image.asset('assets/images/icons/phone_circle.png', color: Color(ColorConstants.getPeachDark())),
                         ),
                     ),
                     GestureDetector(
@@ -101,9 +101,9 @@ class ClientDetailsCard extends StatelessWidget {
                           }
                         },
                         child: Container(
-                          height: 42.0,
-                          width: 42.0,
-                          child: Image.asset('assets/images/icons/sms_icon_peach.png'),
+                          height: 54.0,
+                          width: 54.0,
+                          child: Image.asset('assets/images/icons/chat_circle.png', color: Color(ColorConstants.getPeachDark())),
                         ),
                     ),
                     GestureDetector(
@@ -123,9 +123,9 @@ class ClientDetailsCard extends StatelessWidget {
                           }
                         },
                         child: Container(
-                          height: 42.0,
-                          width: 42.0,
-                          child: Image.asset('assets/images/icons/email_icon_peach.png'),
+                          height: 54.0,
+                          width: 54.0,
+                          child: Image.asset('assets/images/icons/email_circle.png', color: Color(ColorConstants.getPeachDark())),
                         ),
                     ),
                     GestureDetector(
@@ -137,9 +137,9 @@ class ClientDetailsCard extends StatelessWidget {
                           }
                         },
                         child: Container(
-                          height: 42.0,
-                          width: 42.0,
-                          child: Image.asset('assets/images/icons/instagram_icon_peach.png'),
+                          height: 48.0,
+                          width: 48.0,
+                          child: Image.asset('assets/images/icons/instagram_circle.png', color: Color(ColorConstants.getPeachDark())),
                         ),
                     ),
                   ],

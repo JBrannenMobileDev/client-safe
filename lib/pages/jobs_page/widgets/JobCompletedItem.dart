@@ -34,12 +34,7 @@ class JobCompletedItem extends StatelessWidget{
                   margin: EdgeInsets.only(right: 18.0, top: 0.0),
                   height: 42.0,
                   width: 42.0,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: job.stage.getNextStageImage(),
-                      fit: BoxFit.contain,
-                    ),
-                  ),
+                  child: job.stage.getCompletedImage(Color(ColorConstants.getPeachDark())),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,14 +46,14 @@ class JobCompletedItem extends StatelessWidget{
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: job.jobTitle,
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     TextDandyLight(
                       type: TextDandyLight.SMALL_TEXT,
                       text: NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format(job.getJobCost()),
                       textAlign: TextAlign.start,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ],
                 ),

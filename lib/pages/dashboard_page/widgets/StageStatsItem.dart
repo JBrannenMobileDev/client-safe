@@ -28,18 +28,13 @@ class StageStatsItem extends StatelessWidget{
                   margin: EdgeInsets.only(right: 18.0, left: 16.0),
                   height: 28.0,
                   width: 28.0,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: ImageUtil.getJobStageImageFromStage(stage),
-                      fit: BoxFit.contain,
-                    ),
-                  ),
+                  child: ImageUtil.getJobStageImageFromStage(stage, true),
                 ),
                 TextDandyLight(
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: JobStage.getStageText(stage),
                   textAlign: TextAlign.start,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ],
             ),
@@ -51,7 +46,7 @@ class StageStatsItem extends StatelessWidget{
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: jobs.length.toString(),
                     textAlign: TextAlign.start,
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                 Container(

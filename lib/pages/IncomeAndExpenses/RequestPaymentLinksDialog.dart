@@ -55,7 +55,7 @@ class _RequestPaymentLinksDialogPage extends State<RequestPaymentLinksDialog> {
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: 'Payment Info',
                       textAlign: TextAlign.center,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   Container(
@@ -66,7 +66,7 @@ class _RequestPaymentLinksDialogPage extends State<RequestPaymentLinksDialog> {
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: 'Before we create the invoice, would you like to include your payment info?',
                       textAlign: TextAlign.start,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   Container(
@@ -77,7 +77,7 @@ class _RequestPaymentLinksDialogPage extends State<RequestPaymentLinksDialog> {
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: 'Payment info will be included in the invoice so that your customer knows how to pay you.',
                       textAlign: TextAlign.start,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   Container(
@@ -88,7 +88,7 @@ class _RequestPaymentLinksDialogPage extends State<RequestPaymentLinksDialog> {
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: 'We currently support these forms of payment: Zelle, Venmo, Cash App, Apple Pay',
                       textAlign: TextAlign.start,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   Container(
@@ -99,7 +99,7 @@ class _RequestPaymentLinksDialogPage extends State<RequestPaymentLinksDialog> {
                       type: TextDandyLight.SMALL_TEXT,
                       text: 'Payment info can also be set in the Income and Expenses page settings.',
                       textAlign: TextAlign.start,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   Row(
@@ -108,7 +108,7 @@ class _RequestPaymentLinksDialogPage extends State<RequestPaymentLinksDialog> {
                       GestureDetector(
                         onTap: () {
                           Navigator.of(context).pop();
-                          UserOptionsUtil.showNewInvoiceDialog(context, null);
+                          UserOptionsUtil.showNewInvoiceDialog(context, null, true);
                         },
                         child: Container(
                           height: 78.0,
@@ -129,7 +129,7 @@ class _RequestPaymentLinksDialogPage extends State<RequestPaymentLinksDialog> {
                       GestureDetector(
                         onTap: () {
                           Navigator.of(context).pop();
-                          UserOptionsUtil.showNewInvoiceDialog(context, null);
+                          UserOptionsUtil.showNewInvoiceDialog(context, null, true);
                           NavigationUtil.onPaymentRequestInfoSelected(context);
                         },
                         child: Container(

@@ -53,7 +53,7 @@ class _CalendarSelectionPageState extends State<CalendarSelectionPage> {
                       Navigator.pop(context);
                     },
                     child: Icon(
-                      Icons.cancel,
+                      Icons.close,
                       color: Color(ColorConstants.getPrimaryBlack()),
                       size: 30.0,
                     ),
@@ -64,15 +64,15 @@ class _CalendarSelectionPageState extends State<CalendarSelectionPage> {
                   child: TextDandyLight(
                     type: TextDandyLight.LARGE_TEXT,
                     text: "Calendar Selection",
-                    color: const Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 56.0),
+                  margin: EdgeInsets.only(top: 56.0, left: 16, right: 16),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: "Please select what calendars you would like to sync with the DandyLight calendar",
-                    color: const Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -115,7 +115,7 @@ class _CalendarSelectionPageState extends State<CalendarSelectionPage> {
                       width: 200.0,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                          color: Color(ColorConstants.getPrimaryColor()),
+                          color: Color(ColorConstants.getPeachDark()),
                           borderRadius: BorderRadius.circular(27.0)
                       ),
                       child: TextDandyLight(

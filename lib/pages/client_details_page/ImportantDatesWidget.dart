@@ -31,7 +31,7 @@ class ImportantDatesWidget extends StatelessWidget {
           height: 104,
           decoration: BoxDecoration(
             color: Color(ColorConstants.getPrimaryWhite()),
-            borderRadius: BorderRadius.circular(16.0),
+            borderRadius: BorderRadius.circular(12.0),
           ),
           child: Column(
             children: [
@@ -43,7 +43,7 @@ class ImportantDatesWidget extends StatelessWidget {
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: 'Important Dates',
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               Row(
@@ -53,7 +53,7 @@ class ImportantDatesWidget extends StatelessWidget {
                     height: 38.0,
                     width: 38.0,
                     child: Image.asset(
-                      'assets/images/icons/calendar_icon_peach.png',
+                      'assets/images/icons/calendar.png',
                       color: Color(ColorConstants.peach_dark),
                     ),
                   ),
@@ -67,7 +67,7 @@ class ImportantDatesWidget extends StatelessWidget {
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: pageState.client.importantDates.length == 1 ? '1 Date' : pageState.client.importantDates.length.toString() + ' Dates',
                             textAlign: TextAlign.start,
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                         Container(

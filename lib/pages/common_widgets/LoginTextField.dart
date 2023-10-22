@@ -71,7 +71,7 @@ class LoginTextField extends StatelessWidget {
             },
             decoration: InputDecoration.collapsed(
               hintText: hintText,
-              fillColor: Colors.white,
+              fillColor: Color(ColorConstants.getPrimaryWhite()),
               hintStyle: new TextStyle(
                   fontFamily: TextDandyLight.getFontFamily(),
                   fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
@@ -79,7 +79,7 @@ class LoginTextField extends StatelessWidget {
                   color: Color(ColorConstants.getBlueLight())),
             ),
             keyboardType: inputType,
-            textCapitalization: capitalization,
+            textCapitalization: capitalization ?? TextCapitalization.none,
             onEditingComplete: onEditingCompleted,
             inputFormatters: inputFormatter != null ? inputFormatter : null,
             style: new TextStyle(

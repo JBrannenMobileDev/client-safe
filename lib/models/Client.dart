@@ -10,11 +10,76 @@ class Client{
   static const String LEAD_SOURCE_WORD_OF_MOUTH = "Word of Mouth";
   static const String LEAD_SOURCE_INSTAGRAM = "Instagram";
   static const String LEAD_SOURCE_FACEBOOK = "Facebook";
+  static const String LEAD_SOURCE_TIKTOK = "TikTok";
+  static const String LEAD_SOURCE_PINTEREST = "Pinterest";
   static const String LEAD_SOURCE_BUSINESS_CARD = "Business Card";
   static const String LEAD_SOURCE_WEBSITE = "Website";
-  static const String LEAD_SOURCE_SOURCE_WORDPRESS = "Wordpress";
+  static const String LEAD_SOURCE_BLOG = "Blog";
   static const String LEAD_SOURCE_GIVEAWAY = "Free Giveaway";
+  static const String LEAD_SOURCE_PAID_AD = "Paid Ad";
   static const String LEAD_SOURCE_OTHER = "Other";
+
+  static List<String> getLeadSources() {
+    return [
+      LEAD_SOURCE_WORD_OF_MOUTH,
+      LEAD_SOURCE_INSTAGRAM,
+      LEAD_SOURCE_FACEBOOK,
+      LEAD_SOURCE_TIKTOK,
+      LEAD_SOURCE_PINTEREST,
+      LEAD_SOURCE_BUSINESS_CARD,
+      LEAD_SOURCE_WEBSITE,
+      LEAD_SOURCE_BLOG,
+      LEAD_SOURCE_GIVEAWAY,
+      LEAD_SOURCE_PAID_AD,
+      LEAD_SOURCE_OTHER
+    ];
+  }
+
+  static bool isOldSource(String leadSource) {
+    return leadSourceIconsWhite.contains(leadSource);
+  }
+
+  static String mapOldLeadSourceToNew(String oldLeadSource) {
+    String result = "";
+    switch(oldLeadSource) {
+      case 'assets/images/icons/word_of_mouth_icon_white.png':
+        result = LEAD_SOURCE_WORD_OF_MOUTH;
+        break;
+      case 'assets/images/icons/instagram_icon_white.png':
+        result = LEAD_SOURCE_INSTAGRAM;
+        break;
+      case 'assets/images/icons/free_giveaway_icon_white.png':
+        result = LEAD_SOURCE_GIVEAWAY;
+        break;
+      case 'assets/images/icons/website_icon_white.png':
+        result = LEAD_SOURCE_WEBSITE;
+        break;
+      case 'assets/images/icons/business_card_icon_white.png':
+        result = LEAD_SOURCE_BUSINESS_CARD;
+        break;
+      case'assets/images/icons/facebook_icon_white.png':
+        result = LEAD_SOURCE_FACEBOOK;
+        break;
+      case 'assets/images/icons/wordpress_icon_white.png':
+        result = LEAD_SOURCE_WEBSITE;
+        break;
+      case 'assets/images/icons/email_icon_white.png':
+        result = LEAD_SOURCE_OTHER;
+        break;
+    }
+    return result;
+  }
+
+  static List<String> leadSourceIconsWhite = [
+    'assets/images/icons/word_of_mouth_icon_white.png',
+    'assets/images/icons/instagram_icon_white.png',
+    'assets/images/icons/free_giveaway_icon_white.png',
+    'assets/images/icons/website_icon_white.png',
+    'assets/images/icons/business_card_icon_white.png',
+    'assets/images/icons/facebook_icon_white.png',
+    'assets/images/icons/wordpress_icon_white.png',
+    'assets/images/icons/email_icon_white.png',
+  ];
 
   int id;
   String documentId;
@@ -121,7 +186,6 @@ class Client{
   }
 
   String getClientFullName(){
-
     return firstName + " " + lastName;
   }
 

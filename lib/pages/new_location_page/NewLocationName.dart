@@ -42,7 +42,7 @@ class _NewLocationName extends State<NewLocationName> with AutomaticKeepAliveCli
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: "Enter a simple and descriptive name for this location. ",
                 textAlign: TextAlign.start,
-                color: Color(ColorConstants.primary_black),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ),
             NewLocationTextField(

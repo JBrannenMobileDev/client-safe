@@ -8,7 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
 
-import '../../models/Location.dart';
+import '../../models/LocationDandy.dart';
 
 class GoogleApiClient {
   final _baseUrl = 'https://maps.googleapis.com/maps/api';
@@ -45,7 +45,7 @@ class GoogleApiClient {
     return locations;
   }
 
-  Future<Location> getLocationDetails(String place_id, String description) async {
+  Future<LocationDandy> getLocationDetails(String place_id, String description) async {
     final url = '$_baseUrl/place/details/json?key=$PLACES_API_KEY&place_id=$place_id';
     final http.Response response = await this.httpClient.get(Uri.parse(url));
 
@@ -57,7 +57,7 @@ class GoogleApiClient {
     final Map<dynamic, dynamic> result = json['result'];
     final Map<dynamic, dynamic> geometry = result['geometry'];
     final Map<dynamic, dynamic> location = geometry['location'];
-    return Location(latitude: location['lat'], longitude: location['lng'], locationName: description);
+    return LocationDandy.LocationDandy(latitude: location['lat'], longitude: location['lng'], locationName: description);
   }
   
   Future<double> getTravelDistance(LatLng startLocation, LatLng endLocation) async{

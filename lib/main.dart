@@ -11,6 +11,7 @@ import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -20,7 +21,7 @@ import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:purchases_flutter/purchases_flutter.dart' as revenuecat;
 import 'package:redux/redux.dart';
-
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'firebase_options.dart';
 
 main() async {
@@ -28,6 +29,7 @@ main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await FirebaseMessaging.instance.setAutoInitEnabled(true);
   //
   // // Pass all uncaught "fatal" errors from the framework to Crashlytics
   // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
@@ -61,18 +63,23 @@ main() async {
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   catchAsyncErrors();
 
+  usePathUrlStrategy();
   initializeDateFormatting().then((_) => runApp(new ClientSafeApp(store)));
 }
 
 Future<void> catchAsyncErrors() async {
   FlutterError.onError = (errorDetails) {
-    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+    if (!kIsWeb) {
+      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+    }
   };
-  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
-  PlatformDispatcher.instance.onError = (error, stack) {
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-    return true;
-  };
+  if(!kIsWeb) {
+    // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+    PlatformDispatcher.instance.onError = (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true;
+    };
+  }
 }
 
 Future<void> initSubscriptions() async {

@@ -37,7 +37,7 @@ class DandyLightNetworkImage extends StatelessWidget {
         cacheManager: DandylightCacheManager.instance,
         fadeInDuration: Duration(milliseconds: 200),
         fadeOutDuration: Duration(milliseconds: 400),
-        memCacheWidth: 2160,
+        memCacheWidth: resizeWidth,
         imageUrl: imageUrl,
         imageBuilder: (context, imageProvider) => Container(
           decoration: BoxDecoration(
@@ -56,13 +56,13 @@ class DandyLightNetworkImage extends StatelessWidget {
             )
         ),
         errorWidget: (context, url, error) => Container(
+            width: MediaQuery.of(context).size.width,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: color,
               borderRadius: new BorderRadius.circular(borderRadius),
             ),
             child: getErrorImage(errorType),
-            width: errorIconSize
         ),
     );
   }
@@ -102,7 +102,10 @@ class DandyLightNetworkImage extends StatelessWidget {
           width: errorIconSize,
         );
     }
-    return result;
+    return Container(
+      width: errorIconSize,
+      child: result,
+    );
   }
 
 }

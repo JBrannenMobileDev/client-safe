@@ -23,7 +23,7 @@ class ReminderNotificationsPage extends StatelessWidget{
   Widget build(BuildContext context) => StoreConnector<AppState, DashboardPageState>(
       converter: (Store<AppState> store) => DashboardPageState.fromStore(store),
       builder: (BuildContext context, DashboardPageState pageState) => Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(ColorConstants.getPrimaryWhite()),
       body: Listener(
         onPointerMove: (moveEvent){
 
@@ -35,7 +35,7 @@ class ReminderNotificationsPage extends StatelessWidget{
                 slivers: <Widget>[
                   SliverAppBar(
                     brightness: Brightness.light,
-                    backgroundColor: Colors.white,
+                    backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                     pinned: true,
                     floating: false,
                     forceElevated: false,
@@ -43,7 +43,7 @@ class ReminderNotificationsPage extends StatelessWidget{
                     title: TextDandyLight(
                       type: TextDandyLight.LARGE_TEXT,
                       text: 'Notifications',
-                      color: const Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                     leading: IconButton(
                       icon: const Icon(Icons.close),

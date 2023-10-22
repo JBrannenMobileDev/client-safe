@@ -73,7 +73,7 @@ class _ResponsePageState extends State<ResponsesPage> with TickerProviderStateMi
                           margin: EdgeInsets.only(right: 26.0),
                           height: 24.0,
                           width: 24.0,
-                          child: Image.asset('assets/images/icons/trash_icon_white.png', color: Color(ColorConstants.getBlueDark()),),
+                          child: Image.asset('assets/images/icons/select.png', color: Color(ColorConstants.getBlueDark()),),
                         ),
                       ),
                     ],

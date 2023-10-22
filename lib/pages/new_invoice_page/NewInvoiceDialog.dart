@@ -1,17 +1,11 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/new_invoice_page/BalanceDueWidget.dart';
-import 'package:dandylight/pages/new_invoice_page/DepositRowWidget.dart';
-import 'package:dandylight/pages/new_invoice_page/DiscountRowWidget.dart';
 import 'package:dandylight/pages/new_invoice_page/DueDateSelectionPage.dart';
-import 'package:dandylight/pages/new_invoice_page/GrayDividerWidget.dart';
-import 'package:dandylight/pages/new_invoice_page/InputDoneViewNewInvoice.dart';
+import 'package:dandylight/pages/new_invoice_page/InputDoneView.dart';
 import 'package:dandylight/pages/new_invoice_page/InvoiceReviewPage.dart';
 import 'package:dandylight/pages/new_invoice_page/JobSelectionForm.dart';
-import 'package:dandylight/pages/new_invoice_page/LineItemListWidget.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:dandylight/pages/new_invoice_page/PriceBreakdownForm.dart';
-import 'package:dandylight/pages/new_invoice_page/SubtotalRowWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/KeyboardUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
@@ -23,24 +17,25 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../models/Job.dart';
-import '../../models/JobStage.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class NewInvoiceDialog extends StatefulWidget {
   final Function onSendInvoiceSelected;
+  final bool shouldClear;
 
-  NewInvoiceDialog(this.onSendInvoiceSelected);
+  NewInvoiceDialog({this.onSendInvoiceSelected, this.shouldClear});
 
   @override
   _NewInvoiceDialogState createState() {
-    return _NewInvoiceDialogState(onSendInvoiceSelected);
+    return _NewInvoiceDialogState(onSendInvoiceSelected, shouldClear);
   }
 }
 
 class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepAliveClientMixin {
   Function onSendInvoiceSelected;
+  bool shouldClear;
 
-  _NewInvoiceDialogState(this.onSendInvoiceSelected);
+  _NewInvoiceDialogState(this.onSendInvoiceSelected, this.shouldClear);
 
   OverlayEntry overlayEntry;
   final int pageCount = 4;
@@ -53,12 +48,12 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
   Widget build(BuildContext context) {
     super.build(context);
     return StoreConnector<AppState, NewInvoicePageState>(
-      onInit: (appState) {
-        if(appState.state.newInvoicePageState.shouldClear) appState.dispatch(ClearStateAction(appState.state.newInvoicePageState));
+      onInit: (appState) async {
+        if(shouldClear) appState.dispatch(ClearStateAction(appState.state.newInvoicePageState));
         appState.dispatch(FetchAllInvoiceJobsAction(appState.state.newInvoicePageState));
       },
       onDidChange: (prev, pageState) {
-        if(!pageState.shouldClear && !hasJumpToBeenCalled) {
+        if(!shouldClear && !hasJumpToBeenCalled) {
           controller.jumpToPage(1);
           hasJumpToBeenCalled = true;
         }
@@ -98,7 +93,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                           type: TextDandyLight.MEDIUM_TEXT,
                           text: "Invoice " + pageState.invoiceNumber.toString(),
                           textAlign: TextAlign.center,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                     ],
@@ -137,9 +132,9 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                                 },
                                 child: TextDandyLight(
                                   type: TextDandyLight.MEDIUM_TEXT,
-                                  text: pageState.pageViewIndex == 0 || ((pageState.pageViewIndex == 1) && hasJumpToBeenCalled) || ((pageState.pageViewIndex == 1) && (!pageState.shouldClear && !hasJumpToBeenCalled)) ? 'Cancel' : 'Back',
+                                  text: pageState.pageViewIndex == 0 || ((pageState.pageViewIndex == 1) && hasJumpToBeenCalled) || ((pageState.pageViewIndex == 1) && (!shouldClear && !hasJumpToBeenCalled)) ? 'Cancel' : 'Back',
                                   textAlign: TextAlign.center,
-                                  color: Color(ColorConstants.primary_black),
+                                  color: Color(ColorConstants.getPrimaryBlack()),
                                 ),
                               ),
                               TextButton(
@@ -153,7 +148,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                                       ? 'Save'
                                       : 'Next',
                                   textAlign: TextAlign.center,
-                                  color: Color(ColorConstants.primary_black),
+                                  color: Color(ColorConstants.getPrimaryBlack()),
                                 ),
                               ),
                             ],
@@ -225,7 +220,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
               .bottom,
           right: 0.0,
           left: 0.0,
-          child: InputDoneViewNewInvoice());
+          child: InputDoneView());
     });
 
     overlayState.insert(overlayEntry);
@@ -253,7 +248,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
             callback: (String unused) {
               Navigator.of(context).pop(true);
               Navigator.of(context).pop(true);
-              UserOptionsUtil.showSendInvoicePromptDialog(context, invoiceId, pageState.onInvoiceSent);
+              UserOptionsUtil.showSendInvoicePromptDialog(context, invoiceId, pageState.onInvoiceSent, pageState.selectedJob);
             },
           ),
         );
@@ -262,7 +257,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
   }
 
   void onBackPressed(NewInvoicePageState pageState) {
-    if (pageState.pageViewIndex == 0 || ((pageState.pageViewIndex == 1) && hasJumpToBeenCalled) || ((pageState.pageViewIndex == 1) && (!pageState.shouldClear && !hasJumpToBeenCalled))) {
+    if (pageState.pageViewIndex == 0 || ((pageState.pageViewIndex == 1) && hasJumpToBeenCalled) || ((pageState.pageViewIndex == 1) && (!shouldClear && !hasJumpToBeenCalled))) {
       pageState.onCancelPressed();
       Navigator.of(context).pop();
     } else {

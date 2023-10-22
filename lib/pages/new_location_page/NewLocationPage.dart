@@ -98,21 +98,21 @@ class _NewLocationPageState extends State<NewLocationPage> {
                                   height: 24.0,
                                   width: 24.0,
                                   child: Image.asset(
-                                      'assets/images/icons/trash_icon_blue.png'),
+                                      'assets/images/icons/trash_can.png', color: Color(ColorConstants.getPeachDark()),),
                                 ),
                               ) : SizedBox(),
                               TextDandyLight(
                                 type: TextDandyLight.LARGE_TEXT,
                                 text: pageState.shouldClear ? "New Location" : "Edit Location",
                                 textAlign: TextAlign.start,
-                                color: Color(ColorConstants.primary_black),
+                                color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                               !pageState.shouldClear ? Container(
                                 margin: EdgeInsets.only(right: 18.0),
                                 child: IconButton(
                                   icon: const Icon(Icons.save),
                                   tooltip: 'Save',
-                                  color: Color(ColorConstants.getBlueDark()),
+                                  color: Color(ColorConstants.getPeachDark()),
                                   onPressed: () {
                                     showSuccessAnimation();
                                     pageState.onSaveLocationSelected();
@@ -160,14 +160,14 @@ class _NewLocationPageState extends State<NewLocationPage> {
                             children: <Widget>[
                               TextButton(
                                 style: Styles.getButtonStyle(
-                                  color: Colors.white,
-                                  textColor: Color(ColorConstants.primary_black),
+                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                  textColor: Color(ColorConstants.getPrimaryBlack()),
                                   left: 8.0,
                                   top: 8.0,
                                   right: 8.0,
                                   bottom: 8.0,
                                 ),
-                                // disabledColor: Colors.white,
+                                // disabledColor: Color(ColorConstants.getPrimaryWhite()),
                                 // disabledTextColor:
                                 // Color(ColorConstants.primary_bg_grey),
                                 // splashColor: Color(ColorConstants.getPrimaryColor()),
@@ -178,19 +178,19 @@ class _NewLocationPageState extends State<NewLocationPage> {
                                   type: TextDandyLight.MEDIUM_TEXT,
                                   text: pageState.pageViewIndex == 0 ? 'Cancel' : 'Back',
                                   textAlign: TextAlign.start,
-                                  color: Color(ColorConstants.primary_black),
+                                  color: Color(ColorConstants.getPrimaryBlack()),
                                 ),
                               ),
                               TextButton(
                                 style: Styles.getButtonStyle(
-                                  color: Colors.white,
-                                  textColor: Color(ColorConstants.primary_black),
+                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                  textColor: Color(ColorConstants.getPrimaryBlack()),
                                   left: 8.0,
                                   top: 8.0,
                                   right: 8.0,
                                   bottom: 8.0,
                                 ),
-                                // disabledColor: Colors.white,
+                                // disabledColor: Color(ColorConstants.getPrimaryWhite()),
                                 // disabledTextColor:
                                 // Color(ColorConstants.primary_bg_grey),
                                 // splashColor: Color(ColorConstants.getPrimaryColor()),
@@ -201,7 +201,7 @@ class _NewLocationPageState extends State<NewLocationPage> {
                                   type: TextDandyLight.MEDIUM_TEXT,
                                   text: pageState.pageViewIndex == pageCount ? 'Save' : 'Next',
                                   textAlign: TextAlign.start,
-                                  color: Color(ColorConstants.primary_black),
+                                  color: Color(ColorConstants.getPrimaryBlack()),
                                 ),
                               ),
                             ],

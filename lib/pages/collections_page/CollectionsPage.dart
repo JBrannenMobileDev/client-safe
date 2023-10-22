@@ -7,13 +7,13 @@ import 'package:dandylight/pages/reminders_page/RemindersPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
-import 'package:dandylight/utils/analytics/DeviceInfo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../../utils/DeviceType.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
+import '../contracts_page/ContractsPage.dart';
 import '../poses_page/PosesPage.dart';
 import '../responses_page/ResponsesPage.dart';
 
@@ -45,7 +45,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
                   text: "My Collections",
-                  color: const Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
             ),
@@ -77,7 +77,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                                     color: getCircleColor(index),
                                     shape: BoxShape.circle,
                                   ),
-                                  child: Image.asset(collectionIcons.elementAt(index)),
+                                  child: Image.asset(collectionIcons.elementAt(index), color: Color(index > 6 ? ColorConstants.getBlueLight() : ColorConstants.getPrimaryWhite()),),
                                 ),
                                 Center(
                                   child: Container(
@@ -86,7 +86,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                                       type: TextDandyLight.MEDIUM_TEXT,
                                       text: ImageUtil.getCollectionIconName(collectionIcons.elementAt(index)),
                                       textAlign: TextAlign.center,
-                                      color: const Color(ColorConstants.primary_black),
+                                      color: Color(index > 6 ? ColorConstants.getBlueLight() : ColorConstants.getPrimaryBlack()),
                                     ),
                                   ),
                                 ),
@@ -107,9 +107,9 @@ class _CollectionsPageState extends State<CollectionsPage> {
   void onCollectionSelected(int index){
     switch(index){
       case 0:
-        EventSender().sendEvent(eventName: EventNames.NAV_TO_COLLECTION_REMINDERS);
+        EventSender().sendEvent(eventName: EventNames.NAV_TO_CONTRACTS);
         Navigator.of(context).push(
-          new MaterialPageRoute(builder: (context) => RemindersPage()),
+          new MaterialPageRoute(builder: (context) => ContractsPage()),
         );
         break;
       case 1:
@@ -143,19 +143,21 @@ class _CollectionsPageState extends State<CollectionsPage> {
         );
         break;
       case 6:
-        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getBlueLight()));
-        EventSender().sendEvent(eventName: EventNames.NAV_TO_CONTRACTS);
+        EventSender().sendEvent(eventName: EventNames.NAV_TO_COLLECTION_REMINDERS);
+        Navigator.of(context).push(
+          new MaterialPageRoute(builder: (context) => RemindersPage()),
+        );
         break;
       case 7:
-        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getPeachLight()));
+        DandyToastUtil.showToast("Coming 2024! \nThis feature is not ready yet.", Color(ColorConstants.getPrimaryGreyMedium()));
         EventSender().sendEvent(eventName: EventNames.NAV_TO_AUTOMATED_BOOKING);
         break;
       case 8:
-        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getPeachDark()));
+        DandyToastUtil.showToast("Coming 2023! \nThis feature is not ready yet.", Color(ColorConstants.getPrimaryGreyMedium()));
         EventSender().sendEvent(eventName: EventNames.NAV_TO_QUESTIONNAIRES);
         break;
       case 9:
-        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getBlueLight()));
+        DandyToastUtil.showToast("Coming 2024! \nThis feature is not ready yet.", Color(ColorConstants.getPrimaryGreyMedium()));
         EventSender().sendEvent(eventName: EventNames.NAV_TO_CLIENT_GUIDES);
         break;
     }
@@ -168,7 +170,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
         color = Color(ColorConstants.getBlueLight());
         break;
       case 1:
-        color = Color(ColorConstants.getPeachLight());
+        color = Color(ColorConstants.getPeachMedium());
         break;
       case 2:
         color = Color(ColorConstants.getPeachDark());
@@ -177,7 +179,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
         color = Color(ColorConstants.getBlueLight());
         break;
       case 4:
-        color = Color(ColorConstants.getPeachLight());
+        color = Color(ColorConstants.getPeachMedium());
         break;
       case 5:
         color = Color(ColorConstants.getPeachDark());
@@ -186,13 +188,16 @@ class _CollectionsPageState extends State<CollectionsPage> {
         color = Color(ColorConstants.getBlueLight());
         break;
       case 7:
-        color = Color(ColorConstants.getPeachLight());
+        // color = Color(ColorConstants.getPeachLight());
+        color = Color(ColorConstants.getBlueLight()).withOpacity(0.5);
         break;
       case 8:
-        color = Color(ColorConstants.getPeachDark());
+        // color = Color(ColorConstants.getPeachDark());
+        color = Color(ColorConstants.getBlueLight()).withOpacity(0.5);
         break;
       case 9:
-        color = Color(ColorConstants.getBlueLight());
+        // color = Color(ColorConstants.getBlueLight());
+        color = Color(ColorConstants.getBlueLight()).withOpacity(0.5);
         break;
     }
     return color;

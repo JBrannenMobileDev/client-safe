@@ -38,20 +38,20 @@ class _FreeTrialInfo extends State<FreeTrialInfo> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(bottom: 8, top: 8),
+                  margin: EdgeInsets.only(bottom: 0, top: 0),
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
                       Container(
-                        height: 88,
-                        width: 88,
+                        height: 64,
+                        width: 64,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
+                          borderRadius: BorderRadius.circular(32),
                           color: Color(ColorConstants.getBlueLight()),
                         ),
                       ),
                       Container(
-                        width: 56,
+                        width: 42,
                         child: Image.asset('assets/images/icons/no_card.png', color: Color(ColorConstants.getPrimaryWhite()),),
                       ),
                     ],
@@ -61,7 +61,7 @@ class _FreeTrialInfo extends State<FreeTrialInfo> {
                   margin: EdgeInsets.only(top: 16),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
-                    text: 'NO CARD REQUIRED\nThen only \$9.99/month',
+                    text: 'NO CARD REQUIRED\n\$9.99/month',
                     textAlign: TextAlign.center,
                     color: Color(ColorConstants.getPrimaryBlack()),
                   ),

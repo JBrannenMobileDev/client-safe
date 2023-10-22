@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/clients_page/ClientsPageActions.dart';
 import 'package:dandylight/pages/clients_page/ClientsPageState.dart';
@@ -16,10 +18,13 @@ class ClientsPage extends StatefulWidget {
   static const String FILTER_TYPE_CLIENTS = "Clients";
   static const String FILTER_TYPE_LEADS = "Leads";
   static const String FILTER_TYPE_ALL = "All";
+  final bool comingFromUnconverted;
+
+  ClientsPage({this.comingFromUnconverted});
 
   @override
   State<StatefulWidget> createState() {
-    return _ClientsPageState();
+    return _ClientsPageState(comingFromUnconverted);
   }
 }
 
@@ -29,12 +34,16 @@ class _ClientsPageState extends State<ClientsPage> {
   int selectorIndex = 0;
   ScrollController _controller = ScrollController();
   Map<int, Widget> genders;
-  List<String> alphabetList;
+  bool comingFromUnconverted;
+
+  _ClientsPageState(this.comingFromUnconverted);
 
   @override
   void initState() {
     super.initState();
-    alphabetList = List<String>.generate(alphabet.length, (index) => alphabet[index]);
+    if(comingFromUnconverted != null && comingFromUnconverted) {
+      selectorIndex = 2;
+    }
   }
 
   @override
@@ -66,22 +75,31 @@ class _ClientsPageState extends State<ClientsPage> {
         onInit: (store) => store.dispatch(FetchClientData(store.state.clientsPageState)),
         converter: (store) => ClientsPageState.fromStore(store),
         builder: (BuildContext context, ClientsPageState pageState) => Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Color(ColorConstants.getPrimaryWhite()),
           body: Stack(
-                alignment: AlignmentDirectional.centerEnd,
+                alignment: Alignment.topLeft,
                 children: <Widget>[
                   CustomScrollView(
                     slivers: <Widget>[
                       SliverAppBar(
+                        leading: comingFromUnconverted != null && comingFromUnconverted ? GestureDetector(
+                          onTap:(){
+                            Navigator.of(context).pop();
+                          },
+                          child: Icon(
+                            Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
+                            color: Color(ColorConstants.getPrimaryBlack()),//add color of your choice
+                          ),
+                        ) : SizedBox(),
                         brightness: Brightness.light,
-                        backgroundColor: Colors.white,
+                        backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                         pinned: true,
                         centerTitle: true,
                         title: Container(
                           child: TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
                             text: "Contacts",
-                            color: const Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                         actions: <Widget>[
@@ -94,7 +112,7 @@ class _ClientsPageState extends State<ClientsPage> {
                               margin: EdgeInsets.only(right: 26.0),
                               height: 24.0,
                               width: 24.0,
-                              child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getBlueDark()),),
+                              child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPrimaryBlack()),),
                             ),
                           ),
                         ],
@@ -104,7 +122,7 @@ class _ClientsPageState extends State<ClientsPage> {
                             margin: EdgeInsets.only(bottom: 16.0),
                             child: CupertinoSlidingSegmentedControl<int>(
                               backgroundColor: Color(ColorConstants.getPrimaryWhite()),
-                              thumbColor: Color(ColorConstants.getBlueDark()),
+                              thumbColor: Color(ColorConstants.getBlueLight()),
                               children: genders,
                               onValueChanged: (int filterTypeIndex) {
                                 setState(() {

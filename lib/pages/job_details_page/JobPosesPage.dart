@@ -40,7 +40,7 @@ class JobPosesPage extends StatelessWidget{
   Widget build(BuildContext context) => StoreConnector<AppState, JobDetailsPageState>(
       converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) => Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(ColorConstants.getPrimaryWhite()),
       body: Stack(
             alignment: AlignmentDirectional.centerEnd,
             children: <Widget>[
@@ -50,7 +50,7 @@ class JobPosesPage extends StatelessWidget{
                     iconTheme: IconThemeData(
                       color: Color(ColorConstants.getPeachDark()), //change your color here
                     ),
-                    backgroundColor: Colors.white,
+                    backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                     elevation: 4.0,
                     snap: true,
                     floating: true,
@@ -59,7 +59,7 @@ class JobPosesPage extends StatelessWidget{
                     title: TextDandyLight(
                       type: TextDandyLight.LARGE_TEXT,
                       text: pageState.job.jobTitle,
-                      color: const Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                       actions: <Widget>[
                         GestureDetector(
@@ -100,11 +100,8 @@ class JobPosesPage extends StatelessWidget{
                 alignment: Alignment.bottomCenter,
                 child: GestureDetector(
                   onTap: () {
-                    Share.shareFiles(
-                        pageState.poseFilePaths,
-                        subject: 'Example Poses');
-                    EventSender().sendEvent(eventName: EventNames.BT_SHARE_JOB_POSES);
-                  },
+                    NavigationUtil.onShareWIthClientSelected(context, pageState.job, );
+                    EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_FROM_JOB_POSES_PAGE);                  },
                   child: Container(
                     margin: EdgeInsets.only(bottom: 36),
                     alignment: Alignment.center,

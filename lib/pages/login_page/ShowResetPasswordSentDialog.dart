@@ -51,7 +51,7 @@ class ShowResetPasswordSentDialog extends StatelessWidget {
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: 'Please come back and sign in after resetting your password.',
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               GestureDetector(

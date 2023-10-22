@@ -59,7 +59,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                   type: TextDandyLight.LARGE_TEXT,
                   text: "Select a Location",
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               Padding(
@@ -97,14 +97,14 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                   children: <Widget>[
                     TextButton(
                       style: Styles.getButtonStyle(
-                        color: Colors.white,
-                        textColor: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryWhite()),
+                        textColor: Color(ColorConstants.getPrimaryBlack()),
                         left: 8.0,
                         top: 8.0,
                         right: 8.0,
                         bottom: 8.0,
                       ),
-                      // disabledColor: Colors.white,
+                      // disabledColor: Color(ColorConstants.getPrimaryWhite()),
                       // disabledTextColor:
                       // Color(ColorConstants.primary_bg_grey),
                       // splashColor: Color(ColorConstants.getPrimaryColor()),
@@ -115,19 +115,19 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                         type: TextDandyLight.LARGE_TEXT,
                         text: 'Cancel',
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     TextButton(
                       style: Styles.getButtonStyle(
-                        color: Colors.white,
-                        textColor: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryWhite()),
+                        textColor: Color(ColorConstants.getPrimaryBlack()),
                         left: 8.0,
                         top: 8.0,
                         right: 8.0,
                         bottom: 8.0,
                       ),
-                      // disabledColor: Colors.white,
+                      // disabledColor: Color(ColorConstants.getPrimaryWhite()),
                       // disabledTextColor:
                       // Color(ColorConstants.primary_bg_grey),
                       // splashColor: Color(ColorConstants.getPrimaryColor()),
@@ -141,7 +141,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                         type: TextDandyLight.LARGE_TEXT,
                         text: 'Save',
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                   ],
@@ -159,7 +159,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: "Select a location for this job",
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               Padding(
@@ -168,7 +168,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: "You do ot have any locations saved to your collection.",
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               TextButton(
@@ -215,6 +215,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
     return StoreConnector<AppState, NewMileageExpensePageState>(
       converter: (store) => NewMileageExpensePageState.fromStore(store),
       builder: (BuildContext context, NewMileageExpensePageState pageState) => Container(
+        height: 200,
         margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
         child: MileageLocationListWidget(index),
       ),

@@ -62,7 +62,7 @@ class _NewRecurringExpenseCost extends State<NewRecurringExpenseCost> with Autom
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: 'Enter the cost for one billing period.',
                 textAlign: TextAlign.start,
-                color: Color(ColorConstants.primary_black),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ),
             NewRecurringExpenseCostTextField(

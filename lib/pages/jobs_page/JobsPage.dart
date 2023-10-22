@@ -63,7 +63,7 @@ class _JobsPageState extends State<JobsPage> {
           }
         },
         builder: (BuildContext context, JobsPageState pageState) => Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Color(ColorConstants.getPrimaryWhite()),
           body: Stack(
                 alignment: AlignmentDirectional.centerEnd,
                 children: <Widget>[
@@ -71,14 +71,14 @@ class _JobsPageState extends State<JobsPage> {
                     slivers: <Widget>[
                       SliverAppBar(
                         brightness: Brightness.light,
-                        backgroundColor: Colors.white,
+                        backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                         pinned: true,
                         centerTitle: true,
                         title: Container(
                           child: TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
                             text: "Jobs",
-                            color: const Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                         actions: <Widget>[
@@ -91,7 +91,7 @@ class _JobsPageState extends State<JobsPage> {
                               margin: EdgeInsets.only(right: 26.0),
                               height: 24.0,
                               width: 24.0,
-                              child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPeachDark()),),
+                              child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPrimaryBlack()),),
                             ),
                           ),
                         ],
@@ -101,7 +101,7 @@ class _JobsPageState extends State<JobsPage> {
                             margin: EdgeInsets.only(bottom: 16.0),
                             child: CupertinoSlidingSegmentedControl<int>(
                               backgroundColor: Color(ColorConstants.getPrimaryWhite()),
-                              thumbColor: Color(ColorConstants.getBlueDark()),
+                              thumbColor: Color(ColorConstants.getBlueLight()),
                               children: jobTypes,
                               onValueChanged: (int filterTypeIndex) {
                                 setState(() {

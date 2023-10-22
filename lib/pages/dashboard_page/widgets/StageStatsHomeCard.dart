@@ -26,7 +26,7 @@ class StageStatsHomeCard extends StatelessWidget {
       padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
       decoration: new BoxDecoration(
           color: Color(ColorConstants.getPrimaryWhite()),
-          borderRadius: new BorderRadius.all(Radius.circular(24.0))),
+          borderRadius: new BorderRadius.all(Radius.circular(12.0))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
@@ -36,7 +36,7 @@ class StageStatsHomeCard extends StatelessWidget {
               type: TextDandyLight.MEDIUM_TEXT,
               text: 'Active Stages',
               textAlign: TextAlign.start,
-              color: Color(ColorConstants.primary_black),
+              color: Color(ColorConstants.getPrimaryBlack()),
             ),
           ),
           pageState.allUserStages.length > 0 ? ListView.builder(
@@ -54,7 +54,7 @@ class StageStatsHomeCard extends StatelessWidget {
               type: TextDandyLight.MEDIUM_TEXT,
               text: 'No Active jobs.  Start a new job to see your progress.',
               textAlign: TextAlign.center,
-              color: Color(ColorConstants.primary_black),
+              color: Color(ColorConstants.getPrimaryBlack()),
             ),
           )
         ],

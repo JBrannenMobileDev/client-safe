@@ -1,21 +1,26 @@
 
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/IntentLauncherUtil.dart';
+import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../models/Job.dart';
+import '../../utils/NavigationUtil.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class SendInvoicePromptDialog extends StatefulWidget {
   final int invoiceId;
   final Function onSendInvoiceSelected;
+  final Job job;
 
-  SendInvoicePromptDialog(this.invoiceId, this.onSendInvoiceSelected);
+  SendInvoicePromptDialog(this.invoiceId, this.onSendInvoiceSelected, this.job);
 
   @override
   _SendInvoicePromptDialogState createState() {
-    return _SendInvoicePromptDialogState(invoiceId, onSendInvoiceSelected);
+    return _SendInvoicePromptDialogState(invoiceId, onSendInvoiceSelected, job);
   }
 }
 
@@ -24,8 +29,9 @@ class _SendInvoicePromptDialogState extends State<SendInvoicePromptDialog>
   final jobTitleTextController = TextEditingController();
   final int invoiceId;
   final Function onSendInvoiceSelected;
+  final Job job;
 
-  _SendInvoicePromptDialogState(this.invoiceId, this.onSendInvoiceSelected);
+  _SendInvoicePromptDialogState(this.invoiceId, this.onSendInvoiceSelected, this.job);
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +55,7 @@ class _SendInvoicePromptDialogState extends State<SendInvoicePromptDialog>
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: 'Would you like to send this invoice now ?',
                       textAlign: TextAlign.center,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   Row(
@@ -58,8 +64,9 @@ class _SendInvoicePromptDialogState extends State<SendInvoicePromptDialog>
                       GestureDetector(
                         onTap: () {
                           onSendInvoiceSelected != null ? onSendInvoiceSelected() : DoNothingAction();
-                          IntentLauncherUtil.shareInvoiceById(invoiceId);
                           Navigator.of(context).pop();
+                          NavigationUtil.onShareWIthClientSelected(context, job);
+                          EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_FROM_SEND_INVOICE_PROMPT);
                         },
                         child: Container(
                           height: 96.0,

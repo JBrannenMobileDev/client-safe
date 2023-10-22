@@ -43,15 +43,15 @@ class _JobTrackingInfo extends State<JobTrackingInfo> {
                     alignment: Alignment.center,
                     children: [
                       Container(
-                        height: 88,
-                        width: 88,
+                        height: 64,
+                        width: 64,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
+                          borderRadius: BorderRadius.circular(32),
                           color: Color(ColorConstants.getPeachLight()),
                         ),
                       ),
                       Container(
-                        width: 56,
+                        width: 42,
                         child: Image.asset('assets/images/icons/briefcase_icon_white.png', color: Color(ColorConstants.getPrimaryWhite()),),
                       ),
                     ],

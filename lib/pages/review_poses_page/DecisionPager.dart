@@ -19,7 +19,7 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../models/Job.dart';
 import '../../models/Pose.dart';
-import '../../utils/IntentLauncherUtil.dart';
+import '../../utils/intentLauncher/IntentLauncherUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -89,65 +89,6 @@ class _DecisionPagerState extends State<DecisionPager> {
     });
   }
 
-  void onTagsChanged(String enteredTags) {
-    setState(() {
-      tags = enteredTags;
-    });
-  }
-
-  void onPromptChanged(String enteredPrompt) {
-    setState(() {
-      prompt = enteredPrompt;
-    });
-  }
-
-  void onCategorySelected(String category, isSelected) {
-    setState(() {
-      switch(category) {
-        case UploadPosePage.ENGAGEMENT:
-          engagementsSelected = isSelected;
-          break;
-        case UploadPosePage.FAMILIES:
-          familiesSelected = isSelected;
-          break;
-        case UploadPosePage.COUPLES:
-          couplesSelected = isSelected;
-          break;
-        case UploadPosePage.PORTRAITS:
-          portraitsSelected = isSelected;
-          break;
-        case UploadPosePage.MATERNITY:
-          maternitySelected = isSelected;
-          break;
-        case UploadPosePage.NEWBORN:
-          newbornSelected = isSelected;
-          break;
-        case UploadPosePage.PROPOSALS:
-          proposalsSelected = isSelected;
-          break;
-        case UploadPosePage.PETS:
-          petsSelected = isSelected;
-          break;
-        case UploadPosePage.WEDDINGS:
-          weddingsSelected = isSelected;
-          break;
-      }
-    });
-  }
-
-  void onAction1(){
-    _promptFocusNode.unfocus();
-  }
-
-  void onAction2(){
-    _tagsFocusNode.unfocus();
-  }
-
-  bool isAtLeastOneCategorySelected() {
-    return engagementsSelected || familiesSelected || couplesSelected || portraitsSelected
-        || maternitySelected || newbornSelected || proposalsSelected || petsSelected || weddingsSelected;
-  }
-
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, PosesPageState>(
@@ -155,7 +96,7 @@ class _DecisionPagerState extends State<DecisionPager> {
       builder: (BuildContext context, PosesPageState pageState) =>
           Scaffold(
             key: scaffoldKey,
-            backgroundColor: Colors.white,
+            backgroundColor: Color(ColorConstants.getPrimaryWhite()),
             appBar: AppBar(
               iconTheme: IconThemeData(color: Color(ColorConstants.getPeachDark())),
               centerTitle: true,
@@ -165,7 +106,7 @@ class _DecisionPagerState extends State<DecisionPager> {
                 text: (currentPageIndex + 1).toString() + ' out of ' + pageCount.toString(),
                 color: Color(ColorConstants.getPeachDark()),
               ),
-              backgroundColor: Colors.white,
+              backgroundColor: Color(ColorConstants.getPrimaryWhite()),
               actions: [
 
               ],

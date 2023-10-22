@@ -135,7 +135,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 ),
                               ),
                             ),
-                            pageState.profile.isFreeForLife ? Container(
+                            pageState.profile != null && pageState.profile.isFreeForLife ? Container(
                                 margin: EdgeInsets.only(top: 178.0),
                                 child: TextDandyLight(
                                     text: 'Your free lifetime subscription is applied! There is no need to manage your subscription. We hope you enjoy Dandylight!',
@@ -144,7 +144,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     color: Color(ColorConstants.getBlueDark())
                                 )
                             ) : SizedBox(),
-                            !pageState.profile.isFreeForLife && (pageState.uiState != ManageSubscriptionPage.FREE_TRIAL) ? Container(
+                            !(pageState.profile != null && pageState.profile.isFreeForLife) && (pageState.uiState != ManageSubscriptionPage.FREE_TRIAL) ? Container(
                                 margin: EdgeInsets.only(top: 178.0),
                                 child: TextDandyLight(
                                     text: _getMessageText(pageState.uiState),
@@ -153,7 +153,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     color: Color(ColorConstants.getBlueDark())
                                 )
                             ) : SizedBox(),
-                            !pageState.profile.isFreeForLife && (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL) ? Container(
+                            !(pageState.profile != null && pageState.profile.isFreeForLife) && (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL) ? Container(
                                 margin: EdgeInsets.only(top: 164.0),
                                 child: TextDandyLight(
                                     text: pageState.remainingTimeMessage,
@@ -162,7 +162,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     color: Color(ColorConstants.getBlueDark())
                                 )
                             ) : SizedBox(),
-                            !pageState.profile.isFreeForLife && pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? SizedBox() : profile.isBetaTester || pageState.discountType.isNotEmpty ? Container(
+                            !(pageState.profile != null && pageState.profile.isFreeForLife) && pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? SizedBox() : profile.isBetaTester || pageState.discountType.isNotEmpty ? Container(
                                 margin: EdgeInsets.only(top: 258.0),
                                 child: TextDandyLight(
                                   text: 'Discount applied',
@@ -171,7 +171,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                   color: Color(ColorConstants.getBlueDark())
                                 )
                             ) : SizedBox(),
-                            !pageState.profile.isFreeForLife && (pageState.uiState == ManageSubscriptionPage.SUBSCRIBED) ? Container(
+                            !(pageState.profile != null && pageState.profile.isFreeForLife) && (pageState.uiState == ManageSubscriptionPage.SUBSCRIBED) ? Container(
                                 margin: EdgeInsets.only(top: 258.0),
                                 child: TextDandyLight(
                                     text: 'Subscription Active',
@@ -191,7 +191,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 ),
                               ),
                             ),
-                            !pageState.profile.isFreeForLife ? Column(
+                            !(pageState.profile != null && pageState.profile.isFreeForLife) ? Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
@@ -471,6 +471,46 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                       Padding(
                                         padding: EdgeInsets.only(left: 16),
                                         child: TextDandyLight(
+                                          type: TextDandyLight.MEDIUM_TEXT,
+                                          text: 'Unlimited contracts',
+                                          textAlign: TextAlign.start,
+                                          maxLines: 2,
+                                          color: Color(ColorConstants.getBlueDark()),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  margin: EdgeInsets.only(top: 4, left: 32, right: 32),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 16),
+                                        child: TextDandyLight(
+                                          type: TextDandyLight.MEDIUM_TEXT,
+                                          text: 'Client Portal',
+                                          textAlign: TextAlign.start,
+                                          maxLines: 2,
+                                          color: Color(ColorConstants.getBlueDark()),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  margin: EdgeInsets.only(top: 4, left: 32, right: 32),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 16),
+                                        child: TextDandyLight(
                                             type: TextDandyLight.MEDIUM_TEXT,
                                             text: 'Unlimited Mileage tracking',
                                             textAlign: TextAlign.start,
@@ -676,7 +716,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                 ),
               ],
             ),
-            (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED || AdminCheckUtil.isAdmin(pageState.profile) || pageState.profile.isFreeForLife) ?
+            (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED || AdminCheckUtil.isAdmin(pageState.profile) || (pageState.profile != null && pageState.profile.isFreeForLife)) ?
             Positioned(
               top: 0.0,
               left: 0.0,
@@ -684,7 +724,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
               child: AppBar(
                 title: Text(''),// You can add title here
                 leading: new IconButton(
-                  icon: new Icon((Device.get().isIos ? CupertinoIcons.back : Icons.arrow_back), color: Colors.white),
+                  icon: new Icon((Device.get().isIos ? CupertinoIcons.back : Icons.arrow_back), color: Color(ColorConstants.getPrimaryWhite())),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
                 backgroundColor: Colors.transparent, //You can make this transparent

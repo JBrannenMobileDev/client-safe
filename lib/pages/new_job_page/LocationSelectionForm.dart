@@ -40,7 +40,7 @@ class _LocationSelectionFormState
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: "Select a location for this job.",
                       textAlign: TextAlign.center,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   Padding(
@@ -84,7 +84,7 @@ class _LocationSelectionFormState
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: "Select a location for this job",
                       textAlign: TextAlign.center,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   Padding(
@@ -93,7 +93,7 @@ class _LocationSelectionFormState
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: "You don't have any locations saved to your collection. Select the + icon to create a new location.",
                       textAlign: TextAlign.center,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                 ],

@@ -8,18 +8,18 @@ import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
-import 'package:sembast/sembast.dart';
+import 'package:sembast/sembast.dart' as sembast;
 import 'package:uuid/uuid.dart';
 
 class PriceProfileDao extends Equatable{
   static const String PRICE_PROFILE_STORE_NAME = 'priceProfile';
   // A Store with int keys and Map<String, dynamic> values.
   // This Store acts like a persistent map, values of which are Client objects converted to Map
-  static final _priceProfileStore = intMapStoreFactory.store(PRICE_PROFILE_STORE_NAME);
+  static final _priceProfileStore = sembast.intMapStoreFactory.store(PRICE_PROFILE_STORE_NAME);
 
   // Private getter to shorten the amount of code needed to get the
   // singleton instance of an opened database.
-  static Future<Database> get _db async => await SembastDb.instance.database;
+  static Future<sembast.Database> get _db async => await SembastDb.instance.database;
 
   static Future insert(PriceProfile profile) async {
     profile.documentId = Uuid().v1();
@@ -56,7 +56,7 @@ class PriceProfileDao extends Equatable{
 
   static Future<PriceProfile> getById(String profileDocumentId) async{
     if((await getAllSortedByName()).length > 0) {
-      final finder = Finder(filter: Filter.equals('documentId', profileDocumentId));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', profileDocumentId));
       final recordSnapshots = await _priceProfileStore.find(await _db, finder: finder);
       // Making a List<profileId> out of List<RecordSnapshot>
       List<PriceProfile> list = recordSnapshots.map((snapshot) {
@@ -74,7 +74,7 @@ class PriceProfileDao extends Equatable{
     }
   }
 
-  static Future<Stream<List<RecordSnapshot>>> getPriceProfilesStream() async {
+  static Future<Stream<List<sembast.RecordSnapshot>>> getPriceProfilesStream() async {
     var query = _priceProfileStore.query();
     return query.onSnapshots(await _db);
   }
@@ -86,7 +86,7 @@ class PriceProfileDao extends Equatable{
   static Future update(PriceProfile profile) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.equals('documentId', profile.documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', profile.documentId));
     await _priceProfileStore.update(
       await _db,
       profile.toMap(),
@@ -99,7 +99,7 @@ class PriceProfileDao extends Equatable{
   static Future updateLocalOnly(PriceProfile profile) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.equals('documentId', profile.documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', profile.documentId));
     await _priceProfileStore.update(
       await _db,
       profile.toMap(),
@@ -108,18 +108,20 @@ class PriceProfileDao extends Equatable{
   }
 
   static Future delete(PriceProfile profile) async {
-    final finder = Finder(filter: Filter.equals('documentId', profile.documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', profile.documentId));
     await _priceProfileStore.delete(
       await _db,
       finder: finder,
-    );
+    ).catchError((e) {
+      print(e);
+    });
     await PriceProfileCollection().deletePriceProfile(profile.documentId);
     _updateLastChangedTime();
   }
 
   static Future<List<PriceProfile>> getAllSortedByName() async {
-    final finder = Finder(sortOrders: [
-      SortOrder('profileName'),
+    final finder = sembast.Finder(sortOrders: [
+      sembast.SortOrder('profileName'),
     ]);
 
     final recordSnapshots = await _priceProfileStore.find(await _db, finder: finder);
@@ -157,7 +159,7 @@ class PriceProfileDao extends Equatable{
 
   static Future<void> _deleteAllLocalPriceProfiles(List<PriceProfile> allLocalPriceProfiles) async {
     for(PriceProfile priceProfile in allLocalPriceProfiles) {
-      final finder = Finder(filter: Filter.equals('documentId', priceProfile.documentId));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', priceProfile.documentId));
       await _priceProfileStore.delete(
         await _db,
         finder: finder,
@@ -177,7 +179,7 @@ class PriceProfileDao extends Equatable{
       List<PriceProfile> matchingFireStorePriceProfiles = allFireStorePriceProfiles.where((fireStorePriceProfile) => localPriceProfile.documentId == fireStorePriceProfile.documentId).toList();
       if(matchingFireStorePriceProfiles !=  null && matchingFireStorePriceProfiles.length > 0) {
         PriceProfile fireStorePriceProfile = matchingFireStorePriceProfiles.elementAt(0);
-        final finder = Finder(filter: Filter.equals('documentId', fireStorePriceProfile.documentId));
+        final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStorePriceProfile.documentId));
         await _priceProfileStore.update(
           await _db,
           fireStorePriceProfile.toMap(),
@@ -185,7 +187,7 @@ class PriceProfileDao extends Equatable{
         );
       } else {
         //PriceProfile does nto exist on cloud. so delete from local.
-        final finder = Finder(filter: Filter.equals('documentId', localPriceProfile.documentId));
+        final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', localPriceProfile.documentId));
         await _priceProfileStore.delete(
           await _db,
           finder: finder,

@@ -43,17 +43,6 @@ class _DepositRowWidgetPageState extends State<DepositRowWidget> with TickerProv
                   color: Color(
                       ColorConstants.getPrimaryBlack()),
                 ),
-                pageState.pageViewIndex != 3 ? Padding(
-                  padding: EdgeInsets.only(left: 13.0),
-                  child: Checkbox(
-                    value: pageState.isDepositChecked,
-                    activeColor: Color(ColorConstants.getPeachDark()),
-                    onChanged: (bool isChecked) {
-                      pageState.onDepositChecked(isChecked);
-                      pageState.onDepositActionPressed(isChecked);
-                    },
-                  ),
-                ) : SizedBox(),
               ],
             ),
           ),

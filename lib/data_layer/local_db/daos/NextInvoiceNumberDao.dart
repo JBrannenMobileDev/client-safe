@@ -7,7 +7,7 @@ import 'package:dandylight/models/NextInvoiceNumber.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
-import 'package:sembast/sembast.dart';
+import 'package:sembast/sembast.dart' as sembast;
 
 import 'ProfileDao.dart';
 
@@ -15,11 +15,11 @@ class NextInvoiceNumberDao extends Equatable{
   static const String NEXT_INVOICE_NUMBER_STORE_NAME = 'nextInvoiceNumber';
   // A Store with int keys and Map<String, dynamic> values.
   // This Store acts like a persistent map, values of which are Client objects converted to Map
-  static final _nextInvoiceNumberStore = intMapStoreFactory.store(NEXT_INVOICE_NUMBER_STORE_NAME);
+  static final _nextInvoiceNumberStore = sembast.intMapStoreFactory.store(NEXT_INVOICE_NUMBER_STORE_NAME);
 
   // Private getter to shorten the amount of code needed to get the
   // singleton instance of an opened database.
-  static Future<Database> get _db async => await SembastDb.instance.database;
+  static Future<sembast.Database> get _db async => await SembastDb.instance.database;
 
   static Future insert(NextInvoiceNumber next) async {
     await _nextInvoiceNumberStore.add(await _db, next.toMap());
@@ -59,7 +59,7 @@ class NextInvoiceNumberDao extends Equatable{
   static Future update(NextInvoiceNumber next) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.byKey(next.id));
+    final finder = sembast.Finder(filter: sembast.Filter.byKey(next.id));
     await _nextInvoiceNumberStore.update(
       await _db,
       next.toMap(),
@@ -72,7 +72,7 @@ class NextInvoiceNumberDao extends Equatable{
   static Future updateLocalOnly(NextInvoiceNumber next) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.byKey(next.id));
+    final finder = sembast.Finder(filter: sembast.Filter.byKey(next.id));
     await _nextInvoiceNumberStore.update(
       await _db,
       next.toMap(),
@@ -127,7 +127,7 @@ class NextInvoiceNumberDao extends Equatable{
 
   static Future<void> _deleteAllLocal(List<NextInvoiceNumber> all) async {
     for(NextInvoiceNumber expense in all) {
-      final finder = Finder(filter: Filter.equals('id', expense.id));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('id', expense.id));
       await _nextInvoiceNumberStore.delete(
         await _db,
         finder: finder,

@@ -27,7 +27,7 @@ class Income {
     return Income(
       id: map['id'],
       year: map['year'],
-      totalIncome: map['totalIncome'],
+      totalIncome: map['totalIncome']?.toDouble(),
       invoices: convertMapsToInvoices(map['invoices']),
     );
   }

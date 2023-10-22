@@ -34,7 +34,7 @@ class _NotesWidgetPage extends State<JobNotesWidget> {
             height: 150,
             decoration: BoxDecoration(
               color: Color(ColorConstants.getPrimaryWhite()),
-              borderRadius: BorderRadius.circular(16.0),
+              borderRadius: BorderRadius.circular(12.0),
             ),
             child: Column(
               children: [
@@ -46,7 +46,7 @@ class _NotesWidgetPage extends State<JobNotesWidget> {
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: 'Notes',
                     textAlign: TextAlign.start,
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                 Container(

@@ -88,11 +88,6 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
         builder: (BuildContext context, IncomeAndExpensesPageState pageState) => Stack(
           alignment: Alignment.topCenter,
           children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                color: Color(selectedIndex == 0 ? ColorConstants.getBlueLight() : ColorConstants.getPeachLight()),
-              ),
-            ),
             Scaffold(
               backgroundColor: Colors.transparent,
               body: Stack(
@@ -100,7 +95,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                 children: <Widget>[
                   Container(
                     decoration: BoxDecoration(
-                      color: Color(selectedIndex == 0 ? ColorConstants.getBlueLight() : ColorConstants.getPeachLight()),
+                      color: Color(selectedIndex == 0 ? ColorConstants.getBlueLight() : ColorConstants.getPeachMedium()),
                     ),
                   ),
                   CustomScrollView(
@@ -134,7 +129,9 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                               height: 32.0,
                               width: 32.0,
                               child: Image.asset(
-                                  'assets/images/icons/settings_icon_white.png'),
+                                  'assets/images/icons/settings.png',
+                                  color: Color(ColorConstants.getPrimaryWhite())
+                              ),
                             ),
                           )
                         ],
@@ -170,31 +167,13 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    Container(
-                                      padding: EdgeInsets.only(left: selectedIndex == 1 ? 8.0 : 0.0),
-                                      width: 96.0,
-                                      height: 96.0,
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(48.0),
-                                        color: Color(ColorConstants.getPrimaryWhite()),
-                                      ),
-                                      child: Image(
-                                        height: 64.0,
-                                        width: 64.0,
-                                        image: AssetImage(
-                                            selectedIndex == 0 ? "assets/images/job_progress/payment_requested.png" : "assets/images/icons/expenses_icon_peach.png"
-                                        ),
-                                      ),
-                                    ),
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
                                         Row(
                                           children: <Widget>[
                                             Container(
-                                              margin: EdgeInsets.only(left: 16.0),
                                               child: TextDandyLight(
                                                 type: TextDandyLight.LARGE_TEXT,
                                                 text: selectedIndex == 0 ? 'Income' : 'Expenses',
@@ -221,7 +200,15 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                                     dateFormat:'yyyy',
                                                     onConfirm: (dateTime, intList) {
                                                       pageState.onYearChanged(dateTime.year);
-                                                    }
+                                                    },
+                                                      pickerTheme: DateTimePickerTheme(
+                                                        cancelTextStyle: TextStyle(
+                                                            color: Color(ColorConstants.getPrimaryBlack())
+                                                        ),
+                                                        confirmTextStyle: TextStyle(
+                                                            color: Color(ColorConstants.getPrimaryBlack())
+                                                        ),
+                                                      )
                                                   );
                                                 },
                                                 child: TextDandyLight(
@@ -234,9 +221,9 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                           ],
                                         ),
                                         Container(
-                                          margin: EdgeInsets.only(left: 16.0),
+                                          margin: EdgeInsets.only(top: 0.0),
                                           child: TextDandyLight(
-                                            type: TextDandyLight.EXTRA_EXTRA_LARGE_TEXT,
+                                            type: TextDandyLight.INCOME_EXPENSE_TOTAL,
                                                 amount: selectedIndex == 0 ? pageState.totalTips + pageState.incomeForSelectedYear : pageState.expensesForSelectedYear,
                                                 color: Color(ColorConstants.getPrimaryWhite()),
                                                 isCurrency: true,
@@ -298,7 +285,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                   },
                   tooltip: 'Speed Dial',
                   heroTag: 'speed-dial-hero-tag',
-                  backgroundColor: selectedIndex == 0 ? Color(ColorConstants.getBlueDark()) : Color(ColorConstants.getPeachDark()),
+                  backgroundColor: selectedIndex == 0 ? Color(ColorConstants.getPeachDark()) : Color(ColorConstants.getPeachDark()),
                   foregroundColor: Colors.black,
                   elevation: 8.0,
                   shape: CircleBorder(),
@@ -312,7 +299,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         width: 124.0,
                         decoration: BoxDecoration(
                           boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
+                          color: Color(ColorConstants.getPrimaryWhite()),
                           borderRadius: BorderRadius.circular(21.0),
                         ),
                         child: TextDandyLight(
@@ -326,7 +313,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                           UserOptionsUtil.showPaymentLinksRequestDialog(context);
                           pageState.setPaymentRequestAsSeen();
                         } else {
-                          UserOptionsUtil.showNewInvoiceDialog(context, null);
+                          UserOptionsUtil.showNewInvoiceDialog(context, null, true);
                         }
                       },
                     ),
@@ -339,7 +326,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         width: 64.0,
                         decoration: BoxDecoration(
                           boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
+                          color: Color(ColorConstants.getPrimaryWhite()),
                           borderRadius: BorderRadius.circular(21.0),
                         ),
                         child: TextDandyLight(
@@ -362,7 +349,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                           width: 184.0,
                           decoration: BoxDecoration(
                             boxShadow: ElevationToShadow[4],
-                            color: Colors.white,
+                            color: Color(ColorConstants.getPrimaryWhite()),
                             borderRadius: BorderRadius.circular(21.0),
                           ),
                           child: TextDandyLight(
@@ -384,7 +371,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         width: 156.0,
                         decoration: BoxDecoration(
                           boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
+                          color: Color(ColorConstants.getPrimaryWhite()),
                           borderRadius: BorderRadius.circular(21.0),
                         ),
                         child: TextDandyLight(
@@ -406,7 +393,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         width: 172.0,
                         decoration: BoxDecoration(
                           boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
+                          color: Color(ColorConstants.getPrimaryWhite()),
                           borderRadius: BorderRadius.circular(21.0),
                         ),
                         child: TextDandyLight(

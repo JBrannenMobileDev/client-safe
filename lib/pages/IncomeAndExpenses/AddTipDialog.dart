@@ -2,7 +2,7 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/JobSelectionForTip.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/TipChangePage.dart';
-import 'package:dandylight/pages/new_invoice_page/InputDoneViewNewInvoice.dart';
+import 'package:dandylight/pages/new_invoice_page/InputDoneView.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/KeyboardUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -93,7 +93,7 @@ class _AddTipDialogState extends State<AddTipDialog> with AutomaticKeepAliveClie
                                 type: TextDandyLight.MEDIUM_TEXT,
                                 text: pageState.pageViewIndex == 0 ? 'Cancel' : 'Back',
                                 textAlign: TextAlign.center,
-                                color: Color(ColorConstants.primary_black),
+                                color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
                             TextButton(
@@ -107,7 +107,7 @@ class _AddTipDialogState extends State<AddTipDialog> with AutomaticKeepAliveClie
                                     ? 'Save'
                                     : 'Next',
                                 textAlign: TextAlign.center,
-                                color: Color(ColorConstants.primary_black),
+                                color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
                           ],
@@ -176,7 +176,7 @@ class _AddTipDialogState extends State<AddTipDialog> with AutomaticKeepAliveClie
               .bottom,
           right: 0.0,
           left: 0.0,
-          child: InputDoneViewNewInvoice());
+          child: InputDoneView());
     });
 
     overlayState.insert(overlayEntry);

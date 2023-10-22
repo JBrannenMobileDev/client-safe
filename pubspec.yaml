@@ -7,7 +7,7 @@ description: A new Flutter application.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.3.0+42
+version: 2.0.0+44
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
@@ -18,10 +18,10 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  firebase_core: ^2.3.0
-  firebase_analytics: ^10.0.6
-  firebase_auth: ^4.1.3
-  cloud_firestore: ^4.1.0
+  firebase_core: ^2.15.1
+  firebase_analytics: ^10.4.5
+  firebase_auth: ^4.9.0
+  cloud_firestore: ^4.9.1
   cupertino_icons: ^1.0.4
   flutter_redux: ^0.10.0
   redux_epics: ^0.15.1
@@ -57,14 +57,12 @@ dependencies:
   flutter_google_places: ^0.3.0
   fluttertoast: ^8.0.9
   flutter_masked_text: ^0.8.0
-  firebase_messaging: ^14.1.1
+  firebase_messaging: ^14.6.7
   uuid: ^3.0.6
-  flutter_local_notifications: ^10.0.0
+  flutter_local_notifications: ^15.1.1
   rxdart: ^0.26.0
-  geocoder: ^0.2.1
-  app_settings: ^4.1.8
   device_calendar: ^4.2.0
-  firebase_storage: ^11.0.6
+  firebase_storage: ^11.2.6
   flutter_cache_manager: ^3.3.0
   loading_animation_widget: ^1.2.0+2
   fl_chart: ^0.55.1
@@ -87,20 +85,29 @@ dependencies:
   google_sign_in: ^6.0.2
   pin_code_fields: ^7.4.0
   image: ^4.0.17
+  version: ^3.0.2
   cached_network_image: ^3.2.3
+  url_launcher_web: ^2.0.18
+  flutter_colorpicker: ^1.0.3
+  image_cropper: ^4.0.1
+  universal_html: ^2.0.9
+  flutter_quill: ^7.1.16+1
+  geocoder2: ^1.4.0
+  in_app_review: ^2.0.6
+  open_store: ^0.4.0
   modal_bottom_sheet:
     git:
       url: https://github.com/CoolDude53/modal_bottom_sheet.git
       ref: main
       path: modal_bottom_sheet
-  firebase_crashlytics: ^3.3.4
+  firebase_crashlytics: ^3.3.5
 
 flutter_icons:
   android: true
   ios: true
   image_path: "assets/images/dandy_light_app_icon.png"
   remove_alpha_ios: true
-  adaptive_icon_background: "#BCC6C0"
+  adaptive_icon_background: "#D4D9D2"
   adaptive_icon_foreground: "assets/images/app_icon_adaptive_android.png"
 
 dev_dependencies:
@@ -120,19 +127,46 @@ flutter:
     - assets/images/dandy_light_app_icon.png
     - assets/images/dandy_light_logo_icon.png
 
-    - assets/images/backgrounds/home_background_2.png
-    - assets/images/backgrounds/home_background_3.png
-    - assets/images/backgrounds/home_background_4.png
+    - assets/images/icons/calendar.png
+    - assets/images/icons/settings.png
+    - assets/images/icons/contact_book.png
+    - assets/images/icons/income_expense.png
+    - assets/images/icons/jobs.png
+    - assets/images/icons/trash_can.png
+    - assets/images/icons/sms.png
+    - assets/images/icons/chat.png
+    - assets/images/icons/contract.png
+    - assets/images/icons/contract_signed.png
+    - assets/images/icons/complete.png
+    - assets/images/icons/camera.png
+    - assets/images/icons/photo.png
+    - assets/images/icons/invoice.png
+    - assets/images/icons/income_received.png
+    - assets/images/icons/computer.png
+    - assets/images/icons/planning.png
+    - assets/images/icons/feedback_requested.png
+    - assets/images/icons/feedback_received.png
+    - assets/images/icons/directions.png
+    - assets/images/icons/chat_circle.png
+    - assets/images/icons/phone_circle.png
+    - assets/images/icons/email_circle.png
+    - assets/images/icons/instagram_circle.png
+    - assets/images/icons/credit_card.png
+    - assets/images/icons/download.png
+    - assets/images/icons/pin_white.png
+    - assets/images/icons/cancel.png
+    - assets/images/icons/subscription.png
+    - assets/images/icons/job_type.png
+    - assets/images/icons/client_guide.png
+    - assets/images/icons/question.png
+    - assets/images/backgrounds/login_bg.jpg
+    - assets/images/icons/select.png
+    - assets/images/icons/other.png
+    - assets/images/icons/link.png
+    - assets/images/icons/no_card_required.png
+    - assets/images/icons/previous.png
+
     - assets/images/backgrounds/image_background.png
-    - assets/images/backgrounds/income_background_lighter.png
-    - assets/images/backgrounds/expenses_background_lighter.png
-    - assets/images/backgrounds/job_details_background.png
-    - assets/images/backgrounds/expenses_background_peach.png
-    - assets/images/backgrounds/login_background.png
-    - assets/images/backgrounds/login_background_blue_mountain.png
-    - assets/images/backgrounds/login_background_peach_dark_mountain.png
-    - assets/images/backgrounds/login_background_peach_mountain.png
-    - assets/images/backgrounds/login_background_sun.png
 
     - assets/images/instagram_logo_icon.png
 
@@ -267,6 +301,10 @@ flutter:
     - assets/images/icons/image_review.png
     - assets/images/icons/rejected.png
     - assets/images/icons/no_wifi.png
+    - assets/images/icons/art.png
+    - assets/images/icons/select_photo.png
+    - assets/images/icons/scroll_down.png
+    - assets/images/icons/scroll_down_white.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png
@@ -365,7 +403,6 @@ flutter:
 
     - assets/animations/success_check.flr
 
-    - assets/images/backgrounds/image_background.png
     - assets/images/backgrounds/flowerBgLaunch.png
     - assets/images/calendar.png
     - assets/images/clock.png
@@ -384,39 +421,108 @@ flutter:
     -
 
   fonts:
-    - family: Blackjack
+    - family: Signature2
       fonts:
-        - asset: assets/fonts/black_jar.ttf
-          weight: 500
-    - family: NumbersFontCrash
+        - asset: assets/fonts/signature.ttf
+    - family: Montserrat
       fonts:
-        - asset: assets/fonts/Crashnumberinggothic-MAjp.ttf
-    - family: numbersFont
+        - asset: assets/fonts/Montserrat-VariableFont_wght.ttf
+    - family: Open Sans
       fonts:
-        - asset: assets/fonts/Nocturne.ttf
+        - asset: assets/fonts/OpenSans-VariableFont_wdth,wght.ttf
+    - family: Signature1
+      fonts:
+        - asset: assets/fonts/sig.ttf
+    - family: Signature3
+      fonts:
+        - asset: assets/fonts/Sacramento-Regular.ttf
     - family: simple
       fonts:
         - asset: assets/fonts/simplicity.ttf
-    - family: montserrat
+    - family: Walkway
       fonts:
-        - asset: assets/fonts/Montserrat.ttf
-    - family: montserratMedium
+        - asset: assets/fonts/Walkway Expand.ttf
+    - family: Vanilla Ravioli
       fonts:
-        - asset: assets/fonts/Montserrat-Medium.ttf
-    - family: OpenSans
+        - asset: assets/fonts/VanillaRavioli_Demo.ttf
+    - family: Safira March
       fonts:
-        - asset: assets/fonts/OpenSans.ttf
+        - asset: assets/fonts/Safira March.otf
+    - family: Rounded Elegance
+      fonts:
+        - asset: assets/fonts/Rounded_Elegance.ttf
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
     - family: Raleway
       fonts:
-        - asset: assets/fonts/Raleway-Bold.ttf
-        - asset: assets/fonts/Raleway-ExtraBold.ttf
-        - asset: assets/fonts/Raleway-ExtraLight.ttf
-        - asset: assets/fonts/Raleway-Heavy.ttf
-        - asset: assets/fonts/Raleway-light.ttf
-        - asset: assets/fonts/Raleway-Medium.ttf
-        - asset: assets/fonts/Raleway-Regular.ttf
-        - asset: assets/fonts/Raleway-SemiBold.ttf
-        - asset: assets/fonts/Raleway-Thin.ttf
-    - family: paperdaisy
+        - asset: assets/fonts/Raleway-VariableFont_wght.ttf
+    - family: Quicksand Light
       fonts:
-        - asset: assets/fonts/paperdaisy-demo.ttf
+        - asset: assets/fonts/Quicksand_Light.otf
+    - family: Quicksand Book
+      fonts:
+        - asset: assets/fonts/Quicksand_Book.otf
+    - family: Princ
+      fonts:
+        - asset: assets/fonts/PRINC___.ttf
+    - family: Playfair Display
+      fonts:
+        - asset: assets/fonts/PlayfairDisplay-VariableFont_wght.ttf
+    - family: Moredya
+      fonts:
+        - asset: assets/fonts/Moredya-Regular.ttf
+    - family: Montserrat Alternatives Regular
+      fonts:
+        - asset: assets/fonts/MontserratAlternates-Regular.ttf
+    - family: Modern Sans
+      fonts:
+        - asset: assets/fonts/ModernSans-Light.otf
+    - family: Minimal
+      fonts:
+        - asset: assets/fonts/minimal.otf
+    - family: Mermaid
+      fonts:
+        - asset: assets/fonts/Mermaid1001.ttf
+    - family: Manrope
+      fonts:
+        - asset: assets/fonts/Manrope-VariableFont_wght.ttf
+    - family: Louis George Cafe
+      fonts:
+        - asset: assets/fonts/Louis George Cafe.ttf
+    - family: Greate Vibes
+      fonts:
+        - asset: assets/fonts/GreatVibes-Regular.ttf
+    - family: Gontserra Regular
+      fonts:
+        - asset: assets/fonts/Gontserrat-Regular.ttf
+    - family: Geosans Light
+      fonts:
+        - asset: assets/fonts/GeosansLight.ttf
+    - family: Garet Book
+      fonts:
+        - asset: assets/fonts/Garet-Book.ttf
+    - family: Dreaming
+      fonts:
+        - asset: assets/fonts/Dreaming.otf
+    - family: Cinzel
+      fonts:
+        - asset: assets/fonts/Cinzel-VariableFont_wght.ttf
+    - family: Champagne & Limousines
+      fonts:
+        - asset: assets/fonts/Champagne & Limousines.ttf
+    - family: Caviar Dreams
+      fonts:
+        - asset: assets/fonts/CaviarDreams.ttf
+    - family: Catchye
+      fonts:
+        - asset: assets/fonts/Catchye.otf
+    - family: Belgiano Serif
+      fonts:
+        - asset: assets/fonts/Belgiano Serif 2.ttf
+    - family: Apple Garamond
+      fonts:
+        - asset: assets/fonts/AppleGaramond.ttf
+    - family: Antipasto Pro Extra Light
+      fonts:
+        - asset: assets/fonts/Antipasto-Pro-ExtraLight-trial.ttf

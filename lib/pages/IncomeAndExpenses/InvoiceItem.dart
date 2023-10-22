@@ -37,12 +37,7 @@ class InvoiceItem extends StatelessWidget{
                   margin: EdgeInsets.only(right: 18.0, top: 0.0),
                   height: 42.0,
                   width: 42.0,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/icons/invoices_icon_peach.png'),
-                      fit: BoxFit.contain,
-                    ),
-                  ),
+                  child: Image.asset('assets/images/icons/invoice.png', color: Color(ColorConstants.getPeachDark())),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,17 +56,11 @@ class InvoiceItem extends StatelessWidget{
                       padding: EdgeInsets.only(top: 2.0),
                       child: TextDandyLight(
                         type: TextDandyLight.SMALL_TEXT,
-                        text: (invoice.isOverdue() ? 'OVERDUE' : invoice.sentDate != null
-                                ? (invoice.dueDate != null
-                                    ? ('Due: ' +
-                                        DateFormat('MMM dd, yyyy')
-                                            .format(invoice.dueDate))
-                                    : 'no due date')
-                                : 'Unsent') + ' • ' + (invoice.unpaidAmount != null
-                                ? TextFormatterUtil.formatDecimalDigitsCurrency(invoice.unpaidAmount, 2)
+                        text: (invoice.isOverdue() ? 'OVERDUE' :  (invoice.dueDate != null ? ('Due: ' + DateFormat('MMM dd, yyyy').format(invoice.dueDate))
+                                    : 'no due date')) + ' • ' + (invoice.unpaidAmount != null ? TextFormatterUtil.formatDecimalDigitsCurrency(invoice.unpaidAmount, 2)
                                 : '0'),
                         textAlign: TextAlign.start,
-                        color: invoice.isOverdue() ? Color(ColorConstants.getPeachDark()) : Color(invoice.sentDate != null ? ColorConstants.primary_black : ColorConstants.getPeachDark()),
+                        color: invoice.isOverdue() ? Color(ColorConstants.getPeachDark()) : Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                   ],

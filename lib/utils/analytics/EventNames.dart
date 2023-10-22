@@ -28,6 +28,12 @@ class EventNames {
   static const String BT_VIEW_NEW_MILEAGE_FROM_NOTIFICATIONS = "bt_view_new_mileage_from_notifications";
   static const String BT_VIEW_JOB_DETAILS_FROM_NOTIFICATIONS = "bt_view_job_details_from_notifications";
   static const String BT_RESTORE_PURCHASES_SHEET = "bt_restore_purchases_sheet";
+  static const String BT_TAKE_PMF_SURVEY = "bt_take_pmf_survey";
+  static const String BT_UPDATE_APP = "bt_update_app";
+  static const String BT_SHARE_WITH_FRIEND = "bt_share_with_friend";
+  static const String BT_REVIEW_APP = "bt_review_app";
+  static const String BT_ENJOYING_DANDY_LIGHT_NO = "bt_enjoying_dandy_light_no";
+  static const String BT_ENJOYING_DANDY_LIGHT_YES = "bt_enjoying_dandy_light_yes";
 
   static const String BT_STAGE_COMPLETE = "bt_stage_complete";
   static const String STAGE_COMPLETE_PARAM_STAGE = "stage_complete_param_stage";
@@ -176,6 +182,18 @@ class EventNames {
   static const String BUILD_VERSION = "build_version";
   static const String BUILD_NUMBER = "build_number";
   static const String JOB_COUNT = "job_count";
+  static const String IS_BRANDING_LOGO_IMAGE_SELECTED = "is_branding_logo_image_selected";
+  static const String IS_BRANDING_LOGO_CHARACTER_SELECTED = "is_branding_logo_character_selected";
+  static const String IS_BRANDING_BANNER_IMAGE_SELECTED = "is_branding_banner_image_selected";
+  static const String IS_BRANDING_BANNER_COLOR_SELECTED = "is_branding_banner_color_selected";
+  static const String BRANDING_MAIN_FONT = "branding_main_font";
+  static const String BRANDING_MAIN_FONT_PARAM = "branding_main_font_param";
+  static const String BRANDING_ICON_FONT = "branding_icon_font";
+  static const String BRANDING_ICON_FONT_PARAM = "branding_icon_font_param";
+  static const String IS_PORTAL_SETUP_COMPLETE = "is_portal_setup_complete";
+  static const String IS_BRANDING_SETUP_COMPLETE = "is_branding_setup_complete";
+  static const String IS_PAYMENT_OPTIONS_SETUP_COMPLETE = "is_payment_options_setup_complete";
+  static const String IS_PROFILE_SETUP_COMPLETE = "is_profile_setup_complete";
 
   //Subscription
   static const String USER_SUBSCRIBED = "user_subscribed";
@@ -212,4 +230,77 @@ class EventNames {
   static const String ON_BOARDING_COMPLETED_BY_PARAM = "on_boarding_completed_add_first_job_skipped";
   static const String ON_BOARDING_LEAD_SOURCE_SELECTED = "on_boarding_lead_source_selected";
   static const String ON_BOARDING_LEAD_SOURCE_SELECTED_PARAM = "on_boarding_lead_source_selected_param";
+  static const String ON_BOARDING_PREVIEW_CLIENT_PORTAL_SELECTED = "on_boarding_preview_client_portal_selected";
+
+  //Branding
+  static const String BRANDING_EDIT_FROM_DASHBOARD = "branding_edit_from_dashboard";
+  static const String BRANDING_EDIT_FROM_SHARE = "branding_edit_from_share";
+  static const String BRANDING_EDIT_FROM_SETTINGS = "branding_edit_from_settings";
+  static const String BRANDING_PREVIEW_SELECTED = "branding_preview_selected";
+  static const String BRANDING_PUBLISHED_CHANGES = "branding_published_changes";
+  static const String BRANDING_CHANGED_LOGO_CHARACTER = "branding_changed_logo_character";
+  static const String BRANDING_UPLOADED_ICON = "branding_uploaded_icon";
+  static const String BRANDING_LOGO_IMAGE_SELECTED = "branding_logo_image_selected";
+  static const String BRANDING_LOGO_CHARACTER_SELECTED = "branding_logo_character_selected";
+  static const String BRANDING_ICON_COLOR_CHANGED = "branding_icon_color_changed";
+  static const String BRANDING_ICON_TEXT_COLOR_CHANGED = "branding_icon_text_color_changed";
+  static const String BRANDING_BUTTON_COLOR_CHANGED = "branding_button_color_changed";
+  static const String BRANDING_BUTTON_TEXT_COLOR_CHANGED = "branding_button_text_color_changed";
+  static const String BRANDING_BANNER_COLOR_CHANGED = "branding_banner_color_changed";
+  static const String BRANDING_ICON_FONT_CHANGED = "branding_icon_color_changed";
+  static const String BRANDING_MAIN_FONT_CHANGED = "branding_icon_color_changed";
+  static const String BRANDING_BANNER_COLOR_SELECTED = "branding_banner_color_selected";
+  static const String BRANDING_BANNER_IMAGE_SELECTED = "branding_banner_image_selected";
+  static const String BRANDING_BANNER_IMAGE_UPLOADED = "branding_banner_image_uploaded";
+
+  //Share with client page
+  static const String SHARE_WITH_CLIENT_FROM_JOB = "share_with_client_from_job";
+  static const String SHARE_WITH_CLIENT_FROM_INVOICE_STAGE = "share_with_client_from_invoice_stage";
+  static const String SHARE_WITH_CLIENT_FROM_CONTRACT_STAGE = "share_with_client_from_contract_stage";
+  static const String SHARE_WITH_CLIENT_FROM_SEND_INVOICE_PROMPT = "share_with_client_from_send_invoice_prompt";
+  static const String SHARE_WITH_CLIENT_FROM_JOB_POSES_PAGE = "share_with_client_from_job_poses_page";
+  static const String SHARE_WITH_CLIENT_FROM_VIEW_INVOICE_PAGE = "share_with_client_from_view_invoice_page";
+  static const String SHARE_WITH_CLIENT_PREVIEW_SELECTED = "share_with_client_preview_selected";
+  static const String SHARE_WITH_CLIENT_SHARE_SELECTED = "share_with_client_share_selected";
+  static const String SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_INVOICE = "share_with_client_share_selected_param_invoice";
+  static const String SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_CONTRACT = "share_with_client_share_selected_param_contract";
+  static const String SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_POSES = "share_with_client_share_selected_param_poses";
+  static const String SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK = "share_with_client_share_selected_param_link";
+  static const String SETUP_BUSINESS_INFO_FROM_SHARE = "SETUP_BUSINESS_INFO_FROM_SHARE";
+  static const String SETUP_PAYMENT_OPTIONS_FROM_SHARE = "SETUP_PAYMENT_OPTIONS_FROM_SHARE";
+
+  //Website
+  static const String WEBSITE_VIEWED = "website_viewed";
+
+  //Client Portal
+  static const String CLIENT_PORTAL_VIEWED = "client_portal_viewed";
+  static const String CLIENT_PORTAL_PREVIEW_VIEWED = "client_portal_preview_viewed";
+  static const String CLIENT_PORTAL_CONTRACT_SELECTED = "client_portal_contract_selected";
+  static const String CLIENT_PORTAL_INVOICE_SELECTED = "client_portal_invoice_selected";
+  static const String CLIENT_PORTAL_POSES_SELECTED = "client_portal_poses_selected";
+  static const String CLIENT_PORTAL_HOME_SELECTED = "client_portal_home_selected";
+  static const String CLIENT_PORTAL_CONTRACT_SIGNED = "client_portal_contract_signed";
+  static const String CLIENT_PORTAL_DEPOSIT_PAY_NOW_SELECTED = "client_portal_deposit_pay_now_selected";
+  static const String CLIENT_PORTAL_TOTAL_PAY_NOW_SELECTED = "client_portal_total_pay_now_selected";
+  static const String CLIENT_PORTAL_DEPOSIT_MARKED_AS_PAID = "client_portal_deposit_marked_as_paid";
+  static const String CLIENT_PORTAL_TOTAL_MARKED_AS_PAID = "client_portal_total_marked_as_paid";
+  static const String CLIENT_PORTAL_CONTRACT_PDF_DOWNLOADED = "client_portal_contract_pdf_downloaded";
+  static const String CLIENT_PORTAL_INVOICE_PDF_DOWNLOADED = "client_portal_invoice_pdf_downloaded";
+  static const String CLIENT_PORTAL_CONTRACT_SCROLL_SELECTED = "client_portal_contract_scroll_selected";
+  static const String CLIENT_PORTAL_VENMO_LINK_SELECTED = "client_portal_venmo_link_selected";
+  static const String CLIENT_PORTAL_CASH_SEND_SMS_SELECTED = "client_portal_cash_send_sms_selected";
+  static const String CLIENT_PORTAL_CASH_SEND_EMAIL_SELECTED = "client_portal_cash_send_email_selected";
+  static const String CLIENT_PORTAL_CASHAPP_LINK_SELECTED = "client_portal_cashapp_link_selected";
+
+  //Contracts
+  static const String CONTRACT_CREATED = "contract_created";
+  static const String CONTRACT_CREATED_FROM_PARAM = "contract_created_from_param";
+  static const String CONTRACT_ADDED_TO_JOB = "contract_added_to_job";
+  static const String CONTRACT_DATA_INSERTED = "contract_data_inserted";
+  static const String CONTRACT_DATA_INSERTED_PARAM = "contract_data_inserted_param";
+
+
+  //Push notifications
+  static const String NOTIFICATION_CONTRACT_APP_LAUNCH = "notifications_contract_app_launch";
+  static const String NOTIFICATION_INVOICE_APP_LAUNCH = "notifications_invoice_app_launch";
 }

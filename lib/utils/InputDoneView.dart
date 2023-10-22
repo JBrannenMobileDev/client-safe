@@ -11,8 +11,7 @@ class InputDoneView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      color: Colors.transparent,
+      width: 100,
       child: Align(
         alignment: Alignment.topRight,
         child: TextButton(
@@ -23,11 +22,10 @@ class InputDoneView extends StatelessWidget {
           child: Container(
             alignment: Alignment.center,
             width: 100.0,
-            padding: EdgeInsets.only(
-                top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
+            padding: EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
             decoration: BoxDecoration(
               color: Color(ColorConstants.getPeachDark()),
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0)),
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(16.0), topRight: Radius.circular(16.0)),
             ),
             child: TextDandyLight(
               type: TextDandyLight.LARGE_TEXT,

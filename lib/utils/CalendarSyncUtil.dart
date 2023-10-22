@@ -4,6 +4,7 @@ import 'dart:collection';
 import 'package:dandylight/data_layer/local_db/shared_preferences/DandylightSharedPrefs.dart';
 import 'package:dandylight/data_layer/mappers/JobToEventMapper.dart';
 import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/models/Profile.dart';
 import 'package:device_calendar/device_calendar.dart';
 
 import '../data_layer/local_db/daos/JobDao.dart';
@@ -39,13 +40,13 @@ class CalendarSyncUtil {
     }
 
     for (Calendar calendar in calendars) {
-      RetrieveEventsParams params =
-          RetrieveEventsParams(startDate: startDate, endDate: endDate);
-      List<Event> eventsForCalendar =
-          (await deviceCalendarPlugin.retrieveEvents(calendar.id, params))
+      RetrieveEventsParams params = RetrieveEventsParams(startDate: startDate, endDate: endDate);
+      List<Event> eventsForCalendar = (await deviceCalendarPlugin.retrieveEvents(calendar.id, params))
               .data
-              .toList(growable: false);
-      events.addAll(eventsForCalendar);
+              ?.toList(growable: false);
+      if(eventsForCalendar != null && eventsForCalendar.isNotEmpty) {
+        events.addAll(eventsForCalendar);
+      }
     }
 
     List<Event> eventsNoDuplicates = [];
@@ -186,9 +187,12 @@ class CalendarSyncUtil {
   static void updateJobEvent(Job job) async {
     try {
       DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
-
-      List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).calendarIdsToSync.toList();
-      List<String> calendarsToSync = List<String>.from(calendarsIds);
+      Profile profile = (await ProfileDao.getMatchingProfile(UidUtil().getUid()));
+      List<dynamic> calendarsIds = [];
+      if(profile.calendarIdsToSync != null) {
+        calendarsIds = profile.calendarIdsToSync.toList();
+      }
+      List<String> calendarsToSync = calendarsIds.length > 0 ? List<String>.from(calendarsIds) : [];
 
       for (String calendarId in calendarsToSync) {
         Event event = await JobToEventMapper.map(

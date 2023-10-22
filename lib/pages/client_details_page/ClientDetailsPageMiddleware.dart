@@ -8,7 +8,7 @@ import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.da
 import 'package:dandylight/pages/clients_page/ClientsPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
-import 'package:dandylight/utils/IntentLauncherUtil.dart';
+import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';

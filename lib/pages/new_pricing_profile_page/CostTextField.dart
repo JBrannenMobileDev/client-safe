@@ -56,7 +56,7 @@ class CostTextField extends StatelessWidget {
                   alignLabelWithHint: true,
                   labelText: labelText,
                   hintText: hintText,
-                  fillColor: Colors.white,
+                  fillColor: Color(ColorConstants.getPrimaryWhite()),
                   labelStyle: TextStyle(
                     color: Color(ColorConstants.getBlueLight()),
                     fontSize: TextDandyLight.getFontSize(TextDandyLight.LARGE_TEXT),
@@ -99,7 +99,7 @@ class CostTextField extends StatelessWidget {
                     fontSize: TextDandyLight.getFontSize(TextDandyLight.LARGE_TEXT),
                     fontFamily: TextDandyLight.getFontFamily(),
                     fontWeight: TextDandyLight.getFontWeight(),
-                    color: Color(enabled ? ColorConstants.primary_black : ColorConstants.getBlueLight())),
+                    color: Color(enabled ? ColorConstants.getPrimaryBlack() : ColorConstants.getBlueLight())),
               )
     );
   }

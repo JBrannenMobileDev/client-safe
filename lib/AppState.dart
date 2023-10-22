@@ -3,7 +3,10 @@ import 'package:dandylight/pages/calendar_page/CalendarPageState.dart';
 import 'package:dandylight/pages/calendar_selection_page/CalendarSelectionPageState.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageState.dart';
 import 'package:dandylight/pages/collections_page/CollectionsPageState.dart';
+import 'package:dandylight/pages/contract_edit_page/ContractEditPageState.dart';
+import 'package:dandylight/pages/contracts_page/ContractsPageState.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
+import 'package:dandylight/pages/edit_branding_page/EditBrandingPageState.dart';
 import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPageState.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageState.dart';
@@ -34,8 +37,10 @@ import 'package:dandylight/pages/reminders_page/RemindersPageState.dart';
 import 'package:dandylight/pages/responses_page/ResponsesPageState.dart';
 import 'package:dandylight/pages/job_types/JobTypesPageState.dart';
 import 'package:dandylight/pages/review_poses_page/ReviewPosesPageState.dart';
+import 'package:dandylight/pages/share_with_client_page/ShareWithClientPageState.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:dandylight/pages/upload_pose_page/UploadPosePageState.dart';
+import 'package:dandylight/web/pages/ClientPortalPageState.dart';
 import 'package:meta/meta.dart';
 
 import 'pages/clients_page/ClientsPageState.dart';
@@ -81,6 +86,11 @@ class AppState {
   final OnBoardingPageState onBoardingPageState;
   final UploadPosePageState uploadPosePageState;
   final ReviewPosesPageState reviewPosesPageState;
+  final ClientPortalPageState clientPortalPageState;
+  final ShareWithClientPageState shareWithClientPageState;
+  final ContractsPageState contractsPageState;
+  final ContractEditPageState contractEditPageState;
+  final EditBrandingPageState editBrandingPageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -122,6 +132,11 @@ class AppState {
     @required this.onBoardingPageState,
     @required this.uploadPosePageState,
     @required this.reviewPosesPageState,
+    @required this.clientPortalPageState,
+    @required this.shareWithClientPageState,
+    @required this.contractsPageState,
+    @required this.contractEditPageState,
+    @required this.editBrandingPageState,
   });
 
   factory AppState.initial() {
@@ -165,6 +180,11 @@ class AppState {
       onBoardingPageState: OnBoardingPageState.initial(),
       uploadPosePageState: UploadPosePageState.initial(),
       reviewPosesPageState: ReviewPosesPageState.initial(),
+      clientPortalPageState: ClientPortalPageState.initial(),
+      shareWithClientPageState: ShareWithClientPageState.initial(),
+      contractsPageState: ContractsPageState.initial(),
+      contractEditPageState: ContractEditPageState.initial(),
+      editBrandingPageState: EditBrandingPageState.initial(),
     );
   }
 
@@ -208,6 +228,11 @@ class AppState {
     OnBoardingPageState onBoardingPageState,
     UploadPosePageState uploadPosePageState,
     ReviewPosesPageState reviewPosesPageState,
+    ClientPortalPageState clientPortalPageState,
+    ShareWithClientPageState shareWithClientPageState,
+    ContractsPageState contractsPageState,
+    ContractEditPageState contractEditPageState,
+    EditBrandingPageState editBrandingPageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -249,6 +274,11 @@ class AppState {
       onBoardingPageState: onBoardingPageState ?? this.onBoardingPageState,
       uploadPosePageState: uploadPosePageState ?? this.uploadPosePageState,
       reviewPosesPageState: reviewPosesPageState ?? this.reviewPosesPageState,
+      clientPortalPageState: clientPortalPageState ?? this.clientPortalPageState,
+      shareWithClientPageState: shareWithClientPageState ?? this.shareWithClientPageState,
+      contractsPageState: contractsPageState ?? this.contractsPageState,
+      contractEditPageState: contractEditPageState ?? this.contractEditPageState,
+      editBrandingPageState: editBrandingPageState ?? this.editBrandingPageState,
     );
   }
 
@@ -292,6 +322,10 @@ class AppState {
     onBoardingPageState.hashCode ^
     uploadPosePageState.hashCode ^
     reviewPosesPageState.hashCode ^
+    clientPortalPageState.hashCode ^
+    shareWithClientPageState.hashCode ^
+    contractsPageState.hashCode ^
+    contractEditPageState.hashCode ^
     incomeAndExpensesPageState.hashCode ;
 
   @override
@@ -335,6 +369,10 @@ class AppState {
               libraryPoseGroupPageState == other.libraryPoseGroupPageState &&
               onBoardingPageState == other.onBoardingPageState &&
               uploadPosePageState == other.uploadPosePageState &&
+              clientPortalPageState == other.clientPortalPageState &&
               reviewPosesPageState == other.reviewPosesPageState &&
+              shareWithClientPageState == other.shareWithClientPageState &&
+              contractsPageState == other.contractsPageState &&
+              contractEditPageState == other.contractEditPageState &&
               incomeAndExpensesPageState == other.incomeAndExpensesPageState;
 }

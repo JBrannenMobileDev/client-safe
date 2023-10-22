@@ -83,7 +83,7 @@ class ReminderSelectionListWidget extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(left: 8.0, right: 0.0, top: 2.0, bottom: 2.0),
                   child: Checkbox(
-                    checkColor: Colors.white,
+                    checkColor: Color(ColorConstants.getPrimaryWhite()),
                     fillColor: MaterialStateProperty.resolveWith(getColor),
                     value: pageState.selectedReminders.contains(pageState.allDandyLightReminders.elementAt(index)),
                     onChanged: (bool isChecked) {

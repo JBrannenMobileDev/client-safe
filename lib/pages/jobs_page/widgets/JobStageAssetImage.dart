@@ -30,11 +30,11 @@ class JobStateAssetImage extends StatelessWidget{
               image: completed ? DecorationImage(
                 image: AssetImage(stage),
                 fit: BoxFit.contain,
-                colorFilter: ColorFilter.mode(Colors.white.withOpacity(.50), BlendMode.dstATop),
+                colorFilter: ColorFilter.mode(Color(ColorConstants.getPrimaryWhite()).withOpacity(.50), BlendMode.dstATop),
               ) : !enabled ? DecorationImage(
                 image: AssetImage(stage),
                 fit: BoxFit.contain,
-                colorFilter: ColorFilter.mode(Colors.white.withOpacity(.25), BlendMode.dstATop),
+                colorFilter: ColorFilter.mode(Color(ColorConstants.getPrimaryWhite()).withOpacity(.25), BlendMode.dstATop),
               ) : DecorationImage(
                 image: AssetImage(stage),
                 fit: BoxFit.contain,

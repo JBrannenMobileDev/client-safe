@@ -23,16 +23,16 @@ class IncomeInsights extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.only(bottom: 24.0),
+            padding: EdgeInsets.only(bottom: 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  width: (MediaQuery.of(context).size.width / 2) - (28),
+                  width: (MediaQuery.of(context).size.width / 2) - (21),
                   height: 120.0,
                   decoration: BoxDecoration(
                       color: Color(ColorConstants.getPrimaryWhite()),
-                      borderRadius: new BorderRadius.all(Radius.circular(24.0))),
+                      borderRadius: new BorderRadius.all(Radius.circular(12.0))),
                   child: Stack(
                     alignment: Alignment.topCenter,
                     children: [
@@ -42,7 +42,7 @@ class IncomeInsights extends StatelessWidget {
                           type: TextDandyLight.SMALL_TEXT,
                           text: 'This Month',
                           textAlign: TextAlign.start,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       Padding(
@@ -51,18 +51,18 @@ class IncomeInsights extends StatelessWidget {
                           type: TextDandyLight.EXTRA_LARGE_TEXT,
                           text: TextFormatterUtil.formatSimpleCurrency(pageState.thisMonthIncome),
                           textAlign: TextAlign.start,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                     ],
                   ),
                 ),
                 Container(
-                  width: (MediaQuery.of(context).size.width / 2) - (28),
+                  width: (MediaQuery.of(context).size.width / 2) - (21),
                   height: 120.0,
                   decoration: BoxDecoration(
                       color: Color(ColorConstants.getPrimaryWhite()),
-                      borderRadius: new BorderRadius.all(Radius.circular(24.0))),
+                      borderRadius: new BorderRadius.all(Radius.circular(12.0))),
                   child: Stack(
                     alignment: Alignment.topCenter,
                     children: [
@@ -72,7 +72,7 @@ class IncomeInsights extends StatelessWidget {
                           type: TextDandyLight.SMALL_TEXT,
                           text: 'Last Month',
                           textAlign: TextAlign.start,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       Padding(
@@ -81,7 +81,7 @@ class IncomeInsights extends StatelessWidget {
                           type: TextDandyLight.EXTRA_LARGE_TEXT,
                           text: TextFormatterUtil.formatSimpleCurrency(pageState.lastMonthIncome),
                           textAlign: TextAlign.start,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                     ],
@@ -94,11 +94,11 @@ class IncomeInsights extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                width: (MediaQuery.of(context).size.width / 2) - (28),
+                width: (MediaQuery.of(context).size.width / 2) - (21),
                 height: 120.0,
                 decoration: BoxDecoration(
                     color: Color(ColorConstants.getPrimaryWhite()),
-                    borderRadius: new BorderRadius.all(Radius.circular(24.0))),
+                    borderRadius: new BorderRadius.all(Radius.circular(12.0))),
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: [
@@ -108,7 +108,7 @@ class IncomeInsights extends StatelessWidget {
                         type: TextDandyLight.SMALL_TEXT,
                         text: 'This Month \nLast Year',
                         textAlign: TextAlign.center,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     Padding(
@@ -117,18 +117,18 @@ class IncomeInsights extends StatelessWidget {
                         type: TextDandyLight.EXTRA_LARGE_TEXT,
                         text: TextFormatterUtil.formatSimpleCurrency(pageState.thisMonthLastYearIncome),
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                   ],
                 ),
               ),
               Container(
-                width: (MediaQuery.of(context).size.width / 2) - (28),
+                width: (MediaQuery.of(context).size.width / 2) - (21),
                 height: 120.0,
                 decoration: BoxDecoration(
                     color: Color(ColorConstants.getPrimaryWhite()),
-                    borderRadius: new BorderRadius.all(Radius.circular(24.0))),
+                    borderRadius: new BorderRadius.all(Radius.circular(12.0))),
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: [
@@ -138,7 +138,7 @@ class IncomeInsights extends StatelessWidget {
                         type: TextDandyLight.SMALL_TEXT,
                         text: 'Last Month \nLast Year',
                         textAlign: TextAlign.center,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     Padding(
@@ -147,7 +147,7 @@ class IncomeInsights extends StatelessWidget {
                         type: TextDandyLight.EXTRA_LARGE_TEXT,
                         text: TextFormatterUtil.formatSimpleCurrency(pageState.lastMonthLastYearIncome),
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                   ],

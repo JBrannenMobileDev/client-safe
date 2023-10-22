@@ -18,6 +18,7 @@ import 'package:redux/redux.dart';
 
 import '../../models/JobStage.dart';
 import '../../models/JobType.dart';
+import '../../models/LeadSource.dart';
 import '../../utils/ImageUtil.dart';
 import 'DashboardPageActions.dart';
 import 'DashboardPageState.dart';
@@ -36,7 +37,29 @@ final dashboardPageReducer = combineReducers<DashboardPageState>([
   TypedReducer<DashboardPageState, SetGoToPosesJob>(_setGoToJobPoses),
   TypedReducer<DashboardPageState, SetGoToAsSeenAction>(_setGoToAsSeen),
   TypedReducer<DashboardPageState, SetUnseenFeaturedPosesAction>(_setUnseenFeaturedPoses),
+  TypedReducer<DashboardPageState, SetShouldShowPMF>(_setShouldShowPMF),
+  TypedReducer<DashboardPageState, SetShouldAppReview>(setShouldShowAppReview),
+  TypedReducer<DashboardPageState, SetShouldShowUpdateAction>(setShouldShowUpdate),
 ]);
+
+DashboardPageState setShouldShowUpdate(DashboardPageState previousState, SetShouldShowUpdateAction action) {
+  return previousState.copyWith(
+    shouldShowAppUpdate: action.shouldShow,
+    appSettings: action.appSettings,
+  );
+}
+
+DashboardPageState _setShouldShowPMF(DashboardPageState previousState, SetShouldShowPMF action) {
+  return previousState.copyWith(
+    shouldShowPMFRequest: action.shouldShow,
+  );
+}
+
+DashboardPageState setShouldShowAppReview(DashboardPageState previousState, SetShouldAppReview action) {
+  return previousState.copyWith(
+    shouldShowRequestReview: action.shouldShow,
+  );
+}
 
 DashboardPageState _setUnseenFeaturedPoses(DashboardPageState previousState, SetUnseenFeaturedPosesAction action) {
   return previousState.copyWith(
@@ -385,15 +408,25 @@ DashboardPageState _setClients(DashboardPageState previousState, SetClientsDashb
   List<LeadSourcePieChartRowData> rowData = [];
 
   for(Client client in allClientsFromThisYear) {
-    groupedList.putIfAbsent(client.customLeadSourceName != null && client.customLeadSourceName.isNotEmpty ? client.customLeadSourceName : ImageUtil.getLeadSourceText(client.leadSource), () => <Client>[]).add(client);
+    String newLeadSource = '';
+    if(Client.isOldSource(client.leadSource)) {
+      newLeadSource = Client.mapOldLeadSourceToNew(client.leadSource);
+      client.leadSource = newLeadSource;
+    } else {
+      newLeadSource = client.leadSource;
+    }
+    groupedList.putIfAbsent(client.customLeadSourceName != null && client.customLeadSourceName.isNotEmpty ? client.customLeadSourceName : newLeadSource, () => <Client>[]).add(client);
   }
 
   var seen = Set<String>();
-  List<Client> allLeadSourceNames = allClientsFromThisYear.where((client) => seen.add(client.customLeadSourceName != null && client.customLeadSourceName.isNotEmpty ? client.customLeadSourceName : ImageUtil.getLeadSourceText(client.leadSource))).toList();
+  List<Client> allLeadSourceNames = allClientsFromThisYear.where((client) => seen.add(client.customLeadSourceName != null && client.customLeadSourceName.isNotEmpty ? client.customLeadSourceName : client.leadSource)).toList();
 
   int index = 0;
   for(Client client in allLeadSourceNames) {
-    String leadSourceName = client.customLeadSourceName != null && client.customLeadSourceName.isNotEmpty ? client.customLeadSourceName : ImageUtil.getLeadSourceText(client.leadSource);
+    String leadSourceName = client.customLeadSourceName != null && client.customLeadSourceName.isNotEmpty ? client.customLeadSourceName : client.leadSource;
+    if(Client.isOldSource(leadSourceName)) {
+      leadSourceName = Client.mapOldLeadSourceToNew(leadSourceName);
+    }
     List<Client> clientsForLeadName = groupedList[leadSourceName];
 
     if(clientsForLeadName != null) {

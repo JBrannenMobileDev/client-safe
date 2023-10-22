@@ -28,7 +28,7 @@ class UnpaidInvoicesCard extends StatelessWidget{
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 24.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
-                borderRadius: new BorderRadius.all(Radius.circular(24.0))),
+                borderRadius: new BorderRadius.all(Radius.circular(12.0))),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -41,7 +41,7 @@ class UnpaidInvoicesCard extends StatelessWidget{
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: 'Unpaid Invoices',
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                       pageState.unpaidInvoices != null && pageState.unpaidInvoices.length > 3 ? TextButton(
                         style: Styles.getButtonStyle(),
@@ -56,7 +56,7 @@ class UnpaidInvoicesCard extends StatelessWidget{
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'View all (' + pageState.unpaidInvoices.length.toString() + ')',
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ) : SizedBox(),
@@ -79,7 +79,7 @@ class UnpaidInvoicesCard extends StatelessWidget{
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: 'You have zero unpaid invoices.',
                     textAlign: TextAlign.center,
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
               ],
@@ -92,13 +92,13 @@ class UnpaidInvoicesCard extends StatelessWidget{
 
   double getContainerHeight(int length, IncomeAndExpensesPageState pageState) {
     if(length == 0) {
-      return 162.0;
+      return 165.0;
     }else if(length == 1) {
-      return 129.0;
+      return 132.0;
     }else if(length == 2) {
-      return 197.0;
+      return 200.0;
     }else {
-      return 285.0;
+      return 288.0;
     }
   }
 

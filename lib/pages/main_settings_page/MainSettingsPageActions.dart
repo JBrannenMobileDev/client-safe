@@ -1,7 +1,12 @@
+import 'dart:ui';
+
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 
-import '../../models/Suggestion.dart';
+import '../../models/ColorTheme.dart';
+import '../../models/FontTheme.dart';
 
 class UpdatePushNotificationEnabled{
   final MainSettingsPageState pageState;
@@ -54,6 +59,18 @@ class SetBusinessNameAction{
   final MainSettingsPageState pageState;
   final String name;
   SetBusinessNameAction(this.pageState, this.name);
+}
+
+class SetBusinessEmailAction{
+  final MainSettingsPageState pageState;
+  final String email;
+  SetBusinessEmailAction(this.pageState, this.email);
+}
+
+class SetBusinessPhoneAction{
+  final MainSettingsPageState pageState;
+  final String phone;
+  SetBusinessPhoneAction(this.pageState, this.phone);
 }
 
 class SaveUpdatedUserProfileAction{
@@ -120,5 +137,10 @@ class SetUrlToStateAction {
   final MainSettingsPageState pageState;
   final String instaUrl;
   SetUrlToStateAction(this.pageState, this.instaUrl);
+}
+
+class PopulateAccountWithData {
+  final MainSettingsPageState pageState;
+  PopulateAccountWithData(this.pageState);
 }
 

@@ -1,5 +1,3 @@
-import 'package:dandylight/pages/client_details_page/ClientDetailsPageState.dart';
-import 'package:dandylight/widgets/DandyLightTextField.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +11,6 @@ import '../../utils/UserOptionsUtil.dart';
 import '../../utils/VibrateUtil.dart';
 import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
-import '../new_contact_pages/NewContactPageState.dart';
 import 'JobDetailsPageState.dart';
 
 class JobDetailsCard extends StatefulWidget {
@@ -40,7 +37,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
             height: 266,
             decoration: BoxDecoration(
               color: Color(ColorConstants.getPrimaryWhite()),
-              borderRadius: BorderRadius.circular(16.0),
+              borderRadius: BorderRadius.circular(12.0),
             ),
             child: Column(
               children: [
@@ -51,7 +48,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                     type: TextDandyLight.LARGE_TEXT,
                     text: 'Details',
                     textAlign: TextAlign.center,
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                 GestureDetector(
@@ -73,7 +70,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       Container(
@@ -108,7 +105,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       Container(
@@ -144,7 +141,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
-                          color: Color(pageState.job.selectedDate != null ? ColorConstants.primary_black : ColorConstants.error_red),
+                          color: Color(pageState.job.selectedDate != null ? ColorConstants.getPrimaryBlack() : ColorConstants.error_red),
                         ),
                       ),
                       Container(
@@ -259,8 +256,8 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                             margin: EdgeInsets.only(right: 8),
                             height: 78,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
-                                color: Color(ColorConstants.getPrimaryBackgroundGrey())
+                                borderRadius: BorderRadius.circular(12),
+                                color: Color(ColorConstants.getBlueLight()).withOpacity(0.25)
                             ),
                             child: Column(
                               children: [
@@ -286,7 +283,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
-                                        color: Color(pageState.job.selectedTime != null ? ColorConstants.primary_black : ColorConstants.error_red),
+                                        color: Color(pageState.job.selectedTime != null ? ColorConstants.getPrimaryBlack() : ColorConstants.error_red),
                                       )
                                     ],
                                   ),
@@ -393,8 +390,8 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                             margin: EdgeInsets.only(left: 8),
                             height: 78,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
-                                color: Color(ColorConstants.getPrimaryBackgroundGrey())
+                                borderRadius: BorderRadius.circular(12),
+                                color: Color(ColorConstants.getBlueLight()).withOpacity(0.25)
                             ),
                             child: Column(
                               children: [
@@ -420,7 +417,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
-                                        color: Color(pageState.job.selectedEndTime != null ? ColorConstants.primary_black : ColorConstants.error_red),
+                                        color: Color(pageState.job.selectedEndTime != null ? ColorConstants.getPrimaryBlack() : ColorConstants.error_red),
                                       )
                                     ],
                                   ),

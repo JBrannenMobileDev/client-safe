@@ -1,10 +1,15 @@
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/extensions.dart';
 import 'package:intl/intl.dart';
 
+import '../models/FontTheme.dart';
 import '../utils/TextFormatterUtil.dart';
 
 class TextDandyLight extends StatelessWidget {
+  static const String BRAND_LOGO = 'brand_logo';
+  static const String BRAND_LOGO_SMALL = 'brand_logo_small';
+  static const String INCOME_EXPENSE_TOTAL = 'income_expense_total';
   static const String EXTRA_EXTRA_LARGE_TEXT = 'extra_extra_large_text';
   static const String EXTRA_LARGE_TEXT = 'extra_large_text';
   static const String LARGE_TEXT = 'large_text';
@@ -13,7 +18,7 @@ class TextDandyLight extends StatelessWidget {
   static const String EXTRA_SMALL_TEXT = 'extra_small_text';
 
   static getFontFamily() {
-    return 'OpenSans';
+    return 'Open Sans';
   }
 
   static getFontWeight() {
@@ -23,6 +28,15 @@ class TextDandyLight extends StatelessWidget {
   static getFontSize(String type) {
     double size = 18;
     switch(type) {
+      case BRAND_LOGO:
+        size = 76;
+        break;
+      case BRAND_LOGO_SMALL:
+        size = 58;
+        break;
+      case INCOME_EXPENSE_TOTAL:
+        size = 52;
+        break;
       case EXTRA_EXTRA_LARGE_TEXT:
         size = 46;
         break;
@@ -51,6 +65,7 @@ class TextDandyLight extends StatelessWidget {
   double size;
   String fontFamily;
   bool isBold;
+  bool isThin;
   Color color;
   TextAlign textAlign;
   final VoidCallback onClick;
@@ -59,6 +74,8 @@ class TextDandyLight extends StatelessWidget {
   bool isNumber;
   TextOverflow overflow;
   int maxLines;
+  bool addShadow = false;
+  bool isMobileWeb = false;
 
   TextDandyLight({
     @required this.type,
@@ -74,17 +91,23 @@ class TextDandyLight extends StatelessWidget {
     this.overflow,
     this.maxLines,
     this.decimalPlaces,
+    this.addShadow,
+    this.isThin,
+    this.isMobileWeb
   });
 
   @override
   Widget build(BuildContext context) {
     if(isBold == null) isBold = false;
+    if(isThin == null) isThin = false;
     if(color == null) color = Color(ColorConstants.getPrimaryBlack());
     if(textAlign == null) textAlign = TextAlign.start;
     if(decimalPlaces == null) decimalPlaces = 2;
     if(isCurrency == null) isCurrency = false;
     if(isNumber == null) isNumber = false;
-    fontFamily = isBold ? 'OpenSans' : 'OpenSans';
+    if(addShadow == null) addShadow = false;
+    if(fontFamily == null) fontFamily = getFontFamily();
+    if(isMobileWeb == null) isMobileWeb = false;
     if(isNumber) {
       text = NumberFormat("###,###,###,###").format(amount);
     }
@@ -94,27 +117,54 @@ class TextDandyLight extends StatelessWidget {
     if(text == null) {
       text = '';
     }
-    switch(type) {
-      case EXTRA_EXTRA_LARGE_TEXT:
-        size = 48;
-        break;
-      case EXTRA_LARGE_TEXT:
-        size = 32;
-        break;
-      case LARGE_TEXT:
-        size = 20;
-        break;
-      case MEDIUM_TEXT:
-        size = 16;
-        break;
-      case SMALL_TEXT:
-        size = 14;
-        break;
-      case EXTRA_SMALL_TEXT:
-        size = 12;
-        break;
+
+    if(fontFamily == FontTheme.MONTSERRAT) {
+      isBold = false;
+      if(isMobileWeb) {
+        size = size + 12;
+      }
     }
+
+    if(fontFamily == FontTheme.Raleway) {
+      isBold = false;
+    }
+
+    size = FontTheme.getIconFontSize(type, fontFamily);
+
+    if(fontFamily == FontTheme.SIGNATURE2) {
+      if(isMobileWeb) {
+        size = size - 10;
+      } else {
+        size = size + 6;
+      }
+    }
+
+    if(fontFamily == FontTheme.SIGNATURE1) {
+      if(isMobileWeb) {
+        size = size - 6;
+      } else {
+        size = size + 6;
+      }
+    }
+
+    if(fontFamily == FontTheme.SIGNATURE3) {
+      if(isMobileWeb) {
+        size = size - 4;
+      } else {
+        size = size + 8;
+      }
+    }
+
+    if(fontFamily == FontTheme.Princ) {
+      size = size + 8;
+    }
+
+    if(fontFamily == FontTheme.Minimal) {
+      size = size + 6;
+    }
+
     return Container(
+      padding: FontTheme.getIconPaddingForFont(type, fontFamily),
       child: onClick == null
           ? Text(
         text,
@@ -122,9 +172,17 @@ class TextDandyLight extends StatelessWidget {
         overflow: overflow,
         maxLines: maxLines,
         style: TextStyle(
+          fontFamily: fontFamily,
           fontSize: size,
-          fontWeight: isBold ? FontWeight.bold : FontWeight.w300,
+          fontWeight: isBold ? FontWeight.bold : isThin ? FontWeight.w100 : FontWeight.w300,
           color: color,
+          shadows: <Shadow>[
+            addShadow ? Shadow(
+              offset: Offset(1.0, 1.0),
+              blurRadius: 3.0,
+              color: Colors.black38,
+            ) : Shadow(),
+          ],
         ),
       )
           : TextButton(
@@ -137,9 +195,17 @@ class TextDandyLight extends StatelessWidget {
           overflow: overflow,
           maxLines: maxLines,
           style: TextStyle(
+            fontFamily: fontFamily,
             fontSize: size,
             fontWeight: isBold ? FontWeight.w400 : FontWeight.w300,
             color: color,
+            shadows: <Shadow>[
+              addShadow ? Shadow(
+                offset: Offset(1.0, 1.0),
+                blurRadius: 3.0,
+                color: Colors.black38,
+              ) : Shadow(),
+            ],
           ),
         ),
       ),

@@ -49,7 +49,7 @@ class _BottomSheetPageState extends State<RestorePurchasesBottomSheet> with Tick
                        type: TextDandyLight.LARGE_TEXT,
                        text: 'New Device',
                        textAlign: TextAlign.center,
-                       color: Color(ColorConstants.primary_black),
+                       color: Color(ColorConstants.getPrimaryBlack()),
                      ),
                    ),
                    Container(
@@ -59,7 +59,7 @@ class _BottomSheetPageState extends State<RestorePurchasesBottomSheet> with Tick
                        text: message == ManageSubscriptionPage.SUBSCRIBED ? 'We noticed you logged in on a new device. To continue using your current subscription pleases select the restore purchases button below.'
                        : message == ManageSubscriptionPage.FREE_TRIAL ? 'We noticed you logged in on a new device. To continue your free trial please select the restore free trial button below.\n\nYou have not purchased a subscription yet. Once your reach your 3 job limit, you will be required to purchase one of the subscription offers to gain access to unlimited new jobs.' : '',
                        textAlign: TextAlign.center,
-                       color: Color(ColorConstants.primary_black),
+                       color: Color(ColorConstants.getPrimaryBlack()),
                      ),
                    ),
                  ],

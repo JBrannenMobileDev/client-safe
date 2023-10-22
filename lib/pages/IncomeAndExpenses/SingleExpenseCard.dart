@@ -27,7 +27,7 @@ class SingleExpenseCard extends StatelessWidget{
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 24.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
-                borderRadius: new BorderRadius.all(Radius.circular(24.0))),
+                borderRadius: new BorderRadius.all(Radius.circular(12.0))),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -40,7 +40,7 @@ class SingleExpenseCard extends StatelessWidget{
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: 'Single Expenses (' + pageState.selectedYear.toString() + ')',
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                       pageState.singleExpensesForSelectedYear != null && pageState.singleExpensesForSelectedYear.length > 3 ? TextButton(
                         style: Styles.getButtonStyle(),
@@ -55,7 +55,7 @@ class SingleExpenseCard extends StatelessWidget{
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: pageState.isSingleExpensesMinimized ? 'View all(' + pageState.singleExpensesForSelectedYear.length.toString() + ')' : 'Hide',
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ) : SizedBox(),
@@ -89,7 +89,7 @@ class SingleExpenseCard extends StatelessWidget{
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: 'You have zero single expenses.',
                     textAlign: TextAlign.center,
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
               ],
@@ -110,15 +110,15 @@ class SingleExpenseCard extends StatelessWidget{
 
   double getContainerHeight(int length, IncomeAndExpensesPageState pageState) {
     if(length == 0) {
-      return 160.0;
+      return 169.0;
     }else if(length == 1) {
-      return 240.0;
+      return 249.0;
     }else if(length == 2) {
-      return 314.0;
+      return 323.0;
     }else if(length == 3) {
-      return 388.0;
+      return 397.0;
     }else {
-      return 403;
+      return 412;
     }
   }
 

@@ -12,7 +12,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../models/Pose.dart';
-import '../../utils/IntentLauncherUtil.dart';
+import '../../utils/intentLauncher/IntentLauncherUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -218,7 +218,7 @@ class _LibrarySingleImageViewPagerState extends State<LibrarySingleImageViewPage
       builder: (BuildContext context, LibraryPoseGroupPageState pageState) =>
           Scaffold(
             key: scaffoldKey,
-            backgroundColor: Colors.white,
+            backgroundColor: Color(ColorConstants.getPrimaryWhite()),
             appBar: AppBar(
               iconTheme: IconThemeData(color: Color(ColorConstants.getPeachDark())),
               centerTitle: true,
@@ -228,7 +228,7 @@ class _LibrarySingleImageViewPagerState extends State<LibrarySingleImageViewPage
                 text: groupName,
                 color: Color(ColorConstants.getPeachDark()),
               ),
-              backgroundColor: Colors.white,
+              backgroundColor: Color(ColorConstants.getPrimaryWhite()),
               actions: [
                 GestureDetector(
                   onTap: () {

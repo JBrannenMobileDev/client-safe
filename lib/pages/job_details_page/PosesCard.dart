@@ -39,7 +39,7 @@ class PosesCard extends StatelessWidget {
           margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
           decoration: new BoxDecoration(
               color: Color(ColorConstants.getPrimaryWhite()),
-              borderRadius: new BorderRadius.all(Radius.circular(24.0))),
+              borderRadius: new BorderRadius.all(Radius.circular(12.0))),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -50,7 +50,7 @@ class PosesCard extends StatelessWidget {
                   type: TextDandyLight.LARGE_TEXT,
                   text: 'Poses',
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               pageState.job.poses.length > 0 ? Stack(

@@ -36,12 +36,7 @@ class SingleExpenseItem extends StatelessWidget{
                     margin: EdgeInsets.only(right: 18.0, top: 0.0),
                     height: 42.0,
                     width: 42.0,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/icons/coin_icon_peach.png'),
-                        fit: BoxFit.contain,
-                      ),
-                    ),
+                    child: Image.asset('assets/images/icons/income_received.png', color: Color(ColorConstants.getPeachDark()),),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,7 +65,7 @@ class SingleExpenseItem extends StatelessWidget{
                               type: TextDandyLight.SMALL_TEXT,
                               text: DateFormat('MMM dd, yyyy').format(singleExpense.charge.chargeDate) + '  •  ',
                               textAlign: TextAlign.start,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                             TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,

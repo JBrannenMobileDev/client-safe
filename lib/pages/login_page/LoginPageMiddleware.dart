@@ -6,9 +6,14 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/firebase/FireStoreSync.dart';
 import 'package:dandylight/data_layer/firebase/FirebaseAuthentication.dart';
 import 'package:dandylight/data_layer/firebase/collections/UserCollection.dart';
+import 'package:dandylight/data_layer/local_db/daos/AppSettingsDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/ContractTemplateDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ResponseDao.dart';
+import 'package:dandylight/data_layer/repositories/FileStorage.dart';
+import 'package:dandylight/models/FontTheme.dart';
+import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/PoseLibraryGroup.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
@@ -16,7 +21,6 @@ import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/InputValidator.dart';
-import 'package:dandylight/utils/NotificationHelper.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:dandylight/utils/analytics/EventNames.dart';
@@ -27,7 +31,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:uuid/uuid.dart';
@@ -36,21 +39,25 @@ import '../../data_layer/local_db/SembastDb.dart';
 import '../../data_layer/local_db/daos/ClientDao.dart';
 import '../../data_layer/local_db/daos/JobDao.dart';
 import '../../data_layer/local_db/daos/JobTypeDao.dart';
-import '../../data_layer/local_db/daos/PoseDao.dart';
 import '../../data_layer/local_db/daos/PoseLibraryGroupDao.dart';
 import '../../data_layer/local_db/daos/PriceProfileDao.dart';
 import '../../data_layer/local_db/daos/ReminderDao.dart';
 import '../../models/Client.dart';
+import '../../models/ColorTheme.dart';
+import '../../models/Contract.dart';
 import '../../models/Job.dart';
 import '../../models/JobStage.dart';
 import '../../models/JobType.dart';
-import '../../models/Location.dart';
+import '../../models/LineItem.dart';
+import '../../models/LocationDandy.dart';
 import '../../models/Pose.dart';
 import '../../models/PriceProfile.dart';
+import '../../models/Proposal.dart';
 import '../../models/Response.dart';
 import '../../utils/AppleSignInAvailable.dart';
 import '../../utils/ImageUtil.dart';
 import '../../utils/PushNotificationsManager.dart';
+import '../../utils/permissions/UserPermissionsUtil.dart';
 import '../new_reminder_page/WhenSelectionWidget.dart';
 import 'LoginPageActions.dart';
 
@@ -169,8 +176,15 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
     await ProfileDao.insertLocal(existingProfile);
     await FireStoreSync().dandyLightAppInitializationSync(existingProfile.uid);
     await PoseLibraryGroupDao.syncAllFromFireStore();
+    await ContractTemplateDao.syncAllFromFireStore();
+    await AppSettingsDao.syncAllFromFireStore();
     ProfileDao.updateUserLoginTime(existingProfile.uid);
-    bool shouldShowRestoreSubscription = existingProfile.addUniqueDeviceToken(await PushNotificationsManager().getToken()) && !existingProfile.isFirstDevice();
+    String token = await PushNotificationsManager().getToken();
+    bool newDevice = false;
+    if(token != null) {
+      newDevice = existingProfile.addUniqueDeviceToken(token);
+    }
+    bool shouldShowRestoreSubscription = newDevice && !existingProfile.isFirstDevice();
     existingProfile.shouldShowRestoreSubscription = shouldShowRestoreSubscription;
     await ProfileDao.update(existingProfile);
     await EventSender().setUserIdentity(existingProfile.uid);
@@ -221,7 +235,12 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         profile = getMatchingProfile(profiles, user);
         ProfileDao.updateUserLoginTime(user.uid);
         setShouldShowOnBoarding(store, profile);
-        bool shouldShowRestoreSubscription = profile.addUniqueDeviceToken(await PushNotificationsManager().getToken()) && !profile.isFirstDevice();
+        String token = await PushNotificationsManager().getToken();
+        bool newDevice = false;
+        if(token != null) {
+          newDevice = profile.addUniqueDeviceToken(token);
+        }
+        bool shouldShowRestoreSubscription = newDevice && !profile.isFirstDevice();
         profile.shouldShowRestoreSubscription = shouldShowRestoreSubscription;
         await ProfileDao.update(profile);
         await EventSender().setUserIdentity(user.uid);
@@ -260,12 +279,18 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
             await ProfileDao.insertLocal(fireStoreProfile);
             await FireStoreSync().dandyLightAppInitializationSync(authResult.user.uid);
             await PoseLibraryGroupDao.syncAllFromFireStore();
+            await AppSettingsDao.syncAllFromFireStore();
           }
         }
         if (authResult.user != null && authResult.user.emailVerified) {
           store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, false));
           profile = await ProfileDao.getMatchingProfile(authResult.user.uid);
-          bool shouldShowRestoreSubscription = profile.addUniqueDeviceToken(await PushNotificationsManager().getToken()) && !profile.isFirstDevice();
+          String token = await PushNotificationsManager().getToken();
+          bool newDevice = false;
+          if(token != null) {
+            newDevice = profile.addUniqueDeviceToken(token);
+          }
+          bool shouldShowRestoreSubscription = newDevice && !profile.isFirstDevice();
           profile.shouldShowRestoreSubscription = shouldShowRestoreSubscription;
           await ProfileDao.update(profile);
           setShouldShowOnBoarding(store, profile);
@@ -340,6 +365,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           await ProfileDao.delete(profile);
         }
       }
+      await ContractTemplateDao.syncAllFromFireStore();
       Profile newProfile = Profile(
         uid: user.uid,
         referralUid: Uuid().v1().substring(0, 8),
@@ -352,6 +378,43 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         accountCreatedDate: DateTime.now(),
         onBoardingComplete: false,
         isSubscribed: false,
+        bannerImageSelected: true,
+        previewBannerImageSelected: true,
+        bannerMobileUrl: await FileStorage.fetchImagePathForExampleBannerMobile(),
+        previewBannerMobileUrl: await FileStorage.fetchImagePathForExampleBannerMobile(),
+        bannerWebUrl: await FileStorage.fetchImagePathForExampleBannerWeb(),
+        previewBannerWebUrl: await FileStorage.fetchImagePathForExampleBannerWeb(),
+        logoSelected: false,
+        previewLogoSelected: false,
+        logoCharacter: store.state.loginPageState.businessName != null && store.state.loginPageState.businessName.length > 0 ? store.state.loginPageState.businessName.substring(0, 1) : 'A',
+        previewLogoCharacter: store.state.loginPageState.businessName != null && store.state.loginPageState.businessName.length > 0 ? store.state.loginPageState.businessName.substring(0, 1) : 'A',
+        selectedColorTheme: ColorTheme(
+          themeName: 'default',
+          iconColor: ColorConstants.getString(ColorConstants.getBlueDark()),
+          iconTextColor: ColorConstants.getString(ColorConstants.getWhiteWhite()),
+          buttonColor: ColorConstants.getString(ColorConstants.getPeachDark()),
+          buttonTextColor: ColorConstants.getString(ColorConstants.getWhiteWhite()),
+          bannerColor: ColorConstants.getString(ColorConstants.getPeachLight()),
+        ),
+        previewColorTheme: ColorTheme(
+          themeName: 'default',
+          iconColor: ColorConstants.getString(ColorConstants.getBlueDark()),
+          iconTextColor: ColorConstants.getString(ColorConstants.getWhiteWhite()),
+          buttonColor: ColorConstants.getString(ColorConstants.getPeachDark()),
+          buttonTextColor: ColorConstants.getString(ColorConstants.getWhiteWhite()),
+          bannerColor: ColorConstants.getString(ColorConstants.getPeachLight()),
+        ),
+        selectedFontTheme: FontTheme(
+            themeName: 'default',
+            iconFont: FontTheme.Moredya,
+            mainFont: FontTheme.OPEN_SANS,
+        ),
+        previewFontTheme: FontTheme(
+          themeName: 'default',
+          iconFont: FontTheme.Moredya,
+          mainFont: FontTheme.OPEN_SANS,
+        ),
+        previewJsonContract: (await ContractTemplateDao.getAll()).first.jsonTerms,
       );
       await ProfileDao.insertOrUpdate(newProfile);
 
@@ -416,10 +479,10 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         documentId: '',
         profileName: 'Standard 1hr (EXAMPLE)',
         flatRate: 350.00,
-        icon: ImageUtil.getRandomPriceProfileIcon(),
+        icon: 'assets/images/icons/income_received.png',
         includeSalesTax: false,
         salesTaxPercent: 0.0,
-        deposit: 0.0,
+        deposit: 50.0,
       );
       await PriceProfileDao.insertOrUpdate(priceProfile);
 
@@ -438,19 +501,19 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       Client client1 = Client(
           id: null,
           documentId: '',
-          firstName: 'Example Client',
-          lastName: '',
+          firstName: 'Client',
+          lastName: 'Name',
           email: 'sampleuser@dandylight.com',
           phone: '(555)555-5555',
           instagramProfileUrl: 'https://www.instagram.com/dandy.light/',
-          leadSource: ImageUtil.leadSourceIconsWhite.elementAt(0),
+          leadSource: Client.LEAD_SOURCE_WORD_OF_MOUTH,
           customLeadSourceName: '',
           createdDate: DateTime.now()
       );
       await ClientDao.insertOrUpdate(client1);
 
       //Create Sample Location
-      Location location = Location(
+      LocationDandy location = LocationDandy.LocationDandy(
         id: null,
         documentId: '',
         locationName: "Santa Rosa",
@@ -463,12 +526,13 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
 
       //Create sample job
       DateTime currentTime = DateTime.now();
+      Client client = (await ClientDao.getAll()).first;
       Job jobToSave = Job(
         id: null,
         documentId: store.state.newJobPageState.documentId,
-        clientDocumentId: (await ClientDao.getAll()).first.documentId,
-        clientName: (await ClientDao.getAll()).first.getClientFullName(),
-        jobTitle: (await ClientDao.getAll()).first.firstName + ' - Example Job',
+        clientDocumentId: client.documentId,
+        clientName: client.getClientFullName(),
+        jobTitle: client.firstName + ' - Example Job',
         selectedDate: DateTime.now().add(Duration(days: 3)),
         selectedTime: DateTime(currentTime.year, currentTime.month, currentTime.day, 18, 45),
         selectedEndTime: DateTime(currentTime.year, currentTime.month, currentTime.day, 19, 45),
@@ -477,14 +541,50 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         completedStages: [JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED)],
         priceProfile: (await PriceProfileDao.getAllSortedByName()).first,
         createdDate: DateTime.now(),
+        client: client,
         depositAmount: 0,
-        location: location,
+        location: (await LocationDao.getAllSortedMostFrequent()).first,
+        invoice: Invoice(
+          clientName: 'Example Client',
+          jobName: client.firstName + ' - Example Job',
+          unpaidAmount: 350.0,
+          createdDate: DateTime.now(),
+          dueDate: DateTime.now().add(Duration(days: 7)),
+          depositDueDate: DateTime.now(),
+          depositPaid: false,
+          invoicePaid: false,
+          priceProfile: (await PriceProfileDao.getAllSortedByName()).first,
+          discount: 0,
+          depositAmount: 50,
+          total: 350,
+          lineItems: [LineItem(
+              itemName: (await PriceProfileDao.getAllSortedByName()).first.profileName,
+              itemPrice: (await PriceProfileDao.getAllSortedByName()).first.flatRate,
+              itemQuantity: 1
+          )],
+          sentDate: DateTime.now(),
+          salesTaxAmount: 0,
+          salesTaxRate: 0.0,
+          subtotal: 350.0,
+        ),
+        proposal: Proposal(
+          detailsMessage: "(Example client portal message)\n\nHi ${client.firstName},\nI wanted to thank you again for choosing our photography services. We're excited to work with you to capture your special moments.\n\nTo make things official, kindly review and sign the contract. It outlines our agreement's essential details.\n\nIf you have any questions, please don't hesitate to ask.\n\nBest regards,\n\n${newProfile.firstName ?? 'First name'} ${newProfile.lastName ?? 'Last name'}\n${newProfile.businessName ?? 'Business name'}",
+        )
       );
       await JobDao.insertOrUpdate(jobToSave);
 
       await PoseLibraryGroupDao.syncAllFromFireStore();
-      PoseLibraryGroup libraryGroup = (await PoseLibraryGroupDao.getAllSortedMostFrequent()).first;
-      List<Pose> posesToAdd = libraryGroup.poses.sublist(0, 7);
+      await ContractTemplateDao.syncAllFromFireStore();
+      await AppSettingsDao.syncAllFromFireStore();
+      List<PoseLibraryGroup> libraryGroups = (await PoseLibraryGroupDao.getAllSortedMostFrequent());
+      List<Pose> posesToAdd = [];
+      libraryGroups.forEach((group) {
+        group.poses.forEach((pose) {
+          if(pose.documentId == 'b7381a00-ef76-11ed-bf2a-61f5f61596d7' || pose.documentId == 'cdfc7600-e9f4-11ed-a07e-d5fa14ffadc7'|| pose.documentId == 'cd8a7a50-e9f4-11ed-b398-2f4d404a1892' || pose.documentId == 'b2729860-e9f4-11ed-b73d-a9e7c5067fa2') {
+            posesToAdd.add(pose);
+          }
+        });
+      });
       await _saveSelectedPoseToJob(store, (await JobDao.getAllJobs()).first, posesToAdd);
 
       if(signInType == EMAIL) {
@@ -499,6 +599,8 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           store.dispatch(UpdateNavigateToOnBoardingAction(store.state.loginPageState, true));
         });
         await PoseLibraryGroupDao.syncAllFromFireStore();
+        await ContractTemplateDao.syncAllFromFireStore();
+        await AppSettingsDao.syncAllFromFireStore();
         EventSender().sendEvent(eventName: EventNames.USER_SIGNED_IN_CHECK, properties: {
           EventNames.SIGN_IN_CHECKED_PARAM_USER_UID : user.uid,
           EventNames.SIGN_IN_CHECKED_PARAM_PROFILE_UID : newProfile?.uid ?? "profile = null",
@@ -570,24 +672,87 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           await EventSender().setUserProfileData(EventNames.BUSINESS_NAME, profile.businessName);
           await EventSender().setUserProfileData(EventNames.BUILD_VERSION, (await PackageInfo.fromPlatform()).version);
           await EventSender().setUserProfileData(EventNames.BUILD_NUMBER, (await PackageInfo.fromPlatform()).buildNumber);
-        }
-        store.dispatch(SetIsUserVerifiedAction(store.state.loginPageState, user.emailVerified));
-        store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
-        store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
-        UidUtil().setUid(user.uid);
-        await EventSender().setUserIdentity(user.uid);
-        await FireStoreSync().dandyLightAppInitializationSync(user.uid).then((value) async {
+
+          await ContractTemplateDao.syncAllFromFireStore();
+          if(profile.selectedColorTheme == null) {
+            profile.selectedColorTheme = ColorTheme(
+              themeName: 'default',
+              iconColor: ColorConstants.getString(ColorConstants.getBlueDark()),
+              iconTextColor: ColorConstants.getString(ColorConstants.getWhiteWhite()),
+              buttonColor: ColorConstants.getString(ColorConstants.getPeachDark()),
+              buttonTextColor: ColorConstants.getString(ColorConstants.getWhiteWhite()),
+              bannerColor: ColorConstants.getString(ColorConstants.getPeachLight()),
+            );
+            profile.previewColorTheme = ColorTheme(
+              themeName: 'default',
+              iconColor: ColorConstants.getString(ColorConstants.getBlueDark()),
+              iconTextColor: ColorConstants.getString(ColorConstants.getWhiteWhite()),
+              buttonColor: ColorConstants.getString(ColorConstants.getPeachDark()),
+              buttonTextColor: ColorConstants.getString(ColorConstants.getWhiteWhite()),
+              bannerColor: ColorConstants.getString(ColorConstants.getPeachLight()),
+            );
+            profile.bannerImageSelected = true;
+            profile.previewBannerImageSelected = true;
+            profile.bannerMobileUrl = await FileStorage.fetchImagePathForExampleBannerMobile();
+            profile.previewBannerMobileUrl = await FileStorage.fetchImagePathForExampleBannerMobile();
+            profile.bannerWebUrl = await FileStorage.fetchImagePathForExampleBannerWeb();
+            profile.previewBannerWebUrl = await FileStorage.fetchImagePathForExampleBannerWeb();
+            profile.logoSelected = false;
+            profile.previewLogoSelected = false;
+            profile.logoCharacter = store.state.loginPageState.businessName != null && store.state.loginPageState.businessName.length > 0 ? store.state.loginPageState.businessName.substring(0, 1) : 'A';
+            profile.previewLogoCharacter = store.state.loginPageState.businessName != null && store.state.loginPageState.businessName.length > 0 ? store.state.loginPageState.businessName.substring(0, 1) : 'A';
+            profile.previewJsonContract = (await ContractTemplateDao.getAll()).first.jsonTerms;
+          }
+          if(profile.selectedFontTheme == null) {
+            profile.selectedFontTheme = FontTheme(
+              themeName: 'default',
+              iconFont: FontTheme.Moredya,
+              mainFont: FontTheme.OPEN_SANS,
+            );
+            profile.previewFontTheme = FontTheme(
+              themeName: 'default',
+              iconFont: FontTheme.Moredya,
+              mainFont: FontTheme.OPEN_SANS,
+            );
+          }
+          if(profile.logoCharacter == null || profile.logoCharacter.length == 0) {
+            profile.logoCharacter = profile.businessName != null && profile.businessName.length > 0 ? profile.businessName.substring(0,1) : 'A';
+          }
+          if(profile.bannerMobileUrl == null) {
+            profile.bannerMobileUrl = await FileStorage.fetchImagePathForExampleBannerMobile();
+          }
+          if(profile.bannerWebUrl == null) {
+            profile.bannerWebUrl = await FileStorage.fetchImagePathForExampleBannerWeb();
+          }
+
+          store.dispatch(SetIsUserVerifiedAction(store.state.loginPageState, user.emailVerified));
+          store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
+          store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
+          UidUtil().setUid(user.uid);
+          await EventSender().setUserIdentity(user.uid);
+          await FireStoreSync().dandyLightAppInitializationSync(user.uid).then((value) async {
+            store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
+            ProfileDao.updateUserLoginTime(user.uid);
+            setShouldShowOnBoarding(store, profile);
+          });
+          await PoseLibraryGroupDao.syncAllFromFireStore();
+          await AppSettingsDao.syncAllFromFireStore();
+          EventSender().sendEvent(eventName: EventNames.USER_SIGNED_IN_CHECK, properties: {
+            EventNames.SIGN_IN_CHECKED_PARAM_USER_UID : user.uid,
+            EventNames.SIGN_IN_CHECKED_PARAM_PROFILE_UID : profile?.uid ?? "profile = null",
+          });
+          if(profile != null) {
+            await ProfileDao.update(profile);
+          }
+        } else {
           store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
-          ProfileDao.updateUserLoginTime(user.uid);
-          setShouldShowOnBoarding(store, profile);
-        });
-        await PoseLibraryGroupDao.syncAllFromFireStore();
-        EventSender().sendEvent(eventName: EventNames.USER_SIGNED_IN_CHECK, properties: {
-          EventNames.SIGN_IN_CHECKED_PARAM_USER_UID : user.uid,
-          EventNames.SIGN_IN_CHECKED_PARAM_PROFILE_UID : profile?.uid ?? "profile = null",
-        });
+          store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, true));
+          _auth.signOut();
+          await SembastDb.instance.deleteAllLocalData();
+        }
       } else {
         store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
+        store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, true));
         _auth.signOut();
         await SembastDb.instance.deleteAllLocalData();
       }

@@ -1,12 +1,72 @@
+import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/JobStage.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 
+import 'Contract.dart';
 import 'JobType.dart';
 import 'Pose.dart';
+import 'Proposal.dart';
 
 class Job {
+  static const String DETAIL_CLIENT_NAME = "[Client Name]";
+  static const String DETAIL_CLIENT_EMAIL = "[Client Email]";
+  static const String DETAIL_CLIENT_PHONE = "[Client Phone]";
+  static const String DETAIL_PHOTOGRAPHER_NAME = "[Photographer Name]";
+  static const String DETAIL_PHOTOGRAPHER_EMAIL = "[Photographer Email]";
+  static const String DETAIL_PHOTOGRAPHER_PHONE = "[Photographer Phone]";
+  static const String DETAIL_BUSINESS_NAME = '[Photographer Business Name]';
+  static const String DETAIL_LOCATION_ADDRESS = "[Location Address]";
+  static const String DETAIL_SESSION_DATE = "[Session Date]";
+  static const String DETAIL_RETAINER_PRICE = "[Retainer]";
+  static const String DETAIL_RETAINER_DUE_DATE = "[Retainer Due Date]";
+  static const String DETAIL_REMAINING_BALANCE = "[Remaining Balance]";
+  static const String DETAIL_TOTAL_DUE_DATE = "[Total Due Date]";
+  static const String DETAIL_EFFECTIVE_DATE = "[Effective Date]";
+  static const String DETAIL_START_TIME = "[Start Time]";
+  static const String DETAIL_END_TIME = "[End Time]";
+  static const String DETAIL_TOTAL = "[Total]";
+
+  static String getDetailDisplayName(String detailConstant) {
+    String result = '';
+    switch(detailConstant) {
+      case DETAIL_CLIENT_NAME:
+        result = 'Client Name';
+        break;
+      case DETAIL_CLIENT_EMAIL:
+        result = 'Client Email';
+        break;
+      case DETAIL_CLIENT_PHONE:
+        result = 'Client Phone';
+        break;
+      case DETAIL_PHOTOGRAPHER_NAME:
+        result = 'Photographer Name';
+        break;
+      case DETAIL_BUSINESS_NAME:
+        result = 'Photographer Business Name';
+        break;
+      case DETAIL_LOCATION_ADDRESS:
+        result = 'Location Address';
+        break;
+      case DETAIL_SESSION_DATE:
+        result = 'Session Date';
+        break;
+      case DETAIL_RETAINER_PRICE:
+        result = 'Retainer Price';
+        break;
+      case DETAIL_RETAINER_DUE_DATE:
+        result = 'Retainer Due Date';
+        break;
+      case DETAIL_TOTAL:
+        result = 'Total';
+        break;
+      case DETAIL_TOTAL_DUE_DATE:
+        result = 'Total Due Date';
+        break;
+    }
+    return result;
+  }
 
   int id;
   String documentId;
@@ -15,7 +75,7 @@ class Job {
   String clientName;
   String jobTitle;
   PriceProfile priceProfile;
-  Location location;
+  LocationDandy location;
   String notes;
   DateTime paymentReceivedDate;
   DateTime depositReceivedDate;
@@ -25,12 +85,14 @@ class Job {
   DateTime createdDate;
   JobType type;
   JobStage stage;
+  Client client;
   Invoice invoice;
   int depositAmount = 0;
   double addOnCost;
   int tipAmount = 0;
   List<JobStage> completedStages;
   List<Pose> poses;
+  Proposal proposal;
 
   Job({
     this.id,
@@ -56,6 +118,8 @@ class Job {
     this.depositReceivedDate,
     this.addOnCost,
     this.poses,
+    this.client,
+    this.proposal,
   });
 
   Job copyWith({
@@ -66,7 +130,7 @@ class Job {
     String clientName,
     String jobTitle,
     PriceProfile priceProfile,
-    Location location,
+    LocationDandy location,
     String notes,
     DateTime selectedDate,
     DateTime selectedTime,
@@ -82,6 +146,8 @@ class Job {
     DateTime depositReceivedDate,
     double addOnCost,
     List<Pose> poses,
+    Client client,
+    Proposal proposal,
   }){
     return Job(
       id: id?? this.id,
@@ -107,6 +173,8 @@ class Job {
       depositReceivedDate: depositReceivedDate ?? this.depositReceivedDate,
       addOnCost: addOnCost ?? this.addOnCost,
       poses: poses ?? this.poses,
+      client: client ?? this.client,
+      proposal: proposal ?? this.proposal,
     );
   }
 
@@ -128,12 +196,14 @@ class Job {
       'stage' : stage?.toMap() ?? null,
       'location' : location?.toMap() ?? null,
       'priceProfile' : priceProfile?.toMap() ?? null,
+      'client' : client?.toMap() ?? null,
       'invoice' : invoice?.toMap() ?? null,
       'completedStages' : convertCompletedStagesToMap(completedStages),
       'poses' : convertPosesToMap(poses),
       'depositAmount' : depositAmount,
       'tipAmount' : tipAmount,
       'addOnCost' : addOnCost,
+      'proposal' : proposal?.toMap() ?? null,
     };
   }
 
@@ -145,22 +215,24 @@ class Job {
       clientName: map['clientName'],
       jobTitle: map['jobTitle'],
       notes: map['notes'],
-      addOnCost: map['addOnCost'],
+      addOnCost: map['addOnCost']?.toDouble(),
       depositReceivedDate: map['depositReceivedDate'] != null && map['depositReceivedDate'] != "" ? DateTime.parse(map['depositReceivedDate']) : null,
-      selectedDate: map['selectedDate'] != ""? DateTime.parse(map['selectedDate']) : null,
-      selectedTime: map['selectedTime'] != "" ? DateTime.parse(map['selectedTime']) : null,
-      createdDate: map['createdDate'] != "" ? DateTime.parse(map['createdDate']) : null,
+      selectedDate: map['selectedDate'] != "" && map['selectedDate'] != null ? DateTime.parse(map['selectedDate']) : null,
+      selectedTime: map['selectedTime'] != "" && map['selectedTime'] != null ? DateTime.parse(map['selectedTime']) : null,
+      createdDate: map['createdDate'] != "" && map['createdDate'] != null ? DateTime.parse(map['createdDate']) : null,
       selectedEndTime: map['selectedEndTime'] != null && map['selectedEndTime'] != "" ? DateTime.parse(map['selectedEndTime']) : null,
       paymentReceivedDate: map['paymentReceivedDate'] != null && map['paymentReceivedDate'] != "" ? DateTime.parse(map['paymentReceivedDate']) : null,
       type: JobType.fromMap(map['type']),
       stage: JobStage.fromMap(map['stage']),
-      location: map['location'] != null ? Location.fromMap(map['location']) : null,
+      client: map['client'] != null ? Client.fromMap(map['client']) : null,
+      location: map['location'] != null ? LocationDandy.fromMap(map['location']) : null,
       priceProfile: map['priceProfile'] != null ? PriceProfile.fromMap(map['priceProfile']) : null,
       invoice: map['invoice'] != null ? Invoice.fromMap(map['invoice']) : null,
       completedStages: convertMapsToJobStages(map['completedStages']),
       poses: convertMapsToPoses(map['poses']),
       depositAmount: map['depositAmount'],
       tipAmount: map['tipAmount'],
+      proposal: map['proposal'] != null ? Proposal.fromMap(map['proposal']) : null,
     );
   }
 

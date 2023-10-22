@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/MileageExpense.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
 import 'package:dandylight/models/Profile.dart';
@@ -121,13 +121,13 @@ class SetSelectedFilterAction{
 
 class SetSelectedLocationAction{
   final NewMileageExpensePageState pageState;
-  final Location selectedLocation;
+  final LocationDandy selectedLocation;
   SetSelectedLocationAction(this.pageState, this.selectedLocation);
 }
 
 class SetMileageLocationsAction{
   final NewMileageExpensePageState pageState;
-  final List<Location> locations;
+  final List<LocationDandy> locations;
   final List<File> imageFiles;
   SetMileageLocationsAction(this.pageState, this.locations, this.imageFiles);
 }

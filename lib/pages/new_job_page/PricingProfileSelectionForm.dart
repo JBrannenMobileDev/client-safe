@@ -68,7 +68,7 @@ class _PricingProfileSelectionFormState
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: "Input a one time price.\nOr select a price package for this job.",
                       textAlign: TextAlign.center,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   ConstrainedBox(
@@ -99,7 +99,7 @@ class _PricingProfileSelectionFormState
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: "Input a one time price.\nOr select a Price Package for this job.",
                       textAlign: TextAlign.center,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   Container(
@@ -123,7 +123,7 @@ class _PricingProfileSelectionFormState
                       text: "You do not have any price packages saved yet. "
                       "Select the + to create a new pricing package.",
                       textAlign: TextAlign.center,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                 ],
@@ -159,7 +159,7 @@ class _PricingProfileSelectionFormState
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: "Or",
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
             ],
@@ -168,7 +168,7 @@ class _PricingProfileSelectionFormState
               pageState.pricingProfiles.elementAt(index - 1),
               pageState,
               onProfileSelected,
-              pageState.selectedPriceProfile?.documentId == pageState.pricingProfiles.elementAt(index - 1)?.documentId && pageState.oneTimePrice.isEmpty ? Color(ColorConstants.getPrimaryBackgroundGrey()) : Colors.white,
+              pageState.selectedPriceProfile?.documentId == pageState.pricingProfiles.elementAt(index - 1)?.documentId && pageState.oneTimePrice.isEmpty ? Color(ColorConstants.getPrimaryBackgroundGrey()) : Color(ColorConstants.getPrimaryWhite()),
               Color(ColorConstants.getPrimaryBlack())),
       ),
     );

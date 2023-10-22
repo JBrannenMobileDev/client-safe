@@ -44,7 +44,7 @@ class _SelectNewJobLocationOptionsDialog extends State<SelectNewJobLocationOptio
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: "Select a one time location from a map or add a new location to your location collection.",
                 textAlign: TextAlign.center,
-                color: Color(ColorConstants.primary_black),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ),
             GestureDetector(

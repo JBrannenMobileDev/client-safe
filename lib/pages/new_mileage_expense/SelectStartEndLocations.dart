@@ -56,7 +56,7 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: 'Select the start and end locations for this mileage trip.',
                 textAlign: TextAlign.start,
-                color: Color(ColorConstants.primary_black),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ),
             Padding(
@@ -65,7 +65,7 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: 'Start location:',
                 textAlign: TextAlign.start,
-                color: Color(ColorConstants.primary_black),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ),
             GestureDetector(
@@ -88,18 +88,23 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.only(right: 16.0),
+                      margin: EdgeInsets.only(right: 8.0, left: 16),
                       height: 26.0,
                       width: 26.0,
-                      child: Image.asset('assets/images/icons/location_icon_white.png'),
+                      child: Image.asset('assets/images/icons/pin_white.png'),
                     ),
-                    Container(
-                      child: TextDandyLight(
-                        type: TextDandyLight.MEDIUM_TEXT,
-                        text: pageState.startLocationName.isNotEmpty ? pageState.startLocationName : pageState.selectedHomeLocationName.isNotEmpty ? pageState.selectedHomeLocationName : 'Select a location',
-                        textAlign: TextAlign.center,
-                        color: Color(ColorConstants.getPrimaryWhite()),
-                      ),
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(right: 16),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: pageState.startLocationName.isNotEmpty ? pageState.startLocationName : pageState.selectedHomeLocationName.isNotEmpty ? pageState.selectedHomeLocationName : 'Select a location',
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            color: Color(ColorConstants.getPrimaryWhite()),
+                          ),
+                        ),
                     ),
                   ],
                 ),
@@ -111,7 +116,7 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: 'End location:',
                 textAlign: TextAlign.start,
-                color: Color(ColorConstants.primary_black),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ),
             GestureDetector(
@@ -134,19 +139,22 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.only(right: 16.0),
+                      margin: EdgeInsets.only(right: 8.0, left: 16),
                       height: 26.0,
                       width: 26.0,
-                      child: Image.asset('assets/images/icons/location_icon_white.png'),
+                      child: Image.asset('assets/images/icons/pin_white.png'),
                     ),
-                    Container(
-                      child: TextDandyLight(
-                        type: TextDandyLight.MEDIUM_TEXT,
-                        text: pageState.endLocationName.isEmpty ? 'Select a location' : pageState.endLocationName,
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.fade,
-                        maxLines: 1,
-                        color: Color(ColorConstants.getPrimaryWhite()),
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(right: 16),
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: pageState.endLocationName.isEmpty ? 'Select a location' : pageState.endLocationName,
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                        ),
                       ),
                     ),
                   ],
@@ -182,7 +190,7 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: 'Miles driven',
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     Padding(
@@ -203,7 +211,7 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                               type: TextDandyLight.LARGE_TEXT,
                               text: 'mi',
                               textAlign: TextAlign.start,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                         ],
@@ -220,7 +228,7 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: 'Potential deduction',
                         textAlign: TextAlign.end,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     Padding(

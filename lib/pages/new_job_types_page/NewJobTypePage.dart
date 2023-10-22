@@ -114,7 +114,7 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
                             type: TextDandyLight.LARGE_TEXT,
                             text: pageState.shouldClear ? "New Job Type" : "Edit Job Type",
                             textAlign: TextAlign.start,
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                           !pageState.shouldClear ? GestureDetector(
                             onTap: () {
@@ -126,7 +126,7 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
                               height: 24.0,
                               width: 375.0,
                               child: Image.asset(
-                                  'assets/images/icons/trash_icon_peach.png'),
+                                  'assets/images/icons/trash_can.png', color: Color(ColorConstants.getPeachDark()),),
                             ),
                           ) : SizedBox(),
                           !pageState.shouldClear && currentPageIndex != 2 ? Container(
@@ -180,8 +180,8 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
                       children: <Widget>[
                         TextButton(
                           style: Styles.getButtonStyle(
-                            color: Colors.white,
-                            textColor: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryWhite()),
+                            textColor: Color(ColorConstants.getPrimaryBlack()),
                             left: 8.0,
                             top: 8.0,
                             right: 8.0,
@@ -194,13 +194,13 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: currentPageIndex == 0 ? 'Cancel' : 'Back',
                               textAlign: TextAlign.start,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                         TextButton(
                           style: Styles.getButtonStyle(
-                            color: Colors.white,
-                            textColor: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryWhite()),
+                            textColor: Color(ColorConstants.getPrimaryBlack()),
                             left: 8.0,
                             top: 8.0,
                             right: 8.0,
@@ -213,7 +213,7 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: currentPageIndex == 2 ? 'Save' : 'Next',
                               textAlign: TextAlign.start,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                         ],

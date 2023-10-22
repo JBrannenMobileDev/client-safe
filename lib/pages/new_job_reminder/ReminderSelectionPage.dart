@@ -41,7 +41,7 @@ class _ReminderSelectionPageState extends State<ReminderSelectionPage> with Auto
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: "Select from your collection of reminders.",
                     textAlign: TextAlign.start,
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                 pageState.allReminders.length > 0
@@ -69,7 +69,7 @@ class _ReminderSelectionPageState extends State<ReminderSelectionPage> with Auto
                         text: pageState.hasNotCreatedAnyReminders ?
                         "You have not created any collection reminders yet." : "All of your reminders are already added to this job.",
                         textAlign: TextAlign.center,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     ClientSafeButton(
@@ -104,6 +104,6 @@ Widget _buildItem(BuildContext context, int index) {
   return StoreConnector<AppState, NewJobReminderPageState>(
     converter: (store) => NewJobReminderPageState.fromStore(store),
     builder: (BuildContext context, NewJobReminderPageState pageState) =>
-        NewReminderListWidget(pageState.allReminders.elementAt(index), pageState, pageState.onReminderSelected, Colors.white, Color(ColorConstants.getPrimaryBlack()), index),
+        NewReminderListWidget(pageState.allReminders.elementAt(index), pageState, pageState.onReminderSelected, Color(ColorConstants.getPrimaryWhite()), Color(ColorConstants.getPrimaryBlack()), index),
   );
 }

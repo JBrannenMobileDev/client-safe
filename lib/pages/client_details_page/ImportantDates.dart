@@ -67,7 +67,7 @@ class _ImportantDates extends State<ImportantDates> {
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: 'Done',
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                   ],
@@ -78,7 +78,7 @@ class _ImportantDates extends State<ImportantDates> {
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: 'Important Dates',
                 textAlign: TextAlign.start,
-                color: Color(ColorConstants.primary_black),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ),
             Container(
@@ -89,7 +89,7 @@ class _ImportantDates extends State<ImportantDates> {
                         pageState.client.firstName +
                         "?",
                     textAlign: TextAlign.start,
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
             ),
             Container(
@@ -98,7 +98,7 @@ class _ImportantDates extends State<ImportantDates> {
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: "These will be used to help remind you of job opportunities.",
                     textAlign: TextAlign.start,
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
             ),
             Container(
@@ -119,7 +119,7 @@ class _ImportantDates extends State<ImportantDates> {
                                   type: TextDandyLight.SMALL_TEXT,
                                   text: _chipLabels.elementAt(index),
                                   textAlign: TextAlign.start,
-                                  color: Color(ColorConstants.primary_black),
+                                  color: Color(ColorConstants.getPrimaryBlack()),
                                 ),
                                 isSelected(index, pageState)
                                     ? Padding(
@@ -162,23 +162,23 @@ class _ImportantDates extends State<ImportantDates> {
                         ),
                         isSelected(index, pageState)
                             ? Container(
-                                margin: EdgeInsets.only(top: 52.0),
+                                margin: EdgeInsets.only(top: 32.0),
                                 child: TextDandyLight(
                                   type: TextDandyLight.EXTRA_SMALL_TEXT,
                                   text: ImportantDates.getDateForChipIndex(
                                       index, pageState),
-                                  color: Color(ColorConstants.primary_black),
+                                  color: Color(ColorConstants.getPrimaryBlack()),
                                 ),
                               )
                             : Container(
-                                margin: EdgeInsets.only(top: 52.0),
+                                margin: EdgeInsets.only(top: 32.0),
                                 child: Text(
                                   "",
                                   style: TextStyle(
                                     fontSize: 12.0,
                                     fontFamily: 'Raleway',
                                     fontWeight: FontWeight.w400,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                               ),

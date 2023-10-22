@@ -33,7 +33,7 @@ class SunsetWeatherLocationListWidget extends StatelessWidget {
                           ? FileImage(pageState.locationImages.elementAt(locationIndex))
                           : AssetImage("assets/images/backgrounds/image_background.png")
                     ),
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                     borderRadius: new BorderRadius.circular(16.0),
                   ),
                 ),
@@ -44,7 +44,7 @@ class SunsetWeatherLocationListWidget extends StatelessWidget {
                       margin:
                           EdgeInsets.only(top: 8.0),
                       decoration: BoxDecoration(
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                           borderRadius: new BorderRadius.circular(16.0),
                           gradient: LinearGradient(
                               begin: FractionalOffset.center,
@@ -77,7 +77,7 @@ class SunsetWeatherLocationListWidget extends StatelessWidget {
                 text: pageState.locations.elementAt(locationIndex).locationName,
                 textAlign: TextAlign.center,
                 color: pageState.selectedLocation != pageState.locations.elementAt(locationIndex)
-                    ? const Color(ColorConstants.primary_black)
+                    ? Color(ColorConstants.getPrimaryBlack())
                     : Color(ColorConstants.getPrimaryColor()),
               ),
             ),

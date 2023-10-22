@@ -40,10 +40,10 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
             behavior: HitTestBehavior.opaque,
             child: Container(
               margin: EdgeInsets.only(left: 16, top: 26, right: 16),
-              height: 254,
+              height: 300,
               decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
-                borderRadius: BorderRadius.circular(16.0),
+                borderRadius: BorderRadius.circular(12.0),
               ),
               child: Stack(
                 alignment: Alignment.topCenter,
@@ -54,11 +54,11 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                       type: TextDandyLight.LARGE_TEXT,
                       text: 'Sunset & Weather',
                       textAlign: TextAlign.center,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 44),
+                    margin: EdgeInsets.only(top: 64),
                     child: pageState.weatherIcon.isNotEmpty ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,8 +102,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                                 ],
                               ),
                               Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
                                   Container(
                                     child: TextDandyLight(
@@ -173,19 +172,19 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 144, left: 16, right: 0, bottom: 8),
+                    padding: EdgeInsets.only(top: 164, left: 16, right: 0, bottom: 8),
                     child: pageState.selectedLocation != null && pageState.selectedDate != null ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                              margin: EdgeInsets.only(right: 16, top: 11),
+                              margin: EdgeInsets.only(right: 16, top: 0),
                               height: 82,
                               width: 64,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
+                                borderRadius: BorderRadius.circular(12),
                                 color: Color(ColorConstants.getPeachDark()),
                               ),
                               child: Container(
@@ -202,7 +201,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Container(
-                                  width: 220,
+                                  width: MediaQuery.of(context).size.width - 168,
                                   height: 32,
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -230,7 +229,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                                   ),
                                 ),
                                 Container(
-                                  width: 220,
+                                  width: MediaQuery.of(context).size.width - 168,
                                   height: 32,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -258,7 +257,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                                   ),
                                 ),
                                 Container(
-                                  width: 220,
+                                  width: MediaQuery.of(context).size.width - 168,
                                   height: 32,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/EventDandyLight.dart';
 import 'package:dandylight/models/Job.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
 import 'package:device_calendar/device_calendar.dart';
@@ -175,7 +175,7 @@ NewJobPageState _setSelectedPriceProfile(NewJobPageState previousState, SetSelec
 }
 
 NewJobPageState _setSelectedLocation(NewJobPageState previousState, SetSelectedLocation action) {
-  Location newLocation;
+  LocationDandy newLocation;
   if(previousState.selectedLocation != action.location) newLocation = action.location;
   return previousState.copyWith(
       selectedLocation: newLocation,
@@ -184,7 +184,7 @@ NewJobPageState _setSelectedLocation(NewJobPageState previousState, SetSelectedL
 }
 
 NewJobPageState _setSelectedOneTimeLocation(NewJobPageState previousState, SetSelectedOneTimeLocation action) {
-  List<Location> allLocations = action.pageState.locations;
+  List<LocationDandy> allLocations = action.pageState.locations;
   List<File> imageFiles = action.pageState.imageFiles;
   if(previousState.oneTimeLocation == null) {
     allLocations.insert(0, action.location);

@@ -3,20 +3,20 @@ import 'dart:io';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:device_calendar/device_calendar.dart';
 
+import '../../models/Contract.dart';
 import '../../models/JobReminder.dart';
 import '../../models/JobType.dart';
 import '../../models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
-import '../pose_group_page/GroupImage.dart';
 
 class SetJobInfo{
   final JobDetailsPageState pageState;
-  final Job job;
-  SetJobInfo(this.pageState, this.job);
+  final String jobDocumentId;
+  SetJobInfo(this.pageState, this.jobDocumentId);
 }
 
 class SetSunsetTimeAction{
@@ -50,7 +50,7 @@ class SetOnBoardingCompleteAction {
 
 class DrivingDirectionsJobSelected{
   final JobDetailsPageState pageState;
-  final Location location;
+  final LocationDandy location;
   DrivingDirectionsJobSelected(this.pageState, this.location);
 }
 
@@ -136,9 +136,10 @@ class SetNewInvoice{
   SetNewInvoice(this.pageState, this.invoice);
 }
 
-class DeleteInvoiceFromLocalStateAction{
+class DeleteDocumentFromLocalStateAction{
   final JobDetailsPageState pageState;
-  DeleteInvoiceFromLocalStateAction(this.pageState);
+  final String documentType;
+  DeleteDocumentFromLocalStateAction(this.pageState, this.documentType);
 }
 
 class SetSunsetTimeForJobAction{
@@ -247,7 +248,7 @@ class FetchJobDetailsLocationsAction{
 
 class SetLocationsAction{
   final JobDetailsPageState pageState;
-  final List<Location> locations;
+  final List<LocationDandy> locations;
   final List<File> imageFiles;
   SetLocationsAction(this.pageState, this.locations, this.imageFiles);
 }
@@ -259,13 +260,13 @@ class FetchJobsForDateSelection{
 
 class SetNewSelectedLocation{
   final JobDetailsPageState pageState;
-  final Location location;
+  final LocationDandy location;
   SetNewSelectedLocation(this.pageState, this.location);
 }
 
 class UpdateNewLocationAction{
   final JobDetailsPageState pageState;
-  final Location location;
+  final LocationDandy location;
   UpdateNewLocationAction(this.pageState, this.location);
 }
 
@@ -356,6 +357,12 @@ class OnDeleteInvoiceSelectedAction{
   final JobDetailsPageState pageState;
   final Invoice invoice;
   OnDeleteInvoiceSelectedAction(this.pageState, this.invoice);
+}
+
+class OnDeleteContractSelectedAction{
+  final JobDetailsPageState pageState;
+  final Contract contract;
+  OnDeleteContractSelectedAction(this.pageState, this.contract);
 }
 
 class InvoiceSentAction{

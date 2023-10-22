@@ -21,7 +21,7 @@ class Charge{
   static Charge fromMap(Map<String, dynamic> map) {
     return Charge(
       chargeDate: map['chargeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['chargeDate']) : null,
-      chargeAmount: map['chargeAmount'],
+      chargeAmount: map['chargeAmount']?.toDouble(),
       isPaid: map['isPaid'],
     );
   }

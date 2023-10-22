@@ -64,7 +64,7 @@ class _NewSingleExpenseCost extends State<NewSingleExpenseCost> with AutomaticKe
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: 'Enter the total cost of this expense.',
                 textAlign: TextAlign.start,
-                color: Color(ColorConstants.primary_black),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ),
             NewSingleExpenseCostTextField(

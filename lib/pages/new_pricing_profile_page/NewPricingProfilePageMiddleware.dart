@@ -63,7 +63,7 @@ class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
       documentId: store.state.pricingProfilePageState.documentId,
       profileName: store.state.pricingProfilePageState.profileName,
       flatRate: store.state.pricingProfilePageState.flatRate,
-      icon: ImageUtil.getRandomPriceProfileIcon(),
+      icon: 'assets/images/icons/income_received.png',
       includeSalesTax: store.state.pricingProfilePageState.includeSalesTax,
       salesTaxPercent: store.state.pricingProfilePageState.taxPercent,
       deposit: store.state.pricingProfilePageState.deposit != null ? store.state.pricingProfilePageState.deposit : 0,
@@ -81,6 +81,7 @@ class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _deletePricingProfile(Store<AppState> store, action, NextDispatcher next) async{
+    await PriceProfileDao.delete(PriceProfile(id: store.state.pricingProfilePageState.id, documentId: store.state.pricingProfilePageState.documentId));
     await PriceProfileDao.delete(PriceProfile(id: store.state.pricingProfilePageState.id, documentId: store.state.pricingProfilePageState.documentId));
     store.dispatch(FetchPricingProfilesAction(store.state.pricingProfilesPageState));
     store.dispatch(ClearStateAction(store.state.pricingProfilePageState));

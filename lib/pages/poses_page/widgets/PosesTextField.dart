@@ -74,14 +74,14 @@ class PosesTextField extends StatelessWidget {
                   fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
                   fontFamily: TextDandyLight.getFontFamily(),
                   fontWeight: TextDandyLight.getFontWeight(),
-                  color: Color(ColorConstants.primary_black)),
+                  color: Color(ColorConstants.getPrimaryBlack())),
               hintText: hintText,
               hintStyle: TextStyle(
                   fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
                   fontFamily: TextDandyLight.getFontFamily(),
                   fontWeight: TextDandyLight.getFontWeight(),
                   color: Color(ColorConstants.getBlueLight())),
-              fillColor: Colors.white,
+              fillColor: Color(ColorConstants.getPrimaryWhite()),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(25.0),
                 borderSide: BorderSide(
@@ -118,7 +118,7 @@ class PosesTextField extends StatelessWidget {
               fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
               fontFamily: TextDandyLight.getFontFamily(),
               fontWeight: TextDandyLight.getFontWeight(),
-              color: Color(ColorConstants.primary_black),
+              color: Color(ColorConstants.getPrimaryBlack()),
             ),
           )),
     );

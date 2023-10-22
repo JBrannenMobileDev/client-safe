@@ -28,7 +28,7 @@ class MileageExpensesCard extends StatelessWidget {
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 24.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
-                borderRadius: new BorderRadius.all(Radius.circular(24.0))),
+                borderRadius: new BorderRadius.all(Radius.circular(12.0))),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -41,7 +41,7 @@ class MileageExpensesCard extends StatelessWidget {
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: 'Mileage Deduction (' + pageState.selectedYear.toString() + ')',
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                       pageState.mileageExpensesForSelectedYear != null && pageState.mileageExpensesForSelectedYear.length > 3 ? TextButton(
                         style: Styles.getButtonStyle(top: 0),
@@ -56,7 +56,7 @@ class MileageExpensesCard extends StatelessWidget {
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'View all(' + pageState.mileageExpensesForSelectedYear.length.toString() + ')',
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ) : SizedBox(),
@@ -159,7 +159,7 @@ class MileageExpensesCard extends StatelessWidget {
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: 'You have not added any trips yet. Select the + button to add a trip. ',
                     textAlign: TextAlign.center,
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
               ],
@@ -180,15 +180,15 @@ class MileageExpensesCard extends StatelessWidget {
 
   double getContainerHeight(int length, IncomeAndExpensesPageState pageState) {
     if(length == 0) {
-      return 186.0;
+      return 196.0;
     }else if(length == 1) {
-      return 261.0;
+      return 271.0;
     }else if(length == 2) {
-      return 336.0;
+      return 346.0;
     }else if(length == 3) {
-      return 412.0;
+      return 422.0;
     }else {
-      return 432.0;
+      return 442.0;
     }
   }
 

@@ -61,7 +61,7 @@ class _SelectLocationDialogState extends State<SelectLocationDialog> {
                           type: TextDandyLight.LARGE_TEXT,
                             text: "Select a Location",
                             textAlign: TextAlign.center,
-                          color: Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       Container(
@@ -83,14 +83,14 @@ class _SelectLocationDialogState extends State<SelectLocationDialog> {
                           children: <Widget>[
                             TextButton(
                               style: Styles.getButtonStyle(
-                                color: Colors.white,
-                                textColor: Color(ColorConstants.primary_black),
+                                color: Color(ColorConstants.getPrimaryWhite()),
+                                textColor: Color(ColorConstants.getPrimaryBlack()),
                                 left: 8.0,
                                 top: 8.0,
                                 right: 8.0,
                                 bottom: 8.0,
                               ),
-                              // disabledColor: Colors.white,
+                              // disabledColor: Color(ColorConstants.getPrimaryWhite()),
                               // disabledTextColor:
                               // Color(ColorConstants.primary_bg_grey),
                               // splashColor: Color(ColorConstants.getPrimaryColor()),
@@ -101,7 +101,7 @@ class _SelectLocationDialogState extends State<SelectLocationDialog> {
                                 type: TextDandyLight.MEDIUM_TEXT,
                                 text: 'Cancel',
                                 textAlign: TextAlign.start,
-                                color: Color(ColorConstants.primary_black),
+                                color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
                           ],

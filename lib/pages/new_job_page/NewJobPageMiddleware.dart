@@ -12,7 +12,7 @@ import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/models/JobType.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
@@ -31,6 +31,7 @@ import '../../data_layer/local_db/daos/ProfileDao.dart';
 import '../../data_layer/repositories/FileStorage.dart';
 import '../../models/JobStage.dart';
 import '../../models/Profile.dart';
+import '../../models/Proposal.dart';
 import '../../models/ReminderDandyLight.dart';
 import '../../utils/CalendarSyncUtil.dart';
 import '../../utils/GlobalKeyUtil.dart';
@@ -114,7 +115,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchSunsetTime(Store<AppState> store, action, NextDispatcher next) async{
-    Location selectedLocation = store.state.newJobPageState.selectedLocation;
+    LocationDandy selectedLocation = store.state.newJobPageState.selectedLocation;
     DateTime selectedDate = store.state.newJobPageState.selectedDate;
     if(selectedLocation != null && selectedDate != null) {
       final response = await SunriseSunset.getResults(date: selectedDate, latitude: selectedLocation.latitude, longitude: selectedLocation.longitude);
@@ -125,12 +126,12 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
   void _loadAll(Store<AppState> store, action, NextDispatcher next) async {
     List<PriceProfile> allPriceProfiles = await PriceProfileDao.getAllSortedByName();
     List<Client> allClients = await ClientDao.getAllSortedByFirstName();
-    List<Location> allLocations = await LocationDao.getAllSortedMostFrequent();
+    List<LocationDandy> allLocations = await LocationDao.getAllSortedMostFrequent();
     List<Job> upcomingJobs = await JobDao.getAllJobs();
     List<JobType> jobTypes = await JobTypeDao.getAll();
     List<File> imageFiles = [];
 
-    for(Location location in allLocations) {
+    for(LocationDandy location in allLocations) {
       try{
         imageFiles.add(await FileStorage.getLocationImageFile(location));
       } on Exception {
@@ -153,14 +154,14 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     });
 
     (await LocationDao.getLocationsStream()).listen((locationSnapshots) async {
-      List<Location> locations = [];
+      List<LocationDandy> locations = [];
       List<File> imageFiles = [];
 
       for(RecordSnapshot locationSnapshot in locationSnapshots) {
-        locations.add(Location.fromMap(locationSnapshot.value));
+        locations.add(LocationDandy.fromMap(locationSnapshot.value));
       }
 
-      for(Location location in locations) {
+      for(LocationDandy location in locations) {
         try{
           imageFiles.add(await FileStorage.getLocationImageFile(location));
         } on Exception {
@@ -180,8 +181,9 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     });
   }
 
-  void _saveNewJob(Store<AppState> store, action, NextDispatcher next) async {
+  void _saveNewJob(Store<AppState> store, SaveNewJobAction action, NextDispatcher next) async {
     Client resultClient = store.state.newJobPageState.selectedClient;
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
 
     String jobTitle = '';
     if(store.state.newJobPageState.selectedJobType != null) {
@@ -194,6 +196,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       id: store.state.newJobPageState.id,
       documentId: store.state.newJobPageState.documentId,
       clientDocumentId: resultClient.documentId,
+      client: resultClient,
       clientName: resultClient.getClientFullName(),
       jobTitle: jobTitle,
       selectedDate: store.state.newJobPageState.selectedDate,
@@ -204,9 +207,12 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       completedStages: [JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED)],
       location: store.state.newJobPageState.selectedLocation,
       priceProfile: store.state.newJobPageState.selectedPriceProfile != null && store.state.newJobPageState.oneTimePrice.isEmpty ? store.state.newJobPageState.selectedPriceProfile
-          : store.state.newJobPageState.oneTimePrice.isNotEmpty ? PriceProfile(rateType: Invoice.RATE_TYPE_FLAT_RATE, profileName: 'Photoshoot Price', flatRate: double.parse(store.state.newJobPageState.oneTimePrice), icon: ImageUtil.getRandomPriceProfileIcon()) : null,
+          : store.state.newJobPageState.oneTimePrice.isNotEmpty ? PriceProfile(rateType: Invoice.RATE_TYPE_FLAT_RATE, profileName: 'Photoshoot Price', flatRate: double.parse(store.state.newJobPageState.oneTimePrice), icon: 'assets/images/icons/income_received.png') : null,
       createdDate: DateTime.now(),
       depositAmount: store.state.newJobPageState.selectedPriceProfile != null ? store.state.newJobPageState.selectedPriceProfile.deposit?.toInt() : 0,
+      proposal: Proposal(
+        detailsMessage: "(Example client portal message)\n\nHi ${resultClient.firstName},\nI wanted to thank you again for choosing our photography services. We're excited to work with you to capture your special moments.\n\nTo make things official, kindly review and sign the contract. It outlines our agreement's essential details.\n\nIf you have any questions, please don't hesitate to ask.\n\nBest regards,\n\n${profile.firstName} ${profile.lastName ?? ''}\n${profile.businessName ?? ''}"
+      )
       );
 
     await JobDao.insertOrUpdate(jobToSave);
@@ -220,7 +226,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
 
     Job jobWithDocumentId = await JobDao.getJobBycreatedDate(jobToSave.createdDate);
     if(jobWithDocumentId != null) {
-      store.dispatch(jobDetails.SetJobInfo(store.state.jobDetailsPageState, jobWithDocumentId));
+      store.dispatch(jobDetails.SetJobInfo(store.state.jobDetailsPageState, jobWithDocumentId.documentId));
     } else {
       GlobalKeyUtil.instance.navigatorKey.currentState.pop();
     }

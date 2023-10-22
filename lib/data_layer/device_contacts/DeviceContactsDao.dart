@@ -71,7 +71,7 @@ class DeviceContactsDao {
     return Contact(
         givenName: client.firstName,
         familyName: client.lastName,
-        phones: [Item(label: "mobile", value: client.phone)]
+        phones: [Item(label: "mobile", value: client.phone)],
     );
   }
 }

@@ -73,7 +73,7 @@ class _LeadSourceSelectionPage extends State<LeadSourceSelectionPage> {
                                     type: TextDandyLight.SMALL_TEXT,
                                     text: _chipLabels.elementAt(index),
                                     textAlign: TextAlign.start,
-                                    color: Color(index == selectedIndex ? ColorConstants.getPrimaryWhite() : ColorConstants.primary_black),
+                                    color: Color(index == selectedIndex ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
                                   ),
                                   backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
                                   selectedColor: Color(ColorConstants.getPeachDark()),

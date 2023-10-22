@@ -69,7 +69,7 @@ class DandyLightTextField extends StatelessWidget {
                 color: Color(ColorConstants.getBlueLight()), //<-- SEE HERE
               ),
               hintText: hintText,
-              fillColor: Colors.white,
+              fillColor: Color(ColorConstants.getPrimaryWhite()),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(25.0),
                 borderSide: BorderSide(

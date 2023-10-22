@@ -27,7 +27,7 @@ class BarChartState extends State<BarChartWidget> {
   Widget build(BuildContext context) {
     bool noData = true;
     for(LineChartMonthData data in widget.monthsData) {
-      if(data.income > 1) {
+      if(data.income != 0) {
         noData = false;
       }
     }
@@ -55,7 +55,7 @@ class BarChartState extends State<BarChartWidget> {
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: 'No income data available. Receive payment to see income stats.',
                       textAlign: TextAlign.center,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ) : SizedBox(),
                   Expanded(
@@ -78,9 +78,9 @@ class BarChartState extends State<BarChartWidget> {
       int y, {
         bool isTouched = false,
         bool isNegative = false,
-        Color barColor = const Color(0xffE6CE97),
+        Color barColor = const Color(ColorConstants.blue_light),
         Color barColorNegative = const Color(ColorConstants.peach_dark),
-        Color touchedBarColor = const Color(0xff557571),
+        Color touchedBarColor = const Color(ColorConstants.blue_dark),
         double width = 22,
         List<int> showTooltips = const [],
       }) {

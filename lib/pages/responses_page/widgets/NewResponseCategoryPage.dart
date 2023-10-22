@@ -48,7 +48,7 @@ class _NewResponseCategoryPageState extends State<NewResponseCategoryPage> {
                             type: TextDandyLight.LARGE_TEXT,
                             text: "New Response Category",
                             textAlign: TextAlign.start,
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                         Container(
@@ -62,7 +62,7 @@ class _NewResponseCategoryPageState extends State<NewResponseCategoryPage> {
                                   type: TextDandyLight.MEDIUM_TEXT,
                                   text: "Enter a simple and descriptive name for this response category.",
                                   textAlign: TextAlign.start,
-                                  color: Color(ColorConstants.primary_black),
+                                  color: Color(ColorConstants.getPrimaryBlack()),
                                 ),
                               ),
                               NewResponseCategoryTextField(
@@ -87,8 +87,8 @@ class _NewResponseCategoryPageState extends State<NewResponseCategoryPage> {
                             children: <Widget>[
                               TextButton(
                                 style: Styles.getButtonStyle(
-                                  color: Colors.white,
-                                  textColor: Color(ColorConstants.primary_black),
+                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                  textColor: Color(ColorConstants.getPrimaryBlack()),
                                   left: 8.0,
                                   top: 8.0,
                                   right: 8.0,
@@ -101,13 +101,13 @@ class _NewResponseCategoryPageState extends State<NewResponseCategoryPage> {
                                   type: TextDandyLight.MEDIUM_TEXT,
                                   text: 'Cancel',
                                   textAlign: TextAlign.start,
-                                  color: Color(ColorConstants.primary_black),
+                                  color: Color(ColorConstants.getPrimaryBlack()),
                                 ),
                               ),
                               TextButton(
                                 style: Styles.getButtonStyle(
-                                  color: Colors.white,
-                                  textColor: Color(ColorConstants.primary_black),
+                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                  textColor: Color(ColorConstants.getPrimaryBlack()),
                                   left: 8.0,
                                   top: 8.0,
                                   right: 8.0,
@@ -120,7 +120,7 @@ class _NewResponseCategoryPageState extends State<NewResponseCategoryPage> {
                                   type: TextDandyLight.MEDIUM_TEXT,
                                   text: 'Save',
                                   textAlign: TextAlign.start,
-                                  color: Color(ColorConstants.primary_black),
+                                  color: Color(ColorConstants.getPrimaryBlack()),
                                 ),
                               ),
                             ],

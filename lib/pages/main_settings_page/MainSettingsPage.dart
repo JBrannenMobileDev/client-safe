@@ -7,7 +7,7 @@ import 'package:dandylight/pages/main_settings_page/DeleteAccountPage.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/IntentLauncherUtil.dart';
+import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
@@ -24,6 +24,8 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../utils/DandyToastUtil.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'GenerateDiscountCodeBottomSheet.dart';
 import 'SuggestionsPage.dart';
@@ -110,7 +112,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                               padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
                               decoration: BoxDecoration(
                                 color: Color(ColorConstants.getPrimaryWhite()),
-                                borderRadius: BorderRadius.circular(16.0),
+                                borderRadius: BorderRadius.circular(12.0),
                               ),
                               child: Column(
                                 children: <Widget>[
@@ -137,7 +139,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                               ),
                                               TextDandyLight(
                                                 type: TextDandyLight.MEDIUM_TEXT,
-                                                text: 'Edit profile',
+                                                text: 'Profile',
                                                 textAlign: TextAlign.center,
                                                 color: Color(ColorConstants.getPrimaryBlack()),
                                               )
@@ -153,6 +155,46 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                       ),
                                 ),
                               ),
+                                  TextButton(
+                                    style: Styles.getButtonStyle(),
+                                    onPressed: () {
+                                      NavigationUtil.onEditBrandingSelected(context);
+                                      EventSender().sendEvent(eventName: EventNames.BRANDING_EDIT_FROM_SETTINGS);
+                                    },
+                                    child: SizedBox(
+                                      height: 48.0,
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Container(
+                                                alignment: Alignment.center,
+                                                margin: EdgeInsets.only(right: 18.0, left: 2.0),
+                                                height: 28.0,
+                                                width: 28.0,
+                                                child: Image.asset('assets/images/icons/art.png'),
+                                              ),
+                                              TextDandyLight(
+                                                type: TextDandyLight.MEDIUM_TEXT,
+                                                text: 'Branding',
+                                                textAlign: TextAlign.center,
+                                                color: Color(ColorConstants.getPrimaryBlack()),
+                                              )
+                                            ],
+                                          ),
+                                          Container(
+                                            child: Icon(
+                                              Icons.chevron_right,
+                                              color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                               TextButton(
                                 style: Styles.getButtonStyle(),
                                 onPressed: () {
@@ -224,7 +266,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                             height: 32.0,
                                             width: 32.0,
                                             child: Image.asset(
-                                                'assets/images/icons/manage_subscription_icon_black.png'),
+                                                'assets/images/icons/subscription.png', color: Color(ColorConstants.getPrimaryBlack()),),
                                           ),
                                           TextDandyLight(
                                             type: TextDandyLight.MEDIUM_TEXT,
@@ -344,7 +386,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                             padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
                             decoration: BoxDecoration(
                               color: Color(ColorConstants.getPrimaryWhite()),
-                              borderRadius: BorderRadius.circular(16.0),
+                              borderRadius: BorderRadius.circular(12.0),
                             ),
                             child: Column(
                               children: <Widget>[
@@ -364,6 +406,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                       CupertinoSwitch(
                                         trackColor: Color(ColorConstants.getBlueLight()),
                                         activeColor: Color(ColorConstants.getBlueDark()),
+                                        thumbColor: Color(ColorConstants.getPrimaryWhite()),
                                         onChanged: (enabled) async {
                                           bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context);
                                           if(isGranted) pageState.onPushNotificationsChanged(enabled);
@@ -407,6 +450,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                       CupertinoSwitch(
                                         trackColor: Color(ColorConstants.getBlueLight()),
                                         activeColor: Color(ColorConstants.getBlueDark()),
+                                        thumbColor: Color(ColorConstants.getPrimaryWhite()),
                                         onChanged: (enabled) async {
                                           bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendar, context: context);
                                           if(isGranted) {
@@ -454,7 +498,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                             padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
                             decoration: BoxDecoration(
                               color: Color(ColorConstants.getPrimaryWhite()),
-                              borderRadius: BorderRadius.circular(16.0),
+                              borderRadius: BorderRadius.circular(12.0),
                             ),
                             child: Column(
                               children: <Widget>[
@@ -613,7 +657,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                               margin: EdgeInsets.only(right: 16.0),
                                               height: 28.0,
                                               width: 28.0,
-                                              child: Image.asset('assets/images/icons/trash_icon_white.png', color: Color(ColorConstants.getPrimaryBlack(),)),
+                                              child: Image.asset('assets/images/icons/trash_can.png', color: Color(ColorConstants.getPrimaryBlack(),)),
                                             ),
                                             TextDandyLight(
                                               type: TextDandyLight.MEDIUM_TEXT,
@@ -643,7 +687,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                             padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
                             decoration: BoxDecoration(
                               color: Color(ColorConstants.getPrimaryWhite()),
-                              borderRadius: BorderRadius.circular(16.0),
+                              borderRadius: BorderRadius.circular(12.0),
                             ),
                             child: Column(
                               children: <Widget>[
@@ -787,6 +831,51 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                         Container(
                                           child: Icon(
                                             Icons.visibility,
+                                            color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                TextButton(
+                                  style: Styles.getButtonStyle(),
+                                  onPressed: () {
+                                    pageState.populateAccountWithData();
+                                  },
+                                  child: SizedBox(
+                                    height: 48.0,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Row(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Container(
+                                              alignment: Alignment.center,
+                                              margin: EdgeInsets.only(right: 16.0),
+                                              height: 28.0,
+                                              width: 28.0,
+                                              child: Icon(
+                                                Icons.document_scanner_outlined,
+                                                color: Color(ColorConstants.getPrimaryBlack()),
+                                              ),
+                                            ),
+                                            TextDandyLight(
+                                              type: TextDandyLight.MEDIUM_TEXT,
+                                              text: 'Populate account with data',
+                                              textAlign: TextAlign.center,
+                                              color: Color(ColorConstants.getPrimaryBlack()),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                          child: Icon(
+                                            Icons.document_scanner_outlined,
                                             color: Color(ColorConstants.getPrimaryBackgroundGrey()),
                                           ),
                                         ),

@@ -18,7 +18,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../models/Job.dart';
 import '../../models/Pose.dart';
 import '../../utils/DandyToastUtil.dart';
-import '../../utils/IntentLauncherUtil.dart';
+import '../../utils/intentLauncher/IntentLauncherUtil.dart';
 import '../../utils/VibrateUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
@@ -238,10 +238,10 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
       converter: (store) => PoseGroupPageState.fromStore(store),
       builder: (BuildContext context, PoseGroupPageState pageState) =>
           Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: Color(ColorConstants.getPrimaryWhite()),
             appBar: AppBar(
               iconTheme: IconThemeData(color: Color(ColorConstants.getPeachDark())),
-              backgroundColor: Colors.white,
+              backgroundColor: Color(ColorConstants.getPrimaryWhite()),
               centerTitle: true,
               elevation: 0.0,
               title: TextDandyLight(

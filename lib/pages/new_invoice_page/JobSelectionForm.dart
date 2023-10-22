@@ -46,7 +46,7 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                   type: TextDandyLight.LARGE_TEXT,
                   text: "What job is this invoice for?",
                   textAlign: TextAlign.start,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
                 Stack(
                   alignment: Alignment.center,
@@ -77,7 +77,7 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                           decoration: InputDecoration(
                             alignLabelWithHint: true,
                             hintText: "Job name",
-                            fillColor: Colors.white,
+                            fillColor: Color(ColorConstants.getPrimaryWhite()),
                             contentPadding: EdgeInsets.all(10.0),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25.0),
@@ -100,7 +100,7 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                               fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
                               fontFamily: TextDandyLight.getFontFamily(),
                               fontWeight: TextDandyLight.getFontWeight(),
-                              color: Color(ColorConstants.primary_black)),
+                              color: Color(ColorConstants.getPrimaryBlack())),
                         )),
                   ],
                 ),
@@ -136,7 +136,7 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                             ? "There are no matching jobs for the name entered."
                             : "You have not started any jobs yet.",
                         textAlign: TextAlign.center,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                   ],

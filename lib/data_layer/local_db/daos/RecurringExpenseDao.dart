@@ -8,18 +8,18 @@ import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
-import 'package:sembast/sembast.dart';
+import 'package:sembast/sembast.dart' as sembast;
 import 'package:uuid/uuid.dart';
 
 class RecurringExpenseDao extends Equatable{
   static const String RECURRING_EXPENSE_STORE_NAME = 'recurringExpense';
   // A Store with int keys and Map<String, dynamic> values.
   // This Store acts like a persistent map, values of which are Client objects converted to Map
-  static final _recurringExpenseStore = intMapStoreFactory.store(RECURRING_EXPENSE_STORE_NAME);
+  static final _recurringExpenseStore = sembast.intMapStoreFactory.store(RECURRING_EXPENSE_STORE_NAME);
 
   // Private getter to shorten the amount of code needed to get the
   // singleton instance of an opened database.
-  static Future<Database> get _db async => await SembastDb.instance.database;
+  static Future<sembast.Database> get _db async => await SembastDb.instance.database;
 
   static Future insert(RecurringExpense recurringExpense) async {
     recurringExpense.documentId = Uuid().v1();
@@ -56,7 +56,7 @@ class RecurringExpenseDao extends Equatable{
   static Future update(RecurringExpense recurringExpense) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.equals('documentId', recurringExpense.documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', recurringExpense.documentId));
     await _recurringExpenseStore.update(
       await _db,
       recurringExpense.toMap(),
@@ -69,7 +69,7 @@ class RecurringExpenseDao extends Equatable{
   static Future updateLocalOnly(RecurringExpense recurringExpense) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.equals('documentId', recurringExpense.documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', recurringExpense.documentId));
     await _recurringExpenseStore.update(
       await _db,
       recurringExpense.toMap(),
@@ -78,7 +78,7 @@ class RecurringExpenseDao extends Equatable{
   }
 
   static Future delete(String documentId) async {
-    final finder = Finder(filter: Filter.equals('documentId', documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
     await _recurringExpenseStore.delete(
       await _db,
       finder: finder,
@@ -98,7 +98,7 @@ class RecurringExpenseDao extends Equatable{
 
   static Future<RecurringExpense> getRecurringExpenseById(String documentId) async{
     if((await getAll()).length > 0) {
-      final finder = Finder(filter: Filter.equals('documentId', documentId));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
       final recordSnapshots = await _recurringExpenseStore.find(await _db, finder: finder);
       return recordSnapshots.map((snapshot) {
         final expense = RecurringExpense.fromMap(snapshot.value);
@@ -110,7 +110,7 @@ class RecurringExpenseDao extends Equatable{
     }
   }
 
-  static Future<Stream<List<RecordSnapshot>>> getRecurringExpenseStream() async {
+  static Future<Stream<List<sembast.RecordSnapshot>>> getRecurringExpenseStream() async {
     var query = _recurringExpenseStore.query();
     return query.onSnapshots(await _db);
   }
@@ -144,7 +144,7 @@ class RecurringExpenseDao extends Equatable{
 
   static Future<void> _deleteAllLocalRecurringExpenses(List<RecurringExpense> allLocalRecurringExpenses) async {
     for(RecurringExpense expense in allLocalRecurringExpenses) {
-      final finder = Finder(filter: Filter.equals('documentId', expense.documentId));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', expense.documentId));
       await _recurringExpenseStore.delete(
         await _db,
         finder: finder,
@@ -164,7 +164,7 @@ class RecurringExpenseDao extends Equatable{
       List<RecurringExpense> matchingFireStoreRecurringExpenses = allFireStoreRecurringExpenses.where((fireStoreRecurringExpense) => localRecurringExpense.documentId == fireStoreRecurringExpense.documentId).toList();
       if(matchingFireStoreRecurringExpenses !=  null && matchingFireStoreRecurringExpenses.length > 0) {
         RecurringExpense fireStoreRecurringExpense = matchingFireStoreRecurringExpenses.elementAt(0);
-        final finder = Finder(filter: Filter.equals('documentId', fireStoreRecurringExpense.documentId));
+        final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStoreRecurringExpense.documentId));
         await _recurringExpenseStore.update(
           await _db,
           fireStoreRecurringExpense.toMap(),
@@ -172,7 +172,7 @@ class RecurringExpenseDao extends Equatable{
         );
       } else {
         //client does nto exist on cloud. so delete from local.
-        final finder = Finder(filter: Filter.equals('documentId', localRecurringExpense.documentId));
+        final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', localRecurringExpense.documentId));
         await _recurringExpenseStore.delete(
           await _db,
           finder: finder,

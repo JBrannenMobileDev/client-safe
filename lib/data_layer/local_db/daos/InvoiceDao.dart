@@ -12,7 +12,7 @@ import 'package:dandylight/models/NextInvoiceNumber.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
-import 'package:sembast/sembast.dart';
+import 'package:sembast/sembast.dart' as sembast;
 import 'package:uuid/uuid.dart';
 
 import 'ProfileDao.dart';
@@ -21,11 +21,11 @@ class InvoiceDao extends Equatable{
   static const String INVOICE_STORE_NAME = 'invoice';
   // A Store with int keys and Map<String, dynamic> values.
   // This Store acts like a persistent map, values of which are Client objects converted to Map
-  static final _invoiceStore = intMapStoreFactory.store(INVOICE_STORE_NAME);
+  static final _invoiceStore = sembast.intMapStoreFactory.store(INVOICE_STORE_NAME);
 
   // Private getter to shorten the amount of code needed to get the
   // singleton instance of an opened database.
-  static Future<Database> get _db async => await SembastDb.instance.database;
+  static Future<sembast.Database> get _db async => await SembastDb.instance.database;
 
   static Future insert(Invoice invoice, Job jobToUpdate) async {
     invoice.documentId = Uuid().v1();
@@ -81,7 +81,7 @@ class InvoiceDao extends Equatable{
   }
 
   static Future update(Invoice invoice, Job jobToUpdate) async {
-    final finder = Finder(filter: Filter.equals('documentId', invoice.documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', invoice.documentId));
     await _invoiceStore.update(
       await _db,
       invoice.toMap(),
@@ -94,7 +94,7 @@ class InvoiceDao extends Equatable{
   }
 
   static Future updateInvoiceOnly(Invoice invoice) async {
-    final finder = Finder(filter: Filter.equals('documentId', invoice.documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', invoice.documentId));
     await _invoiceStore.update(
       await _db,
       invoice.toMap(),
@@ -105,7 +105,7 @@ class InvoiceDao extends Equatable{
   }
 
   static Future updateLocalOnly(Invoice invoice) async {
-    final finder = Finder(filter: Filter.equals('documentId', invoice.documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', invoice.documentId));
     await _invoiceStore.update(
       await _db,
       invoice.toMap(),
@@ -115,7 +115,7 @@ class InvoiceDao extends Equatable{
   }
 
   static Future deleteById(String documentId) async {
-    final finder = Finder(filter: Filter.equals('documentId', documentId));
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
     await _invoiceStore.delete(
       await _db,
       finder: finder,
@@ -136,8 +136,8 @@ class InvoiceDao extends Equatable{
   }
 
   static Future<List<Invoice>> getAllSortedByDueDate() async {
-    final finder = Finder(sortOrders: [
-      SortOrder('year'),
+    final finder = sembast.Finder(sortOrders: [
+      sembast.SortOrder('year'),
     ]);
 
     final recordSnapshots = await _invoiceStore.find(await _db, finder: finder);
@@ -154,7 +154,7 @@ class InvoiceDao extends Equatable{
 
   static Future<Invoice> getInvoiceById(String documentId) async{
     if((await getAllSortedByDueDate()).length > 0) {
-      final finder = Finder(filter: Filter.equals('documentId', documentId));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
       final recordSnapshots = await _invoiceStore.find(await _db, finder: finder);
       // Making a List<Client> out of List<RecordSnapshot>
       List<Invoice> list = recordSnapshots.map((snapshot) {
@@ -173,7 +173,7 @@ class InvoiceDao extends Equatable{
 
   }
 
-  static Future<Stream<List<RecordSnapshot>>> getInvoiceStream() async {
+  static Future<Stream<List<sembast.RecordSnapshot>>> getInvoiceStream() async {
     var query = _invoiceStore.query();
     return query.onSnapshots(await _db);
   }
@@ -207,7 +207,7 @@ class InvoiceDao extends Equatable{
 
   static Future<void> _deleteAllLocalInvoices(List<Invoice> allLocalInvoices) async {
     for(Invoice invoice in allLocalInvoices) {
-      final finder = Finder(filter: Filter.equals('documentId', invoice.documentId));
+      final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', invoice.documentId));
       await _invoiceStore.delete(
         await _db,
         finder: finder,
@@ -227,7 +227,7 @@ class InvoiceDao extends Equatable{
       List<Invoice> matchingFireStoreInvoices = allFireStoreInvoices.where((fireStoreInvoice) => localInvoice.documentId == fireStoreInvoice.documentId).toList();
       if(matchingFireStoreInvoices !=  null && matchingFireStoreInvoices.length > 0) {
         Invoice fireStoreInvoice = matchingFireStoreInvoices.elementAt(0);
-        final finder = Finder(filter: Filter.equals('documentId', fireStoreInvoice.documentId));
+        final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStoreInvoice.documentId));
         await _invoiceStore.update(
           await _db,
           fireStoreInvoice.toMap(),
@@ -235,7 +235,7 @@ class InvoiceDao extends Equatable{
         );
       } else {
         //client does nto exist on cloud. so delete from local.
-        final finder = Finder(filter: Filter.equals('documentId', localInvoice.documentId));
+        final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', localInvoice.documentId));
         await _invoiceStore.delete(
           await _db,
           finder: finder,

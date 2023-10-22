@@ -34,28 +34,33 @@ class _LocationCard extends State<LocationCard> {
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) =>
           Container(
+            alignment: Alignment.center,
             margin: EdgeInsets.only(left: 16, top: 26, right: 16, bottom: 0),
-            height: 338,
+            height: 352,
             decoration: BoxDecoration(
               color: Color(ColorConstants.getPrimaryWhite()),
-              borderRadius: BorderRadius.circular(16.0),
+              borderRadius: BorderRadius.circular(12.0),
             ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
+                  alignment: Alignment.center,
                   width: double.infinity,
                   margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
                   child: TextDandyLight(
                     type: TextDandyLight.LARGE_TEXT,
                     text: 'Location',
                     textAlign: TextAlign.center,
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Column(
                       mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         GestureDetector(
                           onTap: () async {
@@ -70,24 +75,25 @@ class _LocationCard extends State<LocationCard> {
                             height: 96,
                             width: 96,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              color: Color(ColorConstants.getPrimaryBackgroundGrey())
+                              borderRadius: BorderRadius.circular(12),
+                              color: Color(ColorConstants.getBlueLight()).withOpacity(0.25)
                             ),
-                            child: Image.asset("assets/images/icons/driving_directions_icon_white.png", color: Color(ColorConstants.getPrimaryBlack()),),
+                            child: Image.asset("assets/images/icons/directions.png", color: Color(ColorConstants.getBlueDark()),),
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
+                          margin: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 16.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'Directions',
                             textAlign: TextAlign.center,
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                         GestureDetector(
                           onTap: () {
-                            Share.share('Hi ${pageState.job.clientName.split(' ')[0]}, here are the driving directions to the location we discussed. \n${pageState.selectedLocation.locationName}\n\nhttps://www.google.com/maps/search/?api=1&query=${pageState.selectedLocation.latitude},${pageState.selectedLocation.longitude}');
+                            String message = 'Hi ${pageState.job.clientName.split(' ')[0]}, here are the driving directions to the location we discussed. \n${pageState.selectedLocation.locationName}\n\nhttps://www.google.com/maps/search/?api=1&query=${pageState.selectedLocation.latitude},${pageState.selectedLocation.longitude}';
+                            UserOptionsUtil.showShareOptionsSheet(context, pageState.client, message, 'Location details');
                           },
                           behavior: HitTestBehavior.opaque,
                           child: Container(
@@ -95,25 +101,26 @@ class _LocationCard extends State<LocationCard> {
                             height: 96,
                             width: 96,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
-                                color: Color(ColorConstants.getPrimaryBackgroundGrey())
+                                borderRadius: BorderRadius.circular(12),
+                                color: Color(ColorConstants.getBlueLight()).withOpacity(0.25)
                             ),
-                            child: Image.asset("assets/images/icons/file_upload.png", color: Color(ColorConstants.getPrimaryBlack()),),
+                            child: Image.asset("assets/images/icons/file_upload.png", color: Color(ColorConstants.getBlueDark()),),
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+                          margin: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'Share Location',
+                            text: 'Share',
                             textAlign: TextAlign.center,
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ],
                     ),
                     Column(
                       mainAxisSize: MainAxisSize.min,
+
                       children: [
                         GestureDetector(
                           onTap: () {
@@ -124,36 +131,38 @@ class _LocationCard extends State<LocationCard> {
                             height: 235,
                             width: 200,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                              borderRadius: BorderRadius.circular(12),
+                              color: Color(ColorConstants.getBlueLight()).withOpacity(0.25)
                             ),
                             child: DandyLightNetworkImage(
                               pageState.selectedLocation.imageUrl,
-                              color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                              color: Color(ColorConstants.getBlueLight()).withOpacity(0.25),
                               errorType: pageState.selectedLocation.imageUrl != null && pageState.selectedLocation.imageUrl.isNotEmpty ? DandyLightNetworkImage.ERROR_TYPE_INTERNET : DandyLightNetworkImage.ERROR_TYPE_NO_IMAGE,
                               errorIconSize: pageState.selectedLocation.imageUrl != null && pageState.selectedLocation.imageUrl.isNotEmpty ? 44 : 96,
-                              errorIconColor: Color(ColorConstants.getPrimaryBlack()),
-                              borderRadius: 16,
+                              errorIconColor: Color(ColorConstants.getBlueDark()),
+                              borderRadius: 12,
                             ),
                           ) : Container(
                             padding: EdgeInsets.all(72),
                             height: 235,
                             width: 200,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                              borderRadius: BorderRadius.circular(12),
+                              color: Color(ColorConstants.getBlueLight()).withOpacity(0.25)
                             ),
-                            child: Image.asset("assets/images/icons/plus.png", color: Color(ColorConstants.getPrimaryBlack())),
+                            child: Image.asset("assets/images/icons/plus.png", color: Color(ColorConstants.getBlueDark())),
                           ),
                         ),
                         Container(
+                          width: 200,
                           margin: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: pageState.job.location == null ? 'Location not selected' :
                             pageState.job.location.locationName,
+                            maxLines: 1,
                             textAlign: TextAlign.center,
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ],

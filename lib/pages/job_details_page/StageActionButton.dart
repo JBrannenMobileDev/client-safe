@@ -41,8 +41,8 @@ class StageActionButton extends StatelessWidget{
           style: Styles.getButtonStyle(
             shape: new RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(8.0),
-                side: BorderSide(color: Colors.white)),
-            color: Colors.white,
+                side: BorderSide(color: Color(ColorConstants.getPrimaryWhite()))),
+            color: Color(ColorConstants.getPrimaryWhite()),
             textColor: Color(ColorConstants.getPrimaryColor()),
           ),
 

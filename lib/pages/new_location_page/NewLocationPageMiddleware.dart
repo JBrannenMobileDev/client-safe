@@ -4,20 +4,20 @@ import 'dart:io';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/api_clients/GoogleApiClient.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart' as jobs;
 import 'package:dandylight/pages/new_location_page/NewLocationActions.dart';
 import 'package:dandylight/pages/locations_page/LocationsActions.dart' as locations;
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpenseActions.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geocoder2/geocoder2.dart';
 import 'package:redux/redux.dart';
 import 'package:http/http.dart' as http;
 import 'package:sembast/sembast.dart';
 
 
+import '../../credentials.dart';
 import '../../data_layer/repositories/FileStorage.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
@@ -47,7 +47,7 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchLocationDetails(Store<AppState> store, NextDispatcher next, FetchSearchLocationDetails action) async {
-    Location selectedSearchLocation = Location(latitude: action.selectedSearchLocation.lat, longitude: action.selectedSearchLocation.lon);
+    LocationDandy selectedSearchLocation = LocationDandy.LocationDandy(latitude: action.selectedSearchLocation.lat, longitude: action.selectedSearchLocation.lon);
     store.dispatch(SetSelectedSearchLocation(store.state.newLocationPageState, selectedSearchLocation));
   }
 
@@ -57,29 +57,34 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchLocations(Store<AppState> store, NextDispatcher next) async{
-    List<Location> locations = await LocationDao.getAllSortedMostFrequent();
+    List<LocationDandy> locations = await LocationDao.getAllSortedMostFrequent();
     next(SetLocationsAction(store.state.newLocationPageState, locations));
 
     (await LocationDao.getLocationsStream()).listen((locationSnapshots) {
-      List<Location> locations = List();
+      List<LocationDandy> locations = List();
       for(RecordSnapshot locationSnapshot in locationSnapshots) {
-        locations.add(Location.fromMap(locationSnapshot.value));
+        locations.add(LocationDandy.fromMap(locationSnapshot.value));
       }
       store.dispatch(SetLocationsAction(store.state.newLocationPageState, locations));
     });
   }
 
   void _saveLocation(Store<AppState> store, SaveLocationAction action, NextDispatcher next) async{
-    Location location = Location();
+    LocationDandy location = LocationDandy.LocationDandy();
     location.id = action.pageState.id;
     location.documentId = action.pageState.documentId;
     location.locationName = action.pageState.locationName;
     location.latitude = action.pageState.newLocationLatitude;
     location.longitude = action.pageState.newLocationLongitude;
+    if(location.latitude != null && location.longitude != null) {
+      location.address = (await getAddress(location.latitude, location.longitude)).address;
+    }
 
-    Location locationWithId = await LocationDao.insertOrUpdate(location);
+    LocationDandy locationWithId = await LocationDao.insertOrUpdate(location);
 
-    await FileStorage.saveLocationImageFile(action.pageState.imagePath, locationWithId);
+    if(action.pageState.imagePath != null) {
+      await FileStorage.saveLocationImageFile(action.pageState.imagePath, locationWithId);
+    }
 
     EventSender().sendEvent(eventName: EventNames.CREATED_LOCATION, properties: {
       EventNames.LOCATION_PARAM_NAME : location.locationName,
@@ -96,7 +101,7 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
 
   void _deleteLocation(Store<AppState> store, DeleteLocation action, NextDispatcher next) async{
     await LocationDao.delete(action.pageState.documentId);
-    Location location = await LocationDao.getById(action.pageState.documentId);
+    LocationDandy location = await LocationDao.getById(action.pageState.documentId);
     if(location != null) {
       await LocationDao.delete(action.pageState.documentId);
     }
@@ -107,5 +112,13 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
 
   Future _initializeLocation(Store<AppState> store, action, next) async {
 
+  }
+
+  Future<GeoData> getAddress(double lat, double lng) async {
+    return await Geocoder2.getDataFromCoordinates(
+        latitude: lat,
+        longitude: lng,
+        googleMapApiKey: PLACES_API_KEY
+    );
   }
 }

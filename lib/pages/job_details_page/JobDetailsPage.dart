@@ -8,7 +8,6 @@ import 'package:dandylight/pages/job_details_page/ClientDetailsCard.dart';
 import 'package:dandylight/pages/job_details_page/DocumentsCard.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
-import 'package:dandylight/pages/job_details_page/JobInfoCard.dart';
 import 'package:dandylight/pages/job_details_page/RemindersCard.dart';
 import 'package:dandylight/pages/job_details_page/document_items/DocumentItem.dart';
 import 'package:dandylight/pages/job_details_page/scroll_stage_items/StageItem.dart';
@@ -30,13 +29,16 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../navigation/routes/RouteNames.dart';
 import '../../utils/NavigationUtil.dart';
+import '../../utils/UidUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../utils/permissions/UserPermissionsUtil.dart';
 import '../../widgets/TextDandyLight.dart';
-import 'IncomeCard.dart';
+import '../contracts_page/ContractsPage.dart';
 import 'JobDetailsCard.dart';
 import 'JobNotesWidget.dart';
 import 'LocationCard.dart';
@@ -44,13 +46,14 @@ import 'PosesCard.dart';
 import 'SunsetWeatherCard.dart';
 
 class JobDetailsPage extends StatefulWidget {
-  const JobDetailsPage({Key key, this.destination, this.comingFromOnBoarding}) : super(key: key);
+  const JobDetailsPage({Key key, this.destination, this.comingFromOnBoarding = false, this.jobDocumentId}) : super(key: key);
   final JobDetailsPage destination;
   final bool comingFromOnBoarding;
+  final String jobDocumentId;
 
   @override
   State<StatefulWidget> createState() {
-    return _JobDetailsPageState(comingFromOnBoarding);
+    return _JobDetailsPageState(comingFromOnBoarding, jobDocumentId);
   }
 }
 
@@ -60,11 +63,12 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
   ScrollController _stagesScrollController = ScrollController(keepScrollOffset: true);
   double scrollPosition = -2;
   bool comingFromOnBoarding;
-  _JobDetailsPageState(this.comingFromOnBoarding);
+  _JobDetailsPageState(this.comingFromOnBoarding, this.jobDocumentId);
   bool sliverCollapsed = false;
   bool isFabExpanded = false;
   bool dialVisible = true;
   JobDetailsPageState pageStateLocal;
+  String jobDocumentId;
 
   Future<void> _ackAlert(BuildContext context, JobDetailsPageState pageState) {
     return showDialog<void>(
@@ -73,7 +77,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
         return Device.get().isIos ?
         CupertinoAlertDialog(
           title: new Text('Are you sure?'),
-          content: new Text('All data for this job will be gone forever!'),
+          content: new Text('All data for this job will be permanently deleted!'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
@@ -91,7 +95,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
           ],
         ) : AlertDialog(
           title: new Text('Are you sure?'),
-          content: new Text('All data for this job will be gone forever!'),
+          content: new Text('All data for this job will be permanently deleted!'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
@@ -117,12 +121,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
     return StoreConnector<AppState, JobDetailsPageState>(
         converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
         onInit: (appState) => {
-            appState.dispatch(FetchTimeOfSunsetJobAction(appState.state.jobDetailsPageState)),
-            appState.dispatch(FetchJobDetailsPricePackagesAction(appState.state.jobDetailsPageState)),
-            appState.dispatch(FetchJobDetailsLocationsAction(appState.state.jobDetailsPageState)),
-            appState.dispatch(FetchJobRemindersAction(appState.state.jobDetailsPageState)),
-            appState.dispatch(FetchAllJobTypesAction(appState.state.jobDetailsPageState)),
-            appState.dispatch(FetchJobPosesAction(appState.state.jobDetailsPageState)),
+            appState.dispatch(SetJobInfo(appState.state.jobDetailsPageState, jobDocumentId)),
         },
         onDidChange: (prev, pageState) {
           pageStateLocal = pageState;
@@ -142,7 +141,12 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
             if(scrollPosition == -2) scrollPosition = 0;
           }
               return pageState.job != null ? Scaffold(
-                floatingActionButton: SpeedDial(
+                floatingActionButton: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SpeedDial(
                   // both default to 16
                   childMargin: EdgeInsets.only(right: 18.0, bottom: 20.0),
                   // this is ignored if animatedIcon is non null
@@ -156,7 +160,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                   overlayOpacity: 0.5,
                   tooltip: 'Speed Dial',
                   heroTag: 'speed-dial-hero-tag',
-                  backgroundColor: Color(ColorConstants.getBlueDark()),
+                  backgroundColor: Color(ColorConstants.getPeachDark()),
                   foregroundColor: Colors.black,
                   elevation: 8.0,
                   shape: CircleBorder(),
@@ -171,30 +175,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                     });
                   },
                   children: [
-                    SpeedDialChild(
-                      child: Icon(Icons.add),
-                      backgroundColor: Color(ColorConstants.getBlueLight()),
-                      labelWidget: Container(
-                        alignment: Alignment.center,
-                        height: 42.0,
-                        decoration: BoxDecoration(
-                          boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(21.0),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                          child: TextDandyLight(
-                            type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'Tip',
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        UserOptionsUtil.showTipChangeDialog(context);
-                      },
-                    ),
+
                     // SpeedDialChild(
                     //   child: Icon(Icons.add),
                     //   backgroundColor: Color(ColorConstants.getBlueLight()),
@@ -203,7 +184,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                     //     height: 42.0,
                     //     decoration: BoxDecoration(
                     //       boxShadow: ElevationToShadow[4],
-                    //       color: Colors.white,
+                    //       color: Color(ColorConstants.getPrimaryWhite()),
                     //       borderRadius: BorderRadius.circular(21.0),
                     //     ),
                     //     child: Padding(
@@ -231,13 +212,13 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                     //     height: 42.0,
                     //     decoration: BoxDecoration(
                     //       boxShadow: ElevationToShadow[4],
-                    //       color: Colors.white,
+                    //       color: Color(ColorConstants.getPrimaryWhite()),
                     //       borderRadius: BorderRadius.circular(21.0),
                     //     ),
                     //     child: Padding(
                     //       padding: EdgeInsets.only(left: 16.0, right: 16.0),
                     //       child: Text(
-                    //         'Questionaire',
+                    //         'Questionnaire',
                     //         style: TextStyle(
                     //           fontFamily: 'simple',
                     //           fontSize: 22.0,
@@ -251,6 +232,8 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                     //
                     //   },
                     // ),
+
+
                     SpeedDialChild(
                       child: Icon(Icons.add),
                       backgroundColor: Color(ColorConstants.getBlueLight()),
@@ -259,7 +242,71 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         height: 42.0,
                         decoration: BoxDecoration(
                           boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                          borderRadius: BorderRadius.circular(21.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Contract',
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).push(
+                          new MaterialPageRoute(builder: (context) => ContractsPage(jobDocumentId: pageState.job.documentId)),
+                        );
+                      },
+                    ),
+                    SpeedDialChild(
+                      child: Icon(Icons.add),
+                      backgroundColor: Color(ColorConstants.getBlueLight()),
+                      labelWidget: Container(
+                        alignment: Alignment.center,
+                        height: 42.0,
+                        decoration: BoxDecoration(
+                          boxShadow: ElevationToShadow[4],
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                          borderRadius: BorderRadius.circular(21.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Invoice',
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        if(pageState.job.priceProfile != null) {
+                          bool containsInvoice = false;
+                          for(DocumentItem document in pageState.documents){
+                            if(document.getDocumentType() == DocumentItem.DOCUMENT_TYPE_INVOICE) containsInvoice = true;
+                          }
+                          if(!containsInvoice) {
+                            pageState.onAddInvoiceSelected();
+                            UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected, false);
+                          }else{
+                            pageState.onAddInvoiceSelected();
+                            UserOptionsUtil.showInvoiceOptionsDialog(context, onSendInvoiceSelected);
+                          }
+                        } else {
+                          DandyToastUtil.showErrorToast('Please select a price package for this job before creating an invoice.');
+                        }
+                      },
+                    ),
+                    SpeedDialChild(
+                      child: Icon(Icons.add),
+                      backgroundColor: Color(ColorConstants.getBlueLight()),
+                      labelWidget: Container(
+                        alignment: Alignment.center,
+                        height: 42.0,
+                        decoration: BoxDecoration(
+                          boxShadow: ElevationToShadow[4],
+                          color: Color(ColorConstants.getPrimaryWhite()),
                           borderRadius: BorderRadius.circular(21.0),
                         ),
                         child: Padding(
@@ -283,68 +330,72 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         height: 42.0,
                         decoration: BoxDecoration(
                           boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
+                          color: Color(ColorConstants.getPrimaryWhite()),
                           borderRadius: BorderRadius.circular(21.0),
                         ),
                         child: Padding(
                           padding: EdgeInsets.only(left: 16.0, right: 16.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'Invoice',
+                            text: 'Tip',
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ),
                       onTap: () {
-                        if(pageState.job.priceProfile != null) {
-                          bool containsInvoice = false;
-                          for(DocumentItem document in pageState.documents){
-                            if(document.getDocumentType() == DocumentItem.DOCUMENT_TYPE_INVOICE) containsInvoice = true;
-                          }
-                          if(!containsInvoice) {
-                            pageState.onAddInvoiceSelected();
-                            UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected);
-                          }else{
-                            UserOptionsUtil.showInvoiceOptionsDialog(context, onSendInvoiceSelected);
-                          }
-                        } else {
-                          DandyToastUtil.showErrorToast('Please select a price package for this job before creating an invoice.');
-                        }
+                        UserOptionsUtil.showTipChangeDialog(context);
                       },
                     ),
-                    // SpeedDialChild(
-                    //   child: Icon(Icons.add),
-                    //   backgroundColor: Color(ColorConstants.getBlueLight()),
-                    //   labelWidget: Container(
-                    //     alignment: Alignment.center,
-                    //     height: 42.0,
-                    //     decoration: BoxDecoration(
-                    //       boxShadow: ElevationToShadow[4],
-                    //       color: Colors.white,
-                    //       borderRadius: BorderRadius.circular(21.0),
-                    //     ),
-                    //     child: Padding(
-                    //       padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                    //       child: Text(
-                    //         'Contract',
-                    //         style: TextStyle(
-                    //           fontFamily: 'simple',
-                    //           fontSize: 22.0,
-                    //           fontWeight: FontWeight.w600,
-                    //           color: Color(ColorConstants.getPrimaryBlack()),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    //   onTap: () {
-                    //
-                    //   },
-                    // ),
                   ],
+                ),
+                      comingFromOnBoarding ? GestureDetector(
+                        onTap: () {
+                          _launchBrandingPreviewURL(UidUtil().getUid());
+                          EventSender().sendEvent(eventName: EventNames.ON_BOARDING_PREVIEW_CLIENT_PORTAL_SELECTED);
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(top: 8),
+                          width: 196,
+                          alignment: Alignment.center,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(24),
+                            color: Color(ColorConstants.getPeachDark()),
+                            boxShadow: ElevationToShadow[6],
+                          ),
+                          child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              color: Color(ColorConstants.getPrimaryWhite()),
+                              text: "Preview Client Portal"
+                          ),
+                        ),
+                      ) : GestureDetector(
+                        onTap: () {
+                          NavigationUtil.onShareWIthClientSelected(context, pageState.job);
+                          EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_FROM_JOB);
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(top: 8),
+                          width: 164,
+                          alignment: Alignment.center,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(24),
+                            color: Color(ColorConstants.getPeachDark()),
+                            boxShadow: ElevationToShadow[6],
+                          ),
+                          child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              color: Color(ColorConstants.getPrimaryWhite()),
+                              text: "Share With Client"
+                          ),
+                        ),
+                      )
+                ],
                 ),
                 body: Container(
                 child: Stack(
-                  alignment: Alignment.bottomCenter,
+                  alignment: Alignment.topRight,
                   children: <Widget>[
                     Container(
                       decoration: BoxDecoration(
@@ -357,13 +408,13 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                       slivers: <Widget>[
                         new SliverAppBar(
                           iconTheme: IconThemeData(
-                            color: Color(ColorConstants.getBlueDark()), //change your color here
+                            color: Color(ColorConstants.getPrimaryBlack()), //change your color here
                           ),
                           systemOverlayStyle: SystemUiOverlayStyle.light,
                           title: TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
                             text: pageState.job.jobTitle,
-                            color: Color(ColorConstants.getBlueDark()),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                             overflow: TextOverflow.fade,
                           ),
                           centerTitle: true,
@@ -376,13 +427,13 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                           forceElevated: false,
                           expandedHeight: 305.0,
                           actions: <Widget>[
-                            new IconButton(
+                            !comingFromOnBoarding ? IconButton(
                               icon: ImageIcon(ImageUtil.getTrashIconWhite()),
                               tooltip: 'Delete Job',
                               onPressed: () {
                                 _ackAlert(context, pageState);
                               },
-                            ),
+                            ) : SizedBox(),
                           ],
                           flexibleSpace: new FlexibleSpaceBar(
                             background: Stack(
@@ -395,7 +446,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                                       type: TextDandyLight.MEDIUM_TEXT,
                                       text: 'Job Stages',
                                       textAlign: TextAlign.center,
-                                      color: Color(ColorConstants.getBlueDark()),
+                                      color: Color(ColorConstants.getPrimaryBlack()),
                                     ),
                               ),
                             ),
@@ -432,12 +483,11 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                             delegate: new SliverChildListDelegate(<Widget>[
                               PosesCard(pageState: pageState),
                               JobDetailsCard(),
+                              DocumentsCard(pageState: pageState, onSendInvoiceSelected: onSendInvoiceSelected),
                               SunsetWeatherCard(),
                               LocationCard(),
                               ClientDetailsCard(pageState: pageState),
-                              // IncomeCard(onSendInvoiceSelected: onSendInvoiceSelected),
                               JobNotesWidget(),
-                              DocumentsCard(pageState: pageState, onSendInvoiceSelected: onSendInvoiceSelected, onDeleteInvoiceSelected: onDeleteInvoiceSelected),
                               RemindersCard(pageState: pageState),
                             ])),
                       ],
@@ -453,12 +503,12 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                       },
                       child: Container(
                         padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                        margin: EdgeInsets.only(left: 24.0, right: 24.0, top: 8.0, bottom: 32.0),
+                        margin: EdgeInsets.only(left: 24.0, right: 8.0, top: 66.0, bottom: 32.0),
                         alignment: Alignment.center,
-                        height: 54.0,
+                        height: 42.0,
                         width: 96,
                         decoration: BoxDecoration(
-                            color: Color(ColorConstants.getPeachDark()),
+                            color: Color(ColorConstants.getBlueDark()),
                             borderRadius: BorderRadius.circular(36.0),
                         ),
                         child: TextDandyLight(
@@ -482,13 +532,6 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
     pageStateLocal.removeExpandedIndex(7);
     pageStateLocal.setNewIndexForStageAnimation((JobStage.getIndexOfCurrentStage(pageStateLocal.job.stage.stage, pageStateLocal.job.type.stages)));
     VibrateUtil.vibrateHeavy();
-  }
-
-  void onDeleteInvoiceSelected() {
-    // pageStateLocal.onStageUndo(pageStateLocal.job, 7);
-    // pageStateLocal.removeExpandedIndex(7);
-    // pageStateLocal.setNewIndexForStageAnimation((JobStage.getIndexOfCurrentStage(pageStateLocal.job.stage.stage, pageStateLocal.job.type.stages)));
-    // VibrateUtil.vibrateHeavy();
   }
 
   void _onAddButtonPressed(BuildContext context) {
@@ -548,5 +591,10 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
   void onFlareCompleted(String unused, ) {
     Navigator.of(context).pop(true);
     Navigator.of(context).pop(true);
+  }
+
+  void _launchBrandingPreviewURL(String uid) async {
+    print('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid);
+    await canLaunchUrl(Uri.parse('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid)) ? await launchUrl(Uri.parse('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid), mode: LaunchMode.externalApplication) : throw 'Could not launch';
   }
 }

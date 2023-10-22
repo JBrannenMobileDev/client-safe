@@ -53,7 +53,7 @@ class _BottomSheetPageState extends State<SaveToMyPosesBottomSheet> with TickerP
     converter: (Store<AppState> store) => LibraryPoseGroupPageState.fromStore(store),
     builder: (BuildContext context, LibraryPoseGroupPageState pageState) =>
          Container(
-               height: 350,
+               height: 354,
                width: MediaQuery.of(context).size.width,
                decoration: BoxDecoration(
                    borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
@@ -70,7 +70,7 @@ class _BottomSheetPageState extends State<SaveToMyPosesBottomSheet> with TickerP
                            type: TextDandyLight.LARGE_TEXT,
                            text: 'Save to My Poses',
                            textAlign: TextAlign.center,
-                           color: Color(ColorConstants.primary_black),
+                           color: Color(ColorConstants.getPrimaryBlack()),
                          ),
                        ),
                        pageState.myPoseGroups.length > 0 ? SingleChildScrollView(

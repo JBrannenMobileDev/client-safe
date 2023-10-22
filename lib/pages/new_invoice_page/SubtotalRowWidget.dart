@@ -30,7 +30,7 @@ class SubtotalRowWidget extends StatelessWidget{
               ),
               TextDandyLight(
                 type: TextDandyLight.LARGE_TEXT,
-                text: TextFormatterUtil.formatDecimalDigitsCurrency(pageState.total, 2),
+                text: TextFormatterUtil.formatDecimalDigitsCurrency(pageState.subtotal, 2),
                 textAlign: TextAlign.start,
                 color: Color(
                     ColorConstants.getPrimaryBlack()),

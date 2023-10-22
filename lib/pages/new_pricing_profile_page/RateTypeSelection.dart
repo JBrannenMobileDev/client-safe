@@ -104,7 +104,7 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: 'How much do you want to charge for this price package?',
                       textAlign: TextAlign.start,
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   Container(

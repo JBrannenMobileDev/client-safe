@@ -8,7 +8,9 @@ class AdminCheckUtil {
     'plopshot@mailinator.com',
     'dandylightprod@mailinator.com',
     'dandylightdev@mailinator.com',
-    'jpshots@mailinator.com'
+    'jpshots@mailinator.com',
+    'dandylightprod@mailinator.com',
+    'dandylightdemo@mailinator.com',
   ];
 
   static bool isAdmin(Profile profile) {

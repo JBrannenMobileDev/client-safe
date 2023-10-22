@@ -20,7 +20,7 @@ class UnpaidInvoiceItem extends StatelessWidget{
     return TextButton(
       style: Styles.getButtonStyle(),
       onPressed: () {
-        pageState.onJobClicked(job);
+        pageState.onJobClicked(job.documentId);
         NavigationUtil.onJobTapped(context, false);
       },
       child: Padding(
@@ -36,12 +36,7 @@ class UnpaidInvoiceItem extends StatelessWidget{
                   margin: EdgeInsets.only(right: 18.0, top: 4.0),
                   height: 38.0,
                   width: 38.0,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: job.stage.getStageImage(),
-                      fit: BoxFit.contain,
-                    ),
-                  ),
+                  child: job.stage.getStageImage(Color(ColorConstants.getPeachDark())),
                 ),
                 Flexible(
                   child: Column(
@@ -56,7 +51,7 @@ class UnpaidInvoiceItem extends StatelessWidget{
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: job.jobTitle,
                               textAlign: TextAlign.start,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                           job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null
@@ -74,14 +69,14 @@ class UnpaidInvoiceItem extends StatelessWidget{
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: 'Stage: ' + job.stage.stage,
                         textAlign: TextAlign.start,
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                       TextDandyLight(
                         type: TextDandyLight.SMALL_TEXT,
                         text: _getSubtext(job),
                         textAlign: TextAlign.start,
                         color: job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null
-                            ? Color(ColorConstants.primary_black) : Color(ColorConstants.getPeachDark()),
+                            ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPeachDark()),
                       ),
                     ],
                   ),

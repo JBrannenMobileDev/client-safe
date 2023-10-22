@@ -4,7 +4,7 @@ import 'package:dandylight/models/LineItem.dart';
 import 'package:dandylight/pages/new_invoice_page/NewDiscountDialog.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/RateTypeSelection.dart';
+import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 
 final newInvoicePageReducer = combineReducers<NewInvoicePageState>([
@@ -29,6 +29,7 @@ final newInvoicePageReducer = combineReducers<NewInvoicePageState>([
   TypedReducer<NewInvoicePageState, SaveNewDiscountAction>(_saveNewDiscount),
   TypedReducer<NewInvoicePageState, UpdateNewDiscountSelectorAction>(_updateDiscountSelector),
   TypedReducer<NewInvoicePageState, SetSelectedDueDate>(_setDueDate),
+  TypedReducer<NewInvoicePageState, SetSelectedDepositDueDate>(_setDepositDueDate),
   TypedReducer<NewInvoicePageState, SetDepositCheckBoxStateAction>(_setDepositCheckState),
   TypedReducer<NewInvoicePageState, SetSalesTaxCheckBoxStateAction>(_setSalesTaxCheckState),
   TypedReducer<NewInvoicePageState, SetSelectedSalesTaxRate>(_setSalesTaxRate),
@@ -38,14 +39,18 @@ NewInvoicePageState _setSalesTaxRate(NewInvoicePageState previousState, SetSelec
   double rateValue = double.parse(action.rate.replaceFirst(r'%', ''));
   return previousState.copyWith(
     salesTaxPercent: rateValue,
-    unpaidAmount: calculateRemainingBalance(previousState, previousState.discountValue, previousState.total, previousState.isSalesTaxChecked, rateValue)
+    unpaidAmount: calculateRemainingBalance(previousState, previousState.discountValue, previousState.isSalesTaxChecked, rateValue),
+    total: _calculateTotal(previousState, previousState.discountValue, previousState.isSalesTaxChecked, rateValue),
+    subtotal: _calculateSubtotal(previousState),
   );
 }
 
 NewInvoicePageState _setSalesTaxCheckState(NewInvoicePageState previousState, SetSalesTaxCheckBoxStateAction action) {
   return previousState.copyWith(
     isSalesTaxChecked: action.isChecked,
-      unpaidAmount: calculateRemainingBalance(previousState, previousState.discountValue, previousState.total, action.isChecked, previousState.salesTaxPercent)
+      unpaidAmount: calculateRemainingBalance(previousState, previousState.discountValue, action.isChecked, previousState.salesTaxPercent),
+      total: _calculateTotal(previousState, previousState.discountValue, action.isChecked, previousState.salesTaxPercent),
+      subtotal: _calculateSubtotal(previousState),
   );
 }
 
@@ -67,6 +72,12 @@ NewInvoicePageState _setDueDate(NewInvoicePageState previousState, SetSelectedDu
   );
 }
 
+NewInvoicePageState _setDepositDueDate(NewInvoicePageState previousState, SetSelectedDepositDueDate action) {
+  return previousState.copyWith(
+    depositDueDate: action.selectedDueDate,
+  );
+}
+
 NewInvoicePageState _setShouldClear(NewInvoicePageState previousState, SetShouldClearAction action) {
   return previousState.copyWith(
     shouldClear: action.shouldClear,
@@ -74,7 +85,7 @@ NewInvoicePageState _setShouldClear(NewInvoicePageState previousState, SetShould
   );
 }
 
-double calculateDiscount(NewInvoicePageState previousState, double total){
+double calculateDiscount(NewInvoicePageState previousState, double subtotal){
     double discountRate = previousState.newDiscountRate.length > 0 ? double.parse(previousState.newDiscountRate.replaceFirst(r'$', '')) : 0;
     double discountPercentage = previousState.newDiscountPercentage.length > 0 ? double.parse(previousState.newDiscountPercentage.replaceFirst(r'%', '')) : 0;
     Discount discount = Discount(
@@ -88,7 +99,7 @@ double calculateDiscount(NewInvoicePageState previousState, double total){
         discountValue = discount.rate;
         break;
       case NewDiscountDialog.SELECTOR_TYPE_PERCENTAGE:
-        discountValue = (total.truncate() * (discountPercentage/100)).truncate().toDouble();
+        discountValue = (subtotal.truncate() * (discountPercentage/100)).truncate().toDouble();
         break;
     }
   return discountValue;
@@ -108,15 +119,17 @@ NewInvoicePageState _saveNewDiscount(NewInvoicePageState previousState, SaveNewD
       discountValue = discount.rate;
       break;
     case NewDiscountDialog.SELECTOR_TYPE_PERCENTAGE:
-      discountValue = (previousState.total.truncate() * (discountPercentage/100)).truncate().toDouble();
+      discountValue = (previousState.subtotal * (discountPercentage/100)).toDouble();
       break;
   }
-  double remainingBalance = calculateRemainingBalance(previousState, discountValue, previousState.total, previousState.isSalesTaxChecked, previousState.salesTaxPercent);
+  double remainingBalance = calculateRemainingBalance(previousState, discountValue, previousState.isSalesTaxChecked, previousState.salesTaxPercent);
   return previousState.copyWith(
     newDiscountFilter: discount.selectedFilter,
     discountValue: discountValue,
     discount: discount,
     unpaidAmount: remainingBalance,
+    total: _calculateTotal(previousState, discountValue, previousState.isSalesTaxChecked, previousState.salesTaxPercent),
+    subtotal: _calculateSubtotal(previousState),
   );
 }
 
@@ -133,8 +146,9 @@ NewInvoicePageState _updateDiscountSelector(NewInvoicePageState previousState, U
 }
 
 NewInvoicePageState _updateDiscountPercentage(NewInvoicePageState previousState, UpdateNewDiscountPercentageTextAction action) {
+  NumberFormat numberFormat = NumberFormat("#,##0.0", "en_US");
   return previousState.copyWith(
-    newDiscountPercentage: action.percentage,
+    newDiscountPercentage: numberFormat.format(double.parse(action.percentage)),
   );
 }
 
@@ -142,7 +156,9 @@ NewInvoicePageState _deleteDiscount(NewInvoicePageState previousState, DeleteDis
   return previousState.copyWith(
     discount: null,
     discountValue: 0.0,
-    unpaidAmount: calculateRemainingBalance(previousState, 0.0, previousState.total, previousState.isSalesTaxChecked, previousState.salesTaxPercent),
+    unpaidAmount: calculateRemainingBalance(previousState, 0.0, previousState.isSalesTaxChecked, previousState.salesTaxPercent),
+    total: _calculateTotal(previousState, 0.0, previousState.isSalesTaxChecked, previousState.salesTaxPercent),
+    subtotal: _calculateSubtotal(previousState),
     newDiscountRate: '',
   );
 }
@@ -158,10 +174,11 @@ NewInvoicePageState _clearDiscountState(NewInvoicePageState previousState, Clear
 NewInvoicePageState _deleteLineItem(NewInvoicePageState previousState, DeleteLineItemAction action) {
   previousState.lineItems.removeAt(action.index);
   double discountValue = calculateDiscount(previousState, _calculateSubtotal(previousState));
-  double remainingBalance = calculateRemainingBalance(previousState, discountValue, previousState.total, previousState.isSalesTaxChecked, previousState.salesTaxPercent);
+  double remainingBalance = calculateRemainingBalance(previousState, discountValue, previousState.isSalesTaxChecked, previousState.salesTaxPercent);
   return previousState.copyWith(
     lineItems: previousState.lineItems,
-    total: _calculateSubtotal(previousState),
+    total: _calculateTotal(previousState, discountValue, previousState.isSalesTaxChecked, previousState.salesTaxPercent),
+    subtotal: _calculateSubtotal(previousState),
     unpaidAmount: remainingBalance,
     discountValue: discountValue,
   );
@@ -184,13 +201,14 @@ NewInvoicePageState _saveNewLineItem(NewInvoicePageState previousState, SaveNewL
   );
   previousState.lineItems.add(newLineItem);
   double discountValue = calculateDiscount(previousState, _calculateSubtotal(previousState));
-  double remainingBalance = calculateRemainingBalance(previousState, discountValue, previousState.total, previousState.isSalesTaxChecked, previousState.salesTaxPercent);
+  double remainingBalance = calculateRemainingBalance(previousState, discountValue, previousState.isSalesTaxChecked, previousState.salesTaxPercent);
   return previousState.copyWith(
     newLineItemName: '',
     newLineItemRate: '',
     newLineItemQuantity: '',
     lineItems: previousState.lineItems,
-    total: _calculateSubtotal(previousState),
+    total: _calculateTotal(previousState, discountValue, previousState.isSalesTaxChecked, previousState.salesTaxPercent),
+    subtotal: _calculateSubtotal(previousState),
     unpaidAmount: remainingBalance,
     discountValue: discountValue,
   );
@@ -218,11 +236,12 @@ NewInvoicePageState _updateFlatRate(NewInvoicePageState previousState, UpdateFla
   String flatRate = action.flatRateText.replaceFirst(r'$', '');
   previousState.lineItems.elementAt(0).itemPrice = double.parse(flatRate);
   double discountValue = calculateDiscount(previousState, _calculateSubtotal(previousState));
-  double remainingBalance = _calculateSubtotal(previousState) - (previousState.selectedJob.isDepositPaid() ? previousState.depositValue : 0) - discountValue;
+  double remainingBalance = calculateRemainingBalance(previousState, discountValue, previousState.isSalesTaxChecked, previousState.salesTaxPercent);
   return previousState.copyWith(
     lineItems: previousState.lineItems,
       flatRateText: action.flatRateText,
-      total: _calculateSubtotal(previousState),
+      total: _calculateTotal(previousState, discountValue, previousState.isSalesTaxChecked, previousState.salesTaxPercent),
+      subtotal: _calculateSubtotal(previousState),
       discountValue: discountValue,
       unpaidAmount: remainingBalance,
   );
@@ -231,7 +250,7 @@ NewInvoicePageState _updateFlatRate(NewInvoicePageState previousState, UpdateFla
 NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSelectedJobAction action) {
   List<LineItem> lineItems = [];
   Job selectedJob = action.selectedJob;
-  double depositAmount = selectedJob.depositAmount?.toDouble();
+  double depositAmount = selectedJob.priceProfile.deposit?.toDouble();
   double remainingBalance;
   double total;
   Discount discount;
@@ -242,7 +261,8 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
     lineItems = selectedJob.invoice.lineItems;
     remainingBalance = selectedJob.invoice.unpaidAmount;
     discount = Discount(rate: selectedJob.invoice.discount, selectedFilter: NewDiscountDialog.SELECTOR_TYPE_FIXED);
-  } else if(previousState.lineItems.isEmpty){
+    discountAmount = calculateDiscount(previousState, selectedJob.invoice.subtotal);
+  } else {
     total = selectedJob.getJobCost();
     LineItem rateLineItem = LineItem(
         itemName: selectedJob.priceProfile.profileName,
@@ -258,16 +278,13 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
       );
       lineItems.add(addOnLineItem);
     }
-    remainingBalance = _calculateSubtotalByLineItem(lineItems) - (action.selectedJob.isDepositPaid() ? action.selectedJob.depositAmount != null ? action.selectedJob.depositAmount : 0 : 0);
-  } else {
-    total = _calculateSubtotal(previousState);
-    discountAmount = calculateDiscount(previousState, _calculateSubtotal(previousState));
-    remainingBalance = calculateRemainingBalance(previousState, discountAmount, total, previousState.isSalesTaxChecked, previousState.salesTaxPercent);
-    lineItems = previousState.lineItems;
-    discount = previousState.discount;
+    remainingBalance = calculateRemainingBalanceInit(0, selectedJob.priceProfile.includeSalesTax, selectedJob.priceProfile.salesTaxPercent, selectedJob.isDepositPaid(), depositAmount, _calculateSubtotalByLineItem(lineItems));
   }
+  
+  double subtotal = _calculateSubtotalByLineItem(lineItems);
 
   return previousState.copyWith(
+    isSalesTaxChecked: selectedJob.priceProfile.includeSalesTax,
     selectedJob: action.selectedJob,
     isDepositChecked: action.selectedJob.isDepositPaid(),
     flatRateText: selectedJob.priceProfile.flatRate.toString(),
@@ -276,13 +293,14 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
     discount: discount,
     newDiscountFilter: NewDiscountDialog.SELECTOR_TYPE_FIXED,
     dueDate: action.selectedJob?.invoice?.dueDate,
-    total: total,
     lineItems: lineItems,
     hourlyRate: selectedJob.priceProfile.hourlyRate.toString(),
     hourlyQuantity: '0',
     itemRate: selectedJob.priceProfile.itemRate.toString(),
     itemQuantity: '0',
     unpaidAmount: remainingBalance,
+    total: _calculateTotalWithSubtotalByLineItem(previousState, discountAmount, selectedJob.priceProfile.includeSalesTax , selectedJob.priceProfile.salesTaxPercent, _calculateSubtotalByLineItem(lineItems)),
+    subtotal: subtotal,
   );
 }
 
@@ -292,9 +310,6 @@ NewInvoicePageState _clearState(NewInvoicePageState previousState, ClearStateAct
 
 NewInvoicePageState _setJobs(NewInvoicePageState previousState, SetAllJobsAction action) {
   action.allJobs.retainWhere((job) => job.priceProfile != null);
-  if(action.includeSalesTax) {
-
-  }
   return previousState.copyWith(
     jobs: action.allJobs,
     filteredJobs: action.allJobs,
@@ -302,7 +317,6 @@ NewInvoicePageState _setJobs(NewInvoicePageState previousState, SetAllJobsAction
     invoiceNumber: action.newInvoiceNumber,
     isFinishedFetchingClients: true,
     salesTaxPercent: action.salesTaxRate,
-    isSalesTaxChecked: action.includeSalesTax,
   );
 }
 
@@ -332,8 +346,25 @@ NewInvoicePageState _filterJobs(NewInvoicePageState previousState, FilterJobList
   );
 }
 
-double calculateRemainingBalance(NewInvoicePageState previousState, double discountAmount, double total, bool includeTax, double taxRate) {
-  return _calculateSubtotal(previousState) - (previousState.selectedJob.isDepositPaid() ? previousState.selectedJob.depositAmount : 0) - discountAmount + (includeTax ? (total * (taxRate/100)) : 0.0);
+double calculateRemainingBalance(NewInvoicePageState previousState, double discountAmount, bool includeTax, double taxRate) {
+  double subtotal = _calculateSubtotal(previousState);
+  double taxableAmount = subtotal - discountAmount;
+  return taxableAmount - (previousState.selectedJob.isDepositPaid() ? previousState.selectedJob.priceProfile.deposit : 0) + (includeTax ? (taxableAmount * (taxRate/100)) : 0.0);
+}
+//TODO fix pdf sales tax amount && when marking as paid, profile gets wiped in Database
+double calculateRemainingBalanceInit(double discountAmount, bool includeTax, double taxRate, bool isDepositPaid, double depositAmount, double subtotal) {
+  double taxableAmount = subtotal - discountAmount;
+  return taxableAmount - (isDepositPaid ? depositAmount : 0) + (includeTax ? (taxableAmount * (taxRate/100)) : 0.0);
+}
+
+double _calculateTotal(NewInvoicePageState previousState, double discountAmount, bool includeTax, double taxRate) {
+  double taxableAmount = _calculateSubtotal(previousState) - discountAmount;
+  return taxableAmount + (includeTax ? (taxableAmount * (taxRate/100)) : 0.0);
+}
+
+double _calculateTotalWithSubtotalByLineItem(NewInvoicePageState previousState, double discountAmount, bool includeTax, double taxRate, double subtotal) {
+  double taxableAmount = subtotal - discountAmount;
+  return taxableAmount + (includeTax ? (taxableAmount * (taxRate/100)) : 0.0);
 }
 
 double _calculateSubtotal(NewInvoicePageState previousState) {

@@ -46,7 +46,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
-  static const String SIGN_IN_WITH_GOOGLE = 'Sign in with Google';
+  // static const String SIGN_IN_WITH_GOOGLE = 'Sign in with Google';
   static const String SIGN_IN_WITH_FACEBOOK = 'Sign in with Facebook';
   static const String CREATE_ACCOUNT = 'Create Account';
 
@@ -217,11 +217,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
     mainButtonsOffsetTween = Tween<Offset>(
       begin: Offset.zero,
-      end: const Offset(-1.5, 0.0),
+      end: const Offset(-3, 0.0),
     );
 
     loginButtonsOffsetTween = Tween<Offset>(
-      begin: const Offset(1.5, 0.0),
+      begin: const Offset(3, 0.0),
       end: Offset.zero,
     );
 
@@ -433,231 +433,290 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           body: Stack(
             alignment: Alignment.topCenter,
             children: [
-              TranslationImage(
-                image: AssetImage(ImageUtil.LOGIN_BG_BLUE_MOUNTAIN),
-                controller: _controller,
-                animations: [
-                  darkBlueMountainsStep3,
-                ],
-              ),
-              TranslationImage(
-                image: AssetImage(ImageUtil.LOGIN_BG_PEACH_DARK_MOUNTAIN),
-                controller: _controller,
-                animations: [
-                  peachDarkMountainsStep2,
-                ],
-              ),
-              TranslationImage(
-                image: AssetImage(ImageUtil.LOGIN_BG_PEACH_MOUNTAIN),
-                controller: _controller,
-                animations: [
-                  lightPeachMountainsStep1,
-                ],
-              ),
+              // TranslationImage(
+              //   image: AssetImage(ImageUtil.LOGIN_BG_BLUE_MOUNTAIN),
+              //   controller: _controller,
+              //   animations: [
+              //     darkBlueMountainsStep3,
+              //   ],
+              // ),
+              // TranslationImage(
+              //   image: AssetImage(ImageUtil.LOGIN_BG_PEACH_DARK_MOUNTAIN),
+              //   controller: _controller,
+              //   animations: [
+              //     peachDarkMountainsStep2,
+              //   ],
+              // ),
+              // TranslationImage(
+              //   image: AssetImage(ImageUtil.LOGIN_BG_PEACH_MOUNTAIN),
+              //   controller: _controller,
+              //   animations: [
+              //     lightPeachMountainsStep1,
+              //   ],
+              // ),
+              !pageState.isUserVerified  && selectedButton == null ? Container(
+                alignment: Alignment.topCenter,
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage('assets/images/backgrounds/login_bg.jpg'),
+                          fit: BoxFit.cover,
+                      )
+                  ),
+              ) : SizedBox(),
               !pageState.isUserVerified ? SlideTransition(
                 position: lightPeachMountainsStep1,
                 child: Container(
                   alignment: Alignment.bottomCenter,
                   height: MediaQuery.of(context).size.height,
-                  margin: EdgeInsets.only(bottom: 24.0),
+                  margin: EdgeInsets.only(bottom: 24.0, top: 232),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SlideTransition(
-                        position: hideMainButtonsStep,
-                        child: Container(
-                          height: 257.0,
-                          width: MediaQuery.of(context).size.width,
-                          child: PageView(
-                            controller: controller,
-                            pageSnapping: true,
-                            children: <Widget>[
-                              InfoContainerWidget(contentWidget: FreeTrialInfo(),),
-                              InfoContainerWidget(contentWidget: JobTrackingInfo(),),
-                              InfoContainerWidget(contentWidget: TrackYourMilesInfo(),),
-                              InfoContainerWidget(contentWidget: IncomeAndExpensesInfo(),),
-                              InfoContainerWidget(contentWidget: InvoiceInfo(),),
-                              InfoContainerWidget(contentWidget: StayOrganizedInfo(),),
-                              InfoContainerWidget(contentWidget: BusinessAnalyticsInfo(),),
-                            ],
-                            onPageChanged: (index) {
-                              setState(() {
-                                currentPageIndex = index;
-                              });
-                            },
-                          ),
-                        ),
+                      Column(
+                        children: [
+                          // SlideTransition(
+                          //   position: hideMainButtonsStep,
+                          //   child: Container(
+                          //     height: 264.0,
+                          //     width: MediaQuery.of(context).size.width,
+                          //     child: PageView(
+                          //       controller: controller,
+                          //       pageSnapping: true,
+                          //       children: <Widget>[
+                          //         InfoContainerWidget(contentWidget: FreeTrialInfo(),),
+                          //         InfoContainerWidget(contentWidget: JobTrackingInfo(),),
+                          //         InfoContainerWidget(contentWidget: TrackYourMilesInfo(),),
+                          //         InfoContainerWidget(contentWidget: IncomeAndExpensesInfo(),),
+                          //         InfoContainerWidget(contentWidget: InvoiceInfo(),),
+                          //         InfoContainerWidget(contentWidget: StayOrganizedInfo(),),
+                          //         InfoContainerWidget(contentWidget: BusinessAnalyticsInfo(),),
+                          //       ],
+                          //       onPageChanged: (index) {
+                          //         setState(() {
+                          //           currentPageIndex = index;
+                          //         });
+                          //       },
+                          //     ),
+                          //   ),
+                          // ),
+                          // DeviceType.getDeviceType() == Type.Tablet && !pageState.mainButtonsVisible ? SizedBox() : SlideTransition(
+                          //   position: hideMainButtonsStep,
+                          //   child: Container(
+                          //     margin: EdgeInsets.only(bottom: 16.0),
+                          //     alignment: Alignment.center,
+                          //     width: 250,
+                          //     child: AnimatedSmoothIndicator(
+                          //       activeIndex: currentPageIndex,
+                          //       count: 7,
+                          //       effect: ExpandingDotsEffect(
+                          //           expansionFactor: 2,
+                          //           dotWidth: 8.0,
+                          //           dotHeight: 8.0,
+                          //           activeDotColor: Color(ColorConstants.getPeachDark()),
+                          //           dotColor: Color(ColorConstants.getPrimaryWhite())),
+                          //     ),
+                          //   ),
+                          // )
+                        ],
                       ),
-                      DeviceType.getDeviceType() == Type.Tablet && !pageState.mainButtonsVisible ? SizedBox() : SlideTransition(
-                    position: hideMainButtonsStep,
-                      child: Container(
-                        margin: EdgeInsets.only(bottom: 16.0),
-                        alignment: Alignment.center,
-                        width: 250,
-                        child: AnimatedSmoothIndicator(
-                          activeIndex: currentPageIndex,
-                          count: 7,
-                          effect: ExpandingDotsEffect(
-                              expansionFactor: 2,
-                              dotWidth: 8.0,
-                              dotHeight: 8.0,
-                              activeDotColor: Color(ColorConstants.getPeachDark()),
-                              dotColor: Color(ColorConstants.getPrimaryWhite())),
-                        ),
-                      ),
-                    ),
-                    DeviceType.getDeviceType() == Type.Tablet && !pageState.mainButtonsVisible ? SizedBox() : SlideTransition(
-                      position: hideMainButtonsStep,
-                      child: Platform.isIOS && pageState.isLoginWithAppleAvailable ? GestureDetector(
-                          onTap: () {
-                            pageState.onSignUpWithAppleSelected();
-                          },
-                          child: Container(
-                            padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                            margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 0.0, bottom: 0.0),
-                            alignment: Alignment.centerLeft,
-                            height: 54.0,
-                            width: 325.0,
-                            decoration: BoxDecoration(
-                                color: Color(ColorConstants.getPrimaryBlack()),
-                                borderRadius: BorderRadius.circular(36.0)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  margin: EdgeInsets.only(right: 16.0),
-                                  height: 18.0,
-                                  width: 18.0,
-                                  child: Image.asset(
-                                    'assets/images/icons/apple-logo.png',
-                                    color: Color(ColorConstants.getPrimaryWhite()),
-                                  ),
-                                ),
-                                TextDandyLight(
-                                  text: 'Sign up with Apple',
-                                  type: TextDandyLight.LARGE_TEXT,
-                                  color: Color(ColorConstants.getPrimaryWhite()),
-                                )
-                              ],
-                            ),
-                          ),
-                        ) : SizedBox(),
-                    ),
-                      DeviceType.getDeviceType() == Type.Tablet && !pageState.mainButtonsVisible ? SizedBox() : SlideTransition(
-                        position: hideMainButtonsStep,
-                        child: Platform.isAndroid ? GestureDetector(
-                          onTap: () {
-                            pageState.onSignUpWithGoogleSelected();
-                          },
-                          child: Container(
-                            padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                            margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 0.0, bottom: 0.0),
-                            alignment: Alignment.centerLeft,
-                            height: 54.0,
-                            decoration: BoxDecoration(
-                                color: Color(ColorConstants.getPrimaryWhite()),
-                                borderRadius: BorderRadius.circular(36.0)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  margin: EdgeInsets.only(right: 16.0),
-                                  height: 24.0,
-                                  width: 24.0,
-                                  child: Image.asset(
-                                    'assets/images/icons/google.png',
-                                  ),
-                                ),
-                                TextDandyLight(
-                                  text: 'Sign up with Google',
-                                  type: TextDandyLight.LARGE_TEXT,
-                                  color: Color(ColorConstants.getPrimaryBlack()),
-                                )
-                              ],
-                            ),
-                          ),
-                        ) : SizedBox(),
-                      ),
-                    DeviceType.getDeviceType() == Type.Tablet && !pageState.mainButtonsVisible ? SizedBox() : SlideTransition(
-                    position: hideMainButtonsStep,
-                    child: GestureDetector(
-                        onTap: () {
-                          _controller.reverse();
-                          Timer(const Duration(milliseconds: 500), () {
-                            setState(() {
-                              selectedButton = CREATE_ACCOUNT;
-                            });
-                          });
-                          Timer(const Duration(milliseconds: 250), () {
-                            _controllerCreateAccount.forward();
-                          });
-                          EventSender().sendEvent(eventName: EventNames.BT_START_FREE_TRIAL);
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(top: 16.0),
-                          alignment: Alignment.center,
-                          height: 54.0,
-                          width: 325.0,
-                          decoration: BoxDecoration(
-                              color: Color(ColorConstants.getPeachDark()),
-                              borderRadius: BorderRadius.circular(36.0)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(right: 16.0),
-                                height: 24.0,
-                                width: 24.0,
-                                child: Image.asset(
-                                  'assets/images/icons/envelope.png',
-                                  color: Color(ColorConstants.getPrimaryWhite()),
+                    Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Platform.isIOS ? SlideTransition(
+                            position: hideMainButtonsStep,
+                            child: GestureDetector(
+                              onTap: () {
+                                pageState.onSignUpWithAppleSelected();
+                              },
+                              child: Container(
+                                width: 232,
+                                padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                                margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 0.0, bottom: 8.0),
+                                alignment: Alignment.centerLeft,
+                                height: 46.0,
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: <Widget>[
+
+                                        TextDandyLight(
+                                          text: 'FREE TRIAL',
+                                          type: TextDandyLight.MEDIUM_TEXT,
+                                          isBold: true,
+                                          color: Color(ColorConstants.getPrimaryWhite()),
+                                        )
+                                      ],
+                                    ),
+                                    Container(
+                                      child: TextDandyLight(
+                                        text: 'NO CARD REQUIRED',
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        isBold: true,
+                                        color: Color(ColorConstants.getPrimaryWhite()),
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
-                              TextDandyLight(
-                                text: 'Sign up with email',
-                                type: TextDandyLight.LARGE_TEXT,
-                                color: Color(ColorConstants.getPrimaryWhite()),
-                              )
-                            ],
+                            )) : SizedBox(),
+                        DeviceType.getDeviceType() == Type.Tablet && !pageState.mainButtonsVisible ? SizedBox() : SlideTransition(
+                          position: hideMainButtonsStep,
+                          child: Platform.isIOS && pageState.isLoginWithAppleAvailable ? GestureDetector(
+                            onTap: () {
+                              pageState.onSignUpWithAppleSelected();
+                            },
+                            child: Container(
+                              padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                              alignment: Alignment.centerLeft,
+                              height: 48.0,
+                              width: 232.0,
+                              decoration: BoxDecoration(
+                                  color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.6),
+                                  borderRadius: BorderRadius.circular(36.0)),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.only(right: 16.0),
+                                    height: 20.0,
+                                    width: 20.0,
+                                    child: Image.asset(
+                                      'assets/images/icons/apple-logo.png',
+                                      color: Color(ColorConstants.getPrimaryWhite()),
+                                    ),
+                                  ),
+                                  TextDandyLight(
+                                    text: 'Sign up with Apple',
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ) : SizedBox(),
+                        ),
+                        // DeviceType.getDeviceType() == Type.Tablet && !pageState.mainButtonsVisible ? SizedBox() : SlideTransition(
+                        //   position: hideMainButtonsStep,
+                        //   child: Platform.isAndroid ? GestureDetector(
+                        //     onTap: () {
+                        //       pageState.onSignUpWithGoogleSelected();
+                        //     },
+                        //     child: Container(
+                        //       padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                        //       alignment: Alignment.centerLeft,
+                        //       height: 48.0,
+                        //       width: 232,
+                        //       decoration: BoxDecoration(
+                        //           color: Color(ColorConstants.getPrimaryWhite()),
+                        //           borderRadius: BorderRadius.circular(36.0)),
+                        //       child: Row(
+                        //         mainAxisAlignment: MainAxisAlignment.center,
+                        //         children: <Widget>[
+                        //           Container(
+                        //             margin: EdgeInsets.only(right: 16.0),
+                        //             height: 22.0,
+                        //             width: 22.0,
+                        //             child: Image.asset(
+                        //               'assets/images/icons/google.png',
+                        //               color: Color(ColorConstants.getPeachDark()),
+                        //             ),
+                        //           ),
+                        //           TextDandyLight(
+                        //             text: 'Sign up with Google',
+                        //             type: TextDandyLight.MEDIUM_TEXT,
+                        //             color: Color(ColorConstants.getPeachDark()),
+                        //           )
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ) : SizedBox(),
+                        // ),
+                        DeviceType.getDeviceType() == Type.Tablet && !pageState.mainButtonsVisible ? SizedBox() : SlideTransition(
+                          position: hideMainButtonsStep,
+                          child: GestureDetector(
+                            onTap: () {
+                              _controller.reverse();
+                              Timer(const Duration(milliseconds: 500), () {
+                                setState(() {
+                                  selectedButton = CREATE_ACCOUNT;
+                                });
+                              });
+                              Timer(const Duration(milliseconds: 250), () {
+                                _controllerCreateAccount.forward();
+                              });
+                              EventSender().sendEvent(eventName: EventNames.BT_START_FREE_TRIAL);
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(top: 16.0),
+                              alignment: Alignment.center,
+                              height: 48.0,
+                              width: 232.0,
+                              decoration: BoxDecoration(
+                                  color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.6),
+                                  borderRadius: BorderRadius.circular(36.0)),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.only(right: 16.0),
+                                    height: 22.0,
+                                    width: 22.0,
+                                    child: Image.asset(
+                                      'assets/images/icons/envelope.png',
+                                      color: Color(ColorConstants.getPrimaryWhite()),
+                                    ),
+                                  ),
+                                  TextDandyLight(
+                                    text: 'Sign up with email',
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                  )
+                                ],
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                  ),
-                      Container(
-                        margin: EdgeInsets.only(top: 12.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            if(pageState.mainButtonsVisible){
-                              pageState.updateMainButtonVisible(false);
-                            }else if(pageState.isForgotPasswordViewVisible){
-                              pageState.updateForgotPasswordVisible(false);
-                            }else {
-                              pageState.updateMainButtonVisible(true);
-                            }
-                            pageState.onClearErrorMessages();
-                          },
-                          child: TextDandyLight(
-                            type: TextDandyLight.MEDIUM_TEXT,
-                            text: pageState.mainButtonsVisible ? 'Sign in' : (pageState.isForgotPasswordViewVisible ? 'Sign in' : 'Create Account'),
-                            color: Color(ColorConstants.primary_black),
+                        Container(
+                          margin: EdgeInsets.only(top: 12.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              if(pageState.mainButtonsVisible){
+                                pageState.updateMainButtonVisible(false);
+                              }else if(pageState.isForgotPasswordViewVisible){
+                                pageState.updateForgotPasswordVisible(false);
+                              }else {
+                                pageState.updateMainButtonVisible(true);
+                              }
+                              pageState.onClearErrorMessages();
+                            },
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: pageState.mainButtonsVisible ? 'Sign in' : (pageState.isForgotPasswordViewVisible ? 'Sign in' : 'Create Account'),
+                              color: Color(ColorConstants.getPrimaryWhite()),
+                            ),
                           ),
                         ),
-                      ),
-                      (pageState.isForgotPasswordViewVisible || pageState.mainButtonsVisible) ? SizedBox(height: 38.0,) : Container(
-                        margin: EdgeInsets.only(top: 12.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            pageState.updateForgotPasswordVisible(true);
-                            pageState.onClearErrorMessages();
-                            EventSender().sendEvent(eventName: EventNames.BT_FORGOT_PASSWORD);
-                          },
-                          child: TextDandyLight(
-                            type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'Forgot password ?',
-                            color: Color(ColorConstants.primary_black),
+                        (pageState.isForgotPasswordViewVisible || pageState.mainButtonsVisible) ? SizedBox(height: 38.0,) : Container(
+                          margin: EdgeInsets.only(top: 12.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              pageState.updateForgotPasswordVisible(true);
+                              pageState.onClearErrorMessages();
+                              EventSender().sendEvent(eventName: EventNames.BT_FORGOT_PASSWORD);
+                            },
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: 'Forgot password ?',
+                              color: Color(ColorConstants.getPrimaryBlack()),
+                            ),
                           ),
-                        ),
-                      ),
+                        )
+                      ],
+                    ),
                     ],
                   ),
                 ),
@@ -747,7 +806,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           alignment: Alignment.centerLeft,
                           height: 54.0,
                           decoration: BoxDecoration(
-                              color: Color(ColorConstants.getPrimaryBlack()),
+                              color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.6),
                               borderRadius: BorderRadius.circular(36.0)),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -771,43 +830,43 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         ),
                       )) : SizedBox(),
 
-                      DeviceType.getDeviceType() == Type.Tablet && pageState.mainButtonsVisible || pageState.showLoginLoadingAnimation ? SizedBox() : Platform.isAndroid ? SlideTransition(
-                          position: showLoginButtonsStep,
-                          child: GestureDetector(
-                        onTap: () {
-                          pageState.onSignUpWithGoogleSelected();
-                        },
-                        child: Container(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                          margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 0.0, bottom: 8.0),
-                          alignment: Alignment.centerLeft,
-                          height: 54.0,
-                          decoration: BoxDecoration(
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                              borderRadius: BorderRadius.circular(36.0)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(right: 16.0),
-                                height: 24.0,
-                                width: 24.0,
-                                child: Image.asset(
-                                  'assets/images/icons/google.png',
-                                ),
-                              ),
-                              TextDandyLight(
-                                text: 'Sign in with Google',
-                                type: TextDandyLight.LARGE_TEXT,
-                                color: Color(ColorConstants.getPrimaryBlack()),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ) : SizedBox(),
+                    //   DeviceType.getDeviceType() == Type.Tablet && pageState.mainButtonsVisible || pageState.showLoginLoadingAnimation ? SizedBox() : Platform.isAndroid ? SlideTransition(
+                    //       position: showLoginButtonsStep,
+                    //       child: GestureDetector(
+                    //     onTap: () {
+                    //       pageState.onSignUpWithGoogleSelected();
+                    //     },
+                    //     child: Container(
+                    //       padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                    //       margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 0.0, bottom: 8.0),
+                    //       alignment: Alignment.centerLeft,
+                    //       height: 54.0,
+                    //       decoration: BoxDecoration(
+                    //           color: Color(ColorConstants.getPrimaryWhite()),
+                    //           borderRadius: BorderRadius.circular(36.0)),
+                    //       child: Row(
+                    //         mainAxisAlignment: MainAxisAlignment.center,
+                    //         children: <Widget>[
+                    //           Container(
+                    //             margin: EdgeInsets.only(right: 16.0),
+                    //             height: 24.0,
+                    //             width: 24.0,
+                    //             child: Image.asset(
+                    //               'assets/images/icons/google.png',
+                    //             ),
+                    //           ),
+                    //           TextDandyLight(
+                    //             text: 'Sign in with Google',
+                    //             type: TextDandyLight.LARGE_TEXT,
+                    //             color: Color(ColorConstants.getPrimaryBlack()),
+                    //           )
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ) : SizedBox(),
 
-                    DeviceType.getDeviceType() == Type.Tablet && pageState.mainButtonsVisible || pageState.showLoginLoadingAnimation ? SizedBox() : SlideTransition(
+                    DeviceType.getDeviceType() == Type.Tablet && pageState.mainButtonsVisible || pageState.showLoginLoadingAnimation || Platform.isAndroid ? SizedBox() : SlideTransition(
                     position: showLoginButtonsStep,
                     child: Container(
                         margin: EdgeInsets.only(top: 8, bottom: 8),
@@ -903,7 +962,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             alignment: Alignment.center,
                             height: 54.0,
                             decoration: !pageState.showLoginLoadingAnimation ? BoxDecoration(
-                                color: Color(ColorConstants.getPeachDark()),
+                                color: Color(ColorConstants.getBlueDark()),
                                 borderRadius: BorderRadius.circular(36.0)) : BoxDecoration(),
                             child: pageState.showLoginLoadingAnimation
                                 ? Row(
@@ -928,7 +987,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: 'Reset Password',
                               textAlign: TextAlign.center,
-                              color: Color(ColorConstants.getPrimaryWhite()),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ) : TextDandyLight(
                               type: TextDandyLight.LARGE_TEXT,
                               text: 'Sign in',
@@ -977,7 +1036,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             alignment: Alignment.topCenter,
                             children: [
                               DeviceType.getDeviceType() == Type.Phone ? Container(
-                                margin: EdgeInsets.only(top: 64),
+                                margin: EdgeInsets.only(top: 124),
                                 child: AnimatedDefaultTextStyle(
                                   style: TextStyle(
                                           fontSize: 72.0,
@@ -990,14 +1049,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                   duration: const Duration(milliseconds: 500),
                                   curve: Curves.ease,
                                   child: Text(
-                                    'DandyLight',
+                                    pageState.mainButtonsVisible == true ? 'DandyLight' : '',
                                   ),
                                 ),
                               ) : Container(
                                 margin: EdgeInsets.only(top: 78),
                                 child: AnimatedDefaultTextStyle(
                                   style: TextStyle(
-                                    fontSize: 144,
+                                    fontSize: 164,
                                     fontFamily: 'simple',
                                     fontWeight: FontWeight.w600,
                                     color: Color(ColorConstants
@@ -1007,13 +1066,13 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                   duration: const Duration(milliseconds: 500),
                                   curve: Curves.ease,
                                   child: Text(
-                                    'DandyLight',
+                                    pageState.mainButtonsVisible == true ? 'DandyLight' : '',
                                   ),
                                 ),
                               ),
-                              DeviceType.getDeviceType() == Type.Phone ? Container(
+                              pageState.mainButtonsVisible == true ? DeviceType.getDeviceType() == Type.Phone ? Container(
                                 margin: EdgeInsets.only(
-                                    bottom: 230.0, left: 114.0, top: 28.0),
+                                    bottom: 230.0, left: 114.0, top: 88.0),
                                 height: 150.0,
                                 decoration: BoxDecoration(
                                   color: Colors.transparent,
@@ -1025,7 +1084,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 ),
                               ) : Container(
                                 margin: EdgeInsets.only(
-                                    bottom: 230.0, left: 229.0, top: 0.0),
+                                    bottom: 230.0, left: 260.0, top: 16.0),
                                 height: 300.0,
                                 decoration: BoxDecoration(
                                   color: Colors.transparent,
@@ -1035,26 +1094,26 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                     fit: BoxFit.fitHeight,
                                   ),
                                 ),
-                              ),
-                              selectedButton != CREATE_ACCOUNT ? DeviceType.getDeviceType() == Type.Phone ? Container(
-                                  width: 175.0,
-                                  margin: EdgeInsets.only(top: 153.0),
+                              ) : SizedBox(),
+                              pageState.mainButtonsVisible == true ? selectedButton != CREATE_ACCOUNT ? DeviceType.getDeviceType() == Type.Phone ? Container(
+                                  width: 232.0,
+                                  margin: EdgeInsets.only(top: 213.0),
                                   child: TextDandyLight(
-                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    type: TextDandyLight.LARGE_TEXT,
                                     text: 'Capture the moment We\'ll do the rest',
                                     textAlign: TextAlign.center,
                                     color: Color(ColorConstants.getPrimaryWhite()),
                                   )
                               ) : Container(
                                   width: 350.0,
-                                  margin: EdgeInsets.only(top: 264.0),
+                                  margin: EdgeInsets.only(top: 284.0),
                                   child: TextDandyLight(
                                     type: TextDandyLight.EXTRA_LARGE_TEXT,
                                     text: 'Capture the moment We\'ll do the rest',
                                     textAlign: TextAlign.center,
                                     color: Color(ColorConstants.getPrimaryWhite()),
                                   )
-                              ) : SizedBox(),
+                              ) : SizedBox() : SizedBox(),
                             ],
                           ) : SizedBox(),
                         ),
@@ -1083,7 +1142,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       EventSender().sendEvent(eventName: EventNames.BT_SUBMIT_CREATE_ACCOUNT);
                     },
                     child: Container(
-                      margin: EdgeInsets.only(top: 8.0, left: 32.0, right: 32.0),
+                      margin: EdgeInsets.only(top: 8.0, left: 32.0, right: 32.0, bottom: 16),
                       alignment: Alignment.center,
                       height: 54.0,
                       decoration: BoxDecoration(
@@ -1100,30 +1159,31 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
-              ) : selectedButton == SIGN_IN_WITH_GOOGLE ? SafeArea(
-                child: Container(
-                  alignment: Alignment.bottomCenter,
-                  child: GestureDetector(
-                    onTap: () {
-                      pageState.onContinueWithGoogleSubmitted();
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(top: 8.0, left: 64.0, right: 64.0),
-                      alignment: Alignment.center,
-                      height: 64.0,
-                      decoration: BoxDecoration(
-                          color: Color(ColorConstants.getPeachDark()),
-                          borderRadius: BorderRadius.circular(32.0)),
-                      child: TextDandyLight(
-                        type: TextDandyLight.LARGE_TEXT,
-                        text: 'Sign in with Google',
-                        textAlign: TextAlign.center,
-                        color: Color(ColorConstants.getPrimaryWhite()),
-                      ),
-                    ),
-                  ),
-                ),
               ) : SizedBox(),
+              // selectedButton == SIGN_IN_WITH_GOOGLE ? SafeArea(
+              //   child: Container(
+              //     alignment: Alignment.bottomCenter,
+              //     child: GestureDetector(
+              //       onTap: () {
+              //         pageState.onContinueWithGoogleSubmitted();
+              //       },
+              //       child: Container(
+              //         margin: EdgeInsets.only(top: 8.0, left: 64.0, right: 64.0),
+              //         alignment: Alignment.center,
+              //         height: 64.0,
+              //         decoration: BoxDecoration(
+              //             color: Color(ColorConstants.getPeachDark()),
+              //             borderRadius: BorderRadius.circular(32.0)),
+              //         child: TextDandyLight(
+              //           type: TextDandyLight.LARGE_TEXT,
+              //           text: 'Sign in with Google',
+              //           textAlign: TextAlign.center,
+              //           color: Color(ColorConstants.getPrimaryWhite()),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ) : SizedBox(),
               Positioned(
                 left: 8.0,
                 child: SafeArea(
@@ -1148,6 +1208,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               !pageState.isCurrentUserCheckComplete && !pageState.navigateToHome ? Center(
                 child: Container(
                   decoration: BoxDecoration(
+                    color: Color(ColorConstants.getBlueLight()),
                     image: DecorationImage(
                       fit: BoxFit.fitWidth,
                       image: AssetImage("assets/images/backgrounds/flowerBgLaunch.png"),
@@ -1330,9 +1391,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 margin: EdgeInsets.only(top: 32.0, left: 32, right: 32),
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
-                  text: 'Try for free',
+                  text: 'Free trial',
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.getBlueDark()),
+                  color: Color(ColorConstants.getPrimaryWhite()),
                 ),
               ),
               Container(
@@ -1342,7 +1403,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   type: TextDandyLight.LARGE_TEXT,
                   text: 'No credit card required',
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.getBlueDark()),
+                  color: Color(ColorConstants.getPrimaryWhite()),
                 ),
               ),
             Container(
@@ -1352,7 +1413,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: 'Creating an account will start your free trial. You will not be charged automatically. Once you reach your 3 job limit, a subscription will be required to gain access to unlimited jobs.',
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.getBlueDark()),
+                  color: Color(ColorConstants.getPrimaryWhite()),
                 ),
             ),
               Row(
@@ -1368,7 +1429,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         type: TextDandyLight.SMALL_TEXT,
                         text: 'Terms of Use',
                         textAlign: TextAlign.center,
-                        color: Color(ColorConstants.getBlueDark()),
+                        color: Color(ColorConstants.getPrimaryWhite()),
                       ),
                     ),
                   ) : TextButton(
@@ -1381,7 +1442,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         type: TextDandyLight.SMALL_TEXT,
                         text: 'Terms of service',
                         textAlign: TextAlign.center,
-                        color: Color(ColorConstants.getBlueDark()),
+                        color: Color(ColorConstants.getPrimaryWhite()),
                       ),
                     ),
                   ),
@@ -1395,7 +1456,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         type: TextDandyLight.SMALL_TEXT,
                         text: 'Privacy Policy',
                         textAlign: TextAlign.center,
-                        color: Color(ColorConstants.getBlueDark()),
+                        color: Color(ColorConstants.getPrimaryWhite()),
                       ),
                     ),
                   ),

@@ -112,7 +112,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
                             type: TextDandyLight.LARGE_TEXT,
                             text: pageState.shouldClear ? "New Reminder" : "Edit Reminder",
                             textAlign: TextAlign.start,
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                           !pageState.shouldClear ? GestureDetector(
                             onTap: () {
@@ -124,7 +124,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
                               height: 24.0,
                               width: 375.0,
                               child: Image.asset(
-                                  'assets/images/icons/trash_icon_gold.png'),
+                                  'assets/images/icons/trash_can.png', color: Color(ColorConstants.getPeachDark()),),
                             ),
                           ) : SizedBox(),
                           !pageState.shouldClear ? Container(
@@ -164,14 +164,14 @@ class _NewReminderPageState extends State<NewReminderPage> {
                       children: <Widget>[
                         TextButton(
                           style: Styles.getButtonStyle(
-                            color: Colors.white,
-                            textColor: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryWhite()),
+                            textColor: Color(ColorConstants.getPrimaryBlack()),
                             left: 8.0,
                             top: 8.0,
                             right: 8.0,
                             bottom: 8.0,
                           ),
-                          // disabledColor: Colors.white,
+                          // disabledColor: Color(ColorConstants.getPrimaryWhite()),
                           // disabledTextColor:
                           //     Color(ColorConstants.primary_bg_grey),
                           // splashColor: Color(ColorConstants.getPrimaryColor()),
@@ -182,13 +182,13 @@ class _NewReminderPageState extends State<NewReminderPage> {
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: currentPageIndex == 0 ? 'Cancel' : 'Back',
                               textAlign: TextAlign.start,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                         TextButton(
                           style: Styles.getButtonStyle(
-                            color: Colors.white,
-                            textColor: Color(ColorConstants.primary_black),
+                            color: Color(ColorConstants.getPrimaryWhite()),
+                            textColor: Color(ColorConstants.getPrimaryBlack()),
                             left: 8.0,
                             top: 8.0,
                             right: 8.0,
@@ -201,7 +201,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: currentPageIndex == 2 ? 'Save' : 'Next',
                               textAlign: TextAlign.start,
-                              color: Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                         ],
