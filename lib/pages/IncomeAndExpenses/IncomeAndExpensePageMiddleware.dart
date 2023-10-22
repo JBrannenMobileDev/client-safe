@@ -185,7 +185,7 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
     _updateSaveAndSetRecurringExpenses(store, recurringExpenses);
 
     (await RecurringExpenseDao.getRecurringExpenseStream()).listen((expenseSnapshots) async {
-      List<RecurringExpense> expenses = List();
+      List<RecurringExpense> expenses = [];
       for(RecordSnapshot expenseSnapshot in expenseSnapshots) {
         expenses.add(RecurringExpense.fromMap(expenseSnapshot.value));
       }
@@ -194,8 +194,11 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchMileageExpenses(Store<AppState> store, FetchMileageExpenses action, NextDispatcher next) async {
+    List<MileageExpense> mileageExpenses = await MileageExpenseDao.getAll();
+    store.dispatch(SetMileageExpensesAction(store.state.incomeAndExpensesPageState, mileageExpenses));
+
     (await MileageExpenseDao.getMileageExpenseStream()).listen((expenseSnapshots) {
-      List<MileageExpense> expenses = List();
+      List<MileageExpense> expenses = [];
       for(RecordSnapshot expenseSnapshot in expenseSnapshots) {
         MileageExpense expenseToSave = MileageExpense.fromMap(expenseSnapshot.value);
         expenseToSave.id = expenseSnapshot.key;

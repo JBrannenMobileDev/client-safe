@@ -300,9 +300,9 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                                 alignment: Alignment.center,
                                 height: 48,
                                 width: 264,
-                                margin: EdgeInsets.only(bottom: 0),
+                                margin: EdgeInsets.only(bottom: 8),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(topRight: Radius.circular(24), topLeft: Radius.circular(24)),
+                                  borderRadius: BorderRadius.circular(24),
                                   color: Color(ColorConstants.getPeachDark()),
                                 ),
                                 child: Row(

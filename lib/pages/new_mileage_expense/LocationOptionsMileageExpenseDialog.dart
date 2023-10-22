@@ -71,8 +71,8 @@ class _LocationOptionsMileageExpenseDialogState extends State<LocationOptionsMil
                             Container(
                               margin: EdgeInsets.only(bottom: 8.0),
                               padding: EdgeInsets.all(24.0),
-                              height: MediaQuery.of(context).size.width/4,
-                              width: MediaQuery.of(context).size.width/4,
+                              height: 96,
+                              width: 96,
                               decoration: BoxDecoration(
                                 color: Color(ColorConstants.getBlueDark()),
                                 shape: BoxShape.circle,
@@ -106,8 +106,8 @@ class _LocationOptionsMileageExpenseDialogState extends State<LocationOptionsMil
                             Container(
                               margin: EdgeInsets.only(bottom: 8.0),
                               padding: EdgeInsets.all(24.0),
-                              height: MediaQuery.of(context).size.width/4,
-                              width: MediaQuery.of(context).size.width/4,
+                              height: 96,
+                              width: 96,
                               decoration: BoxDecoration(
                                 color: Color(ColorConstants.getBlueDark()),
                                 shape: BoxShape.circle,

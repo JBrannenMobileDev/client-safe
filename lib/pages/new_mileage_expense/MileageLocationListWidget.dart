@@ -26,11 +26,13 @@ class MileageLocationListWidget extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             children: <Widget>[
               Container(
-                height: _getItemWidthHeight(context) - (_getItemWidthHeight(context) * 0.33),
+                height: 200,
+                width: 150,
                 margin: EdgeInsets.only(top: 8.0),
                 child: pageState.locations.elementAt(locationIndex) != null ?
                 Container(
-                    height: _getItemWidthHeight(context) - (_getItemWidthHeight(context) * 0.33),
+                    height: 200,
+                    width: 150,
                     decoration: BoxDecoration(
                       borderRadius: new BorderRadius.circular(16.0),
                       image: DecorationImage(
@@ -45,7 +47,8 @@ class MileageLocationListWidget extends StatelessWidget {
               ),
               pageState.selectedLocation != pageState.locations.elementAt(locationIndex)
                   ? Container(
-                height: _getItemWidthHeight(context) - (_getItemWidthHeight(context) * 0.33),
+                height: 200,
+                width: 150,
                       margin:
                           EdgeInsets.only(top: 8.0),
                       decoration: BoxDecoration(
@@ -64,7 +67,8 @@ class MileageLocationListWidget extends StatelessWidget {
                               ])),
                     )
                   : Container(
-                height: _getItemWidthHeight(context) - (_getItemWidthHeight(context) * 0.33),
+                height: 200,
+                width: 150,
                       margin:
                           EdgeInsets.only(top: 8.0),
                       decoration: BoxDecoration(
@@ -83,8 +87,8 @@ class MileageLocationListWidget extends StatelessWidget {
                               ])),
                     ),
               Container(
-                height: _getItemWidthHeight(context) - (_getItemWidthHeight(context) * 0.33),
-                width: double.maxFinite,
+                height: 200,
+                width: 150,
                 child: GestureDetector(
                   onTap: () async {
                     pageState.onLocationSelected(pageState.locations.elementAt(locationIndex));
@@ -109,9 +113,5 @@ class MileageLocationListWidget extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  double _getItemWidthHeight(BuildContext context){
-    return (MediaQuery.of(context).size.width/2);
   }
 }

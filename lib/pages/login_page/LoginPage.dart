@@ -217,11 +217,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
     mainButtonsOffsetTween = Tween<Offset>(
       begin: Offset.zero,
-      end: const Offset(-1.5, 0.0),
+      end: const Offset(-3, 0.0),
     );
 
     loginButtonsOffsetTween = Tween<Offset>(
-      begin: const Offset(1.5, 0.0),
+      begin: const Offset(3, 0.0),
       end: Offset.zero,
     );
 
@@ -547,7 +547,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                           text: 'FREE TRIAL',
                                           type: TextDandyLight.MEDIUM_TEXT,
                                           isBold: true,
-                                          color: Color(ColorConstants.getPrimaryBlack()),
+                                          color: Color(ColorConstants.getPrimaryWhite()),
                                         )
                                       ],
                                     ),
@@ -556,7 +556,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                         text: 'NO CARD REQUIRED',
                                         type: TextDandyLight.MEDIUM_TEXT,
                                         isBold: true,
-                                        color: Color(ColorConstants.getPrimaryBlack()),
+                                        color: Color(ColorConstants.getPrimaryWhite()),
                                       ),
                                     )
                                   ],
@@ -696,7 +696,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             child: TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: pageState.mainButtonsVisible ? 'Sign in' : (pageState.isForgotPasswordViewVisible ? 'Sign in' : 'Create Account'),
-                              color: Color(ColorConstants.getPrimaryBlack()),
+                              color: Color(ColorConstants.getPrimaryWhite()),
                             ),
                           ),
                         ),
@@ -1056,7 +1056,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 margin: EdgeInsets.only(top: 78),
                                 child: AnimatedDefaultTextStyle(
                                   style: TextStyle(
-                                    fontSize: 204,
+                                    fontSize: 164,
                                     fontFamily: 'simple',
                                     fontWeight: FontWeight.w600,
                                     color: Color(ColorConstants
@@ -1084,7 +1084,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 ),
                               ) : Container(
                                 margin: EdgeInsets.only(
-                                    bottom: 230.0, left: 229.0, top: 60.0),
+                                    bottom: 230.0, left: 260.0, top: 16.0),
                                 height: 300.0,
                                 decoration: BoxDecoration(
                                   color: Colors.transparent,
@@ -1106,7 +1106,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                   )
                               ) : Container(
                                   width: 350.0,
-                                  margin: EdgeInsets.only(top: 324.0),
+                                  margin: EdgeInsets.only(top: 284.0),
                                   child: TextDandyLight(
                                     type: TextDandyLight.EXTRA_LARGE_TEXT,
                                     text: 'Capture the moment We\'ll do the rest',
@@ -1142,7 +1142,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       EventSender().sendEvent(eventName: EventNames.BT_SUBMIT_CREATE_ACCOUNT);
                     },
                     child: Container(
-                      margin: EdgeInsets.only(top: 8.0, left: 32.0, right: 32.0),
+                      margin: EdgeInsets.only(top: 8.0, left: 32.0, right: 32.0, bottom: 16),
                       alignment: Alignment.center,
                       height: 54.0,
                       decoration: BoxDecoration(

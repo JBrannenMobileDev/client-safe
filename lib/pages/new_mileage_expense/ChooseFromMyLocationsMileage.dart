@@ -215,6 +215,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
     return StoreConnector<AppState, NewMileageExpensePageState>(
       converter: (store) => NewMileageExpensePageState.fromStore(store),
       builder: (BuildContext context, NewMileageExpensePageState pageState) => Container(
+        height: 200,
         margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
         child: MileageLocationListWidget(index),
       ),
