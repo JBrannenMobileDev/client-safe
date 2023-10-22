@@ -44,6 +44,10 @@ class JobLocationListWidget extends StatelessWidget {
                   ),
                   color: Color(ColorConstants.getBlueDark()),
                   borderRadius: new BorderRadius.circular(16.0),
+                    border: Border.all(
+                      color: Color(ColorConstants.getPeachDark()),
+                      width: pageState.selectedLocation == pageState.locations.elementAt(locationIndex) ? 3 : 0,
+                    )
                 ),
               ),
               pageState.imageFiles.isNotEmpty && pageState.imageFiles.length > locationIndex && pageState.imageFiles.elementAt(locationIndex).path.isEmpty ?

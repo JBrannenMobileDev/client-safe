@@ -41,171 +41,177 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
       converter: (store) => NewMileageExpensePageState.fromStore(store),
       builder: (BuildContext context, NewMileageExpensePageState pageState) => Scaffold(
         backgroundColor: Colors.transparent,
-        body: Container(
-          padding: EdgeInsets.only(left: 16.0, right: 16.0),
-          decoration: BoxDecoration(
-            color: Color(ColorConstants.getPrimaryWhite()),
-            borderRadius: BorderRadius.circular(16.0),
-          ),
-          alignment: Alignment.center,
-          child: pageState.locations.length > 0
-              ? Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: 24.0, bottom: 0.0),
-                child: TextDandyLight(
-                  type: TextDandyLight.LARGE_TEXT,
-                  text: "Select a Location",
-                  textAlign: TextAlign.center,
-                  color: Color(ColorConstants.getPrimaryBlack()),
-                ),
+        body: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            Container(
+              padding: EdgeInsets.only(left: 16.0, right: 16.0),
+              decoration: BoxDecoration(
+                color: Color(ColorConstants.getPrimaryWhite()),
+                borderRadius: BorderRadius.circular(16.0),
               ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 8.0),
-                child: TextDandyLight(
-                  type: TextDandyLight.MEDIUM_TEXT,
-                  text: pageState.selectedLocation != null
-                      ? pageState.selectedLocation.locationName
-                      : "",
-                  textAlign: TextAlign.start,
-                  color: Color(ColorConstants.getPeachDark()),
-                ),
-              ),
-              Container(
-                height: (MediaQuery.of(context).size.height) - 220,
-                child: GridView.builder(
-                    padding: new EdgeInsets.fromLTRB(4.0, 0.0, 4.0, 64.0),
-                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 200,
-                        childAspectRatio: 3 / 2,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 64),
-                    itemCount: pageState.locations.length,
-                    controller: _controller,
-                    physics: AlwaysScrollableScrollPhysics(),
-                    key: _listKey,
-                    shrinkWrap: true,
-                    reverse: false,
-                    itemBuilder: _buildItem),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 26.0, right: 26.0, bottom: 12),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    TextButton(
-                      style: Styles.getButtonStyle(
-                        color: Color(ColorConstants.getPrimaryWhite()),
-                        textColor: Color(ColorConstants.getPrimaryBlack()),
-                        left: 8.0,
-                        top: 8.0,
-                        right: 8.0,
-                        bottom: 8.0,
-                      ),
-                      // disabledColor: Color(ColorConstants.getPrimaryWhite()),
-                      // disabledTextColor:
-                      // Color(ColorConstants.primary_bg_grey),
-                      // splashColor: Color(ColorConstants.getPrimaryColor()),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: TextDandyLight(
-                        type: TextDandyLight.LARGE_TEXT,
-                        text: 'Cancel',
-                        textAlign: TextAlign.start,
-                        color: Color(ColorConstants.getPrimaryBlack()),
-                      ),
+              alignment: Alignment.center,
+              child: pageState.locations.length > 0
+                  ? Column(
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(top: 24.0, bottom: 0.0),
+                    child: TextDandyLight(
+                      type: TextDandyLight.LARGE_TEXT,
+                      text: "Select a Location",
+                      textAlign: TextAlign.center,
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
-                    TextButton(
-                      style: Styles.getButtonStyle(
-                        color: Color(ColorConstants.getPrimaryWhite()),
-                        textColor: Color(ColorConstants.getPrimaryBlack()),
-                        left: 8.0,
-                        top: 8.0,
-                        right: 8.0,
-                        bottom: 8.0,
-                      ),
-                      // disabledColor: Color(ColorConstants.getPrimaryWhite()),
-                      // disabledTextColor:
-                      // Color(ColorConstants.primary_bg_grey),
-                      // splashColor: Color(ColorConstants.getPrimaryColor()),
-                      onPressed: () {
-                        if(pageState.selectedLocation != null){
-                          onLocationSaved(LatLng(pageState.selectedLocation.latitude, pageState.selectedLocation.longitude));
-                          Navigator.of(context).pop();
-                        }
-                      },
-                      child: TextDandyLight(
-                        type: TextDandyLight.LARGE_TEXT,
-                        text: 'Save',
-                        textAlign: TextAlign.start,
-                        color: Color(ColorConstants.getPrimaryBlack()),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          )
-              : Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(bottom: 16.0, top: 8.0),
-                child: TextDandyLight(
-                  type: TextDandyLight.MEDIUM_TEXT,
-                  text: "Select a location for this job",
-                  textAlign: TextAlign.center,
-                  color: Color(ColorConstants.getPrimaryBlack()),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 32.0, right: 32.0, bottom: 32.0, top: 16.0),
-                child: TextDandyLight(
-                  type: TextDandyLight.MEDIUM_TEXT,
-                  text: "You do ot have any locations saved to your collection.",
-                  textAlign: TextAlign.center,
-                  color: Color(ColorConstants.getPrimaryBlack()),
-                ),
-              ),
-              TextButton(
-                style: Styles.getButtonStyle(
-                  color: Color(ColorConstants.getPrimaryColor()),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(24.0),
                   ),
-                ),
-                onPressed: () {
-                  UserOptionsUtil.showNewLocationDialog(context);
-                },
-                child: Container(
-                  width: 150.0,
-                  child: Row(
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 8.0),
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: pageState.selectedLocation != null
+                          ? pageState.selectedLocation.locationName
+                          : "",
+                      textAlign: TextAlign.start,
+                      color: Color(ColorConstants.getPeachDark()),
+                    ),
+                  ),
+                  ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: 65.0,
+                        maxHeight: MediaQuery.of(context).size.height - 232,
+                      ),
+                      child: GridView.builder(
+                          padding: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 64.0),
+                          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                              maxCrossAxisExtent: 200,
+                              childAspectRatio: 2 / 2.75,
+                              crossAxisSpacing: 16,
+                              mainAxisSpacing: 16),
+                          itemCount: pageState.locations.length,
+                          controller: _controller,
+                          physics: ClampingScrollPhysics(),
+                          key: _listKey,
+                          shrinkWrap: true,
+                          reverse: false,
+                          itemBuilder: _buildItem)
+                  ),
+                ],
+              ) : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 16.0, top: 8.0),
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: "Select a location",
+                      textAlign: TextAlign.center,
+                      color: Color(ColorConstants.getPrimaryBlack()),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 32.0, right: 32.0, bottom: 32.0, top: 16.0),
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: "You do not have any locations saved to your collection.",
+                      textAlign: TextAlign.center,
+                      color: Color(ColorConstants.getPrimaryBlack()),
+                    ),
+                  ),
+                  TextButton(
+                    style: Styles.getButtonStyle(
+                      color: Color(ColorConstants.getPrimaryColor()),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(24.0),
+                      ),
+                    ),
+                    onPressed: () {
+                      UserOptionsUtil.showNewLocationDialog(context);
+                    },
+                    child: Container(
+                      width: 150.0,
+                      child: Row(
 
-                    children: <Widget>[
-                      IconButton(
-                        icon: const Icon(Icons.add),
-                        color: Color(ColorConstants.white),
-                        tooltip: 'Add',
-                        onPressed: () {
-                          UserOptionsUtil.showNewPriceProfileDialog(context);
-                        },
+                        children: <Widget>[
+                          IconButton(
+                            icon: const Icon(Icons.add),
+                            color: Color(ColorConstants.white),
+                            tooltip: 'Add',
+                            onPressed: () {
+                              UserOptionsUtil.showNewPriceProfileDialog(context);
+                            },
+                          ),
+                          TextDandyLight(
+                            type: TextDandyLight.LARGE_TEXT,
+                            text: "Location",
+                            textAlign: TextAlign.center,
+                            color: Color(ColorConstants.getPrimaryWhite()),
+                          ),
+                        ],
                       ),
-                      TextDandyLight(
-                        type: TextDandyLight.LARGE_TEXT,
-                        text: "Location",
-                        textAlign: TextAlign.center,
-                        color: Color(ColorConstants.getPrimaryWhite()),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 26.0, right: 26.0, bottom: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  TextButton(
+                    style: Styles.getButtonStyle(
+                      color: Color(ColorConstants.getPrimaryWhite()),
+                      textColor: Color(ColorConstants.getPrimaryBlack()),
+                      left: 8.0,
+                      top: 8.0,
+                      right: 8.0,
+                      bottom: 8.0,
+                    ),
+                    // disabledColor: Color(ColorConstants.getPrimaryWhite()),
+                    // disabledTextColor:
+                    // Color(ColorConstants.primary_bg_grey),
+                    // splashColor: Color(ColorConstants.getPrimaryColor()),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: TextDandyLight(
+                      type: TextDandyLight.LARGE_TEXT,
+                      text: 'Cancel',
+                      textAlign: TextAlign.start,
+                      color: Color(ColorConstants.getPrimaryBlack()),
+                    ),
+                  ),
+                  TextButton(
+                    style: Styles.getButtonStyle(
+                      color: Color(ColorConstants.getPrimaryWhite()),
+                      textColor: Color(ColorConstants.getPrimaryBlack()),
+                      left: 8.0,
+                      top: 8.0,
+                      right: 8.0,
+                      bottom: 8.0,
+                    ),
+                    // disabledColor: Color(ColorConstants.getPrimaryWhite()),
+                    // disabledTextColor:
+                    // Color(ColorConstants.primary_bg_grey),
+                    // splashColor: Color(ColorConstants.getPrimaryColor()),
+                    onPressed: () {
+                      if(pageState.selectedLocation != null){
+                        onLocationSaved(LatLng(pageState.selectedLocation.latitude, pageState.selectedLocation.longitude));
+                        Navigator.of(context).pop();
+                      }
+                    },
+                    child: TextDandyLight(
+                      type: TextDandyLight.LARGE_TEXT,
+                      text: 'Save',
+                      textAlign: TextAlign.start,
+                      color: Color(ColorConstants.getPrimaryBlack()),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -215,9 +221,8 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
     return StoreConnector<AppState, NewMileageExpensePageState>(
       converter: (store) => NewMileageExpensePageState.fromStore(store),
       builder: (BuildContext context, NewMileageExpensePageState pageState) => Container(
-        height: 200,
-        margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
-        child: MileageLocationListWidget(index),
+        margin: EdgeInsets.only(top: 0.0, bottom: 8.0),
+        child: JobLocationListWidget(index),
       ),
     );
   }
