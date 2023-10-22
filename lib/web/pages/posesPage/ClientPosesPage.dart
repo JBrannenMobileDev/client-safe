@@ -21,23 +21,26 @@ class _ClientPosesPageState extends State<ClientPosesPage> {
       StoreConnector<AppState, ClientPortalPageState>(
         converter: (Store<AppState> store) => ClientPortalPageState.fromStore(store),
         builder: (BuildContext context, ClientPortalPageState pageState) =>
-        Container(
-          padding: EdgeInsets.only(bottom: 32),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Container(
-                alignment: Alignment.topCenter,
-                margin: EdgeInsets.only(top: 32, bottom: 48),
-                child: TextDandyLight(
-                  type: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextDandyLight.EXTRA_LARGE_TEXT : TextDandyLight.LARGE_TEXT,
-                  fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                  text: 'Poses',
-                ),
+        ConstrainedBox(
+            constraints: BoxConstraints(minHeight: 1080),
+            child: Container(
+              padding: EdgeInsets.only(bottom: 32),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Container(
+                    alignment: Alignment.topCenter,
+                    margin: EdgeInsets.only(top: 32, bottom: 48),
+                    child: TextDandyLight(
+                      type: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextDandyLight.EXTRA_LARGE_TEXT : TextDandyLight.LARGE_TEXT,
+                      fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                      text: 'Poses',
+                    ),
+                  ),
+                  StackedGrid(poses: pageState.job.poses),
+                ],
               ),
-              StackedGrid(poses: pageState.job.poses),
-            ],
-          ),
+            ),
         )
       );
 }

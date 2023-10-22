@@ -158,7 +158,7 @@ class UserOptionsUtil {
 
   static void showNewJobDialog(BuildContext context, bool comingFromOnBoarding) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    if(profile.isSubscribed || profile.jobsCreatedCount < 5 || profile.isFreeForLife) {
+    if(profile.isSubscribed || profile.jobsCreatedCount < 200 || profile.isFreeForLife) {
       showDialog(
         context: context,
         builder: (BuildContext context) {

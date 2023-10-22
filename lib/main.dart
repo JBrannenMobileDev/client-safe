@@ -103,9 +103,15 @@ void initializingMixPanel() async {
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
   /// getting device details as per OS
   switch(PlatformInfo().getCurrentPlatformType()) {
-
     case PlatformType.Web:
-
+       WebBrowserInfo webDeviceInfo = await deviceInfoPlugin.webBrowserInfo;
+      deviceInfo = DeviceInfo(
+        deviceIdentifier: webDeviceInfo.vendor,
+        os: 'Web ${webDeviceInfo.platform} ${webDeviceInfo.appVersion}',
+        device: '${webDeviceInfo.browserName}',
+        appVersion: packageInfo.version,
+      );
+       await EventSender().initialize(deviceInfo);
       break;
     case PlatformType.iOS:
       IosDeviceInfo iosDeviceInfo = await deviceInfoPlugin.iosInfo;

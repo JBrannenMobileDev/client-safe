@@ -53,7 +53,7 @@ class PriceProfile{
       icon: map['icon'],
       deposit: (map['deposit'])?.toDouble(),
       includeSalesTax: map['includeSalesTax'] != null ? map['includeSalesTax'] : false,
-      salesTaxPercent: map['salesTaxPercent'].toDouble() != null ? (map['salesTaxPercent']).toDouble() : 0.0,
+      salesTaxPercent: map['salesTaxPercent'] != null ? (map['salesTaxPercent']).toDouble() : 0.0,
     );
   }
 
