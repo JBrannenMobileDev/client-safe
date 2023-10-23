@@ -69,24 +69,25 @@ class _LocationSelectionDialogState
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                      child: Container(
+                    ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: 65.0,
+                          maxHeight: MediaQuery.of(context).size.height - 232,
+                        ),
                         child: GridView.builder(
-                            padding: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 250.0),
+                            padding: new EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 64.0),
                             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                                 maxCrossAxisExtent: 200,
-                                childAspectRatio: 2 / 2.75,
+                                childAspectRatio: 2 / 2.86,
                                 crossAxisSpacing: 16,
                                 mainAxisSpacing: 16),
                             itemCount: pageState.locations.length,
                             controller: _controller,
-                            physics: AlwaysScrollableScrollPhysics(),
+                            physics: ClampingScrollPhysics(),
                             key: _listKey,
                             shrinkWrap: true,
                             reverse: false,
-                            itemBuilder: _buildItem),
-                      ),
+                            itemBuilder: _buildItem)
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 24.0, right: 24.0, bottom: 0.0),

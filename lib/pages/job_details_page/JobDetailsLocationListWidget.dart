@@ -4,6 +4,7 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../widgets/DandyLightNetworkImage.dart';
@@ -23,20 +24,48 @@ class JobDetailsLocationListWidget extends StatelessWidget {
           Stack(
             alignment: Alignment.bottomCenter,
             children: <Widget>[
-              pageState.locations.elementAt(locationIndex) != null ?
               Container(
-                height: 187,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: new BorderRadius.circular(16.0),
-                    color: Color(ColorConstants.getPeachLight())
+                height: _getItemWidthHeight(context),
+                margin: EdgeInsets.only(top: 8.0),
+                decoration: BoxDecoration(
+                    color: Color(ColorConstants.getBlueDark()),
+                    borderRadius: new BorderRadius.circular(12.0),
+                    border: Border.all(
+                      color: Color(ColorConstants.getPeachDark()),
+                      width: pageState.selectedLocation == pageState.locations.elementAt(locationIndex) ? 3 : 0,
+                    )
+                ),
+                child: DandyLightNetworkImage(pageState.locations.elementAt(locationIndex).imageUrl),
+              ),
+              pageState.selectedLocation == pageState.locations.elementAt(locationIndex)
+                  ? Container(
+                height: _getItemWidthHeight(context) + 3,
+                decoration: BoxDecoration(
+                  borderRadius: new BorderRadius.circular(16.0),
+                ),
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: Container(
+                    margin: EdgeInsets.only(right: 8.0, bottom: 8.0),
+                    child: Stack(
+                      children: [
+                        Icon(
+                          Device.get().isIos ? CupertinoIcons.circle_fill : Icons.circle,
+                          size: 26.0,
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                        ),
+                        Icon(
+                          Device.get().isIos ? CupertinoIcons.check_mark_circled_solid : Icons.check_circle,
+                          size: 26.0,
+                          color: Color(ColorConstants.getPeachDark()),
+                        )
+                      ],
+                    ),
                   ),
-                child: DandyLightNetworkImage(
-                  pageState.locations.elementAt(locationIndex).imageUrl
                 ),
               ) : SizedBox(),
               Container(
-                height: 187,
+                height: _getItemWidthHeight(context) + 3,
                 width: double.maxFinite,
                 child: GestureDetector(
                   onTap: () async {
@@ -54,7 +83,6 @@ class JobDetailsLocationListWidget extends StatelessWidget {
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: pageState.locations.elementAt(locationIndex).locationName,
-                maxLines: 2,
                 textAlign: TextAlign.center,
                 color: Color(ColorConstants.getPrimaryBlack()),
               ),
