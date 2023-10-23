@@ -57,12 +57,15 @@ import '../models/JobType.dart';
 import '../models/LocationDandy.dart';
 import '../models/Profile.dart';
 import '../pages/calendar_selection_page/CalendarSelectionPage.dart';
+import '../pages/job_details_page/ContractOptionsDialog.dart';
 import '../pages/login_page/ShowResetPasswordSentDialog.dart';
 import '../pages/map_location_selection_widget/MapLocationSelectionWidget.dart';
 import '../pages/new_job_page/widgets/SelectNewJobLocationDialog.dart';
 import '../pages/new_job_page/widgets/SelectNewJobLocationOptionsDialog.dart';
 import '../pages/new_job_types_page/NewJobTypePage.dart';
 import 'ColorConstants.dart';
+import 'ContractOptionsBottomSheet.dart';
+import 'ContractUtils.dart';
 import 'ShareOptionsBottomSheet.dart';
 
 class UserOptionsUtil {
@@ -396,6 +399,15 @@ class UserOptionsUtil {
     );
   }
 
+  static void showContractOptionsDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ContractOptionsDialog();
+      },
+    );
+  }
+
   static void showNewLineItemDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -508,6 +520,20 @@ class UserOptionsUtil {
         barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
         builder: (context) {
           return ShareOptionsBottomSheet(client, message, emailTitle);
+        });
+  }
+
+  static void showContractOptionsSheet(BuildContext context, Job job, Profile profile, Function openContractEditPage) {
+    String populatedJsonTerms = ContractUtils.populate(job, profile);
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        isDismissible: true,
+        enableDrag: true,
+        backgroundColor: Colors.transparent,
+        barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+        builder: (context) {
+          return ContractOptionsBottomSheet(populatedJsonTerms, openContractEditPage);
         });
   }
 }

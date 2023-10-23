@@ -514,6 +514,9 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     _fetchRemindersWithJob(store, next, job);
     store.dispatch(FetchAllJobTypesAction(store.state.jobDetailsPageState));
     _fetchJobPosesWithJob(store, job);
+
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    store.dispatch(SetProfileToDetailsStateAction(store.state.jobDetailsPageState, profile));
   }
 
   void setJobInfoWithId(Store<AppState> store, NextDispatcher next, SetJobInfoWithJobDocumentId action) async{

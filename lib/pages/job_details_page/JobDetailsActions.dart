@@ -11,6 +11,7 @@ import 'package:device_calendar/device_calendar.dart';
 import '../../models/Contract.dart';
 import '../../models/JobReminder.dart';
 import '../../models/JobType.dart';
+import '../../models/Profile.dart';
 import '../../models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
 
 class SetJobInfo{
@@ -110,6 +111,12 @@ class FetchJobRemindersAction{
 class FetchAllJobTypesAction{
   final JobDetailsPageState pageState;
   FetchAllJobTypesAction(this.pageState);
+}
+
+class SetProfileToDetailsStateAction {
+  final JobDetailsPageState pageState;
+  final Profile profile;
+  SetProfileToDetailsStateAction(this.pageState, this.profile);
 }
 
 class SetAllJobTypesAction{

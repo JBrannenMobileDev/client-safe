@@ -14,6 +14,7 @@ import 'package:dandylight/pages/home_page/HomePage.dart';
 import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPage.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPage.dart';
 import 'package:dandylight/pages/job_details_page/JobPosesPage.dart';
+import 'package:dandylight/pages/job_details_page/PreviewContractPage.dart';
 import 'package:dandylight/pages/login_page/LoginPage.dart';
 import 'package:dandylight/pages/main_settings_page/EditAccountPage.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPage.dart';
@@ -55,6 +56,9 @@ class NavigationUtil {
   }
   static onReviewPosesSelected(BuildContext context) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ReviewPosesPage()));
+  }
+  static onInAppPreviewContractSelected(BuildContext context, String jsonTerms) {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => PreviewContractPage(jsonTerms: jsonTerms)));
   }
   static onJobTapped(BuildContext context, bool comingFromOnBoarding) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => JobDetailsPage(comingFromOnBoarding: comingFromOnBoarding,)));

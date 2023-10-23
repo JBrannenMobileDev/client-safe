@@ -19,6 +19,7 @@ import '../../AppState.dart';
 import '../../models/Contract.dart';
 import '../../models/JobType.dart';
 import '../../models/Pose.dart';
+import '../../models/Profile.dart';
 import '../sunset_weather_page/SunsetWeatherPageActions.dart';
 
 class JobDetailsPageState {
@@ -56,6 +57,7 @@ class JobDetailsPageState {
   final String eveningGoldenHour;
   final String sunset;
   final String eveningBlueHour;
+  final Profile profile;
   final Function(PriceProfile) onPriceProfileSelected;
   final Function(String) onSaveUpdatedPriceProfileSelected;
   final Function(JobType) onJobTypeSelected;
@@ -170,6 +172,7 @@ class JobDetailsPageState {
     @required this.onDrivingDirectionsSelected,
     @required this.poseFilePaths,
     @required this.onDeleteContractSelected,
+    @required this.profile,
   });
 
   JobDetailsPageState copyWith({
@@ -202,6 +205,7 @@ class JobDetailsPageState {
     String sunset,
     String eveningBlueHour,
     List<String> poseFilePaths,
+    Profile profile,
     Function(PriceProfile) onPriceProfileSelected,
     Function(String) onSaveUpdatedPriceProfileSelected,
     Function(JobType) onJobTypeSelected,
@@ -321,6 +325,7 @@ class JobDetailsPageState {
       onDrivingDirectionsSelected: onDrivingDirectionsSelected ?? this.onDrivingDirectionsSelected,
       poseFilePaths: poseFilePaths ?? this.poseFilePaths,
       onDeleteContractSelected: onDeleteContractSelected ?? this.onDeleteContractSelected,
+      profile: profile ?? this.profile,
     );
   }
 
@@ -359,6 +364,7 @@ class JobDetailsPageState {
         sunset: store.state.jobDetailsPageState.sunset,
         eveningBlueHour: store.state.jobDetailsPageState.eveningBlueHour,
         poseFilePaths: store.state.jobDetailsPageState.poseFilePaths,
+        profile: store.state.jobDetailsPageState.profile,
         onAddToTip: (amountToAdd) => store.dispatch(AddToTipAction(store.state.jobDetailsPageState, amountToAdd)),
         onSaveTipChange: () => store.dispatch(SaveTipChangeAction(store.state.jobDetailsPageState)),
         onClearUnsavedTip: () => store.dispatch(ClearUnsavedTipAction(store.state.jobDetailsPageState)),
@@ -458,6 +464,7 @@ class JobDetailsPageState {
     onSaveAddOnCost: null,
     onClearUnsavedDeposit: null,
     onAddInvoiceSelected: null,
+    profile: null,
     invoice: null,
     unsavedTipAmount: 0,
     onAddToTip: null,
@@ -508,6 +515,7 @@ class JobDetailsPageState {
       poseFilePaths.hashCode ^
       onDrivingDirectionsSelected.hashCode ^
       documentPath.hashCode ^
+      profile.hashCode ^
       client.hashCode ^
       sunsetTime.hashCode ^
       stageScrollOffset.hashCode ^
@@ -563,6 +571,7 @@ class JobDetailsPageState {
               onSaveAddOnCost == other.onSaveAddOnCost &&
               job == other.job &&
               eveningGoldenHour == other.eveningGoldenHour &&
+              profile == other.profile &&
               sunset == other.sunset &&
               eveningBlueHour == other.eveningBlueHour &&
               jobTypes == other.jobTypes &&

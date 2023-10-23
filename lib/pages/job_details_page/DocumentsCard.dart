@@ -12,16 +12,18 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 
+import '../../models/Profile.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class DocumentsCard extends StatelessWidget {
   final Function onSendInvoiceSelected;
 
-  DocumentsCard({this.pageState, this.onSendInvoiceSelected});
+  DocumentsCard({this.pageState, this.onSendInvoiceSelected, this.profile});
 
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
   final JobDetailsPageState pageState;
+  final Profile profile;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +84,7 @@ class DocumentsCard extends StatelessWidget {
             UserOptionsUtil.showViewInvoiceDialog(context, pageState.invoice, await JobDao.getJobById(pageState.invoice.jobDocumentId), onSendInvoiceSelected);
             break;
           case DocumentItem.DOCUMENT_TYPE_CONTRACT:
-            NavigationUtil.onContractSelected(context, pageState.job.proposal.contract, pageState.job.proposal.contract.contractName, false, pageState.job.documentId, _ackContractAlert);
+            UserOptionsUtil.showContractOptionsSheet(context, pageState.job, profile, openContractEditPage);
             break;
         }
       },
@@ -166,6 +168,10 @@ class DocumentsCard extends StatelessWidget {
         );
       },
     );
+  }
+
+  void openContractEditPage(BuildContext context) {
+    NavigationUtil.onContractSelected(context, pageState.job.proposal.contract, pageState.job.proposal.contract.contractName, false, pageState.job.documentId, _ackContractAlert);
   }
 
   Future<void> _ackContractAlert(BuildContext context) {

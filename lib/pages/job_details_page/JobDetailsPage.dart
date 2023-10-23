@@ -255,9 +255,17 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         ),
                       ),
                       onTap: () {
-                        Navigator.of(context).push(
-                          new MaterialPageRoute(builder: (context) => ContractsPage(jobDocumentId: pageState.job.documentId)),
-                        );
+                        bool containsContract = false;
+                        for(DocumentItem document in pageState.documents){
+                          if(document.getDocumentType() == DocumentItem.DOCUMENT_TYPE_CONTRACT) containsContract = true;
+                        }
+                        if(!containsContract) {
+                          Navigator.of(context).push(
+                            new MaterialPageRoute(builder: (context) => ContractsPage(jobDocumentId: pageState.job.documentId)),
+                          );
+                        }else{
+                          UserOptionsUtil.showContractOptionsDialog(context);
+                        }
                       },
                     ),
                     SpeedDialChild(
@@ -483,7 +491,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                             delegate: new SliverChildListDelegate(<Widget>[
                               PosesCard(pageState: pageState),
                               JobDetailsCard(),
-                              DocumentsCard(pageState: pageState, onSendInvoiceSelected: onSendInvoiceSelected),
+                              DocumentsCard(pageState: pageState, onSendInvoiceSelected: onSendInvoiceSelected, profile: pageState.profile),
                               SunsetWeatherCard(),
                               LocationCard(),
                               ClientDetailsCard(pageState: pageState),
