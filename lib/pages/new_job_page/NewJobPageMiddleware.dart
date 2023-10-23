@@ -208,12 +208,12 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       location: store.state.newJobPageState.selectedLocation,
       priceProfile: store.state.newJobPageState.selectedPriceProfile != null && store.state.newJobPageState.oneTimePrice.isEmpty ? store.state.newJobPageState.selectedPriceProfile
           : store.state.newJobPageState.oneTimePrice.isNotEmpty ? PriceProfile(
-            rateType: Invoice.RATE_TYPE_FLAT_RATE,
-            profileName: 'Photoshoot Price',
-            flatRate: double.parse(store.state.newJobPageState.oneTimePrice),
-            icon: 'assets/images/icons/income_received.png',
-            salesTaxPercent: 0.0,
-            deposit: 0.0,
+          rateType: Invoice.RATE_TYPE_FLAT_RATE,
+          profileName: TextFormatterUtil.formatDecimalCurrencyFromString(store.state.newJobPageState.oneTimePrice),
+          flatRate: double.parse(store.state.newJobPageState.oneTimePrice),
+          icon: 'assets/images/icons/income_received.png',
+          deposit: 0.0,
+          salesTaxPercent: 0.0,
       ) : null,
       createdDate: DateTime.now(),
       depositAmount: store.state.newJobPageState.selectedPriceProfile != null ? store.state.newJobPageState.selectedPriceProfile.deposit?.toInt() : 0,

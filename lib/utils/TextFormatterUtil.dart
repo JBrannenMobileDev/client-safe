@@ -16,6 +16,11 @@ class TextFormatterUtil {
     return formatter.format(value);
   }
 
+  static String formatDecimalCurrencyFromString(String value){
+    final formatter = NumberFormat.currency(symbol: '\$', decimalDigits: 2);
+    return formatter.format(double.parse(value));
+  }
+
   static String formatDecimalDigitsCurrency(double value, int digits){
     final formatter = NumberFormat.currency(symbol: '\$', decimalDigits: digits);
     return formatter.format(value);
