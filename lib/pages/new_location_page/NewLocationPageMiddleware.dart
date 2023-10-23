@@ -82,7 +82,7 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
 
     LocationDandy locationWithId = await LocationDao.insertOrUpdate(location);
 
-    if(action.pageState.imagePath != null) {
+    if(action.pageState.imagePath != null && action.pageState.imagePath.isNotEmpty) {
       await FileStorage.saveLocationImageFile(action.pageState.imagePath, locationWithId);
     }
 

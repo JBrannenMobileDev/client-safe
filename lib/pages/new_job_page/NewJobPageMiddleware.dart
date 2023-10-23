@@ -17,6 +17,7 @@ import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
+import 'package:dandylight/utils/TextFormatterUtil.dart';
 import 'package:dandylight/utils/analytics/EventNames.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:device_calendar/device_calendar.dart';
@@ -207,7 +208,14 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       completedStages: [JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED)],
       location: store.state.newJobPageState.selectedLocation,
       priceProfile: store.state.newJobPageState.selectedPriceProfile != null && store.state.newJobPageState.oneTimePrice.isEmpty ? store.state.newJobPageState.selectedPriceProfile
-          : store.state.newJobPageState.oneTimePrice.isNotEmpty ? PriceProfile(rateType: Invoice.RATE_TYPE_FLAT_RATE, profileName: 'Photoshoot Price', flatRate: double.parse(store.state.newJobPageState.oneTimePrice), icon: 'assets/images/icons/income_received.png') : null,
+          : store.state.newJobPageState.oneTimePrice.isNotEmpty ? PriceProfile(
+          rateType: Invoice.RATE_TYPE_FLAT_RATE,
+          profileName: TextFormatterUtil.formatDecimalCurrencyFromString(store.state.newJobPageState.oneTimePrice),
+          flatRate: double.parse(store.state.newJobPageState.oneTimePrice),
+          icon: 'assets/images/icons/income_received.png',
+          deposit: 0.0,
+          salesTaxPercent: 0.0,
+      ) : null,
       createdDate: DateTime.now(),
       depositAmount: store.state.newJobPageState.selectedPriceProfile != null ? store.state.newJobPageState.selectedPriceProfile.deposit?.toInt() : 0,
       proposal: Proposal(

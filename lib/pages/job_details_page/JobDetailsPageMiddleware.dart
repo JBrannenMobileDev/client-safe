@@ -42,6 +42,7 @@ import '../../models/Proposal.dart';
 import '../../models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
 import '../../utils/CalendarSyncUtil.dart';
 import '../../utils/ImageUtil.dart';
+import '../../utils/TextFormatterUtil.dart';
 import '../../utils/UidUtil.dart';
 
 class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
@@ -317,10 +318,18 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _updateJobPriceProfile(Store<AppState> store, SaveUpdatedPricePackageAction action, NextDispatcher next) async{
+    PriceProfile newProfile = store.state.jobDetailsPageState.selectedPriceProfile != null && action.oneTimePrice.isEmpty ? store.state.jobDetailsPageState.selectedPriceProfile
+        : action.oneTimePrice.isNotEmpty ? PriceProfile(
+        rateType: Invoice.RATE_TYPE_FLAT_RATE,
+        profileName: TextFormatterUtil.formatDecimalCurrencyFromString(action.oneTimePrice),
+        flatRate: double.parse(action.oneTimePrice),
+        icon: 'assets/images/icons/income_received.png',
+        deposit: 0.0,
+        salesTaxPercent: 0.0,
+    ) : null;
     Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
-      priceProfile: store.state.jobDetailsPageState.selectedPriceProfile != null && action.oneTimePrice.isEmpty ? store.state.jobDetailsPageState.selectedPriceProfile
-          : action.oneTimePrice.isNotEmpty ? PriceProfile(rateType: Invoice.RATE_TYPE_FLAT_RATE, profileName: 'Photoshoot Price', flatRate: double.parse(action.oneTimePrice), icon: 'assets/images/icons/income_received.png') : null,
-      depositAmount: action.pageState.selectedPriceProfile.deposit.toInt(),
+      priceProfile: newProfile,
+      depositAmount: newProfile.deposit.toInt(),
     );
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     await JobDao.insertOrUpdate(jobToSave);
