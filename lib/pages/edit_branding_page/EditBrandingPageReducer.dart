@@ -256,26 +256,31 @@ bool showPublishChangesButton(
 ) {
   bool showPublishButton = false;
 
-  if(profile.selectedFontTheme.iconFont != iconFont) {
-    showPublishButton = true;
+  if(profile.selectedFontTheme != null) {
+    if(profile.selectedFontTheme.iconFont != iconFont) {
+      showPublishButton = true;
+    }
+    if(profile.selectedFontTheme.mainFont != mainFont) {
+      showPublishButton = true;
+    }
   }
-  if(profile.selectedFontTheme.mainFont != mainFont) {
-    showPublishButton = true;
-  }
-  if(profile.selectedColorTheme.bannerColor != ColorConstants.getHex(bannerColorToSave)) {
-    showPublishButton = true;
-  }
-  if(profile.selectedColorTheme.buttonColor != ColorConstants.getHex(buttonColorToSave)) {
-    showPublishButton = true;
-  }
-  if(profile.selectedColorTheme.buttonTextColor != ColorConstants.getHex(buttonTextColorToSave)) {
-    showPublishButton = true;
-  }
-  if(profile.selectedColorTheme.iconColor != ColorConstants.getHex(iconColorToSave)) {
-    showPublishButton = true;
-  }
-  if(profile.selectedColorTheme.iconTextColor != ColorConstants.getHex(iconTextColorToSave)) {
-    showPublishButton = true;
+
+  if(profile.selectedColorTheme != null) {
+    if(profile.selectedColorTheme.bannerColor != ColorConstants.getHex(bannerColorToSave)) {
+      showPublishButton = true;
+    }
+    if(profile.selectedColorTheme.buttonColor != ColorConstants.getHex(buttonColorToSave)) {
+      showPublishButton = true;
+    }
+    if(profile.selectedColorTheme.buttonTextColor != ColorConstants.getHex(buttonTextColorToSave)) {
+      showPublishButton = true;
+    }
+    if(profile.selectedColorTheme.iconColor != ColorConstants.getHex(iconColorToSave)) {
+      showPublishButton = true;
+    }
+    if(profile.selectedColorTheme.iconTextColor != ColorConstants.getHex(iconTextColorToSave)) {
+      showPublishButton = true;
+    }
   }
 
   if(logoImageSelected != newLogoImageSelected) showPublishButton = true;

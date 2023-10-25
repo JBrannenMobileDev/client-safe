@@ -375,7 +375,7 @@ JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobAction 
       depositPaid: action.job.invoice.depositPaid,
     ));
   }
-  if(action.job.proposal.contract != null) {
+  if(action.job.proposal != null && action.job.proposal.contract != null) {
     documents.add(ContractDocument(
         contractName: action.job.proposal.contract.contractName,
         isSigned: action.job.proposal.contract.signedByClient
