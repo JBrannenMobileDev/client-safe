@@ -190,37 +190,37 @@ class EditBrandingPageState{
       onLogoUploaded: (imageFile) async {
         await store.dispatch(ResizeLogoImageAction(store.state.editBrandingPageState, imageFile));
       },
-      onLogoImageSelected: (isLogoImageSelected) async {
-        await store.dispatch(SetLogoSelectionAction(store.state.editBrandingPageState, isLogoImageSelected));
+      onLogoImageSelected: (isLogoImageSelected) {
+        store.dispatch(SetLogoSelectionAction(store.state.editBrandingPageState, isLogoImageSelected));
         store.dispatch(SavePreviewBrandingAction(store.state.editBrandingPageState));
       },
-      onColorSaved: (color, id) async {
-        await store.dispatch(SaveColorAction(store.state.editBrandingPageState, color, id));
+      onColorSaved: (color, id) {
+        store.dispatch(SaveColorAction(store.state.editBrandingPageState, color, id));
         store.dispatch(SavePreviewBrandingAction(store.state.editBrandingPageState));
       },
-      onFontSaved: (fontFamily, id) async {
+      onFontSaved: (fontFamily, id) {
         store.dispatch(SetSelectedFontAction(store.state.editBrandingPageState, fontFamily, id));
         store.dispatch(SavePreviewBrandingAction(store.state.editBrandingPageState));
       },
-      onLogoLetterChanged: (logoLetter) async {
-        await store.dispatch(SetLogoLetterAction(store.state.editBrandingPageState, logoLetter));
+      onLogoLetterChanged: (logoLetter) {
+        store.dispatch(SetLogoLetterAction(store.state.editBrandingPageState, logoLetter));
         store.dispatch(SavePreviewBrandingAction(store.state.editBrandingPageState));
       },
-      onBannerUploaded: (imageFile) async {
-        await store.dispatch(ResizeBannerImageAction(store.state.editBrandingPageState, imageFile));
+      onBannerUploaded: (imageFile) {
+        store.dispatch(ResizeBannerImageAction(store.state.editBrandingPageState, imageFile));
         store.dispatch(SavePreviewBrandingAction(store.state.editBrandingPageState));
       },
-      onBannerImageSelected: (isBannerImageSelected) async {
-        await store.dispatch(SetBannerSelectionAction(store.state.editBrandingPageState, isBannerImageSelected));
+      onBannerImageSelected: (isBannerImageSelected) {
+        store.dispatch(SetBannerSelectionAction(store.state.editBrandingPageState, isBannerImageSelected));
         store.dispatch(SavePreviewBrandingAction(store.state.editBrandingPageState));
       },
       onPublishChangesSelected: () => store.dispatch(SaveBrandingAction(store.state.editBrandingPageState)),
-      onBannerWebUploaded: (imageFile) async {
-        await store.dispatch(ResizeBannerWebImageAction(store.state.editBrandingPageState, imageFile));
+      onBannerWebUploaded: (imageFile) {
+        store.dispatch(ResizeBannerWebImageAction(store.state.editBrandingPageState, imageFile));
         store.dispatch(SavePreviewBrandingAction(store.state.editBrandingPageState));
       },
-      onBannerMobileUploaded: (imageFile) async {
-        await store.dispatch(ResizeBannerMobileImageAction(store.state.editBrandingPageState, imageFile));
+      onBannerMobileUploaded: (imageFile) {
+        store.dispatch(ResizeBannerMobileImageAction(store.state.editBrandingPageState, imageFile));
         store.dispatch(SavePreviewBrandingAction(store.state.editBrandingPageState));
       },
     );

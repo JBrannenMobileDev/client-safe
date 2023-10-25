@@ -37,7 +37,7 @@ class ContractDao extends Equatable{
   }
 
   static Future<void> _updateLastChangedTime() async {
-    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    Profile profile = (await ProfileDao.getMatchingProfile(UidUtil().getUid()));
     profile.contractsLastChangeDate = DateTime.now();
     ProfileDao.update(profile);
   }

@@ -293,21 +293,23 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
 
           //If permanently denied we do not want to bug the user every time they log in.  We will prompt every time they start a job instead. Also they can change the permission from the app settings.
           Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-          bool isNotificationsGranted = profile.deviceTokens.length > 0 ? (await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context)) : (await UserPermissionsUtil.getPermissionStatus(Permission.notification)).isGranted;
-          profile.pushNotificationsEnabled = isNotificationsGranted;
-          if(isNotificationsGranted) {
-            await notificationHelper.initNotifications(context);
-            if(allJobs.length > 1 || allJobs.elementAt(0).clientName != "Example Client") {
-              if(allReminders.length > 0) {
-                NotificationHelper().createAndUpdatePendingNotifications();
+          if(profile.deviceTokens != null) {
+            bool isNotificationsGranted = profile.deviceTokens.length > 0 ? (await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context)) : (await UserPermissionsUtil.getPermissionStatus(Permission.notification)).isGranted;
+            profile.pushNotificationsEnabled = isNotificationsGranted;
+            if(isNotificationsGranted) {
+              await notificationHelper.initNotifications(context);
+              if(allJobs.length > 1 || allJobs.elementAt(0).clientName != "Example Client") {
+                if(allReminders.length > 0) {
+                  NotificationHelper().createAndUpdatePendingNotifications();
+                }
               }
-            }
 
-            String token = await PushNotificationsManager().getToken();
-            profile.addUniqueDeviceToken(token);
-            Profile mostRecent = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-            profile.hasSeenShowcase = mostRecent.hasSeenShowcase;
-            ProfileDao.update(profile);
+              String token = await PushNotificationsManager().getToken();
+              profile.addUniqueDeviceToken(token);
+              Profile mostRecent = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+              profile.hasSeenShowcase = mostRecent.hasSeenShowcase;
+              ProfileDao.update(profile);
+            }
           }
 
           if(store.state.dashboardPageState.profile != null && store.state.dashboardPageState.profile.shouldShowRestoreSubscription) {

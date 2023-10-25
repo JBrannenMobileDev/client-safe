@@ -1,5 +1,6 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
+import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:redux/redux.dart';
 
@@ -26,6 +27,13 @@ class OnBoardingPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _setSampleJob(Store<AppState> store, SetJobForDetailsPage action, NextDispatcher next) async{
-    store.dispatch(SetJobInfo(store.state.jobDetailsPageState, (await JobDao.getAllJobs()).first.documentId));
+    List<Job> jobs = await JobDao.getAllJobs();
+    if(jobs.length == 0) {
+      await JobDao.syncAllFromFireStore();
+      jobs = await JobDao.getAllJobs();
+    }
+    if(jobs.length > 0) {
+      store.dispatch(SetJobInfo(store.state.jobDetailsPageState, (await JobDao.getAllJobs()).first.documentId));
+    }
   }
 }

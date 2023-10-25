@@ -97,12 +97,12 @@ class EditBrandingPageMiddleware extends MiddlewareClass<AppState> {
 
     await ProfileDao.update(profile);
     if(pageState.logoImageSelected && pageState.resizedLogoImage != null) {
-      FileStorage.saveProfilePreviewIconImageFile(pageState.resizedLogoImage.path, pageState.profile, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
+      FileStorage.saveProfilePreviewIconImageFile(pageState.resizedLogoImage.path, profile, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
     }
 
     if(pageState.bannerImageSelected && pageState.bannerWebImage != null && pageState.bannerMobileImage != null) {
-      FileStorage.savePreviewBannerWebImageFile(pageState.bannerWebImage.path, pageState.profile, (taskSnapshot) => () => {});
-      FileStorage.savePreviewBannerMobileImageFile(pageState.bannerMobileImage.path, pageState.profile, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
+      FileStorage.savePreviewBannerWebImageFile(pageState.bannerWebImage.path, profile, (taskSnapshot) => () => {});
+      FileStorage.savePreviewBannerMobileImageFile(pageState.bannerMobileImage.path, profile, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
     }
   }
 
