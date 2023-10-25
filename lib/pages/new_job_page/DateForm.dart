@@ -50,11 +50,11 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
   void _onDaySelected(DateTime day, List events, NewJobPageState pageState) {
     setState(() {
       CalendarUtil.buildEventList(
-        pageState.selectedDate,
+        day,
         pageState.eventList,
-        pageState.selectedDate.year,
-        pageState.selectedDate.month,
-        pageState.selectedDate.day,
+        day.year ?? 2023,
+        day.month,
+        day.day,
         pageState.jobs,
         pageState.onJobClicked,
       );
@@ -248,8 +248,8 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
           return SizedBox.shrink();
         },
       ),
-      onDaySelected: (date, events) {
-        pageState.onDateSelected(date);
+      onDaySelected: (date, events) async {
+        await pageState.onDateSelected(date);
         _onDaySelected(date,  _events.where((event) => isSameDay(event.selectedDate,date)).toList(), pageState);
         _animationController.forward(from: 0.0);
       },

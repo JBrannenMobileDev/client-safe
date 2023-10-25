@@ -39,7 +39,7 @@ EditBrandingPageState _initialize(EditBrandingPageState previousState, Initializ
     bannerMobileImage: null,
     bannerWebImage: null,
     showPublishButton: false,
-    currentIconFont: action.profile.selectedFontTheme != null ? action.profile.selectedFontTheme.iconFont : FontTheme.SIGNATURE2,
+    currentIconFont: action.profile.selectedFontTheme != null ? action.profile.selectedFontTheme.iconFont : FontTheme.Moredya,
     currentFont: action.profile.selectedFontTheme != null ? action.profile.selectedFontTheme.mainFont : FontTheme.OPEN_SANS,
     logoCharacter: action.profile.logoCharacter,
   );
@@ -263,6 +263,8 @@ bool showPublishChangesButton(
     if(profile.selectedFontTheme.mainFont != mainFont) {
       showPublishButton = true;
     }
+  } else {
+    showPublishButton = true;
   }
 
   if(profile.selectedColorTheme != null) {
@@ -281,6 +283,8 @@ bool showPublishChangesButton(
     if(profile.selectedColorTheme.iconTextColor != ColorConstants.getHex(iconTextColorToSave)) {
       showPublishButton = true;
     }
+  } else {
+    showPublishButton = true;
   }
 
   if(logoImageSelected != newLogoImageSelected) showPublishButton = true;

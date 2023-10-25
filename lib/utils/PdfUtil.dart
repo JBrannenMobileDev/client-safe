@@ -110,7 +110,7 @@ class PdfUtil {
             : '';
 
     final Document pdf = Document();
-    bool makeTextBold = FontTheme.shouldUseBold(profile.selectedFontTheme.mainFont);
+    bool makeTextBold = profile.selectedFontTheme != null ? FontTheme.shouldUseBold(profile.selectedFontTheme.mainFont) : false;
 
     pdf.addPage(MultiPage(
         theme: ThemeData.withFont(
