@@ -100,7 +100,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
           ManageSubscriptionPageState.fromStore(store),
       builder: (BuildContext context, ManageSubscriptionPageState pageState) =>
     WillPopScope(
-      onWillPop: () async => (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED || AdminCheckUtil.isAdmin(pageState.profile) || pageState.profile.isFreeForLife) ? true : false,
+      onWillPop: () async => (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED || AdminCheckUtil.isAdmin(profile) || profile.isFreeForLife) ? true : false,
     child: Scaffold(
             extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: false,
@@ -135,7 +135,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 ),
                               ),
                             ),
-                            pageState.profile != null && pageState.profile.isFreeForLife ? Container(
+                            profile != null && profile.isFreeForLife ? Container(
                                 margin: EdgeInsets.only(top: 178.0),
                                 child: TextDandyLight(
                                     text: 'Your free lifetime subscription is applied! There is no need to manage your subscription. We hope you enjoy Dandylight!',
@@ -144,7 +144,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     color: Color(ColorConstants.getBlueDark())
                                 )
                             ) : SizedBox(),
-                            !(pageState.profile != null && pageState.profile.isFreeForLife) && (pageState.uiState != ManageSubscriptionPage.FREE_TRIAL) ? Container(
+                            !(profile != null && profile.isFreeForLife) && (pageState.uiState != ManageSubscriptionPage.FREE_TRIAL) ? Container(
                                 margin: EdgeInsets.only(top: 178.0),
                                 child: TextDandyLight(
                                     text: _getMessageText(pageState.uiState),
@@ -153,7 +153,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     color: Color(ColorConstants.getBlueDark())
                                 )
                             ) : SizedBox(),
-                            !(pageState.profile != null && pageState.profile.isFreeForLife) && (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL) ? Container(
+                            !(profile != null && profile.isFreeForLife) && (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL) ? Container(
                                 margin: EdgeInsets.only(top: 164.0),
                                 child: TextDandyLight(
                                     text: pageState.remainingTimeMessage,
@@ -162,7 +162,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     color: Color(ColorConstants.getBlueDark())
                                 )
                             ) : SizedBox(),
-                            !(pageState.profile != null && pageState.profile.isFreeForLife) && pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? SizedBox() : profile.isBetaTester || pageState.discountType.isNotEmpty ? Container(
+                            !(profile != null && profile.isFreeForLife) && pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? SizedBox() : profile.isBetaTester || pageState.discountType.isNotEmpty ? Container(
                                 margin: EdgeInsets.only(top: 258.0),
                                 child: TextDandyLight(
                                   text: 'Discount applied',
@@ -171,7 +171,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                   color: Color(ColorConstants.getBlueDark())
                                 )
                             ) : SizedBox(),
-                            !(pageState.profile != null && pageState.profile.isFreeForLife) && (pageState.uiState == ManageSubscriptionPage.SUBSCRIBED) ? Container(
+                            !(profile != null && profile.isFreeForLife) && (pageState.uiState == ManageSubscriptionPage.SUBSCRIBED) ? Container(
                                 margin: EdgeInsets.only(top: 258.0),
                                 child: TextDandyLight(
                                     text: 'Subscription Active',
@@ -191,7 +191,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 ),
                               ),
                             ),
-                            !(pageState.profile != null && pageState.profile.isFreeForLife) ? Column(
+                            !(profile != null && profile.isFreeForLife) ? Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
@@ -716,7 +716,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                 ),
               ],
             ),
-            (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED || AdminCheckUtil.isAdmin(pageState.profile) || (pageState.profile != null && pageState.profile.isFreeForLife)) ?
+            (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED || AdminCheckUtil.isAdmin(profile) || (profile != null && profile.isFreeForLife)) ?
             Positioned(
               top: 0.0,
               left: 0.0,
