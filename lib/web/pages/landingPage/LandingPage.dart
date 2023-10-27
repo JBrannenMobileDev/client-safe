@@ -46,7 +46,7 @@ class _LandingPageState extends State<LandingPage> {
             }
             return SliverAppBar(
               backgroundColor: Color(ColorConstants.getBlueDark()),
-              expandedHeight: 750.0,
+              expandedHeight: 700.0,
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
                 background: Stack(
@@ -147,7 +147,7 @@ class _LandingPageState extends State<LandingPage> {
                           ],
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
