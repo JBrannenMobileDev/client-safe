@@ -110,7 +110,7 @@ SunsetWeatherPageState _setForecast(SunsetWeatherPageState previousState, SetFor
     }
   }
 
-  bool isNight = DateTime.parse(matchingDay.date).hour > 17;
+  bool isNight = matchingDay != null ? DateTime.parse(matchingDay.date).hour > 17 : false;
 
   return matchingDay != null ? previousState.copyWith(
     showFartherThan7DaysError: false,

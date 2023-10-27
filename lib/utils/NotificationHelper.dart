@@ -156,7 +156,7 @@ class NotificationHelper {
       String payload,
       DateTime scheduledNotificationDateTime) async {
     bool isGranted = (await UserPermissionsUtil.getPermissionStatus(Permission.notification)).isGranted;
-    if(isGranted) {
+    if(isGranted && flutterNotificationPlugin != null) {
       await flutterNotificationPlugin.zonedSchedule(
         id,
         title,

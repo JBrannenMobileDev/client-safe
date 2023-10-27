@@ -44,7 +44,7 @@ class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
 
   void updateTaxPercent(Store<AppState> store, UpdateTaxPercentAction action, NextDispatcher next) async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    String result = action.taxPercent.replaceAll('%', '');
+    String result = action.taxPercent.replaceAll('%', '').replaceAll(',', '');
     profile.salesTaxRate = double.parse(result);
     ProfileDao.update(profile);
     next(action);

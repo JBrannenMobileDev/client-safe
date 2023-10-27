@@ -18,6 +18,8 @@ class ImageUtil{
   static const String LOGIN_BG_PEACH_DARK_MOUNTAIN = 'assets/images/backgrounds/login_background_peach_dark_mountain.png';
   static const String LOGIN_BG_SUN = 'assets/images/backgrounds/login_background_sun.png';
   static const String LOGIN_BG_LOGO_FLOWER = 'assets/images/dandy_light_logo_icon.png';
+  static const String WEBSITE_GOOGLE_PLAY = "icons/playstore.png";
+  static const String WEBSITE_APPLE_STORE = "icons/apple.png";
   static const String JOB_DETAILS_BG = "assets/images/backgrounds/job_details_background.png";
   static const String INCOME_BG = "assets/images/backgrounds/income_background_lighter.png";
   static const String EXPENSES_BG = "assets/images/backgrounds/expenses_background_peach.png";
