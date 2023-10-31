@@ -25,7 +25,18 @@ class _LandingPageState extends State<LandingPage> {
   bool isHoveredPricing = false;
   bool isHoveredBlog = false;
   bool isHoveredAbout = false;
+  bool isHoveredApple = false;
+  bool isHoveredAndroid = false;
   bool isCollapsed = false;
+
+  List<Widget> infoWidgets = [];
+
+
+  @override
+  void initState() {
+    super.initState();
+    infoWidgets = buildInfoWidgets();
+  }
 
   @override
   Widget build(BuildContext context) =>  Scaffold(
@@ -46,7 +57,7 @@ class _LandingPageState extends State<LandingPage> {
             }
             return SliverAppBar(
               backgroundColor: Color(ColorConstants.getBlueDark()),
-              expandedHeight: 700.0,
+              expandedHeight: 550.0,
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
                 background: Stack(
@@ -188,16 +199,10 @@ class _LandingPageState extends State<LandingPage> {
         //3
         SliverList(
           delegate: SliverChildBuilderDelegate(
-                (_, int index) {
-              return ListTile(
-                leading: Container(
-                    padding: EdgeInsets.all(8),
-                    width: 100,
-                    child: Placeholder()),
-                title: Text('Place ${index + 1}', textScaleFactor: 2),
-              );
+                (BuildContext context, int index) {
+              return infoWidgets[index];
             },
-            childCount: 40,
+            childCount: infoWidgets.length
           ),
         ),
       ],
@@ -206,13 +211,61 @@ class _LandingPageState extends State<LandingPage> {
 
   List<Widget> buildMenuItems() {
     return [
-      MouseRegion(
+      isCollapsed ? MouseRegion(
         child: Container(
           margin: EdgeInsets.only(left: 32, right: 32, top: 0),
           alignment: Alignment.center,
           child: TextDandyLight(
             type: TextDandyLight.MEDIUM_TEXT,
             fontFamily: FontTheme.MontserratAlternativesRegular,
+            text: 'Download\nApple',
+            textAlign: TextAlign.center,
+            color: isHoveredApple ? Color(ColorConstants.getBlueLight()) : Color(ColorConstants.getPrimaryWhite()),
+          ),
+        ),
+        cursor: SystemMouseCursors.click,
+        onHover: (event) {
+          setState(() {
+            isHoveredApple = true;
+          });
+        },
+        onExit: (event) {
+          setState(() {
+            isHoveredApple = false;
+          });
+        },
+      ) : SizedBox(),
+      isCollapsed ? MouseRegion(
+        child: Container(
+          margin: EdgeInsets.only(left: 32, right: 32, top: 0),
+          alignment: Alignment.center,
+          child: TextDandyLight(
+            type: TextDandyLight.MEDIUM_TEXT,
+            fontFamily: FontTheme.MontserratAlternativesRegular,
+            textAlign: TextAlign.center,
+            text: 'Download\nAndroid',
+            color: isHoveredAndroid ? Color(ColorConstants.getBlueLight()) : Color(ColorConstants.getPrimaryWhite()),
+          ),
+        ),
+        cursor: SystemMouseCursors.click,
+        onHover: (event) {
+          setState(() {
+            isHoveredAndroid = true;
+          });
+        },
+        onExit: (event) {
+          setState(() {
+            isHoveredAndroid = false;
+          });
+        },
+      ) : SizedBox(),
+      MouseRegion(
+        child: Container(
+          margin: EdgeInsets.only(left: 32, right: 32, top: 0),
+          alignment: Alignment.center,
+          child: TextDandyLight(
+            type: TextDandyLight.MEDIUM_TEXT,
+            fontFamily: FontTheme.OPEN_SANS,
             text: 'About us',
             color: isHoveredAbout ? Color(ColorConstants.getBlueLight()) : Color(ColorConstants.getPrimaryWhite()),
           ),
@@ -235,7 +288,7 @@ class _LandingPageState extends State<LandingPage> {
           alignment: Alignment.center,
           child: TextDandyLight(
             type: TextDandyLight.MEDIUM_TEXT,
-            fontFamily: FontTheme.MontserratAlternativesRegular,
+            fontFamily: FontTheme.OPEN_SANS,
             text: 'Pricing',
             color: isHoveredPricing ? Color(ColorConstants.getBlueLight()) : Color(ColorConstants.getPrimaryWhite()),
           ),
@@ -258,7 +311,7 @@ class _LandingPageState extends State<LandingPage> {
           alignment: Alignment.center,
           child: TextDandyLight(
             type: TextDandyLight.MEDIUM_TEXT,
-            fontFamily: FontTheme.MontserratAlternativesRegular,
+            fontFamily: FontTheme.OPEN_SANS,
             text: 'Blog',
             color: isHoveredBlog ? Color(ColorConstants.getBlueLight()) : Color(ColorConstants.getPrimaryWhite()),
           ),
@@ -275,6 +328,469 @@ class _LandingPageState extends State<LandingPage> {
           });
         },
       )
+    ];
+  }
+
+  List<Widget> buildInfoWidgets() {
+    return [
+      Container(
+        height: 800,
+        margin: EdgeInsets.only(bottom: 32),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              child: Image.asset("images/landing_page/web_mobile_branding.png", height: 800,),
+            ),
+            SizedBox(width: 64),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 450,
+                  margin: EdgeInsets.only(bottom: 32),
+                  child: AnimatedDefaultTextStyle(
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontFamily: FontTheme.OPEN_SANS,
+                      fontWeight: FontWeight.bold,
+                      color: Color(ColorConstants.getPrimaryBlack()),
+                    ),
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.ease,
+                    child: Text(
+                      'Professional client portal custom to your brand!',
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 450,
+                  child: RichText(
+                    text: TextSpan(
+                        style: TextStyle(fontWeight: FontWeight.normal),
+                        children: [
+                          TextSpan(text: "Wow your clients with a beautiful branded client portal. A central hub to share the ", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                          TextSpan(text: "contract", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            fontWeight: FontWeight.bold,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                          TextSpan(text: " , invoice, poses and job details.", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                        ]
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      Container(
+        height: 800,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 450,
+                  margin: EdgeInsets.only(bottom: 32),
+                  child: AnimatedDefaultTextStyle(
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontFamily: FontTheme.OPEN_SANS,
+                      fontWeight: FontWeight.bold,
+                      color: Color(ColorConstants.getPrimaryBlack()),
+                    ),
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.ease,
+                    child: Text(
+                      'Professional client portal custom to your brand!',
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 450,
+                  child: RichText(
+                    textAlign: TextAlign.end,
+                    text: TextSpan(
+                        style: TextStyle(fontWeight: FontWeight.normal),
+                        children: [
+                          TextSpan(text: "Wow your clients with a beautiful branded client portal. A central hub to share the ", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                          TextSpan(text: "contract", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            fontWeight: FontWeight.bold,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                          TextSpan(text: " , invoice, poses and job details.", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                        ]
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(width: 64),
+            Container(
+              child: Image.asset("images/landing_page/branding.png", height: 600,),
+            ),
+          ],
+        ),
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          GestureDetector(
+            onTap: () {
+              final url = Uri.parse("https://apps.apple.com/app/id6444910643",);
+              launchUrl(
+                url,
+                mode: LaunchMode.externalApplication,
+              );
+            },
+            child: Container(
+              height: 72,
+              width: 264,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(48),
+                  color: Color(ColorConstants.getPrimaryBlack())
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 0.0, top: 0.0, bottom: 4),
+                    height: 48.0,
+                    child: Image.asset(ImageUtil.WEBSITE_APPLE_STORE, height: 64),
+                  ),
+                  TextDandyLight(
+                    type: TextDandyLight.LARGE_TEXT,
+                    text: 'DOWNLOAD',
+                    isBold: true,
+                    fontFamily: FontTheme.MontserratAlternativesRegular,
+                    color: Color(ColorConstants.getPrimaryWhite()),
+                  )
+                ],
+              ),
+            ),
+          ),
+          SizedBox(width: 32),
+          GestureDetector(
+            onTap: () {
+              final url = Uri.parse("https://play.google.com/store/apps/details?id=com.dandylight.mobile");
+              launchUrl(
+                url,
+                mode: LaunchMode.externalApplication,
+              );
+            },
+            child: Container(
+              height: 72,
+              width: 264,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(48),
+                  color: Color(ColorConstants.getPrimaryBlack())
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 0.0, top: 0.0),
+                    height: 48.0,
+                    child: Image.asset(ImageUtil.WEBSITE_GOOGLE_PLAY, height: 64),
+                  ),
+                  TextDandyLight(
+                    type: TextDandyLight.LARGE_TEXT,
+                    text: 'DOWNLOAD',
+                    isBold: true,
+                    fontFamily: FontTheme.MontserratAlternativesRegular,
+                    color: Color(ColorConstants.getPrimaryWhite()),
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+      Container(
+        height: 800,
+        margin: EdgeInsets.only(bottom: 32),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              child: Image.asset("images/landing_page/job_details.png", height: 600,),
+            ),
+            SizedBox(width: 64),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 450,
+                  margin: EdgeInsets.only(bottom: 32),
+                  child: AnimatedDefaultTextStyle(
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontFamily: FontTheme.OPEN_SANS,
+                      fontWeight: FontWeight.bold,
+                      color: Color(ColorConstants.getPrimaryBlack()),
+                    ),
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.ease,
+                    child: Text(
+                      'Professional client portal custom to your brand!',
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 450,
+                  child: RichText(
+                    text: TextSpan(
+                        style: TextStyle(fontWeight: FontWeight.normal),
+                        children: [
+                          TextSpan(text: "Wow your clients with a beautiful branded client portal. A central hub to share the ", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                          TextSpan(text: "contract", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            fontWeight: FontWeight.bold,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                          TextSpan(text: " , invoice, poses and job details.", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                        ]
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      Container(
+        height: 800,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 450,
+                  margin: EdgeInsets.only(bottom: 32),
+                  child: AnimatedDefaultTextStyle(
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontFamily: FontTheme.OPEN_SANS,
+                      fontWeight: FontWeight.bold,
+                      color: Color(ColorConstants.getPrimaryBlack()),
+                    ),
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.ease,
+                    child: Text(
+                      'Professional client portal custom to your brand!',
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 450,
+                  child: RichText(
+                    textAlign: TextAlign.end,
+                    text: TextSpan(
+                        style: TextStyle(fontWeight: FontWeight.normal),
+                        children: [
+                          TextSpan(text: "Wow your clients with a beautiful branded client portal. A central hub to share the ", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                          TextSpan(text: "contract", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            fontWeight: FontWeight.bold,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                          TextSpan(text: " , invoice, poses and job details.", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                        ]
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(width: 64),
+            Container(
+              child: Image.asset("images/landing_page/sunset_weather.png", height: 600,),
+            ),
+          ],
+        ),
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          GestureDetector(
+            onTap: () {
+              final url = Uri.parse("https://apps.apple.com/app/id6444910643",);
+              launchUrl(
+                url,
+                mode: LaunchMode.externalApplication,
+              );
+            },
+            child: Container(
+              height: 72,
+              width: 264,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(48),
+                  color: Color(ColorConstants.getPrimaryBlack())
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 0.0, top: 0.0, bottom: 4),
+                    height: 48.0,
+                    child: Image.asset(ImageUtil.WEBSITE_APPLE_STORE, height: 64),
+                  ),
+                  TextDandyLight(
+                    type: TextDandyLight.LARGE_TEXT,
+                    text: 'DOWNLOAD',
+                    isBold: true,
+                    fontFamily: FontTheme.MontserratAlternativesRegular,
+                    color: Color(ColorConstants.getPrimaryWhite()),
+                  )
+                ],
+              ),
+            ),
+          ),
+          SizedBox(width: 32),
+          GestureDetector(
+            onTap: () {
+              final url = Uri.parse("https://play.google.com/store/apps/details?id=com.dandylight.mobile");
+              launchUrl(
+                url,
+                mode: LaunchMode.externalApplication,
+              );
+            },
+            child: Container(
+              height: 72,
+              width: 264,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(48),
+                  color: Color(ColorConstants.getPrimaryBlack())
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 0.0, top: 0.0),
+                    height: 48.0,
+                    child: Image.asset(ImageUtil.WEBSITE_GOOGLE_PLAY, height: 64),
+                  ),
+                  TextDandyLight(
+                    type: TextDandyLight.LARGE_TEXT,
+                    text: 'DOWNLOAD',
+                    isBold: true,
+                    fontFamily: FontTheme.MontserratAlternativesRegular,
+                    color: Color(ColorConstants.getPrimaryWhite()),
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+      Container(
+        height: 800,
+        margin: EdgeInsets.only(bottom: 32),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              child: Image.asset("images/landing_page/expenses.png", height: 600,),
+            ),
+            SizedBox(width: 64),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 450,
+                  margin: EdgeInsets.only(bottom: 32),
+                  child: AnimatedDefaultTextStyle(
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontFamily: FontTheme.OPEN_SANS,
+                      fontWeight: FontWeight.bold,
+                      color: Color(ColorConstants.getPrimaryBlack()),
+                    ),
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.ease,
+                    child: Text(
+                      'Professional client portal custom to your brand!',
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 450,
+                  child: RichText(
+                    text: TextSpan(
+                        style: TextStyle(fontWeight: FontWeight.normal),
+                        children: [
+                          TextSpan(text: "Wow your clients with a beautiful branded client portal. A central hub to share the ", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                          TextSpan(text: "contract", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            fontWeight: FontWeight.bold,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                          TextSpan(text: " , invoice, poses and job details.", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                        ]
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     ];
   }
 
