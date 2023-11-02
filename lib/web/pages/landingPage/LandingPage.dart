@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../utils/ColorConstants.dart';
 import '../../../utils/ImageUtil.dart';
+import '../../../utils/intentLauncher/IntentLauncherUtil.dart';
 import '../../../widgets/TextDandyLight.dart';
 
 class LandingPage extends StatefulWidget{
@@ -212,15 +213,24 @@ class _LandingPageState extends State<LandingPage> {
   List<Widget> buildMenuItems() {
     return [
       isCollapsed ? MouseRegion(
-        child: Container(
-          margin: EdgeInsets.only(left: 32, right: 32, top: 0),
-          alignment: Alignment.center,
-          child: TextDandyLight(
-            type: TextDandyLight.MEDIUM_TEXT,
-            fontFamily: FontTheme.MontserratAlternativesRegular,
-            text: 'Download\nApple',
-            textAlign: TextAlign.center,
-            color: isHoveredApple ? Color(ColorConstants.getBlueLight()) : Color(ColorConstants.getPrimaryWhite()),
+        child: GestureDetector(
+          onTap: () {
+            final url = Uri.parse("https://apps.apple.com/app/id6444910643",);
+            launchUrl(
+              url,
+              mode: LaunchMode.externalApplication,
+            );
+          },
+          child: Container(
+            margin: EdgeInsets.only(left: 32, right: 32, top: 0),
+            alignment: Alignment.center,
+            child: TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+              fontFamily: FontTheme.MontserratAlternativesRegular,
+              text: 'Download\nApple',
+              textAlign: TextAlign.center,
+              color: isHoveredApple ? Color(ColorConstants.getBlueLight()) : Color(ColorConstants.getPrimaryWhite()),
+            ),
           ),
         ),
         cursor: SystemMouseCursors.click,
@@ -236,15 +246,24 @@ class _LandingPageState extends State<LandingPage> {
         },
       ) : SizedBox(),
       isCollapsed ? MouseRegion(
-        child: Container(
-          margin: EdgeInsets.only(left: 32, right: 32, top: 0),
-          alignment: Alignment.center,
-          child: TextDandyLight(
-            type: TextDandyLight.MEDIUM_TEXT,
-            fontFamily: FontTheme.MontserratAlternativesRegular,
-            textAlign: TextAlign.center,
-            text: 'Download\nAndroid',
-            color: isHoveredAndroid ? Color(ColorConstants.getBlueLight()) : Color(ColorConstants.getPrimaryWhite()),
+        child: GestureDetector(
+          onTap: () {
+            final url = Uri.parse("https://play.google.com/store/apps/details?id=com.dandylight.mobile");
+            launchUrl(
+              url,
+              mode: LaunchMode.externalApplication,
+            );
+          },
+          child: Container(
+            margin: EdgeInsets.only(left: 32, right: 32, top: 0),
+            alignment: Alignment.center,
+            child: TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+              fontFamily: FontTheme.MontserratAlternativesRegular,
+              textAlign: TextAlign.center,
+              text: 'Download\nAndroid',
+              color: isHoveredAndroid ? Color(ColorConstants.getBlueLight()) : Color(ColorConstants.getPrimaryWhite()),
+            ),
           ),
         ),
         cursor: SystemMouseCursors.click,
@@ -767,35 +786,63 @@ class _LandingPageState extends State<LandingPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              margin: EdgeInsets.only(right: 32),
-              height: 54,
-              width: 54,
-              child: Image.asset(
-                "icons/instagram.png",
+            MouseRegion(
+              child: GestureDetector(
+                onTap: () {
+                  IntentLauncherUtil.launchURL('https://www.instagram.com/dandy.light/');
+                },
+                child: Container(
+                  margin: EdgeInsets.only(right: 32),
+                  height: 54,
+                  width: 54,
+                  child: Image.asset(
+                    "icons/instagram.png",
+                  ),
+                ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(right: 32),
-              height: 54,
-              width: 54,
-              child: Image.asset(
-                "icons/tiktok.png",
+            MouseRegion(
+              child: GestureDetector(
+                onTap: () {
+                  IntentLauncherUtil.launchURL('https://www.tiktok.com/@dandylightapp');
+                },
+                child: Container(
+                  margin: EdgeInsets.only(right: 32),
+                  height: 54,
+                  width: 54,
+                  child: Image.asset(
+                    "icons/tiktok.png",
+                  ),
+                ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(right: 32),
-              height: 54,
-              width: 54,
-              child: Image.asset(
-                "icons/youtube.png",
+            MouseRegion(
+              child: GestureDetector(
+                onTap: () {
+                  IntentLauncherUtil.launchURL('https://www.youtube.com/@DandyLight-APP');
+                },
+                child: Container(
+                  margin: EdgeInsets.only(right: 32),
+                  height: 54,
+                  width: 54,
+                  child: Image.asset(
+                    "icons/youtube.png",
+                  ),
+                ),
               ),
             ),
-            Container(
-              height: 54,
-              width: 54,
-              child: Image.asset(
-                "icons/pinterest.png",
+            MouseRegion(
+              child: GestureDetector(
+                onTap: () {
+                  IntentLauncherUtil.launchURL('https://www.pinterest.com/DandyLightApp/');
+                },
+                child: Container(
+                  height: 54,
+                  width: 54,
+                  child: Image.asset(
+                    "icons/pinterest.png",
+                  ),
+                ),
               ),
             ),
             Container(
@@ -812,14 +859,19 @@ class _LandingPageState extends State<LandingPage> {
               ),
             ),
             MouseRegion(
-              child: Container(
-                margin: EdgeInsets.only(left: 32, right: 32, top: 0),
-                alignment: Alignment.center,
-                child: TextDandyLight(
-                  type: TextDandyLight.MEDIUM_TEXT,
-                  fontFamily: FontTheme.OPEN_SANS,
-                  text: 'Contact us',
-                  color: isHoveredPricing ? Color(ColorConstants.getBlueLight()) : Color(ColorConstants.getPrimaryWhite()),
+              child: GestureDetector(
+                onTap: () {
+                  IntentLauncherUtil.sendEmail('support@dandylight.com', 'Contact us', '');
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: 32, right: 32, top: 0),
+                  alignment: Alignment.center,
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    fontFamily: FontTheme.OPEN_SANS,
+                    text: 'Contact us',
+                    color: isHoveredPricing ? Color(ColorConstants.getBlueLight()) : Color(ColorConstants.getPrimaryWhite()),
+                  ),
                 ),
               ),
               cursor: SystemMouseCursors.click,
