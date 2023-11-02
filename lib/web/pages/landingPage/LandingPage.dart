@@ -359,7 +359,7 @@ class _LandingPageState extends State<LandingPage> {
                     duration: const Duration(milliseconds: 500),
                     curve: Curves.ease,
                     child: Text(
-                      'Professional client portal custom to your brand!',
+                      'Professional client portal custom to your brand',
                       textAlign: TextAlign.start,
                     ),
                   ),
@@ -416,7 +416,7 @@ class _LandingPageState extends State<LandingPage> {
                     duration: const Duration(milliseconds: 500),
                     curve: Curves.ease,
                     child: Text(
-                      'Professional client portal custom to your brand!',
+                      'Setup your brand with ease',
                       textAlign: TextAlign.end,
                     ),
                   ),
@@ -428,18 +428,18 @@ class _LandingPageState extends State<LandingPage> {
                     text: TextSpan(
                         style: TextStyle(fontWeight: FontWeight.normal),
                         children: [
-                          TextSpan(text: "Wow your clients with a beautiful branded client portal. A central hub to share the ", style: TextStyle(
+                          TextSpan(text: "Choose your own color and font theme. Upload your logo and ", style: TextStyle(
                             fontSize: 26,
                             fontFamily: FontTheme.OPEN_SANS,
                             color: Color(ColorConstants.getPrimaryBlack()),
                           )),
-                          TextSpan(text: "contract", style: TextStyle(
+                          TextSpan(text: "showcase", style: TextStyle(
                             fontSize: 26,
                             fontFamily: FontTheme.OPEN_SANS,
                             fontWeight: FontWeight.bold,
                             color: Color(ColorConstants.getPrimaryBlack()),
                           )),
-                          TextSpan(text: " , invoice, poses and job details.", style: TextStyle(
+                          TextSpan(text: " your creativity with a banner image.", style: TextStyle(
                             fontSize: 26,
                             fontFamily: FontTheme.OPEN_SANS,
                             color: Color(ColorConstants.getPrimaryBlack()),
@@ -483,7 +483,7 @@ class _LandingPageState extends State<LandingPage> {
                     duration: const Duration(milliseconds: 500),
                     curve: Curves.ease,
                     child: Text(
-                      'Professional client portal custom to your brand!',
+                      'Save time by tracking your jobs in one place',
                       textAlign: TextAlign.start,
                     ),
                   ),
@@ -494,20 +494,15 @@ class _LandingPageState extends State<LandingPage> {
                     text: TextSpan(
                         style: TextStyle(fontWeight: FontWeight.normal),
                         children: [
-                          TextSpan(text: "Wow your clients with a beautiful branded client portal. A central hub to share the ", style: TextStyle(
+                          TextSpan(text: "Have all of your job details in one place, keeping you organized and ", style: TextStyle(
                             fontSize: 26,
                             fontFamily: FontTheme.OPEN_SANS,
                             color: Color(ColorConstants.getPrimaryBlack()),
                           )),
-                          TextSpan(text: "contract", style: TextStyle(
+                          TextSpan(text: "saving you time!", style: TextStyle(
                             fontSize: 26,
                             fontFamily: FontTheme.OPEN_SANS,
                             fontWeight: FontWeight.bold,
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          )),
-                          TextSpan(text: " , invoice, poses and job details.", style: TextStyle(
-                            fontSize: 26,
-                            fontFamily: FontTheme.OPEN_SANS,
                             color: Color(ColorConstants.getPrimaryBlack()),
                           )),
                         ]
@@ -540,7 +535,7 @@ class _LandingPageState extends State<LandingPage> {
                     duration: const Duration(milliseconds: 500),
                     curve: Curves.ease,
                     child: Text(
-                      'Professional client portal custom to your brand!',
+                      'Sunset & Weather',
                       textAlign: TextAlign.end,
                     ),
                   ),
@@ -552,18 +547,7 @@ class _LandingPageState extends State<LandingPage> {
                     text: TextSpan(
                         style: TextStyle(fontWeight: FontWeight.normal),
                         children: [
-                          TextSpan(text: "Wow your clients with a beautiful branded client portal. A central hub to share the ", style: TextStyle(
-                            fontSize: 26,
-                            fontFamily: FontTheme.OPEN_SANS,
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          )),
-                          TextSpan(text: "contract", style: TextStyle(
-                            fontSize: 26,
-                            fontFamily: FontTheme.OPEN_SANS,
-                            fontWeight: FontWeight.bold,
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          )),
-                          TextSpan(text: " , invoice, poses and job details.", style: TextStyle(
+                          TextSpan(text: "Never miss golden hour again! Our sunset and weather can prepare you for any photoshoot no matter how far in advance. ", style: TextStyle(
                             fontSize: 26,
                             fontFamily: FontTheme.OPEN_SANS,
                             color: Color(ColorConstants.getPrimaryBlack()),
@@ -607,7 +591,7 @@ class _LandingPageState extends State<LandingPage> {
                     duration: const Duration(milliseconds: 500),
                     curve: Curves.ease,
                     child: Text(
-                      'Professional client portal custom to your brand!',
+                      'Take the stress out of tax season',
                       textAlign: TextAlign.start,
                     ),
                   ),
@@ -618,18 +602,29 @@ class _LandingPageState extends State<LandingPage> {
                     text: TextSpan(
                         style: TextStyle(fontWeight: FontWeight.normal),
                         children: [
-                          TextSpan(text: "Wow your clients with a beautiful branded client portal. A central hub to share the ", style: TextStyle(
+                          TextSpan(text: "Effortlessly manage your finances and track your miles driven. Use our ", style: TextStyle(
                             fontSize: 26,
                             fontFamily: FontTheme.OPEN_SANS,
                             color: Color(ColorConstants.getPrimaryBlack()),
                           )),
-                          TextSpan(text: "contract", style: TextStyle(
+                          TextSpan(text: "mileage calculator", style: TextStyle(
                             fontSize: 26,
                             fontFamily: FontTheme.OPEN_SANS,
                             fontWeight: FontWeight.bold,
                             color: Color(ColorConstants.getPrimaryBlack()),
                           )),
-                          TextSpan(text: " , invoice, poses and job details.", style: TextStyle(
+                          TextSpan(text: " and expense tracker to simplifying tax preparation and maximize your ", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                          TextSpan(text: "deductions", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            fontWeight: FontWeight.bold,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                          TextSpan(text: " and profitability.", style: TextStyle(
                             fontSize: 26,
                             fontFamily: FontTheme.OPEN_SANS,
                             color: Color(ColorConstants.getPrimaryBlack()),
@@ -643,6 +638,205 @@ class _LandingPageState extends State<LandingPage> {
           ],
         ),
       ),
+      Container(
+        height: 800,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 450,
+                  margin: EdgeInsets.only(bottom: 32),
+                  child: AnimatedDefaultTextStyle(
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontFamily: FontTheme.OPEN_SANS,
+                      fontWeight: FontWeight.bold,
+                      color: Color(ColorConstants.getPrimaryBlack()),
+                    ),
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.ease,
+                    child: Text(
+                      'Get inspiration from our pose library',
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 450,
+                  child: RichText(
+                    textAlign: TextAlign.end,
+                    text: TextSpan(
+                        style: TextStyle(fontWeight: FontWeight.normal),
+                        children: [
+                          TextSpan(text: "Browse and select poses to add a unique touch to your photography sessions and ", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                          TextSpan(text: "enhance", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                          TextSpan(text: " the visual appeal of your work.", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                        ]
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(width: 64),
+            Container(
+              child: Image.asset("images/landing_page/poses.png", height: 600,),
+            ),
+          ],
+        ),
+      ),
+      Container(
+        height: 800,
+        margin: EdgeInsets.only(bottom: 32),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              child: Image.asset("images/landing_page/business_analytics.png", height: 600,),
+            ),
+            SizedBox(width: 64),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 450,
+                  margin: EdgeInsets.only(bottom: 32),
+                  child: AnimatedDefaultTextStyle(
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontFamily: FontTheme.OPEN_SANS,
+                      fontWeight: FontWeight.bold,
+                      color: Color(ColorConstants.getPrimaryBlack()),
+                    ),
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.ease,
+                    child: Text(
+                      'Grow your business with analytics',
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 450,
+                  child: RichText(
+                    text: TextSpan(
+                        style: TextStyle(fontWeight: FontWeight.normal),
+                        children: [
+                          TextSpan(text: "See where your most ", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                          TextSpan(text: "profitable leads", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            fontWeight: FontWeight.bold,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                          TextSpan(text: " are coming from so you can double down on your marketing efforts.", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                        ]
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      Container(
+        height: 250,
+        color: Color(ColorConstants.getBlueDark()),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              margin: EdgeInsets.only(right: 32),
+              height: 54,
+              width: 54,
+              child: Image.asset(
+                "icons/instagram.png",
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(right: 32),
+              height: 54,
+              width: 54,
+              child: Image.asset(
+                "icons/tiktok.png",
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(right: 32),
+              height: 54,
+              width: 54,
+              child: Image.asset(
+                "icons/youtube.png",
+              ),
+            ),
+            Container(
+              height: 54,
+              width: 54,
+              child: Image.asset(
+                "icons/pinterest.png",
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 32, right: 0, top: 0),
+              alignment: Alignment.center,
+              height: 54,
+              width: 54,
+              child: TextDandyLight(
+                type: TextDandyLight.LARGE_TEXT,
+                text: '|',
+                isBold: true,
+                fontFamily: FontTheme.MontserratAlternativesRegular,
+                color: Color(ColorConstants.getPrimaryWhite()),
+              ),
+            ),
+            MouseRegion(
+              child: Container(
+                margin: EdgeInsets.only(left: 32, right: 32, top: 0),
+                alignment: Alignment.center,
+                child: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  fontFamily: FontTheme.OPEN_SANS,
+                  text: 'Contact us',
+                  color: isHoveredPricing ? Color(ColorConstants.getBlueLight()) : Color(ColorConstants.getPrimaryWhite()),
+                ),
+              ),
+              cursor: SystemMouseCursors.click,
+              onHover: (event) {
+                setState(() {
+                  isHoveredPricing = true;
+                });
+              },
+              onExit: (event) {
+                setState(() {
+                  isHoveredPricing = false;
+                });
+              },
+            ),
+          ],
+        ),
+      )
     ];
   }
 
