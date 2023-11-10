@@ -210,7 +210,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                       PopupMenuButton<String>(
                         onSelected: handleClick,
                         padding: EdgeInsets.only(right: 16),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
                         itemBuilder: (BuildContext context) {
                           return {'Branding', 'Business Info', 'Payment Options'}.map((String choice) {
                             Widget icon = SizedBox();
