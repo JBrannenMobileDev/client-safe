@@ -18,8 +18,6 @@ import 'package:redux/redux.dart';
 
 import '../../models/JobStage.dart';
 import '../../models/JobType.dart';
-import '../../models/LeadSource.dart';
-import '../../utils/ImageUtil.dart';
 import 'DashboardPageActions.dart';
 import 'DashboardPageState.dart';
 
@@ -125,6 +123,10 @@ DashboardPageState _updateShowHideLeadsState(DashboardPageState previousState, U
 DashboardPageState _setJobs(DashboardPageState previousState, SetJobToStateAction action) {
   List<Job> activeJobs = JobUtil.getActiveJobs(action.allJobs);
   List<Job> jobsThisWeek = [];
+  List<Job> activeJobsWithSignedContracts = [];
+  List<Job> activeJobsWithUnsignedContracts = [];
+  List<Job> allJobsWithSignedContract = [];
+  List<Job> allJobsWithUnsignedContracts = [];
 
   List<JobStage> allStagesFromAllJobs = [];
   for(Job job in activeJobs) {
@@ -163,6 +165,10 @@ DashboardPageState _setJobs(DashboardPageState previousState, SetJobToStateActio
       lineChartMonthData: chartItems.reversed.toList(),
       jobsThisWeek: jobsThisWeek,
       areJobsLoaded: true,
+      activeJobsWithUnsignedContract: JobUtil.getJobsWithUnsignedContracts(activeJobs),
+      activeJobsWithSignedContract: JobUtil.getJobsWithSignedContracts(activeJobs),
+      allJobsWithUnsignedContract: JobUtil.getJobsWithUnsignedContracts(action.allJobs),
+      allJobsWithSignedContract: JobUtil.getJobsWithSignedContracts(action.allJobs),
   );
 }
 

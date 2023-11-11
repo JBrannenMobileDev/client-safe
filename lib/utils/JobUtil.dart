@@ -48,6 +48,14 @@ class JobUtil {
     }
     return result;
   }
+
+  static getJobsWithSignedContracts(List<Job> jobs) {
+    return jobs.where((job) => job.proposal != null && job.proposal.contract != null && job.proposal.contract.signedByClient).toList();
+  }
+
+  static getJobsWithUnsignedContracts(List<Job> jobs) {
+    return jobs.where((job) => job.proposal != null && job.proposal.contract != null && !job.proposal.contract.signedByClient).toList();
+  }
 }
 
 

@@ -38,6 +38,7 @@ import '../models/JobStage.dart';
 import '../models/LocationDandy.dart';
 import '../pages/contract_edit_page/ContractEditPage.dart';
 import '../pages/dashboard_page/DashboardPageState.dart';
+import '../pages/dashboard_page/widgets/ContractListPage.dart';
 import '../pages/job_details_page/JobDetailsPageState.dart';
 import '../pages/edit_branding_page/EditBrandingPage.dart';
 import '../pages/poses_page/PosesPage.dart';
@@ -107,6 +108,9 @@ class NavigationUtil {
   }
   static onStageStatsSelected(BuildContext context, DashboardPageState pageState, String title, JobStage stage, bool isActiveJobs) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobListPage(pageState: pageState, pageTitle: title, stage: stage, isActiveJobs: isActiveJobs)));
+  }
+  static onDashboardContractsSelected(BuildContext context, DashboardPageState pageState, bool signed) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ContractListPage(pageState: pageState, signed: signed)));
   }
   static onJobHistorySelected(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobHistoryListPage()));

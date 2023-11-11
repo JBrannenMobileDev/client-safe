@@ -98,6 +98,8 @@ class EventNames {
   static const String NAV_TO_COLLECTION_PRICE_PACKAGES = "nav_to_collection_price_packages";
   static const String NAV_TO_COLLECTION_LOCATIONS = "nav_to_collection_locations";
   static const String NAV_TO_COLLECTION_RESPONSES = "nav_to_collection_responses";
+  static const String NAV_TO_UNSIGNED_CONTRACTS = "nav_to_unsigned_contracts";
+  static const String NAV_TO_SIGNED_CONTRACTS = "nav_to_signed_contracts";
 
   static const String NAV_TO_ACTIVE_STAGE = "nav_to_active_stage";
   static const String ACTIVE_STAGE_PARAM_NAME = "active_stage_param_name";

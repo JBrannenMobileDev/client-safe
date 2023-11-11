@@ -16,6 +16,7 @@ class ClientPortalPageState{
   final String jobId;
   final String errorMsg;
   final bool isLoading;
+  final bool isLoadingInitial;
   final bool isBrandingPreview;
   final Function(String) onClientSignatureSaved;
   final Function(bool) onMarkAsPaidSelected;
@@ -40,6 +41,7 @@ class ClientPortalPageState{
     @required this.isLoading,
     @required this.resetErrorMsg,
     @required this.isBrandingPreview,
+    @required this.isLoadingInitial,
   });
 
   ClientPortalPageState copyWith({
@@ -52,6 +54,7 @@ class ClientPortalPageState{
     String errorMsg,
     bool isLoading,
     bool isBrandingPreview,
+    bool isLoadingInitial,
     Function(String) onClientSignatureSaved,
     Function(bool) onMarkAsPaidSelected,
     Function(bool) onMarkAsPaidDepositSelected,
@@ -75,6 +78,7 @@ class ClientPortalPageState{
       isLoading: isLoading ?? this.isLoading,
       resetErrorMsg: resetErrorMsg ?? this.resetErrorMsg,
       isBrandingPreview: isBrandingPreview ?? this.isBrandingPreview,
+      isLoadingInitial: isLoadingInitial ?? this.isLoadingInitial,
     );
   }
 
@@ -94,6 +98,7 @@ class ClientPortalPageState{
     isLoading: false,
     resetErrorMsg: null,
     isBrandingPreview: false,
+    isLoadingInitial: true,
   );
 
   factory ClientPortalPageState.fromStore(Store<AppState> store) {
@@ -107,6 +112,7 @@ class ClientPortalPageState{
       errorMsg: store.state.clientPortalPageState.errorMsg,
       isLoading: store.state.clientPortalPageState.isLoading,
       isBrandingPreview: store.state.clientPortalPageState.isBrandingPreview,
+      isLoadingInitial: store.state.clientPortalPageState.isLoadingInitial,
       onClientSignatureSaved: (signature) {
         store.dispatch(SetLoadingStateAction(store.state.clientPortalPageState, true));
         store.dispatch(SaveClientSignatureAction(store.state.clientPortalPageState, signature));
@@ -135,6 +141,7 @@ class ClientPortalPageState{
       errorMsg.hashCode ^
       isLoading.hashCode ^
       isBrandingPreview.hashCode ^
+      isLoadingInitial.hashCode ^
       onMarkAsPaidDepositSelected.hashCode;
 
   @override
@@ -155,5 +162,6 @@ class ClientPortalPageState{
               onMarkAsPaidSelected == other.onMarkAsPaidSelected &&
               onDownloadInvoiceSelected == other.onDownloadInvoiceSelected &&
               onDownloadContractSelected == other.onDownloadContractSelected &&
+              isLoadingInitial == other.isLoadingInitial &&
               onMarkAsPaidDepositSelected == other.onMarkAsPaidDepositSelected;
 }

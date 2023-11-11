@@ -44,6 +44,12 @@ class SetLoadingStateAction {
   SetLoadingStateAction(this.pageState, this.isLoading);
 }
 
+class SetInitialLoadingStateAction {
+  final ClientPortalPageState pageState;
+  final bool isLoading;
+  SetInitialLoadingStateAction(this.pageState, this.isLoading);
+}
+
 class SetJobAction {
   final ClientPortalPageState pageState;
   final Job job;

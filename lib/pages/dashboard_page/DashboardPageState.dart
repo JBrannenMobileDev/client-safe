@@ -41,6 +41,10 @@ class DashboardPageState {
   final List<Job> allJobs;
   final List<Job> activeJobs;
   final List<Job> jobsThisWeek;
+  final List<Job> activeJobsWithUnsignedContract;
+  final List<Job> activeJobsWithSignedContract;
+  final List<Job> allJobsWithUnsignedContract;
+  final List<Job> allJobsWithSignedContract;
   final List<PieChartSectionData> jobTypeBreakdownData;
   final List<PieChartSectionData> leadSourcesData;
   final int unseenNotificationCount;
@@ -117,6 +121,10 @@ class DashboardPageState {
     this.shouldShowAppUpdate,
     this.markUpdateAsSeen,
     this.appSettings,
+    this.activeJobsWithSignedContract,
+    this.activeJobsWithUnsignedContract,
+    this.allJobsWithSignedContract,
+    this.allJobsWithUnsignedContract,
   });
 
   DashboardPageState copyWith({
@@ -140,6 +148,10 @@ class DashboardPageState {
     List<Job> jobsThisWeek,
     List<JobStage> allUserStages,
     List<Pose> unseenFeaturedPoses,
+    List<Job> activeJobsWithUnsignedContract,
+    List<Job> activeJobsWithSignedContract,
+    List<Job> allJobsWithUnsignedContract,
+    List<Job> allJobsWithSignedContract,
     int unseenNotificationCount,
     List<LineChartMonthData> lineChartMonthData,
     Function() onAddClicked,
@@ -218,6 +230,10 @@ class DashboardPageState {
       shouldShowAppUpdate : shouldShowAppUpdate ?? this.shouldShowAppUpdate,
       markUpdateAsSeen: markUpdateAsSeen ?? this.markUpdateAsSeen,
       appSettings: appSettings ?? this.appSettings,
+      activeJobsWithSignedContract: activeJobsWithSignedContract ?? this.activeJobsWithSignedContract,
+      activeJobsWithUnsignedContract: activeJobsWithUnsignedContract ?? this.activeJobsWithUnsignedContract,
+      allJobsWithSignedContract: allJobsWithSignedContract ?? this.allJobsWithSignedContract,
+      allJobsWithUnsignedContract: allJobsWithUnsignedContract ?? this.allJobsWithUnsignedContract,
     );
   }
 
@@ -257,6 +273,10 @@ class DashboardPageState {
       shouldShowRequestReview: store.state.dashboardPageState.shouldShowRequestReview,
       shouldShowAppUpdate: store.state.dashboardPageState.shouldShowAppUpdate,
       appSettings: store.state.dashboardPageState.appSettings,
+      activeJobsWithSignedContract: store.state.dashboardPageState.activeJobsWithSignedContract,
+      activeJobsWithUnsignedContract: store.state.dashboardPageState.activeJobsWithUnsignedContract,
+      allJobsWithSignedContract: store.state.dashboardPageState.allJobsWithSignedContract,
+      allJobsWithUnsignedContract: store.state.dashboardPageState.allJobsWithUnsignedContract,
       onLeadClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
       onJobClicked: (job) {
         store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job));
@@ -321,6 +341,10 @@ class DashboardPageState {
     unconvertedLeadCount: 0,
     jobTypePieChartRowData: [],
     leadSourcePieChartRowData: [],
+    activeJobsWithUnsignedContract: [],
+    activeJobsWithSignedContract: [],
+    allJobsWithUnsignedContract: [],
+    allJobsWithSignedContract: [],
     profile: null,
     subscriptionState: null,
     markAllAsSeen: null,
@@ -384,6 +408,10 @@ class DashboardPageState {
       updateCanShowRequestReview.hashCode ^
       markUpdateAsSeen.hashCode ^
       appSettings.hashCode ^
+      activeJobsWithUnsignedContract.hashCode ^
+      activeJobsWithUnsignedContract.hashCode ^
+      allJobsWithUnsignedContract.hashCode ^
+      allJobsWithSignedContract.hashCode ^
       isMinimized.hashCode;
 
   @override
@@ -435,5 +463,9 @@ class DashboardPageState {
               updateCanShowPMF == other.updateCanShowPMF &&
               updateCanShowRequestReview == other.updateCanShowRequestReview &&
               markUpdateAsSeen == other.markUpdateAsSeen &&
+              activeJobsWithUnsignedContract == other.activeJobsWithUnsignedContract &&
+              activeJobsWithSignedContract == other.activeJobsWithSignedContract &&
+              allJobsWithSignedContract == other.allJobsWithSignedContract &&
+              allJobsWithUnsignedContract == other.allJobsWithUnsignedContract &&
               isMinimized == other.isMinimized;
 }

@@ -6,8 +6,6 @@ import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/Proposal.dart';
 import 'package:dandylight/utils/PdfUtil.dart';
-import 'package:dandylight/utils/TextFormatterUtil.dart';
-import 'package:intl/intl.dart';
 import 'package:pdf/widgets.dart';
 import 'package:redux/redux.dart';
 import '../../data_layer/api_clients/DandylightFunctionsClient.dart';
@@ -81,6 +79,7 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetJobAction(store.state.clientPortalPageState, job));
     store.dispatch(SetProfileAction(store.state.clientPortalPageState, profile));
     store.dispatch(SetInvoiceAction(store.state.clientPortalPageState, job.invoice));
+    store.dispatch(SetInitialLoadingStateAction(store.state.clientPortalPageState, false));
   }
 
   void _generateContract(Store<AppState> store, GenerateContractForClientAction action, NextDispatcher next) async{

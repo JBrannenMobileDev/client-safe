@@ -75,6 +75,14 @@ class JobStage {
     );
   }
 
+  Image getContractImage(bool signed, Color color) {
+    if(signed) {
+      return Image.asset('assets/images/icons/contract_signed.png', color: color);
+    } else {
+      return Image.asset('assets/images/icons/contract.png', color: color);
+    }
+  }
+
   Image getStageImage(Color color) {
     String imageLocation = 'assets/images/icons/sms.png';
     switch(stage) {

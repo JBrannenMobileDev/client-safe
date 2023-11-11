@@ -8,6 +8,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 
+import '../../../utils/Shadows.dart';
 import '../../../utils/intentLauncher/IntentLauncherUtil.dart';
 import '../ClientPortalPageState.dart';
 
@@ -43,7 +44,8 @@ class _DetailsPagePageState extends State<DetailsPage> {
                 ) : Container(
                   alignment: Alignment.center,
                   margin: EdgeInsets.only(top:16, bottom: 0, left: 16, right: 16),
-                  child: Column(
+                  child:
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -52,10 +54,10 @@ class _DetailsPagePageState extends State<DetailsPage> {
                           Container(
                             padding: EdgeInsets.all(6),
                             margin: EdgeInsets.only(left: 0, right: 8),
-                            height: 26,
-                            width: 26,
+                            height: 30,
+                            width: 30,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(13),
+                                borderRadius: BorderRadius.circular(8),
                                 color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
                             ),
                             child: Image.asset("icons/calendar_white.png"),
@@ -73,11 +75,11 @@ class _DetailsPagePageState extends State<DetailsPage> {
                         children: [
                           Container(
                             padding: EdgeInsets.all(6),
-                            margin: EdgeInsets.only(left: 0, right: 8, top: 8),
-                            height: 26,
-                            width: 26,
+                            margin: EdgeInsets.only(left: 0, right: 8, top: 6),
+                            height: 30,
+                            width: 30,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(13),
+                                borderRadius: BorderRadius.circular(8),
                                 color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
                             ),
                             child: Image.asset("icons/clock_white.png"),
@@ -96,11 +98,11 @@ class _DetailsPagePageState extends State<DetailsPage> {
                         children: [
                           Container(
                             padding: EdgeInsets.all(6),
-                            margin: EdgeInsets.only(left: 0, right: 8, top: 8),
-                            height: 26,
-                            width: 26,
+                            margin: EdgeInsets.only(left: 0, right: 8, top: 6),
+                            height: 30,
+                            width: 30,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(13),
+                                borderRadius: BorderRadius.circular(8),
                                 color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
                             ),
                             child: Image.asset("icons/pin_white.png"),

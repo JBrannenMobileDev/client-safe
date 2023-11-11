@@ -8,6 +8,7 @@ import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/GoToJobPosesBottomSheet.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/ContractsCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/JobTypeBreakdownPieChart.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/ProfileAndJobsCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/LeadSourcesPieChart.dart';
@@ -722,6 +723,10 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                             SlideTransition(
                                 position: offsetAnimationUp,
                                 child: StageStatsHomeCard(pageState: pageState)
+                            ),
+                            SlideTransition(
+                                position: offsetAnimationUp,
+                                child: ContractsCard()
                             ),
                             SlideTransition(
                                 position: offsetAnimationUp,
