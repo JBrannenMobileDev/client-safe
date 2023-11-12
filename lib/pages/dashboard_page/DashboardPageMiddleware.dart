@@ -23,7 +23,6 @@ import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
-import 'package:dandylight/utils/EnvironmentUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -106,7 +105,6 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     profile.requestPMFSurveyDate = action.lastSeenDate;
     await ProfileDao.update(profile);
     store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
-
   }
 
   Future<void> _updateCanShowReviewRequest(Store<AppState> store, UpdateCanShowRequestReviewAction action, NextDispatcher next) async {
@@ -115,7 +113,6 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     profile.requestReviewDate = action.lastSeenDate;
     await ProfileDao.update(profile);
     store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
-
   }
 
   void _checkForUpdate(Store<AppState> store, CheckForAppUpdateAction action) async {
@@ -156,7 +153,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
 
   Future<void> _checkForPMFSurvey(Store<AppState> store, CheckForPMFSurveyAction action, NextDispatcher next) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    if(profile.isSubscribed && profile.jobsCreatedCount > 12 && profile.canShowPMFSurvey && hasBeenLongEnoughSinceLastRequest(profile.requestPMFSurveyDate, 7)) {
+    if(profile.isSubscribed && profile.jobsCreatedCount > 8 && profile.canShowPMFSurvey && hasBeenLongEnoughSinceLastRequest(profile.requestPMFSurveyDate, 7)) {
       next(SetShouldShowPMF(store.state.dashboardPageState, true));
     } else {
       next(SetShouldShowPMF(store.state.dashboardPageState, false));
@@ -414,6 +411,6 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   bool hasBeenLongEnoughSinceLastRequest(DateTime lastRequestDate, int minTimeDays) {
     final DateTime now = DateTime.now();
     final oneWeekAgo = now.subtract(Duration(days: minTimeDays));
-    return lastRequestDate.isBefore(oneWeekAgo);
+    return lastRequestDate != null ? lastRequestDate.isBefore(oneWeekAgo) : true;
   }
 }

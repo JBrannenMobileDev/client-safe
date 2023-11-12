@@ -142,7 +142,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
           String clientName = job.client != null ? job.client.firstName : 'Client';
           String clientMessage = "(Example message in client portal)\n\nHi ${clientName},\nI wanted to thank you again for choosing our photography services. We're excited to work with you to capture your special moments.\n\nTo make things official, kindly review and sign the contract. It outlines our agreement's essential details.\n\nIf you have any questions, please don't hesitate to ask.\n\nBest regards,\n\n${profile.firstName} ${profile.lastName ?? ''}\n${profile.businessName ?? ''}";
           messageController.value = messageController.value.copyWith(text: job.proposal.detailsMessage != null && job.proposal.detailsMessage.isNotEmpty ? job.proposal.detailsMessage : clientMessage);
-          if(job.proposal.detailsMessage.isEmpty) {
+          if(job.proposal.detailsMessage == null || job.proposal.detailsMessage.isEmpty) {
             store.dispatch(SetClientMessageAction(store.state.shareWithClientPageState, clientMessage));
           }
 

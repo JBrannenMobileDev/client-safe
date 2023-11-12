@@ -18,7 +18,7 @@ final newPricingProfilePageReducer = combineReducers<NewPricingProfilePageState>
 ]);
 
 NewPricingProfilePageState _updateTaxPercent(NewPricingProfilePageState previousState, UpdateTaxPercentAction action){
-  double percent = action.taxPercent != null ? double.parse(action.taxPercent.replaceAll('%', '')) : 0.0;
+  double percent = action.taxPercent != null ? double.tryParse(action.taxPercent.replaceAll('%', '')) ?? 0.0 : 0.0;
   percent = double.parse(percent.toStringAsFixed(1));
   double taxAmount = 0;
   if(action.pageState.flatRate != 0 && percent != 0) {

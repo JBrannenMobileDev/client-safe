@@ -597,7 +597,7 @@ class _StageItemState extends State<StageItem>
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_5_DEPOSIT_RECEIVED);
         stageTitle = isStageCompleted ? 'Deposit received!' : 'Deposit received?';
         stageSubtitle = '';
-        actionButtonText = job.priceProfile.deposit != null && job.priceProfile.deposit > 0 ? 'Request Deposit' : '';
+        actionButtonText = job.priceProfile != null && job.priceProfile.deposit != null && job.priceProfile.deposit > 0 ? 'Request Deposit' : '';
         break;
       case JobStage.STAGE_6_PLANNING_COMPLETE:
         stageImage = ImageUtil.getJobStageImageFromStage(job.type.stages.elementAt(index), isCurrentStage);

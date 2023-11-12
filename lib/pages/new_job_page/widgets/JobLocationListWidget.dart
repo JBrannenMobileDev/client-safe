@@ -50,7 +50,7 @@ class JobLocationListWidget extends StatelessWidget {
                     )
                 ),
               ),
-              pageState.imageFiles.isNotEmpty && pageState.imageFiles.length > locationIndex && pageState.imageFiles.elementAt(locationIndex).path.isEmpty ?
+              pageState.imageFiles.isNotEmpty && pageState.imageFiles.length > locationIndex && pageState.imageFiles.elementAt(locationIndex) != null && pageState.imageFiles.elementAt(locationIndex).path.isEmpty ?
                 Container(
                   margin: EdgeInsets.only(bottom: 54.0),
                   height: 96.0,

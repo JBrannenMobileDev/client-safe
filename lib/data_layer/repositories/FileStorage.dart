@@ -231,13 +231,6 @@ class FileStorage {
     await PoseGroupDao.update(poseGroup);
   }
 
-  static Future<File> getContractFile(Contract contract) async {
-    final storageRef = FirebaseStorage.instance.ref();
-    final cloudFilePath = storageRef.child(_buildContractFilePath(contract));
-    String contractUrl = await cloudFilePath.getDownloadURL();
-    return await DandylightCacheManager.instance.getSingleFile(contractUrl);
-  }
-
   static _deleteLocationImageFileFromCloud(LocationDandy location) async {
     try{
       if(location != null) {
@@ -257,13 +250,6 @@ class FileStorage {
       }
     } catch (e) {
       print(e);
-    }
-  }
-
-  static _deleteContractFileFromCloud(Contract contract) async {
-    if(contract != null) {
-      final storageRef = FirebaseStorage.instance.ref();
-      await storageRef.child(_buildContractFilePath(contract)).delete();
     }
   }
 
@@ -650,36 +636,6 @@ class FileStorage {
     final storageRef = FirebaseStorage.instance.ref();
     final cloudFilePath = storageRef.child(_buildExampleBannerMobileImagePath());
     return await cloudFilePath.getDownloadURL();
-  }
-
-  static _uploadContractFile(String contractPath, Contract contract) async {
-    final storageRef = FirebaseStorage.instance.ref();
-
-    final uploadTask = storageRef
-        .child(_buildContractFilePath(contract))
-        .putFile(File(contractPath));
-
-    uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
-      switch (taskSnapshot.state) {
-        case TaskState.running:
-          final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
-          print("Upload is $progress% complete.");
-          break;
-        case TaskState.paused:
-          print("Upload is paused.");
-          break;
-        case TaskState.canceled:
-          print("Upload was canceled");
-          break;
-        case TaskState.error:
-        // Handle unsuccessful uploads
-          break;
-        case TaskState.success:
-        // Handle successful uploads on complete
-        // ...
-          break;
-      }
-    });
   }
 
   static String _buildExampleLocationImagePath(LocationDandy location) {
