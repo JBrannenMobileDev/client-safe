@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dandylight/utils/ContractUtils.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
@@ -825,7 +826,7 @@ class PdfUtil {
               ));
         },
         build: (Context context) {
-          List<String> paragraphs = contract.terms.split('\n\n');
+          List<String> paragraphs = ContractUtils.populateForPdf(job, profile).split('\n\n');
           List<Widget> termsParagraphs = [];
           termsParagraphs.add(
             Header(

@@ -459,7 +459,7 @@ class _SignContractPageState extends State<ProposalPage> {
           setState(() {
             selectedPage = CONTRACT;
           });
-          EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_INVOICE_SELECTED);
+          EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_CONTRACT_SELECTED);
         },
         child: Container(
           margin: EdgeInsets.only(left: 16, right: 16),

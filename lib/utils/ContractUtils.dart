@@ -20,6 +20,17 @@ class ContractUtils {
     return populatedJsonTerms;
   }
 
+  static String populateForPdf(Job job, Profile profile) {
+    String populatedJsonTerms = '';
+    if(job.proposal.contract != null) {
+      String contractJson = job.proposal.contract.jsonTerms;
+      quill.Document document = quill.Document.fromJson(jsonDecode(contractJson));
+      document = replaceDataItems(document, profile, job);
+      populatedJsonTerms = document.toPlainText();
+    }
+    return populatedJsonTerms;
+  }
+
   static quill.Document replaceDataItems(quill.Document document, Profile profile, Job job) {
     replaceAll(document, Job.DETAIL_BUSINESS_NAME, profile.businessName != null ? profile.businessName : 'Photographer');
     replaceAll(document, Job.DETAIL_PHOTOGRAPHER_NAME, (profile.firstName != null ? profile.firstName : 'Photographer') + (profile.lastName != null ? ' ' + profile.lastName : ''));

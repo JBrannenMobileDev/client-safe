@@ -4,7 +4,7 @@ class Contract {
   String contractName;
   String photographerSignature;
   String clientSignature;
-  String terms;
+  String terms;//do not use. remove this field when you have a chance..   Might be never!
   String jsonTerms;
   bool signedByClient = false;
   bool signedByPhotographer = false;

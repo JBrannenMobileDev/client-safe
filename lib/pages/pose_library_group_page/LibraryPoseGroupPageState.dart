@@ -19,6 +19,8 @@ class LibraryPoseGroupPageState{
   final List<Job> activeJobs;
   final List<PoseGroup> myPoseGroups;
   final List<Pose> sortedPoses;
+  final Function(List<XFile>, String, String, List<String>) onNewPoseImagesSelected;
+  final List<GroupImage> poseImages;
   final Function(Pose, PoseGroup) onImageSaveSelected;
   final Function(Pose, Job) onImageAddedToJobSelected;
   final bool isAdmin;
@@ -26,6 +28,8 @@ class LibraryPoseGroupPageState{
   final String instagramUrl;
 
   LibraryPoseGroupPageState({
+    @required this.onNewPoseImagesSelected,
+    @required this.poseImages,
     @required this.poseGroup,
     @required this.onBackSelected,
     @required this.onImageAddedToJobSelected,
@@ -39,6 +43,8 @@ class LibraryPoseGroupPageState{
   });
 
   LibraryPoseGroupPageState copyWith({
+    Function(List<XFile>, String, List<String>) onNewPoseImagesSelected,
+    List<GroupImage> poseImages,
     PoseLibraryGroup poseGroup,
     Function() onBackSelected,
     Function(Pose, PoseGroup) onImageSaveSelected,
@@ -61,6 +67,8 @@ class LibraryPoseGroupPageState{
       instagramName: instagramName ?? this.instagramName,
       instagramUrl: instagramUrl ?? this.instagramUrl,
       sortedPoses: sortedPoses ?? this.sortedPoses,
+      poseImages: poseImages ?? this.poseImages,
+      onNewPoseImagesSelected: onNewPoseImagesSelected ?? this.onNewPoseImagesSelected,
     );
   }
 
@@ -75,6 +83,8 @@ class LibraryPoseGroupPageState{
     instagramUrl: '',
     instagramName: '',
     sortedPoses: [],
+    onNewPoseImagesSelected: null,
+    poseImages: [],
   );
 
   factory LibraryPoseGroupPageState.fromStore(Store<AppState> store) {
@@ -86,6 +96,10 @@ class LibraryPoseGroupPageState{
       instagramName: store.state.libraryPoseGroupPageState.instagramName,
       instagramUrl: store.state.libraryPoseGroupPageState.instagramUrl,
       sortedPoses: store.state.libraryPoseGroupPageState.sortedPoses,
+      poseImages: store.state.libraryPoseGroupPageState.poseImages,
+      onNewPoseImagesSelected: (poseImages, name, url, tags) => {
+        store.dispatch(SaveLibraryPosesToGroupAction(store.state.libraryPoseGroupPageState, poseImages, name, url, tags)),
+      },
       onBackSelected: () {
         store.dispatch(ClearLibraryPoseGroupState(store.state.libraryPoseGroupPageState));
       },
@@ -101,6 +115,8 @@ class LibraryPoseGroupPageState{
       onImageSaveSelected.hashCode ^
       onImageAddedToJobSelected.hashCode ^
       isAdmin.hashCode ^
+      poseImages.hashCode ^
+      onNewPoseImagesSelected.hashCode ^
       activeJobs.hashCode ^
       myPoseGroups.hashCode ^
       instagramName.hashCode ^
@@ -115,6 +131,8 @@ class LibraryPoseGroupPageState{
               onImageSaveSelected == other.onImageSaveSelected &&
               onImageAddedToJobSelected == other.onImageAddedToJobSelected &&
               isAdmin == other.isAdmin &&
+              poseImages == other.poseImages &&
+              onNewPoseImagesSelected == other.onNewPoseImagesSelected &&
               activeJobs == other.activeJobs &&
               myPoseGroups == other.myPoseGroups &&
               instagramName == other.instagramName &&

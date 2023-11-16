@@ -331,8 +331,7 @@ class _ContractPageState extends State<ContractPage> {
                   margin: EdgeInsets.only(top: 0, bottom: 8),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
-                    text: pageState.profile.firstName != null ? pageState.profile.firstName : "First name" + ' ' +
-                        pageState.profile.lastName != null ? pageState.profile.lastName : 'Last name',
+                    text: (pageState.profile.firstName != null ? pageState.profile.firstName : "") + ' ' + (pageState.profile.lastName != null ? pageState.profile.lastName : ''),
                   ),
                 )
               ],
@@ -350,8 +349,8 @@ class _ContractPageState extends State<ContractPage> {
               ),
             ),
             TextFormField(
-              initialValue: pageState.profile.firstName != null ? pageState.profile.firstName : "First name" + ' ' +
-                  pageState.profile.lastName != null ? pageState.profile.lastName : 'Last name',
+              initialValue: (pageState.profile.firstName != null ? pageState.profile.firstName : "") + ' ' +
+                  (pageState.profile.lastName != null ? pageState.profile.lastName : ''),
               enabled: false,
               cursorColor: Color(ColorConstants.getPrimaryBlack()),
               textCapitalization: TextCapitalization.words,

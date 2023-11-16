@@ -1,5 +1,6 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/pose_library_group_page/LibraryPoseGroupPageState.dart';
+import 'package:dandylight/pages/pose_library_group_page/widgets/AddLibraryPhotoBottomSheet.dart';
 import 'package:dandylight/pages/pose_library_group_page/widgets/LibraryPoseListWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
@@ -67,6 +68,20 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
     );
   }
 
+  void _showAddImageBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return AddLibraryPhotoBottomSheet();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, LibraryPoseGroupPageState>(
@@ -103,6 +118,22 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
                         color: Color(ColorConstants.getPeachDark()),
                       ),
                     ),
+                    actions: <Widget>[
+                      pageState.isAdmin ? GestureDetector(
+                        onTap: () {
+                          _showAddImageBottomSheet(context);
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(right: 26.0),
+                          height: 28.0,
+                          width: 28.0,
+                          child: Image.asset(
+                            'assets/images/icons/plus.png',
+                            color: Color(ColorConstants.getPeachDark()),
+                          ),
+                        ),
+                      ) : SizedBox(),
+                    ],
                   ),
                   SliverPadding(
                     padding: EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 64),

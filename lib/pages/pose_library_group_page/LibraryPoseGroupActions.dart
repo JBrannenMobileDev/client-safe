@@ -21,10 +21,31 @@ class SetLibraryPoseGroupData{
   SetLibraryPoseGroupData(this.pageState, this.poseGroup);
 }
 
+class SaveLibraryPosesToGroupAction{
+  final LibraryPoseGroupPageState pageState;
+  final List<XFile> poseImages;
+  final String name;
+  final String url;
+  final List<String> tags;
+  SaveLibraryPosesToGroupAction(this.pageState, this.poseImages, this.name, this.url, this.tags);
+}
+
 class LoadLibraryPoseGroup{
   final LibraryPoseGroupPageState pageState;
   final PoseLibraryGroup poseGroup;
   LoadLibraryPoseGroup(this.pageState, this.poseGroup);
+}
+
+class SetLoadingNewLibraryImagesState{
+  final LibraryPoseGroupPageState pageState;
+  final bool isLoading;
+  SetLoadingNewLibraryImagesState(this.pageState, this.isLoading);
+}
+
+class SetLibraryPoseImagesToState{
+  final LibraryPoseGroupPageState pageState;
+  final List<GroupImage> poseImages;
+  SetLibraryPoseImagesToState(this.pageState, this.poseImages);
 }
 
 class SetInstagramAction {
