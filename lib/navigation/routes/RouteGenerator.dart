@@ -31,9 +31,29 @@ class RouteGenerator {
       );
     }
 
+    if(uri.pathSegments.length == 1 && uri.pathSegments.first == RouteNames.POSE_INFO) {
+      EventSender().sendEvent(eventName: EventNames.WEBSITE_VIEWED, properties: {
+        EventNames.WEBSITE_VIEWED_PARAM : RouteNames.POSE_INFO,
+      });
+      return _GeneratePageRoute(
+          widget: LandingPage(comingFrom: RouteNames.POSE_INFO),
+          routeName: settings.name
+      );
+    }
+
+    if(uri.pathSegments.length == 1 && uri.pathSegments.first != RouteNames.POSE_INFO) {
+      EventSender().sendEvent(eventName: EventNames.WEBSITE_VIEWED, properties: {
+        EventNames.WEBSITE_VIEWED_PARAM : uri.pathSegments.first,
+      });
+      return _GeneratePageRoute(
+          widget: LandingPage(comingFrom: uri.pathSegments.first),
+          routeName: settings.name
+      );
+    }
+
     EventSender().sendEvent(eventName: EventNames.WEBSITE_VIEWED);
     return _GeneratePageRoute(
-        widget: LandingPage(),
+        widget: LandingPage(comingFrom: 'organicSearch'),
         routeName: settings.name
     );
   }

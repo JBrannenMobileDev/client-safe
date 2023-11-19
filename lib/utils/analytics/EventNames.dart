@@ -273,6 +273,9 @@ class EventNames {
 
   //Website
   static const String WEBSITE_VIEWED = "website_viewed";
+  static const String WEBSITE_VIEWED_PARAM = "website_viewed_param";
+  static const String WEBSITE_DOWNLOAD_CLICKED = "website_download_clicked";
+  static const String WEBSITE_DOWNLOAD_CLICKED_PARAM = "website_download_clicked_param";
 
   //Client Portal
   static const String CLIENT_PORTAL_VIEWED = "client_portal_viewed";

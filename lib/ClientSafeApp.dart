@@ -27,7 +27,7 @@ class ClientSafeApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         builder: (context, child) => MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false, textScaleFactor: 1), child: child),
         color: Color(ColorConstants.getPrimaryColor()),
-        title: 'dandylight',
+        title: 'Dandylight',
         theme: ThemeData(
           primaryColor: Color(ColorConstants.getPrimaryWhite()),
           iconTheme: IconThemeData(color: Color(ColorConstants.getPrimaryBlack())),
@@ -42,7 +42,7 @@ class ClientSafeApp extends StatelessWidget {
         builder: (context, child) => MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false, textScaleFactor: 1), child: child),
         navigatorKey: GlobalKeyUtil.instance.navigatorKey,
         color: Color(ColorConstants.getPrimaryColor()),
-        title: 'dandylight',
+        title: 'Dandylight',
         home: LoginPage(),
         theme: ThemeData(
           primaryColor: Color(ColorConstants.getPrimaryWhite()),

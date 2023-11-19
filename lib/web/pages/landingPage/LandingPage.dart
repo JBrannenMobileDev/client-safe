@@ -1,5 +1,4 @@
 import 'package:dandylight/models/FontTheme.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -16,10 +15,13 @@ import 'PricingInfo.dart';
 import 'package:universal_html/html.dart' as html;
 
 class LandingPage extends StatefulWidget{
+  final String comingFrom;
+  LandingPage({this.comingFrom});
+
 
   @override
   State<StatefulWidget> createState() {
-    return _LandingPageState();
+    return _LandingPageState(comingFrom);
   }
 }
 
@@ -28,6 +30,9 @@ class _LandingPageState extends State<LandingPage> {
   static const String HOME = 'home';
   static const String BLOG = 'blog';
   static const String ABOUT = 'about';
+  final String comingFrom;
+
+  _LandingPageState(this.comingFrom);
 
   ScrollController _scrollController = ScrollController();
   String selectedPage = HOME;
