@@ -44,6 +44,8 @@ class _LandingPageState extends State<LandingPage> {
   bool isIphone = false;
   bool isAndroidPhone = false;
 
+
+
   void handleClick(String value) {
     switch (value) {
       case 'About us':
@@ -54,8 +56,7 @@ class _LandingPageState extends State<LandingPage> {
         setState(() {
           selectedPage = PRICING;
         });
-        // NavigationUtil.onEditProfileSelected(context, profile);
-        // EventSender().sendEvent(eventName: EventNames.SETUP_BUSINESS_INFO_FROM_SHARE);
+        EventSender().sendEvent(eventName: EventNames.NAV_TO_PRICING_PAGE);
         break;
       case 'Blog':
         // NavigationUtil.onPaymentRequestInfoSelected(context);
@@ -156,6 +157,9 @@ class _LandingPageState extends State<LandingPage> {
                                       url,
                                       mode: LaunchMode.externalApplication,
                                     );
+                                    EventSender().sendEvent(eventName: EventNames.WEBSITE_DOWNLOAD_CLICKED, properties: {
+                                      EventNames.WEBSITE_DOWNLOAD_CLICKED_PARAM : comingFrom
+                                    });
                                   },
                                   child: Container(
                                     height: 84,
@@ -191,6 +195,9 @@ class _LandingPageState extends State<LandingPage> {
                                       url,
                                       mode: LaunchMode.externalApplication,
                                     );
+                                    EventSender().sendEvent(eventName: EventNames.WEBSITE_DOWNLOAD_CLICKED, properties: {
+                                      EventNames.WEBSITE_DOWNLOAD_CLICKED_PARAM : comingFrom
+                                    });
                                   },
                                   child: Container(
                                     height: 84,
@@ -343,9 +350,12 @@ class _LandingPageState extends State<LandingPage> {
                   url,
                   mode: LaunchMode.externalApplication,
                 );
+                EventSender().sendEvent(eventName: EventNames.WEBSITE_DOWNLOAD_CLICKED, properties: {
+                  EventNames.WEBSITE_DOWNLOAD_CLICKED_PARAM : comingFrom
+                });
               },
               child: Container(
-                margin: EdgeInsets.only(left: 32, right: 32),
+                margin: EdgeInsets.only(left: 32, right: 32, bottom: 16),
                 height: 64,
                 width: 300,
                 decoration: BoxDecoration(
@@ -380,14 +390,17 @@ class _LandingPageState extends State<LandingPage> {
                   url,
                   mode: LaunchMode.externalApplication,
                 );
+                EventSender().sendEvent(eventName: EventNames.WEBSITE_DOWNLOAD_CLICKED, properties: {
+                  EventNames.WEBSITE_DOWNLOAD_CLICKED_PARAM : comingFrom
+                });
               },
               child: Container(
                 height: 64,
                 width: 300,
-                margin: EdgeInsets.only(bottom: 8),
+                margin: EdgeInsets.only(bottom: 16),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(48),
-                    color: Color(ColorConstants.getPeachDark()),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                     boxShadow: ElevationToShadow[6]
                 ),
                 child: Row(
@@ -426,6 +439,9 @@ class _LandingPageState extends State<LandingPage> {
               url,
               mode: LaunchMode.externalApplication,
             );
+            EventSender().sendEvent(eventName: EventNames.WEBSITE_DOWNLOAD_CLICKED, properties: {
+              EventNames.WEBSITE_DOWNLOAD_CLICKED_PARAM : comingFrom
+            });
           },
           child: Container(
             height: 48,
@@ -481,6 +497,9 @@ class _LandingPageState extends State<LandingPage> {
               url,
               mode: LaunchMode.externalApplication,
             );
+            EventSender().sendEvent(eventName: EventNames.WEBSITE_DOWNLOAD_CLICKED, properties: {
+              EventNames.WEBSITE_DOWNLOAD_CLICKED_PARAM : comingFrom
+            });
           },
           child: Container(
             height: 48,
@@ -610,6 +629,194 @@ class _LandingPageState extends State<LandingPage> {
 
   List<Widget> buildProductInfoListWeb() {
     return [
+      comingFrom == RouteNames.POSE_INFO ? Container(
+        height: 800,
+        margin: EdgeInsets.only(bottom: 32),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              child: Image.asset("images/landing_page/poses_1.png", height: 800,),
+            ),
+            SizedBox(width: 64),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 450,
+                  margin: EdgeInsets.only(bottom: 32),
+                  child: AnimatedDefaultTextStyle(
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontFamily: FontTheme.OPEN_SANS,
+                      fontWeight: FontWeight.bold,
+                      color: Color(ColorConstants.getPrimaryBlack()),
+                    ),
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.ease,
+                    child: Text(
+                      'Get inspiration from our pose library',
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(bottom: 32),
+                  width: 450,
+                  child: RichText(
+                    text: TextSpan(
+                        style: TextStyle(fontWeight: FontWeight.normal),
+                        children: [
+                          TextSpan(text: "Browse and select poses to add a unique touch to your photography sessions and ", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                          TextSpan(text: "enhance", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            fontWeight: FontWeight.bold,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                          TextSpan(text: " the visual appeal of your work.", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                        ]
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ) : SizedBox(),
+      comingFrom == RouteNames.POSE_INFO ? Container(
+        height: 800,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 450,
+                  margin: EdgeInsets.only(bottom: 32),
+                  child: AnimatedDefaultTextStyle(
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontFamily: FontTheme.OPEN_SANS,
+                      fontWeight: FontWeight.bold,
+                      color: Color(ColorConstants.getPrimaryBlack()),
+                    ),
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.ease,
+                    child: Text(
+                      'Get featured!',
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 450,
+                  child: RichText(
+                    textAlign: TextAlign.end,
+                    text: TextSpan(
+                        style: TextStyle(fontWeight: FontWeight.normal),
+                        children: [
+                          TextSpan(text: "Submit your most captivating shots to be ", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                          TextSpan(text: "featured", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            fontWeight: FontWeight.bold,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                          TextSpan(text: " in our exclusive Pose Library. Showcase your unique style, creativity, and expertise to our global community.", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                        ]
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(width: 64),
+            Container(
+              child: Image.asset("images/landing_page/poses_2.png", height: 600,),
+            ),
+          ],
+        ),
+      ) : SizedBox(),
+      comingFrom == RouteNames.POSE_INFO ? Container(
+        height: 800,
+        margin: EdgeInsets.only(bottom: 32),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              child: Image.asset("images/landing_page/poses_3.png", height: 800,),
+            ),
+            SizedBox(width: 64),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 450,
+                  margin: EdgeInsets.only(bottom: 32),
+                  child: AnimatedDefaultTextStyle(
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontFamily: FontTheme.OPEN_SANS,
+                      fontWeight: FontWeight.bold,
+                      color: Color(ColorConstants.getPrimaryBlack()),
+                    ),
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.ease,
+                    child: Text(
+                      'Photo credit is always given to the photographer',
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(bottom: 32),
+                  width: 450,
+                  child: RichText(
+                    text: TextSpan(
+                        style: TextStyle(fontWeight: FontWeight.normal),
+                        children: [
+                          TextSpan(text: "At Dandylight, we deeply value the creative contributions of photographers, and we believe in ", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                          TextSpan(text: "giving credit where it's due.", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            fontWeight: FontWeight.bold,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                          TextSpan(text: "\n\nThat's why we make it a priority to showcase the incredible talent behind each photograph by linking directly to the photographer's Instagram account. This not only recognizes their skill and effort but also allows users to explore more of their work and connect with them on a platform they love.", style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: FontTheme.OPEN_SANS,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          )),
+                        ]
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ) : SizedBox(),
       Container(
         height: 800,
         margin: EdgeInsets.only(bottom: 32),
@@ -671,7 +878,7 @@ class _LandingPageState extends State<LandingPage> {
                 GestureDetector(
                   onTap: () {
                     _launchBrandingPreviewURL('OVsjf1eEYDSjEKd9sHkyLyqccXO2');
-                    EventSender().sendEvent(eventName: EventNames.ON_BOARDING_PREVIEW_CLIENT_PORTAL_SELECTED);
+                    EventSender().sendEvent(eventName: EventNames.WEBSITE_PREVIEW_CLIENT_PORTAL_CLICKED);
                   },
                   child: Container(
                     margin: EdgeInsets.only(bottom: 16),
@@ -1066,6 +1273,176 @@ class _LandingPageState extends State<LandingPage> {
 
   List<Widget> buildProductInfoListMobile() {
     return [
+      comingFrom == RouteNames.POSE_INFO ? Container(
+        margin: EdgeInsets.only(bottom: 128, top: 16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: 32, right: 32),
+              width: MediaQuery.of(context).size.width,
+              child: AnimatedDefaultTextStyle(
+                style: TextStyle(
+                  fontSize: 24,
+                  fontFamily: FontTheme.OPEN_SANS,
+                  fontWeight: FontWeight.bold,
+                  color: Color(ColorConstants.getPrimaryBlack()),
+                ),
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.ease,
+                child: Text(
+                  'Get inspiration from our pose library',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+            Container(
+              child: Image.asset("images/landing_page/poses_1.png", height: 600,),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 32, right: 32),
+              width: MediaQuery.of(context).size.width,
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                    style: TextStyle(fontWeight: FontWeight.normal),
+                    children: [
+                      TextSpan(text: "Browse and select poses to add a unique touch to your photography sessions and ", style: TextStyle(
+                        fontSize: 24,
+                        fontFamily: FontTheme.OPEN_SANS,
+                        color: Color(ColorConstants.getPrimaryBlack()),
+                      )),
+                      TextSpan(text: "enhance", style: TextStyle(
+                        fontSize: 24,
+                        fontFamily: FontTheme.OPEN_SANS,
+                        color: Color(ColorConstants.getPrimaryBlack()),
+                      )),
+                      TextSpan(text: " the visual appeal of your work.", style: TextStyle(
+                        fontSize: 24,
+                        fontFamily: FontTheme.OPEN_SANS,
+                        color: Color(ColorConstants.getPrimaryBlack()),
+                      )),
+                    ]
+                ),
+              ),
+            ),
+          ],
+        ),
+      ): SizedBox(),
+      comingFrom == RouteNames.POSE_INFO ? Container(
+        margin: EdgeInsets.only(bottom: 128),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: 32, right: 32),
+              width: MediaQuery.of(context).size.width,
+              child: AnimatedDefaultTextStyle(
+                style: TextStyle(
+                  fontSize: 24,
+                  fontFamily: FontTheme.OPEN_SANS,
+                  fontWeight: FontWeight.bold,
+                  color: Color(ColorConstants.getPrimaryBlack()),
+                ),
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.ease,
+                child: Text(
+                  'Get featured!',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+            Container(
+              child: Image.asset("images/landing_page/poses_2.png", height: 600,),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 32, right: 32),
+              width: MediaQuery.of(context).size.width,
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                    style: TextStyle(fontWeight: FontWeight.normal),
+                    children: [
+                      TextSpan(text: "Submit your most captivating shots to be ", style: TextStyle(
+                        fontSize: 24,
+                        fontFamily: FontTheme.OPEN_SANS,
+                        color: Color(ColorConstants.getPrimaryBlack()),
+                      )),
+                      TextSpan(text: "featured", style: TextStyle(
+                        fontSize: 24,
+                        fontFamily: FontTheme.OPEN_SANS,
+                        fontWeight: FontWeight.bold,
+                        color: Color(ColorConstants.getPrimaryBlack()),
+                      )),
+                      TextSpan(text: " in our exclusive Pose Library. Showcase your unique style, creativity, and expertise to our global community.", style: TextStyle(
+                        fontSize: 24,
+                        fontFamily: FontTheme.OPEN_SANS,
+                        color: Color(ColorConstants.getPrimaryBlack()),
+                      )),
+                    ]
+                ),
+              ),
+            ),
+          ],
+        ),
+      ) : SizedBox(),
+      comingFrom == RouteNames.POSE_INFO ? Container(
+        margin: EdgeInsets.only(bottom: 128),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: 32, right: 32),
+              width: MediaQuery.of(context).size.width,
+              child: AnimatedDefaultTextStyle(
+                style: TextStyle(
+                  fontSize: 24,
+                  fontFamily: FontTheme.OPEN_SANS,
+                  fontWeight: FontWeight.bold,
+                  color: Color(ColorConstants.getPrimaryBlack()),
+                ),
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.ease,
+                child: Text(
+                  'Photo credit is always given to the photographer!',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+            Container(
+              child: Image.asset("images/landing_page/poses_3.png", height: 600,),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 32, right: 32),
+              width: MediaQuery.of(context).size.width,
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                    style: TextStyle(fontWeight: FontWeight.normal),
+                    children: [
+                      TextSpan(text: "At Dandylight, we deeply value the creative contributions of photographers, and we believe in ", style: TextStyle(
+                        fontSize: 24,
+                        fontFamily: FontTheme.OPEN_SANS,
+                        color: Color(ColorConstants.getPrimaryBlack()),
+                      )),
+                      TextSpan(text: "giving credit where it's due.", style: TextStyle(
+                        fontSize: 24,
+                        fontFamily: FontTheme.OPEN_SANS,
+                        fontWeight: FontWeight.bold,
+                        color: Color(ColorConstants.getPrimaryBlack()),
+                      )),
+                      TextSpan(text: "\n\nThat's why we make it a priority to showcase the incredible talent behind each photograph by linking directly to the photographer's Instagram account. This not only recognizes their skill and effort but also allows users to explore more of their work and connect with them on a platform they love.", style: TextStyle(
+                        fontSize: 24,
+                        fontFamily: FontTheme.OPEN_SANS,
+                        color: Color(ColorConstants.getPrimaryBlack()),
+                      )),
+                    ]
+                ),
+              ),
+            ),
+          ],
+        ),
+      ): SizedBox(),
       Container(
         margin: EdgeInsets.only(bottom: 128),
         child: Column(
@@ -1098,7 +1475,7 @@ class _LandingPageState extends State<LandingPage> {
                 GestureDetector(
                   onTap: () {
                     _launchBrandingPreviewURL('OVsjf1eEYDSjEKd9sHkyLyqccXO2');
-                    EventSender().sendEvent(eventName: EventNames.ON_BOARDING_PREVIEW_CLIENT_PORTAL_SELECTED);
+                    EventSender().sendEvent(eventName: EventNames.WEBSITE_PREVIEW_CLIENT_PORTAL_CLICKED);
                   },
                   child: Container(
                     margin: EdgeInsets.only(bottom: 16),

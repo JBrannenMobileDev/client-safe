@@ -103,6 +103,7 @@ class EventNames {
 
   static const String NAV_TO_ACTIVE_STAGE = "nav_to_active_stage";
   static const String ACTIVE_STAGE_PARAM_NAME = "active_stage_param_name";
+  static const String NAV_TO_PRICING_PAGE = 'nav_to_pricing_page';
 
 
   //Data created names
@@ -276,6 +277,7 @@ class EventNames {
   static const String WEBSITE_VIEWED_PARAM = "website_viewed_param";
   static const String WEBSITE_DOWNLOAD_CLICKED = "website_download_clicked";
   static const String WEBSITE_DOWNLOAD_CLICKED_PARAM = "website_download_clicked_param";
+  static const String WEBSITE_PREVIEW_CLIENT_PORTAL_CLICKED = "website_preview_client_portal_clicked";
 
   //Client Portal
   static const String CLIENT_PORTAL_VIEWED = "client_portal_viewed";
