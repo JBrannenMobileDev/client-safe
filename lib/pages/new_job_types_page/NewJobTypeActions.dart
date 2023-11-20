@@ -1,6 +1,7 @@
 
 
 import 'package:dandylight/models/ReminderDandyLight.dart';
+import '../../models/JobStage.dart';
 import '../../models/JobType.dart';
 import 'NewJobTypePageState.dart';
 
@@ -49,17 +50,10 @@ class UpdateSelectedReminderListAction{
   UpdateSelectedReminderListAction(this.pageState, this.reminderStageIndex, this.isChecked);
 }
 
-class SetSelectedStagesAction{
+class DeleteJobStageAction{
   final NewJobTypePageState pageState;
   final int jobStageIndex;
-  final bool isChecked;
-  SetSelectedStagesAction(this.pageState, this.jobStageIndex, this.isChecked);
-}
-
-class UpdateCheckAllTypesAction {
-  final NewJobTypePageState pageState;
-  final bool isChecked;
-  UpdateCheckAllTypesAction(this.pageState, this.isChecked);
+  DeleteJobStageAction(this.pageState, this.jobStageIndex);
 }
 
 class UpdateCheckAllRemindersAction {
@@ -72,6 +66,23 @@ class SaveSelectedRateTypeAction{
   final NewJobTypePageState pageState;
   final String rateType;
   SaveSelectedRateTypeAction(this.pageState, this.rateType);
+}
+
+class UpdateStageListAction{
+  final NewJobTypePageState pageState;
+  final List<JobStage> stages;
+  UpdateStageListAction(this.pageState, this.stages);
+}
+
+class SetCustomStageNameAction{
+  final NewJobTypePageState pageState;
+  final String stageName;
+  SetCustomStageNameAction(this.pageState, this.stageName);
+}
+
+class SaveNewStageAction{
+  final NewJobTypePageState pageState;
+  SaveNewStageAction(this.pageState);
 }
 
 

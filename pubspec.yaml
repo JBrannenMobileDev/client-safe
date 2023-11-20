@@ -165,6 +165,8 @@ flutter:
     - assets/images/icons/link.png
     - assets/images/icons/no_card_required.png
     - assets/images/icons/previous.png
+    - assets/images/icons/reorder.png
+    - assets/images/icons/customize.png
 
     - assets/images/backgrounds/image_background.png
 

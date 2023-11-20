@@ -20,6 +20,7 @@ class DandyLightTextField extends StatelessWidget {
   final TextCapitalization capitalization;
   final List<TextInputFormatter> inputFormatter;
   final bool enabled;
+  final int maxLength;
 
   DandyLightTextField({
       this.controller,
@@ -36,6 +37,7 @@ class DandyLightTextField extends StatelessWidget {
       this.labelText,
       this.onEditingCompleted,
       this.enabled,
+      this.maxLength = 0,
   });
 
   @override
@@ -48,7 +50,9 @@ class DandyLightTextField extends StatelessWidget {
             focusNode: focusNode,
             textInputAction: keyboardAction,
             maxLines: 24,
+            maxLength: maxLength,
             controller: controller,
+            cursorColor: Color(ColorConstants.getPrimaryBlack()),
             onChanged: (text) {
               onTextInputChanged(text);
             },
@@ -60,6 +64,13 @@ class DandyLightTextField extends StatelessWidget {
               labelText: labelText,
               hintText: hintText,
               fillColor: Color(ColorConstants.getPrimaryWhite()),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25.0),
+                borderSide: BorderSide(
+                  color: Color(ColorConstants.getPrimaryColor()),
+                  width: 1.0,
+                ),
+              ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(25.0),
                 borderSide: BorderSide(

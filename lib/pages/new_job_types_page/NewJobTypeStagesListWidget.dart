@@ -40,8 +40,8 @@ class NewJobTypeStagesListWidget extends StatelessWidget {
               height: 38.0,
               width: 38.0,
               child: Image.asset(
-                  pageState.allJobStages.elementAt(index).imageLocation,
-                  color: Color(ColorConstants.getPeachDark()),
+                pageState.selectedJobStages.elementAt(index).imageLocation,
+                color: Color(ColorConstants.getPeachDark()),
               ),
             ),
             Expanded(
@@ -55,7 +55,7 @@ class NewJobTypeStagesListWidget extends StatelessWidget {
                     children: <Widget>[
                       TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
-                        text: JobStage.getStageText(pageState.allJobStages.elementAt(index)),
+                        text: pageState.selectedJobStages.elementAt(index).id <= 14 ? JobStage.getStageText(pageState.selectedJobStages.elementAt(index)) : pageState.selectedJobStages.elementAt(index).stage,
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
@@ -66,15 +66,11 @@ class NewJobTypeStagesListWidget extends StatelessWidget {
             ),
             Container(
               margin: EdgeInsets.only(left: 8.0, right: 8.0, top: 2.0, bottom: 2.0),
-              child: Checkbox(
-                  checkColor: Color(ColorConstants.getPrimaryWhite()),
-                  fillColor: MaterialStateProperty.resolveWith(getColor),
-                  value: pageState.selectedJobStages.contains(pageState.allJobStages.elementAt(index)),
-                  onChanged: (bool isChecked) {
-                    pageState.onJobStageSelected(index, isChecked);
-                  },
+              child: Container(
+                height: 26,
+                child: Image.asset('assets/images/icons/reorder.png', color: Color(ColorConstants.getPrimaryBlack()),),
               ),
-            ),
+            )
           ],
         ),
     );

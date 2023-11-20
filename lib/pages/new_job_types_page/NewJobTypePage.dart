@@ -15,6 +15,7 @@ import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../../utils/UserOptionsUtil.dart';
 import '../../widgets/TextDandyLight.dart';
+import 'CustomJobStageBottomSheet.dart';
 import 'JobTypeNameSelectionWidget.dart';
 import 'ReminderSelectionWidget.dart';
 
@@ -69,6 +70,20 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
           ),
         ) ??
         false;
+  }
+
+  void _showCustomStageBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return CustomJobStageBottomSheet();
+      },
+    );
   }
 
   @override
@@ -141,9 +156,14 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
                               },
                             ),
                           ) : SizedBox(),
-                          currentPageIndex == 2 ? GestureDetector(
+                          currentPageIndex == 2 || currentPageIndex == 1 ? GestureDetector(
                             onTap: () {
-                              UserOptionsUtil.showNewReminderDialog(context, null);
+                              if(currentPageIndex == 2) {
+                                UserOptionsUtil.showNewReminderDialog(context, null);
+                              }
+                              if(currentPageIndex == 1) {
+                                _showCustomStageBottomSheet(context);
+                              }
                             },
                             child: Container(
                               alignment: Alignment.centerRight,

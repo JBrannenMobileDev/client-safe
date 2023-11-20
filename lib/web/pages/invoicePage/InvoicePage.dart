@@ -153,8 +153,7 @@ class _InvoicePageState extends State<InvoicePage> {
                           type: TextDandyLight.MEDIUM_TEXT,
                           textAlign: TextAlign.center,
                           fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                          text: 'Due:  ' + (pageState.invoice.depositDueDate != null
-                              ? DateFormat(
+                          text: 'Due:  ' + (pageState.invoice.depositDueDate != null ? DateFormat(
                                 DeviceType.getDeviceTypeByContext(context) == Type.Website ? 'EEE, MMMM dd, yyyy' : 'mm/dd/yy'
                               ).format(pageState.invoice.depositDueDate)
                               : 'TBD'),
@@ -283,7 +282,7 @@ class _InvoicePageState extends State<InvoicePage> {
                             child: TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
                               textAlign: TextAlign.center,
-                              text: TextFormatterUtil.formatDecimalCurrency(pageState.invoice.invoicePaid ? pageState.invoice.balancePaidAmount : pageState.invoice.unpaidAmount),
+                              text: TextFormatterUtil.formatDecimalCurrency(pageState.invoice.invoicePaid && pageState.invoice.balancePaidAmount != null ? pageState.invoice.balancePaidAmount : pageState.invoice.unpaidAmount),
                             ),
                           )
                         ],
@@ -308,7 +307,7 @@ class _InvoicePageState extends State<InvoicePage> {
                         child: TextDandyLight(
                           type: TextDandyLight.LARGE_TEXT,
                           textAlign: TextAlign.center,
-                          text: TextFormatterUtil.formatDecimalCurrency(pageState.invoice.invoicePaid ? pageState.invoice.balancePaidAmount : pageState.invoice.unpaidAmount),
+                          text: TextFormatterUtil.formatDecimalCurrency(pageState.invoice.invoicePaid && pageState.invoice.balancePaidAmount != null ? pageState.invoice.balancePaidAmount : pageState.invoice.unpaidAmount),
                         ),
                       ) : SizedBox(),
                       MouseRegion(

@@ -34,24 +34,16 @@ class NewJobTypePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void saveNewJobType(Store<AppState> store, SaveNewJobTypeAction action, NextDispatcher next) async{
-    List<JobStage> unorderedSelectedStages = store.state.newJobTypePageState.selectedJobStages;
-    List<JobStage> allStagesOrdered = store.state.newJobTypePageState.allJobStages;
-    List<JobStage> selectedStages = [];
+    List<JobStage> stages = store.state.newJobTypePageState.selectedJobStages;
 
-    allStagesOrdered.forEach((orderedStage) {
-      if(stageListContainsStage(unorderedSelectedStages, orderedStage)){
-        selectedStages.add(orderedStage);
-      }
-    });
-
-    selectedStages.insert(0, JobStage(id: 1, stage: JobStage.STAGE_1_INQUIRY_RECEIVED, imageLocation: JobStage.getImageLocation(JobStage.STAGE_1_INQUIRY_RECEIVED)));
-    selectedStages.add(JobStage(id: 14, stage: JobStage.STAGE_14_JOB_COMPLETE, imageLocation: JobStage.getImageLocation(JobStage.STAGE_14_JOB_COMPLETE)));
+    stages.insert(0, JobStage(id: 1, stage: JobStage.STAGE_1_INQUIRY_RECEIVED, imageLocation: JobStage.getImageLocation(JobStage.STAGE_1_INQUIRY_RECEIVED)));
+    stages.add(JobStage(id: 14, stage: JobStage.STAGE_14_JOB_COMPLETE, imageLocation: JobStage.getImageLocation(JobStage.STAGE_14_JOB_COMPLETE)));
     JobType newJobType = JobType(
       id: store.state.newJobTypePageState.id,
       documentId: store.state.newJobTypePageState.documentId,
       title: store.state.newJobTypePageState.title,
       createdDate: DateTime.now(),
-      stages: selectedStages,
+      stages: stages,
       reminders: store.state.newJobTypePageState.selectedReminders,
     );
 

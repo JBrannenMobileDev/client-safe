@@ -1,6 +1,8 @@
+import 'dart:math';
+
+import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:redux/redux.dart';
-import '../../models/JobStage.dart';
 import 'NewJobTypeActions.dart';
 import 'NewJobTypePageState.dart';
 
@@ -9,20 +11,35 @@ final newJobTypePageReducer = combineReducers<NewJobTypePageState>([
   TypedReducer<NewJobTypePageState, UpdateJobTypeTitleAction>(_updateTitle),
   TypedReducer<NewJobTypePageState, LoadExistingJobTypeData>(_loadExistingJobType),
   TypedReducer<NewJobTypePageState, UpdateSelectedReminderListAction>(_setSelectedReminder),
-  TypedReducer<NewJobTypePageState, SetSelectedStagesAction>(_setStageList),
+  TypedReducer<NewJobTypePageState, DeleteJobStageAction>(_setStageList),
   TypedReducer<NewJobTypePageState, SetAllAction>(_setAll),
-  TypedReducer<NewJobTypePageState, UpdateCheckAllTypesAction>(_setCheckAllTypesChecked),
   TypedReducer<NewJobTypePageState, UpdateCheckAllRemindersAction>(_setCheckAllRemindersChecked),
+  TypedReducer<NewJobTypePageState, UpdateStageListAction>(_setStages),
+  TypedReducer<NewJobTypePageState, SetCustomStageNameAction>(_setCustomStageName),
+  TypedReducer<NewJobTypePageState, SaveNewStageAction>(_insertNewStage),
 ]);
 
-NewJobTypePageState _setCheckAllTypesChecked(NewJobTypePageState previousState, UpdateCheckAllTypesAction action) {
-  List<JobStage> selectedJobStagesNew = [];
-  if(action.isChecked) {
-    selectedJobStagesNew.addAll(previousState.allJobStages);
-  }
+NewJobTypePageState _insertNewStage(NewJobTypePageState previousState, SaveNewStageAction action) {
+  List<JobStage> stages = action.pageState.selectedJobStages;
+  stages.insert(0, JobStage(
+    stage: action.pageState.newStageName,
+    id: Random().nextInt(999999999) + 14,
+    imageLocation: 'assets/images/icons/customize.png'
+  ));
   return previousState.copyWith(
-    checkAllTypes: action.isChecked,
-    selectedJobStages: selectedJobStagesNew,
+    selectedJobStages: stages,
+  );
+}
+
+NewJobTypePageState _setCustomStageName(NewJobTypePageState previousState, SetCustomStageNameAction action) {
+  return previousState.copyWith(
+    newStageName: action.stageName,
+  );
+}
+
+NewJobTypePageState _setStages(NewJobTypePageState previousState, UpdateStageListAction action) {
+  return previousState.copyWith(
+    selectedJobStages: action.stages,
   );
 }
 
@@ -43,12 +60,8 @@ NewJobTypePageState _setAll(NewJobTypePageState previousState, SetAllAction acti
   );
 }
 
-NewJobTypePageState _setStageList(NewJobTypePageState previousState, SetSelectedStagesAction action) {
-  if(action.isChecked) {
-    previousState.selectedJobStages.add(previousState.allJobStages.elementAt(action.jobStageIndex));
-  } else {
-    previousState.selectedJobStages.removeWhere((jobStage) => jobStage.stage == previousState.allJobStages.elementAt(action.jobStageIndex).stage);
-  }
+NewJobTypePageState _setStageList(NewJobTypePageState previousState, DeleteJobStageAction action) {
+  previousState.selectedJobStages.removeWhere((jobStage) => jobStage.stage == previousState.selectedJobStages.elementAt(action.jobStageIndex).stage);
 
   return previousState.copyWith(
     selectedJobStages: previousState.selectedJobStages,
