@@ -54,9 +54,18 @@ class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with Aut
                   padding: EdgeInsets.only(top: 6.0, bottom: 8.0, left: 16.0, right: 16.0),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
-                    text: 'Please select stages for this job type that you would like to track.\n\nDrag and swipe items to customize your workflow.',
+                    text: 'Please select stages for this job type that you would like to track.',
                     textAlign: TextAlign.start,
                     color: Color(ColorConstants.getPrimaryBlack()),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 8.0, left: 16.0, right: 16.0),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: '• Long press to reorder\n• Swipe left to remove stage',
+                    textAlign: TextAlign.start,
+                    color: Color(ColorConstants.getPeachDark()),
                   ),
                 ),
                 ConstrainedBox(
@@ -84,9 +93,9 @@ class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with Aut
                           padding: EdgeInsets.only(right: 16.0),
                         ),
                         onDismissed: (direction) {
-                          pageState.onJobStageDeleted(index);
                           setState(() {
-                            stages.removeAt(index);
+                            // stages.removeAt(index);
+                            pageState.onJobStageDeleted(index);
                           });
                         },
                         child: Padding(

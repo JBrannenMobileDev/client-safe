@@ -23,7 +23,7 @@ NewJobTypePageState _insertNewStage(NewJobTypePageState previousState, SaveNewSt
   List<JobStage> stages = action.pageState.selectedJobStages;
   stages.insert(0, JobStage(
     stage: action.pageState.newStageName,
-    id: Random().nextInt(999999999) + 14,
+    id: Random().nextInt(999999999) + 14,//makes sure the custom id is greater than 14 and different then any other randomly generated number. hopefully
     imageLocation: 'assets/images/icons/customize.png'
   ));
   return previousState.copyWith(
@@ -81,12 +81,14 @@ NewJobTypePageState _setSelectedReminder(NewJobTypePageState previousState, Upda
 }
 
 NewJobTypePageState _loadExistingJobType(NewJobTypePageState previousState, LoadExistingJobTypeData action){
-
+  List<JobStage> stages = action.jobType.stages;
+  stages.removeAt(0);
+  stages.removeLast();
   return previousState.copyWith(
     id: action.jobType.id,
     documentId: action.jobType.documentId,
     title: action.jobType.title,
-    selectedJobStages: action.jobType.stages,
+    selectedJobStages: stages,
     selectedReminders: action.jobType.reminders,
     shouldClear: false,
   );

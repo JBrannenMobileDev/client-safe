@@ -147,7 +147,7 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
                           !pageState.shouldClear && currentPageIndex != 2 ? Container(
                             margin: EdgeInsets.only(left: 300.0),
                             child: IconButton(
-                              icon: const Icon(Icons.save),
+                              icon: const Icon(Icons.save, size: 32,),
                               tooltip: 'Save',
                               color: Color(ColorConstants.getPeachDark()),
                               onPressed: () {
@@ -167,7 +167,7 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
                             },
                             child: Container(
                               alignment: Alignment.centerRight,
-                              margin: EdgeInsets.only(right: 24.0),
+                              margin: EdgeInsets.only(right: pageState.shouldClear ? 24.0 : 66),
                               height: 28.0,
                               child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPeachDark()),),
                             ),

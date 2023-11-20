@@ -68,7 +68,7 @@ class NewJobTypeStagesListWidget extends StatelessWidget {
               margin: EdgeInsets.only(left: 8.0, right: 8.0, top: 2.0, bottom: 2.0),
               child: Container(
                 height: 26,
-                child: Image.asset('assets/images/icons/reorder.png', color: Color(ColorConstants.getPrimaryBlack()),),
+                child: Image.asset('assets/images/icons/reorder.png', color: Color(ColorConstants.getPrimaryGreyMedium()),),
               ),
             )
           ],
