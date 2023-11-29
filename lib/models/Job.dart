@@ -342,6 +342,16 @@ class Job {
     return contains;
   }
 
+  static bool containsStageById(List<JobStage> completedStages, int id) {
+    bool contains = false;
+    for(JobStage stage in completedStages){
+      if(stage.id == id){
+        contains = true;
+      }
+    }
+    return contains;
+  }
+
   int getStageIndex(String stageToMatch) {
     for(int i = 0; i < type.stages.length; i++) {
       if(type.stages.elementAt(i).stage == stageToMatch) {

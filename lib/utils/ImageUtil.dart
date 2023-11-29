@@ -190,6 +190,9 @@ class ImageUtil{
       case JobStage.STAGE_14_JOB_COMPLETE:
         imageLocation = jobStageIcons[13];
         break;
+      default:
+        imageLocation = stage.imageLocation;
+        break;
     }
     return Image.asset(
       imageLocation,

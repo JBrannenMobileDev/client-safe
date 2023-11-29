@@ -75,9 +75,11 @@ class _BottomSheetPageState extends State<AddLibraryPhotoBottomSheet> with Ticke
                        color: Color(ColorConstants.primary_black),
                      ),
                    ),
-                   images.length == 0 ? GestureDetector(
+                   GestureDetector(
                      onTap: () {
-                       getDeviceImage(pageState);
+                       if(images.length == 0) {
+                         getDeviceImage(pageState);
+                       }
                      },
                      child: Container(
                        margin: EdgeInsets.only(bottom: 32, top: 24),
@@ -95,19 +97,6 @@ class _BottomSheetPageState extends State<AddLibraryPhotoBottomSheet> with Ticke
                          color: Color(images.length == 0 ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
                        ),
                      ),
-                   ) : ClipRRect(
-                     borderRadius: BorderRadius.circular(8.0),
-                     child: Container(
-                       margin: EdgeInsets.only(top: 0),
-                       height: 100,
-                       decoration: BoxDecoration(
-                         image: DecorationImage(
-                           fit: BoxFit.contain,
-                           image: pageState.poseImages.isNotEmpty ? FileImage(File(images.elementAt(0).path))
-                               : AssetImage("assets/images/backgrounds/image_background.png"),
-                         ),
-                       ),
-                     ),
                    ),
                    Container(
                      margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 0),
@@ -121,6 +110,7 @@ class _BottomSheetPageState extends State<AddLibraryPhotoBottomSheet> with Ticke
                        onTextInputChanged: onNameChanged,
                        keyboardAction: TextInputAction.next,
                        capitalization: TextCapitalization.words,
+                       radius: 12,
                      ),
                    ),
                    Container(
@@ -135,6 +125,7 @@ class _BottomSheetPageState extends State<AddLibraryPhotoBottomSheet> with Ticke
                        onTextInputChanged: onUrlChanged,
                        keyboardAction: TextInputAction.next,
                        capitalization: TextCapitalization.words,
+                       radius: 12,
                      ),
                    ),
                    Container(
@@ -149,6 +140,7 @@ class _BottomSheetPageState extends State<AddLibraryPhotoBottomSheet> with Ticke
                        onTextInputChanged: onUrlChanged,
                        keyboardAction: TextInputAction.done,
                        capitalization: TextCapitalization.words,
+                       radius: 12,
                      ),
                    ),
                    GestureDetector(

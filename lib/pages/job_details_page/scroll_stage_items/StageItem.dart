@@ -25,7 +25,6 @@ import '../../../utils/DandyToastUtil.dart';
 import '../../../widgets/TextDandyLight.dart';
 import '../../client_details_page/SelectSavedResponseBottomSheet.dart';
 import '../../contracts_page/ContractsPage.dart';
-import '../../poses_page/PosesPage.dart';
 import '../document_items/DocumentItem.dart';
 
 class StageItem extends StatefulWidget {
@@ -301,7 +300,7 @@ class _StageItemState extends State<StageItem>
                     ),
                     child: Container(
                         padding: EdgeInsets.all(4),
-                        child: ImageUtil.getJobStageImageFromStage(pageState.job.type.stages.elementAt(index), isCurrentStage),
+                        child: pageState.job.type.stages.length > index ? ImageUtil.getJobStageImageFromStage(pageState.job.type.stages.elementAt(index), isCurrentStage) : SizedBox(),
                       ),
                     ),
                   ),
@@ -675,6 +674,14 @@ class _StageItemState extends State<StageItem>
         isCurrentStage = job.stage.stage == JobStage.STAGE_14_JOB_COMPLETE;
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_14_JOB_COMPLETE);
         stageTitle = isStageCompleted ? 'Job complete!' : 'Job complete?';
+        stageSubtitle = '';
+        actionButtonText = '';
+        break;
+      default:
+        stageImage = ImageUtil.getJobStageImageFromStage(job.type.stages.elementAt(index), isCurrentStage);
+        isCurrentStage = job.stage.id == job.type.stages.elementAt(index).id;
+        isStageCompleted = Job.containsStageById(job.completedStages, job.type.stages.elementAt(index).id);
+        stageTitle = isStageCompleted ? job.type.stages.elementAt(index).stage + '!' : job.type.stages.elementAt(index).stage + '?';
         stageSubtitle = '';
         actionButtonText = '';
         break;

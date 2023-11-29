@@ -68,7 +68,7 @@ class ManageSubscriptionPageMiddleware extends MiddlewareClass<AppState> {
       offerings = await purchases.Purchases.getOfferings();
       if (offerings != null) {
         store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, false, false));
-        String identifier = action.profile.isBetaTester ? 'Beta Discount Standard' : 'Standard';
+        String identifier = action.profile.isBetaTester ? 'Beta Discount Standard' : (DateTime.now().isBefore(DateTime(2023, 12, 1)) ? 'Standard' : 'standard_1699');
         annualPrice = offerings?.getOffering(identifier)?.annual?.storeProduct?.price;
         monthlyPrice = offerings?.getOffering(identifier)?.monthly?.storeProduct?.price;
       }
