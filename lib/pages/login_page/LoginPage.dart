@@ -726,7 +726,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             child:Container(
                 height: MediaQuery.of(context).size.height,
                       alignment: Alignment.bottomCenter,
-                      margin: EdgeInsets.only(bottom: 416.0),
+                      margin: EdgeInsets.only(bottom: 464.0),
                       child: ScaleTransition(
                         scale: Tween(begin: 0.0, end: 1.0).animate(
                           CurvedAnimation(
@@ -773,6 +773,33 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     ),
                   )
                 : SizedBox() : SizedBox(),
+              !pageState.isUserVerified ? (pageState.showResendMessage && !pageState.mainButtonsVisible) ? SlideTransition(
+                position: lightPeachMountainsStep1,
+                child:Container(
+                  height: MediaQuery.of(context).size.height,
+                  alignment: Alignment.bottomCenter,
+                  margin: EdgeInsets.only(bottom: 416.0, left: 64, right: 64),
+                  child: ScaleTransition(
+                    scale: Tween(begin: 0.0, end: 1.0).animate(
+                      CurvedAnimation(
+                        parent: _controllerLoginErrorShake,
+                        curve: new Interval(
+                          0.0,
+                          0.5,
+                          curve: Curves.elasticOut,
+                        ),
+                      ),
+                    ),
+                    child: TextDandyLight(
+                      type: TextDandyLight.SMALL_TEXT,
+                      text: 'Check your SPAM folder if you do not see the verification email.',
+                      maxLines: 3,
+                      color: Color(ColorConstants.getPrimaryBlack()),
+                    ),
+                  ),
+                ),
+              )
+                  : SizedBox() : SizedBox(),
             SlideTransition(
               position: slideUpAnimation,
             child: SlideTransition(
