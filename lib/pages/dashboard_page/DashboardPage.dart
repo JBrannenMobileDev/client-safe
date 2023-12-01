@@ -317,8 +317,8 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
             String restoreMessage = null;
 
             if(store.state.dashboardPageState.subscriptionState!= null) {
-              if(store.state.dashboardPageState.subscriptionState.entitlements.all['standard'] != null) {
-                if(store.state.dashboardPageState.subscriptionState.entitlements.all['standard'].isActive) {
+              if(store.state.dashboardPageState.subscriptionState.entitlements.all['standard'] != null || store.state.dashboardPageState.subscriptionState.entitlements.all['standard_1699'] != null) {
+                if(store.state.dashboardPageState.subscriptionState.entitlements.all['standard'].isActive || store.state.dashboardPageState.subscriptionState.entitlements.all['standard_1699'].isActive) {
                   restoreMessage = ManageSubscriptionPage.SUBSCRIBED;
                   store.state.dashboardPageState.profile.isSubscribed = true;
                   ProfileDao.update(store.state.dashboardPageState.profile);

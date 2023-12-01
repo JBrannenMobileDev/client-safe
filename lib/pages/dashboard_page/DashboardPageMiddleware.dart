@@ -194,7 +194,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   Future<void> _fetchSubscriptionState(Store<AppState> store, NextDispatcher next) async {
     purchases.CustomerInfo subscriptionState = await _getSubscriptionState();
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    if (subscriptionState.entitlements.all["standard"] != null && subscriptionState.entitlements.all["standard"].isActive) {
+    if ((subscriptionState.entitlements.all["standard"] != null && subscriptionState.entitlements.all["standard"].isActive) || (subscriptionState.entitlements.all["standard_1699"] != null && subscriptionState.entitlements.all["standard_1699"].isActive)) {
       profile.isSubscribed = true;
     } else {
       profile.isSubscribed = false;

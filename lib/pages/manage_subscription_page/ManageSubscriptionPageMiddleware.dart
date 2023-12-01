@@ -68,7 +68,8 @@ class ManageSubscriptionPageMiddleware extends MiddlewareClass<AppState> {
       offerings = await purchases.Purchases.getOfferings();
       if (offerings != null) {
         store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, false, false));
-        String identifier = action.profile.isBetaTester ? 'Beta Discount Standard' : (DateTime.now().isBefore(DateTime(2023, 12, 1)) ? 'Standard' : 'standard_1699');
+        String identifier = action.profile.isBetaTester ? 'Beta Discount Standard' : ('standard_1699');
+
         annualPrice = offerings?.getOffering(identifier)?.annual?.storeProduct?.price;
         monthlyPrice = offerings?.getOffering(identifier)?.monthly?.storeProduct?.price;
       }
@@ -82,8 +83,8 @@ class ManageSubscriptionPageMiddleware extends MiddlewareClass<AppState> {
       }
     }
 
-    if(subscriptionState.entitlements.all['standard'] != null) {
-      if(subscriptionState.entitlements.all['standard'].isActive) {
+    if(subscriptionState.entitlements.all['standard'] != null || subscriptionState.entitlements.all['standard_1699'] != null) {
+      if(subscriptionState.entitlements.all['standard'].isActive || subscriptionState.entitlements.all["standard_1699"].isActive) {
         store.dispatch(SetManageSubscriptionUiState(store.state.manageSubscriptionPageState, ManageSubscriptionPage.SUBSCRIBED));
         await EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.SUBSCRIBED);
       } else {
@@ -113,7 +114,7 @@ class ManageSubscriptionPageMiddleware extends MiddlewareClass<AppState> {
       }
 
         purchases.CustomerInfo purchaserInfo = await purchases.Purchases.purchasePackage(package);
-        if (purchaserInfo.entitlements.all["standard"].isActive) {
+        if (purchaserInfo.entitlements.all["standard"].isActive || purchaserInfo.entitlements.all["standard_1699"].isActive) {
           store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, false, true));
           store.dispatch(SetManageSubscriptionUiState(store.state.manageSubscriptionPageState, ManageSubscriptionPage.SUBSCRIBED));
           Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());

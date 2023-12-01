@@ -438,8 +438,7 @@ class _PricingInfoPageState extends State<PricingInfo> {
                     alignment: Alignment.center,
                     margin: EdgeInsets.only(bottom: 8, top: 8),
                     child: Text(
-                      // selections.elementAt(1) ? '\$139.99' : '\$16.99',
-                      selections.elementAt(1) ? '\$99.99' : '\$9.99',
+                      selections.elementAt(1) ? '\$139.99' : '\$16.99',
                       style: TextStyle(
                           fontSize: 54,
                           fontFamily: FontTheme.OPEN_SANS,
@@ -464,8 +463,7 @@ class _PricingInfoPageState extends State<PricingInfo> {
                               color: Color(selections.elementAt(1) ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryWhite())
                           ),
                           child: Text(
-                            // selections.elementAt(1) ? 'SAVE 30%' : '',
-                            selections.elementAt(1) ? 'SAVE 17%' : '',
+                            selections.elementAt(1) ? 'SAVE 30%' : '',
                             style: TextStyle(
                                 fontSize: 16,
                                 fontFamily: FontTheme.MONTSERRAT,
@@ -476,8 +474,7 @@ class _PricingInfoPageState extends State<PricingInfo> {
                           ),
                         ),
                         Text(
-                          // selections.elementAt(1) ? '( \$11.66/month )' : '/month (\$204/year)',
-                          selections.elementAt(1) ? '( \8.33/month )' : '/month (\$120/year)',
+                          selections.elementAt(1) ? '( \$11.66/month )' : '/month (\$204/year)',
                           style: TextStyle(
                               fontSize: 16,
                               fontFamily: FontTheme.MONTSERRAT,
