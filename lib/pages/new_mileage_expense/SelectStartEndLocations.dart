@@ -73,8 +73,8 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                 UserOptionsUtil.showMileageLocationSelectionDialog(
                     context,
                     pageState.onStartLocationChanged,
-                    pageState.profile.hasDefaultHome() ? pageState.profile.latDefaultHome : pageState.startLocation != null ? pageState.startLocation.latitude : pageState.lat,
-                    pageState.profile.hasDefaultHome() ? pageState.profile.lngDefaultHome : pageState.startLocation != null ? pageState.startLocation.longitude : pageState.lng
+                    (pageState.profile != null && pageState.profile.hasDefaultHome()) ? pageState.profile.latDefaultHome : pageState.startLocation != null ? pageState.startLocation.latitude : pageState.lat,
+                    (pageState.profile != null && pageState.profile.hasDefaultHome()) ? pageState.profile.lngDefaultHome : pageState.startLocation != null ? pageState.startLocation.longitude : pageState.lng
                 );
               },
               child: Container(

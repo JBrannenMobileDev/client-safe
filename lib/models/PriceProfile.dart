@@ -47,11 +47,11 @@ class PriceProfile{
       documentId: map['documentId'],
       profileName: map['profileName'],
       rateType: map['rateType'],
-      flatRate: (map['flatRate'])?.toDouble(),
+      flatRate: map['flatRate'] != null ? (map['flatRate']).toDouble() : 0.0,
       hourlyRate: (map['hourlyRate'])?.toDouble(),
       itemRate: (map['itemRate'])?.toDouble(),
       icon: map['icon'],
-      deposit: (map['deposit'])?.toDouble(),
+      deposit: map['deposit'] != null ? (map['deposit']).toDouble() : 0.0,
       includeSalesTax: map['includeSalesTax'] != null ? map['includeSalesTax'] : false,
       salesTaxPercent: map['salesTaxPercent'] != null ? (map['salesTaxPercent']).toDouble() : 0.0,
     );

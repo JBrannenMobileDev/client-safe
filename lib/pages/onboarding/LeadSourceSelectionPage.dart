@@ -29,6 +29,7 @@ class _LeadSourceSelectionPage extends State<LeadSourceSelectionPage> {
     LeadSource.TYPE_YOUTUBE,
     LeadSource.TYPE_APP_STORE,
     LeadSource.TYPE_WEB_SEARCH,
+    LeadSource.TYPE_EMAIL,
     LeadSource.TYPE_TWITTER,
     LeadSource.TYPE_OTHER,
   ];

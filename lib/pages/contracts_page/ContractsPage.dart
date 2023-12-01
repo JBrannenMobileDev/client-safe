@@ -2,6 +2,7 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Contract.dart';
 import 'package:dandylight/pages/contracts_page/ContractsActions.dart';
 import 'package:dandylight/pages/contracts_page/ContractsPageState.dart';
+import 'package:dandylight/pages/contracts_page/HowToBottomSheet.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +52,20 @@ class _ContractsPageState extends State<ContractsPage> with TickerProviderStateM
     );
   }
 
+  void _showHowToSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: false,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return HowToBottomSheet();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, ContractsPageState>(
         onInit: (store) {
@@ -59,6 +74,18 @@ class _ContractsPageState extends State<ContractsPage> with TickerProviderStateM
         converter: (Store<AppState> store) => ContractsPageState.fromStore(store),
         builder: (BuildContext context, ContractsPageState pageState) =>
             Scaffold(
+              floatingActionButton: FloatingActionButton.extended(
+                onPressed: () {
+                  _showHowToSheet(context);
+                },
+                label: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: "HOW-TO",
+                  textAlign: TextAlign.center,
+                  color: Color(ColorConstants.getPrimaryWhite()),
+                ),
+                backgroundColor: Color(ColorConstants.getPeachDark()),
+              ),
               body: Stack(
                 alignment: Alignment.bottomCenter,
                 children: [

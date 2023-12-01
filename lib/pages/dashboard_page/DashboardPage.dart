@@ -299,7 +299,10 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
             profile.pushNotificationsEnabled = isNotificationsGranted;
             if(isNotificationsGranted) {
               await notificationHelper.initNotifications(context);
-              if(allJobs.length > 1 || allJobs.elementAt(0).clientName != "Example Client") {
+              bool containsSampleJob = containsSampleJobBool(allJobs, "Example Client");
+              if(containsSampleJob && allJobs.length == 1) {
+                //do nothing
+              } else {
                 if(allReminders.length > 0) {
                   NotificationHelper().createAndUpdatePendingNotifications();
                 }
@@ -863,5 +866,15 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
     } else {
       return Icon(Icons.add, color: Color(ColorConstants.getPrimaryWhite()));
     }
+  }
+
+  bool containsSampleJobBool(List<Job> allJobs, String clientName) {
+    bool contains = false;
+    allJobs.forEach((job) {
+      if(job.clientName == clientName){
+        contains = true;
+      }
+    });
+    return contains;
   }
 }

@@ -40,6 +40,9 @@ OnBoardingPageState _setPagerIndex(OnBoardingPageState previousState, SetPagerIn
     if(action.pageState.otherSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_CHOSEN, properties: {
       EventNames.ON_BOARDING_FEATURE_CHOSEN_PARAM : 'Other',
     });
+    if(action.pageState.otherSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_CHOSEN, properties: {
+      EventNames.ON_BOARDING_FEATURE_CHOSEN_PARAM : 'Contracts',
+    });
   }
   return previousState.copyWith(
       pagerIndex: action.index,

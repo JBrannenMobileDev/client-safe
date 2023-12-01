@@ -12,6 +12,7 @@ import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpenseActions.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 import 'package:geocoder2/geocoder2.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
@@ -146,8 +147,7 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String path = appDocDir.path;
     store.dispatch(MileageDocumentPathAction(store.state.newMileageExpensePageState, path));
-    List<Profile> profiles = await ProfileDao.getAll();
-    Profile profile = profiles.elementAt(0);
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     if(profile != null) {
       store.dispatch(SetProfileData(store.state.newMileageExpensePageState, profile));
       if(profile.hasDefaultHome()){
@@ -177,7 +177,7 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
   void saveHomeLocation(Store<AppState> store, SaveHomeLocationAction action, NextDispatcher next) async{
     GeoData homeAddress = await getAddress(action.startLocation.latitude, action.startLocation.longitude);
     store.dispatch(SetLocationNameAction(store.state.newMileageExpensePageState, homeAddress.address));
-    Profile profile = store.state.newMileageExpensePageState.profile;
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.latDefaultHome = action.startLocation.latitude;
     profile.lngDefaultHome = action.startLocation.longitude;
     await ProfileDao.insertOrUpdate(profile);

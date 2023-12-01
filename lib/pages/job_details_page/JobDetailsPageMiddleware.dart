@@ -329,7 +329,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     ) : null;
     Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
       priceProfile: newProfile,
-      depositAmount: newProfile.deposit.toInt(),
+      depositAmount: newProfile.deposit != null ? newProfile.deposit.toInt() : 0.0,
     );
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     await JobDao.insertOrUpdate(jobToSave);

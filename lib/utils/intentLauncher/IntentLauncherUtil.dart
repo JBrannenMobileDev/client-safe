@@ -60,6 +60,16 @@ class IntentLauncherUtil{
     }
   }
 
+  static Future<bool> launchURLInternalBrowser(String url) async {
+    Uri uri = Uri.tryParse(url.trimLeft());
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.inAppWebView);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   static Future<bool> makePhoneCall(String phoneNum) async {
     String trimmedPhoneNum = trimPhoneNumber(phoneNum);
     String formattedPhoneNum = 'tel:$trimmedPhoneNum';
