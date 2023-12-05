@@ -245,6 +245,7 @@ class _SignContractPageState extends State<ProposalPage> {
         onTap: () {
           setState(() {
             selectedPage = DETAILS;
+            _controller.jumpTo(0);
           });
           EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_HOME_SELECTED);
         },
@@ -278,6 +279,7 @@ class _SignContractPageState extends State<ProposalPage> {
         onTap: () {
           setState(() {
             selectedPage = CONTRACT;
+            _controller.jumpTo(0);
           });
           EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_CONTRACT_SELECTED);
         },
@@ -310,6 +312,7 @@ class _SignContractPageState extends State<ProposalPage> {
         onTap: () {
           setState(() {
             selectedPage = INVOICE;
+            _controller.jumpTo(0);
           });
           EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_INVOICE_SELECTED);
         },
@@ -342,6 +345,7 @@ class _SignContractPageState extends State<ProposalPage> {
         onTap: () {
           setState(() {
             selectedPage = POSES;
+            _controller.jumpTo(0);
           });
           EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_POSES_SELECTED);
         },
@@ -374,6 +378,7 @@ class _SignContractPageState extends State<ProposalPage> {
         onTap: () {
           setState(() {
             selectedPage = QUESTIONNAIRE;
+            _controller.jumpTo(0);
           });
         },
         child: MouseRegion(
@@ -440,6 +445,7 @@ class _SignContractPageState extends State<ProposalPage> {
       onTap: () {
         setState(() {
           selectedPage = DETAILS;
+          _controller.jumpTo(0);
         });
         EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_HOME_SELECTED);
       },
@@ -458,6 +464,7 @@ class _SignContractPageState extends State<ProposalPage> {
         onTap: () {
           setState(() {
             selectedPage = CONTRACT;
+            _controller.jumpTo(0);
           });
           EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_CONTRACT_SELECTED);
         },
@@ -477,6 +484,7 @@ class _SignContractPageState extends State<ProposalPage> {
         onTap: () {
           setState(() {
             selectedPage = INVOICE;
+            _controller.jumpTo(0);
           });
           EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_INVOICE_SELECTED);
         },
@@ -496,6 +504,7 @@ class _SignContractPageState extends State<ProposalPage> {
         onTap: () {
           setState(() {
             selectedPage = POSES;
+            _controller.jumpTo(0);
           });
           EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_POSES_SELECTED);
         },

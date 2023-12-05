@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:seo_renderer/helpers/renderer_state.dart';
+import 'package:seo_renderer/helpers/robot_detector_web.dart';
 
 import 'navigation/routes/RouteNames.dart';
 
@@ -23,7 +25,9 @@ class ClientSafeApp extends StatelessWidget {
     );
     return new StoreProvider<AppState>(
       store: store,
-      child: PlatformInfo().isWeb() ? MaterialApp(
+      child: PlatformInfo().isWeb() ? RobotDetector(
+        debug: false, // you can set true to enable robot mode
+        child: MaterialApp(
         debugShowCheckedModeBanner: false,
         builder: (context, child) => MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false, textScaleFactor: 1), child: child),
         color: Color(ColorConstants.getPrimaryColor()),
@@ -35,9 +39,10 @@ class ClientSafeApp extends StatelessWidget {
               color: Color(ColorConstants.getPrimaryBlack()),
           ),
         ),
+        navigatorObservers: [seoRouteObserver],
         onGenerateRoute: RouteGenerator.generateRoute,
         initialRoute: RouteNames.LANDING_PAGE,
-      ) : MaterialApp(
+      )) : MaterialApp(
         debugShowCheckedModeBanner: false,
         builder: (context, child) => MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false, textScaleFactor: 1), child: child),
         navigatorKey: GlobalKeyUtil.instance.navigatorKey,

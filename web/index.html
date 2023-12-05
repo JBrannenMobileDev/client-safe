@@ -23,6 +23,13 @@
   gtag('config', 'AW-875921626');
   </script>
 
+  <script>
+    const regExp = new RegExp("bot|google|baidu|bing|msn|teoma|slurp|yandex", "i");
+    if (regExp.test(navigator.userAgent)) {
+      window.flutterWebRenderer = "html";
+    }
+  </script>
+
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">

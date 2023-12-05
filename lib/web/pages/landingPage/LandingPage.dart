@@ -14,6 +14,8 @@ import '../../../widgets/TextDandyLight.dart';
 import 'PricingInfo.dart';
 import 'package:universal_html/html.dart' as html;
 
+import 'blogPage/BlogPage.dart';
+
 class LandingPage extends StatefulWidget{
   final String comingFrom;
   LandingPage({this.comingFrom});
@@ -59,8 +61,10 @@ class _LandingPageState extends State<LandingPage> {
         EventSender().sendEvent(eventName: EventNames.NAV_TO_PRICING_PAGE);
         break;
       case 'Blog':
-        // NavigationUtil.onPaymentRequestInfoSelected(context);
-        // EventSender().sendEvent(eventName: EventNames.SETUP_PAYMENT_OPTIONS_FROM_SHARE);
+        setState(() {
+          selectedPage = BLOG;
+        });
+        EventSender().sendEvent(eventName: EventNames.NAV_TO_BLOG_PAGE);
         break;
     }
   }
@@ -87,7 +91,14 @@ class _LandingPageState extends State<LandingPage> {
           ),
         );
       case BLOG:
-        return SizedBox();
+        return SliverList(
+          delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+            List<Widget> blogPage = [BlogPage()];
+            return blogPage[index];
+          },
+              childCount: 1
+          ),
+        );
     }
     return SizedBox();
   }
@@ -601,29 +612,37 @@ class _LandingPageState extends State<LandingPage> {
           },
         ),
       ),
-      MouseRegion(
-        child: Container(
-          margin: EdgeInsets.only(left: 32, right: 64, top: 0),
-          alignment: Alignment.center,
-          child: TextDandyLight(
-            type: TextDandyLight.MEDIUM_TEXT,
-            fontFamily: FontTheme.OPEN_SANS,
-            text: 'Blog',
-            color: isHoveredBlog ? Color(ColorConstants.getBlueLight()) : Color(ColorConstants.getPrimaryWhite()),
+      GestureDetector(
+        onTap: () {
+          setState(() {
+            selectedPage = BLOG;
+            _scrollController.jumpTo(0);
+          });
+        },
+        child: MouseRegion(
+          child: Container(
+            margin: EdgeInsets.only(left: 32, right: 64, top: 0),
+            alignment: Alignment.center,
+            child: TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+              fontFamily: FontTheme.OPEN_SANS,
+              text: 'Blog',
+              color: isHoveredBlog ? Color(ColorConstants.getBlueLight()) : Color(ColorConstants.getPrimaryWhite()),
+            ),
           ),
+          cursor: SystemMouseCursors.click,
+          onHover: (event) {
+            setState(() {
+              isHoveredBlog = true;
+            });
+          },
+          onExit: (event) {
+            setState(() {
+              isHoveredBlog = false;
+            });
+          },
         ),
-        cursor: SystemMouseCursors.click,
-        onHover: (event) {
-          setState(() {
-            isHoveredBlog = true;
-          });
-        },
-        onExit: (event) {
-          setState(() {
-            isHoveredBlog = false;
-          });
-        },
-      )
+      ),
     ];
   }
 

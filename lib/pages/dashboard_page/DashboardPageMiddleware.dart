@@ -144,7 +144,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
 
   Future<void> _checkForReviewRequest(Store<AppState> store, CheckForReviewRequestAction action, NextDispatcher next) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    if(profile.isSubscribed && profile.jobsCreatedCount > 5 && profile.canShowAppReview && hasBeenLongEnoughSinceLastRequest(profile.requestReviewDate, 7)) {
+    if(profile.isSubscribed && profile.jobsCreatedCount > 2 && profile.canShowAppReview && hasBeenLongEnoughSinceLastRequest(profile.requestReviewDate, 7)) {
       next(SetShouldAppReview(store.state.dashboardPageState, true));
     } else {
       next(SetShouldAppReview(store.state.dashboardPageState, false));

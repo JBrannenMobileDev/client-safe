@@ -104,6 +104,7 @@ class EventNames {
   static const String NAV_TO_ACTIVE_STAGE = "nav_to_active_stage";
   static const String ACTIVE_STAGE_PARAM_NAME = "active_stage_param_name";
   static const String NAV_TO_PRICING_PAGE = 'nav_to_pricing_page';
+  static const String NAV_TO_BLOG_PAGE = 'nav_to_blog_page';
 
 
   //Data created names
