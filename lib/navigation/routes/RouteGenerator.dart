@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../../web/pages/DeleteAccountInfoPage.dart';
 import '../../web/pages/ProposalPage/ProposalPage.dart';
 import '../../web/pages/landingPage/LandingPage.dart';
 
@@ -12,6 +13,9 @@ class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     var uri = Uri.parse(settings.name);
 
+    /**
+     * Client Portal
+     */
     if(uri.pathSegments.length == 2 && uri.pathSegments.first == RouteNames.CLIENT_PORTAL) {
       var id = uri.pathSegments[1];
       var params = id.split('+');
@@ -22,6 +26,9 @@ class RouteGenerator {
       );
     }
 
+    /**
+     * Branding Preview
+     */
     if(uri.pathSegments.length == 2 && uri.pathSegments.first == RouteNames.BRANDING_PREVIEW) {
       var uid = uri.pathSegments[1];
       EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_PREVIEW_VIEWED);
@@ -31,6 +38,9 @@ class RouteGenerator {
       );
     }
 
+    /**
+     * PoseInfo
+     */
     if(uri.pathSegments.length == 1 && uri.pathSegments.first == RouteNames.POSE_INFO) {
       EventSender().sendEvent(eventName: EventNames.WEBSITE_VIEWED, properties: {
         EventNames.WEBSITE_VIEWED_PARAM : RouteNames.POSE_INFO,
@@ -41,6 +51,22 @@ class RouteGenerator {
       );
     }
 
+    /**
+     * Delete Account Info
+     */
+    if(uri.pathSegments.length == 1 && uri.pathSegments.first == RouteNames.DELETE_ACCOUNT_INFO) {
+      EventSender().sendEvent(eventName: EventNames.WEBSITE_VIEWED, properties: {
+        EventNames.WEBSITE_VIEWED_PARAM : uri.pathSegments.first,
+      });
+      return _GeneratePageRoute(
+          widget: DeleteAccountInfoPage(),
+          routeName: settings.name
+      );
+    }
+
+    /**
+     * Landing page
+     */
     if(uri.pathSegments.length == 1 && uri.pathSegments.first != RouteNames.POSE_INFO) {
       EventSender().sendEvent(eventName: EventNames.WEBSITE_VIEWED, properties: {
         EventNames.WEBSITE_VIEWED_PARAM : uri.pathSegments.first,

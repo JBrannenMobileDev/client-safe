@@ -154,7 +154,7 @@ class _InvoicePageState extends State<InvoicePage> {
                           textAlign: TextAlign.center,
                           fontFamily: pageState.profile.selectedFontTheme.mainFont,
                           text: 'Due:  ' + (pageState.invoice.depositDueDate != null ? DateFormat(
-                                DeviceType.getDeviceTypeByContext(context) == Type.Website ? 'EEE, MMMM dd, yyyy' : 'mm/dd/yy'
+                                DeviceType.getDeviceTypeByContext(context) == Type.Website ? 'EEE, MMMM dd, yyyy' : 'MM/dd/yy'
                               ).format(pageState.invoice.depositDueDate)
                               : 'TBD'),
                         ),
@@ -294,7 +294,7 @@ class _InvoicePageState extends State<InvoicePage> {
                           textAlign: TextAlign.center,
                           fontFamily: pageState.profile.selectedFontTheme.mainFont,
                           text: 'Due:  ' + (pageState.invoice.unpaidAmount != null
-                              ? DateFormat(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 'EEE, MMMM dd, yyyy' : 'mm/dd/yy').format(pageState.invoice.dueDate)
+                              ? DateFormat(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 'EEE, MMMM dd, yyyy' : 'MM/dd/yy').format(pageState.invoice.dueDate)
                               : 'TBD'),
                         ),
                       ),

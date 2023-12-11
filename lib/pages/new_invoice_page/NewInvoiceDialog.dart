@@ -38,7 +38,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
   _NewInvoiceDialogState(this.onSendInvoiceSelected, this.shouldClear);
 
   OverlayEntry overlayEntry;
-  final int pageCount = 4;
+  final int pageCount = 3;
   bool hasJumpToBeenCalled = false;
   final controller = PageController(
     initialPage: 0,
@@ -116,7 +116,6 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                               JobSelectionForm(),
                               PriceBreakdownForm(),
                               DueDateSelectionPage(),
-                              InvoiceReviewPage(),
                             ],
                           ),
                         ),

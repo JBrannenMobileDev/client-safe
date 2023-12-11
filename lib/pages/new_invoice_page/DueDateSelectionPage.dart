@@ -109,7 +109,7 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
                   ),
                 ),
               ),
-              pageState.isDepositChecked ? Container(
+              pageState.depositValue > 0 ? Container(
                 alignment: Alignment.topCenter,
                 margin: EdgeInsets.only(top: 64),
                 child: TextDandyLight(
@@ -119,7 +119,7 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
                   color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ) : SizedBox(),
-              pageState.isDepositChecked ? Container(
+              pageState.depositValue > 0 ? Container(
                 margin: EdgeInsets.only(top: 16.0),
                 alignment: Alignment.center,
                 child: TextButton(
