@@ -12,6 +12,7 @@ import 'package:dandylight/pages/dashboard_page/widgets/JobListPage.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/ReminderNotificationsPage.dart';
 import 'package:dandylight/pages/home_page/HomePage.dart';
 import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPage.dart';
+import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPageState.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPage.dart';
 import 'package:dandylight/pages/job_details_page/JobPosesPage.dart';
 import 'package:dandylight/pages/job_details_page/PreviewContractPage.dart';
@@ -36,9 +37,11 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 import '../models/Job.dart';
 import '../models/JobStage.dart';
 import '../models/LocationDandy.dart';
+import '../models/Report.dart';
 import '../pages/contract_edit_page/ContractEditPage.dart';
 import '../pages/dashboard_page/DashboardPageState.dart';
 import '../pages/dashboard_page/widgets/ContractListPage.dart';
+import '../pages/income_expense_settings_page/ReportsPage.dart';
 import '../pages/job_details_page/JobDetailsPageState.dart';
 import '../pages/edit_branding_page/EditBrandingPage.dart';
 import '../pages/poses_page/PosesPage.dart';
@@ -137,7 +140,7 @@ class NavigationUtil {
     Navigator.pushReplacement(
       context,
       PageRouteBuilder(
-        transitionDuration: Duration(seconds: 0),
+        transitionDuration: const Duration(seconds: 0),
         pageBuilder: (context, animation1, animation2) => HomePage(),
       ),
     );
@@ -147,10 +150,18 @@ class NavigationUtil {
     Navigator.pushReplacement(
       context,
       PageRouteBuilder(
-        transitionDuration: Duration(seconds: 0),
+        transitionDuration: const Duration(seconds: 0),
         pageBuilder: (context, animation1, animation2) => OnBoardingPage(),
       ),
     );
+  }
+
+  static void onIncomeExpenseReportSelected(BuildContext context, List<Report> reportsByYear) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReportsPage(reports: reportsByYear, pageTitle: Report.TYPE_INCOME_EXPENSE)));
+  }
+
+  static void onMileageReportSelected(BuildContext context, List<Report> reportsByYear) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReportsPage(reports: reportsByYear, pageTitle: Report.TYPE_MILEAGE)));
   }
 }
 

@@ -1,9 +1,31 @@
+import 'package:dandylight/models/SingleExpense.dart';
+
+import '../../models/Job.dart';
+import '../../models/RecurringExpense.dart';
 import 'IncomeAndExpenseSettingsPageState.dart';
 
 class SaveZelleStateAction{
   final IncomeAndExpenseSettingsPageState pageState;
   final bool enabled;
   SaveZelleStateAction(this.pageState, this.enabled);
+}
+
+class LoadIncomeExpenseReportsAction{
+  final IncomeAndExpenseSettingsPageState pageState;
+  LoadIncomeExpenseReportsAction(this.pageState);
+}
+
+class BuildIncomeExpenseReportAction {
+  final IncomeAndExpenseSettingsPageState pageState;
+  final List<Job> allJobs;
+  final List<SingleExpense> singleExpenses;
+  final List<RecurringExpense> recurringExpenses;
+  BuildIncomeExpenseReportAction(this.pageState, this.allJobs, this.singleExpenses, this.recurringExpenses);
+}
+
+class LoadMileageReportsAction{
+  final IncomeAndExpenseSettingsPageState pageState;
+  LoadMileageReportsAction(this.pageState);
 }
 
 class LoadPaymentSettingsFromProfile{

@@ -7,7 +7,7 @@ description: A new Flutter application.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 2.0.8+54
+version: 2.0.9+55
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
@@ -95,6 +95,7 @@ dependencies:
   geocoder2: ^1.4.0
   in_app_review: ^2.0.6
   open_store: ^0.4.0
+  to_csv: ^1.1.1
   modal_bottom_sheet:
     git:
       url: https://github.com/CoolDude53/modal_bottom_sheet.git

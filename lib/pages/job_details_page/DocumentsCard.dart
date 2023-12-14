@@ -200,7 +200,7 @@ class DocumentsCard extends StatelessWidget {
           ],
         ) : AlertDialog(
           title: new Text('Are you sure?'),
-          content: new Text('This invoice will be permanently removed from this job.'),
+          content: new Text('This contract will be permanently removed from this job.'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),

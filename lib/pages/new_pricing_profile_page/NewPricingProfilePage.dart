@@ -267,6 +267,7 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
               onPressed: () {
                 pageState.onDeleteProfileSelected();
                 Navigator.of(context).pop(true);
+                Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),
             ),

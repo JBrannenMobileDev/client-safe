@@ -278,6 +278,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, FetchWritableCalendars>(CalendarSelectionPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveSelectedAction>(CalendarSelectionPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadPaymentSettingsFromProfile>(IncomeAndExpenseSettingsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, LoadIncomeExpenseReportsAction>(IncomeAndExpenseSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveZelleFullNameInput>(IncomeAndExpenseSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveZellePhoneEmailInput>(IncomeAndExpenseSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveVenmoInput>(IncomeAndExpenseSettingsPageMiddleware()));

@@ -12,14 +12,16 @@ import 'package:intl/intl.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class SelectExpenseDatePage extends StatefulWidget {
+  const SelectExpenseDatePage({Key key}) : super(key: key);
+
 
   @override
-  _SelectExpenseDatePageState createState() {
-    return _SelectExpenseDatePageState();
+  SelectExpenseDatePageState createState() {
+    return SelectExpenseDatePageState();
   }
 }
 
-class _SelectExpenseDatePageState extends State<SelectExpenseDatePage> with AutomaticKeepAliveClientMixin {
+class SelectExpenseDatePageState extends State<SelectExpenseDatePage> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class _SelectExpenseDatePageState extends State<SelectExpenseDatePage> with Auto
                 margin: EdgeInsets.only(left: 32.0, right: 32),
                 child: TextDandyLight(
                   type: TextDandyLight.MEDIUM_TEXT,
-                  text: 'Select the date that this expense was charged.',
+                  text: 'Select the date this trip was taken.',
                   textAlign: TextAlign.start,
                   color: Color(ColorConstants.getPrimaryBlack()),
                 ),

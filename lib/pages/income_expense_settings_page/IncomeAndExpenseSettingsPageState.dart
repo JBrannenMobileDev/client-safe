@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
+import '../../models/Report.dart';
 import 'IncomeAndExpenseSettingsPageActions.dart';
 
 class IncomeAndExpenseSettingsPageState{
@@ -13,6 +14,8 @@ class IncomeAndExpenseSettingsPageState{
   final String venmoLink;
   final String cashAppLink;
   final String applePayPhone;
+  final List<Report> incomeExpenseReports;
+  final List<Report> mileageReports;
   final Function(bool) onZelleSelected;
   final Function(String) onZelleTextPhoneEmailChanged;
   final Function(String) onZelleTextFullNameChanged;
@@ -52,6 +55,8 @@ class IncomeAndExpenseSettingsPageState{
     @required this.onVenmoInputDone,
     @required this.onCashAppInputDone,
     @required this.onApplePayInputDone,
+    @required this.incomeExpenseReports,
+    @required this.mileageReports,
   });
 
   IncomeAndExpenseSettingsPageState copyWith({
@@ -64,6 +69,8 @@ class IncomeAndExpenseSettingsPageState{
     String venmoLink,
     String cashAppLink,
     String applePayPhone,
+    List<Report> incomeExpenseReports,
+    List<Report> mileageReports,
     Function() onSignOutSelected,
     Function(bool) onZelleSelected,
     Function(String) onZelleTextPhoneEmailChanged,
@@ -104,6 +111,8 @@ class IncomeAndExpenseSettingsPageState{
       onVenmoInputDone: onVenmoInputDone ?? this.onVenmoInputDone,
       onCashAppInputDone: onCashAppInputDone ?? this.onCashAppInputDone,
       onApplePayInputDone: onApplePayInputDone ?? this.onApplePayInputDone,
+      incomeExpenseReports: incomeExpenseReports ?? this.incomeExpenseReports,
+      mileageReports: mileageReports ?? this.mileageReports,
     );
   }
 
@@ -131,6 +140,8 @@ class IncomeAndExpenseSettingsPageState{
     onVenmoInputDone: null,
     onCashAppInputDone: null,
     onApplePayInputDone: null,
+    incomeExpenseReports: [],
+    mileageReports: [],
   );
 
   factory IncomeAndExpenseSettingsPageState.fromStore(Store<AppState> store) {
@@ -144,6 +155,8 @@ class IncomeAndExpenseSettingsPageState{
       venmoLink: store.state.incomeAndExpenseSettingsPageState.venmoLink,
       cashAppLink: store.state.incomeAndExpenseSettingsPageState.cashAppLink,
       applePayPhone: store.state.incomeAndExpenseSettingsPageState.applePayPhone,
+      incomeExpenseReports: store.state.incomeAndExpenseSettingsPageState.incomeExpenseReports,
+      mileageReports: store.state.incomeAndExpenseSettingsPageState.mileageReports,
       onZelleSelected: (enabled) => store.dispatch(SaveZelleStateAction(store.state.incomeAndExpenseSettingsPageState, enabled)),
       onVenmoSelected: (enabled) => store.dispatch(SaveVenmoStateAction(store.state.incomeAndExpenseSettingsPageState, enabled)),
       onCashAppSelected: (enabled) => store.dispatch(SaveCashAppStateAction(store.state.incomeAndExpenseSettingsPageState, enabled)),
@@ -185,6 +198,8 @@ class IncomeAndExpenseSettingsPageState{
       onVenmoInputDone.hashCode ^
       onCashAppInputDone.hashCode ^
       onApplePayInputDone.hashCode ^
+      incomeExpenseReports.hashCode ^
+      mileageReports.hashCode ^
       applePayPhone.hashCode;
 
   @override
@@ -213,5 +228,7 @@ class IncomeAndExpenseSettingsPageState{
               onVenmoInputDone == other.onVenmoInputDone &&
               onCashAppInputDone == other.onCashAppInputDone &&
               onApplePayInputDone == other.onApplePayInputDone &&
+              incomeExpenseReports == other.incomeExpenseReports &&
+              mileageReports == other.mileageReports &&
               applePayPhone == other.applePayPhone;
 }

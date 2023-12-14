@@ -145,7 +145,7 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
                           pageSnapping: true,
                           children: <Widget>[
                             SelectStartEndLocationsPage(),
-                            SelectExpenseDatePage(),
+                            const SelectExpenseDatePage(),
                           ],
                         ),
                       ),

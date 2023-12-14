@@ -89,6 +89,7 @@ NewPricingProfilePageState _loadPriceProfile(NewPricingProfilePageState previous
     profileIcon: action.profile.icon,
     rateType: action.profile.rateType,
     flatRate: action.profile.flatRate,
+    deposit: action.profile.deposit,
     taxAmount: taxAmount,
     total: (resultCost + taxAmount),
     taxPercent: action.profile.salesTaxPercent,

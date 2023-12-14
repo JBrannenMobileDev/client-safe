@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 class EventNames {
 
   //Button Pressed names
@@ -9,6 +11,7 @@ class EventNames {
   static const String BT_RESET_PASSWORD = "bt_reset_password";
   static const String BT_RESEND_VERIFICATION_EMAIL = "bt_resend_verification_email";
   static const String BT_GENERATE_INCOME_EXPENSE_REPORT = "bt_generate_income_expense_report";
+  static const String BT_GENERATE_MILEAGE_REPORT = "bt_generate_mileage_report";
   static const String BT_SHARE_POSES = "bt_share_poses";
   static const String BT_SHARE_JOB_POSES = "bt_share_job_poses";
   static const String BT_SHARE_POSE = "bt_share_pose";

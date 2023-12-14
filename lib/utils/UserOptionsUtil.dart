@@ -63,6 +63,7 @@ import '../pages/map_location_selection_widget/MapLocationSelectionWidget.dart';
 import '../pages/new_job_page/widgets/SelectNewJobLocationDialog.dart';
 import '../pages/new_job_page/widgets/SelectNewJobLocationOptionsDialog.dart';
 import '../pages/new_job_types_page/NewJobTypePage.dart';
+import 'AdminCheckUtil.dart';
 import 'ColorConstants.dart';
 import 'ContractOptionsBottomSheet.dart';
 import 'ContractUtils.dart';
@@ -161,7 +162,7 @@ class UserOptionsUtil {
 
   static void showNewJobDialog(BuildContext context, bool comingFromOnBoarding) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    if(profile.isSubscribed || profile.jobsCreatedCount < 5 || profile.isFreeForLife) {
+    if(profile.isSubscribed || profile.jobsCreatedCount < 5 || profile.isFreeForLife || AdminCheckUtil.isAdmin(profile)) {
       showDialog(
         context: context,
         builder: (BuildContext context) {

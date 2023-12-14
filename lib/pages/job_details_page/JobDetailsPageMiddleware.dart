@@ -335,6 +335,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, store.state.incomeAndExpensesPageState.selectedYear));
+    store.dispatch(DeleteDocumentFromLocalStateAction(store.state.jobDetailsPageState, DocumentItem.DOCUMENT_TYPE_INVOICE));
   }
 
   void _updateJobType(Store<AppState> store, SaveUpdatedJobTypeAction action, NextDispatcher next) async{

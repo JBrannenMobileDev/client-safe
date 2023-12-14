@@ -1,9 +1,16 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/RecurringExpenseDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/SingleExpenseDao.dart';
 import 'package:dandylight/models/Profile.dart';
+import 'package:dandylight/models/SingleExpense.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:redux/redux.dart';
 
+import '../../data_layer/local_db/daos/JobDao.dart';
+import '../../models/Job.dart';
+import '../../models/JobStage.dart';
+import '../../models/RecurringExpense.dart';
 import 'IncomeAndExpenseSettingsPageActions.dart';
 
 class IncomeAndExpenseSettingsPageMiddleware extends MiddlewareClass<AppState> {
@@ -28,6 +35,24 @@ class IncomeAndExpenseSettingsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveApplePayInput){
       saveApplePayPhone(store, next, action);
     }
+    if(action is LoadIncomeExpenseReportsAction) {
+      loadIncomeAndExpenseReportsAction(store, next, action);
+    }
+    if(action is LoadMileageReportsAction) {
+      loadMileageReportsAction(store, next, action);
+    }
+  }
+
+  void loadIncomeAndExpenseReportsAction(Store<AppState> store, NextDispatcher next, LoadIncomeExpenseReportsAction action)async{
+    List<Job> allJobs = await JobDao.getAllJobs();
+    List<SingleExpense> singleExpenses = await SingleExpenseDao.getAll();
+    List<RecurringExpense> recurringExpenses = await RecurringExpenseDao.getAll();
+
+    store.dispatch(BuildIncomeExpenseReportAction(store.state.incomeAndExpenseSettingsPageState, allJobs, singleExpenses, recurringExpenses));
+  }
+
+  void loadMileageReportsAction(Store<AppState> store, NextDispatcher next, LoadMileageReportsAction action)async{
+
   }
 
   void loadSettings(Store<AppState> store, NextDispatcher next) async{

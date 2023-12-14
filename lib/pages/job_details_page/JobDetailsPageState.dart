@@ -388,7 +388,10 @@ class JobDetailsPageState {
         onJobTypeSelected: (jobType) => store.dispatch(UpdateSelectedJobTypeAction(store.state.jobDetailsPageState, jobType)),
         onJobTypeSaveSelected: () => store.dispatch(SaveUpdatedJobTypeAction(store.state.jobDetailsPageState)),
         onPriceProfileSelected: (priceProfile) => store.dispatch(UpdateSelectedPricePackageAction(store.state.jobDetailsPageState, priceProfile)),
-        onSaveUpdatedPriceProfileSelected: (oneTimePrice) => store.dispatch(SaveUpdatedPricePackageAction(store.state.jobDetailsPageState, oneTimePrice)),
+        onSaveUpdatedPriceProfileSelected: (oneTimePrice) {
+          store.dispatch(OnDeleteInvoiceSelectedAction(store.state.jobDetailsPageState, store.state.jobDetailsPageState.invoice));
+          store.dispatch(SaveUpdatedPricePackageAction(store.state.jobDetailsPageState, oneTimePrice));
+        },
         onAddToDeposit: (amountToAdd) => store.dispatch(AddToAddOnCostAction(store.state.jobDetailsPageState, amountToAdd)),
         onSaveAddOnCost: () => store.dispatch(SaveAddOnCostAction(store.state.jobDetailsPageState)),
         onClearUnsavedDeposit: () => store.dispatch(ClearUnsavedDepositAction(store.state.jobDetailsPageState)),
