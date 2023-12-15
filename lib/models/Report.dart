@@ -32,4 +32,28 @@ class Report {
       type: map['type'],
     );
   }
+
+  double getTotalIncome() {
+    double totalIncome = 0;
+
+    for(var row in rows) {
+      if(row[2].isNotEmpty) {
+        totalIncome = totalIncome + (double.tryParse(row[2].replaceAll(',', '')) ?? 0.0);
+      }
+    }
+
+    return totalIncome;
+  }
+
+  double getTotalExpenses() {
+    double totalExpenses = 0;
+
+    for(var row in rows) {
+      if(row[3].isNotEmpty) {
+        totalExpenses = totalExpenses + (double.tryParse(row[3].replaceAll(',', '')) ?? 0.0);
+      }
+    }
+
+    return totalExpenses;
+  }
 }

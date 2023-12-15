@@ -112,7 +112,7 @@ class _IncomeAndExpenseSettingsPageState extends State<IncomeAndExpenseSettingsP
                                   child: TextButton(
                                     style: Styles.getButtonStyle(),
                                     onPressed: () {
-                                      NavigationUtil.onIncomeExpenseReportSelected(context, pageState.incomeExpenseReports);
+                                      NavigationUtil.onIncomeExpenseReportSelected(context);
                                       EventSender().sendEvent(eventName: EventNames.BT_GENERATE_INCOME_EXPENSE_REPORT);
                                     },
                                     child: SizedBox(
@@ -159,7 +159,7 @@ class _IncomeAndExpenseSettingsPageState extends State<IncomeAndExpenseSettingsP
                                   child: TextButton(
                                     style: Styles.getButtonStyle(),
                                     onPressed: () {
-                                      NavigationUtil.onIncomeExpenseReportSelected(context, pageState.mileageReports);
+                                      NavigationUtil.onIncomeExpenseReportSelected(context);
                                       EventSender().sendEvent(eventName: EventNames.BT_GENERATE_MILEAGE_REPORT);
                                     },
                                     child: SizedBox(

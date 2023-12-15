@@ -156,12 +156,12 @@ class NavigationUtil {
     );
   }
 
-  static void onIncomeExpenseReportSelected(BuildContext context, List<Report> reportsByYear) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReportsPage(reports: reportsByYear, pageTitle: Report.TYPE_INCOME_EXPENSE)));
+  static void onIncomeExpenseReportSelected(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ReportsPage(pageTitle: Report.TYPE_INCOME_EXPENSE)));
   }
 
-  static void onMileageReportSelected(BuildContext context, List<Report> reportsByYear) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReportsPage(reports: reportsByYear, pageTitle: Report.TYPE_MILEAGE)));
+  static void onMileageReportSelected(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ReportsPage(pageTitle: Report.TYPE_MILEAGE)));
   }
 }
 

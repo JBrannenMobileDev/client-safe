@@ -12,27 +12,36 @@ import '../../../AppState.dart';
 import '../../../models/JobStage.dart';
 import '../../../utils/JobUtil.dart';
 import '../../../widgets/TextDandyLight.dart';
+import 'IncomeAndExpenseSettingsPageState.dart';
 import 'ReportItem.dart';
 
-class ReportsPage extends StatelessWidget{
-  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
-  final ScrollController _controller = ScrollController();
-
-  ReportsPage({Key key,
+class ReportsPage extends StatefulWidget {
+  const ReportsPage({Key key,
     this.pageTitle,
-    this.reports
   }) : super(key: key);
 
   final String pageTitle;
-  final List<Report> reports;
 
   @override
-  Widget build(BuildContext context)=> StoreConnector<AppState, DashboardPageState>(
-      converter: (Store<AppState> store) => DashboardPageState.fromStore(store),
+  State<StatefulWidget> createState() {
+    return _ReportsPageState(pageTitle);
+  }
+}
+
+class _ReportsPageState extends State<ReportsPage> with TickerProviderStateMixin {
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  final ScrollController _controller = ScrollController();
+  final String pageTitle;
+
+  _ReportsPageState(this.pageTitle);
+
+  @override
+  Widget build(BuildContext context)=> StoreConnector<AppState, IncomeAndExpenseSettingsPageState>(
+      converter: (Store<AppState> store) => IncomeAndExpenseSettingsPageState.fromStore(store),
       onInit: (store) {
 
       },
-      builder: (BuildContext context, DashboardPageState pageState) => Scaffold(
+      builder: (BuildContext context, IncomeAndExpenseSettingsPageState pageState) => Scaffold(
       backgroundColor: Color(ColorConstants.getPrimaryWhite()),
       body: Stack(
         alignment: AlignmentDirectional.centerEnd,
@@ -70,8 +79,10 @@ class ReportsPage extends StatelessWidget{
                       controller: _controller,
                       physics: const ClampingScrollPhysics(),
                       key: _listKey,
-                      itemCount: reports.length,
-                      itemBuilder: _buildItem,
+                      itemCount: pageTitle == Report.TYPE_INCOME_EXPENSE ? pageState.incomeExpenseReports.length : pageState.mileageReports.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ReportItem(report: pageTitle == Report.TYPE_INCOME_EXPENSE ? pageState.incomeExpenseReports.elementAt(index) : pageState.mileageReports.elementAt(index));
+                      },
                     ),
                   ],
                 ),
@@ -82,10 +93,4 @@ class ReportsPage extends StatelessWidget{
       ),
       ),
     );
-
-
-  Widget _buildItem(BuildContext context, int index) {
-    return ReportItem(report: reports.elementAt(index));
-  }
-
 }

@@ -308,6 +308,8 @@ flutter:
     - assets/images/icons/select_photo.png
     - assets/images/icons/scroll_down.png
     - assets/images/icons/scroll_down_white.png
+    - assets/images/icons/pdf.png
+    - assets/images/icons/csv.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png
