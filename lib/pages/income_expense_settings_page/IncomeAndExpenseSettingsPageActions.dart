@@ -2,12 +2,19 @@ import 'package:dandylight/models/SingleExpense.dart';
 
 import '../../models/Job.dart';
 import '../../models/RecurringExpense.dart';
+import '../../models/Report.dart';
 import 'IncomeAndExpenseSettingsPageState.dart';
 
 class SaveZelleStateAction{
   final IncomeAndExpenseSettingsPageState pageState;
   final bool enabled;
   SaveZelleStateAction(this.pageState, this.enabled);
+}
+
+class GenerateIncomeExpenseReportAction {
+  final IncomeAndExpenseSettingsPageState pageState;
+  final Report report;
+  GenerateIncomeExpenseReportAction(this.pageState, this.report);
 }
 
 class LoadIncomeExpenseReportsAction{

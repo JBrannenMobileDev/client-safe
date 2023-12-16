@@ -30,6 +30,7 @@ class IncomeAndExpenseSettingsPageState{
   final Function() onVenmoInputDone;
   final Function() onCashAppInputDone;
   final Function() onApplePayInputDone;
+  final Function() onDownloadIncomeExpenseReport;
 
   IncomeAndExpenseSettingsPageState({
     @required this.zelleEnabled,

@@ -284,6 +284,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveVenmoInput>(IncomeAndExpenseSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveCashAppInput>(IncomeAndExpenseSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveApplePayInput>(IncomeAndExpenseSettingsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, GenerateIncomeExpenseReportAction>(IncomeAndExpenseSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, paymentLinks.LoadPaymentSettingsFromProfile>(PaymentRequestInfoPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, paymentLinks.SaveZelleFullNameInput>(PaymentRequestInfoPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, paymentLinks.SaveZellePhoneEmailInput>(PaymentRequestInfoPageMiddleware()));

@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
-import 'package:http/http.dart' show get;
+import 'package:http/http.dart' show Response, get;
 import '../models/Client.dart';
 import '../models/Contract.dart';
 import '../models/FontTheme.dart';
@@ -1032,8 +1032,8 @@ class PdfUtil {
   }
 
   static Future<Document> generateIncomeAndExpenses(Profile profile, Report report) async {
-    var response;
-    var logoImageData;
+    Response response;
+    Uint8List logoImageData;
 
     if(profile.logoSelected && profile.logoUrl != null) {
       response = await get(Uri.parse(profile.logoUrl));
@@ -1338,7 +1338,7 @@ class PdfUtil {
                       Container(
                         width: 66.0,
                         alignment: Alignment.centerRight,
-                        child: Text('',
+                        child: Text('Total',
                             textScaleFactor: 0.85, textAlign: TextAlign.right,
                             style: TextStyle(
                                 color: PdfColor.fromHex('#444444'),
@@ -1349,7 +1349,7 @@ class PdfUtil {
                       Container(
                         width: 96.0,
                         alignment: Alignment.centerRight,
-                        child: Text('Subtotal',
+                        child: Text(TextFormatterUtil.formatDecimalCurrency(report.getTotalIncome()),
                             textScaleFactor: 0.85, textAlign: TextAlign.right, style: TextStyle(
                                 color: PdfColor.fromHex('#444444'),
                                 fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
@@ -1359,7 +1359,7 @@ class PdfUtil {
                         width: 96.0,
                         alignment: Alignment.centerRight,
                         child: Text(
-                            TextFormatterUtil.formatDecimalCurrency(subtotal),
+                            TextFormatterUtil.formatDecimalCurrency(report.getTotalExpenses()),
                             textScaleFactor: 0.85,
                             textAlign: TextAlign.right,
                             style: TextStyle(
@@ -1373,8 +1373,7 @@ class PdfUtil {
                 ],
               )
           ),
-          discountValue > 0
-              ? Row(
+          Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
@@ -1395,7 +1394,7 @@ class PdfUtil {
                   Container(
                     width: 70.0,
                     alignment: Alignment.centerRight,
-                    child: Text('',
+                    child: Text('Net income (Income - Expenses)',
                         textScaleFactor: 0.85,
                         textAlign: TextAlign.right,
                         style: TextStyle(
@@ -1407,7 +1406,7 @@ class PdfUtil {
                   Container(
                     width: 100.0,
                     alignment: Alignment.centerRight,
-                    child: Text('Discount',
+                    child: Text('',
                         textScaleFactor: 0.85,
                         textAlign: TextAlign.right, style: TextStyle(
                             color: PdfColor.fromHex('#444444'),
@@ -1417,8 +1416,7 @@ class PdfUtil {
                   Container(
                     width: 96.0,
                     alignment: Alignment.centerRight,
-                    child: Text(
-                        '-' + TextFormatterUtil.formatDecimalCurrency(discountValue),
+                    child: Text(TextFormatterUtil.formatDecimalCurrency(report.getTotalIncome() - report.getTotalExpenses()),
                         textScaleFactor: 0.85,
                         textAlign: TextAlign.right,
                         style: TextStyle(
@@ -1430,76 +1428,9 @@ class PdfUtil {
                 ],
               ),
             ],
-          )
-              : SizedBox(),
-          salesTaxPercent > 0
-              ? Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                width: 198.0,
-                alignment: Alignment.centerLeft,
-                child: Text(
-                    '',
-                    textScaleFactor: 0.85,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        color: PdfColor.fromHex('#444444'),
-                        fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                    )
-                ),
-              ),
-              Row(
-                children: <Widget>[
-                  Container(
-                    width: 70.0,
-                    alignment: Alignment.centerRight,
-                    child: Text('',
-                        textScaleFactor: 0.85,
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                            color: PdfColor.fromHex('#444444'),
-                            fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                        )),
-                  ),
-                  Container(
-                    width: 96.0,
-                    alignment: Alignment.centerRight,
-                    child: Text('Sales tax',
-                        textScaleFactor: 0.85,
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                            color: PdfColor.fromHex('#444444'),
-                            fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                        )),
-                  ),
-                  Container(
-                    width: 96.0,
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                        TextFormatterUtil.formatDecimalDigitsCurrency(
-                            (total * (salesTaxPercent / 100)), 2),
-                        textScaleFactor: 0.85,
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                            color: PdfColor.fromHex('#444444'),
-                            fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                        )
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          )
-              : SizedBox(),
+          ),
           Row(
             children: <Widget>[
-              Padding(
-                  padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
-                  child: Container(
-                    height: 0.0,
-                    width: 263.0,
-                  )),
               Padding(
                   padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
                   child: Container(
@@ -1509,171 +1440,6 @@ class PdfUtil {
                   )),
             ],
           ),
-          depositValue > 0 ? Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                width: 194.0,
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  '',
-                  textScaleFactor: 0.85,
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              Row(
-                children: <Widget>[
-                  Container(
-                    width: 50.0,
-                    alignment: Alignment.centerRight,
-                    child: Text('',
-                        textScaleFactor: 0.85, textAlign: TextAlign.right,
-                        style: TextStyle(
-                            color: PdfColor.fromHex('#444444'),
-                            fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                        )),
-                  ),
-                  Container(
-                    width: 120.0,
-                    alignment: Alignment.centerRight,
-                    child: Text('Retainer' + (depositPaid ? '(Paid)' : '(Unpaid)'),
-                        textScaleFactor: 0.85, textAlign: TextAlign.right,
-                        style: TextStyle(
-                            color: PdfColor.fromHex('#444444'),
-                            fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                        )),
-                  ),
-                  Container(
-                    width: 96.0,
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                        (depositPaid ? '-' : '') + TextFormatterUtil.formatDecimalCurrency(depositValue),
-                        textScaleFactor: 0.85,
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                            color: PdfColor.fromHex('#444444'),
-                            fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                        )
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ) : SizedBox(),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                width: 194.0,
-                alignment: Alignment.centerLeft,
-                child: Text(
-                    '',
-                    textScaleFactor: 0.85,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        color: PdfColor.fromHex('#444444'),
-                        fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                    )
-                ),
-              ),
-              Row(
-                children: <Widget>[
-                  Container(
-                    width: 50.0,
-                    alignment: Alignment.centerRight,
-                    child: Text('',
-                        textScaleFactor: 0.85, textAlign: TextAlign.right,
-                        style: TextStyle(
-                            color: PdfColor.fromHex('#444444'),
-                            fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                        )
-                    ),
-                  ),
-                  Container(
-                    width: 120.0,
-                    alignment: Alignment.centerRight,
-                    child: Text('Balance due',
-                        textScaleFactor: 0.85, textAlign: TextAlign.right,
-                        style: TextStyle(
-                            color: PdfColor.fromHex('#444444'),
-                            fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                        )),
-                  ),
-                  Container(
-                    width: 96.0,
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                        TextFormatterUtil.formatDecimalCurrency(unpaidAmount),
-                        textScaleFactor: 0.85,
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                            color: PdfColor.fromHex('#444444'),
-                            fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                        )
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          zelleInfo.isNotEmpty ||
-              venmoInfo.isNotEmpty ||
-              cashAppInfo.isNotEmpty ||
-              applePayInfo.isNotEmpty
-              ? Container(
-            margin: const EdgeInsets.only(top: 32.0),
-            child: Text('Accepted forms of payment',
-                textScaleFactor: 0.85, textAlign: TextAlign.left,
-                style: TextStyle(
-                    color: PdfColor.fromHex('#444444'),
-                    fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                )),
-          )
-              : SizedBox(),
-          zelleInfo.isNotEmpty
-              ? Container(
-            margin: const EdgeInsets.only(top: 16.0),
-            child: Text(zelleInfo,
-                textScaleFactor: 0.85, textAlign: TextAlign.left,
-                style: TextStyle(
-                    color: PdfColor.fromHex('#444444'),
-                    fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                )),
-          )
-              : SizedBox(),
-          venmoInfo.isNotEmpty
-              ? Container(
-            margin: const EdgeInsets.only(top: 16.0),
-            child: Text(venmoInfo,
-                textScaleFactor: 0.85, textAlign: TextAlign.left,
-                style: TextStyle(
-                    color: PdfColor.fromHex('#444444'),
-                    fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                )),
-          )
-              : SizedBox(),
-          cashAppInfo.isNotEmpty
-              ? Container(
-            margin: const EdgeInsets.only(top: 16.0),
-            child: Text(cashAppInfo,
-                textScaleFactor: 0.85, textAlign: TextAlign.left,
-                style: TextStyle(
-                    color: PdfColor.fromHex('#444444'),
-                    fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                )),
-          )
-              : SizedBox(),
-          applePayInfo.isNotEmpty
-              ? Container(
-            margin: const EdgeInsets.only(top: 16.0),
-            child: Text(applePayInfo,
-                textScaleFactor: 0.85, textAlign: TextAlign.left,
-                style: TextStyle(
-                    color: PdfColor.fromHex('#444444'),
-                    fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                )),
-          )
-              : SizedBox(),
         ]));
 
     return pdf;

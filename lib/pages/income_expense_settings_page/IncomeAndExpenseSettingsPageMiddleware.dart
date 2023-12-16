@@ -5,13 +5,17 @@ import 'package:dandylight/data_layer/local_db/daos/SingleExpenseDao.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/SingleExpense.dart';
 import 'package:dandylight/utils/UidUtil.dart';
+import 'package:pdf/widgets.dart';
 import 'package:redux/redux.dart';
 
 import '../../data_layer/local_db/daos/JobDao.dart';
 import '../../models/Job.dart';
 import '../../models/JobStage.dart';
 import '../../models/RecurringExpense.dart';
+import '../../utils/PdfUtil.dart';
+import '../../utils/intentLauncher/IntentLauncherUtil.dart';
 import 'IncomeAndExpenseSettingsPageActions.dart';
+
 
 class IncomeAndExpenseSettingsPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -41,6 +45,15 @@ class IncomeAndExpenseSettingsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is LoadMileageReportsAction) {
       loadMileageReportsAction(store, next, action);
     }
+    if(action is GenerateIncomeExpenseReportAction) {
+      _generateIncomeExpenseReport(store, action, next);
+    }
+  }
+
+  void _generateIncomeExpenseReport(Store<AppState> store, GenerateIncomeExpenseReportAction action, NextDispatcher next) async{
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    Document pdf = await PdfUtil.generateIncomeAndExpenses(profile, action.report);
+    IntentLauncherUtil.download(await pdf.save(), downloadName: 'IncomeExpenseReport_${action.report.year}.pdf');
   }
 
   void loadIncomeAndExpenseReportsAction(Store<AppState> store, NextDispatcher next, LoadIncomeExpenseReportsAction action)async{

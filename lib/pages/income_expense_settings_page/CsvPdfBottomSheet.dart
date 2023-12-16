@@ -53,16 +53,21 @@ class _CsvPdfBottomSheetState extends State<CsvPdfBottomSheet> with TickerProvid
                    child: Row(
                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                      children: [
-                       Container(
-                         alignment: Alignment.center,
-                         padding: const EdgeInsets.all(22),
-                         height: 116,
-                         width: 116,
-                         decoration: BoxDecoration(
-                             borderRadius: const BorderRadius.all(Radius.circular(16)),
-                             color: Color(ColorConstants.getPrimaryGreyLight())
+                       GestureDetector(
+                         onTap: () {
+
+                         },
+                         child: Container(
+                           alignment: Alignment.center,
+                           padding: const EdgeInsets.all(22),
+                           height: 116,
+                           width: 116,
+                           decoration: BoxDecoration(
+                               borderRadius: const BorderRadius.all(Radius.circular(16)),
+                               color: Color(ColorConstants.getPrimaryGreyLight())
+                           ),
+                           child: Image.asset('assets/images/icons/pdf.png', color: Color(ColorConstants.getPrimaryBlack()),),
                          ),
-                         child: Image.asset('assets/images/icons/pdf.png', color: Color(ColorConstants.getPrimaryBlack()),),
                        ),
                        GestureDetector(
                          onTap: () {
