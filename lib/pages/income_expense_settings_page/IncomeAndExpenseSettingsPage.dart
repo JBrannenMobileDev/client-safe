@@ -28,6 +28,7 @@ class _IncomeAndExpenseSettingsPageState extends State<IncomeAndExpenseSettingsP
         onInit: (store) {
           store.dispatch(LoadPaymentSettingsFromProfile(store.state.incomeAndExpenseSettingsPageState));
           store.dispatch(LoadIncomeExpenseReportsAction(store.state.incomeAndExpenseSettingsPageState));
+          store.dispatch(LoadMileageReportsAction(store.state.incomeAndExpenseSettingsPageState));
         },
         converter: (Store<AppState> store) => IncomeAndExpenseSettingsPageState.fromStore(store),
         builder: (BuildContext context, IncomeAndExpenseSettingsPageState pageState) =>
@@ -159,7 +160,7 @@ class _IncomeAndExpenseSettingsPageState extends State<IncomeAndExpenseSettingsP
                                   child: TextButton(
                                     style: Styles.getButtonStyle(),
                                     onPressed: () {
-                                      NavigationUtil.onIncomeExpenseReportSelected(context);
+                                      NavigationUtil.onMileageReportSelected(context);
                                       EventSender().sendEvent(eventName: EventNames.BT_GENERATE_MILEAGE_REPORT);
                                     },
                                     child: SizedBox(

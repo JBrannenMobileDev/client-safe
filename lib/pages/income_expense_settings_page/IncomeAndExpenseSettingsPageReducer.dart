@@ -1,4 +1,5 @@
 import 'package:dandylight/models/Charge.dart';
+import 'package:dandylight/models/MileageExpense.dart';
 import 'package:dandylight/models/SingleExpense.dart';
 import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPageState.dart';
 import 'package:dandylight/utils/StringUtils.dart';
@@ -24,7 +25,70 @@ final incomeAndExpenseSettingsPageReducer = combineReducers<IncomeAndExpenseSett
   TypedReducer<IncomeAndExpenseSettingsPageState, SetCashAppLinkTextAction>(_setCashAppLinkText),
   TypedReducer<IncomeAndExpenseSettingsPageState, SetApplePayPhoneTextAction>(_setApplePayPhoneText),
   TypedReducer<IncomeAndExpenseSettingsPageState, BuildIncomeExpenseReportAction>(_buildIncomeExpenseReport),
+  TypedReducer<IncomeAndExpenseSettingsPageState, BuildMileageReportAction>(_buildMileageReport),
 ]);
+
+IncomeAndExpenseSettingsPageState _buildMileageReport(IncomeAndExpenseSettingsPageState previousState, BuildMileageReportAction action){
+  int startYear = 2023;
+  int endYear = DateTime.now().year;
+  List<Report> reports = [];
+  List<String> header = ['Date', 'Start location', 'End location', 'Is round trip', 'Distance driven'];
+
+  for(startYear; startYear <= endYear ; startYear++) {
+    reports.add(
+        Report(
+            header: header,
+            rows: buildMileageRows(
+              startYear,
+              action.mileageExpenses,
+            ),
+            year: startYear,
+            type: Report.TYPE_MILEAGE,
+        )
+    );
+  }
+
+  return previousState.copyWith(
+    mileageReports: reports,
+  );
+}
+
+buildMileageRows(
+    int year,
+    List<MileageExpense> mileageExpenses,
+) {
+  List<MileageExpense> expensesForYear = mileageExpenses.where((expense) => expense.charge.chargeDate.year == year).toList();
+  List<List<String>> rows = [];
+
+  for (var expense in expensesForYear) {
+    rows.add([
+      DateFormat('MM-dd-yyyy').format(expense.charge.chargeDate),
+      'Start location',
+      'End location',
+      'Round trip',
+      expense.totalMiles.toString(),
+    ]);
+  }
+
+  rows.sort(compareRowByDate);
+
+  double totalMilesDriven = 0;
+
+  for(var row in rows) {
+    if(row[4].isNotEmpty) {
+      totalMilesDriven = totalMilesDriven + (double.tryParse(row[4].replaceAll(',', '')) ?? 0.0);
+    }
+  }
+
+  rows.add([
+    ' ',
+    ' ',
+    ' ',
+    'Total miles driven: ',
+    TextFormatterUtil.formatSimpleCurrencyNoNumberSign(totalMilesDriven)
+  ]);
+  return rows;
+}
 
 IncomeAndExpenseSettingsPageState _buildIncomeExpenseReport(IncomeAndExpenseSettingsPageState previousState, BuildIncomeExpenseReportAction action){
   List<Job> jobsWithPaymentReceived = action.allJobs.where((job) => job.isPaymentReceived() == true).toList();
@@ -46,7 +110,8 @@ IncomeAndExpenseSettingsPageState _buildIncomeExpenseReport(IncomeAndExpenseSett
             action.singleExpenses,
             action.recurringExpenses,
           ),
-          year: startYear
+          year: startYear,
+          type: Report.TYPE_INCOME_EXPENSE,
         )
     );
   }

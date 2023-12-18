@@ -30,7 +30,8 @@ class IncomeAndExpenseSettingsPageState{
   final Function() onVenmoInputDone;
   final Function() onCashAppInputDone;
   final Function() onApplePayInputDone;
-  final Function() onDownloadIncomeExpenseReport;
+  final Function(Report) onDownloadIncomeExpenseReport;
+  final Function(Report) onDownloadMileageReport;
 
   IncomeAndExpenseSettingsPageState({
     @required this.zelleEnabled,
@@ -58,6 +59,8 @@ class IncomeAndExpenseSettingsPageState{
     @required this.onApplePayInputDone,
     @required this.incomeExpenseReports,
     @required this.mileageReports,
+    @required this.onDownloadIncomeExpenseReport,
+    @required this.onDownloadMileageReport,
   });
 
   IncomeAndExpenseSettingsPageState copyWith({
@@ -87,6 +90,8 @@ class IncomeAndExpenseSettingsPageState{
     Function() onVenmoInputDone,
     Function() onCashAppInputDone,
     Function() onApplePayInputDone,
+    Function(Report) onDownloadIncomeExpenseReport,
+    Function(Report) onDownloadMileageReport,
   }){
     return IncomeAndExpenseSettingsPageState(
       zelleEnabled: zelleEnabled ?? this.zelleEnabled,
@@ -114,6 +119,8 @@ class IncomeAndExpenseSettingsPageState{
       onApplePayInputDone: onApplePayInputDone ?? this.onApplePayInputDone,
       incomeExpenseReports: incomeExpenseReports ?? this.incomeExpenseReports,
       mileageReports: mileageReports ?? this.mileageReports,
+      onDownloadIncomeExpenseReport: onDownloadIncomeExpenseReport ?? this.onDownloadIncomeExpenseReport,
+      onDownloadMileageReport: onDownloadMileageReport ?? this.onDownloadMileageReport,
     );
   }
 
@@ -143,6 +150,8 @@ class IncomeAndExpenseSettingsPageState{
     onApplePayInputDone: null,
     incomeExpenseReports: [],
     mileageReports: [],
+    onDownloadIncomeExpenseReport: null,
+    onDownloadMileageReport: null,
   );
 
   factory IncomeAndExpenseSettingsPageState.fromStore(Store<AppState> store) {
@@ -172,6 +181,8 @@ class IncomeAndExpenseSettingsPageState{
       onVenmoInputDone: () => store.dispatch(SaveVenmoInput(store.state.incomeAndExpenseSettingsPageState)),
       onCashAppInputDone: () => store.dispatch(SaveCashAppInput(store.state.incomeAndExpenseSettingsPageState)),
       onApplePayInputDone: () => store.dispatch(SaveApplePayInput(store.state.incomeAndExpenseSettingsPageState)),
+      onDownloadIncomeExpenseReport: (report) => store.dispatch(GenerateIncomeExpenseReportAction(store.state.incomeAndExpenseSettingsPageState, report)),
+      onDownloadMileageReport: (report) => store.dispatch(GenerateMileageReportAction(store.state.incomeAndExpenseSettingsPageState, report)),
     );
   }
 
@@ -201,6 +212,8 @@ class IncomeAndExpenseSettingsPageState{
       onApplePayInputDone.hashCode ^
       incomeExpenseReports.hashCode ^
       mileageReports.hashCode ^
+      onDownloadIncomeExpenseReport.hashCode ^
+      onDownloadMileageReport.hashCode ^
       applePayPhone.hashCode;
 
   @override
@@ -231,5 +244,7 @@ class IncomeAndExpenseSettingsPageState{
               onApplePayInputDone == other.onApplePayInputDone &&
               incomeExpenseReports == other.incomeExpenseReports &&
               mileageReports == other.mileageReports &&
+              onDownloadIncomeExpenseReport == other.onDownloadIncomeExpenseReport &&
+              onDownloadMileageReport == other.onDownloadMileageReport &&
               applePayPhone == other.applePayPhone;
 }

@@ -1,15 +1,20 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Profile.dart';
+import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_share/flutter_share.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:pdf/widgets.dart';
 import 'package:share_extend/share_extend.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -32,7 +37,7 @@ class IntentLauncherUtil{
     );
   }
 
-  static void download(List<int> bytes, {String downloadName,}) {
+  static void downloadWeb(List<int> bytes, {String downloadName,}) {
     // Encode our file in base64
     final _base64 = base64Encode(bytes);
     // Create the link with the file
@@ -48,6 +53,24 @@ class IntentLauncherUtil{
     anchor.click();
     anchor.remove();
     return;
+  }
+
+  static sharePdfMobile(Document pdf, String filename) async {
+    final output = await getTemporaryDirectory();
+    final file = File("${output.path}/$filename");
+    await file.writeAsBytes(await pdf.save());
+
+    if (file != null) {
+      await Share.shareXFiles(
+        [XFile(file.path)],
+        sharePositionOrigin: Rect.fromCircle(
+          radius: 450 * 0.25,
+          center: const Offset(0, 0),
+        ),
+      );
+    } else {
+      DandyToastUtil.showErrorToast("Failed to share");
+    }
   }
 
   static Future<bool> launchURL(String url) async {

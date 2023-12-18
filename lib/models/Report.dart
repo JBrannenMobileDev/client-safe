@@ -35,8 +35,10 @@ class Report {
 
   double getTotalIncome() {
     double totalIncome = 0;
+    List<List<String>> copyOfRows = List.from(rows);
+    copyOfRows.removeLast();
 
-    for(var row in rows) {
+    for(var row in copyOfRows) {
       if(row[2].isNotEmpty) {
         totalIncome = totalIncome + (double.tryParse(row[2].replaceAll(',', '')) ?? 0.0);
       }
@@ -47,8 +49,10 @@ class Report {
 
   double getTotalExpenses() {
     double totalExpenses = 0;
+    List<List<String>> copyOfRows = List.from(rows);
+    copyOfRows.removeLast();
 
-    for(var row in rows) {
+    for(var row in copyOfRows) {
       if(row[3].isNotEmpty) {
         totalExpenses = totalExpenses + (double.tryParse(row[3].replaceAll(',', '')) ?? 0.0);
       }

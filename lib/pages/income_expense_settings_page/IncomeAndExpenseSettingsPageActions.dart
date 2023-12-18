@@ -1,6 +1,7 @@
 import 'package:dandylight/models/SingleExpense.dart';
 
 import '../../models/Job.dart';
+import '../../models/MileageExpense.dart';
 import '../../models/RecurringExpense.dart';
 import '../../models/Report.dart';
 import 'IncomeAndExpenseSettingsPageState.dart';
@@ -17,6 +18,12 @@ class GenerateIncomeExpenseReportAction {
   GenerateIncomeExpenseReportAction(this.pageState, this.report);
 }
 
+class GenerateMileageReportAction {
+  final IncomeAndExpenseSettingsPageState pageState;
+  final Report report;
+  GenerateMileageReportAction(this.pageState, this.report);
+}
+
 class LoadIncomeExpenseReportsAction{
   final IncomeAndExpenseSettingsPageState pageState;
   LoadIncomeExpenseReportsAction(this.pageState);
@@ -28,6 +35,12 @@ class BuildIncomeExpenseReportAction {
   final List<SingleExpense> singleExpenses;
   final List<RecurringExpense> recurringExpenses;
   BuildIncomeExpenseReportAction(this.pageState, this.allJobs, this.singleExpenses, this.recurringExpenses);
+}
+
+class BuildMileageReportAction {
+  final IncomeAndExpenseSettingsPageState pageState;
+  final List<MileageExpense> mileageExpenses;
+  BuildMileageReportAction(this.pageState, this.mileageExpenses);
 }
 
 class LoadMileageReportsAction{

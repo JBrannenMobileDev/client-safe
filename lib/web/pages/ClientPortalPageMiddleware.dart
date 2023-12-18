@@ -84,7 +84,7 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
 
   void _generateContract(Store<AppState> store, GenerateContractForClientAction action, NextDispatcher next) async{
     Document pdf = await PdfUtil.generateContract(action.pageState.proposal.contract, action.pageState.proposal, action.pageState.profile, action.pageState.job);
-    IntentLauncherUtil.download(await pdf.save(), downloadName: action.pageState.job.client.firstName + '_' + action.pageState.job.client.lastName + '_contract.pdf');
+    IntentLauncherUtil.downloadWeb(await pdf.save(), downloadName: action.pageState.job.client.firstName + '_' + action.pageState.job.client.lastName + '_contract.pdf');
   }
 
   void _generateInvoice(Store<AppState> store, GenerateInvoiceForClientAction action, NextDispatcher next) async{
@@ -94,7 +94,7 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
         action.pageState.job.client,
         action.pageState.profile,
     );
-    IntentLauncherUtil.download(await pdf.save(), downloadName: action.pageState.job.client.firstName + '_' + action.pageState.job.client.lastName + '_invoice.pdf');
+    IntentLauncherUtil.downloadWeb(await pdf.save(), downloadName: action.pageState.job.client.firstName + '_' + action.pageState.job.client.lastName + '_invoice.pdf');
   }
 
   void _saveClientSignature(Store<AppState> store, SaveClientSignatureAction action, NextDispatcher next) async{

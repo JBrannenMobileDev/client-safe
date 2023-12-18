@@ -278,6 +278,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, FetchWritableCalendars>(CalendarSelectionPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveSelectedAction>(CalendarSelectionPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadPaymentSettingsFromProfile>(IncomeAndExpenseSettingsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, LoadMileageReportsAction>(IncomeAndExpenseSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadIncomeExpenseReportsAction>(IncomeAndExpenseSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveZelleFullNameInput>(IncomeAndExpenseSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveZellePhoneEmailInput>(IncomeAndExpenseSettingsPageMiddleware()));
@@ -285,6 +286,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveCashAppInput>(IncomeAndExpenseSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveApplePayInput>(IncomeAndExpenseSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, GenerateIncomeExpenseReportAction>(IncomeAndExpenseSettingsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, GenerateMileageReportAction>(IncomeAndExpenseSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, paymentLinks.LoadPaymentSettingsFromProfile>(PaymentRequestInfoPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, paymentLinks.SaveZelleFullNameInput>(PaymentRequestInfoPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, paymentLinks.SaveZellePhoneEmailInput>(PaymentRequestInfoPageMiddleware()));

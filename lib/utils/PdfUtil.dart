@@ -1060,6 +1060,226 @@ class PdfUtil {
               alignment: Alignment.centerRight,
               margin: const EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
               padding: const EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
+              child: Text(
+                  'Income & Expenses - ${report.year}',
+                  style: Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.grey, fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal)
+              )
+          );
+        },
+        footer: (Context context) {
+          return Container(
+              alignment: Alignment.centerRight,
+              margin: const EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
+              child: Text('Page ${context.pageNumber} of ${context.pagesCount}',
+                style: Theme.of(context)
+                    .defaultTextStyle
+                    .copyWith(color: PdfColors.grey,
+                    fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal),
+              ));
+        },
+        build: (Context context) => <Widget>[
+          Header(
+              level: 2,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    logoImageData != null ? Padding(
+                      padding: const EdgeInsets.only(right: 16),
+                      child: Container(
+                          alignment: Alignment.centerLeft,
+                          height: 75,
+                          width: 75,
+                          child: ClipRRect(
+                            horizontalRadius: 37.5,
+                            verticalRadius: 37.5,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: PdfColor.fromHex(profile.selectedColorTheme.iconColor),
+                              ),
+                              width: 150,
+                              height: 150,
+                              child: Image(MemoryImage(logoImageData),),
+                            ),
+                          )
+                      ),
+                    ) : SizedBox(),
+                    Text(
+                        profile.businessName ?? 'Income & Expenses - ${report.year}',
+                        style: Theme.of(context)
+                            .defaultTextStyle
+                            .copyWith(fontSize: 16, color: PdfColor.fromHex('#444444'), fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal)
+                    ),
+                  ])),
+          Padding(
+            padding: const EdgeInsets.only(top: 32.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('Income & Expenses - ${report.year}', textScaleFactor: .85, style: TextStyle(
+                        color: PdfColor.fromHex('#444444'),
+                        fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
+                    )),
+                    Text(profile.firstName + profile.lastName, textScaleFactor: 0.85),
+                    profile.email != null
+                        ? Text(profile.email.toString(),
+                        textScaleFactor: 0.85, style: TextStyle(
+                            color: PdfColor.fromHex('#444444'),
+                            fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
+                        ))
+                        : SizedBox(),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    Text('Date generated: ${DateFormat('MMM dd, yyyy').format(DateTime.now())}',
+                        textScaleFactor: 0.85,
+                        style: TextStyle(
+                            color: PdfColor.fromHex('#444444'),
+                            fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
+                        )),
+                    Text(
+                        'Total income:  ${TextFormatterUtil.formatDecimalCurrency(report.getTotalIncome())}',
+                        textScaleFactor: 0.85,
+                        style: TextStyle(
+                            color: PdfColor.fromHex('#444444'),
+                            fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
+                        )),
+                    Text(
+                        'Total expenses:  ${TextFormatterUtil.formatDecimalCurrency(report.getTotalExpenses())}',
+                        textScaleFactor: 0.85,
+                        style: TextStyle(
+                            color: PdfColor.fromHex('#444444'),
+                            fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
+                        )),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 32),
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: PdfColor.fromHex(profile.selectedColorTheme.buttonColor),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: 90.0,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                      'Date',
+                      textScaleFactor: 0.85,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          color: PdfColor.fromHex(profile.selectedColorTheme.buttonTextColor),
+                          fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
+                      )
+                  ),
+                ),
+                Row(
+                  children: <Widget>[
+                    Container(
+                      width: 218.0,
+                      alignment: Alignment.centerLeft,
+                      child: Text('Description',
+                          textScaleFactor: 0.85,
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                              color: PdfColor.fromHex(profile.selectedColorTheme.buttonTextColor),
+                              fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
+                          )
+                      ),
+                    ),
+                    Container(
+                      width: 64.0,
+                      alignment: Alignment.centerRight,
+                      child: Text('Income',
+                          textScaleFactor: 0.85, textAlign: TextAlign.right, style: TextStyle(
+                              color: PdfColor.fromHex(profile.selectedColorTheme.buttonTextColor),
+                              fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
+                          )),
+                    ),
+                    Container(
+                      width: 64.0,
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                          'Expenses',
+                          textScaleFactor: 0.85,
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                              color: PdfColor.fromHex(profile.selectedColorTheme.buttonTextColor),
+                              fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
+                          )
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16),
+            child: Table(
+              children: List.generate(
+                report.rows.length,
+                    (index) {
+                  final listData = report.rows[index];
+                  return TableRow(
+                    children: [
+                      Text(listData[0]),
+                      Text(listData[1]),
+                      Text(listData[2]),
+                      Text(listData[3]),
+                    ],
+                  );
+                },
+              ),
+            )
+          ),
+        ]));
+
+    return pdf;
+  }
+
+  static Future<Document> generateMileageReport(Profile profile, Report report) async {
+    Response response;
+    Uint8List logoImageData;
+
+    if(profile.logoSelected && profile.logoUrl != null) {
+      response = await get(Uri.parse(profile.logoUrl));
+      logoImageData = response.bodyBytes;
+    }
+
+    final Document pdf = Document();
+    bool makeTextBold = profile.selectedFontTheme != null ? FontTheme.shouldUseBold(profile.selectedFontTheme.mainFont) : false;
+
+    pdf.addPage(MultiPage(
+        theme: ThemeData.withFont(
+          base: Font.ttf(await rootBundle.load('assets/fonts/OpenSans-VariableFont_wdth,wght.ttf')),
+          bold: Font.ttf(await rootBundle.load('assets/fonts/OpenSans-VariableFont_wdth,wght.ttf')),
+          italic: Font.ttf(await rootBundle.load('assets/fonts/signature.ttf')),
+          boldItalic: Font.ttf(await rootBundle.load('assets/fonts/OpenSans-VariableFont_wdth,wght.ttf')),
+        ),
+        pageFormat: PdfPageFormat.letter.copyWith(marginBottom: 1 * PdfPageFormat.cm),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        header: (Context context) {
+          if (context.pageNumber == 1) {
+            return SizedBox();
+          }
+          return Container(
+              alignment: Alignment.centerRight,
+              margin: const EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
+              padding: const EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
               decoration: BoxDecoration(border: Border.all()),
               child: Text(
                   'Income & Expenses - ${report.year}',

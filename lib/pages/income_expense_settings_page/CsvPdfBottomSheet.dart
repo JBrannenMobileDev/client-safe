@@ -55,34 +55,48 @@ class _CsvPdfBottomSheetState extends State<CsvPdfBottomSheet> with TickerProvid
                      children: [
                        GestureDetector(
                          onTap: () {
+                           if(report.type == Report.TYPE_INCOME_EXPENSE) {
+                             pageState.onDownloadIncomeExpenseReport(report);
+                           }
 
+                           if(report.type == Report.TYPE_MILEAGE) {
+                             pageState.onDownloadMileageReport(report);
+                           }
+                           Navigator.of(context).pop();
                          },
                          child: Container(
                            alignment: Alignment.center,
-                           padding: const EdgeInsets.all(22),
+                           padding: const EdgeInsets.all(26),
                            height: 116,
                            width: 116,
                            decoration: BoxDecoration(
                                borderRadius: const BorderRadius.all(Radius.circular(16)),
-                               color: Color(ColorConstants.getPrimaryGreyLight())
+                               color: Color(ColorConstants.getPeachLight())
                            ),
-                           child: Image.asset('assets/images/icons/pdf.png', color: Color(ColorConstants.getPrimaryBlack()),),
+                           child: Image.asset('assets/images/icons/pdf.png', color: Color(ColorConstants.getPeachDark()),),
                          ),
                        ),
                        GestureDetector(
                          onTap: () {
-                           export_csv.myCSV(report.header, report.rows, 'IncomeAndExpenses${report.year}.csv');
+                           if(report.type == Report.TYPE_INCOME_EXPENSE) {
+                             export_csv.myCSV(report.header, report.rows, 'IncomeAndExpensesReport_${report.year}.csv');
+                           }
+
+                           if(report.type == Report.TYPE_MILEAGE) {
+                             export_csv.myCSV(report.header, report.rows, 'MileageReport_${report.year}.csv');
+                           }
+                           Navigator.of(context).pop();
                          },
                          child: Container(
                            alignment: Alignment.center,
-                           padding: const EdgeInsets.all(22),
+                           padding: const EdgeInsets.all(26),
                            height: 116,
                            width: 116,
                            decoration: BoxDecoration(
                                borderRadius: const BorderRadius.all(Radius.circular(16)),
-                               color: Color(ColorConstants.getPrimaryGreyLight())
+                               color: Color(ColorConstants.getBlueLight())
                            ),
-                           child: Image.asset('assets/images/icons/csv.png', color: Color(ColorConstants.getPrimaryBlack()),)
+                           child: Image.asset('assets/images/icons/csv.png', color: Color(ColorConstants.getBlueDark()),)
                          ),
                        )
                      ],
