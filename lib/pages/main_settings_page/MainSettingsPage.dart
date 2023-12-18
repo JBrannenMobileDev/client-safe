@@ -15,7 +15,6 @@ import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -28,9 +27,10 @@ import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'GenerateDiscountCodeBottomSheet.dart';
-import 'SuggestionsPage.dart';
 
 class MainSettingsPage extends StatefulWidget {
+  const MainSettingsPage({Key key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _MainSettingsPageState();
@@ -58,7 +58,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.resumed) {
       PermissionStatus status = await UserPermissionsUtil.getPermissionStatus(Permission.notification);
-      if(await status.isGranted) localState.onPushNotificationsChanged(true);
+      if(status.isGranted) localState.onPushNotificationsChanged(true);
     }
   }
 
@@ -77,7 +77,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
         onDidChange: (previous, current) {
           if(previous.discountCode != current.discountCode) {
             Clipboard.setData(ClipboardData(text: current.discountCode));
-            DandyToastUtil.showToast('${current.discountCode} Copied to Clipboard!', Color(ColorConstants.error_red));
+            DandyToastUtil.showToast('${current.discountCode} Copied to Clipboard!', const Color(ColorConstants.error_red));
           }
         },
         converter: (Store<AppState> store) => MainSettingsPageState.fromStore(store),
@@ -93,7 +93,6 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                       iconTheme: IconThemeData(
                         color: Color(ColorConstants.getPrimaryBlack()), //change your color here
                       ),
-                      brightness: Brightness.light,
                       backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
                       pinned: true,
                       centerTitle: true,
@@ -102,14 +101,14 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                         type: TextDandyLight.LARGE_TEXT,
                         text: "Settings",
                         color: Color(ColorConstants.getPrimaryBlack()),
-                      ),
+                      ), systemOverlayStyle: SystemUiOverlayStyle.dark,
                     ),
                     SliverList(
-                      delegate: new SliverChildListDelegate(
+                      delegate: SliverChildListDelegate(
                         <Widget>[
                           Container(
-                              margin: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 32.0, top: 16),
-                              padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
+                              margin: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 32.0, top: 16),
+                              padding: const EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
                               decoration: BoxDecoration(
                                 color: Color(ColorConstants.getPrimaryWhite()),
                                 borderRadius: BorderRadius.circular(12.0),
@@ -132,7 +131,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                             children: <Widget>[
                                               Container(
                                                 alignment: Alignment.center,
-                                                margin: EdgeInsets.only(right: 18.0, left: 2.0),
+                                                margin: const EdgeInsets.only(right: 18.0, left: 2.0),
                                                 height: 28.0,
                                                 width: 28.0,
                                                 child: Image.asset('assets/images/icons/profile_icon_black.png'),
@@ -145,11 +144,9 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                               )
                                             ],
                                           ),
-                                          Container(
-                                            child: Icon(
-                                              Icons.chevron_right,
-                                              color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                            ),
+                                          Icon(
+                                            Icons.chevron_right,
+                                            color: Color(ColorConstants.getPrimaryBackgroundGrey()),
                                           ),
                                         ],
                                       ),
@@ -172,7 +169,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                             children: <Widget>[
                                               Container(
                                                 alignment: Alignment.center,
-                                                margin: EdgeInsets.only(right: 18.0, left: 2.0),
+                                                margin: const EdgeInsets.only(right: 18.0, left: 2.0),
                                                 height: 28.0,
                                                 width: 28.0,
                                                 child: Image.asset('assets/images/icons/art.png'),
@@ -185,11 +182,9 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                               )
                                             ],
                                           ),
-                                          Container(
-                                            child: Icon(
-                                              Icons.chevron_right,
-                                              color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                            ),
+                                          Icon(
+                                            Icons.chevron_right,
+                                            color: Color(ColorConstants.getPrimaryBackgroundGrey()),
                                           ),
                                         ],
                                       ),
@@ -218,7 +213,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                         children: <Widget>[
                                           Container(
                                             alignment: Alignment.center,
-                                            margin: EdgeInsets.only(right: 18.0, left: 2.0),
+                                            margin: const EdgeInsets.only(right: 18.0, left: 2.0),
                                             height: 28.0,
                                             width: 28.0,
                                             child: Image.asset('assets/images/icons/file_upload.png', color: Color(ColorConstants.getPrimaryBlack()),),
@@ -232,12 +227,10 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                           ),
                                         ],
                                       ),
-                                      Container(
-                                        child: Icon(
-                                          Icons.chevron_right,
-                                          color: Color(ColorConstants
-                                              .getPrimaryBackgroundGrey()),
-                                        ),
+                                      Icon(
+                                        Icons.chevron_right,
+                                        color: Color(ColorConstants
+                                            .getPrimaryBackgroundGrey()),
                                       ),
                                     ],
                                   ),
@@ -262,7 +255,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                         children: <Widget>[
                                           Container(
                                             margin:
-                                                EdgeInsets.only(right: 16.0),
+                                                const EdgeInsets.only(right: 16.0),
                                             height: 32.0,
                                             width: 32.0,
                                             child: Image.asset(
@@ -277,12 +270,10 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                           ),
                                         ],
                                       ),
-                                      Container(
-                                        child: Icon(
-                                          Icons.chevron_right,
-                                          color: Color(ColorConstants
-                                              .getPrimaryBackgroundGrey()),
-                                        ),
+                                      Icon(
+                                        Icons.chevron_right,
+                                        color: Color(ColorConstants
+                                            .getPrimaryBackgroundGrey()),
                                       ),
                                     ],
                                   ),
@@ -307,7 +298,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                         children: <Widget>[
                                           Container(
                                             margin:
-                                            EdgeInsets.only(right: 16.0),
+                                            const EdgeInsets.only(right: 16.0),
                                             height: 32.0,
                                             width: 32.0,
                                             child: Image.asset(
@@ -322,12 +313,10 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                           ),
                                         ],
                                       ),
-                                      Container(
-                                        child: Icon(
-                                          Icons.chevron_right,
-                                          color: Color(ColorConstants
-                                              .getPrimaryBackgroundGrey()),
-                                        ),
+                                      Icon(
+                                        Icons.chevron_right,
+                                        color: Color(ColorConstants
+                                            .getPrimaryBackgroundGrey()),
                                       ),
                                     ],
                                   ),
@@ -352,7 +341,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                             children: <Widget>[
                                               Container(
                                                 margin:
-                                                EdgeInsets.only(right: 16.0),
+                                                const EdgeInsets.only(right: 16.0),
                                                 height: 32.0,
                                                 width: 32.0,
                                                 child: Image.asset(
@@ -367,12 +356,10 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                               ),
                                             ],
                                           ),
-                                          Container(
-                                            child: Icon(
-                                              Icons.chevron_right,
-                                              color: Color(ColorConstants
-                                                  .getPrimaryBackgroundGrey()),
-                                            ),
+                                          Icon(
+                                            Icons.chevron_right,
+                                            color: Color(ColorConstants
+                                                .getPrimaryBackgroundGrey()),
                                           ),
                                         ],
                                       ),
@@ -382,8 +369,8 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                           ),
                       ),
                           Container(
-                            margin: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
-                            padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
+                            margin: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
+                            padding: const EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
                             decoration: BoxDecoration(
                               color: Color(ColorConstants.getPrimaryWhite()),
                               borderRadius: BorderRadius.circular(12.0),
@@ -392,7 +379,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                               children: <Widget>[
                                 Container(
                                   height: 48.0,
-                                  padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                                  padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
@@ -426,7 +413,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                   ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0, bottom: 32.0),
+                                  padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0, bottom: 32.0),
                                   child: TextDandyLight(
                                     type: TextDandyLight.SMALL_TEXT,
                                     text: 'Enable push notifications to get notified of job reminders, expenses, invoices and contracts.',
@@ -436,7 +423,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                 ),
                                 Container(
                                   height: 48.0,
-                                  padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                                  padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
@@ -482,7 +469,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                   ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0, bottom: 16.0),
+                                  padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0, bottom: 16.0),
                                   child: TextDandyLight(
                                     type: TextDandyLight.SMALL_TEXT,
                                     text: 'Enable DandyLight to sync your jobs with your personal device calendars.',
@@ -494,8 +481,8 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 32.0),
-                            padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
+                            margin: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 32.0),
+                            padding: const EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
                             decoration: BoxDecoration(
                               color: Color(ColorConstants.getPrimaryWhite()),
                               borderRadius: BorderRadius.circular(12.0),
@@ -521,7 +508,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                           children: <Widget>[
                                             Container(
                                               alignment: Alignment.center,
-                                              margin: EdgeInsets.only(right: 16.0),
+                                              margin: const EdgeInsets.only(right: 16.0),
                                               height: 28.0,
                                               width: 28.0,
                                               child: Image.asset('assets/images/icons/signature.png', color: Color(ColorConstants.getPrimaryBlack(),)),
@@ -535,12 +522,10 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                             ),
                                           ],
                                         ),
-                                        Container(
-                                          child: Icon(
-                                            Icons.chevron_right,
-                                            color: Color(ColorConstants
-                                                .getPrimaryBackgroundGrey()),
-                                          ),
+                                        Icon(
+                                          Icons.chevron_right,
+                                          color: Color(ColorConstants
+                                              .getPrimaryBackgroundGrey()),
                                         ),
                                       ],
                                     ),
@@ -565,7 +550,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                           children: <Widget>[
                                             Container(
                                               alignment: Alignment.center,
-                                              margin: EdgeInsets.only(right: 16.0),
+                                              margin: const EdgeInsets.only(right: 16.0),
                                               height: 28.0,
                                               width: 28.0,
                                               child: Image.asset('assets/images/icons/signature.png', color: Color(ColorConstants.getPrimaryBlack(),)),
@@ -579,12 +564,10 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                             ),
                                           ],
                                         ),
-                                        Container(
-                                          child: Icon(
-                                            Icons.chevron_right,
-                                            color: Color(ColorConstants
-                                                .getPrimaryBackgroundGrey()),
-                                          ),
+                                        Icon(
+                                          Icons.chevron_right,
+                                          color: Color(ColorConstants
+                                              .getPrimaryBackgroundGrey()),
                                         ),
                                       ],
                                     ),
@@ -608,7 +591,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                           children: <Widget>[
                                             Container(
                                               alignment: Alignment.center,
-                                              margin: EdgeInsets.only(right: 16.0),
+                                              margin: const EdgeInsets.only(right: 16.0),
                                               height: 28.0,
                                               width: 28.0,
                                               child: Image.asset('assets/images/icons/signature.png', color: Color(ColorConstants.getPrimaryBlack(),)),
@@ -622,12 +605,10 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                             ),
                                           ],
                                         ),
-                                        Container(
-                                          child: Icon(
-                                            Icons.chevron_right,
-                                            color: Color(ColorConstants
-                                                .getPrimaryBackgroundGrey()),
-                                          ),
+                                        Icon(
+                                          Icons.chevron_right,
+                                          color: Color(ColorConstants
+                                              .getPrimaryBackgroundGrey()),
                                         ),
                                       ],
                                     ),
@@ -637,7 +618,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                   style: Styles.getButtonStyle(),
                                   onPressed: () {
                                     Navigator.of(context).push(
-                                      new MaterialPageRoute(builder: (context) => DeleteAccountPage()),
+                                      MaterialPageRoute(builder: (context) => DeleteAccountPage()),
                                     );
                                   },
                                   child: SizedBox(
@@ -654,7 +635,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                           children: <Widget>[
                                             Container(
                                               alignment: Alignment.center,
-                                              margin: EdgeInsets.only(right: 16.0),
+                                              margin: const EdgeInsets.only(right: 16.0),
                                               height: 28.0,
                                               width: 28.0,
                                               child: Image.asset('assets/images/icons/trash_can.png', color: Color(ColorConstants.getPrimaryBlack(),)),
@@ -668,12 +649,10 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                             ),
                                           ],
                                         ),
-                                        Container(
-                                          child: Icon(
-                                            Icons.chevron_right,
-                                            color: Color(ColorConstants
-                                                .getPrimaryBackgroundGrey()),
-                                          ),
+                                        Icon(
+                                          Icons.chevron_right,
+                                          color: Color(ColorConstants
+                                              .getPrimaryBackgroundGrey()),
                                         ),
                                       ],
                                     ),
@@ -683,15 +662,15 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                             ),
                           ),
                           pageState.isAdmin ? Container(
-                            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 0.0, bottom: 32.0),
-                            padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
+                            margin: const EdgeInsets.only(left: 16.0, right: 16.0, top: 0.0, bottom: 32.0),
+                            padding: const EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
                             decoration: BoxDecoration(
                               color: Color(ColorConstants.getPrimaryWhite()),
                               borderRadius: BorderRadius.circular(12.0),
                             ),
                             child: Column(
                               children: <Widget>[
-                                Container(
+                                SizedBox(
                                   width: MediaQuery.of(context).size.width,
                                   height: 48.0,
                                   child: TextDandyLight(
@@ -721,7 +700,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                           children: <Widget>[
                                             Container(
                                               alignment: Alignment.center,
-                                              margin: EdgeInsets.only(right: 16.0),
+                                              margin: const EdgeInsets.only(right: 16.0),
                                               height: 28.0,
                                               width: 28.0,
                                               child: Icon(
@@ -737,11 +716,9 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                             ),
                                           ],
                                         ),
-                                        Container(
-                                          child: Icon(
-                                            Icons.add,
-                                            color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                          ),
+                                        Icon(
+                                          Icons.add,
+                                          color: Color(ColorConstants.getPrimaryBackgroundGrey()),
                                         ),
                                       ],
                                     ),
@@ -766,7 +743,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                           children: <Widget>[
                                             Container(
                                               alignment: Alignment.center,
-                                              margin: EdgeInsets.only(right: 16.0),
+                                              margin: const EdgeInsets.only(right: 16.0),
                                               height: 28.0,
                                               width: 28.0,
                                               child: Icon(
@@ -782,11 +759,9 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                             ),
                                           ],
                                         ),
-                                        Container(
-                                          child: Icon(
-                                            Icons.add,
-                                            color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                          ),
+                                        Icon(
+                                          Icons.add,
+                                          color: Color(ColorConstants.getPrimaryBackgroundGrey()),
                                         ),
                                       ],
                                     ),
@@ -796,7 +771,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                   style: Styles.getButtonStyle(),
                                   onPressed: () {
                                     Clipboard.setData(ClipboardData(text: pageState.discountCode));
-                                    DandyToastUtil.showToast('${pageState.discountCode} Copied to Clipboard!', Color(ColorConstants.error_red));
+                                    DandyToastUtil.showToast('${pageState.discountCode} Copied to Clipboard!', const Color(ColorConstants.error_red));
                                   },
                                   child: SizedBox(
                                     height: 48.0,
@@ -812,7 +787,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                           children: <Widget>[
                                             Container(
                                               alignment: Alignment.center,
-                                              margin: EdgeInsets.only(right: 16.0),
+                                              margin: const EdgeInsets.only(right: 16.0),
                                               height: 28.0,
                                               width: 28.0,
                                               child: Icon(
@@ -828,11 +803,9 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                             ),
                                           ],
                                         ),
-                                        Container(
-                                          child: Icon(
-                                            Icons.visibility,
-                                            color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                          ),
+                                        Icon(
+                                          Icons.visibility,
+                                          color: Color(ColorConstants.getPrimaryBackgroundGrey()),
                                         ),
                                       ],
                                     ),
@@ -857,7 +830,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                           children: <Widget>[
                                             Container(
                                               alignment: Alignment.center,
-                                              margin: EdgeInsets.only(right: 16.0),
+                                              margin: const EdgeInsets.only(right: 16.0),
                                               height: 28.0,
                                               width: 28.0,
                                               child: Icon(
@@ -873,11 +846,9 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                             ),
                                           ],
                                         ),
-                                        Container(
-                                          child: Icon(
-                                            Icons.document_scanner_outlined,
-                                            color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                          ),
+                                        Icon(
+                                          Icons.document_scanner_outlined,
+                                          color: Color(ColorConstants.getPrimaryBackgroundGrey()),
                                         ),
                                       ],
                                     ),
@@ -885,7 +856,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                 ),
                               ],
                             ),
-                          ) : SizedBox(),
+                          ) : const SizedBox(),
                           TextButton(
                             style: Styles.getButtonStyle(),
                             onPressed: () {
@@ -909,7 +880,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 128.0,
                           )
                         ],
@@ -935,8 +906,8 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
     );
   }
 
-  void _sendSuggestionEmail(MainSettingsPageState pageState) async => await IntentLauncherUtil.sendEmail('support@dandylight.com', "Suggestion", 'User Info: \nid = ' + pageState.profile.uid + '\naccount email = ' + pageState.profile.email + '\nfirst name = ' + pageState.profile.firstName + '\n\nSuggestion: \n[Please enter your suggestion here.]');
-  void _sendIssueReportEmail(MainSettingsPageState pageState) async => await IntentLauncherUtil.sendEmail('support@dandylight.com', "Reporting an issue", 'User Info: \nid = ' + pageState.profile.uid + '\naccount email = ' + pageState.profile.email + '\nfirst name = ' + pageState.profile.firstName + '\n\nIssue description: \n[Your message here - Attaching a screenshot of the issue will help us resolve the issue even faster.]');
+  void _sendSuggestionEmail(MainSettingsPageState pageState) async => await IntentLauncherUtil.sendEmail('support@dandylight.com', "Suggestion", 'User Info: \nid = ${pageState.profile.uid}\naccount email = ${pageState.profile.email}\nfirst name = ${pageState.profile.firstName}\n\nSuggestion: \n[Please enter your suggestion here.]');
+  void _sendIssueReportEmail(MainSettingsPageState pageState) async => await IntentLauncherUtil.sendEmail('support@dandylight.com', "Reporting an issue", 'User Info: \nid = ${pageState.profile.uid}\naccount email = ${pageState.profile.email}\nfirst name = ${pageState.profile.firstName}\n\nIssue description: \n[Your message here - Attaching a screenshot of the issue will help us resolve the issue even faster.]');
   void _launchPrivacyPolicyURL() async => await canLaunchUrl(Uri.parse('https://www.privacypolicies.com/live/9b78efad-d67f-4e08-9e02-035399b830ed')) ? await launchUrl(Uri.parse('https://www.privacypolicies.com/live/9b78efad-d67f-4e08-9e02-035399b830ed')) : throw 'Could not launch';
   void _launchTermsOfServiceURL() async => await canLaunchUrl(Uri.parse('https://www.privacypolicies.com/live/acaa632a-a22b-490b-87ee-7bd9c94c679e')) ? await launchUrl(Uri.parse('https://www.privacypolicies.com/live/acaa632a-a22b-490b-87ee-7bd9c94c679e')) : throw 'Could not launch';
   void _launchAppleEULA() async => await canLaunchUrl(Uri.parse('https://www.apple.com/legal/internet-services/itunes/dev/stdeula/')) ? await launchUrl(Uri.parse('https://www.apple.com/legal/internet-services/itunes/dev/stdeula/')) : throw 'Could not launch';

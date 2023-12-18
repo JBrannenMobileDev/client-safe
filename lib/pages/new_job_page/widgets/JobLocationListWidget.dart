@@ -1,27 +1,17 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/PriceProfile.dart';
-import 'package:dandylight/pages/locations_page/LocationsPageState.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
-import 'package:dandylight/pages/new_location_page/NewLocationActions.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/UserOptionsUtil.dart';
-import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../../widgets/TextDandyLight.dart';
 
 class JobLocationListWidget extends StatelessWidget {
   final int locationIndex;
 
-  JobLocationListWidget(this.locationIndex);
+  const JobLocationListWidget(this.locationIndex, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,16 +24,16 @@ class JobLocationListWidget extends StatelessWidget {
             children: <Widget>[
               Container(
                 height: _getItemWidthHeight(context),
-                margin: EdgeInsets.only(top: 8.0),
+                margin: const EdgeInsets.only(top: 8.0),
                 decoration: BoxDecoration(
                   image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: pageState.imageFiles.isNotEmpty && pageState.imageFiles.length > locationIndex
+                      image: pageState.imageFiles.isNotEmpty && pageState.imageFiles.length > locationIndex && pageState.imageFiles.elementAt(locationIndex) != null
                           ?  FileImage(pageState.imageFiles.elementAt(locationIndex))
-                          : AssetImage("assets/images/backgrounds/image_background.png")
+                          : const AssetImage("assets/images/backgrounds/image_background.png")
                   ),
                   color: Color(ColorConstants.getBlueDark()),
-                  borderRadius: new BorderRadius.circular(16.0),
+                  borderRadius: BorderRadius.circular(16.0),
                     border: Border.all(
                       color: Color(ColorConstants.getPeachDark()),
                       width: pageState.selectedLocation == pageState.locations.elementAt(locationIndex) ? 3 : 0,
@@ -52,21 +42,21 @@ class JobLocationListWidget extends StatelessWidget {
               ),
               pageState.imageFiles.isNotEmpty && pageState.imageFiles.length > locationIndex && pageState.imageFiles.elementAt(locationIndex) != null && pageState.imageFiles.elementAt(locationIndex).path.isEmpty ?
                 Container(
-                  margin: EdgeInsets.only(bottom: 54.0),
+                  margin: const EdgeInsets.only(bottom: 54.0),
                   height: 96.0,
                   width: 96.0,
                   child: Image.asset('assets/images/icons/location_icon_white.png'),
-                ) : SizedBox(),
+                ) : const SizedBox(),
               pageState.selectedLocation == pageState.locations.elementAt(locationIndex)
                   ? Container(
                 height: _getItemWidthHeight(context) + 3,
                 decoration: BoxDecoration(
-                  borderRadius: new BorderRadius.circular(16.0),
+                  borderRadius: BorderRadius.circular(16.0),
                 ),
                 child: Align(
                   alignment: Alignment.bottomRight,
                   child: Container(
-                    margin: EdgeInsets.only(right: 8.0, bottom: 8.0),
+                    margin: const EdgeInsets.only(right: 8.0, bottom: 8.0),
                     child: Stack(
                       children: [
                         Icon(
@@ -83,8 +73,8 @@ class JobLocationListWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-              ) : SizedBox(),
-              Container(
+              ) : const SizedBox(),
+              SizedBox(
                 height: _getItemWidthHeight(context) + 3,
                 width: double.maxFinite,
                 child: GestureDetector(
@@ -98,7 +88,7 @@ class JobLocationListWidget extends StatelessWidget {
           ),
           Center(
             child: Container(
-              margin: EdgeInsets.only(top: 4.0),
+              margin: const EdgeInsets.only(top: 4.0),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: pageState.locations.elementAt(locationIndex).locationName,

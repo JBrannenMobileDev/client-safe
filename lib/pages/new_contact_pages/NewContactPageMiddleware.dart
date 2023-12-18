@@ -1,6 +1,7 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/device_contacts/DeviceContactsDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ClientDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:dandylight/pages/clients_page/ClientsPageActions.dart';
@@ -11,6 +12,7 @@ import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 
+import '../../models/Job.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../new_job_page/NewJobPageActions.dart';
@@ -74,6 +76,16 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client));
     store.dispatch(LoadAndSelectNewContactAction(store.state.newJobPageState, await ClientDao.getClientByCreatedDate(client.createdDate)));
+
+    //Update any job that has this client
+    List<Job> allJobs = await JobDao.getAllJobs();
+    List<Job> jobsWithMatchingClient = allJobs.where((job) => job.clientDocumentId == client.documentId).toList();
+
+    if(jobsWithMatchingClient.isNotEmpty) {
+      for (var job in jobsWithMatchingClient) {
+        await JobDao.update(job);
+      }
+    }
   }
 
   Map<String, Object> _buildEventProperties(Client client) {
