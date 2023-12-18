@@ -32,7 +32,7 @@ IncomeAndExpenseSettingsPageState _buildMileageReport(IncomeAndExpenseSettingsPa
   int startYear = 2023;
   int endYear = DateTime.now().year;
   List<Report> reports = [];
-  List<String> header = ['Date', 'Start location', 'End location', 'Is round trip', 'Distance driven'];
+  List<String> header = ['Date', 'Distance driven'];
 
   for(startYear; startYear <= endYear ; startYear++) {
     reports.add(
@@ -63,10 +63,7 @@ buildMileageRows(
   for (var expense in expensesForYear) {
     rows.add([
       DateFormat('MM-dd-yyyy').format(expense.charge.chargeDate),
-      'Start location',
-      'End location',
-      'Round trip',
-      expense.totalMiles.toString(),
+      TextFormatterUtil.formatLargeNumber(expense.totalMiles),
     ]);
   }
 
@@ -75,17 +72,14 @@ buildMileageRows(
   double totalMilesDriven = 0;
 
   for(var row in rows) {
-    if(row[4].isNotEmpty) {
-      totalMilesDriven = totalMilesDriven + (double.tryParse(row[4].replaceAll(',', '')) ?? 0.0);
+    if(row[1].isNotEmpty) {
+      totalMilesDriven = totalMilesDriven + (double.tryParse(row[1].replaceAll(',', '')) ?? 0.0);
     }
   }
 
   rows.add([
-    ' ',
-    ' ',
-    ' ',
     'Total miles driven: ',
-    TextFormatterUtil.formatSimpleCurrencyNoNumberSign(totalMilesDriven)
+    TextFormatterUtil.formatLargeNumber(totalMilesDriven)
   ]);
   return rows;
 }

@@ -60,4 +60,18 @@ class Report {
 
     return totalExpenses;
   }
+
+  double getTotalMilesDriven() {
+    double total = 0;
+    List<List<String>> copyOfRows = List.from(rows);
+    copyOfRows.removeLast();
+
+    for(var row in copyOfRows) {
+      if(row[1].isNotEmpty) {
+        total = total + (double.tryParse(row[1].replaceAll(',', '')) ?? 0.0);
+      }
+    }
+
+    return total;
+  }
 }

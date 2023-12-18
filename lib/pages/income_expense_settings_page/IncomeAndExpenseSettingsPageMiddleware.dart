@@ -58,7 +58,7 @@ class IncomeAndExpenseSettingsPageMiddleware extends MiddlewareClass<AppState> {
   void _generateMileageReport(Store<AppState> store, GenerateMileageReportAction action, NextDispatcher next) async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     Document pdf = await PdfUtil.generateMileageReport(profile, action.report);
-    IntentLauncherUtil.downloadWeb(await pdf.save(), downloadName: 'MileageReport_${action.report.year}.pdf');
+    IntentLauncherUtil.sharePdfMobile(pdf, 'MileageReport_${action.report.year}.pdf');
   }
 
   void _generateIncomeExpenseReport(Store<AppState> store, GenerateIncomeExpenseReportAction action, NextDispatcher next) async{

@@ -1282,7 +1282,7 @@ class PdfUtil {
               padding: const EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
               decoration: BoxDecoration(border: Border.all()),
               child: Text(
-                  'Income & Expenses - ${report.year}',
+                  'Mileage Report - ${report.year}',
                   style: Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.grey, fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal)
               )
           );
@@ -1326,7 +1326,7 @@ class PdfUtil {
                       ),
                     ) : SizedBox(),
                     Text(
-                        profile.businessName ?? 'Income & Expenses - ${report.year}',
+                        profile.businessName ?? 'Mileage Report - ${report.year}',
                         style: Theme.of(context)
                             .defaultTextStyle
                             .copyWith(fontSize: 16, color: PdfColor.fromHex('#444444'), fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal)
@@ -1341,7 +1341,7 @@ class PdfUtil {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('Income & Expenses - ${report.year}', textScaleFactor: .85, style: TextStyle(
+                    Text('Mileage Report - ${report.year}', textScaleFactor: .85, style: TextStyle(
                         color: PdfColor.fromHex('#444444'),
                         fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                     )),
@@ -1365,14 +1365,7 @@ class PdfUtil {
                             fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                         )),
                     Text(
-                        'Total income:  ${TextFormatterUtil.formatDecimalCurrency(report.getTotalIncome())}',
-                        textScaleFactor: 0.85,
-                        style: TextStyle(
-                            color: PdfColor.fromHex('#444444'),
-                            fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                        )),
-                    Text(
-                        'Total expenses:  ${TextFormatterUtil.formatDecimalCurrency(report.getTotalExpenses())}',
+                        'Total miles driven:  ${TextFormatterUtil.formatLargeNumber(report.getTotalMilesDriven())}',
                         textScaleFactor: 0.85,
                         style: TextStyle(
                             color: PdfColor.fromHex('#444444'),
@@ -1391,9 +1384,10 @@ class PdfUtil {
               color: PdfColor.fromHex(profile.selectedColorTheme.buttonColor),
             ),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
+                  margin: const EdgeInsets.only(left: 8),
                   width: 66.0,
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -1406,262 +1400,39 @@ class PdfUtil {
                       )
                   ),
                 ),
-                Row(
-                  children: <Widget>[
-                    Container(
-                      width: 194.0,
-                      alignment: Alignment.centerRight,
-                      child: Text('Description',
-                          textScaleFactor: 0.85,
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                              color: PdfColor.fromHex(profile.selectedColorTheme.buttonTextColor),
-                              fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                          )
-                      ),
-                    ),
-                    Container(
-                      width: 96.0,
-                      alignment: Alignment.centerRight,
-                      child: Text('Income',
-                          textScaleFactor: 0.85, textAlign: TextAlign.right, style: TextStyle(
-                              color: PdfColor.fromHex(profile.selectedColorTheme.buttonTextColor),
-                              fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                          )),
-                    ),
-                    Container(
-                      width: 96.0,
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                          'Expenses',
-                          textScaleFactor: 0.85,
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                              color: PdfColor.fromHex(profile.selectedColorTheme.buttonTextColor),
-                              fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                          )
-                      ),
-                    ),
-                  ],
+                Container(
+                  width: 328.0,
+                  alignment: Alignment.centerRight,
+                  child: Text('Miles driven',
+                      textScaleFactor: 0.85,
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                          color: PdfColor.fromHex(profile.selectedColorTheme.buttonTextColor),
+                          fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
+                      )
+                  ),
                 ),
               ],
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 16.0, left: 8, right: 8),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                ListView.builder(
-                  itemCount: report.rows.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      width: 246.0,
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                          report.rows.elementAt(index)[0],
-                          textScaleFactor: 0.85,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              color: PdfColor.fromHex('#444444'),
-                              fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                          )
-                      ),
+              padding: const EdgeInsets.only(left: 16, right: 16),
+              child: Table(
+                children: List.generate(
+                  report.rows.length,
+                      (index) {
+                    final listData = report.rows[index];
+                    return TableRow(
+                      children: [
+                        Text(listData[0]),
+                        Text(listData[1]),
+                      ],
                     );
                   },
                 ),
-                Row(
-                  children: <Widget>[
-                    ListView.builder(
-                      itemCount: report.rows.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          width: 14.0,
-                          alignment: Alignment.centerRight,
-                          child: Text(report.rows.elementAt(index)[1],
-                              textScaleFactor: 0.85,
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                  color: PdfColor.fromHex('#444444'),
-                                  fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                              )),
-                        );
-                      },
-                    ),
-                    ListView.builder(
-                      itemCount: report.rows.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          width: 96.0,
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                              report.rows.elementAt(index)[2],
-                              textScaleFactor: 0.85,
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                  color: PdfColor.fromHex('#444444'),
-                                  fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                              )),
-                        );
-                      },
-                    ),
-                    ListView.builder(
-                      itemCount: report.rows.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          width: 96.0,
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                              report.rows.elementAt(index)[3],
-                              textScaleFactor: 0.85,
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                  color: PdfColor.fromHex('#444444'),
-                                  fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                              )
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Padding(
-              padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
-              child: Container(
-                height: 0.5,
-                width: 468.0,
-                color: PdfColor.fromHex('#e3e1da'),
-              )),
-          Padding(
-              padding: const EdgeInsets.only(left: 8, right: 8),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    width: 194.0,
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                        '',
-                        textScaleFactor: 0.85,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            color: PdfColor.fromHex('#444444'),
-                            fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                        )
-                    ),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Container(
-                        width: 66.0,
-                        alignment: Alignment.centerRight,
-                        child: Text('Total',
-                            textScaleFactor: 0.85, textAlign: TextAlign.right,
-                            style: TextStyle(
-                                color: PdfColor.fromHex('#444444'),
-                                fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                            )
-                        ),
-                      ),
-                      Container(
-                        width: 96.0,
-                        alignment: Alignment.centerRight,
-                        child: Text(TextFormatterUtil.formatDecimalCurrency(report.getTotalIncome()),
-                            textScaleFactor: 0.85, textAlign: TextAlign.right, style: TextStyle(
-                                color: PdfColor.fromHex('#444444'),
-                                fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                            )),
-                      ),
-                      Container(
-                        width: 96.0,
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                            TextFormatterUtil.formatDecimalCurrency(report.getTotalExpenses()),
-                            textScaleFactor: 0.85,
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                                color: PdfColor.fromHex('#444444'),
-                                fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                            )
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
               )
           ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                width: 194.0,
-                alignment: Alignment.centerLeft,
-                child: Text(
-                    '',
-                    textScaleFactor: 0.85,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        color: PdfColor.fromHex('#444444'),
-                        fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                    )
-                ),
-              ),
-              Row(
-                children: <Widget>[
-                  Container(
-                    width: 70.0,
-                    alignment: Alignment.centerRight,
-                    child: Text('Net income (Income - Expenses)',
-                        textScaleFactor: 0.85,
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                            color: PdfColor.fromHex('#444444'),
-                            fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                        )
-                    ),
-                  ),
-                  Container(
-                    width: 100.0,
-                    alignment: Alignment.centerRight,
-                    child: Text('',
-                        textScaleFactor: 0.85,
-                        textAlign: TextAlign.right, style: TextStyle(
-                            color: PdfColor.fromHex('#444444'),
-                            fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                        )),
-                  ),
-                  Container(
-                    width: 96.0,
-                    alignment: Alignment.centerRight,
-                    child: Text(TextFormatterUtil.formatDecimalCurrency(report.getTotalIncome() - report.getTotalExpenses()),
-                        textScaleFactor: 0.85,
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                            color: PdfColor.fromHex('#444444'),
-                            fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
-                        )
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              Padding(
-                  padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
-                  child: Container(
-                    height: 0.5,
-                    width: 205.0,
-                    color: PdfColor.fromHex('#e3e1da'),
-                  )),
-            ],
-          ),
         ]));
-
     return pdf;
   }
 }
