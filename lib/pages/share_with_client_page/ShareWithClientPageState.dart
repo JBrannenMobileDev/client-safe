@@ -15,6 +15,9 @@ class ShareWithClientPageState{
   final bool areChangesSaved;
   final String clientMessage;
   final Job job;
+  final bool updateContractCheckInProgress;
+  final bool updateInvoiceCheckInProgress;
+  final bool updatePosesCheckInProgress;
   final List<Job> jobs;
   final Function(String) onMessageChanged;
   final Function() onProposalShared;
@@ -40,6 +43,9 @@ class ShareWithClientPageState{
     @required this.saveProposal,
     @required this.areChangesSaved,
     @required this.jobs,
+    @required this.updateContractCheckInProgress,
+    @required this.updateInvoiceCheckInProgress,
+    @required this.updatePosesCheckInProgress,
   });
 
   ShareWithClientPageState copyWith({
@@ -52,6 +58,9 @@ class ShareWithClientPageState{
     String clientMessage,
     Job job,
     List<Job> jobs,
+    bool updateContractCheckInProgress,
+    bool updateInvoiceCheckInProgress,
+    bool updatePosesCheckInProgress,
     Function(String) onMessageChanged,
     Function() onProposalShared,
     Function(bool) onContractCheckBoxSelected,
@@ -75,6 +84,9 @@ class ShareWithClientPageState{
       saveProposal: saveProposal ?? this.saveProposal,
       areChangesSaved: areChangesSaved ?? this.areChangesSaved,
       jobs: jobs ?? this.jobs,
+      updateContractCheckInProgress: updateContractCheckInProgress ?? this.updateContractCheckInProgress,
+      updateInvoiceCheckInProgress: updateInvoiceCheckInProgress ?? this.updateInvoiceCheckInProgress,
+      updatePosesCheckInProgress: updatePosesCheckInProgress ?? this.updatePosesCheckInProgress,
     );
   }
 
@@ -94,6 +106,9 @@ class ShareWithClientPageState{
     saveProposal: null,
     areChangesSaved: true,
     jobs: [],
+    updateContractCheckInProgress: false,
+    updatePosesCheckInProgress: false,
+    updateInvoiceCheckInProgress: false,
   );
 
   factory ShareWithClientPageState.fromStore(Store<AppState> store) {
@@ -107,6 +122,9 @@ class ShareWithClientPageState{
       job: store.state.shareWithClientPageState.job,
       areChangesSaved: store.state.shareWithClientPageState.areChangesSaved,
       jobs: store.state.shareWithClientPageState.jobs,
+      updateContractCheckInProgress: store.state.shareWithClientPageState.updateContractCheckInProgress,
+      updateInvoiceCheckInProgress: store.state.shareWithClientPageState.updateInvoiceCheckInProgress,
+      updatePosesCheckInProgress: store.state.shareWithClientPageState.updatePosesCheckInProgress,
       onMessageChanged: (message) => store.dispatch(SetClientMessageAction(store.state.shareWithClientPageState, message)),
       onProposalShared: () => store.dispatch(ProposalSharedAction(store.state.shareWithClientPageState)),
       onContractCheckBoxSelected: (checked) => store.dispatch(SetContractCheckBox(store.state.shareWithClientPageState, checked)),
@@ -129,6 +147,9 @@ class ShareWithClientPageState{
       onInvoiceCheckBoxSelected.hashCode ^
       clientMessage.hashCode ^
       job.hashCode ^
+      updateContractCheckInProgress.hashCode ^
+      updateInvoiceCheckInProgress.hashCode ^
+      updatePosesCheckInProgress.hashCode ^
       saveProposal.hashCode ^
       areChangesSaved.hashCode ^
       jobs.hashCode ^
@@ -148,6 +169,9 @@ class ShareWithClientPageState{
               onContractCheckBoxSelected == other.onContractCheckBoxSelected &&
               onInvoiceCheckBoxSelected == other.onInvoiceCheckBoxSelected &&
               clientMessage == other.clientMessage &&
+              updateContractCheckInProgress == other.updateContractCheckInProgress &&
+              updateInvoiceCheckInProgress == other.updateInvoiceCheckInProgress &&
+              updatePosesCheckInProgress == other.updatePosesCheckInProgress &&
               saveProposal == other.saveProposal &&
               areChangesSaved == other.areChangesSaved &&
               jobs == other.jobs &&

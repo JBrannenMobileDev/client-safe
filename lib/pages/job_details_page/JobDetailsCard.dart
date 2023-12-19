@@ -2,7 +2,6 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 
@@ -14,6 +13,8 @@ import '../../widgets/TextDandyLight.dart';
 import 'JobDetailsPageState.dart';
 
 class JobDetailsCard extends StatefulWidget {
+  const JobDetailsCard({Key key}) : super(key: key);
+
 
   @override
   State<StatefulWidget> createState() {
@@ -33,7 +34,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) =>
           Container(
-            margin: EdgeInsets.only(left: 16, top: 26, right: 16, bottom: 0),
+            margin: const EdgeInsets.only(left: 16, top: 26, right: 16, bottom: 0),
             height: 266,
             decoration: BoxDecoration(
               color: Color(ColorConstants.getPrimaryWhite()),
@@ -43,7 +44,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
               children: [
                 Container(
                   width: double.infinity,
-                  margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
+                  margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
                   child: TextDandyLight(
                     type: TextDandyLight.LARGE_TEXT,
                     text: 'Details',
@@ -63,10 +64,10 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                       Container(
                         height: 36,
                         alignment: Alignment.center,
-                        padding: EdgeInsets.only(left: 16.0),
+                        padding: const EdgeInsets.only(left: 16.0),
                         child: TextDandyLight(
                           type: TextDandyLight.MEDIUM_TEXT,
-                          text: "Type:  " + pageState.job.type.title,
+                          text: "Type:  ${pageState.job.type.title}",
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
@@ -75,7 +76,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                       ),
                       Container(
                         height: 36,
-                        margin: EdgeInsets.only(right: 16),
+                        margin: const EdgeInsets.only(right: 16),
                         alignment: Alignment.centerRight,
                         child: Icon(
                           Icons.chevron_right,
@@ -97,11 +98,11 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                       Container(
                         height: 36,
                         alignment: Alignment.center,
-                        padding: EdgeInsets.only(left: 16.0),
+                        padding: const EdgeInsets.only(left: 16.0),
                         child: TextDandyLight(
                           type: TextDandyLight.MEDIUM_TEXT,
                           text: pageState.job.priceProfile == null ? 'Price package not selected' :
-                          'Package:  ' + pageState.job.priceProfile.profileName,
+                          'Package:  ${pageState.job.priceProfile.profileName}',
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
@@ -110,7 +111,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                       ),
                       Container(
                         height: 36,
-                        margin: EdgeInsets.only(right: 16),
+                        margin: const EdgeInsets.only(right: 16),
                         alignment: Alignment.centerRight,
                         child: Icon(
                           Icons.chevron_right,
@@ -132,12 +133,12 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                       Container(
                         height: 36,
                         alignment: Alignment.center,
-                        padding: EdgeInsets.only(left: 16.0),
+                        padding: const EdgeInsets.only(left: 16.0),
                         child: TextDandyLight(
                           type: TextDandyLight.MEDIUM_TEXT,
-                          text: "Date:  " + (pageState.job.selectedDate != null
+                          text: "Date:  ${pageState.job.selectedDate != null
                               ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.job.selectedDate)
-                              : 'Date not selected'),
+                              : 'Date not selected'}",
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
@@ -146,7 +147,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                       ),
                       Container(
                         height: 36,
-                        margin: EdgeInsets.only(right: 16),
+                        margin: const EdgeInsets.only(right: 16),
                         alignment: Alignment.centerRight,
                         child: Icon(
                           Icons.chevron_right,
@@ -157,7 +158,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 16, right: 16, top: 16),
+                  padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
                   child: Row(
                     children: [
                       Expanded(
@@ -167,12 +168,12 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                                 context: context,
                                 builder: (BuildContext builder) {
                                   return Padding(
-                                    padding: EdgeInsets.only(top: 16.0),
+                                    padding: const EdgeInsets.only(top: 16.0),
                                     child: Stack(
                                       alignment: Alignment.topCenter,
                                       children: <Widget>[
                                         Container(
-                                          margin: EdgeInsets.only(top: 16.0),
+                                          margin: const EdgeInsets.only(top: 16.0),
                                           height: MediaQuery.of(context).copyWith().size.height / 3,
                                           child: CupertinoDatePicker(
                                             initialDateTime: pageState.job.selectedTime,
@@ -207,15 +208,13 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               children: <Widget>[
-                                                Container(
-                                                  child: new Image.asset(
-                                                    'assets/images/icons/sunset_icon_peach.png',
-                                                    height: 32.0,
-                                                    fit: BoxFit.cover,
-                                                  ),
+                                                Image.asset(
+                                                  'assets/images/icons/sunset_icon_peach.png',
+                                                  height: 32.0,
+                                                  fit: BoxFit.cover,
                                                 ),
                                                 Container(
-                                                  padding: EdgeInsets.only(left: 8.0),
+                                                  padding: const EdgeInsets.only(left: 8.0),
                                                   child: TextDandyLight(
                                                     type: TextDandyLight.MEDIUM_TEXT,
                                                     text: (pageState.sunsetTime != null
@@ -253,7 +252,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                                 });
                           },
                           child: Container(
-                            margin: EdgeInsets.only(right: 8),
+                            margin: const EdgeInsets.only(right: 8),
                             height: 78,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
@@ -262,7 +261,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                             child: Column(
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.only(top: 8),
+                                  padding: const EdgeInsets.only(top: 8),
                                   child: TextDandyLight(
                                     type: TextDandyLight.MEDIUM_TEXT,
                                     text: 'Start',
@@ -273,7 +272,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(top: 8),
+                                  padding: const EdgeInsets.only(top: 8),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -300,12 +299,12 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                                 context: context,
                                 builder: (BuildContext builder) {
                                   return Padding(
-                                    padding: EdgeInsets.only(top: 16.0),
+                                    padding: const EdgeInsets.only(top: 16.0),
                                     child: Stack(
                                       alignment: Alignment.topCenter,
                                       children: <Widget>[
                                         Container(
-                                          margin: EdgeInsets.only(top: 16.0),
+                                          margin: const EdgeInsets.only(top: 16.0),
                                           height: MediaQuery.of(context).copyWith().size.height / 3,
                                           child: CupertinoDatePicker(
                                             initialDateTime: pageState.job.selectedEndTime,
@@ -340,15 +339,13 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               children: <Widget>[
-                                                Container(
-                                                  child: new Image.asset(
-                                                    'assets/images/icons/sunset_icon_peach.png',
-                                                    height: 32.0,
-                                                    fit: BoxFit.cover,
-                                                  ),
+                                                Image.asset(
+                                                  'assets/images/icons/sunset_icon_peach.png',
+                                                  height: 32.0,
+                                                  fit: BoxFit.cover,
                                                 ),
                                                 Container(
-                                                  padding: EdgeInsets.only(left: 8.0),
+                                                  padding: const EdgeInsets.only(left: 8.0),
                                                   child: TextDandyLight(
                                                     type: TextDandyLight.MEDIUM_TEXT,
                                                     text: (pageState.sunsetTime != null
@@ -387,7 +384,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                           },
                           behavior: HitTestBehavior.opaque,
                           child: Container(
-                            margin: EdgeInsets.only(left: 8),
+                            margin: const EdgeInsets.only(left: 8),
                             height: 78,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
@@ -396,7 +393,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                             child: Column(
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.only(top: 8),
+                                  padding: const EdgeInsets.only(top: 8),
                                   child: TextDandyLight(
                                     type: TextDandyLight.MEDIUM_TEXT,
                                     text: 'End',
@@ -407,7 +404,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(top: 8),
+                                  padding: const EdgeInsets.only(top: 8),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [

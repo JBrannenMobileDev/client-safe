@@ -1,8 +1,6 @@
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../AppState.dart';
@@ -11,6 +9,8 @@ import '../sunset_weather_page/SunsetWeatherPage.dart';
 import 'JobDetailsPageState.dart';
 
 class SunsetWeatherCard extends StatefulWidget {
+  const SunsetWeatherCard({Key key}) : super(key: key);
+
 
   @override
   State<StatefulWidget> createState() {
@@ -33,13 +33,13 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
             onTap: () {
               pageState.onSunsetWeatherSelected();
               Navigator.of(context).push(
-                new MaterialPageRoute(
+                MaterialPageRoute(
                     builder: (context) => SunsetWeatherPage()),
               );
             },
             behavior: HitTestBehavior.opaque,
             child: Container(
-              margin: EdgeInsets.only(left: 16, top: 26, right: 16),
+              margin: const EdgeInsets.only(left: 16, top: 26, right: 16),
               height: 300,
               decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
@@ -49,7 +49,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                 alignment: Alignment.topCenter,
                 children: [
                   Container(
-                    margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
+                    margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
                     child: TextDandyLight(
                       type: TextDandyLight.LARGE_TEXT,
                       text: 'Sunset & Weather',
@@ -58,25 +58,25 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 64),
+                    margin: const EdgeInsets.only(top: 64),
                     child: pageState.weatherIcon.isNotEmpty ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Container(
                           alignment: Alignment.topCenter,
-                          margin: EdgeInsets.only(top: 0.0, bottom: 16.0),
+                          margin: const EdgeInsets.only(top: 0.0, bottom: 16.0),
                           height: MediaQuery.of(context).size.width / 4,
                           width: MediaQuery.of(context).size.width / 4,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                           ),
                           child: pageState.weatherIcon != null
                               ? Image.asset(pageState.weatherIcon, color: Color(ColorConstants.getBlueLight()),)
-                              : SizedBox(),
+                              : const SizedBox(),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 22, left: 0.0, bottom: 16.0),
+                          margin: const EdgeInsets.only(top: 22, left: 0.0, bottom: 16.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -85,14 +85,11 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                                 mainAxisAlignment:
                                 MainAxisAlignment.end,
                                 children: <Widget>[
-                                  Container(
+                                  SizedBox(
                                     width: 88.0,
                                     child: TextDandyLight(
                                       type: TextDandyLight.MEDIUM_TEXT,
-                                      text: pageState.tempHigh +
-                                          '° - ' +
-                                          pageState.tempLow +
-                                          '°',
+                                      text: '${pageState.tempHigh}° - ${pageState.tempLow}°',
                                       textAlign: TextAlign.end,
                                       color: const Color(
                                           ColorConstants
@@ -104,27 +101,21 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
-                                  Container(
-                                    child: TextDandyLight(
-                                      type: TextDandyLight.MEDIUM_TEXT,
-                                      text: 'Chance of rain:',
-                                      textAlign: TextAlign.end,
-                                      color: const Color(
-                                          ColorConstants
-                                              .primary_black),
-                                    ),
+                                  TextDandyLight(
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: 'Chance of rain:',
+                                    textAlign: TextAlign.end,
+                                    color: const Color(
+                                        ColorConstants
+                                            .primary_black),
                                   ),
-                                  Container(
-                                    child: TextDandyLight(
-                                      type: TextDandyLight.MEDIUM_TEXT,
-                                      text: ' ' +
-                                          pageState.chanceOfRain +
-                                          '%',
-                                      textAlign: TextAlign.end,
-                                      color: const Color(
-                                          ColorConstants
-                                              .primary_black),
-                                    ),
+                                  TextDandyLight(
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: ' ${pageState.chanceOfRain}%',
+                                    textAlign: TextAlign.end,
+                                    color: const Color(
+                                        ColorConstants
+                                            .primary_black),
                                   ),
                                 ],
                               ),
@@ -132,27 +123,21 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                                 mainAxisAlignment:
                                 MainAxisAlignment.end,
                                 children: <Widget>[
-                                  Container(
-                                    child: TextDandyLight(
-                                      type: TextDandyLight.MEDIUM_TEXT,
-                                      text: 'Cloud coverage:',
-                                      textAlign: TextAlign.end,
-                                      color: const Color(
-                                          ColorConstants
-                                              .primary_black),
-                                    ),
+                                  TextDandyLight(
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: 'Cloud coverage:',
+                                    textAlign: TextAlign.end,
+                                    color: const Color(
+                                        ColorConstants
+                                            .primary_black),
                                   ),
-                                  Container(
-                                    child: TextDandyLight(
-                                      type: TextDandyLight.MEDIUM_TEXT,
-                                      text: ' ' +
-                                          pageState.cloudCoverage +
-                                          '%',
-                                      textAlign: TextAlign.end,
-                                      color: const Color(
-                                          ColorConstants
-                                              .primary_black),
-                                    ),
+                                  TextDandyLight(
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: ' ${pageState.cloudCoverage}%',
+                                    textAlign: TextAlign.end,
+                                    color: const Color(
+                                        ColorConstants
+                                            .primary_black),
                                   ),
                                 ],
                               )
@@ -161,7 +146,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                         ),
                       ],
                     ) : Container(
-                      margin: EdgeInsets.only(left: 32, right: 32, top: 28),
+                      margin: const EdgeInsets.only(left: 32, right: 32, top: 28),
                       child: TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: 'Weather data is only available within 5 days of this job.',
@@ -172,7 +157,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 164, left: 16, right: 0, bottom: 8),
+                    padding: const EdgeInsets.only(top: 164, left: 16, right: 0, bottom: 8),
                     child: pageState.selectedLocation != null && pageState.selectedDate != null ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -180,7 +165,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                              margin: EdgeInsets.only(right: 16, top: 0),
+                              margin: const EdgeInsets.only(right: 16, top: 0),
                               height: 82,
                               width: 64,
                               decoration: BoxDecoration(
@@ -188,7 +173,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                                 color: Color(ColorConstants.getPeachDark()),
                               ),
                               child: Container(
-                                padding: EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(8),
                                 child: Image.asset(
                                   'assets/images/icons/sunset_icon_peach.png',
                                   height: 32.0,
@@ -200,7 +185,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Container(
+                                SizedBox(
                                   width: MediaQuery.of(context).size.width - 168,
                                   height: 32,
                                   child: Row(
@@ -228,7 +213,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                                     ],
                                   ),
                                 ),
-                                Container(
+                                SizedBox(
                                   width: MediaQuery.of(context).size.width - 168,
                                   height: 32,
                                   child: Row(
@@ -256,7 +241,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                                     ],
                                   ),
                                 ),
-                                Container(
+                                SizedBox(
                                   width: MediaQuery.of(context).size.width - 168,
                                   height: 32,
                                   child: Row(
@@ -290,7 +275,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                         ),
                         Container(
                           height: 36,
-                          margin: EdgeInsets.only(right: 16),
+                          margin: const EdgeInsets.only(right: 16),
                           alignment: Alignment.centerRight,
                           child: Icon(
                             Icons.chevron_right,
@@ -299,7 +284,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                         ),
                       ],
                     ) : Container(
-                      margin: EdgeInsets.only(left: 32, right: 32, top: 28),
+                      margin: const EdgeInsets.only(left: 32, right: 32, top: 28),
                       child: TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: 'Sunset data is only available once there is a location and date are selected for this job.',

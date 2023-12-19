@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Job.dart';
@@ -21,9 +20,7 @@ import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -59,7 +56,7 @@ class JobDetailsPage extends StatefulWidget {
 
 class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStateMixin{
   final GlobalKey<AnimatedListState> _listKeyVertical = GlobalKey<AnimatedListState>();
-  ScrollController _scrollController = ScrollController(keepScrollOffset: true);
+  final ScrollController _scrollController = ScrollController(keepScrollOffset: true);
   ScrollController _stagesScrollController = ScrollController(keepScrollOffset: true);
   double scrollPosition = -2;
   bool comingFromOnBoarding;
@@ -76,13 +73,13 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
       builder: (BuildContext context) {
         return Device.get().isIos ?
         CupertinoAlertDialog(
-          title: new Text('Are you sure?'),
-          content: new Text('All data for this job will be permanently deleted!'),
+          title: const Text('Are you sure?'),
+          content: const Text('All data for this job will be permanently deleted!'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () => Navigator.of(context).pop(false),
-              child: new Text('No'),
+              child: const Text('No'),
             ),
             TextButton(
               style: Styles.getButtonStyle(),
@@ -90,17 +87,17 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                 pageState.onDeleteSelected();
                 Navigator.of(context).pop(true);
               },
-              child: new Text('Yes'),
+              child: const Text('Yes'),
             ),
           ],
         ) : AlertDialog(
-          title: new Text('Are you sure?'),
-          content: new Text('All data for this job will be permanently deleted!'),
+          title: const Text('Are you sure?'),
+          content: const Text('All data for this job will be permanently deleted!'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () => Navigator.of(context).pop(false),
-              child: new Text('No'),
+              child: const Text('No'),
             ),
             TextButton(
               style: Styles.getButtonStyle(),
@@ -108,7 +105,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                 pageState.onDeleteSelected();
                 Navigator.of(context).pop(true);
               },
-              child: new Text('Yes'),
+              child: const Text('Yes'),
             ),
           ],
         );
@@ -128,7 +125,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
         },
         builder: (BuildContext context, JobDetailsPageState pageState) {
           if((pageState.newStagAnimationIndex != -1 || scrollPosition == -2) && _stagesScrollController.hasClients) {
-            Timer(Duration(milliseconds: 150), () => {
+            Timer(const Duration(milliseconds: 150), () => {
               _stagesScrollController.animateTo(
                 _getScrollToOffset(pageState),
                 curve: Curves.easeInOutCubic,
@@ -148,7 +145,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                     children: [
                       SpeedDial(
                   // both default to 16
-                  childMargin: EdgeInsets.only(right: 18.0, bottom: 20.0),
+                  childMargin: const EdgeInsets.only(right: 18.0, bottom: 20.0),
                   // this is ignored if animatedIcon is non null
                    child: getFabIcon(),
                   visible: dialVisible,
@@ -163,7 +160,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                   backgroundColor: Color(ColorConstants.getPeachDark()),
                   foregroundColor: Colors.black,
                   elevation: 8.0,
-                  shape: CircleBorder(),
+                  shape: const CircleBorder(),
                   onOpen: () {
                     setState(() {
                       isFabExpanded = true;
@@ -235,7 +232,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
 
 
                     SpeedDialChild(
-                      child: Icon(Icons.add),
+                      child: const Icon(Icons.add),
                       backgroundColor: Color(ColorConstants.getBlueLight()),
                       labelWidget: Container(
                         alignment: Alignment.center,
@@ -246,7 +243,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                           borderRadius: BorderRadius.circular(21.0),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'Contract',
@@ -261,7 +258,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         }
                         if(!containsContract) {
                           Navigator.of(context).push(
-                            new MaterialPageRoute(builder: (context) => ContractsPage(jobDocumentId: pageState.job.documentId)),
+                            MaterialPageRoute(builder: (context) => ContractsPage(jobDocumentId: pageState.job.documentId)),
                           );
                         }else{
                           UserOptionsUtil.showContractOptionsDialog(context);
@@ -269,7 +266,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                       },
                     ),
                     SpeedDialChild(
-                      child: Icon(Icons.add),
+                      child: const Icon(Icons.add),
                       backgroundColor: Color(ColorConstants.getBlueLight()),
                       labelWidget: Container(
                         alignment: Alignment.center,
@@ -280,7 +277,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                           borderRadius: BorderRadius.circular(21.0),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'Invoice',
@@ -307,7 +304,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                       },
                     ),
                     SpeedDialChild(
-                      child: Icon(Icons.add),
+                      child: const Icon(Icons.add),
                       backgroundColor: Color(ColorConstants.getBlueLight()),
                       labelWidget: Container(
                         alignment: Alignment.center,
@@ -318,7 +315,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                           borderRadius: BorderRadius.circular(21.0),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'Reminder',
@@ -331,7 +328,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                       },
                     ),
                     SpeedDialChild(
-                      child: Icon(Icons.add),
+                      child: const Icon(Icons.add),
                       backgroundColor: Color(ColorConstants.getBlueLight()),
                       labelWidget: Container(
                         alignment: Alignment.center,
@@ -342,7 +339,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                           borderRadius: BorderRadius.circular(21.0),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'Tip',
@@ -362,7 +359,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                           EventSender().sendEvent(eventName: EventNames.ON_BOARDING_PREVIEW_CLIENT_PORTAL_SELECTED);
                         },
                         child: Container(
-                          margin: EdgeInsets.only(top: 8),
+                          margin: const EdgeInsets.only(top: 8),
                           width: 196,
                           alignment: Alignment.center,
                           height: 48,
@@ -383,7 +380,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                           EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_FROM_JOB);
                         },
                         child: Container(
-                          margin: EdgeInsets.only(top: 8),
+                          margin: const EdgeInsets.only(top: 8),
                           width: 164,
                           alignment: Alignment.center,
                           height: 48,
@@ -401,8 +398,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                       )
                 ],
                 ),
-                body: Container(
-                child: Stack(
+                body: Stack(
                   alignment: Alignment.topRight,
                   children: <Widget>[
                     Container(
@@ -414,7 +410,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                       key: _listKeyVertical,
                       controller: _scrollController,
                       slivers: <Widget>[
-                        new SliverAppBar(
+                        SliverAppBar(
                           iconTheme: IconThemeData(
                             color: Color(ColorConstants.getPrimaryBlack()), //change your color here
                           ),
@@ -441,13 +437,13 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                               onPressed: () {
                                 _ackAlert(context, pageState);
                               },
-                            ) : SizedBox(),
+                            ) : const SizedBox(),
                           ],
-                          flexibleSpace: new FlexibleSpaceBar(
+                          flexibleSpace: FlexibleSpaceBar(
                             background: Stack(
                               children: <Widget>[
                                 Container(
-                                  padding: EdgeInsets.only(top: 56.0),
+                                  padding: const EdgeInsets.only(top: 56.0),
                                   alignment: Alignment.topCenter,
                                   child: SafeArea(
                                     child: TextDandyLight(
@@ -460,7 +456,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                             ),
                             SafeArea(
                               child: Container(
-                                margin: EdgeInsets.only(top: 25.0),
+                                margin: const EdgeInsets.only(top: 25.0),
                                 child: SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   controller: _stagesScrollController,
@@ -472,7 +468,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                                         child: ListView.builder(
                                           shrinkWrap: true,
                                           scrollDirection: Axis.horizontal,
-                                          physics: NeverScrollableScrollPhysics(),
+                                          physics: const NeverScrollableScrollPhysics(),
                                           padding: const EdgeInsets.all(16.0),
                                           itemCount: pageState.job.type.stages.length,
                                           itemBuilder: _buildItem,
@@ -487,15 +483,15 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         ),
                       ),
                         ),
-                        new SliverList(
-                            delegate: new SliverChildListDelegate(<Widget>[
+                        SliverList(
+                            delegate: SliverChildListDelegate(<Widget>[
                               PosesCard(pageState: pageState),
-                              JobDetailsCard(),
+                              const JobDetailsCard(),
                               DocumentsCard(pageState: pageState, onSendInvoiceSelected: onSendInvoiceSelected, profile: pageState.profile),
-                              SunsetWeatherCard(),
-                              LocationCard(),
+                              const SunsetWeatherCard(),
+                              const LocationCard(),
                               ClientDetailsCard(pageState: pageState),
-                              JobNotesWidget(),
+                              const JobNotesWidget(),
                               RemindersCard(pageState: pageState),
                             ])),
                       ],
@@ -510,8 +506,8 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         NavigationUtil.onSuccessfulLogin(context);
                       },
                       child: Container(
-                        padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                        margin: EdgeInsets.only(left: 24.0, right: 8.0, top: 66.0, bottom: 32.0),
+                        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                        margin: const EdgeInsets.only(left: 24.0, right: 8.0, top: 66.0, bottom: 32.0),
                         alignment: Alignment.center,
                         height: 42.0,
                         width: 96,
@@ -525,11 +521,10 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                           color: Color(ColorConstants.getPrimaryWhite()),
                         ),
                       ),
-                    ) : SizedBox(),
+                    ) : const SizedBox(),
                   ],
                 ),
-              ),
-            ) : SizedBox();
+            ) : const SizedBox();
         },
       );
   }
@@ -583,7 +578,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
         context: context,
         builder: (BuildContext context) {
           return Padding(
-            padding: EdgeInsets.all(96.0),
+            padding: const EdgeInsets.all(96.0),
             child: FlareActor(
               "assets/animations/success_check.flr",
               alignment: Alignment.center,
@@ -602,7 +597,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
   }
 
   void _launchBrandingPreviewURL(String uid) async {
-    print('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid);
-    await canLaunchUrl(Uri.parse('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid)) ? await launchUrl(Uri.parse('https://dandylight.com/' + RouteNames.BRANDING_PREVIEW + '/' + uid), mode: LaunchMode.externalApplication) : throw 'Could not launch';
+    print('https://dandylight.com/${RouteNames.BRANDING_PREVIEW}/$uid');
+    await canLaunchUrl(Uri.parse('https://dandylight.com/${RouteNames.BRANDING_PREVIEW}/$uid')) ? await launchUrl(Uri.parse('https://dandylight.com/${RouteNames.BRANDING_PREVIEW}/$uid'), mode: LaunchMode.externalApplication) : throw 'Could not launch';
   }
 }

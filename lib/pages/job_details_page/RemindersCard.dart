@@ -3,16 +3,12 @@ import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 
-import '../../models/ReminderDandyLight.dart';
 import '../../utils/UserOptionsUtil.dart';
 import '../../widgets/TextDandyLight.dart';
-import '../common_widgets/ClientSafeButton.dart';
 
 class RemindersCard extends StatelessWidget {
-  RemindersCard({this.pageState});
+  RemindersCard({Key key, this.pageState}) : super(key: key);
 
   final JobDetailsPageState pageState;
   final ScrollController _controller = ScrollController();
@@ -20,22 +16,22 @@ class RemindersCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 26.0, bottom: 200.0),
+      padding: const EdgeInsets.only(top: 26.0, bottom: 200.0),
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: <Widget>[
           Container(
             width: double.maxFinite,
-            margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
-            decoration: new BoxDecoration(
+            margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
+            decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
-                borderRadius: new BorderRadius.all(Radius.circular(12.0))),
+                borderRadius: const BorderRadius.all(Radius.circular(12.0))),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                     Container(
                       width: double.infinity,
-                      margin: EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 0.0),
+                      margin: const EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 0.0),
                       child: TextDandyLight(
                         type: TextDandyLight.LARGE_TEXT,
                         text: 'Reminders',
@@ -43,17 +39,17 @@ class RemindersCard extends StatelessWidget {
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                 ),
-                pageState.reminders.length > 0
+                pageState.reminders.isNotEmpty
                     ? ConstrainedBox(
-                  constraints: BoxConstraints(
+                  constraints: const BoxConstraints(
                     minHeight: 65.0,
                   ),
                   child: ListView.builder(
                     reverse: false,
-                    padding: new EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 24.0),
+                    padding: const EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 24.0),
                     shrinkWrap: true,
                     controller: _controller,
-                    physics: ClampingScrollPhysics(),
+                    physics: const ClampingScrollPhysics(),
                     itemCount: pageState.reminders.length,
                     itemBuilder: _buildItem,
                   ),
@@ -62,7 +58,7 @@ class RemindersCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(left: 24.0, right: 24.0, top: 16.0, bottom: 16.0),
+                      padding: const EdgeInsets.only(left: 24.0, right: 24.0, top: 16.0, bottom: 16.0),
                       child: TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: "You have not added any reminders to this job yet. Select the (+) icon to add a reminder.",
@@ -87,7 +83,7 @@ class RemindersCard extends StatelessWidget {
       onPressed: () {
         UserOptionsUtil.showReminderViewDialog(context, jobReminder);
       },
-      child: Container(
+      child: SizedBox(
         height: 54.0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -98,7 +94,7 @@ class RemindersCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(left: 8.0),
+                    margin: const EdgeInsets.only(left: 8.0),
                     height: 32.0,
                     width: 32.0,
                     child: Image.asset(
@@ -106,7 +102,7 @@ class RemindersCard extends StatelessWidget {
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width - 130,
-                    padding: EdgeInsets.only(left: 8.0),
+                    padding: const EdgeInsets.only(left: 8.0),
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: jobReminder.reminder.description,
@@ -124,7 +120,7 @@ class RemindersCard extends StatelessWidget {
                 pageState.onDeleteReminderSelected(jobReminder);
               },
               child: Container(
-                margin: EdgeInsets.only(right: 8.0),
+                margin: const EdgeInsets.only(right: 8.0),
                 height: 24.0,
                 width: 24.0,
                 child: Image.asset('assets/images/icons/trash_can.png', color: Color(ColorConstants.getPeachDark())),
@@ -134,9 +130,5 @@ class RemindersCard extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  _showNewReminderCard(BuildContext context) {
-    UserOptionsUtil.showNewJobReminderDialog(context, pageState.job);
   }
 }

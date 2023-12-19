@@ -13,7 +13,28 @@ final shareWithClientReducer = combineReducers<ShareWithClientPageState>([
   TypedReducer<ShareWithClientPageState, SetJobShareWithClientAction>(_setJob),
   TypedReducer<ShareWithClientPageState, SaveProposalAction>(_setAreChangesSavedState),
   TypedReducer<ShareWithClientPageState, SetAllJobsAction>(_setAllJobs),
+  TypedReducer<ShareWithClientPageState, UpdateContractCheckInProgressStateAction>(_setContractInProgressState),
+  TypedReducer<ShareWithClientPageState, UpdatePosesCheckInProgressStateAction>(_setPosesInProgressState),
+  TypedReducer<ShareWithClientPageState, UpdateInvoiceCheckInProgressStateAction>(_setInvoiceInProgressState),
 ]);
+
+ShareWithClientPageState _setContractInProgressState(ShareWithClientPageState previousState, UpdateContractCheckInProgressStateAction action){
+  return previousState.copyWith(
+    updateContractCheckInProgress: action.inProgress,
+  );
+}
+
+ShareWithClientPageState _setPosesInProgressState(ShareWithClientPageState previousState, UpdatePosesCheckInProgressStateAction action){
+  return previousState.copyWith(
+    updatePosesCheckInProgress: action.inProgress,
+  );
+}
+
+ShareWithClientPageState _setInvoiceInProgressState(ShareWithClientPageState previousState, UpdateInvoiceCheckInProgressStateAction action){
+  return previousState.copyWith(
+    updateInvoiceCheckInProgress: action.inProgress,
+  );
+}
 
 ShareWithClientPageState _setAllJobs(ShareWithClientPageState previousState, SetAllJobsAction action){
   return previousState.copyWith(
@@ -58,6 +79,7 @@ ShareWithClientPageState _setContractChecked(ShareWithClientPageState previousSt
     contractSelected: action.checked,
     job: action.pageState.job,
     areChangesSaved: false,
+    updateContractCheckInProgress: false,
   );
 }
 
@@ -67,6 +89,7 @@ ShareWithClientPageState _setInvoiceChecked(ShareWithClientPageState previousSta
     invoiceSelected: action.checked,
     job: action.pageState.job,
     areChangesSaved: false,
+    updateInvoiceCheckInProgress: false,
   );
 }
 
@@ -76,5 +99,6 @@ ShareWithClientPageState _setPosesChecked(ShareWithClientPageState previousState
     posesSelected: action.checked,
     job: action.pageState.job,
     areChangesSaved: false,
+    updatePosesCheckInProgress: false,
   );
 }

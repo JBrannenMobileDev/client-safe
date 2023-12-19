@@ -14,9 +14,7 @@ import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:dandylight/utils/analytics/EventNames.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:share_plus/share_plus.dart';
@@ -32,12 +30,12 @@ class StageItem extends StatefulWidget {
   final Job job;
   final Function() onSendInvoiceSelected;
   final Function() onJobCompleteSelected;
-  StageItem(
+  const StageItem(
       this.index,
       this.job,
       this.onSendInvoiceSelected,
-      this.onJobCompleteSelected,
-  );
+      this.onJobCompleteSelected, {Key key}
+  ) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -122,18 +120,18 @@ class _StageItemState extends State<StageItem>
           curve: Curves.fastOutSlowIn,
         ));
     if(isCurrentStage){
-      _pulsingCircleSize.addListener(() => this.setState(() {}));
+      _pulsingCircleSize.addListener(() => setState(() {}));
       _controller.repeat();
       _pulsingRepeatController.repeat();
     }
     _stageCompleteAnimation = AnimationController(
         vsync: this,
-        duration: Duration(milliseconds: 300)
+        duration: const Duration(milliseconds: 300)
     );
 
     _newStageCompleteAnimation = AnimationController(
         vsync: this,
-        duration: Duration(milliseconds: 300)
+        duration: const Duration(milliseconds: 300)
     );
 
     _checkCircleBgColor = ColorTween(begin: Color(ColorConstants.getPrimaryWhite()), end: Color(ColorConstants.getPrimaryWhite())).animate(_stageCompleteAnimation);
@@ -234,7 +232,7 @@ class _StageItemState extends State<StageItem>
           setState(() {
             _setStageStatus(pageState.job, index);
             if(isCurrentStage){
-              _pulsingCircleSize.addListener(() => this.setState(() {}));
+              _pulsingCircleSize.addListener(() => setState(() {}));
               _controller.repeat();
               _pulsingRepeatController.repeat();
             }
@@ -249,7 +247,7 @@ class _StageItemState extends State<StageItem>
         },
         converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
         builder: (BuildContext context, JobDetailsPageState pageState) =>
-            Container(
+            SizedBox(
               width: 200.0,
               child: Stack(
                 alignment: Alignment.center,
@@ -265,16 +263,16 @@ class _StageItemState extends State<StageItem>
                   isCurrentStage ? FadeTransition(
                     opacity: _pulsingCircleOpacity,
                     child: Container(
-                      margin: EdgeInsets.only(bottom: 32.0),
+                      margin: const EdgeInsets.only(bottom: 32.0),
                       alignment: Alignment.center,
                       height: _pulsingCircleSize.value,
                       width: _pulsingCircleSize.value,
-                      decoration: new BoxDecoration(
+                      decoration: BoxDecoration(
                         color: Color(ColorConstants.getPrimaryWhite()).withOpacity(.3),
                         shape: BoxShape.circle,
                       ),
                     ),
-                  ) : SizedBox(),
+                  ) : const SizedBox(),
                   GestureDetector(
                     onTap: () => {
                       setState(() {
@@ -282,7 +280,7 @@ class _StageItemState extends State<StageItem>
                           pageState.addExpandedIndex(index);
                           _newStageCompleteAnimation.forward();
                         }else{
-                          Timer(Duration(milliseconds: 300), () => {
+                          Timer(const Duration(milliseconds: 300), () => {
                             pageState.removeExpandedIndex(index),
                           });
                           _newStageCompleteAnimation.reverse();
@@ -290,17 +288,17 @@ class _StageItemState extends State<StageItem>
                     })
                     },
                     child: Container(
-                    margin: EdgeInsets.only(bottom: 32.0, right: 16.0, left: 16.0),
+                    margin: const EdgeInsets.only(bottom: 32.0, right: 16.0, left: 16.0),
                     height: isCurrentStage ? _mainCircleSize.value : _mainCircleSizeReversed.value,
                     width: isCurrentStage ? _mainCircleSize.value : _mainCircleSizeReversed.value,
                     padding: EdgeInsets.all(isCurrentStage ? _mainCirclePadding.value : _mainCirclePaddingReversed.value),
                     decoration: BoxDecoration(
-                      borderRadius: new BorderRadius.circular(56.0),
+                      borderRadius: BorderRadius.circular(56.0),
                       color: Color(ColorConstants.getPrimaryWhite()),
                     ),
                     child: Container(
-                        padding: EdgeInsets.all(4),
-                        child: pageState.job.type.stages.length > index ? ImageUtil.getJobStageImageFromStage(pageState.job.type.stages.elementAt(index), isCurrentStage) : SizedBox(),
+                        padding: const EdgeInsets.all(4),
+                        child: pageState.job.type.stages.length > index ? ImageUtil.getJobStageImageFromStage(pageState.job.type.stages.elementAt(index), isCurrentStage) : const SizedBox(),
                       ),
                     ),
                   ),
@@ -320,7 +318,7 @@ class _StageItemState extends State<StageItem>
                             if(index >= pageState.job.type.stages.length-1) {
                               onJobCompleteSelected();
                             }
-                            Timer(Duration(milliseconds: 300), () => {
+                            Timer(const Duration(milliseconds: 300), () => {
                               pageState.onStageCompleted(pageState.job, index),
                               isStageCompleted = true,
                               isCurrentStage = false,
@@ -344,16 +342,16 @@ class _StageItemState extends State<StageItem>
                         decoration: BoxDecoration(
                           boxShadow: ElevationToShadow[8],
                           color: isStageCompleted ? _checkCircleBgColorCompleted.value : _checkCircleBgColor.value,
-                          borderRadius: new BorderRadius.circular(28.0),
+                          borderRadius: BorderRadius.circular(28.0),
                         ),
-                        padding: EdgeInsets.all(2.0),
+                        padding: const EdgeInsets.all(2.0),
                         child: Opacity(
                           opacity: isStageCompleted ? 1.0 : 0.25,
                           child: Container(
                             height: isCurrentStage ? _checkCircleCheckSize.value : _checkCircleCheckSizeReversed.value,
                             width: isCurrentStage ? _checkCircleCheckSize.value*2 : _checkCircleCheckSizeReversed.value*2,
                             decoration: BoxDecoration(
-                              borderRadius: new BorderRadius.circular(10.0),
+                              borderRadius: BorderRadius.circular(10.0),
                               image: DecorationImage(
                                 image: isStageCompleted ? (_isExpanded(index, pageState) ? ImageUtil.getJobStageCompleteIconWhite() : ImageUtil.getJobStageCompleteIconWhite()) : ImageUtil.getJobStageCompleteIconBlack(),
                                 fit: BoxFit.contain,
@@ -369,19 +367,19 @@ class _StageItemState extends State<StageItem>
                       },
                       child: Container(
                         alignment: Alignment.center,
-                        margin: EdgeInsets.only(left: 56.0, bottom: 78.0),
+                        margin: const EdgeInsets.only(left: 56.0, bottom: 78.0),
                         height: 24.0,
                         width: 24.0,
                         decoration: BoxDecoration(
                           color: Color(ColorConstants.getPeachDark()),
-                          borderRadius: new BorderRadius.circular(12.0),
+                          borderRadius: BorderRadius.circular(12.0),
                         ),
-                        padding: EdgeInsets.all(2.0),
+                        padding: const EdgeInsets.all(2.0),
                         child: Container(
                           height: 10.0,
                           width: 20.0,
                           decoration: BoxDecoration(
-                            borderRadius: new BorderRadius.circular(10.0),
+                            borderRadius: BorderRadius.circular(10.0),
                             image: DecorationImage(
                               image: ImageUtil.getJobStageCompleteIconWhite(),
                               fit: BoxFit.contain,
@@ -389,7 +387,7 @@ class _StageItemState extends State<StageItem>
                           ),
                         ),
                       ),
-                    ) : SizedBox(),
+                    ) : const SizedBox(),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
@@ -407,8 +405,8 @@ class _StageItemState extends State<StageItem>
                         ),
                       ),
                       (_isExpanded(index, pageState) &&
-                          actionButtonText.length > 0) ||
-                          (isCurrentStage && actionButtonText.length > 0) ?
+                          actionButtonText.isNotEmpty) ||
+                          (isCurrentStage && actionButtonText.isNotEmpty) ?
                       Opacity(
                         opacity: isCurrentStage ? 1.0 : _subtextOpacityReversed.value,
                         child: GestureDetector(
@@ -423,7 +421,7 @@ class _StageItemState extends State<StageItem>
                               case JobStage.STAGE_3_PROPOSAL_SENT:
                                 if(pageState.job.proposal.contract == null) {
                                   Navigator.of(context).push(
-                                    new MaterialPageRoute(builder: (context) => ContractsPage(jobDocumentId: pageState.job.documentId)),
+                                    MaterialPageRoute(builder: (context) => ContractsPage(jobDocumentId: pageState.job.documentId)),
                                   );
                                 } else {
                                   NavigationUtil.onShareWIthClientSelected(context, pageState.job);
@@ -510,11 +508,11 @@ class _StageItemState extends State<StageItem>
                             alignment: Alignment.center,
                             height: 32.0,
                             width: 142.0,
-                            margin: EdgeInsets.only(top: 5.0),
-                            padding: EdgeInsets.only(
+                            margin: const EdgeInsets.only(top: 5.0),
+                            padding: const EdgeInsets.only(
                                 top: 4.0, left: 8.0, bottom: 4.0, right: 8.0),
                             decoration: BoxDecoration(
-                              borderRadius: new BorderRadius.circular(18.0),
+                              borderRadius: BorderRadius.circular(18.0),
                               color: Color(ColorConstants.getPeachDark()),
                             ),
                             child: TextDandyLight(
@@ -524,7 +522,7 @@ class _StageItemState extends State<StageItem>
                               color: Color(ColorConstants.getPrimaryWhite()),
                             ),
                           ),
-                        ),) : SizedBox(),
+                        ),) : const SizedBox(),
                     ],
                   ),
                 ],
@@ -549,7 +547,7 @@ class _StageItemState extends State<StageItem>
         },
       );
     } else {
-      DandyToastUtil.showToast("You have not saved a phone number yet for " + pageState.client.firstName, Color(ColorConstants.getBlueDark()));
+      DandyToastUtil.showToast("You have not saved a phone number yet for ${pageState.client.firstName}", Color(ColorConstants.getBlueDark()));
     }
   }
 
@@ -604,7 +602,7 @@ class _StageItemState extends State<StageItem>
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_6_PLANNING_COMPLETE);
         stageTitle = isStageCompleted ? 'Planning complete' : 'Planning complete?';
         stageSubtitle = '';
-        actionButtonText = job.poses.length > 0 ? 'Send poses' : '';
+        actionButtonText = job.poses.isNotEmpty ? 'Send poses' : '';
         actionIcon = Icons.format_list_bulleted;
         break;
       case JobStage.STAGE_7_SESSION_COMPLETE:
@@ -681,7 +679,7 @@ class _StageItemState extends State<StageItem>
         stageImage = ImageUtil.getJobStageImageFromStage(job.type.stages.elementAt(index), isCurrentStage);
         isCurrentStage = job.stage.id == job.type.stages.elementAt(index).id;
         isStageCompleted = Job.containsStageById(job.completedStages, job.type.stages.elementAt(index).id);
-        stageTitle = isStageCompleted ? job.type.stages.elementAt(index).stage + '!' : job.type.stages.elementAt(index).stage + '?';
+        stageTitle = isStageCompleted ? '${job.type.stages.elementAt(index).stage}!' : '${job.type.stages.elementAt(index).stage}?';
         stageSubtitle = '';
         actionButtonText = '';
         break;

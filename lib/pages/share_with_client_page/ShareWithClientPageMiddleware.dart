@@ -35,6 +35,7 @@ class ShareWithClientPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void savePosesCheckedState(Store<AppState> store, SetPosesCheckBox action, NextDispatcher next) async {
+    store.dispatch(UpdatePosesCheckInProgressStateAction(store.state.shareWithClientPageState, true));
     Job job = await JobDao.getJobById(action.pageState.job.documentId);
     job.proposal.includePoses = action.checked;
     await JobDao.update(job);
@@ -42,6 +43,7 @@ class ShareWithClientPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void saveInvoiceCheckedState(Store<AppState> store, SetInvoiceCheckBox action, NextDispatcher next) async {
+    store.dispatch(UpdateInvoiceCheckInProgressStateAction(store.state.shareWithClientPageState, true));
     Job job = await JobDao.getJobById(action.pageState.job.documentId);
     job.proposal.includeInvoice = action.checked;
     await JobDao.update(job);
@@ -49,6 +51,7 @@ class ShareWithClientPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void saveContractCheckedState(Store<AppState> store, SetContractCheckBox action, NextDispatcher next) async {
+    store.dispatch(UpdateContractCheckInProgressStateAction(store.state.shareWithClientPageState, true));
     Job job = await JobDao.getJobById(action.pageState.job.documentId);
     job.proposal.includeContract = action.checked;
     await JobDao.update(job);
@@ -65,9 +68,6 @@ class ShareWithClientPageMiddleware extends MiddlewareClass<AppState> {
   void saveProposal(Store<AppState> store, SaveProposalAction action, NextDispatcher next) async {
     Job job = await JobDao.getJobById(action.pageState.job.documentId);
     Proposal proposal = job.proposal;
-    proposal.includePoses = action.pageState.posesSelected;
-    proposal.includeInvoice = action.pageState.invoiceSelected;
-    proposal.includeContract = action.pageState.contractSelected;
     proposal.detailsMessage = action.pageState.clientMessage;
 
     if(proposal.contract != null && proposal.contract.firstSharedDate == null){

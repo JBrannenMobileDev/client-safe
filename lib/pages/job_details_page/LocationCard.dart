@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../../AppState.dart';
 import '../../utils/UserOptionsUtil.dart';
@@ -15,6 +14,8 @@ import '../../widgets/TextDandyLight.dart';
 import 'JobDetailsPageState.dart';
 
 class LocationCard extends StatefulWidget {
+  const LocationCard({Key key}) : super(key: key);
+
 
   @override
   State<StatefulWidget> createState() {
@@ -35,7 +36,7 @@ class _LocationCard extends State<LocationCard> {
       builder: (BuildContext context, JobDetailsPageState pageState) =>
           Container(
             alignment: Alignment.center,
-            margin: EdgeInsets.only(left: 16, top: 26, right: 16, bottom: 0),
+            margin: const EdgeInsets.only(left: 16, top: 26, right: 16, bottom: 0),
             height: 352,
             decoration: BoxDecoration(
               color: Color(ColorConstants.getPrimaryWhite()),
@@ -47,7 +48,7 @@ class _LocationCard extends State<LocationCard> {
                 Container(
                   alignment: Alignment.center,
                   width: double.infinity,
-                  margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
+                  margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
                   child: TextDandyLight(
                     type: TextDandyLight.LARGE_TEXT,
                     text: 'Location',
@@ -71,7 +72,7 @@ class _LocationCard extends State<LocationCard> {
                           },
                           behavior: HitTestBehavior.opaque,
                           child: Container(
-                            padding: EdgeInsets.all(18),
+                            padding: const EdgeInsets.all(18),
                             height: 96,
                             width: 96,
                             decoration: BoxDecoration(
@@ -82,7 +83,7 @@ class _LocationCard extends State<LocationCard> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 16.0),
+                          margin: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 16.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'Directions',
@@ -97,7 +98,7 @@ class _LocationCard extends State<LocationCard> {
                           },
                           behavior: HitTestBehavior.opaque,
                           child: Container(
-                            padding: EdgeInsets.all(28),
+                            padding: const EdgeInsets.all(28),
                             height: 96,
                             width: 96,
                             decoration: BoxDecoration(
@@ -108,7 +109,7 @@ class _LocationCard extends State<LocationCard> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
+                          margin: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'Share',
@@ -143,7 +144,7 @@ class _LocationCard extends State<LocationCard> {
                               borderRadius: 12,
                             ),
                           ) : Container(
-                            padding: EdgeInsets.all(72),
+                            padding: const EdgeInsets.all(72),
                             height: 235,
                             width: 200,
                             decoration: BoxDecoration(
@@ -155,7 +156,7 @@ class _LocationCard extends State<LocationCard> {
                         ),
                         Container(
                           width: 200,
-                          margin: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+                          margin: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: pageState.job.location == null ? 'Location not selected' :

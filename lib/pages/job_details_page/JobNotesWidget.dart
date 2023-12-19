@@ -10,6 +10,8 @@ import '../new_contact_pages/NewContactPageState.dart';
 import 'JobDetailsPageState.dart';
 
 class JobNotesWidget extends StatefulWidget {
+  const JobNotesWidget({Key key}) : super(key: key);
+
 
   @override
   State<StatefulWidget> createState() {
@@ -30,7 +32,7 @@ class _NotesWidgetPage extends State<JobNotesWidget> {
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) =>
           Container(
-            margin: EdgeInsets.only(left: 16, top: 26, right: 16, bottom: 0),
+            margin: const EdgeInsets.only(left: 16, top: 26, right: 16, bottom: 0),
             height: 150,
             decoration: BoxDecoration(
               color: Color(ColorConstants.getPrimaryWhite()),
@@ -39,9 +41,9 @@ class _NotesWidgetPage extends State<JobNotesWidget> {
             child: Column(
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: 16),
+                  margin: const EdgeInsets.only(top: 16),
                   alignment: Alignment.topLeft,
-                  padding: EdgeInsets.only(left: 24.0),
+                  padding: const EdgeInsets.only(left: 24.0),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: 'Notes',
@@ -50,7 +52,7 @@ class _NotesWidgetPage extends State<JobNotesWidget> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 20.0, right: 20.0),
+                  margin: const EdgeInsets.only(left: 20.0, right: 20.0),
                   child: DandyLightTextField(
                     notesController,
                     "",

@@ -60,6 +60,8 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
   bool contractChecked = false;
   bool invoiceChecked = false;
   bool posesChecked = false;
+  _isProgressDialogShowing(BuildContext context) => progressContext != null && progressContext.mounted && ModalRoute.of(progressContext)?.isCurrent == true;
+  BuildContext progressContext;
 
   @override
   void initState() {
@@ -199,6 +201,18 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
               }
             }
           }
+
+          if(progressContext != null && _isProgressDialogShowing(context) && !current.updatePosesCheckInProgress && !current.updateInvoiceCheckInProgress && !current.updateContractCheckInProgress) {
+            Navigator.of(context).pop();
+            IntentLauncherUtil.launchBrandingPreviewURL(UidUtil().getUid(), job.documentId);
+            EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_PREVIEW_SELECTED);
+            EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_PREVIEW_SELECTED, properties: {
+              EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_INVOICE : invoiceChecked,
+              EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_CONTRACT : contractChecked,
+              EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_POSES : posesChecked,
+              EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK : 'https://dandylight.com/clientPortal/${profile.uid}+${job.documentId}',
+            });
+          }
         },
         converter: (Store<AppState> store) => ShareWithClientPageState.fromStore(store),
         builder: (BuildContext context, ShareWithClientPageState pageState) => Scaffold(
@@ -221,11 +235,11 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                     actions: <Widget>[
                       PopupMenuButton<String>(
                         onSelected: handleClick,
-                        padding: EdgeInsets.only(right: 16),
+                        padding: const EdgeInsets.only(right: 16),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
                         itemBuilder: (BuildContext context) {
                           return {'Branding', 'Business Info', 'Payment Options'}.map((String choice) {
-                            Widget icon = SizedBox();
+                            Widget icon = const SizedBox();
                             switch (choice) {
                               case 'Branding':
                                 icon = Image.asset('assets/images/icons/art.png');
@@ -239,7 +253,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                             }
                             icon = Container(
                                   alignment: Alignment.center,
-                                  margin: EdgeInsets.only(right: 18.0, left: 2.0),
+                                  margin: const EdgeInsets.only(right: 18.0, left: 2.0),
                                   height: 28.0,
                                   width: 28.0,
                                   child: icon,
@@ -265,7 +279,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                     delegate: SliverChildListDelegate(
                       <Widget>[
                         Container(
-                          margin: EdgeInsets.only(top: 32, bottom: 8),
+                          margin: const EdgeInsets.only(top: 32, bottom: 8),
                           width: double.infinity,
                           alignment: Alignment.center,
                           child: TextDandyLight(
@@ -280,14 +294,14 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                           children: [
                             Container(
                               height: 264,
-                              margin: EdgeInsets.only(left: 16, right: 16),
-                              padding: EdgeInsets.only(top: 16),
+                              margin: const EdgeInsets.only(left: 16, right: 16),
+                              padding: const EdgeInsets.only(top: 16),
                               decoration: BoxDecoration(
                                   color: Color(ColorConstants.getPrimaryWhite()),
                                   borderRadius: BorderRadius.circular(24)
                               ),
                               child: Container(
-                                margin: EdgeInsets.only(left: 20.0, right: 20.0),
+                                margin: const EdgeInsets.only(left: 20.0, right: 20.0),
                                 child: ShareWithClientTextField(
                                   messageController,
                                   '',
@@ -312,7 +326,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                                 alignment: Alignment.center,
                                 height: 48,
                                 width: 264,
-                                margin: EdgeInsets.only(bottom: 8),
+                                margin: const EdgeInsets.only(bottom: 8),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(24),
                                   color: Color(ColorConstants.getPeachDark()),
@@ -333,12 +347,12 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                                     )
                                   ],
                                 ) ,
-                              ) : SizedBox(),
-                            ) : SizedBox()
+                              ) : const SizedBox(),
+                            ) : const SizedBox()
                           ],
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 32, bottom: 8),
+                          margin: const EdgeInsets.only(top: 32, bottom: 8),
                           width: double.infinity,
                           alignment: Alignment.center,
                           child: TextDandyLight(
@@ -350,8 +364,8 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                         ),
                         Container(
                           height: 232,
-                          margin: EdgeInsets.only(left: 16, right: 16, bottom: 264),
-                          padding: EdgeInsets.only(top: 16),
+                          margin: const EdgeInsets.only(left: 16, right: 16, bottom: 264),
+                          padding: const EdgeInsets.only(top: 16),
                           decoration: BoxDecoration(
                               color: Color(ColorConstants.getPrimaryWhite()),
                               borderRadius: BorderRadius.circular(24)
@@ -359,8 +373,8 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                           child: Column(
                             children: [
                               Container(
-                                padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                                margin: EdgeInsets.only(top: 0.0, bottom: 0.0),
+                                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                                margin: const EdgeInsets.only(top: 0.0, bottom: 0.0),
                                 alignment: Alignment.center,
                                 height: 48.0,
                                 decoration: BoxDecoration(
@@ -381,8 +395,8 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                                margin: EdgeInsets.only(top: 0.0, bottom: 0.0),
+                                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                                margin: const EdgeInsets.only(top: 0.0, bottom: 0.0),
                                 alignment: Alignment.center,
                                 height: 48.0,
                                 decoration: BoxDecoration(
@@ -404,8 +418,8 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                                margin: EdgeInsets.only(top: 0.0, bottom: 0.0),
+                                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                                margin: const EdgeInsets.only(top: 0.0, bottom: 0.0),
                                 alignment: Alignment.center,
                                 height: 48.0,
                                 decoration: BoxDecoration(
@@ -427,8 +441,8 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                                margin: EdgeInsets.only(top: 0.0, bottom: 0.0),
+                                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                                margin: const EdgeInsets.only(top: 0.0, bottom: 0.0),
                                 alignment: Alignment.center,
                                 height: 48.0,
                                 decoration: BoxDecoration(
@@ -464,53 +478,55 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                     width: MediaQuery.of(context).size.width/2,
                     height: MediaQuery.of(context).size.height,
                     alignment: Alignment.bottomCenter,
-                    padding: EdgeInsets.only(bottom: 32),
+                    padding: const EdgeInsets.only(bottom: 32),
                     child: GestureDetector(
                       onTap: () {
-                        pageState.saveProposal();
                         if(pageState.profile.isProfileComplete() && pageState.profile.hasSetupBrand && pageState.profile.paymentOptionsSelected()) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: TextDandyLight(
-                                  textAlign: TextAlign.center,
-                                  text: 'Pleas wait a moment\nwhile we save changes...',
-                                  type: TextDandyLight.MEDIUM_TEXT,
-                                  color: Color(ColorConstants.getPrimaryBlack()),
-                                ),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16)
-                                ),
-                                titlePadding: const EdgeInsets.only(top: 8, left: 16, right: 16),
-                                contentPadding: const EdgeInsets.all(0),
-                                content: Container(
-                                  height: 96,
-                                  width: 250,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: Color(ColorConstants.getPrimaryWhite()),
-                                    borderRadius: BorderRadius.circular(16.0),
+                          if(pageState.updateContractCheckInProgress || pageState.updateInvoiceCheckInProgress || pageState.updatePosesCheckInProgress) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                progressContext = context;
+                                return AlertDialog(
+                                  title: TextDandyLight(
+                                    textAlign: TextAlign.center,
+                                    text: 'Saving changes...',
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
-                                  child: LoadingAnimationWidget.fourRotatingDots(
-                                    color: Color(ColorConstants.getPeachDark()),
-                                    size: 48,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16)
                                   ),
-                                ),
-                              );
-                            },
-                          );
-                          Future.delayed(const Duration(milliseconds: 3500)).then((value) => {
-                              Navigator.of(context).pop(),
-                              IntentLauncherUtil.launchBrandingPreviewURL(UidUtil().getUid(), job.documentId),
-                              EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_PREVIEW_SELECTED),
-                              EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_PREVIEW_SELECTED, properties: {
-                                EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_INVOICE : invoiceChecked,
-                                EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_CONTRACT : contractChecked,
-                                EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_POSES : posesChecked,
-                                EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK : 'https://dandylight.com/clientPortal/${profile.uid}+${job.documentId}',
-                              })
-                          });
+                                  titlePadding: const EdgeInsets.only(top: 8, left: 16, right: 16),
+                                  contentPadding: const EdgeInsets.all(0),
+                                  content: Container(
+                                    height: 96,
+                                    width: 250,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: Color(ColorConstants.getPrimaryWhite()),
+                                      borderRadius: BorderRadius.circular(16.0),
+                                    ),
+                                    child: LoadingAnimationWidget.fourRotatingDots(
+                                      color: Color(ColorConstants.getPeachDark()),
+                                      size: 48,
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          } else {
+                            if(_isProgressDialogShowing(context)) Navigator.of(context).pop();
+                            pageState.saveProposal();
+                            IntentLauncherUtil.launchBrandingPreviewURL(UidUtil().getUid(), job.documentId);
+                            EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_PREVIEW_SELECTED);
+                            EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_PREVIEW_SELECTED, properties: {
+                              EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_INVOICE : invoiceChecked,
+                              EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_CONTRACT : contractChecked,
+                              EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_POSES : posesChecked,
+                              EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK : 'https://dandylight.com/clientPortal/${profile.uid}+${job.documentId}',
+                            });
+                          }
                         } else {
                           String toastMessage = '';
                           if(!pageState.profile.isProfileComplete()) {
@@ -525,7 +541,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                         alignment: Alignment.center,
                         height: 54,
                         width: MediaQuery.of(context).size.width/2,
-                        margin: EdgeInsets.only(left: 32, right: 8),
+                        margin: const EdgeInsets.only(left: 32, right: 8),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(32),
                           color: Color(ColorConstants.getPeachDark()),
@@ -562,7 +578,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                         alignment: Alignment.center,
                         height: 54,
                         width: MediaQuery.of(context).size.width/2,
-                        margin: EdgeInsets.only(left: 8, right: 32),
+                        margin: const EdgeInsets.only(left: 8, right: 32),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(32),
                           color: Color(ColorConstants.getPeachDark()),
@@ -576,7 +592,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                         ),
                       ),
                     ),
-                  ) : SizedBox()
+                  ) : const SizedBox()
                 ],
               ),
             ],

@@ -1,12 +1,7 @@
-import 'dart:io';
-
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
@@ -15,7 +10,7 @@ import '../../widgets/TextDandyLight.dart';
 
 class PosesCard extends StatelessWidget {
 
-  PosesCard({this.pageState});
+  const PosesCard({Key key, this.pageState}) : super(key: key);
   
   final JobDetailsPageState pageState;
 
@@ -23,7 +18,7 @@ class PosesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if(pageState.job.poses.length > 0) {
+        if(pageState.job.poses.isNotEmpty) {
           NavigationUtil.onJobPosesSelected(context);
           EventSender().sendEvent(eventName: EventNames.NAV_TO_JOB_POSES_FROM_JOB_DETAILS);
         } else {
@@ -32,20 +27,20 @@ class PosesCard extends StatelessWidget {
         }
       },
       child: Container(
-        padding: EdgeInsets.only(top: 0.0),
+        padding: const EdgeInsets.only(top: 0.0),
         child: Container(
           width: double.maxFinite,
-          height: pageState.job.poses.length == 0 ? 216 : 184.0,
-          margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
-          decoration: new BoxDecoration(
+          height: pageState.job.poses.isEmpty ? 216 : 184.0,
+          margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
+          decoration: BoxDecoration(
               color: Color(ColorConstants.getPrimaryWhite()),
-              borderRadius: new BorderRadius.all(Radius.circular(12.0))),
+              borderRadius: const BorderRadius.all(Radius.circular(12.0))),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
                 width: double.infinity,
-                margin: EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 24.0),
+                margin: const EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 24.0),
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
                   text: 'Poses',
@@ -53,94 +48,94 @@ class PosesCard extends StatelessWidget {
                   color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
-              pageState.job.poses.length > 0 ? Stack(
+              pageState.job.poses.isNotEmpty ? Stack(
                   alignment: Alignment.centerLeft,
                   children: [
-                    pageState.job.poses.length > 0 ? Container(
-                      margin: EdgeInsets.only(left: 24, right: 24),
+                    pageState.job.poses.isNotEmpty ? Container(
+                      margin: const EdgeInsets.only(left: 24, right: 24),
                       alignment: Alignment.centerLeft,
                       child: TextDandyLight(
                         type: TextDandyLight.LARGE_TEXT,
-                        text: '+' + pageState.job.poses.length.toString(),
+                        text: '+${pageState.job.poses.length}',
                         color: Color(ColorConstants.getPeachDark()),
                         textAlign: TextAlign.center,
                       ),
-                    ) : SizedBox(),
+                    ) : const SizedBox(),
                     pageState.job.poses.length >= 6 ? Container(
-                      margin: EdgeInsets.only(left: 194),
+                      margin: const EdgeInsets.only(left: 194),
                       height: 66,
                       width: 66,
                       decoration: BoxDecoration(
-                        borderRadius: new BorderRadius.circular(8.0),
+                        borderRadius: BorderRadius.circular(8.0),
                         color: Color(ColorConstants.getPeachLight())
                       ),
                       child: DandyLightNetworkImage(
                         pageState.job.poses.elementAt(5).imageUrl,
                       ),
-                    ) : SizedBox(),
+                    ) : const SizedBox(),
                     pageState.job.poses.length >= 5 ? Container(
-                      margin: EdgeInsets.only(left: 168),
+                      margin: const EdgeInsets.only(left: 168),
                       height: 72,
                       width: 72,
                       decoration: BoxDecoration(
-                        borderRadius: new BorderRadius.circular(8.0),
+                        borderRadius: BorderRadius.circular(8.0),
                           color: Color(ColorConstants.getPeachLight())
                       ),
                       child: DandyLightNetworkImage(
                         pageState.job.poses.elementAt(4).imageUrl,
                       ),
-                    ) : SizedBox(),
+                    ) : const SizedBox(),
                     pageState.job.poses.length >= 4 ? Container(
-                      margin: EdgeInsets.only(left: 142),
+                      margin: const EdgeInsets.only(left: 142),
                       height: 78,
                       width: 78,
                       decoration: BoxDecoration(
-                        borderRadius: new BorderRadius.circular(8.0),
+                        borderRadius: BorderRadius.circular(8.0),
                           color: Color(ColorConstants.getPeachLight())
                       ),
                       child: DandyLightNetworkImage(
                         pageState.job.poses.elementAt(3).imageUrl,
                       ),
-                    ) : SizedBox(),
+                    ) : const SizedBox(),
                     pageState.job.poses.length >= 3 ? Container(
-                      margin: EdgeInsets.only(left: 116),
+                      margin: const EdgeInsets.only(left: 116),
                       height: 84,
                       width: 84,
                       decoration: BoxDecoration(
-                        borderRadius: new BorderRadius.circular(8.0),
+                        borderRadius: BorderRadius.circular(8.0),
                           color: Color(ColorConstants.getPeachLight())
                       ),
                       child: DandyLightNetworkImage(
                         pageState.job.poses.elementAt(2).imageUrl,
                       ),
-                    ) : SizedBox(),
+                    ) : const SizedBox(),
                     pageState.job.poses.length >= 2 ? Container(
-                      margin: EdgeInsets.only(left: 90),
+                      margin: const EdgeInsets.only(left: 90),
                       height: 90,
                       width: 90,
                       decoration: BoxDecoration(
-                        borderRadius: new BorderRadius.circular(8.0),
+                        borderRadius: BorderRadius.circular(8.0),
                           color: Color(ColorConstants.getPeachLight())
                       ),
                       child: DandyLightNetworkImage(
                         pageState.job.poses.elementAt(1).imageUrl,
                       ),
-                    ) : SizedBox(),
-                    pageState.job.poses.length >= 1 ? Container(
-                      margin: EdgeInsets.only(left: 64),
+                    ) : const SizedBox(),
+                    pageState.job.poses.isNotEmpty ? Container(
+                      margin: const EdgeInsets.only(left: 64),
                       height: 96,
                       width: 96,
                       decoration: BoxDecoration(
-                        borderRadius: new BorderRadius.circular(8.0),
+                        borderRadius: BorderRadius.circular(8.0),
                           color: Color(ColorConstants.getPeachLight())
                       ),
                       child: DandyLightNetworkImage(
                         pageState.job.poses.elementAt(0).imageUrl,
                       ),
-                    ) : SizedBox(),
+                    ) : const SizedBox(),
                     Container(
                       height: 64,
-                      margin: EdgeInsets.only(right: 16),
+                      margin: const EdgeInsets.only(right: 16),
                       alignment: Alignment.centerRight,
                       child: Icon(
                         Icons.chevron_right,
@@ -148,9 +143,9 @@ class PosesCard extends StatelessWidget {
                       ),
                     ),
                   ],
-              ) : SizedBox(),
-              pageState.job.poses.length == 0 ? Container(
-                margin: EdgeInsets.only(top: 12, left: 24, right: 24),
+              ) : const SizedBox(),
+              pageState.job.poses.isEmpty ? Container(
+                margin: const EdgeInsets.only(top: 12, left: 24, right: 24),
                 alignment: Alignment.center,
                 child: TextDandyLight(
                   type: TextDandyLight.MEDIUM_TEXT,
@@ -158,11 +153,11 @@ class PosesCard extends StatelessWidget {
                   color: Color(ColorConstants.getPrimaryBlack()),
                   textAlign: TextAlign.center,
                 ),
-              ) : SizedBox(),
-              pageState.job.poses.length == 0 ? Container(
+              ) : const SizedBox(),
+              pageState.job.poses.isEmpty ? Container(
                   alignment: Alignment.center,
                   child: Container(
-                    margin: EdgeInsets.only(top: 32),
+                    margin: const EdgeInsets.only(top: 32),
                     alignment: Alignment.center,
                     height: 48,
                     width: 150,
@@ -176,7 +171,7 @@ class PosesCard extends StatelessWidget {
                       color: Color(ColorConstants.getPrimaryWhite()),
                     ),
                   ),
-              ) : SizedBox(),
+              ) : const SizedBox(),
             ],
           ),
         ),

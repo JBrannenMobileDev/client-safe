@@ -36,6 +36,24 @@ class SaveProposalAction {
   SaveProposalAction(this.pageState);
 }
 
+class UpdateContractCheckInProgressStateAction {
+  final ShareWithClientPageState pageState;
+  final bool inProgress;
+  UpdateContractCheckInProgressStateAction(this.pageState, this.inProgress);
+}
+
+class UpdateInvoiceCheckInProgressStateAction {
+  final ShareWithClientPageState pageState;
+  final bool inProgress;
+  UpdateInvoiceCheckInProgressStateAction(this.pageState, this.inProgress);
+}
+
+class UpdatePosesCheckInProgressStateAction {
+  final ShareWithClientPageState pageState;
+  final bool inProgress;
+  UpdatePosesCheckInProgressStateAction(this.pageState, this.inProgress);
+}
+
 class FetchProfileAction{
   final ShareWithClientPageState pageState;
   FetchProfileAction(this.pageState);
