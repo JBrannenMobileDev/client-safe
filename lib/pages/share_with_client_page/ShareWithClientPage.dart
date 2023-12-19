@@ -17,6 +17,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -55,7 +56,18 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
   bool isKeyboardVisible = false;
   bool initialSetupState = false;
   _isThisPageShowing(BuildContext context) => pageContext != null && ModalRoute.of(pageContext)?.isCurrent == true;
-  BuildContext pageContext = null;
+  BuildContext pageContext;
+  bool contractChecked = false;
+  bool invoiceChecked = false;
+  bool posesChecked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    contractChecked = job.proposal.includeContract;
+    invoiceChecked = job.proposal.includeInvoice;
+    posesChecked = job.proposal.includePoses;
+  }
 
   _ShareWithClientPageState(this.job);
 
@@ -250,7 +262,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                     ],
                   ),
                   SliverList(
-                    delegate: new SliverChildListDelegate(
+                    delegate: SliverChildListDelegate(
                       <Widget>[
                         Container(
                           margin: EdgeInsets.only(top: 32, bottom: 8),
@@ -380,10 +392,13 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                                     type: TextDandyLight.MEDIUM_TEXT,
                                     text: 'Contract',
                                   ),
-                                  value: pageState.contractSelected,
+                                  value: contractChecked,
                                   activeColor: Color(ColorConstants.getPeachDark()),
                                   onChanged: (selected) {
                                     pageState.onContractCheckBoxSelected(selected);
+                                    setState(() {
+                                      contractChecked = selected;
+                                    });
                                   },
                                   controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                                 ),
@@ -400,10 +415,13 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                                     type: TextDandyLight.MEDIUM_TEXT,
                                     text: 'Invoice',
                                   ),
-                                  value: pageState.invoiceSelected,
+                                  value: invoiceChecked,
                                   activeColor: Color(ColorConstants.getPeachDark()),
                                   onChanged: (selected) {
                                     pageState.onInvoiceCheckBoxSelected(selected);
+                                    setState(() {
+                                      invoiceChecked = selected;
+                                    });
                                   },
                                   controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                                 ),
@@ -420,10 +438,13 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                                     type: TextDandyLight.MEDIUM_TEXT,
                                     text: 'Poses',
                                   ),
-                                  value: pageState.posesSelected,
+                                  value: posesChecked,
                                   activeColor: Color(ColorConstants.getPeachDark()),
                                   onChanged: (selected) {
                                     pageState.onPosesCheckBoxSelected(selected);
+                                    setState(() {
+                                      posesChecked = selected;
+                                    });
                                   },
                                   controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                                 ),
@@ -448,13 +469,47 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                       onTap: () {
                         pageState.saveProposal();
                         if(pageState.profile.isProfileComplete() && pageState.profile.hasSetupBrand && pageState.profile.paymentOptionsSelected()) {
-                          IntentLauncherUtil.launchBrandingPreviewURL(UidUtil().getUid(), job.documentId);
-                          EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_PREVIEW_SELECTED);
-                          EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_PREVIEW_SELECTED, properties: {
-                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_INVOICE : pageState.invoiceSelected,
-                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_CONTRACT : pageState.contractSelected,
-                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_POSES : pageState.posesSelected,
-                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK : 'https://dandylight.com/clientPortal/${profile.uid}+${job.documentId}',
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: TextDandyLight(
+                                  textAlign: TextAlign.center,
+                                  text: 'Pleas wait a moment\nwhile we save changes...',
+                                  type: TextDandyLight.MEDIUM_TEXT,
+                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16)
+                                ),
+                                titlePadding: const EdgeInsets.only(top: 8, left: 16, right: 16),
+                                contentPadding: const EdgeInsets.all(0),
+                                content: Container(
+                                  height: 96,
+                                  width: 250,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                    borderRadius: BorderRadius.circular(16.0),
+                                  ),
+                                  child: LoadingAnimationWidget.fourRotatingDots(
+                                    color: Color(ColorConstants.getPeachDark()),
+                                    size: 48,
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                          Future.delayed(const Duration(milliseconds: 3500)).then((value) => {
+                              Navigator.of(context).pop(),
+                              IntentLauncherUtil.launchBrandingPreviewURL(UidUtil().getUid(), job.documentId),
+                              EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_PREVIEW_SELECTED),
+                              EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_PREVIEW_SELECTED, properties: {
+                                EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_INVOICE : invoiceChecked,
+                                EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_CONTRACT : contractChecked,
+                                EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_POSES : posesChecked,
+                                EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK : 'https://dandylight.com/clientPortal/${profile.uid}+${job.documentId}',
+                              })
                           });
                         } else {
                           String toastMessage = '';
@@ -484,24 +539,24 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                         ),
                       ),
                     ),
-                  ) : SizedBox(),
+                  ) : const SizedBox(),
                   !isKeyboardVisible ? Container(
                     width: MediaQuery.of(context).size.width/2,
                     height: MediaQuery.of(context).size.height,
                     alignment: Alignment.bottomCenter,
-                    padding: EdgeInsets.only(bottom: 32),
+                    padding: const EdgeInsets.only(bottom: 32),
                     child: GestureDetector(
                       onTap: () {
-                          String message = '[Your message goes here]\n\nAccess your client portal here:' + '\nhttps://dandylight.com/clientPortal/${profile.uid}+${job.documentId} \n\nPowered by DandyLight';
-                          String emailTitle = pageState.profile.businessName != null && pageState.profile.businessName.isNotEmpty ? pageState.profile.businessName + ' - Session details' : pageState.profile.firstName != null && pageState.profile.firstName.isNotEmpty ? pageState.profile.firstName + ' - Session details' : 'Session details';
-                          UserOptionsUtil.showShareOptionsSheet(context, pageState.job.client, message,  emailTitle);
-                          EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED, properties: {
-                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_INVOICE : pageState.invoiceSelected,
-                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_CONTRACT : pageState.contractSelected,
-                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_POSES : pageState.posesSelected,
-                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK : 'https://dandylight.com/clientPortal/${profile.uid}+${job.documentId}',
-                          });
-                          pageState.saveProposal();
+                        pageState.saveProposal();
+                        String message = '[Your message goes here]\n\nAccess your client portal here:' + '\nhttps://dandylight.com/clientPortal/${profile.uid}+${job.documentId} \n\nPowered by DandyLight';
+                        String emailTitle = pageState.profile.businessName != null && pageState.profile.businessName.isNotEmpty ? '${pageState.profile.businessName} - Session details' : pageState.profile.firstName != null && pageState.profile.firstName.isNotEmpty ? '${pageState.profile.firstName} - Session details' : 'Session details';
+                        UserOptionsUtil.showShareOptionsSheet(context, pageState.job.client, message,  emailTitle);
+                        EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED, properties: {
+                          EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_INVOICE : pageState.invoiceSelected,
+                          EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_CONTRACT : pageState.contractSelected,
+                          EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_POSES : pageState.posesSelected,
+                          EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK : 'https://dandylight.com/clientPortal/${profile.uid}+${job.documentId}',
+                        });
                       },
                       child: Container(
                         alignment: Alignment.center,

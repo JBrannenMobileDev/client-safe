@@ -36,7 +36,7 @@ class EditBrandingPage extends StatefulWidget {
 
 class _EditBrandingPageState extends State<EditBrandingPage> with TickerProviderStateMixin {
   _isProgressDialogShowing(BuildContext context) => progressContext != null && ModalRoute.of(progressContext)?.isCurrent == true;
-  BuildContext progressContext = null;
+  BuildContext progressContext;
 
 
   @override
@@ -49,7 +49,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
           if(previous.uploadInProgress && !current.uploadInProgress && _isProgressDialogShowing(context)) {
             Navigator.of(context).pop();
             _launchBrandingPreviewURL(UidUtil().getUid());
-          };
+          }
         },
         converter: (Store<AppState> store) => EditBrandingPageState.fromStore(store),
         builder: (BuildContext context, EditBrandingPageState pageState) => WillPopScope(
@@ -128,10 +128,10 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                             ),
                         ),
                         SliverList(
-                          delegate: new SliverChildListDelegate(
+                          delegate: SliverChildListDelegate(
                             <Widget>[
                               Container(
-                                margin: EdgeInsets.all(16),
+                                margin: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(16)
                                 ),
@@ -216,7 +216,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
                                     color: Color(ColorConstants.getPrimaryWhite()),
-                                    borderRadius: new BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(16.0),
                                   ),
                                   child: LoadingAnimationWidget.fourRotatingDots(
                                     color: Color(ColorConstants.getPeachDark()),
