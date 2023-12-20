@@ -33,12 +33,12 @@ class _LocationSelectionDialogState
             backgroundColor: Colors.transparent,
             body: Center(
               child: Container(
-                padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 decoration: BoxDecoration(
                   color: Color(ColorConstants.getPrimaryWhite()),
                   borderRadius: BorderRadius.circular(16.0),
                 ),
-                child: pageState.locations.length > 0
+                child: pageState.locations.isNotEmpty
                     ? Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
@@ -47,7 +47,7 @@ class _LocationSelectionDialogState
                       alignment: Alignment.topCenter,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(bottom: 16.0, top: 32.0),
+                          padding: const EdgeInsets.only(bottom: 16.0, top: 32.0),
                           child: TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
                             text: "Select a location for this job",
@@ -60,7 +60,7 @@ class _LocationSelectionDialogState
                             UserOptionsUtil.showNewLocationDialog(context);
                           },
                           child: Container(
-                            padding: EdgeInsets.only(top: 14, right: 8),
+                            padding: const EdgeInsets.only(top: 14, right: 8),
                             alignment: Alignment.centerRight,
                             height: 38.0,
                             width: MediaQuery.of(context).size.width,
@@ -75,7 +75,7 @@ class _LocationSelectionDialogState
                           maxHeight: MediaQuery.of(context).size.height - 232,
                         ),
                         child: GridView.builder(
-                            padding: new EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 64.0),
+                            padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 64.0),
                             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                                 maxCrossAxisExtent: 200,
                                 childAspectRatio: 2 / 2.86,
@@ -83,14 +83,14 @@ class _LocationSelectionDialogState
                                 mainAxisSpacing: 16),
                             itemCount: pageState.locations.length,
                             controller: _controller,
-                            physics: ClampingScrollPhysics(),
+                            physics: const ClampingScrollPhysics(),
                             key: _listKey,
                             shrinkWrap: true,
                             reverse: false,
                             itemBuilder: _buildItem)
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 24.0, right: 24.0, bottom: 0.0),
+                      padding: const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 0.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
@@ -116,7 +116,7 @@ class _LocationSelectionDialogState
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(bottom: 24.0, top: 32.0),
+                      padding: const EdgeInsets.only(bottom: 24.0, top: 32.0),
                       child: TextDandyLight(
                         type: TextDandyLight.LARGE_TEXT,
                         text: "Select a location for this job",
@@ -125,7 +125,7 @@ class _LocationSelectionDialogState
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 32.0, top: 0.0),
+                      padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 32.0, top: 0.0),
                       child: TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: "Select the button below to create a new location.",
@@ -149,7 +149,7 @@ class _LocationSelectionDialogState
                         color: ColorConstants.getBlueDark()
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 24.0, right: 24.0, bottom: 8.0),
+                      padding: const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
@@ -180,7 +180,7 @@ class _LocationSelectionDialogState
     return StoreConnector<AppState, JobDetailsPageState>(
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) => Container(
-        margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
+        margin: const EdgeInsets.only(top: 8.0, bottom: 8.0),
         child: JobDetailsLocationListWidget(index),
       ),
     );

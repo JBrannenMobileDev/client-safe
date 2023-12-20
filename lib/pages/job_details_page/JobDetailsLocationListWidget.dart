@@ -13,7 +13,7 @@ import '../../widgets/TextDandyLight.dart';
 class JobDetailsLocationListWidget extends StatelessWidget {
   final int locationIndex;
 
-  JobDetailsLocationListWidget(this.locationIndex);
+  const JobDetailsLocationListWidget(this.locationIndex, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +26,10 @@ class JobDetailsLocationListWidget extends StatelessWidget {
             children: <Widget>[
               Container(
                 height: _getItemWidthHeight(context),
-                margin: EdgeInsets.only(top: 8.0),
+                margin: const EdgeInsets.only(top: 8.0),
                 decoration: BoxDecoration(
                     color: Color(ColorConstants.getBlueDark()),
-                    borderRadius: new BorderRadius.circular(12.0),
+                    borderRadius: BorderRadius.circular(12.0),
                     border: Border.all(
                       color: Color(ColorConstants.getPeachDark()),
                       width: pageState.selectedLocation == pageState.locations.elementAt(locationIndex) ? 3 : 0,
@@ -41,12 +41,12 @@ class JobDetailsLocationListWidget extends StatelessWidget {
                   ? Container(
                 height: _getItemWidthHeight(context) + 3,
                 decoration: BoxDecoration(
-                  borderRadius: new BorderRadius.circular(16.0),
+                  borderRadius: BorderRadius.circular(16.0),
                 ),
                 child: Align(
                   alignment: Alignment.bottomRight,
                   child: Container(
-                    margin: EdgeInsets.only(right: 8.0, bottom: 8.0),
+                    margin: const EdgeInsets.only(right: 8.0, bottom: 8.0),
                     child: Stack(
                       children: [
                         Icon(
@@ -63,8 +63,8 @@ class JobDetailsLocationListWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-              ) : SizedBox(),
-              Container(
+              ) : const SizedBox(),
+              SizedBox(
                 height: _getItemWidthHeight(context) + 3,
                 width: double.maxFinite,
                 child: GestureDetector(
@@ -79,7 +79,7 @@ class JobDetailsLocationListWidget extends StatelessWidget {
           ),
           Center(
             child: Container(
-              margin: EdgeInsets.only(top: 4.0),
+              margin: const EdgeInsets.only(top: 4.0),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: pageState.locations.elementAt(locationIndex).locationName,
