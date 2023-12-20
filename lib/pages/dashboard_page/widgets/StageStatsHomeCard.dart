@@ -3,7 +3,6 @@ import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/StageStatsItem.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../../models/JobStage.dart';
@@ -14,7 +13,7 @@ import '../../../utils/analytics/EventSender.dart';
 import '../../../widgets/TextDandyLight.dart';
 
 class StageStatsHomeCard extends StatelessWidget {
-  StageStatsHomeCard({this.pageState});
+  StageStatsHomeCard({Key key, this.pageState}) : super(key: key);
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
   final DashboardPageState pageState;
@@ -22,16 +21,16 @@ class StageStatsHomeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
-      padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
-      decoration: new BoxDecoration(
+      margin: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
+      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+      decoration: BoxDecoration(
           color: Color(ColorConstants.getPrimaryWhite()),
-          borderRadius: new BorderRadius.all(Radius.circular(12.0))),
+          borderRadius: const BorderRadius.all(Radius.circular(12.0))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
+            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
             child: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
               text: 'Active Stages',
@@ -39,16 +38,16 @@ class StageStatsHomeCard extends StatelessWidget {
               color: Color(ColorConstants.getPrimaryBlack()),
             ),
           ),
-          pageState.allUserStages.length > 0 ? ListView.builder(
-            padding: EdgeInsets.only(bottom: 16.0),
+          pageState.allUserStages.isNotEmpty ? ListView.builder(
+            padding: const EdgeInsets.only(bottom: 16.0),
             reverse: false,
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             key: _listKey,
             itemCount: pageState.allUserStages.length,
             itemBuilder: _buildItem,
           ) : Container(
-            padding: EdgeInsets.only(left:  32.0, right: 32.0, top: 16.0),
+            padding: const EdgeInsets.only(left:  32.0, right: 32.0, top: 16.0),
             height: 100.0,
             child: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,

@@ -1,9 +1,7 @@
-import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
@@ -14,7 +12,7 @@ import '../DashboardPageState.dart';
 
 class RestorePurchasesBottomSheet extends StatefulWidget {
   final String message;
-  RestorePurchasesBottomSheet(this.message);
+  const RestorePurchasesBottomSheet(this.message, {Key key}) : super(key: key);
 
 
   @override
@@ -37,14 +35,14 @@ class _BottomSheetPageState extends State<RestorePurchasesBottomSheet> with Tick
              Container(
                height: message == ManageSubscriptionPage.SUBSCRIBED ? 300 : 450,
                decoration: BoxDecoration(
-                   borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
+                   borderRadius: const BorderRadius.vertical(top: Radius.circular(16.0)),
                    color: Color(ColorConstants.getPrimaryWhite())),
-               padding: EdgeInsets.only(left: 16.0, right: 16.0),
+               padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                child: Column(
                  mainAxisAlignment: MainAxisAlignment.start,
                  children: <Widget>[
                    Container(
-                     margin: EdgeInsets.only(top: 24, bottom: 24.0),
+                     margin: const EdgeInsets.only(top: 24, bottom: 24.0),
                      child: TextDandyLight(
                        type: TextDandyLight.LARGE_TEXT,
                        text: 'New Device',
@@ -53,7 +51,7 @@ class _BottomSheetPageState extends State<RestorePurchasesBottomSheet> with Tick
                      ),
                    ),
                    Container(
-                     margin: EdgeInsets.only(top: 8, bottom: 24.0, left: 16, right: 16),
+                     margin: const EdgeInsets.only(top: 8, bottom: 24.0, left: 16, right: 16),
                      child: TextDandyLight(
                        type: TextDandyLight.MEDIUM_TEXT,
                        text: message == ManageSubscriptionPage.SUBSCRIBED ? 'We noticed you logged in on a new device. To continue using your current subscription pleases select the restore purchases button below.'
@@ -70,7 +68,7 @@ class _BottomSheetPageState extends State<RestorePurchasesBottomSheet> with Tick
                  showSuccessAnimation();
                },
                child: Container(
-                 margin: EdgeInsets.only(bottom: 54),
+                 margin: const EdgeInsets.only(bottom: 54),
                  child: TextDandyLight(
                    type: TextDandyLight.LARGE_TEXT,
                    text: message == ManageSubscriptionPage.SUBSCRIBED ? 'Restore Purchases'
@@ -89,7 +87,7 @@ class _BottomSheetPageState extends State<RestorePurchasesBottomSheet> with Tick
       context: context,
       builder: (BuildContext context) {
         return Padding(
-          padding: EdgeInsets.all(96.0),
+          padding: const EdgeInsets.all(96.0),
           child: FlareActor(
             "assets/animations/success_check.flr",
             alignment: Alignment.center,

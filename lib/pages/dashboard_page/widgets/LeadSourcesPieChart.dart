@@ -7,42 +7,43 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
-import '../../../utils/TextFormatterUtil.dart';
 import '../../../widgets/TextDandyLight.dart';
 
 class LeadSourcesPieChart extends StatelessWidget{
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
+  LeadSourcesPieChart({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, DashboardPageState>(
           converter: (Store<AppState> store) => DashboardPageState.fromStore(store),
           builder: (BuildContext context, DashboardPageState pageState) => Container(
-            margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 124.0),
-            decoration: new BoxDecoration(
+            margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 124.0),
+            decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
-                borderRadius: new BorderRadius.all(Radius.circular(12.0))),
+                borderRadius: const BorderRadius.all(Radius.circular(12.0))),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
+                  padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
-                    text: 'Lead Sources - ' + DateTime.now().year.toString(),
+                    text: 'Lead Sources - ${DateTime.now().year}',
                     textAlign: TextAlign.start,
                     color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
-                pageState.leadSourcesData.length > 0 ? PieChartWidget(chartType: PieChartWidget.LEAD_SOURCES,) :
+                pageState.leadSourcesData.isNotEmpty ? PieChartWidget(chartType: PieChartWidget.LEAD_SOURCES,) :
                 Column(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(top: 25, bottom: 25),
+                      margin: const EdgeInsets.only(top: 25, bottom: 25),
                       height: 100,
                       child: Image.asset('assets/images/icons/pie_chart.png', color: Color(ColorConstants.getPeachLight()),),
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 36, right: 36),
+                      margin: const EdgeInsets.only(left: 36, right: 36),
                       height: 74,
                       child: TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
@@ -53,8 +54,8 @@ class LeadSourcesPieChart extends StatelessWidget{
                     ),
                   ],
                 ),
-                pageState.leadSourcesData.length > 0 ? Container(
-                  margin: EdgeInsets.only(left: 16, right: 16),
+                pageState.leadSourcesData.isNotEmpty ? Container(
+                  margin: const EdgeInsets.only(left: 16, right: 16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -72,17 +73,17 @@ class LeadSourcesPieChart extends StatelessWidget{
                       ),
                     ],
                   ),
-                ) : SizedBox(),
-                pageState.leadSourcesData.length > 0 ? ListView.builder(
+                ) : const SizedBox(),
+                pageState.leadSourcesData.isNotEmpty ? ListView.builder(
                   reverse: false,
-                  padding: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+                  padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
                   shrinkWrap: true,
                   controller: null,
-                  physics: ClampingScrollPhysics(),
+                  physics: const ClampingScrollPhysics(),
                   key: _listKey,
                   itemCount: pageState.leadSourcePieChartRowData.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return Container(
+                    return SizedBox(
                       height: 48.0,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -98,10 +99,10 @@ class LeadSourcesPieChart extends StatelessWidget{
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(left: 8.0),
+                                margin: const EdgeInsets.only(left: 8.0),
                                 child: TextDandyLight(
                                   type: TextDandyLight.MEDIUM_TEXT,
-                                  text: pageState.leadSourcePieChartRowData.elementAt(index).sourceName + ' - ' + pageState.leadSourcePieChartRowData.elementAt(index).count.toString(),
+                                  text: '${pageState.leadSourcePieChartRowData.elementAt(index).sourceName} - ${pageState.leadSourcePieChartRowData.elementAt(index).count}',
                                   textAlign: TextAlign.start,
                                   color: Color(ColorConstants.getPrimaryBlack()),
                                 ),
@@ -109,10 +110,10 @@ class LeadSourcesPieChart extends StatelessWidget{
                             ],
                           ),
                           Container(
-                            margin: EdgeInsets.only(left: 8.0),
+                            margin: const EdgeInsets.only(left: 8.0),
                             child: TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
-                              text: pageState.leadSourcePieChartRowData.elementAt(index).conversionRate.toString() + '%',
+                              text: '${pageState.leadSourcePieChartRowData.elementAt(index).conversionRate}%',
                               textAlign: TextAlign.start,
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),
@@ -121,7 +122,7 @@ class LeadSourcesPieChart extends StatelessWidget{
                       ),
                     );
                   },
-                ) : SizedBox(),
+                ) : const SizedBox(),
               ],
             ),
           ),

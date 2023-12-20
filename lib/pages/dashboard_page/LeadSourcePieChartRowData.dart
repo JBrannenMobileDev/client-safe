@@ -1,4 +1,3 @@
-import '../../models/Job.dart';
 
 class LeadSourcePieChartRowData {
   String sourceName;

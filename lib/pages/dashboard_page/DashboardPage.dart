@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
@@ -26,9 +25,7 @@ import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -78,10 +75,10 @@ class HolderPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver, TickerProviderStateMixin {
-  GlobalKey _one = GlobalKey();
-  GlobalKey _two = GlobalKey();
-  GlobalKey _three = GlobalKey();
-  GlobalKey _four = GlobalKey();
+  final GlobalKey _one = GlobalKey();
+  final GlobalKey _two = GlobalKey();
+  final GlobalKey _three = GlobalKey();
+  final GlobalKey _four = GlobalKey();
 
   ScrollController _scrollController;
   bool dialVisible = true;
@@ -104,18 +101,19 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
     ShowCaseWidget.of(context).startShowCase([_one, _two, _three, _four]);
   }
 
+  @override
   initState() {
     super.initState();
 
     setupInteractedMessage();
 
-    _animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+    _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
 
-    offsetUpTween = new Tween<Offset>(
+    offsetUpTween = Tween<Offset>(
       begin: const Offset(0.0, 1.0),
       end: Offset.zero,
     );
-    offsetDownTween = new Tween<Offset>(
+    offsetDownTween = Tween<Offset>(
       begin: const Offset(0.0, -1.0),
       end: Offset.zero,
     );
@@ -144,9 +142,9 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
   }
 
   Animation<Offset> get offsetAnimationUp => offsetUpTween.animate(
-        new CurvedAnimation(
+        CurvedAnimation(
           parent: controller,
-          curve: new Interval(
+          curve: const Interval(
             0.0,
             1.0,
             curve: Curves.ease,
@@ -155,9 +153,9 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
       );
 
   Animation<Offset> get offsetAnimationDown => offsetDownTween.animate(
-        new CurvedAnimation(
+        CurvedAnimation(
           parent: controller,
-          curve: new Interval(
+          curve: const Interval(
             0.0,
             1.0,
             curve: Curves.ease,
@@ -214,7 +212,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
       backgroundColor: Colors.transparent,
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
-        return RequestAppReviewBottomSheet();
+        return const RequestAppReviewBottomSheet();
       },
     );
   }
@@ -228,7 +226,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
       backgroundColor: Colors.transparent,
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
-        return RequestPMFSurveyBottomSheet();
+        return const RequestPMFSurveyBottomSheet();
       },
     );
   }
@@ -242,7 +240,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
       backgroundColor: Colors.transparent,
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
-        return AppUpdateBottomSheet();
+        return const AppUpdateBottomSheet();
       },
     ).whenComplete( () {
       pageState.markUpdateAsSeen(pageState.appSettings);
@@ -278,8 +276,8 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, DashboardPageState>(
         onInit: (store) async {
-          store.dispatch(new InitDashboardPageAction(store.state.dashboardPageState));
-          store.dispatch(new LoadJobsAction(store.state.dashboardPageState));
+          store.dispatch(InitDashboardPageAction(store.state.dashboardPageState));
+          store.dispatch(LoadJobsAction(store.state.dashboardPageState));
           store.dispatch(CheckForGoToJobAction(store.state.dashboardPageState));
           store.dispatch(CheckForPMFSurveyAction(store.state.dashboardPageState));
           store.dispatch(CheckForReviewRequestAction(store.state.dashboardPageState));
@@ -303,7 +301,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
               if(containsSampleJob && allJobs.length == 1) {
                 //do nothing
               } else {
-                if(allReminders.length > 0) {
+                if(allReminders.isNotEmpty) {
                   NotificationHelper().createAndUpdatePendingNotifications();
                 }
               }
@@ -317,7 +315,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
           }
 
           if(store.state.dashboardPageState.profile != null && store.state.dashboardPageState.profile.shouldShowRestoreSubscription) {
-            String restoreMessage = null;
+            String restoreMessage;
 
             if(store.state.dashboardPageState.subscriptionState!= null) {
               if(store.state.dashboardPageState.subscriptionState.entitlements.all['standard'] != null || store.state.dashboardPageState.subscriptionState.entitlements.all['standard_1699'] != null) {
@@ -341,7 +339,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
             }
 
             if(restoreMessage != null) {
-              Future.delayed(Duration(seconds: 1), () {
+              Future.delayed(const Duration(seconds: 1), () {
                 _showRestorePurchasesSheet(context, restoreMessage);
                 store.dispatch(UpdateProfileRestorePurchasesSeen(store.state.dashboardPageState));
               });
@@ -399,8 +397,8 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                 children: [
               Showcase(
               key: _one,
-              targetPadding: EdgeInsets.only(right: 0, left: 0, bottom: 0, top: 0),
-              targetShapeBorder: CircleBorder(),
+              targetPadding: const EdgeInsets.only(right: 0, left: 0, bottom: 0, top: 0),
+              targetShapeBorder: const CircleBorder(),
               description: 'Start a new job or \nadd a new contact here!',
               descTextStyle: TextStyle(
                 fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
@@ -409,7 +407,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                 color: Color(ColorConstants.getPrimaryBlack()),
               ),
               child: SpeedDial(
-                    childMargin: EdgeInsets.only(right: 18.0, bottom: 20.0),
+                    childMargin: const EdgeInsets.only(right: 18.0, bottom: 20.0),
                     child: getFabIcon(),
                     visible: dialVisible,
                     // If true user is forced to close dial manually
@@ -423,7 +421,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                     backgroundColor: Color(ColorConstants.getPeachDark()),
                     foregroundColor: Colors.black,
                     elevation: 8.0,
-                    shape: CircleBorder(),
+                    shape: const CircleBorder(),
                     onOpen: () {
                       setState(() {
                         isFabExpanded = true;
@@ -436,7 +434,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                     },
                     children: [
                       SpeedDialChild(
-                        child: Icon(Icons.business_center),
+                        child: const Icon(Icons.business_center),
                         backgroundColor: Color(ColorConstants.getBlueLight()),
                         labelWidget: Container(
                           alignment: Alignment.center,
@@ -459,7 +457,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                         },
                       ),
                       SpeedDialChild(
-                        child: Icon(Icons.person_add),
+                        child: const Icon(Icons.person_add),
                         backgroundColor: Color(ColorConstants.getBlueLight()),
                         labelWidget: Container(
                           alignment: Alignment.center,
@@ -490,7 +488,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                       EventSender().sendEvent(eventName: EventNames.BT_SUBSCRIBE_NOW);
                     },
                     child: Container(
-                      margin: EdgeInsets.only(top: 8),
+                      margin: const EdgeInsets.only(top: 8),
                       width: 132,
                       alignment: Alignment.center,
                       height: 48,
@@ -505,272 +503,269 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                           text: "Subscribe"
                       ),
                     ),
-                  ) : SizedBox(),
+                  ) : const SizedBox(),
                 ],
             ),
-            body: Container(
-              child: Stack(
-                alignment: Alignment.topCenter,
-                children: <Widget>[
-                  // Container(
-                  //   height: 264,
-                  //   width: MediaQuery.of(context).size.width,
-                  //   child: ClipRRect(
-                  //     borderRadius: new BorderRadius.only(
-                  //       topRight: Radius.circular(16),
-                  //       topLeft: Radius.circular(16),
-                  //       bottomRight: Radius.circular(16),
-                  //       bottomLeft: Radius.circular(16)
-                  //     ),
-                  //     child: DandyLightNetworkImage(
-                  //       pageState.profile.bannerMobileUrl,
-                  //       color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.bannerColor),
-                  //       borderRadius: 0,
-                  //     ),
-                  //   ),
-                  // ),
-                  Container(
-                    alignment: Alignment.bottomRight,
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                    child: Showcase(
-                      key: _four,
-                      targetPadding: EdgeInsets.only(right: -8, left: 8, bottom: 55, top: -55),
-                      targetShapeBorder: CircleBorder(),
-                      description: 'Get started here!  \nThis is your collections page where \nyou can setup the details for your business',
-                      descTextStyle: TextStyle(
-                        fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
-                        fontFamily: TextDandyLight.getFontFamily(),
-                        fontWeight: TextDandyLight.getFontWeight(),
-                        color: Color(ColorConstants.getPrimaryBlack()),
-                      ),
-                      child:SizedBox(
-                        height: 64,
-                        width: 64,
-                      ),
+            body: Stack(
+              alignment: Alignment.topCenter,
+              children: <Widget>[
+                // Container(
+                //   height: 264,
+                //   width: MediaQuery.of(context).size.width,
+                //   child: ClipRRect(
+                //     borderRadius: new BorderRadius.only(
+                //       topRight: Radius.circular(16),
+                //       topLeft: Radius.circular(16),
+                //       bottomRight: Radius.circular(16),
+                //       bottomLeft: Radius.circular(16)
+                //     ),
+                //     child: DandyLightNetworkImage(
+                //       pageState.profile.bannerMobileUrl,
+                //       color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.bannerColor),
+                //       borderRadius: 0,
+                //     ),
+                //   ),
+                // ),
+                Container(
+                  alignment: Alignment.bottomRight,
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  child: Showcase(
+                    key: _four,
+                    targetPadding: const EdgeInsets.only(right: -8, left: 8, bottom: 55, top: -55),
+                    targetShapeBorder: const CircleBorder(),
+                    description: 'Get started here!  \nThis is your collections page where \nyou can setup the details for your business',
+                    descTextStyle: TextStyle(
+                      fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                      fontFamily: TextDandyLight.getFontFamily(),
+                      fontWeight: TextDandyLight.getFontWeight(),
+                      color: Color(ColorConstants.getPrimaryBlack()),
+                    ),
+                    child:const SizedBox(
+                      height: 64,
+                      width: 64,
                     ),
                   ),
-                  // Container(
-                  //   decoration: BoxDecoration(
-                  //     color: Color(ColorConstants.getBlueLight()),
-                  //   ),
-                  // ),
-                  CustomScrollView(
-                    physics: new ClampingScrollPhysics(),
-                    controller: _scrollController,
-                    slivers: <Widget>[
-                      SliverAppBar(
-                        iconTheme: IconThemeData(
-                          color: Color(ColorConstants.getPrimaryWhite()),
+                ),
+                // Container(
+                //   decoration: BoxDecoration(
+                //     color: Color(ColorConstants.getBlueLight()),
+                //   ),
+                // ),
+                CustomScrollView(
+                  physics: const ClampingScrollPhysics(),
+                  controller: _scrollController,
+                  slivers: <Widget>[
+                    SliverAppBar(
+                      iconTheme: IconThemeData(
+                        color: Color(ColorConstants.getPrimaryWhite()),
+                      ),
+                      backgroundColor: Colors.transparent,
+                      elevation: 0.0,
+                      pinned: false,
+                      floating: false,
+                      forceElevated: false,
+                      title: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(top: 4.0),
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    'DandyLight',
+                                    textScaleFactor: 1,
+                                    style: TextStyle(
+                                      fontSize: 36.0,
+                                      fontFamily: 'simple',
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(ColorConstants.getPrimaryWhite()),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin:
+                                  const EdgeInsets.only(left: 57.0, top: 2.0),
+                                  height: 64.0,
+                                  color: Colors.transparent,
+                                  child: Image.asset(ImageUtil.LOGIN_BG_LOGO_FLOWER, color: Color(ColorConstants.getPrimaryWhite())),
+                                )
+                              ],
+                      ),
+                      leading: Showcase(
+                        key: _two,
+                        targetPadding: const EdgeInsets.only(right: 13, bottom: 7, top: 6),
+                        targetShapeBorder: const CircleBorder(),
+                        description: 'Sunset & Weather',
+                        descTextStyle: TextStyle(
+                          fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                          fontFamily: TextDandyLight.getFontFamily(),
+                          fontWeight: TextDandyLight.getFontWeight(),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
-                        brightness: Brightness.light,
-                        backgroundColor: Colors.transparent,
-                        elevation: 0.0,
-                        pinned: false,
-                        floating: false,
-                        forceElevated: false,
-                        title: Stack(
+                        child: SlideTransition(
+                          position: offsetAnimationDown,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => SunsetWeatherPage()),
+                              );
+                              EventSender().sendEvent(eventName: EventNames.NAV_TO_SUNSET_WEATHER);
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.only(left: 16.0),
+                              height: 26.0,
+                              width: 26.0,
+                              child: Image.asset(
+                                  'assets/images/icons/sunset_icon_white.png', color: Color(ColorConstants.getPrimaryWhite(),)),
+                            ),
+                          ),
+                        ),
+                      ),
+                      actions: <Widget>[
+                        SlideTransition(
+                          position: offsetAnimationDown,
+                          child: GestureDetector(
+                              onTap: () {
+                                NavigationUtil.onNotificationsSelected(context);
+                                EventSender().sendEvent(eventName: EventNames.NAV_TO_NOTIFICATIONS);
+                              },
+                              child: Stack(
                                 alignment: Alignment.center,
                                 children: [
-                                  Container(
-                                    margin: EdgeInsets.only(top: 4.0),
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      'DandyLight',
-                                      textScaleFactor: 1,
-                                      style: TextStyle(
-                                        fontSize: 36.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.getPrimaryWhite()),
-                                      ),
+                                  Center(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        RotationTransition(
+                                            turns: Tween(begin: 0.0, end: -.05)
+                                                .chain(CurveTween(
+                                                curve: Curves.elasticIn))
+                                                .animate(_animationController),
+                                            child: Container(
+                                              margin: const EdgeInsets.only(right: 16.0),
+                                              height: 28.0,
+                                              width: 28.0,
+                                              child: Image.asset(
+                                                  'assets/images/collection_icons/reminder_icon_white.png', color: Color(ColorConstants.getPrimaryWhite(),)),
+                                            )),
+                                      ],
                                     ),
                                   ),
-                                  Container(
-                                    margin:
-                                    EdgeInsets.only(left: 57.0, top: 2.0),
-                                    height: 64.0,
-                                    color: Colors.transparent,
-                                    child: Image.asset(ImageUtil.LOGIN_BG_LOGO_FLOWER, color: Color(ColorConstants.getPrimaryWhite())),
-                                  )
+                                  pageState.unseenNotificationCount > 0 ? Container(
+                                    margin: const EdgeInsets.only(bottom: 16.0),
+                                    width: 8.0,
+                                    height: 8.0,
+                                    decoration: const BoxDecoration(
+                                      color: Color(ColorConstants.error_red),
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ) : const SizedBox(),
                                 ],
-                        ),
-                        leading: Showcase(
-                          key: _two,
-                          targetPadding: EdgeInsets.only(right: 13, bottom: 7, top: 6),
-                          targetShapeBorder: CircleBorder(),
-                          description: 'Sunset & Weather',
-                          descTextStyle: TextStyle(
-                            fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
-                            fontFamily: TextDandyLight.getFontFamily(),
-                            fontWeight: TextDandyLight.getFontWeight(),
-                            color: Color(ColorConstants.getPrimaryBlack()),
+                              )
                           ),
-                          child: SlideTransition(
-                            position: offsetAnimationDown,
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  new MaterialPageRoute(
-                                      builder: (context) => SunsetWeatherPage()),
-                                );
-                                EventSender().sendEvent(eventName: EventNames.NAV_TO_SUNSET_WEATHER);
-                              },
-                              child: Container(
-                                padding: EdgeInsets.only(left: 16.0),
-                                height: 26.0,
-                                width: 26.0,
-                                child: Image.asset(
-                                    'assets/images/icons/sunset_icon_white.png', color: Color(ColorConstants.getPrimaryWhite(),)),
-                              ),
+                        ),
+                        SlideTransition(
+                          position: offsetAnimationDown,
+                          child: GestureDetector(
+                            onTap: () {
+                              NavigationUtil.onCalendarSelected(context);
+                              EventSender().sendEvent(eventName: EventNames.NAV_TO_CALENDAR);
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(right: 16.0),
+                              height: 26.0,
+                              width: 26.0,
+                              child: Image.asset(
+                                  'assets/images/icons/calendar.png', color: Color(ColorConstants.getPrimaryWhite(),)),
                             ),
                           ),
                         ),
-                        actions: <Widget>[
-                          SlideTransition(
-                            position: offsetAnimationDown,
-                            child: GestureDetector(
-                                onTap: () {
-                                  NavigationUtil.onNotificationsSelected(context);
-                                  EventSender().sendEvent(eventName: EventNames.NAV_TO_NOTIFICATIONS);
-                                },
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Center(
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          RotationTransition(
-                                              turns: Tween(begin: 0.0, end: -.05)
-                                                  .chain(CurveTween(
-                                                  curve: Curves.elasticIn))
-                                                  .animate(_animationController),
-                                              child: Container(
-                                                margin: EdgeInsets.only(right: 16.0),
-                                                height: 28.0,
-                                                width: 28.0,
-                                                child: Image.asset(
-                                                    'assets/images/collection_icons/reminder_icon_white.png', color: Color(ColorConstants.getPrimaryWhite(),)),
-                                              )),
-                                        ],
-                                      ),
-                                    ),
-                                    pageState.unseenNotificationCount > 0 ? Container(
-                                      margin: EdgeInsets.only(bottom: 16.0),
-                                      width: 8.0,
-                                      height: 8.0,
-                                      decoration: new BoxDecoration(
-                                        color: Color(ColorConstants.error_red),
-                                        shape: BoxShape.circle,
-                                      ),
-                                    ) : SizedBox(),
-                                  ],
-                                )
+                        SlideTransition(
+                          position: offsetAnimationDown,
+                          child: GestureDetector(
+                            onTap: () {
+                              NavigationUtil.onMainSettingsSelected(context);
+                              EventSender().sendEvent(eventName: EventNames.NAV_TO_SETTINGS_MAIN);
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(right: 16.0),
+                              height: 26.0,
+                              width: 26.0,
+                              child: Image.asset(
+                                  'assets/images/icons/settings.png', color: Color(ColorConstants.getPrimaryWhite(),)),
                             ),
                           ),
+                        ),
+                      ], systemOverlayStyle: SystemUiOverlayStyle.dark,
+                    ),
+                    pageState.areJobsLoaded ? SliverList(
+                        delegate: SliverChildListDelegate(<Widget>[
                           SlideTransition(
-                            position: offsetAnimationDown,
-                            child: GestureDetector(
-                              onTap: () {
-                                NavigationUtil.onCalendarSelected(context);
-                                EventSender().sendEvent(eventName: EventNames.NAV_TO_CALENDAR);
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(right: 16.0),
-                                height: 26.0,
-                                width: 26.0,
-                                child: Image.asset(
-                                    'assets/images/icons/calendar.png', color: Color(ColorConstants.getPrimaryWhite(),)),
-                              ),
-                            ),
-                          ),
-                          SlideTransition(
-                            position: offsetAnimationDown,
-                            child: GestureDetector(
-                              onTap: () {
-                                NavigationUtil.onMainSettingsSelected(context);
-                                EventSender().sendEvent(eventName: EventNames.NAV_TO_SETTINGS_MAIN);
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(right: 16.0),
-                                height: 26.0,
-                                width: 26.0,
-                                child: Image.asset(
-                                    'assets/images/icons/settings.png', color: Color(ColorConstants.getPrimaryWhite(),)),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      pageState.areJobsLoaded ? SliverList(
-                          delegate: new SliverChildListDelegate(<Widget>[
-                            SlideTransition(
-                                position: offsetAnimationUp,
-                                child: Showcase(
-                                  key: _three,
-                                  targetPadding: EdgeInsets.only(right: 0, left: 0, bottom: 0, top: 0),
-                                  targetShapeBorder: CircleBorder(),
-                                  description: 'Setup your Brand and view your upcoming jobs here! \nWhen sharing items with your clients, \nyour brand will be used to style your Client Portal.',
-                                  descTextStyle: TextStyle(
-                                    fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
-                                    fontFamily: TextDandyLight.getFontFamily(),
-                                    fontWeight: TextDandyLight.getFontWeight(),
-                                    color: Color(ColorConstants.getPrimaryBlack()),
-                                  ),
-                                  child: ProfileAndJobsCard()
+                              position: offsetAnimationUp,
+                              child: Showcase(
+                                key: _three,
+                                targetPadding: const EdgeInsets.only(right: 0, left: 0, bottom: 0, top: 0),
+                                targetShapeBorder: const CircleBorder(),
+                                description: 'Setup your Brand and view your upcoming jobs here! \nWhen sharing items with your clients, \nyour brand will be used to style your Client Portal.',
+                                descTextStyle: TextStyle(
+                                  fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                                  fontFamily: TextDandyLight.getFontFamily(),
+                                  fontWeight: TextDandyLight.getFontWeight(),
+                                  color: Color(ColorConstants.getPrimaryBlack()),
                                 ),
-                            ),
-                            SlideTransition(
-                                position: offsetAnimationUp,
-                                child: pageState.activeJobs == null || pageState.activeJobs.length == 0 ? StartAJobButton(pageState: pageState) : SizedBox(),
-                            ),
-                            SlideTransition(
-                                position: offsetAnimationUp,
-                                child: StageStatsHomeCard(pageState: pageState)
-                            ),
-                            SlideTransition(
-                                position: offsetAnimationUp,
-                                child: ContractsCard()
-                            ),
-                            SlideTransition(
-                                position: offsetAnimationUp,
-                                child:  Padding(
-                                  padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
-                                  child: TextDandyLight(
-                                    type: TextDandyLight.LARGE_TEXT,
-                                    text: 'Business Insights - ' + DateTime.now().year.toString(),
-                                    textAlign: TextAlign.center,
-                                    color: Color(ColorConstants.getPrimaryWhite()),
-                                  ),
-                                )
-                            ),
-                            SlideTransition(
-                                position: offsetAnimationUp,
-                                child: MonthlyProfitLineChart(pageState: pageState)
-                            ),
-                            SlideTransition(
-                                position: offsetAnimationUp,
-                                child: JobTypeBreakdownPieChart()
-                            ),
-                            SlideTransition(
-                              position: offsetAnimationUp,
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                                child: buildLeadStatsWidget(pageState),
+                                child: const ProfileAndJobsCard()
                               ),
-                            ),
-                            SlideTransition(
+                          ),
+                          SlideTransition(
                               position: offsetAnimationUp,
-                              child: LeadSourcesPieChart(),
+                              child: pageState.activeJobs == null || pageState.activeJobs.isEmpty ? StartAJobButton(pageState: pageState) : const SizedBox(),
+                          ),
+                          SlideTransition(
+                              position: offsetAnimationUp,
+                              child: StageStatsHomeCard(pageState: pageState)
+                          ),
+                          SlideTransition(
+                              position: offsetAnimationUp,
+                              child: const ContractsCard()
+                          ),
+                          SlideTransition(
+                              position: offsetAnimationUp,
+                              child:  Padding(
+                                padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
+                                child: TextDandyLight(
+                                  type: TextDandyLight.LARGE_TEXT,
+                                  text: 'Business Insights - ${DateTime.now().year}',
+                                  textAlign: TextAlign.center,
+                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                ),
+                              )
+                          ),
+                          SlideTransition(
+                              position: offsetAnimationUp,
+                              child: MonthlyProfitLineChart(pageState: pageState)
+                          ),
+                          SlideTransition(
+                              position: offsetAnimationUp,
+                              child: JobTypeBreakdownPieChart()
+                          ),
+                          SlideTransition(
+                            position: offsetAnimationUp,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: buildLeadStatsWidget(pageState),
                             ),
-                          ])) : SliverList(delegate: SliverChildListDelegate(
-                          <Widget>[]
-                      )),
-                    ],
-                  ),
-                ],
-              ),
+                          ),
+                          SlideTransition(
+                            position: offsetAnimationUp,
+                            child: LeadSourcesPieChart(),
+                          ),
+                        ])) : SliverList(delegate: SliverChildListDelegate(
+                        <Widget>[]
+                    )),
+                  ],
+                ),
+              ],
             ),
           );
         }
@@ -778,7 +773,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
 
   Widget buildLeadStatsWidget(DashboardPageState pageState) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 16.0),
+      padding: const EdgeInsets.only(bottom: 16.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -787,12 +782,12 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
             height: 132.0,
             decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
-                borderRadius: new BorderRadius.all(Radius.circular(12.0))),
+                borderRadius: const BorderRadius.all(Radius.circular(12.0))),
             child: Stack(
               alignment: Alignment.topCenter,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 8.0),
+                  padding: const EdgeInsets.only(top: 8.0),
                   child: TextDandyLight(
                     type: TextDandyLight.SMALL_TEXT,
                     text: 'Lead\n Conversion Rate',
@@ -801,9 +796,9 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 58.0),
+                  padding: const EdgeInsets.only(top: 58.0),
                   child: Text(
-                    pageState.leadConversionRate.toString() + '%',
+                    '${pageState.leadConversionRate}%',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 38,
@@ -825,12 +820,12 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
               height: 132.0,
               decoration: BoxDecoration(
                   color: Color(ColorConstants.getPrimaryWhite()),
-                  borderRadius: new BorderRadius.all(Radius.circular(12.0))),
+                  borderRadius: const BorderRadius.all(Radius.circular(12.0))),
               child: Stack(
                 alignment: Alignment.topCenter,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: 8.0),
+                    padding: const EdgeInsets.only(top: 8.0),
                     child: TextDandyLight(
                       type: TextDandyLight.SMALL_TEXT,
                       text: 'Leads\nUnconverted',
@@ -839,7 +834,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 58.0),
+                    padding: const EdgeInsets.only(top: 58.0),
                     child: Text(
                       pageState.unconvertedLeadCount.toString(),
                       textAlign: TextAlign.start,
@@ -870,11 +865,11 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
 
   bool containsSampleJobBool(List<Job> allJobs, String clientName) {
     bool contains = false;
-    allJobs.forEach((job) {
+    for (var job in allJobs) {
       if(job.clientName == clientName){
         contains = true;
       }
-    });
+    }
     return contains;
   }
 }

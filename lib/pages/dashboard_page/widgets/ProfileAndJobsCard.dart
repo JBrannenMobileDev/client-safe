@@ -1,7 +1,6 @@
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -15,21 +14,23 @@ import '../../../widgets/DandyLightNetworkImage.dart';
 import '../../../widgets/TextDandyLight.dart';
 
 class ProfileAndJobsCard extends StatelessWidget {
+  const ProfileAndJobsCard({Key key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, DashboardPageState>(
     converter: (Store<AppState> store) => DashboardPageState.fromStore(store),
     builder: (BuildContext context, DashboardPageState pageState) =>  Container(
-      margin: EdgeInsets.only(bottom: 32, top: 32),
+      margin: const EdgeInsets.only(bottom: 32, top: 32),
       child: Stack(
         alignment: Alignment.center,
         children: [
           Container(
-            margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0),
+            margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0),
             height: 72.0,
-            decoration: new BoxDecoration(
+            decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
-                borderRadius: new BorderRadius.all(Radius.circular(12.0))),
+                borderRadius: const BorderRadius.all(Radius.circular(12.0))),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -39,9 +40,9 @@ class ProfileAndJobsCard extends StatelessWidget {
                     EventSender().sendEvent(eventName: EventNames.NAV_TO_JOBS_THIS_WEEK);
                   },
                   child: Container(
-                    decoration: new BoxDecoration(
+                    decoration: BoxDecoration(
                         color: Color(ColorConstants.getPrimaryWhite()),
-                        borderRadius: new BorderRadius.all(Radius.circular(42.0))),
+                        borderRadius: const BorderRadius.all(Radius.circular(42.0))),
                     width: (MediaQuery.of(context).size.width - 32) / 3,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -63,7 +64,7 @@ class ProfileAndJobsCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: 1,
                   width: (MediaQuery.of(context).size.width - 72) / 3,
                 ),
@@ -73,9 +74,9 @@ class ProfileAndJobsCard extends StatelessWidget {
                     EventSender().sendEvent(eventName: EventNames.NAV_TO_ACTIVE_JOBS);
                   },
                   child: Container(
-                    decoration: new BoxDecoration(
+                    decoration: BoxDecoration(
                         color: Color(ColorConstants.getPrimaryWhite()),
-                        borderRadius: new BorderRadius.all(Radius.circular(42.0))),
+                        borderRadius: const BorderRadius.all(Radius.circular(42.0))),
                     width: (MediaQuery.of(context).size.width - 32) / 3,
                     child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -119,7 +120,7 @@ class ProfileAndJobsCard extends StatelessWidget {
                 },
                 child:  pageState.profile.hasSetupBrand ? pageState.profile.logoSelected ? Container(
                   child: pageState.profile.logoUrl != null && pageState.profile.logoUrl.isNotEmpty && pageState.profile.hasSetupBrand ? ClipRRect(
-                    borderRadius: new BorderRadius.circular(82.0),
+                    borderRadius: BorderRadius.circular(82.0),
                     child: Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
@@ -188,19 +189,17 @@ class ProfileAndJobsCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(bottom: 4),
+                          margin: const EdgeInsets.only(bottom: 4),
                           alignment: Alignment.center,
                           height: 24.0,
                           width: 24.0,
                           child: Image.asset('assets/images/icons/file_upload.png', color: Color(ColorConstants.getPeachLight()),),
                         ),
-                        Container(
-                          child: TextDandyLight(
-                            type: TextDandyLight.MEDIUM_TEXT,
-                            textAlign: TextAlign.center,
-                            text: 'Upload\nLogo',
-                            color: Color(ColorConstants.getPeachLight()),
-                          ),
+                        TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          textAlign: TextAlign.center,
+                          text: 'Upload\nLogo',
+                          color: Color(ColorConstants.getPeachLight()),
                         ),
                       ],
                     ),

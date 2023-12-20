@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
-
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/AppSettingsDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ClientDao.dart';
@@ -117,7 +115,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
 
   void _checkForUpdate(Store<AppState> store, CheckForAppUpdateAction action) async {
     List<AppSettings> settingsList = (await AppSettingsDao.getAll());
-    AppSettings settings = settingsList != null && settingsList.length > 0 ? settingsList.first : null;
+    AppSettings settings = settingsList != null && settingsList.isNotEmpty ? settingsList.first : null;
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     if(settings != null) {
       if(settings.show) {
@@ -166,7 +164,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     for(Job job in allJobs) {
       if(job.selectedTime != null && job.selectedEndTime != null) {
         DateTime startTime = job.selectedTime.copyWith(year: job.selectedDate.year, month: job.selectedDate.month, day: job.selectedDate.day);
-        startTime.add(Duration(hours: -1));
+        startTime.add(const Duration(hours: -1));
         DateTime endTime = job.selectedEndTime.copyWith(year: job.selectedDate.year, month: job.selectedDate.month, day: job.selectedDate.day);
         if(now.isAfter(startTime) && now.isBefore(endTime)) {
           store.dispatch(SetGoToPosesJob(store.state.dashboardPageState, job));
@@ -175,8 +173,8 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       } else if(job.selectedTime != null && job.selectedEndTime == null) {
         DateTime startTime = job.selectedTime.copyWith(year: job.selectedDate.year, month: job.selectedDate.month, day: job.selectedDate.day);
         DateTime endTime = DateTime(startTime.year, startTime.month, startTime.day, startTime.hour, startTime.minute);
-        endTime.add(Duration(hours: 1));
-        startTime.add(Duration(hours: -1));
+        endTime.add(const Duration(hours: 1));
+        startTime.add(const Duration(hours: -1));
         if(now.isAfter(startTime) && now.isBefore(endTime)) {
           store.dispatch(SetGoToPosesJob(store.state.dashboardPageState, job));
           break;
@@ -223,11 +221,11 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   Future<void> _setUnseenFeaturedPosesToSeen(Store<AppState> store, SetUnseenFeaturedPosesAsSeenAction action) async {
     PoseSubmittedGroup group = await PoseSubmittedGroupDao.getByUid(UidUtil().getUid());
     List<Pose> myPoses = group.poses;
-    myPoses.forEach((pose) {
+    for (var pose in myPoses) {
       if(!pose.hasSeen) {
         pose.hasSeen = true;
       }
-    });
+    }
     group.poses = myPoses;
     await PoseSubmittedGroupDao.update(group);
 
@@ -271,7 +269,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     List<Pose> unseenFeaturedPoses = await _getUnseenFeaturedPoses();
     store.dispatch(SetUnseenFeaturedPosesAction(store.state.dashboardPageState, unseenFeaturedPoses));
 
-    if(unseenFeaturedPoses.length > 0) {
+    if(unseenFeaturedPoses.isNotEmpty) {
       ReminderDandyLight unseenFeaturedPosesReminder = ReminderDandyLight(description: 'Poses Featured!', when: WhenSelectionWidget.BEFORE, daysWeeksMonths: WhenSelectionWidget.DAYS, amount: 1, time: DateTime.now());
       reminders.add(JobReminder(
         reminder: unseenFeaturedPosesReminder,
@@ -286,7 +284,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
         unseenCount++;
       }
     }
-    if(unseenFeaturedPoses.length > 0) {
+    if(unseenFeaturedPoses.isNotEmpty) {
       unseenCount++;
     }
     store.dispatch(SetUnseenReminderCount(store.state.dashboardPageState, unseenCount, reminders));
@@ -308,10 +306,10 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
 
     List<Job> allJobs = await JobDao.getAllJobs();
-    await allJobs.forEach((job) async {
+    for (var job in allJobs) {
       job.paymentReceivedDate = job.createdDate;
       await JobDao.update(job);
-    });
+    }
     allJobs = await JobDao.getAllJobs();
 
     List<JobType> allJobTypes = await JobTypeDao.getAll();
@@ -330,7 +328,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
         profiles.add(Profile.fromMap(record.value));
       }
 
-      Profile newProfile = null;
+      Profile newProfile;
       String uid = UidUtil().getUid();
       for(Profile profile in profiles) {
         if(profile.uid == uid) {
@@ -399,7 +397,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<purchases.CustomerInfo> _getSubscriptionState() async {
-    purchases.CustomerInfo currentInfo = null;
+    purchases.CustomerInfo currentInfo;
     try {
       currentInfo = await purchases.Purchases.getCustomerInfo();
     } on PlatformException catch (e) {

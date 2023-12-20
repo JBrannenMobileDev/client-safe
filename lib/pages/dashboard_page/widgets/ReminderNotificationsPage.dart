@@ -3,7 +3,7 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
@@ -18,6 +18,8 @@ import '../../../widgets/TextDandyLight.dart';
 class ReminderNotificationsPage extends StatelessWidget{
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   final ScrollController _controller = ScrollController();
+
+  ReminderNotificationsPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, DashboardPageState>(
@@ -34,7 +36,6 @@ class ReminderNotificationsPage extends StatelessWidget{
               CustomScrollView(
                 slivers: <Widget>[
                   SliverAppBar(
-                    brightness: Brightness.light,
                     backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                     pinned: true,
                     floating: false,
@@ -64,17 +65,17 @@ class ReminderNotificationsPage extends StatelessWidget{
                             color: Color(ColorConstants.getBlueDark()),
                           )
                         ),
-                    ],
+                    ], systemOverlayStyle: SystemUiOverlayStyle.dark,
                   ),
                   SliverList(
-                    delegate: new SliverChildListDelegate(
+                    delegate: SliverChildListDelegate(
                       <Widget>[
                         ListView.builder(
                           reverse: false,
-                          padding: new EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 64.0),
+                          padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 64.0),
                           shrinkWrap: true,
                           controller: _controller,
-                          physics: ClampingScrollPhysics(),
+                          physics: const ClampingScrollPhysics(),
                           key: _listKey,
                           itemCount: pageState.reminders.length,
                           itemBuilder: (context, index) {
@@ -94,7 +95,7 @@ class ReminderNotificationsPage extends StatelessWidget{
                                 pageState.onReminderSelected(pageState.reminders.elementAt(index));
                               },
                               child: pageState.reminders.elementAt(index).payload == JobReminder.POSE_FEATURED_ID ? Padding(
-                                padding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 24.0),
+                                padding: const EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 24.0),
                                 child: Stack(
                                   alignment: Alignment.centerRight,
                                   children: <Widget>[
@@ -102,7 +103,7 @@ class ReminderNotificationsPage extends StatelessWidget{
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: <Widget>[
                                         Container(
-                                          margin: EdgeInsets.only(right: 16.0),
+                                          margin: const EdgeInsets.only(right: 16.0),
                                           height: 32.0,
                                           width: 32.0,
                                           child: Icon(
@@ -111,7 +112,7 @@ class ReminderNotificationsPage extends StatelessWidget{
                                             size: 32.0,
                                           )
                                         ),
-                                        Container(
+                                        SizedBox(
                                           width: MediaQuery.of(context).size.width - 126,
                                           child: TextDandyLight(
                                             type: TextDandyLight.SMALL_TEXT,
@@ -124,16 +125,14 @@ class ReminderNotificationsPage extends StatelessWidget{
                                         ),
                                       ],
                                     ),
-                                    Container(
-                                      child: Icon(
-                                        Icons.chevron_right,
-                                        color: Color(ColorConstants.getPrimaryGreyMedium()),
-                                      ),
+                                    Icon(
+                                      Icons.chevron_right,
+                                      color: Color(ColorConstants.getPrimaryGreyMedium()),
                                     )
                                   ],
                                 ),
                               ) : Padding(
-                                padding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 24.0),
+                                padding: const EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 24.0),
                                 child: Stack(
                                   alignment: Alignment.centerRight,
                                   children: <Widget>[
@@ -141,7 +140,7 @@ class ReminderNotificationsPage extends StatelessWidget{
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: <Widget>[
                                         Container(
-                                          margin: EdgeInsets.only(right: 16.0),
+                                          margin: const EdgeInsets.only(right: 16.0),
                                           height: 32.0,
                                           width: 32.0,
                                           child: Image.asset(
@@ -150,7 +149,7 @@ class ReminderNotificationsPage extends StatelessWidget{
                                         Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Container(
+                                            SizedBox(
                                               width: MediaQuery.of(context).size.width - 126,
                                               child: TextDandyLight(
                                                 type: TextDandyLight.SMALL_TEXT,
@@ -161,7 +160,7 @@ class ReminderNotificationsPage extends StatelessWidget{
                                                 color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
                                               ),
                                             ),
-                                            Container(
+                                            SizedBox(
                                               width: MediaQuery.of(context).size.width - 126,
                                               child: TextDandyLight(
                                                 type: TextDandyLight.SMALL_TEXT,
@@ -172,7 +171,7 @@ class ReminderNotificationsPage extends StatelessWidget{
                                                 color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
                                               ),
                                             ),
-                                            Container(
+                                            SizedBox(
                                               width: MediaQuery.of(context).size.width - 126,
                                               child: TextDandyLight(
                                                 type: TextDandyLight.SMALL_TEXT,
@@ -187,11 +186,9 @@ class ReminderNotificationsPage extends StatelessWidget{
                                         ),
                                       ],
                                     ),
-                                    Container(
-                                      child: Icon(
-                                        Icons.chevron_right,
-                                        color: Color(ColorConstants.getPrimaryGreyMedium()),
-                                      ),
+                                    Icon(
+                                      Icons.chevron_right,
+                                      color: Color(ColorConstants.getPrimaryGreyMedium()),
                                     )
                                   ],
                                 ),
@@ -215,9 +212,9 @@ class ReminderNotificationsPage extends StatelessWidget{
 _buildSubmittedNotificationText(int numOfPoses) {
   String result = '';
   if(numOfPoses == 1) {
-    result = numOfPoses.toString() + ' submitted photo has been featured!';
+    result = '$numOfPoses submitted photo has been featured!';
   } else {
-    result = numOfPoses.toString() + ' submitted photos have been featured!';
+    result = '$numOfPoses submitted photos have been featured!';
   }
   return result;
 }

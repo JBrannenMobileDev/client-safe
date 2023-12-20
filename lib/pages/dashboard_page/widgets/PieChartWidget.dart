@@ -11,7 +11,7 @@ class PieChartWidget extends StatefulWidget {
   static const String JOB_TYPE_BREAKDOWN = 'job_type_breakdown';
   static const String LEAD_SOURCES = 'lead_sources';
 
-  PieChartWidget({Key key, this.chartType});
+  const PieChartWidget({Key key, this.chartType}) : super(key: key);
   final String chartType;
 
   @override
@@ -53,7 +53,7 @@ class PieChartState extends State<PieChartWidget> {
   builder: (BuildContext context, DashboardPageState pageState) => Container(
       alignment: Alignment.topCenter,
       height: 224.0,
-      margin: EdgeInsets.only(top: 0.0),
+      margin: const EdgeInsets.only(top: 0.0),
       child: chartData != null && chartData.isNotEmpty ? PieChart(
         PieChartData(
           pieTouchData: PieTouchData(
@@ -73,7 +73,7 @@ class PieChartState extends State<PieChartWidget> {
           centerSpaceRadius: 50,
           sections: chartData,
         ),
-      ) : SizedBox(),
+      ) : const SizedBox(),
     )
   );
 }

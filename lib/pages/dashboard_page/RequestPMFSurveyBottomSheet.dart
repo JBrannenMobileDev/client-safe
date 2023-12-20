@@ -1,23 +1,19 @@
-import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/DandyToastUtil.dart';
-import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
 import '../../../widgets/TextDandyLight.dart';
-import '../../models/Job.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import 'DashboardPageState.dart';
 
 
 class RequestPMFSurveyBottomSheet extends StatefulWidget {
+  const RequestPMFSurveyBottomSheet({Key key}) : super(key: key);
+
 
   @override
   State<StatefulWidget> createState() {
@@ -47,20 +43,20 @@ class _RequestPMFSurveyBottomSheetState extends State<RequestPMFSurveyBottomShee
            height: 296,
            width: MediaQuery.of(context).size.width,
            decoration: BoxDecoration(
-               borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
+               borderRadius: const BorderRadius.vertical(top: Radius.circular(16.0)),
                color: Color(ColorConstants.getPrimaryWhite())),
-           padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16),
+           padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16),
              child: Column(
                children: [
                   Container(
-                    margin: EdgeInsets.only(bottom: 32, left: 12, right: 12),
+                    margin: const EdgeInsets.only(bottom: 32, left: 12, right: 12),
                     child: TextDandyLight(
                       type: TextDandyLight.LARGE_TEXT,
                       text: 'Would you like to help DandyLight improve our product?',
                     ),
                   ),
                  Container(
-                   margin: EdgeInsets.only(bottom: 8),
+                   margin: const EdgeInsets.only(bottom: 8),
                    child: TextDandyLight(
                      type: TextDandyLight.MEDIUM_TEXT,
                      textAlign: TextAlign.center,
@@ -89,7 +85,7 @@ class _RequestPMFSurveyBottomSheetState extends State<RequestPMFSurveyBottomShee
                     ),
                   ),
                  Container(
-                   margin: EdgeInsets.only(top: 32),
+                   margin: const EdgeInsets.only(top: 32),
                    alignment: Alignment.center,
                    child: Row(
                      mainAxisAlignment: MainAxisAlignment.center,
@@ -107,7 +103,7 @@ class _RequestPMFSurveyBottomSheetState extends State<RequestPMFSurveyBottomShee
                          text: 'do not show again',
                          color: Color(ColorConstants.getPrimaryBlack()),
                        ),
-                       SizedBox(width: 14)
+                       const SizedBox(width: 14)
                      ],
                    ),
                  ),

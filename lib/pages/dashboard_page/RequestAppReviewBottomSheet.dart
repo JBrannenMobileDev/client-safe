@@ -1,10 +1,5 @@
-import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/DandyToastUtil.dart';
-import 'package:dandylight/utils/NavigationUtil.dart';
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:redux/redux.dart';
@@ -12,7 +7,6 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../../AppState.dart';
 import '../../../widgets/TextDandyLight.dart';
-import '../../models/Job.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../utils/intentLauncher/IntentLauncherUtil.dart';
@@ -20,6 +14,8 @@ import 'DashboardPageState.dart';
 
 
 class RequestAppReviewBottomSheet extends StatefulWidget {
+  const RequestAppReviewBottomSheet({Key key}) : super(key: key);
+
 
   @override
   State<StatefulWidget> createState() {
@@ -58,9 +54,9 @@ class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomShee
            height: 314,
            width: MediaQuery.of(context).size.width,
            decoration: BoxDecoration(
-               borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
+               borderRadius: const BorderRadius.vertical(top: Radius.circular(16.0)),
                color: Color(ColorConstants.getPrimaryWhite())),
-           padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16),
+           padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16),
              child: buildBody(pageState),
          ),
     );
@@ -75,7 +71,7 @@ class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomShee
     if(state == 2) {//YES
       return buildActionsBody(pageState);
     }
-    return SizedBox();
+    return const SizedBox();
   }
 
   Widget buildWhatCanWeDoBetter(DashboardPageState pageState) {
@@ -84,7 +80,7 @@ class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomShee
       children: [
         Container(
           alignment: Alignment.topCenter,
-          margin: EdgeInsets.only(bottom: 32, left: 12, right: 12),
+          margin: const EdgeInsets.only(bottom: 32, left: 12, right: 12),
           child: TextDandyLight(
             type: TextDandyLight.LARGE_TEXT,
             text: 'What can we do better?',
@@ -97,7 +93,7 @@ class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomShee
             EventSender().sendEvent(eventName: EventNames.BT_TAKE_PMF_SURVEY);
           },
           child: Container(
-            margin: EdgeInsets.only(top: 96),
+            margin: const EdgeInsets.only(top: 96),
             alignment: Alignment.center,
             height: 54,
             width: 200,
@@ -113,7 +109,7 @@ class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomShee
           ),
         ),
         Container(
-          margin: EdgeInsets.only(top: 198),
+          margin: const EdgeInsets.only(top: 198),
           alignment: Alignment.center,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -131,7 +127,7 @@ class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomShee
                 text: 'do not show again',
                 color: Color(ColorConstants.getPrimaryBlack()),
               ),
-              SizedBox(width: 14)
+              const SizedBox(width: 14)
             ],
           ),
         ),
@@ -145,7 +141,7 @@ class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomShee
       children: [
         Container(
           alignment: Alignment.topCenter,
-          margin: EdgeInsets.only(bottom: 32, left: 12, right: 12),
+          margin: const EdgeInsets.only(bottom: 32, left: 12, right: 12),
           child: TextDandyLight(
             type: TextDandyLight.LARGE_TEXT,
             text: 'Would you like to help DandyLight by giving us a rating or sharing with a friend?',
@@ -160,7 +156,7 @@ class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomShee
             }
           },
           child: Container(
-            margin: EdgeInsets.only(top: 164),
+            margin: const EdgeInsets.only(top: 164),
             alignment: Alignment.center,
             height: 54,
             width: 200,
@@ -182,7 +178,7 @@ class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomShee
             EventSender().sendEvent(eventName: EventNames.BT_SHARE_WITH_FRIEND);
           },
           child: Container(
-            margin: EdgeInsets.only(top: 96),
+            margin: const EdgeInsets.only(top: 96),
             alignment: Alignment.center,
             height: 54,
             width: 200,
@@ -198,7 +194,7 @@ class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomShee
           ),
         ),
         Container(
-          margin: EdgeInsets.only(top: 198),
+          margin: const EdgeInsets.only(top: 198),
           alignment: Alignment.center,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -216,7 +212,7 @@ class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomShee
                 text: 'do not show again',
                 color: Color(ColorConstants.getPrimaryBlack()),
               ),
-              SizedBox(width: 14)
+              const SizedBox(width: 14)
             ],
           ),
         ),
@@ -230,14 +226,14 @@ class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomShee
       children: [
         Container(
           alignment: Alignment.topCenter,
-          margin: EdgeInsets.only(bottom: 32, left: 12, right: 12),
+          margin: const EdgeInsets.only(bottom: 32, left: 12, right: 12),
           child: TextDandyLight(
             type: TextDandyLight.LARGE_TEXT,
             text: 'Are you enjoying DandyLight?',
           ),
         ),
         Container(
-          margin: EdgeInsets.only(top: 72),
+          margin: const EdgeInsets.only(top: 72),
           alignment: Alignment.topCenter,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -290,7 +286,7 @@ class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomShee
           ),
         ),
         Container(
-          margin: EdgeInsets.only(top: 198),
+          margin: const EdgeInsets.only(top: 198),
           alignment: Alignment.center,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -308,7 +304,7 @@ class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomShee
                 text: 'do not show again',
                 color: Color(ColorConstants.getPrimaryBlack()),
               ),
-              SizedBox(width: 14)
+              const SizedBox(width: 14)
             ],
           ),
         ),
@@ -316,6 +312,6 @@ class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomShee
     );
   }
 
-  void _sendSuggestion(DashboardPageState pageState) async => await IntentLauncherUtil.sendEmail('support@dandylight.com', "Suggestion", 'User Info: \nid = ' + pageState.profile.uid + '\naccount email = ' + pageState.profile.email + '\nfirst name = ' + pageState.profile.firstName + '\n\nSuggestion: ');
+  void _sendSuggestion(DashboardPageState pageState) async => await IntentLauncherUtil.sendEmail('support@dandylight.com', "Suggestion", 'User Info: \nid = ${pageState.profile.uid}\naccount email = ${pageState.profile.email}\nfirst name = ${pageState.profile.firstName}\n\nSuggestion: ');
 
 }

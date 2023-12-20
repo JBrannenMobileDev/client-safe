@@ -1,26 +1,22 @@
-import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/ContractsItem.dart';
-import 'package:dandylight/pages/dashboard_page/widgets/JobInProgressItem.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
-import '../../../models/JobStage.dart';
-import '../../../utils/JobUtil.dart';
 import '../../../widgets/TextDandyLight.dart';
 
 class ContractListPage extends StatelessWidget{
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   final ScrollController _controller = ScrollController();
 
-  ContractListPage({
+  ContractListPage({Key key,
     this.pageState,
     this.signed
-  });
+  }) : super(key: key);
 
   final DashboardPageState pageState;
   final bool signed;
@@ -36,7 +32,6 @@ class ContractListPage extends StatelessWidget{
           CustomScrollView(
             slivers: <Widget>[
               SliverAppBar(
-                brightness: Brightness.light,
                 backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                 pinned: true,
                 floating: false,
@@ -54,17 +49,17 @@ class ContractListPage extends StatelessWidget{
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                ),
+                ), systemOverlayStyle: SystemUiOverlayStyle.dark,
               ),
               SliverList(
-                delegate: new SliverChildListDelegate(
+                delegate: SliverChildListDelegate(
                   <Widget>[
                     ListView.builder(
                       reverse: false,
-                      padding: new EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 64.0),
+                      padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 64.0),
                       shrinkWrap: true,
                       controller: _controller,
-                      physics: ClampingScrollPhysics(),
+                      physics: const ClampingScrollPhysics(),
                       key: _listKey,
                       itemCount: signed ? pageState.allJobsWithSignedContract.length : pageState.allJobsWithUnsignedContract.length,
                       itemBuilder: _buildItem,

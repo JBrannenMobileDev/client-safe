@@ -12,11 +12,11 @@ class StageStatsItem extends StatelessWidget{
   final List<Job> jobs;
   final JobStage stage;
   final DashboardPageState pageState;
-  StageStatsItem({this.jobs, this.stage, this.pageState});
+  const StageStatsItem({Key key, this.jobs, this.stage, this.pageState}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
         height: 48.0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -25,7 +25,7 @@ class StageStatsItem extends StatelessWidget{
               children: [
                 Container(
                   alignment: Alignment.topRight,
-                  margin: EdgeInsets.only(right: 18.0, left: 16.0),
+                  margin: const EdgeInsets.only(right: 18.0, left: 16.0),
                   height: 28.0,
                   width: 28.0,
                   child: ImageUtil.getJobStageImageFromStage(stage, true),
@@ -41,7 +41,7 @@ class StageStatsItem extends StatelessWidget{
             Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(right: 16.0),
+                  padding: const EdgeInsets.only(right: 16.0),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: jobs.length.toString(),
@@ -50,7 +50,7 @@ class StageStatsItem extends StatelessWidget{
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(right: 8.0),
+                  margin: const EdgeInsets.only(right: 8.0),
                   child: Icon(
                     Icons.chevron_right,
                     color: Color(ColorConstants.getPrimaryBackgroundGrey()),

@@ -13,7 +13,7 @@ import '../../../utils/styles/Styles.dart';
 class JobInProgressItem extends StatelessWidget{
   final Job job;
   final DashboardPageState pageState;
-  JobInProgressItem({this.job, this.pageState});
+  const JobInProgressItem({Key key, this.job, this.pageState}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class JobInProgressItem extends StatelessWidget{
         NavigationUtil.onJobTapped(context, false);
       },
       child: Padding(
-      padding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 18.0),
+      padding: const EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 18.0),
       child: Stack(
           alignment: Alignment.centerRight,
           children: <Widget>[
@@ -33,7 +33,7 @@ class JobInProgressItem extends StatelessWidget{
               children: <Widget>[
                 Container(
                   alignment: Alignment.topRight,
-                  margin: EdgeInsets.only(right: 18.0, top: 4.0),
+                  margin: const EdgeInsets.only(right: 18.0, top: 4.0),
                   height: 38.0,
                   width: 38.0,
                   child: job.stage.getStageImage(Color(ColorConstants.getPeachDark())),
@@ -46,7 +46,7 @@ class JobInProgressItem extends StatelessWidget{
 
                         children: <Widget>[
                           Padding(
-                            padding: EdgeInsets.only(bottom: 4.0, top: 0.0),
+                            padding: const EdgeInsets.only(bottom: 4.0, top: 0.0),
                             child: TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: job.jobTitle,
@@ -55,11 +55,11 @@ class JobInProgressItem extends StatelessWidget{
                             ),
                           ),
                           job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null
-                              ? SizedBox() : Container(
-                            margin: EdgeInsets.only(left: 8.0),
+                              ? const SizedBox() : Container(
+                            margin: const EdgeInsets.only(left: 8.0),
                             height: 20.0,
                             width: 20.0,
-                            child: Image(
+                            child: const Image(
                               image: AssetImage('assets/images/icons/alert_icon_circle.png'),
                             ),
                           ),
@@ -67,7 +67,7 @@ class JobInProgressItem extends StatelessWidget{
                       ),
                       TextDandyLight(
                         type: TextDandyLight.SMALL_TEXT,
-                        text: 'Stage: ' + JobStage.getStageText(job.stage),
+                        text: 'Stage: ${JobStage.getStageText(job.stage)}',
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
@@ -83,11 +83,9 @@ class JobInProgressItem extends StatelessWidget{
                 ),
               ],
             ),
-            Container(
-              child: Icon(
-                Icons.chevron_right,
-                color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-              ),
+            Icon(
+              Icons.chevron_right,
+              color: Color(ColorConstants.getPrimaryBackgroundGrey()),
             )
           ],
         ),
@@ -97,7 +95,7 @@ class JobInProgressItem extends StatelessWidget{
 
   String _getSubtext(Job job) {
     if(job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null){
-      return DateFormat('EEE, MMM d').format(job.selectedDate) + ' · ' + DateFormat('h:mm a').format(job.selectedTime);
+      return '${DateFormat('EEE, MMM d').format(job.selectedDate)} · ${DateFormat('h:mm a').format(job.selectedTime)}';
     }
     if(job.selectedDate == null){
       return 'Date not selected!';

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,7 @@ import 'LineChartMonthData.dart';
 
 
 class BarChartWidget extends StatefulWidget {
-  BarChartWidget({Key key, this.monthsData}) : super(key: key);
+  const BarChartWidget({Key key, this.monthsData}) : super(key: key);
   final List<LineChartMonthData> monthsData;
 
   @override
@@ -40,16 +39,16 @@ class BarChartState extends State<BarChartWidget> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   noData ? Container(
-                    margin: EdgeInsets.only(top: 24.0, bottom: 18.0),
+                    margin: const EdgeInsets.only(top: 24.0, bottom: 18.0),
                     height: 72.0,
                     width: 72.0,
                     child: Image.asset(
                       'assets/images/icons/bar_chart_icon.png',
                       color: Color(ColorConstants.getPeachDark()).withOpacity(0.5),
                     ),
-                  ) : SizedBox(),
+                  ) : const SizedBox(),
                   noData ? Container(
-                    margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
+                    margin: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
                     height: 65.0,
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
@@ -57,14 +56,14 @@ class BarChartState extends State<BarChartWidget> {
                       textAlign: TextAlign.center,
                       color: Color(ColorConstants.getPrimaryBlack()),
                     ),
-                  ) : SizedBox(),
+                  ) : const SizedBox(),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 8, bottom: 32),
                       child: !noData ? BarChart(
                         mainBarData(),
                         swapAnimationDuration: animDuration,
-                      ) : SizedBox(height: 50,),
+                      ) : const SizedBox(height: 50,),
                     ),
                   ),
                 ],
@@ -147,7 +146,7 @@ class BarChartState extends State<BarChartWidget> {
                   throw Error();
               }
               return BarTooltipItem(
-                weekDay + '\n',
+                '$weekDay\n',
                 TextStyle(
                   fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
                   fontFamily: TextDandyLight.getFontFamily(),

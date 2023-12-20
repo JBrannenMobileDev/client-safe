@@ -1,8 +1,6 @@
-import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -19,7 +17,7 @@ import 'DashboardPageState.dart';
 class GoToJobPosesBottomSheet extends StatefulWidget {
   final Job job;
 
-  GoToJobPosesBottomSheet(this.job);
+  const GoToJobPosesBottomSheet(this.job, {Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -40,14 +38,14 @@ class _GoToJobPosesBottomSheetState extends State<GoToJobPosesBottomSheet> with 
            height: 332,
            width: MediaQuery.of(context).size.width,
            decoration: BoxDecoration(
-               borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
+               borderRadius: const BorderRadius.vertical(top: Radius.circular(16.0)),
                color: Color(ColorConstants.getPrimaryWhite())),
-           padding: EdgeInsets.only(left: 16.0, right: 16.0),
+           padding: const EdgeInsets.only(left: 16.0, right: 16.0),
              child: Column(
                    mainAxisAlignment: MainAxisAlignment.start,
                    children: <Widget>[
                      Container(
-                       margin: EdgeInsets.only(top: 24, bottom: 0),
+                       margin: const EdgeInsets.only(top: 24, bottom: 0),
                        child: TextDandyLight(
                          type: TextDandyLight.LARGE_TEXT,
                          text: 'Current Photoshoot',
@@ -56,7 +54,7 @@ class _GoToJobPosesBottomSheetState extends State<GoToJobPosesBottomSheet> with 
                        ),
                      ),
                      Container(
-                       margin: EdgeInsets.only(top: 8, bottom: 32),
+                       margin: const EdgeInsets.only(top: 8, bottom: 32),
                        child: TextDandyLight(
                          type: TextDandyLight.MEDIUM_TEXT,
                          text: job.jobTitle,
@@ -94,7 +92,7 @@ class _GoToJobPosesBottomSheetState extends State<GoToJobPosesBottomSheet> with 
                          EventSender().sendEvent(eventName: EventNames.NAV_TO_JOB_POSES_FROM_BOTTOM_SHEET);
                        },
                        child: Container(
-                         margin: EdgeInsets.only(top: 16),
+                         margin: const EdgeInsets.only(top: 16),
                          height: 48,
                          width: 250,
                          alignment: Alignment.center,
@@ -118,7 +116,7 @@ class _GoToJobPosesBottomSheetState extends State<GoToJobPosesBottomSheet> with 
                          }
                        },
                        child: Container(
-                         margin: EdgeInsets.only(top: 16),
+                         margin: const EdgeInsets.only(top: 16),
                          height: 48,
                          width: 250,
                          alignment: Alignment.center,
