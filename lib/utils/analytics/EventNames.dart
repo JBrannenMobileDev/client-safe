@@ -310,6 +310,10 @@ class EventNames {
   static const String CONTRACT_DATA_INSERTED = "contract_data_inserted";
   static const String CONTRACT_DATA_INSERTED_PARAM = "contract_data_inserted_param";
 
+  //Questionnaires
+  static const String QUESTIONNAIRE_CREATED = "questionnaire_created";
+  static const String QUESTIONNAIRE_CREATED_FROM_PARAM = "questionnaire_created_from_param";
+  static const String QUESTIONNAIRE_ADDED_TO_JOB = "questionnaire_added_to_job";
 
   //Push notifications
   static const String NOTIFICATION_CONTRACT_APP_LAUNCH = "notifications_contract_app_launch";

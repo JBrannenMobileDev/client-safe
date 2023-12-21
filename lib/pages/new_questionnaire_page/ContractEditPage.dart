@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/models/Questionnaire.dart';
 import 'package:dandylight/pages/contract_edit_page/InsertJobDetailBottomSheet.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsReducer.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -29,129 +30,42 @@ import '../job_details_page/JobDetailsPageState.dart';
 import 'ContractEditActions.dart';
 import 'ContractEditPageState.dart';
 
-class ContractEditPage extends StatefulWidget {
-  final Contract contract;
-  final String contractName;
+class QuestionnaireEditPage extends StatefulWidget {
+  final Questionnaire questionnaire;
+  final String title;
   final bool isNew;
   final String jobDocumentId;
   final Function(BuildContext) deleteFromJob;
 
-  ContractEditPage({this.contract, this.contractName, this.isNew, this.jobDocumentId, this.deleteFromJob});
+  const QuestionnaireEditPage({Key key, this.questionnaire, this.title, this.isNew, this.jobDocumentId, this.deleteFromJob}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _ContractEditPageState(contract, contractName, isNew, jobDocumentId, deleteFromJob);
+    return _QuestionnaireEditPageState(questionnaire, title, isNew, jobDocumentId, deleteFromJob);
   }
 }
 
-class _ContractEditPageState extends State<ContractEditPage> with TickerProviderStateMixin {
-  TextEditingController _clientSignatureController = TextEditingController(text: "Photographer Name");
-  TextEditingController _photogSigController = TextEditingController();
-  quill.QuillController _controller;
+class _QuestionnaireEditPageState extends State<QuestionnaireEditPage> with TickerProviderStateMixin {
   final FocusNode titleFocusNode = FocusNode();
-  final FocusNode contractFocusNode = FocusNode();
   final TextEditingController controllerTitle = TextEditingController();
-  final Contract contract;
-  final String contractName;
+  final String title;
   final bool isNew;
+  final bool hasUnsavedChanges = false;
   final String jobDocumentId;
   final Function(BuildContext) deleteFromJob;
-  bool hasUnsavedChanges = true;
-  OverlayEntry overlayEntry;
   bool isKeyboardVisible = false;
-  bool isFabExpanded = false;
+  final Questionnaire questionnaire;
 
-  _ContractEditPageState(this.contract, this.contractName, this.isNew, this.jobDocumentId, this.deleteFromJob);
-
-
-  @override
-  void initState() {
-    _controller = contract != null ? quill.QuillController(
-      document: quill.Document.fromJson(jsonDecode(contract.jsonTerms)),
-        selection: TextSelection.collapsed(offset: 0)
-    ) : quill.QuillController.basic();
-    super.initState();
-  }
-
-  getFabIcon() {
-    if(isFabExpanded){
-      return Icon(Icons.close, color: Color(ColorConstants.getPrimaryWhite()));
-    }else{
-      return Icon(Icons.add, color: Color(ColorConstants.getPrimaryWhite()));
-    }
-  }
-
-  Future<void> _ackSaveChangesAlert(BuildContext context, ContractEditPageState pageState) {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return Device.get().isIos ?
-        CupertinoAlertDialog(
-          title: new Text('Are you sure?'),
-          content: new Text('This contract is already signed by your client. Changing this contract will remove the client signature and you will have to request the client to sign this contract again.'),
-          actions: <Widget>[
-            TextButton(
-              style: Styles.getButtonStyle(),
-              onPressed: () => Navigator.of(context).pop(false),
-              child: new Text('No'),
-            ),
-            TextButton(
-              style: Styles.getButtonStyle(),
-              onPressed: () {
-                pageState.onContractSaved(_controller.document, jobDocumentId);
-                Navigator.of(context).pop(true);
-                showSuccessAnimation();
-              },
-              child: new Text('Yes'),
-            ),
-          ],
-        ) : AlertDialog(
-          title: new Text('Are you sure?'),
-          content: new Text('This contract is already signed by your client. Changing this contract will remove the client signature and you will have to request the client to sign this contract again.'),
-          actions: <Widget>[
-            TextButton(
-              style: Styles.getButtonStyle(),
-              onPressed: () => Navigator.of(context).pop(false),
-              child: new Text('No'),
-            ),
-            TextButton(
-              style: Styles.getButtonStyle(),
-              onPressed: () {
-                pageState.onContractSaved(_controller.document, jobDocumentId);
-                Navigator.of(context).pop(true);
-                showSuccessAnimation();
-              },
-              child: new Text('Yes'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _showInsertSheet() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      isDismissible: true,
-      enableDrag: true,
-      backgroundColor: Colors.transparent,
-      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
-      builder: (context) {
-        return InsertJobDetailBottomSheet(_controller);
-      },
-    );
-  }
+  _QuestionnaireEditPageState(this.questionnaire, this.title, this.isNew, this.jobDocumentId, this.deleteFromJob);
 
   @override
   Widget build(BuildContext context) =>
       StoreConnector<AppState, ContractEditPageState>(
         onInit: (store) {
           store.dispatch(ClearContractEditState(store.state.contractEditPageState, isNew, contractName));
-          if(contract != null) {
-            store.dispatch(SetContractAction(store.state.contractEditPageState, contract));
+          if(questionnaire != null) {
+            store.dispatch(SetContractAction(store.state.contractEditPageState, questionnaire));
           }
-          store.dispatch(SetContractNameAction(store.state.contractEditPageState, contractName));
           store.dispatch(FetchProfileForContractEditAction(store.state.contractEditPageState));
 
           KeyboardVisibilityNotification().addNewListener(
@@ -168,10 +82,6 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                 });
               }
           );
-        },
-        onDidChange: (prev, current) {
-          _photogSigController.text = current.profile != null ? (current.profile.firstName + ' ' +
-              current.profile.lastName) : 'Photographer Name';
         },
         converter: (Store<AppState> store) => ContractEditPageState.fromStore(store),
         builder: (BuildContext context, ContractEditPageState pageState) => WillPopScope(
