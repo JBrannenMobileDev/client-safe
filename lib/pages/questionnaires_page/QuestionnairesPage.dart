@@ -1,7 +1,4 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/Contract.dart';
-import 'package:dandylight/pages/contracts_page/ContractsActions.dart';
-import 'package:dandylight/pages/contracts_page/ContractsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +6,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
+import '../../models/Questionnaire.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'QuestionnaireListWidget.dart';
+import 'QuestionnairesActions.dart';
+import 'QuestionnairesPageState.dart';
 
 class QuestionnairesPage extends StatefulWidget {
   final String jobDocumentId;
@@ -37,12 +37,12 @@ class _QuestionnairesPageState extends State<QuestionnairesPage> with TickerProv
   }
 
   @override
-  Widget build(BuildContext context) => StoreConnector<AppState, ContractsPageState>(
+  Widget build(BuildContext context) => StoreConnector<AppState, QuestionnairesPageState>(
         onInit: (store) {
-          store.dispatch(FetchContractsAction(store.state.contractsPageState));
+          store.dispatch(FetchQuestionnairesAction(store.state.questionnairesPageState));
         },
-        converter: (Store<AppState> store) => ContractsPageState.fromStore(store),
-        builder: (BuildContext context, ContractsPageState pageState) =>
+        converter: (Store<AppState> store) => QuestionnairesPageState.fromStore(store),
+        builder: (BuildContext context, QuestionnairesPageState pageState) =>
             Scaffold(
               body: Stack(
                 alignment: Alignment.bottomCenter,
@@ -83,14 +83,14 @@ class _QuestionnairesPageState extends State<QuestionnairesPage> with TickerProv
                         SliverList(
                           delegate: SliverChildListDelegate(
                             <Widget>[
-                              pageState.contracts.isNotEmpty ? ListView.builder(
+                              pageState.questionnaires.isNotEmpty ? ListView.builder(
                                 reverse: false,
                                 padding: const EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 64.0),
                                 shrinkWrap: true,
                                 controller: _scrollController,
                                 physics: const ClampingScrollPhysics(),
                                 key: _listKey,
-                                itemCount: pageState.contracts.length,
+                                itemCount: pageState.questionnaires.length,
                                 itemBuilder: _buildItem,
                               ) :
                               Padding(
@@ -108,7 +108,7 @@ class _QuestionnairesPageState extends State<QuestionnairesPage> with TickerProv
                       ],
                     ),
                   ),
-                  pageState.contracts.isEmpty ? Container(
+                  pageState.questionnaires.isEmpty ? Container(
                     margin: const EdgeInsets.only(bottom: 48),
                     alignment: Alignment.bottomCenter,
                     child: GestureDetector(
@@ -138,22 +138,22 @@ class _QuestionnairesPageState extends State<QuestionnairesPage> with TickerProv
       );
 
   Widget _buildItem(BuildContext context, int index) {
-    return StoreConnector<AppState, ContractsPageState>(
-      converter: (store) => ContractsPageState.fromStore(store),
-      builder: (BuildContext context, ContractsPageState pageState) =>
+    return StoreConnector<AppState, QuestionnairesPageState>(
+      converter: (store) => QuestionnairesPageState.fromStore(store),
+      builder: (BuildContext context, QuestionnairesPageState pageState) =>
           Container(
             margin: const EdgeInsets.only(top: 0.0, bottom: 8.0),
-            child: QuestionnaireListWidget(pageState.contracts.elementAt(index), pageState, onOptionSelected, Color(ColorConstants.getBlueLight()), Color(ColorConstants.getPrimaryBlack())),
+            child: QuestionnaireListWidget(pageState.questionnaires.elementAt(index), pageState, onOptionSelected, Color(ColorConstants.getBlueLight()), Color(ColorConstants.getPrimaryBlack())),
           ),
     );
   }
 
-  onOptionSelected(ContractsPageState pageState, BuildContext context, Contract contract) {
+  onOptionSelected(QuestionnairesPageState pageState, BuildContext context, Questionnaire questionnaire) {
     if(jobDocumentId != null) {
-      pageState.onSaveToJobSelected(contract, jobDocumentId);
+      pageState.onSaveToJobSelected(questionnaire, jobDocumentId);
       Navigator.of(context).pop();
     } else {
-      NavigationUtil.onContractSelected(context, contract, contract.contractName, false, jobDocumentId, null);
+      NavigationUtil.onQuestionnaireSelected(context, questionnaire, questionnaire.title, false, jobDocumentId, null);
     }
   }
 }

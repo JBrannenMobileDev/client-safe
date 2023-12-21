@@ -19,15 +19,15 @@ class QuestionnairesPageMiddleware extends MiddlewareClass<AppState> {
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next){
-    if(action is FetchContractsAction){
+    if(action is FetchQuestionnairesAction){
       fetchContracts(store, next);
     }
-    if(action is SaveContractToJobAction) {
+    if(action is SaveQuestionnaireToJobAction) {
       saveContractToJob(store, action);
     }
   }
-
-  void saveContractToJob(Store<AppState> store, SaveContractToJobAction action) async {
+update this page to questionnaires then update all the New Questionnair classes.
+  void saveContractToJob(Store<AppState> store, SaveQuestionnaireToJobAction action) async {
     Contract contract = action.contract;
     contract.photographerSignedDate = DateTime.now();
     contract.signedByPhotographer = true;
@@ -45,14 +45,14 @@ class QuestionnairesPageMiddleware extends MiddlewareClass<AppState> {
   void fetchContracts(Store<AppState> store, NextDispatcher next) async{
       List<Contract> contracts = await ContractDao.getAll();
       List<Contract> contractTemplates = await ContractTemplateDao.getAll();
-      next(SetContractsAction(store.state.questionnairesPageState, contracts, contractTemplates));
+      next(SetQuestionnairesAction(store.state.questionnairesPageState, contracts, contractTemplates));
 
       (await ContractDao.getContractsStream()).listen((snapshots) async {
         List<Contract> contractsToUpdate = [];
         for(RecordSnapshot reminderSnapshot in snapshots) {
           contractsToUpdate.add(Contract.fromMap(reminderSnapshot.value));
         }
-        store.dispatch(SetContractsAction(store.state.questionnairesPageState, contractsToUpdate, await ContractTemplateDao.getAll()));
+        store.dispatch(SetQuestionnairesAction(store.state.questionnairesPageState, contractsToUpdate, await ContractTemplateDao.getAll()));
       });
   }
 }

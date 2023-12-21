@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:dandylight/data_layer/local_db/daos/PoseLibraryGroupDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/QuestionnairesDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ResponseDao.dart';
+import 'package:dandylight/models/Questionnaire.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
@@ -67,6 +69,7 @@ class SembastDb {
   }
 
   Future deleteAllLocalData() async {
+    await QuestionnairesDao.deleteAllLocal();
     await ClientDao.deleteAllLocal();
     await InvoiceDao.deleteAllLocal();
     await JobDao.deleteAllLocal();

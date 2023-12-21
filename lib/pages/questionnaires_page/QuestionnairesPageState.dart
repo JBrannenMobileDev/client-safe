@@ -1,58 +1,49 @@
-import 'package:dandylight/models/Contract.dart';
-
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
+import '../../models/Questionnaire.dart';
 import 'QuestionnairesActions.dart';
 
 class QuestionnairesPageState{
-  final List<Contract> contracts;
-  final List<Contract> contractTemplates;
-  final Function(Contract, String) onSaveToJobSelected;
+  final List<Questionnaire> questionnaires;
+  final Function(Questionnaire, String) onSaveToJobSelected;
 
   QuestionnairesPageState({
-    @required this.contracts,
-    @required this.contractTemplates,
+    @required this.questionnaires,
     @required this.onSaveToJobSelected,
   });
 
   QuestionnairesPageState copyWith({
-    List<Contract> contracts,
-    List<Contract> contractTemplates,
-    Function(Contract, String) onSaveToJobSelected,
+    List<Questionnaire> questionnaires,
+    Function(Questionnaire, String) onSaveToJobSelected,
   }){
     return QuestionnairesPageState(
-      contracts: contracts?? this.contracts,
-      contractTemplates: contractTemplates ?? this.contractTemplates,
+      questionnaires: questionnaires?? this.questionnaires,
       onSaveToJobSelected: onSaveToJobSelected ?? this.onSaveToJobSelected,
     );
   }
 
   factory QuestionnairesPageState.initial() => QuestionnairesPageState(
-    contracts: [],
-    contractTemplates: [],
+    questionnaires: [],
     onSaveToJobSelected: null,
   );
 
   factory QuestionnairesPageState.fromStore(Store<AppState> store) {
     return QuestionnairesPageState(
-      contracts: store.state.contractsPageState.contracts,
-      contractTemplates: store.state.contractsPageState.contractTemplates,
-      onSaveToJobSelected: (contract, jobDocumentId) => store.dispatch(SaveContractToJobAction(store.state.questionnairesPageState, contract, jobDocumentId)),
+      questionnaires: store.state.questionnairesPageState.questionnaires,
+      onSaveToJobSelected: (questionnaire, jobDocumentId) => store.dispatch(SaveQuestionnaireToJobAction(store.state.questionnairesPageState, questionnaire, jobDocumentId)),
     );
   }
 
   @override
   int get hashCode =>
-      contracts.hashCode ^
-      onSaveToJobSelected.hashCode ^
-      contractTemplates.hashCode;
+      questionnaires.hashCode ^
+      onSaveToJobSelected.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
           other is QuestionnairesPageState &&
-              contracts == other.contracts &&
-              onSaveToJobSelected == other.onSaveToJobSelected &&
-              contractTemplates == other.contractTemplates;
+              questionnaires == other.questionnaires &&
+              onSaveToJobSelected == other.onSaveToJobSelected;
 }

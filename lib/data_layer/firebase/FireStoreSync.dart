@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/data_layer/firebase/collections/UserCollection.dart';
 import 'package:dandylight/data_layer/local_db/daos/ClientDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ContractDao.dart';
-import 'package:dandylight/data_layer/local_db/daos/DiscountCodesDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/InvoiceDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
@@ -11,16 +10,15 @@ import 'package:dandylight/data_layer/local_db/daos/MileageExpenseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/NextInvoiceNumberDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PoseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PoseGroupDao.dart';
-import 'package:dandylight/data_layer/local_db/daos/PoseLibraryGroupDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PoseSubmittedGroupDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PriceProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/QuestionnairesDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/RecurringExpenseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ReminderDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/SingleExpenseDao.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Contract.dart';
-import 'package:dandylight/models/DiscountCodes.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
@@ -39,6 +37,7 @@ import 'package:dandylight/utils/UidUtil.dart';
 
 import '../../models/JobStage.dart';
 import '../../models/JobType.dart';
+import '../../models/Questionnaire.dart';
 import '../local_db/daos/JobTypeDao.dart';
 import '../local_db/daos/ResponseDao.dart';
 
@@ -65,6 +64,7 @@ class FireStoreSync {
             await _syncPoses(userLocalDb, userFireStoreDb);
             await _syncPoseGroups(userLocalDb, userFireStoreDb);
             await _syncResponses(userLocalDb, userFireStoreDb);
+            await _syncQuestionnaires(userLocalDb, userFireStoreDb);
         }
         setupFireStoreListeners();
         automateJobStages();
@@ -88,7 +88,7 @@ class FireStoreSync {
     Future<void> setupFireStoreListeners () async {
         NextInvoiceNumberDao.getStreamFromFireStore()
             .listen((documentSnapshot) async {
-                bool exists = (await NextInvoiceNumberDao.getAllSorted()).length > 0;
+                bool exists = (await NextInvoiceNumberDao.getAllSorted()).isNotEmpty;
                 if(exists) {
                     Map<String, dynamic> map = documentSnapshot.data();
                     NextInvoiceNumber nextNumber;
@@ -301,6 +301,19 @@ class FireStoreSync {
                 }
             }
         });
+
+        QuestionnairesDao.getQuestionnairesStreamFromFireStore()
+            .listen((snapshots) async {
+            for(DocumentChange snapshot in snapshots.docChanges) {
+                Questionnaire questionnaire = Questionnaire.fromMap(snapshot.doc.data());
+                Questionnaire questionnaireFromLocal = await QuestionnairesDao.getById(questionnaire.documentId);
+                if(questionnaireFromLocal != null) {
+                    QuestionnairesDao.updateLocalOnly(questionnaire);
+                }else {
+                    QuestionnairesDao.insertLocalOnly(questionnaire);
+                }
+            }
+        });
     }
 
     Future<void> _syncClients(Profile userLocalDb, Profile userFireStoreDb) async {
@@ -505,6 +518,18 @@ class FireStoreSync {
         if((userLocalDb.responsesLastChangeDate != userFireStoreDb.responsesLastChangeDate) || (userLocalDb.responsesLastChangeDate == null && userFireStoreDb.responsesLastChangeDate != null)) {
             if(userLocalDb.responsesLastChangeDate != null && userFireStoreDb.responsesLastChangeDate != null){
                 if(userLocalDb.responsesLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.responsesLastChangeDate.millisecondsSinceEpoch) {
+                    await ProfileDao.syncAllFromFireStore();
+                } else {
+                    //do nothing localFirebase cache has not synced up to cloud yet.
+                }
+            }
+        }
+    }
+
+    Future<void> _syncQuestionnaires(Profile userLocalDb, Profile userFireStoreDb) async {
+        if((userLocalDb.questionnairesLastChangedTime != userFireStoreDb.questionnairesLastChangedTime) || (userLocalDb.questionnairesLastChangedTime == null && userFireStoreDb.questionnairesLastChangedTime != null)) {
+            if(userLocalDb.questionnairesLastChangedTime != null && userFireStoreDb.questionnairesLastChangedTime != null){
+                if(userLocalDb.questionnairesLastChangedTime.millisecondsSinceEpoch < userFireStoreDb.questionnairesLastChangedTime.millisecondsSinceEpoch) {
                     await ProfileDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.

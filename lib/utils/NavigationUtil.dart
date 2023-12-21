@@ -1,6 +1,7 @@
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Contract.dart';
 import 'package:dandylight/models/Profile.dart';
+import 'package:dandylight/models/Questionnaire.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPage.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/RecurringExpenseDetails.dart';
@@ -105,6 +106,9 @@ class NavigationUtil {
   }
   static onContractSelected(BuildContext context, Contract contract, String contractName, bool isNew, String jobDocumentId, Function(BuildContext) onDeleteFromJob) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ContractEditPage(contract: contract, contractName: contractName, isNew: isNew, jobDocumentId: jobDocumentId, deleteFromJob: onDeleteFromJob)));
+  }
+  static onQuestionnaireSelected(BuildContext context, Questionnaire questionnaire, String title, bool isNew, String jobDocumentId, Function(BuildContext) onDeleteFromJob) {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => QuestionnaireEdit(questionnaire: questionnaire, title: title, isNew: isNew, jobDocumentId: jobDocumentId, deleteFromJob: onDeleteFromJob)));
   }
   static onManageSubscriptionSelected(BuildContext context, Profile profile) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ManageSubscriptionPage(profile)));

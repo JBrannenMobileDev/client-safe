@@ -4,12 +4,11 @@ import 'package:redux/redux.dart';
 import 'QuestionnairesActions.dart';
 
 final questionnairesReducer = combineReducers<QuestionnairesPageState>([
-  TypedReducer<QuestionnairesPageState, SetContractsAction>(_setContracts),
+  TypedReducer<QuestionnairesPageState, SetQuestionnairesAction>(_setContracts),
 ]);
 
-QuestionnairesPageState _setContracts(QuestionnairesPageState previousState, SetContractsAction action){
+QuestionnairesPageState _setContracts(QuestionnairesPageState previousState, SetQuestionnairesAction action){
   return previousState.copyWith(
-    contracts: action.contracts,
-    contractTemplates: action.contractTemplates,
+    questionnaires: action.questionnaire,
   );
 }

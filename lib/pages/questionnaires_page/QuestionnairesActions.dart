@@ -1,23 +1,23 @@
 
 import '../../models/Contract.dart';
+import '../../models/Questionnaire.dart';
 import 'QuestionnairesPageState.dart';
 
-class FetchContractsAction{
+class FetchQuestionnairesAction{
   final QuestionnairesPageState pageState;
-  FetchContractsAction(this.pageState);
+  FetchQuestionnairesAction(this.pageState);
 }
 
-class SetContractsAction{
+class SetQuestionnairesAction{
   final QuestionnairesPageState pageState;
-  final List<Contract> contracts;
-  final List<Contract> contractTemplates;
-  SetContractsAction(this.pageState, this.contracts, this.contractTemplates);
+  final List<Questionnaire> questionnaire;
+  SetQuestionnairesAction(this.pageState, this.questionnaire);
 }
 
-class SaveContractToJobAction {
+class SaveQuestionnaireToJobAction {
   final QuestionnairesPageState pageState;
-  final Contract contract;
+  final Questionnaire questionnaire;
   final String jobDocumentId;
-  SaveContractToJobAction(this.pageState, this.contract, this.jobDocumentId);
+  SaveQuestionnaireToJobAction(this.pageState, this.questionnaire, this.jobDocumentId);
 }
 
