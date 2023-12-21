@@ -374,7 +374,7 @@ class _SignContractPageState extends State<ProposalPage> {
           },
         ),
       ) : SizedBox(),
-      pageState.proposal?.questionnaire != null ? GestureDetector(
+      pageState.proposal?.questionnaires != null ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = QUESTIONNAIRE;

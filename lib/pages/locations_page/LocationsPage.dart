@@ -38,12 +38,10 @@ class LocationsPage extends StatelessWidget {
                     backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                     pinned: true,
                     centerTitle: true,
-                    title: Center(
-                      child: TextDandyLight(
-                        type: TextDandyLight.LARGE_TEXT,
-                        text: "Locations",
-                        color: Color(ColorConstants.getBlueDark()),
-                      ),
+                    title: TextDandyLight(
+                      type: TextDandyLight.LARGE_TEXT,
+                      text: "Locations",
+                      color: Color(ColorConstants.getBlueDark()),
                     ),
                     actions: <Widget>[
                       GestureDetector(

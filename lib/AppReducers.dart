@@ -35,6 +35,7 @@ import 'package:dandylight/pages/pose_group_page/PoseGroupPageReducer.dart';
 import 'package:dandylight/pages/pose_library_group_page/LibraryPoseGroupPageReducer.dart';
 import 'package:dandylight/pages/poses_page/PosesPageReducer.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageReducer.dart';
+import 'package:dandylight/pages/questionnaires_page/QuestionnairesPageReducer.dart';
 import 'package:dandylight/pages/reminders_page/RemindersPageReducer.dart';
 import 'package:dandylight/pages/job_types/JobTypesPageReducer.dart';
 import 'package:dandylight/pages/responses_page/ResponsesPageReducer.dart';
@@ -90,4 +91,5 @@ AppState appReducers(AppState state, dynamic action) =>
         contractsPageState: contractsReducer(state.contractsPageState, action),
         contractEditPageState: contractEditReducer(state.contractEditPageState, action),
         editBrandingPageState: editBrandingReducer(state.editBrandingPageState, action),
+        questionnairesPageState: questionnairesReducer(state.questionnairesPageState, action),
     );
