@@ -308,7 +308,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     List<Job> allJobs = await JobDao.getAllJobs();
     for (var job in allJobs) {
       job.paymentReceivedDate = job.createdDate;
-      await JobDao.update(job);
+      JobDao.update(job);
     }
     allJobs = await JobDao.getAllJobs();
 
