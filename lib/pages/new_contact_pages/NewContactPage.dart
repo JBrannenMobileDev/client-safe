@@ -260,10 +260,8 @@ class _NewContactPageState extends State<NewContactPage> {
               break;
             }
 
-            if (!InputValidatorUtil.isInstagramUrlValid(
-                pageState.newContactInstagramUrl)) {
-              pageState.onErrorStateChanged(
-                  NewContactPageState.ERROR_INSTAGRAM_URL_INVALID);
+            if (!InputValidatorUtil.isInstagramUrlValid(pageState.newContactInstagramUrl)) {
+              pageState.onErrorStateChanged(NewContactPageState.ERROR_INSTAGRAM_URL_INVALID);
               HapticFeedback.heavyImpact();
               break;
             }

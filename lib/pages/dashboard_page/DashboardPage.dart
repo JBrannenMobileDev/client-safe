@@ -296,16 +296,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
             bool isNotificationsGranted = profile.deviceTokens.length > 1 ? (await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context)) : (await UserPermissionsUtil.getPermissionStatus(Permission.notification)).isGranted;
             profile.pushNotificationsEnabled = isNotificationsGranted;
             if(isNotificationsGranted) {
-              await notificationHelper.initNotifications(context);
-              bool containsSampleJob = containsSampleJobBool(allJobs, "Example Client");
-              if(containsSampleJob && allJobs.length == 1) {
-                //do nothing
-              } else {
-                if(allReminders.isNotEmpty) {
-                  NotificationHelper().createAndUpdatePendingNotifications();
-                }
-              }
-
+              setupNotifications(notificationHelper, allJobs, allReminders);
               String token = await PushNotificationsManager().getToken();
               profile.addUniqueDeviceToken(token);
               Profile mostRecent = await ProfileDao.getMatchingProfile(UidUtil().getUid());
@@ -871,5 +862,17 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
       }
     }
     return contains;
+  }
+
+  void setupNotifications(NotificationHelper notificationHelper, List<Job> allJobs, List<JobReminder> allReminders) async {
+    await notificationHelper.initNotifications(context);
+    bool containsSampleJob = containsSampleJobBool(allJobs, "Example Client");
+    if(containsSampleJob && allJobs.length == 1) {
+      //do nothing
+    } else {
+      if(allReminders.isNotEmpty) {
+        NotificationHelper().createAndUpdatePendingNotifications();
+      }
+    }
   }
 }
