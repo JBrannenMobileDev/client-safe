@@ -18,6 +18,7 @@ import 'package:dandylight/pages/dashboard_page/widgets/StartAJobButton.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/DeviceType.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/Shadows.dart';
@@ -88,6 +89,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
   bool hasSeenPMFRequest = false;
   bool hasSeenRequestReview = false;
   bool hasSeenAPpUpdate = false;
+  bool isTablet = false;
 
   _DashboardPageState(this.comingFromLogin);
 
@@ -104,6 +106,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
   @override
   initState() {
     super.initState();
+    isTablet = DeviceType.getDeviceType() == Type.Tablet || DeviceType.getDeviceType() ==Type.Website;
 
     setupInteractedMessage();
 

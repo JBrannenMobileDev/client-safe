@@ -27,26 +27,26 @@ class LocationListWidget extends StatelessWidget {
           Stack(
             alignment: Alignment.bottomCenter,
             children: <Widget>[
-              pageState.locations.length > 0 ?
+              pageState.locations.isNotEmpty ?
            Container(
              width: double.infinity,
-                margin: EdgeInsets.only(bottom: 28.0),
+                margin: const EdgeInsets.only(bottom: 28.0),
                 decoration: BoxDecoration(
                   color: Color(ColorConstants.getPeachLight()),
-                  borderRadius: new BorderRadius.circular(8.0),
+                  borderRadius: BorderRadius.circular(8.0),
                 ),
              child: DandyLightNetworkImage(
                pageState.locations.elementAt(index).imageUrl,
                errorType: pageState.locations.elementAt(index).imageUrl != null && pageState.locations.elementAt(index).imageUrl.isNotEmpty ? DandyLightNetworkImage.ERROR_TYPE_INTERNET : DandyLightNetworkImage.ERROR_TYPE_NO_IMAGE,
                errorIconSize: pageState.locations.elementAt(index).imageUrl != null && pageState.locations.elementAt(index).imageUrl.isNotEmpty ? 44 : 96,
              ),
-              ) : SizedBox(),
-              pageState.locations.length > 0 && pageState.locations.elementAt(index).imageUrl != null && pageState.locations.elementAt(index).imageUrl.isNotEmpty ? Container(
+              ) : const SizedBox(),
+              pageState.locations.isNotEmpty && pageState.locations.elementAt(index).imageUrl != null && pageState.locations.elementAt(index).imageUrl.isNotEmpty ? Container(
                 height: 96.0,
-                margin: EdgeInsets.only(bottom: 28.0),
+                margin: const EdgeInsets.only(bottom: 28.0),
                 decoration: BoxDecoration(
                     color: Color(ColorConstants.getPrimaryWhite()),
-                    borderRadius: new BorderRadius.circular(8.0),
+                    borderRadius: BorderRadius.circular(8.0),
                     gradient: LinearGradient(
                         begin: FractionalOffset.center,
                         end: FractionalOffset.bottomCenter,
@@ -54,13 +54,13 @@ class LocationListWidget extends StatelessWidget {
                           Colors.transparent,
                           Colors.black.withOpacity(0.75),
                         ],
-                        stops: [
+                        stops: const [
                           0.0,
                           1.0
                         ])),
-              ) : SizedBox(),
-              pageState.locations.length > 0 ? Container(
-                margin: EdgeInsets.only(bottom: 32.0),
+              ) : const SizedBox(),
+              pageState.locations.isNotEmpty ? Container(
+                margin: const EdgeInsets.only(bottom: 32.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -97,15 +97,13 @@ class LocationListWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-              ) : SizedBox(),
-              Container(
-                child: TextDandyLight(
-                  type: TextDandyLight.SMALL_TEXT,
-                  text: pageState.locations.elementAt(index).locationName,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  color: Color(ColorConstants.getBlueDark()),
-                ),
+              ) : const SizedBox(),
+              TextDandyLight(
+                type: TextDandyLight.SMALL_TEXT,
+                text: pageState.locations.elementAt(index).locationName,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                color: Color(ColorConstants.getBlueDark()),
               ),
             ],
           ),

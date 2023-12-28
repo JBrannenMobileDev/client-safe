@@ -1,14 +1,10 @@
-import 'dart:io';
-
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_mileage_expense/MileageLocationListWidget.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -18,7 +14,7 @@ import '../../widgets/TextDandyLight.dart';
 class ChooseFromMyLocationsMileage extends StatefulWidget {
   final Function(LatLng) onLocationSaved;
 
-  ChooseFromMyLocationsMileage(this.onLocationSaved);
+  const ChooseFromMyLocationsMileage(this.onLocationSaved, {Key key}) : super(key: key);
 
   @override
   _ChooseFromMyLocationsMileageState createState() {
@@ -45,18 +41,18 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
           alignment: Alignment.bottomCenter,
           children: [
             Container(
-              padding: EdgeInsets.only(left: 16.0, right: 16.0),
+              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
               decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
                 borderRadius: BorderRadius.circular(16.0),
               ),
               alignment: Alignment.center,
-              child: pageState.locations.length > 0
+              child: pageState.locations.isNotEmpty
                   ? Column(
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(top: 24.0, bottom: 0.0),
+                    padding: const EdgeInsets.only(top: 24.0, bottom: 0.0),
                     child: TextDandyLight(
                       type: TextDandyLight.LARGE_TEXT,
                       text: "Select a Location",
@@ -65,7 +61,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 8.0),
+                    padding: const EdgeInsets.only(bottom: 8.0),
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: pageState.selectedLocation != null
@@ -81,7 +77,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                         maxHeight: MediaQuery.of(context).size.height - 232,
                       ),
                       child: GridView.builder(
-                          padding: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 64.0),
+                          padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 64.0),
                           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                               maxCrossAxisExtent: 200,
                               childAspectRatio: 2 / 2.75,
@@ -89,7 +85,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                               mainAxisSpacing: 16),
                           itemCount: pageState.locations.length,
                           controller: _controller,
-                          physics: ClampingScrollPhysics(),
+                          physics: const ClampingScrollPhysics(),
                           key: _listKey,
                           shrinkWrap: true,
                           reverse: false,
@@ -101,7 +97,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(bottom: 16.0, top: 8.0),
+                    padding: const EdgeInsets.only(bottom: 16.0, top: 8.0),
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: "Select a location",
@@ -110,7 +106,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 32.0, right: 32.0, bottom: 32.0, top: 16.0),
+                    padding: const EdgeInsets.only(left: 32.0, right: 32.0, bottom: 32.0, top: 16.0),
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: "You do not have any locations saved to your collection.",
@@ -122,20 +118,20 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                     style: Styles.getButtonStyle(
                       color: Color(ColorConstants.getPrimaryColor()),
                       shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(24.0),
+                        borderRadius: BorderRadius.circular(24.0),
                       ),
                     ),
                     onPressed: () {
                       UserOptionsUtil.showNewLocationDialog(context);
                     },
-                    child: Container(
+                    child: SizedBox(
                       width: 150.0,
                       child: Row(
 
                         children: <Widget>[
                           IconButton(
                             icon: const Icon(Icons.add),
-                            color: Color(ColorConstants.white),
+                            color: const Color(ColorConstants.white),
                             tooltip: 'Add',
                             onPressed: () {
                               UserOptionsUtil.showNewPriceProfileDialog(context);
@@ -155,7 +151,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 26.0, right: 26.0, bottom: 12),
+              padding: const EdgeInsets.only(left: 26.0, right: 26.0, bottom: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -221,7 +217,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
     return StoreConnector<AppState, NewMileageExpensePageState>(
       converter: (store) => NewMileageExpensePageState.fromStore(store),
       builder: (BuildContext context, NewMileageExpensePageState pageState) => Container(
-        margin: EdgeInsets.only(top: 0.0, bottom: 8.0),
+        margin: const EdgeInsets.only(top: 0.0, bottom: 8.0),
         child: JobLocationListWidget(index),
       ),
     );
