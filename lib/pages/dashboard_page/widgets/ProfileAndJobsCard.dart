@@ -6,6 +6,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 import '../../../AppState.dart';
+import '../../../utils/DeviceType.dart';
 import '../../../utils/NavigationUtil.dart';
 import '../../../utils/Shadows.dart';
 import '../../../utils/analytics/EventNames.dart';
@@ -43,7 +44,7 @@ class ProfileAndJobsCard extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: Color(ColorConstants.getPrimaryWhite()),
                         borderRadius: const BorderRadius.all(Radius.circular(42.0))),
-                    width: (MediaQuery.of(context).size.width - 32) / 3,
+                    width: (MediaQuery.of(context).size.width - 32) / 3  - (DeviceType.getDeviceType() == Type.Tablet ? 150 : 0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -77,7 +78,7 @@ class ProfileAndJobsCard extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: Color(ColorConstants.getPrimaryWhite()),
                         borderRadius: const BorderRadius.all(Radius.circular(42.0))),
-                    width: (MediaQuery.of(context).size.width - 32) / 3,
+                    width: (MediaQuery.of(context).size.width - 32) / 3 - (DeviceType.getDeviceType() == Type.Tablet ? 150 : 0),
                     child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,

@@ -2,6 +2,7 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 
@@ -24,6 +25,7 @@ class JobDetailsCard extends StatefulWidget {
 
 class _JobDetailsCard extends State<JobDetailsCard> {
   DateTime newDateTimeHolder;
+  bool showMileageError = false;
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +33,20 @@ class _JobDetailsCard extends State<JobDetailsCard> {
       onInit: (store) {
         newDateTimeHolder = store.state.jobDetailsPageState.job.selectedTime;
       },
+      onDidChange: (previous, current) {
+        setState(() {
+          if(current.job.location == null || current.job.selectedDate == null || !current.profile.hasDefaultHome()) {
+            showMileageError = true;
+          } else {
+            showMileageError = false;
+          }
+        });
+      },
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) =>
           Container(
             margin: const EdgeInsets.only(left: 16, top: 26, right: 16, bottom: 0),
-            height: 266,
+            height: 314,
             decoration: BoxDecoration(
               color: Color(ColorConstants.getPrimaryWhite()),
               borderRadius: BorderRadius.circular(12.0),
@@ -154,6 +165,68 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                           color: Color(ColorConstants.getPrimaryBackgroundGrey()),
                         ),
                       ),
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 48.0,
+                  padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () {
+                          //TODO show bottom sheet with instructions on how to auto track miles driven.
+                          //TODO implement the actual switch.
+                          //TODO implement actually creating the mileage trip automatically.
+                          //TODO update UI somehow to show that trip has been created.
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            color: Color(showMileageError && pageState.autoTrackMiles  ? ColorConstants.getPeachLight() : ColorConstants.getPrimaryWhite())
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: 'Auto-track miles driven:',
+                                textAlign: TextAlign.center,
+                                color: Color(showMileageError && pageState.autoTrackMiles ? ColorConstants.error_red : ColorConstants.getPrimaryBlack()),
+                                isBold: true,
+                              ),
+                              showMileageError && pageState.autoTrackMiles ? const SizedBox(width: 4) : const SizedBox(),
+                              showMileageError && pageState.autoTrackMiles ? Image.asset(
+                                'assets/images/icons/warning.png',
+                                color: const Color(ColorConstants.error_red),
+                                height: 26,
+                                width: 26,
+                              ) : const SizedBox()
+                            ],
+                          ),
+                        ),
+                      ),
+                      Device.get().isIos?
+                      CupertinoSwitch(
+                        trackColor: Color(ColorConstants.getBlueLight()),
+                        activeColor: Color(ColorConstants.getBlueDark()),
+                        thumbColor: Color(ColorConstants.getPrimaryWhite()),
+                        onChanged: (enabled) async {
+                          pageState.setMileageAutoTrack(enabled);
+                        },
+                        value: pageState.autoTrackMiles,
+                      ) : Switch(
+                        activeTrackColor: Color(ColorConstants.getBlueLight()),
+                        inactiveTrackColor: Color(ColorConstants.getBlueLight()),
+                        activeColor: Color(ColorConstants.getBlueDark()),
+                        onChanged: (enabled) async {
+                          pageState.setMileageAutoTrack(enabled);
+                        },
+                        value: pageState.autoTrackMiles,
+                      )
                     ],
                   ),
                 ),

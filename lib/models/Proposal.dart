@@ -16,6 +16,7 @@ class Proposal {
 
   int id;
   String detailsMessage = '';
+  String shareMessage = '';
   Contract contract;
   Questionnaire questionnaire;
   Feedback feedback;
@@ -42,11 +43,13 @@ class Proposal {
       this.id,
       this.includeInvoice,
       this.includeContract,
+      this.shareMessage,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'detailsMessage' : detailsMessage,
+      'shareMessage' : shareMessage,
       'contract' : contract?.toMap(),
       'contractSeenByClient' : contractSeenByClient,
       'invoiceSeenByClient' : invoiceSeenByClient,
@@ -64,6 +67,7 @@ class Proposal {
   static Proposal fromMap(Map<String, dynamic> map) {
     return Proposal(
       detailsMessage: map['detailsMessage'] != null ? map['detailsMessage'] : '',
+      shareMessage: map['shareMessage'] != null ? map['shareMessage'] : '',
       contract: map['contract'] != null ? Contract.fromMap(map['contract']) : null,
       contractSeenByClient: map['contractSeenByClient'] != null ? map['contractSeenByClient'] : false,
       invoiceSeenByClient: map['invoiceSeenByClient'] != null ? map['invoiceSeenByClient'] : false,

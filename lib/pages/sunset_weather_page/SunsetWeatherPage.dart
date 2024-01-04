@@ -1,6 +1,7 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageActions.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
+import 'package:dandylight/utils/DeviceType.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
@@ -23,6 +24,8 @@ class SunsetWeatherPage extends StatefulWidget {
   static const String FILTER_TYPE_EVENING = "Evening";
   static const String FILTER_TYPE_MORNING = "Morning";
 
+  const SunsetWeatherPage({Key key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _SunsetWeatherPageState();
@@ -31,7 +34,7 @@ class SunsetWeatherPage extends StatefulWidget {
 
 class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -65,234 +68,165 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                       Navigator.of(context).pop();
                     },
                   ),
-                  title: Container(
-                    child: TextDandyLight(
-                      type: TextDandyLight.LARGE_TEXT,
-                      text: "Sunset & Weather",
-                      color: Color(ColorConstants.getPrimaryBlack()),
-                    ),
+                  title: TextDandyLight(
+                    type: TextDandyLight.LARGE_TEXT,
+                    text: "Sunset & Weather",
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
-                SliverList(
-                  delegate: new SliverChildListDelegate(
-                    <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(top: 8.0, left: 0.0, bottom: 8),
-                        child: TextDandyLight(
-                          type: TextDandyLight.LARGE_TEXT,
-                          text: DateFormat('EEEE').format(pageState.selectedDate) +
-                              ' - ' +
-                              pageState.weatherDescription,
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.fade,
-                          maxLines: 1,
-                          color: Color(ColorConstants.getPrimaryBlack()),
+                SliverPadding(
+                  padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
+                  sliver: SliverList(
+                    delegate: SliverChildListDelegate(
+                      <Widget>[
+                        Container(
+                          margin: const EdgeInsets.only(top: 8.0, left: 0.0, bottom: 8),
+                          child: TextDandyLight(
+                            type: TextDandyLight.LARGE_TEXT,
+                            text: '${DateFormat('EEEE').format(pageState.selectedDate)} - ${pageState.weatherDescription}',
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.fade,
+                            maxLines: 1,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
                         ),
-                      ),
-                      pageState.isWeatherDataLoading
-                          ? pageState.showFartherThan7DaysError
-                              ? Container(
-                                  alignment: Alignment.center,
-                                  margin: EdgeInsets.only(
-                                      left: 64.0, right: 64.0, bottom: 16.0),
-                                  height:
-                                      (MediaQuery.of(context).size.width / 4) +
-                                          16,
-                                  child: TextDandyLight(
-                                    type: TextDandyLight.MEDIUM_TEXT,
-                                    text: 'Weather data is not available yet for the date selected. Check back within 7 days of your desired date.',
-                                    textAlign: TextAlign.center,
-                                    color:
-                                    Color(ColorConstants.getPeachDark()),
+                        pageState.isWeatherDataLoading
+                            ? pageState.showFartherThan7DaysError
+                            ? Container(
+                          alignment: Alignment.center,
+                          margin: const EdgeInsets.only(
+                              left: 64.0, right: 64.0, bottom: 16.0),
+                          height:
+                          (MediaQuery.of(context).size.width / 4) +
+                              16,
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Weather data is not available yet for the date selected. Check back within 7 days of your desired date.',
+                            textAlign: TextAlign.center,
+                            color:
+                            Color(ColorConstants.getPeachDark()),
+                          ),
+                        )
+                            : SizedBox(
+                          height:
+                          (MediaQuery.of(context).size.width / 4) +
+                              16,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: 'Loading weather data',
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.fade,
+                                maxLines: 1,
+                                color: Color(
+                                    ColorConstants.getPeachDark()),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(top: 32.0),
+                                child: BouncingLoadingAnimatedIcon(),
+                              ),
+                            ],
+                          ),
+                        )
+                            : Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Container(
+                              margin:
+                              const EdgeInsets.only(top: 0.0, bottom: 16.0),
+                              height: MediaQuery.of(context).size.width / (DeviceType.getDeviceType() == Type.Tablet ? 8 : 4) ,
+                              width: MediaQuery.of(context).size.width / (DeviceType.getDeviceType() == Type.Tablet ? 8 : 4),
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: pageState.weatherIcon != null
+                                  ? Image.asset(pageState.weatherIcon, color: Color(ColorConstants.getBlueLight()),)
+                                  : const SizedBox(),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  top: 16, left: 0.0, bottom: 16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.end,
+                                    children: <Widget>[
+                                      SizedBox(
+                                        width: 88.0,
+                                        child: TextDandyLight(
+                                          type: TextDandyLight.MEDIUM_TEXT,
+                                          text: '${pageState.tempHigh}° - ${pageState.tempLow}°',
+                                          textAlign: TextAlign.end,
+                                          color: const Color(
+                                              ColorConstants
+                                                  .primary_black),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                )
-                              : Container(
-                                  height:
-                                      (MediaQuery.of(context).size.width / 4) +
-                                          16,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                  Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.end,
                                     children: <Widget>[
                                       TextDandyLight(
                                         type: TextDandyLight.MEDIUM_TEXT,
-                                        text: 'Loading weather data',
-                                        textAlign: TextAlign.center,
-                                        overflow: TextOverflow.fade,
-                                        maxLines: 1,
-                                        color: Color(
-                                            ColorConstants.getPeachDark()),
+                                        text: 'Chance of rain:',
+                                        textAlign: TextAlign.end,
+                                        color: const Color(
+                                            ColorConstants
+                                                .primary_black),
                                       ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 32.0),
-                                        child: BouncingLoadingAnimatedIcon(),
+                                      TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: ' ${pageState.chanceOfRain}%',
+                                        textAlign: TextAlign.end,
+                                        color: const Color(
+                                            ColorConstants
+                                                .primary_black),
                                       ),
                                     ],
                                   ),
-                                )
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                Container(
-                                  margin:
-                                      EdgeInsets.only(top: 0.0, bottom: 16.0),
-                                  height: MediaQuery.of(context).size.width / 4,
-                                  width: MediaQuery.of(context).size.width / 4,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: pageState.weatherIcon != null
-                                      ? Image.asset(pageState.weatherIcon, color: Color(ColorConstants.getBlueLight()),)
-                                      : SizedBox(),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      top: 16, left: 0.0, bottom: 16.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                  Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.end,
                                     children: <Widget>[
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: <Widget>[
-                                          Container(
-                                            width: 88.0,
-                                            child: TextDandyLight(
-                                              type: TextDandyLight.MEDIUM_TEXT,
-                                              text: pageState.tempHigh +
-                                                  '° - ' +
-                                                  pageState.tempLow +
-                                                  '°',
-                                              textAlign: TextAlign.end,
-                                              color: const Color(
-                                                  ColorConstants
-                                                      .primary_black),
-                                            ),
-                                          ),
-                                        ],
+                                      TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: 'Cloud coverage:',
+                                        textAlign: TextAlign.end,
+                                        color: const Color(
+                                            ColorConstants
+                                                .primary_black),
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: <Widget>[
-                                          Container(
-                                            child: TextDandyLight(
-                                              type: TextDandyLight.MEDIUM_TEXT,
-                                              text: 'Chance of rain:',
-                                              textAlign: TextAlign.end,
-                                              color: const Color(
-                                                  ColorConstants
-                                                      .primary_black),
-                                            ),
-                                          ),
-                                          Container(
-                                            child: TextDandyLight(
-                                              type: TextDandyLight.MEDIUM_TEXT,
-                                              text: ' ' +
-                                                  pageState.chanceOfRain +
-                                                  '%',
-                                              textAlign: TextAlign.end,
-                                              color: const Color(
-                                                  ColorConstants
-                                                      .primary_black),
-                                            ),
-                                          ),
-                                        ],
+                                      TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: ' ${pageState.cloudCoverage}%',
+                                        textAlign: TextAlign.end,
+                                        color: const Color(
+                                            ColorConstants
+                                                .primary_black),
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: <Widget>[
-                                          Container(
-                                            child: TextDandyLight(
-                                              type: TextDandyLight.MEDIUM_TEXT,
-                                              text: 'Cloud coverage:',
-                                              textAlign: TextAlign.end,
-                                              color: const Color(
-                                                  ColorConstants
-                                                      .primary_black),
-                                            ),
-                                          ),
-                                          Container(
-                                            child: TextDandyLight(
-                                              type: TextDandyLight.MEDIUM_TEXT,
-                                              text: ' ' +
-                                                  pageState.cloudCoverage +
-                                                  '%',
-                                              textAlign: TextAlign.end,
-                                              color: const Color(
-                                                  ColorConstants
-                                                      .primary_black),
-                                            ),
-                                          ),
-                                        ],
-                                      )
                                     ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                      TextButton(
-                        style: Styles.getButtonStyle(),
-                        onPressed: () {
-                          pageState.chooseLocationSelected();
-                          UserOptionsUtil.showSelectLocationDialog(context);
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                          margin: EdgeInsets.only(left: 16, right: 16),
-                          height: 48.0,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(26.0),
-                              color: Color(ColorConstants.getPeachDark())),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(right: 8.0, left: 16),
-                                height: 26.0,
-                                width: 26.0,
-                                child: Image.asset(
-                                    'assets/images/icons/pin_white.png', color: Color(ColorConstants.getPrimaryWhite()),),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width - 116,
-                                    child: TextDandyLight(
-                                      type: TextDandyLight.MEDIUM_TEXT,
-                                      text: pageState.locationName,
-                                      textAlign: TextAlign.start,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      color: Color(ColorConstants.getPrimaryWhite()),
-                                    ),
                                   )
-                            ],
-                          ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(bottom: 32.0),
-                        padding: EdgeInsets.only(top: 8.0),
-                        child: TextButton(
+                        TextButton(
                           style: Styles.getButtonStyle(),
                           onPressed: () {
-                            DatePicker.showDatePicker(context,
-                                dateFormat: 'MMMM dd yyyy',
-                                pickerMode: DateTimePickerMode.date,
-                                pickerTheme: DateTimePickerTheme(
-                                  cancelTextStyle: TextStyle(
-                                      color: Color(ColorConstants.getPrimaryBlack())
-                                  ),
-                                  confirmTextStyle: TextStyle(
-                                      color: Color(ColorConstants.getPrimaryBlack())
-                                  ),
-                                ),
-                                onConfirm: (dateTime, intList) {
-                              pageState.onDateSelected(dateTime);
-                            });
+                            pageState.chooseLocationSelected();
+                            UserOptionsUtil.showSelectLocationDialog(context);
                           },
                           child: Container(
-                            margin: EdgeInsets.only(left: 16, right: 16),
+                            alignment: Alignment.center,
+                            margin: const EdgeInsets.only(left: 16, right: 16),
                             height: 48.0,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(26.0),
@@ -301,14 +235,65 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Container(
-                                  margin: EdgeInsets.only(right: 16.0),
+                                  margin: const EdgeInsets.only(right: 8.0, left: 16),
                                   height: 26.0,
                                   width: 26.0,
                                   child: Image.asset(
-                                      'assets/images/icons/calendar_bold_white.png'),
+                                    'assets/images/icons/pin_white.png', color: Color(ColorConstants.getPrimaryWhite()),),
                                 ),
-                                Container(
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width - 116 - (DeviceType.getDeviceType() == Type.Tablet ? 300 : 0),
                                   child: TextDandyLight(
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: pageState.locationName,
+                                    textAlign: TextAlign.start,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 32.0),
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: TextButton(
+                            style: Styles.getButtonStyle(),
+                            onPressed: () {
+                              DatePicker.showDatePicker(context,
+                                  dateFormat: 'MMMM dd yyyy',
+                                  pickerMode: DateTimePickerMode.date,
+                                  pickerTheme: DateTimePickerTheme(
+                                    cancelTextStyle: TextStyle(
+                                        color: Color(ColorConstants.getPrimaryBlack())
+                                    ),
+                                    confirmTextStyle: TextStyle(
+                                        color: Color(ColorConstants.getPrimaryBlack())
+                                    ),
+                                  ),
+                                  onConfirm: (dateTime, intList) {
+                                    pageState.onDateSelected(dateTime);
+                                  });
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 16, right: 16),
+                              height: 48.0,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(26.0),
+                                  color: Color(ColorConstants.getPeachDark())),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Container(
+                                    margin: const EdgeInsets.only(right: 16.0),
+                                    height: 26.0,
+                                    width: 26.0,
+                                    child: Image.asset(
+                                        'assets/images/icons/calendar_bold_white.png'),
+                                  ),
+                                  TextDandyLight(
                                     type: TextDandyLight.MEDIUM_TEXT,
                                     text: DateFormat('MMM dd, yyy')
                                         .format(pageState.selectedDate),
@@ -318,323 +303,323 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                     color: Color(
                                         ColorConstants.getPrimaryWhite()),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      pageState.isWeatherDataLoading
-                          ? pageState.hoursForecast.length == 0
-                              ? Container(
-                                  alignment: Alignment.center,
-                                  margin: EdgeInsets.only(
-                                      left: 64.0, right: 64.0, bottom: 16.0),
-                                  height:
-                                      (MediaQuery.of(context).size.width / 4) +
-                                          16,
-                                  child: TextDandyLight(
-                                    type: TextDandyLight.MEDIUM_TEXT,
-                                    text: 'Hourly weather data is only available for the current day.',
-                                    textAlign: TextAlign.center,
-                                    color:
-                                    Color(ColorConstants.getPeachDark()),
-                                  ),
-                                )
-                              : Container(
-                                  height: 156.0,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      TextDandyLight(
-                                        type: TextDandyLight.MEDIUM_TEXT,
-                                        text: 'Loading hourly weather data',
-                                        textAlign: TextAlign.center,
-                                        overflow: TextOverflow.fade,
-                                        maxLines: 1,
-                                        color: Color(
-                                            ColorConstants.getPeachDark()),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 32.0),
-                                        child: BouncingLoadingAnimatedIcon(),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                          : pageState.hoursForecast.length > 0 ? Container(
-                              padding: EdgeInsets.all(0.0),
-                              margin: EdgeInsets.only(top: 0.0, bottom: 32.0),
-                              height: 124.0,
-                              child: ListView.builder(
-                                controller: _controller,
-                                shrinkWrap: true,
-                                itemCount: pageState.hoursForecast.length,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: _buildSingleDayForecastItem,
+                        pageState.isWeatherDataLoading
+                            ? pageState.hoursForecast.isEmpty
+                            ? Container(
+                          alignment: Alignment.center,
+                          margin: const EdgeInsets.only(
+                              left: 64.0, right: 64.0, bottom: 16.0),
+                          height:
+                          (MediaQuery.of(context).size.width / 4) +
+                              16,
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Hourly weather data is only available for the current day.',
+                            textAlign: TextAlign.center,
+                            color:
+                            Color(ColorConstants.getPeachDark()),
+                          ),
+                        )
+                            : SizedBox(
+                          height: 156.0,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: 'Loading hourly weather data',
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.fade,
+                                maxLines: 1,
+                                color: Color(
+                                    ColorConstants.getPeachDark()),
                               ),
-                            ) : Container(
-                        alignment: Alignment.center,
-                        margin: EdgeInsets.only(
-                            left: 64.0, right: 64.0, bottom: 16.0),
-                        height:
-                        (MediaQuery.of(context).size.width / 4) +
-                            16,
-                        child: TextDandyLight(
-                          type: TextDandyLight.MEDIUM_TEXT,
-                          text: 'Hourly weather data is only available for the current day.',
-                          textAlign: TextAlign.center,
-                          color:
-                          Color(ColorConstants.getPeachDark()),
+                              Container(
+                                margin: const EdgeInsets.only(top: 32.0),
+                                child: BouncingLoadingAnimatedIcon(),
+                              ),
+                            ],
+                          ),
+                        )
+                            : pageState.hoursForecast.isNotEmpty ? Container(
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.all(0.0),
+                          margin: const EdgeInsets.only(top: 0.0, bottom: 32.0),
+                          height: 124.0,
+                          child: ListView.builder(
+                            controller: _controller,
+                            shrinkWrap: true,
+                            itemCount: pageState.hoursForecast.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: _buildSingleDayForecastItem,
+                          ),
+                        ) : Container(
+                          alignment: Alignment.center,
+                          margin: const EdgeInsets.only(
+                              left: 64.0, right: 64.0, bottom: 16.0),
+                          height:
+                          (MediaQuery.of(context).size.width / 4) +
+                              16,
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Hourly weather data is only available for the current day.',
+                            textAlign: TextAlign.center,
+                            color:
+                            Color(ColorConstants.getPeachDark()),
+                          ),
                         ),
-                      ),
-                      Container(
-                        margin:
-                            EdgeInsets.only(top: 0.0, bottom: 8.0, left: 0.0),
-                        child: TextDandyLight(
-                          type: TextDandyLight.LARGE_TEXT,
-                          text: 'Evening',
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.fade,
-                          maxLines: 1,
-                          color: Color(ColorConstants.getPrimaryBlack()),
+                        Container(
+                          margin:
+                          const EdgeInsets.only(top: 0.0, bottom: 8.0, left: 0.0),
+                          child: TextDandyLight(
+                            type: TextDandyLight.LARGE_TEXT,
+                            text: 'Evening',
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.fade,
+                            maxLines: 1,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
                         ),
-                      ),
-                      pageState.isSunsetDataLoading
-                          ? Container(
-                              height:
-                                  (MediaQuery.of(context).size.width / 4) + 16,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                        pageState.isSunsetDataLoading
+                            ? SizedBox(
+                          height:
+                          (MediaQuery.of(context).size.width / 4) + 16,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: 'Loading sunset data',
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.fade,
+                                maxLines: 1,
+                                color:
+                                Color(ColorConstants.getPeachDark()),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(top: 32.0),
+                                child: BouncingLoadingAnimatedIcon(),
+                              ),
+                            ],
+                          ),
+                        )
+                            : Column(
+                          children: <Widget>[
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  left: 26.0, right: 26.0, bottom: 16.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   TextDandyLight(
                                     type: TextDandyLight.MEDIUM_TEXT,
-                                    text: 'Loading sunset data',
-                                    textAlign: TextAlign.center,
+                                    text: 'Golden Hour',
+                                    textAlign: TextAlign.start,
                                     overflow: TextOverflow.fade,
                                     maxLines: 1,
-                                    color:
-                                    Color(ColorConstants.getPeachDark()),
+                                    color: Color(
+                                        ColorConstants.getPrimaryColor()),
                                   ),
-                                  Container(
-                                    margin: EdgeInsets.only(top: 32.0),
-                                    child: BouncingLoadingAnimatedIcon(),
-                                  ),
+                                  TextDandyLight(
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: pageState.eveningGoldenHour,
+                                    textAlign: TextAlign.start,
+                                    overflow: TextOverflow.fade,
+                                    maxLines: 1,
+                                    color: Color(
+                                        ColorConstants.getPrimaryColor()),
+                                  )
                                 ],
                               ),
-                            )
-                          : Column(
-                              children: <Widget>[
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: 26.0, right: 26.0, bottom: 16.0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      TextDandyLight(
-                                        type: TextDandyLight.MEDIUM_TEXT,
-                                        text: 'Golden Hour',
-                                        textAlign: TextAlign.start,
-                                        overflow: TextOverflow.fade,
-                                        maxLines: 1,
-                                        color: Color(
-                                            ColorConstants.getPrimaryColor()),
-                                      ),
-                                      TextDandyLight(
-                                        type: TextDandyLight.MEDIUM_TEXT,
-                                        text: pageState.eveningGoldenHour,
-                                        textAlign: TextAlign.start,
-                                        overflow: TextOverflow.fade,
-                                        maxLines: 1,
-                                        color: Color(
-                                            ColorConstants.getPrimaryColor()),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: 26.0, right: 26.0, bottom: 16.0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      TextDandyLight(
-                                        type: TextDandyLight.MEDIUM_TEXT,
-                                        text: 'Sunset',
-                                        textAlign: TextAlign.start,
-                                        overflow: TextOverflow.fade,
-                                        maxLines: 1,
-                                        color: Color(
-                                            ColorConstants.getPeachDark()),
-                                      ),
-                                      TextDandyLight(
-                                        type: TextDandyLight.MEDIUM_TEXT,
-                                        text: pageState.sunset,
-                                        textAlign: TextAlign.start,
-                                        overflow: TextOverflow.fade,
-                                        maxLines: 1,
-                                        color: Color(
-                                            ColorConstants.getPeachDark()),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: 26.0, right: 26.0, bottom: 16.0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      TextDandyLight(
-                                        type: TextDandyLight.MEDIUM_TEXT,
-                                        text: 'Blue Hour',
-                                        textAlign: TextAlign.start,
-                                        overflow: TextOverflow.fade,
-                                        maxLines: 1,
-                                        color: Color(
-                                            ColorConstants.getBlueLight()),
-                                      ),
-                                      TextDandyLight(
-                                        type: TextDandyLight.MEDIUM_TEXT,
-                                        text: pageState.eveningBlueHour,
-                                        textAlign: TextAlign.start,
-                                        overflow: TextOverflow.fade,
-                                        maxLines: 1,
-                                        color: Color(
-                                            ColorConstants.getBlueLight()),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
                             ),
-                      Container(
-                        margin:
-                            EdgeInsets.only(top: 16.0, bottom: 8.0, left: 0.0),
-                        child: TextDandyLight(
-                          type: TextDandyLight.LARGE_TEXT,
-                          text: 'Morning',
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.fade,
-                          maxLines: 1,
-                          color: Color(ColorConstants.getPrimaryBlack()),
-                        ),
-                      ),
-                      pageState.isSunsetDataLoading
-                          ? Container(
-                              height:
-                                  (MediaQuery.of(context).size.width / 4) + 16,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  left: 26.0, right: 26.0, bottom: 16.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   TextDandyLight(
                                     type: TextDandyLight.MEDIUM_TEXT,
-                                    text: 'Loading sunset data',
-                                    textAlign: TextAlign.center,
+                                    text: 'Sunset',
+                                    textAlign: TextAlign.start,
                                     overflow: TextOverflow.fade,
                                     maxLines: 1,
-                                    color: Color(ColorConstants.getPeachDark()),
+                                    color: Color(
+                                        ColorConstants.getPeachDark()),
                                   ),
-                                  Container(
-                                    margin: EdgeInsets.only(top: 32.0),
-                                    child: BouncingLoadingAnimatedIcon(),
-                                  ),
+                                  TextDandyLight(
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: pageState.sunset,
+                                    textAlign: TextAlign.start,
+                                    overflow: TextOverflow.fade,
+                                    maxLines: 1,
+                                    color: Color(
+                                        ColorConstants.getPeachDark()),
+                                  )
                                 ],
                               ),
-                            )
-                          : Column(
-                              children: <Widget>[
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: 26.0, right: 26.0, bottom: 16.0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      TextDandyLight(
-                                        type: TextDandyLight.MEDIUM_TEXT,
-                                        text: 'Blue Hour',
-                                        textAlign: TextAlign.start,
-                                        overflow: TextOverflow.fade,
-                                        maxLines: 1,
-                                        color: Color(
-                                            ColorConstants.getBlueLight()),
-                                      ),
-                                      TextDandyLight(
-                                        type: TextDandyLight.MEDIUM_TEXT,
-                                        text: pageState.morningBlueHour,
-                                        textAlign: TextAlign.start,
-                                        overflow: TextOverflow.fade,
-                                        maxLines: 1,
-                                        color: Color(
-                                            ColorConstants.getBlueLight()),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: 26.0, right: 26.0, bottom: 16.0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      TextDandyLight(
-                                        type: TextDandyLight.MEDIUM_TEXT,
-                                        text: 'Sunrise',
-                                        textAlign: TextAlign.start,
-                                        overflow: TextOverflow.fade,
-                                        maxLines: 1,
-                                        color: Color(
-                                            ColorConstants.getPeachDark()),
-                                      ),
-                                      TextDandyLight(
-                                        type: TextDandyLight.MEDIUM_TEXT,
-                                        text: pageState.sunrise,
-                                        textAlign: TextAlign.start,
-                                        overflow: TextOverflow.fade,
-                                        maxLines: 1,
-                                        color: Color(
-                                            ColorConstants.getPeachDark()),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: 26.0, right: 26.0, bottom: 16.0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      TextDandyLight(
-                                        type: TextDandyLight.MEDIUM_TEXT,
-                                        text: 'Golden hour',
-                                        textAlign: TextAlign.start,
-                                        overflow: TextOverflow.fade,
-                                        maxLines: 1,
-                                        color: Color(
-                                            ColorConstants.getPrimaryColor()),
-                                      ),
-                                      TextDandyLight(
-                                        type: TextDandyLight.MEDIUM_TEXT,
-                                        text: pageState.morningGoldenHour,
-                                        textAlign: TextAlign.start,
-                                        overflow: TextOverflow.fade,
-                                        maxLines: 1,
-                                        color: Color(
-                                            ColorConstants.getPrimaryColor()),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
                             ),
-                      Container(
-                        margin: EdgeInsets.only(left: 64.0, top: 64.0, right: 64.0, bottom: 64.0),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  left: 26.0, right: 26.0, bottom: 16.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  TextDandyLight(
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: 'Blue Hour',
+                                    textAlign: TextAlign.start,
+                                    overflow: TextOverflow.fade,
+                                    maxLines: 1,
+                                    color: Color(
+                                        ColorConstants.getBlueLight()),
+                                  ),
+                                  TextDandyLight(
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: pageState.eveningBlueHour,
+                                    textAlign: TextAlign.start,
+                                    overflow: TextOverflow.fade,
+                                    maxLines: 1,
+                                    color: Color(
+                                        ColorConstants.getBlueLight()),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          margin:
+                          const EdgeInsets.only(top: 16.0, bottom: 8.0, left: 0.0),
+                          child: TextDandyLight(
+                            type: TextDandyLight.LARGE_TEXT,
+                            text: 'Morning',
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.fade,
+                            maxLines: 1,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                        ),
+                        pageState.isSunsetDataLoading
+                            ? SizedBox(
+                          height:
+                          (MediaQuery.of(context).size.width / 4) + 16,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: 'Loading sunset data',
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.fade,
+                                maxLines: 1,
+                                color: Color(ColorConstants.getPeachDark()),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(top: 32.0),
+                                child: BouncingLoadingAnimatedIcon(),
+                              ),
+                            ],
+                          ),
+                        )
+                            : Column(
+                          children: <Widget>[
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  left: 26.0, right: 26.0, bottom: 16.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  TextDandyLight(
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: 'Blue Hour',
+                                    textAlign: TextAlign.start,
+                                    overflow: TextOverflow.fade,
+                                    maxLines: 1,
+                                    color: Color(
+                                        ColorConstants.getBlueLight()),
+                                  ),
+                                  TextDandyLight(
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: pageState.morningBlueHour,
+                                    textAlign: TextAlign.start,
+                                    overflow: TextOverflow.fade,
+                                    maxLines: 1,
+                                    color: Color(
+                                        ColorConstants.getBlueLight()),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  left: 26.0, right: 26.0, bottom: 16.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  TextDandyLight(
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: 'Sunrise',
+                                    textAlign: TextAlign.start,
+                                    overflow: TextOverflow.fade,
+                                    maxLines: 1,
+                                    color: Color(
+                                        ColorConstants.getPeachDark()),
+                                  ),
+                                  TextDandyLight(
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: pageState.sunrise,
+                                    textAlign: TextAlign.start,
+                                    overflow: TextOverflow.fade,
+                                    maxLines: 1,
+                                    color: Color(
+                                        ColorConstants.getPeachDark()),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  left: 26.0, right: 26.0, bottom: 16.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  TextDandyLight(
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: 'Golden hour',
+                                    textAlign: TextAlign.start,
+                                    overflow: TextOverflow.fade,
+                                    maxLines: 1,
+                                    color: Color(
+                                        ColorConstants.getPrimaryColor()),
+                                  ),
+                                  TextDandyLight(
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: pageState.morningGoldenHour,
+                                    textAlign: TextAlign.start,
+                                    overflow: TextOverflow.fade,
+                                    maxLines: 1,
+                                    color: Color(
+                                        ColorConstants.getPrimaryColor()),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(left: 64.0, top: 64.0, right: 64.0, bottom: 64.0),
                           child: RichText(
                             textAlign: TextAlign.center,
                             text: TextSpan(
@@ -664,8 +649,9 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                               ],
                             ),
                           ),
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -704,20 +690,19 @@ Widget _buildSingleDayForecastItem(BuildContext context, int index) {
               color: Color(ColorConstants.getPrimaryBlack()),
             ),
             Container(
-              margin: EdgeInsets.only(top: 16, bottom: 16.0),
+              margin: const EdgeInsets.only(top: 16, bottom: 16.0),
               height: 36.0,
               width: 36.0,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
               ),
               child: Image.asset(getWeatherIcon(pageState.hoursForecast.elementAt(index).weatherIcon), color: Color(ColorConstants.getBlueLight()),),
             ),
             TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
-              text: pageState.hoursForecast
+              text: '${pageState.hoursForecast
                       .elementAt(index)
-                      .temperature.value.toInt().toString() +
-                  '°',
+                      .temperature.value.toInt()}°',
               textAlign: TextAlign.start,
               color: Color(ColorConstants.getPrimaryBlack()),
             ),

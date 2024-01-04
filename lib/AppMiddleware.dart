@@ -332,6 +332,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SetInvoiceCheckBox>(ShareWithClientPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveProposalAction>(ShareWithClientPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetClientMessageAction>(ShareWithClientPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SetClientShareMessageAction>(ShareWithClientPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveContractAction>(ContractEditPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteContractAction>(ContractEditPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchProfileForContractEditAction>(ContractEditPageMiddleware()));

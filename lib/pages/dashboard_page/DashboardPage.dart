@@ -500,266 +500,269 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                   ) : const SizedBox(),
                 ],
             ),
-            body: Stack(
-              alignment: Alignment.topCenter,
-              children: <Widget>[
-                // Container(
-                //   height: 264,
-                //   width: MediaQuery.of(context).size.width,
-                //   child: ClipRRect(
-                //     borderRadius: new BorderRadius.only(
-                //       topRight: Radius.circular(16),
-                //       topLeft: Radius.circular(16),
-                //       bottomRight: Radius.circular(16),
-                //       bottomLeft: Radius.circular(16)
-                //     ),
-                //     child: DandyLightNetworkImage(
-                //       pageState.profile.bannerMobileUrl,
-                //       color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.bannerColor),
-                //       borderRadius: 0,
-                //     ),
-                //   ),
-                // ),
-                Container(
-                  alignment: Alignment.bottomRight,
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  child: Showcase(
-                    key: _four,
-                    targetPadding: const EdgeInsets.only(right: -8, left: 8, bottom: 55, top: -55),
-                    targetShapeBorder: const CircleBorder(),
-                    description: 'Get started here!  \nThis is your collections page where \nyou can setup the details for your business',
-                    descTextStyle: TextStyle(
-                      fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
-                      fontFamily: TextDandyLight.getFontFamily(),
-                      fontWeight: TextDandyLight.getFontWeight(),
-                      color: Color(ColorConstants.getPrimaryBlack()),
-                    ),
-                    child:const SizedBox(
-                      height: 64,
-                      width: 64,
+            body: Container(
+              margin: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: <Widget>[
+                  // Container(
+                  //   height: 264,
+                  //   width: MediaQuery.of(context).size.width,
+                  //   child: ClipRRect(
+                  //     borderRadius: new BorderRadius.only(
+                  //       topRight: Radius.circular(16),
+                  //       topLeft: Radius.circular(16),
+                  //       bottomRight: Radius.circular(16),
+                  //       bottomLeft: Radius.circular(16)
+                  //     ),
+                  //     child: DandyLightNetworkImage(
+                  //       pageState.profile.bannerMobileUrl,
+                  //       color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.bannerColor),
+                  //       borderRadius: 0,
+                  //     ),
+                  //   ),
+                  // ),
+                  Container(
+                    alignment: Alignment.bottomRight,
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    child: Showcase(
+                      key: _four,
+                      targetPadding: const EdgeInsets.only(right: -8, left: 8, bottom: 55, top: -55),
+                      targetShapeBorder: const CircleBorder(),
+                      description: 'Get started here!  \nThis is your collections page where \nyou can setup the details for your business',
+                      descTextStyle: TextStyle(
+                        fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                        fontFamily: TextDandyLight.getFontFamily(),
+                        fontWeight: TextDandyLight.getFontWeight(),
+                        color: Color(ColorConstants.getPrimaryBlack()),
+                      ),
+                      child:const SizedBox(
+                        height: 64,
+                        width: 64,
+                      ),
                     ),
                   ),
-                ),
-                // Container(
-                //   decoration: BoxDecoration(
-                //     color: Color(ColorConstants.getBlueLight()),
-                //   ),
-                // ),
-                CustomScrollView(
-                  physics: const ClampingScrollPhysics(),
-                  controller: _scrollController,
-                  slivers: <Widget>[
-                    SliverAppBar(
-                      iconTheme: IconThemeData(
-                        color: Color(ColorConstants.getPrimaryWhite()),
-                      ),
-                      backgroundColor: Colors.transparent,
-                      elevation: 0.0,
-                      pinned: false,
-                      floating: false,
-                      forceElevated: false,
-                      title: Stack(
+                  // Container(
+                  //   decoration: BoxDecoration(
+                  //     color: Color(ColorConstants.getBlueLight()),
+                  //   ),
+                  // ),
+                  CustomScrollView(
+                    physics: const ClampingScrollPhysics(),
+                    controller: _scrollController,
+                    slivers: <Widget>[
+                      SliverAppBar(
+                        iconTheme: IconThemeData(
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                        ),
+                        backgroundColor: Colors.transparent,
+                        elevation: 0.0,
+                        pinned: false,
+                        floating: false,
+                        forceElevated: false,
+                        title: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(top: 4.0),
                               alignment: Alignment.center,
-                              children: [
-                                Container(
-                                  margin: const EdgeInsets.only(top: 4.0),
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'DandyLight',
-                                    textScaleFactor: 1,
-                                    style: TextStyle(
-                                      fontSize: 36.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.getPrimaryWhite()),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  margin:
-                                  const EdgeInsets.only(left: 57.0, top: 2.0),
-                                  height: 64.0,
-                                  color: Colors.transparent,
-                                  child: Image.asset(ImageUtil.LOGIN_BG_LOGO_FLOWER, color: Color(ColorConstants.getPrimaryWhite())),
-                                )
-                              ],
-                      ),
-                      leading: Showcase(
-                        key: _two,
-                        targetPadding: const EdgeInsets.only(right: 13, bottom: 7, top: 6),
-                        targetShapeBorder: const CircleBorder(),
-                        description: 'Sunset & Weather',
-                        descTextStyle: TextStyle(
-                          fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
-                          fontFamily: TextDandyLight.getFontFamily(),
-                          fontWeight: TextDandyLight.getFontWeight(),
-                          color: Color(ColorConstants.getPrimaryBlack()),
-                        ),
-                        child: SlideTransition(
-                          position: offsetAnimationDown,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => SunsetWeatherPage()),
-                              );
-                              EventSender().sendEvent(eventName: EventNames.NAV_TO_SUNSET_WEATHER);
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.only(left: 16.0),
-                              height: 26.0,
-                              width: 26.0,
-                              child: Image.asset(
-                                  'assets/images/icons/sunset_icon_white.png', color: Color(ColorConstants.getPrimaryWhite(),)),
-                            ),
-                          ),
-                        ),
-                      ),
-                      actions: <Widget>[
-                        SlideTransition(
-                          position: offsetAnimationDown,
-                          child: GestureDetector(
-                              onTap: () {
-                                NavigationUtil.onNotificationsSelected(context);
-                                EventSender().sendEvent(eventName: EventNames.NAV_TO_NOTIFICATIONS);
-                              },
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Center(
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        RotationTransition(
-                                            turns: Tween(begin: 0.0, end: -.05)
-                                                .chain(CurveTween(
-                                                curve: Curves.elasticIn))
-                                                .animate(_animationController),
-                                            child: Container(
-                                              margin: const EdgeInsets.only(right: 16.0),
-                                              height: 28.0,
-                                              width: 28.0,
-                                              child: Image.asset(
-                                                  'assets/images/collection_icons/reminder_icon_white.png', color: Color(ColorConstants.getPrimaryWhite(),)),
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-                                  pageState.unseenNotificationCount > 0 ? Container(
-                                    margin: const EdgeInsets.only(bottom: 16.0),
-                                    width: 8.0,
-                                    height: 8.0,
-                                    decoration: const BoxDecoration(
-                                      color: Color(ColorConstants.error_red),
-                                      shape: BoxShape.circle,
-                                    ),
-                                  ) : const SizedBox(),
-                                ],
-                              )
-                          ),
-                        ),
-                        SlideTransition(
-                          position: offsetAnimationDown,
-                          child: GestureDetector(
-                            onTap: () {
-                              NavigationUtil.onCalendarSelected(context);
-                              EventSender().sendEvent(eventName: EventNames.NAV_TO_CALENDAR);
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.only(right: 16.0),
-                              height: 26.0,
-                              width: 26.0,
-                              child: Image.asset(
-                                  'assets/images/icons/calendar.png', color: Color(ColorConstants.getPrimaryWhite(),)),
-                            ),
-                          ),
-                        ),
-                        SlideTransition(
-                          position: offsetAnimationDown,
-                          child: GestureDetector(
-                            onTap: () {
-                              NavigationUtil.onMainSettingsSelected(context);
-                              EventSender().sendEvent(eventName: EventNames.NAV_TO_SETTINGS_MAIN);
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.only(right: 16.0),
-                              height: 26.0,
-                              width: 26.0,
-                              child: Image.asset(
-                                  'assets/images/icons/settings.png', color: Color(ColorConstants.getPrimaryWhite(),)),
-                            ),
-                          ),
-                        ),
-                      ], systemOverlayStyle: SystemUiOverlayStyle.dark,
-                    ),
-                    pageState.areJobsLoaded ? SliverList(
-                        delegate: SliverChildListDelegate(<Widget>[
-                          SlideTransition(
-                              position: offsetAnimationUp,
-                              child: Showcase(
-                                key: _three,
-                                targetPadding: const EdgeInsets.only(right: 0, left: 0, bottom: 0, top: 0),
-                                targetShapeBorder: const CircleBorder(),
-                                description: 'Setup your Brand and view your upcoming jobs here! \nWhen sharing items with your clients, \nyour brand will be used to style your Client Portal.',
-                                descTextStyle: TextStyle(
-                                  fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
-                                  fontFamily: TextDandyLight.getFontFamily(),
-                                  fontWeight: TextDandyLight.getFontWeight(),
-                                  color: Color(ColorConstants.getPrimaryBlack()),
-                                ),
-                                child: const ProfileAndJobsCard()
-                              ),
-                          ),
-                          SlideTransition(
-                              position: offsetAnimationUp,
-                              child: pageState.activeJobs == null || pageState.activeJobs.isEmpty ? StartAJobButton(pageState: pageState) : const SizedBox(),
-                          ),
-                          SlideTransition(
-                              position: offsetAnimationUp,
-                              child: StageStatsHomeCard(pageState: pageState)
-                          ),
-                          SlideTransition(
-                              position: offsetAnimationUp,
-                              child: const ContractsCard()
-                          ),
-                          SlideTransition(
-                              position: offsetAnimationUp,
-                              child:  Padding(
-                                padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
-                                child: TextDandyLight(
-                                  type: TextDandyLight.LARGE_TEXT,
-                                  text: 'Business Insights - ${DateTime.now().year}',
-                                  textAlign: TextAlign.center,
+                              child: Text(
+                                'DandyLight',
+                                textScaleFactor: 1,
+                                style: TextStyle(
+                                  fontSize: 36.0,
+                                  fontFamily: 'simple',
+                                  fontWeight: FontWeight.w600,
                                   color: Color(ColorConstants.getPrimaryWhite()),
                                 ),
-                              )
+                              ),
+                            ),
+                            Container(
+                              margin:
+                              const EdgeInsets.only(left: 57.0, top: 2.0),
+                              height: 64.0,
+                              color: Colors.transparent,
+                              child: Image.asset(ImageUtil.LOGIN_BG_LOGO_FLOWER, color: Color(ColorConstants.getPrimaryWhite())),
+                            )
+                          ],
+                        ),
+                        leading: Showcase(
+                          key: _two,
+                          targetPadding: const EdgeInsets.only(right: 13, bottom: 7, top: 6),
+                          targetShapeBorder: const CircleBorder(),
+                          description: 'Sunset & Weather',
+                          descTextStyle: TextStyle(
+                            fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                            fontFamily: TextDandyLight.getFontFamily(),
+                            fontWeight: TextDandyLight.getFontWeight(),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
-                          SlideTransition(
-                              position: offsetAnimationUp,
-                              child: MonthlyProfitLineChart(pageState: pageState)
+                          child: SlideTransition(
+                            position: offsetAnimationDown,
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) => SunsetWeatherPage()),
+                                );
+                                EventSender().sendEvent(eventName: EventNames.NAV_TO_SUNSET_WEATHER);
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.only(left: 16.0),
+                                height: 26.0,
+                                width: 26.0,
+                                child: Image.asset(
+                                    'assets/images/icons/sunset_icon_white.png', color: Color(ColorConstants.getPrimaryWhite(),)),
+                              ),
+                            ),
                           ),
+                        ),
+                        actions: <Widget>[
                           SlideTransition(
-                              position: offsetAnimationUp,
-                              child: JobTypeBreakdownPieChart()
-                          ),
-                          SlideTransition(
-                            position: offsetAnimationUp,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                              child: buildLeadStatsWidget(pageState),
+                            position: offsetAnimationDown,
+                            child: GestureDetector(
+                                onTap: () {
+                                  NavigationUtil.onNotificationsSelected(context);
+                                  EventSender().sendEvent(eventName: EventNames.NAV_TO_NOTIFICATIONS);
+                                },
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Center(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          RotationTransition(
+                                              turns: Tween(begin: 0.0, end: -.05)
+                                                  .chain(CurveTween(
+                                                  curve: Curves.elasticIn))
+                                                  .animate(_animationController),
+                                              child: Container(
+                                                margin: const EdgeInsets.only(right: 16.0),
+                                                height: 28.0,
+                                                width: 28.0,
+                                                child: Image.asset(
+                                                    'assets/images/collection_icons/reminder_icon_white.png', color: Color(ColorConstants.getPrimaryWhite(),)),
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                    pageState.unseenNotificationCount > 0 ? Container(
+                                      margin: const EdgeInsets.only(bottom: 16.0),
+                                      width: 8.0,
+                                      height: 8.0,
+                                      decoration: const BoxDecoration(
+                                        color: Color(ColorConstants.error_red),
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ) : const SizedBox(),
+                                  ],
+                                )
                             ),
                           ),
                           SlideTransition(
-                            position: offsetAnimationUp,
-                            child: LeadSourcesPieChart(),
+                            position: offsetAnimationDown,
+                            child: GestureDetector(
+                              onTap: () {
+                                NavigationUtil.onCalendarSelected(context);
+                                EventSender().sendEvent(eventName: EventNames.NAV_TO_CALENDAR);
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(right: 16.0),
+                                height: 26.0,
+                                width: 26.0,
+                                child: Image.asset(
+                                    'assets/images/icons/calendar.png', color: Color(ColorConstants.getPrimaryWhite(),)),
+                              ),
+                            ),
                           ),
-                        ])) : SliverList(delegate: SliverChildListDelegate(
-                        <Widget>[]
-                    )),
-                  ],
-                ),
-              ],
+                          SlideTransition(
+                            position: offsetAnimationDown,
+                            child: GestureDetector(
+                              onTap: () {
+                                NavigationUtil.onMainSettingsSelected(context);
+                                EventSender().sendEvent(eventName: EventNames.NAV_TO_SETTINGS_MAIN);
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(right: 16.0),
+                                height: 26.0,
+                                width: 26.0,
+                                child: Image.asset(
+                                    'assets/images/icons/settings.png', color: Color(ColorConstants.getPrimaryWhite(),)),
+                              ),
+                            ),
+                          ),
+                        ], systemOverlayStyle: SystemUiOverlayStyle.dark,
+                      ),
+                      pageState.areJobsLoaded ? SliverList(
+                          delegate: SliverChildListDelegate(<Widget>[
+                            SlideTransition(
+                              position: offsetAnimationUp,
+                              child: Showcase(
+                                  key: _three,
+                                  targetPadding: const EdgeInsets.only(right: 0, left: 0, bottom: 0, top: 0),
+                                  targetShapeBorder: const CircleBorder(),
+                                  description: 'Setup your Brand and view your upcoming jobs here! \nWhen sharing items with your clients, \nyour brand will be used to style your Client Portal.',
+                                  descTextStyle: TextStyle(
+                                    fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                                    fontFamily: TextDandyLight.getFontFamily(),
+                                    fontWeight: TextDandyLight.getFontWeight(),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
+                                  ),
+                                  child: const ProfileAndJobsCard()
+                              ),
+                            ),
+                            SlideTransition(
+                              position: offsetAnimationUp,
+                              child: pageState.activeJobs == null || pageState.activeJobs.isEmpty ? StartAJobButton(pageState: pageState) : const SizedBox(),
+                            ),
+                            SlideTransition(
+                                position: offsetAnimationUp,
+                                child: StageStatsHomeCard(pageState: pageState)
+                            ),
+                            SlideTransition(
+                                position: offsetAnimationUp,
+                                child: const ContractsCard()
+                            ),
+                            SlideTransition(
+                                position: offsetAnimationUp,
+                                child:  Padding(
+                                  padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: 'Business Insights - ${DateTime.now().year}',
+                                    textAlign: TextAlign.center,
+                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                  ),
+                                )
+                            ),
+                            SlideTransition(
+                                position: offsetAnimationUp,
+                                child: MonthlyProfitLineChart(pageState: pageState)
+                            ),
+                            SlideTransition(
+                                position: offsetAnimationUp,
+                                child: JobTypeBreakdownPieChart()
+                            ),
+                            SlideTransition(
+                              position: offsetAnimationUp,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                child: buildLeadStatsWidget(pageState),
+                              ),
+                            ),
+                            SlideTransition(
+                              position: offsetAnimationUp,
+                              child: LeadSourcesPieChart(),
+                            ),
+                          ])) : SliverList(delegate: SliverChildListDelegate(
+                          <Widget>[]
+                      )),
+                    ],
+                  ),
+                ],
+              ),
             ),
           );
         }
@@ -772,7 +775,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            width: (MediaQuery.of(context).size.width / 2) - (25),
+            width: (MediaQuery.of(context).size.width / 2) - (25) - (DeviceType.getDeviceType() == Type.Tablet ? 150 : 0),
             height: 132.0,
             decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
@@ -810,7 +813,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
               NavigationUtil.onUnconvertedLeadsSelected(context);
             },
             child: Container(
-              width: (MediaQuery.of(context).size.width / 2) - (25),
+              width: (MediaQuery.of(context).size.width / 2) - (25) - (DeviceType.getDeviceType() == Type.Tablet ? 150 : 0),
               height: 132.0,
               decoration: BoxDecoration(
                   color: Color(ColorConstants.getPrimaryWhite()),

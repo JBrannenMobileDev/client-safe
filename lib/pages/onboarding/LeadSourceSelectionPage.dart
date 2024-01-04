@@ -21,7 +21,7 @@ class _LeadSourceSelectionPage extends State<LeadSourceSelectionPage> {
   final FocusNode _notesFocusNode = FocusNode();
   int selectedIndex = -1;
 
-  List<String> _chipLabels = [
+  final List<String> _chipLabels = [
     LeadSource.TYPE_INSTAGRAM,
     LeadSource.TYPE_WORD_OF_MOUTH,
     LeadSource.TYPE_FACEBOOK,
@@ -30,7 +30,8 @@ class _LeadSourceSelectionPage extends State<LeadSourceSelectionPage> {
     LeadSource.TYPE_APP_STORE,
     LeadSource.TYPE_WEB_SEARCH,
     LeadSource.TYPE_EMAIL,
-    LeadSource.TYPE_TWITTER,
+    LeadSource.TYPE_DANDYLIGHT_BLOG,
+    LeadSource.TYPE_PINTEREST,
     LeadSource.TYPE_OTHER,
   ];
 

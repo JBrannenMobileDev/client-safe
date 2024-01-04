@@ -214,7 +214,7 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                         children: <Widget>[
                                           GestureDetector(
                                             onTap: () async {
-                                              IntentLauncherUtil.launchBrandingPreviewURL(UidUtil().getUid(), invoice.jobDocumentId);
+                                              IntentLauncherUtil.launchBrandingPreviewURL(UidUtil().getUid(), job.documentId);
                                               EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_FROM_VIEW_INVOICE_PAGE);
                                             },
                                             child: Container(

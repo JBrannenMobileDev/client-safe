@@ -23,6 +23,9 @@ class ShareWithClientPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SetClientMessageAction) {
       saveMessage(store, action, next);
     }
+    if(action is SetClientShareMessageAction) {
+      saveShareMessage(store, action, next);
+    }
     if(action is SetPosesCheckBox) {
       savePosesCheckedState(store, action, next);
     }
@@ -63,6 +66,13 @@ class ShareWithClientPageMiddleware extends MiddlewareClass<AppState> {
     job.proposal.detailsMessage = action.clientMessage;
     await JobDao.update(job);
     next(SetClientMessageAction(store.state.shareWithClientPageState, action.clientMessage));
+  }
+
+  void saveShareMessage(Store<AppState> store, SetClientShareMessageAction action, NextDispatcher next) async {
+    Job job = await JobDao.getJobById(action.pageState.job.documentId);
+    job.proposal.shareMessage = action.clientMessage;
+    await JobDao.update(job);
+    next(SetClientShareMessageAction(store.state.shareWithClientPageState, action.clientMessage));
   }
 
   void saveProposal(Store<AppState> store, SaveProposalAction action, NextDispatcher next) async {

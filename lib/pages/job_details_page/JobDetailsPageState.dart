@@ -47,6 +47,7 @@ class JobDetailsPageState {
   final List<JobType> jobTypes;
   final List<DocumentItem> documents;
   final List<String> poseFilePaths;
+  final bool autoTrackMiles;
   final Invoice invoice;
   final String notes;
   final String weatherIcon;
@@ -97,6 +98,7 @@ class JobDetailsPageState {
   final Function() setOnBoardingComplete;
   final Function() onSunsetWeatherSelected;
   final Function(LocationDandy) onDrivingDirectionsSelected;
+  final Function(bool) setMileageAutoTrack;
 
   JobDetailsPageState({
     @required this.job,
@@ -173,6 +175,8 @@ class JobDetailsPageState {
     @required this.poseFilePaths,
     @required this.onDeleteContractSelected,
     @required this.profile,
+    @required this.autoTrackMiles,
+    @required this.setMileageAutoTrack,
   });
 
   JobDetailsPageState copyWith({
@@ -206,6 +210,7 @@ class JobDetailsPageState {
     String eveningBlueHour,
     List<String> poseFilePaths,
     Profile profile,
+    bool autoTrackMiles,
     Function(PriceProfile) onPriceProfileSelected,
     Function(String) onSaveUpdatedPriceProfileSelected,
     Function(JobType) onJobTypeSelected,
@@ -226,6 +231,7 @@ class JobDetailsPageState {
     Function(String) onJobTitleTextChanged,
     Function() onNameChangeSaved,
     Function(JobType) onJobTypeSaveSelected,
+    Function(bool) setMileageAutoTrack,
     double unsavedAddOnCostAmount,
     Function(int) onAddToDeposit,
     Function() onSaveAddOnCost,
@@ -326,6 +332,8 @@ class JobDetailsPageState {
       poseFilePaths: poseFilePaths ?? this.poseFilePaths,
       onDeleteContractSelected: onDeleteContractSelected ?? this.onDeleteContractSelected,
       profile: profile ?? this.profile,
+      autoTrackMiles: autoTrackMiles ?? this.autoTrackMiles,
+      setMileageAutoTrack: setMileageAutoTrack ?? this.setMileageAutoTrack,
     );
   }
 
@@ -365,6 +373,7 @@ class JobDetailsPageState {
         eveningBlueHour: store.state.jobDetailsPageState.eveningBlueHour,
         poseFilePaths: store.state.jobDetailsPageState.poseFilePaths,
         profile: store.state.jobDetailsPageState.profile,
+        autoTrackMiles: store.state.jobDetailsPageState.autoTrackMiles,
         onAddToTip: (amountToAdd) => store.dispatch(AddToTipAction(store.state.jobDetailsPageState, amountToAdd)),
         onSaveTipChange: () => store.dispatch(SaveTipChangeAction(store.state.jobDetailsPageState)),
         onClearUnsavedTip: () => store.dispatch(ClearUnsavedTipAction(store.state.jobDetailsPageState)),
@@ -413,6 +422,7 @@ class JobDetailsPageState {
         setOnBoardingComplete: () => store.dispatch(SetOnBoardingCompleteAction(store.state.jobDetailsPageState)),
         onSunsetWeatherSelected: () => store.dispatch(LoadInitialLocationAndDateComingFromNewJobAction(store.state.sunsetWeatherPageState, store.state.jobDetailsPageState.job.location, store.state.jobDetailsPageState.job.selectedDate)),
         onDrivingDirectionsSelected: (location) => store.dispatch(DrivingDirectionsJobSelected(store.state.jobDetailsPageState, location)),
+        setMileageAutoTrack: (enabled) => null,
     );
   }
 
@@ -450,6 +460,7 @@ class JobDetailsPageState {
     onScrollOffsetChanged: null,
     onNewTimeSelected: null,
     onSaveSelectedDate: null,
+    autoTrackMiles: true,
     onClientClicked: null,
     onJobClicked: null,
     onLocationSelected: null,
@@ -469,6 +480,7 @@ class JobDetailsPageState {
     onAddInvoiceSelected: null,
     profile: null,
     invoice: null,
+    setMileageAutoTrack: null,
     unsavedTipAmount: 0,
     onAddToTip: null,
     onSaveTipChange: null,
@@ -532,6 +544,7 @@ class JobDetailsPageState {
       selectedLocation.hashCode ^
       onLocationSelected.hashCode ^
       locations.hashCode ^
+      setMileageAutoTrack.hashCode ^
       setOnBoardingComplete.hashCode ^
       expandedIndexes.hashCode ^
       newStagAnimationIndex.hashCode ^
@@ -541,6 +554,7 @@ class JobDetailsPageState {
       removeExpandedIndex.hashCode ^
       onDeleteSelected.hashCode ^
       onInstagramSelected.hashCode ^
+      autoTrackMiles.hashCode ^
       onScrollOffsetChanged.hashCode ^
       onNewTimeSelected.hashCode ^
       onSaveSelectedDate.hashCode ^
@@ -590,6 +604,7 @@ class JobDetailsPageState {
               onClearUnsavedTip == other.onClearUnsavedTip &&
               documentPath == other.documentPath &&
               client == other.client &&
+              setMileageAutoTrack == other.setMileageAutoTrack &&
               sunsetTime == other.sunsetTime &&
               stageScrollOffset == other.stageScrollOffset &&
               eventList == other.eventList &&
@@ -598,6 +613,7 @@ class JobDetailsPageState {
               onMonthChanged == other.onMonthChanged &&
               reminders == other.reminders &&
               invoice == other.invoice &&
+              autoTrackMiles == other.autoTrackMiles &&
               jobTitleText == other.jobTitleText &&
               onNameChangeSaved == other.onNameChangeSaved &&
               selectedLocation == other.selectedLocation &&

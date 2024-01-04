@@ -8,6 +8,12 @@ class SetClientMessageAction{
   SetClientMessageAction(this.pageState, this.clientMessage);
 }
 
+class SetClientShareMessageAction{
+  final ShareWithClientPageState pageState;
+  final String clientMessage;
+  SetClientShareMessageAction(this.pageState, this.clientMessage);
+}
+
 class ProposalSharedAction{
   final ShareWithClientPageState pageState;
   ProposalSharedAction(this.pageState);

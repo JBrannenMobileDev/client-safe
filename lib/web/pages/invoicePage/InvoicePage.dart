@@ -591,7 +591,7 @@ class _InvoicePageState extends State<InvoicePage> {
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
                       fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                      text: TextFormatterUtil.formatDecimalCurrency(pageState.invoice.unpaidAmount),
+                      text: TextFormatterUtil.formatDecimalCurrency(pageState.invoice.invoicePaid ? 0.0 : pageState.invoice.unpaidAmount),
                       isBold: true,
                     ),
                   ),

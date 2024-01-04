@@ -9,7 +9,7 @@ final mapLocationSelectionWidgetReducer = combineReducers<MapLocationSelectionWi
   TypedReducer<MapLocationSelectionWidgetState, SetLocationResultsAction>(_setLocationResults),
   TypedReducer<MapLocationSelectionWidgetState, SetSelectedSearchLocation>(_setSelectedSearchLocation),
   TypedReducer<MapLocationSelectionWidgetState, SetSearchTextAction>(_setSearchText),
-  TypedReducer<MapLocationSelectionWidgetState, ClearState>(_clearState),
+  TypedReducer<MapLocationSelectionWidgetState, ClearMapSelectionStateAction>(_clearState),
   TypedReducer<MapLocationSelectionWidgetState, ClearSearchTextAction>(_clearSearchText),
 ]);
 
@@ -20,7 +20,7 @@ MapLocationSelectionWidgetState _clearSearchText(MapLocationSelectionWidgetState
   );
 }
 
-MapLocationSelectionWidgetState _clearState(MapLocationSelectionWidgetState previousState, ClearState action){
+MapLocationSelectionWidgetState _clearState(MapLocationSelectionWidgetState previousState, ClearMapSelectionStateAction action){
   return MapLocationSelectionWidgetState.initial();
 }
 

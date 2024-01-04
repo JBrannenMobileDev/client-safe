@@ -12,6 +12,7 @@ import 'package:dandylight/pages/job_details_page/document_items/DocumentItem.da
 import 'package:dandylight/pages/job_details_page/scroll_stage_items/StageItem.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
+import 'package:dandylight/utils/DeviceType.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
@@ -485,14 +486,37 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         ),
                         SliverList(
                             delegate: SliverChildListDelegate(<Widget>[
-                              PosesCard(pageState: pageState),
-                              const JobDetailsCard(),
-                              DocumentsCard(pageState: pageState, onSendInvoiceSelected: onSendInvoiceSelected, profile: pageState.profile),
-                              const SunsetWeatherCard(),
-                              const LocationCard(),
-                              ClientDetailsCard(pageState: pageState),
-                              const JobNotesWidget(),
-                              RemindersCard(pageState: pageState),
+                              Padding(
+                                padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
+                                child: PosesCard(pageState: pageState),
+                              ),
+                              Padding(
+                                padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
+                                child: const JobDetailsCard(),
+                              ),
+                              Padding(
+                                padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
+                                child: DocumentsCard(pageState: pageState, onSendInvoiceSelected: onSendInvoiceSelected, profile: pageState.profile),
+                              ),
+                              Padding(
+                                padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
+                                child: const SunsetWeatherCard(),
+                              ),
+                              Padding(
+                                padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
+                                child: const LocationCard(),
+                              ),
+                              Padding(
+                                padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
+                                child: ClientDetailsCard(pageState: pageState),
+                              ),
+                              Padding(
+                                padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
+                                child: const JobNotesWidget(),
+                              ),Padding(
+                                padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
+                                child: RemindersCard(pageState: pageState),
+                              )
                             ])),
                       ],
                     ),

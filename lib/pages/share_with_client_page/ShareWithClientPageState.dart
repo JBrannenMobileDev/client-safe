@@ -13,13 +13,16 @@ class ShareWithClientPageState{
   final bool invoiceSelected;
   final bool posesSelected;
   final bool areChangesSaved;
-  final String clientMessage;
+  final String clientMessage;//Message in client portal
+  final String clientShareMessage;//Message in the share message (SMS/Email)
   final Job job;
   final bool updateContractCheckInProgress;
   final bool updateInvoiceCheckInProgress;
   final bool updatePosesCheckInProgress;
   final List<Job> jobs;
+  final List<Job> jobsWithShareMessage;
   final Function(String) onMessageChanged;
+  final Function(String) onShareMessageChanged;
   final Function() onProposalShared;
   final Function(bool) onContractCheckBoxSelected;
   final Function(bool) onInvoiceCheckBoxSelected;
@@ -46,6 +49,9 @@ class ShareWithClientPageState{
     @required this.updateContractCheckInProgress,
     @required this.updateInvoiceCheckInProgress,
     @required this.updatePosesCheckInProgress,
+    @required this.clientShareMessage,
+    @required this.onShareMessageChanged,
+    @required this.jobsWithShareMessage,
   });
 
   ShareWithClientPageState copyWith({
@@ -56,12 +62,15 @@ class ShareWithClientPageState{
     bool posesSelected,
     bool areChangesSaved,
     String clientMessage,
+    String clientShareMessage,
     Job job,
     List<Job> jobs,
+    List<Job> jobsWithShareMessage,
     bool updateContractCheckInProgress,
     bool updateInvoiceCheckInProgress,
     bool updatePosesCheckInProgress,
     Function(String) onMessageChanged,
+    Function(String) onShareMessageChanged,
     Function() onProposalShared,
     Function(bool) onContractCheckBoxSelected,
     Function(bool) onInvoiceCheckBoxSelected,
@@ -87,6 +96,9 @@ class ShareWithClientPageState{
       updateContractCheckInProgress: updateContractCheckInProgress ?? this.updateContractCheckInProgress,
       updateInvoiceCheckInProgress: updateInvoiceCheckInProgress ?? this.updateInvoiceCheckInProgress,
       updatePosesCheckInProgress: updatePosesCheckInProgress ?? this.updatePosesCheckInProgress,
+      onShareMessageChanged: onShareMessageChanged ?? this.onShareMessageChanged,
+      clientShareMessage: clientShareMessage ?? this.clientShareMessage,
+      jobsWithShareMessage: jobsWithShareMessage ?? this.jobsWithShareMessage,
     );
   }
 
@@ -109,6 +121,9 @@ class ShareWithClientPageState{
     updateContractCheckInProgress: false,
     updatePosesCheckInProgress: false,
     updateInvoiceCheckInProgress: false,
+    clientShareMessage: '',
+    onShareMessageChanged: null,
+    jobsWithShareMessage: [],
   );
 
   factory ShareWithClientPageState.fromStore(Store<AppState> store) {
@@ -125,7 +140,10 @@ class ShareWithClientPageState{
       updateContractCheckInProgress: store.state.shareWithClientPageState.updateContractCheckInProgress,
       updateInvoiceCheckInProgress: store.state.shareWithClientPageState.updateInvoiceCheckInProgress,
       updatePosesCheckInProgress: store.state.shareWithClientPageState.updatePosesCheckInProgress,
+      clientShareMessage: store.state.shareWithClientPageState.clientShareMessage,
+      jobsWithShareMessage: store.state.shareWithClientPageState.jobsWithShareMessage,
       onMessageChanged: (message) => store.dispatch(SetClientMessageAction(store.state.shareWithClientPageState, message)),
+      onShareMessageChanged: (message) => store.dispatch(SetClientShareMessageAction(store.state.shareWithClientPageState, message)),
       onProposalShared: () => store.dispatch(ProposalSharedAction(store.state.shareWithClientPageState)),
       onContractCheckBoxSelected: (checked) => store.dispatch(SetContractCheckBox(store.state.shareWithClientPageState, checked)),
       onInvoiceCheckBoxSelected: (checked) => store.dispatch(SetInvoiceCheckBox(store.state.shareWithClientPageState, checked)),
@@ -153,6 +171,9 @@ class ShareWithClientPageState{
       saveProposal.hashCode ^
       areChangesSaved.hashCode ^
       jobs.hashCode ^
+      clientShareMessage.hashCode ^
+      jobsWithShareMessage.hashCode^
+      onShareMessageChanged.hashCode ^
       onPosesCheckBoxSelected.hashCode;
   @override
   bool operator ==(Object other) =>
@@ -173,7 +194,10 @@ class ShareWithClientPageState{
               updateInvoiceCheckInProgress == other.updateInvoiceCheckInProgress &&
               updatePosesCheckInProgress == other.updatePosesCheckInProgress &&
               saveProposal == other.saveProposal &&
+              jobsWithShareMessage == other.jobsWithShareMessage &&
               areChangesSaved == other.areChangesSaved &&
               jobs == other.jobs &&
+              clientShareMessage == other.clientShareMessage &&
+              onShareMessageChanged == other.onShareMessageChanged &&
               onPosesCheckBoxSelected == other.onPosesCheckBoxSelected;
 }

@@ -1,11 +1,13 @@
 import 'package:redux/redux.dart';
 
 import '../../models/Contract.dart';
+import '../../models/Job.dart';
 import 'ShareWithClientActions.dart';
 import 'ShareWithClientPageState.dart';
 
 final shareWithClientReducer = combineReducers<ShareWithClientPageState>([
   TypedReducer<ShareWithClientPageState, SetClientMessageAction>(_setClientMessage),
+  TypedReducer<ShareWithClientPageState, SetClientShareMessageAction>(_setClientShareMessage),
   TypedReducer<ShareWithClientPageState, SetContractCheckBox>(_setContractChecked),
   TypedReducer<ShareWithClientPageState, SetInvoiceCheckBox>(_setInvoiceChecked),
   TypedReducer<ShareWithClientPageState, SetPosesCheckBox>(_setPosesChecked),
@@ -37,8 +39,10 @@ ShareWithClientPageState _setInvoiceInProgressState(ShareWithClientPageState pre
 }
 
 ShareWithClientPageState _setAllJobs(ShareWithClientPageState previousState, SetAllJobsAction action){
+  List<Job> jobsWithShareMessage = action.jobs.where((job) => job.proposal.shareMessage.isNotEmpty).toList();
   return previousState.copyWith(
     jobs: action.jobs,
+    jobsWithShareMessage: jobsWithShareMessage,
   );
 }
 
@@ -68,6 +72,15 @@ ShareWithClientPageState _setClientMessage(ShareWithClientPageState previousStat
   action.pageState.job.proposal.detailsMessage = action.clientMessage;
   return previousState.copyWith(
     clientMessage: action.clientMessage,
+    job: action.pageState.job,
+    areChangesSaved: false,
+  );
+}
+
+ShareWithClientPageState _setClientShareMessage(ShareWithClientPageState previousState, SetClientShareMessageAction action){
+  action.pageState.job.proposal.shareMessage = action.clientMessage;
+  return previousState.copyWith(
+    clientShareMessage: action.clientMessage,
     job: action.pageState.job,
     areChangesSaved: false,
   );

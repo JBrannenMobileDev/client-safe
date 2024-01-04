@@ -32,6 +32,7 @@ class _ContractOptionsDialogState extends State<ContractOptionsDialog>
             backgroundColor: Colors.transparent,
             child: Container(
               height: 250.0,
+              width: 450,
               padding: EdgeInsets.only(left: 32.0, right: 32.0),
               decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
@@ -50,7 +51,7 @@ class _ContractOptionsDialogState extends State<ContractOptionsDialog>
                     ),
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {

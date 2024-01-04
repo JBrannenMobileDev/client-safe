@@ -14,14 +14,14 @@ import 'navigation/routes/RouteNames.dart';
 
 class ClientSafeApp extends StatelessWidget {
   final Store<AppState> store;
-  ClientSafeApp(this.store);
+  const ClientSafeApp(this.store, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarBrightness: Brightness.light) // Or Brightness.dark
     );
-    return new StoreProvider<AppState>(
+    return StoreProvider<AppState>(
       store: store,
       child: PlatformInfo().isWeb() ? MaterialApp(
         debugShowCheckedModeBanner: false,

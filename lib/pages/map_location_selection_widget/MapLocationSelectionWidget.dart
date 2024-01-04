@@ -16,6 +16,7 @@ import 'package:redux/redux.dart';
 import '../../models/LocationDandy.dart';
 import '../../utils/Shadows.dart';
 import '../../widgets/TextDandyLight.dart';
+import 'MapLocationSelectionWidgetActions.dart';
 
 class MapLocationSelectionWidget extends StatefulWidget {
   final Function(LatLng) onMapLocationSaved;
@@ -61,6 +62,9 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, MapLocationSelectionWidgetState>(
+      onInit: (state) {
+        state.dispatch(ClearMapSelectionStateAction(state.state.mapLocationSelectionWidgetState));
+      },
       onWillChange: (pageStatePrevious, pageState) async {
         controller.value = controller.value.copyWith(text: pageState.searchText);
         if(pageState.selectedSearchLocation != null && pageStatePrevious.locationResults.length > 0){

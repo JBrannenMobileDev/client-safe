@@ -261,11 +261,15 @@ class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomShee
                 ),
               ),
               GestureDetector(
-                onTap: () {
-                  setState(() {
-                    state = 2;
-                  });
-                  EventSender().sendEvent(eventName: EventNames.BT_ENJOYING_DANDY_LIGHT_YES);
+                onTap: () async {
+                  if (await inAppReview.isAvailable()) {
+                    inAppReview.requestReview();
+                    pageState.updateCanShowRequestReview(false, DateTime.now());
+                    EventSender().sendEvent(eventName: EventNames.BT_ENJOYING_DANDY_LIGHT_YES);
+                    Navigator.of(context).pop();
+                  } else {
+                    Navigator.of(context).pop();
+                  }
                 },
                 child: Container(
                   alignment: Alignment.center,

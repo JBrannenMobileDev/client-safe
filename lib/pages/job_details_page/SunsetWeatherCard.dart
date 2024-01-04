@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../AppState.dart';
+import '../../utils/DeviceType.dart';
 import '../../widgets/TextDandyLight.dart';
 import '../sunset_weather_page/SunsetWeatherPage.dart';
 import 'JobDetailsPageState.dart';
@@ -66,8 +67,8 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                         Container(
                           alignment: Alignment.topCenter,
                           margin: const EdgeInsets.only(top: 0.0, bottom: 16.0),
-                          height: MediaQuery.of(context).size.width / 4,
-                          width: MediaQuery.of(context).size.width / 4,
+                          height: 96,
+                          width: 96,
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                           ),
@@ -186,7 +187,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 SizedBox(
-                                  width: MediaQuery.of(context).size.width - 168,
+                                  width: MediaQuery.of(context).size.width - 168 - (DeviceType.getDeviceType() == Type.Tablet ? 300 : 0),
                                   height: 32,
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -214,7 +215,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                                   ),
                                 ),
                                 SizedBox(
-                                  width: MediaQuery.of(context).size.width - 168,
+                                  width: MediaQuery.of(context).size.width - 168 - (DeviceType.getDeviceType() == Type.Tablet ? 300 : 0),
                                   height: 32,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -242,7 +243,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                                   ),
                                 ),
                                 SizedBox(
-                                  width: MediaQuery.of(context).size.width - 168,
+                                  width: MediaQuery.of(context).size.width - 168 - (DeviceType.getDeviceType() == Type.Tablet ? 300 : 0),
                                   height: 32,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

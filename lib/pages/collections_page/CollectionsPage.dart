@@ -50,16 +50,16 @@ class _CollectionsPageState extends State<CollectionsPage> {
               ),
             ),
             SliverList(
-              delegate: new SliverChildListDelegate(
+              delegate: SliverChildListDelegate(
                 <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(left: 32.0, right: 32.0, bottom: 64.0),
+                    padding: const EdgeInsets.only(left: 32.0, right: 32.0, bottom: 64.0),
                     child: GridView.builder(
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: 10,
-                        gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: DeviceType.getDeviceType() == Type.Tablet ? 4 : 2,
                             childAspectRatio: (DeviceType.getDeviceType() == Type.Tablet ? 150 : 112) / (DeviceType.getDeviceType() == Type.Tablet ? 150 : 124),
                         ),
                         itemBuilder: (BuildContext context, int index) {
@@ -70,7 +70,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                             child: Column(
                               children: <Widget>[
                                 Container(
-                                  padding: EdgeInsets.only(left: 24, top: 24, right: 24, bottom: 24),
+                                  padding: const EdgeInsets.only(left: 24, top: 24, right: 24, bottom: 24),
                                   height: DeviceType.getDeviceType() == Type.Tablet ? 150 : 112.0,
                                   width: DeviceType.getDeviceType() == Type.Tablet ? 150 : 112.0,
                                   decoration: BoxDecoration(
@@ -81,7 +81,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                                 ),
                                 Center(
                                   child: Container(
-                                    padding: EdgeInsets.only(top: 4.0),
+                                    padding: const EdgeInsets.only(top: 4.0),
                                     child: TextDandyLight(
                                       type: TextDandyLight.MEDIUM_TEXT,
                                       text: ImageUtil.getCollectionIconName(collectionIcons.elementAt(index)),
@@ -109,43 +109,43 @@ class _CollectionsPageState extends State<CollectionsPage> {
       case 0:
         EventSender().sendEvent(eventName: EventNames.NAV_TO_CONTRACTS);
         Navigator.of(context).push(
-          new MaterialPageRoute(builder: (context) => ContractsPage()),
+          MaterialPageRoute(builder: (context) => ContractsPage()),
         );
         break;
       case 1:
         EventSender().sendEvent(eventName: EventNames.NAV_TO_COLLECTION_POSES);
         Navigator.of(context).push(
-          new MaterialPageRoute(builder: (context) => PosesPage(null, false, false)),
+          MaterialPageRoute(builder: (context) => PosesPage(null, false, false)),
         );
         break;
       case 2:
         EventSender().sendEvent(eventName: EventNames.NAV_TO_COLLECTION_JOB_TYPES);
         Navigator.of(context).push(
-          new MaterialPageRoute(builder: (context) => JobTypesPage()),
+          MaterialPageRoute(builder: (context) => JobTypesPage()),
         );
         break;
       case 3:
         EventSender().sendEvent(eventName: EventNames.NAV_TO_COLLECTION_PRICE_PACKAGES);
         Navigator.of(context).push(
-          new MaterialPageRoute(builder: (context) => PricingProfilesPage()),
+          MaterialPageRoute(builder: (context) => PricingProfilesPage()),
         );
         break;
       case 4:
         EventSender().sendEvent(eventName: EventNames.NAV_TO_COLLECTION_LOCATIONS);
         Navigator.of(context).push(
-          new MaterialPageRoute(builder: (context) => LocationsPage()),
+          MaterialPageRoute(builder: (context) => LocationsPage()),
         );
         break;
       case 5:
         EventSender().sendEvent(eventName: EventNames.NAV_TO_COLLECTION_RESPONSES);
         Navigator.of(context).push(
-          new MaterialPageRoute(builder: (context) => ResponsesPage()),
+          MaterialPageRoute(builder: (context) => ResponsesPage()),
         );
         break;
       case 6:
         EventSender().sendEvent(eventName: EventNames.NAV_TO_COLLECTION_REMINDERS);
         Navigator.of(context).push(
-          new MaterialPageRoute(builder: (context) => RemindersPage()),
+          MaterialPageRoute(builder: (context) => RemindersPage()),
         );
         break;
       case 7:

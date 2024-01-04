@@ -128,7 +128,7 @@ class _LocationCard extends State<LocationCard> {
                             UserOptionsUtil.showLocationSelectionDialog(context);
                           },
                           behavior: HitTestBehavior.opaque,
-                          child: pageState.selectedLocation != null ? Container(
+                          child: pageState.job.location != null ? Container(
                             height: 235,
                             width: 200,
                             decoration: BoxDecoration(
@@ -136,10 +136,10 @@ class _LocationCard extends State<LocationCard> {
                               color: Color(ColorConstants.getBlueLight()).withOpacity(0.25)
                             ),
                             child: DandyLightNetworkImage(
-                              pageState.selectedLocation.imageUrl,
+                              pageState.job.location.imageUrl,
                               color: Color(ColorConstants.getBlueLight()).withOpacity(0.25),
-                              errorType: pageState.selectedLocation.imageUrl != null && pageState.selectedLocation.imageUrl.isNotEmpty ? DandyLightNetworkImage.ERROR_TYPE_INTERNET : DandyLightNetworkImage.ERROR_TYPE_NO_IMAGE,
-                              errorIconSize: pageState.selectedLocation.imageUrl != null && pageState.selectedLocation.imageUrl.isNotEmpty ? 44 : 96,
+                              errorType: pageState.job.location.imageUrl != null && pageState.job.location.imageUrl.isNotEmpty ? DandyLightNetworkImage.ERROR_TYPE_INTERNET : DandyLightNetworkImage.ERROR_TYPE_NO_IMAGE,
+                              errorIconSize: pageState.job.location.imageUrl != null && pageState.job.location.imageUrl.isNotEmpty ? 44 : 96,
                               errorIconColor: Color(ColorConstants.getBlueDark()),
                               borderRadius: 12,
                             ),

@@ -93,6 +93,7 @@ class Job {
   List<JobStage> completedStages;
   List<Pose> poses;
   Proposal proposal;
+  bool hasAddedMileageTrip;
 
   Job({
     this.id,
@@ -120,6 +121,7 @@ class Job {
     this.poses,
     this.client,
     this.proposal,
+    this.hasAddedMileageTrip,
   });
 
   Job copyWith({
@@ -148,6 +150,7 @@ class Job {
     List<Pose> poses,
     Client client,
     Proposal proposal,
+    bool hasAddedMileageTrip,
   }){
     return Job(
       id: id?? this.id,
@@ -175,6 +178,7 @@ class Job {
       poses: poses ?? this.poses,
       client: client ?? this.client,
       proposal: proposal ?? this.proposal,
+      hasAddedMileageTrip: hasAddedMileageTrip ?? this.hasAddedMileageTrip,
     );
   }
 
@@ -204,6 +208,7 @@ class Job {
       'tipAmount' : tipAmount,
       'addOnCost' : addOnCost,
       'proposal' : proposal?.toMap() ?? null,
+      'hasAddedMileageTrip' : hasAddedMileageTrip
     };
   }
 
@@ -215,6 +220,7 @@ class Job {
       clientName: map['clientName'],
       jobTitle: map['jobTitle'],
       notes: map['notes'],
+      hasAddedMileageTrip: map['hasAddedMileageTrip'] != null ? map['hasAddedMileageTrip'] : false,
       addOnCost: map['addOnCost']?.toDouble(),
       depositReceivedDate: map['depositReceivedDate'] != null && map['depositReceivedDate'] != "" ? DateTime.parse(map['depositReceivedDate']) : null,
       selectedDate: map['selectedDate'] != "" && map['selectedDate'] != null ? DateTime.parse(map['selectedDate']) : null,

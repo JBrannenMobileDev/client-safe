@@ -1,10 +1,8 @@
 import 'dart:io';
-import 'dart:ui';
 import 'package:dandylight/models/DiscountCodes.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPageState.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
-import 'package:flutter/services.dart';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -18,6 +16,7 @@ import 'package:redux/redux.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../utils/AdminCheckUtil.dart';
+import '../../utils/DeviceType.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'EnterDiscountCodeBottomSheet.dart';
 import 'ManageSubscriptionPageActions.dart';
@@ -30,7 +29,7 @@ class ManageSubscriptionPage extends StatefulWidget {
   static const String PACKAGE_ANNUAL = 'package_annual';
   final Profile profile;
 
-  ManageSubscriptionPage(this.profile);
+  const ManageSubscriptionPage(this.profile, {Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -69,8 +68,8 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
               barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
               builder: (context) {
                 return Container(
-                  margin: EdgeInsets.only(left: 32, right: 32.0, bottom: 64.0),
-                  padding: EdgeInsets.all(16),
+                  margin: const EdgeInsets.only(left: 32, right: 32.0, bottom: 64.0),
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Color(ColorConstants.getPeachDark()),
                     borderRadius: BorderRadius.circular(16.0),
@@ -110,17 +109,19 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
           children: <Widget>[
             CustomScrollView(
               slivers: <Widget>[
-                SliverList(
-                  delegate: new SliverChildListDelegate(
+        SliverPadding(
+        padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
+      sliver: SliverList(
+                  delegate: SliverChildListDelegate(
                     <Widget>[
                       Container(
-                        margin: EdgeInsets.only(top: 24.0),
-                        padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                        margin: const EdgeInsets.only(top: 24.0),
+                        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                         child: Stack(
                           alignment: Alignment.topCenter,
                           children: <Widget>[
                             Container(
-                              margin: EdgeInsets.only(top: 64.0),
+                              margin: const EdgeInsets.only(top: 64.0),
                               child: AnimatedDefaultTextStyle(
                                 style: TextStyle(
                                   fontSize: 72.0,
@@ -130,60 +131,60 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 ),
                                 duration: const Duration(milliseconds: 500),
                                 curve: Curves.ease,
-                                child: Text(
+                                child: const Text(
                                   'DandyLight',
                                 ),
                               ),
                             ),
                             profile != null && profile.isFreeForLife ? Container(
-                                margin: EdgeInsets.only(top: 178.0),
+                                margin: const EdgeInsets.only(top: 178.0),
                                 child: TextDandyLight(
                                     text: 'Your free lifetime subscription is applied! There is no need to manage your subscription. We hope you enjoy Dandylight!',
                                     type: TextDandyLight.MEDIUM_TEXT,
                                     textAlign: TextAlign.center,
                                     color: Color(ColorConstants.getBlueDark())
                                 )
-                            ) : SizedBox(),
+                            ) : const SizedBox(),
                             !(profile != null && profile.isFreeForLife) && (pageState.uiState != ManageSubscriptionPage.FREE_TRIAL) ? Container(
-                                margin: EdgeInsets.only(top: 178.0),
+                                margin: const EdgeInsets.only(top: 178.0),
                                 child: TextDandyLight(
                                     text: _getMessageText(pageState.uiState),
                                     type: TextDandyLight.MEDIUM_TEXT,
                                     textAlign: TextAlign.center,
                                     color: Color(ColorConstants.getBlueDark())
                                 )
-                            ) : SizedBox(),
+                            ) : const SizedBox(),
                             !(profile != null && profile.isFreeForLife) && (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL) ? Container(
-                                margin: EdgeInsets.only(top: 164.0),
+                                margin: const EdgeInsets.only(top: 164.0),
                                 child: TextDandyLight(
                                     text: pageState.remainingTimeMessage,
                                     type: TextDandyLight.SMALL_TEXT,
                                     textAlign: TextAlign.center,
                                     color: Color(ColorConstants.getBlueDark())
                                 )
-                            ) : SizedBox(),
-                            !(profile != null && profile.isFreeForLife) && pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? SizedBox() : profile.isBetaTester || pageState.discountType.isNotEmpty ? Container(
-                                margin: EdgeInsets.only(top: 258.0),
+                            ) : const SizedBox(),
+                            !(profile != null && profile.isFreeForLife) && pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? const SizedBox() : profile.isBetaTester || pageState.discountType.isNotEmpty ? Container(
+                                margin: const EdgeInsets.only(top: 258.0),
                                 child: TextDandyLight(
                                   text: 'Discount applied',
                                   type: TextDandyLight.MEDIUM_TEXT,
                                   textAlign: TextAlign.center,
                                   color: Color(ColorConstants.getBlueDark())
                                 )
-                            ) : SizedBox(),
+                            ) : const SizedBox(),
                             !(profile != null && profile.isFreeForLife) && (pageState.uiState == ManageSubscriptionPage.SUBSCRIBED) ? Container(
-                                margin: EdgeInsets.only(top: 258.0),
+                                margin: const EdgeInsets.only(top: 258.0),
                                 child: TextDandyLight(
                                     text: 'Subscription Active',
                                     type: TextDandyLight.MEDIUM_TEXT,
                                     textAlign: TextAlign.center,
                                     color: Color(ColorConstants.getPeachDark())
                                 )
-                            ) : SizedBox(),
+                            ) : const SizedBox(),
                             Container(
-                              margin: EdgeInsets.only(left: 114.0, top: 28),
+                              margin: const EdgeInsets.only(left: 114.0, top: 28),
                               height: 150.0,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: Colors.transparent,
                                 image: DecorationImage(
                                   image: AssetImage(ImageUtil.LOGIN_BG_LOGO_FLOWER),
@@ -202,8 +203,8 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     }
                                   },
                                   child: Container(
-                                    margin: EdgeInsets.only(top: 288.0),
-                                    padding: EdgeInsets.only(left: 4.0, right: 20.0),
+                                    margin: const EdgeInsets.only(top: 288.0),
+                                    padding: const EdgeInsets.only(left: 4.0, right: 20.0),
                                     height: 64.0,
                                     decoration: BoxDecoration(
                                         color: pageState.radioValue == 0 ? Color(ColorConstants.getBlueDark()) : Color(ColorConstants.getBlueLight()),
@@ -236,7 +237,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                                 color: Color(pageState.radioValue == 0 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
                                             ),
                                             Container(
-                                              margin: EdgeInsets.only(left: 8.0),
+                                              margin: const EdgeInsets.only(left: 8.0),
                                               child: TextDandyLight(
                                                 text: profile.isBetaTester || pageState.discountType == DiscountCodes.FIFTY_PERCENT_TYPE ? '(-50%)' : pageState.discountType == DiscountCodes.LIFETIME_FREE ? '(-100%)' : '',
                                                 type: TextDandyLight.MEDIUM_TEXT,
@@ -299,8 +300,8 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     }
                                   },
                                   child: Container(
-                                    margin: EdgeInsets.only(bottom: 8.0, top: 16.0),
-                                    padding: EdgeInsets.only(left: 4.0, right: 20.0),
+                                    margin: const EdgeInsets.only(bottom: 8.0, top: 16.0),
+                                    padding: const EdgeInsets.only(left: 4.0, right: 20.0),
                                     height: 64.0,
                                     decoration: BoxDecoration(
                                         color: pageState.radioValue == 1 ? Color(ColorConstants.getBlueDark()) : Color(ColorConstants.getBlueLight()),
@@ -332,7 +333,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                               color: Color(pageState.radioValue == 1 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
                                             ),
                                             Container(
-                                              margin: EdgeInsets.only(left: 8.0),
+                                              margin: const EdgeInsets.only(left: 8.0),
                                               child: TextDandyLight(
                                                 text: profile.isBetaTester || pageState.discountType == DiscountCodes.FIFTY_PERCENT_TYPE  ? '(-50%)' : pageState.discountType == DiscountCodes.LIFETIME_FREE ? '(-100%)' : '',
                                                 textAlign: TextAlign.center,
@@ -363,13 +364,13 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                   ),
                                 ),
 
-                                pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? SizedBox() : TextButton(
+                                pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? const SizedBox() : TextButton(
                                   style: Styles.getButtonStyle(),
                                   onPressed: () {
                                     _showEnterDiscountCodeBottomSheet(context);
                                   },
                                   child: Container(
-                                    margin: EdgeInsets.only(top: 8),
+                                    margin: const EdgeInsets.only(top: 8),
                                     child: TextDandyLight(
                                       type: TextDandyLight.MEDIUM_TEXT,
                                       text: 'Enter Discount Code',
@@ -402,7 +403,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                       },
                                       child: Container(
                                         alignment: Alignment.center,
-                                        margin: EdgeInsets.only(bottom: 16.0, top: 16.0),
+                                        margin: const EdgeInsets.only(bottom: 16.0, top: 16.0),
                                         height: 48.0,
                                         width: pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? 264 : 200.0,
                                         decoration: BoxDecoration(
@@ -422,18 +423,18 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                       width: 48.0,
                                       decoration: BoxDecoration(
                                         color: Colors.transparent,
-                                        borderRadius: new BorderRadius.circular(16.0),
+                                        borderRadius: BorderRadius.circular(16.0),
                                       ),
                                       child: LoadingAnimationWidget.fourRotatingDots(
                                         color: Color(ColorConstants.getBlueDark()),
                                         size: 32,
                                       ),
-                                    ) : SizedBox(),
+                                    ) : const SizedBox(),
                                   ],
                                 ),
                                 Container(
                                   alignment: Alignment.center,
-                                  margin: EdgeInsets.only(top: 16),
+                                  margin: const EdgeInsets.only(top: 16),
                                   child: TextDandyLight(
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: 'Both plans include',
@@ -443,13 +444,13 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 ),
                                 Container(
                                   alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.only(top: 16, left: 32, right: 32),
+                                  margin: const EdgeInsets.only(top: 16, left: 32, right: 32),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
                                       Padding(
-                                        padding: EdgeInsets.only(left: 16),
+                                        padding: const EdgeInsets.only(left: 16),
                                         child: TextDandyLight(
                                           type: TextDandyLight.MEDIUM_TEXT,
                                           text: 'Unlimited jobs & invoices',
@@ -463,13 +464,13 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 ),
                                 Container(
                                   alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.only(top: 4, left: 32, right: 32),
+                                  margin: const EdgeInsets.only(top: 4, left: 32, right: 32),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
                                       Padding(
-                                        padding: EdgeInsets.only(left: 16),
+                                        padding: const EdgeInsets.only(left: 16),
                                         child: TextDandyLight(
                                           type: TextDandyLight.MEDIUM_TEXT,
                                           text: 'Unlimited contracts',
@@ -483,13 +484,13 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 ),
                                 Container(
                                   alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.only(top: 4, left: 32, right: 32),
+                                  margin: const EdgeInsets.only(top: 4, left: 32, right: 32),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
                                       Padding(
-                                        padding: EdgeInsets.only(left: 16),
+                                        padding: const EdgeInsets.only(left: 16),
                                         child: TextDandyLight(
                                           type: TextDandyLight.MEDIUM_TEXT,
                                           text: 'Client Portal',
@@ -503,13 +504,13 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 ),
                                 Container(
                                   alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.only(top: 4, left: 32, right: 32),
+                                  margin: const EdgeInsets.only(top: 4, left: 32, right: 32),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
                                       Padding(
-                                        padding: EdgeInsets.only(left: 16),
+                                        padding: const EdgeInsets.only(left: 16),
                                         child: TextDandyLight(
                                             type: TextDandyLight.MEDIUM_TEXT,
                                             text: 'Unlimited Mileage tracking',
@@ -523,13 +524,13 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 ),
                                 Container(
                                   alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.only(top: 4, left: 32, right: 32),
+                                  margin: const EdgeInsets.only(top: 4, left: 32, right: 32),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
                                       Padding(
-                                        padding: EdgeInsets.only(left: 16),
+                                        padding: const EdgeInsets.only(left: 16),
                                         child: TextDandyLight(
                                           type: TextDandyLight.MEDIUM_TEXT,
                                           text: 'Unlimited expense tracking',
@@ -543,13 +544,13 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 ),
                                 Container(
                                   alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.only(top: 4, left: 32, right: 32),
+                                  margin: const EdgeInsets.only(top: 4, left: 32, right: 32),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
                                       Padding(
-                                        padding: EdgeInsets.only(left: 16),
+                                        padding: const EdgeInsets.only(left: 16),
                                         child: TextDandyLight(
                                             type: TextDandyLight.MEDIUM_TEXT,
                                             text: 'Income tracking',
@@ -563,13 +564,13 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 ),
                                 Container(
                                   alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.only(top: 4, left: 32, right: 32),
+                                  margin: const EdgeInsets.only(top: 4, left: 32, right: 32),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
                                       Padding(
-                                        padding: EdgeInsets.only(left: 16),
+                                        padding: const EdgeInsets.only(left: 16),
                                         child: TextDandyLight(
                                             type: TextDandyLight.MEDIUM_TEXT,
                                             text: 'Business analytics',
@@ -583,13 +584,13 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 ),
                                 Container(
                                   alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.only(top: 4, left: 32, right: 32),
+                                  margin: const EdgeInsets.only(top: 4, left: 32, right: 32),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
                                       Padding(
-                                        padding: EdgeInsets.only(left: 16),
+                                        padding: const EdgeInsets.only(left: 16),
                                         child: TextDandyLight(
                                             type: TextDandyLight.MEDIUM_TEXT,
                                             text: 'Synced calendar',
@@ -603,13 +604,13 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 ),
                                 Container(
                                   alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.only(top: 4, left: 32, right: 32),
+                                  margin: const EdgeInsets.only(top: 4, left: 32, right: 32),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
                                       Padding(
-                                        padding: EdgeInsets.only(left: 16),
+                                        padding: const EdgeInsets.only(left: 16),
                                         child: TextDandyLight(
                                           type: TextDandyLight.MEDIUM_TEXT,
                                           text: 'Unlimited Custom reminders',
@@ -623,14 +624,14 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 ),
                                 Container(
                                   alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.only(top: 4, left: 32, right: 32, bottom: 32),
+                                  margin: const EdgeInsets.only(top: 4, left: 32, right: 32, bottom: 32),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
                                       Padding(
-                                        padding: EdgeInsets.only(left: 16),
+                                        padding: const EdgeInsets.only(left: 16),
                                         child: TextDandyLight(
                                             type: TextDandyLight.MEDIUM_TEXT,
                                             text: 'Unlimited locations, poses\n& responses',
@@ -649,16 +650,16 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                   color: Color(ColorConstants.getBlueDark()),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.only(top: 32.0, bottom: 16.0),
+                                  margin: const EdgeInsets.only(top: 32.0, bottom: 16.0),
                                   child: TextDandyLight(
                                     type: TextDandyLight.EXTRA_SMALL_TEXT,
-                                    text: 'Payment will be charged to your ' + (Device.get().isIos ? 'iTunes' : 'GooglePlay') + ' account at confirmation of purchase. Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period. Account will be charged for renewal within 24-hours prior to the end of the current period, and identify the cost of the renewal. Subscriptions may be managed by the user and auto-renewal may be turned off by going to the user\'s Account Settings after purchase. Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable.',
+                                    text: 'Payment will be charged to your ${Device.get().isIos ? 'iTunes' : 'GooglePlay'} account at confirmation of purchase. Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period. Account will be charged for renewal within 24-hours prior to the end of the current period, and identify the cost of the renewal. Subscriptions may be managed by the user and auto-renewal may be turned off by going to the user\'s Account Settings after purchase. Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable.',
                                     textAlign: TextAlign.center,
                                     color: Color(ColorConstants.getBlueDark()),
                                   ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.only(bottom: 32),
+                                  margin: const EdgeInsets.only(bottom: 32),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
@@ -667,26 +668,22 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                         onPressed: () {
                                           _launchTermsOfService();
                                         },
-                                        child: Container(
-                                          child: TextDandyLight(
-                                            type: TextDandyLight.SMALL_TEXT,
-                                            text: 'Terms of Use',
-                                            textAlign: TextAlign.center,
-                                            color: Color(ColorConstants.getBlueDark()),
-                                          ),
+                                        child: TextDandyLight(
+                                          type: TextDandyLight.SMALL_TEXT,
+                                          text: 'Terms of Use',
+                                          textAlign: TextAlign.center,
+                                          color: Color(ColorConstants.getBlueDark()),
                                         ),
                                       ) : TextButton(
                                         style: Styles.getButtonStyle(),
                                         onPressed: () {
                                           _launchTermsOfServiceURL();
                                         },
-                                        child: Container(
-                                          child: TextDandyLight(
-                                            type: TextDandyLight.SMALL_TEXT,
-                                            text: 'Terms of service',
-                                            textAlign: TextAlign.center,
-                                            color: Color(ColorConstants.getBlueDark()),
-                                          ),
+                                        child: TextDandyLight(
+                                          type: TextDandyLight.SMALL_TEXT,
+                                          text: 'Terms of service',
+                                          textAlign: TextAlign.center,
+                                          color: Color(ColorConstants.getBlueDark()),
                                         ),
                                       ),
                                       TextButton(
@@ -694,26 +691,25 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                         onPressed: () {
                                           _launchPrivacyPolicyURL();
                                         },
-                                        child: Container(
-                                          child: TextDandyLight(
-                                            type: TextDandyLight.SMALL_TEXT,
-                                            text: 'Privacy Policy',
-                                            textAlign: TextAlign.center,
-                                            color: Color(ColorConstants.getBlueDark()),
-                                          ),
+                                        child: TextDandyLight(
+                                          type: TextDandyLight.SMALL_TEXT,
+                                          text: 'Privacy Policy',
+                                          textAlign: TextAlign.center,
+                                          color: Color(ColorConstants.getBlueDark()),
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
                               ],
-                            ) : SizedBox(),
+                            ) : const SizedBox(),
                           ],
                         ),
                       ),
                     ],
                   ),
                 ),
+        ),
               ],
             ),
             (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED || AdminCheckUtil.isAdmin(profile) || (profile != null && profile.isFreeForLife)) ?
@@ -722,15 +718,15 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
               left: 0.0,
               right: 0.0,
               child: AppBar(
-                title: Text(''),// You can add title here
-                leading: new IconButton(
-                  icon: new Icon((Device.get().isIos ? CupertinoIcons.back : Icons.arrow_back), color: Color(ColorConstants.getPrimaryWhite())),
+                title: const Text(''),// You can add title here
+                leading: IconButton(
+                  icon: Icon((Device.get().isIos ? CupertinoIcons.back : Icons.arrow_back), color: Color(ColorConstants.getPrimaryWhite())),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
                 backgroundColor: Colors.transparent, //You can make this transparent
                 elevation: 0.0, //No shadow
               ),
-            ) : SizedBox(),
+            ) : const SizedBox(),
           ],
         ),
       ),

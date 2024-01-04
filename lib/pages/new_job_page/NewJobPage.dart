@@ -101,7 +101,7 @@ class _NewJobPageState extends State<NewJobPage>{
       onWillChange: (previous, current) {
         if(!previous.isSelectedClientNew && current.isSelectedClientNew) {
           setState(() {
-            currentPageIndex = 1;
+            currentPageIndex = 1;  //TODO fix page navigation. Going back is broken. Remove all this wonky logic and make it simple.
             controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 150), curve: Curves.ease);
           });
         }
@@ -365,7 +365,7 @@ class _NewJobPageState extends State<NewJobPage>{
     double height = 380.0;
     switch(currentPageIndex){
       case 0:
-        height = 573;
+        height = 600;
         break;
       case 1:
         height = 450.0;

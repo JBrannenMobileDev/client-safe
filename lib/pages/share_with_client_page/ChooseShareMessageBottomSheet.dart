@@ -9,23 +9,23 @@ import '../../widgets/TextDandyLight.dart';
 import 'ShareWithClientPageState.dart';
 
 
-class ChooseMessageBottomSheet extends StatefulWidget {
+class ChooseShareMessageBottomSheet extends StatefulWidget {
   final Function(String) setSelectedMessage;
-  ChooseMessageBottomSheet(this.setSelectedMessage);
+  const ChooseShareMessageBottomSheet(this.setSelectedMessage, {Key key}) : super(key: key);
 
 
   @override
   State<StatefulWidget> createState() {
-    return _BottomSheetPageState(setSelectedMessage);
+    return _ChooseShareMessageBottomSheetPageState(setSelectedMessage);
   }
 }
 
-class _BottomSheetPageState extends State<ChooseMessageBottomSheet> with TickerProviderStateMixin, WidgetsBindingObserver {
+class _ChooseShareMessageBottomSheetPageState extends State<ChooseShareMessageBottomSheet> with TickerProviderStateMixin, WidgetsBindingObserver {
   final ScrollController _controller = ScrollController();
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   final Function(String) setSelectedMessage;
 
-  _BottomSheetPageState(this.setSelectedMessage);
+  _ChooseShareMessageBottomSheetPageState(this.setSelectedMessage);
 
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, ShareWithClientPageState>(
@@ -50,17 +50,17 @@ class _BottomSheetPageState extends State<ChooseMessageBottomSheet> with TickerP
                      margin: const EdgeInsets.only(top: 24, bottom: 0.0),
                      child: TextDandyLight(
                        type: TextDandyLight.LARGE_TEXT,
-                       text: 'Select a client portal message',
+                       text: 'Select a share message',
                        textAlign: TextAlign.center,
                        color: Color(ColorConstants.getPrimaryBlack()),
                      ),
                    ),
                    SingleChildScrollView(
-                     child: Container(
+                     child: SizedBox(
                        height: MediaQuery.of(context).size.height-116,
                        child: ListView.builder(
                            padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 200.0),
-                           itemCount: pageState.jobs.length,
+                           itemCount: pageState.jobsWithShareMessage.length,
                            controller: _controller,
                            physics: const AlwaysScrollableScrollPhysics(),
                            key: _listKey,
@@ -95,8 +95,8 @@ class _BottomSheetPageState extends State<ChooseMessageBottomSheet> with TickerP
         builder: (BuildContext context, ShareWithClientPageState pageState) =>
             GestureDetector(
               onTap: () {
-                setSelectedMessage(pageState.jobs.elementAt(index).proposal.detailsMessage);
-                pageState.onMessageChanged(pageState.jobs.elementAt(index).proposal.detailsMessage);
+                setSelectedMessage(pageState.jobsWithShareMessage.elementAt(index).proposal.shareMessage);
+                pageState.onShareMessageChanged(pageState.jobsWithShareMessage.elementAt(index).proposal.shareMessage);
                 Navigator.of(context).pop();
               },
               child: Column(
@@ -107,7 +107,7 @@ class _BottomSheetPageState extends State<ChooseMessageBottomSheet> with TickerP
                     alignment: Alignment.center,
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      text: pageState.jobs.elementAt(index).jobTitle,
+                      text: pageState.jobsWithShareMessage.elementAt(index).jobTitle,
                       textAlign: TextAlign.center,
                       color: Color(ColorConstants.getPrimaryBlack()),
                     ),
@@ -121,7 +121,7 @@ class _BottomSheetPageState extends State<ChooseMessageBottomSheet> with TickerP
                         borderRadius: const BorderRadius.all(Radius.circular(32.0))),
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      text: pageState.jobs.elementAt(index).proposal.detailsMessage,
+                      text: pageState.jobsWithShareMessage.elementAt(index).proposal.shareMessage,
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.fade,
                       maxLines: 9,

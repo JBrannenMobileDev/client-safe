@@ -18,6 +18,7 @@ import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_pic
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
+import '../../utils/DeviceType.dart';
 import '../../utils/NavigationUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
@@ -79,7 +80,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
         appState.dispatch(FetchMileageExpenses(appState.state.incomeAndExpensesPageState));
         appState.dispatch(UpdateSelectedYearAction(appState.state.incomeAndExpensesPageState, DateTime.now().year));
         if(appState.state.dashboardPageState.profile != null && !appState.state.dashboardPageState.profile.hasSeenIncomeInfo) {
-          Future.delayed(Duration(seconds: 1), () {
+          Future.delayed(const Duration(seconds: 1), () {
             _showInfoSheet(context);
           });
         }
@@ -125,7 +126,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                               EventSender().sendEvent(eventName: EventNames.NAV_TO_SETTINGS_INCOME_EXPENSE);
                             },
                             child: Container(
-                              margin: EdgeInsets.only(right: 16.0),
+                              margin: const EdgeInsets.only(right: 16.0),
                               height: 32.0,
                               width: 32.0,
                               child: Image.asset(
@@ -135,15 +136,16 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                             ),
                           )
                         ],
-                        flexibleSpace: new FlexibleSpaceBar(
+                        flexibleSpace: FlexibleSpaceBar(
                           background: Column(
 
                             children: <Widget>[
                               SafeArea(
                                 child: PreferredSize(
+                                  preferredSize: const Size.fromHeight(44.0),
                                   child: Container(
                                     width: 300.0,
-                                    margin: EdgeInsets.only(top: 56.0),
+                                    margin: const EdgeInsets.only(top: 56.0),
                                     child: CupertinoSlidingSegmentedControl<int>(
                                       thumbColor: Color(ColorConstants.getPrimaryWhite()),
                                       backgroundColor: Colors.transparent,
@@ -159,11 +161,10 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                       groupValue: selectedIndex,
                                     ),
                                   ),
-                                  preferredSize: Size.fromHeight(44.0),
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(top: 42.0),
+                                margin: const EdgeInsets.only(top: 42.0),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
@@ -181,8 +182,8 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                               ),
                                             ),
                                             Container(
-                                              margin: EdgeInsets.only(left: 8.0, top: 2.0),
-                                              padding: EdgeInsets.only(bottom: 2.0),
+                                              margin: const EdgeInsets.only(left: 8.0, top: 2.0),
+                                              padding: const EdgeInsets.only(bottom: 2.0),
                                               alignment: Alignment.center,
                                               height: 32.0,
                                               decoration: BoxDecoration(
@@ -221,7 +222,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                           ],
                                         ),
                                         Container(
-                                          margin: EdgeInsets.only(top: 0.0),
+                                          margin: const EdgeInsets.only(top: 0.0),
                                           child: TextDandyLight(
                                             type: TextDandyLight.INCOME_EXPENSE_TOTAL,
                                                 amount: selectedIndex == 0 ? pageState.totalTips + pageState.incomeForSelectedYear : pageState.expensesForSelectedYear,
@@ -239,23 +240,26 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                           ),
                         ),
                       ),
-                      SliverList(
-                        delegate: new SliverChildListDelegate(
-                          <Widget>[
-                            selectedIndex == 0 ? UnpaidInvoicesCard(pageState: pageState) : MileageExpensesCard(pageState: pageState),
-                            selectedIndex == 0 ? PaidInvoiceCard(pageState: pageState) : SingleExpenseCard(pageState: pageState),
-                            selectedIndex == 0 ? Padding(
-                              padding: EdgeInsets.only(top: 32.0, bottom: 16.0),
-                              child: TextDandyLight(
-                                type: TextDandyLight.LARGE_TEXT,
-                                text: 'Income Insights',
-                                textAlign: TextAlign.center,
-                                color: Color(ColorConstants.getPrimaryWhite()),
-                              ),
-                            ) : SizedBox(),
-                            selectedIndex == 0 ? MonthlyIncomeLineChart(pageState: pageState) : SizedBox(),
-                            selectedIndex == 0 ? IncomeInsights(pageState: pageState) : RecurringExpensesCard(pageState: pageState),
-                          ],
+                      SliverPadding(
+                        padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
+                        sliver: SliverList(
+                          delegate: SliverChildListDelegate(
+                            <Widget>[
+                              selectedIndex == 0 ? UnpaidInvoicesCard(pageState: pageState) : MileageExpensesCard(pageState: pageState),
+                              selectedIndex == 0 ? PaidInvoiceCard(pageState: pageState) : SingleExpenseCard(pageState: pageState),
+                              selectedIndex == 0 ? Padding(
+                                padding: const EdgeInsets.only(top: 32.0, bottom: 16.0),
+                                child: TextDandyLight(
+                                  type: TextDandyLight.LARGE_TEXT,
+                                  text: 'Income Insights',
+                                  textAlign: TextAlign.center,
+                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                ),
+                              ) : const SizedBox(),
+                              selectedIndex == 0 ? MonthlyIncomeLineChart(pageState: pageState) : const SizedBox(),
+                              selectedIndex == 0 ? IncomeInsights(pageState: pageState) : RecurringExpensesCard(pageState: pageState),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -264,7 +268,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
               ),
                 floatingActionButton: SpeedDial(
                   // both default to 16
-                  childMargin: EdgeInsets.only(right: 18.0, bottom: 20.0),
+                  childMargin: const EdgeInsets.only(right: 18.0, bottom: 20.0),
                   child: getFabIcon(),
                   visible: dialVisible,
                   // If true user is forced to close dial manually
@@ -288,10 +292,10 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                   backgroundColor: selectedIndex == 0 ? Color(ColorConstants.getPeachDark()) : Color(ColorConstants.getPeachDark()),
                   foregroundColor: Colors.black,
                   elevation: 8.0,
-                  shape: CircleBorder(),
+                  shape: const CircleBorder(),
                   children: selectedIndex == 0 ? [
                     SpeedDialChild(
-                      child: Icon(Icons.add),
+                      child: const Icon(Icons.add),
                       backgroundColor: Color(ColorConstants.getBlueLight()),
                       labelWidget: Container(
                         alignment: Alignment.center,
@@ -318,7 +322,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                       },
                     ),
                     SpeedDialChild(
-                      child: Icon(Icons.add),
+                      child: const Icon(Icons.add),
                       backgroundColor: Color(ColorConstants.getBlueLight()),
                       labelWidget: Container(
                         alignment: Alignment.center,
@@ -341,7 +345,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                     ),
                   ] : [
                     SpeedDialChild(
-                        child: Icon(Icons.add),
+                        child: const Icon(Icons.add),
                         backgroundColor: Color(ColorConstants.getPeachLight()),
                         labelWidget: Container(
                           alignment: Alignment.center,
@@ -363,7 +367,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         }
                     ),
                     SpeedDialChild(
-                      child: Icon(Icons.add),
+                      child: const Icon(Icons.add),
                       backgroundColor: Color(ColorConstants.getPeachLight()),
                       labelWidget: Container(
                         alignment: Alignment.center,
@@ -385,7 +389,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                       },
                     ),
                     SpeedDialChild(
-                      child: Icon(Icons.add),
+                      child: const Icon(Icons.add),
                       backgroundColor: Color(ColorConstants.getPeachLight()),
                       labelWidget: Container(
                         alignment: Alignment.center,

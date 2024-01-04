@@ -40,6 +40,7 @@ class _SendInvoicePromptDialogState extends State<SendInvoicePromptDialog>
             backgroundColor: Colors.transparent,
             child: Container(
               height: 250.0,
+              width: 450,
               padding: EdgeInsets.only(left: 32.0, right: 32.0),
               decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
