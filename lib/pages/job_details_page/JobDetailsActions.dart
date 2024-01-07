@@ -4,9 +4,11 @@ import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/LocationDandy.dart';
+import 'package:dandylight/models/MileageExpense.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:device_calendar/device_calendar.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../models/Contract.dart';
 import '../../models/JobReminder.dart';
@@ -53,6 +55,12 @@ class DrivingDirectionsJobSelected{
   final JobDetailsPageState pageState;
   final LocationDandy location;
   DrivingDirectionsJobSelected(this.pageState, this.location);
+}
+
+class SetShouldTrackAction {
+  final JobDetailsPageState pageState;
+  final bool enabled;
+  SetShouldTrackAction(this.pageState, this.enabled);
 }
 
 class SetLocationImageAction {
@@ -117,6 +125,18 @@ class SetProfileToDetailsStateAction {
   final JobDetailsPageState pageState;
   final Profile profile;
   SetProfileToDetailsStateAction(this.pageState, this.profile);
+}
+
+class SetJobMileageTripAction {
+  final JobDetailsPageState pageState;
+  final MileageExpense mileageTrip;
+  SetJobMileageTripAction(this.pageState, this.mileageTrip);
+}
+
+class SetProfileToStateAction {
+  final JobDetailsPageState pageState;
+  final Profile profile;
+  SetProfileToStateAction(this.pageState, this.profile);
 }
 
 class SetAllJobTypesAction{
@@ -240,6 +260,12 @@ class SaveUpdatedJobAction{
   final JobDetailsPageState pageState;
   final Job job;
   SaveUpdatedJobAction(this.pageState, this.job);
+}
+
+class SaveHomeLocationAction{
+  final JobDetailsPageState pageState;
+  final LatLng startLocation;
+  SaveHomeLocationAction(this.pageState, this.startLocation);
 }
 
 class SetEventMapAction{

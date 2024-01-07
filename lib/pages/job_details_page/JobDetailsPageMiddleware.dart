@@ -6,12 +6,14 @@ import 'package:dandylight/data_layer/local_db/daos/InvoiceDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobTypeDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/MileageExpenseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PriceProfileDao.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/models/JobType.dart';
 import 'package:dandylight/models/LocationDandy.dart';
+import 'package:dandylight/models/MileageExpense.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
@@ -25,10 +27,12 @@ import 'package:dandylight/utils/analytics/EventNames.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:dandylight/utils/sunrise_sunset_library/sunrise_sunset.dart';
 import 'package:device_calendar/device_calendar.dart';
+import 'package:geocoder2/geocoder2.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 import 'package:http/http.dart' as http;
 
+import '../../credentials.dart';
 import '../../data_layer/api_clients/AccuWeatherClient.dart';
 import '../../data_layer/local_db/daos/JobReminderDao.dart';
 import '../../data_layer/local_db/daos/ProfileDao.dart';
@@ -142,6 +146,37 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is DrivingDirectionsJobSelected) {
       _launchDrivingDirections(store, action);
     }
+    if(action is SetShouldTrackAction) {
+      _saveTrackMilesState(store, action, next);
+    }
+    if(action is SaveHomeLocationAction) {
+      saveHomeLocation(store, action, next);
+    }
+  }
+
+  void saveHomeLocation(Store<AppState> store, SaveHomeLocationAction action, NextDispatcher next) async{
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.latDefaultHome = action.startLocation.latitude;
+    profile.lngDefaultHome = action.startLocation.longitude;
+    await ProfileDao.insertOrUpdate(profile);
+    store.dispatch(SetProfileToStateAction(store.state.jobDetailsPageState, profile));
+  }
+
+  Future<GeoData> getAddress(double lat, double lng) async {
+    return await Geocoder2.getDataFromCoordinates(
+        latitude: lat,
+        longitude: lng,
+        googleMapApiKey: PLACES_API_KEY
+    );
+  }
+
+  void _saveTrackMilesState(Store<AppState> store, SetShouldTrackAction action, NextDispatcher next) async {
+    Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
+      shouldTrackMiles: action.enabled
+    );
+    await JobDao.insertOrUpdate(jobToSave);
+    store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 
   void _launchDrivingDirections(Store<AppState> store, DrivingDirectionsJobSelected action) async {
@@ -518,6 +553,11 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     store.dispatch(SetProfileToDetailsStateAction(store.state.jobDetailsPageState, profile));
+
+    MileageExpense mileageTrip = await MileageExpenseDao.getMileageExpenseByJobId(job.documentId);
+    if(mileageTrip != null) {
+      store.dispatch(SetJobMileageTripAction(store.state.jobDetailsPageState, mileageTrip));
+    }
   }
 
   void setJobInfoWithId(Store<AppState> store, NextDispatcher next, SetJobInfoWithJobDocumentId action) async{

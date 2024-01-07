@@ -21,11 +21,12 @@ class MileageExpenseDao extends Equatable{
   // singleton instance of an opened database.
   static Future<sembast.Database> get _db async => await SembastDb.instance.database;
 
-  static Future insert(MileageExpense mileageExpense) async {
+  static Future<MileageExpense> insert(MileageExpense mileageExpense) async {
     mileageExpense.documentId = Uuid().v1();
     mileageExpense.id = await _mileageExpenseStore.add(await _db, mileageExpense.toMap());
     await MileageExpenseCollection().createMileageExpense(mileageExpense);
     _updateLastChangedTime();
+    return mileageExpense;
   }
 
   static Future<void> _updateLastChangedTime() async {
@@ -99,8 +100,22 @@ class MileageExpenseDao extends Equatable{
   }
 
   static Future<MileageExpense> getMileageExpenseById(String documentId) async{
-    if((await getAll()).length > 0) {
+    if((await getAll()).isNotEmpty) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
+      final recordSnapshots = await _mileageExpenseStore.find(await _db, finder: finder);
+      return recordSnapshots.map((snapshot) {
+        final expense = MileageExpense.fromMap(snapshot.value);
+        expense.id = snapshot.key;
+        return expense;
+      }).toList().elementAt(0);
+    } else {
+      return null;
+    }
+  }
+
+  static Future<MileageExpense> getMileageExpenseByJobId(String jobDocumentId) async{
+    if((await getAll()).isNotEmpty) {
+      final finder = sembast.Finder(filter: sembast.Filter.equals('jobDocumentId', jobDocumentId));
       final recordSnapshots = await _mileageExpenseStore.find(await _db, finder: finder);
       return recordSnapshots.map((snapshot) {
         final expense = MileageExpense.fromMap(snapshot.value);
@@ -125,8 +140,8 @@ class MileageExpenseDao extends Equatable{
     List<MileageExpense> allLocalMileageExpenses = await getAll();
     List<MileageExpense> allFireStoreMileageExpenses = await MileageExpenseCollection().getAll(UidUtil().getUid());
 
-    if(allLocalMileageExpenses != null && allLocalMileageExpenses.length > 0) {
-      if(allFireStoreMileageExpenses != null && allFireStoreMileageExpenses.length > 0) {
+    if(allLocalMileageExpenses != null && allLocalMileageExpenses.isNotEmpty) {
+      if(allFireStoreMileageExpenses != null && allFireStoreMileageExpenses.isNotEmpty) {
         //both local and fireStore have clients
         //fireStore is source of truth for this sync.
         await _syncFireStoreToLocal(allLocalMileageExpenses, allFireStoreMileageExpenses);
@@ -135,7 +150,7 @@ class MileageExpenseDao extends Equatable{
         _deleteAllLocalMileageExpenses(allLocalMileageExpenses);
       }
     } else {
-      if(allFireStoreMileageExpenses != null && allFireStoreMileageExpenses.length > 0){
+      if(allFireStoreMileageExpenses != null && allFireStoreMileageExpenses.isNotEmpty){
         //no local clients but there are fireStore clients.
         await _copyAllFireStoreMileageExpensesToLocal(allFireStoreMileageExpenses);
       } else {
@@ -164,7 +179,7 @@ class MileageExpenseDao extends Equatable{
     for(MileageExpense localMileageExpense in allLocalMileageExpenses) {
       //should only be 1 matching
       List<MileageExpense> matchingFireStoreMileageExpenses = allFireStoreMileageExpenses.where((fireStoreMileageExpense) => localMileageExpense.documentId == fireStoreMileageExpense.documentId).toList();
-      if(matchingFireStoreMileageExpenses !=  null && matchingFireStoreMileageExpenses.length > 0) {
+      if(matchingFireStoreMileageExpenses !=  null && matchingFireStoreMileageExpenses.isNotEmpty) {
         MileageExpense fireStoreMileageExpense = matchingFireStoreMileageExpenses.elementAt(0);
         final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStoreMileageExpense.documentId));
         await _mileageExpenseStore.update(
@@ -184,7 +199,7 @@ class MileageExpenseDao extends Equatable{
 
     for(MileageExpense fireStoreMileageExpense in allFireStoreMileageExpenses) {
       List<MileageExpense> matchingLocalMileageExpenses = allLocalMileageExpenses.where((localMileageExpense) => localMileageExpense.documentId == fireStoreMileageExpense.documentId).toList();
-      if(matchingLocalMileageExpenses != null && matchingLocalMileageExpenses.length > 0) {
+      if(matchingLocalMileageExpenses != null && matchingLocalMileageExpenses.isNotEmpty) {
         //do nothing. MileageExpense already synced.
       } else {
         //add to local. does not exist in local and has not been synced yet.

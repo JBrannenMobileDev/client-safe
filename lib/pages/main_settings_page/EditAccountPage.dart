@@ -11,6 +11,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import '../../utils/DeviceType.dart';
+import '../../utils/NavigationUtil.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'MainSettingsPageActions.dart';
 
@@ -256,6 +257,41 @@ class _EditAccountPageState extends State<EditAccountPage>
                               capitalization: TextCapitalization.words,
                               enabled: true,
                               obscureText: false,
+                            ),
+                            Container(
+                              margin:
+                              const EdgeInsets.only(left: 56.0, top: 8.0),
+                              alignment: Alignment.centerLeft,
+                              child: TextDandyLight(
+                                type: TextDandyLight.EXTRA_SMALL_TEXT,
+                                text: 'Home location',
+                                color: Color(ColorConstants.getPrimaryBlack()),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                NavigationUtil.onSelectMapLocation(
+                                    context,
+                                    null,
+                                    0.0,
+                                    0.0,
+                                    pageState.onHomeLocationChanged
+                                );
+                              },
+                              child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                                  margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 8.0, bottom: 8.0),
+                                  height: 64,
+                                  decoration: BoxDecoration(
+                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                    borderRadius: BorderRadius.circular(32.0),
+                                  ),
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: pageState.homeAddressName,
+                                  )
+                              ),
                             ),
                             GestureDetector(
                               onTap: () {

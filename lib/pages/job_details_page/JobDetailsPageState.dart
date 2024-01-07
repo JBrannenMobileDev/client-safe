@@ -14,10 +14,12 @@ import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
 import '../../models/Contract.dart';
 import '../../models/JobType.dart';
+import '../../models/MileageExpense.dart';
 import '../../models/Pose.dart';
 import '../../models/Profile.dart';
 import '../sunset_weather_page/SunsetWeatherPageActions.dart';
@@ -47,7 +49,7 @@ class JobDetailsPageState {
   final List<JobType> jobTypes;
   final List<DocumentItem> documents;
   final List<String> poseFilePaths;
-  final bool autoTrackMiles;
+  final MileageExpense mileageTrip;
   final Invoice invoice;
   final String notes;
   final String weatherIcon;
@@ -99,6 +101,7 @@ class JobDetailsPageState {
   final Function() onSunsetWeatherSelected;
   final Function(LocationDandy) onDrivingDirectionsSelected;
   final Function(bool) setMileageAutoTrack;
+  final Function(LatLng) onStartLocationChanged;
 
   JobDetailsPageState({
     @required this.job,
@@ -175,8 +178,9 @@ class JobDetailsPageState {
     @required this.poseFilePaths,
     @required this.onDeleteContractSelected,
     @required this.profile,
-    @required this.autoTrackMiles,
     @required this.setMileageAutoTrack,
+    @required this.mileageTrip,
+    @required this.onStartLocationChanged,
   });
 
   JobDetailsPageState copyWith({
@@ -210,7 +214,7 @@ class JobDetailsPageState {
     String eveningBlueHour,
     List<String> poseFilePaths,
     Profile profile,
-    bool autoTrackMiles,
+    MileageExpense mileageTrip,
     Function(PriceProfile) onPriceProfileSelected,
     Function(String) onSaveUpdatedPriceProfileSelected,
     Function(JobType) onJobTypeSelected,
@@ -256,6 +260,7 @@ class JobDetailsPageState {
     Function() setOnBoardingComplete,
     Function() onSunsetWeatherSelected,
     Function(LocationDandy) onDrivingDirectionsSelected,
+    Function(LatLng) onStartLocationChanged,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
@@ -332,8 +337,9 @@ class JobDetailsPageState {
       poseFilePaths: poseFilePaths ?? this.poseFilePaths,
       onDeleteContractSelected: onDeleteContractSelected ?? this.onDeleteContractSelected,
       profile: profile ?? this.profile,
-      autoTrackMiles: autoTrackMiles ?? this.autoTrackMiles,
       setMileageAutoTrack: setMileageAutoTrack ?? this.setMileageAutoTrack,
+      mileageTrip: mileageTrip ?? this.mileageTrip,
+      onStartLocationChanged: onStartLocationChanged ?? this.onStartLocationChanged,
     );
   }
 
@@ -373,7 +379,7 @@ class JobDetailsPageState {
         eveningBlueHour: store.state.jobDetailsPageState.eveningBlueHour,
         poseFilePaths: store.state.jobDetailsPageState.poseFilePaths,
         profile: store.state.jobDetailsPageState.profile,
-        autoTrackMiles: store.state.jobDetailsPageState.autoTrackMiles,
+        mileageTrip: store.state.jobDetailsPageState.mileageTrip,
         onAddToTip: (amountToAdd) => store.dispatch(AddToTipAction(store.state.jobDetailsPageState, amountToAdd)),
         onSaveTipChange: () => store.dispatch(SaveTipChangeAction(store.state.jobDetailsPageState)),
         onClearUnsavedTip: () => store.dispatch(ClearUnsavedTipAction(store.state.jobDetailsPageState)),
@@ -422,7 +428,8 @@ class JobDetailsPageState {
         setOnBoardingComplete: () => store.dispatch(SetOnBoardingCompleteAction(store.state.jobDetailsPageState)),
         onSunsetWeatherSelected: () => store.dispatch(LoadInitialLocationAndDateComingFromNewJobAction(store.state.sunsetWeatherPageState, store.state.jobDetailsPageState.job.location, store.state.jobDetailsPageState.job.selectedDate)),
         onDrivingDirectionsSelected: (location) => store.dispatch(DrivingDirectionsJobSelected(store.state.jobDetailsPageState, location)),
-        setMileageAutoTrack: (enabled) => null,
+        setMileageAutoTrack: (enabled) => store.dispatch(SetShouldTrackAction(store.state.jobDetailsPageState, enabled)),
+        onStartLocationChanged: (latLng) => store.dispatch(SaveHomeLocationAction(store.state.jobDetailsPageState, latLng)),
     );
   }
 
@@ -431,6 +438,7 @@ class JobDetailsPageState {
     client: null,
     onBackPressed: null,
     onDeleteReminderSelected: null,
+    mileageTrip: null,
     selectedDate: null,
     onMonthChanged: null,
     sunsetTime: null,
@@ -460,7 +468,6 @@ class JobDetailsPageState {
     onScrollOffsetChanged: null,
     onNewTimeSelected: null,
     onSaveSelectedDate: null,
-    autoTrackMiles: true,
     onClientClicked: null,
     onJobClicked: null,
     onLocationSelected: null,
@@ -503,6 +510,7 @@ class JobDetailsPageState {
     onSunsetWeatherSelected: null,
     onNewDateSelected: null,
     onDrivingDirectionsSelected: null,
+    onStartLocationChanged: null,
   );
 
   @override
@@ -535,6 +543,7 @@ class JobDetailsPageState {
       sunsetTime.hashCode ^
       stageScrollOffset.hashCode ^
       eventList.hashCode ^
+      mileageTrip.hashCode ^
       jobs.hashCode ^
       invoice.hashCode ^
       onMonthChanged.hashCode ^
@@ -554,7 +563,6 @@ class JobDetailsPageState {
       removeExpandedIndex.hashCode ^
       onDeleteSelected.hashCode ^
       onInstagramSelected.hashCode ^
-      autoTrackMiles.hashCode ^
       onScrollOffsetChanged.hashCode ^
       onNewTimeSelected.hashCode ^
       onSaveSelectedDate.hashCode ^
@@ -576,6 +584,7 @@ class JobDetailsPageState {
       sunset.hashCode ^
       eveningBlueHour.hashCode ^
       onSunsetWeatherSelected.hashCode ^
+      onStartLocationChanged.hashCode ^
       reminders.hashCode;
 
   @override
@@ -590,6 +599,7 @@ class JobDetailsPageState {
               eveningGoldenHour == other.eveningGoldenHour &&
               profile == other.profile &&
               sunset == other.sunset &&
+              mileageTrip == other.mileageTrip &&
               eveningBlueHour == other.eveningBlueHour &&
               jobTypes == other.jobTypes &&
               onDeleteContractSelected == other.onDeleteContractSelected &&
@@ -613,7 +623,6 @@ class JobDetailsPageState {
               onMonthChanged == other.onMonthChanged &&
               reminders == other.reminders &&
               invoice == other.invoice &&
-              autoTrackMiles == other.autoTrackMiles &&
               jobTitleText == other.jobTitleText &&
               onNameChangeSaved == other.onNameChangeSaved &&
               selectedLocation == other.selectedLocation &&
@@ -638,6 +647,7 @@ class JobDetailsPageState {
               onJobTypeSaveSelected == other.onJobTypeSaveSelected &&
               selectedPriceProfile == other.selectedPriceProfile &&
               priceProfiles == other.priceProfiles &&
+              onStartLocationChanged == other.onStartLocationChanged &&
               onPriceProfileSelected == other.onPriceProfileSelected &&
               onSaveUpdatedPriceProfileSelected == other.onSaveUpdatedPriceProfileSelected &&
               onNewEndTimeSelected == other.onNewEndTimeSelected &&

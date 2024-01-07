@@ -46,7 +46,14 @@ final jobDetailsReducer = combineReducers<JobDetailsPageState>([
   TypedReducer<JobDetailsPageState, SetSunsetTimeAction>(_setSunsetTimes),
   TypedReducer<JobDetailsPageState, SetPoseFilePathsAction>(_setPoseFilePaths),
   TypedReducer<JobDetailsPageState, SetProfileToDetailsStateAction>(_setProfile),
+  TypedReducer<JobDetailsPageState, SetJobMileageTripAction>(_setMileageTrip),
 ]);
+
+JobDetailsPageState _setMileageTrip(JobDetailsPageState previousState, SetJobMileageTripAction action) {
+  return previousState.copyWith(
+    mileageTrip: action.mileageTrip,
+  );
+}
 
 JobDetailsPageState _setProfile(JobDetailsPageState previousState, SetProfileToDetailsStateAction action) {
   return previousState.copyWith(

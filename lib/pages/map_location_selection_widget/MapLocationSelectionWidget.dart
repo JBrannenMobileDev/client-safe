@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:redux/redux.dart';
 
@@ -42,10 +43,17 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
   final Function(LatLng) onMapLocationSaved;
   final Function(LocationDandy) saveSelectedLocation;
 
-  final double lat;
-  final double lng;
+  double lat;
+  double lng;
 
   _MapLocationSelectionWidgetState(this.onMapLocationSaved, this.lat, this.lng, this.saveSelectedLocation);
+
+
+  @override
+  void initState() {
+    super.initState();
+    getLocation();
+  }
 
   @override
   void dispose() {
@@ -59,7 +67,13 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
     c.animateCamera(CameraUpdate.newCameraPosition(p));
   }
 
-  @override
+  getLocation() async {
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    animateTo(position.latitude, position.longitude);
+  }
+
+
+      @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, MapLocationSelectionWidgetState>(
       onInit: (state) {

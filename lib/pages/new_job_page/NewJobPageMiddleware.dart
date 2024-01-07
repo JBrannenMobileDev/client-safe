@@ -269,20 +269,6 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       ));
     }
 
-    if(thisJob.selectedDate != null && (thisJob.selectedEndTime != null || thisJob.selectedTime != null)) {
-      jobReminders.add(JobReminder(
-        id: JobReminder.MILEAGE_EXPENSE,
-        jobDocumentId: thisJob.documentId,
-        payload: JobReminder.MILEAGE_EXPENSE_ID,
-        reminder: ReminderDandyLight(
-          description: 'Have you entered your mileage expense?',
-          when: WhenSelectionWidget.ON,
-          time: thisJob.selectedEndTime != null ? thisJob.selectedEndTime.add(Duration(hours: 1)) : thisJob.selectedTime.add(Duration(hours: 1)),
-        ),
-        hasBeenSeen: false,
-      ));
-    }
-
     if(jobReminders.isNotEmpty) {
       await JobReminderDao.insertAll(jobReminders);
     }

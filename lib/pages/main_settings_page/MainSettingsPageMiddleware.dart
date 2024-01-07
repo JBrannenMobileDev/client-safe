@@ -24,10 +24,12 @@ import 'package:dandylight/utils/TextFormatterUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/analytics/EventNames.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
+import 'package:geocoder2/geocoder2.dart';
 import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
+import '../../credentials.dart';
 import '../../data_layer/local_db/SembastDb.dart';
 import '../../data_layer/local_db/daos/ClientDao.dart';
 import '../../data_layer/repositories/DiscountCodesRepository.dart';
@@ -72,6 +74,25 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is PopulateAccountWithData) {
       _generateAccountData(store, action, next);
     }
+    if(action is SaveMainSettingsHomeLocationAction) {
+      saveHomeLocation(store, action, next);
+    }
+  }
+
+  void saveHomeLocation(Store<AppState> store, SaveMainSettingsHomeLocationAction action, NextDispatcher next) async{
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.latDefaultHome = action.startLocation.latitude;
+    profile.lngDefaultHome = action.startLocation.longitude;
+    await ProfileDao.insertOrUpdate(profile);
+    store.dispatch(SetHomeLocationToState(store.state.mainSettingsPageState, profile, (await getAddress(profile.latDefaultHome, profile.lngDefaultHome)).address));
+  }
+
+  Future<GeoData> getAddress(double lat, double lng) async {
+    return await Geocoder2.getDataFromCoordinates(
+        latitude: lat,
+        longitude: lng,
+        googleMapApiKey: PLACES_API_KEY
+    );
   }
 
   void generate50DiscountCode(Store<AppState> store, Generate50DiscountCodeAction action, NextDispatcher next) async{
@@ -90,14 +111,23 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetIsAdminAction(store.state.mainSettingsPageState, isAdmin));
 
     (await ProfileDao.getProfileStream()).listen((snapshots) async {
-        List<Profile> profiles = [];
+        Profile profile;
         for(RecordSnapshot profileSnapshot in snapshots) {
-          profiles.add(Profile.fromMap(profileSnapshot.value));
+          Profile newProfile = Profile.fromMap(profileSnapshot.value);
+          if(newProfile.uid == UidUtil().getUid()) {
+            profile = newProfile;
+          }
         }
-        if(profiles.length > 0) {
-          store.dispatch(UpdatePushNotificationEnabled(store.state.mainSettingsPageState, profiles.elementAt(0)?.pushNotificationsEnabled ?? false));
-          store.dispatch(UpdateCalendarEnabled(store.state.mainSettingsPageState, profiles.elementAt(0).calendarEnabled ?? false));
-          store.dispatch(LoadUserProfileDataAction(store.state.mainSettingsPageState, profiles.elementAt(0)));
+        if(profile != null) {
+          store.dispatch(UpdatePushNotificationEnabled(store.state.mainSettingsPageState, profile.pushNotificationsEnabled ?? false));
+          store.dispatch(UpdateCalendarEnabled(store.state.mainSettingsPageState, profile.calendarEnabled ?? false));
+          store.dispatch(LoadUserProfileDataAction(store.state.mainSettingsPageState, profile));
+          if(profile.hasDefaultHome()) {
+            store.dispatch(SetHomeAddressNameAction(store.state.mainSettingsPageState, (await getAddress(profile.latDefaultHome, profile.lngDefaultHome)).address));
+          } else {
+            store.dispatch(SetHomeAddressNameAction(store.state.mainSettingsPageState, 'Select a home location'));
+          }
+
         }
       }
     );

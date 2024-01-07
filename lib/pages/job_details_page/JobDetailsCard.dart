@@ -12,6 +12,7 @@ import '../../utils/VibrateUtil.dart';
 import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'JobDetailsPageState.dart';
+import 'SetupMilesDrivenTrackingBottomSheet.dart';
 
 class JobDetailsCard extends StatefulWidget {
   const JobDetailsCard({Key key}) : super(key: key);
@@ -26,12 +27,28 @@ class JobDetailsCard extends StatefulWidget {
 class _JobDetailsCard extends State<JobDetailsCard> {
   DateTime newDateTimeHolder;
   bool showMileageError = false;
+  bool trackMiles = true;
+
+  void _showSetupSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return SetupMilesDrivenTrackingBottomSheet();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, JobDetailsPageState>(
       onInit: (store) {
         newDateTimeHolder = store.state.jobDetailsPageState.job.selectedTime;
+        trackMiles = store.state.jobDetailsPageState.job.shouldTrackMiles;
       },
       onDidChange: (previous, current) {
         setState(() {
@@ -46,7 +63,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
       builder: (BuildContext context, JobDetailsPageState pageState) =>
           Container(
             margin: const EdgeInsets.only(left: 16, top: 26, right: 16, bottom: 0),
-            height: 314,
+            height: 326,
             decoration: BoxDecoration(
               color: Color(ColorConstants.getPrimaryWhite()),
               borderRadius: BorderRadius.circular(12.0),
@@ -168,38 +185,61 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                     ],
                   ),
                 ),
-                Container(
-                  height: 48.0,
+                const SizedBox(height: 8),
+                DateTime.now().isBefore(pageState.selectedDate) && pageState.mileageTrip == null ? Container(
+                  height: 54.0,
                   padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
+                          if(showMileageError && trackMiles) {
+                            _showSetupSheet(context);
+                          } else if(trackMiles) {
+                            setState(() {
+                              trackMiles = false;
+                            });
+                            pageState.setMileageAutoTrack(false);
+                          } else {
+                            setState(() {
+                              trackMiles = true;
+                            });
+                            pageState.setMileageAutoTrack(true);
+                          }
                           //TODO show bottom sheet with instructions on how to auto track miles driven.
-                          //TODO implement the actual switch.
                           //TODO implement actually creating the mileage trip automatically.
-                          //TODO update UI somehow to show that trip has been created.
                         },
                         child: Container(
-                          padding: EdgeInsets.all(8),
+                          padding: showMileageError && trackMiles ? const EdgeInsets.only(left: 12, right: 12) : const EdgeInsets.all(0),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16),
-                            color: Color(showMileageError && pageState.autoTrackMiles  ? ColorConstants.getPeachLight() : ColorConstants.getPrimaryWhite())
+                            borderRadius: BorderRadius.circular(12),
+                            color: showMileageError && trackMiles ? Color(ColorConstants.getBlueLight()).withOpacity(0.25) : Color(ColorConstants.getPrimaryWhite())
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              TextDandyLight(
-                                type: TextDandyLight.MEDIUM_TEXT,
-                                text: 'Auto-track miles driven:',
-                                textAlign: TextAlign.center,
-                                color: Color(showMileageError && pageState.autoTrackMiles ? ColorConstants.error_red : ColorConstants.getPrimaryBlack()),
-                                isBold: true,
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  TextDandyLight(
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: 'Track miles driven:',
+                                    textAlign: TextAlign.center,
+                                    color: Color(showMileageError && trackMiles ? ColorConstants.error_red : ColorConstants.getPrimaryBlack()),
+                                  ),
+                                  showMileageError && trackMiles ? TextDandyLight(
+                                    type: TextDandyLight.SMALL_TEXT,
+                                    text: '(Setup required)',
+                                    textAlign: TextAlign.center,
+                                    color: const Color(ColorConstants.error_red),
+                                    isBold: true,
+                                  ) : const SizedBox()
+                                ],
                               ),
-                              showMileageError && pageState.autoTrackMiles ? const SizedBox(width: 4) : const SizedBox(),
-                              showMileageError && pageState.autoTrackMiles ? Image.asset(
+                              showMileageError && trackMiles ? const SizedBox(width: 16) : const SizedBox(),
+                              showMileageError && trackMiles ? Image.asset(
                                 'assets/images/icons/warning.png',
                                 color: const Color(ColorConstants.error_red),
                                 height: 26,
@@ -215,23 +255,81 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                         activeColor: Color(ColorConstants.getBlueDark()),
                         thumbColor: Color(ColorConstants.getPrimaryWhite()),
                         onChanged: (enabled) async {
+                          setState(() {
+                            trackMiles = enabled;
+                          });
                           pageState.setMileageAutoTrack(enabled);
                         },
-                        value: pageState.autoTrackMiles,
+                        value: trackMiles,
                       ) : Switch(
                         activeTrackColor: Color(ColorConstants.getBlueLight()),
                         inactiveTrackColor: Color(ColorConstants.getBlueLight()),
                         activeColor: Color(ColorConstants.getBlueDark()),
                         onChanged: (enabled) async {
+                          setState(() {
+                            trackMiles = enabled;
+                          });
                           pageState.setMileageAutoTrack(enabled);
                         },
-                        value: pageState.autoTrackMiles,
+                        value: trackMiles,
                       )
                     ],
                   ),
+                ) : GestureDetector(
+                  onTap: () {
+                    //TODO go to expenses page
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 16, right: 16),
+                    padding: const EdgeInsets.only(left: 16, right: 0),
+                    height: 54,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: Color(ColorConstants.getBlueLight()).withOpacity(0.25)
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Image.asset(
+                              "assets/images/icons/directions.png",
+                              color: Color(ColorConstants.getBlueDark()),
+                              height: 36,
+                              width: 36,
+                            ),
+                            const SizedBox(width: 16),
+                            TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: '22.3 miles driven',
+                              textAlign: TextAlign.start,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              color: Color(ColorConstants.getPrimaryBlack()),
+                            ),
+                          ],
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            //TODO delete the mileage trip
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(12),
+                            height: 48,
+                            width: 48,
+                            child: Image.asset(
+                              "assets/images/icons/trash.png",
+                              color: Color(ColorConstants.getBlueDark()),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+                  padding: const EdgeInsets.only(left: 16, right: 16, top: 12),
                   child: Row(
                     children: [
                       Expanded(
