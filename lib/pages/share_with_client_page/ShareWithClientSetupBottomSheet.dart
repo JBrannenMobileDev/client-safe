@@ -104,7 +104,7 @@ class _BottomSheetPageState extends State<ShareWithClientSetupBottomSheet> with 
                                  width: 24,
                                  child: Image.asset(
                                    'assets/images/job_progress/complete_check.png',
-                                   color: Color(pageState.profile.isProfileComplete() ? ColorConstants.getPeachDark() : ColorConstants.getPrimaryGreyMedium()),
+                                   color: Color(pageState.profile.isProfileComplete() ? ColorConstants.getBlueDark() : ColorConstants.getPrimaryGreyMedium()),
                                  ),
                                ),
                                TextDandyLight(
@@ -143,7 +143,7 @@ class _BottomSheetPageState extends State<ShareWithClientSetupBottomSheet> with 
                                  width: 24,
                                  child: Image.asset(
                                    'assets/images/job_progress/complete_check.png',
-                                   color: Color(pageState.profile.hasSetupBrand ? ColorConstants.getPeachDark() : ColorConstants.getPrimaryGreyMedium()),
+                                   color: Color(pageState.profile.hasSetupBrand ? ColorConstants.getBlueDark() : ColorConstants.getPrimaryGreyMedium()),
                                  ),
                                ),
                                TextDandyLight(
@@ -181,7 +181,7 @@ class _BottomSheetPageState extends State<ShareWithClientSetupBottomSheet> with 
                                  width: 24,
                                  child: Image.asset(
                                    'assets/images/job_progress/complete_check.png',
-                                   color: Color(pageState.profile.paymentOptionsSelected() ? ColorConstants.getPeachDark() : ColorConstants.getPrimaryGreyMedium()),
+                                   color: Color(pageState.profile.paymentOptionsSelected() ? ColorConstants.getBlueDark() : ColorConstants.getPrimaryGreyMedium()),
                                  ),
                                ),
                                TextDandyLight(
