@@ -268,6 +268,12 @@ class SaveHomeLocationAction{
   SaveHomeLocationAction(this.pageState, this.startLocation);
 }
 
+class DeleteMileageTripAction {
+  final JobDetailsPageState pageState;
+  final String documentId;
+  DeleteMileageTripAction(this.pageState, this.documentId);
+}
+
 class SetEventMapAction{
   final JobDetailsPageState pageState;
   final List<Job> upcomingJobs;

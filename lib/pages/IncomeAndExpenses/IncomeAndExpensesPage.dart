@@ -288,7 +288,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                     });
                   },
                   tooltip: 'Speed Dial',
-                  heroTag: 'speed-dial-hero-tag',
+                  heroTag: 'speed-dial-hero-tag-income-expense',
                   backgroundColor: selectedIndex == 0 ? Color(ColorConstants.getPeachDark()) : Color(ColorConstants.getPeachDark()),
                   foregroundColor: Colors.black,
                   elevation: 8.0,
@@ -407,7 +407,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         ),
                       ),
                       onTap: () {
-                        UserOptionsUtil.showNewMileageExpenseSelected(context);
+                        UserOptionsUtil.showNewMileageExpenseSelected(context, null);
                       },
                     ),
                   ],

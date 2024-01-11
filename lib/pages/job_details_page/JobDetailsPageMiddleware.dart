@@ -152,6 +152,18 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveHomeLocationAction) {
       saveHomeLocation(store, action, next);
     }
+    if(action is DeleteMileageTripAction) {
+      deleteMileageTrip(store, action, next);
+    }
+  }
+
+  void deleteMileageTrip(Store<AppState> store, DeleteMileageTripAction action, NextDispatcher next) async{
+    await MileageExpenseDao.delete(action.documentId);
+    MileageExpense expense = await MileageExpenseDao.getMileageExpenseById(action.documentId);
+    if(expense != null) {
+      await MileageExpenseDao.delete(action.documentId);
+    }
+    store.dispatch(SetJobMileageTripAction(store.state.jobDetailsPageState, null));
   }
 
   void saveHomeLocation(Store<AppState> store, SaveHomeLocationAction action, NextDispatcher next) async{
@@ -491,6 +503,12 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _updateJobWithNewDate(Store<AppState> store, UpdateJobDateAction action, NextDispatcher next) async{
+    //Update selectedDate to include local timezone offset.
+    DateTime utc = store.state.jobDetailsPageState.selectedDate;
+    DateTime selectedInLocal = utc.toLocal();
+    int offsetMinutes = selectedInLocal.timeZoneOffset.inMinutes;
+    DateTime result = utc.add(Duration(minutes: offsetMinutes));
+
     Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
       selectedDate: store.state.jobDetailsPageState.selectedDate,
     );
@@ -543,6 +561,13 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(SetClientAction(store.state.jobDetailsPageState, client));
       _fetchDeviceEventsForMonth(store, null, next);
       fetchSunsetWeatherForSelectedDate(store, next, job);
+
+      MileageExpense mileageTrip = await MileageExpenseDao.getMileageExpenseByJobId(job.documentId);
+      if(mileageTrip != null) {
+        await store.dispatch(SetJobMileageTripAction(store.state.jobDetailsPageState, mileageTrip));
+      } else {
+        await store.dispatch(SetJobMileageTripAction(store.state.jobDetailsPageState, null));
+      }
     }
     _fetchSunsetTimeWithJob(store, job);
     store.dispatch(FetchJobDetailsPricePackagesAction(store.state.jobDetailsPageState));
@@ -553,11 +578,6 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     store.dispatch(SetProfileToDetailsStateAction(store.state.jobDetailsPageState, profile));
-
-    MileageExpense mileageTrip = await MileageExpenseDao.getMileageExpenseByJobId(job.documentId);
-    if(mileageTrip != null) {
-      store.dispatch(SetJobMileageTripAction(store.state.jobDetailsPageState, mileageTrip));
-    }
   }
 
   void setJobInfoWithId(Store<AppState> store, NextDispatcher next, SetJobInfoWithJobDocumentId action) async{

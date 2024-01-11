@@ -103,11 +103,16 @@ class MileageExpenseDao extends Equatable{
     if((await getAll()).isNotEmpty) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
       final recordSnapshots = await _mileageExpenseStore.find(await _db, finder: finder);
-      return recordSnapshots.map((snapshot) {
+      List<MileageExpense> trips = recordSnapshots.map((snapshot) {
         final expense = MileageExpense.fromMap(snapshot.value);
         expense.id = snapshot.key;
         return expense;
-      }).toList().elementAt(0);
+      }).toList();
+      if(trips.isNotEmpty) {
+        return trips.elementAt(0);
+      } else {
+        return null;
+      }
     } else {
       return null;
     }
@@ -117,11 +122,16 @@ class MileageExpenseDao extends Equatable{
     if((await getAll()).isNotEmpty) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('jobDocumentId', jobDocumentId));
       final recordSnapshots = await _mileageExpenseStore.find(await _db, finder: finder);
-      return recordSnapshots.map((snapshot) {
+      List<MileageExpense> trips = recordSnapshots.map((snapshot) {
         final expense = MileageExpense.fromMap(snapshot.value);
         expense.id = snapshot.key;
         return expense;
-      }).toList().elementAt(0);
+      }).toList();
+      if(trips.isNotEmpty) {
+        return trips.elementAt(0);
+      } else {
+        return null;
+      }
     } else {
       return null;
     }

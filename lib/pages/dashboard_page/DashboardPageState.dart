@@ -359,6 +359,7 @@ class DashboardPageState {
     updateCanShowRequestReview: null,
     updateCanShowPMF: null,
     markUpdateAsSeen: null,
+    hasSeenShowcase: true,
   );
 
   @override
@@ -367,6 +368,7 @@ class DashboardPageState {
       actionItems.hashCode ^
       recentLeads.hashCode ^
       upcomingJobs.hashCode ^
+      hasSeenShowcase.hashCode ^
       unseenNotificationCount.hashCode ^
       onSearchClientsClicked.hashCode ^
       onActionItemClicked.hashCode ^
@@ -432,6 +434,7 @@ class DashboardPageState {
               onJobClicked == other.onJobClicked &&
               onAddClicked == other.onAddClicked &&
               activeJobs == other.activeJobs &&
+              hasSeenShowcase == other.hasSeenShowcase &&
               shouldShowAppUpdate == other.shouldShowAppUpdate &&
               allUserStages == other.allUserStages &&
               onViewAllHideSelected == other.onViewAllHideSelected &&

@@ -1,5 +1,6 @@
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/models/MileageExpense.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/AddTipDialog.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/RequestPaymentLinksDialog.dart';
@@ -152,11 +153,11 @@ class UserOptionsUtil {
     );
   }
 
-  static void showNewMileageExpenseSelected(BuildContext context){
+  static void showNewMileageExpenseSelected(BuildContext context, MileageExpense trip){
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return NewMileageExpensePage();
+        return NewMileageExpensePage(trip);
       },
     );
   }
@@ -252,7 +253,7 @@ class UserOptionsUtil {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return LocationSelectionDialog();
+        return const LocationSelectionDialog();
       },
     );
   }

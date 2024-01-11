@@ -193,6 +193,14 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       jobTitle = resultClient.firstName + ' - Job';
     }
 
+    //Update selectedDate to include local timezone offset.
+    DateTime utc = store.state.newJobPageState.selectedDate;
+    DateTime selectedInLocal = utc.toLocal();
+    int offsetMinutes = selectedInLocal.timeZoneOffset.inMinutes;
+    DateTime result = utc.add(Duration(minutes: offsetMinutes));
+
+    DateTime resultDate = DateTime(utc.year, utc.month, utc.day);
+
     Job jobToSave = Job(
       id: store.state.newJobPageState.id,
       documentId: store.state.newJobPageState.documentId,
@@ -200,7 +208,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       client: resultClient,
       clientName: resultClient.getClientFullName(),
       jobTitle: jobTitle,
-      selectedDate: store.state.newJobPageState.selectedDate,
+      selectedDate: resultDate,
       selectedTime: store.state.newJobPageState.selectedStartTime,
       selectedEndTime: store.state.newJobPageState.selectedEndTime,
       type: store.state.newJobPageState.selectedJobType,
@@ -220,7 +228,8 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       depositAmount: store.state.newJobPageState.selectedPriceProfile != null ? store.state.newJobPageState.selectedPriceProfile.deposit?.toInt() : 0,
       proposal: Proposal(
         detailsMessage: "(Example client portal message)\n\nHi ${resultClient.firstName},\nI wanted to thank you again for choosing our photography services. We're excited to work with you to capture your special moments.\n\nTo make things official, kindly review and sign the contract. It outlines our agreement's essential details.\n\nIf you have any questions, please don't hesitate to ask.\n\nBest regards,\n\n${profile.firstName} ${profile.lastName ?? ''}\n${profile.businessName ?? ''}"
-      )
+      ),
+      shouldTrackMiles: true,
       );
 
     await JobDao.insertOrUpdate(jobToSave);

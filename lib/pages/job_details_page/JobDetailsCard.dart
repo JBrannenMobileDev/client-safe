@@ -1,4 +1,5 @@
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/TextFormatterUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 
 import '../../AppState.dart';
+import '../../utils/StringUtils.dart';
 import '../../utils/UserOptionsUtil.dart';
 import '../../utils/VibrateUtil.dart';
 import '../../utils/styles/Styles.dart';
@@ -186,7 +188,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                   ),
                 ),
                 const SizedBox(height: 8),
-                DateTime.now().isBefore(pageState.selectedDate) && pageState.mileageTrip == null ? Container(
+                pageState.mileageTrip == null ? Container(
                   height: 54.0,
                   padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                   child: Row(
@@ -207,8 +209,6 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                             });
                             pageState.setMileageAutoTrack(true);
                           }
-                          //TODO show bottom sheet with instructions on how to auto track miles driven.
-                          //TODO implement actually creating the mileage trip automatically.
                         },
                         child: Container(
                           padding: showMileageError && trackMiles ? const EdgeInsets.only(left: 12, right: 12) : const EdgeInsets.all(0),
@@ -277,7 +277,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                   ),
                 ) : GestureDetector(
                   onTap: () {
-                    //TODO go to expenses page
+                    UserOptionsUtil.showNewMileageExpenseSelected(context, pageState.mileageTrip);
                   },
                   child: Container(
                     margin: const EdgeInsets.only(left: 16, right: 16),
@@ -302,7 +302,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                             const SizedBox(width: 16),
                             TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
-                              text: '22.3 miles driven',
+                              text: '${TextFormatterUtil.formatLargeNumberOneDecimal(pageState.mileageTrip?.totalMiles ?? 0)} miles driven',
                               textAlign: TextAlign.start,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
@@ -310,20 +310,6 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                             ),
                           ],
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            //TODO delete the mileage trip
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(12),
-                            height: 48,
-                            width: 48,
-                            child: Image.asset(
-                              "assets/images/icons/trash.png",
-                              color: Color(ColorConstants.getBlueDark()),
-                            ),
-                          ),
-                        )
                       ],
                     ),
                   ),

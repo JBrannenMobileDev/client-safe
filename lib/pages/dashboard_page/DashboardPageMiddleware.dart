@@ -105,7 +105,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       double milesDriven = await GoogleApiClient(httpClient: http.Client()).getTravelDistance(start, end);
       MileageExpense newMileageTrip = MileageExpense(
         jobDocumentId: job.documentId,
-        totalMiles: milesDriven,
+        totalMiles: milesDriven * 2,
         isRoundTrip: true,
         startLat: start.latitude,
         startLng: start.longitude,
@@ -114,13 +114,14 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
         deductionRate: NumberConstants.TAX_MILEAGE_DEDUCTION_RATE,
         charge: Charge(
           chargeDate: job.selectedDate,
-          chargeAmount: milesDriven * NumberConstants.TAX_MILEAGE_DEDUCTION_RATE,
+          chargeAmount: (milesDriven * 2 * NumberConstants.TAX_MILEAGE_DEDUCTION_RATE),
           isPaid: true,
         ),
       );
       newMileageTrip = await MileageExpenseDao.insert(newMileageTrip);
       job.hasAddedMileageTrip = true;
       await JobDao.update(job);
+      print('Mileage trip added');
     }
   }
 

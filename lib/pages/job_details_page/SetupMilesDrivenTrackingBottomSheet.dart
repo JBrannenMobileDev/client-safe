@@ -103,7 +103,7 @@ class _BottomSheetPageState extends State<SetupMilesDrivenTrackingBottomSheet> w
                            pageState.onStartLocationChanged,
                            0.0,
                            0.0,
-                           null
+                           null,
                        );
                      },
                      child: SizedBox(

@@ -4,7 +4,6 @@ import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 
-import 'Contract.dart';
 import 'JobType.dart';
 import 'Pose.dart';
 import 'Proposal.dart';
@@ -66,7 +65,6 @@ class Job {
         break;
     }
     return result;
-  }
 
   int id;
   String documentId;
@@ -94,7 +92,7 @@ class Job {
   List<Pose> poses;
   Proposal proposal;
   bool hasAddedMileageTrip;
-  bool shouldTrackMiles;
+  bool shouldTrackMiles = true;
 
   Job({
     this.id,
@@ -226,7 +224,7 @@ class Job {
       jobTitle: map['jobTitle'],
       notes: map['notes'],
       hasAddedMileageTrip: map['hasAddedMileageTrip'] != null ? map['hasAddedMileageTrip'] : false,
-      shouldTrackMiles: map['shouldTrackMiles'] != null ? map['shouldTrackMiles'] : true,
+      shouldTrackMiles: map['shouldTrackMiles'] != null ? map['shouldTrackMiles'] : false,
       addOnCost: map['addOnCost']?.toDouble(),
       depositReceivedDate: map['depositReceivedDate'] != null && map['depositReceivedDate'] != "" ? DateTime.parse(map['depositReceivedDate']) : null,
       selectedDate: map['selectedDate'] != "" && map['selectedDate'] != null ? DateTime.parse(map['selectedDate']) : null,
@@ -391,7 +389,7 @@ class Job {
 
   bool isMissingMileageTrip() {
     DateTime now = DateTime.now();
-    if(!hasAddedMileageTrip && selectedDate != null && location != null && now.isAfter(selectedDate) ) {
+    if(!hasAddedMileageTrip && shouldTrackMiles && selectedDate != null && location != null && now.isAfter(selectedDate) ) {
       return true;
     } else {
       return false;

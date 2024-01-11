@@ -398,6 +398,7 @@ JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobAction 
     selectedDate: action.job.selectedDate,
     jobType: action.job.type,
     notes: action.job.notes,
+    mileageTrip: null,
   );
 }
 

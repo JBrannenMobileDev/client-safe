@@ -16,13 +16,17 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../models/MileageExpense.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class NewMileageExpensePage extends StatefulWidget {
+  final MileageExpense trip;
+
+  const NewMileageExpensePage(this.trip, {Key key}) : super(key: key);
 
   @override
   _NewMileageExpensePageState createState() {
-    return _NewMileageExpensePageState();
+    return _NewMileageExpensePageState(trip);
   }
 }
 
@@ -32,6 +36,9 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
   final controller = PageController(
     initialPage: 0,
   );
+  final MileageExpense trip;
+
+  _NewMileageExpensePageState(this.trip);
 
   int currentPageIndex = 0;
 
@@ -77,6 +84,9 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
       onInit: (store) {
         store.dispatch(FetchLastKnowPosition(store.state.newMileageExpensePageState));
         if(store.state.newMileageExpensePageState.shouldClear) store.dispatch(ClearMileageExpenseStateAction(store.state.newMileageExpensePageState));
+        if(trip != null) {
+          store.dispatch(LoadExistingMileageExpenseAction(store.state.newMileageExpensePageState, trip));
+        }
       },
       converter: (store) => NewMileageExpensePageState.fromStore(store),
       builder: (BuildContext context, NewMileageExpensePageState pageState) =>
@@ -275,7 +285,6 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
               onPressed: () {
                 pageState.onDeleteMileageExpenseSelected();
                 Navigator.of(context).pop();
-                Navigator.of(context).pop();
               },
               child: new Text('Yes'),
             ),
@@ -293,7 +302,6 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
               style: Styles.getButtonStyle(),
               onPressed: () {
                 pageState.onDeleteMileageExpenseSelected();
-                Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
               child: new Text('Yes'),

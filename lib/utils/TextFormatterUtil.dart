@@ -16,6 +16,11 @@ class TextFormatterUtil {
     return formatter.format(value);
   }
 
+  static String formatLargeNumberOneDecimal(double value){
+    final formatter = NumberFormat('#,##,###.#');
+    return formatter.format(value);
+  }
+
   static String formatSimpleCurrencyNoNumberSign(double value){
     final formatter = NumberFormat.currency(symbol: '', decimalDigits: 0);
     return formatter.format(value);

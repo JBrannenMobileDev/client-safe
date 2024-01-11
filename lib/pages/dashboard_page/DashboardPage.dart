@@ -366,7 +366,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
             });
             current.onGoToSeen();
           } else if(!previous.shouldShowNewMileageExpensePage && current.shouldShowNewMileageExpensePage) {
-            UserOptionsUtil.showNewMileageExpenseSelected(context);
+            UserOptionsUtil.showNewMileageExpenseSelected(context, null);
           } else if(!hasSeenRequestReview && !previous.shouldShowRequestReview && current.shouldShowRequestReview) {
             setState(() {
               hasSeenRequestReview = true;
@@ -411,7 +411,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                     overlayColor: Colors.black,
                     overlayOpacity: 0.5,
                     tooltip: 'Speed Dial',
-                    heroTag: 'speed-dial-hero-tag',
+                    heroTag: 'speed-dial-hero-tag-dashboard',
                     backgroundColor: Color(ColorConstants.getPeachDark()),
                     foregroundColor: Colors.black,
                     elevation: 8.0,

@@ -11,6 +11,7 @@ class AdminCheckUtil {
     'jpshots@mailinator.com',
     'dandylightprod@mailinator.com',
     'dandylightdemo@mailinator.com',
+    'dandylightprodtest2@mailinator.com'
   ];
 
   static bool isAdmin(Profile profile) {

@@ -194,6 +194,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, OnDeleteContractSelectedAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, InvoiceSentAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveHomeLocationAction>(JobDetailsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, DeleteMileageTripAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetLastKnowPosition>(SunsetWeatherPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchDataForSelectedDateAction>(SunsetWeatherPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, OnLocationSavedAction>(SunsetWeatherPageMiddleware()));
