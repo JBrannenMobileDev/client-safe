@@ -65,6 +65,7 @@ class Job {
         break;
     }
     return result;
+  }
 
   int id;
   String documentId;

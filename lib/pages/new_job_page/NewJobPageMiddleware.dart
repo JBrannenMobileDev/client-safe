@@ -97,8 +97,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchDeviceEventsForMonth(Store<AppState> store, FetchNewJobDeviceEvents action, NextDispatcher next) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    DateTime monthToUse = null;
+    DateTime monthToUse;
     if(action != null) {
       monthToUse = action.month;
     } else {
@@ -112,7 +111,6 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       List<Event> deviceEvents = await CalendarSyncUtil.getDeviceEventsForDateRange(startDate, endDate);
       store.dispatch(SetNewJobDeviceEventsAction(store.state.newJobPageState, deviceEvents));
     }
-    store.dispatch(SetSelectedDateAction(store.state.newJobPageState, monthToUse));
   }
 
   void _fetchSunsetTime(Store<AppState> store, action, NextDispatcher next) async{
@@ -195,11 +193,10 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
 
     //Update selectedDate to include local timezone offset.
     DateTime utc = store.state.newJobPageState.selectedDate;
-    DateTime selectedInLocal = utc.toLocal();
-    int offsetMinutes = selectedInLocal.timeZoneOffset.inMinutes;
-    DateTime result = utc.add(Duration(minutes: offsetMinutes));
-
-    DateTime resultDate = DateTime(utc.year, utc.month, utc.day);
+    DateTime resultSelectedDate;
+    if(utc != null) {
+      resultSelectedDate = DateTime(utc.year, utc.month, utc.day);
+    }
 
     Job jobToSave = Job(
       id: store.state.newJobPageState.id,
@@ -208,7 +205,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       client: resultClient,
       clientName: resultClient.getClientFullName(),
       jobTitle: jobTitle,
-      selectedDate: resultDate,
+      selectedDate: resultSelectedDate,
       selectedTime: store.state.newJobPageState.selectedStartTime,
       selectedEndTime: store.state.newJobPageState.selectedEndTime,
       type: store.state.newJobPageState.selectedJobType,

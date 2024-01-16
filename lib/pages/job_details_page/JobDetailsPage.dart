@@ -119,7 +119,10 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
     return StoreConnector<AppState, JobDetailsPageState>(
         converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
         onInit: (appState) => {
+            // appState.dispatch(ClearPreviousStateAction(appState.state.jobDetailsPageState)),
+          if(jobDocumentId != null) {
             appState.dispatch(SetJobInfo(appState.state.jobDetailsPageState, jobDocumentId)),
+          }
         },
         onDidChange: (prev, pageState) {
           pageStateLocal = pageState;

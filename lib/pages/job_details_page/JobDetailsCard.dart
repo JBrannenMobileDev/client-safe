@@ -97,7 +97,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                         padding: const EdgeInsets.only(left: 16.0),
                         child: TextDandyLight(
                           type: TextDandyLight.MEDIUM_TEXT,
-                          text: "Type:  ${pageState.job.type.title}",
+                          text: "Type:  ${pageState.job?.type?.title}",
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
@@ -131,8 +131,8 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                         padding: const EdgeInsets.only(left: 16.0),
                         child: TextDandyLight(
                           type: TextDandyLight.MEDIUM_TEXT,
-                          text: pageState.job.priceProfile == null ? 'Price package not selected' :
-                          'Package:  ${pageState.job.priceProfile.profileName}',
+                          text: pageState.job?.priceProfile == null ? 'Price package not selected' :
+                          'Package:  ${pageState.job?.priceProfile?.profileName}',
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
@@ -166,13 +166,13 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                         padding: const EdgeInsets.only(left: 16.0),
                         child: TextDandyLight(
                           type: TextDandyLight.MEDIUM_TEXT,
-                          text: "Date:  ${pageState.job.selectedDate != null
-                              ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.job.selectedDate)
+                          text: "Date:  ${pageState.job?.selectedDate != null
+                              ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.job?.selectedDate)
                               : 'Date not selected'}",
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
-                          color: Color(pageState.job.selectedDate != null ? ColorConstants.getPrimaryBlack() : ColorConstants.error_red),
+                          color: Color(pageState.job?.selectedDate != null ? ColorConstants.getPrimaryBlack() : ColorConstants.error_red),
                         ),
                       ),
                       Container(
@@ -333,7 +333,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                                           margin: const EdgeInsets.only(top: 16.0),
                                           height: MediaQuery.of(context).copyWith().size.height / 3,
                                           child: CupertinoDatePicker(
-                                            initialDateTime: pageState.job.selectedTime,
+                                            initialDateTime: pageState.job?.selectedTime,
                                             onDateTimeChanged: (DateTime time) {
                                               vibrate();
                                               newDateTimeHolder = time;
@@ -435,11 +435,11 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                                     children: [
                                       TextDandyLight(
                                         type: TextDandyLight.LARGE_TEXT,
-                                        text: (pageState.job.selectedTime != null ? DateFormat('h:mm a').format(pageState.job.selectedTime) : 'Not selected'),
+                                        text: (pageState.job?.selectedTime != null ? DateFormat('h:mm a').format(pageState.job?.selectedTime) : 'Not selected'),
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
-                                        color: Color(pageState.job.selectedTime != null ? ColorConstants.getPrimaryBlack() : ColorConstants.error_red),
+                                        color: Color(pageState.job?.selectedTime != null ? ColorConstants.getPrimaryBlack() : ColorConstants.error_red),
                                       )
                                     ],
                                   ),
@@ -464,7 +464,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                                           margin: const EdgeInsets.only(top: 16.0),
                                           height: MediaQuery.of(context).copyWith().size.height / 3,
                                           child: CupertinoDatePicker(
-                                            initialDateTime: pageState.job.selectedEndTime,
+                                            initialDateTime: pageState.job?.selectedEndTime,
                                             onDateTimeChanged: (DateTime time) {
                                               vibrate();
                                               newDateTimeHolder = time;
@@ -567,11 +567,11 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                                     children: [
                                       TextDandyLight(
                                         type: TextDandyLight.LARGE_TEXT,
-                                        text: (pageState.job.selectedEndTime != null ? DateFormat('h:mm a').format(pageState.job.selectedEndTime) : 'Not Selected'),
+                                        text: (pageState.job?.selectedEndTime != null ? DateFormat('h:mm a').format(pageState.job?.selectedEndTime) : 'Not Selected'),
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
-                                        color: Color(pageState.job.selectedEndTime != null ? ColorConstants.getPrimaryBlack() : ColorConstants.error_red),
+                                        color: Color(pageState.job?.selectedEndTime != null ? ColorConstants.getPrimaryBlack() : ColorConstants.error_red),
                                       )
                                     ],
                                   ),

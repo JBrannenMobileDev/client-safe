@@ -30,9 +30,10 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
     return StoreConnector<AppState, SunsetWeatherPageState>(
       converter: (store) => SunsetWeatherPageState.fromStore(store),
       builder: (BuildContext context, SunsetWeatherPageState pageState) => Dialog(
-        insetPadding: EdgeInsets.only(left: 0.0, right: 0.0),
+        insetPadding: const EdgeInsets.only(left: 0.0, right: 0.0),
         backgroundColor: Colors.transparent,
         child: Container(
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
           decoration: BoxDecoration(
             color: Color(ColorConstants.getPrimaryWhite()),
             borderRadius: BorderRadius.circular(16.0),
@@ -41,10 +42,10 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
           child: pageState.locations.length > 0
               ? Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(top: 16.0, bottom: 0.0),
+                padding: const EdgeInsets.only(top: 16.0, bottom: 0.0),
                 child: TextDandyLight(
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: "Select a Location",
@@ -53,7 +54,7 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(bottom: 8.0),
+                padding: const EdgeInsets.only(bottom: 8.0),
                 child: TextDandyLight(
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: pageState.selectedLocation != null
@@ -63,78 +64,25 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                   color: Color(ColorConstants.getPrimaryColor()),
                 ),
               ),
-              Container(
-                height: (MediaQuery.of(context).size.height) - 202,
-                child: GridView.builder(
-                    padding: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 64.0),
-                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 200,
-                        childAspectRatio: 3 / 2,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 64),
-                    itemCount: pageState.locations.length,
-                    controller: _controller,
-                    physics: AlwaysScrollableScrollPhysics(),
-                    key: _listKey,
-                    shrinkWrap: true,
-                    reverse: false,
-                    itemBuilder: _buildItem),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 26.0, right: 26.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    TextButton(
-                      style: Styles.getButtonStyle(
-                        color: Color(ColorConstants.getPrimaryWhite()),
-                        textColor: Color(ColorConstants.getPrimaryBlack()),
-                        left: 8.0,
-                        top: 8.0,
-                        right: 8.0,
-                        bottom: 8.0,
-                      ),
-                      // disabledColor: Color(ColorConstants.getPrimaryWhite()),
-                      // disabledTextColor:
-                      // Color(ColorConstants.primary_bg_grey),
-                      // splashColor: Color(ColorConstants.getPrimaryColor()),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: TextDandyLight(
-                        type: TextDandyLight.MEDIUM_TEXT,
-                        text: 'Cancel',
-                        textAlign: TextAlign.start,
-                        color: Color(ColorConstants.getPrimaryBlack()),
-                      ),
-                    ),
-                    TextButton(
-                      style: Styles.getButtonStyle(
-                        color: Color(ColorConstants.getPrimaryWhite()),
-                        textColor: Color(ColorConstants.getPrimaryBlack()),
-                        left: 8.0,
-                        top: 8.0,
-                        right: 8.0,
-                        bottom: 8.0,
-                      ),
-                      // disabledColor: Color(ColorConstants.getPrimaryWhite()),
-                      // disabledTextColor:
-                      // Color(ColorConstants.primary_bg_grey),
-                      // splashColor: Color(ColorConstants.getPrimaryColor()),
-                      onPressed: () {
-                        pageState.onLocationSaved();
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pop();
-                      },
-                      child: TextDandyLight(
-                        type: TextDandyLight.MEDIUM_TEXT,
-                        text: 'Save',
-                        textAlign: TextAlign.start,
-                        color: Color(ColorConstants.getPrimaryBlack()),
-                      ),
-                    ),
-                  ],
-                ),
+              ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: 65.0,
+                    maxHeight: MediaQuery.of(context).size.height - 149,
+                  ),
+                  child: GridView.builder(
+                      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 64.0),
+                      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 200,
+                          childAspectRatio: 2 / 2.75,
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 16),
+                      itemCount: pageState.locations.length,
+                      controller: _controller,
+                      physics: const ClampingScrollPhysics(),
+                      key: _listKey,
+                      shrinkWrap: true,
+                      reverse: false,
+                      itemBuilder: _buildItem)
               ),
             ],
           )
@@ -143,7 +91,7 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(bottom: 16.0, top: 8.0),
+                padding: const EdgeInsets.only(bottom: 16.0, top: 8.0),
                 child: TextDandyLight(
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: "Select a location for this job",
@@ -152,7 +100,7 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 32.0, right: 32.0, bottom: 32.0, top: 16.0),
+                padding: const EdgeInsets.only(left: 32.0, right: 32.0, bottom: 32.0, top: 16.0),
                 child: TextDandyLight(
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: "You do not have any locations saved to your collection. Select the + Location button to create a new location.",
@@ -177,7 +125,7 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                     children: <Widget>[
                       IconButton(
                         icon: const Icon(Icons.add),
-                        color: Color(ColorConstants.white),
+                        color: const Color(ColorConstants.white),
                         tooltip: 'Add',
                         onPressed: () {
                           UserOptionsUtil.showNewPriceProfileDialog(context);
@@ -204,7 +152,7 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
     return StoreConnector<AppState, SunsetWeatherPageState>(
       converter: (store) => SunsetWeatherPageState.fromStore(store),
       builder: (BuildContext context, SunsetWeatherPageState pageState) => Container(
-        margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
+        margin: const EdgeInsets.only(top: 8.0, bottom: 8.0),
         child: SunsetWeatherLocationListWidget(index),
       ),
     );

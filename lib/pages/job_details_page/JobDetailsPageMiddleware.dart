@@ -479,11 +479,11 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       List<JobReminder> jobReminders = await JobReminderDao.getRemindersByJobId(action.pageState.job.documentId);
       JobReminder reminderToUpdate = null;
       if(jobReminders.isNotEmpty) {
-        reminderToUpdate = await jobReminders.firstWhere((reminder) => reminder.payload == JobReminder.MILEAGE_EXPENSE_ID, orElse: () => null);
+        reminderToUpdate = jobReminders.firstWhere((reminder) => reminder.payload == JobReminder.MILEAGE_EXPENSE_ID, orElse: () => null);
       }
 
       if(reminderToUpdate != null) {
-        reminderToUpdate.reminder.time = jobToSave.selectedEndTime != null ? jobToSave.selectedEndTime.add(Duration(hours: 1)) : jobToSave.selectedTime.add(Duration(hours: 2));
+        reminderToUpdate.reminder.time = jobToSave.selectedEndTime != null ? jobToSave.selectedEndTime.add(const Duration(hours: 1)) : jobToSave.selectedTime.add(const Duration(hours: 2));
         JobReminderDao.update(reminderToUpdate);
       }
     }
@@ -503,17 +503,12 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _updateJobWithNewDate(Store<AppState> store, UpdateJobDateAction action, NextDispatcher next) async{
-    //Update selectedDate to include local timezone offset.
     DateTime utc = store.state.jobDetailsPageState.selectedDate;
-    DateTime selectedInLocal = utc.toLocal();
-    int offsetMinutes = selectedInLocal.timeZoneOffset.inMinutes;
-    DateTime result = utc.add(Duration(minutes: offsetMinutes));
-
     Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
-      selectedDate: store.state.jobDetailsPageState.selectedDate,
+      selectedDate: DateTime(utc.year, utc.month, utc.day)
     );
     await JobDao.insertOrUpdate(jobToSave);
-    await NotificationHelper().createAndUpdatePendingNotifications();
+    NotificationHelper().createAndUpdatePendingNotifications();
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, store.state.incomeAndExpensesPageState.selectedYear));
@@ -540,6 +535,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchClientForJob(Store<AppState> store, NextDispatcher next, SetJobInfo action) async{
+    store.dispatch(ClearPreviousStateAction(store.state.jobDetailsPageState));
     Job job = await JobDao.getJobById(action.jobDocumentId);
     if(job != null) {
       if(job.client == null && job.clientDocumentId != null && job.clientDocumentId.isNotEmpty) {

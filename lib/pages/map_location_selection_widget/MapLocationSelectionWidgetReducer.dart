@@ -33,7 +33,7 @@ MapLocationSelectionWidgetState _setSearchText(MapLocationSelectionWidgetState p
 MapLocationSelectionWidgetState _setSelectedSearchLocation(MapLocationSelectionWidgetState previousState, SetSelectedSearchLocation action){
   return previousState.copyWith(
     selectedSearchLocation: action.selectedSearchLocation,
-    locationResults: List(),
+    locationResults: [],
   );
 }
 

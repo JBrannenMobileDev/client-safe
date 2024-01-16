@@ -139,9 +139,17 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
                 margin: EdgeInsets.only(bottom: 14.0),
                 child: GestureDetector(
                   onTap: () {
-                    if(onMapLocationSaved != null) onMapLocationSaved(LatLng(pageState.lat, pageState.lng));
-                    if(saveSelectedLocation != null) {
+                    if(onMapLocationSaved != null) {
                       if(pageState.selectedSearchLocation != null) {
+                        onMapLocationSaved(LatLng(pageState.selectedSearchLocation.latitude, pageState.selectedSearchLocation.longitude));
+                        saveSelectedLocation(pageState.selectedSearchLocation);
+                      }else {
+                        onMapLocationSaved(LatLng(pageState.lat, pageState.lng));
+                      }
+                      onMapLocationSaved(LatLng(pageState.lat, pageState.lng));
+                    }
+                    if(saveSelectedLocation != null) {
+                      if(pageState.selectedSearchLocation != null && pageState.selectedSearchLocation.latitude == pageState.lat && pageState.selectedSearchLocation.longitude == pageState.lng) {
                         saveSelectedLocation(pageState.selectedSearchLocation);
                       }else {
                         saveSelectedLocation(LocationDandy.LocationDandy(

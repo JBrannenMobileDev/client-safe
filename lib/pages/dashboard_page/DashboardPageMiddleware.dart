@@ -100,28 +100,30 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     List<Job> jobsThatNeedMileageTripAdded = (await JobDao.getAllJobs()).where((job) => job.isMissingMileageTrip()).toList();
 
     for(Job job in jobsThatNeedMileageTripAdded) {
-      LatLng start = LatLng(profile.latDefaultHome, profile.lngDefaultHome);
-      LatLng end = LatLng(job.location.latitude, job.location.longitude);
-      double milesDriven = await GoogleApiClient(httpClient: http.Client()).getTravelDistance(start, end);
-      MileageExpense newMileageTrip = MileageExpense(
-        jobDocumentId: job.documentId,
-        totalMiles: milesDriven * 2,
-        isRoundTrip: true,
-        startLat: start.latitude,
-        startLng: start.longitude,
-        endLat: end.latitude,
-        endLng: end.longitude,
-        deductionRate: NumberConstants.TAX_MILEAGE_DEDUCTION_RATE,
-        charge: Charge(
-          chargeDate: job.selectedDate,
-          chargeAmount: (milesDriven * 2 * NumberConstants.TAX_MILEAGE_DEDUCTION_RATE),
-          isPaid: true,
-        ),
-      );
-      newMileageTrip = await MileageExpenseDao.insert(newMileageTrip);
-      job.hasAddedMileageTrip = true;
-      await JobDao.update(job);
-      print('Mileage trip added');
+      if(profile.latDefaultHome != 0 && profile.lngDefaultHome != 0){
+        LatLng start = LatLng(profile.latDefaultHome, profile.lngDefaultHome);
+        LatLng end = LatLng(job.location.latitude, job.location.longitude);
+        double milesDriven = await GoogleApiClient(httpClient: http.Client()).getTravelDistance(start, end);
+        MileageExpense newMileageTrip = MileageExpense(
+          jobDocumentId: job.documentId,
+          totalMiles: milesDriven * 2,
+          isRoundTrip: true,
+          startLat: start.latitude,
+          startLng: start.longitude,
+          endLat: end.latitude,
+          endLng: end.longitude,
+          deductionRate: NumberConstants.TAX_MILEAGE_DEDUCTION_RATE,
+          charge: Charge(
+            chargeDate: job.selectedDate,
+            chargeAmount: (milesDriven * 2 * NumberConstants.TAX_MILEAGE_DEDUCTION_RATE),
+            isPaid: true,
+          ),
+        );
+        newMileageTrip = await MileageExpenseDao.insert(newMileageTrip);
+        job.hasAddedMileageTrip = true;
+        await JobDao.update(job);
+        print('Mileage trip added');
+      }
     }
   }
 
