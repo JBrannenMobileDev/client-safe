@@ -45,6 +45,7 @@ import '../pages/dashboard_page/widgets/ContractListPage.dart';
 import '../pages/income_expense_settings_page/ReportsPage.dart';
 import '../pages/job_details_page/JobDetailsPageState.dart';
 import '../pages/edit_branding_page/EditBrandingPage.dart';
+import '../pages/new_questionnaire_page/NewQuestionnairePage.dart';
 import '../pages/poses_page/PosesPage.dart';
 import '../pages/share_with_client_page/ShareWithClientPage.dart';
 
@@ -108,7 +109,7 @@ class NavigationUtil {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ContractEditPage(contract: contract, contractName: contractName, isNew: isNew, jobDocumentId: jobDocumentId, deleteFromJob: onDeleteFromJob)));
   }
   static onQuestionnaireSelected(BuildContext context, Questionnaire questionnaire, String title, bool isNew, String jobDocumentId, Function(BuildContext) onDeleteFromJob) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => QuestionnaireEdit(questionnaire: questionnaire, title: title, isNew: isNew, jobDocumentId: jobDocumentId, deleteFromJob: onDeleteFromJob)));
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => NewQuestionnairePage(questionnaire: questionnaire, title: title, isNew: isNew, jobDocumentId: jobDocumentId, deleteFromJob: onDeleteFromJob)));
   }
   static onManageSubscriptionSelected(BuildContext context, Profile profile) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ManageSubscriptionPage(profile)));

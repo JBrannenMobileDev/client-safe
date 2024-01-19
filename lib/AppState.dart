@@ -24,6 +24,7 @@ import 'package:dandylight/pages/new_location_page/NewLocationPageState.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageState.dart';
 import 'package:dandylight/pages/new_pose_group_page/NewPoseGroupPageState.dart';
 import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
+import 'package:dandylight/pages/new_questionnaire_page/NewQuestionnairePageState.dart';
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageState.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPageState.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageState.dart';
@@ -93,6 +94,7 @@ class AppState {
   final ContractEditPageState contractEditPageState;
   final EditBrandingPageState editBrandingPageState;
   final QuestionnairesPageState questionnairesPageState;
+  final NewQuestionnairePageState newQuestionnairePageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -140,6 +142,7 @@ class AppState {
     @required this.contractEditPageState,
     @required this.editBrandingPageState,
     @required this.questionnairesPageState,
+    @required this.newQuestionnairePageState,
   });
 
   factory AppState.initial() {
@@ -189,6 +192,7 @@ class AppState {
       contractEditPageState: ContractEditPageState.initial(),
       editBrandingPageState: EditBrandingPageState.initial(),
       questionnairesPageState: QuestionnairesPageState.initial(),
+      newQuestionnairePageState: NewQuestionnairePageState.initial(),
     );
   }
 
@@ -238,6 +242,7 @@ class AppState {
     ContractEditPageState contractEditPageState,
     EditBrandingPageState editBrandingPageState,
     QuestionnairesPageState questionnairesPageState,
+    NewQuestionnairePageState newQuestionnairePageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -285,6 +290,7 @@ class AppState {
       contractEditPageState: contractEditPageState ?? this.contractEditPageState,
       editBrandingPageState: editBrandingPageState ?? this.editBrandingPageState,
       questionnairesPageState: questionnairesPageState ?? this.questionnairesPageState,
+      newQuestionnairePageState: newQuestionnairePageState ?? this.newQuestionnairePageState,
     );
   }
 
@@ -333,6 +339,7 @@ class AppState {
     contractsPageState.hashCode ^
     contractEditPageState.hashCode ^
     questionnairesPageState.hashCode ^
+    newQuestionnairePageState.hashCode ^
     incomeAndExpensesPageState.hashCode ;
 
   @override
@@ -382,5 +389,6 @@ class AppState {
               contractsPageState == other.contractsPageState &&
               contractEditPageState == other.contractEditPageState &&
               questionnairesPageState == other.questionnairesPageState &&
+              newQuestionnairePageState == other.newQuestionnairePageState &&
               incomeAndExpensesPageState == other.incomeAndExpensesPageState;
 }

@@ -97,7 +97,7 @@ class _QuestionnairesPageState extends State<QuestionnairesPage> with TickerProv
                                 padding: const EdgeInsets.only(left: 64.0, top: 32.0, right: 64.0),
                                 child: TextDandyLight(
                                   type: TextDandyLight.SMALL_TEXT,
-                                  text: "You have not created any contracts yet.",
+                                  text: "You have not created any questionnaires yet.",
                                   textAlign: TextAlign.center,
                                   color: Color(ColorConstants.getPrimaryBlack()),
                                 ),
@@ -113,11 +113,11 @@ class _QuestionnairesPageState extends State<QuestionnairesPage> with TickerProv
                     alignment: Alignment.bottomCenter,
                     child: GestureDetector(
                       onTap: () {
-
+                        NavigationUtil.onQuestionnaireSelected(context, null, 'Questionnaire name', true, jobDocumentId, null);
                       },
                       child: Container(
                         alignment: Alignment.center,
-                        width: 216,
+                        width: 232,
                         height: 48,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(27),
@@ -125,7 +125,7 @@ class _QuestionnairesPageState extends State<QuestionnairesPage> with TickerProv
                         ),
                         child: TextDandyLight(
                           type: TextDandyLight.LARGE_TEXT,
-                          text: "New Contract",
+                          text: "New Questionnaire",
                           textAlign: TextAlign.center,
                           color: Color(ColorConstants.getPrimaryWhite()),
                         ),

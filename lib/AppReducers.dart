@@ -26,6 +26,7 @@ import 'package:dandylight/pages/new_location_page/NewLocationPageReducer.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageReducer.dart';
 import 'package:dandylight/pages/new_pose_group_page/NewPoseGroupPageReducer.dart';
 import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageReducer.dart';
+import 'package:dandylight/pages/new_questionnaire_page/NewQuestionnairePageReducer.dart';
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageReducer.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPageReducer.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageReducer.dart';
@@ -92,4 +93,5 @@ AppState appReducers(AppState state, dynamic action) =>
         contractEditPageState: contractEditReducer(state.contractEditPageState, action),
         editBrandingPageState: editBrandingReducer(state.editBrandingPageState, action),
         questionnairesPageState: questionnairesReducer(state.questionnairesPageState, action),
+        newQuestionnairePageState: newQuestionnaireReducer(state.newQuestionnairePageState, action),
     );
