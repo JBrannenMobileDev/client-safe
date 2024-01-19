@@ -67,7 +67,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
                               fontFamily: pageState.profile.selectedFontTheme.mainFont,
                               text: (pageState.job.selectedDate != null
                                   ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.job.selectedDate)
-                                  : 'TBD'),
+                                  : 'Date (TBD)'),
                             ),
                         ],
                       ),
@@ -89,7 +89,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
                             child: TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
                               fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                              text: (pageState.job.selectedTime != null ? DateFormat('h:mma').format(pageState.job.selectedTime) + ' - ' +( pageState.job.selectedEndTime != null ? DateFormat('h:mma').format(pageState.job.selectedEndTime) : 'TBD') : 'TBD'),
+                              text: (pageState.job.selectedTime != null ? DateFormat('h:mma').format(pageState.job.selectedTime) + ' - ' +( pageState.job.selectedEndTime != null ? DateFormat('h:mma').format(pageState.job.selectedEndTime) : 'Time (TBD)') : 'Time (TBD)'),
                             ),
                           ),
                         ],
@@ -119,7 +119,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
                                   child: TextDandyLight(
                                     type: TextDandyLight.SMALL_TEXT,
                                     fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                                    text: (pageState.job.location != null && pageState.job.location.address != null ? pageState.job.location.address : 'TBD'),
+                                    text: (pageState.job.location != null && pageState.job.location.address != null ? pageState.job.location.address : 'Location (TBD)'),
                                   ),
                                 ),
                               )
@@ -266,7 +266,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
                 fontFamily: pageState.profile.selectedFontTheme.mainFont,
                 text: 'Date: ' + (pageState.job.selectedDate != null
                     ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.job.selectedDate)
-                    : 'TBD'),
+                    : 'Date (TBD)'),
               ),
             ),
             Container(
@@ -274,7 +274,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
                 fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                text: 'Time: ' + (pageState.job.selectedTime != null ? DateFormat('h:mma').format(pageState.job.selectedTime) + ' - ' +( pageState.job.selectedEndTime != null ? DateFormat('h:mma').format(pageState.job.selectedEndTime) : 'TBD') : 'TBD'),
+                text: 'Time: ' + (pageState.job.selectedTime != null ? DateFormat('h:mma').format(pageState.job.selectedTime) + ' - ' +( pageState.job.selectedEndTime != null ? DateFormat('h:mma').format(pageState.job.selectedEndTime) : 'Time (TBD)') : 'TIme (TBD)'),
               ),
             ),
             Container(
@@ -284,7 +284,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
                   fontFamily: pageState.profile.selectedFontTheme.mainFont,
                   maxLines: 3,
                   overflow: TextOverflow.visible,
-                  text: 'Where: ' + (pageState.job.location != null && pageState.job.location.address != null ? pageState.job.location.address : 'TBD'),
+                  text: 'Where: ' + (pageState.job.location != null && pageState.job.location.address != null ? pageState.job.location.address : 'Location (TBD)'),
                   textAlign: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextAlign.start : TextAlign.center,
                 ),
               ),

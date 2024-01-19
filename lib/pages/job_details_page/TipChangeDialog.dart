@@ -36,6 +36,7 @@ class _TipChangeDialogState extends State<TipChangeDialog>
             child: Container(
               margin: EdgeInsets.only(left: 8.0, right: 8.0),
               height: 350.0,
+              width: 450,
               padding: EdgeInsets.only(left: 32.0, right: 32.0),
               decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),

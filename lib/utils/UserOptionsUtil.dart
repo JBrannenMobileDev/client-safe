@@ -1,5 +1,6 @@
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/models/MileageExpense.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/AddTipDialog.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/RequestPaymentLinksDialog.dart';
@@ -67,6 +68,7 @@ import 'AdminCheckUtil.dart';
 import 'ColorConstants.dart';
 import 'ContractOptionsBottomSheet.dart';
 import 'ContractUtils.dart';
+import 'ShareClientPortalOptionsBottomSheet.dart';
 import 'ShareOptionsBottomSheet.dart';
 
 class UserOptionsUtil {
@@ -151,11 +153,11 @@ class UserOptionsUtil {
     );
   }
 
-  static void showNewMileageExpenseSelected(BuildContext context){
+  static void showNewMileageExpenseSelected(BuildContext context, MileageExpense trip){
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return NewMileageExpensePage();
+        return NewMileageExpensePage(trip);
       },
     );
   }
@@ -251,7 +253,7 @@ class UserOptionsUtil {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return LocationSelectionDialog();
+        return const LocationSelectionDialog();
       },
     );
   }
@@ -521,6 +523,19 @@ class UserOptionsUtil {
         barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
         builder: (context) {
           return ShareOptionsBottomSheet(client, message, emailTitle);
+        });
+  }
+
+  static void showShareClientPortalOptionsSheet(BuildContext context, Client client, String emailTitle, Profile profile, Job job) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        isDismissible: true,
+        enableDrag: true,
+        backgroundColor: Colors.transparent,
+        barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+        builder: (context) {
+          return ShareClientPortalOptionsBottomSheet(client, emailTitle, profile, job);
         });
   }
 

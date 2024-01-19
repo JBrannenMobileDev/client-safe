@@ -19,81 +19,79 @@ class JobDetailsLocationListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, JobDetailsPageState>(
       converter: (store) => JobDetailsPageState.fromStore(store),
-      builder: (BuildContext context, JobDetailsPageState pageState) => Column(
+      builder: (BuildContext context, JobDetailsPageState pageState) => Stack(
+        alignment: Alignment.bottomCenter,
         children: <Widget>[
-          Stack(
-            alignment: Alignment.bottomCenter,
-            children: <Widget>[
-              Container(
-                height: _getItemWidthHeight(context),
-                margin: const EdgeInsets.only(top: 8.0),
-                decoration: BoxDecoration(
-                    color: Color(ColorConstants.getBlueDark()),
-                    borderRadius: BorderRadius.circular(12.0),
-                    border: Border.all(
-                      color: Color(ColorConstants.getPeachDark()),
-                      width: pageState.selectedLocation == pageState.locations.elementAt(locationIndex) ? 3 : 0,
-                    )
-                ),
-                child: DandyLightNetworkImage(pageState.locations.elementAt(locationIndex).imageUrl),
-              ),
-              pageState.selectedLocation == pageState.locations.elementAt(locationIndex)
-                  ? Container(
-                height: _getItemWidthHeight(context) + 3,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16.0),
-                ),
-                child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 8.0, bottom: 8.0),
-                    child: Stack(
-                      children: [
-                        Icon(
-                          Device.get().isIos ? CupertinoIcons.circle_fill : Icons.circle,
-                          size: 26.0,
-                          color: Color(ColorConstants.getPrimaryWhite()),
-                        ),
-                        Icon(
-                          Device.get().isIos ? CupertinoIcons.check_mark_circled_solid : Icons.check_circle,
-                          size: 26.0,
-                          color: Color(ColorConstants.getPeachDark()),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ) : const SizedBox(),
-              SizedBox(
-                height: _getItemWidthHeight(context) + 3,
-                width: double.maxFinite,
-                child: GestureDetector(
-                  onTap: () async {
-                    pageState.onLocationSelected(pageState.locations.elementAt(locationIndex));
-                    pageState.onLocationSaveSelected(pageState.locations.elementAt(locationIndex));
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ),
-            ],
+          pageState.locations.isNotEmpty
+              ? Container(
+            width: double.infinity,
+            margin: const EdgeInsets.only(bottom: 28.0),
+            decoration: BoxDecoration(
+              color: Color(ColorConstants.getPeachLight()),
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: DandyLightNetworkImage(
+              pageState.locations.elementAt(locationIndex).imageUrl,
+              errorType:
+              pageState.locations.elementAt(locationIndex).imageUrl !=
+                  null &&
+                  pageState.locations
+                      .elementAt(locationIndex)
+                      .imageUrl
+                      .isNotEmpty
+                  ? DandyLightNetworkImage.ERROR_TYPE_INTERNET
+                  : DandyLightNetworkImage.ERROR_TYPE_NO_IMAGE,
+              errorIconSize: pageState.locations.elementAt(locationIndex).imageUrl != null && pageState.locations.elementAt(locationIndex).imageUrl.isNotEmpty ? 44 : 96,
+            ),
+          )
+              : const SizedBox(),
+          TextDandyLight(
+            type: TextDandyLight.SMALL_TEXT,
+            text: pageState.locations.elementAt(locationIndex).locationName,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+            color: Color(ColorConstants.getPrimaryBlack()),
           ),
-          Center(
-            child: Container(
-              margin: const EdgeInsets.only(top: 4.0),
-              child: TextDandyLight(
-                type: TextDandyLight.MEDIUM_TEXT,
-                text: pageState.locations.elementAt(locationIndex).locationName,
-                textAlign: TextAlign.center,
-                color: Color(ColorConstants.getPrimaryBlack()),
+          pageState.selectedLocation == pageState.locations.elementAt(locationIndex)
+              ? Container(
+            margin: const EdgeInsets.only(bottom: 28.0),
+            alignment: Alignment.center,
+            child: Align(
+              alignment: Alignment.center,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Icon(
+                    Device.get().isIos
+                        ? CupertinoIcons.circle_fill
+                        : Icons.circle,
+                    size: 64.0,
+                    color: Color(ColorConstants.getPrimaryWhite()),
+                  ),
+                  Icon(
+                    Device.get().isIos
+                        ? CupertinoIcons.check_mark_circled_solid
+                        : Icons.check_circle,
+                    size: 64.0,
+                    color: Color(ColorConstants.getPeachDark()),
+                  )
+                ],
               ),
+            ),
+          )
+              : const SizedBox(),
+          SizedBox(
+            width: double.infinity,
+            child: GestureDetector(
+              onTap: () async {
+                pageState.onLocationSelected(pageState.locations.elementAt(locationIndex));
+                pageState.onLocationSaveSelected(pageState.locations.elementAt(locationIndex));
+                Navigator.of(context).pop();
+              },
             ),
           ),
         ],
       ),
     );
-  }
-
-  double _getItemWidthHeight(BuildContext context){
-    return (MediaQuery.of(context).size.width/2);
   }
 }

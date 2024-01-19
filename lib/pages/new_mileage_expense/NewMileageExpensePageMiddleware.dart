@@ -25,6 +25,7 @@ import '../../credentials.dart';
 import '../../data_layer/repositories/FileStorage.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../job_details_page/JobDetailsActions.dart';
 
 
 class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
@@ -129,9 +130,9 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
     List<LocationDandy> locations = await LocationDao.getAllSortedMostFrequent();
     List<File> imageFiles = [];
 
-    for(LocationDandy location in locations) {
-      imageFiles.add(await FileStorage.getLocationImageFile(location));
-    }
+    // for(LocationDandy location in locations) {
+    //   imageFiles.add(await FileStorage.getLocationImageFile(location));
+    // }
 
     store.dispatch(SetMileageLocationsAction(store.state.newMileageExpensePageState, locations, imageFiles));
   }

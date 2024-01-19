@@ -6,32 +6,22 @@ import 'package:dandylight/pages/share_with_client_page/ShareWithClientActions.d
 
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
+import 'package:dandylight/utils/DeviceType.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
-import 'package:dandylight/utils/ShareOptionsBottomSheet.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-import '../../models/Client.dart';
 import '../../models/Job.dart';
 import '../../models/Profile.dart';
-import '../../navigation/routes/RouteNames.dart';
 import '../../utils/InputDoneView.dart';
 import '../../utils/Shadows.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
-import '../../utils/intentLauncher/IntentLauncherUtil.dart';
-import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'ShareWithClientPageState.dart';
 import 'ShareWithClientSetupBottomSheet.dart';
@@ -275,326 +265,334 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                       ),
                     ],
                   ),
-                  SliverList(
-                    delegate: SliverChildListDelegate(
-                      <Widget>[
-                        Container(
-                          margin: const EdgeInsets.only(top: 32, bottom: 8),
-                          width: double.infinity,
-                          alignment: Alignment.center,
-                          child: TextDandyLight(
-                            type: TextDandyLight.MEDIUM_TEXT,
-                            textAlign: TextAlign.center,
-                            text: 'Message to Client',
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
-                        ),
-                        Stack(
-                          alignment: Alignment.bottomCenter,
-                          children: [
-                            Container(
-                              height: 264,
-                              margin: const EdgeInsets.only(left: 16, right: 16),
-                              padding: const EdgeInsets.only(top: 16),
-                              decoration: BoxDecoration(
-                                  color: Color(ColorConstants.getPrimaryWhite()),
-                                  borderRadius: BorderRadius.circular(24)
-                              ),
-                              child: Container(
-                                margin: const EdgeInsets.only(left: 20.0, right: 20.0),
-                                child: ShareWithClientTextField(
-                                  messageController,
-                                  '',
-                                  TextInputType.multiline,
-                                  200.0,
-                                  pageState.onMessageChanged,
-                                  'noError',
-                                  TextInputAction.newline,
-                                  _messageFocusNode,
-                                  onAction,
-                                  TextCapitalization.sentences,
-                                  null,
-                                  true,
-                                ),
-                              ),
+                  SliverPadding(
+                    padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
+                    sliver: SliverList(
+                      delegate: SliverChildListDelegate(
+                        <Widget>[
+                          Container(
+                            margin: const EdgeInsets.only(top: 32, bottom: 8),
+                            width: double.infinity,
+                            alignment: Alignment.center,
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              textAlign: TextAlign.center,
+                              text: 'Client Portal message to Client',
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
-                            profile != null && profile.jobsCreatedCount > 1 ? GestureDetector(
-                              onTap: () {
-                                _showChooseMessageSheet(context);
-                              },
-                              child: !isKeyboardVisible ? Container(
-                                alignment: Alignment.center,
-                                height: 48,
-                                width: 264,
-                                margin: const EdgeInsets.only(bottom: 8),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(24),
-                                  color: Color(ColorConstants.getPeachDark()),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Container(
-                                      height: 24,
-                                      width: 24,
-                                      child: Image.asset('assets/images/icons/previous.png', color: Color(ColorConstants.getPrimaryWhite())),
-                                    ),
-                                    TextDandyLight(
-                                      type: TextDandyLight.MEDIUM_TEXT,
-                                      text: 'Load from previous',
-                                      textAlign: TextAlign.center,
-                                      color: Color(ColorConstants.getPrimaryWhite()),
-                                    )
-                                  ],
-                                ) ,
-                              ) : const SizedBox(),
-                            ) : const SizedBox()
-                          ],
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 32, bottom: 8),
-                          width: double.infinity,
-                          alignment: Alignment.center,
-                          child: TextDandyLight(
-                            type: TextDandyLight.MEDIUM_TEXT,
-                            textAlign: TextAlign.center,
-                            text: 'Select Items to Share',
-                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
-                        ),
-                        Container(
-                          height: 232,
-                          margin: const EdgeInsets.only(left: 16, right: 16, bottom: 264),
-                          padding: const EdgeInsets.only(top: 16),
-                          decoration: BoxDecoration(
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                              borderRadius: BorderRadius.circular(24)
-                          ),
-                          child: Column(
+                          Stack(
+                            alignment: Alignment.bottomCenter,
                             children: [
                               Container(
-                                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                                margin: const EdgeInsets.only(top: 0.0, bottom: 0.0),
-                                alignment: Alignment.center,
-                                height: 48.0,
+                                height: 264,
+                                margin: const EdgeInsets.only(left: 16, right: 16),
+                                padding: const EdgeInsets.only(top: 16),
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(36.0)),
-                                child: CheckboxListTile(
-                                  title: TextDandyLight(
-                                    type: TextDandyLight.MEDIUM_TEXT,
-                                    text: 'Job Details',
-                                    color: Color(ColorConstants.getPrimaryGreyMedium()),
+                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                    borderRadius: BorderRadius.circular(24)
+                                ),
+                                child: Container(
+                                  margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+                                  child: ShareWithClientTextField(
+                                    messageController,
+                                    '',
+                                    TextInputType.multiline,
+                                    200.0,
+                                    pageState.onMessageChanged,
+                                    'noError',
+                                    TextInputAction.newline,
+                                    _messageFocusNode,
+                                    onAction,
+                                    TextCapitalization.sentences,
+                                    null,
+                                    true,
+                                    false,
+                                    false,
                                   ),
-                                  tileColor: Color(ColorConstants.getPrimaryGreyMedium()),
-                                  value: true,
-                                  activeColor: Color(ColorConstants.getPrimaryGreyMedium()),
-                                  onChanged: (selected) {
-
-                                  },
-                                  controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                                 ),
                               ),
-                              Container(
-                                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                                margin: const EdgeInsets.only(top: 0.0, bottom: 0.0),
-                                alignment: Alignment.center,
-                                height: 48.0,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(36.0)),
-                                child: CheckboxListTile(
-                                  title: TextDandyLight(
-                                    type: TextDandyLight.MEDIUM_TEXT,
-                                    text: 'Contract',
+                              profile != null && profile.jobsCreatedCount > 1 ? GestureDetector(
+                                onTap: () {
+                                  _showChooseMessageSheet(context);
+                                },
+                                child: !isKeyboardVisible ? Container(
+                                  alignment: Alignment.center,
+                                  height: 48,
+                                  width: 264,
+                                  margin: const EdgeInsets.only(bottom: 8),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(24),
+                                    color: Color(ColorConstants.getPeachDark()),
                                   ),
-                                  value: contractChecked,
-                                  activeColor: Color(ColorConstants.getPeachDark()),
-                                  onChanged: (selected) {
-                                    pageState.onContractCheckBoxSelected(selected);
-                                    setState(() {
-                                      contractChecked = selected;
-                                    });
-                                  },
-                                  controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
-                                ),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                                margin: const EdgeInsets.only(top: 0.0, bottom: 0.0),
-                                alignment: Alignment.center,
-                                height: 48.0,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(36.0)),
-                                child: CheckboxListTile(
-                                  title: TextDandyLight(
-                                    type: TextDandyLight.MEDIUM_TEXT,
-                                    text: 'Invoice',
-                                  ),
-                                  value: invoiceChecked,
-                                  activeColor: Color(ColorConstants.getPeachDark()),
-                                  onChanged: (selected) {
-                                    pageState.onInvoiceCheckBoxSelected(selected);
-                                    setState(() {
-                                      invoiceChecked = selected;
-                                    });
-                                  },
-                                  controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
-                                ),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                                margin: const EdgeInsets.only(top: 0.0, bottom: 0.0),
-                                alignment: Alignment.center,
-                                height: 48.0,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(36.0)),
-                                child: CheckboxListTile(
-                                  title: TextDandyLight(
-                                    type: TextDandyLight.MEDIUM_TEXT,
-                                    text: 'Poses',
-                                  ),
-                                  value: posesChecked,
-                                  activeColor: Color(ColorConstants.getPeachDark()),
-                                  onChanged: (selected) {
-                                    pageState.onPosesCheckBoxSelected(selected);
-                                    setState(() {
-                                      posesChecked = selected;
-                                    });
-                                  },
-                                  controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
-                                ),
-                              ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Container(
+                                        height: 24,
+                                        width: 24,
+                                        child: Image.asset('assets/images/icons/previous.png', color: Color(ColorConstants.getPrimaryWhite())),
+                                      ),
+                                      TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: 'Load from previous',
+                                        textAlign: TextAlign.center,
+                                        color: Color(ColorConstants.getPrimaryWhite()),
+                                      )
+                                    ],
+                                  ) ,
+                                ) : const SizedBox(),
+                              ) : const SizedBox()
                             ],
                           ),
-                        ),
-                      ],
+                          Container(
+                            margin: const EdgeInsets.only(top: 32, bottom: 8),
+                            width: double.infinity,
+                            alignment: Alignment.center,
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              textAlign: TextAlign.center,
+                              text: 'Select Items to Share',
+                              color: Color(ColorConstants.getPrimaryBlack()),
+                            ),
+                          ),
+                          Container(
+                            height: 232,
+                            margin: const EdgeInsets.only(left: 16, right: 16, bottom: 264),
+                            padding: const EdgeInsets.only(top: 16),
+                            decoration: BoxDecoration(
+                                color: Color(ColorConstants.getPrimaryWhite()),
+                                borderRadius: BorderRadius.circular(24)
+                            ),
+                            child: Column(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                                  margin: const EdgeInsets.only(top: 0.0, bottom: 0.0),
+                                  alignment: Alignment.center,
+                                  height: 48.0,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(36.0)),
+                                  child: CheckboxListTile(
+                                    title: TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      text: 'Job Details',
+                                      color: Color(ColorConstants.getPrimaryGreyMedium()),
+                                    ),
+                                    tileColor: Color(ColorConstants.getPrimaryGreyMedium()),
+                                    value: true,
+                                    activeColor: Color(ColorConstants.getPrimaryGreyMedium()),
+                                    onChanged: (selected) {
+
+                                    },
+                                    controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                                  margin: const EdgeInsets.only(top: 0.0, bottom: 0.0),
+                                  alignment: Alignment.center,
+                                  height: 48.0,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(36.0)),
+                                  child: CheckboxListTile(
+                                    title: TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      text: 'Contract',
+                                    ),
+                                    value: contractChecked,
+                                    activeColor: Color(ColorConstants.getPeachDark()),
+                                    onChanged: (selected) {
+                                      pageState.onContractCheckBoxSelected(selected);
+                                      setState(() {
+                                        contractChecked = selected;
+                                      });
+                                    },
+                                    controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                                  margin: const EdgeInsets.only(top: 0.0, bottom: 0.0),
+                                  alignment: Alignment.center,
+                                  height: 48.0,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(36.0)),
+                                  child: CheckboxListTile(
+                                    title: TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      text: 'Invoice',
+                                    ),
+                                    value: invoiceChecked,
+                                    activeColor: Color(ColorConstants.getPeachDark()),
+                                    onChanged: (selected) {
+                                      pageState.onInvoiceCheckBoxSelected(selected);
+                                      setState(() {
+                                        invoiceChecked = selected;
+                                      });
+                                    },
+                                    controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                                  margin: const EdgeInsets.only(top: 0.0, bottom: 0.0),
+                                  alignment: Alignment.center,
+                                  height: 48.0,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(36.0)),
+                                  child: CheckboxListTile(
+                                    title: TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      text: 'Poses',
+                                    ),
+                                    value: posesChecked,
+                                    activeColor: Color(ColorConstants.getPeachDark()),
+                                    onChanged: (selected) {
+                                      pageState.onPosesCheckBoxSelected(selected);
+                                      setState(() {
+                                        posesChecked = selected;
+                                      });
+                                    },
+                                    controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  !isKeyboardVisible ? Container(
-                    width: MediaQuery.of(context).size.width/2,
-                    height: MediaQuery.of(context).size.height,
-                    alignment: Alignment.bottomCenter,
-                    padding: const EdgeInsets.only(bottom: 32),
-                    child: GestureDetector(
-                      onTap: () {
-                        if(pageState.profile.isProfileComplete() && pageState.profile.hasSetupBrand && pageState.profile.paymentOptionsSelected()) {
-                          if(pageState.updateContractCheckInProgress || pageState.updateInvoiceCheckInProgress || pageState.updatePosesCheckInProgress) {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                progressContext = context;
-                                return AlertDialog(
-                                  title: TextDandyLight(
-                                    textAlign: TextAlign.center,
-                                    text: 'Saving changes...',
-                                    type: TextDandyLight.MEDIUM_TEXT,
-                                    color: Color(ColorConstants.getPrimaryBlack()),
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16)
-                                  ),
-                                  titlePadding: const EdgeInsets.only(top: 8, left: 16, right: 16),
-                                  contentPadding: const EdgeInsets.all(0),
-                                  content: Container(
-                                    height: 96,
-                                    width: 250,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: Color(ColorConstants.getPrimaryWhite()),
-                                      borderRadius: BorderRadius.circular(16.0),
+              Padding(
+                padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    !isKeyboardVisible ? Container(
+                      width: MediaQuery.of(context).size.width/2 - (DeviceType.getDeviceType() == Type.Tablet ? 150 : 0),
+                      height: MediaQuery.of(context).size.height,
+                      alignment: Alignment.bottomCenter,
+                      padding: const EdgeInsets.only(bottom: 32),
+                      child: GestureDetector(
+                        onTap: () {
+                          if(pageState.profile.isProfileComplete() && pageState.profile.hasSetupBrand && pageState.profile.paymentOptionsSelected()) {
+                            if(pageState.updateContractCheckInProgress || pageState.updateInvoiceCheckInProgress || pageState.updatePosesCheckInProgress) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  progressContext = context;
+                                  return AlertDialog(
+                                    title: TextDandyLight(
+                                      textAlign: TextAlign.center,
+                                      text: 'Saving changes...',
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      color: Color(ColorConstants.getPrimaryBlack()),
                                     ),
-                                    child: LoadingAnimationWidget.fourRotatingDots(
-                                      color: Color(ColorConstants.getPeachDark()),
-                                      size: 48,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16)
                                     ),
-                                  ),
-                                );
-                              },
-                            );
+                                    titlePadding: const EdgeInsets.only(top: 8, left: 16, right: 16),
+                                    contentPadding: const EdgeInsets.all(0),
+                                    content: Container(
+                                      height: 96,
+                                      width: 250,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: Color(ColorConstants.getPrimaryWhite()),
+                                        borderRadius: BorderRadius.circular(16.0),
+                                      ),
+                                      child: LoadingAnimationWidget.fourRotatingDots(
+                                        color: Color(ColorConstants.getPeachDark()),
+                                        size: 48,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            } else {
+                              if(_isProgressDialogShowing(context)) Navigator.of(context).pop();
+                              pageState.saveProposal();
+                              IntentLauncherUtil.launchBrandingPreviewURL(UidUtil().getUid(), job.documentId);
+                              EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_PREVIEW_SELECTED);
+                              EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_PREVIEW_SELECTED, properties: {
+                                EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_INVOICE : invoiceChecked,
+                                EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_CONTRACT : contractChecked,
+                                EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_POSES : posesChecked,
+                                EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK : 'https://dandylight.com/clientPortal/${profile.uid}+${job.documentId}',
+                              });
+                            }
                           } else {
-                            if(_isProgressDialogShowing(context)) Navigator.of(context).pop();
-                            pageState.saveProposal();
-                            IntentLauncherUtil.launchBrandingPreviewURL(UidUtil().getUid(), job.documentId);
-                            EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_PREVIEW_SELECTED);
-                            EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_PREVIEW_SELECTED, properties: {
-                              EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_INVOICE : invoiceChecked,
-                              EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_CONTRACT : contractChecked,
-                              EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_POSES : posesChecked,
-                              EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK : 'https://dandylight.com/clientPortal/${profile.uid}+${job.documentId}',
-                            });
+                            String toastMessage = '';
+                            if(!pageState.profile.isProfileComplete()) {
+                              toastMessage = 'Please complete your profile first.';
+                            } else if(!pageState.profile.hasSetupBrand) {
+                              toastMessage = 'Please setup your brand first.';
+                            }
+                            DandyToastUtil.showErrorToast(toastMessage);
                           }
-                        } else {
-                          String toastMessage = '';
-                          if(!pageState.profile.isProfileComplete()) {
-                            toastMessage = 'Please complete your profile first.';
-                          } else if(!pageState.profile.hasSetupBrand) {
-                            toastMessage = 'Please setup your brand first.';
-                          }
-                          DandyToastUtil.showErrorToast(toastMessage);
-                        }
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 54,
-                        width: MediaQuery.of(context).size.width/2,
-                        margin: const EdgeInsets.only(left: 32, right: 8),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(32),
-                          color: Color(ColorConstants.getPeachDark()),
-                          boxShadow: ElevationToShadow[4],
-                        ),
-                        child: TextDandyLight(
-                          type: TextDandyLight.LARGE_TEXT,
-                          text: 'Preview',
-                          textAlign: TextAlign.center,
-                          color: Color(ColorConstants.getPrimaryWhite()),
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 54,
+                          width: MediaQuery.of(context).size.width/2 - (DeviceType.getDeviceType() == Type.Tablet ? 150 : 0),
+                          margin: const EdgeInsets.only(left: 32, right: 8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(32),
+                            color: Color(ColorConstants.getPeachDark()),
+                            boxShadow: ElevationToShadow[4],
+                          ),
+                          child: TextDandyLight(
+                            type: TextDandyLight.LARGE_TEXT,
+                            text: 'Preview',
+                            textAlign: TextAlign.center,
+                            color: Color(ColorConstants.getPrimaryWhite()),
+                          ),
                         ),
                       ),
-                    ),
-                  ) : const SizedBox(),
-                  !isKeyboardVisible ? Container(
-                    width: MediaQuery.of(context).size.width/2,
-                    height: MediaQuery.of(context).size.height,
-                    alignment: Alignment.bottomCenter,
-                    padding: const EdgeInsets.only(bottom: 32),
-                    child: GestureDetector(
-                      onTap: () {
-                        pageState.saveProposal();
-                        String message = '[Your message goes here]\n\nAccess your client portal here:' + '\nhttps://dandylight.com/clientPortal/${profile.uid}+${job.documentId} \n\nPowered by DandyLight';
-                        String emailTitle = pageState.profile.businessName != null && pageState.profile.businessName.isNotEmpty ? '${pageState.profile.businessName} - Session details' : pageState.profile.firstName != null && pageState.profile.firstName.isNotEmpty ? '${pageState.profile.firstName} - Session details' : 'Session details';
-                        UserOptionsUtil.showShareOptionsSheet(context, pageState.job.client, message,  emailTitle);
-                        EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED, properties: {
-                          EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_INVOICE : pageState.invoiceSelected,
-                          EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_CONTRACT : pageState.contractSelected,
-                          EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_POSES : pageState.posesSelected,
-                          EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK : 'https://dandylight.com/clientPortal/${profile.uid}+${job.documentId}',
-                        });
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 54,
-                        width: MediaQuery.of(context).size.width/2,
-                        margin: const EdgeInsets.only(left: 8, right: 32),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(32),
-                          color: Color(ColorConstants.getPeachDark()),
-                          boxShadow: ElevationToShadow[4],
-                        ),
-                        child: TextDandyLight(
-                          type: TextDandyLight.LARGE_TEXT,
-                          text: 'Share',
-                          textAlign: TextAlign.center,
-                          color: Color(ColorConstants.getPrimaryWhite()),
+                    ) : const SizedBox(),
+                    !isKeyboardVisible ? Container(
+                      width: MediaQuery.of(context).size.width/2 - (DeviceType.getDeviceType() == Type.Tablet ? 150 : 0),
+                      height: MediaQuery.of(context).size.height,
+                      alignment: Alignment.bottomCenter,
+                      padding: const EdgeInsets.only(bottom: 32),
+                      child: GestureDetector(
+                        onTap: () {
+                          pageState.saveProposal();
+                          String emailTitle = pageState.profile.businessName != null && pageState.profile.businessName.isNotEmpty ? '${pageState.profile.businessName} - Session details' : pageState.profile.firstName != null && pageState.profile.firstName.isNotEmpty ? '${pageState.profile.firstName} - Session details' : 'Session details';
+                          UserOptionsUtil.showShareClientPortalOptionsSheet(context, pageState.job.client,  emailTitle, profile, job);
+                          EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED, properties: {
+                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_INVOICE : pageState.invoiceSelected,
+                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_CONTRACT : pageState.contractSelected,
+                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_POSES : pageState.posesSelected,
+                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK : 'https://dandylight.com/clientPortal/${profile.uid}+${job.documentId}',
+                          });
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 54,
+                          width: MediaQuery.of(context).size.width/2 - (DeviceType.getDeviceType() == Type.Tablet ? 150 : 0),
+                          margin: const EdgeInsets.only(left: 8, right: 32),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(32),
+                            color: Color(ColorConstants.getPeachDark()),
+                            boxShadow: ElevationToShadow[4],
+                          ),
+                          child: TextDandyLight(
+                            type: TextDandyLight.LARGE_TEXT,
+                            text: 'Share',
+                            textAlign: TextAlign.center,
+                            color: Color(ColorConstants.getPrimaryWhite()),
+                          ),
                         ),
                       ),
-                    ),
-                  ) : const SizedBox()
-                ],
-              ),
+                    ) : const SizedBox()
+                  ],
+                ),
+              )
+              ,
             ],
           ),
         ),

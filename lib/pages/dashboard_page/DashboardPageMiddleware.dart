@@ -23,15 +23,22 @@ import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:flutter/services.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 import 'package:version/version.dart';
+import 'package:http/http.dart' as http;
 
+import '../../data_layer/api_clients/GoogleApiClient.dart';
 import '../../data_layer/local_db/daos/PoseSubmittedGroupDao.dart';
+import '../../models/Charge.dart';
 import '../../models/Pose.dart';
 import '../../models/SingleExpense.dart';
+import '../../utils/NumberConstants.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../../utils/intentLauncher/IntentLauncherUtil.dart';
 import '../new_reminder_page/WhenSelectionWidget.dart';
 
@@ -40,6 +47,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
     if(action is LoadJobsAction) {
+      await _checkAndCreateMileageTrips(store, action, next);
       await _loadAllJobs(store);
       await _loadClients(store, action, next);
       await _loadJobReminders(store, action, next);
@@ -86,6 +94,44 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is SetUpdateSeenTimestampAction) {
       _setUpdateLastSeenTime(store, action);
+    }
+  }
+
+  Future<void> _checkAndCreateMileageTrips(Store<AppState> store, LoadJobsAction action, NextDispatcher next) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    List<Job> jobsThatNeedMileageTripAdded = (await JobDao.getAllJobs()).where((job) => job.isMissingMileageTrip()).toList();
+
+    for(Job job in jobsThatNeedMileageTripAdded) {
+      if(profile.latDefaultHome != 0 && profile.lngDefaultHome != 0){
+        LatLng start = LatLng(profile.latDefaultHome, profile.lngDefaultHome);
+        LatLng end = LatLng(job.location.latitude, job.location.longitude);
+        double milesDriven = await GoogleApiClient(httpClient: http.Client()).getTravelDistance(start, end);
+        MileageExpense newMileageTrip = MileageExpense(
+          jobDocumentId: job.documentId,
+          totalMiles: milesDriven * 2,
+          isRoundTrip: true,
+          startLat: start.latitude,
+          startLng: start.longitude,
+          endLat: end.latitude,
+          endLng: end.longitude,
+          deductionRate: NumberConstants.TAX_MILEAGE_DEDUCTION_RATE,
+          charge: Charge(
+            chargeDate: job.selectedDate,
+            chargeAmount: (milesDriven * 2 * NumberConstants.TAX_MILEAGE_DEDUCTION_RATE),
+            isPaid: true,
+          ),
+        );
+        newMileageTrip = await MileageExpenseDao.insert(newMileageTrip);
+        job.hasAddedMileageTrip = true;
+        await JobDao.update(job);
+        EventSender().sendEvent(eventName: EventNames.CREATED_MILEAGE_TRIP, properties: {
+          EventNames.TRIP_PARAM_LAT_START : newMileageTrip.startLat,
+          EventNames.TRIP_PARAM_LON_START : newMileageTrip.startLng,
+          EventNames.TRIP_PARAM_LAT_END : newMileageTrip.endLat,
+          EventNames.TRIP_PARAM_LON_END : newMileageTrip.endLng,
+          EventNames.TRIP_PARAM_DIST_MILES : newMileageTrip.totalMiles,
+        });
+      }
     }
   }
 
@@ -308,7 +354,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     List<Job> allJobs = await JobDao.getAllJobs();
     for (var job in allJobs) {
       job.paymentReceivedDate = job.createdDate;
-      await JobDao.update(job);
+      JobDao.update(job);
     }
     allJobs = await JobDao.getAllJobs();
 

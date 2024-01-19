@@ -6,13 +6,14 @@ import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
 import '../../utils/NavigationUtil.dart';
-import '../../utils/analytics/EventNames.dart';
-import '../../utils/analytics/EventSender.dart';
+import '../../utils/UserOptionsUtil.dart';
 import '../../widgets/TextDandyLight.dart';
-import 'ShareWithClientPageState.dart';
+import 'JobDetailsPageState.dart';
 
 
-class ShareWithClientSetupBottomSheet extends StatefulWidget {
+class SetupMilesDrivenTrackingBottomSheet extends StatefulWidget {
+  const SetupMilesDrivenTrackingBottomSheet({Key key}) : super(key: key);
+
 
   @override
   State<StatefulWidget> createState() {
@@ -20,7 +21,7 @@ class ShareWithClientSetupBottomSheet extends StatefulWidget {
   }
 }
 
-class _BottomSheetPageState extends State<ShareWithClientSetupBottomSheet> with TickerProviderStateMixin, WidgetsBindingObserver {
+class _BottomSheetPageState extends State<SetupMilesDrivenTrackingBottomSheet> with TickerProviderStateMixin, WidgetsBindingObserver {
   bool shouldPop = false;
   @override
   void initState() {
@@ -46,39 +47,39 @@ class _BottomSheetPageState extends State<ShareWithClientSetupBottomSheet> with 
   }
 
   @override
-  Widget build(BuildContext context) => StoreConnector<AppState, ShareWithClientPageState>(
+  Widget build(BuildContext context) => StoreConnector<AppState, JobDetailsPageState>(
     onDidChange: (previous, current) {
-      if(current.profile.hasSetupBrand && current.profile.isProfileComplete() && current.profile.paymentOptionsSelected()) {
-        setState(() {
-          shouldPop = true;
-        });
-      }
+      // if(current.profile.hasSetupBrand && current.profile.isProfileComplete() && current.profile.paymentOptionsSelected()) {
+      //   setState(() {
+      //     shouldPop = true;
+      //   });
+      // }
     },
-    converter: (Store<AppState> store) => ShareWithClientPageState.fromStore(store),
-    builder: (BuildContext context, ShareWithClientPageState pageState) =>
+    converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
+    builder: (BuildContext context, JobDetailsPageState pageState) =>
          Stack(
            alignment: Alignment.topRight,
            children: [
              Container(
-               height: 300,
+               height: 400,
                decoration: BoxDecoration(
-                   borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
+                   borderRadius: const BorderRadius.vertical(top: Radius.circular(16.0)),
                    color: Color(ColorConstants.getPrimaryWhite())),
-               padding: EdgeInsets.only(left: 32.0, right: 32.0),
+               padding: const EdgeInsets.only(left: 32.0, right: 32.0),
                child: Column(
                  mainAxisAlignment: MainAxisAlignment.start,
                  children: <Widget>[
                    Container(
-                     margin: EdgeInsets.only(top: 24, bottom: 0.0),
+                     margin: const EdgeInsets.only(top: 24, bottom: 0.0),
                      child: TextDandyLight(
                        type: TextDandyLight.LARGE_TEXT,
-                       text: 'Client Portal Setup',
+                       text: 'Track your miles Setup',
                        textAlign: TextAlign.center,
                        color: Color(ColorConstants.getPrimaryBlack()),
                      ),
                    ),
                    Container(
-                     margin: EdgeInsets.only(top: 0, bottom: 24.0),
+                     margin: const EdgeInsets.only(top: 0, bottom: 24.0),
                      child: TextDandyLight(
                        type: TextDandyLight.MEDIUM_TEXT,
                        text: '(required)',
@@ -86,11 +87,26 @@ class _BottomSheetPageState extends State<ShareWithClientSetupBottomSheet> with 
                        color: Color(ColorConstants.getPrimaryBlack()),
                      ),
                    ),
+                   Container(
+                     margin: const EdgeInsets.only(top: 0, bottom: 24.0),
+                     child: TextDandyLight(
+                       type: TextDandyLight.MEDIUM_TEXT,
+                       text: 'To automatically track your miles driven you must setup a home location, a job location, and a session date.',
+                       textAlign: TextAlign.start,
+                       color: Color(ColorConstants.getPrimaryBlack()),
+                     ),
+                   ),
                    GestureDetector(
                      onTap: () {
-                       NavigationUtil.onEditProfileSelected(context, pageState.profile);
+                       NavigationUtil.onSelectMapLocation(
+                           context,
+                           pageState.onStartLocationChanged,
+                           0.0,
+                           0.0,
+                           null,
+                       );
                      },
-                     child: Container(
+                     child: SizedBox(
                        height: 48,
                        child: Row(
                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -99,22 +115,22 @@ class _BottomSheetPageState extends State<ShareWithClientSetupBottomSheet> with 
                              mainAxisSize: MainAxisSize.min,
                              children: [
                                Container(
-                                 margin: EdgeInsets.only(right: 16),
+                                 margin: const EdgeInsets.only(right: 16),
                                  height: 24,
                                  width: 24,
                                  child: Image.asset(
                                    'assets/images/job_progress/complete_check.png',
-                                   color: Color(pageState.profile.isProfileComplete() ? ColorConstants.getBlueDark() : ColorConstants.getPrimaryGreyMedium()),
+                                   color: Color(pageState.profile.hasDefaultHome() ? ColorConstants.getBlueDark() : ColorConstants.getPrimaryGreyMedium()),
                                  ),
                                ),
                                TextDandyLight(
                                    type: TextDandyLight.MEDIUM_TEXT,
-                                   text: 'Setup Business Info'
+                                   text: 'Select a home location'
                                ),
                              ],
                            ),
                            Container(
-                             margin: EdgeInsets.only(),
+                             margin: const EdgeInsets.only(),
                              child: Icon(
                                Icons.chevron_right,
                                color: Color(ColorConstants.getPrimaryBackgroundGrey()),
@@ -126,10 +142,9 @@ class _BottomSheetPageState extends State<ShareWithClientSetupBottomSheet> with 
                    ),
                    GestureDetector(
                      onTap: () {
-                       NavigationUtil.onEditBrandingSelected(context);
-                       EventSender().sendEvent(eventName: EventNames.BRANDING_EDIT_FROM_SHARE);
+                       UserOptionsUtil.showLocationSelectionDialog(context);
                      },
-                     child: Container(
+                     child: SizedBox(
                        height: 48,
                        child: Row(
                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -138,22 +153,22 @@ class _BottomSheetPageState extends State<ShareWithClientSetupBottomSheet> with 
                              mainAxisSize: MainAxisSize.min,
                              children: [
                                Container(
-                                 margin: EdgeInsets.only(right: 16),
+                                 margin: const EdgeInsets.only(right: 16),
                                  height: 24,
                                  width: 24,
                                  child: Image.asset(
                                    'assets/images/job_progress/complete_check.png',
-                                   color: Color(pageState.profile.hasSetupBrand ? ColorConstants.getBlueDark() : ColorConstants.getPrimaryGreyMedium()),
+                                   color: Color(pageState.selectedLocation != null ? ColorConstants.getBlueDark() : ColorConstants.getPrimaryGreyMedium()),
                                  ),
                                ),
                                TextDandyLight(
                                    type: TextDandyLight.MEDIUM_TEXT,
-                                   text: 'Setup Branding'
+                                   text: 'Select a job location'
                                ),
                              ],
                            ),
                            Container(
-                             margin: EdgeInsets.only(),
+                             margin: const EdgeInsets.only(),
                              child: Icon(
                                Icons.chevron_right,
                                color: Color(ColorConstants.getPrimaryBackgroundGrey()),
@@ -165,9 +180,9 @@ class _BottomSheetPageState extends State<ShareWithClientSetupBottomSheet> with 
                    ),
                    GestureDetector(
                      onTap: () {
-                       NavigationUtil.onPaymentRequestInfoSelected(context);
+                       UserOptionsUtil.showDateSelectionCalendarDialog(context);
                      },
-                     child: Container(
+                     child: SizedBox(
                        height: 48,
                        child: Row(
                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -176,22 +191,22 @@ class _BottomSheetPageState extends State<ShareWithClientSetupBottomSheet> with 
                              mainAxisSize: MainAxisSize.min,
                              children: [
                                Container(
-                                 margin: EdgeInsets.only(right: 16),
+                                 margin: const EdgeInsets.only(right: 16),
                                  height: 24,
                                  width: 24,
                                  child: Image.asset(
                                    'assets/images/job_progress/complete_check.png',
-                                   color: Color(pageState.profile.paymentOptionsSelected() ? ColorConstants.getBlueDark() : ColorConstants.getPrimaryGreyMedium()),
+                                   color: Color(pageState.selectedDate != null ? ColorConstants.getBlueDark() : ColorConstants.getPrimaryGreyMedium()),
                                  ),
                                ),
                                TextDandyLight(
                                    type: TextDandyLight.MEDIUM_TEXT,
-                                   text: 'Setup Payment Options'
+                                   text: 'Set a session date'
                                ),
                              ],
                            ),
                            Container(
-                             margin: EdgeInsets.only(),
+                             margin: const EdgeInsets.only(),
                              child: Icon(
                                Icons.chevron_right,
                                color: Color(ColorConstants.getPrimaryBackgroundGrey()),
@@ -206,17 +221,18 @@ class _BottomSheetPageState extends State<ShareWithClientSetupBottomSheet> with 
              ),
              GestureDetector(
                onTap: () {
-                 if(shouldPop) {
-                   Navigator.of(context).pop();
-                 } else {
-                   Navigator.of(context).pop();
-                   Navigator.of(context).pop();
-                 }
+                 Navigator.of(context).pop();
+                 // if(shouldPop) {
+                 //   Navigator.of(context).pop();
+                 // } else {
+                 //   Navigator.of(context).pop();
+                 //   Navigator.of(context).pop();
+                 // }
                },
                child: Container(
                  height: 54,
                  width: 54,
-                 margin: EdgeInsets.only(),
+                 margin: const EdgeInsets.only(),
                  child: Icon(Icons.close, color: Color(ColorConstants.getPrimaryBlack(),)
                ),
                ),

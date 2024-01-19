@@ -84,7 +84,7 @@ class ReminderNotificationsPage extends StatelessWidget{
                               onPressed: () {
                                 if(pageState.reminders.elementAt(index).payload == JobReminder.MILEAGE_EXPENSE_ID) {
                                   EventSender().sendEvent(eventName: EventNames.BT_VIEW_FEATURED_POSES_FROM_NOTIFICATIONS);
-                                  UserOptionsUtil.showNewMileageExpenseSelected(context);
+                                  UserOptionsUtil.showNewMileageExpenseSelected(context, null);
                                 } else if(pageState.reminders.elementAt(index).payload == JobReminder.POSE_FEATURED_ID) {
                                   EventSender().sendEvent(eventName: EventNames.BT_VIEW_FEATURED_POSES_FROM_NOTIFICATIONS);
                                   NavigationUtil.onPosesSelected(context, null, false, true);

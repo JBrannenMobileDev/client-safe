@@ -37,6 +37,7 @@ class _InvoiceOptionsDialogState extends State<InvoiceOptionsDialog>
             backgroundColor: Colors.transparent,
             child: Container(
               height: 250.0,
+              width: 450,
               padding: EdgeInsets.only(left: 32.0, right: 32.0),
               decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
@@ -55,7 +56,7 @@ class _InvoiceOptionsDialogState extends State<InvoiceOptionsDialog>
                     ),
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {

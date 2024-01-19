@@ -50,7 +50,7 @@ class LocationsPage extends StatelessWidget {
                           pageState.clearNewLocationState();
                         },
                         child: Container(
-                          margin: EdgeInsets.only(right: 26.0),
+                          margin: const EdgeInsets.only(right: 26.0),
                           height: 24.0,
                           width: 24.0,
                           child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getBlueDark()),),
@@ -59,14 +59,14 @@ class LocationsPage extends StatelessWidget {
                     ],
                   ),
                   SliverList(
-                    delegate: new SliverChildListDelegate(
+                    delegate: SliverChildListDelegate(
                       <Widget>[
-                        pageState.locations.length > 0 ? Padding(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                          child: Container(
+                        pageState.locations.isNotEmpty ? Padding(
+                          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                          child: SizedBox(
                             height: (MediaQuery.of(context).size.height),
                             child: GridView.builder(
-                                padding: new EdgeInsets.fromLTRB(0.0, 32.0, 0.0, 250.0),
+                                padding: const EdgeInsets.fromLTRB(0.0, 32.0, 0.0, 250.0),
                               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                               maxCrossAxisExtent: 200,
                               childAspectRatio: 2 / 2.75,
@@ -74,7 +74,7 @@ class LocationsPage extends StatelessWidget {
                               mainAxisSpacing: 16),
                               itemCount: pageState.locations.length,
                               controller: _controller,
-                              physics: AlwaysScrollableScrollPhysics(),
+                              physics: const AlwaysScrollableScrollPhysics(),
                               key: _listKey,
                               shrinkWrap: true,
                               reverse: false,
@@ -82,7 +82,7 @@ class LocationsPage extends StatelessWidget {
                           ),
                         ) :
                         Padding(
-                          padding: EdgeInsets.only(left: 32.0, top: 48.0, right: 32.0),
+                          padding: const EdgeInsets.only(left: 32.0, top: 48.0, right: 32.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: "Save locations you regularly use here. \n\nThese locations can be added to your jobs to help make mileage tracking easier and enable you to share the driving directions with your clients.\n\nYour locations will never be shared with other photographers. They will remain private to you.",

@@ -7,6 +7,7 @@ import 'package:dandylight/pages/main_settings_page/DeleteAccountPage.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/DeviceType.dart';
 import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
@@ -103,10 +104,12 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ), systemOverlayStyle: SystemUiOverlayStyle.dark,
                     ),
-                    SliverList(
-                      delegate: SliverChildListDelegate(
-                        <Widget>[
-                          Container(
+                    SliverPadding(
+                      padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
+                      sliver: SliverList(
+                        delegate: SliverChildListDelegate(
+                          <Widget>[
+                            Container(
                               margin: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 32.0, top: 16),
                               padding: const EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
                               decoration: BoxDecoration(
@@ -150,8 +153,8 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                           ),
                                         ],
                                       ),
-                                ),
-                              ),
+                                    ),
+                                  ),
                                   TextButton(
                                     style: Styles.getButtonStyle(),
                                     onPressed: () {
@@ -190,138 +193,138 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                       ),
                                     ),
                                   ),
-                              TextButton(
-                                style: Styles.getButtonStyle(),
-                                onPressed: () {
-                                  Share.share('Hey checkout this app.'
-                                      '\n\nDandyLight - Photography Business Management'
+                                  TextButton(
+                                    style: Styles.getButtonStyle(),
+                                    onPressed: () {
+                                      Share.share('Hey checkout this app.'
+                                          '\n\nDandyLight - Photography Business Management'
                                       // '\n\nUse this referral code when signing up so your friend can get 3 months free.'
                                       // '\n\nCode: ' + pageState.profile.referralUid +
-                                      '\n\nhttps://linktr.ee/dandylight');
-                                },
-                                child: SizedBox(
-                                  height: 48.0,
-                                  child: Row(
-                                    mainAxisAlignment:
+                                          '\n\nhttps://linktr.ee/dandylight');
+                                    },
+                                    child: SizedBox(
+                                      height: 48.0,
+                                      child: Row(
+                                        mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Row(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
                                         children: <Widget>[
-                                          Container(
-                                            alignment: Alignment.center,
-                                            margin: const EdgeInsets.only(right: 18.0, left: 2.0),
-                                            height: 28.0,
-                                            width: 28.0,
-                                            child: Image.asset('assets/images/icons/file_upload.png', color: Color(ColorConstants.getPrimaryBlack()),),
+                                          Row(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Container(
+                                                alignment: Alignment.center,
+                                                margin: const EdgeInsets.only(right: 18.0, left: 2.0),
+                                                height: 28.0,
+                                                width: 28.0,
+                                                child: Image.asset('assets/images/icons/file_upload.png', color: Color(ColorConstants.getPrimaryBlack()),),
+                                              ),
+                                              TextDandyLight(
+                                                type: TextDandyLight.MEDIUM_TEXT,
+                                                text: 'Share DandyLight',
+                                                textAlign: TextAlign.center,
+                                                color: Color(ColorConstants
+                                                    .getPrimaryBlack()),
+                                              ),
+                                            ],
                                           ),
-                                          TextDandyLight(
-                                            type: TextDandyLight.MEDIUM_TEXT,
-                                            text: 'Share DandyLight',
-                                            textAlign: TextAlign.center,
+                                          Icon(
+                                            Icons.chevron_right,
                                             color: Color(ColorConstants
-                                                .getPrimaryBlack()),
+                                                .getPrimaryBackgroundGrey()),
                                           ),
                                         ],
                                       ),
-                                      Icon(
-                                        Icons.chevron_right,
-                                        color: Color(ColorConstants
-                                            .getPrimaryBackgroundGrey()),
-                                      ),
-                                    ],
+                                    ),
                                   ),
-                                ),
-                              ),
-                              TextButton(
-                                style: Styles.getButtonStyle(),
-                                onPressed: () {
-                                  NavigationUtil.onManageSubscriptionSelected(context, pageState.profile);
-                                },
-                                child: SizedBox(
-                                  height: 48.0,
-                                  child: Row(
-                                    mainAxisAlignment:
+                                  TextButton(
+                                    style: Styles.getButtonStyle(),
+                                    onPressed: () {
+                                      NavigationUtil.onManageSubscriptionSelected(context, pageState.profile);
+                                    },
+                                    child: SizedBox(
+                                      height: 48.0,
+                                      child: Row(
+                                        mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Row(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
                                         children: <Widget>[
-                                          Container(
-                                            margin:
+                                          Row(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Container(
+                                                margin:
                                                 const EdgeInsets.only(right: 16.0),
-                                            height: 32.0,
-                                            width: 32.0,
-                                            child: Image.asset(
-                                                'assets/images/icons/subscription.png', color: Color(ColorConstants.getPrimaryBlack()),),
+                                                height: 32.0,
+                                                width: 32.0,
+                                                child: Image.asset(
+                                                  'assets/images/icons/subscription.png', color: Color(ColorConstants.getPrimaryBlack()),),
+                                              ),
+                                              TextDandyLight(
+                                                type: TextDandyLight.MEDIUM_TEXT,
+                                                text: 'Manage Subscription',
+                                                textAlign: TextAlign.center,
+                                                color: Color(ColorConstants
+                                                    .getPrimaryBlack()),
+                                              ),
+                                            ],
                                           ),
-                                          TextDandyLight(
-                                            type: TextDandyLight.MEDIUM_TEXT,
-                                            text: 'Manage Subscription',
-                                            textAlign: TextAlign.center,
+                                          Icon(
+                                            Icons.chevron_right,
                                             color: Color(ColorConstants
-                                                .getPrimaryBlack()),
+                                                .getPrimaryBackgroundGrey()),
                                           ),
                                         ],
                                       ),
-                                      Icon(
-                                        Icons.chevron_right,
-                                        color: Color(ColorConstants
-                                            .getPrimaryBackgroundGrey()),
-                                      ),
-                                    ],
+                                    ),
                                   ),
-                                ),
-                              ),
-                              TextButton(
-                                style: Styles.getButtonStyle(),
-                                onPressed: () {
-                                  _sendSuggestionEmail(pageState);
-                                },
-                                child: SizedBox(
-                                  height: 48.0,
-                                  child: Row(
-                                    mainAxisAlignment:
+                                  TextButton(
+                                    style: Styles.getButtonStyle(),
+                                    onPressed: () {
+                                      _sendSuggestionEmail(pageState);
+                                    },
+                                    child: SizedBox(
+                                      height: 48.0,
+                                      child: Row(
+                                        mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Row(
                                         crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                         children: <Widget>[
-                                          Container(
-                                            margin:
-                                            const EdgeInsets.only(right: 16.0),
-                                            height: 32.0,
-                                            width: 32.0,
-                                            child: Image.asset(
-                                                'assets/images/icons/suggestions_icon_black.png'),
+                                          Row(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Container(
+                                                margin:
+                                                const EdgeInsets.only(right: 16.0),
+                                                height: 32.0,
+                                                width: 32.0,
+                                                child: Image.asset(
+                                                    'assets/images/icons/suggestions_icon_black.png'),
+                                              ),
+                                              TextDandyLight(
+                                                type: TextDandyLight.MEDIUM_TEXT,
+                                                text: 'Suggestions',
+                                                textAlign: TextAlign.center,
+                                                color: Color(ColorConstants
+                                                    .getPrimaryBlack()),
+                                              ),
+                                            ],
                                           ),
-                                          TextDandyLight(
-                                            type: TextDandyLight.MEDIUM_TEXT,
-                                            text: 'Suggestions',
-                                            textAlign: TextAlign.center,
+                                          Icon(
+                                            Icons.chevron_right,
                                             color: Color(ColorConstants
-                                                .getPrimaryBlack()),
+                                                .getPrimaryBackgroundGrey()),
                                           ),
                                         ],
                                       ),
-                                      Icon(
-                                        Icons.chevron_right,
-                                        color: Color(ColorConstants
-                                            .getPrimaryBackgroundGrey()),
-                                      ),
-                                    ],
+                                    ),
                                   ),
-                                ),
-                              ),
                                   TextButton(
                                     style: Styles.getButtonStyle(),
                                     onPressed: () {
@@ -345,7 +348,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                                 height: 32.0,
                                                 width: 32.0,
                                                 child: Image.asset(
-                                                    'assets/images/icons/alert_icon_circle.png', color: Color(ColorConstants.getPrimaryBlack()),),
+                                                  'assets/images/icons/alert_icon_circle.png', color: Color(ColorConstants.getPrimaryBlack()),),
                                               ),
                                               TextDandyLight(
                                                 type: TextDandyLight.MEDIUM_TEXT,
@@ -365,526 +368,527 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                       ),
                                     ),
                                   ),
-                            ],
-                          ),
-                      ),
-                          Container(
-                            margin: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
-                            padding: const EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
-                            decoration: BoxDecoration(
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                              borderRadius: BorderRadius.circular(12.0),
+                                ],
+                              ),
                             ),
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  height: 48.0,
-                                  padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      TextDandyLight(
-                                        type: TextDandyLight.MEDIUM_TEXT,
-                                        text: 'Push Notifications',
-                                        textAlign: TextAlign.center,
-                                        color: Color(ColorConstants.getPrimaryBlack()),
-                                      ),
-                                      Device.get().isIos?
-                                      CupertinoSwitch(
-                                        trackColor: Color(ColorConstants.getBlueLight()),
-                                        activeColor: Color(ColorConstants.getBlueDark()),
-                                        thumbColor: Color(ColorConstants.getPrimaryWhite()),
-                                        onChanged: (enabled) async {
-                                          bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context);
-                                          if(isGranted) pageState.onPushNotificationsChanged(enabled);
-                                        },
-                                        value: pageState.pushNotificationsEnabled,
-                                      ) : Switch(
-                                        activeTrackColor: Color(ColorConstants.getBlueLight()),
-                                        inactiveTrackColor: Color(ColorConstants.getBlueLight()),
-                                        activeColor: Color(ColorConstants.getBlueDark()),
-                                        onChanged: (enabled) async {
-                                          bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context);
-                                          if(isGranted) pageState.onPushNotificationsChanged(enabled);
-                                        },
-                                        value: pageState.pushNotificationsEnabled,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0, bottom: 32.0),
-                                  child: TextDandyLight(
-                                    type: TextDandyLight.SMALL_TEXT,
-                                    text: 'Enable push notifications to get notified of job reminders, expenses, invoices and contracts.',
-                                    textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.getPrimaryBlack()),
-                                  ),
-                                ),
-                                Container(
-                                  height: 48.0,
-                                  padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      TextDandyLight(
-                                        type: TextDandyLight.MEDIUM_TEXT,
-                                        text: 'Calendar',
-                                        textAlign: TextAlign.center,
-                                        color: Color(ColorConstants.getPrimaryBlack()),
-                                      ),
-                                      Device.get().isIos?
-                                      CupertinoSwitch(
-                                        trackColor: Color(ColorConstants.getBlueLight()),
-                                        activeColor: Color(ColorConstants.getBlueDark()),
-                                        thumbColor: Color(ColorConstants.getPrimaryWhite()),
-                                        onChanged: (enabled) async {
-                                          bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendar, context: context);
-                                          if(isGranted) {
-                                            if(enabled) {
-                                              UserOptionsUtil.showCalendarSelectionDialog(context, pageState.onCalendarChanged);
-                                            } else {
-                                              pageState.onCalendarChanged(enabled);
-                                            }
-                                          }
-                                        },
-                                        value: pageState.calendarEnabled,
-                                      ) : Switch(
-                                        activeTrackColor: Color(ColorConstants.getBlueLight()),
-                                        inactiveTrackColor: Color(ColorConstants.getBlueLight()),
-                                        activeColor: Color(ColorConstants.getBlueDark()),
-                                        onChanged: (enabled) async {
-                                          bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendar, context: context);
-                                          if(isGranted) {
-                                            if(enabled) {
-                                              UserOptionsUtil.showCalendarSelectionDialog(context, pageState.onCalendarChanged);
-                                            } else {
-                                              pageState.onCalendarChanged(enabled);
-                                            }
-                                          }
-                                        },
-                                        value: pageState.calendarEnabled,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0, bottom: 16.0),
-                                  child: TextDandyLight(
-                                    type: TextDandyLight.SMALL_TEXT,
-                                    text: 'Enable DandyLight to sync your jobs with your personal device calendars.',
-                                    textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.getPrimaryBlack()),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 32.0),
-                            padding: const EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
-                            decoration: BoxDecoration(
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            child: Column(
-                              children: <Widget>[
-                                TextButton(
-                                  style: Styles.getButtonStyle(),
-                                  onPressed: () {
-                                    _launchPrivacyPolicyURL();
-                                  },
-                                  child: SizedBox(
-                                    height: 48.0,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Row(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            Container(
-                                              alignment: Alignment.center,
-                                              margin: const EdgeInsets.only(right: 16.0),
-                                              height: 28.0,
-                                              width: 28.0,
-                                              child: Image.asset('assets/images/icons/signature.png', color: Color(ColorConstants.getPrimaryBlack(),)),
-                                            ),
-                                            TextDandyLight(
-                                              type: TextDandyLight.MEDIUM_TEXT,
-                                              text: 'Privacy Policy',
-                                              textAlign: TextAlign.center,
-                                              color: Color(ColorConstants
-                                                  .getPrimaryBlack()),
-                                            ),
-                                          ],
-                                        ),
-                                        Icon(
-                                          Icons.chevron_right,
-                                          color: Color(ColorConstants
-                                              .getPrimaryBackgroundGrey()),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Platform.isIOS ?  TextButton(
-                                  style: Styles.getButtonStyle(),
-                                  onPressed: () {
-                                    _launchAppleEULA();
-                                  },
-                                  child: SizedBox(
-                                    height: 48.0,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Row(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            Container(
-                                              alignment: Alignment.center,
-                                              margin: const EdgeInsets.only(right: 16.0),
-                                              height: 28.0,
-                                              width: 28.0,
-                                              child: Image.asset('assets/images/icons/signature.png', color: Color(ColorConstants.getPrimaryBlack(),)),
-                                            ),
-                                            TextDandyLight(
-                                              type: TextDandyLight.MEDIUM_TEXT,
-                                              text:'Terms of Use',
-                                              textAlign: TextAlign.center,
-                                              color: Color(ColorConstants
-                                                  .getPrimaryBlack()),
-                                            ),
-                                          ],
-                                        ),
-                                        Icon(
-                                          Icons.chevron_right,
-                                          color: Color(ColorConstants
-                                              .getPrimaryBackgroundGrey()),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ) : TextButton(
-                                  style: Styles.getButtonStyle(),
-                                  onPressed: () {
-                                    _launchTermsOfServiceURL();
-                                  },
-                                  child: SizedBox(
-                                    height: 48.0,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Row(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            Container(
-                                              alignment: Alignment.center,
-                                              margin: const EdgeInsets.only(right: 16.0),
-                                              height: 28.0,
-                                              width: 28.0,
-                                              child: Image.asset('assets/images/icons/signature.png', color: Color(ColorConstants.getPrimaryBlack(),)),
-                                            ),
-                                            TextDandyLight(
-                                              type: TextDandyLight.MEDIUM_TEXT,
-                                              text:'Terms and Conditions',
-                                              textAlign: TextAlign.center,
-                                              color: Color(ColorConstants
-                                                  .getPrimaryBlack()),
-                                            ),
-                                          ],
-                                        ),
-                                        Icon(
-                                          Icons.chevron_right,
-                                          color: Color(ColorConstants
-                                              .getPrimaryBackgroundGrey()),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                TextButton(
-                                  style: Styles.getButtonStyle(),
-                                  onPressed: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(builder: (context) => DeleteAccountPage()),
-                                    );
-                                  },
-                                  child: SizedBox(
-                                    height: 48.0,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Row(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            Container(
-                                              alignment: Alignment.center,
-                                              margin: const EdgeInsets.only(right: 16.0),
-                                              height: 28.0,
-                                              width: 28.0,
-                                              child: Image.asset('assets/images/icons/trash_can.png', color: Color(ColorConstants.getPrimaryBlack(),)),
-                                            ),
-                                            TextDandyLight(
-                                              type: TextDandyLight.MEDIUM_TEXT,
-                                              text: 'Delete Account',
-                                              textAlign: TextAlign.center,
-                                              color: Color(ColorConstants
-                                                  .getPrimaryBlack()),
-                                            ),
-                                          ],
-                                        ),
-                                        Icon(
-                                          Icons.chevron_right,
-                                          color: Color(ColorConstants
-                                              .getPrimaryBackgroundGrey()),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          pageState.isAdmin ? Container(
-                            margin: const EdgeInsets.only(left: 16.0, right: 16.0, top: 0.0, bottom: 32.0),
-                            padding: const EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
-                            decoration: BoxDecoration(
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            child: Column(
-                              children: <Widget>[
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 48.0,
-                                  child: TextDandyLight(
-                                    type: TextDandyLight.LARGE_TEXT,
-                                    text: 'Admin Tools',
-                                    textAlign: TextAlign.center,
-                                    color: Color(ColorConstants
-                                        .getPrimaryBlack()),
-                                  ),
-                                ),
-                                TextButton(
-                                  style: Styles.getButtonStyle(),
-                                  onPressed: () {
-                                    _showGenerateDiscountCodeBottomSheet(context, DiscountCodes.FIFTY_PERCENT_TYPE);
-                                  },
-                                  child: SizedBox(
-                                    height: 48.0,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Row(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            Container(
-                                              alignment: Alignment.center,
-                                              margin: const EdgeInsets.only(right: 16.0),
-                                              height: 28.0,
-                                              width: 28.0,
-                                              child: Icon(
-                                                Icons.discount,
-                                                color: Color(ColorConstants.getPrimaryBlack()),
-                                              ),
-                                            ),
-                                            TextDandyLight(
-                                              type: TextDandyLight.MEDIUM_TEXT,
-                                              text: 'Generate 50% Discount Code',
-                                              textAlign: TextAlign.center,
-                                              color: Color(ColorConstants.getPrimaryBlack()),
-                                            ),
-                                          ],
-                                        ),
-                                        Icon(
-                                          Icons.add,
-                                          color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                TextButton(
-                                  style: Styles.getButtonStyle(),
-                                  onPressed: () {
-                                    _showGenerateDiscountCodeBottomSheet(context, DiscountCodes.LIFETIME_FREE);
-                                  },
-                                  child: SizedBox(
-                                    height: 48.0,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Row(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            Container(
-                                              alignment: Alignment.center,
-                                              margin: const EdgeInsets.only(right: 16.0),
-                                              height: 28.0,
-                                              width: 28.0,
-                                              child: Icon(
-                                                Icons.discount,
-                                                color: Color(ColorConstants.getPrimaryBlack()),
-                                              ),
-                                            ),
-                                            TextDandyLight(
-                                              type: TextDandyLight.MEDIUM_TEXT,
-                                              text: 'Generate Free Discount Code',
-                                              textAlign: TextAlign.center,
-                                              color: Color(ColorConstants.getPrimaryBlack()),
-                                            ),
-                                          ],
-                                        ),
-                                        Icon(
-                                          Icons.add,
-                                          color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                TextButton(
-                                  style: Styles.getButtonStyle(),
-                                  onPressed: () {
-                                    Clipboard.setData(ClipboardData(text: pageState.discountCode));
-                                    DandyToastUtil.showToast('${pageState.discountCode} Copied to Clipboard!', const Color(ColorConstants.error_red));
-                                  },
-                                  child: SizedBox(
-                                    height: 48.0,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Row(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            Container(
-                                              alignment: Alignment.center,
-                                              margin: const EdgeInsets.only(right: 16.0),
-                                              height: 28.0,
-                                              width: 28.0,
-                                              child: Icon(
-                                                Icons.visibility,
-                                                color: Color(ColorConstants.getPrimaryBlack()),
-                                              ),
-                                            ),
-                                            TextDandyLight(
-                                              type: TextDandyLight.MEDIUM_TEXT,
-                                              text: 'Show Last Generated Code',
-                                              textAlign: TextAlign.center,
-                                              color: Color(ColorConstants.getPrimaryBlack()),
-                                            ),
-                                          ],
-                                        ),
-                                        Icon(
-                                          Icons.visibility,
-                                          color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                TextButton(
-                                  style: Styles.getButtonStyle(),
-                                  onPressed: () {
-                                    pageState.populateAccountWithData();
-                                  },
-                                  child: SizedBox(
-                                    height: 48.0,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Row(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            Container(
-                                              alignment: Alignment.center,
-                                              margin: const EdgeInsets.only(right: 16.0),
-                                              height: 28.0,
-                                              width: 28.0,
-                                              child: Icon(
-                                                Icons.document_scanner_outlined,
-                                                color: Color(ColorConstants.getPrimaryBlack()),
-                                              ),
-                                            ),
-                                            TextDandyLight(
-                                              type: TextDandyLight.MEDIUM_TEXT,
-                                              text: 'Populate account with data',
-                                              textAlign: TextAlign.center,
-                                              color: Color(ColorConstants.getPrimaryBlack()),
-                                            ),
-                                          ],
-                                        ),
-                                        Icon(
-                                          Icons.document_scanner_outlined,
-                                          color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ) : const SizedBox(),
-                          TextButton(
-                            style: Styles.getButtonStyle(),
-                            onPressed: () {
-                              pageState.onSignOutSelected();
-                              FirebaseAuthentication().signOut();
-                              NavigationUtil.onSignOutSelected(context);
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              height: 48.0,
-                              width: 172.0,
+                            Container(
+                              margin: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
+                              padding: const EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
                               decoration: BoxDecoration(
-                                color: Color(ColorConstants.getPeachDark()),
-                                borderRadius: BorderRadius.circular(32.0),
-                              ),
-                              child: TextDandyLight(
-                                type: TextDandyLight.LARGE_TEXT,
-                                text: 'Sign out',
-                                textAlign: TextAlign.center,
                                 color: Color(ColorConstants.getPrimaryWhite()),
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    height: 48.0,
+                                    padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        TextDandyLight(
+                                          type: TextDandyLight.MEDIUM_TEXT,
+                                          text: 'Push Notifications',
+                                          textAlign: TextAlign.center,
+                                          color: Color(ColorConstants.getPrimaryBlack()),
+                                        ),
+                                        Device.get().isIos?
+                                        CupertinoSwitch(
+                                          trackColor: Color(ColorConstants.getBlueLight()),
+                                          activeColor: Color(ColorConstants.getBlueDark()),
+                                          thumbColor: Color(ColorConstants.getPrimaryWhite()),
+                                          onChanged: (enabled) async {
+                                            bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context);
+                                            if(isGranted) pageState.onPushNotificationsChanged(enabled);
+                                          },
+                                          value: pageState.pushNotificationsEnabled,
+                                        ) : Switch(
+                                          activeTrackColor: Color(ColorConstants.getBlueLight()),
+                                          inactiveTrackColor: Color(ColorConstants.getBlueLight()),
+                                          activeColor: Color(ColorConstants.getBlueDark()),
+                                          onChanged: (enabled) async {
+                                            bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context);
+                                            if(isGranted) pageState.onPushNotificationsChanged(enabled);
+                                          },
+                                          value: pageState.pushNotificationsEnabled,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0, bottom: 32.0),
+                                    child: TextDandyLight(
+                                      type: TextDandyLight.SMALL_TEXT,
+                                      text: 'Enable push notifications to get notified of job reminders, expenses, invoices and contracts.',
+                                      textAlign: TextAlign.start,
+                                      color: Color(ColorConstants.getPrimaryBlack()),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 48.0,
+                                    padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        TextDandyLight(
+                                          type: TextDandyLight.MEDIUM_TEXT,
+                                          text: 'Calendar',
+                                          textAlign: TextAlign.center,
+                                          color: Color(ColorConstants.getPrimaryBlack()),
+                                        ),
+                                        Device.get().isIos?
+                                        CupertinoSwitch(
+                                          trackColor: Color(ColorConstants.getBlueLight()),
+                                          activeColor: Color(ColorConstants.getBlueDark()),
+                                          thumbColor: Color(ColorConstants.getPrimaryWhite()),
+                                          onChanged: (enabled) async {
+                                            bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendar, context: context);
+                                            if(isGranted) {
+                                              if(enabled) {
+                                                UserOptionsUtil.showCalendarSelectionDialog(context, pageState.onCalendarChanged);
+                                              } else {
+                                                pageState.onCalendarChanged(enabled);
+                                              }
+                                            }
+                                          },
+                                          value: pageState.calendarEnabled,
+                                        ) : Switch(
+                                          activeTrackColor: Color(ColorConstants.getBlueLight()),
+                                          inactiveTrackColor: Color(ColorConstants.getBlueLight()),
+                                          activeColor: Color(ColorConstants.getBlueDark()),
+                                          onChanged: (enabled) async {
+                                            bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendar, context: context);
+                                            if(isGranted) {
+                                              if(enabled) {
+                                                UserOptionsUtil.showCalendarSelectionDialog(context, pageState.onCalendarChanged);
+                                              } else {
+                                                pageState.onCalendarChanged(enabled);
+                                              }
+                                            }
+                                          },
+                                          value: pageState.calendarEnabled,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0, bottom: 16.0),
+                                    child: TextDandyLight(
+                                      type: TextDandyLight.SMALL_TEXT,
+                                      text: 'Enable DandyLight to sync your jobs with your personal device calendars.',
+                                      textAlign: TextAlign.start,
+                                      color: Color(ColorConstants.getPrimaryBlack()),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 128.0,
-                          )
-                        ],
-                      ),
+                            Container(
+                              margin: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 32.0),
+                              padding: const EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
+                              decoration: BoxDecoration(
+                                color: Color(ColorConstants.getPrimaryWhite()),
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                              child: Column(
+                                children: <Widget>[
+                                  TextButton(
+                                    style: Styles.getButtonStyle(),
+                                    onPressed: () {
+                                      _launchPrivacyPolicyURL();
+                                    },
+                                    child: SizedBox(
+                                      height: 48.0,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Row(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Container(
+                                                alignment: Alignment.center,
+                                                margin: const EdgeInsets.only(right: 16.0),
+                                                height: 28.0,
+                                                width: 28.0,
+                                                child: Image.asset('assets/images/icons/signature.png', color: Color(ColorConstants.getPrimaryBlack(),)),
+                                              ),
+                                              TextDandyLight(
+                                                type: TextDandyLight.MEDIUM_TEXT,
+                                                text: 'Privacy Policy',
+                                                textAlign: TextAlign.center,
+                                                color: Color(ColorConstants
+                                                    .getPrimaryBlack()),
+                                              ),
+                                            ],
+                                          ),
+                                          Icon(
+                                            Icons.chevron_right,
+                                            color: Color(ColorConstants
+                                                .getPrimaryBackgroundGrey()),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Platform.isIOS ?  TextButton(
+                                    style: Styles.getButtonStyle(),
+                                    onPressed: () {
+                                      _launchAppleEULA();
+                                    },
+                                    child: SizedBox(
+                                      height: 48.0,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Row(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Container(
+                                                alignment: Alignment.center,
+                                                margin: const EdgeInsets.only(right: 16.0),
+                                                height: 28.0,
+                                                width: 28.0,
+                                                child: Image.asset('assets/images/icons/signature.png', color: Color(ColorConstants.getPrimaryBlack(),)),
+                                              ),
+                                              TextDandyLight(
+                                                type: TextDandyLight.MEDIUM_TEXT,
+                                                text:'Terms of Use',
+                                                textAlign: TextAlign.center,
+                                                color: Color(ColorConstants
+                                                    .getPrimaryBlack()),
+                                              ),
+                                            ],
+                                          ),
+                                          Icon(
+                                            Icons.chevron_right,
+                                            color: Color(ColorConstants
+                                                .getPrimaryBackgroundGrey()),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ) : TextButton(
+                                    style: Styles.getButtonStyle(),
+                                    onPressed: () {
+                                      _launchTermsOfServiceURL();
+                                    },
+                                    child: SizedBox(
+                                      height: 48.0,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Row(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Container(
+                                                alignment: Alignment.center,
+                                                margin: const EdgeInsets.only(right: 16.0),
+                                                height: 28.0,
+                                                width: 28.0,
+                                                child: Image.asset('assets/images/icons/signature.png', color: Color(ColorConstants.getPrimaryBlack(),)),
+                                              ),
+                                              TextDandyLight(
+                                                type: TextDandyLight.MEDIUM_TEXT,
+                                                text:'Terms and Conditions',
+                                                textAlign: TextAlign.center,
+                                                color: Color(ColorConstants
+                                                    .getPrimaryBlack()),
+                                              ),
+                                            ],
+                                          ),
+                                          Icon(
+                                            Icons.chevron_right,
+                                            color: Color(ColorConstants
+                                                .getPrimaryBackgroundGrey()),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    style: Styles.getButtonStyle(),
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(builder: (context) => DeleteAccountPage()),
+                                      );
+                                    },
+                                    child: SizedBox(
+                                      height: 48.0,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Row(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Container(
+                                                alignment: Alignment.center,
+                                                margin: const EdgeInsets.only(right: 16.0),
+                                                height: 28.0,
+                                                width: 28.0,
+                                                child: Image.asset('assets/images/icons/trash_can.png', color: Color(ColorConstants.getPrimaryBlack(),)),
+                                              ),
+                                              TextDandyLight(
+                                                type: TextDandyLight.MEDIUM_TEXT,
+                                                text: 'Delete Account',
+                                                textAlign: TextAlign.center,
+                                                color: Color(ColorConstants
+                                                    .getPrimaryBlack()),
+                                              ),
+                                            ],
+                                          ),
+                                          Icon(
+                                            Icons.chevron_right,
+                                            color: Color(ColorConstants
+                                                .getPrimaryBackgroundGrey()),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            pageState.isAdmin ? Container(
+                              margin: const EdgeInsets.only(left: 16.0, right: 16.0, top: 0.0, bottom: 32.0),
+                              padding: const EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
+                              decoration: BoxDecoration(
+                                color: Color(ColorConstants.getPrimaryWhite()),
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                              child: Column(
+                                children: <Widget>[
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 48.0,
+                                    child: TextDandyLight(
+                                      type: TextDandyLight.LARGE_TEXT,
+                                      text: 'Admin Tools',
+                                      textAlign: TextAlign.center,
+                                      color: Color(ColorConstants
+                                          .getPrimaryBlack()),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    style: Styles.getButtonStyle(),
+                                    onPressed: () {
+                                      _showGenerateDiscountCodeBottomSheet(context, DiscountCodes.FIFTY_PERCENT_TYPE);
+                                    },
+                                    child: SizedBox(
+                                      height: 48.0,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Row(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Container(
+                                                alignment: Alignment.center,
+                                                margin: const EdgeInsets.only(right: 16.0),
+                                                height: 28.0,
+                                                width: 28.0,
+                                                child: Icon(
+                                                  Icons.discount,
+                                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                                ),
+                                              ),
+                                              TextDandyLight(
+                                                type: TextDandyLight.MEDIUM_TEXT,
+                                                text: 'Generate 50% Discount Code',
+                                                textAlign: TextAlign.center,
+                                                color: Color(ColorConstants.getPrimaryBlack()),
+                                              ),
+                                            ],
+                                          ),
+                                          Icon(
+                                            Icons.add,
+                                            color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    style: Styles.getButtonStyle(),
+                                    onPressed: () {
+                                      _showGenerateDiscountCodeBottomSheet(context, DiscountCodes.LIFETIME_FREE);
+                                    },
+                                    child: SizedBox(
+                                      height: 48.0,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Row(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Container(
+                                                alignment: Alignment.center,
+                                                margin: const EdgeInsets.only(right: 16.0),
+                                                height: 28.0,
+                                                width: 28.0,
+                                                child: Icon(
+                                                  Icons.discount,
+                                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                                ),
+                                              ),
+                                              TextDandyLight(
+                                                type: TextDandyLight.MEDIUM_TEXT,
+                                                text: 'Generate Free Discount Code',
+                                                textAlign: TextAlign.center,
+                                                color: Color(ColorConstants.getPrimaryBlack()),
+                                              ),
+                                            ],
+                                          ),
+                                          Icon(
+                                            Icons.add,
+                                            color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    style: Styles.getButtonStyle(),
+                                    onPressed: () {
+                                      Clipboard.setData(ClipboardData(text: pageState.discountCode));
+                                      DandyToastUtil.showToast('${pageState.discountCode} Copied to Clipboard!', const Color(ColorConstants.error_red));
+                                    },
+                                    child: SizedBox(
+                                      height: 48.0,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Row(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Container(
+                                                alignment: Alignment.center,
+                                                margin: const EdgeInsets.only(right: 16.0),
+                                                height: 28.0,
+                                                width: 28.0,
+                                                child: Icon(
+                                                  Icons.visibility,
+                                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                                ),
+                                              ),
+                                              TextDandyLight(
+                                                type: TextDandyLight.MEDIUM_TEXT,
+                                                text: 'Show Last Generated Code',
+                                                textAlign: TextAlign.center,
+                                                color: Color(ColorConstants.getPrimaryBlack()),
+                                              ),
+                                            ],
+                                          ),
+                                          Icon(
+                                            Icons.visibility,
+                                            color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    style: Styles.getButtonStyle(),
+                                    onPressed: () {
+                                      pageState.populateAccountWithData();
+                                    },
+                                    child: SizedBox(
+                                      height: 48.0,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Row(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Container(
+                                                alignment: Alignment.center,
+                                                margin: const EdgeInsets.only(right: 16.0),
+                                                height: 28.0,
+                                                width: 28.0,
+                                                child: Icon(
+                                                  Icons.document_scanner_outlined,
+                                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                                ),
+                                              ),
+                                              TextDandyLight(
+                                                type: TextDandyLight.MEDIUM_TEXT,
+                                                text: 'Populate account with data',
+                                                textAlign: TextAlign.center,
+                                                color: Color(ColorConstants.getPrimaryBlack()),
+                                              ),
+                                            ],
+                                          ),
+                                          Icon(
+                                            Icons.document_scanner_outlined,
+                                            color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ) : const SizedBox(),
+                            TextButton(
+                              style: Styles.getButtonStyle(),
+                              onPressed: () {
+                                pageState.onSignOutSelected();
+                                FirebaseAuthentication().signOut();
+                                NavigationUtil.onSignOutSelected(context);
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 48.0,
+                                width: 172.0,
+                                decoration: BoxDecoration(
+                                  color: Color(ColorConstants.getPeachDark()),
+                                  borderRadius: BorderRadius.circular(32.0),
+                                ),
+                                child: TextDandyLight(
+                                  type: TextDandyLight.LARGE_TEXT,
+                                  text: 'Sign out',
+                                  textAlign: TextAlign.center,
+                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 128.0,
+                            )
+                          ],
+                        ),
+                      )
                     ),
                   ],
                 ),

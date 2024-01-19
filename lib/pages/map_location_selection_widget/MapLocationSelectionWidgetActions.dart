@@ -62,9 +62,9 @@ class SetLocationNameAction{
   SetLocationNameAction(this.pageState, this.selectedLocationName);
 }
 
-class ClearState{
+class ClearMapSelectionStateAction{
   final MapLocationSelectionWidgetState pageState;
-  ClearState(this.pageState);
+  ClearMapSelectionStateAction(this.pageState);
 }
 
 class ClearSearchTextAction{

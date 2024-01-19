@@ -5,89 +5,95 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/DandyLightNetworkImage.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class SunsetWeatherLocationListWidget extends StatelessWidget {
   final int locationIndex;
 
-  SunsetWeatherLocationListWidget(this.locationIndex);
+  const SunsetWeatherLocationListWidget(this.locationIndex, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, SunsetWeatherPageState>(
       converter: (store) => SunsetWeatherPageState.fromStore(store),
-      builder: (BuildContext context, SunsetWeatherPageState pageState) => Column(
+      builder: (BuildContext context, SunsetWeatherPageState pageState) => Stack(
+        alignment: Alignment.bottomCenter,
         children: <Widget>[
-          Stack(
-            alignment: Alignment.bottomCenter,
-            children: <Widget>[
-              Container(
-                  height: _getItemWidthHeight(context) - 72,
-                  margin: EdgeInsets.only(top: 8.0),
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: pageState.locationImages.isNotEmpty
-                          ? FileImage(pageState.locationImages.elementAt(locationIndex))
-                          : AssetImage("assets/images/backgrounds/image_background.png")
-                    ),
-                    color: Color(ColorConstants.getPrimaryBlack()),
-                    borderRadius: new BorderRadius.circular(16.0),
-                  ),
-                ),
-              pageState.selectedLocation != pageState.locations.elementAt(locationIndex)
-                  ? SizedBox()
-                  : Container(
-                      height: _getItemWidthHeight(context) - 72,
-                      margin:
-                          EdgeInsets.only(top: 8.0),
-                      decoration: BoxDecoration(
-                          color: Color(ColorConstants.getPrimaryBlack()),
-                          borderRadius: new BorderRadius.circular(16.0),
-                          gradient: LinearGradient(
-                              begin: FractionalOffset.center,
-                              end: FractionalOffset.bottomCenter,
-                              colors: [
-                                Color(ColorConstants.getPrimaryColor()).withOpacity(0.5),
-                                Color(ColorConstants.getPrimaryColor()).withOpacity(0.5),
-                              ],
-                              stops: [
-                                0.0,
-                                1.0
-                              ])),
-                    ),
-              Container(
-                height: _getItemWidthHeight(context) - 72,
-                width: double.maxFinite,
-                child: GestureDetector(
-                  onTap: () async {
-                    pageState.onLocationSelected(pageState.locations.elementAt(locationIndex));
-                  },
-                ),
-              ),
-            ],
+          pageState.locations.isNotEmpty
+              ? Container(
+            width: double.infinity,
+            margin: const EdgeInsets.only(bottom: 28.0),
+            decoration: BoxDecoration(
+              color: Color(ColorConstants.getPeachLight()),
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: DandyLightNetworkImage(
+              pageState.locations.elementAt(locationIndex).imageUrl,
+              errorType:
+              pageState.locations.elementAt(locationIndex).imageUrl !=
+                  null &&
+                  pageState.locations
+                      .elementAt(locationIndex)
+                      .imageUrl
+                      .isNotEmpty
+                  ? DandyLightNetworkImage.ERROR_TYPE_INTERNET
+                  : DandyLightNetworkImage.ERROR_TYPE_NO_IMAGE,
+              errorIconSize: pageState.locations.elementAt(locationIndex).imageUrl != null && pageState.locations.elementAt(locationIndex).imageUrl.isNotEmpty ? 44 : 96,
+            ),
+          )
+              : const SizedBox(),
+          TextDandyLight(
+            type: TextDandyLight.SMALL_TEXT,
+            text: pageState.locations.elementAt(locationIndex).locationName,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+            color: Color(ColorConstants.getPrimaryBlack()),
           ),
-          Center(
-            child: Container(
-              margin: EdgeInsets.only(top: 4.0),
-              child: TextDandyLight(
-                type: TextDandyLight.MEDIUM_TEXT,
-                text: pageState.locations.elementAt(locationIndex).locationName,
-                textAlign: TextAlign.center,
-                color: pageState.selectedLocation != pageState.locations.elementAt(locationIndex)
-                    ? Color(ColorConstants.getPrimaryBlack())
-                    : Color(ColorConstants.getPrimaryColor()),
+          pageState.selectedLocation == pageState.locations.elementAt(locationIndex)
+              ? Container(
+            margin: const EdgeInsets.only(bottom: 28.0),
+            alignment: Alignment.center,
+            child: Align(
+              alignment: Alignment.center,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Icon(
+                    Device.get().isIos
+                        ? CupertinoIcons.circle_fill
+                        : Icons.circle,
+                    size: 64.0,
+                    color: Color(ColorConstants.getPrimaryWhite()),
+                  ),
+                  Icon(
+                    Device.get().isIos
+                        ? CupertinoIcons.check_mark_circled_solid
+                        : Icons.check_circle,
+                    size: 64.0,
+                    color: Color(ColorConstants.getPeachDark()),
+                  )
+                ],
               ),
+            ),
+          )
+              : const SizedBox(),
+          SizedBox(
+            width: double.infinity,
+            child: GestureDetector(
+              onTap: () async {
+                pageState.onLocationSelected(pageState.locations.elementAt(locationIndex));
+                pageState.onLocationSaved();
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
             ),
           ),
         ],
       ),
     );
-  }
-
-  double _getItemWidthHeight(BuildContext context){
-    return (MediaQuery.of(context).size.width/2);
   }
 }

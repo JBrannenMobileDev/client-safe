@@ -13,6 +13,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class LocationSelectionDialog extends StatefulWidget {
+  const LocationSelectionDialog({Key key}) : super(key: key);
+
   @override
   _LocationSelectionDialogState createState() {
     return _LocationSelectionDialogState();
@@ -38,6 +40,7 @@ class _LocationSelectionDialogState
                   color: Color(ColorConstants.getPrimaryWhite()),
                   borderRadius: BorderRadius.circular(16.0),
                 ),
+                height: MediaQuery.of(context).size.height,
                 child: pageState.locations.isNotEmpty
                     ? Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -67,18 +70,30 @@ class _LocationSelectionDialogState
                             child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPrimaryBlack()),),
                           ),
                         ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.only(top: 14, right: 8),
+                            alignment: Alignment.centerLeft,
+                            height: 38.0,
+                            width: MediaQuery.of(context).size.width,
+                            child: Icon(Icons.close, color: Color(ColorConstants.getPrimaryBlack()),)
+                          ),
+                        ),
                       ],
                     ),
                     ConstrainedBox(
                         constraints: BoxConstraints(
                           minHeight: 65.0,
-                          maxHeight: MediaQuery.of(context).size.height - 232,
+                          maxHeight: MediaQuery.of(context).size.height - 119,
                         ),
                         child: GridView.builder(
                             padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 64.0),
                             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                                 maxCrossAxisExtent: 200,
-                                childAspectRatio: 2 / 2.86,
+                                childAspectRatio: 2 / 2.75,
                                 crossAxisSpacing: 16,
                                 mainAxisSpacing: 16),
                             itemCount: pageState.locations.length,
@@ -88,26 +103,6 @@ class _LocationSelectionDialogState
                             shrinkWrap: true,
                             reverse: false,
                             itemBuilder: _buildItem)
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 0.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          TextButton(
-                            style: Styles.getButtonStyle(),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: TextDandyLight(
-                              type: TextDandyLight.MEDIUM_TEXT,
-                              text: 'Cancel',
-                              textAlign: TextAlign.center,
-                              color: Color(ColorConstants.getPrimaryBlack()),
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
                   ],
                 )

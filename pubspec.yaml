@@ -7,7 +7,7 @@ description: A new Flutter application.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 2.1.0+56
+version: 2.1.2+59
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
@@ -96,6 +96,7 @@ dependencies:
   in_app_review: ^2.0.6
   open_store: ^0.4.0
   to_csv: ^1.1.1
+  in_app_notification: ^1.1.2
   modal_bottom_sheet:
     git:
       url: https://github.com/CoolDude53/modal_bottom_sheet.git
@@ -168,6 +169,7 @@ flutter:
     - assets/images/icons/previous.png
     - assets/images/icons/reorder.png
     - assets/images/icons/customize.png
+    - assets/images/icons/warning.png
 
     - assets/images/backgrounds/image_background.png
 

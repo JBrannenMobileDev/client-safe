@@ -2,16 +2,33 @@ import 'dart:ui';
 
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../models/ColorTheme.dart';
-import '../../models/FontTheme.dart';
+import '../../models/LocationDandy.dart';
 
 class UpdatePushNotificationEnabled{
   final MainSettingsPageState pageState;
   final bool enabled;
   UpdatePushNotificationEnabled(this.pageState, this.enabled);
+}
+
+class SetHomeLocationToState {
+  final MainSettingsPageState pageState;
+  final Profile profile;
+  final String address;
+  SetHomeLocationToState(this.pageState, this.profile, this.address);
+}
+
+class SetHomeAddressNameAction {
+  final MainSettingsPageState pageState;
+  final String homeLocationName;
+  SetHomeAddressNameAction(this.pageState, this.homeLocationName);
+}
+
+class SaveMainSettingsHomeLocationAction{
+  final MainSettingsPageState pageState;
+  final LocationDandy startLocation;
+  SaveMainSettingsHomeLocationAction(this.pageState, this.startLocation);
 }
 
 class UpdateCalendarEnabled{

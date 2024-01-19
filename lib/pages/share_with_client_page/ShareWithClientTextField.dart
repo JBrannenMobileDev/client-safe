@@ -19,10 +19,12 @@ class ShareWithClientTextField extends StatelessWidget {
   final TextCapitalization capitalization;
   final List<TextInputFormatter> inputFormatter;
   final bool textFieldEnabled;
+  final bool showBorder;
+  final bool usePadding;
 
   ShareWithClientTextField(this.controller, this.hintText, this.inputType,
       this.height, this.onTextInputChanged, this.inputTypeError, this.keyboardAction,
-      this.focusNode, this.onFocusAction, this.capitalization, this.inputFormatter, this.textFieldEnabled);
+      this.focusNode, this.onFocusAction, this.capitalization, this.inputFormatter, this.textFieldEnabled, this.showBorder, this.usePadding);
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +49,30 @@ class ShareWithClientTextField extends StatelessWidget {
                   ),
                   hintText: hintText,
                   fillColor: Color(ColorConstants.getPrimaryWhite()),
-                  border: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
+                  border: showBorder ? OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Color(ColorConstants.getPeachDark()),
+                        width: 2.0
+                    ),
+                    borderRadius: BorderRadius.circular(16)
+                  ) : InputBorder.none,
+                  focusedBorder: showBorder ? OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Color(ColorConstants.getPeachDark()),
+                        width: 2.0
+                    ),
+                      borderRadius: BorderRadius.circular(16)
+                  ) : InputBorder.none,
+                  enabledBorder: showBorder ? OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Color(ColorConstants.getPeachDark()),
+                        width: 2.0
+                    ),
+                      borderRadius: BorderRadius.circular(16)
+                  ) : InputBorder.none,
                   errorBorder: InputBorder.none,
                   disabledBorder: InputBorder.none,
-                  contentPadding: EdgeInsets.all(0),
+                  contentPadding: EdgeInsets.only(left: usePadding ? 16 : 0, top: usePadding ? 16 : 0, right: usePadding ? 16 : 0, bottom: 0),
                   isDense: true,
                 ),
                 keyboardType: inputType,

@@ -5,9 +5,11 @@ import 'package:dandylight/pages/login_page/LoginPageActions.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
+import '../../models/LocationDandy.dart';
 import '../../utils/ColorConstants.dart';
 
 class MainSettingsPageState{
@@ -19,6 +21,7 @@ class MainSettingsPageState{
   final String businessEmail;
   final String businessPhone;
   final String discountCode;
+  final String homeAddressName;
   final Profile profile;
   final bool isDeleteInProgress;
   final bool isDeleteFinished;
@@ -70,6 +73,7 @@ class MainSettingsPageState{
   final Function() onPublishChangesSelected;
   final Function() populateAccountWithData;
   final Function(Profile) clearBrandingState;
+  final Function(LocationDandy) onHomeLocationChanged;
 
   MainSettingsPageState({
     @required this.pushNotificationsEnabled,
@@ -79,6 +83,7 @@ class MainSettingsPageState{
     @required this.onCalendarChanged,
     @required this.firstName,
     @required this.lastName,
+    @required this.homeAddressName,
     @required this.businessName,
     @required this.onFirstNameChanged,
     @required this.onLastNameChanged,
@@ -131,6 +136,7 @@ class MainSettingsPageState{
     @required this.uploadProgress,
     @required this.populateAccountWithData,
     @required this.clearBrandingState,
+    @required this.onHomeLocationChanged,
   });
 
   MainSettingsPageState copyWith({
@@ -166,6 +172,7 @@ class MainSettingsPageState{
     bool showPublishButton,
     double uploadProgress,
     bool uploadInProgress,
+    String homeAddressName,
     Function(String) onFirstNameChanged,
     Function(String) onLastNameChanged,
     Function(String) onBusinessNameChanged,
@@ -193,6 +200,7 @@ class MainSettingsPageState{
     Function() onPublishChangesSelected,
     Function() populateAccountWithData,
     Function(Profile) clearBrandingState,
+    Function(LocationDandy) onHomeLocationChanged,
   }){
     return MainSettingsPageState(
       pushNotificationsEnabled: pushNotificationsEnabled ?? this.pushNotificationsEnabled,
@@ -254,6 +262,8 @@ class MainSettingsPageState{
       uploadInProgress: uploadInProgress ?? this.uploadInProgress,
       populateAccountWithData: populateAccountWithData ?? this.populateAccountWithData,
       clearBrandingState: clearBrandingState ?? this.clearBrandingState,
+      onHomeLocationChanged: onHomeLocationChanged ?? this.onHomeLocationChanged,
+      homeAddressName: homeAddressName ?? this.homeAddressName,
     );
   }
 
@@ -317,6 +327,8 @@ class MainSettingsPageState{
     uploadInProgress: false,
     populateAccountWithData: null,
     clearBrandingState: null,
+    onHomeLocationChanged: null,
+    homeAddressName: 'Select a home location',
   );
 
   factory MainSettingsPageState.fromStore(Store<AppState> store) {
@@ -353,6 +365,7 @@ class MainSettingsPageState{
       businessPhone: store.state.mainSettingsPageState.businessPhone,
       uploadProgress: store.state.mainSettingsPageState.uploadProgress,
       uploadInProgress: store.state.mainSettingsPageState.uploadInProgress,
+      homeAddressName: store.state.mainSettingsPageState.homeAddressName,
       onSignOutSelected: () {
         store.dispatch(RemoveDeviceTokenAction(store.state.mainSettingsPageState));
         store.dispatch(ResetLoginState(store.state.loginPageState));
@@ -374,6 +387,7 @@ class MainSettingsPageState{
       generateFreeDiscountCode: () => store.dispatch(GenerateFreeDiscountCodeAction(store.state.mainSettingsPageState)),
       onInstaUrlChanged: (url) => store.dispatch(SetUrlToStateAction(store.state.mainSettingsPageState, url)),
       populateAccountWithData: () => store.dispatch(PopulateAccountWithData(store.state.mainSettingsPageState)),
+      onHomeLocationChanged: (locationDandy) => store.dispatch(SaveMainSettingsHomeLocationAction(store.state.mainSettingsPageState, locationDandy)),
     );
   }
 
@@ -395,12 +409,14 @@ class MainSettingsPageState{
       lastName.hashCode ^
       showPublishButton.hashCode ^
       businessName.hashCode ^
+      onHomeLocationChanged.hashCode ^
       onFirstNameChanged.hashCode ^
       onLastNameChanged.hashCode ^
       populateAccountWithData.hashCode ^
       onBusinessNameChanged.hashCode ^
       onSaveUpdatedProfile.hashCode ^
       bannerImageSelected.hashCode ^
+      homeAddressName.hashCode ^
       onBannerImageSelected.hashCode ^
       profile.hashCode ^
       businessEmail.hashCode^
@@ -449,6 +465,7 @@ class MainSettingsPageState{
               onLogoUploaded == other.onLogoUploaded &&
               resizedLogoImage == other.resizedLogoImage &&
               lastName == other.lastName &&
+              homeAddressName == other.homeAddressName &&
               showPublishButton == other.showPublishButton &&
               businessName == other.businessName &&
               onPublishChangesSelected == other.onPublishChangesSelected &&
@@ -471,6 +488,7 @@ class MainSettingsPageState{
               isDeleteFinished == other.isDeleteFinished &&
               isDeleteInProgress == other.isDeleteInProgress &&
               password == other.password &&
+              onHomeLocationChanged == other.onHomeLocationChanged &&
               populateAccountWithData == other.populateAccountWithData &&
               logoImageSelected == other.logoImageSelected &&
               onPasswordChanged == other.onPasswordChanged &&

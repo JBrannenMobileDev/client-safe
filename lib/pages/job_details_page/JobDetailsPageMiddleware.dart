@@ -6,12 +6,14 @@ import 'package:dandylight/data_layer/local_db/daos/InvoiceDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobTypeDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/MileageExpenseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PriceProfileDao.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/models/JobType.dart';
 import 'package:dandylight/models/LocationDandy.dart';
+import 'package:dandylight/models/MileageExpense.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
@@ -25,10 +27,12 @@ import 'package:dandylight/utils/analytics/EventNames.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:dandylight/utils/sunrise_sunset_library/sunrise_sunset.dart';
 import 'package:device_calendar/device_calendar.dart';
+import 'package:geocoder2/geocoder2.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 import 'package:http/http.dart' as http;
 
+import '../../credentials.dart';
 import '../../data_layer/api_clients/AccuWeatherClient.dart';
 import '../../data_layer/local_db/daos/JobReminderDao.dart';
 import '../../data_layer/local_db/daos/ProfileDao.dart';
@@ -142,6 +146,37 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is DrivingDirectionsJobSelected) {
       _launchDrivingDirections(store, action);
     }
+    if(action is SetShouldTrackAction) {
+      _saveTrackMilesState(store, action, next);
+    }
+    if(action is SaveJobDetailsHomeLocationAction) {
+      saveHomeLocation(store, action, next);
+    }
+  }
+
+  void saveHomeLocation(Store<AppState> store, SaveJobDetailsHomeLocationAction action, NextDispatcher next) async{
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.latDefaultHome = action.startLocation.latitude;
+    profile.lngDefaultHome = action.startLocation.longitude;
+    await ProfileDao.insertOrUpdate(profile);
+    store.dispatch(SetProfileToStateAction(store.state.jobDetailsPageState, profile));
+  }
+
+  Future<GeoData> getAddress(double lat, double lng) async {
+    return await Geocoder2.getDataFromCoordinates(
+        latitude: lat,
+        longitude: lng,
+        googleMapApiKey: PLACES_API_KEY
+    );
+  }
+
+  void _saveTrackMilesState(Store<AppState> store, SetShouldTrackAction action, NextDispatcher next) async {
+    Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
+      shouldTrackMiles: action.enabled
+    );
+    await JobDao.insertOrUpdate(jobToSave);
+    store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 
   void _launchDrivingDirections(Store<AppState> store, DrivingDirectionsJobSelected action) async {
@@ -432,11 +467,11 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       List<JobReminder> jobReminders = await JobReminderDao.getRemindersByJobId(action.pageState.job.documentId);
       JobReminder reminderToUpdate = null;
       if(jobReminders.isNotEmpty) {
-        reminderToUpdate = await jobReminders.firstWhere((reminder) => reminder.payload == JobReminder.MILEAGE_EXPENSE_ID, orElse: () => null);
+        reminderToUpdate = jobReminders.firstWhere((reminder) => reminder.payload == JobReminder.MILEAGE_EXPENSE_ID, orElse: () => null);
       }
 
       if(reminderToUpdate != null) {
-        reminderToUpdate.reminder.time = jobToSave.selectedEndTime != null ? jobToSave.selectedEndTime.add(Duration(hours: 1)) : jobToSave.selectedTime.add(Duration(hours: 2));
+        reminderToUpdate.reminder.time = jobToSave.selectedEndTime != null ? jobToSave.selectedEndTime.add(const Duration(hours: 1)) : jobToSave.selectedTime.add(const Duration(hours: 2));
         JobReminderDao.update(reminderToUpdate);
       }
     }
@@ -456,11 +491,12 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _updateJobWithNewDate(Store<AppState> store, UpdateJobDateAction action, NextDispatcher next) async{
+    DateTime utc = store.state.jobDetailsPageState.selectedDate;
     Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
-      selectedDate: store.state.jobDetailsPageState.selectedDate,
+      selectedDate: DateTime(utc.year, utc.month, utc.day)
     );
     await JobDao.insertOrUpdate(jobToSave);
-    await NotificationHelper().createAndUpdatePendingNotifications();
+    NotificationHelper().createAndUpdatePendingNotifications();
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, store.state.incomeAndExpensesPageState.selectedYear));
@@ -487,6 +523,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchClientForJob(Store<AppState> store, NextDispatcher next, SetJobInfo action) async{
+    store.dispatch(ClearPreviousStateAction(store.state.jobDetailsPageState));
     Job job = await JobDao.getJobById(action.jobDocumentId);
     if(job != null) {
       if(job.client == null && job.clientDocumentId != null && job.clientDocumentId.isNotEmpty) {
@@ -508,6 +545,13 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(SetClientAction(store.state.jobDetailsPageState, client));
       _fetchDeviceEventsForMonth(store, null, next);
       fetchSunsetWeatherForSelectedDate(store, next, job);
+
+      MileageExpense mileageTrip = await MileageExpenseDao.getMileageExpenseByJobId(job.documentId);
+      if(mileageTrip != null) {
+        await store.dispatch(SetJobMileageTripAction(store.state.jobDetailsPageState, mileageTrip));
+      } else {
+        await store.dispatch(SetJobMileageTripAction(store.state.jobDetailsPageState, null));
+      }
     }
     _fetchSunsetTimeWithJob(store, job);
     store.dispatch(FetchJobDetailsPricePackagesAction(store.state.jobDetailsPageState));

@@ -51,12 +51,12 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) =>
           Container(
-            margin: EdgeInsets.only(left: 26.0, right: 26.0),
+            margin: const EdgeInsets.only(left: 26.0, right: 26.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.only(top: 8),
+                  margin: const EdgeInsets.only(top: 8),
                   child: TextDandyLight(
                     type: TextDandyLight.LARGE_TEXT,
                     text: "Who is this job for?",
@@ -65,7 +65,7 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 8, bottom: 8.0),
+                  margin: const EdgeInsets.only(top: 8, bottom: 8.0),
                   height: 48.0,
                   width: 200,
                   decoration: BoxDecoration(
@@ -85,17 +85,17 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                     ),
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.only(bottom: 8),
+                !searchSelected ? Container(
+                  margin: const EdgeInsets.only(bottom: 8),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: 'Or',
                     textAlign: TextAlign.start,
                     color: Color(ColorConstants.getPrimaryBlack()),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 0, bottom: 8.0),
+                ) : const SizedBox(),
+                !searchSelected ? Container(
+                  margin: const EdgeInsets.only(top: 0, bottom: 8.0),
                   height: 48.0,
                   width: 248,
                   decoration: BoxDecoration(
@@ -115,7 +115,7 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                       color: Color(ColorConstants.getPrimaryWhite()),
                     ),
                   ),
-                ),
+                ) : const SizedBox(),
                 searchSelected ? NewJobTextField(
                   controller: firstNameTextController,
                   hintText: 'Client Name',
@@ -127,23 +127,23 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                   focusNode: _firstNameFocus,
                   onFocusAction: onFirstNameAction,
                   inputTypeError: NewContactPageState.ERROR_FIRST_NAME_MISSING,
-                ) : SizedBox(),
+                ) : const SizedBox(),
                 searchSelected ? ConstrainedBox(
-                        constraints: BoxConstraints(
+                        constraints: const BoxConstraints(
                           minHeight: 65.0,
-                          maxHeight: 371.0,
+                          maxHeight: 429.0,
                         ),
                         child: ListView.builder(
                           reverse: false,
                           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                          padding: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 64.0),
+                          padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 64.0),
                           shrinkWrap: true,
                           controller: _controller,
-                          physics: ClampingScrollPhysics(),
+                          physics: const ClampingScrollPhysics(),
                           itemCount: pageState.filteredClients.length,
                           itemBuilder: _buildItem,
                         ),
-                ) : SizedBox(),
+                ) : const SizedBox(),
               ],
             ),
           ),

@@ -9,6 +9,7 @@ import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:dandylight/pages/new_job_page/TimeSelectionForm.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/DeviceType.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -100,7 +101,7 @@ class _NewJobPageState extends State<NewJobPage>{
       onWillChange: (previous, current) {
         if(!previous.isSelectedClientNew && current.isSelectedClientNew) {
           setState(() {
-            currentPageIndex = 1;
+            currentPageIndex = 1;  //TODO fix page navigation. Going back is broken. Remove all this wonky logic and make it simple.
             controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 150), curve: Curves.ease);
           });
         }
@@ -364,7 +365,7 @@ class _NewJobPageState extends State<NewJobPage>{
     double height = 380.0;
     switch(currentPageIndex){
       case 0:
-        height = 573;
+        height = 600;
         break;
       case 1:
         height = 450.0;
@@ -373,7 +374,7 @@ class _NewJobPageState extends State<NewJobPage>{
         height = 550.0;
         break;
       case 3:
-        height = 500.0;
+        height = DeviceType.getDeviceTypeByContext(context) == Type.Phone ? 500.0 : MediaQuery.of(context).size.height - 166;
         break;
       case 4:
         height = 550;
@@ -398,7 +399,7 @@ class _NewJobPageState extends State<NewJobPage>{
         width = 450.0;
         break;
       case 3:
-        width = 450.0;
+        width = DeviceType.getDeviceTypeByContext(context) == Type.Phone ? 450.0 : MediaQuery.of(context).size.height;
         break;
       case 4:
         width = 450.0;

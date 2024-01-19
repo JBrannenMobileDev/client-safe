@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import '../../../AppState.dart';
+import '../../../utils/DeviceType.dart';
 import '../../../utils/NavigationUtil.dart';
 import '../../../utils/analytics/EventNames.dart';
 import '../../../utils/analytics/EventSender.dart';
@@ -52,7 +53,7 @@ class ContractsCard extends StatelessWidget {
                         decoration: BoxDecoration(
                             color: Color(ColorConstants.getPrimaryWhite()),
                             borderRadius: const BorderRadius.all(Radius.circular(42.0))),
-                        width: (MediaQuery.of(context).size.width - 33) / 2,
+                        width: (MediaQuery.of(context).size.width - 33) / 2  - (DeviceType.getDeviceType() == Type.Tablet ? 150 : 0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -87,7 +88,7 @@ class ContractsCard extends StatelessWidget {
                         decoration: BoxDecoration(
                             color: Color(ColorConstants.getPrimaryWhite()),
                             borderRadius: const BorderRadius.all(Radius.circular(42.0))),
-                        width: (MediaQuery.of(context).size.width - 33) / 2,
+                        width: (MediaQuery.of(context).size.width - 33) / 2 - (DeviceType.getDeviceType() == Type.Tablet ? 150 : 0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,

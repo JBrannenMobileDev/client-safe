@@ -154,6 +154,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, JobInstagramSelectedAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchTimeOfSunsetJobAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DrivingDirectionsJobSelected>(JobDetailsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SetShouldTrackAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateJobTimeAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateJobEndTimeAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateJobDateAction>(JobDetailsPageMiddleware()));
@@ -192,6 +193,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, OnDeleteInvoiceSelectedAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, OnDeleteContractSelectedAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, InvoiceSentAction>(JobDetailsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveJobDetailsHomeLocationAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetLastKnowPosition>(SunsetWeatherPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchDataForSelectedDateAction>(SunsetWeatherPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, OnLocationSavedAction>(SunsetWeatherPageMiddleware()));
@@ -236,6 +238,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SendSuggestionAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, PopulateAccountWithData>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteAccountAction>(MainSettingsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveMainSettingsHomeLocationAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, Generate50DiscountCodeAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, GenerateFreeDiscountCodeAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveNewReminderAction>(NewReminderPageMiddleware()));
@@ -332,6 +335,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SetInvoiceCheckBox>(ShareWithClientPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveProposalAction>(ShareWithClientPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetClientMessageAction>(ShareWithClientPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SetClientShareMessageAction>(ShareWithClientPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveContractAction>(ContractEditPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteContractAction>(ContractEditPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchProfileForContractEditAction>(ContractEditPageMiddleware()));

@@ -10,12 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:redux/redux.dart';
 
 import '../../models/LocationDandy.dart';
 import '../../utils/Shadows.dart';
 import '../../widgets/TextDandyLight.dart';
+import 'MapLocationSelectionWidgetActions.dart';
 
 class MapLocationSelectionWidget extends StatefulWidget {
   final Function(LatLng) onMapLocationSaved;
@@ -41,10 +43,17 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
   final Function(LatLng) onMapLocationSaved;
   final Function(LocationDandy) saveSelectedLocation;
 
-  final double lat;
-  final double lng;
+  double lat;
+  double lng;
 
   _MapLocationSelectionWidgetState(this.onMapLocationSaved, this.lat, this.lng, this.saveSelectedLocation);
+
+
+  @override
+  void initState() {
+    super.initState();
+    getLocation();
+  }
 
   @override
   void dispose() {
@@ -58,9 +67,18 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
     c.animateCamera(CameraUpdate.newCameraPosition(p));
   }
 
-  @override
+  getLocation() async {
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    animateTo(position.latitude, position.longitude);
+  }
+
+
+      @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, MapLocationSelectionWidgetState>(
+      onInit: (state) {
+        state.dispatch(ClearMapSelectionStateAction(state.state.mapLocationSelectionWidgetState));
+      },
       onWillChange: (pageStatePrevious, pageState) async {
         controller.value = controller.value.copyWith(text: pageState.searchText);
         if(pageState.selectedSearchLocation != null && pageStatePrevious.locationResults.length > 0){
@@ -121,9 +139,17 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
                 margin: EdgeInsets.only(bottom: 14.0),
                 child: GestureDetector(
                   onTap: () {
-                    if(onMapLocationSaved != null) onMapLocationSaved(LatLng(pageState.lat, pageState.lng));
-                    if(saveSelectedLocation != null) {
+                    if(onMapLocationSaved != null) {
                       if(pageState.selectedSearchLocation != null) {
+                        onMapLocationSaved(LatLng(pageState.selectedSearchLocation.latitude, pageState.selectedSearchLocation.longitude));
+                        saveSelectedLocation(pageState.selectedSearchLocation);
+                      }else {
+                        onMapLocationSaved(LatLng(pageState.lat, pageState.lng));
+                      }
+                      onMapLocationSaved(LatLng(pageState.lat, pageState.lng));
+                    }
+                    if(saveSelectedLocation != null) {
+                      if(pageState.selectedSearchLocation != null && pageState.selectedSearchLocation.latitude == pageState.lat && pageState.selectedSearchLocation.longitude == pageState.lng) {
                         saveSelectedLocation(pageState.selectedSearchLocation);
                       }else {
                         saveSelectedLocation(LocationDandy.LocationDandy(

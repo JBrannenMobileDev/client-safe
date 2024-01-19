@@ -97,8 +97,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchDeviceEventsForMonth(Store<AppState> store, FetchNewJobDeviceEvents action, NextDispatcher next) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    DateTime monthToUse = null;
+    DateTime monthToUse;
     if(action != null) {
       monthToUse = action.month;
     } else {
@@ -112,7 +111,6 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       List<Event> deviceEvents = await CalendarSyncUtil.getDeviceEventsForDateRange(startDate, endDate);
       store.dispatch(SetNewJobDeviceEventsAction(store.state.newJobPageState, deviceEvents));
     }
-    store.dispatch(SetSelectedDateAction(store.state.newJobPageState, monthToUse));
   }
 
   void _fetchSunsetTime(Store<AppState> store, action, NextDispatcher next) async{
@@ -193,6 +191,13 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       jobTitle = resultClient.firstName + ' - Job';
     }
 
+    //Update selectedDate to include local timezone offset.
+    DateTime utc = store.state.newJobPageState.selectedDate;
+    DateTime resultSelectedDate;
+    if(utc != null) {
+      resultSelectedDate = DateTime(utc.year, utc.month, utc.day);
+    }
+
     Job jobToSave = Job(
       id: store.state.newJobPageState.id,
       documentId: store.state.newJobPageState.documentId,
@@ -200,7 +205,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       client: resultClient,
       clientName: resultClient.getClientFullName(),
       jobTitle: jobTitle,
-      selectedDate: store.state.newJobPageState.selectedDate,
+      selectedDate: resultSelectedDate,
       selectedTime: store.state.newJobPageState.selectedStartTime,
       selectedEndTime: store.state.newJobPageState.selectedEndTime,
       type: store.state.newJobPageState.selectedJobType,
@@ -220,7 +225,8 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       depositAmount: store.state.newJobPageState.selectedPriceProfile != null ? store.state.newJobPageState.selectedPriceProfile.deposit?.toInt() : 0,
       proposal: Proposal(
         detailsMessage: "(Example client portal message)\n\nHi ${resultClient.firstName},\nI wanted to thank you again for choosing our photography services. We're excited to work with you to capture your special moments.\n\nTo make things official, kindly review and sign the contract. It outlines our agreement's essential details.\n\nIf you have any questions, please don't hesitate to ask.\n\nBest regards,\n\n${profile.firstName} ${profile.lastName ?? ''}\n${profile.businessName ?? ''}"
-      )
+      ),
+      shouldTrackMiles: true,
       );
 
     await JobDao.insertOrUpdate(jobToSave);
@@ -266,20 +272,6 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
         reminder: reminder,
         hasBeenSeen: false,
         payload: thisJob.documentId,
-      ));
-    }
-
-    if(thisJob.selectedDate != null && (thisJob.selectedEndTime != null || thisJob.selectedTime != null)) {
-      jobReminders.add(JobReminder(
-        id: JobReminder.MILEAGE_EXPENSE,
-        jobDocumentId: thisJob.documentId,
-        payload: JobReminder.MILEAGE_EXPENSE_ID,
-        reminder: ReminderDandyLight(
-          description: 'Have you entered your mileage expense?',
-          when: WhenSelectionWidget.ON,
-          time: thisJob.selectedEndTime != null ? thisJob.selectedEndTime.add(Duration(hours: 1)) : thisJob.selectedTime.add(Duration(hours: 1)),
-        ),
-        hasBeenSeen: false,
       ));
     }
 

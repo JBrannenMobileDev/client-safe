@@ -70,7 +70,7 @@ class NotificationHelper {
           case NotificationResponseType.selectedNotification:
             print('Notification selected');
             if(notificationResponse.payload == JobReminder.MILEAGE_EXPENSE_ID) {
-              UserOptionsUtil.showNewMileageExpenseSelected(context);
+              UserOptionsUtil.showNewMileageExpenseSelected(context, null);
             }else if(notificationResponse.payload == JobReminder.POSE_FEATURED_ID) {
               Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
               profile.showNewMileageExpensePage = true;

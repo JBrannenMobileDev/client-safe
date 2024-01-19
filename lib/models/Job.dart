@@ -4,7 +4,6 @@ import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 
-import 'Contract.dart';
 import 'JobType.dart';
 import 'Pose.dart';
 import 'Proposal.dart';
@@ -93,6 +92,8 @@ class Job {
   List<JobStage> completedStages;
   List<Pose> poses;
   Proposal proposal;
+  bool hasAddedMileageTrip;
+  bool shouldTrackMiles = true;
 
   Job({
     this.id,
@@ -120,6 +121,8 @@ class Job {
     this.poses,
     this.client,
     this.proposal,
+    this.hasAddedMileageTrip,
+    this.shouldTrackMiles,
   });
 
   Job copyWith({
@@ -148,6 +151,8 @@ class Job {
     List<Pose> poses,
     Client client,
     Proposal proposal,
+    bool hasAddedMileageTrip,
+    bool shouldTrackMiles,
   }){
     return Job(
       id: id?? this.id,
@@ -175,6 +180,8 @@ class Job {
       poses: poses ?? this.poses,
       client: client ?? this.client,
       proposal: proposal ?? this.proposal,
+      hasAddedMileageTrip: hasAddedMileageTrip ?? this.hasAddedMileageTrip,
+      shouldTrackMiles: shouldTrackMiles ?? this.shouldTrackMiles,
     );
   }
 
@@ -204,6 +211,8 @@ class Job {
       'tipAmount' : tipAmount,
       'addOnCost' : addOnCost,
       'proposal' : proposal?.toMap() ?? null,
+      'hasAddedMileageTrip' : hasAddedMileageTrip,
+      'shouldTrackMiles' : shouldTrackMiles,
     };
   }
 
@@ -215,6 +224,8 @@ class Job {
       clientName: map['clientName'],
       jobTitle: map['jobTitle'],
       notes: map['notes'],
+      hasAddedMileageTrip: map['hasAddedMileageTrip'] != null ? map['hasAddedMileageTrip'] : false,
+      shouldTrackMiles: map['shouldTrackMiles'] != null ? map['shouldTrackMiles'] : false,
       addOnCost: map['addOnCost']?.toDouble(),
       depositReceivedDate: map['depositReceivedDate'] != null && map['depositReceivedDate'] != "" ? DateTime.parse(map['depositReceivedDate']) : null,
       selectedDate: map['selectedDate'] != "" && map['selectedDate'] != null ? DateTime.parse(map['selectedDate']) : null,
@@ -374,6 +385,15 @@ class Job {
       return stages.elementAt(indexOfHighestCompleted + 1);
     } else {
       return stages.elementAt(indexOfHighestCompleted);
+    }
+  }
+
+  bool isMissingMileageTrip() {
+    DateTime now = DateTime.now();
+    if(!hasAddedMileageTrip && shouldTrackMiles && selectedDate != null && location != null && now.isAfter(selectedDate) ) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

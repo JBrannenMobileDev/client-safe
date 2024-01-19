@@ -9,6 +9,6 @@ class InputValidatorUtil{
   }
 
   static bool isInstagramUrlValid(String instagramUrl){
-    return instagramUrl.contains('https://instagram.com/') || instagramUrl.isEmpty;
+    return instagramUrl.contains('https://instagram.com/') || instagramUrl.contains('https://www.instagram.com/') || instagramUrl.isEmpty;
   }
 }

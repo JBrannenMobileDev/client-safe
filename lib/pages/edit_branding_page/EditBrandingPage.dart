@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/DeviceType.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -127,26 +128,29 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                         ),
-                        SliverList(
-                          delegate: SliverChildListDelegate(
-                            <Widget>[
-                              Container(
-                                margin: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16)
+                        SliverPadding(
+                          padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
+                          sliver: SliverList(
+                            delegate: SliverChildListDelegate(
+                              <Widget>[
+                                Container(
+                                  margin: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16)
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      LogoSelectionWidget(),
+                                      ColorThemeSelectionWidget(),
+                                      FontThemeSelectionWidget(),
+                                      BannerSelectionWidget(),
+                                    ],
+                                  ),
                                 ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    LogoSelectionWidget(),
-                                    ColorThemeSelectionWidget(),
-                                    FontThemeSelectionWidget(),
-                                    BannerSelectionWidget(),
-                                  ],
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ],

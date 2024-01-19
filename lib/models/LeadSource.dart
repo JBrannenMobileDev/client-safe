@@ -12,7 +12,8 @@ class LeadSource{
   static const String TYPE_EMAIL = "Email";
   static const String TYPE_OTHER = "Other";
   static const String TYPE_SKIP = "Skip";
-
+  static const String TYPE_DANDYLIGHT_BLOG = "Dandylight Blog";
+  static const String TYPE_PINTEREST = "Pinterest";
 
   final DateTime date;
   final String type;

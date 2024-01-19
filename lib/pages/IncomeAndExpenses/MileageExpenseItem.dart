@@ -22,10 +22,10 @@ class MileageExpenseItem extends StatelessWidget{
         style: Styles.getButtonStyle(),
         onPressed: () async {
           pageState.onMileageExpenseItemSelected(mileageExpense);
-          UserOptionsUtil.showNewMileageExpenseSelected(context);
+          UserOptionsUtil.showNewMileageExpenseSelected(context, null);
         },
         child: Padding(
-          padding: EdgeInsets.fromLTRB(8.0, 12.0, 0.0, 12.0),
+          padding: const EdgeInsets.fromLTRB(8.0, 12.0, 0.0, 12.0),
           child: Stack(
             alignment: Alignment.centerRight,
             children: <Widget>[
@@ -33,7 +33,7 @@ class MileageExpenseItem extends StatelessWidget{
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(right: 18.0, top: 0.0),
+                    margin: const EdgeInsets.only(right: 18.0, top: 0.0),
                     height: 42.0,
                     width: 42.0,
                     child: Image.asset('assets/images/icons/directions.png', color: Color(ColorConstants.getPeachDark()),),
@@ -43,7 +43,7 @@ class MileageExpenseItem extends StatelessWidget{
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Container(
-                        margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 4.0),
+                        margin: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 4.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
@@ -57,7 +57,7 @@ class MileageExpenseItem extends StatelessWidget{
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 0.0),
+                        padding: const EdgeInsets.only(top: 0.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [

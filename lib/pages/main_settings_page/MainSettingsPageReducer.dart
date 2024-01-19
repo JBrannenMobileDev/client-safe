@@ -1,7 +1,5 @@
 import 'dart:ui';
 
-import 'package:dandylight/models/ColorTheme.dart';
-import 'package:dandylight/models/FontTheme.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:image_picker/image_picker.dart';
@@ -25,7 +23,14 @@ final mainSettingsPageReducer = combineReducers<MainSettingsPageState>([
   TypedReducer<MainSettingsPageState, SetDiscountCodeAction>(_setDiscountCode),
   TypedReducer<MainSettingsPageState, SetIsAdminAction>(_setIsAdmin),
   TypedReducer<MainSettingsPageState, SetUrlToStateAction>(_setInstaUrl),
+  TypedReducer<MainSettingsPageState, SetHomeAddressNameAction>(_setHomeAddress),
 ]);
+
+MainSettingsPageState _setHomeAddress(MainSettingsPageState previousState, SetHomeAddressNameAction action){
+  return previousState.copyWith(
+    homeAddressName: action.homeLocationName,
+  );
+}
 
 MainSettingsPageState _setInstaUrl(MainSettingsPageState previousState, SetUrlToStateAction action){
   return previousState.copyWith(
