@@ -25,6 +25,7 @@ import '../../credentials.dart';
 import '../../data_layer/repositories/FileStorage.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../job_details_page/JobDetailsActions.dart';
 
 
 class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {

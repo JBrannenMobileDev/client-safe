@@ -102,7 +102,6 @@ class JobDetailsPageState {
   final Function(LocationDandy) onDrivingDirectionsSelected;
   final Function(bool) setMileageAutoTrack;
   final Function(LatLng) onStartLocationChanged;
-  final Function(String) onDeleteMileageTrip;
 
   JobDetailsPageState({
     @required this.job,
@@ -182,7 +181,6 @@ class JobDetailsPageState {
     @required this.setMileageAutoTrack,
     @required this.mileageTrip,
     @required this.onStartLocationChanged,
-    @required this.onDeleteMileageTrip,
   });
 
   JobDetailsPageState copyWith({
@@ -263,7 +261,6 @@ class JobDetailsPageState {
     Function() onSunsetWeatherSelected,
     Function(LocationDandy) onDrivingDirectionsSelected,
     Function(LatLng) onStartLocationChanged,
-    Function(String) onDeleteMileageTrip,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
@@ -343,7 +340,6 @@ class JobDetailsPageState {
       setMileageAutoTrack: setMileageAutoTrack ?? this.setMileageAutoTrack,
       mileageTrip: mileageTrip ?? this.mileageTrip,
       onStartLocationChanged: onStartLocationChanged ?? this.onStartLocationChanged,
-      onDeleteMileageTrip: onDeleteMileageTrip ?? this.onDeleteMileageTrip,
     );
   }
 
@@ -433,8 +429,7 @@ class JobDetailsPageState {
         onSunsetWeatherSelected: () => store.dispatch(LoadInitialLocationAndDateComingFromNewJobAction(store.state.sunsetWeatherPageState, store.state.jobDetailsPageState.job.location, store.state.jobDetailsPageState.job.selectedDate)),
         onDrivingDirectionsSelected: (location) => store.dispatch(DrivingDirectionsJobSelected(store.state.jobDetailsPageState, location)),
         setMileageAutoTrack: (enabled) => store.dispatch(SetShouldTrackAction(store.state.jobDetailsPageState, enabled)),
-        onStartLocationChanged: (latLng) => store.dispatch(SaveHomeLocationAction(store.state.jobDetailsPageState, latLng)),
-        onDeleteMileageTrip: (documentId) => store.dispatch(DeleteMileageTripAction(store.state.jobDetailsPageState, documentId)),
+        onStartLocationChanged: (latLng) => store.dispatch(SaveJobDetailsHomeLocationAction(store.state.jobDetailsPageState, latLng)),
     );
   }
 
@@ -516,7 +511,6 @@ class JobDetailsPageState {
     onNewDateSelected: null,
     onDrivingDirectionsSelected: null,
     onStartLocationChanged: null,
-    onDeleteMileageTrip: null,
   );
 
   @override
@@ -591,7 +585,6 @@ class JobDetailsPageState {
       eveningBlueHour.hashCode ^
       onSunsetWeatherSelected.hashCode ^
       onStartLocationChanged.hashCode ^
-      onDeleteMileageTrip.hashCode ^
       reminders.hashCode;
 
   @override
@@ -664,7 +657,6 @@ class JobDetailsPageState {
               weatherIcon == other.weatherIcon &&
               tempLow == other.tempLow &&
               tempHigh == other.tempHigh &&
-              onDeleteMileageTrip == other.onDeleteMileageTrip &&
               chanceOfRain == other.chanceOfRain &&
               cloudCoverage == other.cloudCoverage &&
               onClearUnsavedDeposit == other.onClearUnsavedDeposit;

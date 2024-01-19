@@ -746,17 +746,22 @@ class _SignContractPageState extends State<ProposalPage> {
                       boxShadow: ElevationToShadow[1],
                     ),
                   ),
-                  TextDandyLight(
-                    type: TextDandyLight.BRAND_LOGO,
-                    fontFamily: pageState.profile.selectedFontTheme.iconFont,
-                    textAlign: TextAlign.center,
-                    text: pageState.profile.logoCharacter,
-                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconTextColor),
+                  Container(
+                    alignment: Alignment.center,
+                    height: 96,
+                    width: 96,
+                    child: TextDandyLight(
+                      type: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextDandyLight.BRAND_LOGO : TextDandyLight.BRAND_LOGO_SMALL,
+                      fontFamily: pageState.profile.selectedFontTheme.iconFont,
+                      textAlign: TextAlign.center,
+                      text: pageState.profile.logoCharacter,
+                      color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconTextColor),
+                    ),
                   )
                 ],
               ),
               Container(
-                margin: EdgeInsets.only(top: 12),
+                margin: const EdgeInsets.only(top: 12),
                 child: TextDandyLight(
                   type: TextDandyLight.EXTRA_LARGE_TEXT,
                   text: pageState.job.client?.getClientFullName(),

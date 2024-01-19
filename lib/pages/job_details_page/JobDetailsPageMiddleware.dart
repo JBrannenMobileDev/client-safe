@@ -149,24 +149,12 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SetShouldTrackAction) {
       _saveTrackMilesState(store, action, next);
     }
-    if(action is SaveHomeLocationAction) {
+    if(action is SaveJobDetailsHomeLocationAction) {
       saveHomeLocation(store, action, next);
     }
-    if(action is DeleteMileageTripAction) {
-      deleteMileageTrip(store, action, next);
-    }
   }
 
-  void deleteMileageTrip(Store<AppState> store, DeleteMileageTripAction action, NextDispatcher next) async{
-    await MileageExpenseDao.delete(action.documentId);
-    MileageExpense expense = await MileageExpenseDao.getMileageExpenseById(action.documentId);
-    if(expense != null) {
-      await MileageExpenseDao.delete(action.documentId);
-    }
-    store.dispatch(SetJobMileageTripAction(store.state.jobDetailsPageState, null));
-  }
-
-  void saveHomeLocation(Store<AppState> store, SaveHomeLocationAction action, NextDispatcher next) async{
+  void saveHomeLocation(Store<AppState> store, SaveJobDetailsHomeLocationAction action, NextDispatcher next) async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.latDefaultHome = action.startLocation.latitude;
     profile.lngDefaultHome = action.startLocation.longitude;

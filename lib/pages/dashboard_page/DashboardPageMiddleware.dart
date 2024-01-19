@@ -37,6 +37,8 @@ import '../../models/Charge.dart';
 import '../../models/Pose.dart';
 import '../../models/SingleExpense.dart';
 import '../../utils/NumberConstants.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../../utils/intentLauncher/IntentLauncherUtil.dart';
 import '../new_reminder_page/WhenSelectionWidget.dart';
 
@@ -122,7 +124,13 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
         newMileageTrip = await MileageExpenseDao.insert(newMileageTrip);
         job.hasAddedMileageTrip = true;
         await JobDao.update(job);
-        print('Mileage trip added');
+        EventSender().sendEvent(eventName: EventNames.CREATED_MILEAGE_TRIP, properties: {
+          EventNames.TRIP_PARAM_LAT_START : newMileageTrip.startLat,
+          EventNames.TRIP_PARAM_LON_START : newMileageTrip.startLng,
+          EventNames.TRIP_PARAM_LAT_END : newMileageTrip.endLat,
+          EventNames.TRIP_PARAM_LON_END : newMileageTrip.endLng,
+          EventNames.TRIP_PARAM_DIST_MILES : newMileageTrip.totalMiles,
+        });
       }
     }
   }

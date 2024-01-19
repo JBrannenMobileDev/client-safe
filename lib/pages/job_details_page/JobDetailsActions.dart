@@ -262,16 +262,10 @@ class SaveUpdatedJobAction{
   SaveUpdatedJobAction(this.pageState, this.job);
 }
 
-class SaveHomeLocationAction{
+class SaveJobDetailsHomeLocationAction{
   final JobDetailsPageState pageState;
   final LatLng startLocation;
-  SaveHomeLocationAction(this.pageState, this.startLocation);
-}
-
-class DeleteMileageTripAction {
-  final JobDetailsPageState pageState;
-  final String documentId;
-  DeleteMileageTripAction(this.pageState, this.documentId);
+  SaveJobDetailsHomeLocationAction(this.pageState, this.startLocation);
 }
 
 class SetEventMapAction{

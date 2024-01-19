@@ -40,7 +40,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
       backgroundColor: Colors.transparent,
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
-        return SetupMilesDrivenTrackingBottomSheet();
+        return const SetupMilesDrivenTrackingBottomSheet();
       },
     );
   }
@@ -54,7 +54,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
       },
       onDidChange: (previous, current) {
         setState(() {
-          if(current.job.location == null || current.job.selectedDate == null || !current.profile.hasDefaultHome()) {
+          if(current.job.location == null || current.job.selectedDate == null || current.profile == null || !current.profile.hasDefaultHome()) {
             showMileageError = true;
           } else {
             showMileageError = false;
@@ -277,7 +277,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                   ),
                 ) : GestureDetector(
                   onTap: () {
-                    UserOptionsUtil.showNewMileageExpenseSelected(context, pageState.mileageTrip);
+
                   },
                   child: Container(
                     margin: const EdgeInsets.only(left: 16, right: 16),
