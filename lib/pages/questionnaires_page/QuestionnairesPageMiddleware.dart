@@ -1,17 +1,9 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/data_layer/local_db/daos/ContractDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
-import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/QuestionnairesDao.dart';
-import 'package:dandylight/models/Contract.dart';
 import 'package:dandylight/models/Questionnaire.dart';
-import 'package:dandylight/utils/UidUtil.dart';
 import 'package:redux/redux.dart';
-import 'package:sembast/sembast.dart';
-
-import '../../data_layer/local_db/daos/ContractTemplateDao.dart';
 import '../../models/Job.dart';
-import '../../models/Profile.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../job_details_page/JobDetailsActions.dart';
@@ -40,14 +32,6 @@ class QuestionnairesPageMiddleware extends MiddlewareClass<AppState> {
 
   void fetchQuestionnaires(Store<AppState> store, NextDispatcher next) async{
       List<Questionnaire> questionnaires = await QuestionnairesDao.getAll();
-      next(SetQuestionnairesAction(store.state.questionnairesPageState, questionnaires));
-
-      (await QuestionnairesDao.getQuestionnairesStream()).listen((snapshots) async {
-        List<Questionnaire> questionnairesToUpdate = [];
-        for(RecordSnapshot snapshot in snapshots) {
-          questionnairesToUpdate.add(Questionnaire.fromMap(snapshot.value));
-        }
-        store.dispatch(SetQuestionnairesAction(store.state.questionnairesPageState, questionnairesToUpdate));
-      });
+      store.dispatch(SetQuestionnairesAction(store.state.questionnairesPageState, questionnaires));
   }
 }

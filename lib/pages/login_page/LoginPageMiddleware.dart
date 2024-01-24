@@ -10,12 +10,15 @@ import 'package:dandylight/data_layer/local_db/daos/AppSettingsDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ContractTemplateDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/QuestionnairesDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ResponseDao.dart';
 import 'package:dandylight/data_layer/repositories/FileStorage.dart';
 import 'package:dandylight/models/FontTheme.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/PoseLibraryGroup.dart';
 import 'package:dandylight/models/Profile.dart';
+import 'package:dandylight/models/Question.dart';
+import 'package:dandylight/models/Questionnaire.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -673,6 +676,8 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           await EventSender().setUserProfileData(EventNames.BUILD_VERSION, (await PackageInfo.fromPlatform()).version);
           await EventSender().setUserProfileData(EventNames.BUILD_NUMBER, (await PackageInfo.fromPlatform()).buildNumber);
 
+          UidUtil().setUid(user.uid);
+
           await ContractTemplateDao.syncAllFromFireStore();
           if(profile.selectedColorTheme == null) {
             profile.selectedColorTheme = ColorTheme(
@@ -721,14 +726,94 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           if(profile.bannerMobileUrl == null) {
             profile.bannerMobileUrl = await FileStorage.fetchImagePathForExampleBannerMobile();
           }
+
           if(profile.bannerWebUrl == null) {
             profile.bannerWebUrl = await FileStorage.fetchImagePathForExampleBannerWeb();
+          }
+
+          await QuestionnairesDao.syncAllFromFireStore();
+          List<Questionnaire> questionnaires = await QuestionnairesDao.getAll();
+          if(questionnaires == null || questionnaires.isEmpty) {
+            questionnaires.add(
+              Questionnaire(
+                title: "General Photography Questionnaire",
+                message: 'Hey there! Before our awesome photography adventure, how about we break the ice a bit? Dive into this fun questionnaire so I can make sure our session is tailored to your vibes!',
+                isComplete: false,
+                questions: [
+                  Question(
+                    type: Question.TYPE_CONTACT_INFO,
+                    imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2Fbanner_mobile.jpg?alt=media&token=4cf655ab-29bf-4260-99e2-b9a78aa5212b',
+                    showImage: true,
+                    includeFirstName: true,
+                    includeLastName: true,
+                    includeEmail: true,
+                    includePhone: true,
+                    includeInstagramName: false,
+                  ),
+                  Question(
+                    type: Question.TYPE_SHORT_FORM_RESPONSE,
+                    question: 'Where do you prefer the photoshoot to be? Have a specific location in mind that you\'d like me to take into account?',
+                    shortHint: 'Answer here'
+                  ),
+                  Question(
+                      type: Question.TYPE_SHORT_FORM_RESPONSE,
+                      question: 'Where do you prefer the photoshoot to be? Have a specific location in mind that you\'d like me to take into account?',
+                      shortHint: 'Answer here'
+                  ),
+                  Question(
+                    type: Question.TYPE_NUMBER,
+                    question: 'How many people will be in the photoshoot?'
+                  ),
+                  Question(
+                      type: Question.TYPE_SHORT_FORM_RESPONSE,
+                      question: 'If there are any children joining, what are the names and ages of all children?',
+                      shortHint: 'E.g. Charlotte(7), Jonathan(5)'
+                  ),
+                  Question(
+                    type: Question.TYPE_CHECK_BOXES,
+                    question: 'What style pictures would you like?',
+                    choicesCheckBoxes: [
+                      'Posed',
+                      'Natural/unposed',
+                      'Creative compositions',
+                      'other'
+                    ],
+                    includeOtherCheckBoxes: true,
+                  ),
+                  Question(
+                      type: Question.TYPE_LONG_FORM_RESPONSE,
+                      question: 'What vision do you have for this photoshoot?',
+                      shortHint: 'Answer here'
+                  ),
+                  Question(
+                      type: Question.TYPE_SHORT_FORM_RESPONSE,
+                      question: 'Are these photos for a special occasion?',
+                      shortHint: 'Describe occasion'
+                  ),
+                  Question(
+                      type: Question.TYPE_LONG_FORM_RESPONSE,
+                      question: 'Is there anything else i should know before the session?',
+                      shortHint: 'Answer here'
+                  ),
+                  Question(
+                      type: Question.TYPE_LONG_FORM_RESPONSE,
+                      question: 'Do you have any questions for me?',
+                      shortHint: 'Answer here'
+                  ),
+                ]
+              )
+            );
+
+            if(questionnaires != null && questionnaires.isNotEmpty) {
+              for(Questionnaire questionnaire in questionnaires) {
+                QuestionnairesDao.insert(questionnaire);
+              }
+            }
           }
 
           store.dispatch(SetIsUserVerifiedAction(store.state.loginPageState, user.emailVerified));
           store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
           store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
-          UidUtil().setUid(user.uid);
           await EventSender().setUserIdentity(user.uid);
           await FireStoreSync().dandyLightAppInitializationSync(user.uid).then((value) async {
             store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));

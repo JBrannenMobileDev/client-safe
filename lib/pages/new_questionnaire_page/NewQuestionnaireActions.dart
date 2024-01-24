@@ -4,6 +4,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 
 import '../../models/Contract.dart';
 import '../../models/Profile.dart';
+import '../../models/Question.dart';
 import 'NewQuestionnairePageState.dart';
 
 class SetQuestionnaireAction{
@@ -22,7 +23,8 @@ class ClearNewQuestionnaireState {
 class SaveQuestionnaireAction{
   final NewQuestionnairePageState pageState;
   final String jobDocumentId;
-  SaveQuestionnaireAction(this.pageState, this.jobDocumentId);
+  final List<Question> questions;
+  SaveQuestionnaireAction(this.pageState, this.jobDocumentId, this.questions);
 }
 
 class SetQuestionnaireNameAction {
@@ -39,6 +41,18 @@ class DeleteQuestionnaireAction {
 class FetchProfileForNewQuestionnaireAction {
   final NewQuestionnairePageState pageState;
   FetchProfileForNewQuestionnaireAction(this.pageState);
+}
+
+class DeleteQuestionAction{
+  final NewQuestionnairePageState pageState;
+  final int questionIndex;
+  DeleteQuestionAction(this.pageState, this.questionIndex);
+}
+
+class SetMessageToClientAction {
+  final NewQuestionnairePageState pageState;
+  final String message;
+  SetMessageToClientAction(this.pageState, this.message);
 }
 
 class SetProfileForNewQuestionnaireAction {

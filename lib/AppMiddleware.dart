@@ -74,6 +74,8 @@ import 'package:dandylight/pages/poses_page/PosesPageMiddleware.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesActions.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesActions.dart' as prefix1;
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageMiddleware.dart';
+import 'package:dandylight/pages/questionnaires_page/QuestionnairesActions.dart';
+import 'package:dandylight/pages/questionnaires_page/QuestionnairesPageMiddleware.dart';
 import 'package:dandylight/pages/reminders_page/RemindersActions.dart' as collectionReminders;
 import 'package:dandylight/pages/reminders_page/RemindersPageMiddleware.dart';
 import 'package:dandylight/pages/responses_page/ResponsesActions.dart';
@@ -341,5 +343,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, FetchProfileForContractEditAction>(ContractEditPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchContractsAction>(ContractsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveContractToJobAction>(ContractsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchQuestionnairesAction>(QuestionnairesPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveQuestionnaireToJobAction>(QuestionnairesPageMiddleware()));
   return middlewareList;
 }

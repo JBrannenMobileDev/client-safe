@@ -13,6 +13,7 @@ class DandyLightNetworkImage extends StatelessWidget {
   final Color color;
   final Color errorIconColor;
   final double borderRadius;
+  final BorderRadiusGeometry borderRadiusOnly;
   final int resizeWidth;
   final double errorIconSize;
   final BoxFit fit;
@@ -28,6 +29,7 @@ class DandyLightNetworkImage extends StatelessWidget {
       this.errorIconSize = 44,
       this.fit = BoxFit.cover,
       this.errorType = DandyLightNetworkImage.ERROR_TYPE_INTERNET,
+      this.borderRadiusOnly,
     }
   );
 
@@ -42,7 +44,7 @@ class DandyLightNetworkImage extends StatelessWidget {
         imageBuilder: (context, imageProvider) => Container(
           decoration: BoxDecoration(
             color: color,
-            borderRadius: new BorderRadius.circular(borderRadius),
+            borderRadius: borderRadiusOnly ?? BorderRadius.circular(borderRadius),
             image: DecorationImage(
               image: ResizeImage(imageProvider, width: resizeWidth),
               fit: fit,
@@ -52,7 +54,7 @@ class DandyLightNetworkImage extends StatelessWidget {
         placeholder: (context, url) => Container(
             decoration: BoxDecoration(
               color: color,
-              borderRadius: new BorderRadius.circular(borderRadius),
+              borderRadius: borderRadiusOnly ?? BorderRadius.circular(borderRadius),
             )
         ),
         errorWidget: (context, url, error) => Container(
@@ -60,7 +62,7 @@ class DandyLightNetworkImage extends StatelessWidget {
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: color,
-              borderRadius: new BorderRadius.circular(borderRadius),
+              borderRadius: borderRadiusOnly ?? BorderRadius.circular(borderRadius),
             ),
             child: getErrorImage(errorType),
         ),
