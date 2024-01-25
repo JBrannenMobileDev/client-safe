@@ -33,18 +33,18 @@ class NewQuestionListWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  question.showImage ? Container(
+                  Container(
                     height: 54.0,
                     width: 54.0,
-                    child: DandyLightNetworkImage(
-                        question.imageUrl,
-                      borderRadius: 16,
-                      borderRadiusOnly: const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(0), bottomLeft: Radius.circular(16), bottomRight: Radius.circular(0)),
-                      resizeWidth: 350,
-                      errorIconSize: 32,
-                      color: Color(ColorConstants.getBlueDark()),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(0), bottomLeft: Radius.circular(16), bottomRight: Radius.circular(0)),
+                      color: getBasedOnIndex(),
                     ),
-                  ) : const SizedBox(),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: getIconFromType(),
+                    ),
+                  ),
                   Expanded(
                     child: buildQuestionDetails(),
                   )
@@ -95,5 +95,55 @@ class NewQuestionListWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Color getBasedOnIndex() {
+    Color result = Color(ColorConstants.getPrimaryBlack()).withOpacity(.35);
+
+    switch(question.type) {
+      case Question.TYPE_SHORT_FORM_RESPONSE:
+        result = Color(ColorConstants.getPeachDark());
+        break;
+      case Question.TYPE_LONG_FORM_RESPONSE:
+        result = Color(ColorConstants.getPeachLight());
+        break;
+      case Question.TYPE_CONTACT_INFO:
+        result = Color(ColorConstants.getBlueDark()).withOpacity(0.8);
+        break;
+      case Question.TYPE_CHECK_BOXES:
+        result = Color(ColorConstants.getPrimaryBlack()).withOpacity(.35);
+        break;
+      case Question.TYPE_NUMBER:
+        result = Color(ColorConstants.getPeachDark());
+        break;
+    }
+    return result;
+  }
+
+  Widget getIconFromType() {
+    Widget result = SizedBox();
+
+    switch(question.type) {
+      case Question.TYPE_SHORT_FORM_RESPONSE:
+        result = Image.asset('assets/images/icons/short_form.png', color: Color(ColorConstants.getPrimaryBlack()));
+        break;
+      case Question.TYPE_LONG_FORM_RESPONSE:
+        result = Image.asset('assets/images/icons/long_form.png', color: Color(ColorConstants.getPrimaryBlack()));
+        break;
+      case Question.TYPE_CONTACT_INFO:
+        result = Image.asset('assets/images/icons/contact_book.png', color: Color(ColorConstants.getPrimaryBlack()));
+        break;
+      case Question.TYPE_CHECK_BOXES:
+        result = Image.asset('assets/images/icons/checkbox.png', color: Color(ColorConstants.getPrimaryBlack()));
+        break;
+      case Question.TYPE_NUMBER:
+        result = Padding(
+          padding: const EdgeInsets.all(3),
+          child: Image.asset('assets/images/icons/number_sign.png', color: Color(ColorConstants.getPrimaryBlack()))
+        );
+        break;
+    }
+
+    return result;
   }
 }

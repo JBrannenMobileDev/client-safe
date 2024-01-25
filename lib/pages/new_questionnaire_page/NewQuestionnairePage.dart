@@ -152,7 +152,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                 iconTheme: IconThemeData(
                   color: Color(ColorConstants.getPrimaryBlack()), //change your color here
                 ),
-                backgroundColor: Color(ColorConstants.getBlueLight()),
+                backgroundColor: Color(ColorConstants.getPrimaryGreyLight()),
                 actions: <Widget>[
                   !isNew ? IconButton(
                     icon: ImageIcon(ImageUtil.getTrashIconWhite(), color: Color(ColorConstants.getPrimaryBlack()),),
@@ -173,7 +173,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                   text: isNew ? 'New Questionnaire' : 'Edit Questionnaire',
                 ),
               ),
-              backgroundColor: Color(ColorConstants.getBlueLight()),
+              backgroundColor: Color(ColorConstants.getPrimaryGreyLight()),
               body: Stack(
                 alignment: Alignment.bottomCenter,
                 children: [

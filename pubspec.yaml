@@ -170,6 +170,10 @@ flutter:
     - assets/images/icons/reorder.png
     - assets/images/icons/customize.png
     - assets/images/icons/warning.png
+    - assets/images/icons/short_form.png
+    - assets/images/icons/long_form.png
+    - assets/images/icons/checkbox.png
+    - assets/images/icons/number_sign.png
 
     - assets/images/backgrounds/image_background.png
 
