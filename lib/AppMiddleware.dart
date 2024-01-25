@@ -54,6 +54,8 @@ import 'package:dandylight/pages/new_pose_group_page/NewPoseGroupPageMiddleware.
 import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
 import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfileActions.dart' as prefix0;
 import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageMiddleware.dart';
+import 'package:dandylight/pages/new_questionnaire_page/NewQuestionnaireActions.dart';
+import 'package:dandylight/pages/new_questionnaire_page/NewQuestionnairePageMiddleware.dart';
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpenseActions.dart';
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageMiddleware.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderActions.dart';
@@ -345,5 +347,8 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveContractToJobAction>(ContractsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchQuestionnairesAction>(QuestionnairesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveQuestionnaireToJobAction>(QuestionnairesPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveQuestionnaireAction>(NewQuestionnairePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, DeleteQuestionnaireAction>(NewQuestionnairePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchProfileForNewQuestionnaireAction>(NewQuestionnairePageMiddleware()));
   return middlewareList;
 }

@@ -10,6 +10,7 @@ import 'NewQuestionnaireActions.dart';
 class NewQuestionnairePageState{
   final String questionnaireName;
   final Questionnaire questionnaire;
+  final String message;
   final Profile profile;
   final bool isNew;
   final String newFromName;
@@ -17,7 +18,6 @@ class NewQuestionnairePageState{
   final Function() onDeleteSelected;
   final Function(String) onNameChanged;
   final Function() deleteFromJob;
-  final Function(int) onQuestionDeleted;
   final Function(String) onMessageChanged;
 
   NewQuestionnairePageState({
@@ -30,8 +30,8 @@ class NewQuestionnairePageState{
     @required this.isNew,
     @required this.deleteFromJob,
     @required this.newFromName,
-    @required this.onQuestionDeleted,
     @required this.onMessageChanged,
+    @required this.message,
   });
 
   NewQuestionnairePageState copyWith({
@@ -40,11 +40,11 @@ class NewQuestionnairePageState{
     Profile profile,
     bool isNew,
     String newFromName,
+    String message,
     Function(String, List<Question>) onQuestionnaireSaved,
     Function(String) onNameChanged,
     Function() onDeleteSelected,
     Function() deleteFromJob,
-    Function(int) onQuestionDeleted,
     Function(String) onMessageChanged,
   }){
     return NewQuestionnairePageState(
@@ -57,8 +57,8 @@ class NewQuestionnairePageState{
       isNew: isNew ?? this.isNew,
       deleteFromJob: deleteFromJob ?? this.deleteFromJob,
       newFromName: newFromName ?? this.newFromName,
-      onQuestionDeleted: onQuestionDeleted ?? this.onQuestionDeleted,
       onMessageChanged: onMessageChanged ?? this.onMessageChanged,
+      message: message ?? this.message,
     );
   }
 
@@ -72,8 +72,8 @@ class NewQuestionnairePageState{
     isNew: false,
     newFromName: '',
     deleteFromJob: null,
-    onQuestionDeleted: null,
     onMessageChanged: null,
+    message: '',
   );
 
   factory NewQuestionnairePageState.fromStore(Store<AppState> store) {
@@ -84,10 +84,10 @@ class NewQuestionnairePageState{
       isNew: store.state.newQuestionnairePageState.isNew,
       deleteFromJob: store.state.newQuestionnairePageState.deleteFromJob,
       newFromName: store.state.newQuestionnairePageState.newFromName,
+      message: store.state.newQuestionnairePageState.message,
       onQuestionnaireSaved: (jobDocumentId, questions) => store.dispatch(SaveQuestionnaireAction(store.state.newQuestionnairePageState, jobDocumentId, questions)),
       onNameChanged: (name) => store.dispatch(SetQuestionnaireNameAction(store.state.newQuestionnairePageState, name)),
       onDeleteSelected: () => store.dispatch(DeleteQuestionnaireAction(store.state.newQuestionnairePageState)),
-      onQuestionDeleted: (index) => store.dispatch(DeleteQuestionAction(store.state.newQuestionnairePageState, index)),
       onMessageChanged: (message) => store.dispatch(SetMessageToClientAction(store.state.newQuestionnairePageState, message)),
     );
   }
@@ -102,8 +102,8 @@ class NewQuestionnairePageState{
       isNew.hashCode ^
       newFromName.hashCode ^
       deleteFromJob.hashCode ^
-      onQuestionDeleted.hashCode ^
       onMessageChanged.hashCode ^
+      message.hashCode ^
       onQuestionnaireSaved.hashCode;
 
   @override
@@ -119,6 +119,6 @@ class NewQuestionnairePageState{
               newFromName == other.newFromName &&
               deleteFromJob == other.deleteFromJob &&
               onMessageChanged == other.onMessageChanged &&
-              onQuestionDeleted == other.onQuestionDeleted &&
+              message == other.message &&
               onQuestionnaireSaved == other.onQuestionnaireSaved;
 }

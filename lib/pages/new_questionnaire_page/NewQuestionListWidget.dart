@@ -8,9 +8,10 @@ import 'NewQuestionnairePageState.dart';
 
 class NewQuestionListWidget extends StatelessWidget {
   final Question question;
+  final int position;
   NewQuestionnairePageState pageState;
 
-  NewQuestionListWidget(this.question, this.pageState, {Key key}) : super(key: key);
+  NewQuestionListWidget(this.question, this.pageState, this.position, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +23,7 @@ class NewQuestionListWidget extends StatelessWidget {
           alignment: Alignment.centerRight,
           children: [
             Container(
+              height: 54,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 color: Color(ColorConstants.getPrimaryWhite())
@@ -31,10 +33,9 @@ class NewQuestionListWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Container(
-                    height: 96.0,
-                    width: 96.0,
-                    margin: const EdgeInsets.only(right: 16.0),
+                  question.showImage ? Container(
+                    height: 54.0,
+                    width: 54.0,
                     child: DandyLightNetworkImage(
                         question.imageUrl,
                       borderRadius: 16,
@@ -43,16 +44,10 @@ class NewQuestionListWidget extends StatelessWidget {
                       errorIconSize: 32,
                       color: Color(ColorConstants.getBlueDark()),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 2.0),
-                    child: TextDandyLight(
-                      type: TextDandyLight.MEDIUM_TEXT,
-                      text: question.type,
-                      textAlign: TextAlign.center,
-                      color: Color(ColorConstants.getPrimaryBlack()),
-                    ),
-                  ),
+                  ) : const SizedBox(),
+                  Expanded(
+                    child: buildQuestionDetails(),
+                  )
                 ],
               ),
             ),
@@ -68,9 +63,37 @@ class NewQuestionListWidget extends StatelessWidget {
       );
   }
 
-  Widget buildQuestionDetails(Question question) {
-    Widget result = const SizedBox();
-
-    return result;
+  Widget buildQuestionDetails() {
+    return Container(
+      margin: EdgeInsets.only(right: 56, left: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 2.0),
+            child: TextDandyLight(
+              type: TextDandyLight.SMALL_TEXT,
+              text: question.type,
+              textAlign: TextAlign.start,
+              isBold: true,
+              color: Color(ColorConstants.getPrimaryBlack()),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 2.0),
+            child: TextDandyLight(
+              type: TextDandyLight.SMALL_TEXT,
+              text: question.question,
+              textAlign: TextAlign.start,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              color: Color(ColorConstants.getPrimaryBlack()),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

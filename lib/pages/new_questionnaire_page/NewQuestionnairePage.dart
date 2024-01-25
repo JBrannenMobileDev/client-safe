@@ -18,7 +18,6 @@ import '../../utils/InputDoneView.dart';
 import '../../utils/Shadows.dart';
 import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
-import '../common_widgets/LoginTextField.dart';
 import '../common_widgets/TextFieldDandylight.dart';
 import '../share_with_client_page/ShareWithClientTextField.dart';
 import 'NewQuestionListWidget.dart';
@@ -75,7 +74,8 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
         onInit: (store) {
           store.dispatch(ClearNewQuestionnaireState(store.state.newQuestionnairePageState, isNew, title));
           if(questionnaire != null) {
-            store.dispatch(SetQuestionnaireAction(store.state.newQuestionnairePageState, questionnaire));
+            store.dispatch(SetQuestionnaireAction(store.state.newQuestionnairePageState, questionnaire, jobDocumentId));
+            questions = questionnaire.questions;
           }
           store.dispatch(FetchProfileForNewQuestionnaireAction(store.state.newQuestionnairePageState));
 
@@ -93,14 +93,8 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                 });
               }
           );
-          questions = store.state.newQuestionnairePageState.questionnaire.questions;
           titleTextController.text = questionnaire.title;
           messageController.text = questionnaire.message;
-        },
-        onDidChange: (previous, current) {
-          setState(() {
-            questions = current.questionnaire.questions;
-          });
         },
         converter: (Store<AppState> store) => NewQuestionnairePageState.fromStore(store),
         builder: (BuildContext context, NewQuestionnairePageState pageState) => WillPopScope(
@@ -261,12 +255,12 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
-                        pageState.questionnaire.questions.isNotEmpty ? ReorderableListView.builder(
+                        questions.isNotEmpty ? ReorderableListView.builder(
                           reverse: false,
-                          padding: const EdgeInsets.fromLTRB(0.0, 4.0, 0.0, 64.0),
+                          padding: const EdgeInsets.fromLTRB(0.0, 4.0, 0.0, 128.0),
                           shrinkWrap: true,
                           physics: const ClampingScrollPhysics(),
-                          itemCount: pageState.questionnaire.questions.length,
+                          itemCount: questions.length,
                           itemBuilder: (BuildContext context, int index) {
                             return Dismissible(
                               key: Key(questions.elementAt(index).id.toString()),
@@ -283,13 +277,12 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                               ),
                               onDismissed: (direction) {
                                 setState(() {
-                                  // stages.removeAt(index);
-                                  pageState.onQuestionDeleted(index);
+                                  questions.removeWhere((question) => question.id == questions.elementAt(index).id);
                                 });
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(left: 16, right: 16, top: 4.0, bottom: 4.0),
-                                child: NewQuestionListWidget(pageState.questionnaire.questions.elementAt(index), pageState),
+                                child: NewQuestionListWidget(questions.elementAt(index), pageState, (index+1)),
                               ),
                             );
                           },
@@ -310,6 +303,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                   GestureDetector(
                     onTap: () {
                       pageState.onQuestionnaireSaved(jobDocumentId, questions);
+                      showSuccessAnimation();
                     },
                     child: Container(
                       alignment: Alignment.center,

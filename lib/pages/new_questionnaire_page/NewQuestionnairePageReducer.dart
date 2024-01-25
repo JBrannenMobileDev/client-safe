@@ -4,26 +4,16 @@ import 'NewQuestionnaireActions.dart';
 import 'NewQuestionnairePageState.dart';
 
 final newQuestionnaireReducer = combineReducers<NewQuestionnairePageState>([
-  TypedReducer<NewQuestionnairePageState, SetQuestionnaireAction>(_setContracts),
+  TypedReducer<NewQuestionnairePageState, SetQuestionnaireAction>(_setQuestionnaire),
   TypedReducer<NewQuestionnairePageState, SetQuestionnaireNameAction>(_setContractName),
   TypedReducer<NewQuestionnairePageState, ClearNewQuestionnaireState>(_clearState),
   TypedReducer<NewQuestionnairePageState, SetProfileForNewQuestionnaireAction>(_setProfile),
-  TypedReducer<NewQuestionnairePageState, DeleteQuestionAction>(_deleteQuestion),
   TypedReducer<NewQuestionnairePageState, SetMessageToClientAction>(_setMessage),
 ]);
 
 NewQuestionnairePageState _setMessage(NewQuestionnairePageState previousState, SetMessageToClientAction action){
-  Questionnaire questionnaire = action.pageState.questionnaire;
-  questionnaire.message = action.message;
   return previousState.copyWith(
-    questionnaire: questionnaire,
-  );
-}
-
-NewQuestionnairePageState _deleteQuestion(NewQuestionnairePageState previousState, DeleteQuestionAction action) {
-  previousState.questionnaire.questions.removeWhere((question) => question.id == previousState.questionnaire.questions.elementAt(action.questionIndex).id);
-  return previousState.copyWith(
-    questionnaire: previousState.questionnaire,
+    message: action.message,
   );
 }
 
@@ -47,8 +37,10 @@ NewQuestionnairePageState _setContractName(NewQuestionnairePageState previousSta
   );
 }
 
-NewQuestionnairePageState _setContracts(NewQuestionnairePageState previousState, SetQuestionnaireAction action){
+NewQuestionnairePageState _setQuestionnaire(NewQuestionnairePageState previousState, SetQuestionnaireAction action){
   return previousState.copyWith(
-    questionnaire: action.questionnaire
+    questionnaire: action.questionnaire,
+    message: action.questionnaire.message,
+    questionnaireName: action.questionnaire.title,
   );
 }

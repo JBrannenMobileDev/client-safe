@@ -139,7 +139,7 @@ class Question {
       'type' : type,
       'question' : question,
       'imageUrl' : imageUrl,
-      'showImage' : showImage,
+      'showImage' : showImage ?? false,
       'isRequired' : isRequired,
       'isAnswered' : isAnswered,
 
@@ -196,7 +196,7 @@ class Question {
       type: map['type'],
       question: map['question'],
       imageUrl: map['imageUrl'],
-      showImage: map['showImage'],
+      showImage: map['showImage'] ?? false,
       isRequired: map['isRequired'],
       isAnswered: map['isAnswered'],
 

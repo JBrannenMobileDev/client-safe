@@ -1,8 +1,5 @@
 
 import 'package:dandylight/models/Questionnaire.dart';
-import 'package:flutter_quill/flutter_quill.dart';
-
-import '../../models/Contract.dart';
 import '../../models/Profile.dart';
 import '../../models/Question.dart';
 import 'NewQuestionnairePageState.dart';
@@ -10,7 +7,8 @@ import 'NewQuestionnairePageState.dart';
 class SetQuestionnaireAction{
   final NewQuestionnairePageState pageState;
   final Questionnaire questionnaire;
-  SetQuestionnaireAction(this.pageState, this.questionnaire);
+  final String jobDocumentId;
+  SetQuestionnaireAction(this.pageState, this.questionnaire, this.jobDocumentId);
 }
 
 class ClearNewQuestionnaireState {
@@ -41,12 +39,6 @@ class DeleteQuestionnaireAction {
 class FetchProfileForNewQuestionnaireAction {
   final NewQuestionnairePageState pageState;
   FetchProfileForNewQuestionnaireAction(this.pageState);
-}
-
-class DeleteQuestionAction{
-  final NewQuestionnairePageState pageState;
-  final int questionIndex;
-  DeleteQuestionAction(this.pageState, this.questionIndex);
 }
 
 class SetMessageToClientAction {

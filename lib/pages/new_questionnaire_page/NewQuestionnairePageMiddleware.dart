@@ -4,7 +4,9 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/ContractDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/QuestionnairesDao.dart';
 import 'package:dandylight/models/Profile.dart';
+import 'package:dandylight/models/Questionnaire.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:redux/redux.dart';
 
@@ -14,9 +16,10 @@ import '../../models/JobStage.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../job_details_page/JobDetailsActions.dart';
+import '../questionnaires_page/QuestionnairesActions.dart';
 import 'NewQuestionnaireActions.dart';
 
-class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
+class NewQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next){
@@ -38,72 +41,30 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
 
   void deleteQuestionnaire(Store<AppState> store, DeleteQuestionnaireAction action, NextDispatcher next) async{
     if(action.pageState.questionnaire != null) {
-      await ContractDao.delete(action.pageState.questionnaire.documentId);
+      await QuestionnairesDao.delete(action.pageState.questionnaire.documentId);
     }
   }
 
   void saveQuestionnaire(Store<AppState> store, SaveQuestionnaireAction action, NextDispatcher next) async{
-    // Contract contract = null;
-    // if(action.jobDocumentId != null && action.jobDocumentId.isNotEmpty) {
-    //   Job job = await JobDao.getJobById(action.jobDocumentId);
-    //   Contract contract = job.proposal.contract;
-    //   contract.jsonTerms = jsonEncode(action.quillContract.toDelta().toJson());
-    //   contract.terms = action.quillContract.toPlainText();
-    //   contract.contractName = action.pageState.contractName;
-    //   contract.signedByClient = false;
-    //   contract.clientSignedDate = null;
-    //   contract.clientSignature = "";
-    //   contract.photographerSignedDate = DateTime.now();
-    //   job.proposal.contract = contract;
-    //   await JobDao.update(job);
-    //
-    //   List<JobStage> completedStages = job.completedStages;
-    //   bool isContractSignedChecked = false;
-    //   completedStages.forEach((stage) {
-    //     if(stage.stage == JobStage.STAGE_4_PROPOSAL_SIGNED) isContractSignedChecked = true;
-    //   });
-    //
-    //   if(isContractSignedChecked) {
-    //     List<JobStage> stages = job.type.stages;
-    //     int index = -1;
-    //     for(int i = 0; i < stages.length; i++) {
-    //       if(stages.elementAt(i).stage == JobStage.STAGE_4_PROPOSAL_SIGNED) {
-    //         index = i;
-    //       }
-    //     }
-    //     store.dispatch(UndoStageAction(store.state.jobDetailsPageState, job, index));
-    //   }
-    //   store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId));
-    // } else {
-    //   if(action.pageState.contract == null) {
-    //     contract = Contract(
-    //       contractName: action.pageState.contractName,
-    //       terms: action.quillContract.toPlainText(),
-    //       jsonTerms: jsonEncode(action.quillContract.toDelta().toJson()),
-    //       signedByPhotographer: true,
-    //       signedByClient: false,
-    //     );
-    //     if(action.pageState.isNew) {
-    //       contract.documentId = null;
-    //     }
-    //   } else {
-    //     contract = action.pageState.contract;
-    //     if(action.pageState.isNew) {
-    //       contract.documentId = null;
-    //     }
-    //     contract.contractName = action.pageState.contractName;
-    //     contract.signedByClient = false;
-    //     contract.signedByPhotographer = true;
-    //     contract.terms = action.quillContract.toPlainText();
-    //     contract.jsonTerms = jsonEncode(action.quillContract.toDelta().toJson());
-    //   }
-    //   await ContractDao.insertOrUpdate(contract);
-    //   if(action.pageState.isNew) {
-    //     EventSender().sendEvent(eventName: EventNames.CONTRACT_CREATED, properties: {
-    //       EventNames.CONTRACT_CREATED_FROM_PARAM : action.pageState.newFromName,
-    //     });
-    //   }
-    // }
+    Questionnaire questionnaire = action.pageState.questionnaire ?? Questionnaire();
+    questionnaire.questions = action.questions;
+    questionnaire.title = action.pageState.questionnaireName;
+    questionnaire.message = action.pageState.message;
+    questionnaire.isComplete = false;
+
+    if(action.jobDocumentId != null && action.jobDocumentId.isNotEmpty) {
+      Job job = await JobDao.getJobById(action.jobDocumentId);
+      job.proposal.questionnaires.add(questionnaire);
+      await JobDao.update(job);
+      store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId));
+    }
+
+    await QuestionnairesDao.insertOrUpdate(questionnaire);
+    store.dispatch(FetchQuestionnairesAction(store.state.questionnairesPageState));
+
+    if(action.pageState.isNew) {
+      EventSender().sendEvent(eventName: EventNames.QUESTIONNAIRE_CREATED);
+    }
   }
 
   /**
