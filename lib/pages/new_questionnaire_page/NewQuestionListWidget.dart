@@ -65,7 +65,7 @@ class NewQuestionListWidget extends StatelessWidget {
 
   Widget buildQuestionDetails() {
     return Container(
-      margin: EdgeInsets.only(right: 56, left: 16),
+      margin: const EdgeInsets.only(right: 56, left: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -116,12 +116,27 @@ class NewQuestionListWidget extends StatelessWidget {
       case Question.TYPE_NUMBER:
         result = Color(ColorConstants.getPeachDark());
         break;
+      case Question.TYPE_YES_NO:
+        result = Color(ColorConstants.getPeachLight());
+        break;
+      case Question.TYPE_RATING:
+        result = Color(ColorConstants.getBlueDark()).withOpacity(0.8);
+        break;
+      case Question.TYPE_MULTIPLE_CHOICE:
+        result = Color(ColorConstants.getPrimaryBlack()).withOpacity(.35);
+        break;
+      case Question.TYPE_DATE:
+        result = Color(ColorConstants.getPeachDark());
+        break;
+      case Question.TYPE_ADDRESS:
+        result = Color(ColorConstants.getPeachLight());
+        break;
     }
     return result;
   }
 
   Widget getIconFromType() {
-    Widget result = SizedBox();
+    Widget result = const SizedBox();
 
     switch(question.type) {
       case Question.TYPE_SHORT_FORM_RESPONSE:
@@ -142,8 +157,22 @@ class NewQuestionListWidget extends StatelessWidget {
           child: Image.asset('assets/images/icons/number_sign.png', color: Color(ColorConstants.getPrimaryBlack()))
         );
         break;
+      case Question.TYPE_MULTIPLE_CHOICE:
+        result = Image.asset('assets/images/icons/radio_button.png', color: Color(ColorConstants.getPrimaryBlack()));
+        break;
+      case Question.TYPE_ADDRESS:
+        result = Image.asset('assets/images/icons/pin_white.png', color: Color(ColorConstants.getPrimaryBlack()));
+        break;
+      case Question.TYPE_DATE:
+        result = Image.asset('assets/images/icons/calendar.png', color: Color(ColorConstants.getPrimaryBlack()));
+        break;
+      case Question.TYPE_RATING:
+        result = Icon(Icons.stars, color: Color(ColorConstants.getPrimaryBlack()));
+        break;
+      case Question.TYPE_YES_NO:
+        result = Image.asset('assets/images/icons/checkbox.png', color: Color(ColorConstants.getPrimaryBlack()));
+        break;
     }
-
     return result;
   }
 }

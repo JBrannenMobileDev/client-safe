@@ -1,9 +1,7 @@
 import 'dart:ui';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Question.dart';
-import 'package:dandylight/models/Questionnaire.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,38 +16,26 @@ import '../../utils/InputDoneView.dart';
 import '../../utils/Shadows.dart';
 import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
-import '../common_widgets/TextFieldDandylight.dart';
-import '../share_with_client_page/ShareWithClientTextField.dart';
-import 'NewQuestionListWidget.dart';
-import 'NewQuestionnaireActions.dart';
-import 'NewQuestionnairePageState.dart';
+import 'NewQuestionPageState.dart';
 
-class NewQuestionnairePage extends StatefulWidget {
-  final Questionnaire questionnaire;
-  final String title;
-  final bool isNew;
-  final String jobDocumentId;
-  final Function(BuildContext) deleteFromJob;
+class NewQuestionPage extends StatefulWidget {
+  final Question question;
 
-  const NewQuestionnairePage({Key key, this.questionnaire, this.title, this.isNew, this.jobDocumentId, this.deleteFromJob}) : super(key: key);
+  const NewQuestionPage({Key key, this.question}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _NewQuestionnairePageState(questionnaire, title, isNew, jobDocumentId, deleteFromJob);
+    return _NewQuestionPageState(question);
   }
 }
 
-class _NewQuestionnairePageState extends State<NewQuestionnairePage> with TickerProviderStateMixin {
+class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderStateMixin {
   final FocusNode titleFocusNode = FocusNode();
   final TextEditingController controllerTitle = TextEditingController();
-  final String title;
-  final bool isNew;
   final bool hasUnsavedChanges = false;
-  final String jobDocumentId;
-  final Function(BuildContext) deleteFromJob;
   bool isKeyboardVisible = false;
   OverlayEntry overlayEntry;
-  final Questionnaire questionnaire;
+  final Question question;
   TextEditingController titleTextController = TextEditingController();
   final messageController = TextEditingController();
   final FocusNode _messageFocusNode = FocusNode();
@@ -66,11 +52,11 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
     });
   }
 
-  _NewQuestionnairePageState(this.questionnaire, this.title, this.isNew, this.jobDocumentId, this.deleteFromJob);
+  _NewQuestionPageState(this.question);
 
   @override
   Widget build(BuildContext context) =>
-      StoreConnector<AppState, NewQuestionnairePageState>(
+      StoreConnector<AppState, NewQuestionPageState>(
         onInit: (store) {
           store.dispatch(ClearNewQuestionnaireState(store.state.newQuestionnairePageState, isNew, title));
           if(questionnaire != null) {
@@ -98,8 +84,8 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
             messageController.text = questionnaire.message;
           }
         },
-        converter: (Store<AppState> store) => NewQuestionnairePageState.fromStore(store),
-        builder: (BuildContext context, NewQuestionnairePageState pageState) => WillPopScope(
+        converter: (Store<AppState> store) => NewQuestionPageState.fromStore(store),
+        builder: (BuildContext context, NewQuestionPageState pageState) => WillPopScope(
             onWillPop: () async {
               bool willLeave = false;
               if(hasUnsavedChanges) {
@@ -184,144 +170,11 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                     SingleChildScrollView(
                       child: Column(
                         children: [
-                          Container(
-                            margin: const EdgeInsets.only(left: 32, top: 16.0, bottom: 0),
-                            alignment: Alignment.centerLeft,
-                            child: TextDandyLight(
-                              type: TextDandyLight.SMALL_TEXT,
-                              text: 'Questionnaire title',
-                              color: Color(ColorConstants.getPrimaryBlack()),
-                            ),
-                          ),
-                          TextFieldDandylight(
-                            maxLines: 1,
-                            controller: titleTextController,
-                            hintText: 'Title',
-                            labelText: 'Title',
-                            inputType: TextInputType.text,
-                            height: 64.0,
-                            inputTypeError: 'Title is required',
-                            onTextInputChanged: (newTitle) => pageState.onNameChanged(newTitle),
-                            onEditingCompleted: null,
-                            keyboardAction: TextInputAction.next,
-                            focusNode: titleFocusNode,
-                            onFocusAction: () {
-                              titleFocusNode.unfocus();
-                            },
-                            capitalization: TextCapitalization.words,
-                            enabled: true,
-                            obscureText: false,
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(left: 32, top: 16.0, bottom: 8),
-                            alignment: Alignment.centerLeft,
-                            child: TextDandyLight(
-                              type: TextDandyLight.SMALL_TEXT,
-                              text: 'Message to client',
-                              color: Color(ColorConstants.getPrimaryBlack()),
-                            ),
-                          ),
-                          Container(
-                            height: 132,
-                            margin: const EdgeInsets.only(left: 16, right: 16),
-                            padding: const EdgeInsets.only(top: 16),
-                            decoration: BoxDecoration(
-                                color: Color(ColorConstants.getPrimaryWhite()),
-                                borderRadius: BorderRadius.circular(16)
-                            ),
-                            child: Container(
-                              margin: const EdgeInsets.only(left: 20.0, right: 20.0),
-                              child: ShareWithClientTextField(
-                                messageController,
-                                '',
-                                TextInputType.multiline,
-                                116.0,
-                                pageState.onMessageChanged,
-                                'noError',
-                                TextInputAction.newline,
-                                _messageFocusNode,
-                                onAction,
-                                TextCapitalization.sentences,
-                                null,
-                                true,
-                                false,
-                                false,
-                              ),
-                            ),
-                          ),
-                          questions.isNotEmpty ? Container(
-                            margin:
-                            const EdgeInsets.only(left: 32, top: 20.0),
-                            alignment: Alignment.centerLeft,
-                            child: TextDandyLight(
-                              type: TextDandyLight.SMALL_TEXT,
-                              text: 'Questions',
-                              color: Color(ColorConstants.getPrimaryBlack()),
-                            ),
-                          ) : const SizedBox(),
-                          questions.isNotEmpty ? ReorderableListView.builder(
-                            reverse: false,
-                            padding: const EdgeInsets.fromLTRB(0.0, 4.0, 0.0, 16.0),
-                            shrinkWrap: true,
-                            physics: const ClampingScrollPhysics(),
-                            itemCount: questions.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Dismissible(
-                                key: Key(questions.elementAt(index).id.toString()),
-                                direction: DismissDirection.endToStart,
-                                background: Container(
-                                  color: Color(ColorConstants.getPrimaryWhite()),
-                                  alignment: Alignment.centerRight,
-                                  padding: const EdgeInsets.only(right: 16.0),
-                                  child: const Icon(
-                                    Icons.delete,
-                                    color: Colors.white,
-                                    size: 36,
-                                  ),
-                                ),
-                                onDismissed: (direction) {
-                                  setState(() {
-                                    questions.removeWhere((question) => question.id == questions.elementAt(index).id);
-                                  });
-                                },
-                                child: Container(
-                                  margin: const EdgeInsets.only(left: 16, right: 16, top: 4.0, bottom: 4.0),
-                                  child: NewQuestionListWidget(questions.elementAt(index), pageState, (index+1)),
-                                ),
-                              );
-                            },
-                            onReorder: reorderData,
-                          ) :
-                          Padding(
-                            padding: const EdgeInsets.only(left: 64.0, top: 32.0, right: 64.0, bottom: 8),
-                            child: TextDandyLight(
-                              type: TextDandyLight.SMALL_TEXT,
-                              text: "You have not added any questions yet.",
-                              textAlign: TextAlign.center,
-                              color: Color(ColorConstants.getPrimaryBlack()),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
 
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              height: 54,
-                              width: MediaQuery.of(context).size.width,
-                              margin: const EdgeInsets.only(left: 32, right: 32, bottom: 124),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(32),
-                                color: Color(ColorConstants.getBlueDark()),
-                              ),
-                              child: TextDandyLight(
-                                type: TextDandyLight.LARGE_TEXT,
-                                text: 'Add Question',
-                                textAlign: TextAlign.center,
-                                color: Color(ColorConstants.getPrimaryWhite()),
-                              ),
-                            ),
-                          ),
+
+
+
+                          SizedBox(),
                         ],
                       ),
                     ),
@@ -386,7 +239,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
     Navigator.of(context).pop(true);
   }
 
-  Future<void> _ackDeleteAlert(BuildContext context, NewQuestionnairePageState pageState) {
+  Future<void> _ackDeleteAlert(BuildContext context, NewQuestionPageState pageState) {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {

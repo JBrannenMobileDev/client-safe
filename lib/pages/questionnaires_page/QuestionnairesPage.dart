@@ -69,7 +69,7 @@ class _QuestionnairesPageState extends State<QuestionnairesPage> with TickerProv
                           actions: <Widget>[
                             GestureDetector(
                               onTap: () {
-
+                                NavigationUtil.onQuestionnaireSelected(context, null, 'Questionnaire name', true, jobDocumentId, null);
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(right: 26.0),

@@ -31,7 +31,7 @@ class QuestionnairesPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchQuestionnaires(Store<AppState> store, NextDispatcher next) async{
-      List<Questionnaire> questionnaires = await QuestionnairesDao.getAll();
+      List<Questionnaire> questionnaires = (await QuestionnairesDao.getAll()) ?? [];
       store.dispatch(SetQuestionnairesAction(store.state.questionnairesPageState, questionnaires));
   }
 }

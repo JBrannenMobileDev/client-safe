@@ -19,7 +19,7 @@ import '../job_details_page/JobDetailsActions.dart';
 import '../questionnaires_page/QuestionnairesActions.dart';
 import 'NewQuestionnaireActions.dart';
 
-class NewQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
+class NewQuestionPageMiddleware extends MiddlewareClass<AppState> {
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next){
