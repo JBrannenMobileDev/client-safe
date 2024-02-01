@@ -363,6 +363,23 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
     _messageFocusNode.unfocus();
   }
 
+  void onQuestionSaved(Question question) {
+    setState(() {
+      int index = getIndex(question);
+      if(index >= 0) {
+        questions.replaceRange(index, index, [question]);
+      } else {
+        questions.add(question);
+      }
+    });
+  }
+
+  void onQuestionDeleted(Question questionToDelete) {
+    setState(() {
+      questions.removeWhere((question) => question.id == questionToDelete.id);
+    });
+  }
+
   void showSuccessAnimation(){
     showDialog(
       context: context,
@@ -461,5 +478,15 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
       overlayEntry.remove();
       overlayEntry = null;
     }
+  }
+
+  int getIndex(Question questionToFind) {
+    int index = -1;
+    for(int i = 0; i < questions.length; i++) {
+      if(questions.elementAt(i).id == questionToFind.id) {
+        index = i;
+      }
+    }
+    return index;
   }
 }

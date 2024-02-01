@@ -1,45 +1,148 @@
 import 'package:redux/redux.dart';
-import 'NewQuestionnaireActions.dart';
+import 'NewQuestionActions.dart';
 import 'NewQuestionPageState.dart';
 
 final newQuestionReducer = combineReducers<NewQuestionPageState>([
-  TypedReducer<NewQuestionPageState, SetQuestionnaireAction>(_setQuestionnaire),
-  TypedReducer<NewQuestionPageState, SetQuestionnaireNameAction>(_setContractName),
-  TypedReducer<NewQuestionPageState, ClearNewQuestionnaireState>(_clearState),
-  TypedReducer<NewQuestionPageState, SetProfileForNewQuestionnaireAction>(_setProfile),
-  TypedReducer<NewQuestionPageState, SetMessageToClientAction>(_setMessage),
+  TypedReducer<NewQuestionPageState, SetQuestionAction>(_setQuestion),
+  TypedReducer<NewQuestionPageState, UpdateQuestionAction>(_setMessage),
+  TypedReducer<NewQuestionPageState, SetQuestionAction>(_setQuestion),
+  TypedReducer<NewQuestionPageState, UpdateRequiredAction>(_setRequired),
+  TypedReducer<NewQuestionPageState, AddMultipleChoiceChoicesAction>(_addMCChoice),
+  TypedReducer<NewQuestionPageState, AddCheckboxChoicesAction>(_addCBChoice),
+  TypedReducer<NewQuestionPageState, DeleteMultipleChoiceChoicesAction>(_deleteMCChoice),
+  TypedReducer<NewQuestionPageState, DeleteCheckboxChoicesAction>(_deleteCBChoice),
+  TypedReducer<NewQuestionPageState, UpdateIncludeMCAction>(_setIncludeOtherMC),
+  TypedReducer<NewQuestionPageState, UpdateIncludeCBAction>(_setIncludeOtherCB),
+  TypedReducer<NewQuestionPageState, UpdateIncludeFirstNameAction>(_setIncludeFirstName),
+  TypedReducer<NewQuestionPageState, UpdateIncludeLastNameAction>(_setIncludeLastName),
+  TypedReducer<NewQuestionPageState, UpdateIncludePhoneAction>(_setIncludePhone),
+  TypedReducer<NewQuestionPageState, UpdateIncludeEmailAction>(_setIncludeEmail),
+  TypedReducer<NewQuestionPageState, UpdateIncludeInstagramNameAction>(_setIncludeInstagramName),
+  TypedReducer<NewQuestionPageState, UpdateShortHintAction>(_setShortHint),
+  TypedReducer<NewQuestionPageState, UpdateLongHintAction>(_setLongHint),
+  TypedReducer<NewQuestionPageState, UpdateNumOfStarsAction>(_setNumOfStars),
 ]);
 
-NewQuestionPageState _setMessage(NewQuestionPageState previousState, SetMessageToClientAction action){
+NewQuestionPageState _setNumOfStars(NewQuestionPageState previousState, UpdateNumOfStarsAction action){
+  action.pageState.question.numOfStars = action.numOfStars;
   return previousState.copyWith(
-    message: action.message,
+    question: action.pageState.question,
   );
 }
 
-NewQuestionPageState _setProfile(NewQuestionPageState previousState, SetProfileForNewQuestionnaireAction action){
+NewQuestionPageState _setLongHint(NewQuestionPageState previousState, UpdateLongHintAction action){
+  action.pageState.question.longHint = action.hintMessage;
   return previousState.copyWith(
-    profile: action.profile,
+    question: action.pageState.question,
   );
 }
 
-NewQuestionPageState _clearState(NewQuestionPageState previousState, ClearNewQuestionnaireState action){
-  NewQuestionPageState pageState = NewQuestionPageState.initial();
-  return pageState.copyWith(
-    isNew: action.isNew,
-    newFromName: action.questionnaireName,
+NewQuestionPageState _setShortHint(NewQuestionPageState previousState, UpdateShortHintAction action){
+  action.pageState.question.shortHint = action.hintMessage;
+  return previousState.copyWith(
+    question: action.pageState.question,
   );
 }
 
-NewQuestionPageState _setContractName(NewQuestionPageState previousState, SetQuestionnaireNameAction action){
+NewQuestionPageState _setIncludeInstagramName(NewQuestionPageState previousState, UpdateIncludeInstagramNameAction action){
+  action.pageState.question.includeInstagramName = action.include;
   return previousState.copyWith(
-      questionnaireName: action.questionnaireName,
+    question: action.pageState.question,
   );
 }
 
-NewQuestionPageState _setQuestionnaire(NewQuestionPageState previousState, SetQuestionnaireAction action){
+NewQuestionPageState _setIncludeEmail(NewQuestionPageState previousState, UpdateIncludeEmailAction action){
+  action.pageState.question.includeEmail = action.include;
   return previousState.copyWith(
-    questionnaire: action.questionnaire,
-    message: action.questionnaire.message,
-    questionnaireName: action.questionnaire.title,
+    question: action.pageState.question,
+  );
+}
+
+NewQuestionPageState _setIncludePhone(NewQuestionPageState previousState, UpdateIncludePhoneAction action){
+  action.pageState.question.includePhone = action.include;
+  return previousState.copyWith(
+    question: action.pageState.question,
+  );
+}
+
+NewQuestionPageState _setIncludeLastName(NewQuestionPageState previousState, UpdateIncludeLastNameAction action){
+  action.pageState.question.includeLastName = action.include;
+  return previousState.copyWith(
+    question: action.pageState.question,
+  );
+}
+
+NewQuestionPageState _setIncludeFirstName(NewQuestionPageState previousState, UpdateIncludeFirstNameAction action){
+  action.pageState.question.includeFirstName = action.include;
+  return previousState.copyWith(
+    question: action.pageState.question,
+  );
+}
+
+NewQuestionPageState _setIncludeOtherCB(NewQuestionPageState previousState, UpdateIncludeCBAction action){
+  bool includesOther = action.pageState.question.choicesCheckBoxes.contains('Other');
+  if(!includesOther) {
+    action.pageState.question.choicesCheckBoxes.add('Other');
+  }
+  return previousState.copyWith(
+    question: action.pageState.question,
+  );
+}
+
+NewQuestionPageState _setIncludeOtherMC(NewQuestionPageState previousState, UpdateIncludeMCAction action){
+  bool includesOther = action.pageState.question.choicesMultipleChoice.contains('Other');
+  if(!includesOther) {
+    action.pageState.question.choicesMultipleChoice.add('Other');
+  }
+  return previousState.copyWith(
+    question: action.pageState.question,
+  );
+}
+
+NewQuestionPageState _deleteCBChoice(NewQuestionPageState previousState, DeleteCheckboxChoicesAction action){
+  action.pageState.question.choicesCheckBoxes.removeWhere((choice) => choice == action.choice);
+  return previousState.copyWith(
+    question: action.pageState.question,
+  );
+}
+
+NewQuestionPageState _deleteMCChoice(NewQuestionPageState previousState, DeleteMultipleChoiceChoicesAction action){
+  action.pageState.question.choicesMultipleChoice.removeWhere((choice) => choice == action.choice);
+  return previousState.copyWith(
+    question: action.pageState.question,
+  );
+}
+
+NewQuestionPageState _addCBChoice(NewQuestionPageState previousState, AddCheckboxChoicesAction action){
+  action.pageState.question.choicesCheckBoxes.add(action.choice);
+  return previousState.copyWith(
+    question: action.pageState.question,
+  );
+}
+
+NewQuestionPageState _addMCChoice(NewQuestionPageState previousState, AddMultipleChoiceChoicesAction action){
+  action.pageState.question.choicesMultipleChoice.add(action.choice);
+  return previousState.copyWith(
+    question: action.pageState.question,
+  );
+}
+
+NewQuestionPageState _setRequired(NewQuestionPageState previousState, UpdateRequiredAction action){
+  action.pageState.question.isRequired = action.required;
+  return previousState.copyWith(
+    question: action.pageState.question,
+  );
+}
+
+NewQuestionPageState _setQuestion(NewQuestionPageState previousState, SetQuestionAction action){
+  return previousState.copyWith(
+    question: action.question,
+  );
+}
+
+NewQuestionPageState _setMessage(NewQuestionPageState previousState, UpdateQuestionAction action){
+  action.pageState.question.question = action.question;
+  return previousState.copyWith(
+    question: action.pageState.question,
   );
 }

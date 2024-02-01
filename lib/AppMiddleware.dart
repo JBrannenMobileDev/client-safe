@@ -54,6 +54,8 @@ import 'package:dandylight/pages/new_pose_group_page/NewPoseGroupPageMiddleware.
 import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
 import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfileActions.dart' as prefix0;
 import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageMiddleware.dart';
+import 'package:dandylight/pages/new_question_page/NewQuestionActions.dart';
+import 'package:dandylight/pages/new_question_page/NewQuestionPageMiddleware.dart';
 import 'package:dandylight/pages/new_questionnaire_page/NewQuestionnaireActions.dart';
 import 'package:dandylight/pages/new_questionnaire_page/NewQuestionnairePageMiddleware.dart';
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpenseActions.dart';
@@ -350,5 +352,6 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveQuestionnaireAction>(NewQuestionnairePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteQuestionnaireAction>(NewQuestionnairePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchProfileForNewQuestionnaireAction>(NewQuestionnairePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveQuestionAction>(NewQuestionPageMiddleware()));
   return middlewareList;
 }
