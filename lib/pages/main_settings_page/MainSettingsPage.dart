@@ -773,6 +773,49 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                   TextButton(
                                     style: Styles.getButtonStyle(),
                                     onPressed: () {
+                                      _showGenerateDiscountCodeBottomSheet(context, DiscountCodes.FIRST_3_MONTHS_FREE);
+                                    },
+                                    child: SizedBox(
+                                      height: 48.0,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Row(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Container(
+                                                alignment: Alignment.center,
+                                                margin: const EdgeInsets.only(right: 16.0),
+                                                height: 28.0,
+                                                width: 28.0,
+                                                child: Icon(
+                                                  Icons.discount,
+                                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                                ),
+                                              ),
+                                              TextDandyLight(
+                                                type: TextDandyLight.MEDIUM_TEXT,
+                                                text: 'Generate 3 Months Free Discount Code',
+                                                textAlign: TextAlign.center,
+                                                color: Color(ColorConstants.getPrimaryBlack()),
+                                              ),
+                                            ],
+                                          ),
+                                          Icon(
+                                            Icons.add,
+                                            color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    style: Styles.getButtonStyle(),
+                                    onPressed: () {
                                       Clipboard.setData(ClipboardData(text: pageState.discountCode));
                                       DandyToastUtil.showToast('${pageState.discountCode} Copied to Clipboard!', const Color(ColorConstants.error_red));
                                     },

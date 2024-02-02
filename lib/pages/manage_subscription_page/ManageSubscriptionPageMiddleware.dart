@@ -53,6 +53,9 @@ class ManageSubscriptionPageMiddleware extends MiddlewareClass<AppState> {
         repo.assignUserToCode(action.pageState.discountCode, store.state.dashboardPageState.profile.uid);
         store.dispatch(SetProfileAction(store.state.manageSubscriptionPageState, profile));
       }
+      if(discountType == DiscountCodes.FIRST_3_MONTHS_FREE) {
+        repo.assignUserToCode(action.pageState.discountCode, store.state.dashboardPageState.profile.uid);
+      }
     } else {
       store.dispatch(SetShowDiscountErrorStateAction(store.state.manageSubscriptionPageState, true));
     }

@@ -24,12 +24,6 @@ class SetHasJobAnswerAction {
   SetHasJobAnswerAction(this.pageState, this.answer);
 }
 
-class SetSelectedLeadSourceAction {
-  final OnBoardingPageState pageState;
-  final String leadSource;
-  SetSelectedLeadSourceAction(this.pageState, this.leadSource);
-}
-
 class SetOtherDescriptionAction {
   final OnBoardingPageState pageState;
   final String otherMessage;

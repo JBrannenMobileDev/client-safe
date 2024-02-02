@@ -47,12 +47,16 @@ class DiscountCodesRepository {
     List<DiscountCodes> discounts = await DiscountCodesDao.getAll();
     List<Code> lifetimeCodes = [];
     List<Code> fiftyPercentCodes = [];
+    List<Code> first3MonthsFreeCodes = [];
     discounts.forEach((discount) {
       if(discount.type == DiscountCodes.LIFETIME_FREE) {
         lifetimeCodes.addAll(discount.codes);
       }
       if(discount.type == DiscountCodes.FIFTY_PERCENT_TYPE) {
         fiftyPercentCodes.addAll(discount.codes);
+      }
+      if(discount.type == DiscountCodes.FIRST_3_MONTHS_FREE) {
+        first3MonthsFreeCodes.addAll(discount.codes);
       }
     });
 
@@ -65,6 +69,12 @@ class DiscountCodesRepository {
     fiftyPercentCodes.forEach((code) {
       if(code.id.toUpperCase() == inputCode.toUpperCase() && (code.uid == null || code.uid.isEmpty)) {
         response = DiscountCodes.FIFTY_PERCENT_TYPE;
+      }
+    });
+
+    first3MonthsFreeCodes.forEach((code) {
+      if(code.id.toUpperCase() == inputCode.toUpperCase() && (code.uid == null || code.uid.isEmpty)) {
+        response = DiscountCodes.FIRST_3_MONTHS_FREE;
       }
     });
     return response;

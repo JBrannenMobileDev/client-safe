@@ -49,7 +49,6 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SavePushNotificationSettingAction) {
       savePushNotificationSetting(store, action, next);
     }
-
     if(action is SaveCalendarSettingAction) {
       saveCalendarSetting(store, action, next);
     }
@@ -70,6 +69,9 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is GenerateFreeDiscountCodeAction) {
       generateFreeDiscountCode(store, action, next);
+    }
+    if(action is GenerateFirst3MonthsFreeCodeAction) {
+      generateFirst3MonthsFreeCode(store, action, next);
     }
     if(action is PopulateAccountWithData) {
       _generateAccountData(store, action, next);
@@ -102,6 +104,11 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
 
   void generateFreeDiscountCode(Store<AppState> store, GenerateFreeDiscountCodeAction action, NextDispatcher next) async{
     String newCode = await DiscountCodesRepository().generateAndSaveCode(DiscountCodes.LIFETIME_FREE, action.pageState.instaUrl);
+    store.dispatch(SetDiscountCodeAction(store.state.mainSettingsPageState, newCode));
+  }
+
+  void generateFirst3MonthsFreeCode(Store<AppState> store, GenerateFirst3MonthsFreeCodeAction action, NextDispatcher next) async{
+    String newCode = await DiscountCodesRepository().generateAndSaveCode(DiscountCodes.FIRST_3_MONTHS_FREE, action.pageState.instaUrl);
     store.dispatch(SetDiscountCodeAction(store.state.mainSettingsPageState, newCode));
   }
 

@@ -240,6 +240,10 @@ class EventNames {
   static const String ON_BOARDING_LEAD_SOURCE_SELECTED = "on_boarding_lead_source_selected";
   static const String ON_BOARDING_LEAD_SOURCE_SELECTED_PARAM = "on_boarding_lead_source_selected_param";
   static const String ON_BOARDING_PREVIEW_CLIENT_PORTAL_SELECTED = "on_boarding_preview_client_portal_selected";
+  static const String ON_BOARDING_JOB_COUNT_SELECTED = "on_boarding_job_count_selected";
+  static const String ON_BOARDING_JOB_COUNT_PARAM = "on_boarding_job_count_param";
+  static const String ON_BOARDING_BOOK_ZOOM_CALL = "on_boarding_book_zoom_call";
+  static const String ON_BOARDING_BOOK_ZOOM_CALL_PARAMS = "on_boarding_book_zoom_call_params";
 
   //Branding
   static const String BRANDING_EDIT_FROM_DASHBOARD = "branding_edit_from_dashboard";

@@ -138,6 +138,11 @@ class GenerateFreeDiscountCodeAction {
   GenerateFreeDiscountCodeAction(this.pageState);
 }
 
+class GenerateFirst3MonthsFreeCodeAction {
+  final MainSettingsPageState pageState;
+  GenerateFirst3MonthsFreeCodeAction(this.pageState);
+}
+
 class SetDiscountCodeAction {
   final MainSettingsPageState pageState;
   final String discountCode;

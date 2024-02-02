@@ -24,7 +24,6 @@ class OnBoardingPage extends StatefulWidget {
 
 class _OnBoardingPageState extends State<OnBoardingPage> with TickerProviderStateMixin {
   ScrollController _scrollController;
-  final int pageCount = 3;
   final controller = PageController(
     initialPage: 0,
   );
@@ -54,7 +53,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> with TickerProviderStat
         },
         onDidChange: (previous, current) {
           if(currentPageIndex != current.pagerIndex) {
-            controller.animateToPage(current.pagerIndex, duration: Duration(milliseconds: 500),
+            controller.animateToPage(current.pagerIndex, duration: const Duration(milliseconds: 500),
                 curve: Curves.ease);
           }
         },
@@ -66,12 +65,12 @@ class _OnBoardingPageState extends State<OnBoardingPage> with TickerProviderStat
                   color: Color(ColorConstants.getPrimaryWhite()),
                 ),
                 child: Stack(
-                  alignment: Alignment.bottomCenter,
+                  alignment: Alignment.topCenter,
                   children: [
                     PageView(
                       controller: controller,
                       pageSnapping: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       children: <Widget>[
                         WhatTypePage(),
                         LeadSourceSelectionPage(),
@@ -86,13 +85,18 @@ class _OnBoardingPageState extends State<OnBoardingPage> with TickerProviderStat
                       },
                     ),
                     Container(
-                      margin: EdgeInsets.only(bottom: 16.0, top: 72),
+                      height: 96,
+                      width: MediaQuery.of(context).size.width,
+                      color: Color(ColorConstants.getPrimaryWhite()),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 16.0, top: 72),
                       alignment: Alignment.topCenter,
                       height: MediaQuery.of(context).size.height,
                       width: 250,
                       child: AnimatedSmoothIndicator(
                         activeIndex: pageState.pagerIndex,
-                        count: 4,
+                        count: 5,
                         effect: ExpandingDotsEffect(
                             expansionFactor: 2,
                             dotWidth: 15.0,
@@ -102,14 +106,13 @@ class _OnBoardingPageState extends State<OnBoardingPage> with TickerProviderStat
                       ),
                     ),
                     pageState.pagerIndex == 3 ? Container(
-                      padding: EdgeInsets.only(top: 45, right: 16, left: 16, bottom: 16),
+                      padding: const EdgeInsets.only(top: 45, right: 16, left: 16, bottom: 16),
                       alignment: Alignment.topRight,
                       height: MediaQuery.of(context).size.height,
                       width: MediaQuery.of(context).size.width,
                       child: GestureDetector(
                         onTap: () {
-                          pageState.setPagerIndex(1);
-                          pageState.onLeadSourceSelected(LeadSource.TYPE_SKIP);
+                          pageState.setPagerIndex(4);
                         },
                         child: Container(
                           alignment: Alignment.centerRight,

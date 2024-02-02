@@ -1,11 +1,13 @@
 import 'package:dandylight/pages/new_job_types_page/DandyLightTextField.dart';
 import 'package:dandylight/pages/onboarding/OnBoardingPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../AppState.dart';
+import '../../utils/analytics/EventNames.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class WhatTypePage extends StatefulWidget {
@@ -113,6 +115,10 @@ class _WhatTypePage extends State<WhatTypePage> {
                 GestureDetector(
                   onTap: () {
                     if(pageState.typeContinueEnable) {
+                      EventSender().sendEvent(
+                          eventName: EventNames.ON_BOARDING_JOB_COUNT_SELECTED,
+                          properties: {EventNames.ON_BOARDING_JOB_COUNT_PARAM : pageState.selectedJobCount}
+                      );
                       pageState.setPagerIndex(1);
                     }
                   },

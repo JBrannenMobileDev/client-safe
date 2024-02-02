@@ -1,8 +1,5 @@
 import 'package:dandylight/pages/onboarding/OnBoardingPageState.dart';
 import 'package:redux/redux.dart';
-
-import '../../utils/analytics/EventNames.dart';
-import '../../utils/analytics/EventSender.dart';
 import 'OnBoardingActions.dart';
 
 final onBoardingReducer = combineReducers<OnBoardingPageState>([
@@ -32,13 +29,6 @@ OnBoardingPageState _setHasJobAnswer(OnBoardingPageState previousState, SetHasJo
 }
 
 OnBoardingPageState _setPagerIndex(OnBoardingPageState previousState, SetPagerIndexAction action){
-  if(previousState.pagerIndex == 1 && action.index == 2) {
-    for(String reason in action.pageState.selectedReasons) {
-      EventSender().sendEvent(eventName: EventNames.ON_BOARDING_PROBLEM_CHOSEN, properties: {
-        EventNames.ON_BOARDING_PROBLEM_CHOSEN_PARAM : reason,
-      });
-    }
-  }
   return previousState.copyWith(
       pagerIndex: action.index,
   );

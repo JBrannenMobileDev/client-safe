@@ -104,6 +104,9 @@ class _GenerateDiscountCodeBottomSheetState extends State<GenerateDiscountCodeBo
                          case DiscountCodes.FIFTY_PERCENT_TYPE:
                            pageState.generate50DiscountCode();
                            break;
+                         case DiscountCodes.FIRST_3_MONTHS_FREE:
+                           pageState.generate3MonthsFreeCode();
+                           break;
                        }
                      }
                    },

@@ -25,7 +25,7 @@ class OnBoardingPageState{
   static const String MORE_THAN_15 = "More than 10";
   static const String APP_WALKTHROUGH = "App walkthrough (15min)";
   static const String FIRST_TIME_SETUP = "First time setup (15min)";
-  static const String NEW_USER_SURVEY = "New user survey (15 min)";
+  static const String NEW_USER_SURVEY = "New user survey (15 min)\nGet 3 months FREE";
 
   static const String HAS_JOB_YES = "has_job_yes";
   static const String HAS_JOB_NO = "has_job_no";
@@ -43,7 +43,6 @@ class OnBoardingPageState{
   final Function(String, bool) onFeatureSelected;
   final Function(int) setPagerIndex;
   final Function() onViewSampleJobSelected;
-  final Function(String) onLeadSourceSelected;
   final Function(String) onOtherChanged;
   final Function(String) onJobCountSelected;
   final Function(String) onZoomOptionSelected;
@@ -56,7 +55,6 @@ class OnBoardingPageState{
     @required this.selectedOptionHasJob,
     @required this.onHasJobAnswered,
     @required this.leadSources,
-    @required this.onLeadSourceSelected,
     @required this.otherDescription,
     @required this.onOtherChanged,
     @required this.selectedReasons,
@@ -82,7 +80,6 @@ class OnBoardingPageState{
     Function(int) setPagerIndex,
     Function() onViewSampleJobSelected,
     Function(String) onHasJobAnswered,
-    Function(String) onLeadSourceSelected,
     Function(String) onOtherChanged,
     Function(String) onJobCountSelected,
     Function(String) onZoomOptionSelected,
@@ -95,7 +92,6 @@ class OnBoardingPageState{
       onHasJobAnswered: onHasJobAnswered ?? this.onHasJobAnswered,
       selectedOptionHasJob: selectedOptionHasJob ?? this.selectedOptionHasJob,
       leadSources: leadSources ?? this.leadSources,
-      onLeadSourceSelected: onLeadSourceSelected ?? this.onLeadSourceSelected,
       otherDescription: otherDescription ?? this.otherDescription,
       onOtherChanged: onOtherChanged ?? this.onOtherChanged,
       selectedReasons: selectedReasons ?? this.selectedReasons,
@@ -116,7 +112,6 @@ class OnBoardingPageState{
     selectedOptionHasJob: "",
     onHasJobAnswered: null,
     leadSources: [],
-    onLeadSourceSelected: null,
     otherDescription: '',
     onOtherChanged: null,
     featuresContinueEnabled: false,
@@ -143,7 +138,6 @@ class OnBoardingPageState{
       setPagerIndex: (index) => store.dispatch(SetPagerIndexAction(store.state.onBoardingPageState, index)),
       onViewSampleJobSelected: () => store.dispatch(SetJobForDetailsPage(store.state.onBoardingPageState)),
       onHasJobAnswered: (answer) => store.dispatch(SetHasJobAnswerAction(store.state.onBoardingPageState, answer)),
-      onLeadSourceSelected: (leadSource) => store.dispatch(SetSelectedLeadSourceAction(store.state.onBoardingPageState, leadSource)),
       onOtherChanged: (otherMessage) => store.dispatch(SetOtherDescriptionAction(store.state.onBoardingPageState, otherMessage)),
       onJobCountSelected: (jobCount) => store.dispatch(SetSelectedJobCountAction(store.state.onBoardingPageState, jobCount)),
       onZoomOptionSelected: (zoomOption) => store.dispatch(SetSelectedZoomOptionAction(store.state.onBoardingPageState, zoomOption)),
@@ -156,7 +150,6 @@ class OnBoardingPageState{
       setPagerIndex.hashCode ^
       pagerIndex.hashCode ^
       leadSources.hashCode ^
-      onLeadSourceSelected.hashCode ^
       onViewSampleJobSelected.hashCode ^
       selectedOptionHasJob.hashCode ^
       onHasJobAnswered.hashCode ^
@@ -181,7 +174,6 @@ class OnBoardingPageState{
               selectedOptionHasJob == other.selectedOptionHasJob &&
               onHasJobAnswered == other.onHasJobAnswered &&
               leadSources == other.leadSources &&
-              onLeadSourceSelected == other.onLeadSourceSelected &&
               otherDescription == other.otherDescription &&
               onOtherChanged == other.onOtherChanged &&
               featuresContinueEnabled == other.featuresContinueEnabled &&

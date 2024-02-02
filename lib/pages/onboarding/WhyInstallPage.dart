@@ -6,7 +6,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../AppState.dart';
-import '../../utils/EvelvationUtil.dart';
+import '../../utils/Shadows.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class WhyInstallPage extends StatefulWidget {
@@ -78,6 +80,11 @@ class _WhyInstallPage extends State<WhyInstallPage> {
                 GestureDetector(
                   onTap: () {
                     if(pageState.featuresContinueEnabled) {
+                      for(String reason in pageState.selectedReasons) {
+                        EventSender().sendEvent(eventName: EventNames.ON_BOARDING_PROBLEM_CHOSEN, properties: {
+                          EventNames.ON_BOARDING_PROBLEM_CHOSEN_PARAM : reason,
+                        });
+                      }
                       pageState.setPagerIndex(3);
                     }
                   },

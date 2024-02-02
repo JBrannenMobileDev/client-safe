@@ -59,6 +59,7 @@ class MainSettingsPageState{
   final Function() onDeleteAccountSelected;
   final Function(String) onPasswordChanged;
   final Function() generate50DiscountCode;
+  final Function() generate3MonthsFreeCode;
   final Function() generateFreeDiscountCode;
   final Function(String) onInstaUrlChanged;
   final Function(XFile) onLogoUploaded;
@@ -137,6 +138,7 @@ class MainSettingsPageState{
     @required this.populateAccountWithData,
     @required this.clearBrandingState,
     @required this.onHomeLocationChanged,
+    @required this.generate3MonthsFreeCode,
   });
 
   MainSettingsPageState copyWith({
@@ -187,6 +189,7 @@ class MainSettingsPageState{
     Function(String) onPasswordChanged,
     Function() generate50DiscountCode,
     Function() generateFreeDiscountCode,
+    Function() generate3MonthsFreeCode,
     Function(String) onInstaUrlChanged,
     Function(XFile) onLogoUploaded,
     Function(XFile) onBannerUploaded,
@@ -264,6 +267,7 @@ class MainSettingsPageState{
       clearBrandingState: clearBrandingState ?? this.clearBrandingState,
       onHomeLocationChanged: onHomeLocationChanged ?? this.onHomeLocationChanged,
       homeAddressName: homeAddressName ?? this.homeAddressName,
+      generate3MonthsFreeCode: generate3MonthsFreeCode ?? this.generate3MonthsFreeCode,
     );
   }
 
@@ -329,6 +333,7 @@ class MainSettingsPageState{
     clearBrandingState: null,
     onHomeLocationChanged: null,
     homeAddressName: 'Select a home location',
+    generate3MonthsFreeCode: null,
   );
 
   factory MainSettingsPageState.fromStore(Store<AppState> store) {
@@ -385,6 +390,7 @@ class MainSettingsPageState{
       onPasswordChanged: (password) => store.dispatch(SavePasswordAction(store.state.mainSettingsPageState, password)),
       generate50DiscountCode: () => store.dispatch(Generate50DiscountCodeAction(store.state.mainSettingsPageState)),
       generateFreeDiscountCode: () => store.dispatch(GenerateFreeDiscountCodeAction(store.state.mainSettingsPageState)),
+      generate3MonthsFreeCode: () => store.dispatch(GenerateFirst3MonthsFreeCodeAction(store.state.mainSettingsPageState)),
       onInstaUrlChanged: (url) => store.dispatch(SetUrlToStateAction(store.state.mainSettingsPageState, url)),
       populateAccountWithData: () => store.dispatch(PopulateAccountWithData(store.state.mainSettingsPageState)),
       onHomeLocationChanged: (locationDandy) => store.dispatch(SaveMainSettingsHomeLocationAction(store.state.mainSettingsPageState, locationDandy)),
@@ -407,6 +413,7 @@ class MainSettingsPageState{
       clearBrandingState.hashCode ^
       logoImageSelected.hashCode ^
       lastName.hashCode ^
+      generate3MonthsFreeCode.hashCode ^
       showPublishButton.hashCode ^
       businessName.hashCode ^
       onHomeLocationChanged.hashCode ^
@@ -465,6 +472,7 @@ class MainSettingsPageState{
               onLogoUploaded == other.onLogoUploaded &&
               resizedLogoImage == other.resizedLogoImage &&
               lastName == other.lastName &&
+              generate3MonthsFreeCode == other.generate3MonthsFreeCode &&
               homeAddressName == other.homeAddressName &&
               showPublishButton == other.showPublishButton &&
               businessName == other.businessName &&

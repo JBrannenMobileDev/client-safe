@@ -6,6 +6,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../AppState.dart';
 import '../../models/LeadSource.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class LeadSourceSelectionPage extends StatefulWidget {
@@ -52,7 +54,7 @@ class _LeadSourceSelectionPage extends State<LeadSourceSelectionPage> {
               ListView(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(left: 24, right: 24),
+                    margin: const EdgeInsets.only(left: 24, right: 24),
                     child: TextDandyLight(
                       type: TextDandyLight.LARGE_TEXT,
                       isBold: true,
@@ -62,7 +64,7 @@ class _LeadSourceSelectionPage extends State<LeadSourceSelectionPage> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(left: 16, top: 32, right: 16, bottom: 0),
+                    margin: const EdgeInsets.only(left: 16, top: 32, right: 16, bottom: 0),
                     child: Wrap(
                       alignment: WrapAlignment.center,
                       spacing: 8.0,
@@ -72,32 +74,25 @@ class _LeadSourceSelectionPage extends State<LeadSourceSelectionPage> {
                           return Stack(
                             alignment: Alignment.center,
                             children: <Widget>[
-                              Container(
-                                child: ChoiceChip(
-                                  label: TextDandyLight(
-                                    type: TextDandyLight.SMALL_TEXT,
-                                    text: _chipLabels.elementAt(index),
-                                    textAlign: TextAlign.start,
-                                    color: Color(index == selectedIndex ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
-                                  ),
-                                  backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                  selectedColor: Color(ColorConstants.getPeachDark()),
-                                  selected: index == selectedIndex,
-                                  onSelected: (bool selected) {
-                                    setState(() {
-                                      if(selected) {
-                                        selectedIndex = index;
-                                      } else {
-                                        selectedIndex = -1;
-                                      }
-                                    });
-                                    if(selected) {
-                                      pageState.onLeadSourceSelected(_chipLabels.elementAt(index));
-                                    } else {
-                                      pageState.onLeadSourceSelected(null);
-                                    }
-                                  },
+                              ChoiceChip(
+                                label: TextDandyLight(
+                                  type: TextDandyLight.SMALL_TEXT,
+                                  text: _chipLabels.elementAt(index),
+                                  textAlign: TextAlign.start,
+                                  color: Color(index == selectedIndex ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
                                 ),
+                                backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                selectedColor: Color(ColorConstants.getPeachDark()),
+                                selected: index == selectedIndex,
+                                onSelected: (bool selected) {
+                                  setState(() {
+                                    if(selected) {
+                                      selectedIndex = index;
+                                    } else {
+                                      selectedIndex = -1;
+                                    }
+                                  });
+                                },
                               ),
                             ],
                           );
@@ -110,6 +105,10 @@ class _LeadSourceSelectionPage extends State<LeadSourceSelectionPage> {
               GestureDetector(
                 onTap: () {
                   if(selectedIndex >= 0) {
+                    EventSender().sendEvent(
+                        eventName: EventNames.ON_BOARDING_LEAD_SOURCE_SELECTED,
+                        properties: {EventNames.ON_BOARDING_LEAD_SOURCE_SELECTED_PARAM : _chipLabels.elementAt(selectedIndex)}
+                    );
                     pageState.setPagerIndex(2);
                   }
                 },
