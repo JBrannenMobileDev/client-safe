@@ -229,6 +229,8 @@ class EventNames {
   static const String SIGN_IN_CHECKED_PARAM_PROFILE_UID = "sign_in_checked_param_profile_uid";
 
   //OnBoarding
+  static const String ON_BOARDING_PROBLEM_CHOSEN = "on_boarding_problem_chosen";
+  static const String ON_BOARDING_PROBLEM_CHOSEN_PARAM = "on_boarding_problem_selected_param";
   static const String ON_BOARDING_FEATURE_CHOSEN = "on_boarding_feature_chosen";
   static const String ON_BOARDING_FEATURE_CHOSEN_PARAM = "on_boarding_feature_selected_param";
   static const String ON_BOARDING_HAS_JOB_ANSWERED = "on_boarding_has_job_answered";

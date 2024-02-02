@@ -44,34 +44,37 @@ class _LeadSourceSelectionPage extends State<LeadSourceSelectionPage> {
       },
       converter: (store) => OnBoardingPageState.fromStore(store),
       builder: (BuildContext context, OnBoardingPageState pageState) =>
-          Container(
-            margin: EdgeInsets.only(left: 16, top: 54, right: 16, bottom: 0),
-            child: ListView(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: 24, right: 24),
-                      child: TextDandyLight(
-                        type: TextDandyLight.LARGE_TEXT,
-                        isBold: true,
-                        text: "How did you hear about DandyLight?",
-                        color: Color(ColorConstants.getPrimaryBlack()),
-                        textAlign: TextAlign.center,
-                      ),
+        Container(
+          margin: const EdgeInsets.only(left: 16, top: 54, right: 16, bottom: 0),
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              ListView(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 24, right: 24),
+                    child: TextDandyLight(
+                      type: TextDandyLight.LARGE_TEXT,
+                      isBold: true,
+                      text: "How did you hear about DandyLight?",
+                      color: Color(ColorConstants.getPrimaryBlack()),
+                      textAlign: TextAlign.center,
                     ),
-                    Container(
-                      margin: EdgeInsets.only(left: 16, top: 32, right: 16, bottom: 0),
-                      child: Wrap(
-                        alignment: WrapAlignment.center,
-                        spacing: 8.0,
-                        children: List<Widget>.generate(
-                          _chipLabels.length,
-                              (int index) {
-                            return Stack(
-                              alignment: Alignment.center,
-                              children: <Widget>[
-                                Container(
-                                  child: ChoiceChip(
-                                    label: TextDandyLight(
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 16, top: 32, right: 16, bottom: 0),
+                    child: Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 8.0,
+                      children: List<Widget>.generate(
+                        _chipLabels.length,
+                            (int index) {
+                          return Stack(
+                            alignment: Alignment.center,
+                            children: <Widget>[
+                              Container(
+                                child: ChoiceChip(
+                                  label: TextDandyLight(
                                     type: TextDandyLight.SMALL_TEXT,
                                     text: _chipLabels.elementAt(index),
                                     textAlign: TextAlign.start,
@@ -81,22 +84,53 @@ class _LeadSourceSelectionPage extends State<LeadSourceSelectionPage> {
                                   selectedColor: Color(ColorConstants.getPeachDark()),
                                   selected: index == selectedIndex,
                                   onSelected: (bool selected) {
+                                    setState(() {
+                                      if(selected) {
+                                        selectedIndex = index;
+                                      } else {
+                                        selectedIndex = -1;
+                                      }
+                                    });
                                     if(selected) {
                                       pageState.onLeadSourceSelected(_chipLabels.elementAt(index));
-                                      pageState.setPagerIndex(1);
+                                    } else {
+                                      pageState.onLeadSourceSelected(null);
                                     }
                                   },
-                                  ),
                                 ),
-                              ],
-                            );
-                          },
-                        ).toList(),
-                      ),
+                              ),
+                            ],
+                          );
+                        },
+                      ).toList(),
                     ),
-                  ],
-            ),
+                  ),
+                ],
+              ),
+              GestureDetector(
+                onTap: () {
+                  if(selectedIndex >= 0) {
+                    pageState.setPagerIndex(2);
+                  }
+                },
+                child: Container(
+                  padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                  margin: const EdgeInsets.only(left: 32.0, right: 32.0, top: 0.0, bottom: 32.0),
+                  alignment: Alignment.center,
+                  height: 54.0,
+                  decoration: BoxDecoration(
+                      color: Color(selectedIndex >= 0 ? ColorConstants.getPeachDark() : ColorConstants.getPrimaryBackgroundGrey()),
+                      borderRadius: BorderRadius.circular(36.0)),
+                  child: TextDandyLight(
+                    text: 'Continue',
+                    type: TextDandyLight.LARGE_TEXT,
+                    color: Color(selectedIndex >= 0 ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
+                  ),
+                ),
+              ),
+            ] ,
           ),
+    ),
     );
   }
 

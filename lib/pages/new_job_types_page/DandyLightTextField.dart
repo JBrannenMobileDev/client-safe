@@ -99,7 +99,7 @@ class DandyLightTextField extends StatelessWidget {
             inputFormatters: inputFormatter != null ? inputFormatter : null,
             style: new TextStyle(
                 fontFamily: TextDandyLight.getFontFamily(),
-                fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
                 fontWeight: TextDandyLight.getFontWeight(),
                 color: Color(ColorConstants.getPrimaryBlack())),
           )

@@ -5,176 +5,190 @@ import '../../AppState.dart';
 import 'OnBoardingActions.dart';
 
 class OnBoardingPageState{
-  static const String JOB_TRACKING = "job_tracking";
-  static const String INCOME_EXPENSES = "income_expenses";
-  static const String POSES = "poses";
-  static const String MILEAGE_TRACKING = "mileage_tracking";
-  static const String INVOICES = "invoices";
-  static const String BUSINESS_ANALYTICS = "business_analytics";
-  static const String CONTRACTS = "contracts";
-  static const String OTHER = "other";
+  static const String TRACKING_MY_JOBS = "To track my jobs";
+  static const String TRACK_INCOME_AND_EXPENSES = "To track income & expenses";
+  static const String BOOKING_AND_AVAILABILITY = "Booking & availability";
+  static const String POSES_FOR_INSPIRATION = "Poses for inspiration";
+  static const String HAVING_EVERYTHING_IN_ONE_PLACE = "To having everything in one place";
+  static const String LOOK_PROFESSIONAL = "To look professional to clients";
+  static const String CLIENT_GALLERIES = "Client galleries";
+  static const String CONTRACTS = "Contracts";
+  static const String INVOICES = "Invoices";
+  static const String QUESTIONNAIRES = "Questionnaires";
+  static const String TREACKING_MILES_FOR_TAXES = "To track miles for taxes";
+  static const String CLIENT_GUIDES = "Client guides";
+  static const String SUN_TRACKER = "Sun tracker";
+  static const String TRACKING_MILES_FOR_TAXES = "To track miles for taxes";
+  static const String OTHER = "Other";
+  static const String LESS_THAN_5 = "Less than 5";
+  static const String BETWEEN_5_15 = "Between 5 - 10";
+  static const String MORE_THAN_15 = "More than 10";
+  static const String APP_WALKTHROUGH = "App walkthrough (15min)";
+  static const String FIRST_TIME_SETUP = "First time setup (15min)";
+  static const String NEW_USER_SURVEY = "New user survey (15 min)";
+
   static const String HAS_JOB_YES = "has_job_yes";
   static const String HAS_JOB_NO = "has_job_no";
 
-  final bool jobTrackingSelected;
-  final bool incomeExpensesSelected;
-  final bool posesSelected;
-  final bool mileageTrackingSelected;
-  final bool invoicesSelected;
-  final bool contractsSelected;
-  final bool analyticsSelected;
-  final bool featuresContinueEnabled;
-  final bool otherSelected;
+  final List<String> selectedReasons;
   final int pagerIndex;
+  final String selectedJobCount;
+  final bool featuresContinueEnabled;
+  final bool typeContinueEnable;
   final String selectedOptionHasJob;
+  final String otherDescription;
+  final String selectedZoomOption;
   final List<LeadSource> leadSources;
   final Function(String) onHasJobAnswered;
   final Function(String, bool) onFeatureSelected;
   final Function(int) setPagerIndex;
   final Function() onViewSampleJobSelected;
   final Function(String) onLeadSourceSelected;
+  final Function(String) onOtherChanged;
+  final Function(String) onJobCountSelected;
+  final Function(String) onZoomOptionSelected;
 
   OnBoardingPageState({
-    @required this.jobTrackingSelected,
-    @required this.incomeExpensesSelected,
-    @required this.posesSelected,
-    @required this.invoicesSelected,
-    @required this.analyticsSelected,
-    @required this.featuresContinueEnabled,
     @required this.onFeatureSelected,
     @required this.setPagerIndex,
     @required this.pagerIndex,
-    @required this.mileageTrackingSelected,
     @required this.onViewSampleJobSelected,
     @required this.selectedOptionHasJob,
     @required this.onHasJobAnswered,
-    @required this.otherSelected,
     @required this.leadSources,
     @required this.onLeadSourceSelected,
-    @required this.contractsSelected,
+    @required this.otherDescription,
+    @required this.onOtherChanged,
+    @required this.selectedReasons,
+    @required this.featuresContinueEnabled,
+    @required this.typeContinueEnable,
+    @required this.selectedJobCount,
+    @required this.onJobCountSelected,
+    @required this.selectedZoomOption,
+    @required this.onZoomOptionSelected,
   });
 
   OnBoardingPageState copyWith({
-    bool jobTrackingSelected,
-    bool incomeExpensesSelected,
-    bool posesSelected,
-    bool invoicesSelected,
-    bool analyticsSelected,
     bool featuresContinueEnabled,
-    bool mileageTrackingSelected,
-    bool otherSelected,
-    bool contractsSelected,
+    bool typeContinueEnable,
     int pagerIndex,
+    String selectedJobCount,
     String selectedOptionHasJob,
+    String otherDescription,
+    String selectedZoomOption,
     List<LeadSource> leadSources,
+    List<String> selectedReasons,
     Function(String, bool) onFeatureSelected,
     Function(int) setPagerIndex,
     Function() onViewSampleJobSelected,
     Function(String) onHasJobAnswered,
     Function(String) onLeadSourceSelected,
+    Function(String) onOtherChanged,
+    Function(String) onJobCountSelected,
+    Function(String) onZoomOptionSelected,
   }){
     return OnBoardingPageState(
-      jobTrackingSelected: jobTrackingSelected?? this.jobTrackingSelected,
-      incomeExpensesSelected: incomeExpensesSelected?? this.incomeExpensesSelected,
-      posesSelected: posesSelected?? this.posesSelected,
-      invoicesSelected: invoicesSelected?? this.invoicesSelected,
-      analyticsSelected: analyticsSelected?? this.analyticsSelected,
-      featuresContinueEnabled: featuresContinueEnabled?? this.featuresContinueEnabled,
       onFeatureSelected: onFeatureSelected?? this.onFeatureSelected,
       setPagerIndex: setPagerIndex ?? this.setPagerIndex,
       pagerIndex: pagerIndex ?? this.pagerIndex,
-      mileageTrackingSelected: mileageTrackingSelected ?? this.mileageTrackingSelected,
       onViewSampleJobSelected: onViewSampleJobSelected ?? this.onViewSampleJobSelected,
       onHasJobAnswered: onHasJobAnswered ?? this.onHasJobAnswered,
       selectedOptionHasJob: selectedOptionHasJob ?? this.selectedOptionHasJob,
-      otherSelected: otherSelected ?? this.otherSelected,
       leadSources: leadSources ?? this.leadSources,
       onLeadSourceSelected: onLeadSourceSelected ?? this.onLeadSourceSelected,
-      contractsSelected: contractsSelected ?? this.contractsSelected,
+      otherDescription: otherDescription ?? this.otherDescription,
+      onOtherChanged: onOtherChanged ?? this.onOtherChanged,
+      selectedReasons: selectedReasons ?? this.selectedReasons,
+      featuresContinueEnabled: featuresContinueEnabled ?? this.featuresContinueEnabled,
+      typeContinueEnable: typeContinueEnable ?? this.typeContinueEnable,
+      selectedJobCount: selectedJobCount ?? this.selectedJobCount,
+      onJobCountSelected: onJobCountSelected ?? this.onJobCountSelected,
+      selectedZoomOption: selectedZoomOption ?? this.selectedZoomOption,
+      onZoomOptionSelected: onZoomOptionSelected ?? this.onZoomOptionSelected,
     );
   }
 
   factory OnBoardingPageState.initial() => OnBoardingPageState(
-    jobTrackingSelected: false,
-    incomeExpensesSelected: false,
-    posesSelected: false,
-    invoicesSelected: false,
-    analyticsSelected: false,
-    featuresContinueEnabled: false,
-    otherSelected: false,
     onFeatureSelected: null,
     setPagerIndex: null,
     pagerIndex: 0,
-    mileageTrackingSelected: false,
     onViewSampleJobSelected: null,
     selectedOptionHasJob: "",
     onHasJobAnswered: null,
     leadSources: [],
     onLeadSourceSelected: null,
-    contractsSelected: false,
+    otherDescription: '',
+    onOtherChanged: null,
+    featuresContinueEnabled: false,
+    typeContinueEnable: true,
+    selectedReasons: [],
+    selectedJobCount: '',
+    onJobCountSelected: null,
+    selectedZoomOption: '',
+    onZoomOptionSelected: null,
   );
 
   factory OnBoardingPageState.fromStore(Store<AppState> store) {
     return OnBoardingPageState(
-      jobTrackingSelected: store.state.onBoardingPageState.jobTrackingSelected,
-      incomeExpensesSelected: store.state.onBoardingPageState.incomeExpensesSelected,
-      posesSelected: store.state.onBoardingPageState.posesSelected,
-      invoicesSelected: store.state.onBoardingPageState.invoicesSelected,
-      analyticsSelected: store.state.onBoardingPageState.analyticsSelected,
-      featuresContinueEnabled: store.state.onBoardingPageState.featuresContinueEnabled,
       pagerIndex: store.state.onBoardingPageState.pagerIndex,
-      mileageTrackingSelected: store.state.onBoardingPageState.mileageTrackingSelected,
       selectedOptionHasJob: store.state.onBoardingPageState.selectedOptionHasJob,
-      otherSelected: store.state.onBoardingPageState.otherSelected,
       leadSources: store.state.onBoardingPageState.leadSources,
-      contractsSelected: store.state.onBoardingPageState.contractsSelected,
+      otherDescription: store.state.onBoardingPageState.otherDescription,
+      selectedReasons: store.state.onBoardingPageState.selectedReasons,
+      featuresContinueEnabled: store.state.onBoardingPageState.featuresContinueEnabled,
+      typeContinueEnable: store.state.onBoardingPageState.typeContinueEnable,
+      selectedJobCount: store.state.onBoardingPageState.selectedJobCount,
+      selectedZoomOption: store.state.onBoardingPageState.selectedZoomOption,
       onFeatureSelected: (featureName, isSelected) => store.dispatch(SetFeatureSelectedStateAction(store.state.onBoardingPageState, featureName, isSelected)),
       setPagerIndex: (index) => store.dispatch(SetPagerIndexAction(store.state.onBoardingPageState, index)),
       onViewSampleJobSelected: () => store.dispatch(SetJobForDetailsPage(store.state.onBoardingPageState)),
       onHasJobAnswered: (answer) => store.dispatch(SetHasJobAnswerAction(store.state.onBoardingPageState, answer)),
       onLeadSourceSelected: (leadSource) => store.dispatch(SetSelectedLeadSourceAction(store.state.onBoardingPageState, leadSource)),
+      onOtherChanged: (otherMessage) => store.dispatch(SetOtherDescriptionAction(store.state.onBoardingPageState, otherMessage)),
+      onJobCountSelected: (jobCount) => store.dispatch(SetSelectedJobCountAction(store.state.onBoardingPageState, jobCount)),
+      onZoomOptionSelected: (zoomOption) => store.dispatch(SetSelectedZoomOptionAction(store.state.onBoardingPageState, zoomOption)),
     );
   }
 
   @override
   int get hashCode =>
-      jobTrackingSelected.hashCode ^
-      posesSelected.hashCode ^
-      invoicesSelected.hashCode ^
-      analyticsSelected.hashCode ^
-      featuresContinueEnabled.hashCode ^
       onFeatureSelected.hashCode ^
       setPagerIndex.hashCode ^
       pagerIndex.hashCode ^
       leadSources.hashCode ^
       onLeadSourceSelected.hashCode ^
-      mileageTrackingSelected.hashCode ^
       onViewSampleJobSelected.hashCode ^
-      contractsSelected.hashCode^
       selectedOptionHasJob.hashCode ^
       onHasJobAnswered.hashCode ^
-      otherSelected.hashCode ^
-      incomeExpensesSelected.hashCode;
+      otherDescription.hashCode ^
+      onOtherChanged.hashCode ^
+      featuresContinueEnabled.hashCode ^
+      typeContinueEnable.hashCode ^
+      onJobCountSelected.hashCode ^
+      selectedJobCount.hashCode ^
+      selectedZoomOption.hashCode ^
+      onZoomOptionSelected.hashCode ^
+      selectedReasons.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
           other is OnBoardingPageState &&
-              jobTrackingSelected == other.jobTrackingSelected &&
-              posesSelected == other.posesSelected &&
-              invoicesSelected == other.invoicesSelected &&
-              analyticsSelected == other.analyticsSelected &&
-              featuresContinueEnabled == other.featuresContinueEnabled &&
               onFeatureSelected == other.onFeatureSelected &&
               setPagerIndex == other.setPagerIndex &&
               pagerIndex == other.pagerIndex &&
               onViewSampleJobSelected == other.onViewSampleJobSelected &&
-              mileageTrackingSelected == other.mileageTrackingSelected &&
               selectedOptionHasJob == other.selectedOptionHasJob &&
               onHasJobAnswered == other.onHasJobAnswered &&
-              otherSelected == other.otherSelected &&
               leadSources == other.leadSources &&
               onLeadSourceSelected == other.onLeadSourceSelected &&
-              contractsSelected == other.contractsSelected &&
-              incomeExpensesSelected == other.incomeExpensesSelected;
+              otherDescription == other.otherDescription &&
+              onOtherChanged == other.onOtherChanged &&
+              featuresContinueEnabled == other.featuresContinueEnabled &&
+              typeContinueEnable == other.typeContinueEnable &&
+              selectedJobCount == other.selectedJobCount &&
+              onJobCountSelected == other.onJobCountSelected &&
+              selectedZoomOption == other.selectedZoomOption &&
+              onZoomOptionSelected == other.onZoomOptionSelected &&
+              selectedReasons == other.selectedReasons;
 }

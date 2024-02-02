@@ -1,4 +1,5 @@
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/pages/onboarding/WhyInstallPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -9,9 +10,10 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../models/LeadSource.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'DoYouHaveAJobPage.dart';
-import 'FeatureSelectionPage.dart';
 import 'LeadSourceSelectionPage.dart';
 import 'OnBoardingPageState.dart';
+import 'WhatTypePage.dart';
+import 'ZoomCallSelectionPage.dart';
 
 class OnBoardingPage extends StatefulWidget {
   @override
@@ -69,10 +71,12 @@ class _OnBoardingPageState extends State<OnBoardingPage> with TickerProviderStat
                     PageView(
                       controller: controller,
                       pageSnapping: true,
-                      physics:new NeverScrollableScrollPhysics(),
+                      physics: NeverScrollableScrollPhysics(),
                       children: <Widget>[
+                        WhatTypePage(),
                         LeadSourceSelectionPage(),
-                        FeatureSelectionPage(),
+                        WhyInstallPage(),
+                        ZoomCallSelectionPage(),
                         DoYouHaveAJobPage(),
                       ],
                       onPageChanged: (index) {
@@ -88,7 +92,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> with TickerProviderStat
                       width: 250,
                       child: AnimatedSmoothIndicator(
                         activeIndex: pageState.pagerIndex,
-                        count: 3,
+                        count: 4,
                         effect: ExpandingDotsEffect(
                             expansionFactor: 2,
                             dotWidth: 15.0,
@@ -97,26 +101,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> with TickerProviderStat
                             dotColor: Color(ColorConstants.getPrimaryBackgroundGrey())),
                       ),
                     ),
-                    pageState.pagerIndex > 0 ? Container(
-                      padding: EdgeInsets.only(top: 56, left: 16),
-                      alignment: Alignment.topLeft,
-                      height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.width,
-                      child: IconButton(
-                        onPressed: () {
-                          switch(pageState.pagerIndex) {
-                            case 1:
-                              pageState.setPagerIndex(0);
-                              break;
-                            case 2:
-                              pageState.setPagerIndex(1);
-                              break;
-                          }
-                        },
-                        icon: Icon(Icons.arrow_back_ios),
-                      ),
-                    ) : SizedBox(),
-                    pageState.pagerIndex == 0 ? Container(
+                    pageState.pagerIndex == 3 ? Container(
                       padding: EdgeInsets.only(top: 45, right: 16, left: 16, bottom: 16),
                       alignment: Alignment.topRight,
                       height: MediaQuery.of(context).size.height,
@@ -137,7 +122,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> with TickerProviderStat
                           ),
                         ),
                       ),
-                    ) : SizedBox(),
+                    ) : const SizedBox(),
                   ],
                 ),
               ),

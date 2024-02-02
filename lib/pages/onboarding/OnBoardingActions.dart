@@ -30,3 +30,21 @@ class SetSelectedLeadSourceAction {
   SetSelectedLeadSourceAction(this.pageState, this.leadSource);
 }
 
+class SetOtherDescriptionAction {
+  final OnBoardingPageState pageState;
+  final String otherMessage;
+  SetOtherDescriptionAction(this.pageState, this.otherMessage);
+}
+
+class SetSelectedJobCountAction {
+  final OnBoardingPageState pageState;
+  final String jobCount;
+  SetSelectedJobCountAction(this.pageState, this.jobCount);
+}
+
+class SetSelectedZoomOptionAction {
+  final OnBoardingPageState pageState;
+  final String zoomOption;
+  SetSelectedZoomOptionAction(this.pageState, this.zoomOption);
+}
+
