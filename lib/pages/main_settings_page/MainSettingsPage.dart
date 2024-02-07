@@ -110,6 +110,51 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                         delegate: SliverChildListDelegate(
                           <Widget>[
                             Container(
+                              margin: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0, top: 16),
+                              padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
+                              decoration: BoxDecoration(
+                                color: Color(ColorConstants.getPrimaryWhite()),
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                              child: TextButton(
+                                style: Styles.getButtonStyle(),
+                                onPressed: () {
+                                  NavigationUtil.onBookACallSelected(context);
+                                },
+                                child: SizedBox(
+                                  height: 48.0,
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            alignment: Alignment.center,
+                                            margin: const EdgeInsets.only(right: 18.0, left: 2.0),
+                                            height: 28.0,
+                                            width: 28.0,
+                                            child: Image.asset('assets/images/icons/zoom.png'),
+                                          ),
+                                          TextDandyLight(
+                                            type: TextDandyLight.MEDIUM_TEXT,
+                                            text: 'Book a Zoom call',
+                                            textAlign: TextAlign.center,
+                                            color: Color(ColorConstants.getPrimaryBlack()),
+                                          )
+                                        ],
+                                      ),
+                                      Icon(
+                                        Icons.chevron_right,
+                                        color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
                               margin: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 32.0, top: 16),
                               padding: const EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
                               decoration: BoxDecoration(

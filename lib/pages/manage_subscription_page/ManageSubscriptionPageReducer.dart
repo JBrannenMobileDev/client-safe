@@ -34,8 +34,8 @@ ManageSubscriptionPageState _setShowAppliedDiscount(ManageSubscriptionPageState 
 
 ManageSubscriptionPageState _setDiscountType(ManageSubscriptionPageState previousState, SetDiscountTypeAction action){
   Offering offering = null;
-  double monthlyPrice = 9.99;
-  double annualPrice = 99.99;
+  double monthlyPrice = 16.99;
+  double annualPrice = 139.99;
 
   switch(action.discountType) {
     case DiscountCodes.LIFETIME_FREE:
@@ -45,8 +45,11 @@ ManageSubscriptionPageState _setDiscountType(ManageSubscriptionPageState previou
       break;
     case DiscountCodes.FIFTY_PERCENT_TYPE:
       offering = previousState.offerings.getOffering('Beta Discount Standard');
-      monthlyPrice = 4.99;
-      annualPrice = 49.99;
+      monthlyPrice = 8.49;
+      annualPrice = 69.99;
+      break;
+    case DiscountCodes.FIRST_3_MONTHS_FREE:
+      offering = previousState.offerings.getOffering('3_months_free');
       break;
     default:
       if (previousState.offerings != null) {

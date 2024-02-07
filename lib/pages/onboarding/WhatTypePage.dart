@@ -119,6 +119,7 @@ class _WhatTypePage extends State<WhatTypePage> {
                           eventName: EventNames.ON_BOARDING_JOB_COUNT_SELECTED,
                           properties: {EventNames.ON_BOARDING_JOB_COUNT_PARAM : pageState.selectedJobCount}
                       );
+                      EventSender().setUserProfileData('Photographer type', pageState.selectedJobCount);
                       pageState.setPagerIndex(1);
                     }
                   },

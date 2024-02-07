@@ -7,6 +7,8 @@ import 'package:flutter/widgets.dart';
 import 'DeviceInfo.dart';
 import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 
+import 'EventNames.dart';
+
 class EventSender {
   static final EventSender _instance = EventSender._internal();
   Mixpanel _mixpanel;

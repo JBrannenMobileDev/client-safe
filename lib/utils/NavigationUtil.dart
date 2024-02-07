@@ -44,6 +44,7 @@ import '../pages/dashboard_page/widgets/ContractListPage.dart';
 import '../pages/income_expense_settings_page/ReportsPage.dart';
 import '../pages/job_details_page/JobDetailsPageState.dart';
 import '../pages/edit_branding_page/EditBrandingPage.dart';
+import '../pages/main_settings_page/BookAZoomCallPage.dart';
 import '../pages/poses_page/PosesPage.dart';
 import '../pages/share_with_client_page/ShareWithClientPage.dart';
 
@@ -96,6 +97,9 @@ class NavigationUtil {
   }
   static onEditProfileSelected(BuildContext context, Profile profile) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => EditAccountPage(profile)));
+  }
+  static onBookACallSelected(BuildContext context) {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => BookAZoomCallPage()));
   }
   static onShareWIthClientSelected(BuildContext context, Job job) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ShareWithClientPage(job: job)));

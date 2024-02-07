@@ -9,13 +9,12 @@ class OnBoardingPageState{
   static const String TRACK_INCOME_AND_EXPENSES = "To track income & expenses";
   static const String BOOKING_AND_AVAILABILITY = "Booking & availability";
   static const String POSES_FOR_INSPIRATION = "Poses for inspiration";
-  static const String HAVING_EVERYTHING_IN_ONE_PLACE = "To having everything in one place";
+  static const String HAVING_EVERYTHING_IN_ONE_PLACE = "To have everything in one place";
   static const String LOOK_PROFESSIONAL = "To look professional to clients";
   static const String CLIENT_GALLERIES = "Client galleries";
   static const String CONTRACTS = "Contracts";
   static const String INVOICES = "Invoices";
   static const String QUESTIONNAIRES = "Questionnaires";
-  static const String TREACKING_MILES_FOR_TAXES = "To track miles for taxes";
   static const String CLIENT_GUIDES = "Client guides";
   static const String SUN_TRACKER = "Sun tracker";
   static const String TRACKING_MILES_FOR_TAXES = "To track miles for taxes";

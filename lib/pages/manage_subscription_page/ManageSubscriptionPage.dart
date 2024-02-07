@@ -163,25 +163,16 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     color: Color(ColorConstants.getBlueDark())
                                 )
                             ) : const SizedBox(),
-                            // !(profile != null && profile.isFreeForLife) && pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? const SizedBox() : profile.isBetaTester || pageState.discountType.isNotEmpty ? Container(
-                            //     margin: const EdgeInsets.only(top: 258.0),
-                            //     child: TextDandyLight(
-                            //       text: 'Discount applied',
-                            //       type: TextDandyLight.MEDIUM_TEXT,
-                            //       textAlign: TextAlign.center,
-                            //       color: Color(ColorConstants.getBlueDark())
-                            //     )
-                            // ) : const SizedBox(),
-                            Container(
+                            !(profile != null && profile.isFreeForLife) && pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? const SizedBox() : profile.isBetaTester || pageState.discountType.isNotEmpty ? Container(
                                 margin: const EdgeInsets.only(top: 258.0),
                                 child: TextDandyLight(
-                                    text: 'Discount applied - First 3 months free',
-                                    type: TextDandyLight.MEDIUM_TEXT,
-                                    textAlign: TextAlign.center,
-                                    isBold: true,
-                                    color: Color(ColorConstants.getBlueDark())
+                                  text: pageState.discountType == DiscountCodes.FIRST_3_MONTHS_FREE ? 'Discount applied - First 3 months free' : 'Discount applied',
+                                  type: TextDandyLight.MEDIUM_TEXT,
+                                  textAlign: TextAlign.center,
+                                  isBold: true,
+                                  color: Color(ColorConstants.getPrimaryBlack())
                                 )
-                            ),
+                            ) : const SizedBox(),
                             !(profile != null && profile.isFreeForLife) && (pageState.uiState == ManageSubscriptionPage.SUBSCRIBED) ? Container(
                                 margin: const EdgeInsets.only(top: 258.0),
                                 child: TextDandyLight(
@@ -241,7 +232,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                               },
                                             ),
                                             TextDandyLight(
-                                                text: pageState.discountType == DiscountCodes.FIRST_3_MONTHS_FREE ? 'Then Annual' : 'Annual',
+                                                text: 'Annual',
                                                 type: TextDandyLight.LARGE_TEXT,
                                                 textAlign: TextAlign.center,
                                                 color: Color(pageState.radioValue == 0 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
@@ -337,7 +328,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                               },
                                             ),
                                             TextDandyLight(
-                                              text: pageState.discountType == DiscountCodes.FIRST_3_MONTHS_FREE ? 'Then Monthly' : 'Monthly',
+                                              text: 'Monthly',
                                               textAlign: TextAlign.center,
                                               type: TextDandyLight.LARGE_TEXT,
                                               color: Color(pageState.radioValue == 1 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
