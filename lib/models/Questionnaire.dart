@@ -12,7 +12,7 @@ class Questionnaire {
   DateTime dateCompleted;
 
   String getMainImageUrl() {
-    return questions.isNotEmpty ? questions.first.imageUrl : '';
+    return questions.isNotEmpty ? questions.first.webImageUrl : '';
   }
 
   double getLengthInMinutes() {

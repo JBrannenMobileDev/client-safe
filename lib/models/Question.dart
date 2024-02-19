@@ -1,6 +1,9 @@
 
+import 'package:dandylight/pages/common_widgets/TextFieldDandylight.dart';
 import 'package:dandylight/utils/UUID.dart';
+import 'package:dandylight/widgets/TextDandyLight.dart';
 import 'package:flutter/widgets.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Question {
   static const String TYPE_MULTIPLE_CHOICE = 'Multiple choice';
@@ -14,13 +17,16 @@ class Question {
   static const String TYPE_YES_NO = 'Yes/No';
   static const String TYPE_CHECK_BOXES = 'Checkboxes';
 
-  String id = Uuid().generateV4();
+  String id;
   String type;
   String question;
-  String imageUrl;
+  String webImageUrl;
+  String mobileImageUrl;
   bool showImage;
   bool isRequired;
   bool isAnswered;
+  XFile webImage;
+  XFile mobileImage;
 
   //MultipleChoice
   List<dynamic> choicesMultipleChoice;
@@ -80,12 +86,15 @@ class Question {
 
   Question({
     this.id,
-    this.type,
+    this.type = TYPE_SHORT_FORM_RESPONSE,
     this.question,
-    this.imageUrl,
+    this.webImageUrl,
+    this.mobileImageUrl,
     this.showImage,
     this.isRequired,
     this.isAnswered,
+    this.mobileImage,
+    this.webImage,
 
     this.choicesMultipleChoice,
     this.answerMultipleChoice,
@@ -138,7 +147,8 @@ class Question {
       'id' : id ?? Uuid().generateV4(),
       'type' : type,
       'question' : question,
-      'imageUrl' : imageUrl,
+      'webImageUrl' : webImageUrl,
+      'mobileImageUrl' : mobileImageUrl,
       'showImage' : showImage ?? false,
       'isRequired' : isRequired,
       'isAnswered' : isAnswered,
@@ -195,7 +205,8 @@ class Question {
       id: map['id'] ?? Uuid().generateV4(),
       type: map['type'],
       question: map['question'],
-      imageUrl: map['imageUrl'],
+      webImageUrl: map['webImageUrl'],
+      mobileImageUrl: map['mobileImageUrl'],
       showImage: map['showImage'] ?? false,
       isRequired: map['isRequired'],
       isAnswered: map['isAnswered'],
@@ -252,6 +263,11 @@ class Question {
   }
 
   Widget getAnswerWidget() {
+    TextEditingController titleTextController = TextEditingController();
+    Widget result = const SizedBox();
+    switch(type) {
+
+    }
     return const SizedBox();
   }
 }

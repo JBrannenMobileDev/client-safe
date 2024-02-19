@@ -19,6 +19,7 @@ class NewQuestionnairePageState{
   final Function(String) onNameChanged;
   final Function() deleteFromJob;
   final Function(String) onMessageChanged;
+  final Function(Question) onQuestionSaved;
 
   NewQuestionnairePageState({
     @required this.questionnaire,
@@ -32,6 +33,7 @@ class NewQuestionnairePageState{
     @required this.newFromName,
     @required this.onMessageChanged,
     @required this.message,
+    @required this.onQuestionSaved,
   });
 
   NewQuestionnairePageState copyWith({
@@ -46,6 +48,7 @@ class NewQuestionnairePageState{
     Function() onDeleteSelected,
     Function() deleteFromJob,
     Function(String) onMessageChanged,
+    Function(Question) onQuestionSaved,
   }){
     return NewQuestionnairePageState(
       questionnaire: questionnaire?? this.questionnaire,
@@ -59,6 +62,7 @@ class NewQuestionnairePageState{
       newFromName: newFromName ?? this.newFromName,
       onMessageChanged: onMessageChanged ?? this.onMessageChanged,
       message: message ?? this.message,
+      onQuestionSaved: onQuestionSaved ?? this.onQuestionSaved,
     );
   }
 
@@ -74,6 +78,7 @@ class NewQuestionnairePageState{
     deleteFromJob: null,
     onMessageChanged: null,
     message: '',
+    onQuestionSaved: null,
   );
 
   factory NewQuestionnairePageState.fromStore(Store<AppState> store) {
@@ -89,6 +94,7 @@ class NewQuestionnairePageState{
       onNameChanged: (name) => store.dispatch(SetQuestionnaireNameAction(store.state.newQuestionnairePageState, name)),
       onDeleteSelected: () => store.dispatch(DeleteQuestionnaireAction(store.state.newQuestionnairePageState)),
       onMessageChanged: (message) => store.dispatch(SetMessageToClientAction(store.state.newQuestionnairePageState, message)),
+      onQuestionSaved: (question) => store.dispatch(OnAddOrUpdateQuestionSelected(store.state.newQuestionnairePageState, question)),
     );
   }
 
@@ -104,6 +110,7 @@ class NewQuestionnairePageState{
       deleteFromJob.hashCode ^
       onMessageChanged.hashCode ^
       message.hashCode ^
+      onQuestionSaved.hashCode ^
       onQuestionnaireSaved.hashCode;
 
   @override
@@ -120,5 +127,6 @@ class NewQuestionnairePageState{
               deleteFromJob == other.deleteFromJob &&
               onMessageChanged == other.onMessageChanged &&
               message == other.message &&
+              onQuestionSaved == other.onQuestionSaved &&
               onQuestionnaireSaved == other.onQuestionnaireSaved;
 }

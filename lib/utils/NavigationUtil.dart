@@ -38,6 +38,7 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 import '../models/Job.dart';
 import '../models/JobStage.dart';
 import '../models/LocationDandy.dart';
+import '../models/Question.dart';
 import '../models/Report.dart';
 import '../pages/contract_edit_page/ContractEditPage.dart';
 import '../pages/dashboard_page/DashboardPageState.dart';
@@ -45,6 +46,7 @@ import '../pages/dashboard_page/widgets/ContractListPage.dart';
 import '../pages/income_expense_settings_page/ReportsPage.dart';
 import '../pages/job_details_page/JobDetailsPageState.dart';
 import '../pages/edit_branding_page/EditBrandingPage.dart';
+import '../pages/new_question_page/NewQuestionPage.dart';
 import '../pages/new_questionnaire_page/NewQuestionnairePage.dart';
 import '../pages/poses_page/PosesPage.dart';
 import '../pages/share_with_client_page/ShareWithClientPage.dart';
@@ -52,67 +54,70 @@ import '../pages/share_with_client_page/ShareWithClientPage.dart';
 class NavigationUtil {
   static onShowSubscribeNowPage(BuildContext context) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => SubscribeNowPage(profile: profile,)));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => SubscribeNowPage(profile: profile,)));
   }
   static onClientTapped(BuildContext context) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ClientDetailsPage()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClientDetailsPage()));
   }
   static onUnconvertedLeadsSelected(BuildContext context) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ClientsPage(comingFromUnconverted: true)));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClientsPage(comingFromUnconverted: true)));
   }
   static onReviewPosesSelected(BuildContext context) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ReviewPosesPage()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReviewPosesPage()));
   }
   static onInAppPreviewContractSelected(BuildContext context, String jsonTerms) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => PreviewContractPage(jsonTerms: jsonTerms)));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => PreviewContractPage(jsonTerms: jsonTerms)));
   }
   static onJobTapped(BuildContext context, bool comingFromOnBoarding) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => JobDetailsPage(comingFromOnBoarding: comingFromOnBoarding,)));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobDetailsPage(comingFromOnBoarding: comingFromOnBoarding,)));
   }
   static onCalendarSelected(BuildContext context) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => CalendarPage()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => CalendarPage()));
   }
   static onRecurringChargeSelected(BuildContext context, RecurringExpense recurringExpense) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => RecurringExpenseDetailsPage(recurringExpense)));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => RecurringExpenseDetailsPage(recurringExpense)));
   }
   static onSelectMapLocation(BuildContext context, Function(LatLng) onLocationSaved, double lat, double lng, Function(LocationDandy) saveSelectedLocation) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => MapLocationSelectionWidget(onLocationSaved, lat, lng, saveSelectedLocation)));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => MapLocationSelectionWidget(onLocationSaved, lat, lng, saveSelectedLocation)));
   }
   static onSignOutSelected(BuildContext context) async {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => LoginPage()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage()));
   }
   static onMainSettingsSelected(BuildContext context) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => MainSettingsPage()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => MainSettingsPage()));
   }
   static onIncomeAndExpenseSettingsSelected(BuildContext context) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => IncomeAndExpenseSettingsPage()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => IncomeAndExpenseSettingsPage()));
   }
   static onInvoiceNotificationSelected(BuildContext context) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => IncomeAndExpensesPage()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => IncomeAndExpensesPage()));
   }
   static onContractNotificationSelected(BuildContext context, String documentId) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => JobDetailsPage(jobDocumentId: documentId,)));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobDetailsPage(jobDocumentId: documentId,)));
   }
   static onPaymentRequestInfoSelected(BuildContext context) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => PaymentRequestInfoPage()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => PaymentRequestInfoPage()));
   }
   static onEditProfileSelected(BuildContext context, Profile profile) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => EditAccountPage(profile)));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditAccountPage(profile)));
   }
   static onShareWIthClientSelected(BuildContext context, Job job) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ShareWithClientPage(job: job)));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ShareWithClientPage(job: job)));
   }
   static onEditBrandingSelected(BuildContext context) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => EditBrandingPage()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditBrandingPage()));
   }
   static onContractSelected(BuildContext context, Contract contract, String contractName, bool isNew, String jobDocumentId, Function(BuildContext) onDeleteFromJob) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ContractEditPage(contract: contract, contractName: contractName, isNew: isNew, jobDocumentId: jobDocumentId, deleteFromJob: onDeleteFromJob)));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ContractEditPage(contract: contract, contractName: contractName, isNew: isNew, jobDocumentId: jobDocumentId, deleteFromJob: onDeleteFromJob)));
   }
   static onQuestionnaireSelected(BuildContext context, Questionnaire questionnaire, String title, bool isNew, String jobDocumentId, Function(BuildContext) onDeleteFromJob) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => NewQuestionnairePage(questionnaire: questionnaire, title: title, isNew: isNew, jobDocumentId: jobDocumentId, deleteFromJob: onDeleteFromJob)));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewQuestionnairePage(questionnaire: questionnaire, title: title, isNew: isNew, jobDocumentId: jobDocumentId, deleteFromJob: onDeleteFromJob)));
+  }
+  static onNewQuestionSelected(BuildContext context, Question question, Function(Question) onQuestionSaved, int number) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewQuestionPage(question: question, onQuestionSaved: onQuestionSaved, number: number)));
   }
   static onManageSubscriptionSelected(BuildContext context, Profile profile) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ManageSubscriptionPage(profile)));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ManageSubscriptionPage(profile)));
   }
   static onStageStatsSelected(BuildContext context, DashboardPageState pageState, String title, JobStage stage, bool isActiveJobs) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobListPage(pageState: pageState, pageTitle: title, stage: stage, isActiveJobs: isActiveJobs)));

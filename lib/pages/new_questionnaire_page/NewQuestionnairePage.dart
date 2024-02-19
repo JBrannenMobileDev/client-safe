@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Question.dart';
 import 'package:dandylight/models/Questionnaire.dart';
@@ -15,6 +14,7 @@ import 'package:redux/redux.dart';
 
 import '../../utils/ImageUtil.dart';
 import '../../utils/InputDoneView.dart';
+import '../../utils/NavigationUtil.dart';
 import '../../utils/Shadows.dart';
 import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -292,7 +292,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                             },
                             onReorder: reorderData,
                           ) :
-                          Padding(
+                          pageState.questionnaire.questions.isEmpty ? Padding(
                             padding: const EdgeInsets.only(left: 64.0, top: 32.0, right: 64.0, bottom: 8),
                             child: TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
@@ -300,10 +300,10 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                               textAlign: TextAlign.center,
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),
-                          ),
+                          ) : const SizedBox(),
                           GestureDetector(
                             onTap: () {
-
+                              NavigationUtil.onNewQuestionSelected(context, null, pageState.onQuestionSaved, pageState.questionnaire?.questions?.length ?? 1);
                             },
                             child: Container(
                               alignment: Alignment.center,

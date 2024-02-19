@@ -743,7 +743,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
                   Question(
                     question: 'Please provide your contact information so that we can easily communicate.',
                     type: Question.TYPE_CONTACT_INFO,
-                    imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2Fbanner_mobile.jpg?alt=media&token=4cf655ab-29bf-4260-99e2-b9a78aa5212b',
+                    webImageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2Fbanner_mobile.jpg?alt=media&token=4cf655ab-29bf-4260-99e2-b9a78aa5212b',
                     showImage: true,
                     includeFirstName: true,
                     includeLastName: true,

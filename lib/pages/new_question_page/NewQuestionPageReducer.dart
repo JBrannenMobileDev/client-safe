@@ -3,9 +3,9 @@ import 'NewQuestionActions.dart';
 import 'NewQuestionPageState.dart';
 
 final newQuestionReducer = combineReducers<NewQuestionPageState>([
+  TypedReducer<NewQuestionPageState, ClearNewQuestionState>(_clear),
   TypedReducer<NewQuestionPageState, SetQuestionAction>(_setQuestion),
   TypedReducer<NewQuestionPageState, UpdateQuestionAction>(_setMessage),
-  TypedReducer<NewQuestionPageState, SetQuestionAction>(_setQuestion),
   TypedReducer<NewQuestionPageState, UpdateRequiredAction>(_setRequired),
   TypedReducer<NewQuestionPageState, AddMultipleChoiceChoicesAction>(_addMCChoice),
   TypedReducer<NewQuestionPageState, AddCheckboxChoicesAction>(_addCBChoice),
@@ -21,7 +21,25 @@ final newQuestionReducer = combineReducers<NewQuestionPageState>([
   TypedReducer<NewQuestionPageState, UpdateShortHintAction>(_setShortHint),
   TypedReducer<NewQuestionPageState, UpdateLongHintAction>(_setLongHint),
   TypedReducer<NewQuestionPageState, UpdateNumOfStarsAction>(_setNumOfStars),
+  TypedReducer<NewQuestionPageState, SetResizedQuestionWebImageAction>(_setResizedWebImage),
+  TypedReducer<NewQuestionPageState, SetResizedQuestionMobileImageAction>(_setResizedMobileImage),
 ]);
+
+NewQuestionPageState _setResizedWebImage(NewQuestionPageState previousState, SetResizedQuestionWebImageAction action){
+  return previousState.copyWith(
+    webImage: action.resizedImage,
+  );
+}
+
+NewQuestionPageState _setResizedMobileImage(NewQuestionPageState previousState, SetResizedQuestionMobileImageAction action){
+  return previousState.copyWith(
+    mobileImage: action.resizedImage,
+  );
+}
+
+NewQuestionPageState _clear(NewQuestionPageState previousState, ClearNewQuestionState action){
+  return NewQuestionPageState.initial();
+}
 
 NewQuestionPageState _setNumOfStars(NewQuestionPageState previousState, UpdateNumOfStarsAction action){
   action.pageState.question.numOfStars = action.numOfStars;

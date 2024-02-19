@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
 import '../../models/Question.dart';
@@ -6,7 +7,9 @@ import 'NewQuestionActions.dart';
 
 class NewQuestionPageState{
   final Question question;
-  final bool isNew;
+  final bool showImage;
+  final XFile webImage;
+  final XFile mobileImage;
   final Function(String) onQuestionChanged;
   final Function(bool) isRequiredChanged;
   final Function(String) onMultipleChoiceAdded;
@@ -23,9 +26,10 @@ class NewQuestionPageState{
   final Function(String) onShortFormHintChanged;
   final Function(String) onLongFormHintChanged;
   final Function(int) onNumberOfStarsChanged;
+  final Function(XFile) onWebImageUploaded;
+  final Function(XFile) onMobileImageUploaded;
 
   NewQuestionPageState({
-    @required this.isNew,
     @required this.question,
     @required this.onQuestionChanged,
     @required this.isRequiredChanged,
@@ -43,11 +47,18 @@ class NewQuestionPageState{
     @required this.onNumberOfStarsChanged,
     @required this.onCheckBoxChoiceRemoved,
     @required this.onMultipleChoiceRemoved,
+    @required this.showImage,
+    @required this.webImage,
+    @required this.mobileImage,
+    @required this.onWebImageUploaded,
+    @required this.onMobileImageUploaded,
   });
 
   NewQuestionPageState copyWith({
     Question question,
-    bool isNew,
+    bool showImage,
+    XFile webImage,
+    XFile mobileImage,
     Function(String) onQuestionChanged,
     Function(bool) isRequiredChanged,
     Function(String) onMultipleChoiceAdded,
@@ -64,9 +75,10 @@ class NewQuestionPageState{
     Function(String) onShortFormHintChanged,
     Function(String) onLongFormHintChanged,
     Function(int) onNumberOfStarsChanged,
+    Function(XFile) onWebImageUploaded,
+    Function(XFile) onMobileImageUploaded,
   }){
     return NewQuestionPageState(
-      isNew: isNew ?? this.isNew,
       question: question ?? this.question,
       onQuestionChanged: onQuestionChanged ?? this.onQuestionChanged,
       isRequiredChanged: isRequiredChanged ?? this.isRequiredChanged,
@@ -84,12 +96,16 @@ class NewQuestionPageState{
       onNumberOfStarsChanged: onNumberOfStarsChanged ?? this.onNumberOfStarsChanged,
       onCheckBoxChoiceRemoved: onCheckBoxChoiceRemoved ?? this.onCheckBoxChoiceRemoved,
       onMultipleChoiceRemoved: onMultipleChoiceRemoved ?? this.onMultipleChoiceRemoved,
+      showImage: showImage ?? this.showImage,
+      webImage: webImage ?? this.webImage,
+      mobileImage: mobileImage ?? this.mobileImage,
+      onWebImageUploaded: onWebImageUploaded ?? this.onWebImageUploaded,
+      onMobileImageUploaded: onMobileImageUploaded ?? this.onMobileImageUploaded,
     );
   }
 
   factory NewQuestionPageState.initial() => NewQuestionPageState(
-    isNew: false,
-    question: null,
+    question: Question(),
     onQuestionChanged: null,
     isRequiredChanged: null,
     onMultipleChoiceAdded: null,
@@ -106,12 +122,19 @@ class NewQuestionPageState{
     onNumberOfStarsChanged: null,
     onCheckBoxChoiceRemoved: null,
     onMultipleChoiceRemoved: null,
+    showImage: false,
+    webImage: null,
+    mobileImage: null,
+    onWebImageUploaded: null,
+    onMobileImageUploaded: null,
   );
 
   factory NewQuestionPageState.fromStore(Store<AppState> store) {
     return NewQuestionPageState(
-      isNew: store.state.newQuestionPageState.isNew,
       question: store.state.newQuestionPageState.question,
+      showImage: store.state.newQuestionPageState.showImage,
+      webImage: store.state.newQuestionPageState.webImage,
+      mobileImage: store.state.newQuestionPageState.mobileImage,
       onQuestionChanged: (question) => store.dispatch(UpdateQuestionAction(store.state.newQuestionPageState, question)),
       isRequiredChanged: (required) => store.dispatch(UpdateRequiredAction(store.state.newQuestionPageState, required)),
       onMultipleChoiceAdded: (choice) => store.dispatch(AddMultipleChoiceChoicesAction(store.state.newQuestionPageState, choice)),
@@ -128,12 +151,13 @@ class NewQuestionPageState{
       onShortFormHintChanged: (hintMessage) => store.dispatch(UpdateShortHintAction(store.state.newQuestionPageState, hintMessage)),
       onLongFormHintChanged: (hintMessage) => store.dispatch(UpdateLongHintAction(store.state.newQuestionPageState, hintMessage)),
       onNumberOfStarsChanged: (numOfStars) => store.dispatch(UpdateNumOfStarsAction(store.state.newQuestionPageState, numOfStars)),
+      onWebImageUploaded: (xfileImage) => store.dispatch(ResizeQuestionWebImageAction(store.state.newQuestionPageState, xfileImage)),
+      onMobileImageUploaded: (xfileImage) => store.dispatch(ResizeQuestionWebImageAction(store.state.newQuestionPageState, xfileImage)),
     );
   }
 
   @override
   int get hashCode =>
-      isNew.hashCode ^
       onQuestionChanged.hashCode ^
       isRequiredChanged.hashCode ^
       onMultipleChoiceAdded.hashCode ^
@@ -150,13 +174,17 @@ class NewQuestionPageState{
       onNumberOfStarsChanged.hashCode ^
       onCheckBoxChoiceRemoved.hashCode ^
       onMultipleChoiceRemoved.hashCode ^
+      showImage.hashCode ^
+      webImage.hashCode ^
+      mobileImage.hashCode ^
+      onWebImageUploaded.hashCode ^
+      onMobileImageUploaded.hashCode ^
       question.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
           other is NewQuestionPageState &&
-              isNew == other.isNew &&
               onQuestionChanged == other.onQuestionChanged &&
               isRequiredChanged == other.isRequiredChanged &&
               onMultipleChoiceAdded == other.onMultipleChoiceAdded &&
@@ -173,5 +201,10 @@ class NewQuestionPageState{
               onNumberOfStarsChanged == other.onNumberOfStarsChanged &&
               onCheckBoxChoiceRemoved == other.onCheckBoxChoiceRemoved &&
               onMultipleChoiceRemoved == other.onMultipleChoiceRemoved &&
+              showImage == other.showImage &&
+              webImage == other.webImage &&
+              mobileImage == other.mobileImage &&
+              onWebImageUploaded == other.onWebImageUploaded &&
+              onMobileImageUploaded == other.onMobileImageUploaded &&
               question == other.question;
 }

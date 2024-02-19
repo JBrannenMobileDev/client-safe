@@ -70,7 +70,6 @@ import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPag
 import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPageActions.dart' as paymentLinks;
 import 'package:dandylight/pages/pose_group_page/PoseGroupActions.dart';
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageMiddleware.dart';
-import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
 import 'package:dandylight/pages/pose_library_group_page/LibraryPoseGroupActions.dart';
 import 'package:dandylight/pages/pose_library_group_page/LibraryPoseGroupPageMiddleware.dart';
 import 'package:dandylight/pages/poses_page/PosesActions.dart';
@@ -352,6 +351,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveQuestionnaireAction>(NewQuestionnairePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteQuestionnaireAction>(NewQuestionnairePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchProfileForNewQuestionnaireAction>(NewQuestionnairePageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, SaveQuestionAction>(NewQuestionPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, ResizeQuestionMobileImageAction>(NewQuestionPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, ResizeQuestionWebImageAction>(NewQuestionPageMiddleware()));
   return middlewareList;
 }

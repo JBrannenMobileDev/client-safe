@@ -1,4 +1,3 @@
-import 'package:dandylight/models/Questionnaire.dart';
 import 'package:redux/redux.dart';
 import 'NewQuestionnaireActions.dart';
 import 'NewQuestionnairePageState.dart';
@@ -9,7 +8,15 @@ final newQuestionnaireReducer = combineReducers<NewQuestionnairePageState>([
   TypedReducer<NewQuestionnairePageState, ClearNewQuestionnaireState>(_clearState),
   TypedReducer<NewQuestionnairePageState, SetProfileForNewQuestionnaireAction>(_setProfile),
   TypedReducer<NewQuestionnairePageState, SetMessageToClientAction>(_setMessage),
+  TypedReducer<NewQuestionnairePageState, OnAddOrUpdateQuestionSelected>(_addOrUpdateQuestion),
 ]);
+
+NewQuestionnairePageState _addOrUpdateQuestion(NewQuestionnairePageState previousState, OnAddOrUpdateQuestionSelected action){
+  action.pageState.questionnaire.questions.where((question) => question.id == action.question.id).isNotEmpty ? action.pageState.questionnaire.questions[action.pageState.questionnaire.questions.indexWhere((question) => question.id == action.question.id)] = action.question : null;
+  return previousState.copyWith(
+    questionnaire: action.pageState.questionnaire,
+  );
+}
 
 NewQuestionnairePageState _setMessage(NewQuestionnairePageState previousState, SetMessageToClientAction action){
   return previousState.copyWith(

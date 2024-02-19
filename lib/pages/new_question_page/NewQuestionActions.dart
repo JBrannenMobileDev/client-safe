@@ -1,10 +1,41 @@
+import 'package:image_picker/image_picker.dart';
+
 import '../../models/Question.dart';
 import 'NewQuestionPageState.dart';
+
+class ClearNewQuestionState {
+  final NewQuestionPageState pageState;
+  ClearNewQuestionState(this.pageState);
+}
 
 class SetQuestionAction{
   final NewQuestionPageState pageState;
   final Question question;
   SetQuestionAction(this.pageState, this.question);
+}
+
+class ResizeQuestionWebImageAction {
+  final NewQuestionPageState pageState;
+  final XFile image;
+  ResizeQuestionWebImageAction(this.pageState, this.image);
+}
+
+class ResizeQuestionMobileImageAction {
+  final NewQuestionPageState pageState;
+  final XFile image;
+  ResizeQuestionMobileImageAction(this.pageState, this.image);
+}
+
+class SetResizedQuestionWebImageAction {
+  final NewQuestionPageState pageState;
+  final XFile resizedImage;
+  SetResizedQuestionWebImageAction(this.pageState, this.resizedImage);
+}
+
+class SetResizedQuestionMobileImageAction {
+  final NewQuestionPageState pageState;
+  final XFile resizedImage;
+  SetResizedQuestionMobileImageAction(this.pageState, this.resizedImage);
 }
 
 class UpdateQuestionAction {

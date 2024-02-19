@@ -1,18 +1,17 @@
 import 'dart:convert';
 
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/data_layer/local_db/daos/ContractDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/QuestionnairesDao.dart';
 import 'package:dandylight/models/Profile.dart';
+import 'package:dandylight/models/Question.dart';
 import 'package:dandylight/models/Questionnaire.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:redux/redux.dart';
 
-import '../../models/Contract.dart';
+import '../../data_layer/repositories/FileStorage.dart';
 import '../../models/Job.dart';
-import '../../models/JobStage.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../job_details_page/JobDetailsActions.dart';
@@ -61,7 +60,15 @@ class NewQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId));
     }
 
-    await QuestionnairesDao.insertOrUpdate(questionnaire);
+    Questionnaire questionnaireWithDocumentId = await QuestionnairesDao.insertOrUpdate(questionnaire);
+
+    for(Question question in action.questions) {
+      if(question.showImage && question.webImage != null && question.mobileImage != null) {
+        FileStorage.saveQuestionWebImageFile(store.state.newQuestionPageState.webImage.path, questionnaireWithDocumentId, question.id, (taskSnapshot) => () => {});
+        FileStorage.saveQuestionMobileImageFile(store.state.newQuestionPageState.mobileImage.path, questionnaireWithDocumentId, question.id, (taskSnapshot) => () => {});
+      }
+    }
+
     store.dispatch(FetchQuestionnairesAction(store.state.questionnairesPageState));
 
     if(action.pageState.isNew) {

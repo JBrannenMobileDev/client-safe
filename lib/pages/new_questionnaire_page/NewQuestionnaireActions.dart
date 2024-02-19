@@ -47,6 +47,12 @@ class SetMessageToClientAction {
   SetMessageToClientAction(this.pageState, this.message);
 }
 
+class OnAddOrUpdateQuestionSelected {
+  final NewQuestionnairePageState pageState;
+  final Question question;
+  OnAddOrUpdateQuestionSelected(this.pageState, this.question);
+}
+
 class SetProfileForNewQuestionnaireAction {
   final NewQuestionnairePageState pageState;
   final Profile profile;
