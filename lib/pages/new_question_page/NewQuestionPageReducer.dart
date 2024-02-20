@@ -1,4 +1,5 @@
 import 'package:redux/redux.dart';
+import '../../utils/UUID.dart';
 import 'NewQuestionActions.dart';
 import 'NewQuestionPageState.dart';
 
@@ -23,22 +24,44 @@ final newQuestionReducer = combineReducers<NewQuestionPageState>([
   TypedReducer<NewQuestionPageState, UpdateNumOfStarsAction>(_setNumOfStars),
   TypedReducer<NewQuestionPageState, SetResizedQuestionWebImageAction>(_setResizedWebImage),
   TypedReducer<NewQuestionPageState, SetResizedQuestionMobileImageAction>(_setResizedMobileImage),
+  TypedReducer<NewQuestionPageState, SetNewTypeAction>(_setNewType),
+  TypedReducer<NewQuestionPageState, SetShowImageAction>(_setShowImage),
 ]);
 
+NewQuestionPageState _setShowImage(NewQuestionPageState previousState, SetShowImageAction action){
+  action.pageState.question.showImage = action.showImage;
+  return previousState.copyWith(
+    question: action.pageState.question,
+  );
+}
+
+NewQuestionPageState _setNewType(NewQuestionPageState previousState, SetNewTypeAction action){
+  action.pageState.question.type = action.newType;
+  return previousState.copyWith(
+    question: action.pageState.question,
+  );
+}
+
 NewQuestionPageState _setResizedWebImage(NewQuestionPageState previousState, SetResizedQuestionWebImageAction action){
+  action.pageState.question.webImage = action.resizedImage;
   return previousState.copyWith(
     webImage: action.resizedImage,
+    question: action.pageState.question,
   );
 }
 
 NewQuestionPageState _setResizedMobileImage(NewQuestionPageState previousState, SetResizedQuestionMobileImageAction action){
+  action.pageState.question.mobileImage = action.resizedImage;
   return previousState.copyWith(
     mobileImage: action.resizedImage,
+    question: action.pageState.question,
   );
 }
 
 NewQuestionPageState _clear(NewQuestionPageState previousState, ClearNewQuestionState action){
-  return NewQuestionPageState.initial();
+  NewQuestionPageState initialState = NewQuestionPageState.initial();
+  initialState.question.id = Uuid().generateV4();
+  return initialState;
 }
 
 NewQuestionPageState _setNumOfStars(NewQuestionPageState previousState, UpdateNumOfStarsAction action){
@@ -132,6 +155,7 @@ NewQuestionPageState _deleteMCChoice(NewQuestionPageState previousState, DeleteM
 }
 
 NewQuestionPageState _addCBChoice(NewQuestionPageState previousState, AddCheckboxChoicesAction action){
+  action.pageState.question.choicesCheckBoxes ??= [];
   action.pageState.question.choicesCheckBoxes.add(action.choice);
   return previousState.copyWith(
     question: action.pageState.question,

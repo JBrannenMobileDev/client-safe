@@ -64,8 +64,8 @@ class NewQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
 
     for(Question question in action.questions) {
       if(question.showImage && question.webImage != null && question.mobileImage != null) {
-        FileStorage.saveQuestionWebImageFile(store.state.newQuestionPageState.webImage.path, questionnaireWithDocumentId, question.id, (taskSnapshot) => () => {});
-        FileStorage.saveQuestionMobileImageFile(store.state.newQuestionPageState.mobileImage.path, questionnaireWithDocumentId, question.id, (taskSnapshot) => () => {});
+        await FileStorage.saveQuestionWebImageFile(store.state.newQuestionPageState.webImage.path, questionnaireWithDocumentId, question.id, (taskSnapshot) => () => {});
+        await FileStorage.saveQuestionMobileImageFile(store.state.newQuestionPageState.mobileImage.path, questionnaireWithDocumentId, question.id, (taskSnapshot) => () => {});
       }
     }
 

@@ -32,6 +32,18 @@ class SetResizedQuestionWebImageAction {
   SetResizedQuestionWebImageAction(this.pageState, this.resizedImage);
 }
 
+class SetNewTypeAction {
+  final NewQuestionPageState pageState;
+  final String newType;
+  SetNewTypeAction(this.pageState, this.newType);
+}
+
+class SetShowImageAction {
+  final NewQuestionPageState pageState;
+  final bool showImage;
+  SetShowImageAction(this.pageState, this.showImage);
+}
+
 class SetResizedQuestionMobileImageAction {
   final NewQuestionPageState pageState;
   final XFile resizedImage;

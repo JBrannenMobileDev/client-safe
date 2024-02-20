@@ -12,7 +12,8 @@ final newQuestionnaireReducer = combineReducers<NewQuestionnairePageState>([
 ]);
 
 NewQuestionnairePageState _addOrUpdateQuestion(NewQuestionnairePageState previousState, OnAddOrUpdateQuestionSelected action){
-  action.pageState.questionnaire.questions.where((question) => question.id == action.question.id).isNotEmpty ? action.pageState.questionnaire.questions[action.pageState.questionnaire.questions.indexWhere((question) => question.id == action.question.id)] = action.question : null;
+  action.pageState.questionnaire.questions.where((question) => question.id == action.question.id).isNotEmpty ? action.pageState.questionnaire.questions[action.pageState.questionnaire.questions.indexWhere((question) => question.id == action.question.id)] = action.question 
+      : action.pageState.questionnaire.questions.add(action.question);
   return previousState.copyWith(
     questionnaire: action.pageState.questionnaire,
   );

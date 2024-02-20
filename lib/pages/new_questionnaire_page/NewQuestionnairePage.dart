@@ -233,7 +233,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                               margin: const EdgeInsets.only(left: 20.0, right: 20.0),
                               child: ShareWithClientTextField(
                                 messageController,
-                                '',
+                                'Write a message here for the client explaining the purpose of the questionnaire.',
                                 TextInputType.multiline,
                                 116.0,
                                 pageState.onMessageChanged,
@@ -270,7 +270,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                                 key: Key(questions.elementAt(index).id.toString()),
                                 direction: DismissDirection.endToStart,
                                 background: Container(
-                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                  color: Color(ColorConstants.getPeachDark()),
                                   alignment: Alignment.centerRight,
                                   padding: const EdgeInsets.only(right: 16.0),
                                   child: const Icon(
@@ -292,7 +292,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                             },
                             onReorder: reorderData,
                           ) :
-                          pageState.questionnaire.questions.isEmpty ? Padding(
+                          pageState.questionnaire?.questions?.isEmpty ?? true ? Padding(
                             padding: const EdgeInsets.only(left: 64.0, top: 32.0, right: 64.0, bottom: 8),
                             child: TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
@@ -303,16 +303,16 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                           ) : const SizedBox(),
                           GestureDetector(
                             onTap: () {
-                              NavigationUtil.onNewQuestionSelected(context, null, pageState.onQuestionSaved, pageState.questionnaire?.questions?.length ?? 1);
+                              NavigationUtil.onNewQuestionSelected(context, null, pageState.onQuestionSaved, (pageState.questionnaire?.questions?.length ?? 0) +1);
                             },
                             child: Container(
                               alignment: Alignment.center,
                               height: 54,
-                              width: MediaQuery.of(context).size.width,
-                              margin: const EdgeInsets.only(left: 32, right: 32, bottom: 124),
+                              width: 264,
+                              margin: const EdgeInsets.only(bottom: 124),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(32),
-                                color: Color(ColorConstants.getBlueDark()),
+                                color: const Color(ColorConstants.grey_medium),
                               ),
                               child: TextDandyLight(
                                 type: TextDandyLight.LARGE_TEXT,
@@ -325,32 +325,63 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                         ],
                       ),
                     ),
-                    Container(
-                      height: MediaQuery.of(context).size.height,
-                      alignment: Alignment.bottomCenter,
-                      child: GestureDetector(
-                        onTap: () {
-                          pageState.onQuestionnaireSaved(jobDocumentId, questions);
-                          showSuccessAnimation();
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                          height: 54,
-                          width: MediaQuery.of(context).size.width,
-                          margin: const EdgeInsets.only(left: 32, right: 32, bottom: 32),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(32),
-                            color: Color(ColorConstants.getPeachDark()),
-                            boxShadow: ElevationToShadow[4],
-                          ),
-                          child: TextDandyLight(
-                            type: TextDandyLight.LARGE_TEXT,
-                            text: 'Save changes',
-                            textAlign: TextAlign.center,
-                            color: Color(ColorConstants.getPrimaryWhite()),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height,
+                          alignment: Alignment.bottomCenter,
+                          child: GestureDetector(
+                            onTap: () {
+
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: 54,
+                              width: MediaQuery.of(context).size.width/2.25,
+                              margin: const EdgeInsets.only(bottom: 32),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(32),
+                                color: Color(ColorConstants.getPeachDark()),
+                                boxShadow: ElevationToShadow[4],
+                              ),
+                              child: TextDandyLight(
+                                type: TextDandyLight.LARGE_TEXT,
+                                text: 'Preview',
+                                textAlign: TextAlign.center,
+                                color: Color(ColorConstants.getPrimaryWhite()),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        Container(
+                          height: MediaQuery.of(context).size.height,
+                          alignment: Alignment.bottomCenter,
+                          child: GestureDetector(
+                            onTap: () {
+                              pageState.onQuestionnaireSaved(jobDocumentId, questions);
+                              showSuccessAnimation();
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: 54,
+                              width: MediaQuery.of(context).size.width/2.25,
+                              margin: const EdgeInsets.only(bottom: 32),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(32),
+                                color: Color(ColorConstants.getPeachDark()),
+                                boxShadow: ElevationToShadow[4],
+                              ),
+                              child: TextDandyLight(
+                                type: TextDandyLight.LARGE_TEXT,
+                                text: 'Save changes',
+                                textAlign: TextAlign.center,
+                                color: Color(ColorConstants.getPrimaryWhite()),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

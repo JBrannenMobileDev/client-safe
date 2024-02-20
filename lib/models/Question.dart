@@ -1,7 +1,6 @@
 
 import 'package:dandylight/pages/common_widgets/TextFieldDandylight.dart';
 import 'package:dandylight/utils/UUID.dart';
-import 'package:dandylight/widgets/TextDandyLight.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -16,6 +15,21 @@ class Question {
   static const String TYPE_NUMBER = 'Number';
   static const String TYPE_YES_NO = 'Yes/No';
   static const String TYPE_CHECK_BOXES = 'Checkboxes';
+
+  static List<String> allTypes() {
+    return [
+      TYPE_SHORT_FORM_RESPONSE,
+      TYPE_LONG_FORM_RESPONSE,
+      TYPE_CONTACT_INFO,
+      TYPE_CHECK_BOXES,
+      TYPE_NUMBER,
+      TYPE_YES_NO,
+      TYPE_RATING,
+      TYPE_MULTIPLE_CHOICE,
+      TYPE_DATE,
+      TYPE_ADDRESS,
+    ];
+  }
 
   String id;
   String type;
@@ -90,30 +104,30 @@ class Question {
     this.question,
     this.webImageUrl,
     this.mobileImageUrl,
-    this.showImage,
-    this.isRequired,
-    this.isAnswered,
+    this.showImage = true,
+    this.isRequired = true,
+    this.isAnswered = false,
     this.mobileImage,
     this.webImage,
 
     this.choicesMultipleChoice,
     this.answerMultipleChoice,
-    this.includeOtherMultipleChoice,
+    this.includeOtherMultipleChoice = false,
 
     this.choicesCheckBoxes,
     this.answersCheckBoxes,
-    this.includeOtherCheckBoxes,
+    this.includeOtherCheckBoxes = false,
 
     this.firstName,
     this.lastName,
     this.phone,
     this.email,
     this.instagramName,
-    this.includeFirstName,
-    this.includeLastName,
-    this.includePhone,
-    this.includeEmail,
-    this.includeInstagramName,
+    this.includeFirstName = true,
+    this.includeLastName = true,
+    this.includePhone = true,
+    this.includeEmail = true,
+    this.includeInstagramName = true,
 
     this.address,
     this.addressLine2,

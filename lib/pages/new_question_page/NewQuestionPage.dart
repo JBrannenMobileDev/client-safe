@@ -3,9 +3,12 @@ import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Question.dart';
+import 'package:dandylight/pages/new_question_page/AddCheckboxOptionBottomSheet.dart';
+import 'package:dandylight/pages/new_questionnaire_page/NewQuestionListWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -20,9 +23,9 @@ import '../../utils/Shadows.dart';
 import '../../utils/styles/Styles.dart';
 import '../../widgets/DandyLightNetworkImage.dart';
 import '../../widgets/TextDandyLight.dart';
-import '../common_widgets/TextFieldDandylight.dart';
 import 'NewQuestionActions.dart';
 import 'NewQuestionPageState.dart';
+import 'TypeSelectionBottomSheet.dart';
 
 class NewQuestionPage extends StatefulWidget {
   final Question question;
@@ -48,8 +51,8 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
   final messageController = TextEditingController();
   final FocusNode _messageFocusNode = FocusNode();
 
-  TextEditingController shortFormQuestionTextController = TextEditingController();
-  final FocusNode shortFormQuestionFocusNode = FocusNode();
+  TextEditingController questionTextController = TextEditingController();
+  final FocusNode questionFocusNode = FocusNode();
 
   List<Question> questions = [];
 
@@ -72,6 +75,10 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
           store.dispatch(ClearNewQuestionState(store.state.newQuestionPageState));
           if(question != null) {
             store.dispatch(SetQuestionAction(store.state.newQuestionPageState, question));
+
+            if(question.question != null && question.question.isNotEmpty) {
+              questionTextController.text = question.question;
+            }
           }
 
           KeyboardVisibilityNotification().addNewListener(
@@ -163,10 +170,12 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
+                          selectedTypeView(pageState),
+                          showImageSwitch(pageState),
+                          isRequiredSwitch(pageState),
+                          pageState.question.type == Question.TYPE_CONTACT_INFO ? contactInfoSettings(pageState) : const SizedBox(),
                           exampleQuestionView(pageState),
-                          ShowImageSwitch(),
-                          SelectedTypeView(),
-                          SettingsView(),
+                          settingsView(),
                         ],
                       ),
                     ),
@@ -190,7 +199,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                           ),
                           child: TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
-                            text: 'Add to questionnaire',
+                            text: question == null ? 'Add to questionnaire' : 'Save changes',
                             textAlign: TextAlign.center,
                             color: Color(ColorConstants.getPrimaryWhite()),
                           ),
@@ -253,138 +262,293 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
   }
 
   Widget exampleQuestionView(NewQuestionPageState pageState) {
-    return Stack(
+    return Container(
+      margin: const EdgeInsets.only(top: 32),
+      child: Stack(
         alignment: Alignment.topCenter,
         children: [
           Container(
-            margin: const EdgeInsets.only(left: 24, right: 24, top: 180),
+            margin: EdgeInsets.only(left: 24, right: 24, top: (pageState.question.showImage ? 240 : 16), bottom: 164),
             decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                bottomRight: Radius.circular(16),
-                bottomLeft: Radius.circular(16),
+              borderRadius: BorderRadius.only(
+                bottomRight: const Radius.circular(16),
+                bottomLeft: const Radius.circular(16),
+                topRight: Radius.circular(pageState.question.showImage ? 0 : 16),
+                topLeft: Radius.circular(pageState.question.showImage ? 0 : 16),
               ),
               color: Color(ColorConstants.getPrimaryWhite()),
             ),
             child: buildQuestion(pageState),
           ),
-          GestureDetector(
-          onTap: () {
-            getDeviceImage(pageState);
-          },
-          child: pageState.webImage != null ? Container(
-            margin: const EdgeInsets.only(left: 24, right: 24, top: 16),
-            height: 164,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(
+          pageState.question.showImage ? GestureDetector(
+            onTap: () {
+              getDeviceImage(pageState);
+            },
+            child: pageState.webImage != null ? Container(
+              margin: const EdgeInsets.only(left: 24, right: 24, top: 16),
+              height: 224,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(16),
                   topLeft: Radius.circular(16),
-              ),
-              child: Image(
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: 164,
-                image: FileImage(File(pageState.webImage.path)),
-              ),
-            ),
-          ): pageState.question.webImageUrl != null ? Container(
-            margin: const EdgeInsets.only(left: 24, right: 24, top: 16),
-            height: 164,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(16),
-                topLeft: Radius.circular(16),
-              ),
-              child: DandyLightNetworkImage(
-                pageState.question.webImageUrl,
-                color: Color(ColorConstants.getPrimaryWhite()),
-                borderRadius: 0,
-              ),
-            ),
-          ) : Container(
-            margin: const EdgeInsets.only(left: 24, right: 24, top: 16),
-            alignment: Alignment.center,
-            height: 164,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Color(ColorConstants.getPrimaryWhite()),
-              borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(16),
-                  topLeft: Radius.circular(16),
-              ),
-            ),
-          ),
-          ),
-              GestureDetector(
-              onTap: () {
-                getDeviceImage(pageState);
-              },
-              child: pageState.webImage == null && pageState.question.webImageUrl == null ? Container(
-                  alignment: Alignment.center,
-                  height: 164,
-                  margin: const EdgeInsets.only(left: 24, right: 24, top: 16),
+                ),
+                child: Image(
+                  fit: BoxFit.cover,
                   width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Color(ColorConstants.getBlueDark()),
-                    borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(16),
-                      topLeft: Radius.circular(16),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Image.asset(
-                        'assets/images/icons/file_upload.png',
-                        color: Color(ColorConstants.getPrimaryWhite()),
-                        width: 48,
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 8),
-                        alignment: Alignment.center,
-                        child: TextDandyLight(
-                          type: TextDandyLight.LARGE_TEXT,
-                          textAlign: TextAlign.center,
-                          text: 'Upload Image',
-                          color: Color(ColorConstants.getPrimaryWhite()),
-                        ),
-                      ),
-                    ],
-                  ),
-                ) : const SizedBox(),
+                  height: 224,
+                  image: FileImage(File(pageState.webImage.path)),
+                ),
               ),
-          (pageState.webImage != null || pageState.question.webImageUrl != null && pageState.question.webImageUrl.isNotEmpty) ? Container(
-            alignment: Alignment.topRight,
-            width: double.infinity,
-            padding: const EdgeInsets.only(top: 32, right: 42),
-            child: Image.asset(
-              'assets/images/icons/select_photo.png',
-              color: Color(ColorConstants.getPrimaryWhite()),
-              width: 32,
+            ): pageState.question.webImageUrl != null ? Container(
+              margin: const EdgeInsets.only(left: 24, right: 24, top: 16),
+              height: 224,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(16),
+                  topLeft: Radius.circular(16),
+                ),
+                child: DandyLightNetworkImage(
+                  pageState.question.webImageUrl,
+                  color: Color(ColorConstants.getPrimaryWhite()),
+                  borderRadius: 0,
+                ),
+              ),
+            ) : Container(
+              margin: const EdgeInsets.only(left: 24, right: 24, top: 16),
+              alignment: Alignment.center,
+              height: 224,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Color(ColorConstants.getPrimaryWhite()),
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(16),
+                  topLeft: Radius.circular(16),
+                ),
+              ),
             ),
           ) : const SizedBox(),
+          pageState.question.showImage ? GestureDetector(
+            onTap: () {
+              getDeviceImage(pageState);
+            },
+            child: pageState.webImage == null && pageState.question.webImageUrl == null ? Container(
+              alignment: Alignment.center,
+              height: 224,
+              margin: const EdgeInsets.only(left: 24, right: 24, top: 16),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Color(ColorConstants.getBlueDark()),
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(16),
+                  topLeft: Radius.circular(16),
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Image.asset(
+                    'assets/images/icons/file_upload.png',
+                    color: Color(ColorConstants.getPrimaryWhite()),
+                    width: 48,
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 8),
+                    alignment: Alignment.center,
+                    child: TextDandyLight(
+                      type: TextDandyLight.LARGE_TEXT,
+                      textAlign: TextAlign.center,
+                      text: 'Upload Image',
+                      color: Color(ColorConstants.getPrimaryWhite()),
+                    ),
+                  ),
+                ],
+              ),
+            ) : const SizedBox(),
+          ) : const SizedBox(),
+          pageState.question.showImage ? (pageState.webImage != null || pageState.question.webImageUrl != null && pageState.question.webImageUrl.isNotEmpty) ?
+          GestureDetector(
+            onTap: () {
+              getDeviceImage(pageState);
+            },
+            child: Container(
+              alignment: Alignment.topRight,
+              width: double.infinity,
+              padding: const EdgeInsets.only(top: 32, right: 42),
+              child: Image.asset(
+                'assets/images/icons/select_photo.png',
+                color: Color(ColorConstants.getPrimaryWhite()),
+                width: 32,
+              ),
+            ),
+          ) : const SizedBox() : const SizedBox(),
         ],
+      ),
     );
   }
 
-  Widget ShowImageSwitch() {
-    return const SizedBox();
+  Widget showImageSwitch(NewQuestionPageState pageState) {
+    return Container(
+      margin: const EdgeInsets.only(left: 24, right: 20, top: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TextDandyLight(
+            type: TextDandyLight.MEDIUM_TEXT,
+            text: 'Show Image:',
+            color: Color(ColorConstants.getPrimaryBlack()),
+          ),
+          Device.get().isIos?
+          CupertinoSwitch(
+            trackColor: Color(ColorConstants.getPeachDark()),
+            activeColor: Color(ColorConstants.getBlueDark()),
+            thumbColor: Color(ColorConstants.getPrimaryWhite()),
+            onChanged: (showImage) async {
+              pageState.onShowImageChanged(showImage);
+            },
+            value: pageState.question.showImage,
+          ) : Switch(
+            activeTrackColor: Color(ColorConstants.getBlueDark()),
+            inactiveTrackColor: Color(ColorConstants.getPeachDark()),
+            inactiveThumbColor: Color(ColorConstants.getPrimaryWhite()),
+            activeColor: Color(ColorConstants.getPrimaryWhite()),
+            onChanged: (showImage) async {
+              pageState.onShowImageChanged(showImage);
+            },
+            value: pageState.question.showImage,
+          ),
+        ],
+      ),
+    );
+  }
+  Widget isRequiredSwitch(NewQuestionPageState pageState) {
+    return Container(
+      margin: const EdgeInsets.only(left: 24, right: 20, top: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TextDandyLight(
+            type: TextDandyLight.MEDIUM_TEXT,
+            text: 'Is Required:',
+            color: Color(ColorConstants.getPrimaryBlack()),
+          ),
+          Device.get().isIos?
+          CupertinoSwitch(
+            trackColor: Color(ColorConstants.getPeachDark()),
+            activeColor: Color(ColorConstants.getBlueDark()),
+            thumbColor: Color(ColorConstants.getPrimaryWhite()),
+            onChanged: (required) async {
+              pageState.isRequiredChanged(required);
+            },
+            value: pageState.question.isRequired,
+          ) : Switch(
+            activeTrackColor: Color(ColorConstants.getBlueDark()),
+            inactiveTrackColor: Color(ColorConstants.getPeachDark()),
+            inactiveThumbColor: Color(ColorConstants.getPrimaryWhite()),
+            activeColor: Color(ColorConstants.getPrimaryWhite()),
+            onChanged: (required) async {
+              pageState.isRequiredChanged(required);
+            },
+            value: pageState.question.isRequired,
+          ),
+        ],
+      ),
+    );
   }
 
-  Widget SelectedTypeView() {
-    return const SizedBox();
+  void showTypeSelectionBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return const TypeSelectionBottomSheet();
+      },
+    );
   }
 
-  Widget SettingsView() {
+  void showAddCheckboxChoiceBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return const AddCheckboxOptionBottomSheet();
+      },
+    );
+  }
+
+  Widget selectedTypeView(NewQuestionPageState pageState) {
+    return Container(
+      margin: const EdgeInsets.only(left: 24, right: 24, top: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TextDandyLight(
+            type: TextDandyLight.MEDIUM_TEXT,
+            text: 'Type:',
+            color: Color(ColorConstants.getPrimaryBlack()),
+          ),
+          GestureDetector(
+            onTap: () {
+              showTypeSelectionBottomSheet(context);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(26),
+                  color: Color(ColorConstants.getPrimaryWhite())
+              ),
+              child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      margin: const EdgeInsets.only(right: 16, left: 8),
+                      height: 44,
+                      width: 44,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(26), bottomLeft: Radius.circular(26)),
+                      ),
+                      child: NewQuestionListWidget.getIconFromType(pageState.question.type),
+                    ),
+                    TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: pageState.question.type,
+                      color: Color(ColorConstants.getBlueDark()),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(left: 16),
+                      width: 48,
+                      child: Icon(
+                        Icons.keyboard_arrow_down,
+                        color: Color(ColorConstants.getPrimaryGreyMedium()),
+                        size: 32,
+                      ),
+                    ),
+                  ]
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget settingsView() {
     return const SizedBox();
   }
 
   Future getDeviceImage(NewQuestionPageState pageState) async {
     try {
       XFile localImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-      XFile localWebImage = XFile((await CropImageForWeb(localImage.path)).path);
-      XFile localMobileImage = XFile((await CropImageForMobile(localImage.path)).path);
+      XFile localWebImage = XFile((await cropImageForWeb(localImage.path)).path);
+      XFile localMobileImage = XFile((await cropImageForMobile(localImage.path)).path);
 
       if(localWebImage != null && localMobileImage != null && localImage != null) {
         pageState.onWebImageUploaded(localWebImage);
@@ -393,17 +557,19 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
         DandyToastUtil.showErrorToast('Image not loaded');
       }
     } catch (ex) {
-      print(ex.toString());
+      if (kDebugMode) {
+        print(ex.toString());
+      }
       DandyToastUtil.showErrorToast('Image not loaded');
     }
   }
 
-  Future<CroppedFile> CropImageForWeb(String path) async {
+  Future<CroppedFile> cropImageForWeb(String path) async {
     return await ImageCropper().cropImage(
       sourcePath: path,
       maxWidth: 1920,
       maxHeight: 664,
-      aspectRatio: const CropAspectRatio(ratioX: 3.8, ratioY: 1),
+      aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1.33),
       cropStyle: CropStyle.rectangle,
       uiSettings: [
         AndroidUiSettings(
@@ -421,7 +587,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
     );
   }
 
-  Future<CroppedFile> CropImageForMobile(String path) async {
+  Future<CroppedFile> cropImageForMobile(String path) async {
     return await ImageCropper().cropImage(
       sourcePath: path,
       maxWidth: 1080,
@@ -448,8 +614,152 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
     Widget result = const SizedBox();
 
     switch(pageState.question.type) {
-      case Question.TYPE_SHORT_FORM_RESPONSE:
+      case Question.TYPE_CHECK_BOXES:
         result = Container(
+          margin: const EdgeInsets.only(top: 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(left: 16, top: 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: '$number.  ',
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width - 86,
+                      child: TextFormField(
+                        cursorColor: Color(ColorConstants.getBlueDark()),
+                        focusNode: questionFocusNode,
+                        textInputAction: TextInputAction.done,
+                        maxLines: 3,
+                        controller: questionTextController,
+                        onChanged: (text) {
+                          pageState.onQuestionChanged(text);
+                        },
+                        onFieldSubmitted: (term) {
+                          questionFocusNode.unfocus();
+                        },
+                        decoration: InputDecoration.collapsed(
+                          hintText: 'Your question here.',
+                          fillColor: Color(ColorConstants.getPrimaryWhite()),
+                          hintStyle: TextStyle(
+                            fontFamily: TextDandyLight.getFontFamily(),
+                            fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                            fontWeight: TextDandyLight.getFontWeight(),
+                            color: Color(ColorConstants.getPrimaryGreyMedium()),
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                        keyboardType: TextInputType.multiline,
+                        textCapitalization: TextCapitalization.sentences,
+                        style: TextStyle(
+                            fontFamily: TextDandyLight.getFontFamily(),
+                            fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                            fontWeight: TextDandyLight.getFontWeight(),
+                            color: Color(ColorConstants.getPrimaryBlack())),
+                        textAlignVertical: TextAlignVertical.center,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              buildCheckboxOptions(pageState),
+              GestureDetector(
+                onTap: () {
+                  showAddCheckboxChoiceBottomSheet(context);
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  alignment: Alignment.center,
+                  height: 48,
+                  width: 164,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(26),
+                      color: Color(ColorConstants.getBlueDark())
+                  ),
+                  child: TextDandyLight(
+                    type: TextDandyLight.LARGE_TEXT,
+                    text: 'Add choice',
+                    color: Color(ColorConstants.getPrimaryWhite()),
+                  ),
+                ),
+              )
+            ],
+          ),
+        );
+        break;
+      case Question.TYPE_CONTACT_INFO:
+        result = Container(
+          margin: const EdgeInsets.only(top: 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(left: 16, top: 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: '$number.  ',
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width - 86,
+                      child: TextFormField(
+                        cursorColor: Color(ColorConstants.getBlueDark()),
+                        focusNode: questionFocusNode,
+                        textInputAction: TextInputAction.done,
+                        maxLines: 3,
+                        controller: questionTextController,
+                        onChanged: (text) {
+                          pageState.onQuestionChanged(text);
+                        },
+                        onFieldSubmitted: (term) {
+                          questionFocusNode.unfocus();
+                        },
+                        decoration: InputDecoration.collapsed(
+                          hintText: 'Your question here.',
+                          fillColor: Color(ColorConstants.getPrimaryWhite()),
+                          hintStyle: TextStyle(
+                            fontFamily: TextDandyLight.getFontFamily(),
+                            fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                            fontWeight: TextDandyLight.getFontWeight(),
+                            color: Color(ColorConstants.getPrimaryGreyMedium()),
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                        keyboardType: TextInputType.multiline,
+                        textCapitalization: TextCapitalization.sentences,
+                        style: TextStyle(
+                            fontFamily: TextDandyLight.getFontFamily(),
+                            fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                            fontWeight: TextDandyLight.getFontWeight(),
+                            color: Color(ColorConstants.getPrimaryBlack())),
+                        textAlignVertical: TextAlignVertical.center,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              pageState.question.includeFirstName ? contactItem('First name', 'Jane') : const SizedBox(),
+              pageState.question.includeLastName ? contactItem('Last name', 'Smith') : const SizedBox(),
+              pageState.question.includePhone ? contactItem('Phone number', '(888)-888-8888') : const SizedBox(),
+              pageState.question.includeEmail ? contactItem('Email', 'name@example.com') : const SizedBox(),
+              pageState.question.includeInstagramName ? contactItem('Instagram name', 'yourInstagramNameHere') : const SizedBox(),
+            ],
+          ),
+        );
+        break;
+      case Question.TYPE_SHORT_FORM_RESPONSE:
+      case Question.TYPE_LONG_FORM_RESPONSE:
+        result = Container(
+          height: 432,
           margin: const EdgeInsets.only(top: 16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -462,21 +772,21 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                     children: [
                       TextDandyLight(
                           type: TextDandyLight.MEDIUM_TEXT,
-                          text: '${number+1}.  ',
+                          text: '$number.  ',
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width - 86,
                         child: TextFormField(
                           cursorColor: Color(ColorConstants.getBlueDark()),
-                          focusNode: shortFormQuestionFocusNode,
+                          focusNode: questionFocusNode,
                           textInputAction: TextInputAction.done,
                           maxLines: 3,
-                          controller: shortFormQuestionTextController,
+                          controller: questionTextController,
                           onChanged: (text) {
                             pageState.onQuestionChanged(text);
                           },
                           onFieldSubmitted: (term) {
-                            shortFormQuestionFocusNode.unfocus();
+                            questionFocusNode.unfocus();
                           },
                           decoration: InputDecoration.collapsed(
                             hintText: 'Your question here.',
@@ -522,7 +832,177 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
         );
         break;
     }
+    return result;
+  }
 
+  Widget contactInfoSettings(NewQuestionPageState pageState) {
+    return Container(
+      margin: const EdgeInsets.only(left: 24),
+      alignment: Alignment.center,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(top: 16),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'First name',
+                    color: Color(ColorConstants.getPrimaryBlack()),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      pageState.onIncludeFirstNameChanged(!pageState.question.includeFirstName);
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 24),
+                      child: Icon(pageState.question.includeFirstName ?? true ? Icons.visibility : Icons.visibility_off, color: Color(ColorConstants.getPrimaryBlack())),
+                    ),
+                  ),
+                ]
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 20),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Last name',
+                    color: Color(ColorConstants.getPrimaryBlack()),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      pageState.onIncludeLastNameChanged(!pageState.question.includeLastName);
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 24),
+                      child: Icon(pageState.question.includeLastName ?? true ? Icons.visibility : Icons.visibility_off, color: Color(ColorConstants.getPrimaryBlack())),
+                    ),
+                  ),
+                ]
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 20),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Phone number',
+                    color: Color(ColorConstants.getPrimaryBlack()),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      pageState.onIncludePhoneChanged(!pageState.question.includePhone);
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 24),
+                      child: Icon(pageState.question.includePhone ?? true ? Icons.visibility : Icons.visibility_off, color: Color(ColorConstants.getPrimaryBlack())),
+                    ),
+                  ),
+                ]
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 20),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Email',
+                    color: Color(ColorConstants.getPrimaryBlack()),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      pageState.onIncludeEmailChanged(!pageState.question.includeEmail);
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 24),
+                      child: Icon(pageState.question.includeEmail ?? true ? Icons.visibility : Icons.visibility_off, color: Color(ColorConstants.getPrimaryBlack())),
+                    ),
+                  ),
+                ]
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 20),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'InstagramName',
+                    color: Color(ColorConstants.getPrimaryBlack()),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      pageState.onIncludeInstagramNameChanged(!pageState.question.includeInstagramName);
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 24),
+                      child: Icon(pageState.question.includeInstagramName ?? true ? Icons.visibility : Icons.visibility_off, color: Color(ColorConstants.getPrimaryBlack())),
+                    ),
+                  ),
+                ]
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget contactItem(String title, String hint) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          margin: const EdgeInsets.only(left: 38, bottom: 8),
+          alignment: Alignment.topLeft,
+          child: TextDandyLight(
+            type: TextDandyLight.MEDIUM_TEXT,
+            text: title,
+            color: Color(ColorConstants.getBlueDark()),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(left: 38),
+          alignment: Alignment.topLeft,
+          child: TextDandyLight(
+            type: TextDandyLight.LARGE_TEXT,
+            text: hint,
+            color: Color(ColorConstants.getBlueLight()),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(left: 38, right: 32, bottom: 64),
+          height: 1,
+          width: MediaQuery.of(context).size.width,
+          color: Color(ColorConstants.getBlueDark()),
+        ),
+      ],
+    );
+  }
+
+  Widget buildCheckboxOptions(NewQuestionPageState pageState) {
+    Widget result = ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: pageState.question.choicesCheckBoxes?.length ?? 0,
+      itemBuilder: (BuildContext context, int index) {
+        return pageState.question.choicesCheckBoxes != null && pageState.question.choicesCheckBoxes.isNotEmpty ? ListTile(
+          title: Text(pageState.question.choicesCheckBoxes[index]),
+          leading: Image.asset('assets/images/icons/checkbox.png', color: Color(ColorConstants.getPeachDark()), height: 28, width: 28),
+          trailing: Icon(Icons.delete, color: Color(ColorConstants.getPrimaryGreyMedium()), size: 28)
+        ) : const SizedBox();
+      },
+    );
     return result;
   }
 }

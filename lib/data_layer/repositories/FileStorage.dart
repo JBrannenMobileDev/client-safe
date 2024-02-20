@@ -591,7 +591,7 @@ class FileStorage {
 
     if(imagePathLarge != null) {
       final uploadTaskLarge = storageRef
-          .child(_buildQuestionWebImagePath(imagePathLarge))
+          .child(_buildQuestionWebImagePath(questionId))
           .putFile(File(imagePathLarge));
 
       uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
@@ -623,7 +623,7 @@ class FileStorage {
 
     if(imagePathLarge != null) {
       final uploadTaskLarge = storageRef
-          .child(_buildQuestionMobileImagePath(imagePathLarge))
+          .child(_buildQuestionMobileImagePath(questionId))
           .putFile(File(imagePathLarge));
 
       uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
@@ -700,13 +700,13 @@ class FileStorage {
 
   static _fetchAndSaveQuestionWebImageDownloadUrlLarge(String imagePathLarge, Questionnaire questionnaire, String questionId) async {
     final storageRef = FirebaseStorage.instance.ref();
-    final cloudFilePath = storageRef.child(_buildQuestionWebImagePath(imagePathLarge));
+    final cloudFilePath = storageRef.child(_buildQuestionWebImagePath(questionId));
     await _updateQuestionWebImageUrlLarge(questionnaire, questionId, await cloudFilePath.getDownloadURL());
   }
 
   static _fetchAndSaveQuestionMobileImageDownloadUrlLarge(String imagePathLarge, Questionnaire questionnaire, String questionId) async {
     final storageRef = FirebaseStorage.instance.ref();
-    final cloudFilePath = storageRef.child(_buildQuestionMobileImagePath(imagePathLarge));
+    final cloudFilePath = storageRef.child(_buildQuestionMobileImagePath(questionId));
     await _updateQuestionMobileImageUrlLarge(questionnaire, questionId, await cloudFilePath.getDownloadURL());
   }
 
@@ -774,8 +774,8 @@ class FileStorage {
     return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/profile/${localImagePath}previewBannerWebImage.jpg";
   }
 
-  static String _buildQuestionWebImagePath(String localImagePath) {
-    return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/questions/${localImagePath}questionWebImage.jpg";
+  static String _buildQuestionWebImagePath(String questionId) {
+    return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/questions/${questionId}questionWebImage.jpg";
   }
 
   static String _buildExampleBannerWebImagePath() {
@@ -790,8 +790,8 @@ class FileStorage {
     return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/profile/${localImagePath}previewBannerMobileImage.jpg";
   }
 
-  static String _buildQuestionMobileImagePath(String localImagePath) {
-    return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/questions/${localImagePath}questionMobileImage.jpg";
+  static String _buildQuestionMobileImagePath(String questionId) {
+    return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/questions/${questionId}questionMobileImage.jpg";
   }
 
   static String _buildPoseLibraryImagePathSmall(Pose pose) {

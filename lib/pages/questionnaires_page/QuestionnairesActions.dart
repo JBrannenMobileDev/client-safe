@@ -21,3 +21,8 @@ class SaveQuestionnaireToJobAction {
   SaveQuestionnaireToJobAction(this.pageState, this.questionnaire, this.jobDocumentId);
 }
 
+class CancelSubscriptionsAction {
+  final QuestionnairesPageState pageState;
+  CancelSubscriptionsAction(this.pageState);
+}
+

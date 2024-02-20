@@ -348,6 +348,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveContractToJobAction>(ContractsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchQuestionnairesAction>(QuestionnairesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveQuestionnaireToJobAction>(QuestionnairesPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, CancelSubscriptionsAction>(QuestionnairesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveQuestionnaireAction>(NewQuestionnairePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteQuestionnaireAction>(NewQuestionnairePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchProfileForNewQuestionnaireAction>(NewQuestionnairePageMiddleware()));

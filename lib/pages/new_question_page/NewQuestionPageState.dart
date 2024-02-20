@@ -7,7 +7,6 @@ import 'NewQuestionActions.dart';
 
 class NewQuestionPageState{
   final Question question;
-  final bool showImage;
   final XFile webImage;
   final XFile mobileImage;
   final Function(String) onQuestionChanged;
@@ -28,6 +27,8 @@ class NewQuestionPageState{
   final Function(int) onNumberOfStarsChanged;
   final Function(XFile) onWebImageUploaded;
   final Function(XFile) onMobileImageUploaded;
+  final Function(String) onTypeChanged;
+  final Function(bool) onShowImageChanged;
 
   NewQuestionPageState({
     @required this.question,
@@ -47,16 +48,16 @@ class NewQuestionPageState{
     @required this.onNumberOfStarsChanged,
     @required this.onCheckBoxChoiceRemoved,
     @required this.onMultipleChoiceRemoved,
-    @required this.showImage,
     @required this.webImage,
     @required this.mobileImage,
     @required this.onWebImageUploaded,
     @required this.onMobileImageUploaded,
+    @required this.onTypeChanged,
+    @required this.onShowImageChanged,
   });
 
   NewQuestionPageState copyWith({
     Question question,
-    bool showImage,
     XFile webImage,
     XFile mobileImage,
     Function(String) onQuestionChanged,
@@ -77,6 +78,8 @@ class NewQuestionPageState{
     Function(int) onNumberOfStarsChanged,
     Function(XFile) onWebImageUploaded,
     Function(XFile) onMobileImageUploaded,
+    Function(String) onTypeChanged,
+    Function(bool) onShowImageChanged,
   }){
     return NewQuestionPageState(
       question: question ?? this.question,
@@ -96,11 +99,12 @@ class NewQuestionPageState{
       onNumberOfStarsChanged: onNumberOfStarsChanged ?? this.onNumberOfStarsChanged,
       onCheckBoxChoiceRemoved: onCheckBoxChoiceRemoved ?? this.onCheckBoxChoiceRemoved,
       onMultipleChoiceRemoved: onMultipleChoiceRemoved ?? this.onMultipleChoiceRemoved,
-      showImage: showImage ?? this.showImage,
       webImage: webImage ?? this.webImage,
       mobileImage: mobileImage ?? this.mobileImage,
       onWebImageUploaded: onWebImageUploaded ?? this.onWebImageUploaded,
       onMobileImageUploaded: onMobileImageUploaded ?? this.onMobileImageUploaded,
+      onTypeChanged: onTypeChanged ?? this.onTypeChanged,
+      onShowImageChanged: onShowImageChanged ?? this.onShowImageChanged,
     );
   }
 
@@ -122,17 +126,17 @@ class NewQuestionPageState{
     onNumberOfStarsChanged: null,
     onCheckBoxChoiceRemoved: null,
     onMultipleChoiceRemoved: null,
-    showImage: false,
     webImage: null,
     mobileImage: null,
     onWebImageUploaded: null,
     onMobileImageUploaded: null,
+    onTypeChanged: null,
+    onShowImageChanged: null,
   );
 
   factory NewQuestionPageState.fromStore(Store<AppState> store) {
     return NewQuestionPageState(
       question: store.state.newQuestionPageState.question,
-      showImage: store.state.newQuestionPageState.showImage,
       webImage: store.state.newQuestionPageState.webImage,
       mobileImage: store.state.newQuestionPageState.mobileImage,
       onQuestionChanged: (question) => store.dispatch(UpdateQuestionAction(store.state.newQuestionPageState, question)),
@@ -152,7 +156,9 @@ class NewQuestionPageState{
       onLongFormHintChanged: (hintMessage) => store.dispatch(UpdateLongHintAction(store.state.newQuestionPageState, hintMessage)),
       onNumberOfStarsChanged: (numOfStars) => store.dispatch(UpdateNumOfStarsAction(store.state.newQuestionPageState, numOfStars)),
       onWebImageUploaded: (xfileImage) => store.dispatch(ResizeQuestionWebImageAction(store.state.newQuestionPageState, xfileImage)),
-      onMobileImageUploaded: (xfileImage) => store.dispatch(ResizeQuestionWebImageAction(store.state.newQuestionPageState, xfileImage)),
+      onMobileImageUploaded: (xfileImage) => store.dispatch(ResizeQuestionMobileImageAction(store.state.newQuestionPageState, xfileImage)),
+      onTypeChanged: (newType) => store.dispatch(SetNewTypeAction(store.state.newQuestionPageState, newType)),
+      onShowImageChanged: (showImage) => store.dispatch(SetShowImageAction(store.state.newQuestionPageState, showImage)),
     );
   }
 
@@ -174,11 +180,12 @@ class NewQuestionPageState{
       onNumberOfStarsChanged.hashCode ^
       onCheckBoxChoiceRemoved.hashCode ^
       onMultipleChoiceRemoved.hashCode ^
-      showImage.hashCode ^
       webImage.hashCode ^
       mobileImage.hashCode ^
       onWebImageUploaded.hashCode ^
       onMobileImageUploaded.hashCode ^
+      onTypeChanged.hashCode ^
+      onShowImageChanged.hashCode ^
       question.hashCode;
 
   @override
@@ -201,10 +208,11 @@ class NewQuestionPageState{
               onNumberOfStarsChanged == other.onNumberOfStarsChanged &&
               onCheckBoxChoiceRemoved == other.onCheckBoxChoiceRemoved &&
               onMultipleChoiceRemoved == other.onMultipleChoiceRemoved &&
-              showImage == other.showImage &&
               webImage == other.webImage &&
               mobileImage == other.mobileImage &&
               onWebImageUploaded == other.onWebImageUploaded &&
               onMobileImageUploaded == other.onMobileImageUploaded &&
+              onTypeChanged == other.onTypeChanged &&
+              onShowImageChanged == other.onShowImageChanged &&
               question == other.question;
 }
