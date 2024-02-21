@@ -42,40 +42,7 @@ class NewQuestionListWidget extends StatelessWidget {
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(0), bottomLeft: Radius.circular(16), bottomRight: Radius.circular(0)),
                     ),
-                    child: question.showImage ? Container(
-                      child: question.mobileImage != null ? Container(
-                        height: 54,
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(16),
-                            topLeft: Radius.circular(16),
-                          ),
-                          child: Image(
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            height: 54,
-                            image: FileImage(File(question.mobileImage.path)),
-                          ),
-                        ),
-                      ) : question.mobileImageUrl != null && question.mobileImageUrl.isNotEmpty ? Container(
-                        height: 54,
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(16),
-                            bottomLeft: Radius.circular(16),
-                          ),
-                          child: DandyLightNetworkImage(
-                            question.mobileImageUrl,
-                            color: Color(ColorConstants.getPeachDark()),
-                            borderRadius: 0,
-                            errorIconSize: 28,
-                          ),
-                        ),
-                      ) : Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: getIconFromType(question.type),
-                      ),
-                    ) : Padding(
+                    child: Padding(
                       padding: const EdgeInsets.all(10),
                       child: getIconFromType(question.type),
                     ),
@@ -157,14 +124,11 @@ class NewQuestionListWidget extends StatelessWidget {
       case Question.TYPE_RATING:
         result = Color(ColorConstants.getBlueDark()).withOpacity(0.8);
         break;
-      case Question.TYPE_MULTIPLE_CHOICE:
+      case Question.TYPE_DATE:
         result = Color(ColorConstants.getPrimaryBlack()).withOpacity(.35);
         break;
-      case Question.TYPE_DATE:
-        result = Color(ColorConstants.getPeachDark());
-        break;
       case Question.TYPE_ADDRESS:
-        result = Color(ColorConstants.getPeachLight());
+        result = Color(ColorConstants.getPeachDark());
         break;
     }
     return result;
@@ -191,9 +155,6 @@ class NewQuestionListWidget extends StatelessWidget {
           padding: const EdgeInsets.all(3),
           child: Image.asset('assets/images/icons/number_sign.png', color: getColorBasedOnIndex(type), height: 26, width: 26)
         );
-        break;
-      case Question.TYPE_MULTIPLE_CHOICE:
-        result = Image.asset('assets/images/icons/radio_button.png', color: getColorBasedOnIndex(type), height: 32, width: 32);
         break;
       case Question.TYPE_ADDRESS:
         result = Image.asset('assets/images/icons/pin_white.png', color: getColorBasedOnIndex(type), height: 32, width: 32);

@@ -30,7 +30,7 @@ class _AddCheckboxOptionBottomSheetState extends State<AddCheckboxOptionBottomSh
     converter: (Store<AppState> store) => NewQuestionPageState.fromStore(store),
     builder: (BuildContext context, NewQuestionPageState pageState) =>
          Container(
-           height: 332,
+           height: 264,
            width: MediaQuery.of(context).size.width,
            decoration: BoxDecoration(
                borderRadius: const BorderRadius.vertical(top: Radius.circular(16.0)),
@@ -39,6 +39,7 @@ class _AddCheckboxOptionBottomSheetState extends State<AddCheckboxOptionBottomSh
              child: Column(
                children: [
                  Container(
+                   margin: const EdgeInsets.only(top: 16),
                    alignment: Alignment.center,
                    child: TextDandyLight(
                      type: TextDandyLight.LARGE_TEXT,
@@ -47,7 +48,7 @@ class _AddCheckboxOptionBottomSheetState extends State<AddCheckboxOptionBottomSh
                    ),
                  ),
                   Container(
-                     margin: const EdgeInsets.only(top: 8.0),
+                     margin: const EdgeInsets.only(top: 32.0),
                      alignment: Alignment.center,
                      width: 259.0,
                      height: 45.0,
@@ -101,7 +102,7 @@ class _AddCheckboxOptionBottomSheetState extends State<AddCheckboxOptionBottomSh
                      Navigator.of(context).pop();
                    },
                    child: Container(
-                     margin: const EdgeInsets.only(bottom: 16),
+                     margin: const EdgeInsets.only(bottom: 16, top: 32),
                      alignment: Alignment.center,
                      height: 48,
                      width: 164,

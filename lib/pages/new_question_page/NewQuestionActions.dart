@@ -62,28 +62,16 @@ class UpdateRequiredAction {
   UpdateRequiredAction(this.pageState, this.required);
 }
 
-class AddMultipleChoiceChoicesAction {
-  final NewQuestionPageState pageState;
-  final String choice;
-  AddMultipleChoiceChoicesAction(this.pageState, this.choice);
-}
-
-class DeleteMultipleChoiceChoicesAction {
-  final NewQuestionPageState pageState;
-  final String choice;
-  DeleteMultipleChoiceChoicesAction(this.pageState, this.choice);
-}
-
-class UpdateIncludeMCAction {
-  final NewQuestionPageState pageState;
-  final bool include;
-  UpdateIncludeMCAction(this.pageState, this.include);
-}
-
 class AddCheckboxChoicesAction {
   final NewQuestionPageState pageState;
   final String choice;
   AddCheckboxChoicesAction(this.pageState, this.choice);
+}
+
+class SetMultipleSelectionAction {
+  final NewQuestionPageState pageState;
+  final bool selected;
+  SetMultipleSelectionAction(this.pageState, this.selected);
 }
 
 class DeleteCheckboxChoicesAction {
@@ -144,6 +132,36 @@ class UpdateNumOfStarsAction {
   final NewQuestionPageState pageState;
   final int numOfStars;
   UpdateNumOfStarsAction(this.pageState, this.numOfStars);
+}
+
+class SetAddressRequiredAction {
+  final NewQuestionPageState pageState;
+  final bool selected;
+  SetAddressRequiredAction(this.pageState, this.selected);
+}
+
+class SetCityTownRequiredAction {
+  final NewQuestionPageState pageState;
+  final bool selected;
+  SetCityTownRequiredAction(this.pageState, this.selected);
+}
+
+class SetStateRegionProvinceRequiredAction {
+  final NewQuestionPageState pageState;
+  final bool selected;
+  SetStateRegionProvinceRequiredAction(this.pageState, this.selected);
+}
+
+class SetZipPostCodeRequiredAction {
+  final NewQuestionPageState pageState;
+  final bool selected;
+  SetZipPostCodeRequiredAction(this.pageState, this.selected);
+}
+
+class SetCountryRequiredAction {
+  final NewQuestionPageState pageState;
+  final bool selected;
+  SetCountryRequiredAction(this.pageState, this.selected);
 }
 
 

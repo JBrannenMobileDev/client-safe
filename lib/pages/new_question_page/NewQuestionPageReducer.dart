@@ -8,11 +8,8 @@ final newQuestionReducer = combineReducers<NewQuestionPageState>([
   TypedReducer<NewQuestionPageState, SetQuestionAction>(_setQuestion),
   TypedReducer<NewQuestionPageState, UpdateQuestionAction>(_setMessage),
   TypedReducer<NewQuestionPageState, UpdateRequiredAction>(_setRequired),
-  TypedReducer<NewQuestionPageState, AddMultipleChoiceChoicesAction>(_addMCChoice),
   TypedReducer<NewQuestionPageState, AddCheckboxChoicesAction>(_addCBChoice),
-  TypedReducer<NewQuestionPageState, DeleteMultipleChoiceChoicesAction>(_deleteMCChoice),
   TypedReducer<NewQuestionPageState, DeleteCheckboxChoicesAction>(_deleteCBChoice),
-  TypedReducer<NewQuestionPageState, UpdateIncludeMCAction>(_setIncludeOtherMC),
   TypedReducer<NewQuestionPageState, UpdateIncludeCBAction>(_setIncludeOtherCB),
   TypedReducer<NewQuestionPageState, UpdateIncludeFirstNameAction>(_setIncludeFirstName),
   TypedReducer<NewQuestionPageState, UpdateIncludeLastNameAction>(_setIncludeLastName),
@@ -26,7 +23,55 @@ final newQuestionReducer = combineReducers<NewQuestionPageState>([
   TypedReducer<NewQuestionPageState, SetResizedQuestionMobileImageAction>(_setResizedMobileImage),
   TypedReducer<NewQuestionPageState, SetNewTypeAction>(_setNewType),
   TypedReducer<NewQuestionPageState, SetShowImageAction>(_setShowImage),
+  TypedReducer<NewQuestionPageState, SetMultipleSelectionAction>(_setMultipleSelected),
+  TypedReducer<NewQuestionPageState, SetAddressRequiredAction>(_setAddressRequired),
+  TypedReducer<NewQuestionPageState, SetCityTownRequiredAction>(_setCityTownRequired),
+  TypedReducer<NewQuestionPageState, SetStateRegionProvinceRequiredAction>(_setStateRegionProvinceRequired),
+  TypedReducer<NewQuestionPageState, SetZipPostCodeRequiredAction>(_setZipPostCodeRequired),
+  TypedReducer<NewQuestionPageState, SetCountryRequiredAction>(_setCountryRequired),
 ]);
+
+NewQuestionPageState _setAddressRequired(NewQuestionPageState previousState, SetAddressRequiredAction action){
+  action.pageState.question.addressRequired = action.selected;
+  return previousState.copyWith(
+    question: action.pageState.question,
+  );
+}
+
+NewQuestionPageState _setCityTownRequired(NewQuestionPageState previousState, SetCityTownRequiredAction action){
+  action.pageState.question.cityTownRequired = action.selected;
+  return previousState.copyWith(
+    question: action.pageState.question,
+  );
+}
+
+NewQuestionPageState _setStateRegionProvinceRequired(NewQuestionPageState previousState, SetStateRegionProvinceRequiredAction action){
+  action.pageState.question.stateRegionProvinceRequired = action.selected;
+  return previousState.copyWith(
+    question: action.pageState.question,
+  );
+}
+
+NewQuestionPageState _setZipPostCodeRequired(NewQuestionPageState previousState, SetZipPostCodeRequiredAction action){
+  action.pageState.question.zipPostCodeRequired = action.selected;
+  return previousState.copyWith(
+    question: action.pageState.question,
+  );
+}
+
+NewQuestionPageState _setCountryRequired(NewQuestionPageState previousState, SetCountryRequiredAction action){
+  action.pageState.question.countryRequired = action.selected;
+  return previousState.copyWith(
+    question: action.pageState.question,
+  );
+}
+
+NewQuestionPageState _setMultipleSelected(NewQuestionPageState previousState, SetMultipleSelectionAction action){
+  action.pageState.question.multipleSelection = action.selected;
+  return previousState.copyWith(
+    question: action.pageState.question,
+  );
+}
 
 NewQuestionPageState _setShowImage(NewQuestionPageState previousState, SetShowImageAction action){
   action.pageState.question.showImage = action.showImage;
@@ -130,40 +175,19 @@ NewQuestionPageState _setIncludeOtherCB(NewQuestionPageState previousState, Upda
   );
 }
 
-NewQuestionPageState _setIncludeOtherMC(NewQuestionPageState previousState, UpdateIncludeMCAction action){
-  bool includesOther = action.pageState.question.choicesMultipleChoice.contains('Other');
-  if(!includesOther) {
-    action.pageState.question.choicesMultipleChoice.add('Other');
-  }
-  return previousState.copyWith(
-    question: action.pageState.question,
-  );
-}
-
 NewQuestionPageState _deleteCBChoice(NewQuestionPageState previousState, DeleteCheckboxChoicesAction action){
-  action.pageState.question.choicesCheckBoxes.removeWhere((choice) => choice == action.choice);
-  return previousState.copyWith(
-    question: action.pageState.question,
-  );
-}
-
-NewQuestionPageState _deleteMCChoice(NewQuestionPageState previousState, DeleteMultipleChoiceChoicesAction action){
-  action.pageState.question.choicesMultipleChoice.removeWhere((choice) => choice == action.choice);
+  List<dynamic> options = action.pageState.question.choicesCheckBoxes.toList();
+  options.removeWhere((choice) => choice == action.choice);
+  action.pageState.question.choicesCheckBoxes = options;
   return previousState.copyWith(
     question: action.pageState.question,
   );
 }
 
 NewQuestionPageState _addCBChoice(NewQuestionPageState previousState, AddCheckboxChoicesAction action){
-  action.pageState.question.choicesCheckBoxes ??= [];
-  action.pageState.question.choicesCheckBoxes.add(action.choice);
-  return previousState.copyWith(
-    question: action.pageState.question,
-  );
-}
-
-NewQuestionPageState _addMCChoice(NewQuestionPageState previousState, AddMultipleChoiceChoicesAction action){
-  action.pageState.question.choicesMultipleChoice.add(action.choice);
+  List<dynamic> options = action.pageState.question.choicesCheckBoxes.toList();
+  options.add(action.choice);
+  action.pageState.question.choicesCheckBoxes = options;
   return previousState.copyWith(
     question: action.pageState.question,
   );

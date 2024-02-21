@@ -212,43 +212,43 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                             enabled: true,
                             obscureText: false,
                           ),
-                          Container(
-                            margin: const EdgeInsets.only(left: 32, top: 16.0, bottom: 8),
-                            alignment: Alignment.centerLeft,
-                            child: TextDandyLight(
-                              type: TextDandyLight.SMALL_TEXT,
-                              text: 'Message to client',
-                              color: Color(ColorConstants.getPrimaryBlack()),
-                            ),
-                          ),
-                          Container(
-                            height: 132,
-                            margin: const EdgeInsets.only(left: 16, right: 16),
-                            padding: const EdgeInsets.only(top: 16),
-                            decoration: BoxDecoration(
-                                color: Color(ColorConstants.getPrimaryWhite()),
-                                borderRadius: BorderRadius.circular(16)
-                            ),
-                            child: Container(
-                              margin: const EdgeInsets.only(left: 20.0, right: 20.0),
-                              child: ShareWithClientTextField(
-                                messageController,
-                                'Write a message here for the client explaining the purpose of the questionnaire.',
-                                TextInputType.multiline,
-                                116.0,
-                                pageState.onMessageChanged,
-                                'noError',
-                                TextInputAction.newline,
-                                _messageFocusNode,
-                                onAction,
-                                TextCapitalization.sentences,
-                                null,
-                                true,
-                                false,
-                                false,
-                              ),
-                            ),
-                          ),
+                          // Container(
+                          //   margin: const EdgeInsets.only(left: 32, top: 16.0, bottom: 8),
+                          //   alignment: Alignment.centerLeft,
+                          //   child: TextDandyLight(
+                          //     type: TextDandyLight.SMALL_TEXT,
+                          //     text: 'Message to client',
+                          //     color: Color(ColorConstants.getPrimaryBlack()),
+                          //   ),
+                          // ),
+                          // Container(
+                          //   height: 132,
+                          //   margin: const EdgeInsets.only(left: 16, right: 16),
+                          //   padding: const EdgeInsets.only(top: 16),
+                          //   decoration: BoxDecoration(
+                          //       color: Color(ColorConstants.getPrimaryWhite()),
+                          //       borderRadius: BorderRadius.circular(16)
+                          //   ),
+                          //   child: Container(
+                          //     margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+                          //     child: ShareWithClientTextField(
+                          //       messageController,
+                          //       'Write a message here for the client explaining the purpose of the questionnaire.',
+                          //       TextInputType.multiline,
+                          //       116.0,
+                          //       pageState.onMessageChanged,
+                          //       'noError',
+                          //       TextInputAction.newline,
+                          //       _messageFocusNode,
+                          //       onAction,
+                          //       TextCapitalization.sentences,
+                          //       null,
+                          //       true,
+                          //       false,
+                          //       false,
+                          //     ),
+                          //   ),
+                          // ),
                           questions.isNotEmpty ? Container(
                             margin:
                             const EdgeInsets.only(left: 32, top: 20.0),
@@ -342,7 +342,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                               margin: const EdgeInsets.only(bottom: 32),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(32),
-                                color: Color(ColorConstants.getPeachDark()),
+                                color: Color(ColorConstants.getBlueDark()),
                                 boxShadow: ElevationToShadow[4],
                               ),
                               child: TextDandyLight(
@@ -369,7 +369,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                               margin: const EdgeInsets.only(bottom: 32),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(32),
-                                color: Color(ColorConstants.getPeachDark()),
+                                color: Color(ColorConstants.getBlueDark()),
                                 boxShadow: ElevationToShadow[4],
                               ),
                               child: TextDandyLight(

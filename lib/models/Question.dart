@@ -1,11 +1,9 @@
 
-import 'package:dandylight/pages/common_widgets/TextFieldDandylight.dart';
 import 'package:dandylight/utils/UUID.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Question {
-  static const String TYPE_MULTIPLE_CHOICE = 'Multiple choice';
   static const String TYPE_CONTACT_INFO = 'Contact info';
   static const String TYPE_SHORT_FORM_RESPONSE = 'Short response';
   static const String TYPE_LONG_FORM_RESPONSE = 'Long response';
@@ -25,7 +23,6 @@ class Question {
       TYPE_NUMBER,
       TYPE_YES_NO,
       TYPE_RATING,
-      TYPE_MULTIPLE_CHOICE,
       TYPE_DATE,
       TYPE_ADDRESS,
     ];
@@ -42,15 +39,11 @@ class Question {
   XFile webImage;
   XFile mobileImage;
 
-  //MultipleChoice
-  List<dynamic> choicesMultipleChoice;
-  String answerMultipleChoice;
-  bool includeOtherMultipleChoice;
-
   //CheckBoxes
   List<dynamic> choicesCheckBoxes;
   List<dynamic> answersCheckBoxes;
   bool includeOtherCheckBoxes;
+  bool multipleSelection;
 
   //Contact info
   String firstName;
@@ -71,6 +64,11 @@ class Question {
   String stateRegionProvince;
   String zipPostCode;
   String country;
+  bool addressRequired;
+  bool cityTownRequired;
+  bool stateRegionProvinceRequired;
+  bool zipPostCodeRequired;
+  bool countryRequired;
 
   //Short form
   String shortAnswer;
@@ -110,10 +108,7 @@ class Question {
     this.mobileImage,
     this.webImage,
 
-    this.choicesMultipleChoice,
-    this.answerMultipleChoice,
-    this.includeOtherMultipleChoice = false,
-
+    this.multipleSelection = true,
     this.choicesCheckBoxes,
     this.answersCheckBoxes,
     this.includeOtherCheckBoxes = false,
@@ -135,6 +130,11 @@ class Question {
     this.stateRegionProvince,
     this.zipPostCode,
     this.country,
+    this.addressRequired = true,
+    this.cityTownRequired = true,
+    this.stateRegionProvinceRequired = true,
+    this.zipPostCodeRequired = true,
+    this.countryRequired = true,
 
     this.shortAnswer,
     this.shortHint,
@@ -167,10 +167,7 @@ class Question {
       'isRequired' : isRequired,
       'isAnswered' : isAnswered,
 
-      'choicesMultipleChoice' : choicesMultipleChoice,
-      'answerMultipleChoice' : answerMultipleChoice,
-      'includeOtherMultipleChoice' : includeOtherMultipleChoice,
-
+      'multipleSelection' : multipleSelection,
       'choicesCheckBoxes' : choicesCheckBoxes,
       'answersCheckBoxes' : answersCheckBoxes,
       'includeOtherCheckBoxes' : includeOtherCheckBoxes,
@@ -192,6 +189,11 @@ class Question {
       'stateRegionProvince' : stateRegionProvince,
       'zipPostCode' : zipPostCode,
       'country' : country,
+      'addressRequired' : addressRequired,
+      'cityTownRequired' : cityTownRequired,
+      'stateRegionProvinceRequired' : stateRegionProvinceRequired,
+      'zipPostCodeRequired' : zipPostCodeRequired,
+      'countryRequired' : countryRequired,
 
       'shortAnswer' : shortAnswer,
       'shortHint' : shortHint,
@@ -225,10 +227,7 @@ class Question {
       isRequired: map['isRequired'],
       isAnswered: map['isAnswered'],
 
-      choicesMultipleChoice: map['choicesMultipleChoice'],
-      answerMultipleChoice: map['answerMultipleChoice'],
-      includeOtherMultipleChoice: map['includeOtherMultipleChoice'],
-
+      multipleSelection: map['multipleSelection'],
       choicesCheckBoxes: map['choicesCheckBoxes'],
       answersCheckBoxes: map['answersCheckBoxes'],
       includeOtherCheckBoxes: map['includeOtherCheckBoxes'],
@@ -250,6 +249,11 @@ class Question {
       stateRegionProvince: map['stateRegionProvince'],
       zipPostCode: map['zipPostCode'],
       country: map['country'],
+      addressRequired: map['addressRequired'],
+      cityTownRequired: map['cityTownRequired'],
+      stateRegionProvinceRequired: map['stateRegionProvinceRequired'],
+      zipPostCodeRequired: map['zipPostCodeRequired'],
+      countryRequired: map['countryRequired'],
 
       shortAnswer: map['shortAnswer'],
       shortHint: map['shortHint'],

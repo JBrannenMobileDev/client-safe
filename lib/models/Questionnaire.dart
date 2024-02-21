@@ -41,13 +41,6 @@ class Questionnaire {
         case Question.TYPE_DATE:
           result = result + 0.25;
           break;
-        case Question.TYPE_MULTIPLE_CHOICE:
-          if(question.choicesMultipleChoice.length <= 10) {
-            result = result + 0.35;
-          } else {
-            result = result + 0.60;
-          }
-          break;
         case Question.TYPE_RATING:
           result = result + 0.15;
           break;

@@ -11,9 +11,6 @@ class NewQuestionPageState{
   final XFile mobileImage;
   final Function(String) onQuestionChanged;
   final Function(bool) isRequiredChanged;
-  final Function(String) onMultipleChoiceAdded;
-  final Function(String) onMultipleChoiceRemoved;
-  final Function(bool) onIncludeOtherMultipleChoiceChanged;
   final Function(String) onCheckBoxChoiceAdded;
   final Function(String) onCheckBoxChoiceRemoved;
   final Function(bool) onIncludeOtherCheckBoxChoiceChanged;
@@ -29,13 +26,17 @@ class NewQuestionPageState{
   final Function(XFile) onMobileImageUploaded;
   final Function(String) onTypeChanged;
   final Function(bool) onShowImageChanged;
+  final Function(bool) onMultipleSelectionChanged;
+  final Function(bool) onAddressRequiredChanged;
+  final Function(bool) onCityTownRequiredChanged;
+  final Function(bool) onStateRegionProvinceRequiredChanged;
+  final Function(bool) onZipPostCodeRequiredChanged;
+  final Function(bool) onCountryRequiredChanged;
 
   NewQuestionPageState({
     @required this.question,
     @required this.onQuestionChanged,
     @required this.isRequiredChanged,
-    @required this.onMultipleChoiceAdded,
-    @required this.onIncludeOtherMultipleChoiceChanged,
     @required this.onCheckBoxChoiceAdded,
     @required this.onIncludeOtherCheckBoxChoiceChanged,
     @required this.onIncludeFirstNameChanged,
@@ -47,13 +48,18 @@ class NewQuestionPageState{
     @required this.onLongFormHintChanged,
     @required this.onNumberOfStarsChanged,
     @required this.onCheckBoxChoiceRemoved,
-    @required this.onMultipleChoiceRemoved,
     @required this.webImage,
     @required this.mobileImage,
     @required this.onWebImageUploaded,
     @required this.onMobileImageUploaded,
     @required this.onTypeChanged,
     @required this.onShowImageChanged,
+    @required this.onMultipleSelectionChanged,
+    @required this.onAddressRequiredChanged,
+    @required this.onCityTownRequiredChanged,
+    @required this.onStateRegionProvinceRequiredChanged,
+    @required this.onZipPostCodeRequiredChanged,
+    @required this.onCountryRequiredChanged,
   });
 
   NewQuestionPageState copyWith({
@@ -62,9 +68,6 @@ class NewQuestionPageState{
     XFile mobileImage,
     Function(String) onQuestionChanged,
     Function(bool) isRequiredChanged,
-    Function(String) onMultipleChoiceAdded,
-    Function(String) onMultipleChoiceRemoved,
-    Function(bool) onIncludeOtherMultipleChoiceChanged,
     Function(String) onCheckBoxChoiceAdded,
     Function(String) onCheckBoxChoiceRemoved,
     Function(bool) onIncludeOtherCheckBoxChoiceChanged,
@@ -80,13 +83,17 @@ class NewQuestionPageState{
     Function(XFile) onMobileImageUploaded,
     Function(String) onTypeChanged,
     Function(bool) onShowImageChanged,
+    Function(bool) onMultipleSelectionChanged,
+    Function(bool) onAddressRequiredChanged,
+    Function(bool) onCityTownRequiredChanged,
+    Function(bool) onStateRegionProvinceRequiredChanged,
+    Function(bool) onZipPostCodeRequiredChanged,
+    Function(bool) onCountryRequiredChanged
   }){
     return NewQuestionPageState(
       question: question ?? this.question,
       onQuestionChanged: onQuestionChanged ?? this.onQuestionChanged,
       isRequiredChanged: isRequiredChanged ?? this.isRequiredChanged,
-      onMultipleChoiceAdded: onMultipleChoiceAdded ?? this.onMultipleChoiceAdded,
-      onIncludeOtherMultipleChoiceChanged: onIncludeOtherMultipleChoiceChanged ?? this.onIncludeOtherMultipleChoiceChanged,
       onCheckBoxChoiceAdded: onCheckBoxChoiceAdded ?? this.onCheckBoxChoiceAdded,
       onIncludeOtherCheckBoxChoiceChanged: onIncludeOtherCheckBoxChoiceChanged ?? this.onIncludeOtherCheckBoxChoiceChanged,
       onIncludeFirstNameChanged: onIncludeFirstNameChanged ?? this.onIncludeFirstNameChanged,
@@ -98,13 +105,18 @@ class NewQuestionPageState{
       onLongFormHintChanged: onLongFormHintChanged ?? this.onLongFormHintChanged,
       onNumberOfStarsChanged: onNumberOfStarsChanged ?? this.onNumberOfStarsChanged,
       onCheckBoxChoiceRemoved: onCheckBoxChoiceRemoved ?? this.onCheckBoxChoiceRemoved,
-      onMultipleChoiceRemoved: onMultipleChoiceRemoved ?? this.onMultipleChoiceRemoved,
       webImage: webImage ?? this.webImage,
       mobileImage: mobileImage ?? this.mobileImage,
       onWebImageUploaded: onWebImageUploaded ?? this.onWebImageUploaded,
       onMobileImageUploaded: onMobileImageUploaded ?? this.onMobileImageUploaded,
       onTypeChanged: onTypeChanged ?? this.onTypeChanged,
       onShowImageChanged: onShowImageChanged ?? this.onShowImageChanged,
+      onMultipleSelectionChanged: onMultipleSelectionChanged ?? this.onMultipleSelectionChanged,
+      onAddressRequiredChanged: onAddressRequiredChanged ?? this.onAddressRequiredChanged,
+      onCityTownRequiredChanged: onCityTownRequiredChanged ?? this.onCityTownRequiredChanged,
+      onStateRegionProvinceRequiredChanged: onStateRegionProvinceRequiredChanged ?? this.onStateRegionProvinceRequiredChanged,
+      onZipPostCodeRequiredChanged: onZipPostCodeRequiredChanged ?? this.onZipPostCodeRequiredChanged,
+      onCountryRequiredChanged: onCountryRequiredChanged ?? this.onCountryRequiredChanged,
     );
   }
 
@@ -112,8 +124,6 @@ class NewQuestionPageState{
     question: Question(),
     onQuestionChanged: null,
     isRequiredChanged: null,
-    onMultipleChoiceAdded: null,
-    onIncludeOtherMultipleChoiceChanged: null,
     onCheckBoxChoiceAdded: null,
     onIncludeOtherCheckBoxChoiceChanged: null,
     onIncludeFirstNameChanged: null,
@@ -125,13 +135,18 @@ class NewQuestionPageState{
     onLongFormHintChanged: null,
     onNumberOfStarsChanged: null,
     onCheckBoxChoiceRemoved: null,
-    onMultipleChoiceRemoved: null,
     webImage: null,
     mobileImage: null,
     onWebImageUploaded: null,
     onMobileImageUploaded: null,
     onTypeChanged: null,
     onShowImageChanged: null,
+    onMultipleSelectionChanged: null,
+    onAddressRequiredChanged: null,
+    onCityTownRequiredChanged: null,
+    onStateRegionProvinceRequiredChanged: null,
+    onZipPostCodeRequiredChanged: null,
+    onCountryRequiredChanged: null,
   );
 
   factory NewQuestionPageState.fromStore(Store<AppState> store) {
@@ -141,9 +156,6 @@ class NewQuestionPageState{
       mobileImage: store.state.newQuestionPageState.mobileImage,
       onQuestionChanged: (question) => store.dispatch(UpdateQuestionAction(store.state.newQuestionPageState, question)),
       isRequiredChanged: (required) => store.dispatch(UpdateRequiredAction(store.state.newQuestionPageState, required)),
-      onMultipleChoiceAdded: (choice) => store.dispatch(AddMultipleChoiceChoicesAction(store.state.newQuestionPageState, choice)),
-      onMultipleChoiceRemoved: (choice) => store.dispatch(DeleteMultipleChoiceChoicesAction(store.state.newQuestionPageState, choice)),
-      onIncludeOtherMultipleChoiceChanged: (include) => store.dispatch(UpdateIncludeMCAction(store.state.newQuestionPageState, include)),
       onCheckBoxChoiceAdded: (choice) => store.dispatch(AddCheckboxChoicesAction(store.state.newQuestionPageState, choice)),
       onCheckBoxChoiceRemoved: (choice) => store.dispatch(DeleteCheckboxChoicesAction(store.state.newQuestionPageState, choice)),
       onIncludeOtherCheckBoxChoiceChanged: (include) => store.dispatch(UpdateIncludeCBAction(store.state.newQuestionPageState, include)),
@@ -159,6 +171,12 @@ class NewQuestionPageState{
       onMobileImageUploaded: (xfileImage) => store.dispatch(ResizeQuestionMobileImageAction(store.state.newQuestionPageState, xfileImage)),
       onTypeChanged: (newType) => store.dispatch(SetNewTypeAction(store.state.newQuestionPageState, newType)),
       onShowImageChanged: (showImage) => store.dispatch(SetShowImageAction(store.state.newQuestionPageState, showImage)),
+      onMultipleSelectionChanged: (selected) => store.dispatch(SetMultipleSelectionAction(store.state.newQuestionPageState, selected)),
+      onAddressRequiredChanged: (selected) => store.dispatch(SetAddressRequiredAction(store.state.newQuestionPageState, selected)),
+      onCityTownRequiredChanged: (selected) => store.dispatch(SetCityTownRequiredAction(store.state.newQuestionPageState, selected)),
+      onStateRegionProvinceRequiredChanged: (selected) => store.dispatch(SetStateRegionProvinceRequiredAction(store.state.newQuestionPageState, selected)),
+      onZipPostCodeRequiredChanged: (selected) => store.dispatch(SetZipPostCodeRequiredAction(store.state.newQuestionPageState, selected)),
+      onCountryRequiredChanged: (selected) => store.dispatch(SetCountryRequiredAction(store.state.newQuestionPageState, selected)),
     );
   }
 
@@ -166,8 +184,6 @@ class NewQuestionPageState{
   int get hashCode =>
       onQuestionChanged.hashCode ^
       isRequiredChanged.hashCode ^
-      onMultipleChoiceAdded.hashCode ^
-      onIncludeOtherMultipleChoiceChanged.hashCode ^
       onCheckBoxChoiceAdded.hashCode ^
       onIncludeOtherCheckBoxChoiceChanged.hashCode ^
       onIncludeFirstNameChanged.hashCode ^
@@ -179,13 +195,18 @@ class NewQuestionPageState{
       onLongFormHintChanged.hashCode ^
       onNumberOfStarsChanged.hashCode ^
       onCheckBoxChoiceRemoved.hashCode ^
-      onMultipleChoiceRemoved.hashCode ^
       webImage.hashCode ^
       mobileImage.hashCode ^
       onWebImageUploaded.hashCode ^
       onMobileImageUploaded.hashCode ^
       onTypeChanged.hashCode ^
       onShowImageChanged.hashCode ^
+      onMultipleSelectionChanged.hashCode ^
+      onAddressRequiredChanged.hashCode ^
+      onCityTownRequiredChanged.hashCode ^
+      onStateRegionProvinceRequiredChanged.hashCode ^
+      onZipPostCodeRequiredChanged.hashCode ^
+      onCountryRequiredChanged.hashCode ^
       question.hashCode;
 
   @override
@@ -194,8 +215,6 @@ class NewQuestionPageState{
           other is NewQuestionPageState &&
               onQuestionChanged == other.onQuestionChanged &&
               isRequiredChanged == other.isRequiredChanged &&
-              onMultipleChoiceAdded == other.onMultipleChoiceAdded &&
-              onIncludeOtherMultipleChoiceChanged == other.onIncludeOtherMultipleChoiceChanged &&
               onCheckBoxChoiceAdded == other.onCheckBoxChoiceAdded &&
               onIncludeOtherCheckBoxChoiceChanged == other.onIncludeOtherCheckBoxChoiceChanged &&
               onIncludeFirstNameChanged == other.onIncludeFirstNameChanged &&
@@ -207,12 +226,17 @@ class NewQuestionPageState{
               onLongFormHintChanged == other.onLongFormHintChanged &&
               onNumberOfStarsChanged == other.onNumberOfStarsChanged &&
               onCheckBoxChoiceRemoved == other.onCheckBoxChoiceRemoved &&
-              onMultipleChoiceRemoved == other.onMultipleChoiceRemoved &&
               webImage == other.webImage &&
               mobileImage == other.mobileImage &&
               onWebImageUploaded == other.onWebImageUploaded &&
               onMobileImageUploaded == other.onMobileImageUploaded &&
               onTypeChanged == other.onTypeChanged &&
               onShowImageChanged == other.onShowImageChanged &&
+              onMultipleSelectionChanged == other.onMultipleSelectionChanged &&
+              onAddressRequiredChanged == other.onAddressRequiredChanged &&
+              onCityTownRequiredChanged == other.onCityTownRequiredChanged &&
+              onStateRegionProvinceRequiredChanged == other.onStateRegionProvinceRequiredChanged &&
+              onZipPostCodeRequiredChanged == other.onZipPostCodeRequiredChanged &&
+              onCountryRequiredChanged == other.onCountryRequiredChanged &&
               question == other.question;
 }

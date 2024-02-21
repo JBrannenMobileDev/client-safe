@@ -173,7 +173,13 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                           selectedTypeView(pageState),
                           showImageSwitch(pageState),
                           isRequiredSwitch(pageState),
+                          pageState.question.type == Question.TYPE_ADDRESS ? isAddressItemRequiredSwitch(pageState, 'Address required', pageState.onAddressRequiredChanged, pageState.question.addressRequired) : const SizedBox(),
+                          pageState.question.type == Question.TYPE_ADDRESS ? isAddressItemRequiredSwitch(pageState, 'City/Town required', pageState.onCityTownRequiredChanged, pageState.question.cityTownRequired) : const SizedBox(),
+                          pageState.question.type == Question.TYPE_ADDRESS ? isAddressItemRequiredSwitch(pageState, 'State/Region/Province required', pageState.onStateRegionProvinceRequiredChanged, pageState.question.stateRegionProvinceRequired) : const SizedBox(),
+                          pageState.question.type == Question.TYPE_ADDRESS ? isAddressItemRequiredSwitch(pageState, 'Zip/Post code required', pageState.onZipPostCodeRequiredChanged, pageState.question.zipPostCodeRequired) : const SizedBox(),
+                          pageState.question.type == Question.TYPE_ADDRESS ? isAddressItemRequiredSwitch(pageState, 'Country required', pageState.onCountryRequiredChanged, pageState.question.countryRequired) : const SizedBox(),
                           pageState.question.type == Question.TYPE_CONTACT_INFO ? contactInfoSettings(pageState) : const SizedBox(),
+                          pageState.question.type == Question.TYPE_CHECK_BOXES ? multipleSelectionView(pageState) : const SizedBox(),
                           exampleQuestionView(pageState),
                           settingsView(),
                         ],
@@ -457,6 +463,41 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
     );
   }
 
+  Widget isAddressItemRequiredSwitch(NewQuestionPageState pageState, String title, Function(bool) onRequiredChanged, bool isRequired) {
+    return Container(
+      margin: const EdgeInsets.only(left: 24, right: 20, top: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TextDandyLight(
+            type: TextDandyLight.MEDIUM_TEXT,
+            text: '$title:',
+            color: Color(ColorConstants.getPrimaryBlack()),
+          ),
+          Device.get().isIos?
+          CupertinoSwitch(
+            trackColor: Color(ColorConstants.getPeachDark()),
+            activeColor: Color(ColorConstants.getBlueDark()),
+            thumbColor: Color(ColorConstants.getPrimaryWhite()),
+            onChanged: (required) async {
+              onRequiredChanged(required);
+            },
+            value: isRequired,
+          ) : Switch(
+            activeTrackColor: Color(ColorConstants.getBlueDark()),
+            inactiveTrackColor: Color(ColorConstants.getPeachDark()),
+            inactiveThumbColor: Color(ColorConstants.getPrimaryWhite()),
+            activeColor: Color(ColorConstants.getPrimaryWhite()),
+            onChanged: (required) async {
+              onRequiredChanged(required);
+            },
+            value: isRequired,
+          ),
+        ],
+      ),
+    );
+  }
+
   void showTypeSelectionBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -614,6 +655,539 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
     Widget result = const SizedBox();
 
     switch(pageState.question.type) {
+      case Question.TYPE_ADDRESS:
+        result = Container(
+          margin: const EdgeInsets.only(top: 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(left: 16, top: 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: '$number.  ',
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width - 86,
+                      child: TextFormField(
+                        cursorColor: Color(ColorConstants.getBlueDark()),
+                        focusNode: questionFocusNode,
+                        textInputAction: TextInputAction.done,
+                        maxLines: 3,
+                        controller: questionTextController,
+                        onChanged: (text) {
+                          pageState.onQuestionChanged(text);
+                        },
+                        onFieldSubmitted: (term) {
+                          questionFocusNode.unfocus();
+                        },
+                        decoration: InputDecoration.collapsed(
+                          hintText: 'Your question here.',
+                          fillColor: Color(ColorConstants.getPrimaryWhite()),
+                          hintStyle: TextStyle(
+                            fontFamily: TextDandyLight.getFontFamily(),
+                            fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                            fontWeight: TextDandyLight.getFontWeight(),
+                            color: Color(ColorConstants.getPrimaryGreyMedium()),
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                        keyboardType: TextInputType.multiline,
+                        textCapitalization: TextCapitalization.sentences,
+                        style: TextStyle(
+                            fontFamily: TextDandyLight.getFontFamily(),
+                            fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                            fontWeight: TextDandyLight.getFontWeight(),
+                            color: Color(ColorConstants.getPrimaryBlack())),
+                        textAlignVertical: TextAlignVertical.center,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              addressItem('Address', '1234 Jefferson Way', pageState.question.addressRequired),
+              addressItem('Address line 2', 'apartment 42', false),
+              addressItem('City/Town', 'Temecula', pageState.question.cityTownRequired),
+              addressItem('State/Region/Province', 'California', pageState.question.stateRegionProvinceRequired),
+              addressItem('ZIP/Post code', '92591', pageState.question.zipPostCodeRequired),
+              addressItem('Country', 'United States', pageState.question.countryRequired),
+            ],
+          ),
+        );
+        break;
+      case Question.TYPE_DATE:
+        result = Container(
+          margin: const EdgeInsets.only(top: 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(left: 16, top: 8, bottom: 16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: '$number.  ',
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width - 86,
+                      child: TextFormField(
+                        cursorColor: Color(ColorConstants.getBlueDark()),
+                        focusNode: questionFocusNode,
+                        textInputAction: TextInputAction.done,
+                        maxLines: 3,
+                        controller: questionTextController,
+                        onChanged: (text) {
+                          pageState.onQuestionChanged(text);
+                        },
+                        onFieldSubmitted: (term) {
+                          questionFocusNode.unfocus();
+                        },
+                        decoration: InputDecoration.collapsed(
+                          hintText: 'Your question here.',
+                          fillColor: Color(ColorConstants.getPrimaryWhite()),
+                          hintStyle: TextStyle(
+                            fontFamily: TextDandyLight.getFontFamily(),
+                            fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                            fontWeight: TextDandyLight.getFontWeight(),
+                            color: Color(ColorConstants.getPrimaryGreyMedium()),
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                        keyboardType: TextInputType.multiline,
+                        textCapitalization: TextCapitalization.sentences,
+                        style: TextStyle(
+                            fontFamily: TextDandyLight.getFontFamily(),
+                            fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                            fontWeight: TextDandyLight.getFontWeight(),
+                            color: Color(ColorConstants.getPrimaryBlack())),
+                        textAlignVertical: TextAlignVertical.center,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(bottom: 72),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: 'Month',
+                          color: Color(ColorConstants.getBlueDark()),
+                        ),
+                        const SizedBox(height: 8),
+                        TextDandyLight(
+                          type: TextDandyLight.EXTRA_LARGE_TEXT,
+                          text: 'MM',
+                          color: Color(ColorConstants.getBlueLight()),
+                        ),
+                        const SizedBox(height: 4),
+                        Container(
+                          height: 1,
+                          width: 64,
+                          color: Color(ColorConstants.getBlueLight()),
+                        )
+                      ],
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 26, left: 8, right: 8),
+                      child: TextDandyLight(
+                        type: TextDandyLight.EXTRA_LARGE_TEXT,
+                        text: '/',
+                        color: Color(ColorConstants.getBlueDark()),
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: 'Day',
+                          color: Color(ColorConstants.getBlueDark()),
+                        ),
+                        const SizedBox(height: 8),
+                        TextDandyLight(
+                          type: TextDandyLight.EXTRA_LARGE_TEXT,
+                          text: 'DD',
+                          color: Color(ColorConstants.getBlueLight()),
+                        ),
+                        const SizedBox(height: 4),
+                        Container(
+                          height: 1,
+                          width: 64,
+                          color: Color(ColorConstants.getBlueLight()),
+                        )
+                      ],
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 26, left: 8, right: 8),
+                      child: TextDandyLight(
+                        type: TextDandyLight.EXTRA_LARGE_TEXT,
+                        text: '/',
+                        color: Color(ColorConstants.getBlueDark()),
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: 'Year',
+                          color: Color(ColorConstants.getBlueDark()),
+                        ),
+                        const SizedBox(height: 8),
+                        TextDandyLight(
+                          type: TextDandyLight.EXTRA_LARGE_TEXT,
+                          text: 'YYYY',
+                          color: Color(ColorConstants.getBlueLight()),
+                        ),
+                        const SizedBox(height: 4),
+                        Container(
+                          height: 1,
+                          width: 64,
+                          color: Color(ColorConstants.getBlueLight()),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+        break;
+      case Question.TYPE_RATING:
+        result = Container(
+          margin: const EdgeInsets.only(top: 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(left: 16, top: 8, bottom: 32),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: '$number.  ',
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width - 86,
+                      child: TextFormField(
+                        cursorColor: Color(ColorConstants.getBlueDark()),
+                        focusNode: questionFocusNode,
+                        textInputAction: TextInputAction.done,
+                        maxLines: 3,
+                        controller: questionTextController,
+                        onChanged: (text) {
+                          pageState.onQuestionChanged(text);
+                        },
+                        onFieldSubmitted: (term) {
+                          questionFocusNode.unfocus();
+                        },
+                        decoration: InputDecoration.collapsed(
+                          hintText: 'Your question here.',
+                          fillColor: Color(ColorConstants.getPrimaryWhite()),
+                          hintStyle: TextStyle(
+                            fontFamily: TextDandyLight.getFontFamily(),
+                            fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                            fontWeight: TextDandyLight.getFontWeight(),
+                            color: Color(ColorConstants.getPrimaryGreyMedium()),
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                        keyboardType: TextInputType.multiline,
+                        textCapitalization: TextCapitalization.sentences,
+                        style: TextStyle(
+                            fontFamily: TextDandyLight.getFontFamily(),
+                            fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                            fontWeight: TextDandyLight.getFontWeight(),
+                            color: Color(ColorConstants.getPrimaryBlack())),
+                        textAlignVertical: TextAlignVertical.center,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(bottom: 72),
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(right: 4),
+                      child: Column(
+                        children: [
+                          Icon(Icons.star_border, color: Color(ColorConstants.getBlueDark()), size: 48),
+                          TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: '1',
+                            color: Color(ColorConstants.getBlueDark()),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(right: 4),
+                      child: Column(
+                        children: [
+                          Icon(Icons.star_border, color: Color(ColorConstants.getBlueDark()), size: 48),
+                          TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: '2',
+                            color: Color(ColorConstants.getBlueDark()),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(right: 4),
+                      child: Column(
+                        children: [
+                          Icon(Icons.star_border, color: Color(ColorConstants.getBlueDark()), size: 48),
+                          TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: '3',
+                            color: Color(ColorConstants.getBlueDark()),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(right: 4),
+                      child: Column(
+                        children: [
+                          Icon(Icons.star_border, color: Color(ColorConstants.getBlueDark()), size: 48),
+                          TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: '4',
+                            color: Color(ColorConstants.getBlueDark()),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(right: 4),
+                      child: Column(
+                        children: [
+                          Icon(Icons.star_border, color: Color(ColorConstants.getBlueDark()), size: 48),
+                          TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: '5',
+                            color: Color(ColorConstants.getBlueDark()),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+        break;
+      case Question.TYPE_NUMBER:
+        result = Container(
+          margin: const EdgeInsets.only(top: 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(left: 16, top: 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: '$number.  ',
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width - 86,
+                      child: TextFormField(
+                        cursorColor: Color(ColorConstants.getBlueDark()),
+                        focusNode: questionFocusNode,
+                        textInputAction: TextInputAction.done,
+                        maxLines: 3,
+                        controller: questionTextController,
+                        onChanged: (text) {
+                          pageState.onQuestionChanged(text);
+                        },
+                        onFieldSubmitted: (term) {
+                          questionFocusNode.unfocus();
+                        },
+                        decoration: InputDecoration.collapsed(
+                          hintText: 'Your question here.',
+                          fillColor: Color(ColorConstants.getPrimaryWhite()),
+                          hintStyle: TextStyle(
+                            fontFamily: TextDandyLight.getFontFamily(),
+                            fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                            fontWeight: TextDandyLight.getFontWeight(),
+                            color: Color(ColorConstants.getPrimaryGreyMedium()),
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                        keyboardType: TextInputType.multiline,
+                        textCapitalization: TextCapitalization.sentences,
+                        style: TextStyle(
+                            fontFamily: TextDandyLight.getFontFamily(),
+                            fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                            fontWeight: TextDandyLight.getFontWeight(),
+                            color: Color(ColorConstants.getPrimaryBlack())),
+                        textAlignVertical: TextAlignVertical.center,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(bottom: 32),
+                alignment: Alignment.center,
+                height: 54,
+                width: 224,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                      width: 2,
+                      color: Color(ColorConstants.getBlueDark())
+                  ),
+                ),
+                child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Enter a number here',
+                    color: Color(ColorConstants.getBlueLight())
+                ),
+              )
+            ],
+          ),
+        );
+        break;
+      case Question.TYPE_YES_NO:
+        result = Container(
+          margin: const EdgeInsets.only(top: 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(left: 16, top: 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: '$number.  ',
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width - 86,
+                      child: TextFormField(
+                        cursorColor: Color(ColorConstants.getBlueDark()),
+                        focusNode: questionFocusNode,
+                        textInputAction: TextInputAction.done,
+                        maxLines: 3,
+                        controller: questionTextController,
+                        onChanged: (text) {
+                          pageState.onQuestionChanged(text);
+                        },
+                        onFieldSubmitted: (term) {
+                          questionFocusNode.unfocus();
+                        },
+                        decoration: InputDecoration.collapsed(
+                          hintText: 'Your question here.',
+                          fillColor: Color(ColorConstants.getPrimaryWhite()),
+                          hintStyle: TextStyle(
+                            fontFamily: TextDandyLight.getFontFamily(),
+                            fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                            fontWeight: TextDandyLight.getFontWeight(),
+                            color: Color(ColorConstants.getPrimaryGreyMedium()),
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                        keyboardType: TextInputType.multiline,
+                        textCapitalization: TextCapitalization.sentences,
+                        style: TextStyle(
+                            fontFamily: TextDandyLight.getFontFamily(),
+                            fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                            fontWeight: TextDandyLight.getFontWeight(),
+                            color: Color(ColorConstants.getPrimaryBlack())),
+                        textAlignVertical: TextAlignVertical.center,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(bottom: 16),
+                alignment: Alignment.center,
+                height: 54,
+                width: 224,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    width: 2,
+                    color: Color(ColorConstants.getBlueDark())
+                  ),
+                  color: Color(ColorConstants.getBlueDark())
+                ),
+                child: Row(
+                  children: [
+                    const SizedBox(width: 16),
+                    Image.asset('assets/images/icons/checkbox.png', color: Color(ColorConstants.getBlueLight()), height: 26, width: 26),
+                    const SizedBox(width: 16),
+                    TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: 'Yes',
+                      color: Color(ColorConstants.getPrimaryWhite()),
+                    ),
+                    const SizedBox(width: 100),
+                    Icon(Icons.check, color: Color(ColorConstants.getPrimaryWhite()),)
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(bottom: 32),
+                alignment: Alignment.center,
+                height: 54,
+                width: 224,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                      width: 2,
+                      color: Color(ColorConstants.getBlueDark())
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    const SizedBox(width: 16),
+                    Image.asset('assets/images/icons/checkbox.png', color: Color(ColorConstants.getBlueLight()), height: 26, width: 26),
+                    const SizedBox(width: 16),
+                    TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: 'No',
+                      color: Color(ColorConstants.getBlueDark()),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        );
+        break;
       case Question.TYPE_CHECK_BOXES:
         result = Container(
           margin: const EdgeInsets.only(top: 16),
@@ -972,7 +1546,39 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
           ),
         ),
         Container(
-          margin: const EdgeInsets.only(left: 38),
+          margin: const EdgeInsets.only(left: 38, bottom: 8),
+          alignment: Alignment.topLeft,
+          child: TextDandyLight(
+            type: TextDandyLight.LARGE_TEXT,
+            text: hint,
+            color: Color(ColorConstants.getBlueLight()),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(left: 38, right: 32, bottom: 64),
+          height: 1,
+          width: MediaQuery.of(context).size.width,
+          color: Color(ColorConstants.getBlueDark()),
+        ),
+      ],
+    );
+  }
+
+  Widget addressItem(String title, String hint, bool required) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          margin: const EdgeInsets.only(left: 38, bottom: 8),
+          alignment: Alignment.topLeft,
+          child: TextDandyLight(
+            type: TextDandyLight.MEDIUM_TEXT,
+            text: title + (required ? ' *' : ''),
+            color: Color(ColorConstants.getBlueDark()),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(left: 38, bottom: 8),
           alignment: Alignment.topLeft,
           child: TextDandyLight(
             type: TextDandyLight.LARGE_TEXT,
@@ -997,12 +1603,54 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
       itemCount: pageState.question.choicesCheckBoxes?.length ?? 0,
       itemBuilder: (BuildContext context, int index) {
         return pageState.question.choicesCheckBoxes != null && pageState.question.choicesCheckBoxes.isNotEmpty ? ListTile(
+          horizontalTitleGap: 4,
+          dense: true,
           title: Text(pageState.question.choicesCheckBoxes[index]),
-          leading: Image.asset('assets/images/icons/checkbox.png', color: Color(ColorConstants.getPeachDark()), height: 28, width: 28),
-          trailing: Icon(Icons.delete, color: Color(ColorConstants.getPrimaryGreyMedium()), size: 28)
+          leading: Image.asset('assets/images/icons/checkbox.png', color: Color(ColorConstants.getPeachDark()), height: 26, width: 26),
+          trailing: GestureDetector(
+            onTap: () {
+              pageState.onCheckBoxChoiceRemoved(pageState.question.choicesCheckBoxes[index]);
+            },
+            child: Icon(Icons.delete, color: Color(ColorConstants.getPrimaryGreyMedium()), size: 26),
+          )
         ) : const SizedBox();
       },
     );
     return result;
+  }
+
+  Widget multipleSelectionView(NewQuestionPageState pageState) {
+    return Container(
+      margin: const EdgeInsets.only(left: 24, right: 20, top: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TextDandyLight(
+            type: TextDandyLight.MEDIUM_TEXT,
+            text: 'Multiple selection:',
+            color: Color(ColorConstants.getPrimaryBlack()),
+          ),
+          Device.get().isIos?
+          CupertinoSwitch(
+            trackColor: Color(ColorConstants.getPeachDark()),
+            activeColor: Color(ColorConstants.getBlueDark()),
+            thumbColor: Color(ColorConstants.getPrimaryWhite()),
+            onChanged: (required) async {
+              pageState.onMultipleSelectionChanged(required);
+            },
+            value: pageState.question.multipleSelection,
+          ) : Switch(
+            activeTrackColor: Color(ColorConstants.getBlueDark()),
+            inactiveTrackColor: Color(ColorConstants.getPeachDark()),
+            inactiveThumbColor: Color(ColorConstants.getPrimaryWhite()),
+            activeColor: Color(ColorConstants.getPrimaryWhite()),
+            onChanged: (required) async {
+              pageState.onMultipleSelectionChanged(required);
+            },
+            value: pageState.question.multipleSelection,
+          ),
+        ],
+      ),
+    );
   }
 }
