@@ -95,6 +95,9 @@ class NavigationUtil {
   static onContractNotificationSelected(BuildContext context, String documentId) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobDetailsPage(jobDocumentId: documentId,)));
   }
+  static onJobSelected(BuildContext context, String documentId) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobDetailsPage(jobDocumentId: documentId,)));
+  }
   static onPaymentRequestInfoSelected(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => PaymentRequestInfoPage()));
   }

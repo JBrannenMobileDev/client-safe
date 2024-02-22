@@ -7,6 +7,7 @@ import 'package:dandylight/models/Questionnaire.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 import '../../models/Job.dart';
+import '../../utils/JobUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../job_details_page/JobDetailsActions.dart';
@@ -47,5 +48,7 @@ class QuestionnairesPageMiddleware extends MiddlewareClass<AppState> {
 
         store.dispatch(SetQuestionnairesAction(store.state.questionnairesPageState, questionnaires));
       });
+
+      store.dispatch(SetActiveJobsToQuestionnairesAction(store.state.questionnairesPageState, store.state.dashboardPageState.activeJobs));
   }
 }

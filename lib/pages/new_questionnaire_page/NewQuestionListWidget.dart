@@ -157,10 +157,10 @@ class NewQuestionListWidget extends StatelessWidget {
         );
         break;
       case Question.TYPE_ADDRESS:
-        result = Image.asset('assets/images/icons/pin_white.png', color: getColorBasedOnIndex(type), height: 32, width: 32);
+        result = Icon(Icons.location_on, color: getColorBasedOnIndex(type), size: 32);
         break;
       case Question.TYPE_DATE:
-        result = Icon(Icons.calendar_today, color: getColorBasedOnIndex(type), size: 32);;
+        result = Icon(Icons.calendar_today, color: getColorBasedOnIndex(type), size: 32);
         break;
       case Question.TYPE_RATING:
         result = Icon(Icons.stars, color: getColorBasedOnIndex(type), size: 32);

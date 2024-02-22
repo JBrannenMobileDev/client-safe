@@ -55,7 +55,7 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                       margin: EdgeInsets.only(right: 264.0),
                       child: IconButton(
                         icon: const Icon(Icons.search),
-                        tooltip: 'Edit',
+                        tooltip: 'Search',
                         color: Color(ColorConstants.getPrimaryColor()),
                         onPressed: (){},
                       ),
