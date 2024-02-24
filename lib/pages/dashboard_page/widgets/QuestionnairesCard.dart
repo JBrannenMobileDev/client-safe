@@ -46,8 +46,7 @@ class QuestionnairesCard extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        NavigationUtil.onDashboardContractsSelected(context, pageState, false);
-                        EventSender().sendEvent(eventName: EventNames.NAV_TO_UNSIGNED_CONTRACTS);
+                        NavigationUtil.onDashboardQuestionnairesSelected(context, 0);
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -60,13 +59,13 @@ class QuestionnairesCard extends StatelessWidget {
                           children: [
                             TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
-                              text: pageState.activeJobsWithUnsignedContract != null ? pageState.activeJobsWithUnsignedContract.length.toString() : '0',
+                              text: pageState.notCompleteQuestionnaires != null ? pageState.notCompleteQuestionnaires.length.toString() : '0',
                               textAlign: TextAlign.center,
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                             TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
-                              text: 'Sent',
+                              text: 'Not completed',
                               textAlign: TextAlign.center,
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),
@@ -81,8 +80,7 @@ class QuestionnairesCard extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        NavigationUtil.onDashboardContractsSelected(context, pageState, true);
-                        EventSender().sendEvent(eventName: EventNames.NAV_TO_SIGNED_CONTRACTS);
+                        NavigationUtil.onDashboardQuestionnairesSelected(context, 1);
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -95,7 +93,7 @@ class QuestionnairesCard extends StatelessWidget {
                           children: [
                             TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
-                              text: pageState.activeJobsWithSignedContract != null ? pageState.activeJobsWithSignedContract.length.toString() : '0',
+                              text: pageState.completedQuestionnaires != null ? pageState.completedQuestionnaires.length.toString() : '0',
                               textAlign: TextAlign.center,
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),

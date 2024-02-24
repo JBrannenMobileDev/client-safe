@@ -10,6 +10,7 @@ import '../../models/LocationDandy.dart';
 import '../../models/MileageExpense.dart';
 import '../../models/Pose.dart';
 import '../../models/Profile.dart';
+import '../../models/Questionnaire.dart';
 import '../../models/RecurringExpense.dart';
 import '../../models/SingleExpense.dart';
 
@@ -61,6 +62,14 @@ class SetProfileDashboardAction{
   final DashboardPageState pageState;
   final Profile profile;
   SetProfileDashboardAction(this.pageState, this.profile);
+}
+
+class SetQuestionnairesToDashboardAction {
+  final DashboardPageState pageState;
+  final List<Questionnaire> notComplete;
+  final List<Questionnaire> complete;
+  final List<Questionnaire> allQuestionnaires;
+  SetQuestionnairesToDashboardAction(this.pageState, this.notComplete, this.complete, this.allQuestionnaires);
 }
 
 class SetUnseenReminderCount{

@@ -38,7 +38,16 @@ final dashboardPageReducer = combineReducers<DashboardPageState>([
   TypedReducer<DashboardPageState, SetShouldShowPMF>(_setShouldShowPMF),
   TypedReducer<DashboardPageState, SetShouldAppReview>(setShouldShowAppReview),
   TypedReducer<DashboardPageState, SetShouldShowUpdateAction>(setShouldShowUpdate),
+  TypedReducer<DashboardPageState, SetQuestionnairesToDashboardAction>(setQuestionnaires),
 ]);
+
+DashboardPageState setQuestionnaires(DashboardPageState previousState, SetQuestionnairesToDashboardAction action) {
+  return previousState.copyWith(
+    completedQuestionnaires: action.complete,
+    notCompleteQuestionnaires: action.notComplete,
+    allQuestionnaires: action.allQuestionnaires,
+  );
+}
 
 DashboardPageState setShouldShowUpdate(DashboardPageState previousState, SetShouldShowUpdateAction action) {
   return previousState.copyWith(

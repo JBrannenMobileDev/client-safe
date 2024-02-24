@@ -15,6 +15,7 @@ import '../../models/JobStage.dart';
 import '../../models/LocationDandy.dart';
 import '../../models/Pose.dart';
 import '../../models/Profile.dart';
+import '../../models/Questionnaire.dart';
 import 'JobTypePieChartRowData.dart';
 import 'LeadSourcePieChartRowData.dart';
 
@@ -52,6 +53,9 @@ class DashboardPageState {
   final List<LineChartMonthData> lineChartMonthData;
   final List<LeadSourcePieChartRowData> leadSourcePieChartRowData;
   final List<Pose> unseenFeaturedPoses;
+  final List<Questionnaire> notCompleteQuestionnaires;
+  final List<Questionnaire> completedQuestionnaires;
+  final List<Questionnaire> allQuestionnaires;
   final Profile profile;
   final AppSettings appSettings;
   final Function() onAddClicked;
@@ -125,6 +129,9 @@ class DashboardPageState {
     this.activeJobsWithUnsignedContract,
     this.allJobsWithSignedContract,
     this.allJobsWithUnsignedContract,
+    this.notCompleteQuestionnaires,
+    this.completedQuestionnaires,
+    this.allQuestionnaires,
   });
 
   DashboardPageState copyWith({
@@ -180,6 +187,9 @@ class DashboardPageState {
     Function(bool, DateTime) updateCanShowPMF,
     Function(bool, DateTime) updateCanShowRequestReview,
     Function(AppSettings) markUpdateAsSeen,
+    List<Questionnaire> notCompleteQuestionnaires,
+    List<Questionnaire> completedQuestionnaires,
+    List<Questionnaire> allQuestionnaires,
   }){
     return DashboardPageState(
       jobsProfitTotal: jobsProfitTotal ?? this.jobsProfitTotal,
@@ -234,6 +244,9 @@ class DashboardPageState {
       activeJobsWithUnsignedContract: activeJobsWithUnsignedContract ?? this.activeJobsWithUnsignedContract,
       allJobsWithSignedContract: allJobsWithSignedContract ?? this.allJobsWithSignedContract,
       allJobsWithUnsignedContract: allJobsWithUnsignedContract ?? this.allJobsWithUnsignedContract,
+      completedQuestionnaires: completedQuestionnaires ?? this.completedQuestionnaires,
+      notCompleteQuestionnaires: notCompleteQuestionnaires ?? this.notCompleteQuestionnaires,
+      allQuestionnaires: allQuestionnaires ?? this.allQuestionnaires,
     );
   }
 
@@ -277,6 +290,9 @@ class DashboardPageState {
       activeJobsWithUnsignedContract: store.state.dashboardPageState.activeJobsWithUnsignedContract,
       allJobsWithSignedContract: store.state.dashboardPageState.allJobsWithSignedContract,
       allJobsWithUnsignedContract: store.state.dashboardPageState.allJobsWithUnsignedContract,
+      completedQuestionnaires: store.state.dashboardPageState.completedQuestionnaires,
+      notCompleteQuestionnaires: store.state.dashboardPageState.notCompleteQuestionnaires,
+      allQuestionnaires: store.state.dashboardPageState.allQuestionnaires,
       onLeadClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
       onJobClicked: (job) {
         store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job));
@@ -360,6 +376,9 @@ class DashboardPageState {
     updateCanShowPMF: null,
     markUpdateAsSeen: null,
     hasSeenShowcase: true,
+    completedQuestionnaires: [],
+    notCompleteQuestionnaires: [],
+    allQuestionnaires: [],
   );
 
   @override
@@ -414,6 +433,9 @@ class DashboardPageState {
       activeJobsWithUnsignedContract.hashCode ^
       allJobsWithUnsignedContract.hashCode ^
       allJobsWithSignedContract.hashCode ^
+      completedQuestionnaires.hashCode ^
+      notCompleteQuestionnaires.hashCode ^
+      allQuestionnaires.hashCode ^
       isMinimized.hashCode;
 
   @override
@@ -470,5 +492,8 @@ class DashboardPageState {
               activeJobsWithSignedContract == other.activeJobsWithSignedContract &&
               allJobsWithSignedContract == other.allJobsWithSignedContract &&
               allJobsWithUnsignedContract == other.allJobsWithUnsignedContract &&
+              completedQuestionnaires == other.completedQuestionnaires &&
+              notCompleteQuestionnaires == other.notCompleteQuestionnaires &&
+              allQuestionnaires == other.allQuestionnaires &&
               isMinimized == other.isMinimized;
 }

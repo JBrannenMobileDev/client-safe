@@ -86,7 +86,7 @@ class DocumentsCard extends StatelessWidget {
             UserOptionsUtil.showContractOptionsSheet(context, pageState.job, profile, openContractEditPage);
             break;
           case DocumentItem.DOCUMENT_TYPE_QUESTIONNAIRE:
-            UserOptionsUtil.showQuestionnaireOptionsSheet(context, getSelectedQuestionnaire(pageState.job.proposal.questionnaires, pageState.documents.elementAt(index)), profile, openQuestionnaireEditPage);
+            UserOptionsUtil.showQuestionnaireOptionsSheet(context, getSelectedQuestionnaire(pageState.job.proposal.questionnaires, pageState.documents.elementAt(index)), openQuestionnaireEditPage);
         }
       },
       child: SizedBox(
@@ -130,7 +130,7 @@ class DocumentsCard extends StatelessWidget {
   }
 
   void openContractEditPage(BuildContext context) {
-    NavigationUtil.onContractSelected(context, pageState.job.proposal.contract, pageState.job.proposal.contract.contractName, false, pageState.job.documentId, _ackContractAlert);
+    NavigationUtil.onContractSelected(context, pageState.job.proposal.contract, pageState.job.proposal.contract.contractName, false, pageState.job.documentId, _ackQuestionnaireAlert);
   }
 
   Future<void> _ackContractAlert(BuildContext context) {

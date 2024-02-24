@@ -12,11 +12,15 @@ class Questionnaire {
 
   int id;
   String documentId;
+  String jobDocumentId;
   String title;
   String message;
   List<Question> questions;
   bool isComplete;
+  bool isReviewed;
+  bool showInNotComplete;
   DateTime dateCompleted;
+  DateTime dateCreated;
 
   String getMainImageUrl() {
     return questions.isNotEmpty ? questions.first.webImageUrl : '';
@@ -74,17 +78,25 @@ class Questionnaire {
     this.questions,
     this.isComplete,
     this.dateCompleted,
+    this.jobDocumentId,
+    this.isReviewed,
+    this.showInNotComplete,
+    this.dateCreated,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'id' : id,
       'documentId' : documentId,
+      'jobDocumentId' : jobDocumentId,
       'title' : title,
       'message' : message,
       'questions' : convertQuestionsToMap(questions),
       'isComplete' : isComplete,
       'dateCompleted' : dateCompleted?.toString() ?? "",
+      'dateCreated' : dateCreated?.toString() ?? "",
+      'isReviewed' : isReviewed,
+      'showInNotComplete' : showInNotComplete,
     };
   }
 
@@ -92,11 +104,15 @@ class Questionnaire {
     return Questionnaire(
       id: map['id'],
       documentId: map['documentId'],
+      jobDocumentId: map['jobDocumentId'],
       title: map['title'],
       message: map['message'],
       questions: convertMapsToQuestions(map['questions']) ?? [],
       isComplete: map['isComplete'] ?? false,
+      isReviewed: map['isReviewed'] ?? false,
+      showInNotComplete: map['showInNotComplete'] ?? true,
       dateCompleted: map['dateCompleted'] != "" && map['dateCompleted'] != null ? DateTime.parse(map['dateCompleted']) : null,
+      dateCreated: map['dateCreated'] != "" && map['dateCreated'] != null ? DateTime.parse(map['dateCreated']) : null,
     );
   }
 

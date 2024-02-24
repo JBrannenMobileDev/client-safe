@@ -43,6 +43,7 @@ import '../models/Report.dart';
 import '../pages/contract_edit_page/ContractEditPage.dart';
 import '../pages/dashboard_page/DashboardPageState.dart';
 import '../pages/dashboard_page/widgets/ContractListPage.dart';
+import '../pages/dashboard_page/widgets/QuestionnairesPage.dart';
 import '../pages/income_expense_settings_page/ReportsPage.dart';
 import '../pages/job_details_page/JobDetailsPageState.dart';
 import '../pages/edit_branding_page/EditBrandingPage.dart';
@@ -130,6 +131,9 @@ class NavigationUtil {
   }
   static onDashboardContractsSelected(BuildContext context, DashboardPageState pageState, bool signed) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ContractListPage(pageState: pageState, signed: signed)));
+  }
+  static onDashboardQuestionnairesSelected(BuildContext context, int index) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => QuestionnairesPage(index)));
   }
   static onJobHistorySelected(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobHistoryListPage()));

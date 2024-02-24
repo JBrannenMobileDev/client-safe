@@ -555,7 +555,7 @@ class UserOptionsUtil {
         });
   }
 
-  static void showQuestionnaireOptionsSheet(BuildContext context, Questionnaire questionnaire, Profile profile, Function openQuestionnaireEditPage) {
+  static void showQuestionnaireOptionsSheet(BuildContext context, Questionnaire questionnaire, Function openQuestionnaireEditPage) {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,

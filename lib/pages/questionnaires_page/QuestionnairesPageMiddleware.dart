@@ -10,6 +10,7 @@ import '../../models/Job.dart';
 import '../../utils/JobUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../dashboard_page/DashboardPageActions.dart';
 import '../job_details_page/JobDetailsActions.dart';
 import 'QuestionnairesActions.dart';
 
@@ -31,11 +32,13 @@ class QuestionnairesPageMiddleware extends MiddlewareClass<AppState> {
 
   void saveQuestionnaireToJob(Store<AppState> store, SaveQuestionnaireToJobAction action) async {
     Questionnaire questionnaire = action.questionnaire;
+    questionnaire.jobDocumentId = action.jobDocumentId;
     Job job = await JobDao.getJobById(action.jobDocumentId);
     job.proposal.questionnaires.add(questionnaire);
     await JobDao.update(job);
     EventSender().sendEvent(eventName: EventNames.QUESTIONNAIRE_ADDED_TO_JOB);
     store.dispatch(SetJobInfoWithJobDocumentId(store.state.jobDetailsPageState, job.documentId));
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 
   void fetchQuestionnaires(Store<AppState> store, NextDispatcher next) async{

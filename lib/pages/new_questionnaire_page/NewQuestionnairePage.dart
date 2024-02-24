@@ -76,6 +76,11 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
           if(questionnaire != null) {
             store.dispatch(SetQuestionnaireAction(store.state.newQuestionnairePageState, questionnaire, jobDocumentId));
             questions = questionnaire.questions;
+          } else {
+            Questionnaire questionnaire = Questionnaire();
+            questionnaire.questions = [];
+            store.dispatch(SetQuestionnaireAction(store.state.newQuestionnairePageState, questionnaire, jobDocumentId));
+            questions = [];
           }
           store.dispatch(FetchProfileForNewQuestionnaireAction(store.state.newQuestionnairePageState));
 
