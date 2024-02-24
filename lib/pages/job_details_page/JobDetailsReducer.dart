@@ -9,8 +9,10 @@ import 'package:device_calendar/device_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 
+import '../../models/Questionnaire.dart';
 import '../../models/rest_models/AccuWeatherModels/forecastFiveDay/DailyForecasts.dart';
 import 'document_items/ContractDocument.dart';
+import 'document_items/QuestionnaireDocument.dart';
 
 final jobDetailsReducer = combineReducers<JobDetailsPageState>([
   TypedReducer<JobDetailsPageState, SetJobAction>(_setJobInfo),
@@ -387,6 +389,14 @@ JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobAction 
         contractName: action.job.proposal.contract.contractName,
         isSigned: action.job.proposal.contract.signedByClient
     ));
+  }
+  if(action.job.proposal.questionnaires != null && action.job.proposal.questionnaires.isNotEmpty) {
+    for(Questionnaire questionnaire in action.job.proposal.questionnaires) {
+      documents.add(QuestionnaireDocument(
+        isComplete: questionnaire.isComplete,
+        questionnaire: questionnaire,
+      ));
+    }
   }
   action.job.completedStages.sort((a, b) => a.compareTo(b));
   LocationDandy newLocation = action.job.location != null ? action.job.location : null;

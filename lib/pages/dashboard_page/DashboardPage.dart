@@ -11,6 +11,7 @@ import 'package:dandylight/pages/dashboard_page/widgets/ContractsCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/JobTypeBreakdownPieChart.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/ProfileAndJobsCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/LeadSourcesPieChart.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/QuestionnairesCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/RestorePurchasesBottomSheet.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/StageStatsHomeCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/MonthlyProfitLineChart.dart';
@@ -724,6 +725,10 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                             SlideTransition(
                                 position: offsetAnimationUp,
                                 child: const ContractsCard()
+                            ),
+                            SlideTransition(
+                                position: offsetAnimationUp,
+                                child: const QuestionnairesCard()
                             ),
                             SlideTransition(
                                 position: offsetAnimationUp,

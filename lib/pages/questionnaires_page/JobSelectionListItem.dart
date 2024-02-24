@@ -30,7 +30,7 @@ class JobSelectionListItem extends StatelessWidget {
             ),
 
         onPressed: () {
-          pageState.onJobSelected(pageState.activeJobs.elementAt(index).documentId, questionnaire);
+          pageState.onSaveToJobSelected(questionnaire, pageState.activeJobs.elementAt(index).documentId);
           NavigationUtil.onJobSelected(context, pageState.activeJobs.elementAt(index).documentId);
         },
         child: Row(

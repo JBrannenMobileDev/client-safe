@@ -1,6 +1,8 @@
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
+import 'package:dandylight/models/Questionnaire.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/pages/job_details_page/document_items/DocumentItem.dart';
+import 'package:dandylight/pages/job_details_page/document_items/QuestionnaireDocument.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
@@ -83,6 +85,8 @@ class DocumentsCard extends StatelessWidget {
           case DocumentItem.DOCUMENT_TYPE_CONTRACT:
             UserOptionsUtil.showContractOptionsSheet(context, pageState.job, profile, openContractEditPage);
             break;
+          case DocumentItem.DOCUMENT_TYPE_QUESTIONNAIRE:
+            UserOptionsUtil.showQuestionnaireOptionsSheet(context, getSelectedQuestionnaire(pageState.job.proposal.questionnaires, pageState.documents.elementAt(index)), profile, openQuestionnaireEditPage);
         }
       },
       child: SizedBox(
@@ -119,6 +123,10 @@ class DocumentsCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void openQuestionnaireEditPage(BuildContext context, Questionnaire questionnaire) {
+    NavigationUtil.onQuestionnaireSelected(context, questionnaire, questionnaire.title, false, pageState.job.documentId, _ackQuestionnaireAlert);
   }
 
   void openContractEditPage(BuildContext context) {
@@ -170,6 +178,58 @@ class DocumentsCard extends StatelessWidget {
         );
       },
     );
+  }
+
+  Future<void> _ackQuestionnaireAlert(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Device.get().isIos ?
+        CupertinoAlertDialog(
+          title: const Text('Are you sure?'),
+          content: const Text('This questionnaire will be permanently removed from this job.'),
+          actions: <Widget>[
+            TextButton(
+              style: Styles.getButtonStyle(),
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('No'),
+            ),
+            TextButton(
+              style: Styles.getButtonStyle(),
+              onPressed: () {
+                // pageState.onDeleteContractSelected(pageState.job.proposal.contract);
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+              child: const Text('Yes'),
+            ),
+          ],
+        ) : AlertDialog(
+          title: const Text('Are you sure?'),
+          content: const Text('This questionnaire will be permanently removed from this job.'),
+          actions: <Widget>[
+            TextButton(
+              style: Styles.getButtonStyle(),
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('No'),
+            ),
+            TextButton(
+              style: Styles.getButtonStyle(),
+              onPressed: () {
+                // pageState.onDeleteContractSelected(pageState.job.proposal.contract);
+                Navigator.of(context).pop(true);
+              },
+              child: const Text('Yes'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Questionnaire getSelectedQuestionnaire(List<Questionnaire> questionnaires, DocumentItem documentItem) {
+    QuestionnaireDocument questionnaireDocument = documentItem;
+    return questionnaireDocument.questionnaire;
   }
 
 }

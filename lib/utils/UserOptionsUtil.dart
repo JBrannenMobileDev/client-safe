@@ -57,6 +57,7 @@ import '../models/JobReminder.dart';
 import '../models/JobType.dart';
 import '../models/LocationDandy.dart';
 import '../models/Profile.dart';
+import '../models/Questionnaire.dart';
 import '../pages/calendar_selection_page/CalendarSelectionPage.dart';
 import '../pages/job_details_page/ContractOptionsDialog.dart';
 import '../pages/login_page/ShowResetPasswordSentDialog.dart';
@@ -68,6 +69,7 @@ import 'AdminCheckUtil.dart';
 import 'ColorConstants.dart';
 import 'ContractOptionsBottomSheet.dart';
 import 'ContractUtils.dart';
+import 'QuestionnaireOptionsBottomSheet.dart';
 import 'ShareClientPortalOptionsBottomSheet.dart';
 import 'ShareOptionsBottomSheet.dart';
 
@@ -550,6 +552,19 @@ class UserOptionsUtil {
         barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
         builder: (context) {
           return ContractOptionsBottomSheet(populatedJsonTerms, openContractEditPage);
+        });
+  }
+
+  static void showQuestionnaireOptionsSheet(BuildContext context, Questionnaire questionnaire, Profile profile, Function openQuestionnaireEditPage) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        isDismissible: true,
+        enableDrag: true,
+        backgroundColor: Colors.transparent,
+        barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+        builder: (context) {
+          return QuestionnaireOptionsBottomSheet(questionnaire.isComplete, openQuestionnaireEditPage, questionnaire);
         });
   }
 }

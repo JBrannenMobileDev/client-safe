@@ -1,6 +1,13 @@
 
 import 'Question.dart';
 
+/// Questionnaires can be saved in 3 different places in this app.
+/// 1. QuestionnaireDao - In our local database. These are just the templates. They
+///    will not be connected to any jobs or have any answers
+/// 2. In the Proposal object in a Job object. These will be specific for that
+///    job and can potentially contain answers.
+/// 3. In the user Profile object. These are questionnaires that were sent directly
+///    without connecting them to a job/user. These may also include answers.
 class Questionnaire {
 
   int id;

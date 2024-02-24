@@ -11,7 +11,6 @@ class QuestionnairesPageState{
   final String shareMessage;
   final Function(Questionnaire, String) onSaveToJobSelected;
   final Function() unsubscribe;
-  final Function(String, Questionnaire) onJobSelected;
   final Function(String) onShareMessageChanged;
 
   QuestionnairesPageState({
@@ -19,7 +18,6 @@ class QuestionnairesPageState{
     @required this.onSaveToJobSelected,
     @required this.unsubscribe,
     @required this.activeJobs,
-    @required this.onJobSelected,
     @required this.shareMessage,
     @required this.onShareMessageChanged,
   });
@@ -30,7 +28,6 @@ class QuestionnairesPageState{
     String shareMessage,
     Function(Questionnaire, String) onSaveToJobSelected,
     Function() unsubscribe,
-    Function(String, Questionnaire) onJobSelected,
     Function(String) onShareMessageChanged,
   }){
     return QuestionnairesPageState(
@@ -38,7 +35,6 @@ class QuestionnairesPageState{
       onSaveToJobSelected: onSaveToJobSelected ?? this.onSaveToJobSelected,
       unsubscribe: unsubscribe ?? this.unsubscribe,
       activeJobs: activeJobs ?? this.activeJobs,
-      onJobSelected: onJobSelected ?? this.onJobSelected,
       shareMessage: shareMessage ?? this.shareMessage,
       onShareMessageChanged: onShareMessageChanged ?? this.onShareMessageChanged,
     );
@@ -49,7 +45,6 @@ class QuestionnairesPageState{
     onSaveToJobSelected: null,
     unsubscribe: null,
     activeJobs: [],
-    onJobSelected: null,
     shareMessage: '',
     onShareMessageChanged: null,
   );
@@ -61,7 +56,6 @@ class QuestionnairesPageState{
       shareMessage: store.state.questionnairesPageState.shareMessage,
       onSaveToJobSelected: (questionnaire, jobDocumentId) => store.dispatch(SaveQuestionnaireToJobAction(store.state.questionnairesPageState, questionnaire, jobDocumentId)),
       unsubscribe: () => store.dispatch(CancelSubscriptionsAction(store.state.questionnairesPageState)),
-      onJobSelected: (jobDocumentId, questionnaire) => store.dispatch(AddQuestionnaireToJobAction(store.state.questionnairesPageState, jobDocumentId, questionnaire)),
       onShareMessageChanged: (message) => store.dispatch(UpdateShareMessageAction(store.state.questionnairesPageState, message)),
     );
   }
@@ -71,7 +65,6 @@ class QuestionnairesPageState{
       questionnaires.hashCode ^
       unsubscribe.hashCode ^
       activeJobs.hashCode ^
-      onJobSelected.hashCode ^
       shareMessage.hashCode ^
       onShareMessageChanged.hashCode ^
       onSaveToJobSelected.hashCode;
@@ -83,7 +76,6 @@ class QuestionnairesPageState{
               questionnaires == other.questionnaires &&
               unsubscribe == other.unsubscribe &&
               activeJobs == other.activeJobs &&
-              onJobSelected == other.onJobSelected &&
               shareMessage == other.shareMessage &&
               onShareMessageChanged == other.onShareMessageChanged &&
               onSaveToJobSelected == other.onSaveToJobSelected;

@@ -11,15 +11,15 @@ import '../../../utils/analytics/EventNames.dart';
 import '../../../utils/analytics/EventSender.dart';
 import '../../../widgets/TextDandyLight.dart';
 
-class ContractsCard extends StatelessWidget {
-  const ContractsCard({Key key}) : super(key: key);
+class QuestionnairesCard extends StatelessWidget {
+  const QuestionnairesCard({Key key}) : super(key: key);
 
 
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, DashboardPageState>(
     converter: (Store<AppState> store) => DashboardPageState.fromStore(store),
     builder: (BuildContext context, DashboardPageState pageState) =>  Container(
-      margin: const EdgeInsets.only(bottom: 16, top: 0),
+      margin: const EdgeInsets.only(bottom: 32, top: 0),
       child: Container(
             margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0),
             padding: const EdgeInsets.only(bottom: 16),
@@ -35,7 +35,7 @@ class ContractsCard extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
-                    text: 'Active Contracts',
+                    text: 'Active Questionnaires',
                     textAlign: TextAlign.start,
                     color: Color(ColorConstants.getPrimaryBlack()),
                   ),
@@ -66,7 +66,7 @@ class ContractsCard extends StatelessWidget {
                             ),
                             TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
-                              text: 'Unsigned',
+                              text: 'Sent',
                               textAlign: TextAlign.center,
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),
@@ -101,7 +101,7 @@ class ContractsCard extends StatelessWidget {
                             ),
                             TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
-                              text: 'Signed',
+                              text: 'Completed',
                               textAlign: TextAlign.center,
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),

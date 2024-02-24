@@ -68,6 +68,9 @@ class NavigationUtil {
   static onInAppPreviewContractSelected(BuildContext context, String jsonTerms) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => PreviewContractPage(jsonTerms: jsonTerms)));
   }
+  static onInAppPreviewQuestionnaireSelected(BuildContext context, Questionnaire questionnaire) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => null));
+  }
   static onJobTapped(BuildContext context, bool comingFromOnBoarding) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobDetailsPage(comingFromOnBoarding: comingFromOnBoarding,)));
   }

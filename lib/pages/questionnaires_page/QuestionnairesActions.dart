@@ -33,13 +33,6 @@ class SetActiveJobsToQuestionnairesAction {
   SetActiveJobsToQuestionnairesAction(this.pageState, this.activeJobs);
 }
 
-class AddQuestionnaireToJobAction {
-  final QuestionnairesPageState pageState;
-  final String jobDocumentId;
-  final Questionnaire questionnaire;
-  AddQuestionnaireToJobAction(this.pageState, this.jobDocumentId, this.questionnaire);
-}
-
 class UpdateShareMessageAction {
   final QuestionnairesPageState pageState;
   final String shareMessage;
