@@ -130,7 +130,7 @@ class DocumentsCard extends StatelessWidget {
   }
 
   void openContractEditPage(BuildContext context) {
-    NavigationUtil.onContractSelected(context, pageState.job.proposal.contract, pageState.job.proposal.contract.contractName, false, pageState.job.documentId, _ackQuestionnaireAlert);
+    NavigationUtil.onContractSelected(context, pageState.job.proposal.contract, pageState.job.proposal.contract.contractName, false, pageState.job.documentId, _ackContractAlert);
   }
 
   Future<void> _ackContractAlert(BuildContext context) {
@@ -180,7 +180,7 @@ class DocumentsCard extends StatelessWidget {
     );
   }
 
-  Future<void> _ackQuestionnaireAlert(BuildContext context) {
+  Future<void> _ackQuestionnaireAlert(BuildContext context, Questionnaire questionnaire) {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -197,7 +197,7 @@ class DocumentsCard extends StatelessWidget {
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                // pageState.onDeleteContractSelected(pageState.job.proposal.contract);
+                pageState.onDeleteQuestionnaireSelected(questionnaire);
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
@@ -216,7 +216,7 @@ class DocumentsCard extends StatelessWidget {
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                // pageState.onDeleteContractSelected(pageState.job.proposal.contract);
+                pageState.onDeleteQuestionnaireSelected(questionnaire);
                 Navigator.of(context).pop(true);
               },
               child: const Text('Yes'),

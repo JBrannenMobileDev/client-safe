@@ -34,11 +34,16 @@ class QuestionnaireDocument implements DocumentItem {
           color: Color(ColorConstants.getPrimaryBlack()),
         ),
         isComplete ? TextDandyLight(
-          type: TextDandyLight.MEDIUM_TEXT,
+          type: TextDandyLight.SMALL_TEXT,
           text: '(Completed)',
           textAlign: TextAlign.start,
           color: Color(ColorConstants.getPeachDark()),
-        ) : const SizedBox()
+        ) : TextDandyLight(
+          type: TextDandyLight.SMALL_TEXT,
+          text: questionnaire.title,
+          textAlign: TextAlign.start,
+          color: Color(ColorConstants.getPrimaryBlack()),
+        )
       ],
     );
   }

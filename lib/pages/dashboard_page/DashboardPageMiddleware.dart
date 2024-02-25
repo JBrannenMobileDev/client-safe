@@ -372,9 +372,9 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       allQuestionnaires.addAll(job.proposal.questionnaires);
     }
 
-    allQuestionnaires.reversed;
-    notCompleteQuestionnaires.reversed;
-    completeQuestionnaireNotReviewed.reversed;
+    allQuestionnaires = allQuestionnaires.reversed.toList();
+    notCompleteQuestionnaires = notCompleteQuestionnaires.reversed.toList();
+    completeQuestionnaireNotReviewed = completeQuestionnaireNotReviewed.reversed.toList();
 
     store.dispatch(SetQuestionnairesToDashboardAction(store.state.dashboardPageState, notCompleteQuestionnaires, completeQuestionnaireNotReviewed, allQuestionnaires));
   }

@@ -14,6 +14,7 @@ import '../../models/Contract.dart';
 import '../../models/JobReminder.dart';
 import '../../models/JobType.dart';
 import '../../models/Profile.dart';
+import '../../models/Questionnaire.dart';
 import '../../models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
 
 class SetJobInfo{
@@ -266,6 +267,12 @@ class SaveJobDetailsHomeLocationAction{
   final JobDetailsPageState pageState;
   final LatLng startLocation;
   SaveJobDetailsHomeLocationAction(this.pageState, this.startLocation);
+}
+
+class DeleteQuestionnaireFromJobAction {
+  final JobDetailsPageState pageState;
+  final Questionnaire questionnaire;
+  DeleteQuestionnaireFromJobAction(this.pageState, this.questionnaire);
 }
 
 class SetEventMapAction{

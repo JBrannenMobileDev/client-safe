@@ -22,6 +22,7 @@ import '../../models/JobType.dart';
 import '../../models/MileageExpense.dart';
 import '../../models/Pose.dart';
 import '../../models/Profile.dart';
+import '../../models/Questionnaire.dart';
 import '../sunset_weather_page/SunsetWeatherPageActions.dart';
 
 class JobDetailsPageState {
@@ -102,6 +103,7 @@ class JobDetailsPageState {
   final Function(LocationDandy) onDrivingDirectionsSelected;
   final Function(bool) setMileageAutoTrack;
   final Function(LatLng) onStartLocationChanged;
+  final Function(Questionnaire) onDeleteQuestionnaireSelected;
 
   JobDetailsPageState({
     @required this.job,
@@ -181,6 +183,7 @@ class JobDetailsPageState {
     @required this.setMileageAutoTrack,
     @required this.mileageTrip,
     @required this.onStartLocationChanged,
+    @required this.onDeleteQuestionnaireSelected,
   });
 
   JobDetailsPageState copyWith({
@@ -261,6 +264,7 @@ class JobDetailsPageState {
     Function() onSunsetWeatherSelected,
     Function(LocationDandy) onDrivingDirectionsSelected,
     Function(LatLng) onStartLocationChanged,
+    Function(Questionnaire) onDeleteQuestionnaireSelected,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
@@ -340,6 +344,7 @@ class JobDetailsPageState {
       setMileageAutoTrack: setMileageAutoTrack ?? this.setMileageAutoTrack,
       mileageTrip: mileageTrip ?? this.mileageTrip,
       onStartLocationChanged: onStartLocationChanged ?? this.onStartLocationChanged,
+      onDeleteQuestionnaireSelected: onDeleteQuestionnaireSelected ?? this.onDeleteQuestionnaireSelected,
     );
   }
 
@@ -430,6 +435,7 @@ class JobDetailsPageState {
         onDrivingDirectionsSelected: (location) => store.dispatch(DrivingDirectionsJobSelected(store.state.jobDetailsPageState, location)),
         setMileageAutoTrack: (enabled) => store.dispatch(SetShouldTrackAction(store.state.jobDetailsPageState, enabled)),
         onStartLocationChanged: (latLng) => store.dispatch(SaveJobDetailsHomeLocationAction(store.state.jobDetailsPageState, latLng)),
+        onDeleteQuestionnaireSelected: (questionnaire) => store.dispatch(DeleteQuestionnaireFromJobAction(store.state.jobDetailsPageState, questionnaire)),
     );
   }
 
@@ -511,6 +517,7 @@ class JobDetailsPageState {
     onNewDateSelected: null,
     onDrivingDirectionsSelected: null,
     onStartLocationChanged: null,
+    onDeleteQuestionnaireSelected: null,
   );
 
   @override
@@ -585,6 +592,7 @@ class JobDetailsPageState {
       eveningBlueHour.hashCode ^
       onSunsetWeatherSelected.hashCode ^
       onStartLocationChanged.hashCode ^
+      onDeleteQuestionnaireSelected.hashCode ^
       reminders.hashCode;
 
   @override
@@ -659,5 +667,6 @@ class JobDetailsPageState {
               tempHigh == other.tempHigh &&
               chanceOfRain == other.chanceOfRain &&
               cloudCoverage == other.cloudCoverage &&
+              onDeleteQuestionnaireSelected == other.onDeleteQuestionnaireSelected &&
               onClearUnsavedDeposit == other.onClearUnsavedDeposit;
 }

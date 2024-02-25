@@ -29,7 +29,7 @@ class NewQuestionnairePage extends StatefulWidget {
   final String title;
   final bool isNew;
   final String jobDocumentId;
-  final Function(BuildContext) deleteFromJob;
+  final Function(BuildContext, Questionnaire) deleteFromJob;
 
   const NewQuestionnairePage({Key key, this.questionnaire, this.title, this.isNew, this.jobDocumentId, this.deleteFromJob}) : super(key: key);
 
@@ -46,7 +46,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
   final bool isNew;
   final bool hasUnsavedChanges = false;
   final String jobDocumentId;
-  final Function(BuildContext) deleteFromJob;
+  final Function(BuildContext, Questionnaire) deleteFromJob;
   bool isKeyboardVisible = false;
   OverlayEntry overlayEntry;
   final Questionnaire questionnaire;
@@ -102,6 +102,9 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
             titleTextController.text = questionnaire.title;
             messageController.text = questionnaire.message;
           }
+        },
+        onDidChange: (previous, current) {
+
         },
         converter: (Store<AppState> store) => NewQuestionnairePageState.fromStore(store),
         builder: (BuildContext context, NewQuestionnairePageState pageState) => WillPopScope(
@@ -166,7 +169,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                     tooltip: 'Delete Questionnaire',
                     onPressed: () {
                       if(jobDocumentId != null && jobDocumentId.isNotEmpty) {
-                        deleteFromJob(context);
+                        deleteFromJob(context, questionnaire);
                       }else {
                         _ackDeleteAlert(context, pageState);
                       }
@@ -308,7 +311,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                           ) : const SizedBox(),
                           GestureDetector(
                             onTap: () {
-                              NavigationUtil.onNewQuestionSelected(context, null, pageState.onQuestionSaved, (pageState.questionnaire?.questions?.length ?? 0) +1);
+                              NavigationUtil.onNewQuestionSelected(context, null, onQuestionSaved, (questions?.length ?? 0) +1);
                             },
                             child: Container(
                               alignment: Alignment.center,
@@ -446,7 +449,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
         return Device.get().isIos ?
         CupertinoAlertDialog(
           title: new Text('Are you sure?'),
-          content: new Text('All data for this job will be permanently deleted!'),
+          content: new Text('All data for this questionnaire will be permanently deleted!'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
@@ -456,11 +459,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                if(jobDocumentId != null) {
-                  pageState.deleteFromJob();
-                } else {
-                  pageState.onDeleteSelected();
-                }
+                pageState.onDeleteSelected();
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
@@ -469,7 +468,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
           ],
         ) : AlertDialog(
           title: new Text('Are you sure?'),
-          content: new Text('All data for this job will be permanently deleted!'),
+          content: new Text('All data for this questionnaire will be permanently deleted!'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
@@ -479,11 +478,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                if(jobDocumentId != null) {
-                  pageState.deleteFromJob();
-                } else {
-                  pageState.onDeleteSelected();
-                }
+                pageState.onDeleteSelected();
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },

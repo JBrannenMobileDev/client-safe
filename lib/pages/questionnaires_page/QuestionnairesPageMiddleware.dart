@@ -7,7 +7,7 @@ import 'package:dandylight/models/Questionnaire.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 import '../../models/Job.dart';
-import '../../utils/JobUtil.dart';
+import '../../utils/UUID.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../dashboard_page/DashboardPageActions.dart';
@@ -33,6 +33,7 @@ class QuestionnairesPageMiddleware extends MiddlewareClass<AppState> {
   void saveQuestionnaireToJob(Store<AppState> store, SaveQuestionnaireToJobAction action) async {
     Questionnaire questionnaire = action.questionnaire;
     questionnaire.jobDocumentId = action.jobDocumentId;
+    questionnaire.documentId = Uuid().generateV4();
     Job job = await JobDao.getJobById(action.jobDocumentId);
     job.proposal.questionnaires.add(questionnaire);
     await JobDao.update(job);

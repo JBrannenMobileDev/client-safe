@@ -193,9 +193,6 @@ NewQuestionPageState _addCBChoice(NewQuestionPageState previousState, AddCheckbo
   );
 }
 
-//TODO add questionnaire title to Document card in job details.
-//TODO make sure Questionnaires are sorted correctly on Questionnaires page
-
 NewQuestionPageState _setRequired(NewQuestionPageState previousState, UpdateRequiredAction action){
   action.pageState.question.isRequired = action.required;
   return previousState.copyWith(

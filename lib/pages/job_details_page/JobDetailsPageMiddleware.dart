@@ -152,6 +152,19 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveJobDetailsHomeLocationAction) {
       saveHomeLocation(store, action, next);
     }
+    if(action is DeleteQuestionnaireFromJobAction) {
+      deleteQuestionnaireFromJob(store, action, next);
+    }
+  }
+
+  void deleteQuestionnaireFromJob(Store<AppState> store, DeleteQuestionnaireFromJobAction action, NextDispatcher next) async{
+    if(action.questionnaire.jobDocumentId != null && action.questionnaire.jobDocumentId.isNotEmpty) {
+      action.pageState.job.proposal.questionnaires.removeWhere((questionnaire) => questionnaire.documentId == action.questionnaire.documentId);
+      JobDao.update(action.pageState.job);
+      store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+      store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, action.pageState.job));
+      store.dispatch(SetJobAction(store.state.jobDetailsPageState, action.pageState.job));
+    }
   }
 
   void saveHomeLocation(Store<AppState> store, SaveJobDetailsHomeLocationAction action, NextDispatcher next) async{

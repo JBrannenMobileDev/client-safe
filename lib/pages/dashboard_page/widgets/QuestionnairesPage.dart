@@ -106,7 +106,7 @@ class _QuestionnairesPageState extends State<QuestionnairesPage> {
                           <Widget>[
                             ListView.builder(
                               reverse: false,
-                              padding: const EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 64.0),
+                              padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 64.0),
                               shrinkWrap: true,
                               controller: _controller,
                               physics: const ClampingScrollPhysics(),
@@ -200,7 +200,7 @@ class _QuestionnairesPageState extends State<QuestionnairesPage> {
     NavigationUtil.onQuestionnaireSelected(context, questionnaire, questionnaire.title, false, questionnaire.jobDocumentId, _ackQuestionnaireAlert);
   }
 
-  Future<void> _ackQuestionnaireAlert(BuildContext context) {
+  Future<void> _ackQuestionnaireAlert(BuildContext context, Questionnaire questionnaire) {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
