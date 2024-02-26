@@ -14,7 +14,7 @@ class NewQuestionnairePageState{
   final Profile profile;
   final bool isNew;
   final String newFromName;
-  final Function(String, List<Question>) onQuestionnaireSaved;
+  final Function(String, List<Question>, bool isNew) onQuestionnaireSaved;
   final Function() onDeleteSelected;
   final Function(String) onNameChanged;
   final Function(String) onMessageChanged;
@@ -41,7 +41,7 @@ class NewQuestionnairePageState{
     bool isNew,
     String newFromName,
     String message,
-    Function(String, List<Question>) onQuestionnaireSaved,
+    Function(String, List<Question>, bool isNew) onQuestionnaireSaved,
     Function(String) onNameChanged,
     Function() onDeleteSelected,
     Function(String) onMessageChanged,
@@ -84,7 +84,7 @@ class NewQuestionnairePageState{
       isNew: store.state.newQuestionnairePageState.isNew,
       newFromName: store.state.newQuestionnairePageState.newFromName,
       message: store.state.newQuestionnairePageState.message,
-      onQuestionnaireSaved: (jobDocumentId, questions) => store.dispatch(SaveQuestionnaireAction(store.state.newQuestionnairePageState, jobDocumentId, questions)),
+      onQuestionnaireSaved: (jobDocumentId, questions, isNew) => store.dispatch(SaveQuestionnaireAction(store.state.newQuestionnairePageState, jobDocumentId, questions, isNew)),
       onNameChanged: (name) => store.dispatch(SetQuestionnaireNameAction(store.state.newQuestionnairePageState, name)),
       onDeleteSelected: () => store.dispatch(DeleteQuestionnaireAction(store.state.newQuestionnairePageState)),
       onMessageChanged: (message) => store.dispatch(SetMessageToClientAction(store.state.newQuestionnairePageState, message)),

@@ -22,7 +22,8 @@ class SaveQuestionnaireAction{
   final NewQuestionnairePageState pageState;
   final String jobDocumentId;
   final List<Question> questions;
-  SaveQuestionnaireAction(this.pageState, this.jobDocumentId, this.questions);
+  final bool isNew;
+  SaveQuestionnaireAction(this.pageState, this.jobDocumentId, this.questions, this.isNew);
 }
 
 class SetQuestionnaireNameAction {

@@ -13,7 +13,6 @@ import 'package:dandylight/pages/dashboard_page/widgets/JobListPage.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/ReminderNotificationsPage.dart';
 import 'package:dandylight/pages/home_page/HomePage.dart';
 import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPage.dart';
-import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPageState.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPage.dart';
 import 'package:dandylight/pages/job_details_page/JobPosesPage.dart';
 import 'package:dandylight/pages/job_details_page/PreviewContractPage.dart';
@@ -29,11 +28,9 @@ import 'package:dandylight/pages/review_poses_page/ReviewPosesPage.dart';
 import 'package:dandylight/pages/subscribe_now_page/SubscribeNowPage.dart';
 import 'package:dandylight/pages/upload_pose_page/UploadPosePage.dart';
 import 'package:dandylight/utils/UidUtil.dart';
-import 'package:dandylight/web/pages/contractPage/ContractPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
 
 import '../models/Job.dart';
 import '../models/JobStage.dart';
@@ -43,13 +40,13 @@ import '../models/Report.dart';
 import '../pages/contract_edit_page/ContractEditPage.dart';
 import '../pages/dashboard_page/DashboardPageState.dart';
 import '../pages/dashboard_page/widgets/ContractListPage.dart';
-import '../pages/dashboard_page/widgets/QuestionnairesPage.dart';
+import '../pages/dashboard_page/widgets/QuestionnairesDashboardPage.dart';
 import '../pages/income_expense_settings_page/ReportsPage.dart';
-import '../pages/job_details_page/JobDetailsPageState.dart';
 import '../pages/edit_branding_page/EditBrandingPage.dart';
 import '../pages/new_question_page/NewQuestionPage.dart';
 import '../pages/new_questionnaire_page/NewQuestionnairePage.dart';
 import '../pages/poses_page/PosesPage.dart';
+import '../pages/questionnaires_page/QuestionnairesPage.dart';
 import '../pages/share_with_client_page/ShareWithClientPage.dart';
 
 class NavigationUtil {
@@ -114,6 +111,9 @@ class NavigationUtil {
   static onEditBrandingSelected(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditBrandingPage()));
   }
+  static onAddQuestionnaireToJobSelected(BuildContext context, String jobDocumentId) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => QuestionnairesPage(jobDocumentId: jobDocumentId, addToJobNew: true)));
+  }
   static onContractSelected(BuildContext context, Contract contract, String contractName, bool isNew, String jobDocumentId, Function(BuildContext) onDeleteFromJob) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ContractEditPage(contract: contract, contractName: contractName, isNew: isNew, jobDocumentId: jobDocumentId, deleteFromJob: onDeleteFromJob)));
   }
@@ -133,7 +133,7 @@ class NavigationUtil {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ContractListPage(pageState: pageState, signed: signed)));
   }
   static onDashboardQuestionnairesSelected(BuildContext context, int index) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => QuestionnairesPage(index)));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => QuestionnairesDashboardPage(index)));
   }
   static onJobHistorySelected(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobHistoryListPage()));

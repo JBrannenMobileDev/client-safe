@@ -105,7 +105,7 @@ class DocumentsCard extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.only(left: 8.0),
+                  padding: const EdgeInsets.only(left: 0.0),
                   child: item.buildTitle(context),
                 ),
               ],

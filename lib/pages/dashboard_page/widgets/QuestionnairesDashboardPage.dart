@@ -14,8 +14,8 @@ import '../../../widgets/TextDandyLight.dart';
 import '../DashboardPageState.dart';
 
 
-class QuestionnairesPage extends StatefulWidget {
-  const QuestionnairesPage(this.selectorIndex, {Key key}) : super(key: key);
+class QuestionnairesDashboardPage extends StatefulWidget {
+  const QuestionnairesDashboardPage(this.selectorIndex, {Key key}) : super(key: key);
 
   static const String FILTER_TYPE_NOT_COMPLETED = "Incomplete";
   static const String FILTER_TYPE_COMPETED = "Complete";
@@ -24,38 +24,38 @@ class QuestionnairesPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _QuestionnairesPageState(selectorIndex);
+    return _QuestionnairesDashboardPageState(selectorIndex);
   }
 }
 
-class _QuestionnairesPageState extends State<QuestionnairesPage> {
+class _QuestionnairesDashboardPageState extends State<QuestionnairesDashboardPage> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   ScrollController _controller = ScrollController();
   int selectorIndex;
   Map<int, Widget> type;
 
-  _QuestionnairesPageState(this.selectorIndex);
+  _QuestionnairesDashboardPageState(this.selectorIndex);
 
   @override
   Widget build(BuildContext context) {
     type = <int, Widget>{
       0: TextDandyLight(
         type: TextDandyLight.MEDIUM_TEXT,
-        text: QuestionnairesPage.FILTER_TYPE_NOT_COMPLETED,
+        text: QuestionnairesDashboardPage.FILTER_TYPE_NOT_COMPLETED,
         color: Color(selectorIndex == 0
             ? ColorConstants.getPrimaryWhite()
             : ColorConstants.getPrimaryBlack()),
       ),
       1: TextDandyLight(
         type: TextDandyLight.MEDIUM_TEXT,
-        text: QuestionnairesPage.FILTER_TYPE_COMPETED,
+        text: QuestionnairesDashboardPage.FILTER_TYPE_COMPETED,
         color: Color(selectorIndex == 1
             ? ColorConstants.getPrimaryWhite()
             : ColorConstants.getPrimaryBlack()),
       ),
       2: TextDandyLight(
         type: TextDandyLight.MEDIUM_TEXT,
-        text: QuestionnairesPage.FILTER_TYPE_ALL,
+        text: QuestionnairesDashboardPage.FILTER_TYPE_ALL,
         color: Color(selectorIndex == 2
             ? ColorConstants.getPrimaryWhite()
             : ColorConstants.getPrimaryBlack()),

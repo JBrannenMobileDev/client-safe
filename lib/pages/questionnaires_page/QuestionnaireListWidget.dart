@@ -5,15 +5,18 @@ import 'package:flutter/material.dart';
 
 import '../../models/Questionnaire.dart';
 import '../../widgets/TextDandyLight.dart';
+import 'QuestionnairesPageState.dart';
 
 class QuestionnaireListWidget extends StatelessWidget {
   final Questionnaire questionnaire;
-  var pageState;
+  final QuestionnairesPageState pageState;
   final Function onQuestionnaireSelected;
   final Color backgroundColor;
   final Color textColor;
+  final bool addToJobNew;
+  final String jobDocumentId;
 
-  QuestionnaireListWidget(this.questionnaire, this.pageState, this.onQuestionnaireSelected, this.backgroundColor, this.textColor, {Key key}) : super(key: key);
+  QuestionnaireListWidget(this.questionnaire, this.pageState, this.onQuestionnaireSelected, this.backgroundColor, this.textColor, this.addToJobNew, this.jobDocumentId, {Key key}) : super(key: key);
 
   void showSendBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -39,7 +42,12 @@ class QuestionnaireListWidget extends StatelessWidget {
           ),
         ),
         onPressed: () {
-          onQuestionnaireSelected(pageState, context, questionnaire);
+          if(addToJobNew) {
+            pageState.onSaveToJobSelected(questionnaire, jobDocumentId);
+            Navigator.of(context).pop();
+          } else {
+            onQuestionnaireSelected(pageState, context, questionnaire);
+          }
         },
         child: Stack(
           alignment: Alignment.centerRight,
@@ -50,12 +58,13 @@ class QuestionnaireListWidget extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     alignment: Alignment.center,
-                    margin: const EdgeInsets.only(right: 16.0, left: 8.0),
+                    margin: const EdgeInsets.only(right: 8.0, left: 8.0),
                     height: 36.0,
                     width: 36.0,
                     child: Image.asset('assets/images/collection_icons/questionaire_icon_white.png', color: Color(ColorConstants.getBlueDark())),
                   ),
                   SizedBox(
+                    width: MediaQuery.of(context).size.width - (addToJobNew ? 100 : 164),
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: questionnaire.title,
@@ -65,28 +74,28 @@ class QuestionnaireListWidget extends StatelessWidget {
                       color: textColor,
                     ),
                   ),
+                  !addToJobNew ? GestureDetector(
+                    onTap: () {
+                      showSendBottomSheet(context);
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 36,
+                      width: 64,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Color(ColorConstants.getBlueDark()),
+                      ),
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'SEND',
+                        color: Color(ColorConstants.getPrimaryWhite()),
+                      ),
+                    ),
+                  ) : SizedBox()
                 ],
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                showSendBottomSheet(context);
-              },
-              child: Container(
-                alignment: Alignment.center,
-                height: 36,
-                width: 64,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Color(ColorConstants.getBlueDark()),
-                ),
-                child: TextDandyLight(
-                  type: TextDandyLight.MEDIUM_TEXT,
-                  text: 'SEND',
-                  color: Color(ColorConstants.getPrimaryWhite()),
-                ),
-              ),
-            )
           ],
         ),
       );

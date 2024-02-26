@@ -8,7 +8,6 @@ import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:redux/redux.dart';
 
-import '../../data_layer/local_db/daos/ContractTemplateDao.dart';
 import '../../models/Contract.dart';
 import '../../models/Job.dart';
 import '../../models/JobStage.dart';

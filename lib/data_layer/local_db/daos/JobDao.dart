@@ -97,7 +97,7 @@ class JobDao extends Equatable{
       job.toMap(),
       finder: finder,
     );
-    await JobCollection().updateJob(job);
+    await JobCollection().updateJob(job); //TODO code stops here. does not throw crash...
     _updateLastChangedTime();
     CalendarSyncUtil.updateJobEvent(job);
   }

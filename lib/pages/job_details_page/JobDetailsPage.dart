@@ -234,41 +234,6 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                     //   },
                     // ),
 
-
-                    SpeedDialChild(
-                      child: const Icon(Icons.add),
-                      backgroundColor: Color(ColorConstants.getBlueLight()),
-                      labelWidget: Container(
-                        alignment: Alignment.center,
-                        height: 42.0,
-                        decoration: BoxDecoration(
-                          boxShadow: ElevationToShadow[4],
-                          color: Color(ColorConstants.getPrimaryWhite()),
-                          borderRadius: BorderRadius.circular(21.0),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                          child: TextDandyLight(
-                            type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'Contract',
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        bool containsContract = false;
-                        for(DocumentItem document in pageState.documents){
-                          if(document.getDocumentType() == DocumentItem.DOCUMENT_TYPE_CONTRACT) containsContract = true;
-                        }
-                        if(!containsContract) {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => ContractsPage(jobDocumentId: pageState.job.documentId)),
-                          );
-                        }else{
-                          UserOptionsUtil.showContractOptionsDialog(context);
-                        }
-                      },
-                    ),
                     SpeedDialChild(
                       child: const Icon(Icons.add),
                       backgroundColor: Color(ColorConstants.getBlueLight()),
@@ -322,13 +287,13 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                           padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'Reminder',
+                            text: 'Questionnaire',
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ),
                       onTap: () {
-                        UserOptionsUtil.showNewJobReminderDialog(context, pageState.job);
+                        NavigationUtil.onAddQuestionnaireToJobSelected(context, pageState.job.documentId);
                       },
                     ),
                     SpeedDialChild(
@@ -346,13 +311,47 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                           padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'Tip',
+                            text: 'Contract',
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ),
                       onTap: () {
-                        UserOptionsUtil.showTipChangeDialog(context);
+                        bool containsContract = false;
+                        for(DocumentItem document in pageState.documents){
+                          if(document.getDocumentType() == DocumentItem.DOCUMENT_TYPE_CONTRACT) containsContract = true;
+                        }
+                        if(!containsContract) {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => ContractsPage(jobDocumentId: pageState.job.documentId)),
+                          );
+                        }else{
+                          UserOptionsUtil.showContractOptionsDialog(context);
+                        }
+                      },
+                    ),
+                    SpeedDialChild(
+                      child: const Icon(Icons.add),
+                      backgroundColor: Color(ColorConstants.getBlueLight()),
+                      labelWidget: Container(
+                        alignment: Alignment.center,
+                        height: 42.0,
+                        decoration: BoxDecoration(
+                          boxShadow: ElevationToShadow[4],
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                          borderRadius: BorderRadius.circular(21.0),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Reminder',
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        UserOptionsUtil.showNewJobReminderDialog(context, pageState.job);
                       },
                     ),
                   ],

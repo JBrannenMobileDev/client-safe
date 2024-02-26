@@ -14,12 +14,13 @@ import 'QuestionnairesPageState.dart';
 
 class QuestionnairesPage extends StatefulWidget {
   final String jobDocumentId;
+  final bool addToJobNew;
 
-  const QuestionnairesPage({Key key, this.jobDocumentId}) : super(key: key);
+  const QuestionnairesPage({Key key, this.jobDocumentId, this.addToJobNew}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _QuestionnairesPageState(jobDocumentId);
+    return _QuestionnairesPageState(jobDocumentId, addToJobNew);
   }
 }
 
@@ -27,8 +28,9 @@ class _QuestionnairesPageState extends State<QuestionnairesPage> with TickerProv
   ScrollController _scrollController;
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   final String jobDocumentId;
+  final bool addToJobNew;
 
-  _QuestionnairesPageState(this.jobDocumentId);
+  _QuestionnairesPageState(this.jobDocumentId, this.addToJobNew);
 
   @override
   void initState() {
@@ -148,7 +150,7 @@ class _QuestionnairesPageState extends State<QuestionnairesPage> with TickerProv
       builder: (BuildContext context, QuestionnairesPageState pageState) =>
           Container(
             margin: const EdgeInsets.only(top: 0.0, bottom: 8.0),
-            child: QuestionnaireListWidget(pageState.questionnaires.elementAt(index), pageState, onOptionSelected, Color(ColorConstants.getBlueLight()), Color(ColorConstants.getPrimaryBlack())),
+            child: QuestionnaireListWidget(pageState.questionnaires.elementAt(index), pageState, onOptionSelected, Color(ColorConstants.getBlueLight()), Color(ColorConstants.getPrimaryBlack()), addToJobNew, jobDocumentId),
           ),
     );
   }

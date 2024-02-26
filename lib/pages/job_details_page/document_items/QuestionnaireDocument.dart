@@ -42,6 +42,8 @@ class QuestionnaireDocument implements DocumentItem {
           type: TextDandyLight.SMALL_TEXT,
           text: questionnaire.title,
           textAlign: TextAlign.start,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           color: Color(ColorConstants.getPrimaryBlack()),
         )
       ],

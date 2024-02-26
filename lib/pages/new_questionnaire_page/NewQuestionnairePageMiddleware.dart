@@ -55,17 +55,26 @@ class NewQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
 
     if(action.jobDocumentId != null && action.jobDocumentId.isNotEmpty) {
       Job job = await JobDao.getJobById(action.jobDocumentId);
-      job.proposal.questionnaires.add(questionnaire);
+      Questionnaire questionnaireAlreadyExists = job.proposal.questionnaires.where((it) => it.documentId == questionnaire.documentId).first;
+      if(questionnaireAlreadyExists == null) {
+        job.proposal.questionnaires.add(questionnaire);
+      } else {
+        job.proposal.questionnaires[job.proposal.questionnaires.indexWhere((it) => it.documentId == questionnaireAlreadyExists.documentId)] = questionnaire;
+      }
       await JobDao.update(job);
       store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId));
+    } else {
+      questionnaire = await QuestionnairesDao.insertOrUpdate(questionnaire);
     }
 
-    Questionnaire questionnaireWithDocumentId = await QuestionnairesDao.insertOrUpdate(questionnaire);
+    if(action.pageState.isNew) {
+      questionnaire = await QuestionnairesDao.insertOrUpdate(questionnaire);
+    }
 
     for(Question question in action.questions) {
       if(question.showImage && question.webImage != null && question.mobileImage != null) {
-        await FileStorage.saveQuestionWebImageFile(store.state.newQuestionPageState.webImage.path, questionnaireWithDocumentId, question.id, (taskSnapshot) => () => {});
-        await FileStorage.saveQuestionMobileImageFile(store.state.newQuestionPageState.mobileImage.path, questionnaireWithDocumentId, question.id, (taskSnapshot) => () => {});
+        await FileStorage.saveQuestionWebImageFile(store.state.newQuestionPageState.webImage.path, questionnaire, question.id, (taskSnapshot) => () => {});
+        await FileStorage.saveQuestionMobileImageFile(store.state.newQuestionPageState.mobileImage.path, questionnaire, question.id, (taskSnapshot) => () => {});
       }
     }
 

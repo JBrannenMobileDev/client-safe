@@ -28,7 +28,6 @@ class JobSelectionListItem extends StatelessWidget {
               ),
               color: Colors.transparent,
             ),
-
         onPressed: () {
           pageState.onSaveToJobSelected(questionnaire, pageState.activeJobs.elementAt(index).documentId);
           Navigator.of(context).pop();

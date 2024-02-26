@@ -19,7 +19,6 @@ import '../../utils/Shadows.dart';
 import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
 import '../common_widgets/TextFieldDandylight.dart';
-import '../share_with_client_page/ShareWithClientTextField.dart';
 import 'NewQuestionListWidget.dart';
 import 'NewQuestionnaireActions.dart';
 import 'NewQuestionnairePageState.dart';
@@ -367,7 +366,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                           alignment: Alignment.bottomCenter,
                           child: GestureDetector(
                             onTap: () {
-                              pageState.onQuestionnaireSaved(jobDocumentId, questions);
+                              pageState.onQuestionnaireSaved(jobDocumentId, questions, isNew);
                               showSuccessAnimation();
                             },
                             child: Container(

@@ -38,8 +38,8 @@ class QuestionnairesPageMiddleware extends MiddlewareClass<AppState> {
     job.proposal.questionnaires.add(questionnaire);
     await JobDao.update(job);
     EventSender().sendEvent(eventName: EventNames.QUESTIONNAIRE_ADDED_TO_JOB);
-    store.dispatch(SetJobInfoWithJobDocumentId(store.state.jobDetailsPageState, job.documentId));
-    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    store.dispatch(SetJobInfoWithJobDocumentId(store.state.jobDetailsPageState, action.jobDocumentId));
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));//TODO this is not updateing the job details page...
   }
 
   void fetchQuestionnaires(Store<AppState> store, NextDispatcher next) async{

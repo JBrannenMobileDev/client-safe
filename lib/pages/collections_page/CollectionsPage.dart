@@ -123,7 +123,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
         break;
       case 2:
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const QuestionnairesPage()),
+          MaterialPageRoute(builder: (context) => const QuestionnairesPage(addToJobNew: false)),
         );
         EventSender().sendEvent(eventName: EventNames.NAV_TO_QUESTIONNAIRES);
         break;
