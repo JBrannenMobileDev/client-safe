@@ -10,11 +10,11 @@ import 'package:redux/redux.dart';
 import '../../../AppState.dart';
 import '../../../widgets/TextDandyLight.dart';
 import '../../widgets/DandyLightNetworkImage.dart';
-import 'ReviewPosesActions.dart';
-import 'ReviewPosesPageState.dart';
+import '../review_poses_page/ReviewPosesActions.dart';
+import 'SelectAPhotoPageState.dart';
 
 
-class ReviewPosesPage extends StatefulWidget {
+class SelectAPhotoPage extends StatefulWidget {
   static const String ENGAGEMENT = "Engagement";
   static const String FAMILIES = "Families";
   static const String COUPLES = "Couples";
@@ -27,20 +27,20 @@ class ReviewPosesPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _ReviewPosesPageState();
+    return _SelectAPhotoPageState();
   }
 }
 
-class _ReviewPosesPageState extends State<ReviewPosesPage> with TickerProviderStateMixin {
+class _SelectAPhotoPageState extends State<SelectAPhotoPage> with TickerProviderStateMixin {
 
   @override
-  Widget build(BuildContext context) => StoreConnector<AppState, ReviewPosesPageState>(
+  Widget build(BuildContext context) => StoreConnector<AppState, SelectAPhotoPageState>(
     onInit: (store) {
       store.dispatch(ClearReviewPosesStateAction(store.state.reviewPosesPageState));
       store.dispatch(LoadPosesToReviewAction(store.state.reviewPosesPageState));
     },
-    converter: (Store<AppState> store) => ReviewPosesPageState.fromStore(store),
-    builder: (BuildContext context, ReviewPosesPageState pageState) =>
+    converter: (Store<AppState> store) => SelectAPhotoPageState.fromStore(store),
+    builder: (BuildContext context, SelectAPhotoPageState pageState) =>
          Scaffold(
            appBar: AppBar(
              iconTheme: IconThemeData(
@@ -64,7 +64,7 @@ class _ReviewPosesPageState extends State<ReviewPosesPage> with TickerProviderSt
          ),
     );
 
-  Widget _buildItem(BuildContext context, int index, ReviewPosesPageState pageState) {
+  Widget _buildItem(BuildContext context, int index, SelectAPhotoPageState pageState) {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(

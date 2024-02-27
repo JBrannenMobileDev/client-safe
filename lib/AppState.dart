@@ -40,6 +40,7 @@ import 'package:dandylight/pages/reminders_page/RemindersPageState.dart';
 import 'package:dandylight/pages/responses_page/ResponsesPageState.dart';
 import 'package:dandylight/pages/job_types/JobTypesPageState.dart';
 import 'package:dandylight/pages/review_poses_page/ReviewPosesPageState.dart';
+import 'package:dandylight/pages/select_a_photo_page/SelectAPhotoPageState.dart';
 import 'package:dandylight/pages/share_with_client_page/ShareWithClientPageState.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:dandylight/pages/upload_pose_page/UploadPosePageState.dart';
@@ -97,6 +98,7 @@ class AppState {
   final QuestionnairesPageState questionnairesPageState;
   final NewQuestionnairePageState newQuestionnairePageState;
   final NewQuestionPageState newQuestionPageState;
+  final SelectAPhotoPageState selectAPhotoPageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -146,6 +148,7 @@ class AppState {
     @required this.questionnairesPageState,
     @required this.newQuestionnairePageState,
     @required this.newQuestionPageState,
+    @required this.selectAPhotoPageState,
   });
 
   factory AppState.initial() {
@@ -197,6 +200,7 @@ class AppState {
       questionnairesPageState: QuestionnairesPageState.initial(),
       newQuestionnairePageState: NewQuestionnairePageState.initial(),
       newQuestionPageState: NewQuestionPageState.initial(),
+      selectAPhotoPageState: SelectAPhotoPageState.initial(),
     );
   }
 
@@ -248,6 +252,7 @@ class AppState {
     QuestionnairesPageState questionnairesPageState,
     NewQuestionnairePageState newQuestionnairePageState,
     NewQuestionPageState newQuestionPageState,
+    SelectAPhotoPageState selectAPhotoPageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -297,6 +302,7 @@ class AppState {
       questionnairesPageState: questionnairesPageState ?? this.questionnairesPageState,
       newQuestionnairePageState: newQuestionnairePageState ?? this.newQuestionnairePageState,
       newQuestionPageState: newQuestionPageState ?? this.newQuestionPageState,
+      selectAPhotoPageState: selectAPhotoPageState ?? this.selectAPhotoPageState,
     );
   }
 
@@ -347,6 +353,7 @@ class AppState {
     questionnairesPageState.hashCode ^
     newQuestionnairePageState.hashCode ^
     newQuestionPageState.hashCode ^
+    selectAPhotoPageState.hashCode ^
     incomeAndExpensesPageState.hashCode ;
 
   @override
@@ -398,5 +405,6 @@ class AppState {
               contractEditPageState == other.contractEditPageState &&
               questionnairesPageState == other.questionnairesPageState &&
               newQuestionnairePageState == other.newQuestionnairePageState &&
+              selectAPhotoPageState == other.selectAPhotoPageState &&
               incomeAndExpensesPageState == other.incomeAndExpensesPageState;
 }

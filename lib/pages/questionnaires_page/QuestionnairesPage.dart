@@ -24,7 +24,7 @@ class QuestionnairesPage extends StatefulWidget {
   }
 }
 
-class _QuestionnairesPageState extends State<QuestionnairesPage> with TickerProviderStateMixin {
+class _QuestionnairesPageState extends State<QuestionnairesPage> with TickerProviderStateMixin, WidgetsBindingObserver {
   ScrollController _scrollController;
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   final String jobDocumentId;

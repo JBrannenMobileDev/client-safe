@@ -100,7 +100,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
         builder: (BuildContext context, NewQuestionPageState pageState) => WillPopScope(
             onWillPop: () async {
               bool willLeave = false;
-              if(hasUnsavedChanges) {
+              if(true) {
                 await showDialog(
                     context: context,
                     builder: (_) => Device.get().isIos ?

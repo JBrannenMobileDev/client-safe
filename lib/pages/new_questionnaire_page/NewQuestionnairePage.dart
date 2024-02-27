@@ -43,7 +43,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
   final TextEditingController controllerTitle = TextEditingController();
   final String title;
   final bool isNew;
-  final bool hasUnsavedChanges = false;
+  bool hasUnsavedChanges = false;
   final String jobDocumentId;
   final Function(BuildContext, Questionnaire) deleteFromJob;
   bool isKeyboardVisible = false;
@@ -62,6 +62,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
       }
       final items = questions.removeAt(oldIndex);
       questions.insert(newIndex, items);
+      hasUnsavedChanges = true;
     });
   }
 
@@ -74,7 +75,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
           store.dispatch(ClearNewQuestionnaireState(store.state.newQuestionnairePageState, isNew, title));
           if(questionnaire != null) {
             store.dispatch(SetQuestionnaireAction(store.state.newQuestionnairePageState, questionnaire, jobDocumentId));
-            questions = questionnaire.questions;
+            questions = List.of(questionnaire.questions);
           } else {
             Questionnaire questionnaire = Questionnaire();
             questionnaire.questions = [];
@@ -121,6 +122,9 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                           style: Styles.getButtonStyle(),
                           onPressed: () {
                             willLeave = true;
+                            setState(() {
+                              questions = [];
+                            });
                             Navigator.of(context).pop();
                           },
                           child: new Text('Yes'),
@@ -139,6 +143,9 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                           style: Styles.getButtonStyle(),
                           onPressed: () {
                             willLeave = true;
+                            setState(() {
+                              questions = [];
+                            });
                             Navigator.of(context).pop();
                           },
                           child: new Text('Yes'),
@@ -289,6 +296,9 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                                 onDismissed: (direction) {
                                   setState(() {
                                     questions.removeWhere((question) => question.id == questions.elementAt(index).id);
+                                    setState(() {
+                                      hasUnsavedChanges = true;
+                                    });
                                   });
                                 },
                                 child: Container(
@@ -409,6 +419,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
       } else {
         questions.add(question);
       }
+      hasUnsavedChanges = true;
     });
   }
 
