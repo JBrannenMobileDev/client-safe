@@ -292,7 +292,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                           ),
                         ),
                       ),
-                      onTap: () {
+                      onTap: () async {
                         NavigationUtil.onAddQuestionnaireToJobSelected(context, pageState.job.documentId);
                       },
                     ),

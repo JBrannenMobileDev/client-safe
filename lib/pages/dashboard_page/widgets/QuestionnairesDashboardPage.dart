@@ -141,9 +141,13 @@ class _QuestionnairesDashboardPageState extends State<QuestionnairesDashboardPag
                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  TextDandyLight(
+                                                  Container(
+                                                    width: MediaQuery.of(context).size.width-164,
+                                                    child: TextDandyLight(
                                                       type: TextDandyLight.MEDIUM_TEXT,
+                                                      overflow: TextOverflow.ellipsis,
                                                       text: getListBasedOnSelectorIndex(selectorIndex, pageState).elementAt(index).title,
+                                                    ),
                                                   ),
                                                   TextDandyLight(
                                                     type: TextDandyLight.SMALL_TEXT,

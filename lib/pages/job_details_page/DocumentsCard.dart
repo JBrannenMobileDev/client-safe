@@ -105,6 +105,7 @@ class DocumentsCard extends StatelessWidget {
                   ),
                 ),
                 Container(
+                  width: MediaQuery.of(context).size.width-164,
                   padding: const EdgeInsets.only(left: 0.0),
                   child: item.buildTitle(context),
                 ),
