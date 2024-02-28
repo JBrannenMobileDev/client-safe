@@ -19,6 +19,7 @@ import 'package:redux/redux.dart';
 
 import '../../utils/DandyToastUtil.dart';
 import '../../utils/InputDoneView.dart';
+import '../../utils/NavigationUtil.dart';
 import '../../utils/Shadows.dart';
 import '../../utils/styles/Styles.dart';
 import '../../widgets/DandyLightNetworkImage.dart';
@@ -288,7 +289,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
           ),
           pageState.question.showImage ? GestureDetector(
             onTap: () {
-              getDeviceImage(pageState);
+              selectAPhoto(pageState);
             },
             child: pageState.webImage != null ? Container(
               margin: const EdgeInsets.only(left: 24, right: 24, top: 16),
@@ -335,7 +336,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
           ) : const SizedBox(),
           pageState.question.showImage ? GestureDetector(
             onTap: () {
-              getDeviceImage(pageState);
+              selectAPhoto(pageState);
             },
             child: pageState.webImage == null && pageState.question.webImageUrl == null ? Container(
               alignment: Alignment.center,
@@ -376,7 +377,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
           pageState.question.showImage ? (pageState.webImage != null || pageState.question.webImageUrl != null && pageState.question.webImageUrl.isNotEmpty) ?
           GestureDetector(
             onTap: () {
-              getDeviceImage(pageState);
+              selectAPhoto(pageState);
             },
             child: Container(
               alignment: Alignment.topRight,
@@ -583,6 +584,10 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
 
   Widget settingsView() {
     return const SizedBox();
+  }
+
+  void selectAPhoto(NewQuestionPageState pageState) {
+    NavigationUtil.onSelectAPhotoSelected(context);
   }
 
   Future getDeviceImage(NewQuestionPageState pageState) async {

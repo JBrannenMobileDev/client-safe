@@ -25,6 +25,7 @@ import 'package:dandylight/pages/onboarding/OnBoardingPage.dart';
 import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPage.dart';
 import 'package:dandylight/pages/poses_page/PosesSearchPage.dart';
 import 'package:dandylight/pages/review_poses_page/ReviewPosesPage.dart';
+import 'package:dandylight/pages/select_a_photo_page/SelectAPhotoPage.dart';
 import 'package:dandylight/pages/subscribe_now_page/SubscribeNowPage.dart';
 import 'package:dandylight/pages/upload_pose_page/UploadPosePage.dart';
 import 'package:dandylight/utils/UidUtil.dart';
@@ -182,6 +183,10 @@ class NavigationUtil {
 
   static void onMileageReportSelected(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ReportsPage(pageTitle: Report.TYPE_MILEAGE)));
+  }
+
+  static void onSelectAPhotoSelected(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => SelectAPhotoPage()));
   }
 }
 

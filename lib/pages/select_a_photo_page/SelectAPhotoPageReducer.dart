@@ -1,27 +1,20 @@
 import 'package:redux/redux.dart';
-import '../review_poses_page/ReviewPosesActions.dart';
+import 'SelectAPhotoActions.dart';
 import 'SelectAPhotoPageState.dart';
 
 
 
 final selectAPhotoReducer = combineReducers<SelectAPhotoPageState>([
-  TypedReducer<SelectAPhotoPageState, ClearReviewPosesStateAction>(_clearState),
-  TypedReducer<SelectAPhotoPageState, SetPoseImagesToState>(_setPoses),
-  TypedReducer<SelectAPhotoPageState, SetGroupsToStateAction>(_setGroups),
+  TypedReducer<SelectAPhotoPageState, ClearSelectAPoseStateAction>(_clearState),
+  TypedReducer<SelectAPhotoPageState, SetUploadsToState>(_setUploads),
 ]);
 
-SelectAPhotoPageState _setGroups(SelectAPhotoPageState previousState, SetGroupsToStateAction action){
+SelectAPhotoPageState _setUploads(SelectAPhotoPageState previousState, SetUploadsToState action){
   return previousState.copyWith(
-      groups: action.groups,
+    urls: action.urls,
   );
 }
 
-SelectAPhotoPageState _setPoses(SelectAPhotoPageState previousState, SetPoseImagesToState action){
-  return previousState.copyWith(
-      poses: action.poses,
-  );
-}
-
-SelectAPhotoPageState _clearState(SelectAPhotoPageState previousState, ClearReviewPosesStateAction action){
+SelectAPhotoPageState _clearState(SelectAPhotoPageState previousState, ClearSelectAPoseStateAction action){
   return SelectAPhotoPageState.initial();
 }

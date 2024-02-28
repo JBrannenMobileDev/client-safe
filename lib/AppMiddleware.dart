@@ -85,6 +85,8 @@ import 'package:dandylight/pages/responses_page/ResponsesActions.dart';
 import 'package:dandylight/pages/responses_page/ResponsesPageMiddleware.dart';
 import 'package:dandylight/pages/review_poses_page/ReviewPosesActions.dart';
 import 'package:dandylight/pages/review_poses_page/ReviewPosesPageMiddleware.dart';
+import 'package:dandylight/pages/select_a_photo_page/SelectAPhotoActions.dart';
+import 'package:dandylight/pages/select_a_photo_page/SelectAPhotoPageMiddleware.dart';
 import 'package:dandylight/pages/share_with_client_page/ShareWithClientActions.dart';
 import 'package:dandylight/pages/share_with_client_page/ShareWithClientPageMiddleware.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageActions.dart';
@@ -355,5 +357,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, FetchProfileForNewQuestionnaireAction>(NewQuestionnairePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, ResizeQuestionMobileImageAction>(NewQuestionPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, ResizeQuestionWebImageAction>(NewQuestionPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SetUploadsToState>(SelectAPhotoPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, LoadUploadedPhotosAction>(SelectAPhotoPageMiddleware()));
   return middlewareList;
 }

@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dandylight/pages/review_poses_page/DecisionPager.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -10,7 +9,7 @@ import 'package:redux/redux.dart';
 import '../../../AppState.dart';
 import '../../../widgets/TextDandyLight.dart';
 import '../../widgets/DandyLightNetworkImage.dart';
-import '../review_poses_page/ReviewPosesActions.dart';
+import 'SelectAPhotoActions.dart';
 import 'SelectAPhotoPageState.dart';
 
 
@@ -36,8 +35,8 @@ class _SelectAPhotoPageState extends State<SelectAPhotoPage> with TickerProvider
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, SelectAPhotoPageState>(
     onInit: (store) {
-      store.dispatch(ClearReviewPosesStateAction(store.state.reviewPosesPageState));
-      store.dispatch(LoadPosesToReviewAction(store.state.reviewPosesPageState));
+      store.dispatch(ClearSelectAPoseStateAction(store.state.selectAPhotoPageState));
+      store.dispatch(LoadUploadedPhotosAction(store.state.selectAPhotoPageState));
     },
     converter: (Store<AppState> store) => SelectAPhotoPageState.fromStore(store),
     builder: (BuildContext context, SelectAPhotoPageState pageState) =>
@@ -48,18 +47,54 @@ class _SelectAPhotoPageState extends State<SelectAPhotoPage> with TickerProvider
              ),
              title: TextDandyLight(
                type: TextDandyLight.LARGE_TEXT,
-               text: 'Review Submissions',
+               text: 'Select a Photo',
                textAlign: TextAlign.center,
                color: Color(ColorConstants.getPrimaryBlack()),
              ),
+             actions: [
+               GestureDetector(
+                 onTap: () {
+
+                 },
+                 child: Container(
+                   alignment: Alignment.center,
+                   padding: EdgeInsets.all(16),
+                   height: 54,
+                   child: Image.asset(
+                     'assets/images/icons/file_upload.png',
+                     color: Color(ColorConstants.getPrimaryBlack()),
+                     width: 26,
+                   ),
+                 ),
+               )
+             ],
              backgroundColor: Color(ColorConstants.getPrimaryWhite()),
              elevation: 0,
            ),
            backgroundColor: Color(ColorConstants.getPrimaryWhite()),
-           body: GridView.builder(
-             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-             itemBuilder: (_, index) => _buildItem(context, index, pageState),
-             itemCount: pageState.poses.length,
+           body: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 16),
+                    height: 32,
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: 'My uploads',
+                      textAlign: TextAlign.start,
+                      color: Color(ColorConstants.getPrimaryBlack()),
+                    ),
+                  ),
+                  GridView.builder(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                    itemBuilder: (_, index) => _buildItem(context, index, pageState),
+                    itemCount: pageState.urls.length,
+                    shrinkWrap: true,
+                    physics: ScrollPhysics(),
+                  ),
+                ],
+              ),
            ),
          ),
     );
@@ -67,18 +102,14 @@ class _SelectAPhotoPageState extends State<SelectAPhotoPage> with TickerProvider
   Widget _buildItem(BuildContext context, int index, SelectAPhotoPageState pageState) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => DecisionPager(
-              pageState.poses,
-              index,
-          )),
-        );
+
       },
-      child: Padding(
+      child: Container(
         padding: const EdgeInsets.only(left:0.5, right: 0.5, top: 1),
         child: DandyLightNetworkImage(
-          pageState.poses.elementAt(index).imageUrl,
+          pageState.urls.elementAt(index),
           resizeWidth: 350,
+          borderRadius: 0,
         )
       ),
     );
