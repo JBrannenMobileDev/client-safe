@@ -1,13 +1,17 @@
 import 'dart:io';
 
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
 import '../../../widgets/TextDandyLight.dart';
+import '../../utils/DandyToastUtil.dart';
 import '../../widgets/DandyLightNetworkImage.dart';
 import 'SelectAPhotoActions.dart';
 import 'SelectAPhotoPageState.dart';
@@ -24,13 +28,20 @@ class SelectAPhotoPage extends StatefulWidget {
   static const String PROPOSALS = "Proposals";
   static const String PETS = "Pets";
 
+  final Function(String) onImageSelected;
+
+  const SelectAPhotoPage({Key key, this.onImageSelected}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
-    return _SelectAPhotoPageState();
+    return _SelectAPhotoPageState(onImageSelected);
   }
 }
 
 class _SelectAPhotoPageState extends State<SelectAPhotoPage> with TickerProviderStateMixin {
+  final Function(String) onImageSelected;
+
+  _SelectAPhotoPageState(this.onImageSelected);
 
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, SelectAPhotoPageState>(
@@ -54,7 +65,7 @@ class _SelectAPhotoPageState extends State<SelectAPhotoPage> with TickerProvider
              actions: [
                GestureDetector(
                  onTap: () {
-
+                    getDeviceImage();
                  },
                  child: Container(
                    alignment: Alignment.center,
@@ -102,7 +113,7 @@ class _SelectAPhotoPageState extends State<SelectAPhotoPage> with TickerProvider
   Widget _buildItem(BuildContext context, int index, SelectAPhotoPageState pageState) {
     return GestureDetector(
       onTap: () {
-
+        onImageSelected(pageState.urls.elementAt(index));
       },
       child: Container(
         padding: const EdgeInsets.only(left:0.5, right: 0.5, top: 1),
@@ -112,6 +123,73 @@ class _SelectAPhotoPageState extends State<SelectAPhotoPage> with TickerProvider
           borderRadius: 0,
         )
       ),
+    );
+  }
+
+  Future getDeviceImage() async {
+    try {
+      XFile localImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+      XFile localWebImage = XFile((await cropImageForWeb(localImage.path)).path);
+      XFile localMobileImage = XFile((await cropImageForMobile(localImage.path)).path);
+
+      if(localWebImage != null && localMobileImage != null && localImage != null) {
+        pageState.onWebImageUploaded(localWebImage);
+        pageState.onMobileImageUploaded(localMobileImage);
+
+      } else {
+        DandyToastUtil.showErrorToast('Image not loaded');
+      }
+    } catch (ex) {
+      if (kDebugMode) {
+        print(ex.toString());
+      }
+      DandyToastUtil.showErrorToast('Image not loaded');
+    }
+  }
+
+  Future<CroppedFile> cropImageForWeb(String path) async {
+    return await ImageCropper().cropImage(
+      sourcePath: path,
+      maxWidth: 1920,
+      maxHeight: 664,
+      aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1.33),
+      cropStyle: CropStyle.rectangle,
+      uiSettings: [
+        AndroidUiSettings(
+          toolbarTitle: 'Crop to fit desktop',
+          lockAspectRatio: true,
+        ),
+        IOSUiSettings(
+          title: 'Crop to fit desktop',
+          aspectRatioPickerButtonHidden: true,
+          doneButtonTitle: 'Next',
+          aspectRatioLockEnabled: true,
+          resetAspectRatioEnabled: false,
+        ),
+      ],
+    );
+  }
+
+  Future<CroppedFile> cropImageForMobile(String path) async {
+    return await ImageCropper().cropImage(
+      sourcePath: path,
+      maxWidth: 1080,
+      maxHeight: 810,
+      aspectRatio: const CropAspectRatio(ratioX: 1.33, ratioY: 1),
+      cropStyle: CropStyle.rectangle,
+      uiSettings: [
+        AndroidUiSettings(
+          toolbarTitle: 'Crop to fit mobile',
+          lockAspectRatio: true,
+        ),
+        IOSUiSettings(
+          title: 'Crop to fit mobile',
+          aspectRatioPickerButtonHidden: true,
+          doneButtonTitle: 'Save',
+          aspectRatioLockEnabled: true,
+          resetAspectRatioEnabled: false,
+        ),
+      ],
     );
   }
 }

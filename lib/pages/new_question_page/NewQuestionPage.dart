@@ -587,73 +587,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
   }
 
   void selectAPhoto(NewQuestionPageState pageState) {
-    NavigationUtil.onSelectAPhotoSelected(context);
-  }
-
-  Future getDeviceImage(NewQuestionPageState pageState) async {
-    try {
-      XFile localImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-      XFile localWebImage = XFile((await cropImageForWeb(localImage.path)).path);
-      XFile localMobileImage = XFile((await cropImageForMobile(localImage.path)).path);
-
-      if(localWebImage != null && localMobileImage != null && localImage != null) {
-        pageState.onWebImageUploaded(localWebImage);
-        pageState.onMobileImageUploaded(localMobileImage);
-      } else {
-        DandyToastUtil.showErrorToast('Image not loaded');
-      }
-    } catch (ex) {
-      if (kDebugMode) {
-        print(ex.toString());
-      }
-      DandyToastUtil.showErrorToast('Image not loaded');
-    }
-  }
-
-  Future<CroppedFile> cropImageForWeb(String path) async {
-    return await ImageCropper().cropImage(
-      sourcePath: path,
-      maxWidth: 1920,
-      maxHeight: 664,
-      aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1.33),
-      cropStyle: CropStyle.rectangle,
-      uiSettings: [
-        AndroidUiSettings(
-          toolbarTitle: 'Crop to fit desktop',
-          lockAspectRatio: true,
-        ),
-        IOSUiSettings(
-          title: 'Crop to fit desktop',
-          aspectRatioPickerButtonHidden: true,
-          doneButtonTitle: 'Next',
-          aspectRatioLockEnabled: true,
-          resetAspectRatioEnabled: false,
-        ),
-      ],
-    );
-  }
-
-  Future<CroppedFile> cropImageForMobile(String path) async {
-    return await ImageCropper().cropImage(
-      sourcePath: path,
-      maxWidth: 1080,
-      maxHeight: 810,
-      aspectRatio: const CropAspectRatio(ratioX: 1.33, ratioY: 1),
-      cropStyle: CropStyle.rectangle,
-      uiSettings: [
-        AndroidUiSettings(
-          toolbarTitle: 'Crop to fit mobile',
-          lockAspectRatio: true,
-        ),
-        IOSUiSettings(
-          title: 'Crop to fit mobile',
-          aspectRatioPickerButtonHidden: true,
-          doneButtonTitle: 'Save',
-          aspectRatioLockEnabled: true,
-          resetAspectRatioEnabled: false,
-        ),
-      ],
-    );
+    NavigationUtil.onSelectAPhotoSelected(context, pageState.onUploadedImageSelected);
   }
 
   Widget buildQuestion(NewQuestionPageState pageState) {

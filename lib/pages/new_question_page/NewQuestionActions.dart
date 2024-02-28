@@ -164,6 +164,12 @@ class SetCountryRequiredAction {
   SetCountryRequiredAction(this.pageState, this.selected);
 }
 
+class SetSelectedImageAction {
+  final NewQuestionPageState pageState;
+  final String imageUrl;
+  SetSelectedImageAction(this.pageState, this.imageUrl);
+}
+
 
 
 

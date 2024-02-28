@@ -185,8 +185,8 @@ class NavigationUtil {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ReportsPage(pageTitle: Report.TYPE_MILEAGE)));
   }
 
-  static void onSelectAPhotoSelected(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => SelectAPhotoPage()));
+  static void onSelectAPhotoSelected(BuildContext context, Function(String) onImageSelected) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => SelectAPhotoPage(onImageSelected: onImageSelected)));
   }
 }
 

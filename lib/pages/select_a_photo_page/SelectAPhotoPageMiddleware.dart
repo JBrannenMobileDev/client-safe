@@ -1,15 +1,9 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/data_layer/local_db/daos/PoseLibraryGroupDao.dart';
-import 'package:dandylight/data_layer/local_db/daos/PoseSubmittedGroupDao.dart';
 import 'package:dandylight/pages/select_a_photo_page/SelectAPhotoActions.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:redux/redux.dart';
 
-import '../../models/Pose.dart';
-import '../../models/PoseLibraryGroup.dart';
-import '../../models/PoseSubmittedGroup.dart';
 import '../../utils/UidUtil.dart';
-import '../upload_pose_page/UploadPosePage.dart';
 
 class SelectAPhotoPageMiddleware extends MiddlewareClass<AppState> {
 

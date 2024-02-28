@@ -29,7 +29,15 @@ final newQuestionReducer = combineReducers<NewQuestionPageState>([
   TypedReducer<NewQuestionPageState, SetStateRegionProvinceRequiredAction>(_setStateRegionProvinceRequired),
   TypedReducer<NewQuestionPageState, SetZipPostCodeRequiredAction>(_setZipPostCodeRequired),
   TypedReducer<NewQuestionPageState, SetCountryRequiredAction>(_setCountryRequired),
+  TypedReducer<NewQuestionPageState, SetSelectedImageAction>(_setSelectedImageUrl),
 ]);
+
+NewQuestionPageState _setSelectedImageUrl(NewQuestionPageState previousState, SetSelectedImageAction action){
+  action.pageState.question.mobileImageUrl = action.imageUrl;
+  return previousState.copyWith(
+    question: action.pageState.question,
+  );
+}
 
 NewQuestionPageState _setAddressRequired(NewQuestionPageState previousState, SetAddressRequiredAction action){
   action.pageState.question.addressRequired = action.selected;

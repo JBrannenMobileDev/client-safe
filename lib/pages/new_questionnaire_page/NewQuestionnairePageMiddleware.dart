@@ -71,13 +71,6 @@ class NewQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
       questionnaire = await QuestionnairesDao.insertOrUpdate(questionnaire);
     }
 
-    for(Question question in action.questions) {
-      if(question.showImage && question.webImage != null && question.mobileImage != null) {
-        await FileStorage.saveQuestionWebImageFile(store.state.newQuestionPageState.webImage.path, questionnaire, question.id, (taskSnapshot) => () => {});
-        await FileStorage.saveQuestionMobileImageFile(store.state.newQuestionPageState.mobileImage.path, questionnaire, question.id, (taskSnapshot) => () => {});
-      }
-    }
-
     store.dispatch(FetchQuestionnairesAction(store.state.questionnairesPageState));
 
     if(action.pageState.isNew) {

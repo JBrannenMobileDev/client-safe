@@ -357,7 +357,6 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, FetchProfileForNewQuestionnaireAction>(NewQuestionnairePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, ResizeQuestionMobileImageAction>(NewQuestionPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, ResizeQuestionWebImageAction>(NewQuestionPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, SetUploadsToState>(SelectAPhotoPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadUploadedPhotosAction>(SelectAPhotoPageMiddleware()));
   return middlewareList;
 }

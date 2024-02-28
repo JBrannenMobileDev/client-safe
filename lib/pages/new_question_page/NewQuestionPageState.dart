@@ -24,6 +24,7 @@ class NewQuestionPageState{
   final Function(int) onNumberOfStarsChanged;
   final Function(XFile) onWebImageUploaded;
   final Function(XFile) onMobileImageUploaded;
+  final Function(String) onUploadedImageSelected;
   final Function(String) onTypeChanged;
   final Function(bool) onShowImageChanged;
   final Function(bool) onMultipleSelectionChanged;
@@ -60,6 +61,7 @@ class NewQuestionPageState{
     @required this.onStateRegionProvinceRequiredChanged,
     @required this.onZipPostCodeRequiredChanged,
     @required this.onCountryRequiredChanged,
+    @required this.onUploadedImageSelected,
   });
 
   NewQuestionPageState copyWith({
@@ -88,7 +90,8 @@ class NewQuestionPageState{
     Function(bool) onCityTownRequiredChanged,
     Function(bool) onStateRegionProvinceRequiredChanged,
     Function(bool) onZipPostCodeRequiredChanged,
-    Function(bool) onCountryRequiredChanged
+    Function(bool) onCountryRequiredChanged,
+    Function(String) onUploadedImageSelected,
   }){
     return NewQuestionPageState(
       question: question ?? this.question,
@@ -117,6 +120,7 @@ class NewQuestionPageState{
       onStateRegionProvinceRequiredChanged: onStateRegionProvinceRequiredChanged ?? this.onStateRegionProvinceRequiredChanged,
       onZipPostCodeRequiredChanged: onZipPostCodeRequiredChanged ?? this.onZipPostCodeRequiredChanged,
       onCountryRequiredChanged: onCountryRequiredChanged ?? this.onCountryRequiredChanged,
+      onUploadedImageSelected: onUploadedImageSelected ?? this.onUploadedImageSelected,
     );
   }
 
@@ -147,6 +151,7 @@ class NewQuestionPageState{
     onStateRegionProvinceRequiredChanged: null,
     onZipPostCodeRequiredChanged: null,
     onCountryRequiredChanged: null,
+    onUploadedImageSelected: null,
   );
 
   factory NewQuestionPageState.fromStore(Store<AppState> store) {
@@ -177,6 +182,7 @@ class NewQuestionPageState{
       onStateRegionProvinceRequiredChanged: (selected) => store.dispatch(SetStateRegionProvinceRequiredAction(store.state.newQuestionPageState, selected)),
       onZipPostCodeRequiredChanged: (selected) => store.dispatch(SetZipPostCodeRequiredAction(store.state.newQuestionPageState, selected)),
       onCountryRequiredChanged: (selected) => store.dispatch(SetCountryRequiredAction(store.state.newQuestionPageState, selected)),
+      onUploadedImageSelected: (imageUrl) => store.dispatch(SetSelectedImageAction(store.state.newQuestionPageState, imageUrl)),
     );
   }
 
@@ -207,6 +213,7 @@ class NewQuestionPageState{
       onStateRegionProvinceRequiredChanged.hashCode ^
       onZipPostCodeRequiredChanged.hashCode ^
       onCountryRequiredChanged.hashCode ^
+      onUploadedImageSelected.hashCode ^
       question.hashCode;
 
   @override
@@ -238,5 +245,6 @@ class NewQuestionPageState{
               onStateRegionProvinceRequiredChanged == other.onStateRegionProvinceRequiredChanged &&
               onZipPostCodeRequiredChanged == other.onZipPostCodeRequiredChanged &&
               onCountryRequiredChanged == other.onCountryRequiredChanged &&
+              onUploadedImageSelected == other.onUploadedImageSelected &&
               question == other.question;
 }
