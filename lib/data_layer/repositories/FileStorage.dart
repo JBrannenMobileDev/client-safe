@@ -10,6 +10,7 @@ import 'package:dandylight/data_layer/local_db/daos/QuestionnairesDao.dart';
 import 'package:dandylight/models/Contract.dart';
 import 'package:dandylight/models/PoseLibraryGroup.dart';
 import 'package:dandylight/utils/EnvironmentUtil.dart';
+import 'package:dandylight/utils/UUID.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -65,12 +66,12 @@ class FileStorage {
     await _uploadPreviewBannerMobileImageFile(pathLarge, profile, handleProgress);
   }
 
-  static saveQuestionWebImageFile(String pathLarge, Questionnaire questionnaire, String questionId, Function(TaskSnapshot) handleProgress) async {
-    await _uploadQuestionWebImageFile(pathLarge, questionnaire, questionId, handleProgress);
+  static saveQuestionWebImageFile(String pathLarge, Function(String) saveDownloadUrl, Function(TaskSnapshot) handleProgress) async {
+    await _uploadQuestionWebImageFile(pathLarge, saveDownloadUrl, handleProgress);
   }
 
-  static saveQuestionMobileImageFile(String pathLarge, Questionnaire questionnaire, String questionId, Function(TaskSnapshot) handleProgress) async {
-    await _uploadQuestionMobileImageFile(pathLarge, questionnaire, questionId, handleProgress);
+  static saveQuestionMobileImageFile(String pathLarge, Function(String) saveDownloadUrl, Function(TaskSnapshot) handleProgress) async {
+    await _uploadQuestionMobileImageFile(pathLarge, saveDownloadUrl, handleProgress);
   }
 
   static void deleteLocationFileImage(LocationDandy location) async {
@@ -224,16 +225,6 @@ class FileStorage {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.previewBannerMobileUrl = imageUrl;
     await ProfileDao.update(profile);
-  }
-
-  static _updateQuestionWebImageUrlLarge(Questionnaire questionnaire, String questionId, String imageUrl) async {
-    (questionnaire.questions.where((question) => question.id == questionId)).first.webImageUrl = imageUrl;
-    await QuestionnairesDao.update(questionnaire);
-  }
-
-  static _updateQuestionMobileImageUrlLarge(Questionnaire questionnaire, String questionId, String imageUrl) async {
-    (questionnaire.questions.where((question) => question.id == questionId)).first.mobileImageUrl = imageUrl;
-    await QuestionnairesDao.update(questionnaire);
   }
 
   static _updateLocationImageUrl(LocationDandy locationToUpdate, String imageUrl) async {
@@ -586,12 +577,12 @@ class FileStorage {
     }
   }
 
-  static _uploadQuestionWebImageFile(String imagePathLarge, Questionnaire questionnaire, String questionId, Function(TaskSnapshot) handleProgress) async {
+  static _uploadQuestionWebImageFile(String imagePathLarge, Function(String) saveDownloadUrl, Function(TaskSnapshot) handleProgress) async {
     final storageRef = FirebaseStorage.instance.ref();
-
+    final String uid = Uuid().generateV4();
     if(imagePathLarge != null) {
       final uploadTaskLarge = storageRef
-          .child(_buildQuestionWebImagePath(questionId))
+          .child(_buildQuestionWebImagePath(uid))
           .putFile(File(imagePathLarge));
 
       uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
@@ -611,19 +602,19 @@ class FileStorage {
           // Handle unsuccessful uploads
             break;
           case TaskState.success:
-            _fetchAndSaveQuestionWebImageDownloadUrlLarge(imagePathLarge, questionnaire, questionId);
+            _fetchAndSaveQuestionWebImageDownloadUrlLarge(imagePathLarge, saveDownloadUrl, uid);
             break;
         }
       });
     }
   }
 
-  static _uploadQuestionMobileImageFile(String imagePathLarge, Questionnaire questionnaire, String questionId, Function(TaskSnapshot) handleProgress) async {
+  static _uploadQuestionMobileImageFile(String imagePathLarge, Function(String) saveDownloadUrl, Function(TaskSnapshot) handleProgress) async {
     final storageRef = FirebaseStorage.instance.ref();
-
+    final String uid = Uuid().generateV4();
     if(imagePathLarge != null) {
       final uploadTaskLarge = storageRef
-          .child(_buildQuestionMobileImagePath(questionId))
+          .child(_buildQuestionMobileImagePath(uid))
           .putFile(File(imagePathLarge));
 
       uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
@@ -643,7 +634,7 @@ class FileStorage {
           // Handle unsuccessful uploads
             break;
           case TaskState.success:
-            _fetchAndSaveQuestionMobileImageDownloadUrlLarge(imagePathLarge, questionnaire, questionId);
+            _fetchAndSaveQuestionMobileImageDownloadUrlLarge(imagePathLarge, saveDownloadUrl, uid);
             break;
         }
       });
@@ -698,16 +689,16 @@ class FileStorage {
     await _updatePreviewBannerMobileImageUrlLarge(profile, await cloudFilePath.getDownloadURL());
   }
 
-  static _fetchAndSaveQuestionWebImageDownloadUrlLarge(String imagePathLarge, Questionnaire questionnaire, String questionId) async {
+  static _fetchAndSaveQuestionWebImageDownloadUrlLarge(String imagePathLarge, Function(String) saveDownloadUrl, String uid) async {
     final storageRef = FirebaseStorage.instance.ref();
-    final cloudFilePath = storageRef.child(_buildQuestionWebImagePath(questionId));
-    await _updateQuestionWebImageUrlLarge(questionnaire, questionId, await cloudFilePath.getDownloadURL());
+    final cloudFilePath = storageRef.child(_buildQuestionWebImagePath(uid));
+    saveDownloadUrl(await cloudFilePath.getDownloadURL());
   }
 
-  static _fetchAndSaveQuestionMobileImageDownloadUrlLarge(String imagePathLarge, Questionnaire questionnaire, String questionId) async {
+  static _fetchAndSaveQuestionMobileImageDownloadUrlLarge(String imagePathLarge, Function(String) saveDownloadUrl, String uid) async {
     final storageRef = FirebaseStorage.instance.ref();
-    final cloudFilePath = storageRef.child(_buildQuestionMobileImagePath(questionId));
-    await _updateQuestionMobileImageUrlLarge(questionnaire, questionId, await cloudFilePath.getDownloadURL());
+    final cloudFilePath = storageRef.child(_buildQuestionMobileImagePath(uid));
+    saveDownloadUrl(await cloudFilePath.getDownloadURL());
   }
 
   static _fetchAndSavePoseImageDownloadUrl(Pose pose, PoseGroup group) async {
@@ -774,8 +765,8 @@ class FileStorage {
     return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/profile/${localImagePath}previewBannerWebImage.jpg";
   }
 
-  static String _buildQuestionWebImagePath(String questionId) {
-    return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/questions/${questionId}questionWebImage.jpg";
+  static String _buildQuestionWebImagePath(String uid) {
+    return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/questions/${uid}questionWebImage.jpg";
   }
 
   static String _buildExampleBannerWebImagePath() {
@@ -790,8 +781,8 @@ class FileStorage {
     return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/profile/${localImagePath}previewBannerMobileImage.jpg";
   }
 
-  static String _buildQuestionMobileImagePath(String questionId) {
-    return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/questions/${questionId}questionMobileImage.jpg";
+  static String _buildQuestionMobileImagePath(String uid) {
+    return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/questions/${uid}questionMobileImage.jpg";
   }
 
   static String _buildPoseLibraryImagePathSmall(Pose pose) {

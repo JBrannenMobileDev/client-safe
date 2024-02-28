@@ -22,8 +22,6 @@ class NewQuestionPageState{
   final Function(String) onShortFormHintChanged;
   final Function(String) onLongFormHintChanged;
   final Function(int) onNumberOfStarsChanged;
-  final Function(XFile) onWebImageUploaded;
-  final Function(XFile) onMobileImageUploaded;
   final Function(String) onUploadedImageSelected;
   final Function(String) onTypeChanged;
   final Function(bool) onShowImageChanged;
@@ -51,8 +49,6 @@ class NewQuestionPageState{
     @required this.onCheckBoxChoiceRemoved,
     @required this.webImage,
     @required this.mobileImage,
-    @required this.onWebImageUploaded,
-    @required this.onMobileImageUploaded,
     @required this.onTypeChanged,
     @required this.onShowImageChanged,
     @required this.onMultipleSelectionChanged,
@@ -81,8 +77,6 @@ class NewQuestionPageState{
     Function(String) onShortFormHintChanged,
     Function(String) onLongFormHintChanged,
     Function(int) onNumberOfStarsChanged,
-    Function(XFile) onWebImageUploaded,
-    Function(XFile) onMobileImageUploaded,
     Function(String) onTypeChanged,
     Function(bool) onShowImageChanged,
     Function(bool) onMultipleSelectionChanged,
@@ -110,8 +104,6 @@ class NewQuestionPageState{
       onCheckBoxChoiceRemoved: onCheckBoxChoiceRemoved ?? this.onCheckBoxChoiceRemoved,
       webImage: webImage ?? this.webImage,
       mobileImage: mobileImage ?? this.mobileImage,
-      onWebImageUploaded: onWebImageUploaded ?? this.onWebImageUploaded,
-      onMobileImageUploaded: onMobileImageUploaded ?? this.onMobileImageUploaded,
       onTypeChanged: onTypeChanged ?? this.onTypeChanged,
       onShowImageChanged: onShowImageChanged ?? this.onShowImageChanged,
       onMultipleSelectionChanged: onMultipleSelectionChanged ?? this.onMultipleSelectionChanged,
@@ -141,8 +133,6 @@ class NewQuestionPageState{
     onCheckBoxChoiceRemoved: null,
     webImage: null,
     mobileImage: null,
-    onWebImageUploaded: null,
-    onMobileImageUploaded: null,
     onTypeChanged: null,
     onShowImageChanged: null,
     onMultipleSelectionChanged: null,
@@ -172,8 +162,6 @@ class NewQuestionPageState{
       onShortFormHintChanged: (hintMessage) => store.dispatch(UpdateShortHintAction(store.state.newQuestionPageState, hintMessage)),
       onLongFormHintChanged: (hintMessage) => store.dispatch(UpdateLongHintAction(store.state.newQuestionPageState, hintMessage)),
       onNumberOfStarsChanged: (numOfStars) => store.dispatch(UpdateNumOfStarsAction(store.state.newQuestionPageState, numOfStars)),
-      onWebImageUploaded: (xfileImage) => store.dispatch(ResizeQuestionWebImageAction(store.state.newQuestionPageState, xfileImage)),
-      onMobileImageUploaded: (xfileImage) => store.dispatch(ResizeQuestionMobileImageAction(store.state.newQuestionPageState, xfileImage)),
       onTypeChanged: (newType) => store.dispatch(SetNewTypeAction(store.state.newQuestionPageState, newType)),
       onShowImageChanged: (showImage) => store.dispatch(SetShowImageAction(store.state.newQuestionPageState, showImage)),
       onMultipleSelectionChanged: (selected) => store.dispatch(SetMultipleSelectionAction(store.state.newQuestionPageState, selected)),
@@ -203,8 +191,6 @@ class NewQuestionPageState{
       onCheckBoxChoiceRemoved.hashCode ^
       webImage.hashCode ^
       mobileImage.hashCode ^
-      onWebImageUploaded.hashCode ^
-      onMobileImageUploaded.hashCode ^
       onTypeChanged.hashCode ^
       onShowImageChanged.hashCode ^
       onMultipleSelectionChanged.hashCode ^
@@ -235,8 +221,6 @@ class NewQuestionPageState{
               onCheckBoxChoiceRemoved == other.onCheckBoxChoiceRemoved &&
               webImage == other.webImage &&
               mobileImage == other.mobileImage &&
-              onWebImageUploaded == other.onWebImageUploaded &&
-              onMobileImageUploaded == other.onMobileImageUploaded &&
               onTypeChanged == other.onTypeChanged &&
               onShowImageChanged == other.onShowImageChanged &&
               onMultipleSelectionChanged == other.onMultipleSelectionChanged &&

@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
@@ -65,11 +66,11 @@ class _SelectAPhotoPageState extends State<SelectAPhotoPage> with TickerProvider
              actions: [
                GestureDetector(
                  onTap: () {
-                    getDeviceImage();
+                    getDeviceImage(pageState);
                  },
                  child: Container(
                    alignment: Alignment.center,
-                   padding: EdgeInsets.all(16),
+                   padding: const EdgeInsets.all(16),
                    height: 54,
                    child: Image.asset(
                      'assets/images/icons/file_upload.png',
@@ -83,29 +84,44 @@ class _SelectAPhotoPageState extends State<SelectAPhotoPage> with TickerProvider
              elevation: 0,
            ),
            backgroundColor: Color(ColorConstants.getPrimaryWhite()),
-           body: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(left: 16),
-                    height: 32,
-                    child: TextDandyLight(
-                      type: TextDandyLight.MEDIUM_TEXT,
-                      text: 'My uploads',
-                      textAlign: TextAlign.start,
-                      color: Color(ColorConstants.getPrimaryBlack()),
-                    ),
-                  ),
-                  GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-                    itemBuilder: (_, index) => _buildItem(context, index, pageState),
-                    itemCount: pageState.urls.length,
-                    shrinkWrap: true,
-                    physics: ScrollPhysics(),
-                  ),
-                ],
-              ),
+           body: Stack(
+             alignment: Alignment.topCenter,
+             children: [
+               SingleChildScrollView(
+                 child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                   children: [
+                     Container(
+                       margin: const EdgeInsets.only(left: 16),
+                       height: 32,
+                       child: TextDandyLight(
+                         type: TextDandyLight.MEDIUM_TEXT,
+                         text: 'My uploads',
+                         textAlign: TextAlign.start,
+                         color: Color(ColorConstants.getPrimaryBlack()),
+                       ),
+                     ),
+                     GridView.builder(
+                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                       itemBuilder: (_, index) => _buildItem(context, index, pageState),
+                       itemCount: pageState.uploadImages.length,
+                       shrinkWrap: true,
+                       physics: const ScrollPhysics(),
+                     ),
+                   ],
+                 ),
+               ),
+               pageState.isLoading ? SizedBox(
+                 width: MediaQuery.of(context).size.width,
+                 height: MediaQuery.of(context).size.width,
+                 child: Container(
+                   width: 48,
+                   height: 48,
+                   color: Color(ColorConstants.getPeachDark()),
+                   child: LoadingAnimationWidget.fourRotatingDots(color: Color(ColorConstants.getPrimaryWhite()), size: 32),
+                 ),
+               ) : const SizedBox(),
+             ],
            ),
          ),
     );
@@ -113,12 +129,12 @@ class _SelectAPhotoPageState extends State<SelectAPhotoPage> with TickerProvider
   Widget _buildItem(BuildContext context, int index, SelectAPhotoPageState pageState) {
     return GestureDetector(
       onTap: () {
-        onImageSelected(pageState.urls.elementAt(index));
+        onImageSelected(pageState.uploadImages.elementAt(index));
       },
       child: Container(
         padding: const EdgeInsets.only(left:0.5, right: 0.5, top: 1),
         child: DandyLightNetworkImage(
-          pageState.urls.elementAt(index),
+          pageState.uploadImages.elementAt(index),
           resizeWidth: 350,
           borderRadius: 0,
         )
@@ -126,16 +142,14 @@ class _SelectAPhotoPageState extends State<SelectAPhotoPage> with TickerProvider
     );
   }
 
-  Future getDeviceImage() async {
+  Future getDeviceImage(SelectAPhotoPageState pageState) async {
     try {
       XFile localImage = await ImagePicker().pickImage(source: ImageSource.gallery);
       XFile localWebImage = XFile((await cropImageForWeb(localImage.path)).path);
       XFile localMobileImage = XFile((await cropImageForMobile(localImage.path)).path);
 
       if(localWebImage != null && localMobileImage != null && localImage != null) {
-        pageState.onWebImageUploaded(localWebImage);
-        pageState.onMobileImageUploaded(localMobileImage);
-
+        pageState.onImageUploaded(localWebImage, localMobileImage);
       } else {
         DandyToastUtil.showErrorToast('Image not loaded');
       }

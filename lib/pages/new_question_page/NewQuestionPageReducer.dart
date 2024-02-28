@@ -19,8 +19,6 @@ final newQuestionReducer = combineReducers<NewQuestionPageState>([
   TypedReducer<NewQuestionPageState, UpdateShortHintAction>(_setShortHint),
   TypedReducer<NewQuestionPageState, UpdateLongHintAction>(_setLongHint),
   TypedReducer<NewQuestionPageState, UpdateNumOfStarsAction>(_setNumOfStars),
-  TypedReducer<NewQuestionPageState, SetResizedQuestionWebImageAction>(_setResizedWebImage),
-  TypedReducer<NewQuestionPageState, SetResizedQuestionMobileImageAction>(_setResizedMobileImage),
   TypedReducer<NewQuestionPageState, SetNewTypeAction>(_setNewType),
   TypedReducer<NewQuestionPageState, SetShowImageAction>(_setShowImage),
   TypedReducer<NewQuestionPageState, SetMultipleSelectionAction>(_setMultipleSelected),
@@ -91,22 +89,6 @@ NewQuestionPageState _setShowImage(NewQuestionPageState previousState, SetShowIm
 NewQuestionPageState _setNewType(NewQuestionPageState previousState, SetNewTypeAction action){
   action.pageState.question.type = action.newType;
   return previousState.copyWith(
-    question: action.pageState.question,
-  );
-}
-
-NewQuestionPageState _setResizedWebImage(NewQuestionPageState previousState, SetResizedQuestionWebImageAction action){
-  action.pageState.question.webImage = action.resizedImage;
-  return previousState.copyWith(
-    webImage: action.resizedImage,
-    question: action.pageState.question,
-  );
-}
-
-NewQuestionPageState _setResizedMobileImage(NewQuestionPageState previousState, SetResizedQuestionMobileImageAction action){
-  action.pageState.question.mobileImage = action.resizedImage;
-  return previousState.copyWith(
-    mobileImage: action.resizedImage,
     question: action.pageState.question,
   );
 }

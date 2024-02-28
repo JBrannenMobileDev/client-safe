@@ -14,24 +14,6 @@ class SetQuestionAction{
   SetQuestionAction(this.pageState, this.question);
 }
 
-class ResizeQuestionWebImageAction {
-  final NewQuestionPageState pageState;
-  final XFile image;
-  ResizeQuestionWebImageAction(this.pageState, this.image);
-}
-
-class ResizeQuestionMobileImageAction {
-  final NewQuestionPageState pageState;
-  final XFile image;
-  ResizeQuestionMobileImageAction(this.pageState, this.image);
-}
-
-class SetResizedQuestionWebImageAction {
-  final NewQuestionPageState pageState;
-  final XFile resizedImage;
-  SetResizedQuestionWebImageAction(this.pageState, this.resizedImage);
-}
-
 class SetNewTypeAction {
   final NewQuestionPageState pageState;
   final String newType;
@@ -42,12 +24,6 @@ class SetShowImageAction {
   final NewQuestionPageState pageState;
   final bool showImage;
   SetShowImageAction(this.pageState, this.showImage);
-}
-
-class SetResizedQuestionMobileImageAction {
-  final NewQuestionPageState pageState;
-  final XFile resizedImage;
-  SetResizedQuestionMobileImageAction(this.pageState, this.resizedImage);
 }
 
 class UpdateQuestionAction {
