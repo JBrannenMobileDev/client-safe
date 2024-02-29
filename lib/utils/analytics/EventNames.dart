@@ -272,6 +272,7 @@ class EventNames {
   static const String SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_INVOICE = "share_with_client_share_selected_param_invoice";
   static const String SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_CONTRACT = "share_with_client_share_selected_param_contract";
   static const String SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_POSES = "share_with_client_share_selected_param_poses";
+  static const String SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_QUESTIONNAIRES = "share_with_client_share_selected_param_questionnaires";
   static const String SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK = "share_with_client_share_selected_param_link";
   static const String SETUP_BUSINESS_INFO_FROM_SHARE = "SETUP_BUSINESS_INFO_FROM_SHARE";
   static const String SETUP_PAYMENT_OPTIONS_FROM_SHARE = "SETUP_PAYMENT_OPTIONS_FROM_SHARE";

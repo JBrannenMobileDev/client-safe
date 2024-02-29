@@ -35,6 +35,17 @@ class ShareWithClientPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SetInvoiceCheckBox) {
       saveInvoiceCheckedState(store, action, next);
     }
+    if(action is SetQuestionnairesCheckBox) {
+      saveQuestionnairesCheckedState(store, action, next);
+    }
+  }
+
+  void saveQuestionnairesCheckedState(Store<AppState> store, SetQuestionnairesCheckBox action, NextDispatcher next) async {
+    store.dispatch(UpdateQuestionnairesCheckInProgressStateAction(store.state.shareWithClientPageState, true));
+    Job job = await JobDao.getJobById(action.pageState.job.documentId);
+    job.proposal.includeQuestionnaires = action.checked;
+    await JobDao.update(job);
+    next(SetQuestionnairesCheckBox(store.state.shareWithClientPageState, action.checked));
   }
 
   void savePosesCheckedState(Store<AppState> store, SetPosesCheckBox action, NextDispatcher next) async {

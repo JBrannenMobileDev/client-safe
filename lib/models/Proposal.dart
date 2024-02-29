@@ -28,6 +28,7 @@ class Proposal {
   bool includePoses = false;
   bool includeContract = false;
   bool includeInvoice = false;
+  bool includeQuestionnaires = false;
 
   Proposal({
       this.detailsMessage,
@@ -44,6 +45,7 @@ class Proposal {
       this.includeInvoice,
       this.includeContract,
       this.shareMessage,
+      this.includeQuestionnaires,
   });
 
   Map<String, dynamic> toMap() {
@@ -61,6 +63,7 @@ class Proposal {
       'includePoses' : includePoses,
       'includeInvoice' : includeInvoice,
       'includeContract' : includeContract,
+      'includeQuestionnaires' : includeQuestionnaires,
     };
   }
 
@@ -79,6 +82,7 @@ class Proposal {
       includePoses: map['includePoses'] != null ? map['includePoses'] : false,
       includeInvoice: map['includeInvoice'] != null ? map['includeInvoice'] : false,
       includeContract: map['includeContract'] != null ? map['includeContract'] : false,
+      includeQuestionnaires: map['includeQuestionnaires'] != null ? map['includeQuestionnaires'] : false,
     );
   }
 

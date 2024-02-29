@@ -12,12 +12,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:redux/redux.dart';
 
-import '../../utils/DandyToastUtil.dart';
 import '../../utils/InputDoneView.dart';
 import '../../utils/NavigationUtil.dart';
 import '../../utils/Shadows.dart';
@@ -181,6 +178,14 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                           pageState.question.type == Question.TYPE_ADDRESS ? isAddressItemRequiredSwitch(pageState, 'Country required', pageState.onCountryRequiredChanged, pageState.question.countryRequired) : const SizedBox(),
                           pageState.question.type == Question.TYPE_CONTACT_INFO ? contactInfoSettings(pageState) : const SizedBox(),
                           pageState.question.type == Question.TYPE_CHECK_BOXES ? multipleSelectionView(pageState) : const SizedBox(),
+                          Container(
+                            margin: const EdgeInsets.only(top: 32),
+
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: 'Question preview',
+                            ),
+                          ),
                           exampleQuestionView(pageState),
                           settingsView(),
                         ],
@@ -270,7 +275,6 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
 
   Widget exampleQuestionView(NewQuestionPageState pageState) {
     return Container(
-      margin: const EdgeInsets.only(top: 32),
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
@@ -291,22 +295,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
             onTap: () {
               selectAPhoto(pageState);
             },
-            child: pageState.webImage != null ? Container(
-              margin: const EdgeInsets.only(left: 24, right: 24, top: 16),
-              height: 224,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(16),
-                  topLeft: Radius.circular(16),
-                ),
-                child: Image(
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: 224,
-                  image: FileImage(File(pageState.webImage.path)),
-                ),
-              ),
-            ): pageState.question.webImageUrl != null ? Container(
+            child: pageState.question.mobileImageUrl != null ? Container(
               margin: const EdgeInsets.only(left: 24, right: 24, top: 16),
               height: 224,
               child: ClipRRect(
@@ -315,7 +304,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                   topLeft: Radius.circular(16),
                 ),
                 child: DandyLightNetworkImage(
-                  pageState.question.webImageUrl,
+                  pageState.question.mobileImageUrl,
                   color: Color(ColorConstants.getPrimaryWhite()),
                   borderRadius: 0,
                 ),
@@ -338,7 +327,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
             onTap: () {
               selectAPhoto(pageState);
             },
-            child: pageState.webImage == null && pageState.question.webImageUrl == null ? Container(
+            child: pageState.question.mobileImageUrl == null ? Container(
               alignment: Alignment.center,
               height: 224,
               margin: const EdgeInsets.only(left: 24, right: 24, top: 16),

@@ -50,6 +50,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
   bool contractChecked = false;
   bool invoiceChecked = false;
   bool posesChecked = false;
+  bool questionnairesChecked = false;
   _isProgressDialogShowing(BuildContext context) => progressContext != null && progressContext.mounted && ModalRoute.of(progressContext)?.isCurrent == true;
   BuildContext progressContext;
 
@@ -59,6 +60,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
     contractChecked = job.proposal.includeContract;
     invoiceChecked = job.proposal.includeInvoice;
     posesChecked = job.proposal.includePoses;
+    questionnairesChecked = job.proposal.includeQuestionnaires;
   }
 
   _ShareWithClientPageState(this.job);
@@ -192,7 +194,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
             }
           }
 
-          if(progressContext != null && _isProgressDialogShowing(context) && !current.updatePosesCheckInProgress && !current.updateInvoiceCheckInProgress && !current.updateContractCheckInProgress) {
+          if(progressContext != null && _isProgressDialogShowing(context) && !current.updatePosesCheckInProgress && !current.updateInvoiceCheckInProgress && !current.updateContractCheckInProgress && !current.updateQuestionnairesCheckInProgress) {
             Navigator.of(context).pop();
             IntentLauncherUtil.launchBrandingPreviewURL(UidUtil().getUid(), job.documentId);
             EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_PREVIEW_SELECTED);
@@ -200,6 +202,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
               EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_INVOICE : invoiceChecked,
               EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_CONTRACT : contractChecked,
               EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_POSES : posesChecked,
+              EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_QUESTIONNAIRES : questionnairesChecked,
               EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK : 'https://dandylight.com/clientPortal/${profile.uid}+${job.documentId}',
             });
           }
@@ -357,7 +360,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                             ),
                           ),
                           Container(
-                            height: 232,
+                            height: 276,
                             margin: const EdgeInsets.only(left: 16, right: 16, bottom: 264),
                             padding: const EdgeInsets.only(top: 16),
                             decoration: BoxDecoration(
@@ -444,6 +447,29 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                                   child: CheckboxListTile(
                                     title: TextDandyLight(
                                       type: TextDandyLight.MEDIUM_TEXT,
+                                      text: 'Questionnaires',
+                                    ),
+                                    value: questionnairesChecked,
+                                    activeColor: Color(ColorConstants.getPeachDark()),
+                                    onChanged: (selected) {
+                                      pageState.onQuestionnairesCheckBoxSelected(selected);
+                                      setState(() {
+                                        questionnairesChecked = selected;
+                                      });
+                                    },
+                                    controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                                  margin: const EdgeInsets.only(top: 0.0, bottom: 0.0),
+                                  alignment: Alignment.center,
+                                  height: 48.0,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(36.0)),
+                                  child: CheckboxListTile(
+                                    title: TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
                                       text: 'Poses',
                                     ),
                                     value: posesChecked,
@@ -479,7 +505,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                       child: GestureDetector(
                         onTap: () {
                           if(pageState.profile.isProfileComplete() && pageState.profile.hasSetupBrand && pageState.profile.paymentOptionsSelected()) {
-                            if(pageState.updateContractCheckInProgress || pageState.updateInvoiceCheckInProgress || pageState.updatePosesCheckInProgress) {
+                            if(pageState.updateContractCheckInProgress || pageState.updateInvoiceCheckInProgress || pageState.updatePosesCheckInProgress || pageState.updateQuestionnairesCheckInProgress) {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -521,6 +547,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                                 EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_INVOICE : invoiceChecked,
                                 EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_CONTRACT : contractChecked,
                                 EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_POSES : posesChecked,
+                                EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_QUESTIONNAIRES : questionnairesChecked,
                                 EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK : 'https://dandylight.com/clientPortal/${profile.uid}+${job.documentId}',
                               });
                             }
@@ -567,6 +594,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                             EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_INVOICE : pageState.invoiceSelected,
                             EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_CONTRACT : pageState.contractSelected,
                             EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_POSES : pageState.posesSelected,
+                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_QUESTIONNAIRES : pageState.questionnairesSelected,
                             EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK : 'https://dandylight.com/clientPortal/${profile.uid}+${job.documentId}',
                           });
                         },

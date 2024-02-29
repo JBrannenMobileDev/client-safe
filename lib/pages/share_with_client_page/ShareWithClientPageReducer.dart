@@ -11,6 +11,7 @@ final shareWithClientReducer = combineReducers<ShareWithClientPageState>([
   TypedReducer<ShareWithClientPageState, SetContractCheckBox>(_setContractChecked),
   TypedReducer<ShareWithClientPageState, SetInvoiceCheckBox>(_setInvoiceChecked),
   TypedReducer<ShareWithClientPageState, SetPosesCheckBox>(_setPosesChecked),
+  TypedReducer<ShareWithClientPageState, SetQuestionnairesCheckBox>(_setQuestionnairesChecked),
   TypedReducer<ShareWithClientPageState, SetProfileShareWIthClientAction>(_setProfile),
   TypedReducer<ShareWithClientPageState, SetJobShareWithClientAction>(_setJob),
   TypedReducer<ShareWithClientPageState, SaveProposalAction>(_setAreChangesSavedState),
@@ -18,7 +19,14 @@ final shareWithClientReducer = combineReducers<ShareWithClientPageState>([
   TypedReducer<ShareWithClientPageState, UpdateContractCheckInProgressStateAction>(_setContractInProgressState),
   TypedReducer<ShareWithClientPageState, UpdatePosesCheckInProgressStateAction>(_setPosesInProgressState),
   TypedReducer<ShareWithClientPageState, UpdateInvoiceCheckInProgressStateAction>(_setInvoiceInProgressState),
+  TypedReducer<ShareWithClientPageState, UpdateQuestionnairesCheckInProgressStateAction>(_setQuestionnairesInProgressState),
 ]);
+
+ShareWithClientPageState _setQuestionnairesInProgressState(ShareWithClientPageState previousState, UpdateQuestionnairesCheckInProgressStateAction action){
+  return previousState.copyWith(
+    updateQuestionnairesCheckInProgress: action.inProgress,
+  );
+}
 
 ShareWithClientPageState _setContractInProgressState(ShareWithClientPageState previousState, UpdateContractCheckInProgressStateAction action){
   return previousState.copyWith(
@@ -113,5 +121,15 @@ ShareWithClientPageState _setPosesChecked(ShareWithClientPageState previousState
     job: action.pageState.job,
     areChangesSaved: false,
     updatePosesCheckInProgress: false,
+  );
+}
+
+ShareWithClientPageState _setQuestionnairesChecked(ShareWithClientPageState previousState, SetQuestionnairesCheckBox action){
+  action.pageState.job.proposal.includeQuestionnaires = action.checked;
+  return previousState.copyWith(
+    questionnairesSelected: action.checked,
+    job: action.pageState.job,
+    areChangesSaved: false,
+    updateQuestionnairesCheckInProgress: false,
   );
 }

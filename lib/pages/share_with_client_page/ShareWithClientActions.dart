@@ -37,6 +37,12 @@ class SetPosesCheckBox{
   SetPosesCheckBox(this.pageState, this.checked);
 }
 
+class SetQuestionnairesCheckBox {
+  final ShareWithClientPageState pageState;
+  final bool checked;
+  SetQuestionnairesCheckBox(this.pageState, this.checked);
+}
+
 class SaveProposalAction {
   final ShareWithClientPageState pageState;
   SaveProposalAction(this.pageState);
@@ -58,6 +64,12 @@ class UpdatePosesCheckInProgressStateAction {
   final ShareWithClientPageState pageState;
   final bool inProgress;
   UpdatePosesCheckInProgressStateAction(this.pageState, this.inProgress);
+}
+
+class UpdateQuestionnairesCheckInProgressStateAction {
+  final ShareWithClientPageState pageState;
+  final bool inProgress;
+  UpdateQuestionnairesCheckInProgressStateAction(this.pageState, this.inProgress);
 }
 
 class FetchProfileAction{

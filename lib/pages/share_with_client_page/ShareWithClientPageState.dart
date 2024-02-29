@@ -12,6 +12,7 @@ class ShareWithClientPageState{
   final bool contractSelected;
   final bool invoiceSelected;
   final bool posesSelected;
+  final bool questionnairesSelected;
   final bool areChangesSaved;
   final String clientMessage;//Message in client portal
   final String clientShareMessage;//Message in the share message (SMS/Email)
@@ -19,6 +20,7 @@ class ShareWithClientPageState{
   final bool updateContractCheckInProgress;
   final bool updateInvoiceCheckInProgress;
   final bool updatePosesCheckInProgress;
+  final bool updateQuestionnairesCheckInProgress;
   final List<Job> jobs;
   final List<Job> jobsWithShareMessage;
   final Function(String) onMessageChanged;
@@ -27,6 +29,7 @@ class ShareWithClientPageState{
   final Function(bool) onContractCheckBoxSelected;
   final Function(bool) onInvoiceCheckBoxSelected;
   final Function(bool) onPosesCheckBoxSelected;
+  final Function(bool) onQuestionnairesCheckBoxSelected;
   final Function() saveProposal;
 
 
@@ -52,6 +55,9 @@ class ShareWithClientPageState{
     @required this.clientShareMessage,
     @required this.onShareMessageChanged,
     @required this.jobsWithShareMessage,
+    @required this.updateQuestionnairesCheckInProgress,
+    @required this.onQuestionnairesCheckBoxSelected,
+    @required this.questionnairesSelected,
   });
 
   ShareWithClientPageState copyWith({
@@ -60,6 +66,7 @@ class ShareWithClientPageState{
     bool contractSelected,
     bool invoiceSelected,
     bool posesSelected,
+    bool questionnairesSelected,
     bool areChangesSaved,
     String clientMessage,
     String clientShareMessage,
@@ -69,12 +76,14 @@ class ShareWithClientPageState{
     bool updateContractCheckInProgress,
     bool updateInvoiceCheckInProgress,
     bool updatePosesCheckInProgress,
+    bool updateQuestionnairesCheckInProgress,
     Function(String) onMessageChanged,
     Function(String) onShareMessageChanged,
     Function() onProposalShared,
     Function(bool) onContractCheckBoxSelected,
     Function(bool) onInvoiceCheckBoxSelected,
     Function(bool) onPosesCheckBoxSelected,
+    Function(bool) onQuestionnairesCheckBoxSelected,
     Function() saveProposal,
   }){
     return ShareWithClientPageState(
@@ -99,6 +108,9 @@ class ShareWithClientPageState{
       onShareMessageChanged: onShareMessageChanged ?? this.onShareMessageChanged,
       clientShareMessage: clientShareMessage ?? this.clientShareMessage,
       jobsWithShareMessage: jobsWithShareMessage ?? this.jobsWithShareMessage,
+      updateQuestionnairesCheckInProgress: updateQuestionnairesCheckInProgress ?? this.updateQuestionnairesCheckInProgress,
+      onQuestionnairesCheckBoxSelected: onQuestionnairesCheckBoxSelected ?? this.onQuestionnairesCheckBoxSelected,
+      questionnairesSelected: questionnairesSelected ?? this.questionnairesSelected,
     );
   }
 
@@ -108,6 +120,7 @@ class ShareWithClientPageState{
     contractSelected: false,
     invoiceSelected: false,
     posesSelected: false,
+    questionnairesSelected: false,
     onMessageChanged: null,
     onProposalShared: null,
     onContractCheckBoxSelected: null,
@@ -121,6 +134,8 @@ class ShareWithClientPageState{
     updateContractCheckInProgress: false,
     updatePosesCheckInProgress: false,
     updateInvoiceCheckInProgress: false,
+    updateQuestionnairesCheckInProgress: false,
+    onQuestionnairesCheckBoxSelected: null,
     clientShareMessage: '',
     onShareMessageChanged: null,
     jobsWithShareMessage: [],
@@ -142,12 +157,15 @@ class ShareWithClientPageState{
       updatePosesCheckInProgress: store.state.shareWithClientPageState.updatePosesCheckInProgress,
       clientShareMessage: store.state.shareWithClientPageState.clientShareMessage,
       jobsWithShareMessage: store.state.shareWithClientPageState.jobsWithShareMessage,
+      questionnairesSelected: store.state.shareWithClientPageState.questionnairesSelected,
+      updateQuestionnairesCheckInProgress: store.state.shareWithClientPageState.updateQuestionnairesCheckInProgress,
       onMessageChanged: (message) => store.dispatch(SetClientMessageAction(store.state.shareWithClientPageState, message)),
       onShareMessageChanged: (message) => store.dispatch(SetClientShareMessageAction(store.state.shareWithClientPageState, message)),
       onProposalShared: () => store.dispatch(ProposalSharedAction(store.state.shareWithClientPageState)),
       onContractCheckBoxSelected: (checked) => store.dispatch(SetContractCheckBox(store.state.shareWithClientPageState, checked)),
       onInvoiceCheckBoxSelected: (checked) => store.dispatch(SetInvoiceCheckBox(store.state.shareWithClientPageState, checked)),
       onPosesCheckBoxSelected: (checked) => store.dispatch(SetPosesCheckBox(store.state.shareWithClientPageState, checked)),
+      onQuestionnairesCheckBoxSelected: (checked) => store.dispatch(SetQuestionnairesCheckBox(store.state.shareWithClientPageState, checked)),
       saveProposal: () => store.dispatch(SaveProposalAction(store.state.shareWithClientPageState)),
     );
   }
@@ -174,6 +192,9 @@ class ShareWithClientPageState{
       clientShareMessage.hashCode ^
       jobsWithShareMessage.hashCode^
       onShareMessageChanged.hashCode ^
+      updateQuestionnairesCheckInProgress.hashCode ^
+      onQuestionnairesCheckBoxSelected.hashCode ^
+      questionnairesSelected.hashCode ^
       onPosesCheckBoxSelected.hashCode;
   @override
   bool operator ==(Object other) =>
@@ -199,5 +220,8 @@ class ShareWithClientPageState{
               jobs == other.jobs &&
               clientShareMessage == other.clientShareMessage &&
               onShareMessageChanged == other.onShareMessageChanged &&
+              onQuestionnairesCheckBoxSelected == other.onQuestionnairesCheckBoxSelected &&
+              updateQuestionnairesCheckInProgress == other.updateQuestionnairesCheckInProgress &&
+              questionnairesSelected == other.questionnairesSelected &&
               onPosesCheckBoxSelected == other.onPosesCheckBoxSelected;
 }

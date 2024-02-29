@@ -111,13 +111,14 @@ class _SelectAPhotoPageState extends State<SelectAPhotoPage> with TickerProvider
                    ],
                  ),
                ),
-               pageState.isLoading ? SizedBox(
-                 width: MediaQuery.of(context).size.width,
-                 height: MediaQuery.of(context).size.width,
+               pageState.isLoading ? Center(
                  child: Container(
-                   width: 48,
-                   height: 48,
-                   color: Color(ColorConstants.getPeachDark()),
+                   width: 54,
+                   height: 54,
+                   decoration: BoxDecoration(
+                     borderRadius: BorderRadius.circular(16),
+                     color: Color(ColorConstants.getPeachDark()),
+                   ),
                    child: LoadingAnimationWidget.fourRotatingDots(color: Color(ColorConstants.getPrimaryWhite()), size: 32),
                  ),
                ) : const SizedBox(),
@@ -130,6 +131,7 @@ class _SelectAPhotoPageState extends State<SelectAPhotoPage> with TickerProvider
     return GestureDetector(
       onTap: () {
         onImageSelected(pageState.uploadImages.elementAt(index));
+        Navigator.of(context).pop();
       },
       child: Container(
         padding: const EdgeInsets.only(left:0.5, right: 0.5, top: 1),
