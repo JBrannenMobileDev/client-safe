@@ -172,11 +172,11 @@ class _SelectAPhotoPageState extends State<SelectAPhotoPage> with TickerProvider
       cropStyle: CropStyle.rectangle,
       uiSettings: [
         AndroidUiSettings(
-          toolbarTitle: 'Crop to fit desktop',
+          toolbarTitle: 'Crop to fit Desktop',
           lockAspectRatio: true,
         ),
         IOSUiSettings(
-          title: 'Crop to fit desktop',
+          title: 'Crop to fit Desktop',
           aspectRatioPickerButtonHidden: true,
           doneButtonTitle: 'Next',
           aspectRatioLockEnabled: true,
@@ -195,11 +195,11 @@ class _SelectAPhotoPageState extends State<SelectAPhotoPage> with TickerProvider
       cropStyle: CropStyle.rectangle,
       uiSettings: [
         AndroidUiSettings(
-          toolbarTitle: 'Crop to fit mobile',
+          toolbarTitle: 'Crop to fit Mobile',
           lockAspectRatio: true,
         ),
         IOSUiSettings(
-          title: 'Crop to fit mobile',
+          title: 'Crop to fit Mobile',
           aspectRatioPickerButtonHidden: true,
           doneButtonTitle: 'Save',
           aspectRatioLockEnabled: true,

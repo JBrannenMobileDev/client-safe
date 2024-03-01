@@ -142,15 +142,16 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                   color: Color(ColorConstants.getPrimaryWhite()), //change your color here
                 ),
                 backgroundColor: Colors.transparent,
-                centerTitle: true,
                 elevation: 0.0,
-                title: TextDandyLight(
-                  type: TextDandyLight.LARGE_TEXT,
-                  text: '1 out of 8',
-                  color: Color(ColorConstants.getPrimaryWhite()),
-                ),
+                leading: IconButton(
+                  onPressed: (){
+                    Navigator.pop(context);
+                  },
+                  icon:Icon(Icons.close),
+                  //replace with our own icon data.
+                )
               ),
-              backgroundColor: Color(ColorConstants.getPrimaryGreyLight()),
+              backgroundColor: Color(ColorConstants.getPrimaryWhite()),
               body: SizedBox(
                 height: MediaQuery.of(context).size.height,
                 child: Stack(
@@ -224,62 +225,84 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   }
 
   Widget navigationButtons() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Container(
-          height: MediaQuery.of(context).size.height,
-          alignment: Alignment.bottomCenter,
-          child: GestureDetector(
-            onTap: () {
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      alignment: Alignment.bottomCenter,
+      child: Container(
+        height: 64,
+        margin: const EdgeInsets.only(bottom: 32, left: 24, right: 24),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: ElevationToShadow[4]
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              child: GestureDetector(
+                onTap: () {
 
-            },
-            child: Container(
-              alignment: Alignment.center,
-              height: 64,
-              margin: const EdgeInsets.only(bottom: 32),
-              padding: const EdgeInsets.only(left: 32, right: 32),
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(topRight: Radius.circular(27), bottomRight: Radius.circular(27)),
-                color: Color(ColorConstants.getBlueDark()),
-                boxShadow: ElevationToShadow[4],
-              ),
-              child: TextDandyLight(
-                type: TextDandyLight.LARGE_TEXT,
-                text: 'Back',
-                textAlign: TextAlign.center,
-                color: Color(ColorConstants.getPrimaryWhite()),
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 64,
+                  padding: const EdgeInsets.only(left: 32, right: 32),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(16), bottomLeft: Radius.circular(16)),
+                    color: Color(ColorConstants.getBlueDark()),
+                  ),
+                  child: TextDandyLight(
+                    type: TextDandyLight.LARGE_TEXT,
+                    text: 'Back',
+                    textAlign: TextAlign.center,
+                    color: Color(ColorConstants.getPrimaryWhite()),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height,
-          alignment: Alignment.bottomCenter,
-          child: GestureDetector(
-            onTap: () {
-
-            },
-            child: Container(
-              alignment: Alignment.center,
-              height: 64,
-              padding: const EdgeInsets.only(left: 32, right: 32),
-              margin: const EdgeInsets.only(bottom: 32),
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(topLeft: Radius.circular(27), bottomLeft: Radius.circular(27)),
-                color: Color(ColorConstants.getBlueDark()),
-                boxShadow: ElevationToShadow[4],
-              ),
-              child: TextDandyLight(
-                type: TextDandyLight.LARGE_TEXT,
-                text: 'Next',
-                textAlign: TextAlign.center,
-                color: Color(ColorConstants.getPrimaryWhite()),
+            Expanded(
+              child: Container(
+                child:
+                Container(
+                  alignment: Alignment.center,
+                  height: 64,
+                  decoration: BoxDecoration(
+                    color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                  ),
+                  child: TextDandyLight(
+                    type: TextDandyLight.LARGE_TEXT,
+                    textAlign: TextAlign.center,
+                    text: '(1 of 8)',
+                    color: Color(ColorConstants.getPrimaryBlack()),
+                  ),
+                ),
               ),
             ),
-          ),
+            Container(
+              child: GestureDetector(
+                onTap: () {
+
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 64,
+                  padding: const EdgeInsets.only(left: 32, right: 32),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(topRight: Radius.circular(16), bottomRight: Radius.circular(16)),
+                    color: Color(ColorConstants.getBlueDark()),
+                  ),
+                  child: TextDandyLight(
+                    type: TextDandyLight.LARGE_TEXT,
+                    text: 'Next',
+                    textAlign: TextAlign.center,
+                    color: Color(ColorConstants.getPrimaryWhite()),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
