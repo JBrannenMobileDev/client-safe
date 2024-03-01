@@ -350,7 +350,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                           alignment: Alignment.bottomCenter,
                           child: GestureDetector(
                             onTap: () {
-                              NavigationUtil.onAnswerQuestionnaireSelected(context, true);
+                              NavigationUtil.onAnswerQuestionnaireSelected(context, true, questionnaire);
                             },
                             child: Container(
                               alignment: Alignment.center,
