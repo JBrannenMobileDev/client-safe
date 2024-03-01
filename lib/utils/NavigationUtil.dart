@@ -5,6 +5,7 @@ import 'package:dandylight/models/Questionnaire.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPage.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/RecurringExpenseDetails.dart';
+import 'package:dandylight/pages/answer_questionnaire_page/AnswerQuestionnairePage.dart';
 import 'package:dandylight/pages/calendar_page/CalendarPage.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPage.dart';
 import 'package:dandylight/pages/client_details_page/JobHistoryListPage.dart';
@@ -187,6 +188,10 @@ class NavigationUtil {
 
   static void onSelectAPhotoSelected(BuildContext context, Function(String) onImageSelected) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => SelectAPhotoPage(onImageSelected: onImageSelected)));
+  }
+
+  static void onAnswerQuestionnaireSelected(BuildContext context, bool isPreview) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AnswerQuestionnairePage()));
   }
 }
 

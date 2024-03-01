@@ -1,4 +1,5 @@
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
+import 'package:dandylight/pages/answer_questionnaire_page/AnswerQuestionnairePageState.dart';
 import 'package:dandylight/pages/calendar_page/CalendarPageState.dart';
 import 'package:dandylight/pages/calendar_selection_page/CalendarSelectionPageState.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageState.dart';
@@ -99,6 +100,7 @@ class AppState {
   final NewQuestionnairePageState newQuestionnairePageState;
   final NewQuestionPageState newQuestionPageState;
   final SelectAPhotoPageState selectAPhotoPageState;
+  final AnswerQuestionnairePageState answerQuestionnairePageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -149,6 +151,7 @@ class AppState {
     @required this.newQuestionnairePageState,
     @required this.newQuestionPageState,
     @required this.selectAPhotoPageState,
+    @required this.answerQuestionnairePageState,
   });
 
   factory AppState.initial() {
@@ -201,6 +204,7 @@ class AppState {
       newQuestionnairePageState: NewQuestionnairePageState.initial(),
       newQuestionPageState: NewQuestionPageState.initial(),
       selectAPhotoPageState: SelectAPhotoPageState.initial(),
+      answerQuestionnairePageState: AnswerQuestionnairePageState.initial(),
     );
   }
 
@@ -253,6 +257,7 @@ class AppState {
     NewQuestionnairePageState newQuestionnairePageState,
     NewQuestionPageState newQuestionPageState,
     SelectAPhotoPageState selectAPhotoPageState,
+    AnswerQuestionnairePageState answerQuestionnairePageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -303,6 +308,7 @@ class AppState {
       newQuestionnairePageState: newQuestionnairePageState ?? this.newQuestionnairePageState,
       newQuestionPageState: newQuestionPageState ?? this.newQuestionPageState,
       selectAPhotoPageState: selectAPhotoPageState ?? this.selectAPhotoPageState,
+      answerQuestionnairePageState: answerQuestionnairePageState ?? this.answerQuestionnairePageState,
     );
   }
 
@@ -354,6 +360,7 @@ class AppState {
     newQuestionnairePageState.hashCode ^
     newQuestionPageState.hashCode ^
     selectAPhotoPageState.hashCode ^
+    answerQuestionnairePageState.hashCode ^
     incomeAndExpensesPageState.hashCode ;
 
   @override
@@ -406,5 +413,6 @@ class AppState {
               questionnairesPageState == other.questionnairesPageState &&
               newQuestionnairePageState == other.newQuestionnairePageState &&
               selectAPhotoPageState == other.selectAPhotoPageState &&
+              answerQuestionnairePageState == other.answerQuestionnairePageState &&
               incomeAndExpensesPageState == other.incomeAndExpensesPageState;
 }

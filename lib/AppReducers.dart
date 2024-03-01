@@ -1,5 +1,6 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensePageReducer.dart';
+import 'package:dandylight/pages/answer_questionnaire_page/AnswerQuestionnairePageReducer.dart';
 import 'package:dandylight/pages/calendar_page/CalendarPageReducer.dart';
 import 'package:dandylight/pages/calendar_selection_page/CalendarSelectionPageReducer.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageReducer.dart';
@@ -98,4 +99,5 @@ AppState appReducers(AppState state, dynamic action) =>
         newQuestionnairePageState: newQuestionnaireReducer(state.newQuestionnairePageState, action),
         newQuestionPageState: newQuestionReducer(state.newQuestionPageState, action),
         selectAPhotoPageState: selectAPhotoReducer(state.selectAPhotoPageState, action),
+        answerQuestionnairePageState: answerQuestionnaireReducer(state.answerQuestionnairePageState, action),
     );
