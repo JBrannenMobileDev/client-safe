@@ -18,6 +18,7 @@ import '../../../widgets/DandyLightNetworkImage.dart';
 import '../ClientPortalPageState.dart';
 import '../detailsPage/DetailsPage.dart';
 import '../invoicePage/InvoicePage.dart';
+import '../questionnairesPage/ClientPortalQuestionnairesPage.dart';
 
 class ProposalPage extends StatefulWidget {
   final String userId;
@@ -389,7 +390,7 @@ class _SignContractPageState extends State<ProposalPage> {
             child: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
               fontFamily: pageState.profile.selectedFontTheme.mainFont,
-              text: 'Questionnaire',
+              text: 'Questionnaires',
               isBold: isHoveredQuestionnaire || selectedPage == QUESTIONNAIRE,
             ),
           ),
@@ -560,7 +561,7 @@ class _SignContractPageState extends State<ProposalPage> {
         result = InvoicePage();
         break;
       case QUESTIONNAIRE:
-        result = DetailsPage();
+        result = ClientPortalQuestionnairesPage();
         break;
       case POSES:
         result = ClientPosesPage();

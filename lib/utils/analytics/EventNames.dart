@@ -289,6 +289,7 @@ class EventNames {
   static const String CLIENT_PORTAL_PREVIEW_VIEWED = "client_portal_preview_viewed";
   static const String CLIENT_PORTAL_CONTRACT_SELECTED = "client_portal_contract_selected";
   static const String CLIENT_PORTAL_INVOICE_SELECTED = "client_portal_invoice_selected";
+  static const String CLIENT_PORTAL_QUESTIONNAIRE_SELECTED = "client_portal_questionnaire_selected";
   static const String CLIENT_PORTAL_POSES_SELECTED = "client_portal_poses_selected";
   static const String CLIENT_PORTAL_HOME_SELECTED = "client_portal_home_selected";
   static const String CLIENT_PORTAL_CONTRACT_SIGNED = "client_portal_contract_signed";

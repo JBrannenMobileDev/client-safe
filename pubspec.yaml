@@ -176,6 +176,8 @@ flutter:
     - assets/images/icons/number_sign.png
     - assets/images/icons/radio_button.png
     - assets/images/icons/half_circle.png
+    - assets/images/icons/questionnaire_thin.png
+    - assets/images/icons/questionnaire_solid.png
 
     - assets/images/backgrounds/image_background.png
 

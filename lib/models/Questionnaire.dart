@@ -26,6 +26,20 @@ class Questionnaire {
     return questions.isNotEmpty ? questions.first.webImageUrl : '';
   }
 
+  bool hasImage() {
+    for(Question question in questions) {
+      if(question.showImage && question.mobileImageUrl != null && question.mobileImageUrl.isNotEmpty) return true;
+    }
+    return false;
+  }
+
+  String getDisplayImageUrl() {
+    for(Question question in questions) {
+      if(question.showImage && question.mobileImageUrl != null && question.mobileImageUrl.isNotEmpty) return question.mobileImageUrl;
+    }
+    return '';
+  }
+
   double getLengthInMinutes() {
     double result = 0;
     for(Question question in questions) {
@@ -67,6 +81,7 @@ class Questionnaire {
           break;
       }
     }
+    if(result < 1) result = 1;
     return result;
   }
 
