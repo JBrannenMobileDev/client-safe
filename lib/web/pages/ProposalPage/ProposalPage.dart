@@ -342,7 +342,7 @@ class _SignContractPageState extends State<ProposalPage> {
           },
         ),
       ) : SizedBox(),
-      pageState.proposal.includePoses && pageState.job.poses.length > 0 ? GestureDetector(
+      pageState.proposal.includePoses && pageState.job.poses.isNotEmpty ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = POSES;
@@ -375,7 +375,7 @@ class _SignContractPageState extends State<ProposalPage> {
           },
         ),
       ) : SizedBox(),
-      pageState.proposal?.questionnaires != null ? GestureDetector(
+      pageState.proposal.includeQuestionnaires && pageState.proposal?.questionnaires != null ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = QUESTIONNAIRE;
@@ -500,7 +500,27 @@ class _SignContractPageState extends State<ProposalPage> {
       ));
     }
 
-    if(pageState.job.poses != null && pageState.job.poses.length > 0 && pageState.proposal.includePoses) {
+    if(pageState.proposal.questionnaires != null && pageState.proposal.questionnaires.isNotEmpty && pageState.proposal.includeQuestionnaires) {
+      result.add(GestureDetector(
+        onTap: () {
+          setState(() {
+            selectedPage = QUESTIONNAIRE;
+            _controller.jumpTo(0);
+          });
+          EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_QUESTIONNAIRE_SELECTED);
+        },
+        child: Container(
+          margin: EdgeInsets.only(left: 16, right: 16),
+          height: 26,
+          width: 26,
+          child: Image.asset(
+            selectedPage == QUESTIONNAIRE ? "navIcons/questionnaire_solid.png" : "navIcons/questionnaire_thin.png",
+          ),
+        ),
+      ));
+    }
+
+    if(pageState.job.poses != null && pageState.job.poses.isNotEmpty && pageState.proposal.includePoses) {
       result.add(GestureDetector(
         onTap: () {
           setState(() {
@@ -524,7 +544,7 @@ class _SignContractPageState extends State<ProposalPage> {
   }
 
   Widget _menuButtonsSmallScreen(ClientPortalPageState pageState) {
-    if((pageState.proposal.contract != null && pageState.proposal.includeContract) || (pageState.invoice != null && pageState.proposal.includeInvoice) || (pageState.job.poses != null && pageState.job.poses.length > 0 && pageState.proposal.includePoses)) {
+    if((pageState.proposal.contract != null && pageState.proposal.includeContract) || (pageState.invoice != null && pageState.proposal.includeInvoice) || (pageState.job.poses != null && pageState.job.poses.isNotEmpty && pageState.proposal.includePoses) || (pageState.proposal.questionnaires != null && pageState.proposal.questionnaires.isNotEmpty && pageState.proposal.includeQuestionnaires)) {
       List<Widget> buttons = buildButtonList(pageState);
       return UnconstrainedBox(
         child: Container(

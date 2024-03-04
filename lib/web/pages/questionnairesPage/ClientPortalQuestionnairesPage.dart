@@ -1,4 +1,5 @@
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/web/pages/posesPage/StackedGrid.dart';
 import 'package:flutter/material.dart';
@@ -64,113 +65,46 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
   }
 
   Widget buildItem(int index, ClientPortalPageState pageState) {
-    return pageState.proposal.questionnaires.elementAt(index).hasImage() ? Container(
-      height: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : 2.25),
-      child: Stack(
-        alignment: Alignment.topRight,
-        children: [
-          Container(
-            alignment: Alignment.topCenter,
-            margin: const EdgeInsets.all(16),
-            width: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 2.25 : 1),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: Color(ColorConstants.getPrimaryGreyLight()),
-              boxShadow: ElevationToShadow[2],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                pageState.proposal.questionnaires.elementAt(index).hasImage() ? ClipRRect(
-                  borderRadius: const BorderRadius.only(topRight: Radius.circular(16), topLeft: Radius.circular(16)), // Image border
-                  child: SizedBox(
-                    width: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 2.25 : 1),
-                    height: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 6 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 3.5 : 1.5),
-                    child: Image.network(
-                      pageState.proposal.questionnaires.elementAt(index).getDisplayImageUrl(),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ) : const SizedBox(),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(left: 16),
-                        alignment: Alignment.centerLeft,
-                        child: TextDandyLight(
-                          textAlign: TextAlign.start,
-                          type: TextDandyLight.LARGE_TEXT,
-                          text: pageState.proposal.questionnaires.elementAt(index).title,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 16),
-                        alignment: Alignment.centerLeft,
-                        child: TextDandyLight(
-                          textAlign: TextAlign.start,
-                          type: TextDandyLight.MEDIUM_TEXT,
-                          text: '${pageState.proposal.questionnaires.elementAt(index).questions.length} questions (~${pageState.proposal.questionnaires.elementAt(index).getLengthInMinutes()}min)',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-          Container(
-            height: 48,
-            width: 48,
-            padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(32),
-                color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
-            ),
-            child: Icon(Icons.check, color: Color(ColorConstants.getPrimaryWhite()),),
-          )
-        ],
-      ),
-    ) : Container(
-      height: 432,
-      width: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 2.25 : 1),
-
-      child: Stack(
-        alignment: Alignment.topRight,
-        children: [
-          Container(
-            alignment: Alignment.topCenter,
-            margin: const EdgeInsets.all(16),
-            width: getPageWidth(context),
-            child: Container(
-              height: 100,
+    return GestureDetector(
+      onTap: () {
+        NavigationUtil.onAnswerQuestionnaireSelected(context, false, pageState.proposal.questionnaires.elementAt(index));
+      },
+      child: pageState.proposal.questionnaires.elementAt(index).hasImage() ? SizedBox(
+        height: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : 2.25),
+        child: Stack(
+          alignment: Alignment.topRight,
+          children: [
+            Container(
+              alignment: Alignment.topCenter,
+              margin: const EdgeInsets.all(16),
+              width: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 2.25 : 1),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 color: Color(ColorConstants.getPrimaryGreyLight()),
                 boxShadow: ElevationToShadow[2],
               ),
-              child: Row(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Container(
-                    margin: EdgeInsets.only(left: 16),
-                    height: 54,
-                    width: 54,
-                    child: Image.asset('icons/questionnaire_solid.png', color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)),
-                  ),
+                  pageState.proposal.questionnaires.elementAt(index).hasImage() ? ClipRRect(
+                    borderRadius: const BorderRadius.only(topRight: Radius.circular(16), topLeft: Radius.circular(16)), // Image border
+                    child: SizedBox(
+                      width: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 2.25 : 1),
+                      height: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 6 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 3.5 : 1.5),
+                      child: Image.network(
+                        pageState.proposal.questionnaires.elementAt(index).getDisplayImageUrl(),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ) : const SizedBox(),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(left: 4),
+                          margin: EdgeInsets.only(left: 16),
                           alignment: Alignment.centerLeft,
                           child: TextDandyLight(
                             textAlign: TextAlign.start,
@@ -181,7 +115,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(left: 4),
+                          margin: EdgeInsets.only(left: 16),
                           alignment: Alignment.centerLeft,
                           child: TextDandyLight(
                             textAlign: TextAlign.start,
@@ -193,26 +127,95 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                         )
                       ],
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
-          ),
-          Container(
-            height: 42,
-            width: 42,
-            padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(32),
-                color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
+            Container(
+              height: 48,
+              width: 48,
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(32),
+                  color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
+              ),
+              child: Icon(Icons.check, color: Color(ColorConstants.getPrimaryWhite()),),
+            )
+          ],
+        ),
+      ) : SizedBox(
+        height: 432,
+        width: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 2.25 : 1),
+
+        child: Stack(
+          alignment: Alignment.topRight,
+          children: [
+            Container(
+              alignment: Alignment.topCenter,
+              margin: const EdgeInsets.all(16),
+              width: getPageWidth(context),
+              child: Container(
+                height: 100,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: Color(ColorConstants.getPrimaryGreyLight()),
+                  boxShadow: ElevationToShadow[2],
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(left: 16),
+                      height: 54,
+                      width: 54,
+                      child: Image.asset('navIcons/questionnaire_solid.png', color: Color(ColorConstants.getPrimaryBlack())),
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(left: 4),
+                            alignment: Alignment.centerLeft,
+                            child: TextDandyLight(
+                              textAlign: TextAlign.start,
+                              type: TextDandyLight.LARGE_TEXT,
+                              text: pageState.proposal.questionnaires.elementAt(index).title,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 4),
+                            alignment: Alignment.centerLeft,
+                            child: TextDandyLight(
+                              textAlign: TextAlign.start,
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: '${pageState.proposal.questionnaires.elementAt(index).questions.length} questions (~${pageState.proposal.questionnaires.elementAt(index).getLengthInMinutes()}min)',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-            child: Icon(Icons.check, color: Color(ColorConstants.getPrimaryWhite()),),
-          )
-        ],
+            Container(
+              height: 42,
+              width: 42,
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(32),
+                  color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
+              ),
+              child: Icon(Icons.check, color: Color(ColorConstants.getPrimaryWhite()),),
+            )
+          ],
+        ),
       ),
     );
   }
 }
-
-//TODO Something about the mobile crop is funny. It seems to change after it is already cropped and saved.
-//TODO Also when editing from jobDetails, if there are multiple similar Questionnaires, updating one of them updates the wrong one.

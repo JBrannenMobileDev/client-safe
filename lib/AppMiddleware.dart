@@ -339,6 +339,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, GenerateInvoiceForClientAction>(ClientPortalMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchProfileAction>(ShareWithClientPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetPosesCheckBox>(ShareWithClientPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SetQuestionnairesCheckBox>(ShareWithClientPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetContractCheckBox>(ShareWithClientPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetInvoiceCheckBox>(ShareWithClientPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveProposalAction>(ShareWithClientPageMiddleware()));
