@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Questionnaire.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:redux/redux.dart';
 
 import '../../models/Question.dart';
+import '../../utils/DeviceType.dart';
 import '../../utils/InputDoneView.dart';
 import '../../utils/Shadows.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -20,11 +22,12 @@ import 'AnswerQuestionnairePageState.dart';
 class AnswerQuestionnairePage extends StatefulWidget {
   final Questionnaire questionnaire;
   final bool isPreview;
-  const AnswerQuestionnairePage({Key key, this.questionnaire, this.isPreview}) : super(key: key);
+  final bool isWebsite;
+  const AnswerQuestionnairePage({Key key, this.questionnaire, this.isPreview, this.isWebsite}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _AnswerQuestionnairePageState(questionnaire, questionnaire.questions.length, isPreview);
+    return _AnswerQuestionnairePageState(questionnaire, questionnaire.questions.length, isPreview, isWebsite);
   }
 }
 
@@ -38,11 +41,11 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   final messageController = TextEditingController();
   final FocusNode _messageFocusNode = FocusNode();
   final bool isPreview;
+  final bool isWebsite;
 
   final int pageCount;
-  int currentPageIndex;
+  int currentPageIndex = 0;
   final PageController controller = PageController(initialPage: 0);
-  final List<Container> pages = [];
 
   setCurrentPage(int page) {
     setState(() {
@@ -50,62 +53,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
     });
   }
 
-
-  @override
-  void initState() {
-    super.initState();
-    for(Question question in questionnaire.questions) {
-      pages.add(
-          Container(
-            alignment: Alignment.topCenter,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  question.showImage ? Stack(
-                    alignment: Alignment.topCenter,
-                    children: [
-                      ClipRRect(
-                        child: CachedNetworkImage(
-                          fadeOutDuration: Duration(milliseconds: 0),
-                          fadeInDuration: Duration(milliseconds: 200),
-                          imageUrl: question.mobileImageUrl,
-                          fit: BoxFit.fitWidth,
-                          placeholder: (context, url) => Container(
-                              height: 116,
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius: new BorderRadius.circular(16),
-                              )
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 264.0,
-                        decoration: BoxDecoration(
-                            color: Color(ColorConstants.getPrimaryWhite()),
-                            gradient: LinearGradient(
-                                begin: FractionalOffset.center,
-                                end: FractionalOffset.topCenter,
-                                colors: [
-                                  Colors.transparent,
-                                  Colors.black.withOpacity(0.6),
-                                ],
-                                stops: [
-                                  0.2,
-                                  1.0
-                                ])),
-                      ),
-                    ],
-                  ) : const SizedBox(),
-                ],
-              ),
-            ),
-          )
-      );
-    }
-  }
-
-  _AnswerQuestionnairePageState(this.questionnaire, this.pageCount, this.isPreview);
+  _AnswerQuestionnairePageState(this.questionnaire, this.pageCount, this.isPreview, this.isWebsite);
 
   @override
   Widget build(BuildContext context) =>
@@ -147,7 +95,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                   onPressed: (){
                     Navigator.pop(context);
                   },
-                  icon:Icon(Icons.close),
+                  icon:const Icon(Icons.close),
                   //replace with our own icon data.
                 )
               ),
@@ -157,8 +105,8 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: [
-                    questionLayout(),
-                    navigationButtons(),
+                    questionLayout(pageState),
+                    navigationButtons(pageState),
                   ],
                 ),
               ),
@@ -213,18 +161,64 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
     }
   }
 
-  Widget questionLayout() {
+  Widget questionLayout(AnswerQuestionnairePageState pageState) {
     return PageView.builder(
       controller: controller,
+      itemCount: pageState.questionnaire.questions?.length,
       onPageChanged: setCurrentPage,
-      itemBuilder: (context, position) {
-        if (position == pageCount) return null;
-        return pages.elementAt(position);
-      },
+      itemBuilder: (BuildContext context, int index){
+        Question question = pageState.questionnaire.questions.elementAt(index);
+        return Container(
+          alignment: Alignment.topCenter,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                questionnaire.questions.elementAt(index).showImage ? Stack(
+                  alignment: Alignment.topCenter,
+                  children: [
+                    ClipRRect(
+                      child: CachedNetworkImage(
+                        fadeOutDuration: const Duration(milliseconds: 0),
+                        fadeInDuration: const Duration(milliseconds: 200),
+                        imageUrl: questionnaire.questions.elementAt(index).mobileImageUrl,
+                        fit: BoxFit.fitWidth,
+                        placeholder: (context, url) => Container(
+                            height: 116,
+                            decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              borderRadius: BorderRadius.circular(16),
+                            )
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 264.0,
+                      decoration: BoxDecoration(
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                          gradient: LinearGradient(
+                              begin: FractionalOffset.center,
+                              end: FractionalOffset.topCenter,
+                              colors: [
+                                Colors.transparent,
+                                Colors.black.withOpacity(0.6),
+                              ],
+                              stops: const [
+                                0.2,
+                                1.0
+                              ])),
+                    ),
+                  ],
+                ) : const SizedBox(),
+                getAnswerWidget(index+1, question, pageState)
+              ],
+            ),
+          ),
+        );
+      }
     );
   }
 
-  Widget navigationButtons() {
+  Widget navigationButtons(AnswerQuestionnairePageState pageState) {
     return Container(
       height: MediaQuery.of(context).size.height,
       alignment: Alignment.bottomCenter,
@@ -238,58 +232,74 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              child: GestureDetector(
-                onTap: () {
-
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 64,
-                  padding: const EdgeInsets.only(left: 32, right: 32),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(16), bottomLeft: Radius.circular(16)),
-                    color: Color(ColorConstants.getBlueDark()),
-                  ),
-                  child: TextDandyLight(
-                    type: TextDandyLight.LARGE_TEXT,
-                    text: 'Back',
-                    textAlign: TextAlign.center,
-                    color: Color(ColorConstants.getPrimaryWhite()),
-                  ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  if(currentPageIndex > 0) {
+                    currentPageIndex = currentPageIndex - 1;
+                  }
+                });
+                controller.animateToPage(currentPageIndex, duration: const Duration(milliseconds: 250), curve: Curves.ease);
+              },
+              child: Container(
+                alignment: Alignment.center,
+                height: 64,
+                padding: const EdgeInsets.only(left: 32, right: 32),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(16), bottomLeft: Radius.circular(16)),
+                  color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor),
+                ),
+                child: TextDandyLight(
+                  type: TextDandyLight.LARGE_TEXT,
+                  text: 'Back',
+                  textAlign: TextAlign.center,
+                  color: Color(ColorConstants.getPrimaryWhite()),
                 ),
               ),
             ),
             Expanded(
               child: Container(
-                child:
-                Container(
+                color: Colors.white,
+                child: Container(
                   alignment: Alignment.center,
                   height: 64,
                   decoration: BoxDecoration(
-                    color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor).withOpacity(0.5),
                   ),
                   child: TextDandyLight(
                     type: TextDandyLight.LARGE_TEXT,
                     textAlign: TextAlign.center,
-                    text: '(1 of 8)',
+                    text: '(${(currentPageIndex + 1).toString()} of $pageCount)',
                     color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
               ),
             ),
-            Container(
-              child: GestureDetector(
-                onTap: () {
-
-                },
+            GestureDetector(
+              onTap: () {
+                if(isNextEnabled(pageState)) {
+                  setState(() {
+                    if(currentPageIndex < pageCount-1) {
+                      currentPageIndex = currentPageIndex + 1;
+                    }
+                  });
+                  controller.animateToPage(currentPageIndex, duration: const Duration(milliseconds: 250), curve: Curves.ease);
+                } else {
+                  DandyToastUtil.showToast('This question is required *', ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor));
+                }
+              },
+              child: Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(topRight: Radius.circular(16), bottomRight: Radius.circular(16)),
+                  color: Colors.white,
+                ),
                 child: Container(
                   alignment: Alignment.center,
                   height: 64,
                   padding: const EdgeInsets.only(left: 32, right: 32),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(topRight: Radius.circular(16), bottomRight: Radius.circular(16)),
-                    color: Color(ColorConstants.getBlueDark()),
+                    borderRadius: const BorderRadius.only(topRight: Radius.circular(16), bottomRight: Radius.circular(16)),
+                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor),
                   ),
                   child: TextDandyLight(
                     type: TextDandyLight.LARGE_TEXT,
@@ -302,6 +312,97 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  bool isNextEnabled(AnswerQuestionnairePageState pageState) {
+    Question question = pageState.questionnaire.questions.elementAt(currentPageIndex);
+    bool isEnabled = false;
+    if(isPreview) {
+      isEnabled = !question.isRequired || question.isRequired && shortFormTextController.text.isNotEmpty;
+    } else {
+      isEnabled = !question.isRequired || question.isRequired && question.isAnswered();
+    }
+    return isEnabled;
+  }
+
+  Widget getAnswerWidget(int questionNumber, Question question, AnswerQuestionnairePageState pageState) {
+    Widget result = const SizedBox();
+    switch(question.type) {
+      case Question.TYPE_SHORT_FORM_RESPONSE:
+        result = buildShortFormResponseAnswerWidget(questionNumber, question, pageState);
+        break;
+    }
+    return result;
+  }
+
+  Widget buildQuestionWidget(int questionNumber, Question question) {
+    return Container(
+      alignment: Alignment.topLeft,
+      margin: const EdgeInsets.only(left: 32, top: 24),
+      child: TextDandyLight(
+        type: TextDandyLight.LARGE_TEXT,
+        text: '$questionNumber. ${question.question} ${question.isRequired ? '*' : ''}',
+      ),
+    );
+  }
+
+  TextEditingController shortFormTextController = TextEditingController();
+  final FocusNode shortFormFocusNode = FocusNode();
+  Widget buildShortFormResponseAnswerWidget(int questionNumber, Question question, AnswerQuestionnairePageState pageState) {
+    return isWebsite ? Container(
+
+    ) : Container(
+      alignment: Alignment.topLeft,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          buildQuestionWidget(questionNumber, question),
+          Container(
+            margin: const EdgeInsets.only(left: 32, right: 32, top: 32),
+            child: TextFormField(
+              cursorColor: Color(ColorConstants.getBlueDark()),
+              focusNode: shortFormFocusNode,
+              textInputAction: TextInputAction.done,
+              maxLines: 1,
+              controller: shortFormTextController,
+              onChanged: (text) {
+                if(!isPreview) {
+                  pageState.onShortFormAnswerChanged(text, question);
+                }
+              },
+              onFieldSubmitted: (term) {
+                shortFormFocusNode.unfocus();
+              },
+              decoration: InputDecoration.collapsed(
+                hintText: 'Type your answer here...',
+                fillColor: Color(ColorConstants.getPrimaryWhite()),
+                hintStyle: TextStyle(
+                  fontFamily: TextDandyLight.getFontFamily(),
+                  fontSize: TextDandyLight.getFontSize(TextDandyLight.LARGE_TEXT),
+                  fontWeight: TextDandyLight.getFontWeight(),
+                  color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor).withOpacity(0.5),
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+              keyboardType: TextInputType.text,
+              textCapitalization: TextCapitalization.sentences,
+              style: TextStyle(
+                  fontFamily: TextDandyLight.getFontFamily(),
+                  fontSize: TextDandyLight.getFontSize(TextDandyLight.LARGE_TEXT),
+                  fontWeight: FontWeight.w500,
+                  color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)),
+              textAlignVertical: TextAlignVertical.center,
+            ),
+          ),
+          Container(
+            height: 2,
+            width: MediaQuery.of(context).size.width,
+            margin: const EdgeInsets.only(left: 32, right: 32, top: 8),
+            color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor),
+          )
+        ],
       ),
     );
   }

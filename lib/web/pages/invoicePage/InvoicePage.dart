@@ -50,6 +50,17 @@ class _InvoicePageState extends State<InvoicePage> {
                   alignment: Alignment.centerRight,
                   width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 1080 : MediaQuery.of(context).size.width,
                   child: MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    onHover: (event) {
+                      setState(() {
+                        isHoveredDownloadPDF = true;
+                      });
+                    },
+                    onExit: (event) {
+                      setState(() {
+                        isHoveredDownloadPDF = false;
+                      });
+                    },
                     child: GestureDetector(
                       onTap: () {
                         pageState.onDownloadInvoiceSelected();
@@ -84,17 +95,6 @@ class _InvoicePageState extends State<InvoicePage> {
                         ),
                       ),
                     ),
-                    cursor: SystemMouseCursors.click,
-                    onHover: (event) {
-                      setState(() {
-                        isHoveredDownloadPDF = true;
-                      });
-                    },
-                    onExit: (event) {
-                      setState(() {
-                        isHoveredDownloadPDF = false;
-                      });
-                    },
                   ),
                 )
               ],
@@ -172,6 +172,21 @@ class _InvoicePageState extends State<InvoicePage> {
                         ),
                       ) : SizedBox(),
                       MouseRegion(
+                        cursor:  !pageState.invoice.invoicePaid ? SystemMouseCursors.click : SystemMouseCursors.basic,
+                        onHover: (event) {
+                          if(!pageState.invoice.depositPaid && !pageState.invoice.invoicePaid) {
+                            setState(() {
+                              isHoveredPayDeposit = true;
+                            });
+                          }
+                        },
+                        onExit: (event) {
+                          if(!pageState.invoice.depositPaid && !pageState.invoice.invoicePaid) {
+                            setState(() {
+                              isHoveredPayDeposit = false;
+                            });
+                          }
+                        },
                         child: GestureDetector(
                           onTap: () {
                             if(!pageState.invoice.depositPaid && !pageState.invoice.invoicePaid) {
@@ -226,21 +241,6 @@ class _InvoicePageState extends State<InvoicePage> {
                             ),
                           ),
                         ),
-                        cursor:  !pageState.invoice.invoicePaid ? SystemMouseCursors.click : SystemMouseCursors.basic,
-                        onHover: (event) {
-                          if(!pageState.invoice.depositPaid && !pageState.invoice.invoicePaid) {
-                            setState(() {
-                              isHoveredPayDeposit = true;
-                            });
-                          }
-                        },
-                        onExit: (event) {
-                          if(!pageState.invoice.depositPaid && !pageState.invoice.invoicePaid) {
-                            setState(() {
-                              isHoveredPayDeposit = false;
-                            });
-                          }
-                        },
                       )
                     ],
                   ),
@@ -311,6 +311,17 @@ class _InvoicePageState extends State<InvoicePage> {
                         ),
                       ) : SizedBox(),
                       MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        onHover: (event) {
+                          setState(() {
+                            isHoveredPayFull = true;
+                          });
+                        },
+                        onExit: (event) {
+                          setState(() {
+                            isHoveredPayFull = false;
+                          });
+                        },
                         child: GestureDetector(
                           onTap: () {
                             if(!pageState.invoice.invoicePaid) {
@@ -355,17 +366,6 @@ class _InvoicePageState extends State<InvoicePage> {
                             ),
                           ),
                         ),
-                        cursor: SystemMouseCursors.click,
-                        onHover: (event) {
-                          setState(() {
-                            isHoveredPayFull = true;
-                          });
-                        },
-                        onExit: (event) {
-                          setState(() {
-                            isHoveredPayFull = false;
-                          });
-                        },
                       )
                     ],
                   ),

@@ -69,18 +69,14 @@ class SelectAPhotoPageMiddleware extends MiddlewareClass<AppState> {
     final storageRef = FirebaseStorage.instance.ref();
     final ListResult result = await (storageRef.child("env/prod/images/${UidUtil().getUid()}/questions").listAll());
 
-    List<String> webImages = [];
     List<String> mobileImages = [];
     for (var item in result.items) {
       String url = await item.getDownloadURL();
-      if(url.contains('WebImage')) {
-        webImages.add(url);
-      }
       if(url.contains('MobileImage')) {
         mobileImages.add(url);
       }
     }
     store.dispatch(SetLoadingStateAction(store.state.selectAPhotoPageState, false));
-    store.dispatch(SetUploadsToState(store.state.selectAPhotoPageState, webImages));
+    store.dispatch(SetUploadsToState(store.state.selectAPhotoPageState, mobileImages));
   }
 }

@@ -68,7 +68,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
   Widget buildItem(int index, ClientPortalPageState pageState) {
     return GestureDetector(
       onTap: () {
-        NavigationUtil.onAnswerQuestionnaireSelected(context, false, pageState.proposal.questionnaires.elementAt(index));
+        NavigationUtil.onAnswerQuestionnaireSelected(context, false, pageState.proposal.questionnaires.elementAt(index), DeviceType.getDeviceTypeByContext(context) == Type.Website);
       },
       child: pageState.proposal.questionnaires.elementAt(index).hasImage() ? SizedBox(
         height: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : 2.25),

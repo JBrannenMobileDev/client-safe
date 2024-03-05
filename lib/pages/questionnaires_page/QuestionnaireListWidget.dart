@@ -61,7 +61,7 @@ class QuestionnaireListWidget extends StatelessWidget {
                     margin: const EdgeInsets.only(right: 8.0, left: 8.0),
                     height: 36.0,
                     width: 36.0,
-                    child: Image.asset('assets/images/collection_icons/questionaire_icon_white.png', color: Color(ColorConstants.getBlueDark())),
+                    child: Image.asset('assets/images/icons/questionnaire_thin.png', color: Color(ColorConstants.getBlueDark())),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width - (addToJobNew ? 100 : 164),

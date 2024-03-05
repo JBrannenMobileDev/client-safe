@@ -190,8 +190,8 @@ class NavigationUtil {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => SelectAPhotoPage(onImageSelected: onImageSelected)));
   }
 
-  static void onAnswerQuestionnaireSelected(BuildContext context, bool isPreview, Questionnaire questionnaire) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => AnswerQuestionnairePage(questionnaire: questionnaire, isPreview: isPreview)));
+  static void onAnswerQuestionnaireSelected(BuildContext context, bool isPreview, Questionnaire questionnaire, bool isWebsite) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => AnswerQuestionnairePage(questionnaire: questionnaire, isPreview: isPreview, isWebsite: isWebsite)));
   }
 }
 

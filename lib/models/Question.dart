@@ -1,7 +1,10 @@
 
 import 'package:dandylight/utils/UUID.dart';
+import 'package:dandylight/widgets/TextDandyLight.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../utils/DeviceType.dart';
 
 class Question {
   static const String TYPE_CONTACT_INFO = 'Contact info';
@@ -35,7 +38,6 @@ class Question {
   String mobileImageUrl;
   bool showImage;
   bool isRequired;
-  bool isAnswered;
   XFile webImage;
   XFile mobileImage;
 
@@ -104,7 +106,6 @@ class Question {
     this.mobileImageUrl,
     this.showImage = true,
     this.isRequired = true,
-    this.isAnswered = false,
     this.mobileImage,
     this.webImage,
 
@@ -165,7 +166,6 @@ class Question {
       'mobileImageUrl' : mobileImageUrl,
       'showImage' : showImage ?? false,
       'isRequired' : isRequired,
-      'isAnswered' : isAnswered,
 
       'multipleSelection' : multipleSelection,
       'choicesCheckBoxes' : choicesCheckBoxes,
@@ -225,7 +225,6 @@ class Question {
       mobileImageUrl: map['mobileImageUrl'],
       showImage: map['showImage'] ?? false,
       isRequired: map['isRequired'],
-      isAnswered: map['isAnswered'],
 
       multipleSelection: map['multipleSelection'],
       choicesCheckBoxes: map['choicesCheckBoxes'],
@@ -280,12 +279,13 @@ class Question {
     return const SizedBox();
   }
 
-  Widget getAnswerWidget() {
-    TextEditingController titleTextController = TextEditingController();
-    Widget result = const SizedBox();
+  bool isAnswered() {
+    bool isAnswered = false;
     switch(type) {
-
+      case TYPE_SHORT_FORM_RESPONSE:
+        isAnswered = shortAnswer != null && shortAnswer.isNotEmpty;
+        break;
     }
-    return const SizedBox();
+    return isAnswered;
   }
 }

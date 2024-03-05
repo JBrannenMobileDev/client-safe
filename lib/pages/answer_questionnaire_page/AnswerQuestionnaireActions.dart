@@ -11,52 +11,28 @@ class SetQuestionnaireAction{
   SetQuestionnaireAction(this.pageState, this.questionnaire, this.jobDocumentId);
 }
 
-class ClearNewQuestionnaireState {
+class ClearAnswerState {
   final AnswerQuestionnairePageState pageState;
   final bool isNew;
   final String questionnaireName;
-  ClearNewQuestionnaireState(this.pageState, this.isNew, this.questionnaireName);
+  ClearAnswerState(this.pageState, this.isNew, this.questionnaireName);
 }
 
-class SaveQuestionnaireAction{
+class FetchProfileForAnswerAction {
   final AnswerQuestionnairePageState pageState;
-  final String jobDocumentId;
-  final List<Question> questions;
-  final bool isNew;
-  SaveQuestionnaireAction(this.pageState, this.jobDocumentId, this.questions, this.isNew);
+  FetchProfileForAnswerAction(this.pageState);
 }
 
-class SetQuestionnaireNameAction {
-  final AnswerQuestionnairePageState pageState;
-  final String questionnaireName;
-  SetQuestionnaireNameAction(this.pageState, this.questionnaireName);
-}
-
-class DeleteQuestionnaireAction {
-  final AnswerQuestionnairePageState pageState;
-  DeleteQuestionnaireAction(this.pageState);
-}
-
-class FetchProfileForNewQuestionnaireAction {
-  final AnswerQuestionnairePageState pageState;
-  FetchProfileForNewQuestionnaireAction(this.pageState);
-}
-
-class SetMessageToClientAction {
-  final AnswerQuestionnairePageState pageState;
-  final String message;
-  SetMessageToClientAction(this.pageState, this.message);
-}
-
-class OnAddOrUpdateQuestionSelected {
-  final AnswerQuestionnairePageState pageState;
-  final Question question;
-  OnAddOrUpdateQuestionSelected(this.pageState, this.question);
-}
-
-class SetProfileForNewQuestionnaireAction {
+class SetProfileForAnswerAction {
   final AnswerQuestionnairePageState pageState;
   final Profile profile;
-  SetProfileForNewQuestionnaireAction(this.pageState, this.profile);
+  SetProfileForAnswerAction(this.pageState, this.profile);
+}
+
+class SaveShortFormAnswerAction {
+  final AnswerQuestionnairePageState pageState;
+  final String answer;
+  final Question question;
+  SaveShortFormAnswerAction(this.pageState, this.answer, this.question);
 }
 

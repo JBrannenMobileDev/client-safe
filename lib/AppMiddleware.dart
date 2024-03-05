@@ -2,6 +2,8 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensePageMiddleware.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
+import 'package:dandylight/pages/answer_questionnaire_page/AnswerQuestionnaireActions.dart';
+import 'package:dandylight/pages/answer_questionnaire_page/AnswerQuestionnairePageMiddleware.dart';
 import 'package:dandylight/pages/calendar_page/CalendarPageActions.dart';
 import 'package:dandylight/pages/calendar_page/CalendarPageMiddleware.dart';
 import 'package:dandylight/pages/calendar_selection_page/CalendarSelectionActions.dart';
@@ -358,5 +360,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, FetchProfileForNewQuestionnaireAction>(NewQuestionnairePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadUploadedPhotosAction>(SelectAPhotoPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, ResizeAndSaveUploadedImageAction>(SelectAPhotoPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveShortFormAnswerAction>(AnswerQuestionnairePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchProfileForAnswerAction>(AnswerQuestionnairePageMiddleware()));
   return middlewareList;
 }
