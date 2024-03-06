@@ -60,7 +60,6 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
           NewLocationPageState.fromStore(store),
       builder: (BuildContext context, NewLocationPageState pageState) =>
           Scaffold(
-            resizeToAvoidBottomInset: false,
             backgroundColor: Color(ColorConstants.getBlueDark()),
             body: Stack(
               alignment: Alignment.topCenter,
@@ -78,12 +77,14 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
                   compassEnabled: false,
                   onCameraIdle: () async{
                     final GoogleMapController controller = await _controller.future;
-                    LatLng latLng = await controller.getLatLng(
-                        ScreenCoordinate(
-                          x: (MediaQuery.of(context).size.width/2).round(),
-                          y: (MediaQuery.of(context).size.height/2).round(),
-                        )
-                    );
+                    double screenWidth = MediaQuery.of(context).size.width * MediaQuery.of(context).devicePixelRatio;
+                    double screenHeight = MediaQuery.of(context).size.height * MediaQuery.of(context).devicePixelRatio;
+
+                    double middleX = screenWidth / 2;
+                    double middleY = screenHeight / 2;
+
+                    ScreenCoordinate screenCoordinate = ScreenCoordinate(x: middleX.round(), y: middleY.round());
+                    LatLng latLng = await controller.getLatLng(screenCoordinate);
                     setState(() {
                       latLngLocal = latLng;
                     });
@@ -91,7 +92,7 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
                 ),Container(
                   alignment: Alignment.center,
                   child: Container(
-                    margin: EdgeInsets.only(bottom: 36.0),
+                    margin: EdgeInsets.only(bottom: 48.0),
                     alignment: Alignment.center,
                     height: 48.0,
                     width: 48.0,
