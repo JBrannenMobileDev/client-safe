@@ -67,33 +67,33 @@ class Job {
     return result;
   }
 
-  int id;
-  String documentId;
-  String clientDocumentId;
-  String deviceEventId;
-  String clientName;
-  String jobTitle;
-  PriceProfile priceProfile;
-  LocationDandy location;
-  String notes;
-  DateTime paymentReceivedDate;
-  DateTime depositReceivedDate;
-  DateTime selectedDate;
-  DateTime selectedTime;
-  DateTime selectedEndTime;
-  DateTime createdDate;
-  JobType type;
-  JobStage stage;
-  Client client;
-  Invoice invoice;
-  int depositAmount = 0;
-  double addOnCost;
-  int tipAmount = 0;
-  List<JobStage> completedStages;
-  List<Pose> poses;
-  Proposal proposal;
-  bool hasAddedMileageTrip;
-  bool shouldTrackMiles = true;
+  int? id;
+  String? documentId;
+  String? clientDocumentId;
+  String? deviceEventId;
+  String? clientName;
+  String? jobTitle;
+  PriceProfile? priceProfile;
+  LocationDandy? location;
+  String? notes;
+  DateTime? paymentReceivedDate;
+  DateTime? depositReceivedDate;
+  DateTime? selectedDate;
+  DateTime? selectedTime;
+  DateTime? selectedEndTime;
+  DateTime? createdDate;
+  JobType? type;
+  JobStage? stage;
+  Client? client;
+  Invoice? invoice;
+  int? depositAmount = 0;
+  double? addOnCost;
+  int? tipAmount = 0;
+  List<JobStage>? completedStages;
+  List<Pose>? poses;
+  Proposal? proposal;
+  bool? hasAddedMileageTrip;
+  bool? shouldTrackMiles = true;
 
   Job({
     this.id,
@@ -126,38 +126,38 @@ class Job {
   });
 
   Job copyWith({
-    int id,
-    String documentId,
-    int clientId,
-    String deviceEventId,
-    String clientName,
-    String jobTitle,
-    PriceProfile priceProfile,
-    LocationDandy location,
-    String notes,
-    DateTime selectedDate,
-    DateTime selectedTime,
-    DateTime selectedEndTime,
-    JobType type,
-    JobStage stage,
-    Invoice invoice,
-    int depositAmount,
-    int tipAmount = 0,
-    List<JobStage> completedStages,
-    DateTime createdDate,
-    DateTime paymentReceivedDate,
-    DateTime depositReceivedDate,
-    double addOnCost,
-    List<Pose> poses,
-    Client client,
-    Proposal proposal,
-    bool hasAddedMileageTrip,
-    bool shouldTrackMiles,
+    int? id,
+    String? documentId,
+    String? clientDocumentId,
+    String? deviceEventId,
+    String? clientName,
+    String? jobTitle,
+    PriceProfile? priceProfile,
+    LocationDandy? location,
+    String? notes,
+    DateTime? selectedDate,
+    DateTime? selectedTime,
+    DateTime? selectedEndTime,
+    JobType? type,
+    JobStage? stage,
+    Invoice? invoice,
+    int? depositAmount,
+    int? tipAmount = 0,
+    List<JobStage>? completedStages,
+    DateTime? createdDate,
+    DateTime? paymentReceivedDate,
+    DateTime? depositReceivedDate,
+    double? addOnCost,
+    List<Pose>? poses,
+    Client? client,
+    Proposal? proposal,
+    bool? hasAddedMileageTrip,
+    bool? shouldTrackMiles,
   }){
     return Job(
       id: id?? this.id,
       documentId: documentId ?? this.documentId,
-      clientDocumentId: clientId ?? this.clientDocumentId,
+      clientDocumentId: clientDocumentId ?? this.clientDocumentId,
       deviceEventId: deviceEventId ?? this.deviceEventId,
       clientName: clientName ?? this.clientName,
       jobTitle: jobTitle ?? this.jobTitle,
@@ -247,9 +247,9 @@ class Job {
     );
   }
 
-  List<Map<String, dynamic>> convertCompletedStagesToMap(List<JobStage> completedStages){
+  List<Map<String, dynamic>> convertCompletedStagesToMap(List<JobStage>? completedStages){
     List<Map<String, dynamic>> listOfMaps = [];
-    for(JobStage jobStage in completedStages){
+    for(JobStage jobStage in completedStages!){
       listOfMaps.add(jobStage.toMap());
     }
     return listOfMaps;
@@ -258,12 +258,12 @@ class Job {
   static List<JobStage> convertMapsToJobStages(List listOfMaps){
     List<JobStage> listOfJobStages = [];
     for(Map map in listOfMaps){
-      listOfJobStages.add(JobStage.fromMap(map));
+      listOfJobStages.add(JobStage.fromMap(map as Map<String, dynamic>));
     }
     return listOfJobStages;
   }
 
-  List<Map<String, dynamic>> convertPosesToMap(List<Pose> poses){
+  List<Map<String, dynamic>> convertPosesToMap(List<Pose>? poses){
     List<Map<String, dynamic>> listOfMaps = [];
     if(poses != null) {
       for(Pose pose in poses){
@@ -275,17 +275,15 @@ class Job {
 
   static List<Pose> convertMapsToPoses(List listOfMaps){
     List<Pose> poses = [];
-    if(listOfMaps != null) {
-      for(Map map in listOfMaps){
-        poses.add(Pose.fromMap(map));
-      }
+    for(Map map in listOfMaps){
+      poses.add(Pose.fromMap(map as Map<String, dynamic>));
     }
-    return poses;
+      return poses;
   }
 
   bool isDepositPaid () {
     bool isDepositPaid = false;
-    for(JobStage jobStage in completedStages){
+    for(JobStage jobStage in completedStages!){
       if(jobStage.stage == JobStage.STAGE_5_DEPOSIT_RECEIVED) isDepositPaid = true;
     }
     return isDepositPaid;
@@ -326,26 +324,26 @@ class Job {
   }
 
   bool hasCompletedStage(String jobStage) {
-    for(JobStage completedStage in completedStages){
+    for(JobStage completedStage in completedStages!){
       if(completedStage.stage == jobStage) return true;
     }
     return false;
   }
 
   bool isPaymentReceived() {
-    for(JobStage completedStage in completedStages){
+    for(JobStage completedStage in completedStages!){
       if(completedStage.stage == JobStage.STAGE_9_PAYMENT_RECEIVED || completedStage.stage == JobStage.STAGE_14_JOB_COMPLETE || completedStage.stage == JobStage.STAGE_COMPLETED_CHECK) return true;
     }
     return false;
   }
 
   double getJobCost() {
-    return (priceProfile != null && priceProfile.flatRate != null ? priceProfile.flatRate : 0) + (this.addOnCost != null ? this.addOnCost : 0);
+    return (priceProfile != null ? priceProfile!.flatRate : 0)! + (addOnCost ?? 0);
   }
 
-  static bool containsStage(List<JobStage> completedStages, String stageConstant) {
+  static bool containsStage(List<JobStage>? completedStages, String? stageConstant) {
     bool contains = false;
-    for(JobStage stage in completedStages){
+    for(JobStage stage in completedStages!){
       if(stage.stage == stageConstant){
         contains = true;
       }
@@ -364,8 +362,8 @@ class Job {
   }
 
   int getStageIndex(String stageToMatch) {
-    for(int i = 0; i < type.stages.length; i++) {
-      if(type.stages.elementAt(i).stage == stageToMatch) {
+    for(int i = 0; i < type!.stages!.length; i++) {
+      if(type!.stages!.elementAt(i).stage == stageToMatch) {
         return i;
       }
     }
@@ -375,7 +373,7 @@ class Job {
   static JobStage getNextUncompletedStage(List<JobStage> completedStages, List<JobStage> stages, Job job) {
     int indexOfHighestCompleted = 0;
     for(JobStage completedStage in completedStages) {
-      int index = job.getStageIndex(completedStage.stage);
+      int index = job.getStageIndex(completedStage.stage!);
       if(index > indexOfHighestCompleted) {
         indexOfHighestCompleted = index;
       }
@@ -390,7 +388,7 @@ class Job {
 
   bool isMissingMileageTrip() {
     DateTime now = DateTime.now();
-    if(!hasAddedMileageTrip && shouldTrackMiles && selectedDate != null && location != null && now.isAfter(selectedDate) ) {
+    if(!hasAddedMileageTrip! && shouldTrackMiles! && selectedDate != null && location != null && now.isAfter(selectedDate!) ) {
       return true;
     } else {
       return false;

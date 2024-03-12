@@ -2,29 +2,29 @@
 import 'Condition.dart';
 
 class Current {
-  int lastUpdatedEpoch;
-  String lastUpdated;
-  double tempC;
-  double tempF;
-  int isDay;
-  Condition condition;
-  double windMph;
-  double windKph;
-  int windDegree;
-  String windDir;
-  double pressureMb;
-  double pressureIn;
-  double precipMm;
-  double precipIn;
-  int humidity;
-  int cloud;
-  double feelslikeC;
-  double feelslikeF;
-  double visKm;
-  double visMiles;
-  double uv;
-  double gustMph;
-  double gustKph;
+  int? lastUpdatedEpoch;
+  String? lastUpdated;
+  double? tempC;
+  double? tempF;
+  int? isDay;
+  Condition? condition;
+  double? windMph;
+  double? windKph;
+  int? windDegree;
+  String? windDir;
+  double? pressureMb;
+  double? pressureIn;
+  double? precipMm;
+  double? precipIn;
+  int? humidity;
+  int? cloud;
+  double? feelslikeC;
+  double? feelslikeF;
+  double? visKm;
+  double? visMiles;
+  double? uv;
+  double? gustMph;
+  double? gustKph;
 
   Current(
       {this.lastUpdatedEpoch,
@@ -87,7 +87,7 @@ class Current {
     data['temp_f'] = this.tempF;
     data['is_day'] = this.isDay;
     if (this.condition != null) {
-      data['condition'] = this.condition.toJson();
+      data['condition'] = this.condition!.toJson();
     }
     data['wind_mph'] = this.windMph;
     data['wind_kph'] = this.windKph;

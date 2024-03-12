@@ -1,9 +1,9 @@
 import 'package:dandylight/models/rest_models/AccuWeatherModels/geoposition/Elevation.dart';
 
 class GeoPosition {
-  double latitude;
-  double longitude;
-  Elevation elevation;
+  double? latitude;
+  double? longitude;
+  Elevation? elevation;
 
   GeoPosition({this.latitude, this.longitude, this.elevation});
 
@@ -20,7 +20,7 @@ class GeoPosition {
     data['Latitude'] = this.latitude;
     data['Longitude'] = this.longitude;
     if (this.elevation != null) {
-      data['Elevation'] = this.elevation.toJson();
+      data['Elevation'] = this.elevation!.toJson();
     }
     return data;
   }

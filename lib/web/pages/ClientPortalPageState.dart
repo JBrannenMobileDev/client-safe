@@ -8,22 +8,22 @@ import '../../models/Profile.dart';
 import 'ClientPortalActions.dart';
 
 class ClientPortalPageState{
-  final Proposal proposal;
-  final Job job;
-  final Profile profile;
-  final Invoice invoice;
-  final String userId;
-  final String jobId;
-  final String errorMsg;
-  final bool isLoading;
-  final bool isLoadingInitial;
-  final bool isBrandingPreview;
-  final Function(String) onClientSignatureSaved;
-  final Function(bool) onMarkAsPaidSelected;
-  final Function(bool) onMarkAsPaidDepositSelected;
-  final Function() onDownloadContractSelected;
-  final Function() onDownloadInvoiceSelected;
-  final Function() resetErrorMsg;
+  final Proposal? proposal;
+  final Job? job;
+  final Profile? profile;
+  final Invoice? invoice;
+  final String? userId;
+  final String? jobId;
+  final String? errorMsg;
+  final bool? isLoading;
+  final bool? isLoadingInitial;
+  final bool? isBrandingPreview;
+  final Function(String)? onClientSignatureSaved;
+  final Function(bool)? onMarkAsPaidSelected;
+  final Function(bool)? onMarkAsPaidDepositSelected;
+  final Function()? onDownloadContractSelected;
+  final Function()? onDownloadInvoiceSelected;
+  final Function()? resetErrorMsg;
 
   ClientPortalPageState({
     @required this.proposal,
@@ -45,22 +45,22 @@ class ClientPortalPageState{
   });
 
   ClientPortalPageState copyWith({
-    Proposal proposal,
-    Job job,
-    Profile profile,
-    Invoice invoice,
-    String userId,
-    String jobId,
-    String errorMsg,
-    bool isLoading,
-    bool isBrandingPreview,
-    bool isLoadingInitial,
-    Function(String) onClientSignatureSaved,
-    Function(bool) onMarkAsPaidSelected,
-    Function(bool) onMarkAsPaidDepositSelected,
-    Function() onDownloadContractSelected,
-    Function() onDownloadInvoiceSelected,
-    Function() resetErrorMsg,
+    Proposal? proposal,
+    Job? job,
+    Profile? profile,
+    Invoice? invoice,
+    String? userId,
+    String? jobId,
+    String? errorMsg,
+    bool? isLoading,
+    bool? isBrandingPreview,
+    bool? isLoadingInitial,
+    Function(String)? onClientSignatureSaved,
+    Function(bool)? onMarkAsPaidSelected,
+    Function(bool)? onMarkAsPaidDepositSelected,
+    Function()? onDownloadContractSelected,
+    Function()? onDownloadInvoiceSelected,
+    Function()? resetErrorMsg,
   }){
     return ClientPortalPageState(
       proposal: proposal?? this.proposal,
@@ -103,16 +103,16 @@ class ClientPortalPageState{
 
   factory ClientPortalPageState.fromStore(Store<AppState> store) {
     return ClientPortalPageState(
-      proposal: store.state.clientPortalPageState.proposal,
-      job: store.state.clientPortalPageState.job,
-      profile: store.state.clientPortalPageState.profile,
-      invoice: store.state.clientPortalPageState.invoice,
-      userId: store.state.clientPortalPageState.userId,
-      jobId: store.state.clientPortalPageState.jobId,
-      errorMsg: store.state.clientPortalPageState.errorMsg,
-      isLoading: store.state.clientPortalPageState.isLoading,
-      isBrandingPreview: store.state.clientPortalPageState.isBrandingPreview,
-      isLoadingInitial: store.state.clientPortalPageState.isLoadingInitial,
+      proposal: store.state.clientPortalPageState!.proposal,
+      job: store.state.clientPortalPageState!.job,
+      profile: store.state.clientPortalPageState!.profile,
+      invoice: store.state.clientPortalPageState!.invoice,
+      userId: store.state.clientPortalPageState!.userId,
+      jobId: store.state.clientPortalPageState!.jobId,
+      errorMsg: store.state.clientPortalPageState!.errorMsg,
+      isLoading: store.state.clientPortalPageState!.isLoading,
+      isBrandingPreview: store.state.clientPortalPageState!.isBrandingPreview,
+      isLoadingInitial: store.state.clientPortalPageState!.isLoadingInitial,
       onClientSignatureSaved: (signature) {
         store.dispatch(SetLoadingStateAction(store.state.clientPortalPageState, true));
         store.dispatch(SaveClientSignatureAction(store.state.clientPortalPageState, signature));

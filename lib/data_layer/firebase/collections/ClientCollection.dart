@@ -32,7 +32,7 @@ class ClientCollection {
         .snapshots();
   }
 
-  Future<void> deleteClient(String documentId) async {
+  Future<void> deleteClient(String? documentId) async {
     try {
       final databaseReference = FirebaseFirestore.instance;
       await databaseReference
@@ -58,7 +58,7 @@ class ClientCollection {
         .collection('clients')
         .doc(documentId)
         .get()
-        .then((client) => Client.fromMap(client.data()));
+        .then((client) => Client.fromMap(client.data() as Map<String, dynamic>));
   }
 
   Future<List<Client>> getAllClientsSortedByFirstName(String uid) async {
@@ -90,9 +90,9 @@ class ClientCollection {
   }
 
   List<Client> _buildClientsList(QuerySnapshot clients) {
-    List<Client> clientList = List();
+    List<Client> clientList = [];
     for(DocumentSnapshot clientDocument in clients.docs){
-      Client result = Client.fromMap(clientDocument.data());
+      Client result = Client.fromMap(clientDocument.data() as Map<String, dynamic>);
       result.documentId = clientDocument.id;
       clientList.add(result);
     }

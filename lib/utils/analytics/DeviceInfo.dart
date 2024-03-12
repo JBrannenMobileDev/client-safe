@@ -12,9 +12,9 @@ class DeviceInfo {
   String appVersion;
 
   DeviceInfo({
-    this.deviceIdentifier,
-    this.os,
-    this.device,
-    this.appVersion,
+    required this.deviceIdentifier,
+    required this.os,
+    required this.device,
+    required this.appVersion,
   });
 }

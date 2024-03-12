@@ -97,7 +97,7 @@ class ResponseDao extends Equatable{
     }).toList();
   }
 
-  static Future<Response> getResponseById(String documentId) async{
+  static Future<Response?> getResponseById(String documentId) async{
     if((await getAll()).length > 0) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
       final recordSnapshots = await _responseStore.find(await _db, finder: finder);

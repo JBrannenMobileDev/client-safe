@@ -1,6 +1,6 @@
 class NextInvoiceNumber {
-  int id;
-  int highestInvoiceNumber;
+  int? id;
+  int? highestInvoiceNumber;
 
   NextInvoiceNumber({
     this.id,

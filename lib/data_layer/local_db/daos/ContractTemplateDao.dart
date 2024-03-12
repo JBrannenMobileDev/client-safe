@@ -1,9 +1,6 @@
 import 'dart:async';
 
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
-import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
-import 'package:dandylight/data_layer/repositories/FileStorage.dart';
-import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart' as sembast;
@@ -49,7 +46,7 @@ class ContractTemplateDao extends Equatable{
     }
   }
 
-  static Future<Contract> getById(String contractDocumentId) async{
+  static Future<Contract?> getById(String contractDocumentId) async{
     if((await getAll()).length > 0) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', contractDocumentId));
       final recordSnapshots = await _contractTemplateStore.find(await _db, finder: finder);
@@ -93,7 +90,7 @@ class ContractTemplateDao extends Equatable{
     );
   }
 
-  static Future delete(String documentId) async {
+  static Future delete(String? documentId) async {
     final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
     int countOfUpdatedItems = await _contractTemplateStore.delete(
       await _db,

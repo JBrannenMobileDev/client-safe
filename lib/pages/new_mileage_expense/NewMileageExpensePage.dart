@@ -20,9 +20,9 @@ import '../../models/MileageExpense.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class NewMileageExpensePage extends StatefulWidget {
-  final MileageExpense trip;
+  final MileageExpense? trip;
 
-  const NewMileageExpensePage(this.trip, {Key key}) : super(key: key);
+  const NewMileageExpensePage(this.trip, {Key? key}) : super(key: key);
 
   @override
   _NewMileageExpensePageState createState() {
@@ -36,7 +36,7 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
   final controller = PageController(
     initialPage: 0,
   );
-  final MileageExpense trip;
+  final MileageExpense? trip;
 
   _NewMileageExpensePageState(this.trip);
 

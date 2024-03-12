@@ -1,16 +1,10 @@
 import 'dart:convert';
 
-import 'package:dandylight/credentials.dart';
 import 'package:dandylight/models/rest_models/AccuWeatherModels/currentWeather/CurrentWeatherResponse.dart';
 import 'package:dandylight/models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
 import 'package:dandylight/models/rest_models/AccuWeatherModels/geoposition/GeopositionResponse.dart';
 import 'package:dandylight/models/rest_models/AccuWeatherModels/hourlyForecast/HourWeather.dart';
-import 'package:dandylight/models/rest_models/CurrentWeather.dart';
-import 'package:dandylight/models/rest_models/Forecast7Days.dart';
 import 'package:http/http.dart' as http;
-import 'package:meta/meta.dart';
-
-import '../../models/rest_models/AccuWeatherModels/hourlyForecast/HourlyResponse.dart';
 
 class AccuWeatherClient {
   final _baseUrl = 'https://dataservice.accuweather.com';
@@ -18,7 +12,7 @@ class AccuWeatherClient {
 
   final http.Client httpClient;
   AccuWeatherClient({
-    @required this.httpClient,
+    required this.httpClient,
   }) : assert(httpClient != null);
 
   Future<CurrentWeatherResponse> fetchCurrentWeather(double lat, double lon) async {
@@ -27,7 +21,7 @@ class AccuWeatherClient {
     final response = await this.httpClient.get(Uri.parse(url));
 
     if (response.statusCode != 200) {
-      throw new Exception('error getting quotes');
+      throw Exception('error getting quotes');
     }
 
     final json = jsonDecode(response.body);
@@ -40,7 +34,7 @@ class AccuWeatherClient {
     final response = await this.httpClient.get(Uri.parse(url));
 
     if (response.statusCode != 200) {
-      throw new Exception('error getting quotes');
+      throw Exception('error getting quotes');
     }
 
     final json = jsonDecode(response.body);
@@ -53,7 +47,7 @@ class AccuWeatherClient {
     final response = await this.httpClient.get(Uri.parse(url));
 
     if (response.statusCode != 200) {
-      throw new Exception('error getting quotes : ' + response.statusCode.toString());
+      throw Exception('error getting quotes : ' + response.statusCode.toString());
     }
 
     final json = jsonDecode(response.body);
@@ -65,7 +59,7 @@ class AccuWeatherClient {
     final response = await this.httpClient.get(Uri.parse(url));
 
     if (response.statusCode != 200) {
-      throw new Exception('error getting quotes');
+      throw Exception('error getting quotes');
     }
 
     final json = jsonDecode(response.body);

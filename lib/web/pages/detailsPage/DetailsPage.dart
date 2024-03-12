@@ -38,7 +38,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
                   margin: EdgeInsets.only(top: 32, bottom: 48),
                   child: TextDandyLight(
                     type: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextDandyLight.EXTRA_LARGE_TEXT : TextDandyLight.LARGE_TEXT,
-                    fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                    fontFamily: pageState.profile.selectedFontTheme!.mainFont,
                     text: 'Details',
                   ),
                 ) : Container(
@@ -58,15 +58,15 @@ class _DetailsPagePageState extends State<DetailsPage> {
                             width: 30,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
-                                color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
+                                color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.buttonColor!)
                             ),
                             child: Image.asset("icons/calendar_white.png"),
                           ),
                           TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
-                              fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                              fontFamily: pageState.profile.selectedFontTheme!.mainFont,
                               text: (pageState.job.selectedDate != null
-                                  ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.job.selectedDate)
+                                  ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.job.selectedDate!)
                                   : 'Date (TBD)'),
                             ),
                         ],
@@ -80,7 +80,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
                             width: 30,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
-                                color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
+                                color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.buttonColor!)
                             ),
                             child: Image.asset("icons/clock_white.png"),
                           ),
@@ -88,8 +88,8 @@ class _DetailsPagePageState extends State<DetailsPage> {
                             margin: EdgeInsets.only(top: 8),
                             child: TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
-                              fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                              text: (pageState.job.selectedTime != null ? DateFormat('h:mma').format(pageState.job.selectedTime) + ' - ' +( pageState.job.selectedEndTime != null ? DateFormat('h:mma').format(pageState.job.selectedEndTime) : 'Time (TBD)') : 'Time (TBD)'),
+                              fontFamily: pageState.profile.selectedFontTheme!.mainFont,
+                              text: (pageState.job.selectedTime != null ? DateFormat('h:mma').format(pageState.job.selectedTime!) + ' - ' +( pageState.job.selectedEndTime != null ? DateFormat('h:mma').format(pageState.job.selectedEndTime!) : 'Time (TBD)') : 'Time (TBD)'),
                             ),
                           ),
                         ],
@@ -103,23 +103,23 @@ class _DetailsPagePageState extends State<DetailsPage> {
                             width: 30,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
-                                color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
+                                color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.buttonColor!)
                             ),
                             child: Image.asset("icons/pin_white.png"),
                           ),
                           Expanded(
                               child: GestureDetector(
                                 onTap: () {
-                                  if(pageState.job.location != null && pageState.job.location.address != null) {
-                                    IntentLauncherUtil.launchDrivingDirections(pageState.job.location.latitude.toString(), pageState.job.location.longitude.toString());
+                                  if(pageState.job.location != null && pageState.job.location!.address != null) {
+                                    IntentLauncherUtil.launchDrivingDirections(pageState.job.location!.latitude.toString(), pageState.job.location!.longitude.toString());
                                   }
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(top: 8),
                                   child: TextDandyLight(
                                     type: TextDandyLight.SMALL_TEXT,
-                                    fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                                    text: (pageState.job.location != null && pageState.job.location.address != null ? pageState.job.location.address : 'Location (TBD)'),
+                                    fontFamily: pageState.profile.selectedFontTheme!.mainFont,
+                                    text: (pageState.job.location != null && pageState.job.location!.address != null ? pageState.job.location!.address : 'Location (TBD)'),
                                   ),
                                 ),
                               )
@@ -135,7 +135,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: pageState.proposal?.detailsMessage,
-                    fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                    fontFamily: pageState.profile.selectedFontTheme!.mainFont,
                   ),
                 ),
                 DividerWidget(width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 1080 : MediaQuery.of(context).size.width,),
@@ -169,7 +169,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(top: 0, bottom: 16),
               child: TextDandyLight(
                 type: TextDandyLight.LARGE_TEXT,
-                fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                fontFamily: pageState.profile.selectedFontTheme!.mainFont,
                 text: 'PHOTOGRAPHER',
               ),
             ),
@@ -177,8 +177,8 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                text: pageState.profile.firstName != null ? pageState.profile.firstName : '' + ' ' + pageState.profile.lastName != null ? pageState.profile.lastName : '',
+                fontFamily: pageState.profile.selectedFontTheme!.mainFont,
+                text: pageState.profile.firstName != null ? pageState.profile.firstName : '' + ' ' + pageState.profile.lastName! != null ? pageState.profile.lastName : '',
                 isBold: true,
               ),
             ),
@@ -187,7 +187,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: pageState.profile.email != null ? pageState.profile.email : 'Photographer email',
-                fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                fontFamily: pageState.profile.selectedFontTheme!.mainFont,
                 textAlign: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextAlign.start : TextAlign.center,
               ),
             ),
@@ -196,7 +196,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: pageState.profile.phone != null ? pageState.profile.phone : 'Photographer phone',
-                fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                fontFamily: pageState.profile.selectedFontTheme!.mainFont,
               ),
             ),
           ],
@@ -212,7 +212,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(top: 0, bottom: 16),
               child: TextDandyLight(
                 type: TextDandyLight.LARGE_TEXT,
-                fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                fontFamily: pageState.profile.selectedFontTheme!.mainFont,
                 text: 'CLIENT',
               ),
             ),
@@ -220,7 +220,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                fontFamily: pageState.profile.selectedFontTheme!.mainFont,
                 text: pageState.job.client?.getClientFullName(),
                 isBold: true,
               ),
@@ -229,8 +229,8 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: 'email: ' + pageState.job.client?.email,
-                fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                text: 'email: ' + pageState.job.client!.email!,
+                fontFamily: pageState.profile.selectedFontTheme!.mainFont,
                 textAlign: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextAlign.start : TextAlign.center,
               ),
             ),
@@ -238,8 +238,8 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                text: 'phone: ' + pageState.job.client.phone,
+                fontFamily: pageState.profile.selectedFontTheme!.mainFont,
+                text: 'phone: ' + pageState.job.client!.phone!,
               ),
             ),
           ],
@@ -255,7 +255,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(top: 0, bottom: 16),
               child: TextDandyLight(
                 type: TextDandyLight.LARGE_TEXT,
-                fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                fontFamily: pageState.profile.selectedFontTheme!.mainFont,
                 text: 'JOB INFO',
               ),
             ),
@@ -263,9 +263,9 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                fontFamily: pageState.profile.selectedFontTheme!.mainFont,
                 text: 'Date: ' + (pageState.job.selectedDate != null
-                    ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.job.selectedDate)
+                    ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.job.selectedDate!)
                     : 'Date (TBD)'),
               ),
             ),
@@ -273,18 +273,18 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                text: 'Time: ' + (pageState.job.selectedTime != null ? DateFormat('h:mma').format(pageState.job.selectedTime) + ' - ' +( pageState.job.selectedEndTime != null ? DateFormat('h:mma').format(pageState.job.selectedEndTime) : 'Time (TBD)') : 'TIme (TBD)'),
+                fontFamily: pageState.profile.selectedFontTheme!.mainFont,
+                text: 'Time: ' + (pageState.job.selectedTime != null ? DateFormat('h:mma').format(pageState.job!.selectedTime!) + ' - ' +( pageState.job.selectedEndTime != null ? DateFormat('h:mma').format(pageState.job.selectedEndTime!) : 'Time (TBD)') : 'TIme (TBD)'),
               ),
             ),
             Container(
               margin: EdgeInsets.only(bottom: 16),
               child: TextDandyLight(
                   type: TextDandyLight.MEDIUM_TEXT,
-                  fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                  fontFamily: pageState.profile.selectedFontTheme!.mainFont,
                   maxLines: 3,
                   overflow: TextOverflow.visible,
-                  text: 'Where: ' + (pageState.job.location != null && pageState.job.location.address != null ? pageState.job.location.address : 'Location (TBD)'),
+                  text: 'Where: ' + (pageState.job!.location! != null && pageState.job.location!.address! != null ? pageState.job.location!.address! : 'Location (TBD)'),
                   textAlign: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextAlign.start : TextAlign.center,
                 ),
               ),
@@ -293,8 +293,8 @@ class _DetailsPagePageState extends State<DetailsPage> {
                 onTap: () {
                   if(pageState.job.location != null) {
                     IntentLauncherUtil.openDrivingDirectionsFromWebsite(
-                        pageState.job.location.latitude.toString(),
-                        pageState.job.location.longitude.toString()
+                        pageState.job.location!.latitude.toString(),
+                        pageState.job.location!.longitude.toString()
                     );
                   }
                 },
@@ -305,13 +305,13 @@ class _DetailsPagePageState extends State<DetailsPage> {
                   margin: EdgeInsets.only(bottom: 8),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(24),
-                      color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
+                      color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.buttonColor!)
                   ),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: 'Driving directions',
-                    fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonTextColor),
+                    fontFamily: pageState.profile.selectedFontTheme!.mainFont,
+                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.buttonTextColor!),
                     isBold: isHoveredDirections,
                   ),
                 ),

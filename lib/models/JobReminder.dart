@@ -6,13 +6,13 @@ class JobReminder {
   static const String MILEAGE_EXPENSE_ID = 'mileage_expense';
   static const String POSE_FEATURED_ID = 'pose_featured';
 
-  int id;
-  String documentId;
-  String jobDocumentId;
-  String payload;
-  DateTime triggerTime;//this is not persisted. It is only calculated when needed in NotificationHelper. Otherwise it will be null.
-  ReminderDandyLight reminder;
-  bool hasBeenSeen;
+  int? id;
+  String? documentId;
+  String? jobDocumentId;
+  String? payload;
+  DateTime? triggerTime;//this is not persisted. It is only calculated when needed in NotificationHelper. Otherwise it will be null.
+  ReminderDandyLight? reminder;
+  bool? hasBeenSeen;
 
   JobReminder({
     this.id,
@@ -23,7 +23,7 @@ class JobReminder {
     this.payload,
   });
 
-  Future<DateTime> getJobDate() async {
+  Future<DateTime?> getJobDate() async {
     return (await JobDao.getJobById(jobDocumentId))?.selectedDate;
   }
 
@@ -31,7 +31,7 @@ class JobReminder {
     return {
       'documentId' : documentId,
       'jobDocumentId' : jobDocumentId,
-      'reminder': reminder.toMap(),
+      'reminder': reminder!.toMap(),
       'hasBeenSeen' : hasBeenSeen,
       'payload' : payload,
     };

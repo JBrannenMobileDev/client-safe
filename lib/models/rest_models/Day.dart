@@ -1,25 +1,25 @@
 import 'Condition.dart';
 
 class Day {
-  double maxtempC;
-  double maxtempF;
-  double mintempC;
-  double mintempF;
-  double avgtempC;
-  double avgtempF;
-  double maxwindMph;
-  double maxwindKph;
-  double totalprecipMm;
-  double totalprecipIn;
-  double avgvisKm;
-  double avgvisMiles;
-  double avghumidity;
-  int dailyWillItRain;
-  int dailyChanceOfRain;
-  int dailyWillItSnow;
-  int dailyChanceOfSnow;
-  Condition condition;
-  double uv;
+  double? maxtempC;
+  double? maxtempF;
+  double? mintempC;
+  double? mintempF;
+  double? avgtempC;
+  double? avgtempF;
+  double? maxwindMph;
+  double? maxwindKph;
+  double? totalprecipMm;
+  double? totalprecipIn;
+  double? avgvisKm;
+  double? avgvisMiles;
+  double? avghumidity;
+  int? dailyWillItRain;
+  int? dailyChanceOfRain;
+  int? dailyWillItSnow;
+  int? dailyChanceOfSnow;
+  Condition? condition;
+  double? uv;
 
   Day(
       {this.maxtempC,
@@ -86,7 +86,7 @@ class Day {
     data['daily_will_it_snow'] = this.dailyWillItSnow;
     data['daily_chance_of_snow'] = this.dailyChanceOfSnow;
     if (this.condition != null) {
-      data['condition'] = this.condition.toJson();
+      data['condition'] = this.condition!.toJson();
     }
     data['uv'] = this.uv;
     return data;

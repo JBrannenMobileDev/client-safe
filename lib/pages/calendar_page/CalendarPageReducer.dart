@@ -20,7 +20,7 @@ CalendarPageState _setCalendarEnabled(CalendarPageState previousState, UpdateCal
 
 CalendarPageState _setDeviceEvents(CalendarPageState previousState, SetDeviceEventsAction action) {
   List<EventDandyLight> eventList = [];
-  for(Job job in previousState.jobs) {
+  for(Job job in previousState.jobs!) {
     eventList.add(EventDandyLight.fromJob(job));
   }
 
@@ -40,7 +40,7 @@ CalendarPageState _setAllJobs(CalendarPageState previousState, SetJobsCalendarSt
   for(Job job in action.allJobs) {
     eventList.add(EventDandyLight.fromJob(job));
   }
-  for(Event event in previousState.deviceEvents) {
+  for(Event event in previousState.deviceEvents!) {
     eventList.add(EventDandyLight.fromDeviceEvent(event));
   }
   return previousState.copyWith(

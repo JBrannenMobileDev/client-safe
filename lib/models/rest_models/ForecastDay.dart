@@ -4,11 +4,11 @@ import 'Day.dart';
 import 'Hour.dart';
 
 class Forecastday {
-  String date;
-  int dateEpoch;
-  Day day;
-  Astro astro;
-  List<Hour> hour;
+  String? date;
+  int? dateEpoch;
+  Day? day;
+  Astro? astro;
+  List<Hour>? hour;
 
   Forecastday({this.date, this.dateEpoch, this.day, this.astro, this.hour});
 
@@ -20,7 +20,7 @@ class Forecastday {
     if (json['hour'] != null) {
       hour = <Hour>[];
       json['hour'].forEach((v) {
-        hour.add(new Hour.fromJson(v));
+        hour!.add(new Hour.fromJson(v));
       });
     }
   }
@@ -30,13 +30,13 @@ class Forecastday {
     data['date'] = this.date;
     data['date_epoch'] = this.dateEpoch;
     if (this.day != null) {
-      data['day'] = this.day.toJson();
+      data['day'] = this.day!.toJson();
     }
     if (this.astro != null) {
-      data['astro'] = this.astro.toJson();
+      data['astro'] = this.astro!.toJson();
     }
     if (this.hour != null) {
-      data['hour'] = this.hour.map((v) => v.toJson()).toList();
+      data['hour'] = this.hour!.map((v) => v.toJson()).toList();
     }
     return data;
   }

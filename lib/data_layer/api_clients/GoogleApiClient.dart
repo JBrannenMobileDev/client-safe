@@ -15,7 +15,7 @@ class GoogleApiClient {
 
   final http.Client httpClient;
   GoogleApiClient({
-    @required this.httpClient,
+    required this.httpClient,
   }) : assert(httpClient != null);
 
   Future<List<PlacesLocation>> getLocationResults(String input) async {

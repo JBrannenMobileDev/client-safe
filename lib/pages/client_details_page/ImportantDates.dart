@@ -23,8 +23,8 @@ class ImportantDates extends StatefulWidget {
   static String getDateForChipIndex(
       int chipIndex, ClientDetailsPageState pageState) {
     DateTime desiredDate = DateTime.now();
-    for (ImportantDate date in pageState.importantDates) {
-      if (date.chipIndex == chipIndex) desiredDate = date.date;
+    for (ImportantDate date in pageState.importantDates!) {
+      if (date.chipIndex == chipIndex) desiredDate = date.date!;
     }
     return DateFormat('MMM d, yyyy').format(desiredDate);
   }
@@ -86,7 +86,7 @@ class _ImportantDates extends State<ImportantDates> {
               child:  TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: "Do you know any important dates for " +
-                        pageState.client.firstName +
+                        pageState.client!.firstName! +
                         "?",
                     textAlign: TextAlign.start,
                     color: Color(ColorConstants.getPrimaryBlack()),
@@ -154,7 +154,7 @@ class _ImportantDates extends State<ImportantDates> {
                                           currentTime: DateTime.now(),
                                           locale: LocaleType.en);
                                 } else {
-                                  pageState.onImportantDateRemoved(index);
+                                  pageState.onImportantDateRemoved!(index);
                                 }
                               });
                             },
@@ -196,12 +196,12 @@ class _ImportantDates extends State<ImportantDates> {
 
   void _onConfirmedImportantDate(DateTime importantDate,
       ClientDetailsPageState pageState, String type, int chipIndex) {
-    pageState.onImportantDateAdded(ImportantDate(date: importantDate, type: type, chipIndex: chipIndex));
+    pageState.onImportantDateAdded!(ImportantDate(date: importantDate, type: type, chipIndex: chipIndex));
   }
 
   bool isSelected(int index, ClientDetailsPageState pageState) {
     bool isSelected = false;
-    for (ImportantDate importantDate in pageState.importantDates) {
+    for (ImportantDate importantDate in pageState.importantDates!) {
       if (importantDate.chipIndex == index) isSelected = true;
     }
     return isSelected;

@@ -6,20 +6,20 @@ class Pose implements Comparable<Pose>{
   static const String STATUS_REVIEWED = 'Reviewed';
   static const String STATUS_NOT_A_SUBMISSION = 'Not a submission';
 
-  int id;
-  String documentId;
-  String uid = '';
-  String imageUrl;
-  String smallImageUrl;
-  String instagramUrl;
-  String instagramName;
-  String prompt = '';
-  String reviewStatus = STATUS_NOT_A_SUBMISSION;
-  bool hasSeen = false; //This tracks if they have seen the featured pose that they submitted so that we do not show it in the notifications.
-  int numOfSaves;
-  List<String> tags;
-  List<String> categories = [];
-  DateTime createDate;
+  int? id;
+  String? documentId;
+  String? uid = '';
+  String? imageUrl;
+  String? smallImageUrl;
+  String? instagramUrl;
+  String? instagramName;
+  String? prompt = '';
+  String? reviewStatus = STATUS_NOT_A_SUBMISSION;
+  bool? hasSeen = false; //This tracks if they have seen the featured pose that they submitted so that we do not show it in the notifications.
+  int? numOfSaves;
+  List<String>? tags;
+  List<String>? categories = [];
+  DateTime? createDate;
 
   Pose({
     this.id,
@@ -43,12 +43,12 @@ class Pose implements Comparable<Pose>{
   }
 
   bool isLibraryPose() {
-    return instagramName != null && instagramName.isNotEmpty && instagramUrl != null && instagramUrl.isNotEmpty && tags != null && tags.isNotEmpty;
+    return instagramName != null && instagramName!.isNotEmpty && instagramUrl != null && instagramUrl!.isNotEmpty && tags != null && tags!.isNotEmpty;
   }
 
   bool isNewPose() {
     if(createDate == null) return false;
-    DateTime endNewPoseDate = createDate.add(Duration(days: 14));
+    DateTime endNewPoseDate = createDate!.add(Duration(days: 14));
     return DateTime.now().isBefore(endNewPoseDate);
   }
 
@@ -89,7 +89,7 @@ class Pose implements Comparable<Pose>{
   }
 
   bool isUnseenFeaturedPose() {
-    return reviewStatus == STATUS_FEATURED && !hasSeen;
+    return reviewStatus == STATUS_FEATURED && !hasSeen!;
   }
 
 
@@ -101,7 +101,7 @@ class Pose implements Comparable<Pose>{
   ///
   @override
   int compareTo(Pose other) {
-    if(this.createDate.isAtSameMomentAs(other.createDate)) return 0;
-    return this.createDate.isBefore(other.createDate) ? 1 : -1;
+    if(this.createDate!.isAtSameMomentAs(other.createDate!)) return 0;
+    return this.createDate!.isBefore(other.createDate!) ? 1 : -1;
   }
 }

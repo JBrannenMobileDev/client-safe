@@ -1,17 +1,17 @@
 import 'package:dandylight/models/Invoice.dart';
 
 class PriceProfile{
-  int id;
-  String documentId;
-  String profileName;
-  String rateType;
-  double flatRate;
-  double hourlyRate;
-  double itemRate;
-  double deposit;
-  String icon;
-  bool includeSalesTax;
-  double salesTaxPercent;
+  int? id;
+  String? documentId;
+  String? profileName;
+  String? rateType;
+  double? flatRate;
+  double? hourlyRate;
+  double? itemRate;
+  double? deposit;
+  String? icon;
+  bool? includeSalesTax;
+  double? salesTaxPercent;
 
   PriceProfile({
     this.id,
@@ -61,13 +61,13 @@ class PriceProfile{
     String rateString = '';
     switch(priceProfile.rateType){
       case Invoice.RATE_TYPE_FLAT_RATE:
-        rateString = '\$' + priceProfile.flatRate.toInt().toString();
+        rateString = '\$' + priceProfile.flatRate!.toInt().toString();
         break;
       case Invoice.RATE_TYPE_HOURLY:
-        rateString = '\$' + priceProfile.hourlyRate.toInt().toString() + '/hr';
+        rateString = '\$' + priceProfile.hourlyRate!.toInt().toString() + '/hr';
         break;
       case Invoice.RATE_TYPE_QUANTITY:
-        rateString = '\$' + priceProfile.itemRate.toInt().toString() + '/item';
+        rateString = '\$' + priceProfile.itemRate!.toInt().toString() + '/item';
         break;
     }
     return rateString;

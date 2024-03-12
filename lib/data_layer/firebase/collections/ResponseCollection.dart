@@ -56,7 +56,7 @@ class ResponseCollection {
         .doc(documentId)
         .get()
         .then((responseSnapshot) {
-          Response response = Response.fromMap(responseSnapshot.data());
+          Response response = Response.fromMap(responseSnapshot.data() as Map<String, dynamic>);
           response.documentId = responseSnapshot.id;
           return response;
         });
@@ -95,7 +95,7 @@ class ResponseCollection {
   List<Response> _buildResponsesList(QuerySnapshot jobs) {
     List<Response> responsesList = [];
     for(DocumentSnapshot responseSnapshot in jobs.docs){
-      Response response = Response.fromMap(responseSnapshot.data());
+      Response response = Response.fromMap(responseSnapshot.data() as Map<String, dynamic>);
       response.documentId = responseSnapshot.id;
       responsesList.add(response);
     }

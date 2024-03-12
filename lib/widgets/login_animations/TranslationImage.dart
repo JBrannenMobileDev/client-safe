@@ -7,10 +7,10 @@ class TranslationImage extends AnimatedWidget {
   final AssetImage image;
 
   TranslationImage({
-    Key key,
-    @required this.controller,
-    @required this.animations,
-    @required this.image,
+    Key? key,
+    required this.controller,
+    required this.animations,
+    required this.image,
   }) : super(key: key, listenable: controller);
 
   @override

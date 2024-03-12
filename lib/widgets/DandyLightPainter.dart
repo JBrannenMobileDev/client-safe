@@ -3,17 +3,17 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class DandyLightPainter extends CustomPainter {
-  Color lineColor =  Colors.transparent;
-  Color completeColor;
-  double width;
+  Color? lineColor =  Colors.transparent;
+  Color? completeColor;
+  double? width;
   DandyLightPainter({ this.completeColor, this.width});
   @override
   void paint(Canvas canvas, Size size) {
     Paint complete = new Paint()
-      ..color = completeColor
+      ..color = completeColor!
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
-      ..strokeWidth = width;
+      ..strokeWidth = width!;
 
     Offset center = new Offset(size.width / 2, size.height / 2);
     double radius = min(size.width / 2, size.height / 2);

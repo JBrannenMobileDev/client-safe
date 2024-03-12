@@ -1,10 +1,10 @@
 import 'Pose.dart';
 
 class PoseSubmittedGroup {
-  int id;
-  bool needsReview;
-  String uid;
-  List<Pose> poses;
+  int? id;
+  bool? needsReview;
+  String? uid;
+  List<Pose>? poses;
 
   PoseSubmittedGroup({
     this.id,
@@ -17,7 +17,7 @@ class PoseSubmittedGroup {
     return {
       'needsReview' : needsReview,
       'uid' : uid,
-      'poses' : convertPosesToMap(poses),
+      'poses' : convertPosesToMap(poses!),
     };
   }
 
@@ -40,7 +40,7 @@ class PoseSubmittedGroup {
   static List<Pose> convertMapsToPoses(List listOfMaps){
     List<Pose> listOfPoses = [];
     for(Map map in listOfMaps != null ? listOfMaps : []){
-      listOfPoses.add(Pose.fromMap(map));
+      listOfPoses.add(Pose.fromMap(map as Map<String, dynamic>));
     }
     return listOfPoses;
   }

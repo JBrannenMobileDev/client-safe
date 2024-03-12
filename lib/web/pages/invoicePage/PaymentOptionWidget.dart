@@ -14,17 +14,17 @@ import '../ClientPortalPageState.dart';
 import 'PayNowPage.dart';
 
 class PaymentOptionWidget extends StatefulWidget {
-  final String title;
-  final String message;
-  final String link;
-  final String phone;
-  final String email;
-  final String name;
-  final String sendSms;
-  final String sendEmail;
-  final String messageBody;
-  final String messageTitle;
-  final String type;
+  final String? title;
+  final String? message;
+  final String? link;
+  final String? phone;
+  final String? email;
+  final String? name;
+  final String? sendSms;
+  final String? sendEmail;
+  final String? messageBody;
+  final String? messageTitle;
+  final String? type;
 
   PaymentOptionWidget({this.title, this.message, this.link, this.phone, this.email, this.sendSms, this.sendEmail, this.messageBody, this.messageTitle, this.type, this.name});
 
@@ -35,17 +35,17 @@ class PaymentOptionWidget extends StatefulWidget {
 }
 
 class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
-  final String title;
-  final String message;
-  final String link;
-  final String phone;
-  final String email;
-  final String name;
-  final String sendSms;
-  final String sendEmail;
-  final String messageBody;
-  final String messageTitle;
-  final String type;
+  final String? title;
+  final String? message;
+  final String? link;
+  final String? phone;
+  final String? email;
+  final String? name;
+  final String? sendSms;
+  final String? sendEmail;
+  final String? messageBody;
+  final String? messageTitle;
+  final String? type;
 
   _PaymentOptionWidgetState(this.title, this.message, this.link, this.phone, this.email, this.sendSms, this.sendEmail, this.messageBody, this.messageTitle, this.type, this.name);
 
@@ -61,7 +61,7 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
           Container(
             margin: EdgeInsets.only(bottom: 8),
             child: TextDandyLight(
-              fontFamily: pageState.profile.selectedFontTheme.mainFont,
+              fontFamily: pageState.profile.selectedFontTheme!.mainFont,
               textAlign: TextAlign.center,
               type: TextDandyLight.LARGE_TEXT,
               text: title,
@@ -72,13 +72,14 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
             height: 78,
             margin: EdgeInsets.only(),
             child: TextDandyLight(
-              fontFamily: pageState.profile.selectedFontTheme.mainFont,
+              fontFamily: pageState.profile.selectedFontTheme!.mainFont,
               textAlign: TextAlign.center,
               type: TextDandyLight.SMALL_TEXT,
               text: message,
             ),
           ),
           link != null ? MouseRegion(
+            cursor: SystemMouseCursors.click,
             child: GestureDetector(
               onTap: () {
                 showDialog(
@@ -87,7 +88,7 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
                     return PaymentConfirmationWidget(pageState);
                   }
                 );
-                IntentLauncherUtil.launchURL(link);
+                IntentLauncherUtil.launchURL(link!);
                 if(title == 'Venmo') {
                   EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_VENMO_LINK_SELECTED);
                 }
@@ -102,22 +103,21 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
                 height: 48,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(24),
-                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
+                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.buttonColor!)
                 ),
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
                   text: 'PAY NOW',
-                  fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                  color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonTextColor),
+                  fontFamily: pageState.profile.selectedFontTheme!.mainFont,
+                  color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.buttonTextColor!),
                 ),
               ),
             ),
-            cursor: SystemMouseCursors.click,
           ) : SizedBox(),
           phone != null ? Container(
             margin: EdgeInsets.only(top: 16),
             child: TextDandyLight(
-              fontFamily: pageState.profile.selectedFontTheme.mainFont,
+              fontFamily: pageState.profile.selectedFontTheme!.mainFont,
               textAlign: TextAlign.center,
               type: TextDandyLight.SMALL_TEXT,
               text: phone,
@@ -127,7 +127,7 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
           name != null ? Container(
             margin: EdgeInsets.only(top: 16),
             child: TextDandyLight(
-              fontFamily: pageState.profile.selectedFontTheme.mainFont,
+              fontFamily: pageState.profile.selectedFontTheme!.mainFont,
               textAlign: TextAlign.center,
               type: TextDandyLight.SMALL_TEXT,
               text: name,
@@ -136,7 +136,7 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
           ) : SizedBox(),
           email != null ? Container(
             child: TextDandyLight(
-              fontFamily: pageState.profile.selectedFontTheme.mainFont,
+              fontFamily: pageState.profile.selectedFontTheme!.mainFont,
               textAlign: TextAlign.center,
               type: TextDandyLight.SMALL_TEXT,
               text: email,
@@ -144,6 +144,7 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
             ),
           ) : SizedBox(),
           sendSms != null && DeviceType.getDeviceTypeByContext(context) != Type.Website ? MouseRegion(
+            cursor: SystemMouseCursors.click,
             child: GestureDetector(
               onTap: () {
                 showDialog(
@@ -152,7 +153,7 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
                       return PaymentConfirmationWidget(pageState);
                     }
                 );
-                IntentLauncherUtil.sendSMS(sendSms);
+                IntentLauncherUtil.sendSMS(sendSms!);
                 EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_CASH_SEND_SMS_SELECTED);
               },
               child: Container(
@@ -162,19 +163,19 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
                 height: 48,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(24),
-                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
+                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.buttonColor!)
                 ),
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
                   text: 'SEND SMS',
-                    fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                  color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonTextColor)
+                    fontFamily: pageState.profile.selectedFontTheme!.mainFont,
+                  color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.buttonTextColor!)
                 ),
               ),
             ),
-            cursor: SystemMouseCursors.click,
           ) : SizedBox(),
           sendEmail != null ? MouseRegion(
+            cursor: SystemMouseCursors.click,
             child: GestureDetector(
               onTap: () {
                 showDialog(
@@ -183,7 +184,7 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
                       return PaymentConfirmationWidget(pageState);
                     }
                 );
-                IntentLauncherUtil.sendEmail(sendEmail, messageTitle, messageBody);
+                IntentLauncherUtil.sendEmail(sendEmail!, messageTitle!, messageBody!);
                 EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_CASH_SEND_EMAIL_SELECTED);
               },
               child: Container(
@@ -193,17 +194,16 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
                 height: 48,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(24),
-                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
+                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.buttonColor!)
                 ),
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
                   text: 'SEND EMAIL',
-                  fontFamily: pageState.profile.selectedFontTheme.mainFont,
-                  color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonTextColor),
+                  fontFamily: pageState.profile.selectedFontTheme!.mainFont,
+                  color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.buttonTextColor!),
                 ),
               ),
             ),
-            cursor: SystemMouseCursors.click,
           ) : SizedBox(),
         ],
       ),
@@ -231,7 +231,7 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
                   child: TextDandyLight(
                     type: TextDandyLight.LARGE_TEXT,
                     text: 'Payment Confirmation',
-                    fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                    fontFamily: pageState.profile.selectedFontTheme!.mainFont,
                     color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
@@ -239,13 +239,14 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
                   padding: EdgeInsets.only(bottom: 32, left: 32, right: 32),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
-                    fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                    fontFamily: pageState.profile.selectedFontTheme!.mainFont,
                     text: 'When payment is complete please mark it as paid.',
                     color: Color(ColorConstants.getPrimaryBlack()),
                     textAlign: TextAlign.center,
                   ),
                 ),
                 MouseRegion(
+                  cursor: SystemMouseCursors.click,
                   child: GestureDetector(
                     onTap: () {
                       switch(type) {
@@ -265,28 +266,27 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
                       height: 48,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(24),
-                          color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
+                          color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.buttonColor!)
                       ),
                       child: TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
-                        fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                        fontFamily: pageState.profile.selectedFontTheme!.mainFont,
                         text: 'MARK AS PAID',
-                        color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonTextColor),
+                        color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.buttonTextColor!),
                       ),
                     ),
                   ),
-                  cursor: SystemMouseCursors.click,
                 ),
               ],
             ),
             MouseRegion(
+              cursor: SystemMouseCursors.click,
               child: GestureDetector(
                 onTap: () {
                   Navigator.of(context).pop();
                 },
                 child: Icon(Icons.close_sharp, color: Color(ColorConstants.getPrimaryBlack()), size: 32),
               ),
-              cursor: SystemMouseCursors.click,
             ),
           ],
         ),

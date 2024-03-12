@@ -1,10 +1,10 @@
 import 'package:dandylight/models/Invoice.dart';
 
 class Income {
-  int id;
-  int year;
-  double totalIncome;
-  List<Invoice> invoices;
+  int? id;
+  int? year;
+  double? totalIncome;
+  List<Invoice>? invoices;
 
 
   Income({
@@ -19,7 +19,7 @@ class Income {
       'id' : id,
       'year': year,
       'totalIncome' : totalIncome,
-      'invoices' : convertInvoicesToMap(invoices),
+      'invoices' : convertInvoicesToMap(invoices!),
     };
   }
 
@@ -33,7 +33,7 @@ class Income {
   }
 
   List<Map<String, dynamic>> convertInvoicesToMap(List<Invoice> invoices){
-    List<Map<String, dynamic>> listOfMaps = List();
+    List<Map<String, dynamic>> listOfMaps = [];
     for(Invoice invoice in invoices){
       listOfMaps.add(invoice.toMap());
     }
@@ -41,9 +41,9 @@ class Income {
   }
 
   static List<Invoice> convertMapsToInvoices(List listOfMaps){
-    List<Invoice> invoices = List();
+    List<Invoice> invoices = [];
     for(Map map in listOfMaps){
-      invoices.add(Invoice.fromMap(map));
+      invoices.add(Invoice.fromMap(map as Map<String, dynamic>));
     }
     return invoices;
   }

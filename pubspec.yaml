@@ -1,5 +1,5 @@
 name: dandylight
-description: A new Flutter application.
+description: Photography business management.
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -10,7 +10,7 @@ description: A new Flutter application.
 version: 2.1.4+61
 
 environment:
-  sdk: ">=2.2.2 <3.0.0"
+  sdk: ">=2.12.0 <3.10.0"
 
 dependencies:
   flutter:
@@ -19,14 +19,13 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   firebase_core: ^2.15.1
-  firebase_analytics: ^10.4.5
+  firebase_analytics: ^10.8.0
   firebase_auth: ^4.9.0
   cloud_firestore: ^4.9.1
   cupertino_icons: ^1.0.4
   flutter_redux: ^0.10.0
   redux_epics: ^0.15.1
-  flutter_parallax: ^0.1.2
-  intl: ^0.17.0
+  intl: ^0.18.1
   shared_preferences: ^2.0.15
   flutter_datetime_picker: ^1.5.1
   flare_flutter: ^3.0.2
@@ -35,55 +34,51 @@ dependencies:
   path_provider: ^2.0.10
   flutter_device_type: ^0.4.0
   url_launcher: ^6.0.5
-  flutter_launcher_icons: ^0.12.0
+  flutter_launcher_icons: ^0.13.1
   contacts_service: ^0.6.3
-  permission_handler: ^10.2.0
-  image_picker: ^0.8.6
+  permission_handler: ^11.3.0
+  image_picker: ^1.0.7
   google_maps_flutter: ^2.0.10
-  android_intent_plus: ^3.1.1
-  share_plus: ^6.3.0
+  android_intent_plus: ^4.0.3
+  share_plus: ^7.2.2
   table_calendar: ^3.0.5
   flutter_rounded_date_picker: ^3.0.1
   flutter_circular_text: ^0.3.0
   flutter_cupertino_datetime_picker: ^3.0.0
   keyboard_actions: ^4.0.0
-  keyboard_visibility: ^0.5.6
-  geolocator: ^9.0.1
-  flutter_speed_dial: ^6.0.0
+  geolocator: ^11.0.0
+  flutter_speed_dial: ^7.0.0
   pdf: ^3.8.3
-  flutter_full_pdf_viewer: ^1.0.6
   share_extend: ^2.0.0
   http: ^0.13.4
   flutter_google_places: ^0.3.0
   fluttertoast: ^8.0.9
-  flutter_masked_text: ^0.8.0
   firebase_messaging: ^14.6.7
-  uuid: ^3.0.6
-  flutter_local_notifications: ^15.1.1
+  uuid: ^4.3.3
+  flutter_local_notifications: ^16.3.3
   rxdart: ^0.26.0
   device_calendar: ^4.2.0
   firebase_storage: ^11.2.6
   flutter_cache_manager: ^3.3.0
   loading_animation_widget: ^1.2.0+2
-  fl_chart: ^0.55.1
-  file_picker: ^5.1.0
+  fl_chart: ^0.66.2
+  file_picker: ^6.2.0
   change_app_package_name: ^1.1.0
   flutter_app_badger: ^1.5.0
   flutter_native_timezone: ^2.0.0
-  swipedetector: ^1.2.0
   flutter_share: ^2.0.0
   smooth_page_indicator: ^1.0.0+2
   mixpanel_flutter: ^2.0.0
-  device_info_plus: ^8.0.0
-  package_info_plus: ^3.0.2
+  device_info_plus: ^9.1.2
+  package_info_plus: ^5.0.1
   showcaseview: ^2.0.0+1
-  purchases_flutter: ^5.1.0
+  purchases_flutter: ^6.23.0
   super_banners: ^0.0.1
   synchronized: ^3.0.1
-  sign_in_with_apple: ^4.3.0
+  sign_in_with_apple: ^6.0.0
   crypto: ^3.0.2
   google_sign_in: ^6.0.2
-  pin_code_fields: ^7.4.0
+  pin_code_fields: ^8.0.1
   image: ^4.0.17
   version: ^3.0.2
   cached_network_image: ^3.2.3
@@ -94,8 +89,8 @@ dependencies:
   flutter_quill: ^7.1.16+1
   geocoder2: ^1.4.0
   in_app_review: ^2.0.6
-  open_store: ^0.4.0
-  to_csv: ^1.1.1
+  open_store: ^0.5.0
+  to_csv: ^2.2.1
   in_app_notification: ^1.1.2
   modal_bottom_sheet:
     git:
@@ -425,8 +420,6 @@ flutter:
     - assets/images/menu/collections_icon.png
     - assets/images/menu/money_icon.png
     - assets/images/menu/sunset_icon.png
-
-    -
 
   fonts:
     - family: Signature2

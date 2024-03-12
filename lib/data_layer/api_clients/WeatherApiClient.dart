@@ -11,7 +11,7 @@ class WeatherApiClient {
 
   final http.Client httpClient;
   WeatherApiClient({
-    @required this.httpClient,
+    required this.httpClient,
   }) : assert(httpClient != null);
 
   Future<CurrentWeather> fetchCurrentWeather(double lat, double lon) async {

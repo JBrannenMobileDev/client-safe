@@ -6,19 +6,19 @@ class DandylightSharedPrefs {
 
   static Future<String> getEventIdMap() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(EVENT_ID_MAP_KEY);
+    return prefs.getString(EVENT_ID_MAP_KEY)!;
   }
 
   static Future<List<JobEventIdMap>> getListOfKnowJobEventsOnDeviceCalendars() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String mapString = prefs.getString(EVENT_ID_MAP_KEY);
+    String mapString = prefs.getString(EVENT_ID_MAP_KEY)!;
     if(mapString != null) {
       return JobEventIdMap.decode(mapString);
     }
       return [];
   }
 
-  static void saveEventId(String eventId, String calendarId, String jobId) async {
+  static void saveEventId(String? eventId, String? calendarId, String? jobId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     JobEventIdMap newMap = JobEventIdMap(calendarId: calendarId, jobId: jobId, eventId: eventId);
     String mapsString = await getEventIdMap();
@@ -37,7 +37,7 @@ class DandylightSharedPrefs {
     prefs.setString(EVENT_ID_MAP_KEY, JobEventIdMap.encode(eventIds));
   }
 
-  static Future<String> getEventIdByJobAndCalendar(String jobId, String calendarId) async {
+  static Future<String?> getEventIdByJobAndCalendar(String jobId, String calendarId) async {
     String mapsString = await getEventIdMap();
     if(mapsString !=  null) {
       List<JobEventIdMap> eventIds = JobEventIdMap.decode(mapsString);

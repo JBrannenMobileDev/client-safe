@@ -13,7 +13,7 @@ import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 import '../../models/Job.dart';

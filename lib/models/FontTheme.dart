@@ -79,10 +79,10 @@ class FontTheme {
   static const String ICON_FONT_ID = 'icon_font';
   static const String MAIN_FONT_ID = 'main_font';
 
-  int id;
-  String themeName;
-  String iconFont;
-  String mainFont;
+  int? id;
+  String? themeName;
+  String? iconFont;
+  String? mainFont;
 
   FontTheme({
     this.id,

@@ -6,9 +6,9 @@ class SendingTranslationCircle extends AnimatedWidget {
   final AnimationController controller;
 
   SendingTranslationCircle({
-    Key key,
-    @required this.controller,
-    @required this.animations,
+    Key? key,
+    required this.controller,
+    required this.animations,
   }) : super(key: key, listenable: controller);
 
   @override

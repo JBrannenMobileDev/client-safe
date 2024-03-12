@@ -54,7 +54,7 @@ class PriceProfileDao extends Equatable{
     }
   }
 
-  static Future<PriceProfile> getById(String profileDocumentId) async{
+  static Future<PriceProfile?> getById(String profileDocumentId) async{
     if((await getAllSortedByName()).length > 0) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', profileDocumentId));
       final recordSnapshots = await _priceProfileStore.find(await _db, finder: finder);
@@ -115,7 +115,7 @@ class PriceProfileDao extends Equatable{
     ).catchError((e) {
       print(e);
     });
-    await PriceProfileCollection().deletePriceProfile(profile.documentId);
+    await PriceProfileCollection().deletePriceProfile(profile.documentId!);
     _updateLastChangedTime();
   }
 

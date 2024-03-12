@@ -45,7 +45,7 @@ class PoseLibraryGroupsCollection {
   List<PoseLibraryGroup> _buildList(QuerySnapshot jobs) {
     List<PoseLibraryGroup> list = [];
     for(DocumentSnapshot jobSnapshot in jobs.docs){
-      PoseLibraryGroup result = PoseLibraryGroup.fromMap(jobSnapshot.data());
+      PoseLibraryGroup result = PoseLibraryGroup.fromMap(jobSnapshot.data() as Map<String, dynamic>);
       result.documentId = jobSnapshot.id;
       list.add(result);
     }

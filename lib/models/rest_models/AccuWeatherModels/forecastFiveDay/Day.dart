@@ -1,9 +1,9 @@
 class Day {
-  int icon;
-  String iconPhrase;
-  bool hasPrecipitation;
-  int precipitationProbability;
-  int cloudCover;
+  int? icon;
+  String? iconPhrase;
+  bool? hasPrecipitation;
+  int? precipitationProbability;
+  int? cloudCover;
 
   Day({this.icon, this.iconPhrase, this.hasPrecipitation, this.precipitationProbability, this.cloudCover});
 

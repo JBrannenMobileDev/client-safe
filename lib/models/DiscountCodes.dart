@@ -5,8 +5,8 @@ class DiscountCodes {
   static const String LIFETIME_FREE = "lifetimeFree";
   static const String FIRST_3_MONTHS_FREE = "First3MonthsFree";
 
-  List<Code> codes;
-  String type;
+  List<Code>? codes;
+  String? type;
 
   DiscountCodes({
     this.codes,
@@ -15,7 +15,7 @@ class DiscountCodes {
 
   Map<String, dynamic> toMap() {
     return {
-      'codes' : convertCodesToMap(codes),
+      'codes' : convertCodesToMap(codes!),
       'type' : type,
     };
   }
@@ -38,7 +38,7 @@ class DiscountCodes {
   static List<Code> convertMapsToCodes(List listOfMaps){
     List<Code> listOfCodes = [];
     for(Map map in listOfMaps != null ? listOfMaps : []){
-      listOfCodes.add(Code.fromMap(map));
+      listOfCodes.add(Code.fromMap(map as Map<String, dynamic>));
     }
     return listOfCodes;
   }

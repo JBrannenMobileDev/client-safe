@@ -13,7 +13,7 @@ import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl/intl.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:redux/redux.dart';
 
 import '../../models/Contract.dart';

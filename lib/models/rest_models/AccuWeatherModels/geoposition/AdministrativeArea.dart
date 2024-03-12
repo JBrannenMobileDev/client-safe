@@ -1,11 +1,11 @@
 class AdministrativeArea {
-  String iD;
-  String localizedName;
-  String englishName;
-  int level;
-  String localizedType;
-  String englishType;
-  String countryID;
+  String? iD;
+  String? localizedName;
+  String? englishName;
+  int? level;
+  String? localizedType;
+  String? englishType;
+  String? countryID;
 
   AdministrativeArea(
       {this.iD,

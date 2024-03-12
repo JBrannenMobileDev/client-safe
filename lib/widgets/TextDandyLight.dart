@@ -59,23 +59,23 @@ class TextDandyLight extends StatelessWidget {
     return size;
   }
 
-  double amount;
-  final String type;
-  String text = '';
-  double size;
-  String fontFamily;
-  bool isBold;
-  bool isThin;
-  Color color;
-  TextAlign textAlign;
-  final VoidCallback onClick;
-  int decimalPlaces = 2;
-  bool isCurrency;
-  bool isNumber;
-  TextOverflow overflow;
-  int maxLines;
-  bool addShadow = false;
-  bool isMobileWeb = false;
+  double? amount;
+  final String? type;
+  String? text = '';
+  double? size;
+  String? fontFamily;
+  bool? isBold;
+  bool? isThin;
+  Color? color;
+  TextAlign? textAlign;
+  final VoidCallback? onClick;
+  int? decimalPlaces = 2;
+  bool? isCurrency;
+  bool? isNumber;
+  TextOverflow? overflow;
+  int? maxLines;
+  bool? addShadow = false;
+  bool? isMobileWeb = false;
 
   TextDandyLight({
     @required this.type,
@@ -108,11 +108,11 @@ class TextDandyLight extends StatelessWidget {
     if(addShadow == null) addShadow = false;
     if(fontFamily == null) fontFamily = getFontFamily();
     if(isMobileWeb == null) isMobileWeb = false;
-    if(isNumber) {
+    if(isNumber!) {
       text = NumberFormat("###,###,###,###").format(amount);
     }
-    if(isCurrency) {
-      text = TextFormatterUtil.formatDecimalDigitsCurrency(amount, decimalPlaces);
+    if(isCurrency!) {
+      text = TextFormatterUtil.formatDecimalDigitsCurrency(amount!, decimalPlaces!);
     }
     if(text == null) {
       text = '';
@@ -120,8 +120,8 @@ class TextDandyLight extends StatelessWidget {
 
     if(fontFamily == FontTheme.MONTSERRAT) {
       isBold = false;
-      if(isMobileWeb) {
-        size = size + 12;
+      if(isMobileWeb!) {
+        size = size! + 12;
       }
     }
 
@@ -129,55 +129,55 @@ class TextDandyLight extends StatelessWidget {
       isBold = false;
     }
 
-    size = FontTheme.getIconFontSize(type, fontFamily);
+    size = FontTheme.getIconFontSize(type!, fontFamily!);
 
     if(fontFamily == FontTheme.SIGNATURE2) {
-      if(isMobileWeb) {
-        size = size - 10;
+      if(isMobileWeb!) {
+        size = size! - 10;
       } else {
-        size = size + 6;
+        size = size! + 6;
       }
     }
 
     if(fontFamily == FontTheme.SIGNATURE1) {
-      if(isMobileWeb) {
-        size = size - 6;
+      if(isMobileWeb!) {
+        size = size! - 6;
       } else {
-        size = size + 6;
+        size = size! + 6;
       }
     }
 
     if(fontFamily == FontTheme.SIGNATURE3) {
-      if(isMobileWeb) {
-        size = size - 4;
+      if(isMobileWeb!) {
+        size = size! - 4;
       } else {
-        size = size + 8;
+        size = size! + 8;
       }
     }
 
     if(fontFamily == FontTheme.Princ) {
-      size = size + 8;
+      size = size! + 8;
     }
 
     if(fontFamily == FontTheme.Minimal) {
-      size = size + 6;
+      size = size! + 6;
     }
 
     return Container(
-      padding: FontTheme.getIconPaddingForFont(type, fontFamily),
+      padding: FontTheme.getIconPaddingForFont(type!, fontFamily!),
       child: onClick == null
           ? Text(
-        text,
+        text!,
         textAlign: textAlign,
         overflow: overflow,
         maxLines: maxLines,
         style: TextStyle(
           fontFamily: fontFamily,
           fontSize: size,
-          fontWeight: isBold ? FontWeight.bold : isThin ? FontWeight.w100 : FontWeight.w300,
+          fontWeight: isBold! ? FontWeight.bold : isThin! ? FontWeight.w100 : FontWeight.w300,
           color: color,
           shadows: <Shadow>[
-            addShadow ? Shadow(
+            addShadow! ? Shadow(
               offset: Offset(1.0, 1.0),
               blurRadius: 3.0,
               color: Colors.black38,
@@ -187,20 +187,20 @@ class TextDandyLight extends StatelessWidget {
       )
           : TextButton(
         onPressed: () {
-          onClick.call();
+          onClick!.call();
         },
         child: Text(
-          text,
+          text!,
           textAlign: textAlign,
           overflow: overflow,
           maxLines: maxLines,
           style: TextStyle(
             fontFamily: fontFamily,
             fontSize: size,
-            fontWeight: isBold ? FontWeight.w400 : FontWeight.w300,
+            fontWeight: isBold! ? FontWeight.w400 : FontWeight.w300,
             color: color,
             shadows: <Shadow>[
-              addShadow ? Shadow(
+              addShadow! ? Shadow(
                 offset: Offset(1.0, 1.0),
                 blurRadius: 3.0,
                 color: Colors.black38,

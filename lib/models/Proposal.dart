@@ -14,20 +14,20 @@ class Proposal {
   static const String POSES_PAGE = 'poses';
   static const String FEEDBACK_PAGE = 'feedback';
 
-  int id;
-  String detailsMessage = '';
-  String shareMessage = '';
-  Contract contract;
-  Questionnaire questionnaire;
-  Feedback feedback;
-  bool contractSeenByClient = false;
-  bool invoiceSeenByClient = false;
-  bool posesSeenByClient = false;
-  bool questionnaireSeenByClient = false;
-  bool feedbackSeenByClient = false;
-  bool includePoses = false;
-  bool includeContract = false;
-  bool includeInvoice = false;
+  int? id;
+  String? detailsMessage = '';
+  String? shareMessage = '';
+  Contract? contract;
+  Questionnaire? questionnaire;
+  Feedback? feedback;
+  bool? contractSeenByClient = false;
+  bool? invoiceSeenByClient = false;
+  bool? posesSeenByClient = false;
+  bool? questionnaireSeenByClient = false;
+  bool? feedbackSeenByClient = false;
+  bool? includePoses = false;
+  bool? includeContract = false;
+  bool? includeInvoice = false;
 
   Proposal({
       this.detailsMessage,

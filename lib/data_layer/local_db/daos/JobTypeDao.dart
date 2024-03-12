@@ -97,7 +97,7 @@ class JobTypeDao extends Equatable{
     }).toList();
   }
 
-  static Future<JobType> getJobTypeById(String documentId) async{
+  static Future<JobType?> getJobTypeById(String documentId) async{
     if((await getAll()).length > 0) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
       final recordSnapshots = await _jobTypeStore.find(await _db, finder: finder);

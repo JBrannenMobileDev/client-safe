@@ -57,7 +57,7 @@ class PoseDao extends Equatable{
     }
   }
 
-  static Future<Pose> getPoseByImageUrl(Pose pose) async{
+  static Future<Pose?> getPoseByImageUrl(Pose pose) async{
     if((await getAllSortedMostFrequent()).length > 0) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('imageUrl', pose.imageUrl));
       final recordSnapshots = await _PoseStore.find(await _db, finder: finder);
@@ -77,7 +77,7 @@ class PoseDao extends Equatable{
     }
   }
 
-  static Future<Pose> getById(String poseDocumentId) async{
+  static Future<Pose?> getById(String poseDocumentId) async{
     if((await getAllSortedMostFrequent()).length > 0) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', poseDocumentId));
       final recordSnapshots = await _PoseStore.find(await _db, finder: finder);
@@ -132,7 +132,7 @@ class PoseDao extends Equatable{
   }
 
   static Future delete(String documentId) async {
-    await FileStorage.deletePoseFileImage(await getById(documentId));
+    FileStorage.deletePoseFileImage((await getById(documentId))!);
     final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
     int countOfUpdatedItems = await _PoseStore.delete(
       await _db,
@@ -245,7 +245,7 @@ class PoseDao extends Equatable{
   static void deleteAllRemote() async {
     List<Pose> poses = await getAllSortedMostFrequent();
     for(Pose pose in poses) {
-      await delete(pose.documentId);
+      await delete(pose.documentId!);
     }
   }
 }

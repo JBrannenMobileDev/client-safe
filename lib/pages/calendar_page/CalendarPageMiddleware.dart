@@ -9,10 +9,6 @@ import 'package:dandylight/utils/CalendarSyncUtil.dart';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../models/Profile.dart';
-import '../../utils/UidUtil.dart';
 
 class CalendarPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -30,21 +26,21 @@ class CalendarPageMiddleware extends MiddlewareClass<AppState> {
     DateTime startDate = DateTime(action.month.year, action.month.month - 1, 1);
     DateTime endDate = DateTime(action.month.year, action.month.month + 1, 1);
     List<Event> deviceEvents = await removeDandylightJobsFromDeviceEventList(await CalendarSyncUtil.getDeviceEventsForDateRange(startDate, endDate));
-    store.dispatch(SetDeviceEventsAction(store.state.calendarPageState, deviceEvents));
-    store.dispatch(SetSelectedDateAction(store.state.calendarPageState, action.month));
+    store.dispatch(SetDeviceEventsAction(store.state.calendarPageState!, deviceEvents));
+    store.dispatch(SetSelectedDateAction(store.state.calendarPageState!, action.month));
   }
 
   void _loadAll(Store<AppState> store, action, NextDispatcher next) async {
     List<Job> allJobs = await JobDao.getAllJobs();
-    store.dispatch(SetJobsCalendarStateAction(store.state.calendarPageState, allJobs));
-    store.dispatch(SetDeviceEventsAction(store.state.calendarPageState, []));
+    store.dispatch(SetJobsCalendarStateAction(store.state.calendarPageState!, allJobs));
+    store.dispatch(SetDeviceEventsAction(store.state.calendarPageState!, []));
 
     (await JobDao.getJobsStream()).listen((jobSnapshots) async {
       List<Job> jobs = [];
       for(RecordSnapshot clientSnapshot in jobSnapshots) {
-        jobs.add(Job.fromMap(clientSnapshot.value));
+        jobs.add(Job.fromMap(clientSnapshot.value! as Map<String, dynamic>));
       }
-      store.dispatch(SetJobsCalendarStateAction(store.state.calendarPageState, jobs));
+      store.dispatch(SetJobsCalendarStateAction(store.state.calendarPageState!, jobs));
     });
   }
 

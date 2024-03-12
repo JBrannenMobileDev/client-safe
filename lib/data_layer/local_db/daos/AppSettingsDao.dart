@@ -46,7 +46,7 @@ class AppSettingsDao extends Equatable{
     }
   }
 
-  static Future<AppSettings> getById(String contractDocumentId) async{
+  static Future<AppSettings?> getById(String contractDocumentId) async{
     if((await getAll()).length > 0) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', contractDocumentId));
       final recordSnapshots = await _appSettingsStore.find(await _db, finder: finder);
@@ -90,7 +90,7 @@ class AppSettingsDao extends Equatable{
     );
   }
 
-  static Future delete(String documentId) async {
+  static Future delete(String? documentId) async {
     final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
     int countOfUpdatedItems = await _appSettingsStore.delete(
       await _db,

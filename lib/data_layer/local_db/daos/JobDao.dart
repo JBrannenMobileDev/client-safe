@@ -41,9 +41,9 @@ class JobDao extends Equatable{
 
   static Future<void> _updateProfileJobCount() async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.jobsCreatedCount = profile.jobsCreatedCount + 1;
+    profile.jobsCreatedCount = profile.jobsCreatedCount! + 1;
     ProfileDao.update(profile);
-    EventSender().setUserProfileData(EventNames.JOB_COUNT, profile.jobsCreatedCount);
+    EventSender().setUserProfileData(EventNames.JOB_COUNT, profile.jobsCreatedCount!);
   }
 
   static Future<void> _updateLastChangedTime() async {
@@ -80,13 +80,13 @@ class JobDao extends Equatable{
   static Future update(Job job) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    Job previousJobState = await getJobById(job.documentId);
-    if(Job.containsStage(job.completedStages, JobStage.STAGE_14_JOB_COMPLETE) && !Job.containsStage(previousJobState.completedStages, JobStage.STAGE_14_JOB_COMPLETE)) {
+    Job? previousJobState = await getJobById(job.documentId);
+    if(Job.containsStage(job.completedStages, JobStage.STAGE_14_JOB_COMPLETE) && !Job.containsStage(previousJobState!.completedStages, JobStage.STAGE_14_JOB_COMPLETE)) {
       if(job.paymentReceivedDate == null) {
         job.paymentReceivedDate = DateTime.now();
       }
       if(job.invoice != null) {
-        job.invoice.invoicePaid = true;
+        job.invoice!.invoicePaid = true;
         await InvoiceDao.updateInvoiceOnly(job.invoice);
       }
     }
@@ -138,7 +138,7 @@ class JobDao extends Equatable{
   // TODO: implement props
   List<Object> get props => [];
 
-  static Future<Job> getJobById(String jobDocumentId) async{
+  static Future<Job?> getJobById(String? jobDocumentId) async{
     if((await getAllJobs()).length > 0) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', jobDocumentId));
       final recordSnapshots = await _jobStore.find(await _db, finder: finder);
@@ -247,7 +247,7 @@ class JobDao extends Equatable{
   static getJobBycreatedDate(DateTime createdDate) async {
     List<Job> allJobs = await getAllJobs();
     for(Job job in allJobs){
-      if(job.createdDate.millisecondsSinceEpoch == createdDate.millisecondsSinceEpoch) return job;
+      if(job.createdDate!.millisecondsSinceEpoch == createdDate.millisecondsSinceEpoch) return job;
     }
     return null;
   }

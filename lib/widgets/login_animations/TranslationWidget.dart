@@ -7,10 +7,10 @@ class TranslationWidget extends AnimatedWidget {
   final Widget widget;
 
   TranslationWidget({
-    Key key,
-    @required this.controller,
-    @required this.animations,
-    @required this.widget,
+    Key? key,
+    required this.controller,
+    required this.animations,
+    required this.widget,
   }) : super(key: key, listenable: controller);
 
   @override

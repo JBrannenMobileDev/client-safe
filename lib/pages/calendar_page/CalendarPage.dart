@@ -28,8 +28,8 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMixin {
-  AnimationController _animationController;
-  List<EventDandyLight> _events;
+  AnimationController? _animationController;
+  List<EventDandyLight>? _events;
 
   @override
   void initState() {
@@ -40,25 +40,25 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
       duration: const Duration(milliseconds: 400),
     );
 
-    _animationController.forward();
+    _animationController!.forward();
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
+    _animationController!.dispose();
     super.dispose();
   }
 
   void _onDaySelected(DateTime day, List events, CalendarPageState pageState) {
     setState(() {
       CalendarUtil.buildEventList(
-        pageState.selectedDate,
-        pageState.eventList,
-        pageState.selectedDate.year,
-        pageState.selectedDate.month,
-        pageState.selectedDate.day,
-        pageState.jobs,
-        pageState.onJobClicked,
+        pageState.selectedDate!,
+        pageState.eventList!,
+        pageState.selectedDate!.year,
+        pageState.selectedDate!.month,
+        pageState.selectedDate!.day,
+        pageState.jobs!,
+        pageState.onJobClicked!,
       );
     });
   }
@@ -72,15 +72,15 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
 
     return StoreConnector<AppState, CalendarPageState>(
       onInit: (store) async {
-        store.dispatch(FetchAllCalendarJobsAction(store.state.calendarPageState));
+        store.dispatch(FetchAllCalendarJobsAction(store.state.calendarPageState!));
 
         PermissionStatus previousStatus = await UserPermissionsUtil.getPermissionStatus(Permission.calendar);
         bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendar, context: context);
         if(isGranted) {
           if(!(await previousStatus.isGranted)) {
-            UserOptionsUtil.showCalendarSelectionDialog(context, store.state.calendarPageState.onCalendarEnabled);
+            UserOptionsUtil.showCalendarSelectionDialog(context, store.state.calendarPageState!.onCalendarEnabled);
           } else {
-            store.dispatch(FetchDeviceEvents(store.state.calendarPageState, DateTime.now(), store.state.dashboardPageState.profile.calendarEnabled));
+            store.dispatch(FetchDeviceEvents(store.state.calendarPageState!, DateTime.now(), store.state.dashboardPageState!.profile.calendarEnabled!));
           }
         }
       },
@@ -104,13 +104,13 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                     const SizedBox(height: 8.0),
                     Expanded(
                         child: CalendarUtil.buildEventList(
-                            pageState.selectedDate,
-                            pageState.eventList,
-                            pageState.selectedDate.year,
-                            pageState.selectedDate.month,
-                            pageState.selectedDate.day,
-                            pageState.jobs,
-                            pageState.onJobClicked,
+                            pageState.selectedDate!,
+                            pageState.eventList!,
+                            pageState.selectedDate!.year,
+                            pageState.selectedDate!.month,
+                            pageState.selectedDate!.day,
+                            pageState.jobs!,
+                            pageState.onJobClicked!,
                         ),
                     ),
                   ],
@@ -150,7 +150,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
             child: Icon(Icons.add),
             backgroundColor: Color(ColorConstants.getPrimaryColor()),
             onPressed: () {
-              pageState.onAddNewJobSelected();
+              pageState.onAddNewJobSelected!();
               UserOptionsUtil.showNewJobDialog(context, false);
               EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "Calendar Page"});
             }),
@@ -163,7 +163,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
     _events = pageState.eventList;
     return TableCalendar(
       locale: 'en_US',
-      eventLoader: (day) => _events.where((event) => isSameDay(event.selectedDate,day)).toList(), //THIS IS IMPORTANT
+      eventLoader: (day) => _events!.where((event) => isSameDay(event.selectedDate,day)).toList(), //THIS IS IMPORTANT
       calendarFormat: CalendarFormat.month,
       startingDayOfWeek: StartingDayOfWeek.sunday,
       availableGestures: AvailableGestures.horizontalSwipe,
@@ -172,9 +172,9 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
         CalendarFormat.week: '',
       },
       onPageChanged: (focusedDay) {
-        pageState.onMonthChanged(focusedDay, pageState.isCalendarEnabled);
+        pageState.onMonthChanged!(focusedDay, pageState.isCalendarEnabled!);
       },
-      focusedDay: pageState.selectedDate,
+      focusedDay: pageState.selectedDate!,
       firstDay: DateTime.utc(2010, 10, 16).toLocal(),
       lastDay: DateTime.utc(2100, 3, 14).toLocal(),
       selectedDayPredicate: (day) => isSameDay(pageState.selectedDate, day),
@@ -232,7 +232,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
       calendarBuilders: CalendarBuilders(
         selectedBuilder: (context, date, _) {
           return FadeTransition(
-            opacity: Tween(begin: 0.0, end: 1.0).animate(_animationController),
+            opacity: Tween(begin: 0.0, end: 1.0).animate(_animationController!),
             child: Container(
               alignment: Alignment.center,
               margin: const EdgeInsets.all(4.0),
@@ -287,9 +287,9 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
         },
       ),
       onDaySelected: (date, time) {
-        pageState.onDateSelected(date);
-        _onDaySelected(date, _events.where((event) => isSameDay(event.selectedDate,date)).toList(), pageState);
-        _animationController.forward(from: 0.0);
+        pageState.onDateSelected!(date);
+        _onDaySelected(date, _events!.where((event) => isSameDay(event.selectedDate,date)).toList(), pageState);
+        _animationController!.forward(from: 0.0);
       },
     );
   }
@@ -337,7 +337,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
       width: 8.0,
       height: 8.0,
       decoration: BoxDecoration(
-          shape: BoxShape.circle, color: Color(!event.isPersonalEvent ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryBackgroundGrey())),
+          shape: BoxShape.circle, color: Color(!event.isPersonalEvent! ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryBackgroundGrey())),
     );
   }
 }

@@ -1,12 +1,12 @@
 class Location {
-  String name;
-  String region;
-  String country;
-  double lat;
-  double lon;
-  String tzId;
-  int localtimeEpoch;
-  String localtime;
+  String? name;
+  String? region;
+  String? country;
+  double? lat;
+  double? lon;
+  String? tzId;
+  int? localtimeEpoch;
+  String? localtime;
 
   Location(
       {this.name,

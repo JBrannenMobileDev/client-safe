@@ -10,9 +10,9 @@ class LoginLoadingWidget extends StatefulWidget {
 
 class _LoginLoadingWidget extends State<LoginLoadingWidget>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Tween<Offset> offsetTweenUp;
-  Tween<Offset> offsetTweenDown;
+  AnimationController? _controller;
+  Tween<Offset>? offsetTweenUp;
+  Tween<Offset>? offsetTweenDown;
 
   @override
   initState() {
@@ -32,12 +32,12 @@ class _LoginLoadingWidget extends State<LoginLoadingWidget>
       end: Offset.zero,
     );
 
-    _controller.repeat().orCancel;
+    _controller!.repeat().orCancel;
   }
 
-  Animation<Offset> get stepOne => offsetTweenUp.animate(
+  Animation<Offset> get stepOne => offsetTweenUp!.animate(
         new CurvedAnimation(
-          parent: _controller,
+          parent: _controller!,
           curve: new Interval(
             0.0,
             0.17,
@@ -46,9 +46,9 @@ class _LoginLoadingWidget extends State<LoginLoadingWidget>
         ),
       );
 
-  Animation<Offset> get stepTwoUp => offsetTweenUp.animate(
+  Animation<Offset> get stepTwoUp => offsetTweenUp!.animate(
     new CurvedAnimation(
-      parent: _controller,
+      parent: _controller!,
       curve: new Interval(
         0.17,
         0.34,
@@ -57,9 +57,9 @@ class _LoginLoadingWidget extends State<LoginLoadingWidget>
     ),
   );
 
-  Animation<Offset> get stepTwoDown => offsetTweenDown.animate(
+  Animation<Offset> get stepTwoDown => offsetTweenDown!.animate(
     new CurvedAnimation(
-      parent: _controller,
+      parent: _controller!,
       curve: new Interval(
         0.17,
         0.34,
@@ -68,9 +68,9 @@ class _LoginLoadingWidget extends State<LoginLoadingWidget>
     ),
   );
 
-  Animation<Offset> get stepThreeUp => offsetTweenUp.animate(
+  Animation<Offset> get stepThreeUp => offsetTweenUp!.animate(
     new CurvedAnimation(
-      parent: _controller,
+      parent: _controller!,
       curve: new Interval(
         0.34,
         0.51,
@@ -79,9 +79,9 @@ class _LoginLoadingWidget extends State<LoginLoadingWidget>
     ),
   );
 
-  Animation<Offset> get stepThreeDown => offsetTweenDown.animate(
+  Animation<Offset> get stepThreeDown => offsetTweenDown!.animate(
     new CurvedAnimation(
-      parent: _controller,
+      parent: _controller!,
       curve: new Interval(
         0.34,
         0.51,
@@ -90,9 +90,9 @@ class _LoginLoadingWidget extends State<LoginLoadingWidget>
     ),
   );
 
-  Animation<Offset> get stepFourUp => offsetTweenUp.animate(
+  Animation<Offset> get stepFourUp => offsetTweenUp!.animate(
     new CurvedAnimation(
-      parent: _controller,
+      parent: _controller!,
       curve: new Interval(
         0.51,
         0.68,
@@ -101,9 +101,9 @@ class _LoginLoadingWidget extends State<LoginLoadingWidget>
     ),
   );
 
-  Animation<Offset> get stepFourDown => offsetTweenDown.animate(
+  Animation<Offset> get stepFourDown => offsetTweenDown!.animate(
     new CurvedAnimation(
-      parent: _controller,
+      parent: _controller!,
       curve: new Interval(
         0.51,
         0.68,
@@ -112,9 +112,9 @@ class _LoginLoadingWidget extends State<LoginLoadingWidget>
     ),
   );
 
-  Animation<Offset> get stepFiveUp => offsetTweenUp.animate(
+  Animation<Offset> get stepFiveUp => offsetTweenUp!.animate(
     new CurvedAnimation(
-      parent: _controller,
+      parent: _controller!,
       curve: new Interval(
         0.68,
         0.85,
@@ -123,9 +123,9 @@ class _LoginLoadingWidget extends State<LoginLoadingWidget>
     ),
   );
 
-  Animation<Offset> get stepFiveDown => offsetTweenDown.animate(
+  Animation<Offset> get stepFiveDown => offsetTweenDown!.animate(
     new CurvedAnimation(
-      parent: _controller,
+      parent: _controller!,
       curve: new Interval(
         0.68,
         0.85,
@@ -134,9 +134,9 @@ class _LoginLoadingWidget extends State<LoginLoadingWidget>
     ),
   );
 
-  Animation<Offset> get stepSixDown => offsetTweenDown.animate(
+  Animation<Offset> get stepSixDown => offsetTweenDown!.animate(
     new CurvedAnimation(
-      parent: _controller,
+      parent: _controller!,
       curve: new Interval(
         0.85,
         1.0,
@@ -148,7 +148,7 @@ class _LoginLoadingWidget extends State<LoginLoadingWidget>
   // This is important for perf. When the widget is gone, remove the controller.
   @override
   dispose() {
-    _controller?.dispose();
+    _controller!.dispose();
     super.dispose();
   }
 
@@ -161,27 +161,27 @@ class _LoginLoadingWidget extends State<LoginLoadingWidget>
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              new LoginTranslationCircle(controller: _controller,
+              new LoginTranslationCircle(controller: _controller!,
                 animations: [
                   stepOne,
                   stepTwoDown,
                 ],),
-              new LoginTranslationCircle(controller: _controller,
+              new LoginTranslationCircle(controller: _controller!,
                 animations: [
                   stepTwoUp,
                   stepThreeDown,
                 ],),
-              new LoginTranslationCircle(controller: _controller,
+              new LoginTranslationCircle(controller: _controller!,
                 animations: [
                   stepThreeUp,
                   stepFourDown,
                 ],),
-              new LoginTranslationCircle(controller: _controller,
+              new LoginTranslationCircle(controller: _controller!,
                 animations: [
                   stepFourUp,
                   stepFiveDown,
                 ],),
-              new LoginTranslationCircle(controller: _controller,
+              new LoginTranslationCircle(controller: _controller!,
                 animations: [
                   stepFiveUp,
                   stepSixDown,

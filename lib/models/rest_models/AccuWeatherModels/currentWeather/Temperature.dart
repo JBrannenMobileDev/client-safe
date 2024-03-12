@@ -4,8 +4,8 @@ import 'package:dandylight/models/rest_models/AccuWeatherModels/currentWeather/M
 import 'Imperial.dart';
 
 class Temperature {
-  Metric metric;
-  Imperial imperial;
+  Metric? metric;
+  Imperial? imperial;
 
   Temperature({this.metric, this.imperial});
 
@@ -19,10 +19,10 @@ class Temperature {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.metric != null) {
-      data['Metric'] = this.metric.toJson();
+      data['Metric'] = this.metric!.toJson();
     }
     if (this.imperial != null) {
-      data['Imperial'] = this.imperial.toJson();
+      data['Imperial'] = this.imperial!.toJson();
     }
     return data;
   }

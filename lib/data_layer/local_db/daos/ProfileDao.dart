@@ -90,7 +90,7 @@ class ProfileDao extends Equatable{
       await _db,
       finder: finder,
     );
-    await UserCollection().deleteUser(profile.uid);
+    await UserCollection().deleteUser(profile.uid!);
   }
 
   static Future<List<Profile>> getAllSortedByFirstName() async {
@@ -176,12 +176,12 @@ class ProfileDao extends Equatable{
 
   static Future<Profile> getMatchingProfile(String uid) async {
     List<Profile> profiles = await getAll();
-    Profile result = null;
+    Profile? result = null;
     for(Profile profile in profiles) {
       if(profile.uid == uid) {
         result = profile;
       }
     }
-    return result;
+    return result!;
   }
 }

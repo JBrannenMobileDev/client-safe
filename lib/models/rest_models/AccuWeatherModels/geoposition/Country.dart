@@ -1,7 +1,7 @@
 class Country {
-  String iD;
-  String localizedName;
-  String englishName;
+  String? iD;
+  String? localizedName;
+  String? englishName;
 
   Country({this.iD, this.localizedName, this.englishName});
 

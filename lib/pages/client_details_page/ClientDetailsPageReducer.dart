@@ -18,9 +18,9 @@ final clientDetailsPageReducer = combineReducers<ClientDetailsPageState>([
 ]);
 
 ClientDetailsPageState _removeImportantDate(ClientDetailsPageState previousState, RemoveClientDetailsImportantDateAction action) {
-  for(ImportantDate date in previousState.importantDates){
+  for(ImportantDate date in previousState.importantDates!){
     if(date.chipIndex == action.chipIndex){
-      previousState.importantDates.remove(date);
+      previousState.importantDates!.remove(date);
       break;
     }
   }
@@ -30,7 +30,7 @@ ClientDetailsPageState _removeImportantDate(ClientDetailsPageState previousState
 }
 
 ClientDetailsPageState _addImportantDate(ClientDetailsPageState previousState, AddClientDetailsImportantDateAction action) {
-  previousState.importantDates.add(action.importantDate);
+  previousState.importantDates!.add(action.importantDate!);
   return previousState.copyWith(
       importantDates: previousState.importantDates
   );
@@ -56,21 +56,21 @@ ClientDetailsPageState _setLeadSource(ClientDetailsPageState previousState, SetT
 }
 
 ClientDetailsPageState _setClient(ClientDetailsPageState previousState, InitializeClientDetailsAction action){
-  if(action.client.leadSource != null && Client.isOldSource(action.client.leadSource)) {
-    action.client.leadSource = Client.mapOldLeadSourceToNew(action.client.leadSource);
+  if(action.client!.leadSource != null && Client.isOldSource(action.client!.leadSource!)) {
+    action.client!.leadSource = Client.mapOldLeadSourceToNew(action.client!.leadSource!);
   }
   return previousState.copyWith(
     client: action.client,
-    leadSource: action.client.leadSource,
-    customLeadSourceName: action.client.customLeadSourceName,
-    importantDates: action.client.importantDates,
+    leadSource: action.client!.leadSource,
+    customLeadSourceName: action.client!.customLeadSourceName,
+    importantDates: action.client!.importantDates,
   );
 }
 
 ClientDetailsPageState _setJobs(ClientDetailsPageState previousState, SetClientJobsAction action){
   if(previousState.client != null) {
     return previousState.copyWith(
-      clientJobs: action.clientJobs.where((job) => job.clientDocumentId == previousState.client.documentId).toList(),
+      clientJobs: action.clientJobs!.where((job) => job.clientDocumentId == previousState.client!.documentId).toList(),
     );
   }
   return previousState;
@@ -82,7 +82,7 @@ ClientDetailsPageState _setResponses(ClientDetailsPageState previousState, SetCl
   List<ResponsesListItem> prePhotoshootResponses = [];
   List<ResponsesListItem> postPhotoshootResponses = [];
 
-  for(Response response in action.responses) {
+  for(Response response in action.responses!) {
     switch(response.parentGroup) {
       case Response.GROUP_TITLE_PRE_BOOKING:
         preBookingResponses.add(ResponsesListItem(
@@ -114,7 +114,7 @@ ClientDetailsPageState _setResponses(ClientDetailsPageState previousState, SetCl
   //Add pre booking items
   int preBookingCount = 0;
   for(ResponsesListItem response in preBookingResponses) {
-    if(response.response.message != null && response.response.message.isNotEmpty) {
+    if(response.response!.message != null && response.response!.message!.isNotEmpty) {
       preBookingCount++;
     }
   }
@@ -125,7 +125,7 @@ ClientDetailsPageState _setResponses(ClientDetailsPageState previousState, SetCl
     ));
   }
   for(ResponsesListItem response in preBookingResponses) {
-    if(response.response.message != null && response.response.message.isNotEmpty) {
+    if(response.response!.message != null && response.response!.message!.isNotEmpty) {
       result.add(response);
     }
   }
@@ -137,7 +137,7 @@ ClientDetailsPageState _setResponses(ClientDetailsPageState previousState, SetCl
   //Add pre photoshoot items
   int prePhotoshootCount = 0;
   for(ResponsesListItem response in prePhotoshootResponses) {
-    if(response.response.message != null && response.response.message.isNotEmpty) {
+    if(response.response!.message != null && response.response!.message!.isNotEmpty) {
       prePhotoshootCount++;
     }
   }
@@ -148,7 +148,7 @@ ClientDetailsPageState _setResponses(ClientDetailsPageState previousState, SetCl
     ));
   }
   for(ResponsesListItem response in prePhotoshootResponses) {
-    if(response.response.message != null && response.response.message.isNotEmpty) {
+    if(response.response!.message != null && response.response!.message!.isNotEmpty) {
       result.add(response);
     }
   }
@@ -160,7 +160,7 @@ ClientDetailsPageState _setResponses(ClientDetailsPageState previousState, SetCl
   //Add post photoshoot items
   int postPhotoshootCount = 0;
   for(ResponsesListItem response in postPhotoshootResponses) {
-    if(response.response.message != null && response.response.message.isNotEmpty) {
+    if(response.response!.message != null && response.response!.message!.isNotEmpty) {
       postPhotoshootCount++;
     }
   }
@@ -171,7 +171,7 @@ ClientDetailsPageState _setResponses(ClientDetailsPageState previousState, SetCl
     ));
   }
   for(ResponsesListItem response in postPhotoshootResponses) {
-    if(response.response.message != null && response.response.message.isNotEmpty) {
+    if(response.response!.message != null && response.response!.message!.isNotEmpty) {
       result.add(response);
     }
   }

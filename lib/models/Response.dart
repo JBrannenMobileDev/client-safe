@@ -8,12 +8,12 @@ class Response{
   static const String GROUP_TITLE_PRE_PHOTOSHOOT = 'Pre Photoshoot';
   static const String GROUP_TITLE_POST_PHOTOSHOOT = 'Post Photoshoot';
 
-  int id;
-  String documentId;
-  String title;
-  String message;
-  String parentGroup;
-  String buttonName;
+  int? id;
+  String? documentId;
+  String? title;
+  String? message;
+  String? parentGroup;
+  String? buttonName;
 
   Response({
     this.id,

@@ -56,7 +56,7 @@ class LocationDao extends Equatable{
     }
   }
 
-  static Future<LocationDandy> getById(String locationDocumentId) async{
+  static Future<LocationDandy?> getById(String locationDocumentId) async{
     if((await getAllSortedMostFrequent()).length > 0) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', locationDocumentId));
       final recordSnapshots = await _locationStore.find(await _db, finder: finder);
@@ -117,7 +117,7 @@ class LocationDao extends Equatable{
       finder: finder,
     );
     await LocationCollection().deleteJob(documentId);
-    await FileStorage.deleteLocationFileImage(await getById(documentId));
+    FileStorage.deleteLocationFileImage((await getById(documentId))!);
     _updateLastChangedTime();
 
   }
@@ -224,7 +224,7 @@ class LocationDao extends Equatable{
   static void deleteAllRemote() async {
     List<LocationDandy> locations = await getAllSortedMostFrequent();
     for(LocationDandy location in locations) {
-      await delete(location.documentId);
+      await delete(location.documentId!);
     }
   }
 }

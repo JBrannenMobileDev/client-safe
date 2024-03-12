@@ -47,50 +47,50 @@ import 'pages/clients_page/ClientsPageState.dart';
 
 @immutable
 class AppState {
-  final NewLocationPageState newLocationPageState;
-  final LocationsPageState locationsPageState;
-  final NewPricingProfilePageState pricingProfilePageState;
-  final PricingProfilesPageState pricingProfilesPageState;
-  final NewJobPageState newJobPageState;
-  final NewContactPageState newContactPageState;
-  final DashboardPageState dashboardPageState;
-  final ClientsPageState clientsPageState;
-  final ClientDetailsPageState clientDetailsPageState;
-  final JobsPageState jobsPageState;
-  final CollectionsPageState collectionsPageState;
-  final MainSettingsPageState mainSettingsPageState;
-  final CalendarPageState calendarPageState;
-  final JobDetailsPageState jobDetailsPageState;
-  final NewInvoicePageState newInvoicePageState;
-  final IncomeAndExpensesPageState incomeAndExpensesPageState;
-  final SunsetWeatherPageState sunsetWeatherPageState;
-  final NewSingleExpensePageState newSingleExpensePageState;
-  final NewRecurringExpensePageState newRecurringExpensePageState;
-  final NewMileageExpensePageState newMileageExpensePageState;
-  final MapLocationSelectionWidgetState mapLocationSelectionWidgetState;
-  final LoginPageState loginPageState;
-  final RemindersPageState remindersPageState;
-  final NewReminderPageState newReminderPageState;
-  final NewJobReminderPageState newJobReminderPageState;
-  final JobTypesPageState jobTypesPageState;
-  final NewJobTypePageState newJobTypePageState;
-  final PosesPageState posesPageState;
-  final NewPoseGroupPageState newPoseGroupPageState;
-  final PoseGroupPageState poseGroupPageState;
-  final CalendarSelectionPageState calendarSelectionPageState;
-  final IncomeAndExpenseSettingsPageState incomeAndExpenseSettingsPageState;
-  final PaymentRequestInfoPageState paymentRequestInfoPageState;
-  final ResponsesPageState responsesPageState;
-  final ManageSubscriptionPageState manageSubscriptionPageState;
-  final LibraryPoseGroupPageState libraryPoseGroupPageState;
-  final OnBoardingPageState onBoardingPageState;
-  final UploadPosePageState uploadPosePageState;
-  final ReviewPosesPageState reviewPosesPageState;
-  final ClientPortalPageState clientPortalPageState;
-  final ShareWithClientPageState shareWithClientPageState;
-  final ContractsPageState contractsPageState;
-  final ContractEditPageState contractEditPageState;
-  final EditBrandingPageState editBrandingPageState;
+  final NewLocationPageState? newLocationPageState;
+  final LocationsPageState? locationsPageState;
+  final NewPricingProfilePageState? pricingProfilePageState;
+  final PricingProfilesPageState? pricingProfilesPageState;
+  final NewJobPageState? newJobPageState;
+  final NewContactPageState? newContactPageState;
+  final DashboardPageState? dashboardPageState;
+  final ClientsPageState? clientsPageState;
+  final ClientDetailsPageState? clientDetailsPageState;
+  final JobsPageState? jobsPageState;
+  final CollectionsPageState? collectionsPageState;
+  final MainSettingsPageState? mainSettingsPageState;
+  final CalendarPageState? calendarPageState;
+  final JobDetailsPageState? jobDetailsPageState;
+  final NewInvoicePageState? newInvoicePageState;
+  final IncomeAndExpensesPageState? incomeAndExpensesPageState;
+  final SunsetWeatherPageState? sunsetWeatherPageState;
+  final NewSingleExpensePageState? newSingleExpensePageState;
+  final NewRecurringExpensePageState? newRecurringExpensePageState;
+  final NewMileageExpensePageState? newMileageExpensePageState;
+  final MapLocationSelectionWidgetState? mapLocationSelectionWidgetState;
+  final LoginPageState? loginPageState;
+  final RemindersPageState? remindersPageState;
+  final NewReminderPageState? newReminderPageState;
+  final NewJobReminderPageState? newJobReminderPageState;
+  final JobTypesPageState? jobTypesPageState;
+  final NewJobTypePageState? newJobTypePageState;
+  final PosesPageState? posesPageState;
+  final NewPoseGroupPageState? newPoseGroupPageState;
+  final PoseGroupPageState? poseGroupPageState;
+  final CalendarSelectionPageState? calendarSelectionPageState;
+  final IncomeAndExpenseSettingsPageState? incomeAndExpenseSettingsPageState;
+  final PaymentRequestInfoPageState? paymentRequestInfoPageState;
+  final ResponsesPageState? responsesPageState;
+  final ManageSubscriptionPageState? manageSubscriptionPageState;
+  final LibraryPoseGroupPageState? libraryPoseGroupPageState;
+  final OnBoardingPageState? onBoardingPageState;
+  final UploadPosePageState? uploadPosePageState;
+  final ReviewPosesPageState? reviewPosesPageState;
+  final ClientPortalPageState? clientPortalPageState;
+  final ShareWithClientPageState? shareWithClientPageState;
+  final ContractsPageState? contractsPageState;
+  final ContractEditPageState? contractEditPageState;
+  final EditBrandingPageState? editBrandingPageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -189,50 +189,50 @@ class AppState {
   }
 
   AppState copyWith({
-    NewLocationPageState newLocationPageState,
-    LocationsPageState locationsPageState,
-    NewPricingProfilePageState pricingProfilePageState,
-    PricingProfilesPageState pricingProfilesPageState,
-    NewContactPageState newContactPageState,
-    DashboardPageState dashboardPageState,
-    ClientsPageState clientsPageState,
-    ClientDetailsPageState clientDetailsPageState,
-    JobsPageState jobsPageState,
-    CollectionsPageState collectionsPageState,
-    MainSettingsPageState settingsPageState,
-    NewJobPageState newJobPageState,
-    CalendarPageState calendarPageState,
-    JobDetailsPageState jobDetailsPageState,
-    NewInvoicePageState newInvoicePageState,
-    IncomeAndExpensesPageState incomeAndExpensesPageState,
-    SunsetWeatherPageState sunsetWeatherPageState,
-    NewSingleExpensePageState newSingleExpensePageState,
-    NewRecurringExpensePageState newRecurringExpensePageState,
-    NewMileageExpensePageState newMileageExpensePageState,
-    MapLocationSelectionWidgetState mapLocationSelectionWidgetState,
-    LoginPageState loginPageState,
-    RemindersPageState remindersPageState,
-    NewReminderPageState newReminderPageState,
-    NewJobReminderPageState newJobReminderPageState,
-    JobTypesPageState jobStagesPageState,
-    NewJobTypePageState newJobTypePageState,
-    PosesPageState posesPageState,
-    NewPoseGroupPageState newPoseGroupPageState,
-    PoseGroupPageState poseGroupPageState,
-    CalendarSelectionPageState calendarSelectionPageState,
-    IncomeAndExpenseSettingsPageState incomeAndExpenseSettingsPageState,
-    PaymentRequestInfoPageState paymentRequestInfoPageState,
-    ResponsesPageState responsesPageState,
-    ManageSubscriptionPageState manageSubscriptionPageState,
-    LibraryPoseGroupPageState libraryPoseGroupPageState,
-    OnBoardingPageState onBoardingPageState,
-    UploadPosePageState uploadPosePageState,
-    ReviewPosesPageState reviewPosesPageState,
-    ClientPortalPageState clientPortalPageState,
-    ShareWithClientPageState shareWithClientPageState,
-    ContractsPageState contractsPageState,
-    ContractEditPageState contractEditPageState,
-    EditBrandingPageState editBrandingPageState,
+    NewLocationPageState? newLocationPageState,
+    LocationsPageState? locationsPageState,
+    NewPricingProfilePageState? pricingProfilePageState,
+    PricingProfilesPageState? pricingProfilesPageState,
+    NewContactPageState? newContactPageState,
+    DashboardPageState? dashboardPageState,
+    ClientsPageState? clientsPageState,
+    ClientDetailsPageState? clientDetailsPageState,
+    JobsPageState? jobsPageState,
+    CollectionsPageState? collectionsPageState,
+    MainSettingsPageState? settingsPageState,
+    NewJobPageState? newJobPageState,
+    CalendarPageState? calendarPageState,
+    JobDetailsPageState? jobDetailsPageState,
+    NewInvoicePageState? newInvoicePageState,
+    IncomeAndExpensesPageState? incomeAndExpensesPageState,
+    SunsetWeatherPageState? sunsetWeatherPageState,
+    NewSingleExpensePageState? newSingleExpensePageState,
+    NewRecurringExpensePageState? newRecurringExpensePageState,
+    NewMileageExpensePageState? newMileageExpensePageState,
+    MapLocationSelectionWidgetState? mapLocationSelectionWidgetState,
+    LoginPageState? loginPageState,
+    RemindersPageState? remindersPageState,
+    NewReminderPageState? newReminderPageState,
+    NewJobReminderPageState? newJobReminderPageState,
+    JobTypesPageState? jobStagesPageState,
+    NewJobTypePageState? newJobTypePageState,
+    PosesPageState? posesPageState,
+    NewPoseGroupPageState? newPoseGroupPageState,
+    PoseGroupPageState? poseGroupPageState,
+    CalendarSelectionPageState? calendarSelectionPageState,
+    IncomeAndExpenseSettingsPageState? incomeAndExpenseSettingsPageState,
+    PaymentRequestInfoPageState? paymentRequestInfoPageState,
+    ResponsesPageState? responsesPageState,
+    ManageSubscriptionPageState? manageSubscriptionPageState,
+    LibraryPoseGroupPageState? libraryPoseGroupPageState,
+    OnBoardingPageState? onBoardingPageState,
+    UploadPosePageState? uploadPosePageState,
+    ReviewPosesPageState? reviewPosesPageState,
+    ClientPortalPageState? clientPortalPageState,
+    ShareWithClientPageState? shareWithClientPageState,
+    ContractsPageState? contractsPageState,
+    ContractEditPageState? contractEditPageState,
+    EditBrandingPageState? editBrandingPageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,

@@ -16,12 +16,12 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class PermissionDialog extends StatefulWidget {
-  PermissionDialog({@required this.permission, @required this.isPermanentlyDenied, this.customMessage, this.callOnGranted});
+  PermissionDialog({required this.permission, required this.isPermanentlyDenied, this.customMessage, this.callOnGranted});
 
-  final Permission permission;
-  final bool isPermanentlyDenied;
-  final String customMessage;
-  final Function callOnGranted;
+  final Permission? permission;
+  final bool? isPermanentlyDenied;
+  final String? customMessage;
+  final Function? callOnGranted;
 
   @override
   _PermissionDialogState createState() {
@@ -30,10 +30,10 @@ class PermissionDialog extends StatefulWidget {
 }
 
 class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepAliveClientMixin {
-  final Permission permission;
-  final bool isPermanentlyDenied;
-  final String customMessage;
-  final Function callOnGranted;
+  final Permission? permission;
+  final bool? isPermanentlyDenied;
+  final String? customMessage;
+  final Function? callOnGranted;
 
   _PermissionDialogState(this.permission, this.isPermanentlyDenied, this.customMessage, this.callOnGranted);
 
@@ -61,19 +61,19 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
                             margin: EdgeInsets.only(top: 16, bottom: 16),
                             child: TextDandyLight(
                               type: TextDandyLight.LARGE_TEXT,
-                              text: getTitle(permission),
+                              text: getTitle(permission!),
                             )
                         ),
                         Container(
                           height: 64,
-                          child: Image.asset(getIconFileLocation(permission), color: Color(ColorConstants.getPrimaryBlack()),),
+                          child: Image.asset(getIconFileLocation(permission!), color: Color(ColorConstants.getPrimaryBlack()),),
                         ),
                         Container(
                             margin: EdgeInsets.only(left: 32, right: 32, top: 24, bottom: 32),
                             child: TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
                               textAlign: TextAlign.center,
-                              text: customMessage != null ? customMessage : isPermanentlyDenied ? getBlockedMessage(permission) :  getMessage(permission),
+                              text: customMessage != null ? customMessage : isPermanentlyDenied! ? getBlockedMessage(permission!) :  getMessage(permission!),
                             )
                         ),
                       ],
@@ -104,7 +104,7 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
                               ),
                             ),
                           ),
-                          isPermanentlyDenied ? TextButton(
+                          isPermanentlyDenied! ? TextButton(
                             style: Styles.getButtonStyle(),
                             onPressed: () {
                               openAppSettings();
@@ -128,7 +128,7 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
                           ) : TextButton(
                             style: Styles.getButtonStyle(),
                             onPressed: () async {
-                              PermissionStatus status = await UserPermissionsUtil.requestPermission(permission: permission, callOnGranted: callOnGranted);
+                              PermissionStatus status = await UserPermissionsUtil.requestPermission(permission: permission!, callOnGranted: callOnGranted!);
                               Navigator.pop(context, await status.isGranted);
                             },
                             child: Container(

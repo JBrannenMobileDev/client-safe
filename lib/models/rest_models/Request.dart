@@ -1,8 +1,8 @@
 class Request {
-  final String type;
-  final String query;
-  final String language;
-  final String unit;
+  final String? type;
+  final String? query;
+  final String? language;
+  final String? unit;
 
   const Request({this.type, this.query, this.language, this.unit});
 

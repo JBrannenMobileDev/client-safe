@@ -55,12 +55,12 @@ class PoseSubmittedGroupCollection {
         .doc(uid)
         .get()
         .then((groupSnapshot) {
-      PoseSubmittedGroup result = PoseSubmittedGroup.fromMap(groupSnapshot.data());
+      PoseSubmittedGroup result = PoseSubmittedGroup.fromMap(groupSnapshot.data() as Map<String, dynamic>);
       return result;
     });
   }
 
-  Future<PoseSubmittedGroup> getPoseSubmittedGroup() async {
+  Future<PoseSubmittedGroup?> getPoseSubmittedGroup() async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('env')
@@ -70,7 +70,7 @@ class PoseSubmittedGroupCollection {
         .get()
         .then((groupSnapshot) {
           if(groupSnapshot.data() == null) return null;
-          PoseSubmittedGroup result = PoseSubmittedGroup.fromMap(groupSnapshot.data());
+          PoseSubmittedGroup result = PoseSubmittedGroup.fromMap(groupSnapshot.data() as Map<String, dynamic>);
           return result;
         });
   }

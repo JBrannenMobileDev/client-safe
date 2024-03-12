@@ -96,7 +96,7 @@ class ReminderDao extends Equatable{
     }).toList();
   }
 
-  static Future<ReminderDandyLight> getReminderById(String documentId) async{
+  static Future<ReminderDandyLight?> getReminderById(String documentId) async{
     if((await getAll()).length > 0) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
       final recordSnapshots = await _reminderStore.find(await _db, finder: finder);

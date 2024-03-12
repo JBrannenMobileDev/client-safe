@@ -16,9 +16,9 @@ CalendarSelectionPageState _setWritableCalendars(CalendarSelectionPageState prev
 }
 
 CalendarSelectionPageState _updateSelectedCalendars(CalendarSelectionPageState previousState, UpdateSelectedCalendarsAction action){
-  List<Calendar> updatedSelectedCalendars = previousState.selectedCalendars;
-  if(action.selected) {
-    updatedSelectedCalendars.add(action.selectedCalendar);
+  List<Calendar> updatedSelectedCalendars = previousState.selectedCalendars!;
+  if(action.selected!) {
+    updatedSelectedCalendars.add(action.selectedCalendar!);
   } else {
     updatedSelectedCalendars.remove(action.selectedCalendar);
   }

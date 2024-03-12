@@ -44,7 +44,6 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
             body: CustomScrollView(
               slivers: <Widget>[
                 SliverAppBar(
-                  brightness: Brightness.light,
                   backgroundColor: Color(ColorConstants.getBlueLight()),
                   expandedHeight: 244.0,
                   pinned: true,
@@ -59,7 +58,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                   actions: <Widget>[
                     GestureDetector(
                       onTap: () {
-                        pageState.onEditClientClicked(pageState.client);
+                        pageState.onEditClientClicked!(pageState.client!);
                         UserOptionsUtil.showNewContactDialog(context, false);
                         EventSender().sendEvent(eventName: EventNames.BT_ADD_NEW_CONTACT, properties: {EventNames.CONTACT_PARAM_COMING_FROM : "Client Details Page - Edit"});
                       },
@@ -121,9 +120,9 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                               children: <Widget>[
                                 GestureDetector(
                                   onTap: () {
-                                    if (pageState.client.phone != null &&
-                                        pageState.client.phone.length > 0) {
-                                      onCallPressed(pageState.client.phone);
+                                    if (pageState.client!.phone != null &&
+                                        pageState.client!.phone!.length > 0) {
+                                      onCallPressed(pageState.client!.phone!);
                                     } else {
                                       DandyToastUtil.showErrorToast(
                                           'No phone number saved yet');
@@ -137,8 +136,8 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    if (pageState.client.phone != null && pageState.client.phone.length > 0) {
-                                      onSMSPressed(pageState.client.phone, context);
+                                    if (pageState.client!.phone != null && pageState.client!.phone!.length > 0) {
+                                      onSMSPressed(pageState.client!.phone!, context);
                                     } else {
                                       DandyToastUtil.showErrorToast(
                                           'No phone number saved yet');
@@ -152,9 +151,9 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    if (pageState.client.email != null &&
-                                        pageState.client.email.length > 0) {
-                                      onEmailPressed(pageState.client.email, context);
+                                    if (pageState.client!.email != null &&
+                                        pageState.client!.email!.length > 0) {
+                                      onEmailPressed(pageState.client!.email!, context);
                                     } else {
                                       DandyToastUtil.showErrorToast(
                                           'No email saved yet');
@@ -168,8 +167,8 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    if (pageState.client.instagramProfileUrl != null && pageState.client.instagramProfileUrl.length > 0) {
-                                      IntentLauncherUtil.launchURL(pageState.client.instagramProfileUrl);
+                                    if (pageState.client!.instagramProfileUrl != null && pageState.client!.instagramProfileUrl!.length > 0) {
+                                      IntentLauncherUtil.launchURL(pageState.client!.instagramProfileUrl!);
                                     } else {
                                       DandyToastUtil.showErrorToast(
                                           'No Instagram URL saved yet');
@@ -224,7 +223,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
             new TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteClientClicked();
+                pageState.onDeleteClientClicked!();
                 Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),
@@ -242,7 +241,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
             new TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteClientClicked();
+                pageState.onDeleteClientClicked!();
                 Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),
@@ -254,7 +253,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
   }
 
   int getIconPosition(ClientDetailsPageState pageState, List<String> leadSourceIconsWhite) {
-    return leadSourceIconsWhite.indexOf(pageState.leadSource);
+    return leadSourceIconsWhite.indexOf(pageState.leadSource!);
   }
 
 }

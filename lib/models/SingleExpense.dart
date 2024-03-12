@@ -1,10 +1,10 @@
 import 'package:dandylight/models/Charge.dart';
 
 class SingleExpense {
-  int id;
-  String documentId;
-  String expenseName;
-  Charge charge;
+  int? id;
+  String? documentId;
+  String? expenseName;
+  Charge? charge;
 
 
   SingleExpense({
@@ -18,7 +18,7 @@ class SingleExpense {
     return {
       'documentId' : documentId,
       'expenseName': expenseName,
-      'charge' : charge.toMap(),
+      'charge' : charge!.toMap(),
     };
   }
 

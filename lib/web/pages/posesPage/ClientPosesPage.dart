@@ -33,11 +33,11 @@ class _ClientPosesPageState extends State<ClientPosesPage> {
                     margin: EdgeInsets.only(top: 32, bottom: 48),
                     child: TextDandyLight(
                       type: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextDandyLight.EXTRA_LARGE_TEXT : TextDandyLight.LARGE_TEXT,
-                      fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                      fontFamily: pageState.profile.selectedFontTheme!.mainFont,
                       text: 'Poses',
                     ),
                   ),
-                  StackedGrid(poses: pageState.job.poses),
+                  StackedGrid(poses: pageState.job.poses!),
                 ],
               ),
             ),

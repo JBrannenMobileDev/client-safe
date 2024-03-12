@@ -10,7 +10,7 @@ import '../../utils/StringUtils.dart';
 
 class DiscountCodesRepository {
   Future<String> generateAndSaveCode(String type, String instaUrl) async {
-    DiscountCodes discounts = await DiscountCodesDao.getDiscountCodesByType(type);
+    DiscountCodes? discounts = await DiscountCodesDao.getDiscountCodesByType(type);
     Code code = Code();
     code.id = StringUtils.generateRandomString(6);
     code.instaUrl = instaUrl;
@@ -98,7 +98,7 @@ class DiscountCodesRepository {
               await ProfileDao.update(profile);
             }
             await DiscountCodesDao.update(discount);
-            return result;
+            result = result;
           } else {
             result = false;
           }

@@ -1,7 +1,4 @@
-import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/client_details_page/JobHistoryItem.dart';
-import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
-import 'package:dandylight/pages/dashboard_page/widgets/JobInProgressItem.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -9,8 +6,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
-import '../../../models/JobStage.dart';
-import '../../../utils/JobUtil.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'ClientDetailsPageState.dart';
 
@@ -29,7 +24,6 @@ class JobHistoryListPage extends StatelessWidget{
           CustomScrollView(
             slivers: <Widget>[
               SliverAppBar(
-                brightness: Brightness.light,
                 backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                 pinned: true,
                 floating: false,
@@ -59,9 +53,9 @@ class JobHistoryListPage extends StatelessWidget{
                       controller: _controller,
                       physics: ClampingScrollPhysics(),
                       key: _listKey,
-                      itemCount: pageState.clientJobs.length,
+                      itemCount: pageState.clientJobs!.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return JobHistoryItem(job: pageState.clientJobs.elementAt(index), pageState: pageState,);
+                        return JobHistoryItem(job: pageState.clientJobs!.elementAt(index), pageState: pageState,);
                       },
                     ),
                   ],

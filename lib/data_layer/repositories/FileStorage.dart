@@ -67,20 +67,20 @@ class FileStorage {
     _deleteLocationImageFileFromCloud(location);
   }
 
-  static void deletePoseFileImage(Pose pose) async {
-    _deletePoseImageFileFromCloud(pose);
+  static void deletePoseFileImage(Pose? pose) async {
+    _deletePoseImageFileFromCloud(pose!);
   }
 
   //Intended for flutter web
   static void webDownload(Object bytes, String fileName) {
-    Uri uri = Uri.parse("data:application/octet-stream;base64,${base64Encode(bytes)}");
+    Uri uri = Uri.parse("data:application/octet-stream;base64,${base64Encode(bytes as List<int>)}");
     launchUrl(uri);
   }
 
-  static Future<File> getLocationImageFile(LocationDandy location) async {
+  static Future<File?> getLocationImageFile(LocationDandy location) async {
     final storageRef = FirebaseStorage.instance.ref();
     final cloudFilePath = storageRef.child(location.address == "exampleJob" ? _buildExampleLocationImagePath(location) : _buildLocationImagePath(location));
-    String imageUrl = null;
+    String? imageUrl = null;
     try{
       imageUrl = await cloudFilePath.getDownloadURL();
     } catch(ex) {
@@ -94,8 +94,8 @@ class FileStorage {
     }
   }
 
-  static Future<File> getPoseImageFile(Pose pose, PoseGroup group, bool isLibraryPose, Job job) async {
-    String imageUrl = pose.imageUrl;
+  static Future<File?> getPoseImageFile(Pose pose, PoseGroup group, bool isLibraryPose, Job job) async {
+    String? imageUrl = pose.imageUrl;
     if(imageUrl == null || imageUrl.isEmpty) {
       final storageRef = FirebaseStorage.instance.ref();
       final cloudFilePath = storageRef.child(isLibraryPose ? _buildPoseLibraryImagePath(pose) : _buildPoseImagePath(pose));
@@ -106,7 +106,7 @@ class FileStorage {
   }
 
   static Future<File> getPoseLibraryImageFile(Pose pose, PoseLibraryGroup group) async {
-    String imageUrl = pose.imageUrl;
+    String? imageUrl = pose.imageUrl;
 
     if(imageUrl == null || imageUrl.isEmpty) {
       final storageRef = FirebaseStorage.instance.ref();
@@ -118,7 +118,7 @@ class FileStorage {
   }
 
   static Future<File> getSubmittedPoseImageFile(Pose pose) async {
-    String imageUrl = pose.imageUrl;
+    String? imageUrl = pose.imageUrl;
 
     if(imageUrl == null || imageUrl.isEmpty) {
       final storageRef = FirebaseStorage.instance.ref();
@@ -132,7 +132,7 @@ class FileStorage {
   static _updatePoseLibraryImageUrl(Pose poseToUpdate, String imageUrl, PoseLibraryGroup group) async {
     poseToUpdate.imageUrl = imageUrl;
     if(group != null) {
-      for(Pose pose in group.poses) {
+      for(Pose pose in group.poses!) {
         if(pose.documentId == poseToUpdate.documentId) {
           pose.imageUrl = imageUrl;
         }
@@ -141,14 +141,14 @@ class FileStorage {
     }
   }
 
-  static _updatePoseImageUrl(Pose poseToUpdate, String imageUrl, PoseGroup group, Job job) async {
+  static _updatePoseImageUrl(Pose poseToUpdate, String imageUrl, PoseGroup group, Job? job) async {
     //update Pose
     poseToUpdate.imageUrl = imageUrl;
     await PoseDao.insertOrUpdate(poseToUpdate);
 
     //Update PoseGroup that includes this pose
     if(group != null) {
-      for(Pose pose in group.poses) {
+      for(Pose pose in group.poses!) {
         if(pose.documentId == poseToUpdate.documentId) {
           pose.imageUrl = imageUrl;
         }
@@ -158,15 +158,15 @@ class FileStorage {
 
     //Update Job poses that include this pose
     if(job != null) {
-      job.poses.removeWhere((pose) => pose.documentId == poseToUpdate.documentId);
-      job.poses.add(poseToUpdate);
+      job.poses!.removeWhere((pose) => pose.documentId == poseToUpdate.documentId);
+      job.poses!.add(poseToUpdate);
       JobDao.update(job);
     }
   }
 
   static _updateLibraryPoseImageUrl(Pose poseToUpdate, String imageUrl, PoseLibraryGroup group) async {
     poseToUpdate.imageUrl = imageUrl;
-    for(Pose pose in group.poses) {
+    for(Pose pose in group.poses!) {
       if(pose.documentId == poseToUpdate.documentId) {
         pose.imageUrl = imageUrl;
       }
@@ -177,7 +177,7 @@ class FileStorage {
   static _updateSubmittedPoseImageUrlLarge(Pose poseToUpdate, String imageUrl) async {
     poseToUpdate.imageUrl = imageUrl;
     await PoseDao.update(poseToUpdate);
-    await PoseSubmittedGroupDao.updatePoseInGroup(poseToUpdate, UidUtil().getUid());
+    PoseSubmittedGroupDao.updatePoseInGroup(poseToUpdate, UidUtil().getUid());
   }
 
   static _updateProfileIconImageUrlLarge(Profile profileToUpdate, String imageUrl) async {
@@ -226,7 +226,7 @@ class FileStorage {
       final storageRef = FirebaseStorage.instance.ref();
       final cloudFilePath = await storageRef.child(_buildPoseImagePath(pose));
       String imageUrl = await cloudFilePath.getDownloadURL();
-      poseGroup.poses.firstWhere((groupPose) => groupPose.documentId == pose.documentId)?.imageUrl = imageUrl;
+      poseGroup.poses!.firstWhere((groupPose) => groupPose.documentId == pose.documentId)?.imageUrl = imageUrl;
     }
     await PoseGroupDao.update(poseGroup);
   }

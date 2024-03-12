@@ -6,9 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'Forecast.dart';
 
 class Forecast7Days {
-  Location location;
-  Current current;
-  Forecast forecast;
+  Location? location;
+  Current? current;
+  Forecast? forecast;
 
   Forecast7Days({this.location, this.current, this.forecast});
 
@@ -26,22 +26,22 @@ class Forecast7Days {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.location != null) {
-      data['location'] = this.location.toJson();
+      data['location'] = this.location!.toJson();
     }
     if (this.current != null) {
-      data['current'] = this.current.toJson();
+      data['current'] = this.current!.toJson();
     }
     if (this.forecast != null) {
-      data['forecast'] = this.forecast.toJson();
+      data['forecast'] = this.forecast!.toJson();
     }
     return data;
   }
 
   AssetImage getCurrentWeatherIcon(DateTime sunsetTime){
     AssetImage icon = AssetImage('assets/images/icons/sunny_icon_gold.png');
-    switch(current.condition.code){
+    switch(current!.condition!.code!){
       case 1000:
-        if(location.localtimeEpoch > sunsetTime.millisecondsSinceEpoch){
+        if(location!.localtimeEpoch! > sunsetTime.millisecondsSinceEpoch){
           icon = AssetImage('assets/images/icons/night_icon_gold.png');
         }else{
           icon = AssetImage('assets/images/icons/sunny_icon_gold.png');

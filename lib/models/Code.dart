@@ -1,9 +1,9 @@
 
 class Code {
 
-  String id;
-  String uid;
-  String instaUrl;
+  String? id;
+  String? uid;
+  String? instaUrl;
 
   Code({
     this.id,

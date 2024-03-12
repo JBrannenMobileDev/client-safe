@@ -48,8 +48,7 @@ import 'RequestAppReviewBottomSheet.dart';
 import 'RequestPMFSurveyBottomSheet.dart';
 
 class DashboardPage extends StatelessWidget {
-  const DashboardPage({Key key, this.destination, this.comingFromLogin}) : super(key: key);
-  final DashboardPage destination;
+  const DashboardPage({Key? key, required this.comingFromLogin}) : super(key: key);
   final bool comingFromLogin;
 
   @override
@@ -69,7 +68,7 @@ class DashboardPage extends StatelessWidget {
 
 class HolderPage extends StatefulWidget {
   final bool comingFromLogin;
-  const HolderPage({Key key, this.comingFromLogin}) : super(key: key);
+  const HolderPage({Key? key, required this.comingFromLogin}) : super(key: key);
 
   @override
   _DashboardPageState createState() => _DashboardPageState(comingFromLogin);
@@ -81,7 +80,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
   final GlobalKey _three = GlobalKey();
   final GlobalKey _four = GlobalKey();
 
-  ScrollController _scrollController;
+  ScrollController? _scrollController;
   bool dialVisible = true;
   bool isFabExpanded = false;
   bool comingFromLogin;
@@ -93,11 +92,11 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
 
   _DashboardPageState(this.comingFromLogin);
 
-  AnimationController controller;
-  AnimationController _animationController;
+  AnimationController? controller;
+  AnimationController? _animationController;
 
-  Tween<Offset> offsetUpTween;
-  Tween<Offset> offsetDownTween;
+  Tween<Offset>? offsetUpTween;
+  Tween<Offset>? offsetDownTween;
 
   void _startShowcase() {
     ShowCaseWidget.of(context).startShowCase([_one, _two, _three, _four]);
@@ -123,30 +122,30 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
     if (comingFromLogin) {
       controller = AnimationController(
           duration: const Duration(milliseconds: 500), vsync: this);
-      controller.forward();
+      controller!.forward();
     } else {
       controller = AnimationController(
           duration: const Duration(milliseconds: 0), vsync: this);
-      controller.forward();
+      controller!.forward();
     }
   }
 
   void _runAnimation() async {
     for (int i = 0; i < 4; i++) {
-      await _animationController.forward();
-      await _animationController.reverse();
+      await _animationController!.forward();
+      await _animationController!.reverse();
     }
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    controller!.dispose();
     super.dispose();
   }
 
-  Animation<Offset> get offsetAnimationUp => offsetUpTween.animate(
+  Animation<Offset> get offsetAnimationUp => offsetUpTween!.animate(
         CurvedAnimation(
-          parent: controller,
+          parent: controller!,
           curve: const Interval(
             0.0,
             1.0,
@@ -155,9 +154,9 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
         ),
       );
 
-  Animation<Offset> get offsetAnimationDown => offsetDownTween.animate(
+  Animation<Offset> get offsetAnimationDown => offsetDownTween!.animate(
         CurvedAnimation(
-          parent: controller,
+          parent: controller!,
           curve: const Interval(
             0.0,
             1.0,
@@ -177,7 +176,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
     }
   }
 
-  void _showRestorePurchasesSheet(BuildContext context, String restoreMessage) {
+  void _showRestorePurchasesSheet(BuildContext context, String? restoreMessage) {
     EventSender().sendEvent(eventName: EventNames.BT_RESTORE_PURCHASES_SHEET);
     showModalBottomSheet(
       context: context,
@@ -215,7 +214,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
       backgroundColor: Colors.transparent,
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
-        return const RequestAppReviewBottomSheet();
+        return RequestAppReviewBottomSheet();
       },
     );
   }
@@ -229,7 +228,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
       backgroundColor: Colors.transparent,
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
-        return const RequestPMFSurveyBottomSheet();
+        return RequestPMFSurveyBottomSheet();
       },
     );
   }
@@ -243,7 +242,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
       backgroundColor: Colors.transparent,
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
-        return const AppUpdateBottomSheet();
+        return AppUpdateBottomSheet();
       },
     ).whenComplete( () {
       pageState.markUpdateAsSeen(pageState.appSettings);
@@ -254,7 +253,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
   Future<void> setupInteractedMessage() async {
     // Get any messages which caused the application to open from
     // a terminated state.
-    RemoteMessage initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) {
       _handleMessage(initialMessage);
     }
@@ -309,11 +308,11 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
           }
 
           if(store.state.dashboardPageState.profile != null && store.state.dashboardPageState.profile.shouldShowRestoreSubscription) {
-            String restoreMessage;
+            String? restoreMessage;
 
             if(store.state.dashboardPageState.subscriptionState!= null) {
               if(store.state.dashboardPageState.subscriptionState.entitlements.all['standard'] != null || store.state.dashboardPageState.subscriptionState.entitlements.all['standard_1699'] != null) {
-                if(store.state.dashboardPageState.subscriptionState.entitlements.all['standard'].isActive || store.state.dashboardPageState.subscriptionState.entitlements.all['standard_1699'].isActive) {
+                if(store.state.dashboardPageState.subscriptionState.entitlements.all['standard']!.isActive || store.state.dashboardPageState.subscriptionState.entitlements.all['standard_1699']!.isActive) {
                   restoreMessage = ManageSubscriptionPage.SUBSCRIBED;
                   store.state.dashboardPageState.profile.isSubscribed = true;
                   ProfileDao.update(store.state.dashboardPageState.profile);
@@ -351,7 +350,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
           }
         },
         onDidChange: (previous, current) async {
-          if(!hasSeenAPpUpdate && !previous.shouldShowAppUpdate && current.shouldShowAppUpdate) {
+          if(!hasSeenAPpUpdate && !previous!.shouldShowAppUpdate && current.shouldShowAppUpdate) {
             setState(() {
               hasSeenAPpUpdate = true;
               _showAppUpdateBottomSheet(context, current);
@@ -365,7 +364,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
               goToHasBeenSeen = true;
             });
             current.onGoToSeen();
-          } else if(!previous.shouldShowNewMileageExpensePage && current.shouldShowNewMileageExpensePage) {
+          } else if(!previous!.shouldShowNewMileageExpensePage && current.shouldShowNewMileageExpensePage) {
             UserOptionsUtil.showNewMileageExpenseSelected(context, null);
           } else if(!hasSeenRequestReview && !previous.shouldShowRequestReview && current.shouldShowRequestReview) {
             setState(() {

@@ -96,7 +96,7 @@ class RecurringExpenseDao extends Equatable{
     }).toList();
   }
 
-  static Future<RecurringExpense> getRecurringExpenseById(String documentId) async{
+  static Future<RecurringExpense?> getRecurringExpenseById(String documentId) async{
     if((await getAll()).length > 0) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
       final recordSnapshots = await _recurringExpenseStore.find(await _db, finder: finder);

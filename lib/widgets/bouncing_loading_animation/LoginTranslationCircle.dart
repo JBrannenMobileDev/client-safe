@@ -7,9 +7,9 @@ class LoginTranslationCircle extends AnimatedWidget {
   final AnimationController controller;
 
   LoginTranslationCircle({
-    Key key,
-    @required this.controller,
-    @required this.animations,
+    Key? key,
+    required this.controller,
+    required this.animations,
   }) : super(key: key, listenable: controller);
 
   @override

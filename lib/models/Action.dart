@@ -1,7 +1,7 @@
 class Action{
-  String title;
-  String description;
-  ActionType type;
+  String? title;
+  String? description;
+  ActionType? type;
 
   Action(this.title, this.description, this.type);
 

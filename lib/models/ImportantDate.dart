@@ -9,27 +9,27 @@ class ImportantDate{
   static const String TYPE_WEDDING = "Wedding";
 
 
-  final DateTime date;
-  final String type;
-  final int chipIndex;
+  final DateTime? date;
+  final String? type;
+  final int? chipIndex;
 
   ImportantDate({
-    @required this.date,
-    @required this.type,
-    @required this.chipIndex
+    required this.date,
+    required this.type,
+    required this.chipIndex
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'date' : date.millisecondsSinceEpoch,
+      'date' : date!.millisecondsSinceEpoch,
       'type' : type,
       'chipIndex' : chipIndex
     };
   }
 
-  static ImportantDate fromMap(Map<String, dynamic> map) {
+  static ImportantDate fromMap(Map<String, dynamic>? map) {
     return ImportantDate(
-      date: DateTime.fromMillisecondsSinceEpoch(map['date']),
+      date: DateTime.fromMillisecondsSinceEpoch(map!['date']),
       type: map['type'],
       chipIndex: map['chipIndex'],
     );

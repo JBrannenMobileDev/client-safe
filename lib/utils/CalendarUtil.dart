@@ -42,9 +42,9 @@ class CalendarUtil {
     if (selectedDate != null) {
       for (EventDandyLight event in eventList) {
         if(event.selectedDate != null){
-          if (event.selectedDate.year == selectedYear &&
-              event.selectedDate.month == selectedMonth &&
-              event.selectedDate.day == selectedDay) {
+          if (event.selectedDate!.year == selectedYear &&
+              event.selectedDate!.month == selectedMonth &&
+              event.selectedDate!.day == selectedDay) {
             matchingEvents.add(event);
           }
         }
@@ -78,9 +78,9 @@ class CalendarUtil {
     if (selectedDate != null) {
       for (EventDandyLight event in eventList) {
         if(event.start != null){
-          if (event.start.year == selectedYear &&
-              event.start.month == selectedMonth &&
-              event.start.day == selectedDay) {
+          if (event.start!.year == selectedYear &&
+              event.start!.month == selectedMonth &&
+              event.start!.day == selectedDay) {
             matchingEvents.add(event);
           }
         }
@@ -96,7 +96,7 @@ class CalendarUtil {
   static List<EventDandyLight> _getListOfDeviceCalendarEventsFromEvents(List<EventDandyLight> events) {
     List<EventDandyLight> eventsResult = [];
     for(EventDandyLight event in events){
-      if(event.isPersonalEvent) {
+      if(event.isPersonalEvent!) {
         eventsResult.add(event);
 
       }

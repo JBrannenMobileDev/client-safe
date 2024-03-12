@@ -37,7 +37,7 @@ class IntentLauncherUtil{
     );
   }
 
-  static void downloadWeb(List<int> bytes, {String downloadName,}) {
+  static void downloadWeb(List<int> bytes, {String? downloadName,}) {
     // Encode our file in base64
     final _base64 = base64Encode(bytes);
     // Create the link with the file
@@ -49,7 +49,7 @@ class IntentLauncherUtil{
       anchor.download = downloadName;
     }
     // trigger download
-    html.document.body.append(anchor);
+    html.document.body!.append(anchor);
     anchor.click();
     anchor.remove();
     return;
@@ -74,8 +74,8 @@ class IntentLauncherUtil{
   }
 
   static Future<bool> launchURL(String url) async {
-    Uri uri = Uri.tryParse(url.trimLeft());
-    if (await canLaunchUrl(uri)) {
+    Uri? uri = Uri.tryParse(url.trimLeft());
+    if (await canLaunchUrl(uri!)) {
       await launchUrl(uri, mode: LaunchMode.externalNonBrowserApplication);
       return true;
     } else {
@@ -84,8 +84,8 @@ class IntentLauncherUtil{
   }
 
   static Future<bool> launchURLInternalBrowser(String url) async {
-    Uri uri = Uri.tryParse(url.trimLeft());
-    if (await canLaunchUrl(uri)) {
+    Uri? uri = Uri.tryParse(url.trimLeft());
+    if (await canLaunchUrl(uri!)) {
       await launchUrl(uri, mode: LaunchMode.inAppWebView);
       return true;
     } else {
@@ -135,30 +135,30 @@ class IntentLauncherUtil{
 
   static Future shareDepositRequest(depositAmount) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    String zelleInfo = profile.zellePhoneEmail != null && profile.zellePhoneEmail.isNotEmpty ? '\n\nZelle\n' + 'Add recipient info:\n' + (TextFormatterUtil.isEmail(profile.zellePhoneEmail) ? 'Email: ' : TextFormatterUtil.isPhone(profile.zellePhoneEmail) ? 'Phone: ' : 'Phone or Email') + TextFormatterUtil.formatPhoneOrEmail(profile.zellePhoneEmail) + '\nName: ' + profile.zelleFullName : '';
-    String venmoInfo = profile.venmoLink != null && profile.venmoLink.isNotEmpty ? '\n\nVenmo\n' + profile.venmoLink : '';
-    String cashAppInfo = profile.cashAppLink != null && profile.cashAppLink.isNotEmpty ? '\n\nCash App\n' + profile.cashAppLink : '';
-    String applePayInfo = profile.applePayPhone != null && profile.applePayPhone.isNotEmpty ? '\n\nApple Pay\n' + TextFormatterUtil.formatPhoneNum(profile.applePayPhone) : '';
-    FlutterShare.share(title: profile.businessName + ' Deposit Request', text: 'YOUR MESSAGE GOES HERE\n\nDeposit Amount Due: ' + TextFormatterUtil.formatSimpleCurrency(depositAmount) + (zelleInfo.isNotEmpty || venmoInfo.isNotEmpty || cashAppInfo.isNotEmpty || applePayInfo.isNotEmpty ? '\n\nHere are the forms of payment i accept:' + zelleInfo + venmoInfo + cashAppInfo + applePayInfo : ''));
+    String zelleInfo = profile.zellePhoneEmail != null && profile.zellePhoneEmail!.isNotEmpty ? '\n\nZelle\n' + 'Add recipient info:\n' + (TextFormatterUtil.isEmail(profile.zellePhoneEmail!) ? 'Email: ' : TextFormatterUtil.isPhone(profile.zellePhoneEmail!) ? 'Phone: ' : 'Phone or Email') + TextFormatterUtil.formatPhoneOrEmail(profile.zellePhoneEmail!) + '\nName: ' + profile.zelleFullName! : '';
+    String venmoInfo = profile.venmoLink != null && profile.venmoLink!.isNotEmpty ? '\n\nVenmo\n' + profile!.venmoLink! : '';
+    String cashAppInfo = profile.cashAppLink != null && profile.cashAppLink!.isNotEmpty ? '\n\nCash App\n' + profile!.cashAppLink! : '';
+    String applePayInfo = profile.applePayPhone != null && profile.applePayPhone!.isNotEmpty ? '\n\nApple Pay\n' + TextFormatterUtil.formatPhoneNum(profile.applePayPhone!) : '';
+    FlutterShare.share(title: profile.businessName! + ' Deposit Request', text: 'YOUR MESSAGE GOES HERE\n\nDeposit Amount Due: ' + TextFormatterUtil.formatSimpleCurrency(depositAmount) + (zelleInfo.isNotEmpty || venmoInfo.isNotEmpty || cashAppInfo.isNotEmpty || applePayInfo.isNotEmpty ? '\n\nHere are the forms of payment i accept:' + zelleInfo + venmoInfo + cashAppInfo + applePayInfo : ''));
   }
 
   static Future sharePaymentLinks() async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    String zelleInfo = profile.zellePhoneEmail != null && profile.zellePhoneEmail.isNotEmpty ? '\n\nZelle\n' + 'Add recipient info:\n' + (TextFormatterUtil.isEmail(profile.zellePhoneEmail) ? 'Email: ' : TextFormatterUtil.isPhone(profile.zellePhoneEmail) ? 'Phone: ' : 'Phone or Email') + TextFormatterUtil.formatPhoneOrEmail(profile.zellePhoneEmail) + '\nName: ' + profile.zelleFullName : '';
-    String venmoInfo = profile.venmoLink != null && profile.venmoLink.isNotEmpty ? '\n\nVenmo\n' + profile.venmoLink : '';
-    String cashAppInfo = profile.cashAppLink != null && profile.cashAppLink.isNotEmpty ? '\n\nCash App\n' + profile.cashAppLink : '';
-    String applePayInfo = profile.applePayPhone != null && profile.applePayPhone.isNotEmpty ? '\n\nApple Pay\n' + TextFormatterUtil.formatPhoneNum(profile.applePayPhone) : '';
+    String zelleInfo = profile.zellePhoneEmail != null && profile.zellePhoneEmail!.isNotEmpty ? '\n\nZelle\n' + 'Add recipient info:\n' + (TextFormatterUtil.isEmail(profile.zellePhoneEmail!) ? 'Email: ' : TextFormatterUtil.isPhone(profile.zellePhoneEmail!) ? 'Phone: ' : 'Phone or Email') + TextFormatterUtil.formatPhoneOrEmail(profile.zellePhoneEmail!) + '\nName: ' + profile.zelleFullName! : '';
+    String venmoInfo = profile.venmoLink != null && profile.venmoLink!.isNotEmpty ? '\n\nVenmo\n' + profile.venmoLink! : '';
+    String cashAppInfo = profile.cashAppLink != null && profile.cashAppLink!.isNotEmpty ? '\n\nCash App\n' + profile.cashAppLink! : '';
+    String applePayInfo = profile.applePayPhone != null && profile.applePayPhone!.isNotEmpty ? '\n\nApple Pay\n' + TextFormatterUtil.formatPhoneNum(profile.applePayPhone!) : '';
     FlutterShare.share(title: 'How to pay', text: 'Here are the forms of payment i accept:' + zelleInfo + venmoInfo + cashAppInfo + applePayInfo);
   }
 
   static Future shareInvoice(Invoice invoice) async{
-    File invoiceFile = File(await PdfUtil.getInvoiceFilePath(invoice.invoiceId));
+    File invoiceFile = File(await PdfUtil.getInvoiceFilePath(invoice.invoiceId!));
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    String zelleInfo = profile.zellePhoneEmail != null && profile.zellePhoneEmail.isNotEmpty ? '\n\nZelle\n' + 'Add recipient info:\n' + (TextFormatterUtil.isEmail(profile.zellePhoneEmail) ? 'Email: ' : TextFormatterUtil.isPhone(profile.zellePhoneEmail) ? 'Phone: ' : 'Phone or Email') + TextFormatterUtil.formatPhoneOrEmail(profile.zellePhoneEmail) + '\nName: ' + profile.zelleFullName : '';
-    String venmoInfo = profile.venmoLink != null && profile.venmoLink.isNotEmpty ? '\n\nVenmo\n' + profile.venmoLink : '';
-    String cashAppInfo = profile.cashAppLink != null && profile.cashAppLink.isNotEmpty ? '\n\nCash App\n' + profile.cashAppLink : '';
-    String applePayInfo = profile.applePayPhone != null && profile.applePayPhone.isNotEmpty ? '\n\nApple Pay\n' + TextFormatterUtil.formatPhoneNum(profile.applePayPhone) : '';
-    Share.shareXFiles([XFile(invoiceFile.path)], subject: profile.businessName + ' Invoice', text: profile.businessName + ' Invoice\n\nAmount Due: ' + TextFormatterUtil.formatDecimalCurrency(invoice.unpaidAmount) + '\n\nAccepted forms of payment:' + zelleInfo + venmoInfo + cashAppInfo + applePayInfo);
+    String zelleInfo = profile.zellePhoneEmail != null && profile.zellePhoneEmail!.isNotEmpty ? '\n\nZelle\n' + 'Add recipient info:\n' + (TextFormatterUtil.isEmail(profile.zellePhoneEmail!) ? 'Email: ' : TextFormatterUtil.isPhone(profile.zellePhoneEmail!) ? 'Phone: ' : 'Phone or Email') + TextFormatterUtil.formatPhoneOrEmail(profile.zellePhoneEmail!) + '\nName: ' + profile.zelleFullName! : '';
+    String venmoInfo = profile.venmoLink != null && profile.venmoLink!.isNotEmpty ? '\n\nVenmo\n' + profile.venmoLink! : '';
+    String cashAppInfo = profile.cashAppLink != null && profile.cashAppLink!.isNotEmpty ? '\n\nCash App\n' + profile.cashAppLink! : '';
+    String applePayInfo = profile.applePayPhone != null && profile.applePayPhone!.isNotEmpty ? '\n\nApple Pay\n' + TextFormatterUtil.formatPhoneNum(profile.applePayPhone!) : '';
+    Share.shareXFiles([XFile(invoiceFile.path)], subject: profile.businessName! + ' Invoice', text: profile.businessName! + ' Invoice\n\nAmount Due: ' + TextFormatterUtil.formatDecimalCurrency(invoice.unpaidAmount!) + '\n\nAccepted forms of payment:' + zelleInfo + venmoInfo + cashAppInfo + applePayInfo);
   }
   static Future shareInvoiceById(int invoiceId) async{
     File invoiceFile = File(await PdfUtil.getInvoiceFilePath(invoiceId));

@@ -155,7 +155,7 @@ class DiscountCodesDao extends Equatable{
     }
   }
 
-  static Future<DiscountCodes> getDiscountCodesByType(String type) async{
+  static Future<DiscountCodes?> getDiscountCodesByType(String type) async{
     if((await getAll()).length > 0) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('type', type));
       final recordSnapshots = await _discountCodesStore.find(await _db, finder: finder);

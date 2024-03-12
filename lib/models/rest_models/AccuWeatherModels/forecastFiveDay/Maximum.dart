@@ -1,7 +1,7 @@
 class Maximum {
-  double value;
-  String unit;
-  int unitType;
+  double? value;
+  String? unit;
+  int? unitType;
 
   Maximum({this.value, this.unit, this.unitType});
 

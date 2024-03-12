@@ -1,10 +1,10 @@
 
 class Questionnaire {
 
-  int id;
-  String selectedFilter;
-  double rate;
-  double percentage;
+  int? id;
+  String? selectedFilter;
+  double? rate;
+  double? percentage;
 
   Questionnaire({
     this.id,

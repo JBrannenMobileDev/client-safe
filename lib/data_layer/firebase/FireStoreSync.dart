@@ -76,7 +76,7 @@ class FireStoreSync {
     }
 
     Profile getMatchingProfile(List<Profile> profiles, String uid) {
-        Profile result = null;
+        late Profile result;
         for(Profile profile in profiles) {
             if(profile.uid == uid) {
                 result = profile;
@@ -90,7 +90,7 @@ class FireStoreSync {
             .listen((documentSnapshot) async {
                 bool exists = (await NextInvoiceNumberDao.getAllSorted()).length > 0;
                 if(exists) {
-                    Map<String, dynamic> map = documentSnapshot.data();
+                    Map<String, dynamic> map = documentSnapshot.data() as Map<String, dynamic>;
                     NextInvoiceNumber nextNumber;
                     if(map != null) {
                         nextNumber = NextInvoiceNumber.fromMap(map);
@@ -110,7 +110,7 @@ class FireStoreSync {
         ClientDao.getClientsStreamFromFireStore()
             .listen((snapshots) async {
                 for(DocumentChange snapshot in snapshots.docChanges) {
-                    Client client = Client.fromMap(snapshot.doc.data());
+                    Client client = Client.fromMap(snapshot.doc.data() as Map<String, dynamic>);
                     Client clientFromLocal = await ClientDao.getClientById(client.documentId);
                     if(clientFromLocal != null) {
                         ClientDao.updateLocalOnly(client);
@@ -123,7 +123,7 @@ class FireStoreSync {
         PriceProfileDao.getPriceProfilesStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                PriceProfile priceProfile = PriceProfile.fromMap(snapshot.doc.data());
+                PriceProfile priceProfile = PriceProfile.fromMap(snapshot.doc.data() as Map<String, dynamic>);
                 PriceProfile priceProfileFromLocal = await PriceProfileDao.getById(priceProfile.documentId);
                 if(priceProfileFromLocal != null) {
                     PriceProfileDao.updateLocalOnly(priceProfile);
@@ -136,7 +136,7 @@ class FireStoreSync {
         LocationDao.getLocationsStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                LocationDandy location = LocationDandy.fromMap(snapshot.doc.data());
+                LocationDandy location = LocationDandy.fromMap(snapshot.doc.data() as Map<String, dynamic>);
                 LocationDandy locationFromLocal = await LocationDao.getById(location.documentId);
                 if(locationFromLocal != null) {
                     LocationDao.updateLocalOnly(location);
@@ -149,7 +149,7 @@ class FireStoreSync {
         JobDao.getJobsStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                Job job = Job.fromMap(snapshot.doc.data());
+                Job job = Job.fromMap(snapshot.doc.data() as Map<String, dynamic>);
                 Job jobFromLocal = await JobDao.getJobById(job.documentId);
                 if(jobFromLocal != null) {
                     JobDao.updateLocalOnly(job);
@@ -162,7 +162,7 @@ class FireStoreSync {
         InvoiceDao.getInvoicesStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                Invoice invoice = Invoice.fromMap(snapshot.doc.data());
+                Invoice invoice = Invoice.fromMap(snapshot.doc.data() as Map<String, dynamic>);
                 Invoice invoiceFromLocal = await InvoiceDao.getInvoiceById(invoice.documentId);
                 if(invoiceFromLocal != null) {
                     InvoiceDao.updateLocalOnly(invoice);
@@ -175,7 +175,7 @@ class FireStoreSync {
         MileageExpenseDao.getMileageExpensesStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                MileageExpense expense = MileageExpense.fromMap(snapshot.doc.data());
+                MileageExpense expense = MileageExpense.fromMap(snapshot.doc.data() as Map<String, dynamic>);
                 MileageExpense expenseFromLocal = await MileageExpenseDao.getMileageExpenseById(expense.documentId);
                 if(expenseFromLocal != null) {
                     MileageExpenseDao.updateLocalOnly(expense);
@@ -188,7 +188,7 @@ class FireStoreSync {
         RecurringExpenseDao.getRecurringExpensesStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                RecurringExpense expense = RecurringExpense.fromMap(snapshot.doc.data());
+                RecurringExpense expense = RecurringExpense.fromMap(snapshot.doc.data() as Map<String, dynamic>);
                 RecurringExpense expenseFromLocal = await RecurringExpenseDao.getRecurringExpenseById(expense.documentId);
                 if(expenseFromLocal != null) {
                     RecurringExpenseDao.updateLocalOnly(expense);
@@ -201,7 +201,7 @@ class FireStoreSync {
         SingleExpenseDao.getSingleExpensesStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                SingleExpense expense = SingleExpense.fromMap(snapshot.doc.data());
+                SingleExpense expense = SingleExpense.fromMap(snapshot.doc.data() as Map<String, dynamic>);
                 SingleExpense expenseFromLocal = await SingleExpenseDao.getSingleExpenseById(expense.documentId);
                 if(expenseFromLocal != null) {
                     SingleExpenseDao.updateLocalOnly(expense);
@@ -214,7 +214,7 @@ class FireStoreSync {
         ReminderDao.getReminderStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                ReminderDandyLight reminder = ReminderDandyLight.fromMap(snapshot.doc.data());
+                ReminderDandyLight reminder = ReminderDandyLight.fromMap(snapshot.doc.data() as Map<String, dynamic>);
                 ReminderDandyLight reminderFromLocal = await ReminderDao.getReminderById(reminder.documentId);
                 if(reminderFromLocal != null) {
                     ReminderDao.updateLocalOnly(reminder);
@@ -227,7 +227,7 @@ class FireStoreSync {
         JobReminderDao.getReminderStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                JobReminder reminder = JobReminder.fromMap(snapshot.doc.data());
+                JobReminder reminder = JobReminder.fromMap(snapshot.doc.data() as Map<String, dynamic>);
                 JobReminder reminderFromLocal = await JobReminderDao.getReminderById(reminder.documentId);
                 if(reminderFromLocal != null) {
                     JobReminderDao.updateLocalOnly(reminder);
@@ -240,7 +240,7 @@ class FireStoreSync {
         JobTypeDao.getJobTypeStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                JobType jobType = JobType.fromMap(snapshot.doc.data());
+                JobType jobType = JobType.fromMap(snapshot.doc.data() as Map<String, dynamic>);
                 JobType jobTypeFromLocal = await JobTypeDao.getJobTypeById(jobType.documentId);
                 if(jobTypeFromLocal != null) {
                     JobTypeDao.updateLocalOnly(jobType);
@@ -253,7 +253,7 @@ class FireStoreSync {
         ContractDao.getContractsStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                Contract contract = Contract.fromMap(snapshot.doc.data());
+                Contract contract = Contract.fromMap(snapshot.doc.data() as Map<String, dynamic>);
                 Contract contractFromLocal = await ContractDao.getById(contract.documentId);
                 if(contractFromLocal != null) {
                     ContractDao.updateLocalOnly(contract);
@@ -266,7 +266,7 @@ class FireStoreSync {
         PoseDao.getPosesStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                Pose pose = Pose.fromMap(snapshot.doc.data());
+                Pose pose = Pose.fromMap(snapshot.doc.data() as Map<String, dynamic>);
                 Pose poseFromLocal = await PoseDao.getById(pose.documentId);
                 if(poseFromLocal != null) {
                     PoseDao.updateLocalOnly(pose);
@@ -279,7 +279,7 @@ class FireStoreSync {
         PoseGroupDao.getPoseGroupsStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                PoseGroup poseGroup = PoseGroup.fromMap(snapshot.doc.data());
+                PoseGroup poseGroup = PoseGroup.fromMap(snapshot.doc.data() as Map<String, dynamic>);
                 PoseGroup poseGroupFromLocal = await PoseGroupDao.getById(poseGroup.documentId);
                 if(poseGroupFromLocal != null) {
                     PoseGroupDao.updateLocalOnly(poseGroup);
@@ -292,7 +292,7 @@ class FireStoreSync {
         ResponseDao.getResponsesStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                Response response = Response.fromMap(snapshot.doc.data());
+                Response response = Response.fromMap(snapshot.doc.data() as Map<String, dynamic>);
                 Response responseFromLocal = await ResponseDao.getResponseById(response.documentId);
                 if(responseFromLocal != null) {
                     ResponseDao.updateLocalOnly(response);
@@ -542,7 +542,7 @@ class FireStoreSync {
   void updateJobToSessionCompleted(Job job) async {
       List<JobStage> completedJobStages = job.completedStages.toList();
       JobStage stageToComplete = job.type.stages.firstWhere((stage) => stage.stage == JobStage.STAGE_7_SESSION_COMPLETE);
-      int stageIndex = null;
+      int? stageIndex;
 
       for(int index = 0; index < job.type.stages.length; index++) {
           if(job.type.stages.elementAt(index).stage == JobStage.STAGE_7_SESSION_COMPLETE) {

@@ -11,8 +11,8 @@ import 'EventNames.dart';
 
 class EventSender {
   static final EventSender _instance = EventSender._internal();
-  Mixpanel _mixpanel;
-  DeviceInfo _deviceInfo;
+  Mixpanel? _mixpanel;
+  DeviceInfo? _deviceInfo;
   String _mixpanelTokenProd = "b68c6458df27e9e215eafc6e5e8d5019";
   String _mixpanelTokenStage = "b68c6458df27e9e215eafc6e5e8d5019";
   String _mixpanelTokenDev = "efb6a18dfd40f8417215c7e506109913";
@@ -50,10 +50,10 @@ class EventSender {
   /// converting [DeviceInfo] into map
   Map<String, String> get metaData {
     return {
-      'deviceIdentifier': _deviceInfo.deviceIdentifier,
-      'os': _deviceInfo.os,
-      'device': _deviceInfo.device,
-      'appVersion': _deviceInfo.appVersion,
+      'deviceIdentifier': _deviceInfo!.deviceIdentifier,
+      'os': _deviceInfo!.os,
+      'device': _deviceInfo!.device,
+      'appVersion': _deviceInfo!.appVersion,
     };
   }
 
@@ -63,41 +63,41 @@ class EventSender {
 
   void reset() {
     if(_mixpanel != null) {
-      _mixpanel.reset();
+      _mixpanel!.reset();
     }
   }
 
   void setUserIdentity(String uid) async {
     if (uid.isNotEmpty && _instance != null && _mixpanel != null) {
-      await _mixpanel.identify(uid);
+      _mixpanel!.identify(uid);
     }
   }
 
   void setUserProfileData(String name, Object data) async {
     if (name.isNotEmpty && data != null && _instance != null && _mixpanel != null) {
-      await _mixpanel.getPeople().set(name, data);
+      _mixpanel!.getPeople().set(name, data);
     }
   }
 
   void setUserSuperPropertiesOnce(String name, String data) async {
     if (name.isNotEmpty && data.isNotEmpty && _instance != null && _mixpanel != null) {
-      await _mixpanel.registerSuperPropertiesOnce({name : data});
+      _mixpanel!.registerSuperPropertiesOnce({name : data});
     }
   }
 
   void setUserSuperProperties(String name, String data) async {
     if (name.isNotEmpty && data.isNotEmpty && _instance != null && _mixpanel != null) {
-      await _mixpanel.registerSuperProperties({name : data});
+      _mixpanel!.registerSuperProperties({name : data});
     }
   }
 
   void sendEvent({
-    @required String eventName,
-    Map<String, Object> properties,
+    required String eventName,
+    Map<String, Object>? properties,
   }) async {
     if (_instance != null && _mixpanel != null) {
       properties ??= {};
-      await _mixpanel.track(eventName, properties: properties);
+      _mixpanel!.track(eventName, properties: properties);
     }
   }
 }

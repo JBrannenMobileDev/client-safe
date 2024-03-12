@@ -36,10 +36,10 @@ class PoseSubmittedGroupDao extends Equatable{
   }
 
   static Future<PoseSubmittedGroup> insertOrUpdate(PoseSubmittedGroup pose) async {
-    List<PoseSubmittedGroup> poseList = await getAllSortedMostFrequent();
+    List<PoseSubmittedGroup?> poseList = await getAllSortedMostFrequent();
     bool alreadyExists = false;
-    for(PoseSubmittedGroup singlePoseSubmittedGroup in poseList){
-      if(singlePoseSubmittedGroup.uid == pose.uid){
+    for(PoseSubmittedGroup? singlePoseSubmittedGroup in poseList){
+      if(singlePoseSubmittedGroup!.uid == pose.uid){
         alreadyExists = true;
       }
     }
@@ -50,7 +50,7 @@ class PoseSubmittedGroupDao extends Equatable{
     }
   }
 
-  static Future<PoseSubmittedGroup> getByUid(String uid) async{
+  static Future<PoseSubmittedGroup?> getByUid(String uid) async{
     if((await getAllSortedMostFrequent()).length > 0) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('uid', uid));
       final recordSnapshots = await _PoseSubmittedGroupGroupStore.find(await _db, finder: finder);
@@ -99,13 +99,11 @@ class PoseSubmittedGroupDao extends Equatable{
     await _PoseSubmittedGroupGroupStore.delete(
       await _db,
       finder: finder,
-    ).onError(
-            (error, stackTrace) => null
     );
     await PoseSubmittedGroupCollection().deletePoseSubmittedGroup(uid);
   }
 
-  static Future<List<PoseSubmittedGroup>> getAllSortedMostFrequent() async {
+  static Future<List<PoseSubmittedGroup?>> getAllSortedMostFrequent() async {
     final finder = sembast.Finder(sortOrders: [
       sembast.SortOrder('numOfSessionsAtThisPoseSubmittedGroup'),
     ]);
@@ -136,15 +134,15 @@ class PoseSubmittedGroupDao extends Equatable{
         await _syncFireStoreToLocal(null, group);
       });
     } else {
-      PoseSubmittedGroup poseSubmittedGroup = await getByUid(UidUtil().getUid());
-      PoseSubmittedGroup fireStorePoseSubmittedGroup = await PoseSubmittedGroupCollection().getPoseSubmittedGroup();
-      await _syncFireStoreToLocal(poseSubmittedGroup, fireStorePoseSubmittedGroup);
+      PoseSubmittedGroup? poseSubmittedGroup = await getByUid(UidUtil().getUid());
+      PoseSubmittedGroup? fireStorePoseSubmittedGroup = await PoseSubmittedGroupCollection().getPoseSubmittedGroup();
+      await _syncFireStoreToLocal(poseSubmittedGroup!, fireStorePoseSubmittedGroup!);
     }
   }
 
-  static Future<void> _deleteAllLocalPoseSubmittedGroups(List<PoseSubmittedGroup> allLocalPoseSubmittedGroups) async {
-    for(PoseSubmittedGroup location in allLocalPoseSubmittedGroups) {
-      final finder = sembast.Finder(filter: sembast.Filter.equals('uid', location.uid));
+  static Future<void> _deleteAllLocalPoseSubmittedGroups(List<PoseSubmittedGroup?> allLocalPoseSubmittedGroups) async {
+    for(PoseSubmittedGroup? location in allLocalPoseSubmittedGroups) {
+      final finder = sembast.Finder(filter: sembast.Filter.equals('uid', location!.uid));
       await _PoseSubmittedGroupGroupStore.delete(
         await _db,
         finder: finder,
@@ -152,7 +150,7 @@ class PoseSubmittedGroupDao extends Equatable{
     }
   }
 
-  static Future<void> _syncFireStoreToLocal(PoseSubmittedGroup localPoseSubmittedGroup, PoseSubmittedGroup fireStorePoseSubmittedGroup) async {
+  static Future<void> _syncFireStoreToLocal(PoseSubmittedGroup? localPoseSubmittedGroup, PoseSubmittedGroup fireStorePoseSubmittedGroup) async {
     if(fireStorePoseSubmittedGroup != null) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('uid', fireStorePoseSubmittedGroup.uid));
       await _PoseSubmittedGroupGroupStore.update(
@@ -183,7 +181,7 @@ class PoseSubmittedGroupDao extends Equatable{
   }
 
   static void addNewSubmission(Pose pose) async {
-    PoseSubmittedGroup group = await getByUid(UidUtil().getUid());
+    PoseSubmittedGroup? group = await getByUid(UidUtil().getUid());
     if(group == null) {
       List<Pose> poses = [];
       poses.add(pose);
@@ -195,14 +193,14 @@ class PoseSubmittedGroupDao extends Equatable{
       );
     } else {
       group.needsReview = true;
-      group.poses.add(pose);
+      group.poses!.add(pose);
     }
     await insertOrUpdate(group);
   }
 
   static void updatePoseInGroup(Pose poseToSave, String uid) async {
-    PoseSubmittedGroup group = await getByUid(uid);
-    group.poses.forEach((pose) {
+    PoseSubmittedGroup? group = await getByUid(uid);
+    group!.poses!.forEach((pose) {
       if(pose.documentId == poseToSave.documentId) {
         pose.imageUrl = poseToSave.imageUrl;
       }
@@ -221,7 +219,7 @@ class PoseSubmittedGroupDao extends Equatable{
   List<Object> get props => [];
 
   static void deleteAllLocal() async {
-    List<PoseSubmittedGroup> locations = await getAllSortedMostFrequent();
-    _deleteAllLocalPoseSubmittedGroups(locations);
+    List<PoseSubmittedGroup?> locations = await getAllSortedMostFrequent();
+    _deleteAllLocalPoseSubmittedGroups(locations!);
   }
 }

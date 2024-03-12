@@ -54,7 +54,7 @@ class DiscountCodesCollection {
   List<DiscountCodes> _buildDiscountCodesList(QuerySnapshot jobs) {
     List<DiscountCodes> list = [];
     for(DocumentSnapshot snapshot in jobs.docs){
-      DiscountCodes discount = DiscountCodes.fromMap(snapshot.data());
+      DiscountCodes discount = DiscountCodes.fromMap(snapshot.data() as Map<String, dynamic>);
       list.add(discount);
     }
     return list;
@@ -77,7 +77,7 @@ class DiscountCodesCollection {
         .doc(type)
         .get()
         .then((discountCodes) {
-          DiscountCodes discounts = DiscountCodes.fromMap(discountCodes.data());
+          DiscountCodes discounts = DiscountCodes.fromMap(discountCodes.data() as Map<String, dynamic>);
           return discounts;
         })
         .catchError((error) => print(error));

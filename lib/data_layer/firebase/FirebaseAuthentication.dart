@@ -1,18 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dandylight/data_layer/local_db/daos/ContractDao.dart';
-import 'package:dandylight/data_layer/local_db/daos/InvoiceDao.dart';
-import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
-import 'package:dandylight/data_layer/local_db/daos/PoseDao.dart';
-import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../utils/EnvironmentUtil.dart';
 
 class FirebaseAuthentication {
-  Future<User> handleSignIn(String email, String password) async {
+  Future<User?> handleSignIn(String email, String password) async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
-    return (await _auth.signInWithEmailAndPassword(email: null, password: null)).user;
+    return (await _auth.signInWithEmailAndPassword(email: email, password: password)).user;
   }
 
   Future<void> signOut() async {
@@ -24,9 +19,9 @@ class FirebaseAuthentication {
     final FirebaseAuth _auth = FirebaseAuth.instance;
 
     try {
-      User user = await _auth.currentUser;
+      User? user = _auth.currentUser;
       AuthCredential credentials = EmailAuthProvider.credential(email: email, password: password);
-      await user.reauthenticateWithCredential(credentials);
+      await user?.reauthenticateWithCredential(credentials);
       return true;
     } catch (e) {
       print(e.toString());
@@ -35,10 +30,10 @@ class FirebaseAuthentication {
   }
   
   void deleteAccount(String password, String email) async {
-    await FirebaseAuth.instance.currentUser.delete();
+    await FirebaseAuth.instance.currentUser?.delete();
   }
 
-  Future<User> registerFirebaseUser(String email, String password, FirebaseAuth auth) async {
+  Future<User?> registerFirebaseUser(String email, String password, FirebaseAuth auth) async {
     return (await auth.createUserWithEmailAndPassword(
           email: email,
           password: password,

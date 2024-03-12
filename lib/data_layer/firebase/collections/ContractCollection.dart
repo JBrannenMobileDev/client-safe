@@ -17,7 +17,7 @@ class ContractCollection {
         .set(contract.toMap());
   }
 
-  Future<void> deleteJob(String documentId) async {
+  Future<void> deleteJob(String? documentId) async {
     try {
       final databaseReference = FirebaseFirestore.instance;
       await databaseReference
@@ -54,7 +54,7 @@ class ContractCollection {
         .doc(documentId)
         .get()
         .then((contractSnapshot) {
-          Contract result = Contract.fromMap(contractSnapshot.data());
+          Contract result = Contract.fromMap(contractSnapshot.data() as Map<String, dynamic>);
           result.documentId = contractSnapshot.id;
           return result;
         });
@@ -93,7 +93,7 @@ class ContractCollection {
   List<Contract> _buildContractsList(QuerySnapshot contracts) {
     List<Contract> contractsList = [];
     for(DocumentSnapshot contractSnapshot in contracts.docs){
-      Contract result = Contract.fromMap(contractSnapshot.data());
+      Contract result = Contract.fromMap(contractSnapshot.data() as Map<String, dynamic>);
       result.documentId = contractSnapshot.id;
       contractsList.add(result);
     }

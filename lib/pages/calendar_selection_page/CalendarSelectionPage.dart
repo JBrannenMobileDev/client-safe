@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class CalendarSelectionPage extends StatefulWidget {
-  final Function(bool) onCalendarChanged;
+  final Function(bool)? onCalendarChanged;
 
   CalendarSelectionPage(this.onCalendarChanged);
 
@@ -22,7 +22,7 @@ class CalendarSelectionPage extends StatefulWidget {
 class _CalendarSelectionPageState extends State<CalendarSelectionPage> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   ScrollController _controller = ScrollController();
-  final Function(bool) onCalendarPermissionsChanged;
+  final Function(bool)? onCalendarPermissionsChanged;
 
   _CalendarSelectionPageState(this.onCalendarPermissionsChanged);
 
@@ -49,7 +49,7 @@ class _CalendarSelectionPageState extends State<CalendarSelectionPage> {
                   alignment: Alignment.centerLeft,
                   child: GestureDetector(
                     onTap: () {
-                      pageState.onCancelSelected();
+                      pageState.onCancelSelected!();
                       Navigator.pop(context);
                     },
                     child: Icon(
@@ -90,7 +90,7 @@ class _CalendarSelectionPageState extends State<CalendarSelectionPage> {
                               controller: _controller,
                               physics: ClampingScrollPhysics(),
                               key: _listKey,
-                              itemCount: pageState.writableCalendars.length,
+                              itemCount: pageState.writableCalendars!.length,
                               itemBuilder: _buildItem,
                             ),
                           ],
@@ -104,9 +104,9 @@ class _CalendarSelectionPageState extends State<CalendarSelectionPage> {
                   child: GestureDetector(
                     onTap: () {
                       if(onCalendarPermissionsChanged != null) {
-                        onCalendarPermissionsChanged(true);
+                        onCalendarPermissionsChanged!(true);
                       }
-                      pageState.onSaveSelected();
+                      pageState.onSaveSelected!();
                       Navigator.pop(context);
                     },
                     child: Container(

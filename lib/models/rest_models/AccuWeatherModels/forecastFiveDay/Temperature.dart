@@ -3,8 +3,8 @@ import 'Maximum.dart';
 import 'Minimum.dart';
 
 class Temperature {
-  Minimum minimum;
-  Maximum maximum;
+  Minimum? minimum;
+  Maximum? maximum;
 
   Temperature({this.minimum, this.maximum});
 
@@ -18,10 +18,10 @@ class Temperature {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.minimum != null) {
-      data['Minimum'] = this.minimum.toJson();
+      data['Minimum'] = this.minimum!.toJson();
     }
     if (this.maximum != null) {
-      data['Maximum'] = this.maximum.toJson();
+      data['Maximum'] = this.maximum!.toJson();
     }
     return data;
   }

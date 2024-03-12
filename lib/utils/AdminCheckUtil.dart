@@ -14,8 +14,8 @@ class AdminCheckUtil {
     'dandylightprodtest2@mailinator.com'
   ];
 
-  static bool isAdmin(Profile profile) {
-    String email = profile.email != null ? profile.email : '';
+  static bool isAdmin(Profile? profile) {
+    String email = profile!.email! != null ? profile!.email! : '';
     return ADMIN_EMAILS.contains(email.toLowerCase());
   }
 }

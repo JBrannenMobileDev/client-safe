@@ -54,7 +54,7 @@ class LocationCollection {
         .doc(documentId)
         .get()
         .then((locationSnapshot) {
-          LocationDandy result = LocationDandy.fromMap(locationSnapshot.data());
+          LocationDandy result = LocationDandy.fromMap(locationSnapshot.data() as Map<String, dynamic>);
           result.documentId = locationSnapshot.id;
           return result;
         });
@@ -91,9 +91,9 @@ class LocationCollection {
   }
 
   List<LocationDandy> _buildLocationsList(QuerySnapshot locations) {
-    List<LocationDandy> locationsList = List();
+    List<LocationDandy> locationsList = [];
     for(DocumentSnapshot locationSnapshot in locations.docs){
-      LocationDandy result = LocationDandy.fromMap(locationSnapshot.data());
+      LocationDandy result = LocationDandy.fromMap(locationSnapshot.data() as Map<String, dynamic>);
       result.documentId = locationSnapshot.id;
       locationsList.add(result);
     }

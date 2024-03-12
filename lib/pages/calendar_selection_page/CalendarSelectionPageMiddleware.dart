@@ -24,7 +24,7 @@ class CalendarSelectionPageMiddleware extends MiddlewareClass<AppState> {
 
   void saveSelectedCalendars(Store<AppState> store, NextDispatcher next, SaveSelectedAction action) async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.calendarIdsToSync = action.pageState.selectedCalendars.map((calendar) => calendar.id).toList();
+    profile.calendarIdsToSync = action.pageState!.selectedCalendars!.map((calendar) => calendar.id).toList();
     profile.calendarEnabled = true;
     await ProfileDao.update(profile);
 

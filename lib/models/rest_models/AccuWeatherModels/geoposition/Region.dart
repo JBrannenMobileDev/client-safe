@@ -1,7 +1,7 @@
 class Region {
-  String iD;
-  String localizedName;
-  String englishName;
+  String? iD;
+  String? localizedName;
+  String? englishName;
 
   Region({this.iD, this.localizedName, this.englishName});
 

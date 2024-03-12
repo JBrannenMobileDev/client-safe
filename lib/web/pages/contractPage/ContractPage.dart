@@ -19,21 +19,21 @@ import '../ClientPortalPageState.dart';
 import 'package:redux/redux.dart';
 
 class ContractPage extends StatefulWidget {
-  final ScrollController scrollController;
+  final ScrollController? scrollController;
 
   ContractPage({this.scrollController});
 
   @override
   State<StatefulWidget> createState() {
-    return _ContractPageState(scrollController);
+    return _ContractPageState(scrollController!);
   }
 }
 
 class _ContractPageState extends State<ContractPage> {
-  TextEditingController _clientSignatureController = TextEditingController();
-  final FocusNode contractFocusNode = FocusNode();
-  quill.QuillController _controller;
-  final ScrollController scrollController;
+  TextEditingController? _clientSignatureController = TextEditingController();
+  final FocusNode? contractFocusNode = FocusNode();
+  quill.QuillController? _controller;
+  final ScrollController? scrollController;
   bool isHoveredSubmit = false;
   bool isHoveredDownloadPDF = false;
   bool isHoveredScrollDown = false;
@@ -41,8 +41,8 @@ class _ContractPageState extends State<ContractPage> {
   _ContractPageState(this.scrollController);
 
   void _scrollDown() {
-    scrollController.animateTo(
-      scrollController.position.maxScrollExtent,
+    scrollController!.animateTo(
+      scrollController!.position.maxScrollExtent,
       duration: Duration(seconds: 2),
       curve: Curves.fastOutSlowIn,
     );
@@ -52,17 +52,17 @@ class _ContractPageState extends State<ContractPage> {
   Widget build(BuildContext context) =>
       StoreConnector<AppState, ClientPortalPageState>(
         onInit: (current) {
-          if(current.state.clientPortalPageState.proposal.contract.clientSignature != null && current.state.clientPortalPageState.proposal.contract.clientSignature.length > 0) {
-            _clientSignatureController.text = current.state.clientPortalPageState.proposal.contract.clientSignature;
+          if(current.state.clientPortalPageState!.proposal.contract!.clientSignature != null && current.state.clientPortalPageState!.proposal.contract!.clientSignature!.length > 0) {
+            _clientSignatureController!.text = current.state.clientPortalPageState!.proposal.contract!.clientSignature!;
           }
 
           _controller = quill.QuillController(
-              document: quill.Document.fromJson(jsonDecode(current.state.clientPortalPageState.proposal.contract.jsonTerms)),
+              document: quill.Document.fromJson(jsonDecode(current.state.clientPortalPageState!.proposal.contract!.jsonTerms!)),
               selection: TextSelection.collapsed(offset: 0)
           );
         },
         onDidChange: (previous, current) {
-          if (previous.errorMsg.isEmpty && current.errorMsg.isNotEmpty) {
+          if (previous!.errorMsg.isEmpty && current.errorMsg.isNotEmpty) {
             // DandyToastUtil.showErrorToast(current.errorMsg);  dont need to show an error message for now.
             current.resetErrorMsg();
           }
@@ -92,6 +92,17 @@ class _ContractPageState extends State<ContractPage> {
                         child: Column(
                           children: [
                             MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              onHover: (event) {
+                                setState(() {
+                                  isHoveredDownloadPDF = true;
+                                });
+                              },
+                              onExit: (event) {
+                                setState(() {
+                                  isHoveredDownloadPDF = false;
+                                });
+                              },
                               child: GestureDetector(
                                 onTap: () {
                                   pageState.onDownloadContractSelected();
@@ -105,7 +116,7 @@ class _ContractPageState extends State<ContractPage> {
                                   margin: EdgeInsets.only(bottom: 8),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(24),
-                                      color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor),
+                                      color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.buttonColor!),
                                   ),
                                   child: Row(
                                     mainAxisAlignment: DeviceType
@@ -133,19 +144,19 @@ class _ContractPageState extends State<ContractPage> {
                                   ),
                                 ),
                               ),
+                            ),
+                            MouseRegion(
                               cursor: SystemMouseCursors.click,
                               onHover: (event) {
                                 setState(() {
-                                  isHoveredDownloadPDF = true;
+                                  isHoveredScrollDown = true;
                                 });
                               },
                               onExit: (event) {
                                 setState(() {
-                                  isHoveredDownloadPDF = false;
+                                  isHoveredScrollDown = false;
                                 });
                               },
-                            ),
-                            MouseRegion(
                               child: GestureDetector(
                                 onTap: () {
                                   _scrollDown();
@@ -159,7 +170,7 @@ class _ContractPageState extends State<ContractPage> {
                                   margin: EdgeInsets.only(bottom: 8),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(24),
-                                      color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor),
+                                      color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.buttonColor!),
                                   ),
                                   child: Row(
                                     mainAxisAlignment: DeviceType
@@ -189,17 +200,6 @@ class _ContractPageState extends State<ContractPage> {
                                   ),
                                 ),
                               ),
-                              cursor: SystemMouseCursors.click,
-                              onHover: (event) {
-                                setState(() {
-                                  isHoveredScrollDown = true;
-                                });
-                              },
-                              onExit: (event) {
-                                setState(() {
-                                  isHoveredScrollDown = false;
-                                });
-                              },
                             )
                           ],
                         ),
@@ -229,10 +229,27 @@ class _ContractPageState extends State<ContractPage> {
                     width: double.infinity,
                     alignment: Alignment.center,
                     child: MouseRegion(
+                      cursor: pageState.proposal.contract!.signedByClient!
+                          ? SystemMouseCursors.basic
+                          : SystemMouseCursors.click,
+                      onHover: (event) {
+                        if (!pageState.proposal.contract!.signedByClient!) {
+                          setState(() {
+                            isHoveredSubmit = true;
+                          });
+                        }
+                      },
+                      onExit: (event) {
+                        if (!pageState.proposal.contract!.signedByClient!) {
+                          setState(() {
+                            isHoveredSubmit = false;
+                          });
+                        }
+                      },
                       child: GestureDetector(
                         onTap: () {
-                          if (!pageState.proposal.contract.signedByClient) {
-                            pageState.onClientSignatureSaved(_clientSignatureController.text);
+                          if (!pageState.proposal.contract!.signedByClient!) {
+                            pageState.onClientSignatureSaved(_clientSignatureController!.text);
                           }
                         },
                         child: Container(
@@ -244,7 +261,7 @@ class _ContractPageState extends State<ContractPage> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(24),
                               color: Color(
-                                  pageState.proposal.contract.signedByClient
+                                  pageState.proposal.contract!.signedByClient!
                                       ? ColorConstants
                                       .getPrimaryBackgroundGrey()
                                       : ColorConstants.getPeachDark())),
@@ -254,30 +271,13 @@ class _ContractPageState extends State<ContractPage> {
                             size: 26,
                           ) : TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
-                            text: pageState.proposal.contract.signedByClient
+                            text: pageState.proposal.contract!.signedByClient!
                                 ? 'Signature Saved'
                                 : 'Save Signature',
                             color: Color(ColorConstants.getPrimaryWhite()),
                           ),
                         ),
                       ),
-                      cursor: pageState.proposal.contract.signedByClient
-                          ? SystemMouseCursors.basic
-                          : SystemMouseCursors.click,
-                      onHover: (event) {
-                        if (!pageState.proposal.contract.signedByClient) {
-                          setState(() {
-                            isHoveredSubmit = true;
-                          });
-                        }
-                      },
-                      onExit: (event) {
-                        if (!pageState.proposal.contract.signedByClient) {
-                          setState(() {
-                            isHoveredSubmit = false;
-                          });
-                        }
-                      },
                     ),
                   ),
                   SizedBox(
@@ -312,7 +312,7 @@ class _ContractPageState extends State<ContractPage> {
                     type: TextDandyLight.MEDIUM_TEXT,
                     text:
                     DateFormat('EEE, MMMM dd, yyyy').format(
-                        pageState.proposal.contract.photographerSignedDate != null ? pageState.proposal.contract.photographerSignedDate : DateTime.now()),
+                        pageState.proposal.contract!.photographerSignedDate! != null ? pageState.proposal.contract!.photographerSignedDate! : DateTime.now()),
                   ),
                 )
               ],
@@ -331,7 +331,7 @@ class _ContractPageState extends State<ContractPage> {
                   margin: EdgeInsets.only(top: 0, bottom: 8),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
-                    text: (pageState.profile.firstName != null ? pageState.profile.firstName : "") + ' ' + (pageState.profile.lastName != null ? pageState.profile.lastName : ''),
+                    text: (pageState.profile.firstName != null ? pageState.profile.firstName : "")! + ' ' + (pageState.profile.lastName! != null ? pageState.profile.lastName! : ''),
                   ),
                 )
               ],
@@ -349,8 +349,8 @@ class _ContractPageState extends State<ContractPage> {
               ),
             ),
             TextFormField(
-              initialValue: (pageState.profile.firstName != null ? pageState.profile.firstName : "") + ' ' +
-                  (pageState.profile.lastName != null ? pageState.profile.lastName : ''),
+              initialValue: (pageState.profile.firstName != null ? pageState.profile.firstName : "")! + ' ' +
+                  (pageState.profile.lastName != null ? pageState.profile.lastName! : ''),
               enabled: false,
               cursorColor: Color(ColorConstants.getPrimaryBlack()),
               textCapitalization: TextCapitalization.words,
@@ -393,8 +393,8 @@ class _ContractPageState extends State<ContractPage> {
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: DateFormat('EEE, MMMM dd, yyyy').format(
-                        pageState.proposal.contract.clientSignedDate != null
-                            ? pageState.proposal.contract.clientSignedDate
+                        pageState.proposal.contract!.clientSignedDate != null
+                            ? pageState.proposal.contract!.clientSignedDate!
                             : DateTime.now()),
                   ),
                 )
@@ -414,7 +414,7 @@ class _ContractPageState extends State<ContractPage> {
                   margin: EdgeInsets.only(top: 0, bottom: 8),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
-                    text: pageState.job.client != null ? pageState.job.client.getClientFullName() : 'Client Name',
+                    text: pageState.job.client != null ? pageState.job.client!.getClientFullName() : 'Client Name',
                   ),
                 )
               ],
@@ -432,7 +432,7 @@ class _ContractPageState extends State<ContractPage> {
               ),
             ),
             TextField(
-              enabled: !pageState.proposal.contract.signedByClient,
+              enabled: !pageState.proposal.contract!.signedByClient!,
               controller: _clientSignatureController,
               cursorColor: Color(ColorConstants.getPrimaryBlack()),
               textCapitalization: TextCapitalization.words,
@@ -460,7 +460,7 @@ class _ContractPageState extends State<ContractPage> {
 
   Widget getEditor() {
     return quill.QuillEditor(
-      controller: _controller,
+      controller: _controller!,
       scrollable: true,
       scrollController: ScrollController(),
       focusNode: contractFocusNode,
@@ -469,6 +469,7 @@ class _ContractPageState extends State<ContractPage> {
       autoFocus: true,
       readOnly: true,
       expands: false,
+      configurations: null,
     );
   }
 }

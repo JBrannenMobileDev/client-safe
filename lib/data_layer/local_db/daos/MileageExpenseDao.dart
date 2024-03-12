@@ -99,7 +99,7 @@ class MileageExpenseDao extends Equatable{
     }).toList();
   }
 
-  static Future<MileageExpense> getMileageExpenseById(String documentId) async{
+  static Future<MileageExpense?> getMileageExpenseById(String documentId) async{
     if((await getAll()).isNotEmpty) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
       final recordSnapshots = await _mileageExpenseStore.find(await _db, finder: finder);
@@ -118,7 +118,7 @@ class MileageExpenseDao extends Equatable{
     }
   }
 
-  static Future<MileageExpense> getMileageExpenseByJobId(String jobDocumentId) async{
+  static Future<MileageExpense?> getMileageExpenseByJobId(String jobDocumentId) async{
     if((await getAll()).isNotEmpty) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('jobDocumentId', jobDocumentId));
       final recordSnapshots = await _mileageExpenseStore.find(await _db, finder: finder);

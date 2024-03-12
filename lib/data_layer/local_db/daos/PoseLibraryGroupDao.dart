@@ -48,7 +48,7 @@ class PoseLibraryGroupDao extends Equatable{
     }
   }
 
-  static Future<PoseLibraryGroup> getById(String poseDocumentId) async{
+  static Future<PoseLibraryGroup?> getById(String poseDocumentId) async{
     if((await getAllSortedMostFrequent()).length > 0) {
       final finder = Finder(filter: Filter.equals('documentId', poseDocumentId));
       final recordSnapshots = await _PoseLibraryGroupStore.find(await _db, finder: finder);
@@ -102,8 +102,6 @@ class PoseLibraryGroupDao extends Equatable{
     await _PoseLibraryGroupStore.delete(
       await _db,
       finder: finder,
-    ).onError(
-            (error, stackTrace) => null
     );
     await PoseLibraryGroupsCollection().delete(documentId);
   }

@@ -13,8 +13,8 @@ import 'package:redux/redux.dart';
 import 'navigation/routes/RouteNames.dart';
 
 class ClientSafeApp extends StatelessWidget {
-  final Store<AppState> store;
-  const ClientSafeApp(this.store, {Key key}) : super(key: key);
+  final Store<AppState>? store;
+  const ClientSafeApp(this.store, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +22,10 @@ class ClientSafeApp extends StatelessWidget {
         SystemUiOverlayStyle(statusBarBrightness: Brightness.light) // Or Brightness.dark
     );
     return StoreProvider<AppState>(
-      store: store,
+      store: store!,
       child: PlatformInfo().isWeb() ? MaterialApp(
         debugShowCheckedModeBanner: false,
-        builder: (context, child) => MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false, textScaleFactor: 1), child: child),
+        builder: (context, child) => MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false, textScaleFactor: 1), child: child!),
         color: Color(ColorConstants.getPrimaryColor()),
         title: 'Dandylight',
         theme: ThemeData(
@@ -39,7 +39,7 @@ class ClientSafeApp extends StatelessWidget {
         initialRoute: RouteNames.LANDING_PAGE,
       ) : MaterialApp(
         debugShowCheckedModeBanner: false,
-        builder: (context, child) => MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false, textScaleFactor: 1), child: child),
+        builder: (context, child) => MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false, textScaleFactor: 1), child: child!),
         navigatorKey: GlobalKeyUtil.instance.navigatorKey,
         color: Color(ColorConstants.getPrimaryColor()),
         title: 'Dandylight',

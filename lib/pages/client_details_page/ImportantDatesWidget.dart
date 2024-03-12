@@ -65,7 +65,7 @@ class ImportantDatesWidget extends StatelessWidget {
                           padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
-                            text: pageState.client.importantDates.length == 1 ? '1 Date' : pageState.client.importantDates.length.toString() + ' Dates',
+                            text: pageState.client!.importantDates!.length == 1 ? '1 Date' : pageState.client!.importantDates!.length.toString() + ' Dates',
                             textAlign: TextAlign.start,
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),

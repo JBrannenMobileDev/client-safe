@@ -59,7 +59,7 @@ class InvoiceDao extends Equatable{
       await update(invoice, selectedJob);
     }else{
       List<Invoice> allInvoices = await getAllSortedByDueDate();
-      List<Invoice> invoicesToDelete = List();
+      List<Invoice> invoicesToDelete = [];
       for(Invoice invoiceItem in allInvoices){
         if(invoiceItem.jobDocumentId == invoice.jobDocumentId) invoicesToDelete.add(invoiceItem);
       }
@@ -93,8 +93,8 @@ class InvoiceDao extends Equatable{
     _updateLastChangedTime();
   }
 
-  static Future updateInvoiceOnly(Invoice invoice) async {
-    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', invoice.documentId));
+  static Future updateInvoiceOnly(Invoice? invoice) async {
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', invoice!.documentId));
     await _invoiceStore.update(
       await _db,
       invoice.toMap(),
@@ -114,13 +114,13 @@ class InvoiceDao extends Equatable{
     await InvoiceCollection().updateInvoice(invoice);
   }
 
-  static Future deleteById(String documentId) async {
+  static Future deleteById(String? documentId) async {
     final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
     await _invoiceStore.delete(
       await _db,
       finder: finder,
     );
-    await InvoiceCollection().deleteInvoice(documentId);
+    await InvoiceCollection().deleteInvoice(documentId!);
     List<Job> jobs = await JobDao.getAllJobs();
     for(Job job in jobs){
       if(job.invoice?.documentId == documentId){
@@ -131,8 +131,8 @@ class InvoiceDao extends Equatable{
     _updateLastChangedTime();
   }
 
-  static Future deleteByInvoice(Invoice invoice) async {
-    await deleteById(invoice.documentId);
+  static Future deleteByInvoice(Invoice? invoice) async {
+    await deleteById(invoice!.documentId);
   }
 
   static Future<List<Invoice>> getAllSortedByDueDate() async {
@@ -152,7 +152,7 @@ class InvoiceDao extends Equatable{
   // TODO: implement props
   List<Object> get props => [];
 
-  static Future<Invoice> getInvoiceById(String documentId) async{
+  static Future<Invoice?> getInvoiceById(String documentId) async{
     if((await getAllSortedByDueDate()).length > 0) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
       final recordSnapshots = await _invoiceStore.find(await _db, finder: finder);

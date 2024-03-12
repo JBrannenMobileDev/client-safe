@@ -1,9 +1,9 @@
 import './sunrise_sunset_data.dart';
 
 class SunriseSunsetResponse {
-  final SunriseSunsetData data;
-  final bool success;
-  final String error;
+  final SunriseSunsetData? data;
+  final bool? success;
+  final String? error;
 
   SunriseSunsetResponse({
     this.data,

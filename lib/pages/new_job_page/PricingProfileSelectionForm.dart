@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
@@ -6,9 +8,8 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 import '../../utils/InputDoneView.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -29,21 +30,33 @@ class _PricingProfileSelectionFormState
 
   final FocusNode flatRateInputFocusNode = new FocusNode();
   var flatRateTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '', thousandSeparator: ',', precision: 0);
-  OverlayEntry overlayEntry;
+  late OverlayEntry overlayEntry;
+  late StreamSubscription<bool> keyboardSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    var keyboardVisibilityController = KeyboardVisibilityController();
+    keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
+      if(visible) {
+        showOverlay(context);
+      }else {
+        removeOverlay();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    keyboardSubscription.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return StoreConnector<AppState, NewJobPageState>(
       onInit: (store) {
-        KeyboardVisibilityNotification().addNewListener(
-            onShow: () {
-              showOverlay(context);
-            },
-            onHide: () {
-              removeOverlay();
-            }
-        );
         flatRateTextController.text = '\$' + (store.state.newJobPageState.oneTimePrice.isNotEmpty ? store.state.newJobPageState.oneTimePrice : '');
         flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
         flatRateInputFocusNode.addListener(() {
@@ -195,7 +208,6 @@ class _PricingProfileSelectionFormState
   removeOverlay() {
     if (overlayEntry != null) {
       overlayEntry.remove();
-      overlayEntry = null;
     }
   }
 

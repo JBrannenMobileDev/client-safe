@@ -1,11 +1,11 @@
 import 'Pose.dart';
 
 class PoseLibraryGroup {
-  int id;
-  String documentId;
-  String groupName;
-  int numOfSaves;
-  List<Pose> poses;
+  int? id;
+  String? documentId;
+  String? groupName;
+  int? numOfSaves;
+  List<Pose>? poses;
 
   PoseLibraryGroup({
     this.id,
@@ -19,7 +19,7 @@ class PoseLibraryGroup {
     return {
       'documentId' : documentId,
       'groupName': groupName,
-      'poses' : convertPosesToMap(poses),
+      'poses' : convertPosesToMap(poses!),
       'numOfSaves' : numOfSaves != null ? numOfSaves : 0,
     };
   }
@@ -44,7 +44,7 @@ class PoseLibraryGroup {
   static List<Pose> convertMapsToPoses(List listOfMaps){
     List<Pose> listOfPoses = [];
     for(Map map in listOfMaps != null ? listOfMaps : []){
-      listOfPoses.add(Pose.fromMap(map));
+      listOfPoses.add(Pose.fromMap(map as Map<String, dynamic>));
     }
     return listOfPoses;
   }

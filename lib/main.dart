@@ -34,7 +34,7 @@ main() async {
   // // Pass all uncaught "fatal" errors from the framework to Crashlytics
   // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
-  await initializingMixPanel();
+  initializingMixPanel();
   await initSubscriptions();
   GoogleSignIn _googleSignIn = GoogleSignIn(
     // Optional clientId
@@ -85,14 +85,14 @@ Future<void> catchAsyncErrors() async {
 Future<void> initSubscriptions() async {
   if(!PlatformInfo().isWeb()) {
     await revenuecat.Purchases.setDebugLogsEnabled(true);
-    revenuecat.PurchasesConfiguration configuration;
+    revenuecat.PurchasesConfiguration? configuration;
     if (Platform.isAndroid) {
       configuration = revenuecat.PurchasesConfiguration("goog_hHOtMzChjzMLkuWrwvcHpNIVaKn");
     } else if (Platform.isIOS) {
       configuration = revenuecat.PurchasesConfiguration("appl_nGYkHELZrcYyxKnkcRDQfccLFrK", );
       configuration.usesStoreKit2IfAvailable = true;
     }
-    await revenuecat.Purchases.configure(configuration);
+    await revenuecat.Purchases.configure(configuration!);
   }
 }
 
@@ -106,7 +106,7 @@ void initializingMixPanel() async {
     case PlatformType.Web:
        WebBrowserInfo webDeviceInfo = await deviceInfoPlugin.webBrowserInfo;
       deviceInfo = DeviceInfo(
-        deviceIdentifier: webDeviceInfo.vendor,
+        deviceIdentifier: webDeviceInfo.vendor!,
         os: 'Web ${webDeviceInfo.platform} ${webDeviceInfo.appVersion}',
         device: '${webDeviceInfo.browserName}',
         appVersion: packageInfo.version,
@@ -116,7 +116,7 @@ void initializingMixPanel() async {
     case PlatformType.iOS:
       IosDeviceInfo iosDeviceInfo = await deviceInfoPlugin.iosInfo;
       deviceInfo = DeviceInfo(
-        deviceIdentifier: iosDeviceInfo.identifierForVendor,
+        deviceIdentifier: iosDeviceInfo.identifierForVendor!,
         os: 'iOS ${iosDeviceInfo.systemName} ${iosDeviceInfo.systemVersion}',
         device: '${iosDeviceInfo.name} ${iosDeviceInfo.model}',
         appVersion: packageInfo.version,

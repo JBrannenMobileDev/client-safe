@@ -10,7 +10,7 @@ class DandylightFunctionsApi {
 
   final http.Client httpClient;
   DandylightFunctionsApi({
-    @required this.httpClient,
+    required this.httpClient,
   }) : assert(httpClient != null);
 
   Future<Job> fetchJob(String userId, String jobId) async {

@@ -1,7 +1,7 @@
 class Imperial {
-  double value;
-  String unit;
-  int unitType;
+  double? value;
+  String? unit;
+  int? unitType;
 
   Imperial({this.value, this.unit, this.unitType});
 

@@ -52,6 +52,6 @@ class NextInvoiceNumberCollection {
         .collection('nextInvoiceNumber')
         .doc(singletonItemId)
         .get()
-        .then((nextInvoiceNUmber) => NextInvoiceNumber.fromMap(nextInvoiceNUmber.data()));
+        .then((nextInvoiceNUmber) => NextInvoiceNumber.fromMap(nextInvoiceNUmber.data() as Map<String, dynamic>));
   }
 }

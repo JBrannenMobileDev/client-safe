@@ -9,17 +9,17 @@ import 'package:redux/redux.dart';
 import '../../AppState.dart';
 
 class CalendarPageState{
-  final bool shouldClear;
-  final List<EventDandyLight> eventList;
-  final List<Job> jobs;
-  final List<Event> deviceEvents;
-  final bool isCalendarEnabled;
-  final Function(DateTime) onDateSelected;
-  final Function() onAddNewJobSelected;
-  final DateTime selectedDate;
-  final Function(Job) onJobClicked;
-  final Function(DateTime, bool) onMonthChanged;
-  final Function(bool) onCalendarEnabled;
+  final bool? shouldClear;
+  final List<EventDandyLight>? eventList;
+  final List<Job>? jobs;
+  final List<Event>? deviceEvents;
+  final bool? isCalendarEnabled;
+  final Function(DateTime)? onDateSelected;
+  final Function()? onAddNewJobSelected;
+  final DateTime? selectedDate;
+  final Function(Job)? onJobClicked;
+  final Function(DateTime, bool)? onMonthChanged;
+  final Function(bool)? onCalendarEnabled;
 
   CalendarPageState({
     @required this.shouldClear,
@@ -36,17 +36,17 @@ class CalendarPageState{
   });
 
   CalendarPageState copyWith({
-    bool shouldClear,
-    List<EventDandyLight> eventList,
-    Function(DateTime) onDateSelected,
-    DateTime selectedDate,
-    List<Job> jobs,
-    List<Event> deviceEvents,
-    Function() onAddNewJobSelected,
-    Function(Job) onJobClicked,
-    Function(DateTime, bool) onMonthChanged,
-    Function(bool) onCalendarEnabled,
-    bool isCalendarEnabled,
+    bool? shouldClear,
+    List<EventDandyLight>? eventList,
+    Function(DateTime)? onDateSelected,
+    DateTime? selectedDate,
+    List<Job>? jobs,
+    List<Event>? deviceEvents,
+    Function()? onAddNewJobSelected,
+    Function(Job)? onJobClicked,
+    Function(DateTime, bool)? onMonthChanged,
+    Function(bool)? onCalendarEnabled,
+    bool? isCalendarEnabled,
   }){
     return CalendarPageState(
       shouldClear: shouldClear?? this.shouldClear,
@@ -79,19 +79,19 @@ class CalendarPageState{
 
   factory CalendarPageState.fromStore(Store<AppState> store) {
     return CalendarPageState(
-      shouldClear: store.state.calendarPageState.shouldClear,
-      eventList: store.state.calendarPageState.eventList,
-      selectedDate: store.state.calendarPageState.selectedDate,
-      jobs: store.state.calendarPageState.jobs,
-      deviceEvents: store.state.calendarPageState.deviceEvents,
-      isCalendarEnabled: store.state.calendarPageState.isCalendarEnabled,
-      onAddNewJobSelected: () => store.dispatch(newJobActions.InitNewJobPageWithDateAction(store.state.newJobPageState, store.state.calendarPageState.selectedDate)),
-      onDateSelected: (selectedDate) => store.dispatch(SetSelectedDateAction(store.state.calendarPageState, selectedDate)),
-      onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId)),
-      onMonthChanged: (month, isCalendarEnabled) => store.dispatch(FetchDeviceEvents(store.state.calendarPageState, month, isCalendarEnabled)),
+      shouldClear: store.state.calendarPageState!.shouldClear,
+      eventList: store.state.calendarPageState!.eventList,
+      selectedDate: store.state.calendarPageState!.selectedDate,
+      jobs: store.state.calendarPageState!.jobs,
+      deviceEvents: store.state.calendarPageState!.deviceEvents,
+      isCalendarEnabled: store.state.calendarPageState!.isCalendarEnabled,
+      onAddNewJobSelected: () => store.dispatch(newJobActions.InitNewJobPageWithDateAction(store.state.newJobPageState!, store.state.calendarPageState!.selectedDate!)),
+      onDateSelected: (selectedDate) => store.dispatch(SetSelectedDateAction(store.state.calendarPageState!, selectedDate)),
+      onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState!, job.documentId!)),
+      onMonthChanged: (month, isCalendarEnabled) => store.dispatch(FetchDeviceEvents(store.state.calendarPageState!, month, isCalendarEnabled)),
       onCalendarEnabled: (enabled) {
-        store.dispatch(UpdateCalendarEnabledAction(store.state.calendarPageState, enabled));
-        store.dispatch(FetchDeviceEvents(store.state.calendarPageState, DateTime.now(), enabled));
+        store.dispatch(UpdateCalendarEnabledAction(store.state.calendarPageState!, enabled));
+        store.dispatch(FetchDeviceEvents(store.state.calendarPageState!, DateTime.now(), enabled));
       },
     );
   }

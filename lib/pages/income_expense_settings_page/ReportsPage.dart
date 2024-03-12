@@ -17,11 +17,11 @@ import 'IncomeAndExpenseSettingsPageState.dart';
 import 'ReportItem.dart';
 
 class ReportsPage extends StatefulWidget {
-  const ReportsPage({Key key,
+  const ReportsPage({Key? key,
     this.pageTitle,
   }) : super(key: key);
 
-  final String pageTitle;
+  final String? pageTitle;
 
   @override
   State<StatefulWidget> createState() {
@@ -32,7 +32,7 @@ class ReportsPage extends StatefulWidget {
 class _ReportsPageState extends State<ReportsPage> with TickerProviderStateMixin {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   final ScrollController _controller = ScrollController();
-  final String pageTitle;
+  final String? pageTitle;
 
   _ReportsPageState(this.pageTitle);
 
@@ -50,7 +50,6 @@ class _ReportsPageState extends State<ReportsPage> with TickerProviderStateMixin
           CustomScrollView(
             slivers: <Widget>[
               SliverAppBar(
-                brightness: Brightness.light,
                 backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                 pinned: true,
                 floating: false,

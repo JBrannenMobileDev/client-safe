@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../ColorConstants.dart';
-
 class Styles {
 
   static ButtonStyle getButtonStyle({
@@ -9,9 +7,9 @@ class Styles {
     double top = 0.0,
     double right = 8.0,
     double bottom = 0.0,
-    OutlinedBorder shape,
-    Color color,
-    Color textColor,
+    OutlinedBorder? shape,
+    Color? color,
+    Color? textColor,
   }) {
     return TextButton.styleFrom(
       backgroundColor: color,

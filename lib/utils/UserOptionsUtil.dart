@@ -90,7 +90,7 @@ class UserOptionsUtil {
     );
   }
 
-  static void showCalendarSelectionDialog(BuildContext context, Function(bool) onCalendarChanged){
+  static void showCalendarSelectionDialog(BuildContext context, Function(bool)? onCalendarChanged){
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -153,7 +153,7 @@ class UserOptionsUtil {
     );
   }
 
-  static void showNewMileageExpenseSelected(BuildContext context, MileageExpense trip){
+  static void showNewMileageExpenseSelected(BuildContext context, MileageExpense? trip){
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -164,7 +164,7 @@ class UserOptionsUtil {
 
   static void showNewJobDialog(BuildContext context, bool comingFromOnBoarding) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    if(profile.isSubscribed || profile.jobsCreatedCount < 5 || profile.isFreeForLife || AdminCheckUtil.isAdmin(profile)) {
+    if(profile.isSubscribed! || profile.jobsCreatedCount! < 5 || profile.isFreeForLife! || AdminCheckUtil.isAdmin(profile)) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -253,7 +253,7 @@ class UserOptionsUtil {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return const LocationSelectionDialog();
+        return LocationSelectionDialog();
       },
     );
   }

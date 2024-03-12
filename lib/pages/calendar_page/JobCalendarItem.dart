@@ -12,11 +12,11 @@ import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class JobCalendarItem extends StatelessWidget{
-  final Job job;
-  final EventDandyLight eventDandyLight;
-  final double paddingLeft;
-  final double paddingRight;
-  final Function(Job) onJobClicked;
+  final Job? job;
+  final EventDandyLight? eventDandyLight;
+  final double? paddingLeft;
+  final double? paddingRight;
+  final Function(Job)? onJobClicked;
   JobCalendarItem({this.job, this.eventDandyLight, this.paddingLeft, this.paddingRight, this.onJobClicked});
 
   @override
@@ -25,7 +25,7 @@ class JobCalendarItem extends StatelessWidget{
       style: Styles.getButtonStyle(),
       onPressed: () {
         if(job != null) {
-          onJobClicked(job);
+          onJobClicked!(job!);
           NavigationUtil.onJobTapped(context, false);
         }
       },
@@ -42,7 +42,7 @@ class JobCalendarItem extends StatelessWidget{
                   margin: EdgeInsets.only(right: 18.0, top: 4.0),
                   height: 38.0,
                   width: 38.0,
-                  child: job != null ? job.stage.getStageImage(Color(ColorConstants.getPeachDark())) : Image.asset('assets/images/icons/calendar.png', color: Color(ColorConstants.getBlueLight()),),
+                  child: job != null ? job!.stage!.getStageImage(Color(ColorConstants.getPeachDark())) : Image.asset('assets/images/icons/calendar.png', color: Color(ColorConstants.getBlueLight()),),
                 ),
                 Flexible(
                   child: Column(
@@ -55,12 +55,12 @@ class JobCalendarItem extends StatelessWidget{
                             padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
                             child: TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
-                              text: job != null ? job.jobTitle : eventDandyLight.eventTitle,
+                              text: job != null ? job!.jobTitle : eventDandyLight!.eventTitle,
                               textAlign: TextAlign.start,
                               color: Color(job != null ? ColorConstants.getPrimaryBlack() : ColorConstants.primary_bg_grey_dark),
                             ),
                           ),
-                          job != null ? (job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null
+                          job != null ? (job!.selectedDate != null && job!.selectedTime != null && job!.location != null && job!.priceProfile != null
                               ? SizedBox() : Container(
                             margin: EdgeInsets.only(left: 8.0),
                             height: 20.0,
@@ -73,19 +73,19 @@ class JobCalendarItem extends StatelessWidget{
                       ),
                       job != null ? TextDandyLight(
                         type: TextDandyLight.SMALL_TEXT,
-                        text: 'Stage: ' + job.stage.stage,
+                        text: 'Stage: ' + job!.stage!.stage!,
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ) : SizedBox(),
                       job != null ? TextDandyLight(
                         type: TextDandyLight.SMALL_TEXT,
-                        text: _getSubtext(job),
+                        text: _getSubtext(job!),
                         textAlign: TextAlign.start,
-                        color: job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null
+                        color: job!.selectedDate != null && job!.selectedTime != null && job!.location != null && job!.priceProfile != null
                             ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPeachDark()),
                       ) : TextDandyLight(
                         type: TextDandyLight.SMALL_TEXT,
-                        text: DateFormat('EEE, MMM d').format(eventDandyLight.start) + ' · ' + DateFormat('h:mm a').format(eventDandyLight.start) + ' - ' + DateFormat('h:mm a').format(eventDandyLight.end),
+                        text: DateFormat('EEE, MMM d').format(eventDandyLight!.start!) + ' · ' + DateFormat('h:mm a').format(eventDandyLight!.start!) + ' - ' + DateFormat('h:mm a').format(eventDandyLight!.end!),
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.primary_bg_grey_dark),
                       ),
@@ -108,7 +108,7 @@ class JobCalendarItem extends StatelessWidget{
 
   String _getSubtext(Job job) {
     if(job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null){
-      return DateFormat('EEE, MMM d').format(job.selectedDate) + ' · ' + DateFormat('h:mm a').format(job.selectedTime);
+      return DateFormat('EEE, MMM d').format(job.selectedDate!) + ' · ' + DateFormat('h:mm a').format(job.selectedTime!);
     }
     if(job.selectedDate == null){
       return 'Date not selected!';

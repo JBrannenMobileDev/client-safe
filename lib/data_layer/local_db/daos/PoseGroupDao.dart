@@ -56,7 +56,7 @@ class PoseGroupDao extends Equatable{
     }
   }
 
-  static Future<PoseGroup> getById(String poseDocumentId) async{
+  static Future<PoseGroup?> getById(String poseDocumentId) async{
     if((await getAllSortedMostFrequent()).length > 0) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', poseDocumentId));
       final recordSnapshots = await _PoseGroupGroupStore.find(await _db, finder: finder);
@@ -115,8 +115,6 @@ class PoseGroupDao extends Equatable{
     await _PoseGroupGroupStore.delete(
       await _db,
       finder: finder,
-    ).onError(
-            (error, stackTrace) => null
     );
     await PoseGroupCollection().deletePoseGroup(documentId);
     _updateLastChangedTime();

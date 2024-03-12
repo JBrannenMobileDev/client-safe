@@ -29,7 +29,7 @@ class ClientDetailsPageMiddleware extends MiddlewareClass<AppState> {
       _deleteClient(store, next);
     }
     if(action is InstagramSelectedAction){
-      _launchInstagramProfile(store.state.clientDetailsPageState.client.instagramProfileUrl);
+      _launchInstagramProfile(store.state.clientDetailsPageState!.client!.instagramProfileUrl!);
     }
     if(action is OnSaveLeadSourceUpdateAction){
       _updateClientLeadSource(store, next, action);
@@ -52,7 +52,7 @@ class ClientDetailsPageMiddleware extends MiddlewareClass<AppState> {
     (await ResponseDao.getResponseStream()).listen((snapshots) async {
       List<Response> streamResponses = [];
       for(RecordSnapshot clientSnapshot in snapshots) {
-        streamResponses.add(Response.fromMap(clientSnapshot.value));
+        streamResponses.add(Response.fromMap(clientSnapshot.value! as Map<String, dynamic>));
       }
 
       store.dispatch(SetClientDetailsResponsesAction(store.state.clientDetailsPageState, responses));
@@ -60,28 +60,28 @@ class ClientDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _updateClientWithImportantDates(Store<AppState> store, SaveImportantDatesAction action) async{
-    Client client = action.pageState.client;
-    client.importantDates = action.pageState.importantDates;
+    Client client = action.pageState!.client!;
+    client.importantDates = action.pageState!.importantDates;
     await ClientDao.update(client);
-    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState!));
   }
 
   void _updateClientNotes(Store<AppState> store, NextDispatcher next, SaveNotesAction action) async{
-    Client client = action.pageState.client;
+    Client client = action.pageState!.client!;
     client.notes = action.notes;
     await ClientDao.update(client);
-    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState!));
   }
 
   void _updateClientLeadSource(Store<AppState> store, NextDispatcher next, OnSaveLeadSourceUpdateAction action) async{
-    Client client = action.pageState.client;
-    client.leadSource = action.pageState.leadSource;
-    client.customLeadSourceName = action.pageState.customLeadSourceName;
+    Client client = action.pageState!.client!;
+    client.leadSource = action.pageState!.leadSource;
+    client.customLeadSourceName = action.pageState!.customLeadSourceName;
 
     await ClientDao.update(client);
 
     next(action);
-    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState!));
   }
 
   void _initializedClientDetailsState(Store<AppState> store, NextDispatcher next, InitializeClientDetailsAction action) async{
@@ -89,27 +89,27 @@ class ClientDetailsPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetClientJobsAction(store.state.clientDetailsPageState, await JobDao.getAllJobs()));
 
     (await JobDao.getJobsStream()).listen((jobSnapshots) async {
-      List<Job> jobs = List();
+      List<Job> jobs = [];
       for(RecordSnapshot clientSnapshot in jobSnapshots) {
-        jobs.add(Job.fromMap(clientSnapshot.value));
+        jobs.add(Job.fromMap(clientSnapshot.value! as Map<String, dynamic>));
       }
       store.dispatch(SetClientJobsAction(store.state.clientDetailsPageState, jobs));
     });
   }
 
   void _deleteClient(Store<AppState> store, NextDispatcher next) async{
-    await ClientDao.delete(store.state.clientDetailsPageState.client);
-    if(await ClientDao.getClientById(store.state.clientDetailsPageState.client.documentId) != null) {
-      await ClientDao.delete(store.state.clientDetailsPageState.client);
+    await ClientDao.delete(store.state.clientDetailsPageState!.client!);
+    if(await ClientDao.getClientById(store.state.clientDetailsPageState!.client!.documentId!) != null) {
+      await ClientDao.delete(store.state.clientDetailsPageState!.client!);
     }
 
     bool isGranted = (await UserPermissionsUtil.getPermissionStatus(Permission.contacts)).isGranted;
     if(isGranted) {
-      DeviceContactsDao.deleteContact(store.state.clientDetailsPageState.client);
+      DeviceContactsDao.deleteContact(store.state.clientDetailsPageState!.client!);
     }
-    store.dispatch(FetchClientData(store.state.clientsPageState));
-    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
-    GlobalKeyUtil.instance.navigatorKey.currentState.pop();
+    store.dispatch(FetchClientData(store.state.clientsPageState!));
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState!));
+    GlobalKeyUtil.instance.navigatorKey.currentState!.pop();
   }
 
   void _launchInstagramProfile(String instagramUrl){

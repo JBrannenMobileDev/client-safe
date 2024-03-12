@@ -31,9 +31,9 @@ class ContractDao extends Equatable{
     return contract;
   }
 
-  static Future insertLocalOnly(Contract contract) async {
-    contract.id = null;
-    await _contractStore.add(await _db, contract.toMap());
+  static Future insertLocalOnly(Contract? contract) async {
+    contract?.id = null;
+    await _contractStore.add(await _db, contract!.toMap());
   }
 
   static Future<void> _updateLastChangedTime() async {
@@ -57,7 +57,7 @@ class ContractDao extends Equatable{
     }
   }
 
-  static Future<Contract> getById(String contractDocumentId) async{
+  static Future<Contract?> getById(String contractDocumentId) async{
     if((await getAll()).length > 0) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', contractDocumentId));
       final recordSnapshots = await _contractStore.find(await _db, finder: finder);
@@ -111,7 +111,7 @@ class ContractDao extends Equatable{
     );
   }
 
-  static Future delete(String documentId) async {
+  static Future delete(String? documentId) async {
     final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
     int countOfUpdatedItems = await _contractStore.delete(
       await _db,

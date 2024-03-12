@@ -14,7 +14,7 @@ class AppSettingsCollection {
         .set(appSettings.toMap());
   }
 
-  Future<void> delete(String documentId) async {
+  Future<void> delete(String? documentId) async {
     try {
       final databaseReference = FirebaseFirestore.instance;
       await databaseReference
@@ -37,7 +37,7 @@ class AppSettingsCollection {
         .doc(documentId)
         .get()
         .then((contractSnapshot) {
-          AppSettings result = AppSettings.fromMap(contractSnapshot.data());
+          AppSettings result = AppSettings.fromMap(contractSnapshot.data() as Map<String, dynamic>);
           result.documentId = contractSnapshot.id;
           return result;
         });
@@ -72,7 +72,7 @@ class AppSettingsCollection {
   List<AppSettings> _buildContractsList(QuerySnapshot contracts) {
     List<AppSettings> list = [];
     for(DocumentSnapshot contractSnapshot in contracts.docs){
-      AppSettings result = AppSettings.fromMap(contractSnapshot.data());
+      AppSettings result = AppSettings.fromMap(contractSnapshot.data() as Map<String, dynamic>);
       result.documentId = contractSnapshot.id;
       list.add(result);
     }

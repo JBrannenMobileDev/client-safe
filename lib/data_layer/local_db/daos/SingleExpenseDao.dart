@@ -96,7 +96,7 @@ class SingleExpenseDao extends Equatable{
     }).toList();
   }
 
-  static Future<SingleExpense> getSingleExpenseById(String documentId) async{
+  static Future<SingleExpense?> getSingleExpenseById(String documentId) async{
     if((await getAll()).length > 0) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
       final recordSnapshots = await _singleExpenseStore.find(await _db, finder: finder);

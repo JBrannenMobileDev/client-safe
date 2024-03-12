@@ -91,7 +91,7 @@ class JobReminderDao extends Equatable{
     );
   }
 
-  static Future delete(String documentId) async {
+  static Future delete(String? documentId) async {
     final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
     await _jobReminderStore.delete(
       await _db,
@@ -110,7 +110,7 @@ class JobReminderDao extends Equatable{
     }).toList();
   }
 
-  static Future<List<JobReminder>> getRemindersByJobId(String documentId) async{
+  static Future<List<JobReminder>?> getRemindersByJobId(String documentId) async{
     if((await getAll()).length > 0) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('jobDocumentId', documentId));
       final recordSnapshots = await _jobReminderStore.find(await _db, finder: finder);
@@ -124,7 +124,7 @@ class JobReminderDao extends Equatable{
     }
   }
 
-  static Future<JobReminder> getReminderById(String documentId) async{
+  static Future<JobReminder?> getReminderById(String documentId) async{
     if((await getAll()).length > 0) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
       final recordSnapshots = await _jobReminderStore.find(await _db, finder: finder);
@@ -230,12 +230,12 @@ class JobReminderDao extends Equatable{
     List<JobReminder> reducedReminders = [];
     DateTime now = DateTime.now();
     for(JobReminder reminder in pendingReminders) {
-      reminder.triggerTime = await reminder.reminder.getTriggerTime(getJobDate(reminder));
-      if(reminder.triggerTime != null && now.isBefore(reminder.triggerTime)) {
+      reminder.triggerTime = await reminder.reminder!.getTriggerTime(getJobDate(reminder));
+      if(reminder.triggerTime != null && now.isBefore(reminder.triggerTime!)) {
         reducedReminders.add(reminder);
       }
     }
-    reducedReminders..sort((item1, item2)  => (item1.triggerTime).compareTo(item2.triggerTime));
+    reducedReminders.sort((item1, item2)  => (item1.triggerTime!).compareTo(item2!.triggerTime!));
     return reducedReminders;
   }
 
@@ -244,16 +244,16 @@ class JobReminderDao extends Equatable{
     List<JobReminder> reducedReminders = [];
     DateTime now = DateTime.now();
     for(JobReminder reminder in pendingReminders) {
-      reminder.triggerTime = await reminder.reminder.getTriggerTime(getJobDate(reminder));
-      if(reminder.triggerTime != null && now.isAfter(reminder.triggerTime)) {
+      reminder.triggerTime = await reminder.reminder!.getTriggerTime(getJobDate(reminder));
+      if(reminder.triggerTime != null && now.isAfter(reminder.triggerTime!)) {
         reducedReminders.add(reminder);
       }
     }
-    reducedReminders..sort((item1, item2)  => (item1.triggerTime).compareTo(item2.triggerTime));
+    reducedReminders.sort((item1, item2)  => (item1.triggerTime!).compareTo(item2.triggerTime!));
     return reducedReminders;
   }
 
-  static Future<DateTime> getJobDate(JobReminder item1) async {
+  static Future<DateTime?> getJobDate(JobReminder item1) async {
     return await item1.getJobDate();
   }
 
@@ -261,7 +261,7 @@ class JobReminderDao extends Equatable{
   // TODO: implement props
   List<Object> get props => [];
 
-  static void deleteAllWithJobDocumentId(String jobDocumentId) async {
+  static void deleteAllWithJobDocumentId(String? jobDocumentId) async {
     List<JobReminder> allReminders = await getAll();
     for(JobReminder reminder in allReminders) {
       if(reminder.jobDocumentId == jobDocumentId) {
