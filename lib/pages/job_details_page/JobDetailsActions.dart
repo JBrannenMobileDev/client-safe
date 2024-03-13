@@ -158,8 +158,8 @@ class DeleteReminderFromJobAction{
 }
 
 class SetNewInvoice{
-  final JobDetailsPageState pageState;
-  final Invoice invoice;
+  final JobDetailsPageState? pageState;
+  final Invoice? invoice;
   SetNewInvoice(this.pageState, this.invoice);
 }
 

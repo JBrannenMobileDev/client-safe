@@ -72,39 +72,39 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _setPaymentRequestAsSeen(Store<AppState> store, SetPaymentRequestAsSeen action) async{
-   action.pageState.profile.showRequestPaymentLinksDialog = false;
-   ProfileDao.update(action.pageState.profile);
+   action.pageState!.profile!.showRequestPaymentLinksDialog = false;
+   ProfileDao.update(action.pageState!.profile!);
   }
 
   void _setInfoScreenAsSeen(Store<AppState> store, SetIncomeInfoSeenAction action) async{
-    action.pageState.profile.hasSeenIncomeInfo = true;
-    ProfileDao.update(action.pageState.profile);
-    store.dispatch(SetProfileAction(store.state.incomeAndExpensesPageState, action.pageState.profile));
+    action.pageState!.profile!.hasSeenIncomeInfo = true;
+    ProfileDao.update(action.pageState!.profile!);
+    store.dispatch(SetProfileAction(store.state.incomeAndExpensesPageState, action.pageState!.profile));
   }
 
   void _fetchCompletedJobs(Store<AppState> store, UpdateSelectedYearAction action) async{
     List<Job> allJobs = await JobDao.getAllJobs();
     List<Job> allJObsWithPaymentReceivedInSelectedYear = (allJobs.where((job) => (Job.containsStage(job.completedStages, JobStage.STAGE_14_JOB_COMPLETE)
         && !Job.containsStage(job.completedStages, JobStage.STAGE_9_PAYMENT_RECEIVED) && job.invoice == null)
-        && (job.selectedDate != null && job.selectedDate.year == action.year)).toList()
+        && (job.selectedDate != null && job.selectedDate!.year == action.year)).toList()
     );
     List<Job> allJObsWithPaymentReceivedInPreviousYear = (allJobs.where((job) => (Job.containsStage(job.completedStages, JobStage.STAGE_14_JOB_COMPLETE)
         && !Job.containsStage(job.completedStages, JobStage.STAGE_9_PAYMENT_RECEIVED) && job.invoice == null)
-        && (job.selectedDate != null && job.selectedDate.year == (action.year - 1))).toList()
+        && (job.selectedDate != null && job.selectedDate!.year == (action.year! - 1))).toList()
     );
 
     (await JobDao.getJobsStream()).listen((jobSnapshots) async {
       List<Job> allJobs = [];
       for(RecordSnapshot clientSnapshot in jobSnapshots) {
-        allJobs.add(Job.fromMap(clientSnapshot.value));
+        allJobs.add(Job.fromMap(clientSnapshot.value! as Map<String,dynamic>));
       }
       List<Job> allJObsWithPaymentReceivedInSelectedYear = (allJobs.where((job) => (Job.containsStage(job.completedStages, JobStage.STAGE_14_JOB_COMPLETE)
           && !Job.containsStage(job.completedStages, JobStage.STAGE_9_PAYMENT_RECEIVED) && job.invoice == null)
-          && (job.selectedDate != null && job.selectedDate.year == action.year)).toList()
+          && (job.selectedDate != null && job.selectedDate!.year == action.year)).toList()
       );
       List<Job> allJObsWithPaymentReceivedInPreviousYear = (allJobs.where((job) => (Job.containsStage(job.completedStages, JobStage.STAGE_14_JOB_COMPLETE)
           && !Job.containsStage(job.completedStages, JobStage.STAGE_9_PAYMENT_RECEIVED) && job.invoice == null)
-          && (job.selectedDate != null && job.selectedDate.year == (action.year - 1))).toList()
+          && (job.selectedDate != null && job.selectedDate!.year == (action.year! - 1))).toList()
       );
       store.dispatch(SetSelectedYearAction(store.state.incomeAndExpensesPageState, action.year, allJObsWithPaymentReceivedInSelectedYear, allJObsWithPaymentReceivedInPreviousYear, allJobs));
     });
@@ -113,47 +113,47 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _updateRecurringExpenseChargeCancelDate(Store<AppState> store, SaveCancelledSubscriptionAction action, NextDispatcher next) async{
-    action.expense.cancelDate = DateTime.now();
-    action.expense.resumeDate = null;
-    await RecurringExpenseDao.insertOrUpdate(action.expense);
+    action.expense!.cancelDate = DateTime.now();
+    action.expense!.resumeDate = null;
+    await RecurringExpenseDao.insertOrUpdate(action.expense!);
 
     List<RecurringExpense> recurringExpenses = await RecurringExpenseDao.getAll();
     _updateSaveAndSetRecurringExpenses(store, recurringExpenses);
   }
 
   void _updateRecurringExpenseChargeResumeDate(Store<AppState> store, SaveResumedSubscriptionAction action, NextDispatcher next) async{
-    action.expense.resumeDate = DateTime.now();
-    action.expense.cancelDate = null;
-    await RecurringExpenseDao.insertOrUpdate(action.expense);
+    action.expense!.resumeDate = DateTime.now();
+    action.expense!.cancelDate = null;
+    await RecurringExpenseDao.insertOrUpdate(action.expense!);
 
     List<RecurringExpense> recurringExpenses = await RecurringExpenseDao.getAll();
     _updateSaveAndSetRecurringExpenses(store, recurringExpenses);
   }
 
   void _updateRecurringExpenseCharge(Store<AppState> store, UpdateSelectedRecurringChargeAction action, NextDispatcher next) async{
-    int indexToUpdate = action.expense.charges.reversed.toList().indexWhere((charge) => charge.chargeDate == action.charge.chargeDate);
-    action.expense.charges.reversed.toList().elementAt(indexToUpdate).isPaid = action.isChecked;
-    await RecurringExpenseDao.insertOrUpdate(action.expense);
+    int indexToUpdate = action.expense!.charges!.reversed.toList().indexWhere((charge) => charge.chargeDate == action.charge!.chargeDate);
+    action.expense!.charges!.reversed.toList().elementAt(indexToUpdate).isPaid = action.isChecked;
+    await RecurringExpenseDao.insertOrUpdate(action.expense!);
 
     List<RecurringExpense> recurringExpenses = await RecurringExpenseDao.getAll();
     _updateSaveAndSetRecurringExpenses(store, recurringExpenses);
   }
 
   void _updateJobTip(Store<AppState> store, SaveTipIncomeChangeAction action, NextDispatcher next) async{
-    await JobDao.insertOrUpdate(store.state.incomeAndExpensesPageState.selectedJob.copyWith(tipAmount: action.pageState.unsavedTipAmount));
+    await JobDao.insertOrUpdate(store.state.incomeAndExpensesPageState!.selectedJob!.copyWith(tipAmount: action.pageState!.unsavedTipAmount));
     store.dispatch(LoadAllJobsAction(store.state.incomeAndExpensesPageState));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 
   void deleteInvoice(Store<AppState> store, DeleteInvoiceAction action, NextDispatcher next) async {
     await InvoiceDao.deleteByInvoice(action.invoice);
-    if(await InvoiceDao.getInvoiceById(action.invoice.documentId) != null) {
+    if(await InvoiceDao.getInvoiceById(action.invoice!.documentId!) != null) {
       await InvoiceDao.deleteByInvoice(action.invoice);
     }
 
     store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
-    store.dispatch(SetNewInvoice(store.state.jobDetailsPageState, null));
+    store.dispatch(SetNewInvoice(store.state.jobDetailsPageState!, null));
   }
 
   void fetchJobs(Store<AppState> store, NextDispatcher next) async {
@@ -162,7 +162,7 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
     (await JobDao.getJobsStream()).listen((jobSnapshots) async {
       List<Job> jobs = [];
       for(RecordSnapshot clientSnapshot in jobSnapshots) {
-        jobs.add(Job.fromMap(clientSnapshot.value));
+        jobs.add(Job.fromMap(clientSnapshot.value! as Map<String,dynamic>));
       }
       store.dispatch(SetTipTotalsAction(store.state.incomeAndExpensesPageState, jobs));
     });
@@ -172,8 +172,8 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
     (await SingleExpenseDao.getSingleExpenseStream()).listen((expenseSnapshots) {
       List<SingleExpense> expenses = [];
       for(RecordSnapshot expenseSnapshot in expenseSnapshots) {
-        SingleExpense expenseToSave = SingleExpense.fromMap(expenseSnapshot.value);
-        expenseToSave.id = expenseSnapshot.key;
+        SingleExpense expenseToSave = SingleExpense.fromMap(expenseSnapshot.value! as Map<String,dynamic>);
+        expenseToSave.id = expenseSnapshot.key! as int?;
         expenses.add(expenseToSave);
       }
       store.dispatch(SetSingleExpensesAction(store.state.incomeAndExpensesPageState, expenses));

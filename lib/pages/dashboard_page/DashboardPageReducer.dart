@@ -97,7 +97,7 @@ DashboardPageState _setMileageExpenseEvent(DashboardPageState previousState, Set
 }
 
 DashboardPageState _setUnseenCount(DashboardPageState previousState, SetUnseenReminderCount action) {
-  List<JobReminder> orderedResult = action.reminders.reversed.toList();
+  List<JobReminder> orderedResult = action.reminders!.reversed.toList();
   return previousState.copyWith(
       unseenNotificationCount: action.count,
       reminders: orderedResult,
@@ -110,36 +110,36 @@ DashboardPageState _setupDataListeners(DashboardPageState previousState, InitDas
 
 DashboardPageState _updateShowHideState(DashboardPageState previousState, UpdateShowHideState action) {
   return previousState.copyWith(
-      isMinimized: !previousState.isMinimized,
+      isMinimized: !previousState.isMinimized!,
   );
 }
 
 DashboardPageState _updateShowHideLeadsState(DashboardPageState previousState, UpdateShowHideLeadsState action) {
   return previousState.copyWith(
-    isLeadsMinimized: !previousState.isLeadsMinimized,
+    isLeadsMinimized: !previousState.isLeadsMinimized!,
   );
 }
 
 DashboardPageState _setJobs(DashboardPageState previousState, SetJobToStateAction action) {
-  List<Job> activeJobs = JobUtil.getActiveJobs(action.allJobs);
+  List<Job> activeJobs = JobUtil.getActiveJobs(action.allJobs!);
   List<Job> jobsThisWeek = [];
 
   List<JobStage> allStagesFromAllJobs = [];
   for(Job job in activeJobs) {
-    allStagesFromAllJobs.addAll(job.type.stages);
+    allStagesFromAllJobs.addAll(job.type!.stages!);
   }
 
   DateTime now = DateTime.now();
   now.subtract(const Duration(days: 1));
   DateTime oneWeekInFuture = DateTime.now().add(const Duration(days: 7));
   for(Job job in activeJobs) {
-    if(job.selectedDate != null && job.selectedDate.isBefore(oneWeekInFuture) && job.selectedDate.isAfter(now)) {
+    if(job.selectedDate != null && job.selectedDate!.isBefore(oneWeekInFuture) && job.selectedDate!.isAfter(now)) {
       jobsThisWeek.add(job);
     }
   }
 
   var seen = Set<String>();
-  List<JobStage> uniqueList = allStagesFromAllJobs.where((stage) => seen.add(stage.stage)).toList();
+  List<JobStage> uniqueList = allStagesFromAllJobs.where((stage) => seen.add(stage.stage!)).toList();
 
   List<JobStage> activeStages = [];
   for(JobStage stage in uniqueList) {
@@ -148,13 +148,13 @@ DashboardPageState _setJobs(DashboardPageState previousState, SetJobToStateActio
   }
 
 
-  List<Job> jobsWithPaymentReceived = action.allJobs.where((job) => job.isPaymentReceived() == true).toList();
-  List<Job> jobsWithOnlyDepositReceived = action.allJobs.where((job) => job.isPaymentReceived() == false && job.isDepositPaid() == true).toList();
-  List<LineChartMonthData> chartItems = buildChartData(jobsWithPaymentReceived, action.singleExpenses, action.recurringExpense, action.mileageExpenses, jobsWithOnlyDepositReceived);
+  List<Job> jobsWithPaymentReceived = action.allJobs!.where((job) => job.isPaymentReceived() == true).toList();
+  List<Job> jobsWithOnlyDepositReceived = action.allJobs!.where((job) => job.isPaymentReceived() == false && job.isDepositPaid() == true).toList();
+  List<LineChartMonthData> chartItems = buildChartData(jobsWithPaymentReceived, action.singleExpenses!, action.recurringExpense!, action.mileageExpenses!, jobsWithOnlyDepositReceived);
 
 
   return previousState.copyWith(
-      upcomingJobs: JobUtil.getUpComingJobs(action.allJobs),
+      upcomingJobs: JobUtil.getUpComingJobs(action.allJobs!),
       allJobs: action.allJobs,
       activeJobs: activeJobs,
       allUserStages: activeStages,
@@ -163,16 +163,16 @@ DashboardPageState _setJobs(DashboardPageState previousState, SetJobToStateActio
       areJobsLoaded: true,
       activeJobsWithUnsignedContract: JobUtil.getJobsWithUnsignedContracts(activeJobs),
       activeJobsWithSignedContract: JobUtil.getJobsWithSignedContracts(activeJobs),
-      allJobsWithUnsignedContract: JobUtil.getJobsWithUnsignedContracts(action.allJobs),
-      allJobsWithSignedContract: JobUtil.getJobsWithSignedContracts(action.allJobs),
+      allJobsWithUnsignedContract: JobUtil.getJobsWithUnsignedContracts(action.allJobs!),
+      allJobsWithSignedContract: JobUtil.getJobsWithSignedContracts(action.allJobs!),
   );
 }
 
 DashboardPageState _setJobTypesChartData(DashboardPageState previousState, SetJobTypeChartData action) {
-  List<Job> jobsWithPaymentReceived = action.allJobs.where((job) => job.isPaymentReceived() == true).toList();
+  List<Job> jobsWithPaymentReceived = action.allJobs!.where((job) => job.isPaymentReceived() == true).toList();
 
-  List<PieChartSectionData> jobTypeBreakdownData = buildJobTypeData(jobsWithPaymentReceived, action.allJobTypes);
-  List<JobTypePieChartRowData> jobTypeRowData = buildJobTypeRowData(jobsWithPaymentReceived, action.allJobTypes);
+  List<PieChartSectionData> jobTypeBreakdownData = buildJobTypeData(jobsWithPaymentReceived, action.allJobTypes!);
+  List<JobTypePieChartRowData> jobTypeRowData = buildJobTypeRowData(jobsWithPaymentReceived, action.allJobTypes!);
 
   return previousState.copyWith(
     jobTypeBreakdownData: jobTypeBreakdownData,
@@ -215,166 +215,166 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
   chartItems.add(data);
 
   for(SingleExpense expense in singleExpenses) {
-    if(expense.charge.chargeDate != null && expense.charge.chargeDate.year == currentYear) {
-      if(expense.charge.chargeDate.month == chartItems.elementAt(0).monthInt) {
-        chartItems.elementAt(0).income -= expense.charge.chargeAmount.toInt();
+    if(expense.charge!.chargeDate != null && expense.charge!.chargeDate!.year == currentYear) {
+      if(expense.charge!.chargeDate!.month == chartItems.elementAt(0).monthInt) {
+        chartItems.elementAt(0).income = chartItems.elementAt(0).income! - expense.charge!.chargeAmount!.toInt();
       }
 
-      if(expense.charge.chargeDate.month == chartItems.elementAt(1).monthInt) {
-        chartItems.elementAt(1).income -= expense.charge.chargeAmount.toInt();
+      if(expense.charge!.chargeDate!.month == chartItems.elementAt(1).monthInt) {
+        chartItems.elementAt(1).income = chartItems.elementAt(1).income! - expense.charge!.chargeAmount!.toInt();
       }
 
-      if(expense.charge.chargeDate.month == chartItems.elementAt(2).monthInt) {
-        chartItems.elementAt(2).income -= expense.charge.chargeAmount.toInt();
+      if(expense.charge!.chargeDate!.month == chartItems.elementAt(2).monthInt) {
+        chartItems.elementAt(2).income = chartItems.elementAt(2).income! - expense.charge!.chargeAmount!.toInt();
       }
 
-      if(expense.charge.chargeDate.month == chartItems.elementAt(3).monthInt) {
-        chartItems.elementAt(3).income -= expense.charge.chargeAmount.toInt();
+      if(expense.charge!.chargeDate!.month == chartItems.elementAt(3).monthInt) {
+        chartItems.elementAt(3).income = chartItems.elementAt(3).income! - expense.charge!.chargeAmount!.toInt();
       }
 
-      if(expense.charge.chargeDate.month == chartItems.elementAt(4).monthInt) {
-        chartItems.elementAt(4).income -= expense.charge.chargeAmount.toInt();
+      if(expense.charge!.chargeDate!.month == chartItems.elementAt(4).monthInt) {
+        chartItems.elementAt(4).income = chartItems.elementAt(4).income! - expense.charge!.chargeAmount!.toInt();
       }
 
-      if(expense.charge.chargeDate.month == chartItems.elementAt(5).monthInt) {
-        chartItems.elementAt(5).income -= expense.charge.chargeAmount.toInt();
+      if(expense.charge!.chargeDate!.month == chartItems.elementAt(5).monthInt) {
+        chartItems.elementAt(5).income = chartItems.elementAt(5).income! - expense.charge!.chargeAmount!.toInt();
       }
     }
   }
 
   for(RecurringExpense expense in recurringExpenses) {
-    Charge chargeForMonthAndYear = getCharge(expense.charges, currentYear, chartItems.elementAt(0).monthInt);
-    bool isPaid = isChargeRecurringChargePaid(expense.charges, currentYear, chartItems.elementAt(0).monthInt);
-    if(chargeForMonthAndYear != null && isPaid) {
-      chartItems.elementAt(0).income -= chargeForMonthAndYear.chargeAmount.toInt();
+    Charge? chargeForMonthAndYear = getCharge(expense.charges!, currentYear, chartItems.elementAt(0).monthInt!);
+    bool? isPaid = isChargeRecurringChargePaid(expense.charges!, currentYear, chartItems.elementAt(0).monthInt!);
+    if(chargeForMonthAndYear != null && isPaid!) {
+      chartItems.elementAt(0).income = chartItems.elementAt(0).income! - chargeForMonthAndYear.chargeAmount!.toInt();
     }
 
-    chargeForMonthAndYear = getCharge(expense.charges, currentYear, chartItems.elementAt(1).monthInt);
-    isPaid = isChargeRecurringChargePaid(expense.charges, currentYear, chartItems.elementAt(1).monthInt);
-    if(chargeForMonthAndYear != null && isPaid) {
-      chartItems.elementAt(1).income -= chargeForMonthAndYear.chargeAmount.toInt();
+    chargeForMonthAndYear = getCharge(expense.charges!, currentYear, chartItems.elementAt(1).monthInt!);
+    isPaid = isChargeRecurringChargePaid(expense.charges!, currentYear, chartItems.elementAt(1).monthInt!);
+    if(chargeForMonthAndYear != null && isPaid!) {
+      chartItems.elementAt(1).income = chartItems.elementAt(1).income! - chargeForMonthAndYear.chargeAmount!.toInt();
     }
 
-    chargeForMonthAndYear = getCharge(expense.charges, currentYear, chartItems.elementAt(2).monthInt);
-    isPaid = isChargeRecurringChargePaid(expense.charges, currentYear, chartItems.elementAt(2).monthInt);
-    if(chargeForMonthAndYear != null && isPaid) {
-      chartItems.elementAt(2).income -= chargeForMonthAndYear.chargeAmount.toInt();
+    chargeForMonthAndYear = getCharge(expense.charges!, currentYear, chartItems.elementAt(2).monthInt!);
+    isPaid = isChargeRecurringChargePaid(expense.charges!, currentYear, chartItems.elementAt(2).monthInt!);
+    if(chargeForMonthAndYear != null && isPaid!) {
+      chartItems.elementAt(2).income = chartItems.elementAt(2).income! - chargeForMonthAndYear.chargeAmount!.toInt();
     }
 
-    chargeForMonthAndYear = getCharge(expense.charges, currentYear, chartItems.elementAt(3).monthInt);
-    isPaid = isChargeRecurringChargePaid(expense.charges, currentYear, chartItems.elementAt(3).monthInt);
-    if(chargeForMonthAndYear != null && isPaid) {
-      chartItems.elementAt(3).income -= chargeForMonthAndYear.chargeAmount.toInt();
+    chargeForMonthAndYear = getCharge(expense.charges!, currentYear, chartItems.elementAt(3).monthInt!);
+    isPaid = isChargeRecurringChargePaid(expense.charges!, currentYear, chartItems.elementAt(3).monthInt!);
+    if(chargeForMonthAndYear != null && isPaid!) {
+      chartItems.elementAt(3).income = chartItems.elementAt(3).income! - chargeForMonthAndYear.chargeAmount!.toInt();
     }
 
-    chargeForMonthAndYear = getCharge(expense.charges, currentYear, chartItems.elementAt(4).monthInt);
-    isPaid = isChargeRecurringChargePaid(expense.charges, currentYear, chartItems.elementAt(4).monthInt);
-    if(chargeForMonthAndYear != null && isPaid) {
-      chartItems.elementAt(4).income -= chargeForMonthAndYear.chargeAmount.toInt();
+    chargeForMonthAndYear = getCharge(expense.charges!, currentYear, chartItems.elementAt(4).monthInt!);
+    isPaid = isChargeRecurringChargePaid(expense.charges!, currentYear, chartItems.elementAt(4).monthInt!);
+    if(chargeForMonthAndYear != null && isPaid!) {
+      chartItems.elementAt(4).income = chartItems.elementAt(4).income! - chargeForMonthAndYear.chargeAmount!.toInt();
     }
 
-    chargeForMonthAndYear = getCharge(expense.charges, currentYear, chartItems.elementAt(5).monthInt);
-    isPaid = isChargeRecurringChargePaid(expense.charges, currentYear, chartItems.elementAt(5).monthInt);
-    if(chargeForMonthAndYear != null && isPaid) {
-      chartItems.elementAt(5).income -= chargeForMonthAndYear.chargeAmount.toInt();
+    chargeForMonthAndYear = getCharge(expense.charges!, currentYear, chartItems.elementAt(5).monthInt!);
+    isPaid = isChargeRecurringChargePaid(expense.charges!, currentYear, chartItems.elementAt(5).monthInt!);
+    if(chargeForMonthAndYear != null && isPaid!) {
+      chartItems.elementAt(5).income = chartItems.elementAt(5).income! - chargeForMonthAndYear.chargeAmount!.toInt();
     }
   }
 
   for(Job job in jobsWithOnlyDepositReceived) {
-    DateTime depositReceivedDate = job.depositReceivedDate;
+    DateTime depositReceivedDate = job.depositReceivedDate!;
 
     if(depositReceivedDate != null && depositReceivedDate.year == currentYear) {
       int depositMonth = depositReceivedDate.month;
 
       if(depositMonth == chartItems.elementAt(0).monthInt) {
-        chartItems.elementAt(0).income += (job.depositAmount ?? 0);
+        chartItems.elementAt(0).income = chartItems.elementAt(0).income! + (job.depositAmount ?? 0);
       }
 
       if(depositMonth == chartItems.elementAt(1).monthInt) {
-        chartItems.elementAt(1).income += (job.depositAmount ?? 0);
+        chartItems.elementAt(1).income = chartItems.elementAt(1).income! + (job.depositAmount ?? 0);
       }
 
       if(depositMonth == chartItems.elementAt(2).monthInt) {
-        chartItems.elementAt(2).income += (job.depositAmount ?? 0);
+        chartItems.elementAt(2).income = chartItems.elementAt(2).income! + (job.depositAmount ?? 0);
       }
 
       if(depositMonth == chartItems.elementAt(3).monthInt) {
-        chartItems.elementAt(3).income += (job.depositAmount ?? 0);
+        chartItems.elementAt(3).income = chartItems.elementAt(3).income! + (job.depositAmount ?? 0);
       }
 
       if(depositMonth == chartItems.elementAt(4).monthInt) {
-        chartItems.elementAt(4).income += (job.depositAmount ?? 0);
+        chartItems.elementAt(4).income = chartItems.elementAt(4).income! + (job.depositAmount ?? 0);
       }
 
       if(depositMonth == chartItems.elementAt(5).monthInt) {
-        chartItems.elementAt(5).income += (job.depositAmount ?? 0);
+        chartItems.elementAt(5).income = chartItems.elementAt(5).income! + (job.depositAmount ?? 0);
       }
     }
   }
 
   for(Job job in jobsWithPaymentReceived) {
-    DateTime paymentReceivedDate = job.paymentReceivedDate ?? job.selectedDate;
+    DateTime paymentReceivedDate = job.paymentReceivedDate ?? job.selectedDate!;
 
     if(paymentReceivedDate != null && paymentReceivedDate.year == currentYear) {
       int jobMonth = paymentReceivedDate.month;
 
       if(jobMonth == chartItems.elementAt(0).monthInt) {
-        chartItems.elementAt(0).income += (job.tipAmount ?? 0);
+        chartItems.elementAt(0).income = chartItems.elementAt(0).income! + (job.tipAmount ?? 0);
 
         if(job.invoice != null) {
-          chartItems.elementAt(0).income += (job.invoice.total - job.invoice.discount - job.invoice.salesTaxAmount).toInt();
+          chartItems.elementAt(0).income = chartItems.elementAt(0).income! + (job.invoice!.total! - job.invoice!.discount! - job.invoice!.salesTaxAmount!).toInt();
         } else {
-          chartItems.elementAt(0).income += job.getJobCost().toInt();
+          chartItems.elementAt(0).income = chartItems.elementAt(0).income! + job.getJobCost().toInt();
         }
       }
 
       if(jobMonth == chartItems.elementAt(1).monthInt) {
-        chartItems.elementAt(1).income += (job.tipAmount ?? 0);
+        chartItems.elementAt(1).income = chartItems.elementAt(1).income! + (job.tipAmount ?? 1);
 
         if(job.invoice != null) {
-          chartItems.elementAt(1).income += (job.invoice.total - job.invoice.discount - job.invoice.salesTaxAmount).toInt();
+          chartItems.elementAt(1).income = chartItems.elementAt(1).income! + (job.invoice!.total! - job.invoice!.discount! - job.invoice!.salesTaxAmount!).toInt();
         } else {
-          chartItems.elementAt(1).income += job.getJobCost().toInt();
+          chartItems.elementAt(1).income = chartItems.elementAt(1).income! + job.getJobCost().toInt();
         }
       }
 
       if(jobMonth == chartItems.elementAt(2).monthInt) {
-        chartItems.elementAt(2).income += (job.tipAmount ?? 0);
+        chartItems.elementAt(2).income = chartItems.elementAt(2).income! + (job.tipAmount ?? 2);
 
         if(job.invoice != null) {
-          chartItems.elementAt(2).income += (job.invoice.total - job.invoice.discount - job.invoice.salesTaxAmount).toInt();
+          chartItems.elementAt(2).income = chartItems.elementAt(2).income! + (job.invoice!.total! - job.invoice!.discount! - job.invoice!.salesTaxAmount!).toInt();
         } else {
-          chartItems.elementAt(2).income += job.getJobCost().toInt();
+          chartItems.elementAt(2).income = chartItems.elementAt(2).income! + job.getJobCost().toInt();
         }
       }
 
       if(jobMonth == chartItems.elementAt(3).monthInt) {
-        chartItems.elementAt(3).income += (job.tipAmount ?? 0);
+        chartItems.elementAt(3).income = chartItems.elementAt(3).income! + (job.tipAmount ?? 3);
 
         if(job.invoice != null) {
-          chartItems.elementAt(3).income += (job.invoice.total - job.invoice.discount - job.invoice.salesTaxAmount).toInt();
+          chartItems.elementAt(3).income = chartItems.elementAt(3).income! + (job.invoice!.total! - job.invoice!.discount! - job.invoice!.salesTaxAmount!).toInt();
         } else {
-          chartItems.elementAt(3).income += job.getJobCost().toInt();
+          chartItems.elementAt(3).income = chartItems.elementAt(3).income! + job.getJobCost().toInt();
         }
       }
 
       if(jobMonth == chartItems.elementAt(4).monthInt) {
-        chartItems.elementAt(4).income += (job.tipAmount ?? 0);
+        chartItems.elementAt(4).income = chartItems.elementAt(4).income! + (job.tipAmount ?? 4);
 
         if(job.invoice != null) {
-          chartItems.elementAt(4).income += (job.invoice.total - job.invoice.discount - job.invoice.salesTaxAmount).toInt();
+          chartItems.elementAt(4).income = chartItems.elementAt(4).income! + (job.invoice!.total! - job.invoice!.discount! - job.invoice!.salesTaxAmount!).toInt();
         } else {
-          chartItems.elementAt(4).income += job.getJobCost().toInt();
+          chartItems.elementAt(4).income = chartItems.elementAt(4).income! + job.getJobCost().toInt();
         }
       }
 
       if(jobMonth == chartItems.elementAt(5).monthInt) {
-        chartItems.elementAt(5).income += (job.tipAmount ?? 0);
+        chartItems.elementAt(5).income = chartItems.elementAt(5).income! + (job.tipAmount ?? 5);
 
         if(job.invoice != null) {
-          chartItems.elementAt(5).income += (job.invoice.total - job.invoice.discount - job.invoice.salesTaxAmount).toInt();
+          chartItems.elementAt(5).income = chartItems.elementAt(5).income! + (job.invoice!.total! - job.invoice!.discount! - job.invoice!.salesTaxAmount!).toInt();
         } else {
-          chartItems.elementAt(5).income += job.getJobCost().toInt();
+          chartItems.elementAt(5).income = chartItems.elementAt(5).income! + job.getJobCost().toInt();
         }
       }
     }
@@ -382,18 +382,18 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
   return chartItems;
 }
 
-bool isChargeRecurringChargePaid(List<Charge> charges, int currentYear, int monthInt) {
+bool? isChargeRecurringChargePaid(List<Charge> charges, int currentYear, int monthInt) {
   for(Charge charge in charges) {
-    if(charge.chargeDate.year == currentYear && charge.chargeDate.month == monthInt) {
-      return charge.isPaid;
+    if(charge.chargeDate!.year == currentYear && charge.chargeDate!.month == monthInt) {
+      return charge.isPaid!;
     }
   }
   return null;
 }
 
-Charge getCharge(List<Charge> charges, int currentYear, int monthInt) {
+Charge? getCharge(List<Charge> charges, int currentYear, int monthInt) {
   for(Charge charge in charges) {
-    if(charge.chargeDate.year == currentYear && charge.chargeDate.month == monthInt) {
+    if(charge.chargeDate!.year == currentYear && charge.chargeDate!.month == monthInt) {
       return charge;
     }
   }
@@ -401,8 +401,8 @@ Charge getCharge(List<Charge> charges, int currentYear, int monthInt) {
 }
 
 DashboardPageState _setClients(DashboardPageState previousState, SetClientsDashboardAction action) {
-  List<Client> clientsWithAJob = action.clients.where((client) => (_hasAJob(client.documentId, previousState.allJobs)) && client.createdDate.year == DateTime.now().year).toList();
-  List<Client> allClientsFromThisYear = action.clients.where((client) => client.createdDate.year == DateTime.now().year).toList();
+  List<Client> clientsWithAJob = action.clients!.where((client) => (_hasAJob(client.documentId!, previousState.allJobs!)) && client.createdDate!.year == DateTime.now().year).toList();
+  List<Client> allClientsFromThisYear = action.clients!.where((client) => client.createdDate!.year == DateTime.now().year).toList();
   double rate = (clientsWithAJob.length/allClientsFromThisYear.length) * 100;
 
   var groupedList = <String, List<Client>>{};
@@ -411,30 +411,30 @@ DashboardPageState _setClients(DashboardPageState previousState, SetClientsDashb
 
   for(Client client in allClientsFromThisYear) {
     String newLeadSource = '';
-    if(Client.isOldSource(client.leadSource)) {
-      newLeadSource = Client.mapOldLeadSourceToNew(client.leadSource);
+    if(Client.isOldSource(client.leadSource!)) {
+      newLeadSource = Client.mapOldLeadSourceToNew(client.leadSource!);
       client.leadSource = newLeadSource;
     } else {
-      newLeadSource = client.leadSource;
+      newLeadSource = client.leadSource!;
     }
-    groupedList.putIfAbsent(client.customLeadSourceName != null && client.customLeadSourceName.isNotEmpty ? client.customLeadSourceName : newLeadSource, () => <Client>[]).add(client);
+    groupedList.putIfAbsent(client.customLeadSourceName != null && client!.customLeadSourceName!.isNotEmpty ? client.customLeadSourceName! : newLeadSource, () => <Client>[]).add(client);
   }
 
   var seen = Set<String>();
-  List<Client> allLeadSourceNames = allClientsFromThisYear.where((client) => seen.add(client.customLeadSourceName != null && client.customLeadSourceName.isNotEmpty ? client.customLeadSourceName : client.leadSource)).toList();
+  List<Client> allLeadSourceNames = allClientsFromThisYear.where((client) => seen.add(client.customLeadSourceName != null && client.customLeadSourceName!.isNotEmpty ? client.customLeadSourceName! : client.leadSource!)).toList();
 
   int index = 0;
   for(Client client in allLeadSourceNames) {
-    String leadSourceName = client.customLeadSourceName != null && client.customLeadSourceName.isNotEmpty ? client.customLeadSourceName : client.leadSource;
+    String leadSourceName = client.customLeadSourceName != null && client.customLeadSourceName!.isNotEmpty ? client.customLeadSourceName! : client.leadSource!;
     if(Client.isOldSource(leadSourceName)) {
       leadSourceName = Client.mapOldLeadSourceToNew(leadSourceName);
     }
-    List<Client> clientsForLeadName = groupedList[leadSourceName];
+    List<Client>? clientsForLeadName = groupedList[leadSourceName];
 
     if(clientsForLeadName != null) {
       int count = clientsForLeadName.length;
 
-      List<Client> groupLeads = clientsForLeadName.where((client) => (_hasAJob(client.documentId, previousState.allJobs))).toList();
+      List<Client> groupLeads = clientsForLeadName.where((client) => (_hasAJob(client.documentId!, previousState.allJobs!))).toList();
       int conversionRate = ((groupLeads.length/clientsForLeadName.length) * 100).toInt();
 
       rowData.add(LeadSourcePieChartRowData(
@@ -461,7 +461,7 @@ DashboardPageState _setClients(DashboardPageState previousState, SetClientsDashb
     index++;
   }
 
-  rowData.sort((a, b) => a.count.compareTo(b.count));
+  rowData.sort((a, b) => a.count!.compareTo(b.count!));
 
   return previousState.copyWith(
       leadConversionRate: !rate.isNaN ? rate.toInt() : 0,
@@ -477,18 +477,18 @@ List<PieChartSectionData> buildJobTypeData(List<Job> jobsWithPaymentReceived, Li
   List<PieChartSectionData> result = [];
 
   for(Job job in jobsThisYearPaid) {
-    groupedList.putIfAbsent(job.type.title, () => <Job>[]).add(job);
+    groupedList.putIfAbsent(job.type!.title!, () => <Job>[]).add(job);
   }
 
   int index = 0;
   for(JobType jobType in allJobTypes) {
-    List<Job> jobsForType = groupedList[jobType.title];
+    List<Job>? jobsForType = groupedList[jobType.title];
     if(jobsForType != null) {
       int count = jobsForType.length;
       int totalIncome = 0;
 
       for(Job groupJob in jobsForType) {
-        totalIncome = totalIncome + (groupJob.invoice != null ? groupJob.invoice.total.toInt() : groupJob.getJobCost().toInt());
+        totalIncome = totalIncome + (groupJob.invoice != null ? groupJob.invoice!.total!.toInt() : groupJob.getJobCost().toInt());
       }
 
       result.add(PieChartSectionData(
@@ -511,37 +511,37 @@ List<PieChartSectionData> buildJobTypeData(List<Job> jobsWithPaymentReceived, Li
 }
 
 List<JobTypePieChartRowData> buildJobTypeRowData(List<Job> jobsWithPaymentReceived, List<JobType> allJobTypes) {
-  List<Job> jobsThisYearPaid = jobsWithPaymentReceived.where((job) => ((job.paymentReceivedDate != null ? job.paymentReceivedDate.year : job.selectedDate.year) == DateTime.now().year)).toList();
+  List<Job> jobsThisYearPaid = jobsWithPaymentReceived.where((job) => ((job.paymentReceivedDate != null ? job.paymentReceivedDate!.year : job.selectedDate!.year) == DateTime.now().year)).toList();
   var groupedList = <String, List<Job>>{};
   List<JobTypePieChartRowData> jobTypePieChartRowItems = [];
 
   for(Job job in jobsThisYearPaid) {
-    groupedList.putIfAbsent(job.type.title, () => <Job>[]).add(job);
+    groupedList.putIfAbsent(job.type!.title!, () => <Job>[]).add(job);
   }
 
   int index = 0;
   for(JobType jobType in allJobTypes) {
-    List<Job> jobsForType = groupedList[jobType.title];
+    List<Job>? jobsForType = groupedList[jobType.title];
     if(jobsForType != null) {
       int count = jobsForType.length;
       int totalIncome = 0;
 
       for(Job groupJob in jobsForType) {
-        totalIncome = totalIncome + (groupJob.invoice != null ? groupJob.invoice.total.toInt() : groupJob.priceProfile != null ? groupJob.getJobCost().toInt() : 0);
+        totalIncome = totalIncome + (groupJob.invoice != null ? groupJob.invoice!.total!.toInt() : groupJob.priceProfile != null ? groupJob.getJobCost().toInt() : 0);
       }
 
       jobTypePieChartRowItems.add(JobTypePieChartRowData(
         jobs: jobsForType,
         count: count,
         totalIncomeForType: totalIncome,
-        jobType: jobType.title,
+        jobType: jobType.title!,
         color: ColorConstants.getPieChartColor(index),
       ));
     }
     index++;
   }
 
-  jobTypePieChartRowItems.sort((a, b) => a.count.compareTo(b.count));
+  jobTypePieChartRowItems.sort((a, b) => a.count!.compareTo(b.count!));
   return jobTypePieChartRowItems;
 }
 

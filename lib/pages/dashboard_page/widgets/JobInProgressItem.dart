@@ -11,16 +11,16 @@ import 'package:intl/intl.dart';
 import '../../../utils/styles/Styles.dart';
 
 class JobInProgressItem extends StatelessWidget{
-  final Job job;
-  final DashboardPageState pageState;
-  const JobInProgressItem({Key key, this.job, this.pageState}) : super(key: key);
+  final Job? job;
+  final DashboardPageState? pageState;
+  const JobInProgressItem({Key? key, this.job, this.pageState}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
       style: Styles.getButtonStyle(),
       onPressed: () {
-        pageState.onJobClicked(job.documentId);
+        pageState!.onJobClicked!(job!.documentId!);
         NavigationUtil.onJobTapped(context, false);
       },
       child: Padding(
@@ -36,7 +36,7 @@ class JobInProgressItem extends StatelessWidget{
                   margin: const EdgeInsets.only(right: 18.0, top: 4.0),
                   height: 38.0,
                   width: 38.0,
-                  child: job.stage.getStageImage(Color(ColorConstants.getPeachDark())),
+                  child: job!.stage!.getStageImage(Color(ColorConstants.getPeachDark())),
                 ),
                 Flexible(
                   child: Column(
@@ -49,12 +49,12 @@ class JobInProgressItem extends StatelessWidget{
                             padding: const EdgeInsets.only(bottom: 4.0, top: 0.0),
                             child: TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
-                              text: job.jobTitle,
+                              text: job!.jobTitle,
                               textAlign: TextAlign.start,
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
-                          job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null
+                          job!.selectedDate != null && job!.selectedTime != null && job!.location != null && job!.priceProfile != null
                               ? const SizedBox() : Container(
                             margin: const EdgeInsets.only(left: 8.0),
                             height: 20.0,
@@ -67,15 +67,15 @@ class JobInProgressItem extends StatelessWidget{
                       ),
                       TextDandyLight(
                         type: TextDandyLight.SMALL_TEXT,
-                        text: 'Stage: ${JobStage.getStageText(job.stage)}',
+                        text: 'Stage: ${JobStage.getStageText(job!.stage!)}',
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                       TextDandyLight(
                         type: TextDandyLight.SMALL_TEXT,
-                        text: _getSubtext(job),
+                        text: _getSubtext(job!),
                         textAlign: TextAlign.start,
-                        color: job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null
+                        color: job!.selectedDate != null && job!.selectedTime != null && job!.location != null && job!.priceProfile != null
                             ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPeachDark()),
                       ),
                     ],
@@ -95,7 +95,7 @@ class JobInProgressItem extends StatelessWidget{
 
   String _getSubtext(Job job) {
     if(job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null){
-      return '${DateFormat('EEE, MMM d').format(job.selectedDate)} · ${DateFormat('h:mm a').format(job.selectedTime)}';
+      return '${DateFormat('EEE, MMM d').format(job!.selectedDate!)} · ${DateFormat('h:mm a').format(job!.selectedTime!)}';
     }
     if(job.selectedDate == null){
       return 'Date not selected!';

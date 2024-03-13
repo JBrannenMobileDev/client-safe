@@ -245,7 +245,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
         return AppUpdateBottomSheet();
       },
     ).whenComplete( () {
-      pageState.markUpdateAsSeen(pageState.appSettings);
+      pageState.markUpdateAsSeen!(pageState.appSettings!);
     });
   }
 
@@ -284,7 +284,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
           store.dispatch(CheckForPMFSurveyAction(store.state.dashboardPageState));
           store.dispatch(CheckForReviewRequestAction(store.state.dashboardPageState));
           store.dispatch(CheckForAppUpdateAction(store.state.dashboardPageState));
-          if(store.state.dashboardPageState.unseenNotificationCount > 0) {
+          if(store.state.dashboardPageState!.unseenNotificationCount! > 0) {
             _runAnimation();
           }
           List<Job> allJobs = await JobDao.getAllJobs();
@@ -295,37 +295,37 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
           //If permanently denied we do not want to bug the user every time they log in.  We will prompt every time they start a job instead. Also they can change the permission from the app settings.
           Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
           if(profile.deviceTokens != null) {
-            bool isNotificationsGranted = profile.deviceTokens.length > 1 ? (await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context)) : (await UserPermissionsUtil.getPermissionStatus(Permission.notification)).isGranted;
+            bool isNotificationsGranted = profile.deviceTokens!.length > 1 ? (await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context)) : (await UserPermissionsUtil.getPermissionStatus(Permission.notification)).isGranted;
             profile.pushNotificationsEnabled = isNotificationsGranted;
             if(isNotificationsGranted) {
               setupNotifications(notificationHelper, allJobs, allReminders);
-              String token = await PushNotificationsManager().getToken();
-              profile.addUniqueDeviceToken(token);
+              String? token = await PushNotificationsManager().getToken();
+              profile.addUniqueDeviceToken(token!);
               Profile mostRecent = await ProfileDao.getMatchingProfile(UidUtil().getUid());
               profile.hasSeenShowcase = mostRecent.hasSeenShowcase;
               ProfileDao.update(profile);
             }
           }
 
-          if(store.state.dashboardPageState.profile != null && store.state.dashboardPageState.profile.shouldShowRestoreSubscription) {
+          if(store.state.dashboardPageState!.profile != null && store.state.dashboardPageState!.profile!.shouldShowRestoreSubscription!) {
             String? restoreMessage;
 
-            if(store.state.dashboardPageState.subscriptionState!= null) {
-              if(store.state.dashboardPageState.subscriptionState.entitlements.all['standard'] != null || store.state.dashboardPageState.subscriptionState.entitlements.all['standard_1699'] != null) {
-                if(store.state.dashboardPageState.subscriptionState.entitlements.all['standard']!.isActive || store.state.dashboardPageState.subscriptionState.entitlements.all['standard_1699']!.isActive) {
+            if(store.state.dashboardPageState!.subscriptionState != null) {
+              if(store.state.dashboardPageState!.subscriptionState!.entitlements.all['standard'] != null || store.state.dashboardPageState!.subscriptionState!.entitlements.all['standard_1699'] != null) {
+                if(store.state.dashboardPageState!.subscriptionState!.entitlements.all['standard']!.isActive || store.state.dashboardPageState!.subscriptionState!.entitlements.all['standard_1699']!.isActive) {
                   restoreMessage = ManageSubscriptionPage.SUBSCRIBED;
-                  store.state.dashboardPageState.profile.isSubscribed = true;
-                  ProfileDao.update(store.state.dashboardPageState.profile);
+                  store.state.dashboardPageState!.profile!.isSubscribed = true;
+                  ProfileDao.update(store.state.dashboardPageState!.profile!);
                   EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.SUBSCRIBED);
                 } else {
-                  store.state.dashboardPageState.profile.isSubscribed = false;
-                  ProfileDao.update(store.state.dashboardPageState.profile);
+                  store.state.dashboardPageState!.profile!.isSubscribed = false;
+                  ProfileDao.update(store.state.dashboardPageState!.profile!);
                   EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.SUBSCRIPTION_EXPIRED);
                   //Subscription expired - do nothing
                 }
               } else {
-                store.state.dashboardPageState.profile.isSubscribed = false;
-                ProfileDao.update(store.state.dashboardPageState.profile);
+                store.state.dashboardPageState!.profile!.isSubscribed = false;
+                ProfileDao.update(store.state.dashboardPageState!.profile!);
                 restoreMessage = ManageSubscriptionPage.FREE_TRIAL;
                 EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.FREE_TRIAL);
               }
@@ -340,8 +340,8 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
           }
 
           if(profile.deviceTokens != null) {
-            bool isCalendarGranted = profile.deviceTokens.length > 1 ? (await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendar, context: context)) : (await UserPermissionsUtil.getPermissionStatus(Permission.calendar)).isGranted;
-            if(isCalendarGranted && store.state.dashboardPageState.profile != null && !store.state.dashboardPageState.profile.calendarEnabled) {
+            bool isCalendarGranted = profile.deviceTokens!.length > 1 ? (await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendar, context: context)) : (await UserPermissionsUtil.getPermissionStatus(Permission.calendar)).isGranted;
+            if(isCalendarGranted && store.state.dashboardPageState!.profile != null && !store.state.dashboardPageState!.profile!.calendarEnabled!) {
               Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
               profile.calendarEnabled = true;
               ProfileDao.update(profile);
@@ -350,28 +350,28 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
           }
         },
         onDidChange: (previous, current) async {
-          if(!hasSeenAPpUpdate && !previous!.shouldShowAppUpdate && current.shouldShowAppUpdate) {
+          if(!hasSeenAPpUpdate && !previous!.shouldShowAppUpdate! && current.shouldShowAppUpdate!) {
             setState(() {
               hasSeenAPpUpdate = true;
               _showAppUpdateBottomSheet(context, current);
             });
-          } else if(!current.hasSeenShowcase) {
+          } else if(!current.hasSeenShowcase!) {
             _startShowcase();
-            current.onShowcaseSeen();
-          } else if(!goToHasBeenSeen && !current.goToSeen && current.goToPosesJob != null){
-            _showGoToJobPosesSheet(context, current.goToPosesJob);
+            current.onShowcaseSeen!();
+          } else if(!goToHasBeenSeen && !current.goToSeen! && current.goToPosesJob != null){
+            _showGoToJobPosesSheet(context, current.goToPosesJob!);
             setState(() {
               goToHasBeenSeen = true;
             });
-            current.onGoToSeen();
-          } else if(!previous!.shouldShowNewMileageExpensePage && current.shouldShowNewMileageExpensePage) {
+            current.onGoToSeen!();
+          } else if(!previous!.shouldShowNewMileageExpensePage! && current.shouldShowNewMileageExpensePage!) {
             UserOptionsUtil.showNewMileageExpenseSelected(context, null);
-          } else if(!hasSeenRequestReview && !previous.shouldShowRequestReview && current.shouldShowRequestReview) {
+          } else if(!hasSeenRequestReview && !previous.shouldShowRequestReview! && current.shouldShowRequestReview!) {
             setState(() {
               hasSeenRequestReview = true;
             });
             _showRequestAppReviewBottomSheet(context);
-          } else if(!hasSeenPMFRequest && !previous.shouldShowPMFRequest && current.shouldShowPMFRequest) {
+          } else if(!hasSeenPMFRequest && !previous.shouldShowPMFRequest! && current.shouldShowPMFRequest!) {
             setState(() {
               hasSeenPMFRequest = true;
             });
@@ -475,9 +475,9 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                     ],
                   ),
               ),
-                  pageState.profile != null && !pageState.profile.isSubscribed && !pageState.profile.isFreeForLife ? GestureDetector(
+                  pageState.profile != null && !pageState.profile!.isSubscribed! && !pageState.profile!.isFreeForLife! ? GestureDetector(
                     onTap: () {
-                      NavigationUtil.onManageSubscriptionSelected(context, pageState.profile);
+                      NavigationUtil.onManageSubscriptionSelected(context, pageState.profile!);
                       EventSender().sendEvent(eventName: EventNames.BT_SUBSCRIBE_NOW);
                     },
                     child: Container(
@@ -636,7 +636,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                               turns: Tween(begin: 0.0, end: -.05)
                                                   .chain(CurveTween(
                                                   curve: Curves.elasticIn))
-                                                  .animate(_animationController),
+                                                  .animate(_animationController!),
                                               child: Container(
                                                 margin: const EdgeInsets.only(right: 16.0),
                                                 height: 28.0,
@@ -647,7 +647,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                         ],
                                       ),
                                     ),
-                                    pageState.unseenNotificationCount > 0 ? Container(
+                                    pageState.unseenNotificationCount! > 0 ? Container(
                                       margin: const EdgeInsets.only(bottom: 16.0),
                                       width: 8.0,
                                       height: 8.0,
@@ -694,7 +694,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                           ),
                         ], systemOverlayStyle: SystemUiOverlayStyle.dark,
                       ),
-                      pageState.areJobsLoaded ? SliverList(
+                      pageState.areJobsLoaded! ? SliverList(
                           delegate: SliverChildListDelegate(<Widget>[
                             SlideTransition(
                               position: offsetAnimationUp,
@@ -714,7 +714,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                             ),
                             SlideTransition(
                               position: offsetAnimationUp,
-                              child: pageState.activeJobs == null || pageState.activeJobs.isEmpty ? StartAJobButton(pageState: pageState) : const SizedBox(),
+                              child: pageState.activeJobs == null || pageState.activeJobs!.isEmpty ? StartAJobButton(pageState: pageState) : const SizedBox(),
                             ),
                             SlideTransition(
                                 position: offsetAnimationUp,

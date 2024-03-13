@@ -5,33 +5,33 @@ import '../../models/Report.dart';
 import 'IncomeAndExpenseSettingsPageActions.dart';
 
 class IncomeAndExpenseSettingsPageState{
-  final bool zelleEnabled;
-  final bool venmoEnabled;
-  final bool cashAppEnabled;
-  final bool applePayEnabled;
-  final String zellePhoneEmail;
-  final String zelleFullName;
-  final String venmoLink;
-  final String cashAppLink;
-  final String applePayPhone;
-  final List<Report> incomeExpenseReports;
-  final List<Report> mileageReports;
-  final Function(bool) onZelleSelected;
-  final Function(String) onZelleTextPhoneEmailChanged;
-  final Function(String) onZelleTextFullNameChanged;
-  final Function(bool) onVenmoSelected;
-  final Function(String) onVenmoTextChanged;
-  final Function(bool) onCashAppSelected;
-  final Function(String) onCashAppTextChanged;
-  final Function(bool) onApplePaySelected;
-  final Function(String) onApplePayTextChanged;
-  final Function() onZellePhoneEmailInputDone;
-  final Function() onZelleFullNameInputDone;
-  final Function() onVenmoInputDone;
-  final Function() onCashAppInputDone;
-  final Function() onApplePayInputDone;
-  final Function(Report) onDownloadIncomeExpenseReport;
-  final Function(Report) onDownloadMileageReport;
+  final bool? zelleEnabled;
+  final bool? venmoEnabled;
+  final bool? cashAppEnabled;
+  final bool? applePayEnabled;
+  final String? zellePhoneEmail;
+  final String? zelleFullName;
+  final String? venmoLink;
+  final String? cashAppLink;
+  final String? applePayPhone;
+  final List<Report>? incomeExpenseReports;
+  final List<Report>? mileageReports;
+  final Function(bool)? onZelleSelected;
+  final Function(String)? onZelleTextPhoneEmailChanged;
+  final Function(String)? onZelleTextFullNameChanged;
+  final Function(bool)? onVenmoSelected;
+  final Function(String)? onVenmoTextChanged;
+  final Function(bool)? onCashAppSelected;
+  final Function(String)? onCashAppTextChanged;
+  final Function(bool)? onApplePaySelected;
+  final Function(String)? onApplePayTextChanged;
+  final Function()? onZellePhoneEmailInputDone;
+  final Function()? onZelleFullNameInputDone;
+  final Function()? onVenmoInputDone;
+  final Function()? onCashAppInputDone;
+  final Function()? onApplePayInputDone;
+  final Function(Report)? onDownloadIncomeExpenseReport;
+  final Function(Report)? onDownloadMileageReport;
 
   IncomeAndExpenseSettingsPageState({
     @required this.zelleEnabled,
@@ -64,34 +64,34 @@ class IncomeAndExpenseSettingsPageState{
   });
 
   IncomeAndExpenseSettingsPageState copyWith({
-    bool zelleEnabled,
-    bool venmoEnabled,
-    bool cashAppEnabled,
-    bool applePayEnabled,
-    String zellePhoneEmail,
-    String zelleFullName,
-    String venmoLink,
-    String cashAppLink,
-    String applePayPhone,
-    List<Report> incomeExpenseReports,
-    List<Report> mileageReports,
-    Function() onSignOutSelected,
-    Function(bool) onZelleSelected,
-    Function(String) onZelleTextPhoneEmailChanged,
-    Function(String) onZelleTextFullNameChanged,
-    Function(bool) onVenmoSelected,
-    Function(String) onVenmoTextChanged,
-    Function(bool) onCashAppSelected,
-    Function(String) onCashAppTextChanged,
-    Function(bool) onApplePaySelected,
-    Function(String) onApplePayTextChanged,
-    Function() onZellePhoneEmailInputDone,
-    Function() onZelleFullNameInputDone,
-    Function() onVenmoInputDone,
-    Function() onCashAppInputDone,
-    Function() onApplePayInputDone,
-    Function(Report) onDownloadIncomeExpenseReport,
-    Function(Report) onDownloadMileageReport,
+    bool? zelleEnabled,
+    bool? venmoEnabled,
+    bool? cashAppEnabled,
+    bool? applePayEnabled,
+    String? zellePhoneEmail,
+    String? zelleFullName,
+    String? venmoLink,
+    String? cashAppLink,
+    String? applePayPhone,
+    List<Report>? incomeExpenseReports,
+    List<Report>? mileageReports,
+    Function()? onSignOutSelected,
+    Function(bool)? onZelleSelected,
+    Function(String)? onZelleTextPhoneEmailChanged,
+    Function(String)? onZelleTextFullNameChanged,
+    Function(bool)? onVenmoSelected,
+    Function(String)? onVenmoTextChanged,
+    Function(bool)? onCashAppSelected,
+    Function(String)? onCashAppTextChanged,
+    Function(bool)? onApplePaySelected,
+    Function(String)? onApplePayTextChanged,
+    Function()? onZellePhoneEmailInputDone,
+    Function()? onZelleFullNameInputDone,
+    Function()? onVenmoInputDone,
+    Function()? onCashAppInputDone,
+    Function()? onApplePayInputDone,
+    Function(Report)? onDownloadIncomeExpenseReport,
+    Function(Report)? onDownloadMileageReport,
   }){
     return IncomeAndExpenseSettingsPageState(
       zelleEnabled: zelleEnabled ?? this.zelleEnabled,
@@ -156,17 +156,17 @@ class IncomeAndExpenseSettingsPageState{
 
   factory IncomeAndExpenseSettingsPageState.fromStore(Store<AppState> store) {
     return IncomeAndExpenseSettingsPageState(
-      zelleEnabled: store.state.incomeAndExpenseSettingsPageState.zelleEnabled,
-      venmoEnabled: store.state.incomeAndExpenseSettingsPageState.venmoEnabled,
-      cashAppEnabled: store.state.incomeAndExpenseSettingsPageState.cashAppEnabled,
-      applePayEnabled: store.state.incomeAndExpenseSettingsPageState.applePayEnabled,
-      zelleFullName: store.state.incomeAndExpenseSettingsPageState.zelleFullName,
-      zellePhoneEmail: store.state.incomeAndExpenseSettingsPageState.zellePhoneEmail,
-      venmoLink: store.state.incomeAndExpenseSettingsPageState.venmoLink,
-      cashAppLink: store.state.incomeAndExpenseSettingsPageState.cashAppLink,
-      applePayPhone: store.state.incomeAndExpenseSettingsPageState.applePayPhone,
-      incomeExpenseReports: store.state.incomeAndExpenseSettingsPageState.incomeExpenseReports,
-      mileageReports: store.state.incomeAndExpenseSettingsPageState.mileageReports,
+      zelleEnabled: store.state.incomeAndExpenseSettingsPageState!.zelleEnabled,
+      venmoEnabled: store.state.incomeAndExpenseSettingsPageState!.venmoEnabled,
+      cashAppEnabled: store.state.incomeAndExpenseSettingsPageState!.cashAppEnabled,
+      applePayEnabled: store.state.incomeAndExpenseSettingsPageState!.applePayEnabled,
+      zelleFullName: store.state.incomeAndExpenseSettingsPageState!.zelleFullName,
+      zellePhoneEmail: store.state.incomeAndExpenseSettingsPageState!.zellePhoneEmail,
+      venmoLink: store.state.incomeAndExpenseSettingsPageState!.venmoLink,
+      cashAppLink: store.state.incomeAndExpenseSettingsPageState!.cashAppLink,
+      applePayPhone: store.state.incomeAndExpenseSettingsPageState!.applePayPhone,
+      incomeExpenseReports: store.state.incomeAndExpenseSettingsPageState!.incomeExpenseReports,
+      mileageReports: store.state.incomeAndExpenseSettingsPageState!.mileageReports,
       onZelleSelected: (enabled) => store.dispatch(SaveZelleStateAction(store.state.incomeAndExpenseSettingsPageState, enabled)),
       onVenmoSelected: (enabled) => store.dispatch(SaveVenmoStateAction(store.state.incomeAndExpenseSettingsPageState, enabled)),
       onCashAppSelected: (enabled) => store.dispatch(SaveCashAppStateAction(store.state.incomeAndExpenseSettingsPageState, enabled)),

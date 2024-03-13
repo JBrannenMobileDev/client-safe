@@ -20,68 +20,68 @@ import 'package:redux/redux.dart';
 import '../dashboard_page/widgets/LineChartMonthData.dart';
 
 class IncomeAndExpensesPageState {
-  final String filterType;
-  final String allInvoicesFilterType;
-  final String allExpensesFilterType;
-  final int selectedYear;
-  final int pageViewIndex;
-  final int lastMonthLastYearIncome;
-  final int thisMonthIncome;
-  final int lastMonthIncome;
-  final int thisMonthLastYearIncome;
-  final Job selectedJob;
-  final List<Invoice> allInvoices;
-  final List<Invoice> paidInvoices;
-  final List<Invoice> unpaidInvoices;
-  final List<Job> allJobs;
-  final List<Job> filteredJobs;
-  final List<Client> allClients;
-  final List<SingleExpense> allSingleExpenses;
-  final List<SingleExpense> singleExpensesForSelectedYear;
-  final List<RecurringExpense> recurringExpensesForSelectedYear;
-  final List<RecurringExpense> allRecurringExpenses;
-  final List<MileageExpense> allMileageExpenses;
-  final List<MileageExpense> mileageExpensesForSelectedYear;
-  final List<LineChartMonthData> lineChartMonthData;
-  final bool isFinishedFetchingClients;
-  final String jobSearchText;
-  final Function(String) onJobSearchTextChanged;
-  final double totalIncome;//not from tips
-  final double totalTips;
-  final double incomeForSelectedYear;
-  final double expensesForSelectedYear;
-  final double singleExpensesForSelectedYearTotal;
-  final double recurringExpensesForSelectedYearTotal;
-  final double mileageExpensesForSelectedYearTotal;
-  final bool isSingleExpensesMinimized;
-  final Profile profile;
-  final Function(String) onFilterChanged;
-  final Function(String) onAllInvoicesFilterChanged;
-  final Function(String) onAllExpensesFilterChanged;
-  final Function(int) onYearChanged;
-  final Function(Invoice) onEditInvoiceSelected;
-  final Function(Invoice) onDeleteSelected;
-  final Function(Invoice) onInvoiceSent;
-  final Function() onBackPressed;
-  final Function() onCancelPressed;
-  final Function() onSaveTipSelected;
-  final Function() onNextPressed;
-  final Function(Job) onJobSelected;
-  final Function(int) onAddToTip;
-  final Function() onSaveTipChange;
-  final Function() onClearUnsavedTip;
-  final int unsavedTipAmount;
-  final Function(SingleExpense) onSingleExpenseItemSelected;
-  final Function(RecurringExpense) onEditRecurringExpenseItemSelected;
-  final Function(bool) onViewAllSelected;
-  final Function(int) onViewAllExpensesSelected;
-  final Function(Charge, RecurringExpense, bool) onRecurringExpenseChargeChecked;
-  final Function(RecurringExpense) onCancelRecurringSubscriptionSelected;
-  final Function(RecurringExpense) onResumeRecurringSubscriptionSelected;
-  final double totalMilesDriven;
-  final Function(MileageExpense) onMileageExpenseItemSelected;
-  final Function() setPaymentRequestAsSeen;
-  final Function() onIncomeInfoSeen;
+  final String? filterType;
+  final String? allInvoicesFilterType;
+  final String? allExpensesFilterType;
+  final int? selectedYear;
+  final int? pageViewIndex;
+  final int? lastMonthLastYearIncome;
+  final int? thisMonthIncome;
+  final int? lastMonthIncome;
+  final int? thisMonthLastYearIncome;
+  final Job? selectedJob;
+  final List<Invoice>? allInvoices;
+  final List<Invoice>? paidInvoices;
+  final List<Invoice>? unpaidInvoices;
+  final List<Job>? allJobs;
+  final List<Job>? filteredJobs;
+  final List<Client>? allClients;
+  final List<SingleExpense>? allSingleExpenses;
+  final List<SingleExpense>? singleExpensesForSelectedYear;
+  final List<RecurringExpense>? recurringExpensesForSelectedYear;
+  final List<RecurringExpense>? allRecurringExpenses;
+  final List<MileageExpense>? allMileageExpenses;
+  final List<MileageExpense>? mileageExpensesForSelectedYear;
+  final List<LineChartMonthData>? lineChartMonthData;
+  final bool? isFinishedFetchingClients;
+  final String? jobSearchText;
+  final Function(String)? onJobSearchTextChanged;
+  final double? totalIncome;//not from tips
+  final double? totalTips;
+  final double? incomeForSelectedYear;
+  final double? expensesForSelectedYear;
+  final double? singleExpensesForSelectedYearTotal;
+  final double? recurringExpensesForSelectedYearTotal;
+  final double? mileageExpensesForSelectedYearTotal;
+  final bool? isSingleExpensesMinimized;
+  final Profile? profile;
+  final Function(String)? onFilterChanged;
+  final Function(String)? onAllInvoicesFilterChanged;
+  final Function(String)? onAllExpensesFilterChanged;
+  final Function(int)? onYearChanged;
+  final Function(Invoice)? onEditInvoiceSelected;
+  final Function(Invoice)? onDeleteSelected;
+  final Function(Invoice)? onInvoiceSent;
+  final Function()? onBackPressed;
+  final Function()? onCancelPressed;
+  final Function()? onSaveTipSelected;
+  final Function()? onNextPressed;
+  final Function(Job)? onJobSelected;
+  final Function(int)? onAddToTip;
+  final Function()? onSaveTipChange;
+  final Function()? onClearUnsavedTip;
+  final int? unsavedTipAmount;
+  final Function(SingleExpense)? onSingleExpenseItemSelected;
+  final Function(RecurringExpense)? onEditRecurringExpenseItemSelected;
+  final Function(bool)? onViewAllSelected;
+  final Function(int)? onViewAllExpensesSelected;
+  final Function(Charge, RecurringExpense, bool)? onRecurringExpenseChargeChecked;
+  final Function(RecurringExpense)? onCancelRecurringSubscriptionSelected;
+  final Function(RecurringExpense)? onResumeRecurringSubscriptionSelected;
+  final double? totalMilesDriven;
+  final Function(MileageExpense)? onMileageExpenseItemSelected;
+  final Function()? setPaymentRequestAsSeen;
+  final Function()? onIncomeInfoSeen;
 
   IncomeAndExpensesPageState({
     @required this.filterType,
@@ -149,68 +149,68 @@ class IncomeAndExpensesPageState {
   });
 
   IncomeAndExpensesPageState copyWith({
-    List<RecurringExpense> allRecurringExpenses,
-    List<RecurringExpense> recurringExpensesForSelectedYear,
-    double recurringExpensesForSelectedYearTotal,
-    String filterType,
-    String allInvoicesFilterType,
-    int selectedYear,
-    List<Invoice> allInvoices,
-    List<Invoice> paidInvoices,
-    List<Invoice> unpaidInvoices,
-    double totalIncome,
-    double totalTips,
-    double incomeForSelectedYear,
-    double expensesForSelectedYear,
-    Function(String) onFilterChanged,
-    Function(int) onYearChanged,
-    Job selectedJob,
-    Function(Invoice) onEditInvoiceSelected,
-    Function(Invoice) onDeleteSelected,
-    Function(Invoice) onInvoiceSent,
-    Function(String) onAllInvoicesFilterChanged,
-    Function(String) onAllExpensesFilterChanged,
-    List<Job> allJobs,
-    List<Job> filteredJobs,
-    List<Client> allClients,
-    bool isFinishedFetchingClients,
-    Function(String) onJobTextChanged,
-    String jobSearchText,
-    int pageViewIndex,
-    double singleExpensesForSelectedYearTotal,
-    Function() onBackPressed,
-    Function() onCancelPressed,
-    Function() onSaveTipSelected,
-    Function() onNextPressed,
-    Function(Job) onJobSelected,
-    Function(int) onAddToTip,
-    Function() onSaveTipChange,
-    Function() onClearUnsavedTip,
-    int unsavedTipAmount,
-    List<SingleExpense> singleExpensesForSelectedYear,
-    List<SingleExpense> allSingleExpenses,
-    bool isSingleExpensesMinimized,
-    Function(SingleExpense) onSingleExpenseItemSelected,
-    Function(bool) onViewAllSelected,
-    String allExpensesFilterType,
-    Function(int) onViewAllExpensesSelected,
-    Function(RecurringExpense) onRecurringExpenseItemSelected,
-    Function(MileageExpense) onMileageExpenseItemSelected,
-    Function(Charge, RecurringExpense, bool) onRecurringExpenseChargeChecked,
-    Function(RecurringExpense) onCancelRecurringSubscriptionSelected,
-    Function(RecurringExpense) onResumeRecurringSubscriptionSelected,
-    Profile profile,
-    List<MileageExpense> allMileageExpenses,
-    List<MileageExpense> mileageExpensesForSelectedYear,
-    double mileageExpensesForSelectedYearTotal,
-    double totalMilesDriven,
-    int lastMonthLastYearIncome,
-    int thisMonthIncome,
-    int lastMonthIncome,
-    int thisMonthLastYearIncome,
-    List<LineChartMonthData> lineChartMonthData,
-    Function() setPaymentRequestAsSeen,
-    Function() onIncomeInfoSeen,
+    List<RecurringExpense>? allRecurringExpenses,
+    List<RecurringExpense>? recurringExpensesForSelectedYear,
+    double? recurringExpensesForSelectedYearTotal,
+    String? filterType,
+    String? allInvoicesFilterType,
+    int? selectedYear,
+    List<Invoice>? allInvoices,
+    List<Invoice>? paidInvoices,
+    List<Invoice>? unpaidInvoices,
+    double? totalIncome,
+    double? totalTips,
+    double? incomeForSelectedYear,
+    double? expensesForSelectedYear,
+    Function(String)? onFilterChanged,
+    Function(int)? onYearChanged,
+    Job? selectedJob,
+    Function(Invoice)? onEditInvoiceSelected,
+    Function(Invoice)? onDeleteSelected,
+    Function(Invoice)? onInvoiceSent,
+    Function(String)? onAllInvoicesFilterChanged,
+    Function(String)? onAllExpensesFilterChanged,
+    List<Job>? allJobs,
+    List<Job>? filteredJobs,
+    List<Client>? allClients,
+    bool? isFinishedFetchingClients,
+    Function(String)? onJobTextChanged,
+    String? jobSearchText,
+    int? pageViewIndex,
+    double? singleExpensesForSelectedYearTotal,
+    Function()? onBackPressed,
+    Function()? onCancelPressed,
+    Function()? onSaveTipSelected,
+    Function()? onNextPressed,
+    Function(Job)? onJobSelected,
+    Function(int)? onAddToTip,
+    Function()? onSaveTipChange,
+    Function()? onClearUnsavedTip,
+    int? unsavedTipAmount,
+    List<SingleExpense>? singleExpensesForSelectedYear,
+    List<SingleExpense>? allSingleExpenses,
+    bool? isSingleExpensesMinimized,
+    Function(SingleExpense)? onSingleExpenseItemSelected,
+    Function(bool)? onViewAllSelected,
+    String? allExpensesFilterType,
+    Function(int)? onViewAllExpensesSelected,
+    Function(RecurringExpense)? onRecurringExpenseItemSelected,
+    Function(MileageExpense)? onMileageExpenseItemSelected,
+    Function(Charge, RecurringExpense, bool)? onRecurringExpenseChargeChecked,
+    Function(RecurringExpense)? onCancelRecurringSubscriptionSelected,
+    Function(RecurringExpense)? onResumeRecurringSubscriptionSelected,
+    Profile? profile,
+    List<MileageExpense>? allMileageExpenses,
+    List<MileageExpense>? mileageExpensesForSelectedYear,
+    double? mileageExpensesForSelectedYearTotal,
+    double? totalMilesDriven,
+    int? lastMonthLastYearIncome,
+    int? thisMonthIncome,
+    int? lastMonthIncome,
+    int? thisMonthLastYearIncome,
+    List<LineChartMonthData>? lineChartMonthData,
+    Function()? setPaymentRequestAsSeen,
+    Function()? onIncomeInfoSeen,
   }){
     return IncomeAndExpensesPageState(
       filterType: filterType?? this.filterType,
@@ -345,42 +345,42 @@ class IncomeAndExpensesPageState {
 
   factory IncomeAndExpensesPageState.fromStore(Store<AppState> store) {
     return IncomeAndExpensesPageState(
-      filterType: store.state.incomeAndExpensesPageState.filterType,
-      selectedYear: store.state.incomeAndExpensesPageState.selectedYear,
-      allInvoices: store.state.incomeAndExpensesPageState.allInvoices,
-      totalIncome: store.state.incomeAndExpensesPageState.totalIncome,
-      incomeForSelectedYear: store.state.incomeAndExpensesPageState.incomeForSelectedYear,
-      unpaidInvoices: store.state.incomeAndExpensesPageState.unpaidInvoices,
-      paidInvoices: store.state.incomeAndExpensesPageState.paidInvoices,
-      allInvoicesFilterType: store.state.incomeAndExpensesPageState.allInvoicesFilterType,
-      totalTips: store.state.incomeAndExpensesPageState.totalTips,
-      allJobs: store.state.incomeAndExpensesPageState.allJobs,
-      filteredJobs: store.state.incomeAndExpensesPageState.filteredJobs,
-      allClients: store.state.incomeAndExpensesPageState.allClients,
-      isSingleExpensesMinimized: store.state.incomeAndExpensesPageState.isSingleExpensesMinimized,
-      isFinishedFetchingClients: store.state.incomeAndExpensesPageState.isFinishedFetchingClients,
-      jobSearchText: store.state.incomeAndExpensesPageState.jobSearchText,
-      pageViewIndex: store.state.incomeAndExpensesPageState.pageViewIndex,
-      selectedJob: store.state.incomeAndExpensesPageState.selectedJob,
-      unsavedTipAmount: store.state.incomeAndExpensesPageState.unsavedTipAmount,
-      singleExpensesForSelectedYear: store.state.incomeAndExpensesPageState.singleExpensesForSelectedYear,
-      singleExpensesForSelectedYearTotal: store.state.incomeAndExpensesPageState.singleExpensesForSelectedYearTotal,
-      allSingleExpenses: store.state.incomeAndExpensesPageState.allSingleExpenses,
-      expensesForSelectedYear: store.state.incomeAndExpensesPageState.expensesForSelectedYear,
-      allExpensesFilterType: store.state.incomeAndExpensesPageState.allExpensesFilterType,
-      allRecurringExpenses: store.state.incomeAndExpensesPageState.allRecurringExpenses,
-      recurringExpensesForSelectedYear: store.state.incomeAndExpensesPageState.recurringExpensesForSelectedYear,
-      recurringExpensesForSelectedYearTotal: store.state.incomeAndExpensesPageState.recurringExpensesForSelectedYearTotal,
-      profile: store.state.incomeAndExpensesPageState.profile,
-      allMileageExpenses: store.state.incomeAndExpensesPageState.allMileageExpenses,
-      mileageExpensesForSelectedYear: store.state.incomeAndExpensesPageState.mileageExpensesForSelectedYear,
-      mileageExpensesForSelectedYearTotal: store.state.incomeAndExpensesPageState.mileageExpensesForSelectedYearTotal,
-      totalMilesDriven: store.state.incomeAndExpensesPageState.totalMilesDriven,
-      lastMonthLastYearIncome: store.state.incomeAndExpensesPageState.lastMonthLastYearIncome,
-      thisMonthIncome: store.state.incomeAndExpensesPageState.thisMonthIncome,
-      lastMonthIncome: store.state.incomeAndExpensesPageState.lastMonthIncome,
-      thisMonthLastYearIncome: store.state.incomeAndExpensesPageState.thisMonthLastYearIncome,
-      lineChartMonthData: store.state.incomeAndExpensesPageState.lineChartMonthData,
+      filterType: store.state.incomeAndExpensesPageState!.filterType,
+      selectedYear: store.state.incomeAndExpensesPageState!.selectedYear,
+      allInvoices: store.state.incomeAndExpensesPageState!.allInvoices,
+      totalIncome: store.state.incomeAndExpensesPageState!.totalIncome,
+      incomeForSelectedYear: store.state.incomeAndExpensesPageState!.incomeForSelectedYear,
+      unpaidInvoices: store.state.incomeAndExpensesPageState!.unpaidInvoices,
+      paidInvoices: store.state.incomeAndExpensesPageState!.paidInvoices,
+      allInvoicesFilterType: store.state.incomeAndExpensesPageState!.allInvoicesFilterType,
+      totalTips: store.state.incomeAndExpensesPageState!.totalTips,
+      allJobs: store.state.incomeAndExpensesPageState!.allJobs,
+      filteredJobs: store.state.incomeAndExpensesPageState!.filteredJobs,
+      allClients: store.state.incomeAndExpensesPageState!.allClients,
+      isSingleExpensesMinimized: store.state.incomeAndExpensesPageState!.isSingleExpensesMinimized,
+      isFinishedFetchingClients: store.state.incomeAndExpensesPageState!.isFinishedFetchingClients,
+      jobSearchText: store.state.incomeAndExpensesPageState!.jobSearchText,
+      pageViewIndex: store.state.incomeAndExpensesPageState!.pageViewIndex,
+      selectedJob: store.state.incomeAndExpensesPageState!.selectedJob,
+      unsavedTipAmount: store.state.incomeAndExpensesPageState!.unsavedTipAmount,
+      singleExpensesForSelectedYear: store.state.incomeAndExpensesPageState!.singleExpensesForSelectedYear,
+      singleExpensesForSelectedYearTotal: store.state.incomeAndExpensesPageState!.singleExpensesForSelectedYearTotal,
+      allSingleExpenses: store.state.incomeAndExpensesPageState!.allSingleExpenses,
+      expensesForSelectedYear: store.state.incomeAndExpensesPageState!.expensesForSelectedYear,
+      allExpensesFilterType: store.state.incomeAndExpensesPageState!.allExpensesFilterType,
+      allRecurringExpenses: store.state.incomeAndExpensesPageState!.allRecurringExpenses,
+      recurringExpensesForSelectedYear: store.state.incomeAndExpensesPageState!.recurringExpensesForSelectedYear,
+      recurringExpensesForSelectedYearTotal: store.state.incomeAndExpensesPageState!.recurringExpensesForSelectedYearTotal,
+      profile: store.state.incomeAndExpensesPageState!.profile,
+      allMileageExpenses: store.state.incomeAndExpensesPageState!.allMileageExpenses,
+      mileageExpensesForSelectedYear: store.state.incomeAndExpensesPageState!.mileageExpensesForSelectedYear,
+      mileageExpensesForSelectedYearTotal: store.state.incomeAndExpensesPageState!.mileageExpensesForSelectedYearTotal,
+      totalMilesDriven: store.state.incomeAndExpensesPageState!.totalMilesDriven,
+      lastMonthLastYearIncome: store.state.incomeAndExpensesPageState!.lastMonthLastYearIncome,
+      thisMonthIncome: store.state.incomeAndExpensesPageState!.thisMonthIncome,
+      lastMonthIncome: store.state.incomeAndExpensesPageState!.lastMonthIncome,
+      thisMonthLastYearIncome: store.state.incomeAndExpensesPageState!.thisMonthLastYearIncome,
+      lineChartMonthData: store.state.incomeAndExpensesPageState!.lineChartMonthData,
       onJobSearchTextChanged: (searchText) => store.dispatch(JobSearchTextChangedAction(store.state.incomeAndExpensesPageState, searchText)),
       onFilterChanged: (filterType) => store.dispatch(FilterChangedAction(store.state.incomeAndExpensesPageState, filterType)),
       onYearChanged: (year) => store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, year)),

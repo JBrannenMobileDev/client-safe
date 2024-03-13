@@ -27,21 +27,21 @@ EditBrandingPageState _initialize(EditBrandingPageState previousState, Initializ
   EditBrandingPageState localState = EditBrandingPageState.initial();
   return localState.copyWith(
     profile: action.profile,
-    currentIconColor: action.profile.selectedColorTheme != null ? ColorConstants.hexToColor(action.profile.selectedColorTheme.iconColor) : Color(ColorConstants.getPeachDark()),
-    currentIconTextColor: action.profile.selectedColorTheme != null ? ColorConstants.hexToColor(action.profile.selectedColorTheme.iconTextColor) : Color(ColorConstants.getPrimaryWhite()),
-    currentButtonColor: action.profile.selectedColorTheme != null ? ColorConstants.hexToColor(action.profile.selectedColorTheme.buttonColor) : Color(ColorConstants.getPeachDark()),
-    currentButtonTextColor: action.profile.selectedColorTheme != null ? ColorConstants.hexToColor(action.profile.selectedColorTheme.buttonTextColor) : Color(ColorConstants.getPrimaryWhite()),
-    currentBannerColor: action.profile.selectedColorTheme != null ? ColorConstants.hexToColor(action.profile.selectedColorTheme.bannerColor) : Color(ColorConstants.getBlueDark()),
-    logoImageSelected: action.profile.logoSelected,
-    bannerImageSelected: action.profile.bannerImageSelected,
+    currentIconColor: action.profile!.selectedColorTheme != null ? ColorConstants.hexToColor(action.profile!.selectedColorTheme!.iconColor!) : Color(ColorConstants.getPeachDark()),
+    currentIconTextColor: action.profile!.selectedColorTheme != null ? ColorConstants.hexToColor(action.profile!.selectedColorTheme!.iconTextColor!) : Color(ColorConstants.getPrimaryWhite()),
+    currentButtonColor: action.profile!.selectedColorTheme != null ? ColorConstants.hexToColor(action.profile!.selectedColorTheme!.buttonColor!) : Color(ColorConstants.getPeachDark()),
+    currentButtonTextColor: action.profile!.selectedColorTheme != null ? ColorConstants.hexToColor(action.profile!.selectedColorTheme!.buttonTextColor!) : Color(ColorConstants.getPrimaryWhite()),
+    currentBannerColor: action.profile!.selectedColorTheme != null ? ColorConstants.hexToColor(action.profile!.selectedColorTheme!.bannerColor!) : Color(ColorConstants.getBlueDark()),
+    logoImageSelected: action.profile!.logoSelected,
+    bannerImageSelected: action.profile!.bannerImageSelected,
     bannerImage: null,
     resizedLogoImage: null,
     bannerMobileImage: null,
     bannerWebImage: null,
     showPublishButton: false,
-    currentIconFont: action.profile.selectedFontTheme != null ? action.profile.selectedFontTheme.iconFont : FontTheme.Moredya,
-    currentFont: action.profile.selectedFontTheme != null ? action.profile.selectedFontTheme.mainFont : FontTheme.OPEN_SANS,
-    logoCharacter: action.profile.logoCharacter,
+    currentIconFont: action.profile!.selectedFontTheme != null ? action.profile!.selectedFontTheme!.iconFont! : FontTheme.Moredya,
+    currentFont: action.profile!.selectedFontTheme != null ? action.profile!.selectedFontTheme!.mainFont! : FontTheme.OPEN_SANS,
+    logoCharacter: action.profile!.logoCharacter,
   );
 }
 
@@ -54,19 +54,19 @@ EditBrandingPageState _setUploadProgress(EditBrandingPageState previousState, Se
 
 EditBrandingPageState _setLogoLetter(EditBrandingPageState previousState, SetLogoLetterAction action){
   bool showPublishButton = showPublishChangesButton(
-    action.pageState.currentIconColor,
-    action.pageState.currentIconTextColor,
-    action.pageState.currentButtonColor,
-    action.pageState.currentButtonTextColor,
-    action.pageState.currentBannerColor,
-    action.pageState.currentIconFont,
-    action.pageState.currentFont,
-    action.pageState.profile,
-    action.pageState.profile.logoSelected, action.pageState.logoImageSelected,
-    action.pageState.profile.bannerImageSelected, action.pageState.bannerImageSelected,
-    action.pageState.profile.logoCharacter ?? 'M', action.logoLetter,
-    action.pageState.resizedLogoImage, action.pageState.resizedLogoImage,
-    action.pageState.bannerImage, action.pageState.bannerImage,
+    action.pageState!.currentIconColor!,
+    action.pageState!.currentIconTextColor!,
+    action.pageState!.currentButtonColor!,
+    action.pageState!.currentButtonTextColor!,
+    action.pageState!.currentBannerColor!,
+    action.pageState!.currentIconFont!,
+    action.pageState!.currentFont!,
+    action.pageState!.profile!,
+    action.pageState!.profile!.logoSelected!, action.pageState!.logoImageSelected!,
+    action.pageState!.profile!.bannerImageSelected!, action.pageState!.bannerImageSelected!,
+    action.pageState!.profile!.logoCharacter ?? 'M', action.logoLetter!,
+    action.pageState!.resizedLogoImage!, action.pageState!.resizedLogoImage!,
+    action.pageState!.bannerImage!, action.pageState!.bannerImage!,
   );
   return previousState.copyWith(
     logoCharacter: action.logoLetter,
@@ -75,8 +75,8 @@ EditBrandingPageState _setLogoLetter(EditBrandingPageState previousState, SetLog
 }
 
 EditBrandingPageState _SetSelectedFont(EditBrandingPageState previousState, SetSelectedFontAction action){
-  String iconFont = action.pageState.currentIconFont;
-  String mainFont = action.pageState.currentFont;
+  String? iconFont = action.pageState!.currentIconFont;
+  String? mainFont = action.pageState!.currentFont;
 
   switch(action.id) {
     case FontTheme.MAIN_FONT_ID:
@@ -88,19 +88,19 @@ EditBrandingPageState _SetSelectedFont(EditBrandingPageState previousState, SetS
   }
 
   bool showPublishButton = showPublishChangesButton(
-    action.pageState.currentIconColor,
-    action.pageState.currentIconTextColor,
-    action.pageState.currentButtonColor,
-    action.pageState.currentButtonTextColor,
-    action.pageState.currentBannerColor,
-    iconFont,
-    mainFont,
-    action.pageState.profile,
-    action.pageState.profile.logoSelected, action.pageState.logoImageSelected,
-    action.pageState.profile.bannerImageSelected, action.pageState.bannerImageSelected,
-    action.pageState.profile.logoCharacter ?? 'M', action.pageState.logoCharacter,
-    action.pageState.resizedLogoImage, action.pageState.resizedLogoImage,
-    action.pageState.bannerImage, action.pageState.bannerImage,
+    action.pageState!.currentIconColor!,
+    action.pageState!.currentIconTextColor!,
+    action.pageState!.currentButtonColor!,
+    action.pageState!.currentButtonTextColor!,
+    action.pageState!.currentBannerColor!,
+    iconFont!,
+    mainFont!,
+    action.pageState!.profile!,
+    action.pageState!.profile!.logoSelected!, action.pageState!.logoImageSelected!,
+    action.pageState!.profile!.bannerImageSelected!, action.pageState!.bannerImageSelected!,
+    action.pageState!.profile!.logoCharacter ?? 'M', action.pageState!.logoCharacter!,
+    action.pageState!.resizedLogoImage!, action.pageState!.resizedLogoImage!,
+    action.pageState!.bannerImage!, action.pageState!.bannerImage!,
   );
 
   return previousState.copyWith(
@@ -111,11 +111,11 @@ EditBrandingPageState _SetSelectedFont(EditBrandingPageState previousState, SetS
 }
 
 EditBrandingPageState _setColor(EditBrandingPageState previousState, SaveColorAction action){
-  Color bannerColorToSave = action.pageState.currentBannerColor;
-  Color buttonColorToSave = action.pageState.currentButtonColor;
-  Color buttonTextColorToSave = action.pageState.currentButtonTextColor;
-  Color iconColorToSave = action.pageState.currentIconColor;
-  Color iconTextColorToSave = action.pageState.currentIconTextColor;
+  Color? bannerColorToSave = action.pageState!.currentBannerColor;
+  Color? buttonColorToSave = action.pageState!.currentButtonColor;
+  Color? buttonTextColorToSave = action.pageState!.currentButtonTextColor;
+  Color? iconColorToSave = action.pageState!.currentIconColor;
+  Color? iconTextColorToSave = action.pageState!.currentIconTextColor;
 
   switch(action.id) {
     case ColorConstants.banner:
@@ -141,14 +141,14 @@ EditBrandingPageState _setColor(EditBrandingPageState previousState, SaveColorAc
     buttonColorToSave,
     buttonTextColorToSave,
     bannerColorToSave,
-    action.pageState.currentIconFont,
-    action.pageState.currentFont,
-    action.pageState.profile,
-    action.pageState.profile.logoSelected, action.pageState.logoImageSelected,
-    action.pageState.profile.bannerImageSelected, action.pageState.bannerImageSelected,
-    action.pageState.profile.logoCharacter ?? 'M', action.pageState.logoCharacter,
-    action.pageState.resizedLogoImage, action.pageState.resizedLogoImage,
-    action.pageState.bannerImage, action.pageState.bannerImage,
+    action.pageState!.currentIconFont,
+    action.pageState!.currentFont,
+    action.pageState!.profile,
+    action.pageState!.profile!.logoSelected, action.pageState!.logoImageSelected,
+    action.pageState!.profile!.bannerImageSelected, action.pageState!.bannerImageSelected,
+    action.pageState!.profile!.logoCharacter ?? 'M', action.pageState!.logoCharacter,
+    action.pageState!.resizedLogoImage, action.pageState!.resizedLogoImage,
+    action.pageState!.bannerImage, action.pageState!.bannerImage,
   );
 
   return previousState.copyWith(
@@ -163,19 +163,19 @@ EditBrandingPageState _setColor(EditBrandingPageState previousState, SaveColorAc
 
 EditBrandingPageState _setLogoSelection(EditBrandingPageState previousState, SetLogoSelectionAction action){
   bool showPublishButton = showPublishChangesButton(
-    action.pageState.currentIconColor,
-    action.pageState.currentIconTextColor,
-    action.pageState.currentButtonColor,
-    action.pageState.currentButtonTextColor,
-    action.pageState.currentBannerColor,
-    action.pageState.currentIconFont,
-    action.pageState.currentFont,
-    action.pageState.profile,
-    action.pageState.profile.logoSelected, action.isLogoSelected,
-    action.pageState.profile.bannerImageSelected, action.pageState.bannerImageSelected,
-    action.pageState.profile.logoCharacter ?? '', action.pageState.logoCharacter,
-    action.pageState.resizedLogoImage, action.pageState.resizedLogoImage,
-    action.pageState.bannerImage, action.pageState.bannerImage,
+    action.pageState!.currentIconColor,
+    action.pageState!.currentIconTextColor,
+    action.pageState!.currentButtonColor,
+    action.pageState!.currentButtonTextColor,
+    action.pageState!.currentBannerColor,
+    action.pageState!.currentIconFont,
+    action.pageState!.currentFont,
+    action.pageState!.profile,
+    action.pageState!.profile!.logoSelected, action.isLogoSelected,
+    action.pageState!.profile!.bannerImageSelected, action.pageState!.bannerImageSelected,
+    action.pageState!.profile!.logoCharacter ?? '', action.pageState!.logoCharacter,
+    action.pageState!.resizedLogoImage, action.pageState!.resizedLogoImage,
+    action.pageState!.bannerImage, action.pageState!.bannerImage,
   );
   return previousState.copyWith(
     logoImageSelected: action.isLogoSelected,
@@ -185,19 +185,19 @@ EditBrandingPageState _setLogoSelection(EditBrandingPageState previousState, Set
 
 EditBrandingPageState _setBannerSelection(EditBrandingPageState previousState, SetBannerSelectionAction action){
   bool showPublishButton = showPublishChangesButton(
-    action.pageState.currentIconColor,
-    action.pageState.currentIconTextColor,
-    action.pageState.currentButtonColor,
-    action.pageState.currentButtonTextColor,
-    action.pageState.currentBannerColor,
-    action.pageState.currentIconFont,
-    action.pageState.currentFont,
-    action.pageState.profile,
-    action.pageState.profile.logoSelected, action.pageState.logoImageSelected,
-    action.pageState.profile.bannerImageSelected, action.isBannerSelected,
-    action.pageState.profile.logoCharacter ?? 'M', action.pageState.logoCharacter,
-    action.pageState.resizedLogoImage, action.pageState.resizedLogoImage,
-    action.pageState.bannerImage, action.pageState.bannerImage,
+    action.pageState!.currentIconColor,
+    action.pageState!.currentIconTextColor,
+    action.pageState!.currentButtonColor,
+    action.pageState!.currentButtonTextColor,
+    action.pageState!.currentBannerColor,
+    action.pageState!.currentIconFont,
+    action.pageState!.currentFont,
+    action.pageState!.profile,
+    action.pageState!.profile!.logoSelected, action.pageState!.logoImageSelected,
+    action.pageState!.profile!.bannerImageSelected, action.isBannerSelected,
+    action.pageState!.profile!.logoCharacter ?? 'M', action.pageState!.logoCharacter,
+    action.pageState!.resizedLogoImage, action.pageState!.resizedLogoImage,
+    action.pageState!.bannerImage, action.pageState!.bannerImage,
   );
   return previousState.copyWith(
     bannerImageSelected: action.isBannerSelected,
@@ -235,32 +235,32 @@ EditBrandingPageState _setResizedBannerMobileImage(EditBrandingPageState previou
 }
 
 bool showPublishChangesButton(
-    Color iconColorToSave,
-    Color iconTextColorToSave,
-    Color buttonColorToSave,
-    Color buttonTextColorToSave,
-    Color bannerColorToSave,
-    String iconFont,
-    String mainFont,
-    Profile profile,
-    bool logoImageSelected,
-    bool newLogoImageSelected,
-    bool bannerImageSelected,
-    bool newBannerImageSelected,
-    String currentLogoLetter,
-    String newLogoLetter,
-    XFile currentLogoImage,
-    XFile newLogoImage,
-    XFile currentBannerImage,
-    XFile newBannerImage,
+    Color? iconColorToSave,
+    Color? iconTextColorToSave,
+    Color? buttonColorToSave,
+    Color? buttonTextColorToSave,
+    Color? bannerColorToSave,
+    String? iconFont,
+    String? mainFont,
+    Profile? profile,
+    bool? logoImageSelected,
+    bool? newLogoImageSelected,
+    bool? bannerImageSelected,
+    bool? newBannerImageSelected,
+    String? currentLogoLetter,
+    String? newLogoLetter,
+    XFile? currentLogoImage,
+    XFile? newLogoImage,
+    XFile? currentBannerImage,
+    XFile? newBannerImage,
 ) {
   bool showPublishButton = false;
 
-  if(profile.selectedFontTheme != null) {
-    if(profile.selectedFontTheme.iconFont != iconFont) {
+  if(profile!.selectedFontTheme != null) {
+    if(profile.selectedFontTheme!.iconFont != iconFont) {
       showPublishButton = true;
     }
-    if(profile.selectedFontTheme.mainFont != mainFont) {
+    if(profile.selectedFontTheme!.mainFont != mainFont) {
       showPublishButton = true;
     }
   } else {
@@ -268,19 +268,19 @@ bool showPublishChangesButton(
   }
 
   if(profile.selectedColorTheme != null) {
-    if(profile.selectedColorTheme.bannerColor != ColorConstants.getHex(bannerColorToSave)) {
+    if(profile.selectedColorTheme!.bannerColor != ColorConstants.getHex(bannerColorToSave!)) {
       showPublishButton = true;
     }
-    if(profile.selectedColorTheme.buttonColor != ColorConstants.getHex(buttonColorToSave)) {
+    if(profile.selectedColorTheme!.buttonColor != ColorConstants.getHex(buttonColorToSave!)) {
       showPublishButton = true;
     }
-    if(profile.selectedColorTheme.buttonTextColor != ColorConstants.getHex(buttonTextColorToSave)) {
+    if(profile.selectedColorTheme!.buttonTextColor != ColorConstants.getHex(buttonTextColorToSave!)) {
       showPublishButton = true;
     }
-    if(profile.selectedColorTheme.iconColor != ColorConstants.getHex(iconColorToSave)) {
+    if(profile.selectedColorTheme!.iconColor != ColorConstants.getHex(iconColorToSave!)) {
       showPublishButton = true;
     }
-    if(profile.selectedColorTheme.iconTextColor != ColorConstants.getHex(iconTextColorToSave)) {
+    if(profile.selectedColorTheme!.iconTextColor != ColorConstants.getHex(iconTextColorToSave!)) {
       showPublishButton = true;
     }
   } else {
@@ -290,8 +290,8 @@ bool showPublishChangesButton(
   if(logoImageSelected != newLogoImageSelected) showPublishButton = true;
   if(bannerImageSelected != newBannerImageSelected) showPublishButton = true;
   if(currentLogoLetter != newLogoLetter) showPublishButton = true;
-  if(currentLogoImage != null && currentLogoImage.path != newLogoImage.path) showPublishButton = true;
-  if(currentBannerImage != null && currentBannerImage.path != newBannerImage.path) showPublishButton = true;
+  if(currentLogoImage != null && currentLogoImage.path != newLogoImage!.path) showPublishButton = true;
+  if(currentBannerImage != null && currentBannerImage.path != newBannerImage!.path) showPublishButton = true;
 
   return showPublishButton;
 }

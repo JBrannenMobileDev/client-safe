@@ -71,13 +71,13 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
-                          pageState.logoImageSelected ? pageState.resizedLogoImage != null ? ClipRRect(
+                          pageState.logoImageSelected! ? pageState.resizedLogoImage != null ? ClipRRect(
                             borderRadius: new BorderRadius.circular(82.0),
                             child: Image(
                               fit: BoxFit.cover,
                               width: 164,
                               height: 164,
-                              image: FileImage(File(pageState.resizedLogoImage.path)),
+                              image: FileImage(File(pageState.resizedLogoImage!.path)),
                             ),
                           ) : ClipRRect(
                               borderRadius: new BorderRadius.circular(82.0),
@@ -90,7 +90,7 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                                   color: pageState.currentIconColor
                               ),
                               child: DandyLightNetworkImage(
-                                pageState.profile.logoUrl
+                                pageState.profile!.logoUrl!
                               )
                             )
                           ) : Container(
@@ -102,7 +102,7 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                                 color: pageState.currentIconColor,
                             ),
                           ),
-                          !pageState.logoImageSelected ? TextDandyLight(
+                          !pageState.logoImageSelected! ? TextDandyLight(
                             type: TextDandyLight.BRAND_LOGO,
                             fontFamily: pageState.currentIconFont,
                             textAlign: TextAlign.center,

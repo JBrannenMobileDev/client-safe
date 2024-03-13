@@ -12,7 +12,7 @@ import '../../../widgets/TextDandyLight.dart';
 class LeadSourcesPieChart extends StatelessWidget{
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
-  LeadSourcesPieChart({Key key}) : super(key: key);
+  LeadSourcesPieChart({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, DashboardPageState>(
@@ -34,7 +34,7 @@ class LeadSourcesPieChart extends StatelessWidget{
                     color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
-                pageState.leadSourcesData.isNotEmpty ? PieChartWidget(chartType: PieChartWidget.LEAD_SOURCES,) :
+                pageState.leadSourcesData!.isNotEmpty ? PieChartWidget(chartType: PieChartWidget.LEAD_SOURCES,) :
                 Column(
                   children: [
                     Container(
@@ -54,7 +54,7 @@ class LeadSourcesPieChart extends StatelessWidget{
                     ),
                   ],
                 ),
-                pageState.leadSourcesData.isNotEmpty ? Container(
+                pageState.leadSourcesData!.isNotEmpty ? Container(
                   margin: const EdgeInsets.only(left: 16, right: 16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -74,14 +74,14 @@ class LeadSourcesPieChart extends StatelessWidget{
                     ],
                   ),
                 ) : const SizedBox(),
-                pageState.leadSourcesData.isNotEmpty ? ListView.builder(
+                pageState.leadSourcesData!.isNotEmpty ? ListView.builder(
                   reverse: false,
                   padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
                   shrinkWrap: true,
                   controller: null,
                   physics: const ClampingScrollPhysics(),
                   key: _listKey,
-                  itemCount: pageState.leadSourcePieChartRowData.length,
+                  itemCount: pageState.leadSourcePieChartRowData!.length,
                   itemBuilder: (BuildContext context, int index) {
                     return SizedBox(
                       height: 48.0,
@@ -95,14 +95,14 @@ class LeadSourcesPieChart extends StatelessWidget{
                                 width: 18.0,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(9.0),
-                                    color: Color(pageState.leadSourcePieChartRowData.elementAt(index).color)
+                                    color: Color(pageState.leadSourcePieChartRowData!.elementAt(index).color!)
                                 ),
                               ),
                               Container(
                                 margin: const EdgeInsets.only(left: 8.0),
                                 child: TextDandyLight(
                                   type: TextDandyLight.MEDIUM_TEXT,
-                                  text: '${pageState.leadSourcePieChartRowData.elementAt(index).sourceName} - ${pageState.leadSourcePieChartRowData.elementAt(index).count}',
+                                  text: '${pageState.leadSourcePieChartRowData!.elementAt(index).sourceName} - ${pageState.leadSourcePieChartRowData!.elementAt(index).count}',
                                   textAlign: TextAlign.start,
                                   color: Color(ColorConstants.getPrimaryBlack()),
                                 ),
@@ -113,7 +113,7 @@ class LeadSourcesPieChart extends StatelessWidget{
                             margin: const EdgeInsets.only(left: 8.0),
                             child: TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
-                              text: '${pageState.leadSourcePieChartRowData.elementAt(index).conversionRate}%',
+                              text: '${pageState.leadSourcePieChartRowData!.elementAt(index).conversionRate}%',
                               textAlign: TextAlign.start,
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),

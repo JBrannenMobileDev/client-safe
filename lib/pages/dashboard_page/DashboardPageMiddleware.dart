@@ -103,8 +103,8 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
 
     for(Job job in jobsThatNeedMileageTripAdded) {
       if(profile.latDefaultHome != 0 && profile.lngDefaultHome != 0){
-        LatLng start = LatLng(profile.latDefaultHome, profile.lngDefaultHome);
-        LatLng end = LatLng(job.location.latitude, job.location.longitude);
+        LatLng start = LatLng(profile.latDefaultHome!, profile.lngDefaultHome!);
+        LatLng end = LatLng(job.location!.latitude!, job.location!.longitude!);
         double milesDriven = await GoogleApiClient(httpClient: http.Client()).getTravelDistance(start, end);
         MileageExpense newMileageTrip = MileageExpense(
           jobDocumentId: job.documentId,
@@ -125,11 +125,11 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
         job.hasAddedMileageTrip = true;
         await JobDao.update(job);
         EventSender().sendEvent(eventName: EventNames.CREATED_MILEAGE_TRIP, properties: {
-          EventNames.TRIP_PARAM_LAT_START : newMileageTrip.startLat,
-          EventNames.TRIP_PARAM_LON_START : newMileageTrip.startLng,
-          EventNames.TRIP_PARAM_LAT_END : newMileageTrip.endLat,
-          EventNames.TRIP_PARAM_LON_END : newMileageTrip.endLng,
-          EventNames.TRIP_PARAM_DIST_MILES : newMileageTrip.totalMiles,
+          EventNames.TRIP_PARAM_LAT_START : newMileageTrip.startLat!,
+          EventNames.TRIP_PARAM_LON_START : newMileageTrip.startLng!,
+          EventNames.TRIP_PARAM_LAT_END : newMileageTrip.endLat!,
+          EventNames.TRIP_PARAM_LON_END : newMileageTrip.endLng!,
+          EventNames.TRIP_PARAM_DIST_MILES : newMileageTrip.totalMiles!,
         });
       }
     }
@@ -160,16 +160,16 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _checkForUpdate(Store<AppState> store, CheckForAppUpdateAction action) async {
-    List<AppSettings> settingsList = (await AppSettingsDao.getAll());
-    AppSettings settings = settingsList != null && settingsList.isNotEmpty ? settingsList.first : null;
+    List<AppSettings>? settingsList = (await AppSettingsDao.getAll());
+    AppSettings? settings = settingsList != null && settingsList.isNotEmpty ? settingsList.first : null;
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     if(settings != null) {
-      if(settings.show) {
+      if(settings.show!) {
         PackageInfo packageInfo = await PackageInfo.fromPlatform();
         Version currentVersion = Version.parse(packageInfo.version);
-        Version latestVersion = Version.parse(settings.currentBuildVersionNumber);
+        Version latestVersion = Version.parse(settings.currentBuildVersionNumber!);
 
-        if (latestVersion > currentVersion && (profile.updateLastSeenDate == null || (profile.updateLastSeenDate != null && hasBeenLongEnoughSinceLastRequest(profile.updateLastSeenDate, 1)))) {
+        if (latestVersion > currentVersion && (profile.updateLastSeenDate == null || (profile.updateLastSeenDate != null && hasBeenLongEnoughSinceLastRequest(profile.updateLastSeenDate!, 1)))) {
           store.dispatch(SetShouldShowUpdateAction(store.state.dashboardPageState, true, settings));
         } else {
           store.dispatch(SetShouldShowUpdateAction(store.state.dashboardPageState, false, settings));
@@ -182,13 +182,13 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
 
   void _launchDrivingDirections(Store<AppState> store, LaunchDrivingDirectionsAction action) async {
     IntentLauncherUtil.launchDrivingDirections(
-        action.location.latitude.toString(),
-        action.location.longitude.toString());
+        action.location!.latitude.toString(),
+        action.location!.longitude.toString());
   }
 
   Future<void> _checkForReviewRequest(Store<AppState> store, CheckForReviewRequestAction action, NextDispatcher next) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    if(profile.isSubscribed && profile.jobsCreatedCount > 2 && profile.canShowAppReview && hasBeenLongEnoughSinceLastRequest(profile.requestReviewDate, 7)) {
+    if(profile.isSubscribed! && profile.jobsCreatedCount! > 2 && profile.canShowAppReview! && hasBeenLongEnoughSinceLastRequest(profile.requestReviewDate!, 7)) {
       next(SetShouldAppReview(store.state.dashboardPageState, true));
     } else {
       next(SetShouldAppReview(store.state.dashboardPageState, false));
@@ -197,7 +197,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
 
   Future<void> _checkForPMFSurvey(Store<AppState> store, CheckForPMFSurveyAction action, NextDispatcher next) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    if(profile.isSubscribed && profile.jobsCreatedCount > 8 && profile.canShowPMFSurvey && hasBeenLongEnoughSinceLastRequest(profile.requestPMFSurveyDate, 7)) {
+    if(profile.isSubscribed! && profile.jobsCreatedCount! > 8 && profile.canShowPMFSurvey! && hasBeenLongEnoughSinceLastRequest(profile.requestPMFSurveyDate!, 7)) {
       next(SetShouldShowPMF(store.state.dashboardPageState, true));
     } else {
       next(SetShouldShowPMF(store.state.dashboardPageState, false));
@@ -209,15 +209,15 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     DateTime now = DateTime.now();
     for(Job job in allJobs) {
       if(job.selectedTime != null && job.selectedEndTime != null) {
-        DateTime startTime = job.selectedTime.copyWith(year: job.selectedDate.year, month: job.selectedDate.month, day: job.selectedDate.day);
+        DateTime startTime = job.selectedTime!.copyWith(year: job.selectedDate!.year, month: job.selectedDate!.month, day: job.selectedDate!.day);
         startTime.add(const Duration(hours: -1));
-        DateTime endTime = job.selectedEndTime.copyWith(year: job.selectedDate.year, month: job.selectedDate.month, day: job.selectedDate.day);
+        DateTime endTime = job.selectedEndTime!.copyWith(year: job.selectedDate!.year, month: job.selectedDate!.month, day: job.selectedDate!.day);
         if(now.isAfter(startTime) && now.isBefore(endTime)) {
           store.dispatch(SetGoToPosesJob(store.state.dashboardPageState, job));
           break;
         }
       } else if(job.selectedTime != null && job.selectedEndTime == null) {
-        DateTime startTime = job.selectedTime.copyWith(year: job.selectedDate.year, month: job.selectedDate.month, day: job.selectedDate.day);
+        DateTime startTime = job.selectedTime!.copyWith(year: job.selectedDate!.year, month: job.selectedDate!.month, day: job.selectedDate!.day);
         DateTime endTime = DateTime(startTime.year, startTime.month, startTime.day, startTime.hour, startTime.minute);
         endTime.add(const Duration(hours: 1));
         startTime.add(const Duration(hours: -1));
@@ -236,9 +236,9 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _fetchSubscriptionState(Store<AppState> store, NextDispatcher next) async {
-    purchases.CustomerInfo subscriptionState = await _getSubscriptionState();
+    purchases.CustomerInfo? subscriptionState = await _getSubscriptionState();
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    if ((subscriptionState.entitlements.all["standard"] != null && subscriptionState.entitlements.all["standard"].isActive) || (subscriptionState.entitlements.all["standard_1699"] != null && subscriptionState.entitlements.all["standard_1699"].isActive)) {
+    if ((subscriptionState!.entitlements.all["standard"] != null && subscriptionState.entitlements.all["standard"]!.isActive) || (subscriptionState.entitlements.all["standard_1699"] != null && subscriptionState.entitlements.all["standard_1699"]!.isActive)) {
       profile.isSubscribed = true;
     } else {
       profile.isSubscribed = false;
@@ -249,7 +249,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<List<Pose>> _getUnseenFeaturedPoses() async {
-    List<Pose> myPoses = (await PoseSubmittedGroupDao.getByUid(UidUtil().getUid()))?.poses;
+    List<Pose>? myPoses = (await PoseSubmittedGroupDao.getByUid(UidUtil().getUid()))?.poses;
     if(myPoses != null) {
       return myPoses.where((pose) => pose.isUnseenFeaturedPose()).toList();
     } else {
@@ -265,10 +265,10 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _setUnseenFeaturedPosesToSeen(Store<AppState> store, SetUnseenFeaturedPosesAsSeenAction action) async {
-    PoseSubmittedGroup group = await PoseSubmittedGroupDao.getByUid(UidUtil().getUid());
-    List<Pose> myPoses = group.poses;
-    for (var pose in myPoses) {
-      if(!pose.hasSeen) {
+    PoseSubmittedGroup? group = await PoseSubmittedGroupDao.getByUid(UidUtil().getUid());
+    List<Pose>? myPoses = group!.poses;
+    for (var pose in myPoses!) {
+      if(!pose.hasSeen!) {
         pose.hasSeen = true;
       }
     }
@@ -278,7 +278,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     List<JobReminder> reminders = await JobReminderDao.getTriggeredReminders();
     int unseenCount = 0;
     for(JobReminder reminder in reminders) {
-      if(reminder.hasBeenSeen == null || !reminder.hasBeenSeen) {
+      if(reminder.hasBeenSeen == null || !reminder.hasBeenSeen!) {
         unseenCount++;
       }
     }
@@ -286,13 +286,13 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _setNotificationToSeen(Store<AppState> store, SetNotificationToSeen action) async {
-    action.reminder.hasBeenSeen = true;
-    await JobReminderDao.update(action.reminder);
+    action.reminder!.hasBeenSeen = true;
+    await JobReminderDao.update(action.reminder!);
 
     List<JobReminder> reminders = await JobReminderDao.getTriggeredReminders();
     int unseenCount = 0;
     for(JobReminder reminder in reminders) {
-      if(reminder.hasBeenSeen == null || !reminder.hasBeenSeen) {
+      if(reminder.hasBeenSeen == null || !reminder.hasBeenSeen!) {
         unseenCount++;
       }
     }
@@ -326,7 +326,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
 
     int unseenCount = 0;
     for(JobReminder reminder in reminders) {
-      if(reminder.hasBeenSeen == null || !reminder.hasBeenSeen) {
+      if(reminder.hasBeenSeen == null || !reminder.hasBeenSeen!) {
         unseenCount++;
       }
     }
@@ -338,7 +338,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     List<JobReminder> pendingReminders = await JobReminderDao.getPendingJobReminders();
     for(JobReminder reminder in pendingReminders) {
       DateTime now = DateTime.now();
-      DateTime triggerTime = reminder.triggerTime;
+      DateTime triggerTime = reminder.triggerTime!;
       int diff = (now.millisecondsSinceEpoch - triggerTime.millisecondsSinceEpoch).abs();
 
       Timer(Duration(milliseconds: diff), () {
@@ -364,17 +364,17 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     List<RecurringExpense> recurringExpenses = await RecurringExpenseDao.getAll();
 
 
-    store.dispatch(SetJobsDataAction(store.state.jobsPageState, allJobs));
+    store.dispatch(SetJobsDataAction(store.state.jobsPageState!, allJobs));
     store.dispatch(SetJobToStateAction(store.state.dashboardPageState, allJobs, singleExpenses, recurringExpenses, mileageExpenses));
     store.dispatch(SetJobTypeChartData(store.state.dashboardPageState, allJobs, allJobTypes));
 
     (await ProfileDao.getProfileStream()).listen((profilesSnapshots) async {
       List<Profile> profiles = [];
       for(RecordSnapshot record in profilesSnapshots) {
-        profiles.add(Profile.fromMap(record.value));
+        profiles.add(Profile.fromMap(record.value! as Map<String, dynamic>));
       }
 
-      Profile newProfile;
+      Profile? newProfile;
       String uid = UidUtil().getUid();
       for(Profile profile in profiles) {
         if(profile.uid == uid) {
@@ -389,22 +389,22 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       }
     });
 
-    await purchases.Purchases.logIn(store.state.dashboardPageState.profile.uid);
+    await purchases.Purchases.logIn(store.state.dashboardPageState!.profile!.uid!);
 
     (await JobTypeDao.getJobTypeStream()).listen((jobSnapshots) async {
       List<JobType> jobTypes = [];
       for(RecordSnapshot clientSnapshot in jobSnapshots) {
-        jobTypes.add(JobType.fromMap(clientSnapshot.value));
+        jobTypes.add(JobType.fromMap(clientSnapshot.value! as Map<String,dynamic>));
       }
       allJobs = await JobDao.getAllJobs();
-      store.dispatch(SetJobsDataAction(store.state.jobsPageState, allJobs));
+      store.dispatch(SetJobsDataAction(store.state.jobsPageState!, allJobs));
       store.dispatch(SetJobTypeChartData(store.state.dashboardPageState, allJobs, allJobTypes));
     });
 
     (await SingleExpenseDao.getSingleExpenseStream()).listen((singleSnapshots) async {
       List<SingleExpense> expenses = [];
       for(RecordSnapshot clientSnapshot in singleSnapshots) {
-        expenses.add(SingleExpense.fromMap(clientSnapshot.value));
+        expenses.add(SingleExpense.fromMap(clientSnapshot.value! as Map<String,dynamic>));
       }
       allJobs = await JobDao.getAllJobs();
       store.dispatch(SetJobToStateAction(store.state.dashboardPageState, allJobs, expenses, recurringExpenses, mileageExpenses));
@@ -413,7 +413,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     (await RecurringExpenseDao.getRecurringExpenseStream()).listen((singleSnapshots) async {
       List<RecurringExpense> expenses = [];
       for(RecordSnapshot clientSnapshot in singleSnapshots) {
-        expenses.add(RecurringExpense.fromMap(clientSnapshot.value));
+        expenses.add(RecurringExpense.fromMap(clientSnapshot.value! as Map<String,dynamic>));
       }
       allJobs = await JobDao.getAllJobs();
       store.dispatch(SetJobToStateAction(store.state.dashboardPageState, allJobs, singleExpenses, expenses, mileageExpenses));
@@ -422,7 +422,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     (await MileageExpenseDao.getMileageExpenseStream()).listen((singleSnapshots) async {
       List<MileageExpense> expenses = [];
       for(RecordSnapshot clientSnapshot in singleSnapshots) {
-        expenses.add(MileageExpense.fromMap(clientSnapshot.value));
+        expenses.add(MileageExpense.fromMap(clientSnapshot.value! as Map<String,dynamic>));
       }
       allJobs = await JobDao.getAllJobs();
       store.dispatch(SetJobToStateAction(store.state.dashboardPageState, allJobs, singleExpenses, recurringExpenses, expenses));
@@ -436,14 +436,14 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     (await ClientDao.getClientsStream()).listen((clientSnapshots) {
       List<Client> clients = [];
       for(RecordSnapshot clientSnapshot in clientSnapshots) {
-        clients.add(Client.fromMap(clientSnapshot.value));
+        clients.add(Client.fromMap(clientSnapshot.value! as Map<String,dynamic>));
       }
       store.dispatch(SetClientsDashboardAction(store.state.dashboardPageState, clients));
     });
   }
 
-  Future<purchases.CustomerInfo> _getSubscriptionState() async {
-    purchases.CustomerInfo currentInfo;
+  Future<purchases.CustomerInfo?> _getSubscriptionState() async {
+    purchases.CustomerInfo? currentInfo;
     try {
       currentInfo = await purchases.Purchases.getCustomerInfo();
     } on PlatformException catch (e) {

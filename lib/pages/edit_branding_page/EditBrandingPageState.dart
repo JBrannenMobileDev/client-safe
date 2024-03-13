@@ -8,35 +8,35 @@ import '../../utils/ColorConstants.dart';
 import 'EditBrandingPageActions.dart';
 
 class EditBrandingPageState{
-  final Profile profile;
-  final XFile resizedLogoImage;
-  final XFile bannerImage;
-  final XFile bannerWebImage;
-  final XFile bannerMobileImage;
-  final bool logoImageSelected;
-  final bool bannerImageSelected;
-  final Color currentBannerColor;
-  final Color currentButtonColor;
-  final Color currentButtonTextColor;
-  final Color currentIconColor;
-  final Color currentIconTextColor;
-  final String currentIconFont;
-  final String currentFont;
-  final String logoCharacter;
-  final bool showPublishButton;
-  final double uploadProgress;
-  final bool uploadInProgress;
-  final Function(XFile) onLogoUploaded;
-  final Function(XFile) onBannerUploaded;
-  final Function(XFile) onBannerWebUploaded;
-  final Function(XFile) onBannerMobileUploaded;
-  final Function(bool) onLogoImageSelected;
-  final Function(Color, String) onColorSaved;
-  final Function(String, String) onFontSaved;
-  final Function(String) onLogoLetterChanged;
-  final Function(bool) onBannerImageSelected;
-  final Function() onPublishChangesSelected;
-  final Function() clearBrandingState;
+  final Profile? profile;
+  final XFile? resizedLogoImage;
+  final XFile? bannerImage;
+  final XFile? bannerWebImage;
+  final XFile? bannerMobileImage;
+  final bool? logoImageSelected;
+  final bool? bannerImageSelected;
+  final Color? currentBannerColor;
+  final Color? currentButtonColor;
+  final Color? currentButtonTextColor;
+  final Color? currentIconColor;
+  final Color? currentIconTextColor;
+  final String? currentIconFont;
+  final String? currentFont;
+  final String? logoCharacter;
+  final bool? showPublishButton;
+  final double? uploadProgress;
+  final bool? uploadInProgress;
+  final Function(XFile)? onLogoUploaded;
+  final Function(XFile)? onBannerUploaded;
+  final Function(XFile)? onBannerWebUploaded;
+  final Function(XFile)? onBannerMobileUploaded;
+  final Function(bool)? onLogoImageSelected;
+  final Function(Color, String)? onColorSaved;
+  final Function(String, String)? onFontSaved;
+  final Function(String)? onLogoLetterChanged;
+  final Function(bool)? onBannerImageSelected;
+  final Function()? onPublishChangesSelected;
+  final Function()? clearBrandingState;
 
   EditBrandingPageState({
     @required this.profile,
@@ -71,35 +71,35 @@ class EditBrandingPageState{
   });
 
   EditBrandingPageState copyWith({
-    Profile profile,
-    XFile resizedLogoImage,
-    XFile bannerImage,
-    XFile bannerWebImage,
-    XFile bannerMobileImage,
-    bool logoImageSelected,
-    bool bannerImageSelected,
-    Color currentBannerColor,
-    Color currentButtonColor,
-    Color currentButtonTextColor,
-    Color currentIconColor,
-    Color currentIconTextColor,
-    String currentIconFont,
-    String currentFont,
-    String logoCharacter,
-    bool showPublishButton,
-    double uploadProgress,
-    bool uploadInProgress,
-    Function(XFile) onLogoUploaded,
-    Function(XFile) onBannerUploaded,
-    Function(XFile) onBannerWebUploaded,
-    Function(XFile) onBannerMobileUploaded,
-    Function(bool) onLogoImageSelected,
-    Function(Color, String) onColorSaved,
-    Function(String, String) onFontSaved,
-    Function(String) onLogoLetterChanged,
-    Function(bool) onBannerImageSelected,
-    Function() onPublishChangesSelected,
-    Function() clearBrandingState,
+    Profile? profile,
+    XFile? resizedLogoImage,
+    XFile? bannerImage,
+    XFile? bannerWebImage,
+    XFile? bannerMobileImage,
+    bool? logoImageSelected,
+    bool? bannerImageSelected,
+    Color? currentBannerColor,
+    Color? currentButtonColor,
+    Color? currentButtonTextColor,
+    Color? currentIconColor,
+    Color? currentIconTextColor,
+    String? currentIconFont,
+    String? currentFont,
+    String? logoCharacter,
+    bool? showPublishButton,
+    double? uploadProgress,
+    bool? uploadInProgress,
+    Function(XFile)? onLogoUploaded,
+    Function(XFile)? onBannerUploaded,
+    Function(XFile)? onBannerWebUploaded,
+    Function(XFile)? onBannerMobileUploaded,
+    Function(bool)? onLogoImageSelected,
+    Function(Color, String)? onColorSaved,
+    Function(String, String)? onFontSaved,
+    Function(String)? onLogoLetterChanged,
+    Function(bool)? onBannerImageSelected,
+    Function()? onPublishChangesSelected,
+    Function()? clearBrandingState,
   }){
     return EditBrandingPageState(
       profile: profile ?? this.profile,
@@ -168,24 +168,24 @@ class EditBrandingPageState{
 
   factory EditBrandingPageState.fromStore(Store<AppState> store) {
     return EditBrandingPageState(
-      profile: store.state.editBrandingPageState.profile,
-      logoImageSelected: store.state.editBrandingPageState.logoImageSelected,
-      resizedLogoImage: store.state.editBrandingPageState.resizedLogoImage,
-      currentBannerColor: store.state.editBrandingPageState.currentBannerColor,
-      currentButtonColor: store.state.editBrandingPageState.currentButtonColor,
-      currentButtonTextColor: store.state.editBrandingPageState.currentButtonTextColor,
-      currentIconColor: store.state.editBrandingPageState.currentIconColor,
-      currentIconFont: store.state.editBrandingPageState.currentIconFont,
-      currentFont: store.state.editBrandingPageState.currentFont,
-      currentIconTextColor: store.state.editBrandingPageState.currentIconTextColor,
-      showPublishButton: store.state.editBrandingPageState.showPublishButton,
-      logoCharacter: store.state.editBrandingPageState.logoCharacter,
-      bannerImage: store.state.editBrandingPageState.bannerImage,
-      bannerImageSelected: store.state.editBrandingPageState.bannerImageSelected,
-      bannerWebImage: store.state.editBrandingPageState.bannerWebImage,
-      bannerMobileImage: store.state.editBrandingPageState.bannerMobileImage,
-      uploadProgress: store.state.editBrandingPageState.uploadProgress,
-      uploadInProgress: store.state.editBrandingPageState.uploadInProgress,
+      profile: store.state.editBrandingPageState!.profile,
+      logoImageSelected: store.state.editBrandingPageState!.logoImageSelected,
+      resizedLogoImage: store.state.editBrandingPageState!.resizedLogoImage,
+      currentBannerColor: store.state.editBrandingPageState!.currentBannerColor,
+      currentButtonColor: store.state.editBrandingPageState!.currentButtonColor,
+      currentButtonTextColor: store.state.editBrandingPageState!.currentButtonTextColor,
+      currentIconColor: store.state.editBrandingPageState!.currentIconColor,
+      currentIconFont: store.state.editBrandingPageState!.currentIconFont,
+      currentFont: store.state.editBrandingPageState!.currentFont,
+      currentIconTextColor: store.state.editBrandingPageState!.currentIconTextColor,
+      showPublishButton: store.state.editBrandingPageState!.showPublishButton,
+      logoCharacter: store.state.editBrandingPageState!.logoCharacter,
+      bannerImage: store.state.editBrandingPageState!.bannerImage,
+      bannerImageSelected: store.state.editBrandingPageState!.bannerImageSelected,
+      bannerWebImage: store.state.editBrandingPageState!.bannerWebImage,
+      bannerMobileImage: store.state.editBrandingPageState!.bannerMobileImage,
+      uploadProgress: store.state.editBrandingPageState!.uploadProgress,
+      uploadInProgress: store.state.editBrandingPageState!.uploadInProgress,
       clearBrandingState: () => store.dispatch(ClearBrandingPreviewStateAction(store.state.editBrandingPageState)),
       onLogoUploaded: (imageFile) async {
         await store.dispatch(ResizeLogoImageAction(store.state.editBrandingPageState, imageFile));

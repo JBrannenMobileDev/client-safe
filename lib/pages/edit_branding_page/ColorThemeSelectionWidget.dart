@@ -22,7 +22,7 @@ class ColorThemeSelectionWidget extends StatefulWidget {
 }
 
 class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> with TickerProviderStateMixin {
-  Color tempSelectionColor = null;
+  Color? tempSelectionColor;
 
   @override
   Widget build(BuildContext context) =>
@@ -66,7 +66,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                             ),
                             TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
-                              text: '#' + ColorConstants.getHex(pageState.currentIconColor),
+                              text: '#' + ColorConstants.getHex(pageState.currentIconColor!),
                               textAlign: TextAlign.center,
                               color: Color(ColorConstants.getPrimaryGreyMedium()),
                             )
@@ -95,7 +95,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                                   content: SingleChildScrollView(
                                     child: HueRingPicker(
                                       hueRingStrokeWidth: 30,
-                                      pickerColor: pageState.currentIconColor,
+                                      pickerColor: pageState.currentIconColor!,
                                       onColorChanged: (color) {
                                         setState(() {
                                           tempSelectionColor = color;
@@ -126,7 +126,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                                         color: Color(ColorConstants.getPrimaryBlack()),
                                       ),
                                       onPressed: () {
-                                        pageState.onColorSaved(tempSelectionColor, ColorConstants.icon);
+                                        pageState.onColorSaved!(tempSelectionColor!, ColorConstants.icon);
                                         setState(() {
                                           tempSelectionColor = null;
                                         });
@@ -146,7 +146,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                               color: pageState.currentIconColor,
                               border: Border.all(
                                 width: 1,
-                                color: ColorConstants.isWhite(pageState.currentIconColor) ? Color(ColorConstants.getPrimaryGreyMedium()) : pageState.currentIconColor,
+                                color: ColorConstants.isWhite(pageState.currentIconColor!) ? Color(ColorConstants.getPrimaryGreyMedium()) : pageState.currentIconColor!,
                               ),
                             ),
                           ),
@@ -171,7 +171,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                             ),
                             TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
-                              text: '#' + ColorConstants.getHex(pageState.currentIconTextColor),
+                              text: '#' + ColorConstants.getHex(pageState.currentIconTextColor!),
                               textAlign: TextAlign.center,
                               color: Color(ColorConstants.getPrimaryGreyMedium()),
                             )
@@ -200,7 +200,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                                   content: SingleChildScrollView(
                                     child: HueRingPicker(
                                       hueRingStrokeWidth: 22,
-                                      pickerColor: pageState.currentIconTextColor,
+                                      pickerColor: pageState.currentIconTextColor!,
                                       onColorChanged: (color) {
                                         setState(() {
                                           tempSelectionColor = color;
@@ -231,7 +231,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                                         color: Color(ColorConstants.getPrimaryBlack()),
                                       ),
                                       onPressed: () {
-                                        pageState.onColorSaved(tempSelectionColor, ColorConstants.iconText);
+                                        pageState.onColorSaved!(tempSelectionColor!, ColorConstants.iconText);
                                         setState(() {
                                           tempSelectionColor = null;
                                         });
@@ -251,7 +251,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                               color: pageState.currentIconTextColor,
                               border: Border.all(
                                 width: 1,
-                                color: ColorConstants.isWhite(pageState.currentIconTextColor) ? Color(ColorConstants.getPrimaryGreyMedium()) : pageState.currentIconTextColor,
+                                color: ColorConstants.isWhite(pageState.currentIconTextColor!) ? Color(ColorConstants.getPrimaryGreyMedium()) : pageState.currentIconTextColor!,
                               ),
                             ),
                           ),
@@ -276,7 +276,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                             ),
                             TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
-                              text: '#' + ColorConstants.getHex(pageState.currentButtonColor),
+                              text: '#' + ColorConstants.getHex(pageState.currentButtonColor!),
                               textAlign: TextAlign.center,
                               color: Color(ColorConstants.getPrimaryGreyMedium()),
                             )
@@ -305,7 +305,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                                   content: SingleChildScrollView(
                                     child: HueRingPicker(
                                       hueRingStrokeWidth: 22,
-                                      pickerColor: pageState.currentButtonColor,
+                                      pickerColor: pageState.currentButtonColor!,
                                       onColorChanged: (color) {
                                         setState(() {
                                           tempSelectionColor = color;
@@ -336,7 +336,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                                         color: Color(ColorConstants.getPrimaryBlack()),
                                       ),
                                       onPressed: () {
-                                        pageState.onColorSaved(tempSelectionColor, ColorConstants.button);
+                                        pageState.onColorSaved!(tempSelectionColor!, ColorConstants.button);
                                         setState(() {
                                           tempSelectionColor = null;
                                         });
@@ -356,7 +356,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                               color: pageState.currentButtonColor,
                               border: Border.all(
                                 width: 1,
-                                color: ColorConstants.isWhite(pageState.currentButtonColor) ? Color(ColorConstants.getPrimaryGreyMedium()) : pageState.currentButtonColor,
+                                color: ColorConstants.isWhite(pageState.currentButtonColor!) ? Color(ColorConstants.getPrimaryGreyMedium()) : pageState.currentButtonColor!,
                               ),
                             ),
                           ),
@@ -381,7 +381,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                             ),
                             TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
-                              text: '#' + ColorConstants.getHex(pageState.currentButtonTextColor),
+                              text: '#' + ColorConstants.getHex(pageState.currentButtonTextColor!),
                               textAlign: TextAlign.center,
                               color: Color(ColorConstants.getPrimaryGreyMedium()),
                             )
@@ -410,7 +410,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                                   content: SingleChildScrollView(
                                     child: HueRingPicker(
                                       hueRingStrokeWidth: 22,
-                                      pickerColor: pageState.currentButtonTextColor,
+                                      pickerColor: pageState.currentButtonTextColor!,
                                       onColorChanged: (color) {
                                         setState(() {
                                           tempSelectionColor = color;
@@ -441,7 +441,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                                         color: Color(ColorConstants.getPrimaryBlack()),
                                       ),
                                       onPressed: () {
-                                        pageState.onColorSaved(tempSelectionColor, ColorConstants.buttonText);
+                                        pageState.onColorSaved!(tempSelectionColor!, ColorConstants.buttonText);
                                         setState(() {
                                           tempSelectionColor = null;
                                         });
@@ -461,7 +461,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                               color: pageState.currentButtonTextColor,
                               border: Border.all(
                                 width: 1,
-                                color: ColorConstants.isWhite(pageState.currentButtonTextColor) ? Color(ColorConstants.getPrimaryGreyMedium()) : pageState.currentButtonTextColor,
+                                color: ColorConstants.isWhite(pageState.currentButtonTextColor!) ? Color(ColorConstants.getPrimaryGreyMedium()) : pageState.currentButtonTextColor!,
                               ),
                             ),
                           ),
@@ -486,7 +486,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                             ),
                             TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
-                              text: '#' + ColorConstants.getHex(pageState.currentBannerColor),
+                              text: '#' + ColorConstants.getHex(pageState.currentBannerColor!),
                               textAlign: TextAlign.center,
                               color: Color(ColorConstants.getPrimaryGreyMedium()),
                             )
@@ -515,7 +515,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                                   content: SingleChildScrollView(
                                     child: HueRingPicker(
                                       hueRingStrokeWidth: 22,
-                                      pickerColor: pageState.currentBannerColor,
+                                      pickerColor: pageState.currentBannerColor!,
                                       onColorChanged: (color) {
                                         setState(() {
                                           tempSelectionColor = color;
@@ -546,7 +546,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                                         color: Color(ColorConstants.getPrimaryBlack()),
                                       ),
                                       onPressed: () {
-                                        pageState.onColorSaved(tempSelectionColor, ColorConstants.banner);
+                                        pageState.onColorSaved!(tempSelectionColor!, ColorConstants.banner);
                                         setState(() {
                                           tempSelectionColor = null;
                                         });
@@ -566,7 +566,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                               color: pageState.currentBannerColor,
                               border: Border.all(
                                 width: 1,
-                                color: ColorConstants.isWhite(pageState.currentBannerColor) ? Color(ColorConstants.getPrimaryGreyMedium()) : pageState.currentBannerColor,
+                                color: ColorConstants.isWhite(pageState.currentBannerColor!) ? Color(ColorConstants.getPrimaryGreyMedium()) : pageState.currentBannerColor!,
                               ),
                             ),
                           ),

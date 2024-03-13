@@ -79,9 +79,9 @@ class _ReportsPageState extends State<ReportsPage> with TickerProviderStateMixin
                       controller: _controller,
                       physics: const ClampingScrollPhysics(),
                       key: _listKey,
-                      itemCount: pageTitle == Report.TYPE_INCOME_EXPENSE ? pageState.incomeExpenseReports.length : pageState.mileageReports.length,
+                      itemCount: pageTitle == Report.TYPE_INCOME_EXPENSE ? pageState.incomeExpenseReports!.length : pageState.mileageReports!.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return ReportItem(report: pageTitle == Report.TYPE_INCOME_EXPENSE ? pageState.incomeExpenseReports.elementAt(index) : pageState.mileageReports.elementAt(index));
+                        return ReportItem(report: pageTitle == Report.TYPE_INCOME_EXPENSE ? pageState.incomeExpenseReports!.elementAt(index) : pageState.mileageReports!.elementAt(index));
                       },
                     ),
                   ],

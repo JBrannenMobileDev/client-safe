@@ -108,12 +108,12 @@ class NavigationUtil {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => EditBrandingPage()));
   }
   static onContractSelected(BuildContext? context, Contract? contract, String? contractName, bool? isNew, String? jobDocumentId, Function(BuildContext)? onDeleteFromJob) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ContractEditPage(contract: contract, contractName: contractName, isNew: isNew, jobDocumentId: jobDocumentId, deleteFromJob: onDeleteFromJob)));
+    Navigator.of(context!).push(new MaterialPageRoute(builder: (context) => ContractEditPage(contract: contract, contractName: contractName, isNew: isNew, jobDocumentId: jobDocumentId, deleteFromJob: onDeleteFromJob)));
   }
   static onManageSubscriptionSelected(BuildContext context, Profile profile) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ManageSubscriptionPage(profile)));
   }
-  static onStageStatsSelected(BuildContext context, DashboardPageState pageState, String title, JobStage stage, bool isActiveJobs) {
+  static onStageStatsSelected(BuildContext context, DashboardPageState pageState, String title, JobStage? stage, bool isActiveJobs) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobListPage(pageState: pageState, pageTitle: title, stage: stage, isActiveJobs: isActiveJobs)));
   }
   static onDashboardContractsSelected(BuildContext context, DashboardPageState pageState, bool signed) {
@@ -134,7 +134,7 @@ class NavigationUtil {
   static onUploadPoseSelected(BuildContext context, Profile profile) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => UploadPosePage(profile)));
   }
-  static onPosesSelected(BuildContext context, Job job, bool comingFromJobDetails, bool goToSubmittedPoses) {
+  static onPosesSelected(BuildContext context, Job? job, bool comingFromJobDetails, bool goToSubmittedPoses) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => PosesPage(job, comingFromJobDetails, goToSubmittedPoses)));
   }
   static onSearchPosesSelected(BuildContext context, Job job, bool comingFromJobDetails) {

@@ -15,181 +15,181 @@ import '../../models/SingleExpense.dart';
 
 
 class InitDashboardPageAction{
-  final DashboardPageState item;
+  final DashboardPageState? item;
   InitDashboardPageAction(this.item);
 }
 
 class UpdateProfileRestorePurchasesSeen {
-  final DashboardPageState pageState;
+  final DashboardPageState? pageState;
   UpdateProfileRestorePurchasesSeen(this.pageState);
 }
 
 class SetGoToPosesJob {
-  final DashboardPageState pageState;
-  final Job goToPosesJob;
+  final DashboardPageState? pageState;
+  final Job? goToPosesJob;
   SetGoToPosesJob(this.pageState, this.goToPosesJob);
 }
 
 class LoadJobsAction{
-  final DashboardPageState pageState;
+  final DashboardPageState? pageState;
   LoadJobsAction(this.pageState);
 }
 
 class SetSubscriptionStateAction{
-  final DashboardPageState pageState;
-  final CustomerInfo subscriptionState;
+  final DashboardPageState? pageState;
+  final CustomerInfo? subscriptionState;
   SetSubscriptionStateAction(this.pageState, this.subscriptionState);
 }
 
 class SetJobToStateAction{
-  final DashboardPageState pageState;
-  final List<Job> allJobs;
-  final List<SingleExpense> singleExpenses;
-  final List<RecurringExpense> recurringExpense;
-  final List<MileageExpense> mileageExpenses;
+  final DashboardPageState? pageState;
+  final List<Job>? allJobs;
+  final List<SingleExpense>? singleExpenses;
+  final List<RecurringExpense>? recurringExpense;
+  final List<MileageExpense>? mileageExpenses;
   SetJobToStateAction(this.pageState, this.allJobs, this.singleExpenses, this.recurringExpense, this.mileageExpenses);
 }
 
 class SetJobTypeChartData{
-  final DashboardPageState pageState;
-  final List<Job> allJobs;
-  final List<JobType> allJobTypes;
+  final DashboardPageState? pageState;
+  final List<Job>? allJobs;
+  final List<JobType>? allJobTypes;
   SetJobTypeChartData(this.pageState, this.allJobs, this.allJobTypes);
 }
 
 class SetProfileDashboardAction{
-  final DashboardPageState pageState;
-  final Profile profile;
+  final DashboardPageState? pageState;
+  final Profile? profile;
   SetProfileDashboardAction(this.pageState, this.profile);
 }
 
 class SetUnseenReminderCount{
-  final DashboardPageState pageState;
-  final int count;
-  final List<JobReminder> reminders;
+  final DashboardPageState? pageState;
+  final int? count;
+  final List<JobReminder>? reminders;
   SetUnseenReminderCount(this.pageState, this.count, this.reminders);
 }
 
 class SetUnseenFeaturedPosesAction {
-  final DashboardPageState pageState;
-  final List<Pose> unseenFeaturedPoses;
+  final DashboardPageState? pageState;
+  final List<Pose>? unseenFeaturedPoses;
   SetUnseenFeaturedPosesAction(this.pageState, this.unseenFeaturedPoses);
 }
 
 class SetShowNewMileageExpensePageAction{
-  final DashboardPageState pageState;
-  final bool shouldShow;
+  final DashboardPageState? pageState;
+  final bool? shouldShow;
   SetShowNewMileageExpensePageAction(this.pageState, this.shouldShow);
 }
 
 class SetClientsDashboardAction{
-  final DashboardPageState pageState;
-  final List<Client> clients;
+  final DashboardPageState? pageState;
+  final List<Client>? clients;
   SetClientsDashboardAction(this.pageState, this.clients);
 }
 
 class UpdateShowHideState{
-  final DashboardPageState pageState;
+  final DashboardPageState? pageState;
   UpdateShowHideState(this.pageState);
 }
 
 class UpdateShowHideLeadsState{
-  final DashboardPageState pageState;
+  final DashboardPageState? pageState;
   UpdateShowHideLeadsState(this.pageState);
 }
 
 class SetNotificationToSeen{
-  final DashboardPageState pageState;
-  final JobReminder reminder;
+  final DashboardPageState? pageState;
+  final JobReminder? reminder;
   SetNotificationToSeen(this.pageState, this.reminder);
 }
 
 class SetUnseenFeaturedPosesAsSeenAction {
-  final DashboardPageState pageState;
+  final DashboardPageState? pageState;
   SetUnseenFeaturedPosesAsSeenAction(this.pageState);
 }
 
 class UpdateNotificationIconAction {
-  final DashboardPageState pageState;
+  final DashboardPageState? pageState;
   UpdateNotificationIconAction(this.pageState);
 }
 
 class UpdateProfileWithShowcaseSeen {
-  final DashboardPageState pageState;
+  final DashboardPageState? pageState;
   UpdateProfileWithShowcaseSeen(this.pageState);
 }
 
 class MarkAllAsSeenAction {
-  final DashboardPageState pageState;
+  final DashboardPageState? pageState;
   MarkAllAsSeenAction(this.pageState);
 }
 
 class CheckForGoToJobAction {
-  final DashboardPageState pageState;
+  final DashboardPageState? pageState;
   CheckForGoToJobAction(this.pageState);
 }
 
 class CheckForReviewRequestAction {
-  final DashboardPageState pageState;
+  final DashboardPageState? pageState;
   CheckForReviewRequestAction(this.pageState);
 }
 
 class CheckForAppUpdateAction {
-  final DashboardPageState pageState;
+  final DashboardPageState? pageState;
   CheckForAppUpdateAction(this.pageState);
 }
 
 class SetShouldShowUpdateAction {
-  final DashboardPageState pageState;
-  final bool shouldShow;
-  final AppSettings appSettings;
+  final DashboardPageState? pageState;
+  final bool? shouldShow;
+  final AppSettings? appSettings;
   SetShouldShowUpdateAction(this.pageState, this.shouldShow, this.appSettings);
 }
 
 class SetUpdateSeenTimestampAction {
-  final DashboardPageState pageState;
-  final DateTime lastSeenDate;
+  final DashboardPageState? pageState;
+  final DateTime? lastSeenDate;
   SetUpdateSeenTimestampAction(this.pageState, this.lastSeenDate);
 }
 
 class CheckForPMFSurveyAction {
-  final DashboardPageState pageState;
+  final DashboardPageState? pageState;
   CheckForPMFSurveyAction(this.pageState);
 }
 
 class SetShouldShowPMF {
-  final DashboardPageState pageState;
-  final bool shouldShow;
+  final DashboardPageState? pageState;
+  final bool? shouldShow;
   SetShouldShowPMF(this.pageState, this.shouldShow);
 }
 
 class SetShouldAppReview {
-  final DashboardPageState pageState;
-  final bool shouldShow;
+  final DashboardPageState? pageState;
+  final bool? shouldShow;
   SetShouldAppReview(this.pageState, this.shouldShow);
 }
 
 class UpdateCanShowPMFSurveyAction {
-  final DashboardPageState pageState;
-  final bool canShow;
-  final DateTime lastSeenDate;
+  final DashboardPageState? pageState;
+  final bool? canShow;
+  final DateTime? lastSeenDate;
   UpdateCanShowPMFSurveyAction(this.pageState, this.canShow, this.lastSeenDate);
 }
 
 class UpdateCanShowRequestReviewAction {
-  final DashboardPageState pageState;
-  final bool canShow;
-  final DateTime lastSeenDate;
+  final DashboardPageState? pageState;
+  final bool? canShow;
+  final DateTime? lastSeenDate;
   UpdateCanShowRequestReviewAction(this.pageState, this.canShow, this.lastSeenDate);
 }
 
 class SetGoToAsSeenAction {
-  final DashboardPageState pageState;
+  final DashboardPageState? pageState;
   SetGoToAsSeenAction(this.pageState);
 }
 
 class LaunchDrivingDirectionsAction {
-  final DashboardPageState pageState;
-  final LocationDandy location;
+  final DashboardPageState? pageState;
+  final LocationDandy? location;
   LaunchDrivingDirectionsAction(this.pageState, this.location);
 }

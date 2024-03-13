@@ -57,14 +57,14 @@ class IncomeAndExpenseSettingsPageMiddleware extends MiddlewareClass<AppState> {
 
   void _generateMileageReport(Store<AppState> store, GenerateMileageReportAction action, NextDispatcher next) async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    Document pdf = await PdfUtil.generateMileageReport(profile, action.report);
-    IntentLauncherUtil.sharePdfMobile(pdf, 'MileageReport_${action.report.year}.pdf');
+    Document pdf = await PdfUtil.generateMileageReport(profile, action.report!);
+    IntentLauncherUtil.sharePdfMobile(pdf, 'MileageReport_${action.report!.year}.pdf');
   }
 
   void _generateIncomeExpenseReport(Store<AppState> store, GenerateIncomeExpenseReportAction action, NextDispatcher next) async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    Document pdf = await PdfUtil.generateIncomeAndExpenses(profile, action.report);
-    IntentLauncherUtil.sharePdfMobile(pdf, 'IncomeExpenseReport_${action.report.year}.pdf');
+    Document pdf = await PdfUtil.generateIncomeAndExpenses(profile, action.report!);
+    IntentLauncherUtil.sharePdfMobile(pdf, 'IncomeExpenseReport_${action.report!.year}.pdf');
   }
 
   void loadIncomeAndExpenseReportsAction(Store<AppState> store, NextDispatcher next, LoadIncomeExpenseReportsAction action)async{
@@ -94,31 +94,31 @@ class IncomeAndExpenseSettingsPageMiddleware extends MiddlewareClass<AppState> {
 
   void saveZellePhoneEmail(Store<AppState> store, NextDispatcher next, SaveZellePhoneEmailInput action)async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.zellePhoneEmail = action.pageState.zellePhoneEmail;
+    profile.zellePhoneEmail = action.pageState!.zellePhoneEmail;
     ProfileDao.update(profile);
   }
 
   void saveZelleFullName(Store<AppState> store, NextDispatcher next, SaveZelleFullNameInput action)async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.zelleFullName = action.pageState.zelleFullName;
+    profile.zelleFullName = action.pageState!.zelleFullName;
     ProfileDao.update(profile);
   }
 
   void saveVenmoInput(Store<AppState> store, NextDispatcher next, SaveVenmoInput action)async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.venmoLink = action.pageState.venmoLink;
+    profile.venmoLink = action.pageState!.venmoLink;
     ProfileDao.update(profile);
   }
 
   void saveCashAppInput(Store<AppState> store, NextDispatcher next, SaveCashAppInput action)async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.cashAppLink = action.pageState.cashAppLink;
+    profile.cashAppLink = action.pageState!.cashAppLink;
     ProfileDao.update(profile);
   }
 
   void saveApplePayPhone(Store<AppState> store, NextDispatcher next, SaveApplePayInput action)async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.applePayPhone = action.pageState.applePayPhone;
+    profile.applePayPhone = action.pageState!.applePayPhone;
     ProfileDao.update(profile);
   }
 }

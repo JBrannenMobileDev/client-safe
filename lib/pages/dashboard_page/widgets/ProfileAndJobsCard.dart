@@ -15,7 +15,7 @@ import '../../../widgets/DandyLightNetworkImage.dart';
 import '../../../widgets/TextDandyLight.dart';
 
 class ProfileAndJobsCard extends StatelessWidget {
-  const ProfileAndJobsCard({Key key}) : super(key: key);
+  const ProfileAndJobsCard({Key? key}) : super(key: key);
 
 
   @override
@@ -51,7 +51,7 @@ class ProfileAndJobsCard extends StatelessWidget {
                       children: [
                         TextDandyLight(
                           type: TextDandyLight.MEDIUM_TEXT,
-                          text: pageState.jobsThisWeek != null ? pageState.jobsThisWeek.length.toString() : '',
+                          text: pageState.jobsThisWeek != null ? pageState.jobsThisWeek!.length.toString() : '',
                           textAlign: TextAlign.center,
                           color: Color(ColorConstants.getPrimaryBlack()),
                         ),
@@ -85,7 +85,7 @@ class ProfileAndJobsCard extends StatelessWidget {
                     children: [
                       TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
-                        text: pageState.activeJobs != null ? pageState.activeJobs.length.toString() : '',
+                        text: pageState.activeJobs != null ? pageState.activeJobs!.length.toString() : '',
                         textAlign: TextAlign.center,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
@@ -119,19 +119,19 @@ class ProfileAndJobsCard extends StatelessWidget {
                   NavigationUtil.onEditBrandingSelected(context);
                   EventSender().sendEvent(eventName: EventNames.BRANDING_EDIT_FROM_DASHBOARD);
                 },
-                child:  pageState.profile.hasSetupBrand ? pageState.profile.logoSelected ? Container(
-                  child: pageState.profile.logoUrl != null && pageState.profile.logoUrl.isNotEmpty && pageState.profile.hasSetupBrand ? ClipRRect(
+                child:  pageState.profile!.hasSetupBrand! ? pageState.profile!.logoSelected! ? Container(
+                  child: pageState.profile!.logoUrl != null && pageState.profile!.logoUrl!.isNotEmpty && pageState.profile!.hasSetupBrand! ? ClipRRect(
                     borderRadius: BorderRadius.circular(82.0),
                     child: Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
+                          color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
                         ),
                         width: 96,
                         height: 96,
                         child: DandyLightNetworkImage(
-                          pageState.profile.logoUrl,
-                          color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
+                          pageState.profile!.logoUrl!,
+                          color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
                         )
                     ),
                   ) : Stack(
@@ -162,16 +162,16 @@ class ProfileAndJobsCard extends StatelessWidget {
                       width: 96,
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: pageState.profile.logoSelected
+                          color: pageState.profile!.logoSelected!
                               ? Color(ColorConstants.getPrimaryGreyMedium())
-                              : ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor)),
+                              : ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!)),
                     ),
                     TextDandyLight(
                       type: TextDandyLight.EXTRA_EXTRA_LARGE_TEXT,
-                      fontFamily: pageState.profile.selectedFontTheme.iconFont,
+                      fontFamily: pageState.profile!.selectedFontTheme!.iconFont!,
                       textAlign: TextAlign.center,
-                      text: pageState.profile.logoCharacter.substring(0, 1),
-                      color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconTextColor),
+                      text: pageState.profile!.logoCharacter!.substring(0, 1),
+                      color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconTextColor!),
                     )
                   ],
                 ) : Stack(

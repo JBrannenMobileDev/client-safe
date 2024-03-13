@@ -36,8 +36,8 @@ class EditBrandingPage extends StatefulWidget {
 }
 
 class _EditBrandingPageState extends State<EditBrandingPage> with TickerProviderStateMixin {
-  _isProgressDialogShowing(BuildContext context) => progressContext != null && ModalRoute.of(progressContext)?.isCurrent == true;
-  BuildContext progressContext;
+  _isProgressDialogShowing(BuildContext context) => progressContext != null && ModalRoute.of(progressContext!)?.isCurrent == true;
+  BuildContext? progressContext;
 
 
   @override
@@ -47,7 +47,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
           store.dispatch(ClearBrandingPreviewStateAction(store.state.editBrandingPageState));
         },
         onDidChange: (previous, current) {
-          if(previous.uploadInProgress && !current.uploadInProgress && _isProgressDialogShowing(context)) {
+          if(previous!.uploadInProgress! && !current!.uploadInProgress! && _isProgressDialogShowing(context)) {
             Navigator.of(context).pop();
             _launchBrandingPreviewURL(UidUtil().getUid());
           }
@@ -57,7 +57,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
             onWillPop: () async {
               bool willLeave = false;
               // show the confirm dialog
-              if(pageState.showPublishButton) {
+              if(pageState.showPublishButton!) {
                 await showDialog(
                     context: context,
                     builder: (_) => Device.get().isIos ?
@@ -117,7 +117,6 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                             iconTheme: IconThemeData(
                               color: Color(ColorConstants.getPrimaryBlack()), //change your color here
                             ),
-                            brightness: Brightness.light,
                             backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
                             pinned: true,
                             centerTitle: true,
@@ -156,14 +155,14 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                       ],
                     ),
                   ),
-                  pageState.showPublishButton ? Container(
+                  pageState.showPublishButton! ? Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
                     alignment: Alignment.bottomCenter,
                     padding: EdgeInsets.only(bottom: 96),
                     child: GestureDetector(
                       onTap: () {
-                        pageState.onPublishChangesSelected();
+                        pageState.onPublishChangesSelected!();
                         showSuccessAnimation();
                       },
                       child: Container(
@@ -192,7 +191,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                     padding: EdgeInsets.only(bottom: 32),
                     child: GestureDetector(
                       onTap: () {
-                        if(!pageState.uploadInProgress) {
+                        if(!pageState.uploadInProgress!) {
                           _launchBrandingPreviewURL(UidUtil().getUid());
                           EventSender().sendEvent(eventName: EventNames.BRANDING_PREVIEW_SELECTED);
                         } else {

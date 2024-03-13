@@ -69,18 +69,18 @@ class EditBrandingPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _savePreviewBranding(Store<AppState> store, SavePreviewBrandingAction action, NextDispatcher next) async {
-    savePreview(action.pageState, store);
+    savePreview(action.pageState!, store);
   }
 
   void savePreview(EditBrandingPageState pageState, Store<AppState> store) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     ColorTheme colorTheme = ColorTheme(
       themeName: 'default',
-      iconColor: ColorConstants.getHex(pageState.currentIconColor),
-      iconTextColor: ColorConstants.getHex(pageState.currentIconTextColor),
-      buttonColor: ColorConstants.getHex(pageState.currentButtonColor),
-      buttonTextColor: ColorConstants.getHex(pageState.currentButtonTextColor),
-      bannerColor: ColorConstants.getHex(pageState.currentBannerColor),
+      iconColor: ColorConstants.getHex(pageState.currentIconColor!),
+      iconTextColor: ColorConstants.getHex(pageState.currentIconTextColor!),
+      buttonColor: ColorConstants.getHex(pageState.currentButtonColor!),
+      buttonTextColor: ColorConstants.getHex(pageState.currentButtonTextColor!),
+      bannerColor: ColorConstants.getHex(pageState.currentBannerColor!),
     );
 
     FontTheme fontTheme = FontTheme(
@@ -96,52 +96,52 @@ class EditBrandingPageMiddleware extends MiddlewareClass<AppState> {
     profile.previewLogoCharacter = pageState.logoCharacter;
 
     await ProfileDao.update(profile);
-    if(pageState.logoImageSelected && pageState.resizedLogoImage != null) {
-      FileStorage.saveProfilePreviewIconImageFile(pageState.resizedLogoImage.path, profile, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
+    if(pageState.logoImageSelected! && pageState.resizedLogoImage != null) {
+      FileStorage.saveProfilePreviewIconImageFile(pageState.resizedLogoImage!.path, profile, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
     }
 
-    if(pageState.bannerImageSelected && pageState.bannerWebImage != null && pageState.bannerMobileImage != null) {
-      FileStorage.savePreviewBannerWebImageFile(pageState.bannerWebImage.path, profile, (taskSnapshot) => () => {});
-      FileStorage.savePreviewBannerMobileImageFile(pageState.bannerMobileImage.path, profile, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
+    if(pageState.bannerImageSelected! && pageState.bannerWebImage != null && pageState.bannerMobileImage != null) {
+      FileStorage.savePreviewBannerWebImageFile(pageState.bannerWebImage!.path, profile, (taskSnapshot) => () => {});
+      FileStorage.savePreviewBannerMobileImageFile(pageState.bannerMobileImage!.path, profile, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
     }
   }
 
   void _saveBranding(Store<AppState> store, SaveBrandingAction action, NextDispatcher next) async {
     ColorTheme colorTheme = ColorTheme(
       themeName: 'default',
-      iconColor: ColorConstants.getHex(action.pageState.currentIconColor),
-      iconTextColor: ColorConstants.getHex(action.pageState.currentIconTextColor),
-      buttonColor: ColorConstants.getHex(action.pageState.currentButtonColor),
-      buttonTextColor: ColorConstants.getHex(action.pageState.currentButtonTextColor),
-      bannerColor: ColorConstants.getHex(action.pageState.currentBannerColor),
+      iconColor: ColorConstants.getHex(action.pageState!.currentIconColor!),
+      iconTextColor: ColorConstants.getHex(action.pageState!.currentIconTextColor!),
+      buttonColor: ColorConstants.getHex(action.pageState!.currentButtonColor!),
+      buttonTextColor: ColorConstants.getHex(action.pageState!.currentButtonTextColor!),
+      bannerColor: ColorConstants.getHex(action.pageState!.currentBannerColor!),
     );
 
     FontTheme fontTheme = FontTheme(
       themeName: 'default',
-      iconFont: action.pageState.currentIconFont,
-      mainFont: action.pageState.currentFont
+      iconFont: action.pageState!.currentIconFont,
+      mainFont: action.pageState!.currentFont
     );
 
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.logoSelected = action.pageState.logoImageSelected;
-    profile.bannerImageSelected = action.pageState.bannerImageSelected;
+    profile.logoSelected = action.pageState!.logoImageSelected;
+    profile.bannerImageSelected = action.pageState!.bannerImageSelected;
     profile.selectedColorTheme = colorTheme;
     profile.selectedFontTheme = fontTheme;
-    profile.logoCharacter = action.pageState.logoCharacter;
+    profile.logoCharacter = action.pageState!.logoCharacter;
     profile.hasSetupBrand = true;
     EventSender().setUserProfileData(EventNames.IS_BRANDING_SETUP_COMPLETE, true);
 
     await ProfileDao.update(profile);
-    if(action.pageState.logoImageSelected && action.pageState.resizedLogoImage != null) {
-      FileStorage.saveProfileIconImageFile(action.pageState.resizedLogoImage.path, action.pageState.profile, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
+    if(action.pageState!.logoImageSelected! && action.pageState!.resizedLogoImage != null) {
+      FileStorage.saveProfileIconImageFile(action.pageState!.resizedLogoImage!.path, action.pageState!.profile!, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
     }
-    if(action.pageState.bannerImageSelected && action.pageState.bannerWebImage != null && action.pageState.bannerMobileImage != null) {
-      FileStorage.saveBannerWebImageFile(action.pageState.bannerWebImage.path, action.pageState.profile, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
-      FileStorage.saveBannerMobileImageFile(action.pageState.bannerMobileImage.path, action.pageState.profile, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
+    if(action.pageState!.bannerImageSelected! && action.pageState!.bannerWebImage != null && action.pageState!.bannerMobileImage != null) {
+      FileStorage.saveBannerWebImageFile(action.pageState!.bannerWebImage!.path, action.pageState!.profile!, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
+      FileStorage.saveBannerMobileImageFile(action.pageState!.bannerMobileImage!.path, action.pageState!.profile!, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
     }
 
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
-    store.dispatch(FetchProfileAction(store.state.shareWithClientPageState));
+    store.dispatch(FetchProfileAction(store.state.shareWithClientPageState!));
 
     EventSender().sendEvent(eventName: EventNames.BRANDING_PUBLISHED_CHANGES);
   }
@@ -150,17 +150,17 @@ class EditBrandingPageMiddleware extends MiddlewareClass<AppState> {
     final Directory appDocumentDirectory = await getApplicationDocumentsDirectory();
     final String uniqueFileName = Uuid().generateV4();
     final cmdLarge = img.Command()
-      ..decodeImageFile(action.image.path)
+      ..decodeImageFile(action.image!.path)
       ..copyResize(width: 300)
       ..writeToFile(appDocumentDirectory.path + '/$uniqueFileName' + 'logo.jpg');
     await cmdLarge.execute();
     XFile resizedImage = XFile(appDocumentDirectory.path + '/$uniqueFileName' + 'logo.jpg');
     await store.dispatch(SetResizedLogoImageAction(store.state.editBrandingPageState, resizedImage));
-    savePreview(store.state.editBrandingPageState, store);
+    savePreview(store.state.editBrandingPageState!, store);
   }
 
   void _resizeBannerImage(Store<AppState> store, ResizeBannerImageAction action, NextDispatcher next) async {
-    XFile resizedImage = XFile(action.image.path);
+    XFile resizedImage = XFile(action.image!.path);
     store.dispatch(SetResizedBannerImageAction(store.state.editBrandingPageState, resizedImage));
   }
 
@@ -168,26 +168,26 @@ class EditBrandingPageMiddleware extends MiddlewareClass<AppState> {
     final Directory appDocumentDirectory = await getApplicationDocumentsDirectory();
     final String uniqueFileName = Uuid().generateV4();
     final cmdLarge = img.Command()
-      ..decodeImageFile(action.image.path)
+      ..decodeImageFile(action.image!.path)
       ..copyResize(width: 1920)
       ..writeToFile(appDocumentDirectory.path + '/$uniqueFileName' + 'banner.jpg');
     await cmdLarge.execute();
     XFile resizedImage = XFile(appDocumentDirectory.path + '/$uniqueFileName' + 'banner.jpg');
     store.dispatch(SetResizedBannerWebImageAction(store.state.editBrandingPageState, resizedImage));
-    savePreview(store.state.editBrandingPageState, store);
+    savePreview(store.state.editBrandingPageState!, store);
   }
 
   void _resizeBannerMobileImage(Store<AppState> store, ResizeBannerMobileImageAction action, NextDispatcher next) async {
     final Directory appDocumentDirectory = await getApplicationDocumentsDirectory();
     final String uniqueFileName = Uuid().generateV4();
     final cmdLarge = img.Command()
-      ..decodeImageFile(action.image.path)
+      ..decodeImageFile(action.image!.path)
       ..copyResize(width: 1080)
       ..writeToFile(appDocumentDirectory.path + '/$uniqueFileName' + 'banner.jpg');
     await cmdLarge.execute();
     XFile resizedImage = XFile(appDocumentDirectory.path + '/$uniqueFileName' + 'banner.jpg');
     store.dispatch(SetResizedBannerMobileImageAction(store.state.editBrandingPageState, resizedImage));
-    savePreview(store.state.editBrandingPageState, store);
+    savePreview(store.state.editBrandingPageState!, store);
   }
 
   void handleImageUploadProgress(TaskSnapshot taskSnapshot, Store<AppState> store) {

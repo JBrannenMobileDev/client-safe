@@ -9,9 +9,9 @@ import '../../../utils/analytics/EventSender.dart';
 import '../../../widgets/TextDandyLight.dart';
 
 class StartAJobButton extends StatelessWidget {
-  const StartAJobButton({Key key, this.pageState}) : super(key: key);
+  const StartAJobButton({Key? key, this.pageState}) : super(key: key);
 
-  final DashboardPageState pageState;
+  final DashboardPageState? pageState;
 
   @override
   Widget build(BuildContext context) {

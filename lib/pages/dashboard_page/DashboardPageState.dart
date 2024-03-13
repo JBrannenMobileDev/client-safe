@@ -19,58 +19,58 @@ import 'JobTypePieChartRowData.dart';
 import 'LeadSourcePieChartRowData.dart';
 
 class DashboardPageState {
-  final String jobsProfitTotal;
-  final bool isMinimized;
-  final bool isLeadsMinimized;
-  final bool shouldShowNewMileageExpensePage;
-  final bool hasSeenShowcase;
-  final bool goToSeen;
-  final bool areJobsLoaded;
-  final bool shouldShowRequestReview;
-  final bool shouldShowPMFRequest;
-  final bool shouldShowAppUpdate;
-  final Job goToPosesJob;
-  final int leadConversionRate;
-  final int unconvertedLeadCount;
-  final purchases.CustomerInfo subscriptionState;
-  final List<Action> actionItems;
-  final List<Client> recentLeads;
-  final List<JobStage> allUserStages;
-  final List<JobTypePieChartRowData> jobTypePieChartRowData;
-  final List<Job> upcomingJobs;
-  final List<Job> allJobs;
-  final List<Job> activeJobs;
-  final List<Job> jobsThisWeek;
-  final List<Job> activeJobsWithUnsignedContract;
-  final List<Job> activeJobsWithSignedContract;
-  final List<Job> allJobsWithUnsignedContract;
-  final List<Job> allJobsWithSignedContract;
-  final List<PieChartSectionData> jobTypeBreakdownData;
-  final List<PieChartSectionData> leadSourcesData;
-  final int unseenNotificationCount;
-  final List<JobReminder> reminders;
-  final List<LineChartMonthData> lineChartMonthData;
-  final List<LeadSourcePieChartRowData> leadSourcePieChartRowData;
-  final List<Pose> unseenFeaturedPoses;
-  final Profile profile;
-  final AppSettings appSettings;
-  final Function() onAddClicked;
-  final Function() onSearchClientsClicked;
-  final Function(Action) onActionItemClicked;
-  final Function(Client) onLeadClicked;
-  final Function(String) onJobClicked;
-  final Function(JobReminder) onReminderSelected;
-  final Function() onViewAllHideSelected;
-  final Function() onViewAllHideLeadsSelected;
-  final Function() onNotificationsSelected;
-  final Function() onNotificationViewClosed;
-  final Function() onShowcaseSeen;
-  final Function() markAllAsSeen;
-  final Function() onGoToSeen;
-  final Function(LocationDandy) drivingDirectionsSelected;
-  final Function(bool, DateTime) updateCanShowPMF;
-  final Function(bool, DateTime) updateCanShowRequestReview;
-  final Function(AppSettings) markUpdateAsSeen;
+  final String? jobsProfitTotal;
+  final bool? isMinimized;
+  final bool? isLeadsMinimized;
+  final bool? shouldShowNewMileageExpensePage;
+  final bool? hasSeenShowcase;
+  final bool? goToSeen;
+  final bool? areJobsLoaded;
+  final bool? shouldShowRequestReview;
+  final bool? shouldShowPMFRequest;
+  final bool? shouldShowAppUpdate;
+  final Job? goToPosesJob;
+  final int? leadConversionRate;
+  final int? unconvertedLeadCount;
+  final purchases.CustomerInfo? subscriptionState;
+  final List<Action>? actionItems;
+  final List<Client>? recentLeads;
+  final List<JobStage>? allUserStages;
+  final List<JobTypePieChartRowData>? jobTypePieChartRowData;
+  final List<Job>? upcomingJobs;
+  final List<Job>? allJobs;
+  final List<Job>? activeJobs;
+  final List<Job>? jobsThisWeek;
+  final List<Job>? activeJobsWithUnsignedContract;
+  final List<Job>? activeJobsWithSignedContract;
+  final List<Job>? allJobsWithUnsignedContract;
+  final List<Job>? allJobsWithSignedContract;
+  final List<PieChartSectionData>? jobTypeBreakdownData;
+  final List<PieChartSectionData>? leadSourcesData;
+  final int? unseenNotificationCount;
+  final List<JobReminder>? reminders;
+  final List<LineChartMonthData>? lineChartMonthData;
+  final List<LeadSourcePieChartRowData>? leadSourcePieChartRowData;
+  final List<Pose>? unseenFeaturedPoses;
+  final Profile? profile;
+  final AppSettings? appSettings;
+  final Function()? onAddClicked;
+  final Function()? onSearchClientsClicked;
+  final Function(Action)? onActionItemClicked;
+  final Function(Client)? onLeadClicked;
+  final Function(String)? onJobClicked;
+  final Function(JobReminder)? onReminderSelected;
+  final Function()? onViewAllHideSelected;
+  final Function()? onViewAllHideLeadsSelected;
+  final Function()? onNotificationsSelected;
+  final Function()? onNotificationViewClosed;
+  final Function()? onShowcaseSeen;
+  final Function()? markAllAsSeen;
+  final Function()? onGoToSeen;
+  final Function(LocationDandy)? drivingDirectionsSelected;
+  final Function(bool, DateTime)? updateCanShowPMF;
+  final Function(bool, DateTime)? updateCanShowRequestReview;
+  final Function(AppSettings)? markUpdateAsSeen;
 
   DashboardPageState({
     this.jobsProfitTotal,
@@ -128,58 +128,58 @@ class DashboardPageState {
   });
 
   DashboardPageState copyWith({
-    String jobsProfitTotal,
-    bool isMinimized,
-    bool isLeadsMinimized,
-    bool hasSeenShowcase,
-    bool goToSeen,
-    bool areJobsLoaded,
-    bool shouldShowPMFRequest,
-    bool shouldShowRequestReview,
-    bool shouldShowAppUpdate,
-    int leadConversionRate,
-    Job goToPosesJob,
-    int unconvertedLeadCount,
-    List<Action> actionItems,
-    List<Client> recentLeads,
-    List<Job> upcomingJobs,
-    List<Job> allJobs,
-    List<Job> activeJobs,
-    List<Job> jobsThisWeek,
-    List<JobStage> allUserStages,
-    List<Pose> unseenFeaturedPoses,
-    List<Job> activeJobsWithUnsignedContract,
-    List<Job> activeJobsWithSignedContract,
-    List<Job> allJobsWithUnsignedContract,
-    List<Job> allJobsWithSignedContract,
-    int unseenNotificationCount,
-    List<LineChartMonthData> lineChartMonthData,
-    Function() onAddClicked,
-    Function() onSearchClientsClicked,
-    Function(Action) onActionItemClicked,
-    Function(Client) onLeadClicked,
-    Function(String) onJobClicked,
-    Function() onViewAllHideSelected,
-    Function() onViewAllHideLeadsSelected,
-    List<JobReminder> reminders,
-    Function(JobReminder) onReminderSelected,
-    Function() onNotificationsSelected,
-    Function() onNotificationViewClosed,
-    Function() onShowcaseSeen,
-    Function() markAllAsSeen,
-    bool shouldShowNewMileageExpensePage,
-    List<PieChartSectionData> jobTypeBreakdownData,
-    List<PieChartSectionData> leadSourcesData,
-    List<JobTypePieChartRowData> jobTypePieChartRowData,
-    List<LeadSourcePieChartRowData> leadSourcePieChartRowData,
-    Profile profile,
-    purchases.CustomerInfo subscriptionState,
-    AppSettings appSettings,
-    Function() onGoToSeen,
-    Function(LocationDandy) drivingDirectionsSelected,
-    Function(bool, DateTime) updateCanShowPMF,
-    Function(bool, DateTime) updateCanShowRequestReview,
-    Function(AppSettings) markUpdateAsSeen,
+    String? jobsProfitTotal,
+    bool? isMinimized,
+    bool? isLeadsMinimized,
+    bool? hasSeenShowcase,
+    bool? goToSeen,
+    bool? areJobsLoaded,
+    bool? shouldShowPMFRequest,
+    bool? shouldShowRequestReview,
+    bool? shouldShowAppUpdate,
+    int? leadConversionRate,
+    Job? goToPosesJob,
+    int? unconvertedLeadCount,
+    List<Action>? actionItems,
+    List<Client>? recentLeads,
+    List<Job>? upcomingJobs,
+    List<Job>? allJobs,
+    List<Job>? activeJobs,
+    List<Job>? jobsThisWeek,
+    List<JobStage>? allUserStages,
+    List<Pose>? unseenFeaturedPoses,
+    List<Job>? activeJobsWithUnsignedContract,
+    List<Job>? activeJobsWithSignedContract,
+    List<Job>? allJobsWithUnsignedContract,
+    List<Job>? allJobsWithSignedContract,
+    int? unseenNotificationCount,
+    List<LineChartMonthData>? lineChartMonthData,
+    Function()? onAddClicked,
+    Function()? onSearchClientsClicked,
+    Function(Action)? onActionItemClicked,
+    Function(Client)? onLeadClicked,
+    Function(String)? onJobClicked,
+    Function()? onViewAllHideSelected,
+    Function()? onViewAllHideLeadsSelected,
+    List<JobReminder>? reminders,
+    Function(JobReminder)? onReminderSelected,
+    Function()? onNotificationsSelected,
+    Function()? onNotificationViewClosed,
+    Function()? onShowcaseSeen,
+    Function()? markAllAsSeen,
+    bool? shouldShowNewMileageExpensePage,
+    List<PieChartSectionData>? jobTypeBreakdownData,
+    List<PieChartSectionData>? leadSourcesData,
+    List<JobTypePieChartRowData>? jobTypePieChartRowData,
+    List<LeadSourcePieChartRowData>? leadSourcePieChartRowData,
+    Profile? profile,
+    purchases.CustomerInfo? subscriptionState,
+    AppSettings? appSettings,
+    Function()? onGoToSeen,
+    Function(LocationDandy)? drivingDirectionsSelected,
+    Function(bool, DateTime)? updateCanShowPMF,
+    Function(bool, DateTime)? updateCanShowRequestReview,
+    Function(AppSettings)? markUpdateAsSeen,
   }){
     return DashboardPageState(
       jobsProfitTotal: jobsProfitTotal ?? this.jobsProfitTotal,
@@ -239,48 +239,48 @@ class DashboardPageState {
 
   static DashboardPageState fromStore(Store<AppState> store) {
     return DashboardPageState(
-      jobsProfitTotal: store.state.dashboardPageState.jobsProfitTotal,
-      actionItems: store.state.dashboardPageState.actionItems,
-      recentLeads: store.state.dashboardPageState.recentLeads,
-      upcomingJobs: store.state.dashboardPageState.upcomingJobs,
-      unseenNotificationCount: store.state.dashboardPageState.unseenNotificationCount,
-      onAddClicked: store.state.dashboardPageState.onAddClicked,
-      onSearchClientsClicked: store.state.dashboardPageState.onSearchClientsClicked,
-      onActionItemClicked: store.state.dashboardPageState.onActionItemClicked,
-      isMinimized: store.state.dashboardPageState.isMinimized,
-      allJobs: store.state.dashboardPageState.allJobs,
-      activeJobs: store.state.dashboardPageState.activeJobs,
-      isLeadsMinimized: store.state.dashboardPageState.isLeadsMinimized,
-      allUserStages: store.state.dashboardPageState.allUserStages,
-      lineChartMonthData: store.state.dashboardPageState.lineChartMonthData,
-      reminders: store.state.dashboardPageState.reminders,
-      shouldShowNewMileageExpensePage: store.state.dashboardPageState.shouldShowNewMileageExpensePage,
-      jobsThisWeek: store.state.dashboardPageState.jobsThisWeek,
-      leadConversionRate: store.state.dashboardPageState.leadConversionRate,
-      unconvertedLeadCount: store.state.dashboardPageState.unconvertedLeadCount,
-      jobTypeBreakdownData: store.state.dashboardPageState.jobTypeBreakdownData,
-      leadSourcesData: store.state.dashboardPageState.leadSourcesData,
-      jobTypePieChartRowData: store.state.dashboardPageState.jobTypePieChartRowData,
-      leadSourcePieChartRowData: store.state.dashboardPageState.leadSourcePieChartRowData,
-      profile: store.state.dashboardPageState.profile,
-      hasSeenShowcase: store.state.dashboardPageState.hasSeenShowcase,
-      subscriptionState: store.state.dashboardPageState.subscriptionState,
-      goToPosesJob: store.state.dashboardPageState.goToPosesJob,
-      goToSeen: store.state.dashboardPageState.goToSeen,
-      areJobsLoaded: store.state.dashboardPageState.areJobsLoaded,
-      unseenFeaturedPoses: store.state.dashboardPageState.unseenFeaturedPoses,
-      shouldShowPMFRequest: store.state.dashboardPageState.shouldShowPMFRequest,
-      shouldShowRequestReview: store.state.dashboardPageState.shouldShowRequestReview,
-      shouldShowAppUpdate: store.state.dashboardPageState.shouldShowAppUpdate,
-      appSettings: store.state.dashboardPageState.appSettings,
-      activeJobsWithSignedContract: store.state.dashboardPageState.activeJobsWithSignedContract,
-      activeJobsWithUnsignedContract: store.state.dashboardPageState.activeJobsWithUnsignedContract,
-      allJobsWithSignedContract: store.state.dashboardPageState.allJobsWithSignedContract,
-      allJobsWithUnsignedContract: store.state.dashboardPageState.allJobsWithUnsignedContract,
+      jobsProfitTotal: store.state.dashboardPageState!.jobsProfitTotal,
+      actionItems: store.state.dashboardPageState!.actionItems,
+      recentLeads: store.state.dashboardPageState!.recentLeads,
+      upcomingJobs: store.state.dashboardPageState!.upcomingJobs,
+      unseenNotificationCount: store.state.dashboardPageState!.unseenNotificationCount,
+      onAddClicked: store.state.dashboardPageState!.onAddClicked,
+      onSearchClientsClicked: store.state.dashboardPageState!.onSearchClientsClicked,
+      onActionItemClicked: store.state.dashboardPageState!.onActionItemClicked,
+      isMinimized: store.state.dashboardPageState!.isMinimized,
+      allJobs: store.state.dashboardPageState!.allJobs,
+      activeJobs: store.state.dashboardPageState!.activeJobs,
+      isLeadsMinimized: store.state.dashboardPageState!.isLeadsMinimized,
+      allUserStages: store.state.dashboardPageState!.allUserStages,
+      lineChartMonthData: store.state.dashboardPageState!.lineChartMonthData,
+      reminders: store.state.dashboardPageState!.reminders,
+      shouldShowNewMileageExpensePage: store.state.dashboardPageState!.shouldShowNewMileageExpensePage,
+      jobsThisWeek: store.state.dashboardPageState!.jobsThisWeek,
+      leadConversionRate: store.state.dashboardPageState!.leadConversionRate,
+      unconvertedLeadCount: store.state.dashboardPageState!.unconvertedLeadCount,
+      jobTypeBreakdownData: store.state.dashboardPageState!.jobTypeBreakdownData,
+      leadSourcesData: store.state.dashboardPageState!.leadSourcesData,
+      jobTypePieChartRowData: store.state.dashboardPageState!.jobTypePieChartRowData,
+      leadSourcePieChartRowData: store.state.dashboardPageState!.leadSourcePieChartRowData,
+      profile: store.state.dashboardPageState!.profile,
+      hasSeenShowcase: store.state.dashboardPageState!.hasSeenShowcase,
+      subscriptionState: store.state.dashboardPageState!.subscriptionState,
+      goToPosesJob: store.state.dashboardPageState!.goToPosesJob,
+      goToSeen: store.state.dashboardPageState!.goToSeen,
+      areJobsLoaded: store.state.dashboardPageState!.areJobsLoaded,
+      unseenFeaturedPoses: store.state.dashboardPageState!.unseenFeaturedPoses,
+      shouldShowPMFRequest: store.state.dashboardPageState!.shouldShowPMFRequest,
+      shouldShowRequestReview: store.state.dashboardPageState!.shouldShowRequestReview,
+      shouldShowAppUpdate: store.state.dashboardPageState!.shouldShowAppUpdate,
+      appSettings: store.state.dashboardPageState!.appSettings,
+      activeJobsWithSignedContract: store.state.dashboardPageState!.activeJobsWithSignedContract,
+      activeJobsWithUnsignedContract: store.state.dashboardPageState!.activeJobsWithUnsignedContract,
+      allJobsWithSignedContract: store.state.dashboardPageState!.allJobsWithSignedContract,
+      allJobsWithUnsignedContract: store.state.dashboardPageState!.allJobsWithUnsignedContract,
       onLeadClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
       onJobClicked: (job) {
-        store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job));
-        store.dispatch(FetchJobPosesAction(store.state.jobDetailsPageState));
+        store.dispatch(SetJobInfo(store.state.jobDetailsPageState!, job));
+        store.dispatch(FetchJobPosesAction(store.state.jobDetailsPageState!));
         store.dispatch(SetGoToPosesJob(store.state.dashboardPageState, null));
       },
       onViewAllHideSelected: () => store.dispatch(UpdateShowHideState(store.state.dashboardPageState)),
@@ -288,7 +288,7 @@ class DashboardPageState {
       onReminderSelected:  (reminder) {
         if(reminder.payload != JobReminder.POSE_FEATURED_ID) {
           store.dispatch(SetNotificationToSeen(store.state.dashboardPageState, reminder));
-          store.dispatch(SetJobInfoWithJobDocumentId(store.state.jobDetailsPageState, reminder.jobDocumentId));
+          store.dispatch(SetJobInfoWithJobDocumentId(store.state.jobDetailsPageState!, reminder.jobDocumentId!));
         } else {
           store.dispatch(SetUnseenFeaturedPosesAsSeenAction(store.state.dashboardPageState));
         }

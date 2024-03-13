@@ -13,13 +13,13 @@ class ContractListPage extends StatelessWidget{
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   final ScrollController _controller = ScrollController();
 
-  ContractListPage({Key key,
+  ContractListPage({Key? key,
     this.pageState,
     this.signed
   }) : super(key: key);
 
-  final DashboardPageState pageState;
-  final bool signed;
+  final DashboardPageState? pageState;
+  final bool? signed;
 
   @override
   Widget build(BuildContext context)=> StoreConnector<AppState, DashboardPageState>(
@@ -39,7 +39,7 @@ class ContractListPage extends StatelessWidget{
                 centerTitle: true,
                 title: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
-                  text: signed ? 'All Signed Contracts' : 'All Unsigned Contracts',
+                  text: signed! ? 'All Signed Contracts' : 'All Unsigned Contracts',
                   color: Color(ColorConstants.getPrimaryBlack()),
                 ),
                 leading: IconButton(
@@ -61,7 +61,7 @@ class ContractListPage extends StatelessWidget{
                       controller: _controller,
                       physics: const ClampingScrollPhysics(),
                       key: _listKey,
-                      itemCount: signed ? pageState.allJobsWithSignedContract.length : pageState.allJobsWithUnsignedContract.length,
+                      itemCount: signed! ? pageState.allJobsWithSignedContract!.length : pageState.allJobsWithUnsignedContract!.length,
                       itemBuilder: _buildItem,
                     ),
                   ],
@@ -76,7 +76,7 @@ class ContractListPage extends StatelessWidget{
 
 
   Widget _buildItem(BuildContext context, int index) {
-    return ContractsItem(job: signed ? pageState.allJobsWithSignedContract.elementAt(index) : pageState.allJobsWithUnsignedContract.elementAt(index), pageState: pageState, signed: signed);
+    return ContractsItem(job: signed! ? pageState!.allJobsWithSignedContract!.elementAt(index) : pageState!.allJobsWithUnsignedContract!.elementAt(index), pageState: pageState!, signed: signed!);
   }
 
 }
