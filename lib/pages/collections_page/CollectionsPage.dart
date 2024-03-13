@@ -37,7 +37,6 @@ class _CollectionsPageState extends State<CollectionsPage> {
         body: CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
-              brightness: Brightness.light,
               backgroundColor: Color(ColorConstants.getPrimaryWhite()),
               pinned: true,
               centerTitle: true,

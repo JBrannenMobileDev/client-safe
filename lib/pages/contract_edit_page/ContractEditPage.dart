@@ -1,9 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/contract_edit_page/InsertJobDetailBottomSheet.dart';
-import 'package:dandylight/pages/job_details_page/JobDetailsReducer.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,30 +11,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:redux/redux.dart';
 
 import '../../models/Contract.dart';
 import '../../models/FontTheme.dart';
 import '../../utils/ImageUtil.dart';
 import '../../utils/InputDoneView.dart';
-import '../../utils/Shadows.dart';
-import '../../utils/analytics/EventNames.dart';
-import '../../utils/analytics/EventSender.dart';
 import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
-import '../job_details_page/JobDetailsPageState.dart';
 import 'ContractEditActions.dart';
 import 'ContractEditPageState.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+
 
 class ContractEditPage extends StatefulWidget {
-  final Contract contract;
-  final String contractName;
-  final bool isNew;
-  final String jobDocumentId;
-  final Function(BuildContext) deleteFromJob;
+  final Contract? contract;
+  final String? contractName;
+  final bool? isNew;
+  final String? jobDocumentId;
+  final Function(BuildContext)? deleteFromJob;
 
   ContractEditPage({this.contract, this.contractName, this.isNew, this.jobDocumentId, this.deleteFromJob});
 
@@ -47,30 +43,49 @@ class ContractEditPage extends StatefulWidget {
 class _ContractEditPageState extends State<ContractEditPage> with TickerProviderStateMixin {
   TextEditingController _clientSignatureController = TextEditingController(text: "Photographer Name");
   TextEditingController _photogSigController = TextEditingController();
-  quill.QuillController _controller;
+  quill.QuillController? _controller;
   final FocusNode titleFocusNode = FocusNode();
   final FocusNode contractFocusNode = FocusNode();
   final TextEditingController controllerTitle = TextEditingController();
-  final Contract contract;
-  final String contractName;
-  final bool isNew;
-  final String jobDocumentId;
-  final Function(BuildContext) deleteFromJob;
+  final Contract? contract;
+  final String? contractName;
+  final bool? isNew;
+  final String? jobDocumentId;
+  final Function(BuildContext)? deleteFromJob;
   bool hasUnsavedChanges = true;
-  OverlayEntry overlayEntry;
+  OverlayEntry? overlayEntry;
   bool isKeyboardVisible = false;
   bool isFabExpanded = false;
+  late StreamSubscription<bool> keyboardSubscription;
 
   _ContractEditPageState(this.contract, this.contractName, this.isNew, this.jobDocumentId, this.deleteFromJob);
 
 
   @override
   void initState() {
+    super.initState();
+
     _controller = contract != null ? quill.QuillController(
-      document: quill.Document.fromJson(jsonDecode(contract.jsonTerms)),
+      document: quill.Document.fromJson(jsonDecode(contract!.jsonTerms!)),
         selection: TextSelection.collapsed(offset: 0)
     ) : quill.QuillController.basic();
-    super.initState();
+
+    var keyboardVisibilityController = KeyboardVisibilityController();
+    keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
+      setState(() {
+        if(visible) {
+          isKeyboardVisible = true;
+        } else {
+          isKeyboardVisible = false;
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    keyboardSubscription.cancel();
+    super.dispose();
   }
 
   getFabIcon() {
@@ -98,7 +113,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onContractSaved(_controller.document, jobDocumentId);
+                pageState.onContractSaved!(_controller!.document, jobDocumentId!);
                 Navigator.of(context).pop(true);
                 showSuccessAnimation();
               },
@@ -117,7 +132,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onContractSaved(_controller.document, jobDocumentId);
+                pageState.onContractSaved!(_controller!.document, jobDocumentId!);
                 Navigator.of(context).pop(true);
                 showSuccessAnimation();
               },
@@ -138,7 +153,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
       backgroundColor: Colors.transparent,
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
-        return InsertJobDetailBottomSheet(_controller);
+        return InsertJobDetailBottomSheet(_controller!);
       },
     );
   }
@@ -153,25 +168,10 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
           }
           store.dispatch(SetContractNameAction(store.state.contractEditPageState, contractName));
           store.dispatch(FetchProfileForContractEditAction(store.state.contractEditPageState));
-
-          KeyboardVisibilityNotification().addNewListener(
-              onShow: () {
-                showOverlay(context);
-                setState(() {
-                  isKeyboardVisible = true;
-                });
-              },
-              onHide: () {
-                removeOverlay();
-                setState(() {
-                  isKeyboardVisible = false;
-                });
-              }
-          );
         },
         onDidChange: (prev, current) {
-          _photogSigController.text = current.profile != null ? (current.profile.firstName + ' ' +
-              current.profile.lastName) : 'Photographer Name';
+          _photogSigController.text = current.profile != null ? (current.profile!.firstName! + ' ' +
+              current.profile!.lastName!) : 'Photographer Name';
         },
         converter: (Store<AppState> store) => ContractEditPageState.fromStore(store),
         builder: (BuildContext context, ContractEditPageState pageState) => WillPopScope(
@@ -230,12 +230,12 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                 ),
                 backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                 actions: <Widget>[
-                  !isNew ? IconButton(
+                  !isNew! ? IconButton(
                     icon: ImageIcon(ImageUtil.getTrashIconWhite(), color: Color(ColorConstants.getPeachDark()),),
                     tooltip: 'Delete Job',
                     onPressed: () {
-                      if(jobDocumentId != null && jobDocumentId.isNotEmpty) {
-                        deleteFromJob(context);
+                      if(jobDocumentId != null && jobDocumentId!.isNotEmpty) {
+                        deleteFromJob!(context);
                       }else {
                         _ackDeleteAlert(context, pageState);
                       }
@@ -248,12 +248,12 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                   width: 250,
                   child: TextFormField(
                       focusNode: titleFocusNode,
-                      initialValue: !isNew ? contract.contractName : contractName,
+                      initialValue: !isNew! ? contract!.contractName : contractName,
                       enabled: true,
                       cursorColor: Color(ColorConstants.getPrimaryBlack()),
                       onChanged: (text) {
                         setState(() {});
-                        pageState.onNameChanged(text);
+                        pageState.onNameChanged!(text);
                       },
                       decoration: InputDecoration(
                         alignLabelWithHint: true,
@@ -331,10 +331,10 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                         setState(() {
                           hasUnsavedChanges = false;
                         });
-                        if(jobDocumentId != null && jobDocumentId.isNotEmpty && contract.signedByClient) {
+                        if(jobDocumentId != null && jobDocumentId!.isNotEmpty && contract!.signedByClient!) {
                           _ackSaveChangesAlert(context, pageState);
                         } else {
-                          pageState.onContractSaved(_controller.document, jobDocumentId);
+                          pageState.onContractSaved!(_controller!.document, jobDocumentId!);
                           showSuccessAnimation();
                         }
                       },
@@ -464,9 +464,9 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
               style: Styles.getButtonStyle(),
               onPressed: () {
                 if(jobDocumentId != null) {
-                  pageState.deleteFromJob();
+                  pageState.deleteFromJob!();
                 } else {
-                  pageState.onDeleteSelected();
+                  pageState.onDeleteSelected!();
                 }
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
@@ -487,9 +487,9 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
               style: Styles.getButtonStyle(),
               onPressed: () {
                 if(jobDocumentId != null) {
-                  pageState.deleteFromJob();
+                  pageState.deleteFromJob!();
                 } else {
-                  pageState.onDeleteSelected();
+                  pageState.onDeleteSelected!();
                 }
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
@@ -513,12 +513,12 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
           child: InputDoneView());
     });
 
-    overlayState.insert(overlayEntry);
+    overlayState.insert(overlayEntry!);
   }
 
   removeOverlay() {
     if (overlayEntry != null) {
-      overlayEntry.remove();
+      overlayEntry!.remove();
       overlayEntry = null;
     }
   }
@@ -565,8 +565,8 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                   margin: EdgeInsets.only(top: 0, bottom: 8),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
-                    text: pageState.profile != null ? (pageState.profile.firstName + ' ' +
-                        pageState.profile.lastName) : '',
+                    text: pageState.profile != null ? (pageState.profile!.firstName! + ' ' +
+                        pageState.profile!.lastName!) : '',
                   ),
                 )
               ],
@@ -625,8 +625,8 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: DateFormat('EEE, MMMM dd, yyyy').format(
-                        pageState.contract != null && pageState.contract.clientSignedDate != null
-                            ? pageState.contract.clientSignedDate
+                        pageState.contract! != null && pageState.contract!.clientSignedDate! != null
+                            ? pageState.contract!.clientSignedDate!
                             : DateTime.now()),
                   ),
                 )

@@ -18,7 +18,7 @@ class ClientsPage extends StatefulWidget {
   static const String FILTER_TYPE_CLIENTS = "Clients";
   static const String FILTER_TYPE_LEADS = "Leads";
   static const String FILTER_TYPE_ALL = "All";
-  final bool comingFromUnconverted;
+  final bool? comingFromUnconverted;
 
   ClientsPage({this.comingFromUnconverted});
 
@@ -33,15 +33,15 @@ class _ClientsPageState extends State<ClientsPage> {
   final String alphabet = "ABCDEFGHIGKLMNOPQRSTUVWXYZ";
   int selectorIndex = 0;
   ScrollController _controller = ScrollController();
-  Map<int, Widget> genders;
-  bool comingFromUnconverted;
+  Map<int, Widget>? genders;
+  bool? comingFromUnconverted;
 
   _ClientsPageState(this.comingFromUnconverted);
 
   @override
   void initState() {
     super.initState();
-    if(comingFromUnconverted != null && comingFromUnconverted) {
+    if(comingFromUnconverted != null && comingFromUnconverted!) {
       selectorIndex = 2;
     }
   }
@@ -82,7 +82,7 @@ class _ClientsPageState extends State<ClientsPage> {
                   CustomScrollView(
                     slivers: <Widget>[
                       SliverAppBar(
-                        leading: comingFromUnconverted != null && comingFromUnconverted ? GestureDetector(
+                        leading: comingFromUnconverted != null && comingFromUnconverted! ? GestureDetector(
                           onTap:(){
                             Navigator.of(context).pop();
                           },
@@ -91,7 +91,6 @@ class _ClientsPageState extends State<ClientsPage> {
                             color: Color(ColorConstants.getPrimaryBlack()),//add color of your choice
                           ),
                         ) : SizedBox(),
-                        brightness: Brightness.light,
                         backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                         pinned: true,
                         centerTitle: true,
@@ -117,18 +116,19 @@ class _ClientsPageState extends State<ClientsPage> {
                           ),
                         ],
                         bottom: PreferredSize(
+                          preferredSize: Size.fromHeight(44.0),
                           child: Container(
                             width: 300.0,
                             margin: EdgeInsets.only(bottom: 16.0),
                             child: CupertinoSlidingSegmentedControl<int>(
                               backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                               thumbColor: Color(ColorConstants.getBlueLight()),
-                              children: genders,
-                              onValueChanged: (int filterTypeIndex) {
+                              children: genders!,
+                              onValueChanged: (int? filterTypeIndex) {
                                 setState(() {
-                                  selectorIndex = filterTypeIndex;
+                                  selectorIndex = filterTypeIndex!;
                                 });
-                                pageState.onFilterChanged(
+                                pageState.onFilterChanged!(
                                     filterTypeIndex == 0
                                         ? ClientsPage.FILTER_TYPE_ALL : filterTypeIndex == 1
                                         ? ClientsPage.FILTER_TYPE_CLIENTS : ClientsPage.FILTER_TYPE_LEADS);
@@ -136,7 +136,6 @@ class _ClientsPageState extends State<ClientsPage> {
                               groupValue: selectorIndex,
                             ),
                           ),
-                          preferredSize: Size.fromHeight(44.0),
                         ),
                       ),
                       SliverList(
@@ -150,8 +149,8 @@ class _ClientsPageState extends State<ClientsPage> {
                               physics: ClampingScrollPhysics(),
                               key: _listKey,
                               itemCount: pageState.filterType == ClientsPage.FILTER_TYPE_ALL
-                                  ? pageState.all.length : pageState.filterType == ClientsPage.FILTER_TYPE_CLIENTS
-                                  ? pageState.clients.length : pageState.leads.length,
+                                  ? pageState.all!.length : pageState.filterType == ClientsPage.FILTER_TYPE_CLIENTS
+                                  ? pageState.clients!.length : pageState.leads!.length,
                               itemBuilder: _buildItem,
                             ),
                           ],

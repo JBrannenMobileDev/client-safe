@@ -29,9 +29,9 @@ class PosesPage extends StatefulWidget {
   static const String FILTER_TYPE_MY_POSES = "Saved";
   static const String FILTER_TYPE_POSE_LIBRARY = "Library";
   static const String FILTER_TYPE_SUBMITTED_POSES = "Submitted";
-  final Job job;
-  final bool comingFromDetails;
-  final bool goToSubmittedPoses;
+  final Job? job;
+  final bool? comingFromDetails;
+  final bool? goToSubmittedPoses;
 
   PosesPage(this.job, this.comingFromDetails, this.goToSubmittedPoses);
 
@@ -45,16 +45,16 @@ class _PosesPageState extends State<PosesPage> {
   final ScrollController _controller = ScrollController();
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   int selectedIndex = 1;
-  Map<int, Widget> tabs;
-  Job job;
-  bool comingFromDetails;
-  bool goToSubmittedPoses;
+  Map<int, Widget>? tabs;
+  Job? job;
+  bool? comingFromDetails;
+  bool? goToSubmittedPoses;
 
   _PosesPageState(this.job, this.comingFromDetails, this.goToSubmittedPoses);
 
   @override
   void initState() {
-    selectedIndex = goToSubmittedPoses ? 2 : 1;
+    selectedIndex = goToSubmittedPoses! ? 2 : 1;
     super.initState();
   }
 
@@ -85,13 +85,13 @@ class _PosesPageState extends State<PosesPage> {
     };
     return StoreConnector<AppState, PosesPageState>(
       onInit: (store) async {
-        store.dispatch(FetchPoseGroupsAction(store.state.posesPageState));
+        store.dispatch(FetchPoseGroupsAction(store.state.posesPageState!));
       },
       converter: (Store<AppState> store) => PosesPageState.fromStore(store),
       builder: (BuildContext context, PosesPageState pageState) =>
           Scaffold(
             bottomSheet: job != null
-                ? GoToJobPosesBottomSheet(job, comingFromDetails ? 1 : 1)
+                ? GoToJobPosesBottomSheet(job!, comingFromDetails! ? 1 : 1)
                 : SizedBox(),
             backgroundColor: Color(ColorConstants.getPrimaryWhite()),
             floatingActionButton: job == null ? FloatingActionButton(
@@ -117,7 +117,6 @@ class _PosesPageState extends State<PosesPage> {
                     color: Color(
                         ColorConstants.getPeachDark()), //change your color here
                   ),
-                  brightness: Brightness.light,
                   backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                   centerTitle: true,
                   title: TextDandyLight(
@@ -152,7 +151,7 @@ class _PosesPageState extends State<PosesPage> {
                     ) : SizedBox(),
                     GestureDetector(
                       onTap: () {
-                        NavigationUtil.onSearchPosesSelected(context, job, comingFromDetails);
+                        NavigationUtil.onSearchPosesSelected(context, job!, comingFromDetails!);
                         EventSender().sendEvent(eventName: EventNames.NAV_TO_POSE_LIBRARY_SEARCH);
                       },
                       child: Container(
@@ -169,11 +168,12 @@ class _PosesPageState extends State<PosesPage> {
                   floating: false,
                   forceElevated: false,
                   expandedHeight: 100,
-                  flexibleSpace: new FlexibleSpaceBar(
+                  flexibleSpace: FlexibleSpaceBar(
                     background: Column(
                       children: <Widget>[
                         SafeArea(
                           child: PreferredSize(
+                            preferredSize: Size.fromHeight(44.0),
                             child: Container(
 
                               margin: EdgeInsets.only(top: 56.0),
@@ -181,10 +181,10 @@ class _PosesPageState extends State<PosesPage> {
                                 thumbColor: Color(
                                     ColorConstants.getPrimaryWhite()),
                                 backgroundColor: Colors.transparent,
-                                children: tabs,
-                                onValueChanged: (int filterTypeIndex) {
+                                children: tabs!,
+                                onValueChanged: (int? filterTypeIndex) {
                                   setState(() {
-                                    selectedIndex = filterTypeIndex;
+                                    selectedIndex = filterTypeIndex!;
                                   });
                                   if (filterTypeIndex == 0) EventSender()
                                       .sendEvent(
@@ -199,7 +199,6 @@ class _PosesPageState extends State<PosesPage> {
                                 groupValue: selectedIndex,
                               ),
                             ),
-                            preferredSize: Size.fromHeight(44.0),
                           ),
                         ),
                       ],
@@ -208,7 +207,7 @@ class _PosesPageState extends State<PosesPage> {
                 ),
                 selectedIndex != 2 ? SliverList(
                   delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-                    return selectedIndex == 0 ? PoseGroupListWidget(index, job, comingFromDetails) : PoseLibraryGroupListWidget(index, job, comingFromDetails);
+                    return selectedIndex == 0 ? PoseGroupListWidget(index, job!, comingFromDetails!) : PoseLibraryGroupListWidget(index, job!, comingFromDetails!);
                   },
                     childCount: selectedIndex == 0 ? pageState.poseGroups.length : pageState.libraryGroups.length, // 1000 list items
                   ),
@@ -232,7 +231,7 @@ class _PosesPageState extends State<PosesPage> {
                     ),
                   ),
                 ) : SliverList(
-                  delegate: new SliverChildListDelegate(
+                  delegate: SliverChildListDelegate(
                     <Widget>[
                       selectedIndex == 2 ? Padding(
                         padding: EdgeInsets.only(
@@ -248,7 +247,7 @@ class _PosesPageState extends State<PosesPage> {
                   ),
                 ),
                 SliverList(
-                  delegate: new SliverChildListDelegate(
+                  delegate: SliverChildListDelegate(
                     <Widget>[
                       selectedIndex == 0 && pageState.savedPoses.length == 0 ? Padding(
                         padding: EdgeInsets.only(
@@ -277,27 +276,27 @@ class _PosesPageState extends State<PosesPage> {
             onTap: () {
               if(job == null) {
                 Navigator.of(context).push(
-                  new MaterialPageRoute(builder: (context) => PoseSearchSingleImageViewPager(
+                  MaterialPageRoute(builder: (context) => PoseSearchSingleImageViewPager(
                     pageState.sortedSubmittedPoses,
                     index,
                     'Submitted',
                   )),
                 );
               } else {
-                pageState.onImageAddedToJobSelected(pageState.searchResultPoses.elementAt(index), job);
+                pageState.onImageAddedToJobSelected(pageState.searchResultPoses.elementAt(index), job!);
                 VibrateUtil.vibrateMedium();
                 DandyToastUtil.showToastWithGravity('Pose Added!', Color(ColorConstants.getPeachDark()), ToastGravity.CENTER);
                 EventSender().sendEvent(eventName: EventNames.BT_SAVE_SUBMITTED_POSE_TO_JOB_FROM_JOB);
               }
 
               if(job != null) {
-                pageState.onImageAddedToJobSelected(pageState.sortedSubmittedPoses.elementAt(index), job);
+                pageState.onImageAddedToJobSelected(pageState.sortedSubmittedPoses.elementAt(index), job!);
                 VibrateUtil.vibrateMedium();
                 DandyToastUtil.showToastWithGravity('Pose Added!', Color(ColorConstants.getPeachDark()), ToastGravity.CENTER);
                 EventSender().sendEvent(eventName: EventNames.BT_SAVE_SUBMITTED_POSE_TO_JOB_FROM_JOB);
               }
             },
-            child: SubmittedPoseListWidget(index, job),
+            child: SubmittedPoseListWidget(index, job!),
           ),
     );
   }

@@ -22,17 +22,17 @@ class ClientsPageMiddleware extends MiddlewareClass<AppState> {
       next(SetClientsData(store.state.clientsPageState, clients, allJobs));
 
       (await ClientDao.getClientsStream()).listen((clientSnapshots) async {
-        List<Client> clients = List();
+        List<Client> clients = [];
         for(RecordSnapshot clientSnapshot in clientSnapshots) {
-          clients.add(Client.fromMap(clientSnapshot.value));
+          clients.add(Client.fromMap(clientSnapshot.value! as Map<String, dynamic>));
         }
         store.dispatch(SetClientsData(store.state.clientsPageState, clients, allJobs));
       });
 
       (await JobDao.getJobsStream()).listen((jobSnapshots) async {
-        List<Job> jobs = List();
+        List<Job> jobs = [];
         for(RecordSnapshot clientSnapshot in jobSnapshots) {
-          jobs.add(Job.fromMap(clientSnapshot.value));
+          jobs.add(Job.fromMap(clientSnapshot.value! as Map<String, dynamic>));
         }
         store.dispatch(SetClientsData(store.state.clientsPageState, clients, jobs));
       });

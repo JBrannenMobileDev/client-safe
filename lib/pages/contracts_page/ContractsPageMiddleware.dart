@@ -28,18 +28,18 @@ class ContractsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void saveContractToJob(Store<AppState> store, SaveContractToJobAction action) async {
-    Contract contract = action.contract;
+    Contract contract = action.contract!;
     contract.photographerSignedDate = DateTime.now();
     contract.signedByPhotographer = true;
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     contract.photographerSignature = '${profile.firstName} ${profile.lastName}';
     contract.signedByClient = false;
     contract.clientSignature = '';
-    Job job = await JobDao.getJobById(action.jobDocumentId);
-    job.proposal.contract = contract;
+    Job job = (await JobDao.getJobById(action.jobDocumentId!))!;
+    job.proposal!.contract = contract;
     await JobDao.update(job);
     EventSender().sendEvent(eventName: EventNames.CONTRACT_ADDED_TO_JOB);
-    store.dispatch(SetJobInfoWithJobDocumentId(store.state.jobDetailsPageState, job.documentId));
+    store.dispatch(SetJobInfoWithJobDocumentId(store.state.jobDetailsPageState!, job.documentId!));
   }
 
   void fetchContracts(Store<AppState> store, NextDispatcher next) async{
@@ -50,7 +50,7 @@ class ContractsPageMiddleware extends MiddlewareClass<AppState> {
       (await ContractDao.getContractsStream()).listen((snapshots) async {
         List<Contract> contractsToUpdate = [];
         for(RecordSnapshot reminderSnapshot in snapshots) {
-          contractsToUpdate.add(Contract.fromMap(reminderSnapshot.value));
+          contractsToUpdate.add(Contract.fromMap(reminderSnapshot.value! as Map<String, dynamic>));
         }
         store.dispatch(SetContractsAction(store.state.contractsPageState, contractsToUpdate, await ContractTemplateDao.getAll()));
       });
