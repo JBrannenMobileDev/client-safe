@@ -10,8 +10,8 @@ import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class MileageExpenseItem extends StatelessWidget{
-  final MileageExpense mileageExpense;
-  final IncomeAndExpensesPageState pageState;
+  final MileageExpense? mileageExpense;
+  final IncomeAndExpensesPageState? pageState;
   MileageExpenseItem({this.mileageExpense, this.pageState});
 
   @override
@@ -21,7 +21,7 @@ class MileageExpenseItem extends StatelessWidget{
       child: TextButton(
         style: Styles.getButtonStyle(),
         onPressed: () async {
-          pageState.onMileageExpenseItemSelected(mileageExpense);
+          pageState!.onMileageExpenseItemSelected!(mileageExpense!);
           UserOptionsUtil.showNewMileageExpenseSelected(context, null);
         },
         child: Padding(
@@ -49,7 +49,7 @@ class MileageExpenseItem extends StatelessWidget{
                           children: <Widget>[
                             TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
-                              text: DateFormat('MMM dd, yyyy').format(mileageExpense.charge.chargeDate),
+                              text: DateFormat('MMM dd, yyyy').format(mileageExpense!.charge!.chargeDate!),
                               textAlign: TextAlign.start,
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),
@@ -63,7 +63,7 @@ class MileageExpenseItem extends StatelessWidget{
                           children: [
                             TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
-                              amount: mileageExpense.totalMiles,
+                              amount: mileageExpense!.totalMiles,
                               color: Color(ColorConstants.getPrimaryBlack()),
                               isNumber: true,
                               decimalPlaces: 1,
@@ -76,7 +76,7 @@ class MileageExpenseItem extends StatelessWidget{
                             ),
                             TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
-                              amount: mileageExpense.charge.chargeAmount,
+                              amount: mileageExpense!.charge!.chargeAmount,
                               color: Color(ColorConstants.getPrimaryBlack()),
                               isCurrency: true,
                             )

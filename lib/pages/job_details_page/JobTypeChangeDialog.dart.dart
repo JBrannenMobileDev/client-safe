@@ -102,7 +102,7 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
                         TextButton(
                           style: Styles.getButtonStyle(),
                           onPressed: () {
-                            pageState.onJobTypeSaveSelected();
+                            pageState.onJobTypeSaveSelected!();
                             VibrateUtil.vibrateHeavy();
                             Navigator.of(context).pop();
                           },

@@ -25,7 +25,7 @@ class AllExpensesPage extends StatefulWidget {
 class _AllExpensesPageState extends State<AllExpensesPage> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   ScrollController _controller = ScrollController();
-  Map<int, Widget> filterNames;
+  Map<int, Widget>? filterNames;
   int selectorIndex = 0;
 
   @override
@@ -55,7 +55,7 @@ class _AllExpensesPageState extends State<AllExpensesPage> {
     };
     return StoreConnector<AppState, IncomeAndExpensesPageState>(
         onInit: (store) {
-          selectorIndex = store.state.incomeAndExpensesPageState.allExpensesFilterType == AllExpensesPage.FILTER_TYPE_MILEAGE_EXPENSES ? 0 : store.state.incomeAndExpensesPageState.allExpensesFilterType == AllExpensesPage.FILTER_TYPE_SINGLE_EXPENSES ? 1 : 2;
+          selectorIndex = store.state.incomeAndExpensesPageState!.allExpensesFilterType == AllExpensesPage.FILTER_TYPE_MILEAGE_EXPENSES ? 0 : store.state.incomeAndExpensesPageState!.allExpensesFilterType == AllExpensesPage.FILTER_TYPE_SINGLE_EXPENSES ? 1 : 2;
           filterNames = <int, Widget>{
             0: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
@@ -90,7 +90,6 @@ class _AllExpensesPageState extends State<AllExpensesPage> {
                   CustomScrollView(
                     slivers: <Widget>[
                       SliverAppBar(
-                        brightness: Brightness.light,
                         backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                         pinned: true,
                         centerTitle: true,
@@ -113,12 +112,12 @@ class _AllExpensesPageState extends State<AllExpensesPage> {
                             child: CupertinoSlidingSegmentedControl<int>(
                               backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                               thumbColor: Color(ColorConstants.getPeachDark()),
-                              children: filterNames,
-                              onValueChanged: (int filterTypeIndex) {
+                              children: filterNames!,
+                              onValueChanged: (int? filterTypeIndex) {
                                 setState(() {
-                                  selectorIndex = filterTypeIndex;
+                                  selectorIndex = filterTypeIndex!;
                                 });
-                                pageState.onAllExpensesFilterChanged(filterTypeIndex == 0 ? AllExpensesPage.FILTER_TYPE_MILEAGE_EXPENSES : filterTypeIndex == 1 ? AllExpensesPage.FILTER_TYPE_SINGLE_EXPENSES : AllExpensesPage.FILTER_TYPE_RECURRING_EXPENSES);
+                                pageState.onAllExpensesFilterChanged!(filterTypeIndex == 0 ? AllExpensesPage.FILTER_TYPE_MILEAGE_EXPENSES : filterTypeIndex == 1 ? AllExpensesPage.FILTER_TYPE_SINGLE_EXPENSES : AllExpensesPage.FILTER_TYPE_RECURRING_EXPENSES);
                               },
                               groupValue: selectorIndex,
                             ),
@@ -136,7 +135,7 @@ class _AllExpensesPageState extends State<AllExpensesPage> {
                               controller: _controller,
                               physics: ClampingScrollPhysics(),
                               key: _listKey,
-                              itemCount: selectorIndex == 0 ? pageState.mileageExpensesForSelectedYear.length : selectorIndex == 1 ? pageState.singleExpensesForSelectedYear.length : pageState.recurringExpensesForSelectedYear.length,
+                              itemCount: selectorIndex == 0 ? pageState.mileageExpensesForSelectedYear!.length : selectorIndex == 1 ? pageState.singleExpensesForSelectedYear!.length : pageState.recurringExpensesForSelectedYear!.length,
                               itemBuilder: _buildItem,
                             ),
                           ],
@@ -157,14 +156,14 @@ Widget _buildItem(BuildContext context, int index) {
     builder: (BuildContext context, IncomeAndExpensesPageState pageState) =>
         pageState.allExpensesFilterType ==
                 AllExpensesPage.FILTER_TYPE_MILEAGE_EXPENSES
-            ? MileageExpenseItem(pageState: pageState, mileageExpense: pageState.mileageExpensesForSelectedYear.elementAt(index))
+            ? MileageExpenseItem(pageState: pageState, mileageExpense: pageState.mileageExpensesForSelectedYear!.elementAt(index))
             : pageState.allExpensesFilterType ==
                     AllExpensesPage.FILTER_TYPE_SINGLE_EXPENSES
                 ? SingleExpenseItem(
                     pageState: pageState,
-                    singleExpense: pageState.singleExpensesForSelectedYear
+                    singleExpense: pageState.singleExpensesForSelectedYear!
                         .elementAt(index),
                   )
-                : RecurringExpenseItem(pageState: pageState, recurringExpense: pageState.recurringExpensesForSelectedYear.elementAt(index)),
+                : RecurringExpenseItem(pageState: pageState, recurringExpense: pageState.recurringExpensesForSelectedYear!.elementAt(index)),
   );
 }

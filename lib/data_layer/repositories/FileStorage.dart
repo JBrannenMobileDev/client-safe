@@ -94,7 +94,7 @@ class FileStorage {
     }
   }
 
-  static Future<File?> getPoseImageFile(Pose pose, PoseGroup group, bool isLibraryPose, Job job) async {
+  static Future<File?> getPoseImageFile(Pose pose, PoseGroup? group, bool isLibraryPose, Job job) async {
     String? imageUrl = pose.imageUrl;
     if(imageUrl == null || imageUrl.isEmpty) {
       final storageRef = FirebaseStorage.instance.ref();

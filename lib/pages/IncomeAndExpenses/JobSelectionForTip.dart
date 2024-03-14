@@ -31,7 +31,7 @@ class _JobSelectionForTipState extends State<JobSelectionForTip> with AutomaticK
     super.build(context);
     return StoreConnector<AppState, IncomeAndExpensesPageState>(
       onInit: (store) {
-        searchTextController.text = store.state.incomeAndExpensesPageState.jobSearchText;
+        searchTextController.text = store.state.incomeAndExpensesPageState!.jobSearchText!;
       },
       converter: (store) => IncomeAndExpensesPageState.fromStore(store),
       builder: (BuildContext context, IncomeAndExpensesPageState pageState) =>
@@ -70,7 +70,7 @@ class _JobSelectionForTipState extends State<JobSelectionForTip> with AutomaticK
                           controller: searchTextController,
                           cursorColor: Color(ColorConstants.getPrimaryColor()),
                           onChanged: (text) {
-                            pageState.onJobSearchTextChanged(text);
+                            pageState.onJobSearchTextChanged!(text);
                           },
                           decoration: InputDecoration(
                             alignLabelWithHint: true,
@@ -107,7 +107,7 @@ class _JobSelectionForTipState extends State<JobSelectionForTip> with AutomaticK
                         )),
                   ],
                 ),
-                pageState.filteredJobs.length > 0 ? ConstrainedBox(
+                pageState.filteredJobs!.length > 0 ? ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: 65.0,
                     maxHeight: 450.0,
@@ -121,7 +121,7 @@ class _JobSelectionForTipState extends State<JobSelectionForTip> with AutomaticK
                         shrinkWrap: true,
                         controller: _controller,
                         physics: ClampingScrollPhysics(),
-                        itemCount: pageState.filteredJobs.length,
+                        itemCount: pageState.filteredJobs!.length,
                         itemBuilder: _buildItem,
                       ),
                       Container(
@@ -151,7 +151,7 @@ class _JobSelectionForTipState extends State<JobSelectionForTip> with AutomaticK
                       padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 64.0),
                       child: TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
-                        text: pageState.allJobs.length > 0
+                        text: pageState.allJobs!.length > 0
                             ? "There are no matching jobs for the name entered."
                             : "You have not started any jobs yet.",
                         textAlign: TextAlign.center,

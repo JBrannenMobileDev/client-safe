@@ -12,9 +12,9 @@ import '../../utils/TextFormatterUtil.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class IncomeInsights extends StatelessWidget {
-  const IncomeInsights({Key key, this.pageState}) : super(key: key);
+  const IncomeInsights({Key? key, this.pageState}) : super(key: key);
 
-  final IncomeAndExpensesPageState pageState;
+  final IncomeAndExpensesPageState? pageState;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class IncomeInsights extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 42.0),
                         child: TextDandyLight(
                           type: TextDandyLight.EXTRA_LARGE_TEXT,
-                          text: TextFormatterUtil.formatSimpleCurrency(pageState.thisMonthIncome),
+                          text: TextFormatterUtil.formatSimpleCurrency(pageState!.thisMonthIncome!),
                           textAlign: TextAlign.start,
                           color: Color(ColorConstants.getPrimaryBlack()),
                         ),
@@ -80,7 +80,7 @@ class IncomeInsights extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 42.0),
                         child: TextDandyLight(
                           type: TextDandyLight.EXTRA_LARGE_TEXT,
-                          text: TextFormatterUtil.formatSimpleCurrency(pageState.lastMonthIncome),
+                          text: TextFormatterUtil.formatSimpleCurrency(pageState!.lastMonthIncome!),
                           textAlign: TextAlign.start,
                           color: Color(ColorConstants.getPrimaryBlack()),
                         ),
@@ -116,7 +116,7 @@ class IncomeInsights extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 54.0),
                       child: TextDandyLight(
                         type: TextDandyLight.EXTRA_LARGE_TEXT,
-                        text: TextFormatterUtil.formatSimpleCurrency(pageState.thisMonthLastYearIncome),
+                        text: TextFormatterUtil.formatSimpleCurrency(pageState!.thisMonthLastYearIncome!),
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
@@ -146,7 +146,7 @@ class IncomeInsights extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 54.0),
                       child: TextDandyLight(
                         type: TextDandyLight.EXTRA_LARGE_TEXT,
-                        text: TextFormatterUtil.formatSimpleCurrency(pageState.lastMonthLastYearIncome),
+                        text: TextFormatterUtil.formatSimpleCurrency(pageState!.lastMonthLastYearIncome!),
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),

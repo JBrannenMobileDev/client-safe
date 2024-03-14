@@ -58,7 +58,7 @@ class _BottomSheetPageState extends State<PageExplainationBottomSheet> with Tick
              ),
              GestureDetector(
                onTap: () {
-                 pageState.onIncomeInfoSeen();
+                 pageState.onIncomeInfoSeen!();
                  Navigator.of(context).pop();
                },
                child: Container(

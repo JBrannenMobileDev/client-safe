@@ -357,7 +357,7 @@ class UserOptionsUtil {
     );
   }
 
-  static void showNewInvoiceDialog(BuildContext context, Function onSendInvoiceSelected, bool shouldClear) {
+  static void showNewInvoiceDialog(BuildContext context, Function? onSendInvoiceSelected, bool shouldClear) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -384,11 +384,11 @@ class UserOptionsUtil {
     );
   }
 
-  static void showViewInvoiceDialog(BuildContext context, Invoice invoice, Job job, Function onSendInvoiceSelected) {
+  static void showViewInvoiceDialog(BuildContext context, Invoice? invoice, Job? job, Function? onSendInvoiceSelected) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return ViewInvoiceDialog(invoice, job, onSendInvoiceSelected);
+        return ViewInvoiceDialog(invoice!, job!, onSendInvoiceSelected!);
       },
     );
   }

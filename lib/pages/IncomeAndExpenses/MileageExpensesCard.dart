@@ -15,12 +15,12 @@ class MileageExpensesCard extends StatelessWidget {
   MileageExpensesCard({this.pageState});
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
-  final IncomeAndExpensesPageState pageState;
+  final IncomeAndExpensesPageState? pageState;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: getContainerHeight(pageState.mileageExpensesForSelectedYear.length, pageState),
+      height: getContainerHeight(pageState!.mileageExpensesForSelectedYear!.length, pageState!),
       child:Stack(
         alignment: Alignment.topCenter,
         children: <Widget>[
@@ -33,20 +33,20 @@ class MileageExpensesCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.fromLTRB(20.0, pageState.mileageExpensesForSelectedYear.length > 3 ? 4 : 16.0, 8.0, 8.0),
+                  margin: EdgeInsets.fromLTRB(20.0, pageState!.mileageExpensesForSelectedYear!.length > 3 ? 4 : 16.0, 8.0, 8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
-                        text: 'Mileage Deduction (' + pageState.selectedYear.toString() + ')',
+                        text: 'Mileage Deduction (' + pageState!.selectedYear.toString() + ')',
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
-                      pageState.mileageExpensesForSelectedYear != null && pageState.mileageExpensesForSelectedYear.length > 3 ? TextButton(
+                      pageState!.mileageExpensesForSelectedYear != null && pageState!.mileageExpensesForSelectedYear!.length > 3 ? TextButton(
                         style: Styles.getButtonStyle(top: 0),
                         onPressed: () {
-                          pageState.onViewAllExpensesSelected(0);
+                          pageState!.onViewAllExpensesSelected!(0);
                           Navigator.of(context).push(
                             new MaterialPageRoute(builder: (context) => AllExpensesPage()),
                           );
@@ -55,7 +55,7 @@ class MileageExpensesCard extends StatelessWidget {
                           alignment: Alignment.centerRight,
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'View all(' + pageState.mileageExpensesForSelectedYear.length.toString() + ')',
+                            text: 'View all(' + pageState!.mileageExpensesForSelectedYear!.length.toString() + ')',
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
@@ -63,14 +63,14 @@ class MileageExpensesCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                pageState.mileageExpensesForSelectedYear.length > 0 ?
+                pageState!.mileageExpensesForSelectedYear!.length > 0 ?
                 Column(
                   children: [
                     Container(
                       alignment: Alignment.center,
                       child: TextDandyLight(
                         type: TextDandyLight.EXTRA_EXTRA_LARGE_TEXT,
-                        amount: pageState.mileageExpensesForSelectedYearTotal,
+                        amount: pageState!.mileageExpensesForSelectedYearTotal,
                         color: Color(ColorConstants.getPeachDark()),
                         isCurrency: true,
                         decimalPlaces: 0,
@@ -93,7 +93,7 @@ class MileageExpensesCard extends StatelessWidget {
                                   children: [
                                     TextDandyLight(
                                       type: TextDandyLight.LARGE_TEXT,
-                                      amount: pageState.totalMilesDriven,
+                                      amount: pageState!.totalMilesDriven,
                                       color: Color(ColorConstants.getPeachDark()),
                                       isNumber: true,
                                       decimalPlaces: 1,
@@ -143,13 +143,13 @@ class MileageExpensesCard extends StatelessWidget {
                     ),
                   ],
                 ) : SizedBox(),
-                pageState.mileageExpensesForSelectedYear.length > 0 ? ListView.builder(
+                pageState!.mileageExpensesForSelectedYear!.length > 0 ? ListView.builder(
                   padding: EdgeInsets.only(top:16.0, bottom: 0.0),
                   reverse: false,
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   key: _listKey,
-                  itemCount: _getItemCount(pageState),
+                  itemCount: _getItemCount(pageState!),
                   itemBuilder: _buildItem,
                 ) : Container(
                   alignment: Alignment.center,
@@ -171,10 +171,10 @@ class MileageExpensesCard extends StatelessWidget {
   }
 
   int _getItemCount(IncomeAndExpensesPageState pageState) {
-    if(pageState.mileageExpensesForSelectedYear.length > 3) {
+    if(pageState.mileageExpensesForSelectedYear!.length > 3) {
       return 3;
     } else {
-      return pageState.mileageExpensesForSelectedYear.length;
+      return pageState.mileageExpensesForSelectedYear!.length;
     }
   }
 
@@ -193,6 +193,6 @@ class MileageExpensesCard extends StatelessWidget {
   }
 
   Widget _buildItem(BuildContext context, int index) {
-    return MileageExpenseItem(mileageExpense: pageState.mileageExpensesForSelectedYear.elementAt(index), pageState: pageState);
+    return MileageExpenseItem(mileageExpense: pageState!.mileageExpensesForSelectedYear!.elementAt(index), pageState: pageState);
   }
 }

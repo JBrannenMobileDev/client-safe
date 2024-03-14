@@ -187,7 +187,7 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
     (await RecurringExpenseDao.getRecurringExpenseStream()).listen((expenseSnapshots) async {
       List<RecurringExpense> expenses = [];
       for(RecordSnapshot expenseSnapshot in expenseSnapshots) {
-        expenses.add(RecurringExpense.fromMap(expenseSnapshot.value));
+        expenses.add(RecurringExpense.fromMap(expenseSnapshot.value! as Map<String,dynamic>));
       }
       store.dispatch(SetRecurringExpensesAction(store.state.incomeAndExpensesPageState, expenses));
     });
@@ -200,8 +200,8 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
     (await MileageExpenseDao.getMileageExpenseStream()).listen((expenseSnapshots) {
       List<MileageExpense> expenses = [];
       for(RecordSnapshot expenseSnapshot in expenseSnapshots) {
-        MileageExpense expenseToSave = MileageExpense.fromMap(expenseSnapshot.value);
-        expenseToSave.id = expenseSnapshot.key;
+        MileageExpense expenseToSave = MileageExpense.fromMap(expenseSnapshot.value! as Map<String,dynamic>);
+        expenseToSave.id = expenseSnapshot.key! as int?;
         expenses.add(expenseToSave);
       }
       store.dispatch(SetMileageExpensesAction(store.state.incomeAndExpensesPageState, expenses));
@@ -213,26 +213,26 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
 
       (await InvoiceDao.getInvoiceStream()).listen((invoiceSnapshots) async {
-        List<Invoice> invoices = List();
+        List<Invoice> invoices = [];
         for(RecordSnapshot invoiceSnapshot in invoiceSnapshots) {
-          invoices.add(Invoice.fromMap(invoiceSnapshot.value));
+          invoices.add(Invoice.fromMap(invoiceSnapshot.value! as Map<String,dynamic>));
         }
         store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, invoices));
       });
   }
 
   void onEditInvoice(Store<AppState> store, InvoiceEditSelected action, NextDispatcher next) async {
-    Job job = await JobDao.getJobById(action.invoice.jobDocumentId);
-    store.dispatch(SetShouldClearAction(store.state.newInvoicePageState, false));
-    store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, job));
+    Job? job = await JobDao.getJobById(action.invoice!.jobDocumentId);
+    store.dispatch(SetShouldClearAction(store.state.newInvoicePageState!, false));
+    store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState!, job!));
   }
 
   void updateInvoiceToSent(Store<AppState> store, OnInvoiceSentAction action, NextDispatcher next) async {
-    action.invoice.sentDate = DateTime.now();
-    await InvoiceDao.update(action.invoice, await JobDao.getJobById(action.invoice.jobDocumentId));
-    Job invoiceJob = await JobDao.getJobById(action.invoice.jobDocumentId);
+    action.invoice!.sentDate = DateTime.now();
+    await InvoiceDao.update(action.invoice, await JobDao.getJobById(action.invoice!.jobDocumentId));
+    Job? invoiceJob = await JobDao.getJobById(action.invoice!.jobDocumentId);
     store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
-    store.dispatch(SaveStageCompleted(store.state.jobDetailsPageState, invoiceJob, 7));
+    store.dispatch(SaveStageCompleted(store.state.jobDetailsPageState!, invoiceJob!, 7));
   }
 
   void _updateSaveAndSetRecurringExpenses(Store<AppState> store, List<RecurringExpense> recurringExpenses) async{

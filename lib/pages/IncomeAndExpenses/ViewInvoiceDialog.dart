@@ -67,7 +67,7 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteSelected(invoice);
+                pageState.onDeleteSelected!(invoice);
                 Navigator.of(context).pop(true);
                 Navigator.of(context).pop(true);
               },
@@ -86,7 +86,7 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteSelected(invoice);
+                pageState.onDeleteSelected!(invoice);
                 Navigator.of(context).pop(true);
                 Navigator.of(context).pop(true);
               },
@@ -180,9 +180,9 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                   VewInvoiceLineItemListWidget(invoice, true),
                                   GrayDividerWidget(),
                                   ViewInvoiceSubtotalRowWidget(invoice),
-                                  invoice.depositPaid ? ViewInvoiceDepositRowWidget(invoice, job) : SizedBox(),
-                                  invoice.discount > 0 ? ViewInvoiceDiscountRowWidget(invoice) : SizedBox(),
-                                  invoice.salesTaxRate > 0 ? ViewSalesTaxRowWidget(invoice) : SizedBox(),
+                                  invoice.depositPaid! ? ViewInvoiceDepositRowWidget(invoice, job) : SizedBox(),
+                                  invoice.discount! > 0 ? ViewInvoiceDiscountRowWidget(invoice) : SizedBox(),
+                                  invoice.salesTaxRate! > 0 ? ViewSalesTaxRowWidget(invoice) : SizedBox(),
                                   GrayDividerWidget(),
                                   ViewInvoiceBalanceDueWidget(invoice),
                                   invoice.dueDate != null ? Container(
@@ -198,7 +198,7 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                         ),
                                         TextDandyLight(
                                           type: TextDandyLight.MEDIUM_TEXT,
-                                          text: DateFormat('MMM dd, yyyy').format(invoice.dueDate),
+                                          text: DateFormat('MMM dd, yyyy').format(invoice.dueDate!),
                                           textAlign: TextAlign.start,
                                           color: Color(ColorConstants.getPrimaryBlack()),
                                         ),
@@ -214,7 +214,7 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                         children: <Widget>[
                                           GestureDetector(
                                             onTap: () async {
-                                              IntentLauncherUtil.launchBrandingPreviewURL(UidUtil().getUid(), job.documentId);
+                                              IntentLauncherUtil.launchBrandingPreviewURL(UidUtil().getUid(), job.documentId!);
                                               EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_FROM_VIEW_INVOICE_PAGE);
                                             },
                                             child: Container(

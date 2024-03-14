@@ -75,19 +75,19 @@ class InvoiceDao extends Equatable{
         await NextInvoiceNumberCollection().setStartingValue(1000);
       }
       NextInvoiceNumber nextInvoiceNumber = nextInvoiceNumbers.elementAt(0);
-      nextInvoiceNumber.highestInvoiceNumber = (nextInvoiceNumber.highestInvoiceNumber + 1);
+      nextInvoiceNumber.highestInvoiceNumber = (nextInvoiceNumber.highestInvoiceNumber! + 1);
       await NextInvoiceNumberDao.insertOrUpdate(nextInvoiceNumber);
     }
   }
 
-  static Future update(Invoice invoice, Job jobToUpdate) async {
-    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', invoice.documentId));
+  static Future update(Invoice? invoice, Job? jobToUpdate) async {
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', invoice!.documentId));
     await _invoiceStore.update(
       await _db,
       invoice.toMap(),
       finder: finder,
     );
-    jobToUpdate.invoice = invoice;
+    jobToUpdate!.invoice = invoice;
     await JobDao.update(jobToUpdate);
     await InvoiceCollection().updateInvoice(invoice);
     _updateLastChangedTime();

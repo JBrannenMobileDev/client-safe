@@ -37,10 +37,10 @@ class IncomeAndExpensesPage extends StatefulWidget {
 }
 
 class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
-  ScrollController scrollController;
+  ScrollController? scrollController;
   bool dialVisible = true;
   int selectedIndex = 0;
-  Map<int, Widget> tabs;
+  Map<int, Widget>? tabs;
   bool isFabExpanded = false;
 
   void _showInfoSheet(BuildContext context) {
@@ -79,7 +79,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
         appState.dispatch(FetchRecurringExpenses(appState.state.incomeAndExpensesPageState));
         appState.dispatch(FetchMileageExpenses(appState.state.incomeAndExpensesPageState));
         appState.dispatch(UpdateSelectedYearAction(appState.state.incomeAndExpensesPageState, DateTime.now().year));
-        if(appState.state.dashboardPageState.profile != null && !appState.state.dashboardPageState.profile.hasSeenIncomeInfo) {
+        if(appState.state.dashboardPageState!.profile != null && !appState.state.dashboardPageState!.profile!.hasSeenIncomeInfo!) {
           Future.delayed(const Duration(seconds: 1), () {
             _showInfoSheet(context);
           });
@@ -106,7 +106,6 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         iconTheme: IconThemeData(
                           color: Color(ColorConstants.getPrimaryWhite()), //change your color here
                         ),
-                        brightness: Brightness.light,
                         backgroundColor: Colors.transparent,
                         elevation: 0.0,
                         pinned: false,
@@ -149,12 +148,12 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                     child: CupertinoSlidingSegmentedControl<int>(
                                       thumbColor: Color(ColorConstants.getPrimaryWhite()),
                                       backgroundColor: Colors.transparent,
-                                      children: tabs,
-                                      onValueChanged: (int filterTypeIndex) {
+                                      children: tabs!,
+                                      onValueChanged: (int? filterTypeIndex) {
                                         setState(() {
-                                          selectedIndex = filterTypeIndex;
+                                          selectedIndex = filterTypeIndex!;
                                         });
-                                        pageState.onFilterChanged(filterTypeIndex == 0 ? IncomeAndExpensesPage.FILTER_TYPE_INCOME : IncomeAndExpensesPage.FILTER_TYPE_EXPENSES);
+                                        pageState.onFilterChanged!(filterTypeIndex == 0 ? IncomeAndExpensesPage.FILTER_TYPE_INCOME : IncomeAndExpensesPage.FILTER_TYPE_EXPENSES);
                                         if(filterTypeIndex == 0) EventSender().sendEvent(eventName: EventNames.NAV_TO_INCOME);
                                         if(filterTypeIndex == 1) EventSender().sendEvent(eventName: EventNames.NAV_TO_EXPENSES);
                                       },
@@ -200,7 +199,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                                     context,
                                                     dateFormat:'yyyy',
                                                     onConfirm: (dateTime, intList) {
-                                                      pageState.onYearChanged(dateTime.year);
+                                                      pageState.onYearChanged!(dateTime.year);
                                                     },
                                                       pickerTheme: DateTimePickerTheme(
                                                         cancelTextStyle: TextStyle(
@@ -225,7 +224,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                           margin: const EdgeInsets.only(top: 0.0),
                                           child: TextDandyLight(
                                             type: TextDandyLight.INCOME_EXPENSE_TOTAL,
-                                                amount: selectedIndex == 0 ? pageState.totalTips + pageState.incomeForSelectedYear : pageState.expensesForSelectedYear,
+                                                amount: selectedIndex == 0 ? pageState.totalTips! + pageState.incomeForSelectedYear! : pageState.expensesForSelectedYear,
                                                 color: Color(ColorConstants.getPrimaryWhite()),
                                                 isCurrency: true,
                                                 decimalPlaces: 0,
@@ -313,9 +312,9 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         ),
                       ),
                       onTap: () {
-                        if(pageState.profile.showRequestPaymentLinksDialog) {
+                        if(pageState.profile!.showRequestPaymentLinksDialog!) {
                           UserOptionsUtil.showPaymentLinksRequestDialog(context);
-                          pageState.setPaymentRequestAsSeen();
+                          pageState.setPaymentRequestAsSeen!();
                         } else {
                           UserOptionsUtil.showNewInvoiceDialog(context, null, true);
                         }

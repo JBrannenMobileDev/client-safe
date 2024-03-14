@@ -28,7 +28,7 @@ class ViewInvoiceSubtotalRowWidget extends StatelessWidget{
           ),
           TextDandyLight(
             type: TextDandyLight.MEDIUM_TEXT,
-            text: '\$' + invoice.total.toInt().toString(),
+            text: '\$' + invoice.total!.toInt().toString(),
             textAlign: TextAlign.start,
             color: Color(ColorConstants.getPrimaryBlack()),
           ),

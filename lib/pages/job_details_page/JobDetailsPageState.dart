@@ -25,83 +25,83 @@ import '../../models/Profile.dart';
 import '../sunset_weather_page/SunsetWeatherPageActions.dart';
 
 class JobDetailsPageState {
-  final Job job;
-  final Client client;
-  final DateTime sunsetTime;
-  final DateTime selectedDate;
-  final int newStagAnimationIndex;
-  final double stageScrollOffset;
-  final List<EventDandyLight> eventList;
-  final List<Event> deviceEvents;
-  final List<Job> jobs;
-  final JobType jobType;
-  final List<JobReminder> reminders;
-  final String jobTitleText;
-  final double unsavedAddOnCostAmount;
-  final int unsavedTipAmount;
-  final List<LocationDandy> locations;
-  final LocationDandy selectedLocation;
-  final Function(LocationDandy) onLocationSelected;
-  final List<int> expandedIndexes;
-  final String documentPath;
-  final PriceProfile selectedPriceProfile;
-  final List<PriceProfile> priceProfiles;
-  final List<JobType> jobTypes;
-  final List<DocumentItem> documents;
-  final List<String> poseFilePaths;
-  final MileageExpense mileageTrip;
-  final Invoice invoice;
-  final String notes;
-  final String weatherIcon;
-  final String tempHigh;
-  final String tempLow;
-  final String chanceOfRain;
-  final String cloudCoverage;
-  final String eveningGoldenHour;
-  final String sunset;
-  final String eveningBlueHour;
-  final Profile profile;
-  final Function(PriceProfile) onPriceProfileSelected;
-  final Function(String) onSaveUpdatedPriceProfileSelected;
-  final Function(JobType) onJobTypeSelected;
-  final Function(Job, int) onStageCompleted;
-  final Function(Job, int) onStageUndo;
-  final Function(int) setNewIndexForStageAnimation;
-  final Function(int) addExpandedIndex;
-  final Function(int) removeExpandedIndex;
-  final Function() onDeleteSelected;
-  final Function() onInstagramSelected;
-  final Function(double) onScrollOffsetChanged;
-  final Function(DateTime) onNewTimeSelected;
-  final Function(DateTime) onNewEndTimeSelected;
-  final Function() onSaveSelectedDate;
-  final Function(Client) onClientClicked;
-  final Function(Job) onJobClicked;
-  final Function(LocationDandy) onLocationSaveSelected;
-  final Function(String) onJobTitleTextChanged;
-  final Function() onNameChangeSaved;
-  final Function() onJobTypeSaveSelected;
-  final Function(int) onAddToDeposit;
-  final Function() onSaveAddOnCost;
-  final Function() onClearUnsavedDeposit;
-  final Function(int) onAddToTip;
-  final Function() onSaveTipChange;
-  final Function() onClearUnsavedTip;
-  final Function() onAddInvoiceSelected;
-  final Function(Invoice) onDeleteInvoiceSelected;
-  final Function(Contract) onDeleteContractSelected;
-  final Function(Invoice) onInvoiceSent;
-  final Function() onBackPressed;
-  final Function(JobReminder) onDeleteReminderSelected;
-  final Function(DateTime) onMonthChanged;
-  final Function(DateTime) onNewDateSelected;
-  final Function(int) onDeletePoseSelected;
-  final Function(String) onNotesTextChanged;
-  final Function() setOnBoardingComplete;
-  final Function() onSunsetWeatherSelected;
-  final Function(LocationDandy) onDrivingDirectionsSelected;
-  final Function(bool) setMileageAutoTrack;
-  final Function(LatLng) onStartLocationChanged;
+  final Job? job;
+  final Client? client;
+  final DateTime? sunsetTime;
+  final DateTime? selectedDate;
+  final int? newStagAnimationIndex;
+  final double? stageScrollOffset;
+  final List<EventDandyLight>? eventList;
+  final List<Event>? deviceEvents;
+  final List<Job>? jobs;
+  final JobType? jobType;
+  final List<JobReminder>? reminders;
+  final String? jobTitleText;
+  final double? unsavedAddOnCostAmount;
+  final int? unsavedTipAmount;
+  final List<LocationDandy>? locations;
+  final LocationDandy? selectedLocation;
+  final Function(LocationDandy)? onLocationSelected;
+  final List<int>? expandedIndexes;
+  final String? documentPath;
+  final PriceProfile? selectedPriceProfile;
+  final List<PriceProfile>? priceProfiles;
+  final List<JobType>? jobTypes;
+  final List<DocumentItem>? documents;
+  final List<String>? poseFilePaths;
+  final MileageExpense? mileageTrip;
+  final Invoice? invoice;
+  final String? notes;
+  final String? weatherIcon;
+  final String? tempHigh;
+  final String? tempLow;
+  final String? chanceOfRain;
+  final String? cloudCoverage;
+  final String? eveningGoldenHour;
+  final String? sunset;
+  final String? eveningBlueHour;
+  final Profile? profile;
+  final Function(PriceProfile)? onPriceProfileSelected;
+  final Function(String)? onSaveUpdatedPriceProfileSelected;
+  final Function(JobType)? onJobTypeSelected;
+  final Function(Job, int)? onStageCompleted;
+  final Function(Job, int)? onStageUndo;
+  final Function(int)? setNewIndexForStageAnimation;
+  final Function(int)? addExpandedIndex;
+  final Function(int)? removeExpandedIndex;
+  final Function()? onDeleteSelected;
+  final Function()? onInstagramSelected;
+  final Function(double)? onScrollOffsetChanged;
+  final Function(DateTime)? onNewTimeSelected;
+  final Function(DateTime)? onNewEndTimeSelected;
+  final Function()? onSaveSelectedDate;
+  final Function(Client)? onClientClicked;
+  final Function(Job)? onJobClicked;
+  final Function(LocationDandy)? onLocationSaveSelected;
+  final Function(String)? onJobTitleTextChanged;
+  final Function()? onNameChangeSaved;
+  final Function()? onJobTypeSaveSelected;
+  final Function(int)? onAddToDeposit;
+  final Function()? onSaveAddOnCost;
+  final Function()? onClearUnsavedDeposit;
+  final Function(int)? onAddToTip;
+  final Function()? onSaveTipChange;
+  final Function()? onClearUnsavedTip;
+  final Function()? onAddInvoiceSelected;
+  final Function(Invoice)? onDeleteInvoiceSelected;
+  final Function(Contract)? onDeleteContractSelected;
+  final Function(Invoice)? onInvoiceSent;
+  final Function()? onBackPressed;
+  final Function(JobReminder)? onDeleteReminderSelected;
+  final Function(DateTime)? onMonthChanged;
+  final Function(DateTime)? onNewDateSelected;
+  final Function(int)? onDeletePoseSelected;
+  final Function(String)? onNotesTextChanged;
+  final Function()? setOnBoardingComplete;
+  final Function()? onSunsetWeatherSelected;
+  final Function(LocationDandy)? onDrivingDirectionsSelected;
+  final Function(bool)? setMileageAutoTrack;
+  final Function(LatLng)? onStartLocationChanged;
 
   JobDetailsPageState({
     @required this.job,
@@ -184,83 +184,83 @@ class JobDetailsPageState {
   });
 
   JobDetailsPageState copyWith({
-    String weatherIcon,
-    String tempHigh,
-    String tempLow,
-    String chanceOfRain,
-    String cloudCoverage,
-    Job job,
-    Client client,
-    DateTime selectedDate,
-    int newStagAnimationIndex,
-    double stageScrollOffset,
-    List<EventDandyLight> eventList,
-    List<Event> deviceEvents,
-    List<Job> jobs,
-    JobType jobType,
-    String jobTitleText,
-    List<LocationDandy> locations,
-    List<JobReminder> reminders,
-    LocationDandy selectedLocation,
-    Function(LocationDandy) onLocationSelected,
-    List<int> expandedIndexes,
-    String documentPath,
-    Invoice invoice,
-    List<JobType> jobTypes,
-    PriceProfile selectedPriceProfile,
-    List<PriceProfile> priceProfiles,
-    String eveningGoldenHour,
-    String sunset,
-    String eveningBlueHour,
-    List<String> poseFilePaths,
-    Profile profile,
-    MileageExpense mileageTrip,
-    Function(PriceProfile) onPriceProfileSelected,
-    Function(String) onSaveUpdatedPriceProfileSelected,
-    Function(JobType) onJobTypeSelected,
-    Function(Job, int) onStageCompleted,
-    Function(Job, int) onStageUndo,
-    Function(int) setNewIndexForStageAnimation,
-    Function(int) addExpandedIndex,
-    Function(int) removeExpandedIndex,
-    Function() onDeleteSelected,
-    Function() onInstagramSelected,
-    DateTime sunsetTime,
-    Function(double) onScrollOffsetChanged,
-    Function(DateTime) onNewTimeSelected,
-    Function() onSaveSelectedDate,
-    Function(Client) onClientClicked,
-    Function(Job) onJobClicked,
-    Function(LocationDandy) onLocationSaveSelected,
-    Function(String) onJobTitleTextChanged,
-    Function() onNameChangeSaved,
-    Function(JobType) onJobTypeSaveSelected,
-    Function(bool) setMileageAutoTrack,
-    double unsavedAddOnCostAmount,
-    Function(int) onAddToDeposit,
-    Function() onSaveAddOnCost,
-    Function() onClearUnsavedDeposit,
-    Function() onAddInvoiceSelected,
-    List<DocumentItem> documents,
-    Function(Invoice) onDeleteInvoiceSelected,
-    Function(Contract) onDeleteContractSelected,
-    Function(Invoice) onInvoiceSent,
-    Function(int) onAddToTip,
-    Function() onSaveTipChange,
-    Function() onClearUnsavedTip,
-    int unsavedTipAmount,
-    Function() onBackPressed,
-    Function(JobReminder) onDeleteReminderSelected,
-    Function(DateTime) onMonthChanged,
-    Function(DateTime) onNewDateSelected,
-    Function(DateTime) onNewEndTimeSelected,
-    Function(int) onDeletePoseSelected,
-    Function(String) onNotesTextChanged,
-    String notes,
-    Function() setOnBoardingComplete,
-    Function() onSunsetWeatherSelected,
-    Function(LocationDandy) onDrivingDirectionsSelected,
-    Function(LatLng) onStartLocationChanged,
+    String? weatherIcon,
+    String? tempHigh,
+    String? tempLow,
+    String? chanceOfRain,
+    String? cloudCoverage,
+    Job? job,
+    Client? client,
+    DateTime? selectedDate,
+    int? newStagAnimationIndex,
+    double? stageScrollOffset,
+    List<EventDandyLight>? eventList,
+    List<Event>? deviceEvents,
+    List<Job>? jobs,
+    JobType? jobType,
+    String? jobTitleText,
+    List<LocationDandy>? locations,
+    List<JobReminder>? reminders,
+    LocationDandy? selectedLocation,
+    Function(LocationDandy)? onLocationSelected,
+    List<int>? expandedIndexes,
+    String? documentPath,
+    Invoice? invoice,
+    List<JobType>? jobTypes,
+    PriceProfile? selectedPriceProfile,
+    List<PriceProfile>? priceProfiles,
+    String? eveningGoldenHour,
+    String? sunset,
+    String? eveningBlueHour,
+    List<String>? poseFilePaths,
+    Profile? profile,
+    MileageExpense? mileageTrip,
+    Function(PriceProfile)? onPriceProfileSelected,
+    Function(String)? onSaveUpdatedPriceProfileSelected,
+    Function(JobType)? onJobTypeSelected,
+    Function(Job, int)? onStageCompleted,
+    Function(Job, int)? onStageUndo,
+    Function(int)? setNewIndexForStageAnimation,
+    Function(int)? addExpandedIndex,
+    Function(int)? removeExpandedIndex,
+    Function()? onDeleteSelected,
+    Function()? onInstagramSelected,
+    DateTime? sunsetTime,
+    Function(double)? onScrollOffsetChanged,
+    Function(DateTime)? onNewTimeSelected,
+    Function()? onSaveSelectedDate,
+    Function(Client)? onClientClicked,
+    Function(Job)? onJobClicked,
+    Function(LocationDandy)? onLocationSaveSelected,
+    Function(String)? onJobTitleTextChanged,
+    Function()? onNameChangeSaved,
+    Function()? onJobTypeSaveSelected,
+    Function(bool)? setMileageAutoTrack,
+    double? unsavedAddOnCostAmount,
+    Function(int)? onAddToDeposit,
+    Function()? onSaveAddOnCost,
+    Function()? onClearUnsavedDeposit,
+    Function()? onAddInvoiceSelected,
+    List<DocumentItem>? documents,
+    Function(Invoice)? onDeleteInvoiceSelected,
+    Function(Contract)? onDeleteContractSelected,
+    Function(Invoice)? onInvoiceSent,
+    Function(int)? onAddToTip,
+    Function()? onSaveTipChange,
+    Function()? onClearUnsavedTip,
+    int? unsavedTipAmount,
+    Function()? onBackPressed,
+    Function(JobReminder)? onDeleteReminderSelected,
+    Function(DateTime)? onMonthChanged,
+    Function(DateTime)? onNewDateSelected,
+    Function(DateTime)? onNewEndTimeSelected,
+    Function(int)? onDeletePoseSelected,
+    Function(String)? onNotesTextChanged,
+    String? notes,
+    Function()? setOnBoardingComplete,
+    Function()? onSunsetWeatherSelected,
+    Function(LocationDandy)? onDrivingDirectionsSelected,
+    Function(LatLng)? onStartLocationChanged,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
@@ -345,41 +345,41 @@ class JobDetailsPageState {
 
   static JobDetailsPageState fromStore(Store<AppState> store) {
     return JobDetailsPageState(
-        job: store.state.jobDetailsPageState.job,
-        selectedDate: store.state.jobDetailsPageState.selectedDate,
-        client: store.state.jobDetailsPageState.client,
-        sunsetTime: store.state.jobDetailsPageState.sunsetTime,
-        stageScrollOffset: store.state.jobDetailsPageState.stageScrollOffset,
-        eventList: store.state.jobDetailsPageState.eventList,
-        deviceEvents: store.state.jobDetailsPageState.deviceEvents,
-        jobs: store.state.jobDetailsPageState.jobs,
-        jobTitleText: store.state.jobDetailsPageState.jobTitleText,
-        locations: store.state.jobDetailsPageState.locations,
-        selectedLocation: store.state.jobDetailsPageState.selectedLocation,
-        expandedIndexes: store.state.jobDetailsPageState.expandedIndexes,
-        newStagAnimationIndex: store.state.jobDetailsPageState.newStagAnimationIndex,
-        selectedPriceProfile: store.state.jobDetailsPageState.selectedPriceProfile,
-        priceProfiles: store.state.jobDetailsPageState.priceProfiles,
-        unsavedAddOnCostAmount: store.state.jobDetailsPageState.unsavedAddOnCostAmount,
-        unsavedTipAmount: store.state.jobDetailsPageState.unsavedTipAmount,
-        documentPath: store.state.jobDetailsPageState.documentPath,
-        documents: store.state.jobDetailsPageState.documents,
-        invoice: store.state.jobDetailsPageState.invoice,
-        reminders: store.state.jobDetailsPageState.reminders,
-        jobType: store.state.jobDetailsPageState.jobType,
-        jobTypes: store.state.jobDetailsPageState.jobTypes,
-        notes: store.state.jobDetailsPageState.notes,
-        weatherIcon: store.state.jobDetailsPageState.weatherIcon,
-        tempLow: store.state.jobDetailsPageState.tempLow,
-        tempHigh: store.state.jobDetailsPageState.tempHigh,
-        chanceOfRain: store.state.jobDetailsPageState.chanceOfRain,
-        cloudCoverage: store.state.jobDetailsPageState.cloudCoverage,
-        eveningGoldenHour: store.state.jobDetailsPageState.eveningGoldenHour,
-        sunset: store.state.jobDetailsPageState.sunset,
-        eveningBlueHour: store.state.jobDetailsPageState.eveningBlueHour,
-        poseFilePaths: store.state.jobDetailsPageState.poseFilePaths,
-        profile: store.state.jobDetailsPageState.profile,
-        mileageTrip: store.state.jobDetailsPageState.mileageTrip,
+        job: store.state.jobDetailsPageState!.job,
+        selectedDate: store.state.jobDetailsPageState!.selectedDate,
+        client: store.state.jobDetailsPageState!.client,
+        sunsetTime: store.state.jobDetailsPageState!.sunsetTime,
+        stageScrollOffset: store.state.jobDetailsPageState!.stageScrollOffset,
+        eventList: store.state.jobDetailsPageState!.eventList,
+        deviceEvents: store.state.jobDetailsPageState!.deviceEvents,
+        jobs: store.state.jobDetailsPageState!.jobs,
+        jobTitleText: store.state.jobDetailsPageState!.jobTitleText,
+        locations: store.state.jobDetailsPageState!.locations,
+        selectedLocation: store.state.jobDetailsPageState!.selectedLocation,
+        expandedIndexes: store.state.jobDetailsPageState!.expandedIndexes,
+        newStagAnimationIndex: store.state.jobDetailsPageState!.newStagAnimationIndex,
+        selectedPriceProfile: store.state.jobDetailsPageState!.selectedPriceProfile,
+        priceProfiles: store.state.jobDetailsPageState!.priceProfiles,
+        unsavedAddOnCostAmount: store.state.jobDetailsPageState!.unsavedAddOnCostAmount,
+        unsavedTipAmount: store.state.jobDetailsPageState!.unsavedTipAmount,
+        documentPath: store.state.jobDetailsPageState!.documentPath,
+        documents: store.state.jobDetailsPageState!.documents,
+        invoice: store.state.jobDetailsPageState!.invoice,
+        reminders: store.state.jobDetailsPageState!.reminders,
+        jobType: store.state.jobDetailsPageState!.jobType,
+        jobTypes: store.state.jobDetailsPageState!.jobTypes,
+        notes: store.state.jobDetailsPageState!.notes,
+        weatherIcon: store.state.jobDetailsPageState!.weatherIcon,
+        tempLow: store.state.jobDetailsPageState!.tempLow,
+        tempHigh: store.state.jobDetailsPageState!.tempHigh,
+        chanceOfRain: store.state.jobDetailsPageState!.chanceOfRain,
+        cloudCoverage: store.state.jobDetailsPageState!.cloudCoverage,
+        eveningGoldenHour: store.state.jobDetailsPageState!.eveningGoldenHour,
+        sunset: store.state.jobDetailsPageState!.sunset,
+        eveningBlueHour: store.state.jobDetailsPageState!.eveningBlueHour,
+        poseFilePaths: store.state.jobDetailsPageState!.poseFilePaths,
+        profile: store.state.jobDetailsPageState!.profile,
+        mileageTrip: store.state.jobDetailsPageState!.mileageTrip,
         onAddToTip: (amountToAdd) => store.dispatch(AddToTipAction(store.state.jobDetailsPageState, amountToAdd)),
         onSaveTipChange: () => store.dispatch(SaveTipChangeAction(store.state.jobDetailsPageState)),
         onClearUnsavedTip: () => store.dispatch(ClearUnsavedTipAction(store.state.jobDetailsPageState)),
@@ -404,20 +404,20 @@ class JobDetailsPageState {
         onJobTypeSaveSelected: () => store.dispatch(SaveUpdatedJobTypeAction(store.state.jobDetailsPageState)),
         onPriceProfileSelected: (priceProfile) => store.dispatch(UpdateSelectedPricePackageAction(store.state.jobDetailsPageState, priceProfile)),
         onSaveUpdatedPriceProfileSelected: (oneTimePrice) {
-          store.dispatch(OnDeleteInvoiceSelectedAction(store.state.jobDetailsPageState, store.state.jobDetailsPageState.invoice));
+          store.dispatch(OnDeleteInvoiceSelectedAction(store.state.jobDetailsPageState, store.state.jobDetailsPageState!.invoice));
           store.dispatch(SaveUpdatedPricePackageAction(store.state.jobDetailsPageState, oneTimePrice));
         },
         onAddToDeposit: (amountToAdd) => store.dispatch(AddToAddOnCostAction(store.state.jobDetailsPageState, amountToAdd)),
         onSaveAddOnCost: () => store.dispatch(SaveAddOnCostAction(store.state.jobDetailsPageState)),
         onClearUnsavedDeposit: () => store.dispatch(ClearUnsavedDepositAction(store.state.jobDetailsPageState)),
         onAddInvoiceSelected: () async {
-          await store.dispatch(SetShouldClearAction(store.state.newInvoicePageState, false));
-          store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, store.state.jobDetailsPageState.job));
+          await store.dispatch(SetShouldClearAction(store.state.newInvoicePageState!, false));
+          store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState!, store.state.jobDetailsPageState!.job!));
         },
         onDeleteInvoiceSelected: (invoice) => store.dispatch(OnDeleteInvoiceSelectedAction(store.state.jobDetailsPageState, invoice)),
         onDeleteContractSelected: (contract) => store.dispatch(OnDeleteContractSelectedAction(store.state.jobDetailsPageState, contract)),
         onInvoiceSent: (invoice) => store.dispatch(InvoiceSentAction(store.state.jobDetailsPageState, invoice)),
-        onBackPressed: () => store.dispatch(FetchJobsAction(store.state.jobsPageState)),
+        onBackPressed: () => store.dispatch(FetchJobsAction(store.state.jobsPageState!)),
         onDeleteReminderSelected: (reminder) => store.dispatch(DeleteReminderFromJobAction(store.state.jobDetailsPageState, reminder)),
         onMonthChanged: (month) => store.dispatch(FetchJobDetailsDeviceEvents(store.state.jobDetailsPageState, month)),
         onNewDateSelected: (selectedDate) => store.dispatch(SetJobDetailsSelectedDateAction(store.state.jobDetailsPageState, selectedDate)),
@@ -426,7 +426,7 @@ class JobDetailsPageState {
           store.dispatch(SaveJobNotesAction(store.state.jobDetailsPageState, notes));
         },
         setOnBoardingComplete: () => store.dispatch(SetOnBoardingCompleteAction(store.state.jobDetailsPageState)),
-        onSunsetWeatherSelected: () => store.dispatch(LoadInitialLocationAndDateComingFromNewJobAction(store.state.sunsetWeatherPageState, store.state.jobDetailsPageState.job.location, store.state.jobDetailsPageState.job.selectedDate)),
+        onSunsetWeatherSelected: () => store.dispatch(LoadInitialLocationAndDateComingFromNewJobAction(store.state.sunsetWeatherPageState!, store.state.jobDetailsPageState!.job!.location!, store.state.jobDetailsPageState!.job!.selectedDate!)),
         onDrivingDirectionsSelected: (location) => store.dispatch(DrivingDirectionsJobSelected(store.state.jobDetailsPageState, location)),
         setMileageAutoTrack: (enabled) => store.dispatch(SetShouldTrackAction(store.state.jobDetailsPageState, enabled)),
         onStartLocationChanged: (latLng) => store.dispatch(SaveJobDetailsHomeLocationAction(store.state.jobDetailsPageState, latLng)),
