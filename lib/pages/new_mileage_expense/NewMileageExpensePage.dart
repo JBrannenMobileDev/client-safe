@@ -31,7 +31,7 @@ class NewMileageExpensePage extends StatefulWidget {
 }
 
 class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
-  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final int pageCount = 1;
   final controller = PageController(
     initialPage: 0,
@@ -48,42 +48,17 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
     currentPageIndex = 0;
   }
 
-  Future<bool> _onWillPop() {
-    return showDialog(
-          context: context,
-          builder: (context) => new CupertinoAlertDialog(
-            title: new Text('Are you sure?'),
-            content: new Text('All unsaved information entered will be lost.'),
-            actions: <Widget>[
-              TextButton(
-                style: Styles.getButtonStyle(),
-                onPressed: () => Navigator.of(context).pop(false),
-                child: new Text('No'),
-              ),
-              TextButton(
-                style: Styles.getButtonStyle(),
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
-                child: new Text('Yes'),
-              ),
-            ],
-          ),
-        ) ??
-        false;
-  }
-
   @override
   Widget build(BuildContext context) {
     controller.addListener(() {
       setState(() {
-        currentPageIndex = controller.page.toInt();
+        currentPageIndex = controller.page!.toInt();
       });
     });
     return StoreConnector<AppState, NewMileageExpensePageState>(
       onInit: (store) {
         store.dispatch(FetchLastKnowPosition(store.state.newMileageExpensePageState));
-        if(store.state.newMileageExpensePageState.shouldClear) store.dispatch(ClearMileageExpenseStateAction(store.state.newMileageExpensePageState));
+        if(store.state.newMileageExpensePageState!.shouldClear!) store.dispatch(ClearMileageExpenseStateAction(store.state.newMileageExpensePageState));
         if(trip != null) {
           store.dispatch(LoadExistingMileageExpenseAction(store.state.newMileageExpensePageState, trip));
         }
@@ -91,7 +66,30 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
       converter: (store) => NewMileageExpensePageState.fromStore(store),
       builder: (BuildContext context, NewMileageExpensePageState pageState) =>
           WillPopScope(
-          onWillPop: _onWillPop,
+          onWillPop: () async {
+            final shouldPop = await showDialog<bool>(
+              context: context,
+              builder: (context) => CupertinoAlertDialog(
+                title: Text('Are you sure?'),
+                content: Text('All unsaved information entered will be lost.'),
+                actions: <Widget>[
+                  TextButton(
+                    style: Styles.getButtonStyle(),
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: Text('No'),
+                  ),
+                  TextButton(
+                    style: Styles.getButtonStyle(),
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                    child: Text('Yes'),
+                  ),
+                ],
+              ),
+            );
+            return shouldPop!;
+          },
           child: Scaffold(
               key: scaffoldKey,
               backgroundColor: Colors.transparent,
@@ -99,9 +97,9 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
                 child: Container(
                   width: 375.0,
                   padding: EdgeInsets.only(top: 26.0, bottom: 18.0),
-                  decoration: new BoxDecoration(
+                  decoration: BoxDecoration(
                       color: Color(ColorConstants.white),
-                      borderRadius: new BorderRadius.all(Radius.circular(16.0))),
+                      borderRadius: BorderRadius.all(Radius.circular(16.0))),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisSize: MainAxisSize.min,
@@ -113,11 +111,11 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
                           children: <Widget>[
                             TextDandyLight(
                               type: TextDandyLight.LARGE_TEXT,
-                              text: pageState.shouldClear ? "New Mileage Trip" : "Edit Mileage Trip",
+                              text: pageState.shouldClear! ? "New Mileage Trip" : "Edit Mileage Trip",
                               textAlign: TextAlign.start,
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),
-                            !pageState.shouldClear ? GestureDetector(
+                            !pageState.shouldClear! ? GestureDetector(
                               onTap: () {
                                 _ackAlert(context, pageState);
                               },
@@ -132,7 +130,7 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
                                 ),
                               ),
                             ) : SizedBox(),
-                            !pageState.shouldClear ? Container(
+                            !pageState.shouldClear! ? Container(
                               margin: EdgeInsets.only(left: 300.0),
                               child: IconButton(
                                 icon: const Icon(Icons.save),
@@ -140,7 +138,7 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
                                 color: Color(ColorConstants.getPeachDark()),
                                 onPressed: () {
                                   showSuccessAnimation();
-                                  pageState.onSavePressed();
+                                  pageState.onSavePressed!();
                                 },
                               ),
                             ) : SizedBox(),
@@ -205,7 +203,7 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
                               },
                               child: TextDandyLight(
                                 type: TextDandyLight.MEDIUM_TEXT,
-                                text: pageState.pageViewIndex == 0 && pageState.selectedHomeLocationName.isEmpty ? 'Skip' : currentPageIndex == pageCount
+                                text: pageState.pageViewIndex == 0 && pageState.selectedHomeLocationName!.isEmpty ? 'Skip' : currentPageIndex == pageCount
                                     ? "Save"
                                     : "Next",
                                 textAlign: TextAlign.start,
@@ -229,13 +227,13 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
     if (currentPageIndex != pageCount) {
       switch (currentPageIndex) {
         case 0:
-          if((pageState.endLocationName.isNotEmpty && pageState.endLocationName != 'Select a location') && (pageState.profile.hasDefaultHome() || pageState.startLocationName.isNotEmpty)){
+          if((pageState.endLocationName!.isNotEmpty && pageState.endLocationName != 'Select a location') && (pageState.profile!.hasDefaultHome() || pageState.startLocationName!.isNotEmpty)){
             canProgress = true;
           }else {
-            if(pageState.endLocationName.isEmpty || pageState.endLocationName == 'Select a location') {
+            if(pageState.endLocationName!.isEmpty || pageState.endLocationName == 'Select a location') {
               DandyToastUtil.showToast('End location is required', Color(ColorConstants.getPrimaryColor()));
             }
-            if(!pageState.profile.hasDefaultHome() && pageState.startLocationName.isEmpty){
+            if(!pageState.profile!.hasDefaultHome() && pageState.startLocationName!.isEmpty){
               DandyToastUtil.showToast('Start location is required', Color(ColorConstants.getPrimaryColor()));
             }
           }
@@ -246,7 +244,7 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
       }
 
       if (canProgress) {
-        pageState.onNextPressed();
+        pageState.onNextPressed!();
         controller.animateToPage(currentPageIndex + 1,
             duration: Duration(milliseconds: 150), curve: Curves.ease);
         if(MediaQuery.of(context).viewInsets.bottom != 0) KeyboardUtil.closeKeyboard(context);
@@ -254,9 +252,9 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
     }
     if (currentPageIndex == pageCount) {
       if(pageState.expenseDate != null) {
-        if(pageState.expenseCost > 0.0){
+        if(pageState.expenseCost! > 0.0){
           showSuccessAnimation();
-          pageState.onSavePressed();
+          pageState.onSavePressed!();
         } else {
           DandyToastUtil.showToast('Cost must be greater than \$0.0', Color(ColorConstants.getPrimaryColor()));
         }
@@ -272,39 +270,39 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
       builder: (BuildContext context) {
         return Device.get().isIos ?
         CupertinoAlertDialog(
-          title: new Text('Are you sure?'),
-          content: new Text('This price package will be gone for good!'),
+          title: Text('Are you sure?'),
+          content: Text('This price package will be gone for good!'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () => Navigator.of(context).pop(false),
-              child: new Text('No'),
+              child: Text('No'),
             ),
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteMileageExpenseSelected();
+                pageState.onDeleteMileageExpenseSelected!();
                 Navigator.of(context).pop();
               },
-              child: new Text('Yes'),
+              child: Text('Yes'),
             ),
           ],
         ) : AlertDialog(
-          title: new Text('Are you sure?'),
-          content: new Text('This price package will be gone for good!'),
+          title: Text('Are you sure?'),
+          content: Text('This price package will be gone for good!'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () => Navigator.of(context).pop(false),
-              child: new Text('No'),
+              child: Text('No'),
             ),
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteMileageExpenseSelected();
+                pageState.onDeleteMileageExpenseSelected!();
                 Navigator.of(context).pop();
               },
-              child: new Text('Yes'),
+              child: Text('Yes'),
             ),
           ],
         );
@@ -337,10 +335,10 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
 
   void onBackPressed(NewMileageExpensePageState pageState) {
     if (pageState.pageViewIndex == 0) {
-      pageState.onCancelPressed();
+      pageState.onCancelPressed!();
       Navigator.of(context).pop();
     } else {
-      pageState.onBackPressed();
+      pageState.onBackPressed!();
       controller.animateToPage(currentPageIndex - 1,
           duration: Duration(milliseconds: 150), curve: Curves.ease);
     }

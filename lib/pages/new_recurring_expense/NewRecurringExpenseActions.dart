@@ -2,69 +2,69 @@ import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageState.dart';
 
 class LoadExistingRecurringExpenseData{
-  final NewRecurringExpensePageState pageState;
-  final RecurringExpense recurringExpense;
+  final NewRecurringExpensePageState? pageState;
+  final RecurringExpense? recurringExpense;
   LoadExistingRecurringExpenseData(this.pageState, this.recurringExpense);
 }
 
 class SaveRecurringExpenseProfileAction{
-  final NewRecurringExpensePageState pageState;
+  final NewRecurringExpensePageState? pageState;
   SaveRecurringExpenseProfileAction(this.pageState);
 }
 
 class ClearRecurringExpenseStateAction{
-  final NewRecurringExpensePageState pageState;
+  final NewRecurringExpensePageState? pageState;
   ClearRecurringExpenseStateAction(this.pageState);
 }
 
 class DeleteRecurringExpenseAction{
-  final NewRecurringExpensePageState pageState;
+  final NewRecurringExpensePageState? pageState;
   DeleteRecurringExpenseAction(this.pageState);
 }
 
 class IncrementPageViewIndex{
-  final NewRecurringExpensePageState pageState;
+  final NewRecurringExpensePageState? pageState;
   IncrementPageViewIndex(this.pageState);
 }
 
 class DecrementPageViewIndex{
-  final NewRecurringExpensePageState pageState;
+  final NewRecurringExpensePageState? pageState;
   DecrementPageViewIndex(this.pageState);
 }
 
 class UpdateExpenseNameAction{
-  final NewRecurringExpensePageState pageState;
-  final String expenseName;
+  final NewRecurringExpensePageState? pageState;
+  final String? expenseName;
   UpdateExpenseNameAction(this.pageState, this.expenseName);
 }
 
 class SetExpenseDateAction{
-  final NewRecurringExpensePageState pageState;
-  final DateTime expenseDate;
+  final NewRecurringExpensePageState? pageState;
+  final DateTime? expenseDate;
   SetExpenseDateAction(this.pageState, this.expenseDate);
 }
 
 class UpdateCostAction{
-  final NewRecurringExpensePageState pageState;
-  final String newCost;
+  final NewRecurringExpensePageState? pageState;
+  final String? newCost;
   UpdateCostAction(this.pageState, this.newCost);
 }
 
 class LoadExistingRecurringExpenseAction{
-  final NewRecurringExpensePageState pageState;
-  final RecurringExpense recurringExpense;
+  final NewRecurringExpensePageState? pageState;
+  final RecurringExpense? recurringExpense;
   LoadExistingRecurringExpenseAction(this.pageState, this.recurringExpense);
 }
 
 class UpdateSelectedBillingPeriodAction{
-  final NewRecurringExpensePageState pageState;
-  final String selectedBillingPeriod;
+  final NewRecurringExpensePageState? pageState;
+  final String? selectedBillingPeriod;
   UpdateSelectedBillingPeriodAction(this.pageState, this.selectedBillingPeriod);
 }
 
 class UpdateAutoPaySelected{
-  final NewRecurringExpensePageState pageState;
-  final bool isAutoPay;
+  final NewRecurringExpensePageState? pageState;
+  final bool? isAutoPay;
   UpdateAutoPaySelected(this.pageState, this.isAutoPay);
 }
 

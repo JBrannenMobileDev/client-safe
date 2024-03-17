@@ -47,11 +47,11 @@ class _NewLocationPageState extends State<NewLocationPage> {
   @override
   Widget build(BuildContext context) {
     controller.addListener(() {
-      currentPageIndex = controller.page.toInt();
+      currentPageIndex = controller.page!.toInt();
     });
     return StoreConnector<AppState, NewLocationPageState>(
       onInit: (store) async {
-        if(store.state.newLocationPageState.newLocationLongitude == 0){
+        if(store.state.newLocationPageState!.newLocationLongitude == 0){
           showMapIcon = true;
           Position positionLastKnown = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
           lat = positionLastKnown.latitude;
@@ -60,7 +60,7 @@ class _NewLocationPageState extends State<NewLocationPage> {
         }
       },
         onWillChange: (previous, current) {
-          if (!previous.locationUpdated && current.locationUpdated) {
+          if (!previous!.locationUpdated! && current.locationUpdated!) {
             setState(() {
               currentPageIndex = 2;
               controller.animateToPage(
@@ -89,7 +89,7 @@ class _NewLocationPageState extends State<NewLocationPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              !pageState.shouldClear ? GestureDetector(
+                              !pageState.shouldClear! ? GestureDetector(
                                 onTap: () {
                                   _ackAlert(context, pageState);
                                 },
@@ -103,11 +103,11 @@ class _NewLocationPageState extends State<NewLocationPage> {
                               ) : SizedBox(),
                               TextDandyLight(
                                 type: TextDandyLight.LARGE_TEXT,
-                                text: pageState.shouldClear ? "New Location" : "Edit Location",
+                                text: pageState.shouldClear! ? "New Location" : "Edit Location",
                                 textAlign: TextAlign.start,
                                 color: Color(ColorConstants.getPrimaryBlack()),
                               ),
-                              !pageState.shouldClear ? Container(
+                              !pageState.shouldClear! ? Container(
                                 margin: EdgeInsets.only(right: 18.0),
                                 child: IconButton(
                                   icon: const Icon(Icons.save),
@@ -115,7 +115,7 @@ class _NewLocationPageState extends State<NewLocationPage> {
                                   color: Color(ColorConstants.getPeachDark()),
                                   onPressed: () {
                                     showSuccessAnimation();
-                                    pageState.onSaveLocationSelected();
+                                    pageState.onSaveLocationSelected!();
                                   },
                                 ),
                               ) : SizedBox(),
@@ -216,7 +216,7 @@ class _NewLocationPageState extends State<NewLocationPage> {
   }
 
   FileImage getSavedImage(NewLocationPageState pageState) {
-    FileImage localImage = FileImage(File(pageState.imagePath));
+    FileImage localImage = FileImage(File(pageState.imagePath!));
     return localImage;
   }
 
@@ -227,7 +227,7 @@ class _NewLocationPageState extends State<NewLocationPage> {
 
     switch(pageState.pageViewIndex){
       case 0:
-        canProgress = pageState.locationName.isNotEmpty;
+        canProgress = pageState.locationName!.isNotEmpty;
         break;
       case 1:
         canProgress = pageState.newLocationLongitude != lon && pageState.newLocationLatitude != lat;
@@ -237,7 +237,7 @@ class _NewLocationPageState extends State<NewLocationPage> {
         break;
     }
     if (canProgress) {
-      pageState.onNextPressed();
+      pageState.onNextPressed!();
       controller.animateToPage(currentPageIndex + 1,
           duration: Duration(milliseconds: 150), curve: Curves.ease);
       FocusScope.of(context).unfocus();
@@ -246,7 +246,7 @@ class _NewLocationPageState extends State<NewLocationPage> {
     if (pageState.pageViewIndex == pageCount) {
       Navigator.of(context).pop();
       showSuccessAnimation();
-      pageState.onSaveLocationSelected();
+      pageState.onSaveLocationSelected!();
     }
   }
 
@@ -268,7 +268,7 @@ class _NewLocationPageState extends State<NewLocationPage> {
               style: Styles.getButtonStyle(),
               onPressed: () {
                 Navigator.of(context).pop();
-                pageState.onDeleteSelected();
+                pageState.onDeleteSelected!();
               },
               child: new Text('Yes'),
             ),
@@ -285,7 +285,7 @@ class _NewLocationPageState extends State<NewLocationPage> {
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteSelected();
+                pageState.onDeleteSelected!();
                 Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),
@@ -320,11 +320,11 @@ class _NewLocationPageState extends State<NewLocationPage> {
 
   void onBackPressed(NewLocationPageState pageState) {
     if (pageState.pageViewIndex == 0) {
-      pageState.onCanceledSelected();
+      pageState.onCanceledSelected!();
       Navigator.of(context).pop();
     } else {
       if(MediaQuery.of(context).viewInsets.bottom != 0) KeyboardUtil.closeKeyboard(context);
-      pageState.onBackPressed();
+      pageState.onBackPressed!();
       controller.animateToPage(currentPageIndex - 1,
           duration: Duration(milliseconds: 150), curve: Curves.ease);
     }

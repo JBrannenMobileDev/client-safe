@@ -30,7 +30,7 @@ class _JobTypeNameSelectionWidgetState extends State<JobTypeNameSelectionWidget>
   Widget build(BuildContext context) {
     return StoreConnector<AppState, NewJobTypePageState>(
       onInit: (store) {
-        descriptionTextController.text = store.state.newJobTypePageState.title;
+        descriptionTextController.text = store.state.newJobTypePageState!.title!;
       },
       converter: (store) => NewJobTypePageState.fromStore(store),
       builder: (BuildContext context, NewJobTypePageState pageState) =>
@@ -60,7 +60,7 @@ class _JobTypeNameSelectionWidgetState extends State<JobTypeNameSelectionWidget>
                         focusNode: null,
                         onFocusAction: null,
                         height: 66.0,
-                        onTextInputChanged: pageState.onTitleChanged,
+                        onTextInputChanged: pageState.onTitleChanged!,
                         keyboardAction: TextInputAction.done,
                         capitalization: TextCapitalization.words,
                       ),

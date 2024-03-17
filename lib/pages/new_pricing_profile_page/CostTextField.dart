@@ -11,20 +11,20 @@ import 'package:flutter_redux/flutter_redux.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class CostTextField extends StatelessWidget {
-  final TextEditingController _controller;
-  final String hintText;
-  final String labelText;
-  final TextInputType inputType;
-  final double height;
-  final String inputTypeError;
-  final Function(String) onTextInputChanged;
-  final TextInputAction keyboardAction;
-  final FocusNode focusNode;
-  final Function onFocusAction;
-  final TextCapitalization capitalization;
-  final List<TextInputFormatter> inputFormatter;
-  final double width;
-  final bool enabled;
+  final TextEditingController? _controller;
+  final String? hintText;
+  final String? labelText;
+  final TextInputType? inputType;
+  final double? height;
+  final String? inputTypeError;
+  final Function(String)? onTextInputChanged;
+  final TextInputAction? keyboardAction;
+  final FocusNode? focusNode;
+  final Function? onFocusAction;
+  final TextCapitalization? capitalization;
+  final List<TextInputFormatter>? inputFormatter;
+  final double? width;
+  final bool? enabled;
 
   CostTextField(this._controller, this.hintText, this.inputType,
       this.height, this.onTextInputChanged, this.inputTypeError, this.keyboardAction,
@@ -46,11 +46,11 @@ class CostTextField extends StatelessWidget {
                 maxLines: 24,
                 controller: _controller,
                 onChanged: (text) {
-                  onTextInputChanged(text);
+                  onTextInputChanged!(text);
                   HapticFeedback.heavyImpact();
                 },
                 onFieldSubmitted: (term){
-                  onFocusAction();
+                  onFocusAction!();
                 },
                 decoration: InputDecoration(
                   alignLabelWithHint: true,
@@ -93,13 +93,13 @@ class CostTextField extends StatelessWidget {
                   ),
                 ),
                 keyboardType: inputType,
-                textCapitalization: capitalization,
+                textCapitalization: capitalization!,
                 inputFormatters: inputFormatter != null ? inputFormatter : null,
                 style: new TextStyle(
                     fontSize: TextDandyLight.getFontSize(TextDandyLight.LARGE_TEXT),
                     fontFamily: TextDandyLight.getFontFamily(),
                     fontWeight: TextDandyLight.getFontWeight(),
-                    color: Color(enabled ? ColorConstants.getPrimaryBlack() : ColorConstants.getBlueLight())),
+                    color: Color(enabled! ? ColorConstants.getPrimaryBlack() : ColorConstants.getBlueLight())),
               )
     );
   }

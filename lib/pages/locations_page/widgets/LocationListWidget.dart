@@ -27,7 +27,7 @@ class LocationListWidget extends StatelessWidget {
           Stack(
             alignment: Alignment.bottomCenter,
             children: <Widget>[
-              pageState.locations.isNotEmpty ?
+              pageState.locations!.isNotEmpty ?
            Container(
              width: double.infinity,
                 margin: const EdgeInsets.only(bottom: 28.0),
@@ -36,12 +36,12 @@ class LocationListWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8.0),
                 ),
              child: DandyLightNetworkImage(
-               pageState.locations.elementAt(index).imageUrl,
-               errorType: pageState.locations.elementAt(index).imageUrl != null && pageState.locations.elementAt(index).imageUrl.isNotEmpty ? DandyLightNetworkImage.ERROR_TYPE_INTERNET : DandyLightNetworkImage.ERROR_TYPE_NO_IMAGE,
-               errorIconSize: pageState.locations.elementAt(index).imageUrl != null && pageState.locations.elementAt(index).imageUrl.isNotEmpty ? 44 : 96,
+               pageState.locations!.elementAt(index)!.imageUrl!,
+               errorType: pageState.locations!.elementAt(index)!.imageUrl != null && pageState.locations!.elementAt(index)!.imageUrl!.isNotEmpty ? DandyLightNetworkImage.ERROR_TYPE_INTERNET : DandyLightNetworkImage.ERROR_TYPE_NO_IMAGE,
+               errorIconSize: pageState.locations!.elementAt(index)!.imageUrl != null && pageState.locations!.elementAt(index)!.imageUrl!.isNotEmpty ? 44 : 96,
              ),
               ) : const SizedBox(),
-              pageState.locations.isNotEmpty && pageState.locations.elementAt(index).imageUrl != null && pageState.locations.elementAt(index).imageUrl.isNotEmpty ? Container(
+              pageState.locations!.isNotEmpty && pageState.locations!.elementAt(index)!.imageUrl != null && pageState.locations!.elementAt(index)!.imageUrl!.isNotEmpty ? Container(
                 height: 96.0,
                 margin: const EdgeInsets.only(bottom: 28.0),
                 decoration: BoxDecoration(
@@ -59,7 +59,7 @@ class LocationListWidget extends StatelessWidget {
                           1.0
                         ])),
               ) : const SizedBox(),
-              pageState.locations.isNotEmpty ? Container(
+              pageState.locations!.isNotEmpty ? Container(
                 margin: const EdgeInsets.only(bottom: 32.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -68,30 +68,30 @@ class LocationListWidget extends StatelessWidget {
                     IconButton(
                       iconSize: 26.0,
                       icon: const Icon(Icons.directions),
-                      color: Color(pageState.locations.elementAt(index) != null ? ColorConstants.white : ColorConstants.getBlueDark()),
+                      color: Color(pageState.locations!.elementAt(index) != null ? ColorConstants.white : ColorConstants.getBlueDark()),
                       tooltip: 'Driving Directions',
                       onPressed: () {
-                        pageState.onDrivingDirectionsSelected(pageState.locations.elementAt(index));
+                        pageState.onDrivingDirectionsSelected!(pageState.locations!.elementAt(index)!);
                         EventSender().sendEvent(eventName: EventNames.BT_DRIVING_DIRECTIONS);
                       },
                     ),
                     IconButton(
                       iconSize: 26.0,
                       icon: Icon(Device.get().isIos ? CupertinoIcons.share_solid : Icons.share),
-                      color: Color(pageState.locations.elementAt(index) != null ? ColorConstants.white : ColorConstants.getBlueDark()),
+                      color: Color(pageState.locations!.elementAt(index) != null ? ColorConstants.white : ColorConstants.getBlueDark()),
                       tooltip: 'Share',
                       onPressed: () {
-                        pageState.onShareLocationSelected(pageState.locations.elementAt(index));
+                        pageState.onShareLocationSelected!(pageState.locations!.elementAt(index)!);
                         EventSender().sendEvent(eventName: EventNames.BT_SHARE_LOCATION);
                       },
                     ),
                     IconButton(
                       iconSize: 26.0,
                       icon: Icon(Device.get().isIos ? CupertinoIcons.pen : Icons.edit),
-                      color: Color(pageState.locations.elementAt(index) != null ? ColorConstants.white : ColorConstants.getBlueDark()),
+                      color: Color(pageState.locations!.elementAt(index) != null ? ColorConstants.white : ColorConstants.getBlueDark()),
                       tooltip: 'Edit',
                       onPressed: () {
-                        pageState.onLocationSelected(pageState.locations.elementAt(index));
+                        pageState.onLocationSelected!(pageState.locations!.elementAt(index)!);
                         UserOptionsUtil.showNewLocationDialog(context);
                       },
                     ),
@@ -100,7 +100,7 @@ class LocationListWidget extends StatelessWidget {
               ) : const SizedBox(),
               TextDandyLight(
                 type: TextDandyLight.SMALL_TEXT,
-                text: pageState.locations.elementAt(index).locationName,
+                text: pageState.locations!.elementAt(index)!.locationName!,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
                 color: Color(ColorConstants.getBlueDark()),

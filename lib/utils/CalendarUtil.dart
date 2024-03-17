@@ -7,16 +7,16 @@ import '../pages/calendar_page/JobCalendarItem.dart';
 
 class CalendarUtil {
   static Widget buildEventList(
-      DateTime selectedDate,
-      List<EventDandyLight> eventList,
-      int selectedYear,
-      int selectedMonth,
-      int selectedDay,
-      List<Job> allJobs,
-      Function(Job) onJobClicked
+      DateTime? selectedDate,
+      List<EventDandyLight>? eventList,
+      int? selectedYear,
+      int? selectedMonth,
+      int? selectedDay,
+      List<Job>? allJobs,
+      Function(Job)? onJobClicked
   ) {
     List<JobCalendarItem> calendarListItems = [];
-    List<JobCalendarItem> fromJobs = _getJobListForSelectedDate(selectedDate, eventList, selectedYear, selectedMonth, selectedDay, allJobs)
+    List<JobCalendarItem> fromJobs = _getJobListForSelectedDate(selectedDate!, eventList!, selectedYear!, selectedMonth!, selectedDay!, allJobs!)
         .map((job) => JobCalendarItem(job: job, paddingRight: 24.0, paddingLeft: 24.0, onJobClicked: onJobClicked,))
         .toList();
     List<JobCalendarItem> fromDeviceEvents = _getEventListForSelectedDate(selectedDate, eventList, selectedYear, selectedMonth, selectedDay)

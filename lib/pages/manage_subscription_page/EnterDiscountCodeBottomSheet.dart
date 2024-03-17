@@ -21,7 +21,7 @@ class EnterDiscountCodeBottomSheet extends StatefulWidget {
 
 class _EnterDiscountCodeBottomSheetState extends State<EnterDiscountCodeBottomSheet> with TickerProviderStateMixin {
   TextEditingController textEditingController = TextEditingController();
-  StreamController<ErrorAnimationType> errorController;
+  StreamController<ErrorAnimationType>? errorController;
 
   bool hasError = false;
   String currentText = "";
@@ -30,7 +30,7 @@ class _EnterDiscountCodeBottomSheetState extends State<EnterDiscountCodeBottomSh
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, ManageSubscriptionPageState>(
     onDidChange: (previous, current) {
-      if(previous.discountType.isEmpty && current.discountType.isNotEmpty && !hasPopped) {
+      if(previous!.discountType!.isEmpty && current.discountType!.isNotEmpty && !hasPopped) {
         hasPopped = true;
         Navigator.of(context).pop();
       }
@@ -56,7 +56,7 @@ class _EnterDiscountCodeBottomSheetState extends State<EnterDiscountCodeBottomSh
                        color: Color(ColorConstants.getBlueDark())
                    ),
                  ),
-                 pageState.showDiscountError ? Container(
+                 pageState.showDiscountError! ? Container(
                    margin: EdgeInsets.only(top: 16),
                    child: TextDandyLight(
                        type: TextDandyLight.MEDIUM_TEXT,
@@ -82,9 +82,9 @@ class _EnterDiscountCodeBottomSheetState extends State<EnterDiscountCodeBottomSh
                        borderRadius: BorderRadius.circular(8),
                        fieldHeight: 56,
                        fieldWidth: 40,
-                       inactiveColor: Color(pageState.showDiscountError ? ColorConstants.error_red : ColorConstants.getPrimaryGreyMedium()),
-                       activeColor: Color(pageState.showDiscountError ? ColorConstants.error_red : ColorConstants.getPrimaryGreyMedium()),
-                       selectedColor: Color(pageState.showDiscountError ? ColorConstants.error_red : ColorConstants.getBlueDark()),
+                       inactiveColor: Color(pageState.showDiscountError! ? ColorConstants.error_red : ColorConstants.getPrimaryGreyMedium()),
+                       activeColor: Color(pageState.showDiscountError! ? ColorConstants.error_red : ColorConstants.getPrimaryGreyMedium()),
+                       selectedColor: Color(pageState.showDiscountError! ? ColorConstants.error_red : ColorConstants.getBlueDark()),
                      ),
                      cursorColor: Colors.black,
                      animationDuration: const Duration(milliseconds: 300),
@@ -103,7 +103,7 @@ class _EnterDiscountCodeBottomSheetState extends State<EnterDiscountCodeBottomSh
                        debugPrint(value);
                        setState(() {
                          currentText = value;
-                         pageState.checkIfDiscountExists(value);
+                         pageState.checkIfDiscountExists!(value);
                        });
                      },
                      beforeTextPaste: (text) {

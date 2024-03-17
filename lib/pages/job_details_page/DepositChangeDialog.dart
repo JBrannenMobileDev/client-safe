@@ -26,7 +26,7 @@ class _AddOnCostChangeDialogState extends State<AddOnCostChangeDialog>
     super.build(context);
     return StoreConnector<AppState, JobDetailsPageState>(
       onInit: (store) {
-        jobTitleTextController.text = store.state.jobDetailsPageState.job.jobTitle;
+        jobTitleTextController.text = store.state.jobDetailsPageState!.job!.jobTitle!;
       },
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) =>
@@ -50,7 +50,7 @@ class _AddOnCostChangeDialogState extends State<AddOnCostChangeDialog>
                     padding: EdgeInsets.only(top: 146.0, right: 16.0),
                     child: GestureDetector(
                       onTap: () {
-                        pageState.onClearUnsavedDeposit();
+                        pageState.onClearUnsavedDeposit!();
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -114,7 +114,7 @@ class _AddOnCostChangeDialogState extends State<AddOnCostChangeDialog>
                                 ),
                               ),
                               onPressed: () {
-                                pageState.onAddToDeposit(1);
+                                pageState.onAddToDeposit!(1);
                               },
                               child: Container(
                                 alignment: Alignment.center,
@@ -151,7 +151,7 @@ class _AddOnCostChangeDialogState extends State<AddOnCostChangeDialog>
                                 ),
                               ),
                               onPressed: () {
-                                pageState.onAddToDeposit(5);
+                                pageState.onAddToDeposit!(5);
                               },
                               child: Container(
                                 alignment: Alignment.center,
@@ -194,7 +194,7 @@ class _AddOnCostChangeDialogState extends State<AddOnCostChangeDialog>
                                   ),
                                 ),
                                 onPressed: () {
-                                  pageState.onAddToDeposit(25);
+                                  pageState.onAddToDeposit!(25);
                                 },
                                 child: Container(
                                   alignment: Alignment.center,
@@ -230,7 +230,7 @@ class _AddOnCostChangeDialogState extends State<AddOnCostChangeDialog>
                                   ),
                                 ),
                                 onPressed: () {
-                                  pageState.onAddToDeposit(100);
+                                  pageState.onAddToDeposit!(100);
                                 },
                                 child: Container(
                                   alignment: Alignment.center,
@@ -279,7 +279,7 @@ class _AddOnCostChangeDialogState extends State<AddOnCostChangeDialog>
                             TextButton(
                               style: Styles.getButtonStyle(),
                               onPressed: () {
-                                pageState.onSaveAddOnCost();
+                                pageState.onSaveAddOnCost!();
                                 VibrateUtil.vibrateHeavy();
                                 Navigator.of(context).pop();
                               },

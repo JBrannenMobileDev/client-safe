@@ -12,6 +12,7 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../utils/InputDoneView.dart';
+import '../../utils/flutter_masked_text.dart';
 import '../../widgets/TextDandyLight.dart';
 import '../new_pricing_profile_page/DandyLightTextField.dart';
 
@@ -57,7 +58,7 @@ class _PricingProfileSelectionFormState
     super.build(context);
     return StoreConnector<AppState, NewJobPageState>(
       onInit: (store) {
-        flatRateTextController.text = '\$' + (store.state.newJobPageState.oneTimePrice.isNotEmpty ? store.state.newJobPageState.oneTimePrice : '');
+        flatRateTextController.text = '\$' + (store.state.newJobPageState!.oneTimePrice!.isNotEmpty ? store.state.newJobPageState!.oneTimePrice! : '');
         flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
         flatRateInputFocusNode.addListener(() {
           flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
@@ -70,7 +71,7 @@ class _PricingProfileSelectionFormState
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) => Container(
         margin: EdgeInsets.only(left: 16.0, right: 16.0),
-        child: pageState.pricingProfiles.length > 0
+        child: pageState.pricingProfiles!.length > 0
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -96,7 +97,7 @@ class _PricingProfileSelectionFormState
                       controller: _controller,
                       physics: ClampingScrollPhysics(),
                       key: _listKey,
-                      itemCount: pageState.pricingProfiles.length +1,
+                      itemCount: pageState.pricingProfiles!.length +1,
                       itemBuilder: _buildItem,
                     ),
                   ),
@@ -123,7 +124,7 @@ class _PricingProfileSelectionFormState
                       inputType: TextInputType.number,
                       focusNode: flatRateInputFocusNode,
                       height: 60.0,
-                      onTextInputChanged: pageState.onOneTimePriceChanged,
+                      onTextInputChanged: pageState.onOneTimePriceChanged!,
                       capitalization: TextCapitalization.none,
                       keyboardAction: TextInputAction.done,
                       labelText: 'One time price',
@@ -161,7 +162,7 @@ class _PricingProfileSelectionFormState
                 inputType: TextInputType.number,
                 focusNode: flatRateInputFocusNode,
                 height: 66.0,
-                onTextInputChanged: pageState.onOneTimePriceChanged,
+                onTextInputChanged: pageState.onOneTimePriceChanged!,
                 capitalization: TextCapitalization.none,
                 keyboardAction: TextInputAction.done,
                 labelText: 'One time price',
@@ -178,10 +179,10 @@ class _PricingProfileSelectionFormState
             ],
           ),
         ) : NewJobPriceProfileListWidget(
-              pageState.pricingProfiles.elementAt(index - 1),
+              pageState.pricingProfiles!.elementAt(index - 1),
               pageState,
               onProfileSelected,
-              pageState.selectedPriceProfile?.documentId == pageState.pricingProfiles.elementAt(index - 1)?.documentId && pageState.oneTimePrice.isEmpty ? Color(ColorConstants.getPrimaryBackgroundGrey()) : Color(ColorConstants.getPrimaryWhite()),
+              pageState.selectedPriceProfile?.documentId == pageState.pricingProfiles!.elementAt(index - 1).documentId && pageState.oneTimePrice!.isEmpty ? Color(ColorConstants.getPrimaryBackgroundGrey()) : Color(ColorConstants.getPrimaryWhite()),
               Color(ColorConstants.getPrimaryBlack())),
       ),
     );

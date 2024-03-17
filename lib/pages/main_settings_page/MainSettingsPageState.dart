@@ -13,68 +13,68 @@ import '../../models/LocationDandy.dart';
 import '../../utils/ColorConstants.dart';
 
 class MainSettingsPageState{
-  final bool pushNotificationsEnabled;
-  final bool calendarEnabled;
-  final String firstName;
-  final String lastName;
-  final String businessName;
-  final String businessEmail;
-  final String businessPhone;
-  final String discountCode;
-  final String homeAddressName;
-  final Profile profile;
-  final bool isDeleteInProgress;
-  final bool isDeleteFinished;
-  final bool isAdmin;
-  final String password;
-  final String passwordErrorMessage;
-  final String instaUrl;
-  final XFile resizedLogoImage;
-  final XFile bannerImage;
-  final XFile bannerWebImage;
-  final XFile bannerMobileImage;
-  final bool logoImageSelected;
-  final bool bannerImageSelected;
-  final Color currentBannerColor;
-  final Color currentButtonColor;
-  final Color currentButtonTextColor;
-  final Color currentIconColor;
-  final Color currentIconTextColor;
-  final String currentIconFont;
-  final String currentFont;
-  final String logoCharacter;
-  final bool showPublishButton;
-  final double uploadProgress;
-  final bool uploadInProgress;
-  final Function() onSignOutSelected;
-  final Function(bool) onPushNotificationsChanged;
-  final Function(bool) onCalendarChanged;
-  final Function(String) onFirstNameChanged;
-  final Function(String) onLastNameChanged;
-  final Function(String) onBusinessNameChanged;
-  final Function(String) onBusinessEmailChanged;
-  final Function(String) onBusinessPhoneChanged;
-  final Function() onSaveUpdatedProfile;
-  final Function(String) onSendSuggestionSelected;
-  final Function() onDeleteAccountSelected;
-  final Function(String) onPasswordChanged;
-  final Function() generate50DiscountCode;
-  final Function() generate3MonthsFreeCode;
-  final Function() generateFreeDiscountCode;
-  final Function(String) onInstaUrlChanged;
-  final Function(XFile) onLogoUploaded;
-  final Function(XFile) onBannerUploaded;
-  final Function(XFile) onBannerWebUploaded;
-  final Function(XFile) onBannerMobileUploaded;
-  final Function(bool) onLogoImageSelected;
-  final Function(Color, String) onColorSaved;
-  final Function(String, String) onFontSaved;
-  final Function(String) onLogoLetterChanged;
-  final Function(bool) onBannerImageSelected;
-  final Function() onPublishChangesSelected;
-  final Function() populateAccountWithData;
-  final Function(Profile) clearBrandingState;
-  final Function(LocationDandy) onHomeLocationChanged;
+  final bool? pushNotificationsEnabled;
+  final bool? calendarEnabled;
+  final String? firstName;
+  final String? lastName;
+  final String? businessName;
+  final String? businessEmail;
+  final String? businessPhone;
+  final String? discountCode;
+  final String? homeAddressName;
+  final Profile? profile;
+  final bool? isDeleteInProgress;
+  final bool? isDeleteFinished;
+  final bool? isAdmin;
+  final String? password;
+  final String? passwordErrorMessage;
+  final String? instaUrl;
+  final XFile? resizedLogoImage;
+  final XFile? bannerImage;
+  final XFile? bannerWebImage;
+  final XFile? bannerMobileImage;
+  final bool? logoImageSelected;
+  final bool? bannerImageSelected;
+  final Color? currentBannerColor;
+  final Color? currentButtonColor;
+  final Color? currentButtonTextColor;
+  final Color? currentIconColor;
+  final Color? currentIconTextColor;
+  final String? currentIconFont;
+  final String? currentFont;
+  final String? logoCharacter;
+  final bool? showPublishButton;
+  final double? uploadProgress;
+  final bool? uploadInProgress;
+  final Function()? onSignOutSelected;
+  final Function(bool)? onPushNotificationsChanged;
+  final Function(bool)? onCalendarChanged;
+  final Function(String)? onFirstNameChanged;
+  final Function(String)? onLastNameChanged;
+  final Function(String)? onBusinessNameChanged;
+  final Function(String)? onBusinessEmailChanged;
+  final Function(String)? onBusinessPhoneChanged;
+  final Function()? onSaveUpdatedProfile;
+  final Function(String)? onSendSuggestionSelected;
+  final Function()? onDeleteAccountSelected;
+  final Function(String)? onPasswordChanged;
+  final Function()? generate50DiscountCode;
+  final Function()? generate3MonthsFreeCode;
+  final Function()? generateFreeDiscountCode;
+  final Function(String)? onInstaUrlChanged;
+  final Function(XFile)? onLogoUploaded;
+  final Function(XFile)? onBannerUploaded;
+  final Function(XFile)? onBannerWebUploaded;
+  final Function(XFile)? onBannerMobileUploaded;
+  final Function(bool)? onLogoImageSelected;
+  final Function(Color, String)? onColorSaved;
+  final Function(String, String)? onFontSaved;
+  final Function(String)? onLogoLetterChanged;
+  final Function(bool)? onBannerImageSelected;
+  final Function()? onPublishChangesSelected;
+  final Function()? populateAccountWithData;
+  final Function(Profile)? clearBrandingState;
+  final Function(LocationDandy)? onHomeLocationChanged;
 
   MainSettingsPageState({
     @required this.pushNotificationsEnabled,
@@ -142,68 +142,68 @@ class MainSettingsPageState{
   });
 
   MainSettingsPageState copyWith({
-    bool pushNotificationsEnabled,
-    bool calendarEnabled,
-    String firstName,
-    String lastName,
-    String businessName,
-    String businessEmail,
-    String businessPhone,
-    Profile profile,
-    bool isDeleteInProgress,
-    bool isDeleteFinished,
-    bool isAdmin,
-    String password,
-    String passwordErrorMessage,
-    String discountCode,
-    String instaUrl,
-    XFile resizedLogoImage,
-    XFile bannerImage,
-    XFile bannerWebImage,
-    XFile bannerMobileImage,
-    bool logoImageSelected,
-    bool bannerImageSelected,
-    Color currentBannerColor,
-    Color currentButtonColor,
-    Color currentButtonTextColor,
-    Color currentIconColor,
-    Color currentIconTextColor,
-    String currentIconFont,
-    String currentFont,
-    String logoCharacter,
-    bool showPublishButton,
-    double uploadProgress,
-    bool uploadInProgress,
-    String homeAddressName,
-    Function(String) onFirstNameChanged,
-    Function(String) onLastNameChanged,
-    Function(String) onBusinessNameChanged,
-    Function(String) onBusinessEmailChanged,
-    Function(String) onBusinessPhoneChanged,
-    Function() onSignOutSelected,
-    Function(bool) onPushNotificationsChanged,
-    Function(bool) onCalendarChanged,
-    Function() onSaveUpdatedProfile,
-    Function(String) onSendSuggestionSelected,
-    Function() onDeleteAccountSelected,
-    Function(String) onPasswordChanged,
-    Function() generate50DiscountCode,
-    Function() generateFreeDiscountCode,
-    Function() generate3MonthsFreeCode,
-    Function(String) onInstaUrlChanged,
-    Function(XFile) onLogoUploaded,
-    Function(XFile) onBannerUploaded,
-    Function(XFile) onBannerWebUploaded,
-    Function(XFile) onBannerMobileUploaded,
-    Function(bool) onLogoImageSelected,
-    Function(Color, String) onColorSaved,
-    Function(String, String) onFontSaved,
-    Function(String) onLogoLetterChanged,
-    Function(bool) onBannerImageSelected,
-    Function() onPublishChangesSelected,
-    Function() populateAccountWithData,
-    Function(Profile) clearBrandingState,
-    Function(LocationDandy) onHomeLocationChanged,
+    bool? pushNotificationsEnabled,
+    bool? calendarEnabled,
+    String? firstName,
+    String? lastName,
+    String? businessName,
+    String? businessEmail,
+    String? businessPhone,
+    Profile? profile,
+    bool? isDeleteInProgress,
+    bool? isDeleteFinished,
+    bool? isAdmin,
+    String? password,
+    String? passwordErrorMessage,
+    String? discountCode,
+    String? instaUrl,
+    XFile? resizedLogoImage,
+    XFile? bannerImage,
+    XFile? bannerWebImage,
+    XFile? bannerMobileImage,
+    bool? logoImageSelected,
+    bool? bannerImageSelected,
+    Color? currentBannerColor,
+    Color? currentButtonColor,
+    Color? currentButtonTextColor,
+    Color? currentIconColor,
+    Color? currentIconTextColor,
+    String? currentIconFont,
+    String? currentFont,
+    String? logoCharacter,
+    bool? showPublishButton,
+    double? uploadProgress,
+    bool? uploadInProgress,
+    String? homeAddressName,
+    Function(String)? onFirstNameChanged,
+    Function(String)? onLastNameChanged,
+    Function(String)? onBusinessNameChanged,
+    Function(String)? onBusinessEmailChanged,
+    Function(String)? onBusinessPhoneChanged,
+    Function()? onSignOutSelected,
+    Function(bool)? onPushNotificationsChanged,
+    Function(bool)? onCalendarChanged,
+    Function()? onSaveUpdatedProfile,
+    Function(String)? onSendSuggestionSelected,
+    Function()? onDeleteAccountSelected,
+    Function(String)? onPasswordChanged,
+    Function()? generate50DiscountCode,
+    Function()? generateFreeDiscountCode,
+    Function()? generate3MonthsFreeCode,
+    Function(String)? onInstaUrlChanged,
+    Function(XFile)? onLogoUploaded,
+    Function(XFile)? onBannerUploaded,
+    Function(XFile)? onBannerWebUploaded,
+    Function(XFile)? onBannerMobileUploaded,
+    Function(bool)? onLogoImageSelected,
+    Function(Color, String)? onColorSaved,
+    Function(String, String)? onFontSaved,
+    Function(String)? onLogoLetterChanged,
+    Function(bool)? onBannerImageSelected,
+    Function()? onPublishChangesSelected,
+    Function()? populateAccountWithData,
+    Function(Profile)? clearBrandingState,
+    Function(LocationDandy)? onHomeLocationChanged,
   }){
     return MainSettingsPageState(
       pushNotificationsEnabled: pushNotificationsEnabled ?? this.pushNotificationsEnabled,
@@ -338,39 +338,39 @@ class MainSettingsPageState{
 
   factory MainSettingsPageState.fromStore(Store<AppState> store) {
     return MainSettingsPageState(
-      pushNotificationsEnabled: store.state.mainSettingsPageState.pushNotificationsEnabled,
-      calendarEnabled: store.state.mainSettingsPageState.calendarEnabled,
-      firstName: store.state.mainSettingsPageState.firstName,
-      lastName: store.state.mainSettingsPageState.lastName,
-      businessName: store.state.mainSettingsPageState.businessName,
-      profile: store.state.mainSettingsPageState.profile,
-      isDeleteFinished: store.state.mainSettingsPageState.isDeleteFinished,
-      isDeleteInProgress: store.state.mainSettingsPageState.isDeleteInProgress,
-      password: store.state.mainSettingsPageState.password,
-      passwordErrorMessage: store.state.mainSettingsPageState.passwordErrorMessage,
-      discountCode: store.state.mainSettingsPageState.discountCode,
-      isAdmin: store.state.mainSettingsPageState.isAdmin,
-      instaUrl: store.state.mainSettingsPageState.instaUrl,
-      logoImageSelected: store.state.mainSettingsPageState.logoImageSelected,
-      resizedLogoImage: store.state.mainSettingsPageState.resizedLogoImage,
-      currentBannerColor: store.state.mainSettingsPageState.currentBannerColor,
-      currentButtonColor: store.state.mainSettingsPageState.currentButtonColor,
-      currentButtonTextColor: store.state.mainSettingsPageState.currentButtonTextColor,
-      currentIconColor: store.state.mainSettingsPageState.currentIconColor,
-      currentIconFont: store.state.mainSettingsPageState.currentIconFont,
-      currentFont: store.state.mainSettingsPageState.currentFont,
-      currentIconTextColor: store.state.mainSettingsPageState.currentIconTextColor,
-      showPublishButton: store.state.mainSettingsPageState.showPublishButton,
-      logoCharacter: store.state.mainSettingsPageState.logoCharacter,
-      bannerImage: store.state.mainSettingsPageState.bannerImage,
-      bannerImageSelected: store.state.mainSettingsPageState.bannerImageSelected,
-      bannerWebImage: store.state.mainSettingsPageState.bannerWebImage,
-      bannerMobileImage: store.state.mainSettingsPageState.bannerMobileImage,
-      businessEmail: store.state.mainSettingsPageState.businessEmail,
-      businessPhone: store.state.mainSettingsPageState.businessPhone,
-      uploadProgress: store.state.mainSettingsPageState.uploadProgress,
-      uploadInProgress: store.state.mainSettingsPageState.uploadInProgress,
-      homeAddressName: store.state.mainSettingsPageState.homeAddressName,
+      pushNotificationsEnabled: store.state.mainSettingsPageState!.pushNotificationsEnabled,
+      calendarEnabled: store.state.mainSettingsPageState!.calendarEnabled,
+      firstName: store.state.mainSettingsPageState!.firstName,
+      lastName: store.state.mainSettingsPageState!.lastName,
+      businessName: store.state.mainSettingsPageState!.businessName,
+      profile: store.state.mainSettingsPageState!.profile,
+      isDeleteFinished: store.state.mainSettingsPageState!.isDeleteFinished,
+      isDeleteInProgress: store.state.mainSettingsPageState!.isDeleteInProgress,
+      password: store.state.mainSettingsPageState!.password,
+      passwordErrorMessage: store.state.mainSettingsPageState!.passwordErrorMessage,
+      discountCode: store.state.mainSettingsPageState!.discountCode,
+      isAdmin: store.state.mainSettingsPageState!.isAdmin,
+      instaUrl: store.state.mainSettingsPageState!.instaUrl,
+      logoImageSelected: store.state.mainSettingsPageState!.logoImageSelected,
+      resizedLogoImage: store.state.mainSettingsPageState!.resizedLogoImage,
+      currentBannerColor: store.state.mainSettingsPageState!.currentBannerColor,
+      currentButtonColor: store.state.mainSettingsPageState!.currentButtonColor,
+      currentButtonTextColor: store.state.mainSettingsPageState!.currentButtonTextColor,
+      currentIconColor: store.state.mainSettingsPageState!.currentIconColor,
+      currentIconFont: store.state.mainSettingsPageState!.currentIconFont,
+      currentFont: store.state.mainSettingsPageState!.currentFont,
+      currentIconTextColor: store.state.mainSettingsPageState!.currentIconTextColor,
+      showPublishButton: store.state.mainSettingsPageState!.showPublishButton,
+      logoCharacter: store.state.mainSettingsPageState!.logoCharacter,
+      bannerImage: store.state.mainSettingsPageState!.bannerImage,
+      bannerImageSelected: store.state.mainSettingsPageState!.bannerImageSelected,
+      bannerWebImage: store.state.mainSettingsPageState!.bannerWebImage,
+      bannerMobileImage: store.state.mainSettingsPageState!.bannerMobileImage,
+      businessEmail: store.state.mainSettingsPageState!.businessEmail,
+      businessPhone: store.state.mainSettingsPageState!.businessPhone,
+      uploadProgress: store.state.mainSettingsPageState!.uploadProgress,
+      uploadInProgress: store.state.mainSettingsPageState!.uploadInProgress,
+      homeAddressName: store.state.mainSettingsPageState!.homeAddressName,
       onSignOutSelected: () {
         store.dispatch(RemoveDeviceTokenAction(store.state.mainSettingsPageState));
         store.dispatch(ResetLoginState(store.state.loginPageState));

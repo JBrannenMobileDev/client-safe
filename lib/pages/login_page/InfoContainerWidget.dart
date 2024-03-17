@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 
 
 class InfoContainerWidget extends StatefulWidget {
-  final Widget contentWidget;
+  final Widget? contentWidget;
 
   InfoContainerWidget({this.contentWidget});
 
@@ -18,7 +18,7 @@ class InfoContainerWidget extends StatefulWidget {
 }
 
 class _InfoContainerWidget extends State<InfoContainerWidget> {
-  final Widget contentWidget;
+  final Widget? contentWidget;
 
   _InfoContainerWidget(this.contentWidget);
 

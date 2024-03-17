@@ -37,22 +37,22 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
 
   void saveClient(Store<AppState> store, SaveNewContactAction action, NextDispatcher next) async{
     Client client = Client(
-      id: action.pageState.client?.id,
-      documentId: action.pageState.client?.documentId,
-      firstName: action.pageState.newContactFirstName,
-      lastName: action.pageState.newContactLastName,
-      email: action.pageState.newContactEmail,
-      phone: action.pageState.newContactPhone,
-      instagramProfileUrl: action.pageState.newContactInstagramUrl,
-      relationshipStatus: action.pageState.relationshipStatus,
-      spouseFirstName: action.pageState.spouseFirstName,
-      spouseLastName: action.pageState.spouseLastName,
-      numOfChildren: action.pageState.numberOfChildren,
-      importantDates: action.pageState.importantDates,
-      notes: action.pageState.notes,
-      leadSource: action.pageState.leadSource,
-      customLeadSourceName: action.pageState.customLeadSourceName,
-      createdDate: action.pageState.client?.createdDate ?? DateTime.now()
+      id: action.pageState!.client?.id,
+      documentId: action.pageState!.client?.documentId,
+      firstName: action.pageState!.newContactFirstName,
+      lastName: action.pageState!.newContactLastName,
+      email: action.pageState!.newContactEmail,
+      phone: action.pageState!.newContactPhone,
+      instagramProfileUrl: action.pageState!.newContactInstagramUrl,
+      relationshipStatus: action.pageState!.relationshipStatus,
+      spouseFirstName: action.pageState!.spouseFirstName,
+      spouseLastName: action.pageState!.spouseLastName,
+      numOfChildren: action.pageState!.numberOfChildren,
+      importantDates: action.pageState!.importantDates,
+      notes: action.pageState!.notes,
+      leadSource: action.pageState!.leadSource,
+      customLeadSourceName: action.pageState!.customLeadSourceName,
+      createdDate: action.pageState!.client?.createdDate ?? DateTime.now()
     );
 
     await ClientDao.insertOrUpdate(client);
@@ -66,16 +66,16 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
 
     List<Client> clients = await ClientDao.getAllSortedByFirstName();
     for(Client client in clients){
-      if((client.phone != null && client.phone.isNotEmpty && (client.phone == store.state.newContactPageState.newContactPhone)) ||
-          (client.email != null && client.email.isNotEmpty && (client.email == store.state.newContactPageState.newContactEmail)) ||
-          (client.instagramProfileUrl != null && client.instagramProfileUrl.isNotEmpty && (client.instagramProfileUrl == store.state.newContactPageState.newContactInstagramUrl))){
+      if((client.phone != null && client.phone!.isNotEmpty && (client.phone == store.state.newContactPageState!.newContactPhone)) ||
+          (client.email != null && client.email!.isNotEmpty && (client.email == store.state.newContactPageState!.newContactEmail)) ||
+          (client.instagramProfileUrl != null && client.instagramProfileUrl!.isNotEmpty && (client.instagramProfileUrl == store.state.newContactPageState!.newContactInstagramUrl))){
         store.dispatch(SetSavedClientToState(store.state.newContactPageState, client));
       }
     }
     store.dispatch(FetchClientData(store.state.clientsPageState));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client));
-    store.dispatch(LoadAndSelectNewContactAction(store.state.newJobPageState, await ClientDao.getClientByCreatedDate(client.createdDate)));
+    store.dispatch(LoadAndSelectNewContactAction(store.state.newJobPageState!, await ClientDao.getClientByCreatedDate(client.createdDate!)));
 
     //Update any job that has this client
     List<Job> allJobs = await JobDao.getAllJobs();
@@ -90,12 +90,12 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
 
   Map<String, Object> _buildEventProperties(Client client) {
     Map<String, Object> result = Map();
-    if(client.firstName != null && client.firstName.isNotEmpty) result.putIfAbsent(EventNames.CONTACT_PARAM_FIRSTNAME, () => client.firstName);
-    if(client.lastName != null && client.lastName.isNotEmpty) result.putIfAbsent(EventNames.CONTACT_PARAM_LASTNAME, () => client.lastName);
-    if(client.phone != null && client.phone.isNotEmpty) result.putIfAbsent(EventNames.CONTACT_PARAM_PHONE, () => client.phone);
-    if(client.email != null && client.email.isNotEmpty) result.putIfAbsent(EventNames.CONTACT_PARAM_EMAIL, () => client.email);
-    if(client.instagramProfileUrl != null && client.instagramProfileUrl.isNotEmpty) result.putIfAbsent(EventNames.CONTACT_PARAM_INSTAGRAM_URL, () => client.instagramProfileUrl);
-    if(client.leadSource != null && client.leadSource.isNotEmpty) result.putIfAbsent(EventNames.CONTACT_PARAM_LEAD_SOURCE, () => client.leadSource);
+    if(client.firstName != null && client.firstName!.isNotEmpty) result.putIfAbsent(EventNames.CONTACT_PARAM_FIRSTNAME, () => client.firstName!);
+    if(client.lastName != null && client.lastName!.isNotEmpty) result.putIfAbsent(EventNames.CONTACT_PARAM_LASTNAME, () => client.lastName!);
+    if(client.phone != null && client.phone!.isNotEmpty) result.putIfAbsent(EventNames.CONTACT_PARAM_PHONE, () => client.phone!);
+    if(client.email != null && client.email!.isNotEmpty) result.putIfAbsent(EventNames.CONTACT_PARAM_EMAIL, () => client.email!);
+    if(client.instagramProfileUrl != null && client.instagramProfileUrl!.isNotEmpty) result.putIfAbsent(EventNames.CONTACT_PARAM_INSTAGRAM_URL, () => client.instagramProfileUrl!);
+    if(client.leadSource != null && client.leadSource!.isNotEmpty) result.putIfAbsent(EventNames.CONTACT_PARAM_LEAD_SOURCE, () => client.leadSource!);
     return result;
   }
 }

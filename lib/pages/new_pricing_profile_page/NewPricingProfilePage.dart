@@ -26,7 +26,7 @@ class NewPricingProfilePage extends StatefulWidget {
 }
 
 class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
-  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final int pageCount = 1;
   final controller = PageController(
     initialPage: 0,
@@ -39,39 +39,14 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
     currentPageIndex = 0;
   }
 
-  Future<bool> _onWillPop() {
-    return showDialog(
-          context: context,
-          builder: (context) => new CupertinoAlertDialog(
-            title: new Text('Are you sure?'),
-            content: new Text('All unsaved information entered will be lost.'),
-            actions: <Widget>[
-              TextButton(
-                style: Styles.getButtonStyle(),
-                onPressed: () => Navigator.of(context).pop(false),
-                child: new Text('No'),
-              ),
-              TextButton(
-                style: Styles.getButtonStyle(),
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
-                child: new Text('Yes'),
-              ),
-            ],
-          ),
-        ) ??
-        false;
-  }
-
   @override
   Widget build(BuildContext context) {
     controller.addListener(() {
-      currentPageIndex = controller.page.toInt();
+      currentPageIndex = controller.page!.toInt();
     });
     return StoreConnector<AppState, NewPricingProfilePageState>(
       onInit: (store) {
-        if(store.state.pricingProfilePageState.shouldClear) {
+        if(store.state.pricingProfilePageState!.shouldClear!) {
           store.dispatch(ClearStateAction(store.state.pricingProfilePageState));
           store.dispatch(InitializeProfileSettings(store.state.pricingProfilePageState));
         } else {
@@ -81,7 +56,30 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
       converter: (store) => NewPricingProfilePageState.fromStore(store),
       builder: (BuildContext context, NewPricingProfilePageState pageState) =>
           WillPopScope(
-          onWillPop: _onWillPop,
+          onWillPop: () async {
+            final shouldPop = await showDialog<bool>(
+                context: context,
+                builder: (context) => CupertinoAlertDialog(
+                  title: Text('Are you sure?'),
+                  content: Text('All unsaved information entered will be lost.'),
+                  actions: <Widget>[
+                    TextButton(
+                      style: Styles.getButtonStyle(),
+                      onPressed: () => Navigator.of(context).pop(false),
+                      child: Text('No'),
+                    ),
+                    TextButton(
+                      style: Styles.getButtonStyle(),
+                      onPressed: () {
+                        Navigator.of(context).pop(true);
+                      },
+                      child: Text('Yes'),
+                    ),
+                  ],
+                )
+            );
+            return shouldPop!;
+          },
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: Colors.transparent,
@@ -89,9 +87,9 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
               child: Container(
                 width: 375.0,
                 padding: EdgeInsets.only(top: 26.0, bottom: 18.0),
-                decoration: new BoxDecoration(
+                decoration: BoxDecoration(
                     color: Color(ColorConstants.white),
-                    borderRadius: new BorderRadius.all(Radius.circular(16.0))),
+                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.min,
@@ -103,11 +101,11 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
                         children: <Widget>[
                           TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
-                            text: pageState.shouldClear ? "New Price Package" : "Edit Price Package",
+                            text: pageState.shouldClear! ? "New Price Package" : "Edit Price Package",
                             textAlign: TextAlign.start,
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
-                          !pageState.shouldClear ? GestureDetector(
+                          !pageState.shouldClear! ? GestureDetector(
                             onTap: () {
                               _ackAlert(context, pageState);
                             },
@@ -120,7 +118,7 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
                                   'assets/images/icons/trash_can.png', color: Color(ColorConstants.getPeachDark()),),
                             ),
                           ) : SizedBox(),
-                          !pageState.shouldClear ? Container(
+                          !pageState.shouldClear! ? Container(
                             margin: EdgeInsets.only(left: 300.0),
                             child: IconButton(
                               icon: const Icon(Icons.save),
@@ -128,7 +126,7 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
                               color: Color(ColorConstants.getPrimaryColor()),
                               onPressed: () {
                                 showSuccessAnimation();
-                                pageState.onSavePressed();
+                                pageState.onSavePressed!();
                               },
                             ),
                           ) : SizedBox(),
@@ -217,14 +215,14 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
     if (pageState.pageViewIndex != pageCount) {
       switch (pageState.pageViewIndex) {
         case 0:
-          if (pageState.profileName.length > 0) {
+          if (pageState.profileName!.length > 0) {
             canProgress = true;
           } else {
             HapticFeedback.heavyImpact();
           }
           break;
         case 1:
-          if (pageState.flatRate > 0) {
+          if (pageState.flatRate! > 0) {
             canProgress = true;
           } else {
             HapticFeedback.heavyImpact();
@@ -236,7 +234,7 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
       }
 
       if (canProgress) {
-        pageState.onNextPressed();
+        pageState.onNextPressed!();
         controller.animateToPage(currentPageIndex + 1,
             duration: Duration(milliseconds: 150), curve: Curves.ease);
         if(MediaQuery.of(context).viewInsets.bottom != 0) KeyboardUtil.closeKeyboard(context);
@@ -244,7 +242,7 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
     }
     if (pageState.pageViewIndex == pageCount) {
       showSuccessAnimation();
-      pageState.onSavePressed();
+      pageState.onSavePressed!();
     }
   }
 
@@ -254,40 +252,40 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
       builder: (BuildContext context) {
         return Device.get().isIos ?
         CupertinoAlertDialog(
-          title: new Text('Are you sure?'),
-          content: new Text('This price package will permanently deleted.'),
+          title: Text('Are you sure?'),
+          content: Text('This price package will permanently deleted.'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () => Navigator.of(context).pop(false),
-              child: new Text('No'),
+              child: Text('No'),
             ),
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteProfileSelected();
+                pageState.onDeleteProfileSelected!();
                 Navigator.of(context).pop(true);
                 Navigator.of(context).pop(true);
               },
-              child: new Text('Yes'),
+              child: Text('Yes'),
             ),
           ],
         ) : AlertDialog(
-          title: new Text('Are you sure?'),
-          content: new Text('This price package will permanently deleted.'),
+          title: Text('Are you sure?'),
+          content: Text('This price package will permanently deleted.'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () => Navigator.of(context).pop(false),
-              child: new Text('No'),
+              child: Text('No'),
             ),
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteProfileSelected();
+                pageState.onDeleteProfileSelected!();
                 Navigator.of(context).pop(true);
               },
-              child: new Text('Yes'),
+              child: Text('Yes'),
             ),
           ],
         );
@@ -320,10 +318,10 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
 
   void onBackPressed(NewPricingProfilePageState pageState) {
     if (pageState.pageViewIndex == 0) {
-      pageState.onCancelPressed();
+      pageState.onCancelPressed!();
       Navigator.of(context).pop();
     } else {
-      pageState.onBackPressed();
+      pageState.onBackPressed!();
       controller.animateToPage(currentPageIndex - 1,
           duration: Duration(milliseconds: 150), curve: Curves.ease);
     }

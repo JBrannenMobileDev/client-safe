@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/common_widgets/ClientSafeButton.dart';
@@ -10,11 +12,11 @@ import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 import '../../utils/InputDoneView.dart';
+import '../../utils/flutter_masked_text.dart';
 import '../../widgets/TextDandyLight.dart';
 import '../new_pricing_profile_page/DandyLightTextField.dart';
 
@@ -33,21 +35,36 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
   final FocusNode flatRateInputFocusNode = new FocusNode();
   var flatRateTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '', thousandSeparator: ',', precision: 0);
   String oneTimePrice = '';
-  OverlayEntry overlayEntry;
+  OverlayEntry? overlayEntry;
+  late StreamSubscription<bool> keyboardSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+
+    var keyboardVisibilityController = KeyboardVisibilityController();
+    keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
+      setState(() {
+        if(visible) {
+          showOverlay(context);
+        } else {
+          removeOverlay();
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    keyboardSubscription.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return StoreConnector<AppState, JobDetailsPageState>(
       onInit: (store) {
-        KeyboardVisibilityNotification().addNewListener(
-            onShow: () {
-              showOverlay(context);
-            },
-            onHide: () {
-              removeOverlay();
-            }
-        );
         flatRateTextController.text = '\$';
         flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
         flatRateInputFocusNode.addListener(() {
@@ -70,7 +87,7 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
                 color: Color(ColorConstants.getPrimaryWhite()),
                 borderRadius: BorderRadius.circular(16.0),
               ),
-              child: pageState.priceProfiles.length > 0
+              child: pageState.priceProfiles!.length > 0
                   ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -114,7 +131,7 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
                       controller: _controller,
                       physics: ClampingScrollPhysics(),
                       key: _listKey,
-                      itemCount: pageState.priceProfiles.length + 1,
+                      itemCount: pageState.priceProfiles!.length + 1,
                       itemBuilder: _buildItem,
                     ),
                   ),
@@ -138,7 +155,7 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
                         TextButton(
                           style: Styles.getButtonStyle(),
                           onPressed: () {
-                            pageState.onSaveUpdatedPriceProfileSelected(oneTimePrice);
+                            pageState.onSaveUpdatedPriceProfileSelected!(oneTimePrice);
                             VibrateUtil.vibrateHeavy();
                             Navigator.of(context).pop();
                           },
@@ -260,12 +277,12 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
             ],
           ),
         ) : PriceProfileListWidget(
-            pageState.priceProfiles.elementAt(index - 1),
+            pageState.priceProfiles!.elementAt(index - 1),
             pageState,
             onProfileSelected,
-            pageState.selectedPriceProfile == pageState.priceProfiles.elementAt(index - 1) && isOneTimePriceEmpty(oneTimePrice)
+            pageState.selectedPriceProfile == pageState.priceProfiles!.elementAt(index - 1) && isOneTimePriceEmpty(oneTimePrice)
                 ? Color(ColorConstants.getBlueDark())
-                : Color(ColorConstants.getPrimaryWhite()),pageState.selectedPriceProfile == pageState.priceProfiles.elementAt(index - 1) && isOneTimePriceEmpty(oneTimePrice)
+                : Color(ColorConstants.getPrimaryWhite()),pageState.selectedPriceProfile == pageState.priceProfiles!.elementAt(index - 1) && isOneTimePriceEmpty(oneTimePrice)
             ? Color(ColorConstants.getPrimaryWhite())
             : Color(ColorConstants.getPrimaryBlack())),
       ),
@@ -290,12 +307,12 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
           child: InputDoneView());
     });
 
-    overlayState.insert(overlayEntry);
+    overlayState.insert(overlayEntry!);
   }
 
   removeOverlay() {
     if (overlayEntry != null) {
-      overlayEntry.remove();
+      overlayEntry!.remove();
       overlayEntry = null;
     }
   }

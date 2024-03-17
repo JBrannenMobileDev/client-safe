@@ -76,7 +76,7 @@ class _NewLineItemDialogState extends State<NewLineItemDialog>
                         tooltip: 'Close',
                         color: Color(ColorConstants.getPrimaryColor()),
                         onPressed: () {
-                          pageState.onNewLineItemCanceled();
+                          pageState.onNewLineItemCanceled!();
                           Navigator.of(context).pop();
                         },
                       ),
@@ -127,7 +127,7 @@ class _NewLineItemDialogState extends State<NewLineItemDialog>
                               inputType: TextInputType.number,
                               height: 64.0,
                               onTextInputChanged: (input) {
-                                pageState.onNewLineItemRateTextChanged(input);
+                                pageState.onNewLineItemRateTextChanged!(input);
                                 setState(() {
                                   enteredRate = input;
                                 });
@@ -159,7 +159,7 @@ class _NewLineItemDialogState extends State<NewLineItemDialog>
                               inputType: TextInputType.number,
                               height: 64.0,
                               onTextInputChanged: (input) {
-                                pageState.onNewLineItemQuantityTextChanged(input);
+                                pageState.onNewLineItemQuantityTextChanged!(input);
                                 setState(() {
                                   enteredQuantity = input;
                                 });
@@ -180,7 +180,7 @@ class _NewLineItemDialogState extends State<NewLineItemDialog>
                             TextButton(
                               style: Styles.getButtonStyle(),
                               onPressed: () {
-                                pageState.onNewLineItemCanceled();
+                                pageState.onNewLineItemCanceled!();
                                 Navigator.of(context).pop();
                               },
                               child: TextDandyLight(
@@ -193,7 +193,7 @@ class _NewLineItemDialogState extends State<NewLineItemDialog>
                             TextButton(
                               style: Styles.getButtonStyle(),
                               onPressed: () {
-                                pageState.onNewLineItemSaveSelected();
+                                pageState.onNewLineItemSaveSelected!();
                                 Navigator.of(context).pop();
                               },
                               child: TextDandyLight(

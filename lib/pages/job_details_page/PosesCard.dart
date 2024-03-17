@@ -10,19 +10,19 @@ import '../../widgets/TextDandyLight.dart';
 
 class PosesCard extends StatelessWidget {
 
-  const PosesCard({Key key, this.pageState}) : super(key: key);
+  const PosesCard({Key? key, this.pageState}) : super(key: key);
   
-  final JobDetailsPageState pageState;
+  final JobDetailsPageState? pageState;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if(pageState.job.poses.isNotEmpty) {
+        if(pageState!.job!.poses!.isNotEmpty) {
           NavigationUtil.onJobPosesSelected(context);
           EventSender().sendEvent(eventName: EventNames.NAV_TO_JOB_POSES_FROM_JOB_DETAILS);
         } else {
-          NavigationUtil.onPosesSelected(context, pageState.job, true, false);
+          NavigationUtil.onPosesSelected(context, pageState!.job, true, false);
           EventSender().sendEvent(eventName: EventNames.NAV_TO_POSES_ADD_POSE_TO_JOB);
         }
       },
@@ -30,7 +30,7 @@ class PosesCard extends StatelessWidget {
         padding: const EdgeInsets.only(top: 0.0),
         child: Container(
           width: double.maxFinite,
-          height: pageState.job.poses.isEmpty ? 216 : 184.0,
+          height: pageState!.job!.poses!.isEmpty ? 216 : 184.0,
           margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
           decoration: BoxDecoration(
               color: Color(ColorConstants.getPrimaryWhite()),
@@ -48,20 +48,20 @@ class PosesCard extends StatelessWidget {
                   color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
-              pageState.job.poses.isNotEmpty ? Stack(
+              pageState!.job!.poses!.isNotEmpty ? Stack(
                   alignment: Alignment.centerLeft,
                   children: [
-                    pageState.job.poses.isNotEmpty ? Container(
+                    pageState!.job!.poses!.isNotEmpty ? Container(
                       margin: const EdgeInsets.only(left: 24, right: 24),
                       alignment: Alignment.centerLeft,
                       child: TextDandyLight(
                         type: TextDandyLight.LARGE_TEXT,
-                        text: '+${pageState.job.poses.length}',
+                        text: '+${pageState!.job!.poses!.length}',
                         color: Color(ColorConstants.getPeachDark()),
                         textAlign: TextAlign.center,
                       ),
                     ) : const SizedBox(),
-                    pageState.job.poses.length >= 6 ? Container(
+                    pageState!.job!.poses!.length >= 6 ? Container(
                       margin: const EdgeInsets.only(left: 194),
                       height: 66,
                       width: 66,
@@ -70,10 +70,10 @@ class PosesCard extends StatelessWidget {
                         color: Color(ColorConstants.getPeachLight())
                       ),
                       child: DandyLightNetworkImage(
-                        pageState.job.poses.elementAt(5).imageUrl,
+                        pageState!.job!.poses!.elementAt(5).imageUrl!,
                       ),
                     ) : const SizedBox(),
-                    pageState.job.poses.length >= 5 ? Container(
+                    pageState!.job!.poses!.length >= 5 ? Container(
                       margin: const EdgeInsets.only(left: 168),
                       height: 72,
                       width: 72,
@@ -82,10 +82,10 @@ class PosesCard extends StatelessWidget {
                           color: Color(ColorConstants.getPeachLight())
                       ),
                       child: DandyLightNetworkImage(
-                        pageState.job.poses.elementAt(4).imageUrl,
+                        pageState!.job!.poses!.elementAt(4).imageUrl!,
                       ),
                     ) : const SizedBox(),
-                    pageState.job.poses.length >= 4 ? Container(
+                    pageState!.job!.poses!.length >= 4 ? Container(
                       margin: const EdgeInsets.only(left: 142),
                       height: 78,
                       width: 78,
@@ -94,10 +94,10 @@ class PosesCard extends StatelessWidget {
                           color: Color(ColorConstants.getPeachLight())
                       ),
                       child: DandyLightNetworkImage(
-                        pageState.job.poses.elementAt(3).imageUrl,
+                        pageState!.job!.poses!.elementAt(3).imageUrl!,
                       ),
                     ) : const SizedBox(),
-                    pageState.job.poses.length >= 3 ? Container(
+                    pageState!.job!.poses!.length >= 3 ? Container(
                       margin: const EdgeInsets.only(left: 116),
                       height: 84,
                       width: 84,
@@ -106,10 +106,10 @@ class PosesCard extends StatelessWidget {
                           color: Color(ColorConstants.getPeachLight())
                       ),
                       child: DandyLightNetworkImage(
-                        pageState.job.poses.elementAt(2).imageUrl,
+                        pageState!.job!.poses!.elementAt(2).imageUrl!,
                       ),
                     ) : const SizedBox(),
-                    pageState.job.poses.length >= 2 ? Container(
+                    pageState!.job!.poses!.length >= 2 ? Container(
                       margin: const EdgeInsets.only(left: 90),
                       height: 90,
                       width: 90,
@@ -118,10 +118,10 @@ class PosesCard extends StatelessWidget {
                           color: Color(ColorConstants.getPeachLight())
                       ),
                       child: DandyLightNetworkImage(
-                        pageState.job.poses.elementAt(1).imageUrl,
+                        pageState!.job!.poses!.elementAt(1).imageUrl!,
                       ),
                     ) : const SizedBox(),
-                    pageState.job.poses.isNotEmpty ? Container(
+                    pageState!.job!.poses!.isNotEmpty ? Container(
                       margin: const EdgeInsets.only(left: 64),
                       height: 96,
                       width: 96,
@@ -130,7 +130,7 @@ class PosesCard extends StatelessWidget {
                           color: Color(ColorConstants.getPeachLight())
                       ),
                       child: DandyLightNetworkImage(
-                        pageState.job.poses.elementAt(0).imageUrl,
+                        pageState!.job!.poses!.elementAt(0).imageUrl!,
                       ),
                     ) : const SizedBox(),
                     Container(
@@ -144,7 +144,7 @@ class PosesCard extends StatelessWidget {
                     ),
                   ],
               ) : const SizedBox(),
-              pageState.job.poses.isEmpty ? Container(
+              pageState!.job!.poses!.isEmpty ? Container(
                 margin: const EdgeInsets.only(top: 12, left: 24, right: 24),
                 alignment: Alignment.center,
                 child: TextDandyLight(
@@ -154,7 +154,7 @@ class PosesCard extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ) : const SizedBox(),
-              pageState.job.poses.isEmpty ? Container(
+              pageState!.job!.poses!.isEmpty ? Container(
                   alignment: Alignment.center,
                   child: Container(
                     margin: const EdgeInsets.only(top: 32),

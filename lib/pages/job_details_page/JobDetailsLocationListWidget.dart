@@ -11,9 +11,9 @@ import '../../widgets/DandyLightNetworkImage.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class JobDetailsLocationListWidget extends StatelessWidget {
-  final int locationIndex;
+  final int? locationIndex;
 
-  const JobDetailsLocationListWidget(this.locationIndex, {Key key}) : super(key: key);
+  const JobDetailsLocationListWidget(this.locationIndex, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class JobDetailsLocationListWidget extends StatelessWidget {
       builder: (BuildContext context, JobDetailsPageState pageState) => Stack(
         alignment: Alignment.bottomCenter,
         children: <Widget>[
-          pageState.locations.isNotEmpty
+          pageState.locations!.isNotEmpty
               ? Container(
             width: double.infinity,
             margin: const EdgeInsets.only(bottom: 28.0),
@@ -31,28 +31,28 @@ class JobDetailsLocationListWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(8.0),
             ),
             child: DandyLightNetworkImage(
-              pageState.locations.elementAt(locationIndex).imageUrl,
+              pageState.locations!.elementAt(locationIndex!).imageUrl!,
               errorType:
-              pageState.locations.elementAt(locationIndex).imageUrl !=
+              pageState.locations!.elementAt(locationIndex!).imageUrl! !=
                   null &&
-                  pageState.locations
-                      .elementAt(locationIndex)
-                      .imageUrl
+                  pageState.locations!
+                      .elementAt(locationIndex!)
+                      .imageUrl!
                       .isNotEmpty
                   ? DandyLightNetworkImage.ERROR_TYPE_INTERNET
                   : DandyLightNetworkImage.ERROR_TYPE_NO_IMAGE,
-              errorIconSize: pageState.locations.elementAt(locationIndex).imageUrl != null && pageState.locations.elementAt(locationIndex).imageUrl.isNotEmpty ? 44 : 96,
+              errorIconSize: pageState.locations!.elementAt(locationIndex!).imageUrl != null && pageState.locations!.elementAt(locationIndex!).imageUrl!.isNotEmpty ? 44 : 96,
             ),
           )
               : const SizedBox(),
           TextDandyLight(
             type: TextDandyLight.SMALL_TEXT,
-            text: pageState.locations.elementAt(locationIndex).locationName,
+            text: pageState.locations!.elementAt(locationIndex!).locationName,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
             color: Color(ColorConstants.getPrimaryBlack()),
           ),
-          pageState.selectedLocation == pageState.locations.elementAt(locationIndex)
+          pageState.selectedLocation == pageState.locations!.elementAt(locationIndex!)
               ? Container(
             margin: const EdgeInsets.only(bottom: 28.0),
             alignment: Alignment.center,
@@ -84,8 +84,8 @@ class JobDetailsLocationListWidget extends StatelessWidget {
             width: double.infinity,
             child: GestureDetector(
               onTap: () async {
-                pageState.onLocationSelected(pageState.locations.elementAt(locationIndex));
-                pageState.onLocationSaveSelected(pageState.locations.elementAt(locationIndex));
+                pageState.onLocationSelected!(pageState.locations!.elementAt(locationIndex!));
+                pageState.onLocationSaveSelected!(pageState.locations!.elementAt(locationIndex!));
                 Navigator.of(context).pop();
               },
             ),

@@ -43,36 +43,11 @@ class _NewJobReminderPageState extends State<NewJobReminderPage> {
     currentPageIndex = 0;
   }
 
-  Future<bool> _onWillPop() {
-    return showDialog(
-          context: context,
-          builder: (context) => new CupertinoAlertDialog(
-            title: new Text('Are you sure?'),
-            content: new Text('All unsaved information entered will be lost.'),
-            actions: <Widget>[
-              TextButton(
-                style: Styles.getButtonStyle(),
-                onPressed: () => Navigator.of(context).pop(false),
-                child: new Text('No'),
-              ),
-              TextButton(
-                style: Styles.getButtonStyle(),
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
-                child: new Text('Yes'),
-              ),
-            ],
-          ),
-        ) ??
-        false;
-  }
-
   @override
   Widget build(BuildContext context) {
     controller.addListener(() {
       setState(() {
-        currentPageIndex = controller.page.toInt();
+        currentPageIndex = controller.page!.toInt();
       });
     });
     return StoreConnector<AppState, NewJobReminderPageState>(
@@ -82,7 +57,30 @@ class _NewJobReminderPageState extends State<NewJobReminderPage> {
       converter: (store) => NewJobReminderPageState.fromStore(store),
       builder: (BuildContext context, NewJobReminderPageState pageState) =>
           WillPopScope(
-          onWillPop: _onWillPop,
+          onWillPop: () async {
+            final shouldPop = await showDialog<bool>(
+              context: context,
+              builder: (context) => CupertinoAlertDialog(
+                title: Text('Are you sure?'),
+                content: Text('All unsaved information entered will be lost.'),
+                actions: <Widget>[
+                  TextButton(
+                    style: Styles.getButtonStyle(),
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: Text('No'),
+                  ),
+                  TextButton(
+                    style: Styles.getButtonStyle(),
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                    child: Text('Yes'),
+                  ),
+                ],
+              ),
+            );
+            return shouldPop!;
+          },
           child: Scaffold(
             backgroundColor: Colors.transparent,
             body: Center(
@@ -90,9 +88,9 @@ class _NewJobReminderPageState extends State<NewJobReminderPage> {
                 margin: EdgeInsets.only(left: 8.0, right: 8.0),
                 width: 450.0,
                 padding: EdgeInsets.only(top: 26.0, bottom: 18.0),
-                decoration: new BoxDecoration(
+                decoration: BoxDecoration(
                     color: Color(ColorConstants.white),
-                    borderRadius: new BorderRadius.all(Radius.circular(16.0))),
+                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.min,
@@ -207,7 +205,7 @@ class _NewJobReminderPageState extends State<NewJobReminderPage> {
 
   void onSaveSelected(NewJobReminderPageState pageState) {
     if (pageState.selectedReminder != null) {
-      pageState.onSavePressed(job);
+      pageState.onSavePressed!(job);
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -233,7 +231,7 @@ class _NewJobReminderPageState extends State<NewJobReminderPage> {
 
   void onCancelSelected(NewJobReminderPageState pageState) {
     if (pageState.pageViewIndex == 0) {
-      pageState.onCancelPressed();
+      pageState.onCancelPressed!();
       Navigator.of(context).pop();
     }
   }

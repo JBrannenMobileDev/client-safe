@@ -33,7 +33,7 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
     return StoreConnector<AppState, NewInvoicePageState>(
       onInit: (store) {
         store.dispatch(FetchAllInvoiceJobsAction(store.state.newInvoicePageState));
-        searchTextController.text = store.state.newInvoicePageState.jobSearchText;
+        searchTextController.text = store.state.newInvoicePageState!.jobSearchText!;
       },
       converter: (store) => NewInvoicePageState.fromStore(store),
       builder: (BuildContext context, NewInvoicePageState pageState) =>
@@ -72,7 +72,7 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                           controller: searchTextController,
                           cursorColor: Color(ColorConstants.getPrimaryColor()),
                           onChanged: (text) {
-                            pageState.onJobSearchTextChanged(text);
+                            pageState.onJobSearchTextChanged!(text);
                           },
                           decoration: InputDecoration(
                             alignLabelWithHint: true,
@@ -104,7 +104,7 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                         )),
                   ],
                 ),
-                pageState.filteredJobs.length > 0 && pageState.isFinishedFetchingClients
+                pageState.filteredJobs!.length > 0 && pageState.isFinishedFetchingClients!
                     ? ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: 65.0,
@@ -119,7 +119,7 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                         shrinkWrap: true,
                         controller: _controller,
                         physics: ClampingScrollPhysics(),
-                        itemCount: pageState.filteredJobs.length,
+                        itemCount: pageState.filteredJobs!.length,
                         itemBuilder: _buildItem,
                       ),
                     ],
@@ -132,7 +132,7 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                       padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 64.0),
                       child: TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
-                        text: pageState.allClients.length > 0
+                        text: pageState.allClients!.length > 0
                             ? "There are no matching jobs for the name entered."
                             : "You have not started any jobs yet.",
                         textAlign: TextAlign.center,

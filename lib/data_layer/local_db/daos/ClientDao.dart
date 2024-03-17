@@ -37,7 +37,7 @@ class ClientDao extends Equatable{
   }
 
   static Future<void> _updateLastChangedTime() async {
-    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    Profile profile = (await ProfileDao.getAll())!.elementAt(0);
     profile.clientsLastChangeDate = DateTime.now();
     ProfileDao.update(profile);
   }
@@ -151,7 +151,7 @@ class ClientDao extends Equatable{
     }).toList();
   }
 
-  static Future<Client?> getClientById(String clientDocumentId) async{
+  static Future<Client?>? getClientById(String clientDocumentId) async{
     if((await getAll()).length > 0) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', clientDocumentId));
       final recordSnapshots = await _clientStore.find(await _db, finder: finder);

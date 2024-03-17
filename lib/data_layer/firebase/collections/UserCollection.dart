@@ -39,7 +39,7 @@ class UserCollection {
         .snapshots();
   }
 
-  Future<Profile> getUser(String uid) async {
+  Future<Profile?> getUser(String uid) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('env')

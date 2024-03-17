@@ -27,7 +27,7 @@ import '../../widgets/TextDandyLight.dart';
 import 'PricingProfileSelectionForm.dart';
 
 class NewJobPage extends StatefulWidget {
-  final bool comingFromOnBoarding;
+  final bool? comingFromOnBoarding;
 
   NewJobPage(this.comingFromOnBoarding);
 
@@ -39,7 +39,7 @@ class NewJobPage extends StatefulWidget {
 
 class _NewJobPageState extends State<NewJobPage>{
   final int pageCount = 5;
-  final bool comingFromOnBoarding;
+  final bool? comingFromOnBoarding;
 
   _NewJobPageState(this.comingFromOnBoarding);
 
@@ -54,43 +54,18 @@ class _NewJobPageState extends State<NewJobPage>{
     currentPageIndex = 0;
   }
 
-  Future<bool> _onWillPop() {
-    return showDialog(
-          context: context,
-          builder: (context) => new CupertinoAlertDialog(
-            title: new Text('Are you sure?'),
-            content: new Text('All unsaved information entered will be lost.'),
-            actions: <Widget>[
-              TextButton(
-              style: Styles.getButtonStyle(),
-                onPressed: () => Navigator.of(context).pop(false),
-                child: new Text('No'),
-              ),
-              TextButton(
-                style: Styles.getButtonStyle(),
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
-                child: new Text('Yes'),
-              ),
-            ],
-          ),
-        ) ??
-        false;
-  }
-
-  NewJobPageState localState;
+  NewJobPageState? localState;
 
   @override
   Widget build(BuildContext context) {
     controller.addListener(() {
       setState(() {
-        currentPageIndex = controller.page.toInt();
+        currentPageIndex = controller.page!.toInt();
       });
     });
     return StoreConnector<AppState, NewJobPageState>(
       onInit: (store) async {
-        store.state.newJobPageState.shouldClear ? store.dispatch(ClearStateAction(store.state.newJobPageState)) : null;
+        store.state.newJobPageState!.shouldClear! ? store.dispatch(ClearStateAction(store.state.newJobPageState)) : null;
         if((await UserPermissionsUtil.getPermissionStatus(Permission.locationWhenInUse)).isGranted) {
           store.dispatch(SetLastKnowInitialPosition(store.state.newJobPageState));
         }
@@ -99,19 +74,19 @@ class _NewJobPageState extends State<NewJobPage>{
         localState = current;
       },
       onWillChange: (previous, current) {
-        if(!previous.isSelectedClientNew && current.isSelectedClientNew) {
+        if(!previous!.isSelectedClientNew! && current.isSelectedClientNew!) {
           setState(() {
             currentPageIndex = 1;  //TODO fix page navigation. Going back is broken. Remove all this wonky logic and make it simple.
             controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 150), curve: Curves.ease);
           });
         }
-        if(!previous.isSelectedPriceProfileNew && current.isSelectedPriceProfileNew) {
+        if(!previous.isSelectedPriceProfileNew! && current.isSelectedPriceProfileNew!) {
           setState(() {
             currentPageIndex = 3;
             controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 150), curve: Curves.ease);
           });
         }
-        if(!previous.isSelectedJobTypeNew && current.isSelectedJobTypeNew) {
+        if(!previous.isSelectedJobTypeNew! && current.isSelectedJobTypeNew!) {
           setState(() {
             currentPageIndex = 2;
             controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 150), curve: Curves.ease);
@@ -127,7 +102,30 @@ class _NewJobPageState extends State<NewJobPage>{
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) =>
           WillPopScope(
-          onWillPop: _onWillPop,
+          onWillPop: () async {
+            final shouldPop = await showDialog<bool>(
+              context: context,
+              builder: (context) => new CupertinoAlertDialog(
+                title: new Text('Are you sure?'),
+                content: new Text('All unsaved information entered will be lost.'),
+                actions: <Widget>[
+                  TextButton(
+                    style: Styles.getButtonStyle(),
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: new Text('No'),
+                  ),
+                  TextButton(
+                    style: Styles.getButtonStyle(),
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                    child: new Text('Yes'),
+                  ),
+                ],
+              ),
+            );
+            return shouldPop!;
+          },
           child: Scaffold(
             backgroundColor: Colors.transparent,
             body: Center(
@@ -148,7 +146,7 @@ class _NewJobPageState extends State<NewJobPage>{
                           padding: EdgeInsets.only(bottom: 16.0),
                           child: TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
-                            text: pageState.shouldClear ? "New Job" : pageState.comingFromClientDetails ? "New Job" : "Edit Job",
+                            text: pageState.shouldClear! ? "New Job" : pageState.comingFromClientDetails! ? "New Job" : "Edit Job",
                             textAlign: TextAlign.start,
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
@@ -163,14 +161,14 @@ class _NewJobPageState extends State<NewJobPage>{
                                 tooltip: 'Delete',
                                 color: Color(ColorConstants.getPeachDark()),
                                 onPressed: () {
-                                  pageState.onCancelPressed();
+                                  pageState.onCancelPressed!();
                                   Navigator.of(context).pop(true);
                                 },
                               ),
                             ),
-                            comingFromOnBoarding && pageState.pageViewIndex == 0 ? GestureDetector(
+                            comingFromOnBoarding! && pageState.pageViewIndex == 0 ? GestureDetector(
                               onTap: () {
-                                pageState.onSkipSelected();
+                                pageState.onSkipSelected!();
                                 EventSender().sendEvent(eventName: EventNames.ON_BOARDING_COMPLETE, properties: {
                                   EventNames.ON_BOARDING_COMPLETED_BY_PARAM : 'Add first job skipped',
                                 });
@@ -192,7 +190,7 @@ class _NewJobPageState extends State<NewJobPage>{
 
                                 if(pageState.pageViewIndex == 3) {
                                   bool isGranted = (await UserPermissionsUtil.showPermissionRequest(permission: Permission.locationWhenInUse, context: context));
-                                  if(isGranted) NavigationUtil.onSelectMapLocation(context, null, pageState.lat, pageState.lon, pageState.onLocationSearchResultSelected);
+                                  if(isGranted) NavigationUtil.onSelectMapLocation(context, null, pageState.lat!, pageState.lon!, pageState.onLocationSearchResultSelected);
                                 }
                               },
                               child: Container(
@@ -308,7 +306,7 @@ class _NewJobPageState extends State<NewJobPage>{
       }
 
       if (canProgress) {
-        pageState.onNextPressed();
+        pageState.onNextPressed!();
         controller.animateToPage(currentPageIndex + 1,
             duration: Duration(milliseconds: 150), curve: Curves.ease);
         FocusScope.of(context).unfocus();
@@ -316,8 +314,8 @@ class _NewJobPageState extends State<NewJobPage>{
     }
     if (pageState.pageViewIndex == pageCount) {
       await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context);
-      pageState.onSavePressed();
-      if(comingFromOnBoarding) {
+      pageState.onSavePressed!();
+      if(comingFromOnBoarding!) {
         EventSender().sendEvent(eventName: EventNames.ON_BOARDING_COMPLETE, properties: {
           EventNames.ON_BOARDING_COMPLETED_BY_PARAM : 'Add first job completed',
         });
@@ -341,7 +339,7 @@ class _NewJobPageState extends State<NewJobPage>{
   }
 
   void onFlareCompleted(String unused) {
-    if(comingFromOnBoarding) {
+    if(comingFromOnBoarding!) {
       NavigationUtil.onSuccessfulLogin(context);
     } else {
       Navigator.of(context).pop(true);
@@ -352,10 +350,10 @@ class _NewJobPageState extends State<NewJobPage>{
 
   void onBackPressed(NewJobPageState pageState) {
     if (pageState.pageViewIndex == 0) {
-      pageState.onCancelPressed();
+      pageState.onCancelPressed!();
       Navigator.of(context).pop();
     } else {
-      pageState.onBackPressed();
+      pageState.onBackPressed!();
       controller.animateToPage(currentPageIndex - 1,
           duration: Duration(milliseconds: 150), curve: Curves.ease);
     }
@@ -415,7 +413,7 @@ class _NewJobPageState extends State<NewJobPage>{
     String btText = 'Next';
     switch(pageState.pageViewIndex) {
       case 2:
-        if(pageState.selectedPriceProfile == null && pageState.oneTimePrice.isEmpty) btText = 'Skip';
+        if(pageState.selectedPriceProfile == null && pageState.oneTimePrice!.isEmpty) btText = 'Skip';
         break;
       case 3:
         if(pageState.selectedLocation == null) btText = 'Skip';

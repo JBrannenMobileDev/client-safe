@@ -59,7 +59,7 @@ class _ReminderSelectionPageState extends State<ReminderSelectionWidget> with Au
                     color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
-                pageState.allDandyLightReminders.length > 0 ? Row(
+                pageState.allDandyLightReminders!.length > 0 ? Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
@@ -77,14 +77,14 @@ class _ReminderSelectionPageState extends State<ReminderSelectionWidget> with Au
                         checkColor: Color(ColorConstants.getPrimaryWhite()),
                         fillColor: MaterialStateProperty.resolveWith(getColor),
                         value: pageState.checkAllReminders,
-                        onChanged: (bool isChecked) {
-                          pageState.checkAllRemindersChecked(isChecked);
+                        onChanged: (bool? isChecked) {
+                          pageState.checkAllRemindersChecked!(isChecked!);
                         },
                       ),
                     ),
                   ],
                 ) : SizedBox(),
-                pageState.allDandyLightReminders.length > 0
+                pageState.allDandyLightReminders!.length > 0
                     ? ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: 65.0,
@@ -96,7 +96,7 @@ class _ReminderSelectionPageState extends State<ReminderSelectionWidget> with Au
                     shrinkWrap: true,
                     controller: _controller,
                     physics: ClampingScrollPhysics(),
-                    itemCount: pageState.allDandyLightReminders.length,
+                    itemCount: pageState.allDandyLightReminders!.length,
                     itemBuilder: _buildItem,
                   ),
                 ) : Column(

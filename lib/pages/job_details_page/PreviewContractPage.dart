@@ -10,7 +10,7 @@ import '../../models/FontTheme.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class PreviewContractPage extends StatefulWidget {
-  final String jsonTerms;
+  final String? jsonTerms;
 
   PreviewContractPage({this.jsonTerms});
 
@@ -21,14 +21,14 @@ class PreviewContractPage extends StatefulWidget {
 }
 
 class _PreviewContractPageState extends State<PreviewContractPage> with TickerProviderStateMixin {
-  quill.QuillController _controller;
+  quill.QuillController? _controller;
   TextEditingController _clientSignatureController = TextEditingController(text: "Client Name");
   TextEditingController _photogSigController = TextEditingController(text: 'Photographer Name');
   final FocusNode titleFocusNode = FocusNode();
   final FocusNode contractFocusNode = FocusNode();
   final TextEditingController controllerTitle = TextEditingController();
-  OverlayEntry overlayEntry;
-  final String jsonTerms;
+  OverlayEntry? overlayEntry;
+  final String? jsonTerms;
 
   _PreviewContractPageState(this.jsonTerms);
 
@@ -36,7 +36,7 @@ class _PreviewContractPageState extends State<PreviewContractPage> with TickerPr
   @override
   void initState() {
     _controller = quill.QuillController(
-      document: quill.Document.fromJson(jsonDecode(jsonTerms)),
+      document: quill.Document.fromJson(jsonDecode(jsonTerms!)),
         selection: TextSelection.collapsed(offset: 0)
     );
     super.initState();

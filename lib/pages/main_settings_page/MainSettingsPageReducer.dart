@@ -68,7 +68,7 @@ MainSettingsPageState _updatePassword(MainSettingsPageState previousState, SaveP
 MainSettingsPageState _updateDeleteProgress(MainSettingsPageState previousState, SetDeleteProgressAction action){
   return previousState.copyWith(
     isDeleteInProgress: action.isInProgressDeleting,
-    isDeleteFinished: !action.isInProgressDeleting
+    isDeleteFinished: !action.isInProgressDeleting!
   );
 }
 
@@ -116,11 +116,11 @@ MainSettingsPageState _setCalendarState(MainSettingsPageState previousState, Upd
 
 MainSettingsPageState _setUserProfileInfo(MainSettingsPageState previousState, LoadUserProfileDataAction action){
   return previousState.copyWith(
-    firstName: action.profile.firstName,
-    lastName: action.profile.lastName,
-    businessName: action.profile.businessName,
-    businessEmail: action.profile.email,
-    businessPhone: action.profile.phone,
+    firstName: action.profile!.firstName,
+    lastName: action.profile!.lastName,
+    businessName: action.profile!.businessName,
+    businessEmail: action.profile!.email,
+    businessPhone: action.profile!.phone,
     profile: action.profile,
   );
 }
@@ -147,25 +147,25 @@ bool showPublishChangesButton(
 ) {
   bool showPublishButton = false;
 
-  if(profile.selectedFontTheme.iconFont != iconFont) {
+  if(profile.selectedFontTheme!.iconFont != iconFont) {
     showPublishButton = true;
   }
-  if(profile.selectedFontTheme.mainFont != mainFont) {
+  if(profile.selectedFontTheme!.mainFont != mainFont) {
     showPublishButton = true;
   }
-  if(profile.selectedColorTheme.bannerColor != ColorConstants.getHex(bannerColorToSave)) {
+  if(profile.selectedColorTheme!.bannerColor != ColorConstants.getHex(bannerColorToSave)) {
     showPublishButton = true;
   }
-  if(profile.selectedColorTheme.buttonColor != ColorConstants.getHex(buttonColorToSave)) {
+  if(profile.selectedColorTheme!.buttonColor != ColorConstants.getHex(buttonColorToSave)) {
     showPublishButton = true;
   }
-  if(profile.selectedColorTheme.buttonTextColor != ColorConstants.getHex(buttonTextColorToSave)) {
+  if(profile.selectedColorTheme!.buttonTextColor != ColorConstants.getHex(buttonTextColorToSave)) {
     showPublishButton = true;
   }
-  if(profile.selectedColorTheme.iconColor != ColorConstants.getHex(iconColorToSave)) {
+  if(profile.selectedColorTheme!.iconColor != ColorConstants.getHex(iconColorToSave)) {
     showPublishButton = true;
   }
-  if(profile.selectedColorTheme.iconTextColor != ColorConstants.getHex(iconTextColorToSave)) {
+  if(profile.selectedColorTheme!.iconTextColor != ColorConstants.getHex(iconTextColorToSave)) {
     showPublishButton = true;
   }
 

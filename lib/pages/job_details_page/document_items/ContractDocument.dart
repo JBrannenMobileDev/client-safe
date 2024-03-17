@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../widgets/TextDandyLight.dart';
 
 class ContractDocument implements DocumentItem {
-  final String contractName;
+  final String? contractName;
   final bool isSigned;
   ContractDocument({this.contractName, this.isSigned = false});
 

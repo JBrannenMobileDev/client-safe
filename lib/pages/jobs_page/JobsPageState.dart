@@ -8,13 +8,13 @@ import 'package:redux/redux.dart';
 import 'JobsPage.dart';
 
 class JobsPageState {
-  final String filterType;
-  final Job selectedJob;
-  final List<Job> leads;
-  final List<Job> activeJobs;
-  final List<Job> jobsCompleted;
-  final Function(String) onFilterChanged;
-  final Function(Job) onJobClicked;
+  final String? filterType;
+  final Job? selectedJob;
+  final List<Job>? leads;
+  final List<Job>? activeJobs;
+  final List<Job>? jobsCompleted;
+  final Function(String)? onFilterChanged;
+  final Function(Job)? onJobClicked;
 
   JobsPageState({
     @required this.filterType,
@@ -27,13 +27,13 @@ class JobsPageState {
   });
 
   JobsPageState copyWith({
-    String filterType,
-    Job selectedJob,
-    List<Job> leads,
-    List<Job> activeJobs,
-    List<Job> jobsCompleted,
-    Function(String) onFilterChanged,
-    Function(String) onJobClicked,
+    String? filterType,
+    Job? selectedJob,
+    List<Job>? leads,
+    List<Job>? activeJobs,
+    List<Job>? jobsCompleted,
+    Function(String)? onFilterChanged,
+    Function(Job)? onJobClicked,
   }){
     return JobsPageState(
       filterType: filterType?? this.filterType,
@@ -58,11 +58,11 @@ class JobsPageState {
 
   factory JobsPageState.fromStore(Store<AppState> store) {
     return JobsPageState(
-      filterType: store.state.jobsPageState.filterType,
-      selectedJob: store.state.jobsPageState.selectedJob,
-      leads: store.state.jobsPageState.leads,
-      activeJobs: store.state.jobsPageState.activeJobs,
-      jobsCompleted: store.state.jobsPageState.jobsCompleted,
+      filterType: store.state.jobsPageState!.filterType,
+      selectedJob: store.state.jobsPageState!.selectedJob,
+      leads: store.state.jobsPageState!.leads,
+      activeJobs: store.state.jobsPageState!.activeJobs,
+      jobsCompleted: store.state.jobsPageState!.jobsCompleted,
       onFilterChanged: (filterType) => store.dispatch(FilterChangedAction(store.state.jobsPageState, filterType)),
       onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId)),
     );

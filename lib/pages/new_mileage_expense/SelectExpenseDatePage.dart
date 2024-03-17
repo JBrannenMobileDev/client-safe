@@ -12,7 +12,7 @@ import 'package:intl/intl.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class SelectExpenseDatePage extends StatefulWidget {
-  const SelectExpenseDatePage({Key key}) : super(key: key);
+  const SelectExpenseDatePage({Key? key}) : super(key: key);
 
 
   @override
@@ -62,7 +62,7 @@ class SelectExpenseDatePageState extends State<SelectExpenseDatePage> with Autom
                           ),
                         ),
                         onConfirm: (dateTime, intList) {
-                          pageState.onExpenseDateSelected(dateTime);
+                          pageState.onExpenseDateSelected!(dateTime);
                         }
                     );
                   },
@@ -94,7 +94,7 @@ class SelectExpenseDatePageState extends State<SelectExpenseDatePage> with Autom
                         ),
                         child: TextDandyLight(
                           type: TextDandyLight.LARGE_TEXT,
-                          text: DateFormat('MMM dd, yyyy').format(pageState.expenseDate),
+                          text: DateFormat('MMM dd, yyyy').format(pageState.expenseDate!),
                           color: Color(ColorConstants.getPeachDark()),
                         ),
                       ),

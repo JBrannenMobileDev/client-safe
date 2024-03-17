@@ -23,21 +23,21 @@ class NewRecurringExpensePageMiddleware extends MiddlewareClass<AppState> {
 
   void saveRecurringExpense(Store<AppState> store, action, NextDispatcher next) async{
     RecurringExpense recurringExpense = RecurringExpense(
-      id: store.state.newRecurringExpensePageState.id,
-      documentId: store.state.newRecurringExpensePageState.documentId,
-      expenseName: store.state.newRecurringExpensePageState.expenseName,
-      cost: store.state.newRecurringExpensePageState.expenseCost,
-      initialChargeDate: store.state.newRecurringExpensePageState.expenseDate,
-      billingPeriod: store.state.newRecurringExpensePageState.billingPeriod,
-      isAutoPay: store.state.newRecurringExpensePageState.isAutoPay,
+      id: store.state.newRecurringExpensePageState!.id,
+      documentId: store.state.newRecurringExpensePageState!.documentId,
+      expenseName: store.state.newRecurringExpensePageState!.expenseName,
+      cost: store.state.newRecurringExpensePageState!.expenseCost,
+      initialChargeDate: store.state.newRecurringExpensePageState!.expenseDate,
+      billingPeriod: store.state.newRecurringExpensePageState!.billingPeriod,
+      isAutoPay: store.state.newRecurringExpensePageState!.isAutoPay,
       charges: [],
     );
     recurringExpense.updateChargeList();
     await RecurringExpenseDao.insertOrUpdate(recurringExpense);
 
     EventSender().sendEvent(eventName: EventNames.CREATED_RECURRING_EXPENSE, properties: {
-      EventNames.RECURRING_EXPENSE_PARAM_NAME : recurringExpense.expenseName,
-      EventNames.RECURRING_EXPENSE_PARAM_COST : recurringExpense.cost,
+      EventNames.RECURRING_EXPENSE_PARAM_NAME : recurringExpense.expenseName!,
+      EventNames.RECURRING_EXPENSE_PARAM_COST : recurringExpense.cost!,
     });
 
     store.dispatch(ClearRecurringExpenseStateAction(store.state.newRecurringExpensePageState));
@@ -45,12 +45,12 @@ class NewRecurringExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _deleteSingleExpense(Store<AppState> store, DeleteRecurringExpenseAction action, NextDispatcher next) async{
-    await RecurringExpenseDao.delete(store.state.newRecurringExpensePageState.documentId);
-    RecurringExpense expense = await RecurringExpenseDao.getRecurringExpenseById(action.pageState.documentId);
+    await RecurringExpenseDao.delete(store.state.newRecurringExpensePageState!.documentId!);
+    RecurringExpense? expense = await RecurringExpenseDao.getRecurringExpenseById(action.pageState!.documentId!);
     if(expense != null) {
-      await RecurringExpenseDao.delete(action.pageState.documentId);
+      await RecurringExpenseDao.delete(action.pageState!.documentId!);
     }
     store.dispatch(FetchRecurringExpenses(store.state.incomeAndExpensesPageState));
-    GlobalKeyUtil.instance.navigatorKey.currentState.pop();
+    GlobalKeyUtil.instance.navigatorKey.currentState!.pop();
   }
 }

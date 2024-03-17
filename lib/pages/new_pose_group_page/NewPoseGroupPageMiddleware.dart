@@ -21,16 +21,16 @@ class NewPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
 
   void _save(Store<AppState> store, SaveAction action, NextDispatcher next) async{
     PoseGroup poseGroup = PoseGroup();
-    poseGroup.id = action.pageState.id;
-    poseGroup.documentId = action.pageState.documentId;
-    poseGroup.groupName = action.pageState.groupName;
+    poseGroup.id = action.pageState!.id;
+    poseGroup.documentId = action.pageState!.documentId;
+    poseGroup.groupName = action.pageState!.groupName;
 
     await PoseGroupDao.insertOrUpdate(poseGroup);
 
-    EventSender().sendEvent(eventName: EventNames.CREATED_POSE_GROUP, properties: {EventNames.POSE_GROUP_PARAM_NAME : poseGroup.groupName,});
+    EventSender().sendEvent(eventName: EventNames.CREATED_POSE_GROUP, properties: {EventNames.POSE_GROUP_PARAM_NAME : poseGroup.groupName!,});
 
-    store.dispatch(FetchPoseGroupsAction(store.state.posesPageState));
-    store.dispatch(FetchMyPoseGroupsAction(store.state.posesPageState));
-    store.dispatch(FetchMyPoseGroupsForLibraryAction(store.state.libraryPoseGroupPageState));
+    store.dispatch(FetchPoseGroupsAction(store.state.posesPageState!));
+    store.dispatch(FetchMyPoseGroupsAction(store.state.posesPageState!));
+    store.dispatch(FetchMyPoseGroupsForLibraryAction(store.state.libraryPoseGroupPageState!));
   }
 }

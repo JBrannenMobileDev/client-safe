@@ -25,11 +25,11 @@ final newMileageExpensePageReducer = combineReducers<NewMileageExpensePageState>
 NewMileageExpensePageState _setExistingMileageExpense(NewMileageExpensePageState previousState, SetExistingMileageExpenseAction action){
   return previousState.copyWith(
     pageViewIndex: 0,
-    isOneWay: !action.expense.isRoundTrip,
+    isOneWay: !action.expense!.isRoundTrip!,
     shouldClear: false,
-    id: action.expense.id,
-    documentId: action.expense.documentId,
-    expenseDate: action.expense.charge.chargeDate,
+    id: action.expense!.id,
+    documentId: action.expense!.documentId,
+    expenseDate: action.expense!.charge!.chargeDate,
   );
 }
 
@@ -57,15 +57,15 @@ NewMileageExpensePageState _setSelectedFilter(NewMileageExpensePageState previou
   return previousState.copyWith(
     filterType: action.selectedFilter,
     isOneWay: isOneWay,
-    expenseCost: (isOneWay ? previousState.milesDrivenOneWay * NumberConstants.TAX_MILEAGE_DEDUCTION_RATE : previousState.milesDrivenRoundTrip * NumberConstants.TAX_MILEAGE_DEDUCTION_RATE),
+    expenseCost: (isOneWay ? previousState.milesDrivenOneWay! * NumberConstants.TAX_MILEAGE_DEDUCTION_RATE : previousState.milesDrivenRoundTrip! * NumberConstants.TAX_MILEAGE_DEDUCTION_RATE),
   );
 }
 
 NewMileageExpensePageState _setMilesDriven(NewMileageExpensePageState previousState, SetMilesDrivenAction action){
   return previousState.copyWith(
     milesDrivenOneWay: action.milesDriven,
-    milesDrivenRoundTrip: action.milesDriven * 2,
-    expenseCost: (previousState.isOneWay ? 1 : 2) * (action.milesDriven * NumberConstants.TAX_MILEAGE_DEDUCTION_RATE),
+    milesDrivenRoundTrip: action.milesDriven! * 2,
+    expenseCost: (previousState.isOneWay! ? 1 : 2) * (action.milesDriven! * NumberConstants.TAX_MILEAGE_DEDUCTION_RATE),
   );
 }
 
@@ -109,7 +109,7 @@ NewMileageExpensePageState _setExpenseDate(NewMileageExpensePageState previousSt
 }
 
 NewMileageExpensePageState _incrementPageViewIndex(NewMileageExpensePageState previousState, IncrementPageViewIndex action) {
-  int incrementedIndex = previousState.pageViewIndex;
+  int incrementedIndex = previousState.pageViewIndex!;
   incrementedIndex++;
   return previousState.copyWith(
       pageViewIndex: incrementedIndex
@@ -117,7 +117,7 @@ NewMileageExpensePageState _incrementPageViewIndex(NewMileageExpensePageState pr
 }
 
 NewMileageExpensePageState _decrementPageViewIndex(NewMileageExpensePageState previousState, DecrementPageViewIndex action) {
-  int decrementedIndex = previousState.pageViewIndex;
+  int decrementedIndex = previousState.pageViewIndex!;
   decrementedIndex--;
   return previousState.copyWith(
       pageViewIndex: decrementedIndex

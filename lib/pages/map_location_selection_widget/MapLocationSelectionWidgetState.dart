@@ -8,16 +8,16 @@ import 'package:redux/redux.dart';
 
 @immutable
 class MapLocationSelectionWidgetState {
-  final Function(String) onSearchInputChanged;
-  final Function(String) onThrottleGetLocations;
-  final String searchText;
-  final double lat;
-  final double lng;
-  final LocationDandy selectedSearchLocation;
-  final List<PlacesLocation> locationResults;
-  final Function(PlacesLocation) onSearchLocationSelected;
-  final Function(LatLng) onMapLocationChanged;
-  final Function() onClearSearchTextSelected;
+  final Function(String)? onSearchInputChanged;
+  final Function(String)? onThrottleGetLocations;
+  final String? searchText;
+  final double? lat;
+  final double? lng;
+  final LocationDandy? selectedSearchLocation;
+  final List<PlacesLocation>? locationResults;
+  final Function(PlacesLocation)? onSearchLocationSelected;
+  final Function(LatLng)? onMapLocationChanged;
+  final Function()? onClearSearchTextSelected;
 
   MapLocationSelectionWidgetState({
     @required this.lat,
@@ -33,17 +33,17 @@ class MapLocationSelectionWidgetState {
   });
 
   MapLocationSelectionWidgetState copyWith({
-    Function(LatLng) onMapLocationChanged,
-    double lat,
-    double lng,
-    Function(String) onSearchInputChanged,
-    String searchText,
-    List<PlacesLocation> locationResults,
-    Function(PlacesLocation) onSearchLocationSelected,
-    Function(String) onThrottleGetLocations,
-    List<PlacesLocation> locationsResults,
-    LocationDandy selectedSearchLocation,
-    Function() onClearSearchTextSelected,
+    Function(LatLng)? onMapLocationChanged,
+    double? lat,
+    double? lng,
+    Function(String)? onSearchInputChanged,
+    String? searchText,
+    List<PlacesLocation>? locationResults,
+    Function(PlacesLocation)? onSearchLocationSelected,
+    Function(String)? onThrottleGetLocations,
+    List<PlacesLocation>? locationsResults,
+    LocationDandy? selectedSearchLocation,
+    Function()? onClearSearchTextSelected,
   }){
     return MapLocationSelectionWidgetState(
       onMapLocationChanged: onMapLocationChanged ?? this.onMapLocationChanged,
@@ -65,7 +65,7 @@ class MapLocationSelectionWidgetState {
         lng: 0.0,
         onSearchInputChanged: null,
         searchText: '',
-        locationResults: List(),
+        locationResults: [],
         onSearchLocationSelected: null,
         onThrottleGetLocations: null,
         selectedSearchLocation: null,
@@ -74,11 +74,11 @@ class MapLocationSelectionWidgetState {
 
   factory MapLocationSelectionWidgetState.fromStore(Store<AppState> store) {
     return MapLocationSelectionWidgetState(
-      lat: store.state.mapLocationSelectionWidgetState.lat,
-      lng: store.state.mapLocationSelectionWidgetState.lng,
-      searchText: store.state.mapLocationSelectionWidgetState.searchText,
-      locationResults: store.state.mapLocationSelectionWidgetState.locationResults,
-      selectedSearchLocation: store.state.mapLocationSelectionWidgetState.selectedSearchLocation,
+      lat: store.state.mapLocationSelectionWidgetState!.lat,
+      lng: store.state.mapLocationSelectionWidgetState!.lng,
+      searchText: store.state.mapLocationSelectionWidgetState!.searchText,
+      locationResults: store.state.mapLocationSelectionWidgetState!.locationResults,
+      selectedSearchLocation: store.state.mapLocationSelectionWidgetState!.selectedSearchLocation,
       onMapLocationChanged: (newLatLng) => store.dispatch(SetCurrentMapLatLngAction(store.state.mapLocationSelectionWidgetState, newLatLng)),
       onSearchInputChanged: (input) => store.dispatch(SetSearchTextAction(store.state.mapLocationSelectionWidgetState, input)),
       onSearchLocationSelected: (searchLocation) {

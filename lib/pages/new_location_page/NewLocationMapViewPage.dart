@@ -44,10 +44,10 @@ class _NewLocationMapViewPage extends State<NewLocationMapViewPage> with Automat
     super.build(context);
     return StoreConnector<AppState, NewLocationPageState>(
       onInit: (store) {
-        locationNameTextController.text = store.state.newLocationPageState.locationName;
+        locationNameTextController.text = store.state.newLocationPageState!.locationName!;
       },
       onDidChange: (prev, pageState) {
-        animateTo(pageState.newLocationLatitude, pageState.newLocationLongitude);
+        animateTo(pageState.newLocationLatitude!, pageState.newLocationLongitude!);
       },
       converter: (store) => NewLocationPageState.fromStore(store),
       builder: (BuildContext context, NewLocationPageState pageState) =>

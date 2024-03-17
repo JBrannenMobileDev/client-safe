@@ -2,17 +2,13 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 
-import '../../utils/NavigationUtil.dart';
-import '../../utils/UserOptionsUtil.dart';
 import '../../utils/VibrateUtil.dart';
 import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -26,8 +22,8 @@ class TimeSelectionForm extends StatefulWidget {
 }
 
 class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKeepAliveClientMixin{
-  DateTime startTime = null;
-  DateTime endTime = null;
+  DateTime? startTime;
+  DateTime? endTime;
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +31,8 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
     return StoreConnector<AppState, NewJobPageState>(
       onInit: (store) {
         store.dispatch(FetchTimeOfSunsetAction(store.state.newJobPageState));
-        startTime = store.state.newJobPageState.initialTimeSelectorTime;
-        endTime = store.state.newJobPageState.initialTimeSelectorTime;
+        startTime = store.state.newJobPageState!.initialTimeSelectorTime;
+        endTime = store.state.newJobPageState!.initialTimeSelectorTime;
       },
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) => Container(
@@ -57,7 +53,7 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
                 children: <Widget>[
                   GestureDetector(
                     onTap: (){
-                      pageState.onSunsetWeatherSelected();
+                      pageState.onSunsetWeatherSelected!();
                       Navigator.of(context).push(
                         new MaterialPageRoute(
                             builder: (context) => SunsetWeatherPage()),
@@ -85,7 +81,7 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: "Sunset is at " +
                           (pageState.sunsetDateTime != null
-                              ? DateFormat('h:mm a').format(pageState.sunsetDateTime)
+                              ? DateFormat('h:mm a').format(pageState.sunsetDateTime!)
                               : ""),
                       textAlign: TextAlign.center,
                       color: Color(ColorConstants.getPeachDark()),
@@ -111,7 +107,7 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
                     Container(
                       child: TextDandyLight(
                         type: TextDandyLight.LARGE_TEXT,
-                        text: pageState.selectedStartTime != null ? 'Start - ' + DateFormat('h:mm a').format(pageState.selectedStartTime) : 'Start time',
+                        text: pageState.selectedStartTime != null ? 'Start - ' + DateFormat('h:mm a').format(pageState.selectedStartTime!) : 'Start time',
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.fade,
                         maxLines: 1,
@@ -139,7 +135,7 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
                   child: Container(
                         child: TextDandyLight(
                           type: TextDandyLight.LARGE_TEXT,
-                          text: pageState.selectedEndTime != null ? 'End - ' + DateFormat('h:mm a').format(pageState.selectedEndTime) : 'End time',
+                          text: pageState.selectedEndTime != null ? 'End - ' + DateFormat('h:mm a').format(pageState.selectedEndTime!) : 'End time',
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.fade,
                           maxLines: 1,
@@ -215,7 +211,7 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
                           padding: EdgeInsets.only(left: 8.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
-                            text: DateFormat('h:mm a').format(pageState.sunsetDateTime),
+                            text: DateFormat('h:mm a').format(pageState.sunsetDateTime!),
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
@@ -228,9 +224,9 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
                       style: Styles.getButtonStyle(),
                       onPressed: () {
                         if(isStartTime) {
-                          pageState.onStartTimeSelected(startTime);
+                          pageState.onStartTimeSelected!(startTime!);
                         } else {
-                          pageState.onEndTimeSelected(endTime);
+                          pageState.onEndTimeSelected!(endTime!);
                         }
                         VibrateUtil.vibrateHeavy();
                         Navigator.of(context).pop();

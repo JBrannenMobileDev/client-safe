@@ -33,7 +33,7 @@ class NewRecurringExpensePage extends StatefulWidget {
 class _NewRecurringExpensePageState extends State<NewRecurringExpensePage> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   final int pageCount = 3;
-  NewRecurringExpensePageState pageState;
+  NewRecurringExpensePageState? pageState;
   final controller = PageController(
     initialPage: 0,
   );
@@ -48,11 +48,11 @@ class _NewRecurringExpensePageState extends State<NewRecurringExpensePage> {
   @override
   Widget build(BuildContext context) {
     controller.addListener(() {
-      currentPageIndex = controller.page.toInt();
+      currentPageIndex = controller.page!.toInt();
     });
     return StoreConnector<AppState, NewRecurringExpensePageState>(
       onInit: (store) {
-        if(store.state.newRecurringExpensePageState.shouldClear) store.dispatch(ClearRecurringExpenseStateAction(store.state.newRecurringExpensePageState));
+        if(store.state.newRecurringExpensePageState!.shouldClear!) store.dispatch(ClearRecurringExpenseStateAction(store.state.newRecurringExpensePageState));
       },
       onDidChange: (prev, pageState) {
         this.pageState = pageState;
@@ -80,11 +80,11 @@ class _NewRecurringExpensePageState extends State<NewRecurringExpensePage> {
                         children: <Widget>[
                           TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
-                            text: pageState.shouldClear ? "New Recurring Expense" : "Edit Recurring Expense",
+                            text: pageState.shouldClear! ? "New Recurring Expense" : "Edit Recurring Expense",
                             textAlign: TextAlign.start,
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
-                          !pageState.shouldClear ? GestureDetector(
+                          !pageState.shouldClear! ? GestureDetector(
                             onTap: () {
                               _ackAlert(context, pageState);
                             },
@@ -97,7 +97,7 @@ class _NewRecurringExpensePageState extends State<NewRecurringExpensePage> {
                                   'assets/images/icons/trash_can.png', color: Color(ColorConstants.getPeachDark()),),
                             ),
                           ) : SizedBox(),
-                          !pageState.shouldClear ? Container(
+                          !pageState.shouldClear! ? Container(
                             margin: EdgeInsets.only(left: 300.0),
                             child: IconButton(
                               icon: const Icon(Icons.save),
@@ -105,7 +105,7 @@ class _NewRecurringExpensePageState extends State<NewRecurringExpensePage> {
                               color: Color(ColorConstants.getPeachDark()),
                               onPressed: () {
                                 showSuccessAnimation();
-                                pageState.onSavePressed();
+                                pageState.onSavePressed!();
                               },
                             ),
                           ) : SizedBox(),
@@ -196,7 +196,7 @@ class _NewRecurringExpensePageState extends State<NewRecurringExpensePage> {
     if (pageState.pageViewIndex != pageCount) {
       switch (pageState.pageViewIndex) {
         case 0:
-          if (pageState.expenseName.length > 0) {
+          if (pageState.expenseName!.length > 0) {
             canProgress = true;
           } else {
             HapticFeedback.heavyImpact();
@@ -225,16 +225,16 @@ class _NewRecurringExpensePageState extends State<NewRecurringExpensePage> {
       }
 
       if (canProgress) {
-        pageState.onNextPressed();
+        pageState.onNextPressed!();
         controller.animateToPage(currentPageIndex + 1,
             duration: Duration(milliseconds: 150), curve: Curves.ease);
         if(MediaQuery.of(context).viewInsets.bottom != 0) KeyboardUtil.closeKeyboard(context);
       }
     }
     if (pageState.pageViewIndex == pageCount) {
-      if(pageState.expenseCost > 0.0){
+      if(pageState.expenseCost! > 0.0){
         showSuccessAnimation();
-        pageState.onSavePressed();
+        pageState.onSavePressed!();
       } else {
         DandyToastUtil.showErrorToast('Cost must be greater than \$0.0');
       }
@@ -258,7 +258,7 @@ class _NewRecurringExpensePageState extends State<NewRecurringExpensePage> {
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteRecurringExpenseSelected();
+                pageState.onDeleteRecurringExpenseSelected!();
                 Navigator.of(context).pop(true);
                 Navigator.of(context).pop(true);
               },
@@ -277,7 +277,7 @@ class _NewRecurringExpensePageState extends State<NewRecurringExpensePage> {
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteRecurringExpenseSelected();
+                pageState.onDeleteRecurringExpenseSelected!();
                 Navigator.of(context).pop(true);
                 Navigator.of(context).pop(true);
               },
@@ -314,10 +314,10 @@ class _NewRecurringExpensePageState extends State<NewRecurringExpensePage> {
 
   void onBackPressed(NewRecurringExpensePageState pageState) {
     if (pageState.pageViewIndex == 0) {
-      pageState.onCancelPressed();
+      pageState.onCancelPressed!();
       Navigator.of(context).pop();
     } else {
-      pageState.onBackPressed();
+      pageState.onBackPressed!();
       controller.animateToPage(currentPageIndex - 1,
           duration: Duration(milliseconds: 150), curve: Curves.ease);
     }

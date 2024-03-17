@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dandylight/AppState.dart';
@@ -11,17 +12,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 import '../../utils/flutter_masked_text.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'CostTextField.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 class RateTypeSelection extends StatefulWidget {
   static const String SELECTOR_TYPE_FLAT_RATE = "Flat rate";
   static const String SELECTOR_TYPE_HOURLY = "Hourly";
   static const String SELECTOR_TYPE_QUANTITY = "Quantity";
-  final GlobalKey<ScaffoldState> scaffoldKey;
+  final GlobalKey<ScaffoldState>? scaffoldKey;
 
   RateTypeSelection(this.scaffoldKey);
 
@@ -32,8 +33,8 @@ class RateTypeSelection extends StatefulWidget {
 }
 
 class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliveClientMixin {
-  final GlobalKey<ScaffoldState> scaffoldKey;
-  OverlayEntry overlayEntry;
+  final GlobalKey<ScaffoldState>? scaffoldKey;
+  OverlayEntry? overlayEntry;
   final FocusNode flatRateInputFocusNode = new FocusNode();
   var flatRateTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '.', thousandSeparator: ',');
   final FocusNode depositInputFocusNode = new FocusNode();
@@ -41,27 +42,40 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
   final FocusNode taxPercentFocusNode = new FocusNode();
   var taxPercentController = MoneyMaskedTextController(rightSymbol: '\%', decimalSeparator: '.', thousandSeparator: ',');
   int selectorIndex = 0;
+  late StreamSubscription<bool> keyboardSubscription;
 
   _RateTypeSelection(this.scaffoldKey);
+
+  @override
+  void initState() {
+    super.initState();
+
+    var keyboardVisibilityController = KeyboardVisibilityController();
+    keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
+      setState(() {
+        if(visible) {
+          showOverlay(context);
+        } else {
+          removeOverlay();
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    keyboardSubscription.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return StoreConnector<AppState, NewPricingProfilePageState>(
       onInit: (appState) {
-        flatRateTextController.updateValue(appState.state.pricingProfilePageState.flatRate);
-        depositTextController.updateValue(appState.state.pricingProfilePageState.deposit);
-        taxPercentController.updateValue(appState.state.pricingProfilePageState.taxPercent);
-
-       KeyboardVisibilityNotification().addNewListener(
-            onShow: () {
-              showOverlay(context);
-            },
-            onHide: () {
-              removeOverlay();
-            }
-        );
-
+        flatRateTextController.updateValue(appState.state.pricingProfilePageState!.flatRate!);
+        depositTextController.updateValue(appState.state.pricingProfilePageState!.deposit!);
+        taxPercentController.updateValue(appState.state.pricingProfilePageState!.taxPercent!);
         flatRateInputFocusNode.addListener(() {
 
           bool hasFocus = flatRateInputFocusNode.hasFocus;
@@ -161,17 +175,17 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                           trackColor: Color(ColorConstants.getBlueLight()),
                           activeColor: Color(ColorConstants.getBlueDark()),
                           onChanged: (enabled) {
-                            pageState.onIncludesSalesTaxChanged(enabled);
+                            pageState.onIncludesSalesTaxChanged!(enabled);
                           },
-                          value: pageState.includeSalesTax,
+                          value: pageState.includeSalesTax!,
                         ) : Switch(
                           activeTrackColor: Color(ColorConstants.getBlueLight()),
                           inactiveTrackColor: Color(ColorConstants.getBlueLight()),
                           activeColor: Color(ColorConstants.getBlueDark()),
                           onChanged: (enabled) {
-                            pageState.onIncludesSalesTaxChanged(enabled);
+                            pageState.onIncludesSalesTaxChanged!(enabled);
                           },
-                          value: pageState.includeSalesTax,
+                          value: pageState.includeSalesTax!,
                         )
                       ],
                     ),
@@ -198,14 +212,14 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                             pageState.includeSalesTax,
                         ),
                         TextDandyLight(
-                          color: Color(pageState.includeSalesTax ? ColorConstants.getPrimaryBlack() : ColorConstants.getBlueLight()),
+                          color: Color(pageState.includeSalesTax! ? ColorConstants.getPrimaryBlack() : ColorConstants.getBlueLight()),
                           type: TextDandyLight.MEDIUM_TEXT,
                           text: '=',
                         ),
                         TextDandyLight(
-                          color: Color(pageState.includeSalesTax ? ColorConstants.getPrimaryBlack() : ColorConstants.getBlueLight()),
+                          color: Color(pageState.includeSalesTax! ? ColorConstants.getPrimaryBlack() : ColorConstants.getBlueLight()),
                           type: TextDandyLight.MEDIUM_TEXT,
-                          text: TextFormatterUtil.formatDecimalCurrency(pageState.taxAmount),
+                          text: TextFormatterUtil.formatDecimalCurrency(pageState.taxAmount!),
                         ),
                       ],
                     ),
@@ -216,8 +230,8 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                     width: MediaQuery.of(context).size.width,
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      color: Color(pageState.includeSalesTax ? ColorConstants.getPrimaryBlack() : ColorConstants.getBlueLight()),
-                      text: 'Total Price  =  ' + TextFormatterUtil.formatDecimalCurrency(pageState.total),
+                      color: Color(pageState.includeSalesTax! ? ColorConstants.getPrimaryBlack() : ColorConstants.getBlueLight()),
+                      text: 'Total Price  =  ' + TextFormatterUtil.formatDecimalCurrency(pageState.total!),
                     ),
                   ),
                 ],
@@ -246,12 +260,12 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
           child: InputDoneView());
     });
 
-    overlayState.insert(overlayEntry);
+    overlayState.insert(overlayEntry!);
   }
 
   removeOverlay() {
     if (overlayEntry != null) {
-      overlayEntry.remove();
+      overlayEntry!.remove();
       overlayEntry = null;
     }
   }

@@ -57,7 +57,7 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: "Sunset is at " +
                           (pageState.sunsetDateTime != null
-                              ? DateFormat('h:mm a').format(pageState.sunsetDateTime)
+                              ? DateFormat('h:mm a').format(pageState.sunsetDateTime!)
                               : ""),
                       textAlign: TextAlign.center,
                       color: Color(ColorConstants.getPeachDark()),
@@ -90,7 +90,7 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
   }
 
   void _onConfirmedTime(DateTime time, NewJobPageState pageState) {
-    pageState.onStartTimeSelected(time);
+    pageState.onStartTimeSelected!(time);
   }
 
   @override

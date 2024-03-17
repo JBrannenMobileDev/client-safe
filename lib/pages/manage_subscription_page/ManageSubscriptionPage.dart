@@ -29,7 +29,7 @@ class ManageSubscriptionPage extends StatefulWidget {
   static const String PACKAGE_ANNUAL = 'package_annual';
   final Profile profile;
 
-  const ManageSubscriptionPage(this.profile, {Key key}) : super(key: key);
+  const ManageSubscriptionPage(this.profile, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -43,7 +43,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
   final codeTextController = TextEditingController();
   final FocusNode _codeFocusNode = FocusNode();
   final referralCodeFocusNode = FocusNode();
-  Profile profile;
+  Profile? profile;
   String errorMsg = '';
 
   _ManageSubscriptionPageState(this.profile);
@@ -57,10 +57,10 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
       onDidChange: (previous, current) {
         if(current.profile != null) {
           setState(() {
-            profile = current.profile;
+            profile = current.profile!;
           });
         }
-        if(current.errorMsg.isNotEmpty) {
+        if(current.errorMsg!.isNotEmpty) {
           if(current.errorMsg != errorMsg) {
             showModalBottomSheet(
               context: context,
@@ -74,7 +74,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                     color: Color(ColorConstants.getPeachDark()),
                     borderRadius: BorderRadius.circular(16.0),
                   ),
-                  child: Text(current.errorMsg,
+                  child: Text(current.errorMsg!,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 20.0,
@@ -87,11 +87,11 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                 );
               },
             );
-            errorMsg = current.errorMsg;
-            current.resetErrorMsg();
+            errorMsg = current.errorMsg!;
+            current.resetErrorMsg!();
           }
         }
-        if(current.shouldPopBack) {
+        if(current.shouldPopBack!) {
           Navigator.of(context).pop();
         }
       },
@@ -99,7 +99,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
           ManageSubscriptionPageState.fromStore(store),
       builder: (BuildContext context, ManageSubscriptionPageState pageState) =>
     WillPopScope(
-      onWillPop: () async => (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED || AdminCheckUtil.isAdmin(profile) || profile.isFreeForLife) ? true : false,
+      onWillPop: () async => (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED || AdminCheckUtil.isAdmin(profile) || profile!.isFreeForLife!) ? true : false,
     child: Scaffold(
             extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: false,
@@ -136,7 +136,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 ),
                               ),
                             ),
-                            profile != null && profile.isFreeForLife ? Container(
+                            profile != null && profile!.isFreeForLife! ? Container(
                                 margin: const EdgeInsets.only(top: 178.0),
                                 child: TextDandyLight(
                                     text: 'Your free lifetime subscription is applied! There is no need to manage your subscription. We hope you enjoy Dandylight!',
@@ -145,16 +145,16 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     color: Color(ColorConstants.getBlueDark())
                                 )
                             ) : const SizedBox(),
-                            !(profile != null && profile.isFreeForLife) && (pageState.uiState != ManageSubscriptionPage.FREE_TRIAL) ? Container(
+                            !(profile != null && profile!.isFreeForLife!) && (pageState.uiState != ManageSubscriptionPage.FREE_TRIAL) ? Container(
                                 margin: const EdgeInsets.only(top: 178.0),
                                 child: TextDandyLight(
-                                    text: _getMessageText(pageState.uiState),
+                                    text: _getMessageText(pageState!.uiState!),
                                     type: TextDandyLight.MEDIUM_TEXT,
                                     textAlign: TextAlign.center,
                                     color: Color(ColorConstants.getBlueDark())
                                 )
                             ) : const SizedBox(),
-                            !(profile != null && profile.isFreeForLife) && (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL) ? Container(
+                            !(profile != null && profile!.isFreeForLife!) && (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL) ? Container(
                                 margin: const EdgeInsets.only(top: 164.0),
                                 child: TextDandyLight(
                                     text: pageState.remainingTimeMessage,
@@ -163,7 +163,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     color: Color(ColorConstants.getBlueDark())
                                 )
                             ) : const SizedBox(),
-                            !(profile != null && profile.isFreeForLife) && pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? const SizedBox() : profile.isBetaTester || pageState.discountType.isNotEmpty ? Container(
+                            !(profile != null && profile!.isFreeForLife!) && pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? const SizedBox() : profile!.isBetaTester! || pageState.discountType!.isNotEmpty ? Container(
                                 margin: const EdgeInsets.only(top: 258.0),
                                 child: TextDandyLight(
                                   text: pageState.discountType == DiscountCodes.FIRST_3_MONTHS_FREE ? 'Discount applied - First 3 months free' : 'Discount applied',
@@ -173,7 +173,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                   color: Color(ColorConstants.getPrimaryBlack())
                                 )
                             ) : const SizedBox(),
-                            !(profile != null && profile.isFreeForLife) && (pageState.uiState == ManageSubscriptionPage.SUBSCRIBED) ? Container(
+                            !(profile != null && profile!.isFreeForLife!) && (pageState.uiState == ManageSubscriptionPage.SUBSCRIBED) ? Container(
                                 margin: const EdgeInsets.only(top: 258.0),
                                 child: TextDandyLight(
                                     text: 'Subscription Active',
@@ -193,14 +193,14 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 ),
                               ),
                             ),
-                            !(profile != null && profile.isFreeForLife) ? Column(
+                            !(profile != null && profile!.isFreeForLife!) ? Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 GestureDetector(
                                   onTap: () {
                                     if(pageState.uiState != ManageSubscriptionPage.SUBSCRIBED) {
-                                      pageState.onSubscriptionSelected(ManageSubscriptionPage.PACKAGE_ANNUAL);
+                                      pageState.onSubscriptionSelected!(ManageSubscriptionPage.PACKAGE_ANNUAL);
                                     }
                                   },
                                   child: Container(
@@ -227,7 +227,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                               groupValue: pageState.radioValue,
                                               onChanged: (value) {
                                                 if(pageState.uiState != ManageSubscriptionPage.SUBSCRIBED) {
-                                                  pageState.onSubscriptionSelected(ManageSubscriptionPage.PACKAGE_ANNUAL);
+                                                  pageState.onSubscriptionSelected!(ManageSubscriptionPage.PACKAGE_ANNUAL);
                                                 }
                                               },
                                             ),
@@ -240,7 +240,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                             Container(
                                               margin: const EdgeInsets.only(left: 8.0),
                                               child: TextDandyLight(
-                                                text: profile.isBetaTester || pageState.discountType == DiscountCodes.FIFTY_PERCENT_TYPE ? '(-50%)' : pageState.discountType == DiscountCodes.LIFETIME_FREE ? '(-100%)' : '',
+                                                text: profile!.isBetaTester! || pageState.discountType == DiscountCodes.FIFTY_PERCENT_TYPE ? '(-50%)' : pageState.discountType == DiscountCodes.LIFETIME_FREE ? '(-100%)' : '',
                                                 type: TextDandyLight.MEDIUM_TEXT,
                                                 color: Color(pageState.radioValue == 0 ? ColorConstants.getPrimaryColor() : ColorConstants.getBlueDark()),
                                               ),
@@ -276,7 +276,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                                 ),
                                                 TextDandyLight(
                                                   type: TextDandyLight.MEDIUM_TEXT,
-                                                  amount: pageState.annualPrice/12,
+                                                  amount: pageState.annualPrice!/12,
                                                   color: Color(pageState.radioValue == 0 ? ColorConstants.getPrimaryColor() : ColorConstants.getBlueDark()),
                                                   isCurrency: true,
                                                 ),
@@ -297,7 +297,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 GestureDetector(
                                   onTap: () {
                                     if(pageState.uiState != ManageSubscriptionPage.SUBSCRIBED) {
-                                      pageState.onSubscriptionSelected(ManageSubscriptionPage.PACKAGE_MONTHLY);
+                                      pageState.onSubscriptionSelected!(ManageSubscriptionPage.PACKAGE_MONTHLY);
                                     }
                                   },
                                   child: Container(
@@ -323,7 +323,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                               groupValue: pageState.radioValue,
                                               onChanged: (value) {
                                                 if(pageState.uiState != ManageSubscriptionPage.SUBSCRIBED) {
-                                                  pageState.onSubscriptionSelected(ManageSubscriptionPage.PACKAGE_MONTHLY);
+                                                  pageState.onSubscriptionSelected!(ManageSubscriptionPage.PACKAGE_MONTHLY);
                                                 }
                                               },
                                             ),
@@ -336,7 +336,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                             Container(
                                               margin: const EdgeInsets.only(left: 8.0),
                                               child: TextDandyLight(
-                                                text: profile.isBetaTester || pageState.discountType == DiscountCodes.FIFTY_PERCENT_TYPE  ? '(-50%)' : pageState.discountType == DiscountCodes.LIFETIME_FREE ? '(-100%)' : '',
+                                                text: profile!.isBetaTester! || pageState.discountType == DiscountCodes.FIFTY_PERCENT_TYPE  ? '(-50%)' : pageState.discountType == DiscountCodes.LIFETIME_FREE ? '(-100%)' : '',
                                                 textAlign: TextAlign.center,
                                                 type: TextDandyLight.MEDIUM_TEXT,
                                                 color: Color(pageState.radioValue == 1 ? ColorConstants.getPrimaryColor() : ColorConstants.getBlueDark()),
@@ -386,7 +386,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     TextButton(
                                       style: Styles.getButtonStyle(),
                                       onPressed: () {
-                                        if(!pageState.isLoading && !profile.isFreeForLife) {
+                                        if(!pageState.isLoading! && !profile!.isFreeForLife!) {
                                           switch(pageState.uiState) {
                                             case ManageSubscriptionPage.SUBSCRIBED:
                                               if(Device.get().isIos) {
@@ -397,7 +397,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                               break;
                                             case ManageSubscriptionPage.FREE_TRIAL:
                                             case ManageSubscriptionPage.SUBSCRIPTION_EXPIRED:
-                                              pageState.onSubscribeSelected();
+                                              pageState.onSubscribeSelected!();
                                               break;
                                           }
                                         }
@@ -408,18 +408,18 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                         height: 48.0,
                                         width: pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? 264 : 200.0,
                                         decoration: BoxDecoration(
-                                            color: Color(profile.isFreeForLife ? ColorConstants.getPrimaryBackgroundGrey() : ColorConstants.getPrimaryWhite()),
+                                            color: Color(profile!.isFreeForLife! ? ColorConstants.getPrimaryBackgroundGrey() : ColorConstants.getPrimaryWhite()),
                                             borderRadius: BorderRadius.circular(32.0)
                                         ),
                                         child: TextDandyLight(
                                           type: TextDandyLight.LARGE_TEXT,
-                                          text: pageState.isLoading ? '' : pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? 'Cancel Subscription' : 'Subscribe',
+                                          text: pageState.isLoading! ? '' : pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? 'Cancel Subscription' : 'Subscribe',
                                           textAlign: TextAlign.center,
-                                          color: Color(profile.isFreeForLife ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getBlueDark()),
+                                          color: Color(profile!.isFreeForLife! ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getBlueDark()),
                                         ),
                                       ),
                                     ),
-                                    pageState.isLoading ? Container(
+                                    pageState.isLoading! ? Container(
                                       height: 48.0,
                                       width: 48.0,
                                       decoration: BoxDecoration(
@@ -713,7 +713,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
         ),
               ],
             ),
-            (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED || AdminCheckUtil.isAdmin(profile) || (profile != null && profile.isFreeForLife)) ?
+            (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED || AdminCheckUtil.isAdmin(profile) || (profile != null && profile!.isFreeForLife!)) ?
             Positioned(
               top: 0.0,
               left: 0.0,

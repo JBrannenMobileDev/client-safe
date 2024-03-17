@@ -38,13 +38,13 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
     return StoreConnector<AppState, NewJobPageState>(
       onInit: (store) {
         store.dispatch(FetchAllAction(store.state.newJobPageState));
-        firstNameTextController.text = store.state.newJobPageState.clientFirstName;
+        firstNameTextController.text = store.state.newJobPageState!.clientFirstName!;
       },
       onDidChange: (previous, current) {
-        if(current.selectedClient != null && previous.selectedClient == null) {
+        if(current.selectedClient != null && previous!.selectedClient == null) {
           firstNameTextController.value = firstNameTextController.value.copyWith(
             text: current.clientFirstName,
-            selection: TextSelection.collapsed(offset: current.clientFirstName.length),
+            selection: TextSelection.collapsed(offset: current.clientFirstName!.length),
           );
         }
       },
@@ -121,7 +121,7 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                   hintText: 'Client Name',
                   inputType: TextInputType.text,
                   height: 64.0,
-                  onTextInputChanged: pageState.onClientFirstNameTextChanged,
+                  onTextInputChanged: pageState.onClientFirstNameTextChanged!,
                   keyboardAction: TextInputAction.next,
                   capitalization: TextCapitalization.words,
                   focusNode: _firstNameFocus,
@@ -140,7 +140,7 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                           shrinkWrap: true,
                           controller: _controller,
                           physics: const ClampingScrollPhysics(),
-                          itemCount: pageState.filteredClients.length,
+                          itemCount: pageState.filteredClients!.length,
                           itemBuilder: _buildItem,
                         ),
                 ) : const SizedBox(),

@@ -5,18 +5,18 @@ import '../../models/PoseGroup.dart';
 import 'NewPoseGroupPageState.dart';
 
 class SaveAction{
-  final NewPoseGroupPageState pageState;
+  final NewPoseGroupPageState? pageState;
   SaveAction(this.pageState);
 }
 
 class UpdateName{
-  final NewPoseGroupPageState pageState;
-  final String groupName;
+  final NewPoseGroupPageState? pageState;
+  final String? groupName;
   UpdateName(this.pageState, this.groupName);
 }
 
 class ClearStateAction{
-  final NewPoseGroupPageState pageState;
+  final NewPoseGroupPageState? pageState;
   ClearStateAction(this.pageState);
 }
 

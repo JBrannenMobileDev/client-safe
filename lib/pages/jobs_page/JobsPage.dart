@@ -14,8 +14,8 @@ import '../../widgets/TextDandyLight.dart';
 import 'JobsPageActions.dart';
 
 class JobsPage extends StatefulWidget {
-  const JobsPage({Key key, this.comingFromMainNavigation}) : super(key: key);
-  final bool comingFromMainNavigation;
+  const JobsPage({Key? key, this.comingFromMainNavigation}) : super(key: key);
+  final bool? comingFromMainNavigation;
 
   static const String FILTER_TYPE_ACTIVE_JOBS = "Active Jobs";
   static const String FILTER_TYPE_COMPETED = "Completed";
@@ -29,12 +29,12 @@ class JobsPage extends StatefulWidget {
 class _JobsPageState extends State<JobsPage> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   ScrollController _controller = ScrollController();
-  bool comingFromMainNavigation;
+  bool? comingFromMainNavigation;
 
   _JobsPageState(this.comingFromMainNavigation);
 
   int selectorIndex = 0;
-  Map<int, Widget> jobTypes;
+  Map<int, Widget>? jobTypes;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,7 @@ class _JobsPageState extends State<JobsPage> {
         converter: (store) => JobsPageState.fromStore(store),
         onInit: (store) async {
           store.dispatch(FetchJobsAction(store.state.jobsPageState));
-          if(comingFromMainNavigation) {
+          if(comingFromMainNavigation!) {
             store.dispatch(FilterChangedAction(store.state.jobsPageState, JobsPage.FILTER_TYPE_ACTIVE_JOBS));
           }
         },
@@ -70,7 +70,6 @@ class _JobsPageState extends State<JobsPage> {
                   CustomScrollView(
                     slivers: <Widget>[
                       SliverAppBar(
-                        brightness: Brightness.light,
                         backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                         pinned: true,
                         centerTitle: true,
@@ -96,36 +95,36 @@ class _JobsPageState extends State<JobsPage> {
                           ),
                         ],
                         bottom: PreferredSize(
+                          preferredSize: Size.fromHeight(44.0),
                           child: Container(
 
                             margin: EdgeInsets.only(bottom: 16.0),
                             child: CupertinoSlidingSegmentedControl<int>(
                               backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                               thumbColor: Color(ColorConstants.getBlueLight()),
-                              children: jobTypes,
-                              onValueChanged: (int filterTypeIndex) {
+                              children: jobTypes!,
+                              onValueChanged: (int? filterTypeIndex) {
                                 setState(() {
-                                  selectorIndex = filterTypeIndex;
+                                  selectorIndex = filterTypeIndex!;
                                 });
-                                pageState.onFilterChanged(filterTypeIndex == 0 ? JobsPage.FILTER_TYPE_ACTIVE_JOBS : JobsPage.FILTER_TYPE_COMPETED);
+                                pageState.onFilterChanged!(filterTypeIndex == 0 ? JobsPage.FILTER_TYPE_ACTIVE_JOBS : JobsPage.FILTER_TYPE_COMPETED);
                               },
                               groupValue: selectorIndex,
                             ),
                           ),
-                          preferredSize: Size.fromHeight(44.0),
                         ),
                       ),
                       SliverList(
-                        delegate: new SliverChildListDelegate(
+                        delegate: SliverChildListDelegate(
                           <Widget>[
                             ListView.builder(
                               reverse: false,
-                              padding: new EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 64.0),
+                              padding: EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 64.0),
                               shrinkWrap: true,
                               controller: _controller,
                               physics: ClampingScrollPhysics(),
                               key: _listKey,
-                              itemCount: pageState.filterType == JobsPage.FILTER_TYPE_ACTIVE_JOBS ? pageState.activeJobs.length : pageState.jobsCompleted.length,
+                              itemCount: pageState.filterType == JobsPage.FILTER_TYPE_ACTIVE_JOBS ? pageState.activeJobs!.length : pageState.jobsCompleted!.length,
                               itemBuilder: _buildItem,
                             ),
                           ],
@@ -144,7 +143,7 @@ Widget _buildItem(BuildContext context, int index) {
   return StoreConnector<AppState, JobsPageState>(
     converter: (store) => JobsPageState.fromStore(store),
     builder: (BuildContext context, JobsPageState pageState) =>
-    pageState.filterType == JobsPage.FILTER_TYPE_ACTIVE_JOBS ? JobsPageActiveJobsItem(job: pageState.activeJobs.elementAt(index), pageState: pageState,)
-        : JobCompletedItem(job: pageState.jobsCompleted.elementAt(index), pageState: pageState),
+    pageState.filterType == JobsPage.FILTER_TYPE_ACTIVE_JOBS ? JobsPageActiveJobsItem(job: pageState.activeJobs!.elementAt(index), pageState: pageState,)
+        : JobCompletedItem(job: pageState.jobsCompleted!.elementAt(index), pageState: pageState),
   );
 }

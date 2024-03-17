@@ -26,7 +26,7 @@ class _TipChangeDialogState extends State<TipChangeDialog>
     super.build(context);
     return StoreConnector<AppState, JobDetailsPageState>(
       onInit: (store) {
-        jobTitleTextController.text = store.state.jobDetailsPageState.job.jobTitle;
+        jobTitleTextController.text = store.state.jobDetailsPageState!.job!.jobTitle!;
       },
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) =>
@@ -51,7 +51,7 @@ class _TipChangeDialogState extends State<TipChangeDialog>
                     padding: EdgeInsets.only(top: 74.0, right: 16.0),
                     child: GestureDetector(
                       onTap: () {
-                        pageState.onClearUnsavedTip();
+                        pageState.onClearUnsavedTip!();
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -106,7 +106,7 @@ class _TipChangeDialogState extends State<TipChangeDialog>
                                 ),
                               ),
                               onPressed: () {
-                                pageState.onAddToTip(1);
+                                pageState.onAddToTip!(1);
                               },
                               child: Container(
                                 alignment: Alignment.center,
@@ -142,7 +142,7 @@ class _TipChangeDialogState extends State<TipChangeDialog>
                                 ),
                               ),
                               onPressed: () {
-                                pageState.onAddToTip(5);
+                                pageState.onAddToTip!(5);
                               },
                               child: Container(
                                 alignment: Alignment.center,
@@ -185,7 +185,7 @@ class _TipChangeDialogState extends State<TipChangeDialog>
                                   ),
                                 ),
                                 onPressed: () {
-                                  pageState.onAddToTip(25);
+                                  pageState.onAddToTip!(25);
                                 },
                                 child: Container(
                                   alignment: Alignment.center,
@@ -221,7 +221,7 @@ class _TipChangeDialogState extends State<TipChangeDialog>
                                   ),
                                 ),
                                 onPressed: () {
-                                  pageState.onAddToTip(100);
+                                  pageState.onAddToTip!(100);
                                 },
                                 child: Container(
                                   alignment: Alignment.center,
@@ -270,7 +270,7 @@ class _TipChangeDialogState extends State<TipChangeDialog>
                             TextButton(
                               style: Styles.getButtonStyle(),
                               onPressed: () {
-                                pageState.onSaveTipChange();
+                                pageState.onSaveTipChange!();
                                 VibrateUtil.vibrateHeavy();
                                 Navigator.of(context).pop();
                               },

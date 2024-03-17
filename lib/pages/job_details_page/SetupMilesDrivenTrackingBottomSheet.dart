@@ -12,7 +12,7 @@ import 'JobDetailsPageState.dart';
 
 
 class SetupMilesDrivenTrackingBottomSheet extends StatefulWidget {
-  const SetupMilesDrivenTrackingBottomSheet({Key key}) : super(key: key);
+  const SetupMilesDrivenTrackingBottomSheet({Key? key}) : super(key: key);
 
 
   @override
@@ -100,7 +100,7 @@ class _BottomSheetPageState extends State<SetupMilesDrivenTrackingBottomSheet> w
                      onTap: () {
                        NavigationUtil.onSelectMapLocation(
                            context,
-                           pageState.onStartLocationChanged,
+                           pageState.onStartLocationChanged!,
                            0.0,
                            0.0,
                            null,
@@ -120,7 +120,7 @@ class _BottomSheetPageState extends State<SetupMilesDrivenTrackingBottomSheet> w
                                  width: 24,
                                  child: Image.asset(
                                    'assets/images/job_progress/complete_check.png',
-                                   color: Color(pageState.profile.hasDefaultHome() ? ColorConstants.getBlueDark() : ColorConstants.getPrimaryGreyMedium()),
+                                   color: Color(pageState.profile!.hasDefaultHome() ? ColorConstants.getBlueDark() : ColorConstants.getPrimaryGreyMedium()),
                                  ),
                                ),
                                TextDandyLight(

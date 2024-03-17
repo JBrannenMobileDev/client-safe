@@ -13,7 +13,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class LocationSelectionDialog extends StatefulWidget {
-  const LocationSelectionDialog({Key key}) : super(key: key);
+  const LocationSelectionDialog({Key? key}) : super(key: key);
 
   @override
   _LocationSelectionDialogState createState() {
@@ -41,7 +41,7 @@ class _LocationSelectionDialogState
                   borderRadius: BorderRadius.circular(16.0),
                 ),
                 height: MediaQuery.of(context).size.height,
-                child: pageState.locations.isNotEmpty
+                child: pageState.locations!.isNotEmpty
                     ? Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
@@ -96,7 +96,7 @@ class _LocationSelectionDialogState
                                 childAspectRatio: 2 / 2.75,
                                 crossAxisSpacing: 16,
                                 mainAxisSpacing: 16),
-                            itemCount: pageState.locations.length,
+                            itemCount: pageState.locations!.length,
                             controller: _controller,
                             physics: const ClampingScrollPhysics(),
                             key: _listKey,

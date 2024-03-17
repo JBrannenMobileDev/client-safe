@@ -53,15 +53,15 @@ NewContactPageState _setClient(NewContactPageState previousState, SetSavedClient
 }
 
 NewContactPageState _filterContacts(NewContactPageState previousState, FilterDeviceContactsAction action) {
-  List<Contact> filteredClients = action.textInput.length > 0
-      ? previousState.deviceContacts
+  List<Contact>? filteredClients = action.textInput!.length > 0
+      ? previousState.deviceContacts!
       .where((client) => client
-      .displayName
+      .displayName!
       .toLowerCase()
-      .contains(action.textInput.toLowerCase()))
+      .contains(action.textInput!.toLowerCase()))
       .toList()
       : previousState.deviceContacts;
-  if(action.textInput.length == 0){
+  if(action.textInput!.length == 0){
     filteredClients = previousState.deviceContacts;
   }
   return previousState.copyWith(
@@ -72,35 +72,35 @@ NewContactPageState _filterContacts(NewContactPageState previousState, FilterDev
 
 NewContactPageState _loadClient(NewContactPageState previousState, LoadExistingClientData action){
   return previousState.copyWith(
-    documentId: action.client.documentId,
+    documentId: action.client!.documentId,
     shouldClear: false,
-    newContactFirstName: action.client.firstName,
-    newContactLastName: action.client.lastName,
-    newContactPhone: action.client.phone,
-    newContactEmail: action.client.email,
-    newContactInstagramUrl: action.client.instagramProfileUrl,
-    relationshipStatus: action.client.relationshipStatus,
-    spouseFirstName: action.client.spouseFirstName,
-    spouseLastName: action.client.spouseLastName,
-    numberOfChildren: action.client.numOfChildren,
-    importantDates: action.client.importantDates,
-    leadSource: action.client.leadSource,
-    notes: action.client.notes,
+    newContactFirstName: action.client!.firstName,
+    newContactLastName: action.client!.lastName,
+    newContactPhone: action.client!.phone,
+    newContactEmail: action.client!.email,
+    newContactInstagramUrl: action.client!.instagramProfileUrl,
+    relationshipStatus: action.client!.relationshipStatus,
+    spouseFirstName: action.client!.spouseFirstName,
+    spouseLastName: action.client!.spouseLastName,
+    numberOfChildren: action.client!.numOfChildren,
+    importantDates: action.client!.importantDates,
+    leadSource: action.client!.leadSource,
+    notes: action.client!.notes,
     client: action.client,
-    customLeadSourceName: action.client.customLeadSourceName,
+    customLeadSourceName: action.client!.customLeadSourceName,
     pageViewIndex: 0,
   );
 }
 
 NewContactPageState _setSelectedDeviceContact(NewContactPageState previousState, SetSelectedDeviceContactAction action){
-  String phone = action.selectedContact.phones != null && action.selectedContact.phones.isNotEmpty ? action.selectedContact.phones.toList().elementAt(0).value : '';
-  String email = action.selectedContact.emails!= null && action.selectedContact.emails.isNotEmpty ? action.selectedContact.emails.toList().elementAt(0).value : '';
-  phone = TextFormatterUtil.formatPhoneNum(phone);
+  String? phone = action.selectedContact!.phones != null && action.selectedContact!.phones!.isNotEmpty ? action.selectedContact!.phones!.toList().elementAt(0).value : '';
+  String? email = action.selectedContact!.emails != null && action.selectedContact!.emails!.isNotEmpty ? action.selectedContact!.emails!.toList().elementAt(0).value : '';
+  phone = TextFormatterUtil.formatPhoneNum(phone!);
   return previousState.copyWith(
       selectedDeviceContact: action.selectedContact,
-      deviceContacts: List(),
-      newContactFirstName: action.selectedContact.givenName,
-      newContactLastName: action.selectedContact.familyName,
+      deviceContacts: [],
+      newContactFirstName: action.selectedContact!.givenName,
+      newContactLastName: action.selectedContact!.familyName,
       newContactPhone: phone,
       newContactEmail: email,
   );
@@ -110,7 +110,7 @@ NewContactPageState _setSelectedDeviceContact(NewContactPageState previousState,
 
 NewContactPageState _clearDeviceContacts(NewContactPageState previousState, ClearDeviceContactsAction action){
   return previousState.copyWith(
-      deviceContacts: List()
+      deviceContacts: []
   );
 }
 
@@ -141,7 +141,7 @@ NewContactPageState _updateNotes(NewContactPageState previousState, UpdateNotesA
 }
 
 NewContactPageState _incrementPageViewIndex(NewContactPageState previousState, IncrementPageViewIndex action) {
-  int incrementedIndex = previousState.pageViewIndex;
+  int incrementedIndex = previousState.pageViewIndex!;
   incrementedIndex++;
   return previousState.copyWith(
       pageViewIndex: incrementedIndex
@@ -149,7 +149,7 @@ NewContactPageState _incrementPageViewIndex(NewContactPageState previousState, I
 }
 
 NewContactPageState _decrementPageViewIndex(NewContactPageState previousState, DecrementPageViewIndex action) {
-  int decrementedIndex = previousState.pageViewIndex;
+  int decrementedIndex = previousState.pageViewIndex!;
   decrementedIndex--;
   return previousState.copyWith(
       pageViewIndex: decrementedIndex
@@ -157,9 +157,9 @@ NewContactPageState _decrementPageViewIndex(NewContactPageState previousState, D
 }
 
 NewContactPageState _removeImportantDate(NewContactPageState previousState, RemoveImportantDateAction action) {
-  for(ImportantDate date in previousState.importantDates){
+  for(ImportantDate date in previousState.importantDates!){
     if(date.chipIndex == action.chipIndex){
-      previousState.importantDates.remove(date);
+      previousState.importantDates!.remove(date);
       break;
     }
   }
@@ -169,7 +169,7 @@ NewContactPageState _removeImportantDate(NewContactPageState previousState, Remo
 }
 
 NewContactPageState _addImportantDate(NewContactPageState previousState, AddImportantDateAction action) {
-  previousState.importantDates.add(action.importantDate);
+  previousState.importantDates!.add(action.importantDate!);
   return previousState.copyWith(
       importantDates: previousState.importantDates
   );

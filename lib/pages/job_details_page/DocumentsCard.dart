@@ -13,14 +13,14 @@ import '../../models/Profile.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class DocumentsCard extends StatelessWidget {
-  final Function onSendInvoiceSelected;
+  final Function? onSendInvoiceSelected;
 
-  DocumentsCard({Key key, this.pageState, this.onSendInvoiceSelected, this.profile}) : super(key: key);
+  DocumentsCard({Key? key, this.pageState, this.onSendInvoiceSelected, this.profile}) : super(key: key);
 
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
-  final JobDetailsPageState pageState;
-  final Profile profile;
+  final JobDetailsPageState? pageState;
+  final Profile? profile;
 
   @override
   Widget build(BuildContext context) {
@@ -45,14 +45,14 @@ class DocumentsCard extends StatelessWidget {
                       color: Color(ColorConstants.getPrimaryBlack()),
                     ),
               ),
-              pageState.documents.isNotEmpty
+              pageState!.documents!.isNotEmpty
                   ? ListView.builder(
                       padding: const EdgeInsets.only(top: 0.0, bottom: 16.0),
                       reverse: false,
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       key: _listKey,
-                      itemCount: pageState.documents.length,
+                      itemCount: pageState!.documents!.length,
                       itemBuilder: _buildItem,
                     )
                   : Container(
@@ -71,17 +71,17 @@ class DocumentsCard extends StatelessWidget {
   }
 
   Widget _buildItem(BuildContext context, int index) {
-    final item = pageState.documents.elementAt(index);
+    final item = pageState!.documents!.elementAt(index);
 
     return TextButton(
       style: Styles.getButtonStyle(),
       onPressed: () async {
         switch(item.getDocumentType()) {
           case DocumentItem.DOCUMENT_TYPE_INVOICE:
-            UserOptionsUtil.showViewInvoiceDialog(context, pageState.invoice, await JobDao.getJobById(pageState.invoice.jobDocumentId), onSendInvoiceSelected);
+            UserOptionsUtil.showViewInvoiceDialog(context, pageState!.invoice, await JobDao.getJobById(pageState!.invoice!.jobDocumentId), onSendInvoiceSelected);
             break;
           case DocumentItem.DOCUMENT_TYPE_CONTRACT:
-            UserOptionsUtil.showContractOptionsSheet(context, pageState.job, profile, openContractEditPage);
+            UserOptionsUtil.showContractOptionsSheet(context, pageState!.job!, profile!, openContractEditPage);
             break;
         }
       },
@@ -122,7 +122,7 @@ class DocumentsCard extends StatelessWidget {
   }
 
   void openContractEditPage(BuildContext context) {
-    NavigationUtil.onContractSelected(context, pageState.job.proposal.contract, pageState.job.proposal.contract.contractName, false, pageState.job.documentId, _ackContractAlert);
+    NavigationUtil.onContractSelected(context, pageState!.job!.proposal!.contract, pageState!.job!.proposal!.contract!.contractName, false, pageState!.job!.documentId, _ackContractAlert);
   }
 
   Future<void> _ackContractAlert(BuildContext context) {
@@ -142,7 +142,7 @@ class DocumentsCard extends StatelessWidget {
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteContractSelected(pageState.job.proposal.contract);
+                pageState!.onDeleteContractSelected!(pageState!.job!.proposal!.contract!);
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
@@ -161,7 +161,7 @@ class DocumentsCard extends StatelessWidget {
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteContractSelected(pageState.job.proposal.contract);
+                pageState!.onDeleteContractSelected!(pageState!.job!.proposal!.contract!);
                 Navigator.of(context).pop(true);
               },
               child: const Text('Yes'),

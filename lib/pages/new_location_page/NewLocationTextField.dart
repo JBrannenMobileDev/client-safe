@@ -11,17 +11,17 @@ import 'package:flutter_redux/flutter_redux.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class NewLocationTextField extends StatelessWidget {
-  final TextEditingController _controller;
-  final String hintText;
-  final TextInputType inputType;
-  final double height;
-  final String inputTypeError;
-  final Function(String) onTextInputChanged;
-  final TextInputAction keyboardAction;
-  final FocusNode focusNode;
-  final Function onFocusAction;
-  final TextCapitalization capitalization;
-  final List<TextInputFormatter> inputFormatter;
+  final TextEditingController? _controller;
+  final String? hintText;
+  final TextInputType? inputType;
+  final double? height;
+  final String? inputTypeError;
+  final Function(String)? onTextInputChanged;
+  final TextInputAction? keyboardAction;
+  final FocusNode? focusNode;
+  final Function? onFocusAction;
+  final TextCapitalization? capitalization;
+  final List<TextInputFormatter>? inputFormatter;
 
   NewLocationTextField(this._controller, this.hintText, this.inputType,
       this.height, this.onTextInputChanged, this.inputTypeError, this.keyboardAction,
@@ -42,10 +42,10 @@ class NewLocationTextField extends StatelessWidget {
                 maxLines: 24,
                 controller: _controller,
                 onChanged: (text) {
-                  onTextInputChanged(text);
+                  onTextInputChanged!(text);
                 },
                 onFieldSubmitted: (term){
-                  onFocusAction();
+                  onFocusAction!();
                 },
                 decoration: InputDecoration(
                   alignLabelWithHint: true,
@@ -85,7 +85,7 @@ class NewLocationTextField extends StatelessWidget {
                   ),
                 ),
                 keyboardType: inputType,
-                textCapitalization: capitalization,
+                textCapitalization: capitalization!,
                 inputFormatters: inputFormatter != null ? inputFormatter : null,
                 style: new TextStyle(
                     fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),

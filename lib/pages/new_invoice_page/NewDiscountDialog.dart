@@ -32,7 +32,7 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
   var rateTextController = TextEditingController(text: '\$');
   var percentageTextController = TextEditingController(text: '');
   int selectorIndex = 0;
-  Map<int, Widget> breakdownTypes;
+  Map<int, Widget>? breakdownTypes;
   var enteredRate = '';
 
   @override
@@ -88,7 +88,7 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
                         tooltip: 'Close',
                         color: Color(ColorConstants.getPrimaryColor()),
                         onPressed: () {
-                          pageState.onDeleteDiscountSelected();
+                          pageState.onDeleteDiscountSelected!();
                           Navigator.of(context).pop();
                         },
                       ),
@@ -116,12 +116,12 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
                         child: CupertinoSlidingSegmentedControl<int>(
                           backgroundColor: Colors.transparent,
                           thumbColor: Color(ColorConstants.getPrimaryColor()),
-                          children: breakdownTypes,
-                          onValueChanged: (int filterTypeIndex) {
+                          children: breakdownTypes!,
+                          onValueChanged: (int? filterTypeIndex) {
                             setState(() {
-                              selectorIndex = filterTypeIndex;
+                              selectorIndex = filterTypeIndex!;
                             });
-                            pageState.onNewDiscountFilterChanged(filterTypeIndex == 0 ? NewDiscountDialog.SELECTOR_TYPE_FIXED : NewDiscountDialog.SELECTOR_TYPE_PERCENTAGE);
+                            pageState.onNewDiscountFilterChanged!(filterTypeIndex == 0 ? NewDiscountDialog.SELECTOR_TYPE_FIXED : NewDiscountDialog.SELECTOR_TYPE_PERCENTAGE);
                           },
                           groupValue: selectorIndex,
                         ),
@@ -135,7 +135,7 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
                           height: 64.0,
                           autoFocus: true,
                           onTextInputChanged: (input) {
-                            pageState.onNewDiscountRateTextChanged(input);
+                            pageState.onNewDiscountRateTextChanged!(input);
                             setState(() {
                               enteredRate = input;
                             });
@@ -153,7 +153,7 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
                           inputType: TextInputType.number,
                           height: 64.0,
                           autoFocus: true,
-                          onTextInputChanged: pageState.onNewDiscountPercentageTextChanged,
+                          onTextInputChanged: pageState.onNewDiscountPercentageTextChanged!,
                           capitalization: TextCapitalization.none,
                           keyboardAction: TextInputAction.next,
                           labelText: 'Percentage',
@@ -168,7 +168,7 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
                             TextButton(
                               style: Styles.getButtonStyle(),
                               onPressed: () {
-                                pageState.onNewDiscountCancelSelected();
+                                pageState.onNewDiscountCancelSelected!();
                                 Navigator.of(context).pop();
                               },
                               child: TextDandyLight(
@@ -181,7 +181,7 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
                             TextButton(
                               style: Styles.getButtonStyle(),
                               onPressed: () {
-                                pageState.onNewDiscountSavedSelected();
+                                pageState.onNewDiscountSavedSelected!();
                                 Navigator.of(context).pop();
                               },
                               child: TextDandyLight(

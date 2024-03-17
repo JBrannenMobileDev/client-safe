@@ -5,8 +5,8 @@ import '../../models/JobType.dart';
 
 class JobTypesPageState{
 
-  final List<JobType> jobTypes;
-  final Function(JobType) onJobTypeSelected;
+  final List<JobType>? jobTypes;
+  final Function(JobType)? onJobTypeSelected;
 
   JobTypesPageState({
     @required this.jobTypes,
@@ -14,8 +14,8 @@ class JobTypesPageState{
   });
 
   JobTypesPageState copyWith({
-    List<JobType> jobTypes,
-    Function(JobType) onJobTypeSelected,
+    List<JobType>? jobTypes,
+    Function(JobType)? onJobTypeSelected,
   }){
     return JobTypesPageState(
       jobTypes: jobTypes ?? this.jobTypes,
@@ -30,7 +30,7 @@ class JobTypesPageState{
 
   factory JobTypesPageState.fromStore(Store<AppState> store) {
     return JobTypesPageState(
-      jobTypes: store.state.jobTypesPageState.jobTypes,
+      jobTypes: store.state.jobTypesPageState!.jobTypes,
       onJobTypeSelected: (jobType) => null
       // onJobTypeSelected: (jobType) => store.dispatch(LoadExistingJobTypesData(store.state.newJobTypePageState, jobType)),
     );

@@ -108,11 +108,11 @@ class UserOptionsUtil {
     );
   }
 
-  static void showMileageLocationSelectionDialog(BuildContext context, Function(LatLng) onLocationSaved, double lat, double lng) {
+  static void showMileageLocationSelectionDialog(BuildContext context, Function(LatLng) onLocationSaved, double? lat, double? lng) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return LocationOptionsMileageExpenseDialog(onLocationSaved, lat, lng);
+        return LocationOptionsMileageExpenseDialog(onLocationSaved, lat!, lng!);
       },
     );
   }
@@ -126,20 +126,20 @@ class UserOptionsUtil {
     );
   }
 
-  static void showNewReminderDialog(BuildContext context, ReminderDandyLight reminder){
+  static void showNewReminderDialog(BuildContext context, ReminderDandyLight? reminder){
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return NewReminderPage(reminder);
+        return NewReminderPage(reminder!);
       },
     );
   }
 
-  static void showNewJobTypePage(BuildContext context, JobType jobType){
+  static void showNewJobTypePage(BuildContext context, JobType? jobType){
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return NewJobTypePage(jobType);
+        return NewJobTypePage(jobType!);
       },
     );
   }
@@ -163,8 +163,8 @@ class UserOptionsUtil {
   }
 
   static void showNewJobDialog(BuildContext context, bool comingFromOnBoarding) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    if(profile.isSubscribed! || profile.jobsCreatedCount! < 5 || profile.isFreeForLife! || AdminCheckUtil.isAdmin(profile)) {
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(profile!.isSubscribed! || profile.jobsCreatedCount! < 5 || profile.isFreeForLife! || AdminCheckUtil.isAdmin(profile)) {
       showDialog(
         context: context,
         builder: (BuildContext context) {

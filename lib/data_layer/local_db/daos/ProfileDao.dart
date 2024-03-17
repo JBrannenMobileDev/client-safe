@@ -26,8 +26,8 @@ class ProfileDao extends Equatable{
   }
 
   static Future<void> _updateLastChangedTime() async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.profileLastChangeDate = DateTime.now();
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.profileLastChangeDate = DateTime.now();
     final finder = sembast.Finder(filter: sembast.Filter.equals('uid', profile.uid));
     await _profileStore.update(
       await _db,
@@ -43,9 +43,9 @@ class ProfileDao extends Equatable{
   }
 
   static Future insertOrUpdate(Profile profile) async {
-    List<Profile> profileList = await getAllSortedByFirstName();
+    List<Profile>? profileList = await getAllSortedByFirstName();
     bool alreadyExists = false;
-    for(Profile singleProfile in profileList){
+    for(Profile singleProfile in profileList!){
       if(singleProfile.uid == profile.uid){
         alreadyExists = true;
       }
@@ -93,7 +93,7 @@ class ProfileDao extends Equatable{
     await UserCollection().deleteUser(profile.uid!);
   }
 
-  static Future<List<Profile>> getAllSortedByFirstName() async {
+  static Future<List<Profile>?> getAllSortedByFirstName() async {
     final finder = sembast.Finder(sortOrders: [
       sembast.SortOrder('firstName'),
     ]);
@@ -108,7 +108,7 @@ class ProfileDao extends Equatable{
     }).toList();
   }
 
-  static Future<List<Profile>> getAll() async {
+  static Future<List<Profile>?> getAll() async {
     final recordSnapshots = await _profileStore.find(await _db);
     // Making a List<Client> out of List<RecordSnapshot>
     return recordSnapshots.map((snapshot) {
@@ -121,12 +121,12 @@ class ProfileDao extends Equatable{
 
 
   static Future<void> updateUserLoginTime(String uid) async{
-    List<Profile> userProfiles = await ProfileDao.getAll();
-    if (userProfiles.isNotEmpty) {
-      Profile fireStoreProfile = await UserCollection().getUser(uid);
+    List<Profile>? userProfiles = await ProfileDao.getAll();
+    if (userProfiles!.isNotEmpty) {
+      Profile? fireStoreProfile = await UserCollection().getUser(uid);
       DateTime now = DateTime.now();
       if(fireStoreProfile != null && now.millisecondsSinceEpoch > (fireStoreProfile.lastSignIn ?? DateTime.utc(1971)).millisecondsSinceEpoch) {
-        Profile updatedProfile = userProfiles.elementAt(0).copyWith(
+        Profile updatedProfile = userProfiles!.elementAt(0).copyWith(
           uid: uid,
           lastSignIn: now,
           clientsLastChangeDate: fireStoreProfile.clientsLastChangeDate,
@@ -145,8 +145,8 @@ class ProfileDao extends Equatable{
   }
 
   static syncAllFromFireStore() async {
-    Profile fireStoreProfile = await UserCollection().getUser(UidUtil().getUid());
-    await updateLocalOnly(fireStoreProfile);
+    Profile? fireStoreProfile = await UserCollection().getUser(UidUtil().getUid());
+    await updateLocalOnly(fireStoreProfile!);
   }
 
   static Future<Stream<List<sembast.RecordSnapshot>>> getProfileStream() async {
@@ -163,9 +163,9 @@ class ProfileDao extends Equatable{
   List<Object> get props => [];
 
   static void deleteAllProfilesLocal() async {
-    List<Profile> profiles = await getAll();
+    List<Profile>? profiles = await getAll();
 
-    for(Profile profile in profiles) {
+    for(Profile profile in profiles!) {
         final finder = sembast.Finder(filter: sembast.Filter.equals('uid', profile.uid));
         await _profileStore.delete(
           await _db,
@@ -174,10 +174,10 @@ class ProfileDao extends Equatable{
     }
   }
 
-  static Future<Profile> getMatchingProfile(String uid) async {
-    List<Profile> profiles = await getAll();
+  static Future<Profile?> getMatchingProfile(String uid) async {
+    List<Profile>? profiles = await getAll();
     Profile? result = null;
-    for(Profile profile in profiles) {
+    for(Profile profile in profiles!) {
       if(profile.uid == uid) {
         result = profile;
       }

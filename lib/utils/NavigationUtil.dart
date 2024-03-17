@@ -74,7 +74,7 @@ class NavigationUtil {
   static onRecurringChargeSelected(BuildContext context, RecurringExpense recurringExpense) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => RecurringExpenseDetailsPage(recurringExpense)));
   }
-  static onSelectMapLocation(BuildContext context, Function(LatLng) onLocationSaved, double lat, double lng, Function(LocationDandy) saveSelectedLocation) {
+  static onSelectMapLocation(BuildContext context, Function(LatLng)? onLocationSaved, double lat, double lng, Function(LocationDandy)? saveSelectedLocation) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => MapLocationSelectionWidget(onLocationSaved, lat, lng, saveSelectedLocation)));
   }
   static onSignOutSelected(BuildContext context) async {

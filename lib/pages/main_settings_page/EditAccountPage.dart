@@ -48,19 +48,19 @@ class _EditAccountPageState extends State<EditAccountPage>
         onInit: (store) {
           store.dispatch(LoadUserProfileDataAction(
               store.state.mainSettingsPageState, profile));
-          if (profile.firstName != null && profile.firstName.isNotEmpty) {
+          if (profile.firstName != null && profile.firstName!.isNotEmpty) {
             firstNameTextController.text = profile.firstName ?? '';
           }
-          if (profile.lastName != null && profile.lastName.isNotEmpty) {
+          if (profile.lastName != null && profile.lastName!.isNotEmpty) {
             lastNameTextController.text = profile.lastName ?? '';
           }
-          if (profile.businessName != null && profile.businessName.isNotEmpty) {
+          if (profile.businessName != null && profile.businessName!.isNotEmpty) {
             businessNameTextController.text = profile.businessName ?? '';
           }
-          if (profile.phone != null && profile.phone.isNotEmpty) {
+          if (profile.phone != null && profile.phone!.isNotEmpty) {
             businessPhoneTextController.text = profile.phone ?? '';
           }
-          if (profile.email != null && profile.email.isNotEmpty) {
+          if (profile.email != null && profile.email!.isNotEmpty) {
             businessEmailTextController.text = profile.email ?? '';
           }
         },
@@ -80,7 +80,6 @@ class _EditAccountPageState extends State<EditAccountPage>
                     color: Color(ColorConstants
                         .getPrimaryBlack()), //change your color here
                   ),
-                  brightness: Brightness.light,
                   backgroundColor:
                       Color(ColorConstants.getPrimaryBackgroundGrey()),
                   pinned: true,
@@ -120,7 +119,7 @@ class _EditAccountPageState extends State<EditAccountPage>
                               height: 64.0,
                               inputTypeError: 'First name is required',
                               onTextInputChanged: (firstNameText) =>
-                                  pageState.onFirstNameChanged(firstNameText),
+                                  pageState.onFirstNameChanged!(firstNameText),
                               onEditingCompleted: null,
                               keyboardAction: TextInputAction.next,
                               focusNode: firstNameFocusNode,
@@ -152,7 +151,7 @@ class _EditAccountPageState extends State<EditAccountPage>
                               height: 64.0,
                               inputTypeError: 'Last name is required',
                               onTextInputChanged: (firstNameText) =>
-                                  pageState.onLastNameChanged(firstNameText),
+                                  pageState.onLastNameChanged!(firstNameText),
                               onEditingCompleted: null,
                               keyboardAction: TextInputAction.next,
                               focusNode: lastNameFocusNode,
@@ -184,7 +183,7 @@ class _EditAccountPageState extends State<EditAccountPage>
                               height: 64.0,
                               inputTypeError: '',
                               onTextInputChanged: (firstNameText) => pageState
-                                  .onBusinessNameChanged(firstNameText),
+                                  .onBusinessNameChanged!(firstNameText),
                               onEditingCompleted: null,
                               keyboardAction: TextInputAction.next,
                               focusNode: businessNameFocusNode,
@@ -216,7 +215,7 @@ class _EditAccountPageState extends State<EditAccountPage>
                               height: 64.0,
                               inputTypeError: '',
                               onTextInputChanged: (firstNameText) => pageState
-                                  .onBusinessEmailChanged(firstNameText),
+                                  .onBusinessEmailChanged!(firstNameText),
                               onEditingCompleted: null,
                               keyboardAction: TextInputAction.next,
                               focusNode: businessEmailFocusNode,
@@ -247,7 +246,7 @@ class _EditAccountPageState extends State<EditAccountPage>
                               height: 64.0,
                               inputTypeError: '',
                               onTextInputChanged: (phone) =>
-                                  pageState.onBusinessPhoneChanged(phone),
+                                  pageState.onBusinessPhoneChanged!(phone),
                               onEditingCompleted: null,
                               keyboardAction: TextInputAction.done,
                               focusNode: businessPhoneFocusNode,
@@ -295,7 +294,7 @@ class _EditAccountPageState extends State<EditAccountPage>
                             ),
                             GestureDetector(
                               onTap: () {
-                                pageState.onSaveUpdatedProfile();
+                                pageState.onSaveUpdatedProfile!();
                                 Navigator.of(context).pop();
                               },
                               child: Container(

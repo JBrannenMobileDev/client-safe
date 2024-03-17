@@ -9,20 +9,20 @@ import 'package:flutter_redux/flutter_redux.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class DandyLightTextField extends StatelessWidget {
-  final TextEditingController controller;
-  final String hintText;
-  final String labelText;
-  final TextInputType inputType;
-  final double height;
-  final String inputTypeError;
-  final Function(String) onTextInputChanged;
-  final Function() onEditingCompleted;
-  final TextInputAction keyboardAction;
-  final FocusNode focusNode;
-  final Function onFocusAction;
-  final TextCapitalization capitalization;
-  final List<TextInputFormatter> inputFormatter;
-  final bool enabled;
+  final TextEditingController? controller;
+  final String? hintText;
+  final String? labelText;
+  final TextInputType? inputType;
+  final double? height;
+  final String? inputTypeError;
+  final Function(String)? onTextInputChanged;
+  final Function()? onEditingCompleted;
+  final TextInputAction? keyboardAction;
+  final FocusNode? focusNode;
+  final Function? onFocusAction;
+  final TextCapitalization? capitalization;
+  final List<TextInputFormatter>? inputFormatter;
+  final bool? enabled;
 
   DandyLightTextField({
       this.controller,
@@ -54,10 +54,10 @@ class DandyLightTextField extends StatelessWidget {
             maxLines: 24,
             controller: controller,
             onChanged: (text) {
-              onTextInputChanged(text);
+              onTextInputChanged!(text);
             },
             onFieldSubmitted: (term) {
-              onFocusAction();
+              onFocusAction!();
             },
             decoration: InputDecoration(
               alignLabelWithHint: true,
@@ -100,7 +100,7 @@ class DandyLightTextField extends StatelessWidget {
               ),
             ),
             keyboardType: inputType,
-            textCapitalization: capitalization,
+            textCapitalization: capitalization!,
             onEditingComplete: onEditingCompleted,
             inputFormatters: inputFormatter != null ? inputFormatter : null,
             style: new TextStyle(

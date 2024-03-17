@@ -30,7 +30,7 @@ class _NewLocationImage extends State<NewLocationImage> with AutomaticKeepAliveC
     super.build(context);
     return StoreConnector<AppState, NewLocationPageState>(
       onInit: (store) {
-        locationNameTextController.text = store.state.newLocationPageState.locationName;
+        locationNameTextController.text = store.state.newLocationPageState!.locationName!;
       },
       converter: (store) => NewLocationPageState.fromStore(store),
       builder: (BuildContext context, NewLocationPageState pageState) =>
@@ -98,15 +98,15 @@ class _NewLocationImage extends State<NewLocationImage> with AutomaticKeepAliveC
   }
 
   Future getDeviceImage(NewLocationPageState pageState) async {
-    XFile image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    final filePath = "${image.path}";
-    pageState.saveImagePath(filePath);
+    XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final filePath = "${image!.path}";
+    pageState.saveImagePath!(filePath);
   }
 
   Future getCameraImage(NewLocationPageState pageState) async {
-    XFile image = await ImagePicker().pickImage(source: ImageSource.camera);
-    final filePath = "${image.path}";
-    pageState.saveImagePath(filePath);
+    XFile? image = await ImagePicker().pickImage(source: ImageSource.camera);
+    final filePath = "${image!.path}";
+    pageState.saveImagePath!(filePath);
   }
 
   @override

@@ -35,7 +35,7 @@ class NewReminderListWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(bottom: pageState.allReminders.length == index-1 ? 128.0 : 0),
+              margin: EdgeInsets.only(bottom: pageState.allReminders!.length == index-1 ? 128.0 : 0),
               height: 76.0,
               child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -71,7 +71,7 @@ class NewReminderListWidget extends StatelessWidget {
                             child: TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
                               text: reminder.when == 'on' ? 'Day of shoot' :
-                              reminder.amount.toString() + ' ' + (reminder.amount == 1 ? reminder.daysWeeksMonths.substring(0, reminder.daysWeeksMonths.length - 1) : reminder.daysWeeksMonths) + ' ' + reminder.when,
+                              reminder.amount.toString() + ' ' + (reminder.amount == 1 ? reminder.daysWeeksMonths!.substring(0, reminder.daysWeeksMonths!.length - 1) : reminder.daysWeeksMonths!) + ' ' + reminder.when!,
                               textAlign: TextAlign.start,
                               color: textColor,
                             ),

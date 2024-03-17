@@ -1,15 +1,14 @@
+import 'dart:async';
+
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:dandylight/pages/new_pricing_profile_page/dandylightTextField.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/InputDoneView.dart';
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
@@ -25,26 +24,40 @@ class SelectSalesTaxRateDialog extends StatefulWidget {
 }
 
 class _SelectSalesTaxRateDialog extends State<SelectSalesTaxRateDialog> with AutomaticKeepAliveClientMixin {
-  OverlayEntry overlayEntry;
+  OverlayEntry? overlayEntry;
   final FocusNode taxRateFocusNode = new FocusNode();
   var taxRateTextController = TextEditingController();
   String enteredRate = '';
+  late StreamSubscription<bool> keyboardSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+
+    var keyboardVisibilityController = KeyboardVisibilityController();
+    keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
+      setState(() {
+        if(visible) {
+          showOverlay(context);
+        } else {
+          removeOverlay();
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    keyboardSubscription.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return StoreConnector<AppState, NewInvoicePageState>(
       onInit: (appState) {
-        taxRateTextController.text = appState.state.newInvoicePageState.salesTaxPercent.toString() + '\%';
-       KeyboardVisibilityNotification().addNewListener(
-            onShow: () {
-              showOverlay(context);
-            },
-            onHide: () {
-              removeOverlay();
-            }
-        );
-
+        taxRateTextController.text = appState.state.newInvoicePageState!.salesTaxPercent.toString() + '\%';
         taxRateFocusNode.addListener(() {
 
           bool hasFocus = taxRateFocusNode.hasFocus;
@@ -132,7 +145,7 @@ class _SelectSalesTaxRateDialog extends State<SelectSalesTaxRateDialog> with Aut
                               bottom: 8.0,
                             ),
                             onPressed: () {
-                              pageState.onSalesTaxRateChanged(enteredRate);
+                              pageState.onSalesTaxRateChanged!(enteredRate);
                               Navigator.of(context).pop();
                             },
                             child: TextDandyLight(
@@ -176,12 +189,12 @@ class _SelectSalesTaxRateDialog extends State<SelectSalesTaxRateDialog> with Aut
           child: InputDoneView());
     });
 
-    overlayState.insert(overlayEntry);
+    overlayState.insert(overlayEntry!);
   }
 
   removeOverlay() {
     if (overlayEntry != null) {
-      overlayEntry.remove();
+      overlayEntry!.remove();
       overlayEntry = null;
     }
   }

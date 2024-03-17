@@ -9,36 +9,36 @@ import 'package:redux/redux.dart';
 import '../../AppState.dart';
 
 class NewLocationPageState{
-  final int id;
-  final String documentId;
-  final bool shouldClear;
-  final bool locationUpdated;
-  final String documentFilePath;
-  final String locationName;
-  final String newLocationAddress;
-  final int pageViewIndex;
-  final double newLocationLatitude;
-  final double newLocationLongitude;
-  final String imagePath;
-  final LatLng selectedLatLng;
-  final List<LocationDandy> locations;
-  final Function(LatLng) onLocationChanged;
-  final Function() onSaveLocationSelected;
-  final Function() onDeleteSelected;
-  final Function() onCanceledSelected;
-  final Function(String) onLocationNameChanged;
-  final Function() onNextPressed;
-  final Function() onBackPressed;
-  final Function(String) saveImagePath;
-  final String searchText;
-  final LocationDandy selectedSearchLocation;
-  final List<PlacesLocation> locationsResults;
-  final Function(LatLng) onMapLocationChanged;
-  final Function() onMapLocationSaved;
-  final Function(String) onThrottleGetLocations;
-  final Function(String) onSearchInputChanged;
-  final Function(PlacesLocation) onSearchLocationSelected;
-  final LatLng currentMapLatLng;
+  final int? id;
+  final String? documentId;
+  final bool? shouldClear;
+  final bool? locationUpdated;
+  final String? documentFilePath;
+  final String? locationName;
+  final String? newLocationAddress;
+  final int? pageViewIndex;
+  final double? newLocationLatitude;
+  final double? newLocationLongitude;
+  final String? imagePath;
+  final LatLng? selectedLatLng;
+  final List<LocationDandy>? locations;
+  final Function(LatLng)? onLocationChanged;
+  final Function()? onSaveLocationSelected;
+  final Function()? onDeleteSelected;
+  final Function()? onCanceledSelected;
+  final Function(String)? onLocationNameChanged;
+  final Function()? onNextPressed;
+  final Function()? onBackPressed;
+  final Function(String)? saveImagePath;
+  final String? searchText;
+  final LocationDandy? selectedSearchLocation;
+  final List<PlacesLocation>? locationsResults;
+  final Function(LatLng)? onMapLocationChanged;
+  final Function()? onMapLocationSaved;
+  final Function(String)? onThrottleGetLocations;
+  final Function(String)? onSearchInputChanged;
+  final Function(PlacesLocation)? onSearchLocationSelected;
+  final LatLng? currentMapLatLng;
 
   NewLocationPageState({
     @required this.id,
@@ -74,37 +74,37 @@ class NewLocationPageState{
   });
 
   NewLocationPageState copyWith({
-    int id,
-    String documentId,
-    bool shouldClear,
-    bool locationUpdate,
-    String locationName,
-    int pageViewIndex,
-    String newLocationAddress,
-    double newLocationLatitude,
-    double newLocationLongitude,
-    String imagePath,
-    String documentFilePath,
-    List<LocationDandy> locations,
-    LatLng selectedLatLng,
-    Function(int) onLocationChanged,
-    Function() onDeleteLocationSelected,
-    Function(LocationDandy) onSaveLocationSelected,
-    Function() onDeleteSelected,
-    Function() onCanceledSelected,
-    Function(String) onLocationNameChanged,
-    Function() onNextPressed,
-    Function() onBackPressed,
-    Function(String) saveImagePath,
-    String searchText,
-    LocationDandy selectedSearchLocation,
-    List<PlacesLocation> locationsResults,
-    Function(LatLng) onMapLocationChanged,
-    Function() onMapLocationSaved,
-    Function(String) onThrottleGetLocations,
-    Function(String) onSearchInputChanged,
-    Function(PlacesLocation) onSearchLocationSelected,
-    LatLng currentMapLatLng,
+    int? id,
+    String? documentId,
+    bool? shouldClear,
+    bool? locationUpdate,
+    String? locationName,
+    int? pageViewIndex,
+    String? newLocationAddress,
+    double? newLocationLatitude,
+    double? newLocationLongitude,
+    String? imagePath,
+    String? documentFilePath,
+    List<LocationDandy>? locations,
+    LatLng? selectedLatLng,
+    Function(LatLng)? onLocationChanged,
+    Function()? onDeleteLocationSelected,
+    Function()? onSaveLocationSelected,
+    Function()? onDeleteSelected,
+    Function()? onCanceledSelected,
+    Function(String)? onLocationNameChanged,
+    Function()? onNextPressed,
+    Function()? onBackPressed,
+    Function(String)? saveImagePath,
+    String? searchText,
+    LocationDandy? selectedSearchLocation,
+    List<PlacesLocation>? locationsResults,
+    Function(LatLng)? onMapLocationChanged,
+    Function()? onMapLocationSaved,
+    Function(String)? onThrottleGetLocations,
+    Function(String)? onSearchInputChanged,
+    Function(PlacesLocation)? onSearchLocationSelected,
+    LatLng? currentMapLatLng,
   }){
     return NewLocationPageState(
       id: id?? this.id,
@@ -151,7 +151,7 @@ class NewLocationPageState{
     newLocationLongitude: 0.0,
     imagePath: '',
     documentFilePath: '',
-    locations: List(),
+    locations: [],
     onLocationChanged: null,
     onSaveLocationSelected: null,
     onCanceledSelected: null,
@@ -163,7 +163,7 @@ class NewLocationPageState{
     locationUpdated: false,
     searchText: '',
     selectedSearchLocation: null,
-    locationsResults: List(),
+    locationsResults: [],
     onMapLocationSaved: null,
     onMapLocationChanged: null,
     onThrottleGetLocations: null,
@@ -175,23 +175,23 @@ class NewLocationPageState{
 
   factory NewLocationPageState.fromStore(Store<AppState> store) {
     return NewLocationPageState(
-      id: store.state.newLocationPageState.id,
-      shouldClear: store.state.newLocationPageState.shouldClear,
-      locationName: store.state.newLocationPageState.locationName,
-      newLocationAddress: store.state.newLocationPageState.newLocationAddress,
-      newLocationLatitude: store.state.newLocationPageState.newLocationLatitude,
-      newLocationLongitude: store.state.newLocationPageState.newLocationLongitude,
-      imagePath: store.state.newLocationPageState.imagePath,
-      locations: store.state.newLocationPageState.locations,
-      pageViewIndex: store.state.newLocationPageState.pageViewIndex,
-      documentFilePath: store.state.newLocationPageState.documentFilePath,
-      locationUpdated: store.state.newLocationPageState.locationUpdated,
-      searchText: store.state.newLocationPageState.searchText,
-      selectedSearchLocation: store.state.newLocationPageState.selectedSearchLocation,
-      locationsResults: store.state.newLocationPageState.locationsResults,
-      currentMapLatLng: store.state.newLocationPageState.currentMapLatLng,
-      documentId: store.state.newLocationPageState.documentId,
-      selectedLatLng: store.state.newLocationPageState.selectedLatLng,
+      id: store.state.newLocationPageState!.id,
+      shouldClear: store.state.newLocationPageState!.shouldClear,
+      locationName: store.state.newLocationPageState!.locationName,
+      newLocationAddress: store.state.newLocationPageState!.newLocationAddress,
+      newLocationLatitude: store.state.newLocationPageState!.newLocationLatitude,
+      newLocationLongitude: store.state.newLocationPageState!.newLocationLongitude,
+      imagePath: store.state.newLocationPageState!.imagePath,
+      locations: store.state.newLocationPageState!.locations,
+      pageViewIndex: store.state.newLocationPageState!.pageViewIndex,
+      documentFilePath: store.state.newLocationPageState!.documentFilePath,
+      locationUpdated: store.state.newLocationPageState!.locationUpdated,
+      searchText: store.state.newLocationPageState!.searchText,
+      selectedSearchLocation: store.state.newLocationPageState!.selectedSearchLocation,
+      locationsResults: store.state.newLocationPageState!.locationsResults,
+      currentMapLatLng: store.state.newLocationPageState!.currentMapLatLng,
+      documentId: store.state.newLocationPageState!.documentId,
+      selectedLatLng: store.state.newLocationPageState!.selectedLatLng,
       onLocationChanged: (latLng) => store.dispatch(UpdateLocation(store.state.newLocationPageState, latLng)),
       onSaveLocationSelected: () => store.dispatch(SaveLocationAction(store.state.newLocationPageState)),
       onCanceledSelected: () => store.dispatch(ClearStateAction(store.state.newLocationPageState)),

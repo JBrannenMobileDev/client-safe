@@ -44,7 +44,7 @@ class _ReminderSelectionPageState extends State<ReminderSelectionPage> with Auto
                     color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
-                pageState.allReminders.length > 0
+                pageState.allReminders!.length > 0
                     ? ConstrainedBox(
                         constraints: BoxConstraints(
                           minHeight: 65.0,
@@ -55,7 +55,7 @@ class _ReminderSelectionPageState extends State<ReminderSelectionPage> with Auto
                           shrinkWrap: true,
                           controller: _controller,
                           physics: ClampingScrollPhysics(),
-                          itemCount: pageState.allReminders.length,
+                          itemCount: pageState.allReminders!.length,
                           itemBuilder: _buildItem,
                         ),
                 ) : Column(
@@ -66,7 +66,7 @@ class _ReminderSelectionPageState extends State<ReminderSelectionPage> with Auto
                       padding: EdgeInsets.only(left: 64.0, right: 64.0, top: 64.0),
                       child: TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
-                        text: pageState.hasNotCreatedAnyReminders ?
+                        text: pageState.hasNotCreatedAnyReminders! ?
                         "You have not created any collection reminders yet." : "All of your reminders are already added to this job.",
                         textAlign: TextAlign.center,
                         color: Color(ColorConstants.getPrimaryBlack()),
@@ -104,6 +104,6 @@ Widget _buildItem(BuildContext context, int index) {
   return StoreConnector<AppState, NewJobReminderPageState>(
     converter: (store) => NewJobReminderPageState.fromStore(store),
     builder: (BuildContext context, NewJobReminderPageState pageState) =>
-        NewReminderListWidget(pageState.allReminders.elementAt(index), pageState, pageState.onReminderSelected, Color(ColorConstants.getPrimaryWhite()), Color(ColorConstants.getPrimaryBlack()), index),
+        NewReminderListWidget(pageState.allReminders!.elementAt(index), pageState, pageState.onReminderSelected!, Color(ColorConstants.getPrimaryWhite()), Color(ColorConstants.getPrimaryBlack()), index),
   );
 }

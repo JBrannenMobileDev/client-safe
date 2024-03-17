@@ -16,54 +16,54 @@ class NewContactPageState {
   static const String ERROR_INSTAGRAM_URL_INVALID = "invalidInstaUrl";
   static const String ERROR_MISSING_CONTACT_INFO = "missingContactInfo";
 
-  final String documentId;
-  final int pageViewIndex;
-  final bool saveButtonEnabled;
-  final bool shouldClear;
-  final bool isComingFromNewJob;
-  final String newContactFirstName;
-  final String newContactLastName;
-  final String newContactPhone;
-  final String newContactEmail;
-  final String newContactInstagramUrl;
-  final String relationshipStatus;
-  final String spouseFirstName;
-  final String spouseLastName;
-  final int numberOfChildren;
-  final List<ImportantDate> importantDates;
-  final List<Contact> deviceContacts;
-  final List<Contact> filteredDeviceContacts;
-  final Contact selectedDeviceContact;
-  final String searchText;
-  final String notes;
-  final String customLeadSourceName;
-  final String leadSource;
-  final String errorState;
-  final Client client;
-  final Function() onSavePressed;
-  final Function() onCancelPressed;
-  final Function() onNextPressed;
-  final Function() onBackPressed;
-  final Function(String) onClientFirstNameChanged;
-  final Function(String) onClientLastNameChanged;
-  final Function(String) onPhoneTextChanged;
-  final Function(String) onEmailTextChanged;
-  final Function(String) onInstagramUrlChanged;
-  final Function(int) onRelationshipStatusChanged;
-  final Function(String) onSpouseFirstNameChanged;
-  final Function(String) onSpouseLastNameChanged;
-  final Function(int) onNumberOfChildrenChanged;
-  final Function(ImportantDate) onImportantDateAdded;
-  final Function(int) onImportantDateRemoved;
-  final Function(String) onNotesChanged;
-  final Function(String) onErrorStateChanged;
-  final Function(String) onLeadSourceSelected;
-  final Function() onGetDeviceContactsSelected;
-  final Function(Contact) onDeviceContactSelected;
-  final Function() onCloseSelected;
-  final Function(String) onContactSearchTextChanged;
-  final Function() onStartNewJobSelected;
-  final Function(String) onCustomLeadSourceTextChanged;
+  final String? documentId;
+  final int? pageViewIndex;
+  final bool? saveButtonEnabled;
+  final bool? shouldClear;
+  final bool? isComingFromNewJob;
+  final String? newContactFirstName;
+  final String? newContactLastName;
+  final String? newContactPhone;
+  final String? newContactEmail;
+  final String? newContactInstagramUrl;
+  final String? relationshipStatus;
+  final String? spouseFirstName;
+  final String? spouseLastName;
+  final int? numberOfChildren;
+  final List<ImportantDate>? importantDates;
+  final List<Contact>? deviceContacts;
+  final List<Contact>? filteredDeviceContacts;
+  final Contact? selectedDeviceContact;
+  final String? searchText;
+  final String? notes;
+  final String? customLeadSourceName;
+  final String? leadSource;
+  final String? errorState;
+  final Client? client;
+  final Function()? onSavePressed;
+  final Function()? onCancelPressed;
+  final Function()? onNextPressed;
+  final Function()? onBackPressed;
+  final Function(String)? onClientFirstNameChanged;
+  final Function(String)? onClientLastNameChanged;
+  final Function(String)? onPhoneTextChanged;
+  final Function(String)? onEmailTextChanged;
+  final Function(String)? onInstagramUrlChanged;
+  final Function(int)? onRelationshipStatusChanged;
+  final Function(String)? onSpouseFirstNameChanged;
+  final Function(String)? onSpouseLastNameChanged;
+  final Function(int)? onNumberOfChildrenChanged;
+  final Function(ImportantDate)? onImportantDateAdded;
+  final Function(int)? onImportantDateRemoved;
+  final Function(String)? onNotesChanged;
+  final Function(String)? onErrorStateChanged;
+  final Function(String)? onLeadSourceSelected;
+  final Function()? onGetDeviceContactsSelected;
+  final Function(Contact)? onDeviceContactSelected;
+  final Function()? onCloseSelected;
+  final Function(String)? onContactSearchTextChanged;
+  final Function()? onStartNewJobSelected;
+  final Function(String)? onCustomLeadSourceTextChanged;
 
   NewContactPageState({
     @required this.documentId,
@@ -117,55 +117,55 @@ class NewContactPageState {
   });
 
   NewContactPageState copyWith({
-    String documentId,
-    int pageViewIndex,
-    saveButtonEnabled,
-    bool shouldClear,
-    bool isComingFromNewJob,
-    String newContactFirstName,
-    String newContactLastName,
-    String newContactPhone,
-    String newContactEmail,
-    String newContactInstagramUrl,
-    String relationshipStatus,
-    String spouseFirstName,
-    String spouseLastName,
-    int numberOfChildren,
-    List<ImportantDate> importantDates,
-    List<Contact> deviceContacts,
-    List<Contact> filteredDeviceContacts,
-    Contact selectedDeviceContact,
-    String searchText,
-    String notes,
-    String leadSource,
-    String customLeadSourceName,
-    String errorState,
-    Client client,
-    Function() onSavePressed,
-    Function() onCancelPressed,
-    Function() onNextPressed,
-    Function() onBackPressed,
-    Function(String) onClientFirstNameChanged,
-    Function(String) onClientLastNameChanged,
-    Function(String) onPhoneTextChanged,
-    Function(String) onEmailTextChanged,
-    Function(String) onInstagramUrlChanged,
-    Function(int) onRelationshipStatusChanged,
-    Function(String) onSpouseFirstNameChanged,
-    Function(String) onSpouseLastNameChanged,
-    Function(int) onNumberOfChildrenChanged,
-    Function(ImportantDate) onImportantDateAdded,
-    Function(int) onImportantDateRemoved,
-    Function(String) onNotesChanged,
-    Function(String) onClientIconSelected,
-    Function(String) onErrorStateChanged,
-    Function(String) onLeadSourceSelected,
-    Function() onGetDeviceContactsSelected,
-    Function(Contact) onDeviceContactSelected,
-    Function() onCLoseSelected,
-    Function(String) onContactSearchTextChanged,
-    Function() onStartNewJobSelected,
-    Function(String) onCustomLeadSourceTextChanged,
+    String? documentId,
+    int? pageViewIndex,
+    bool? saveButtonEnabled,
+    bool? shouldClear,
+    bool? isComingFromNewJob,
+    String? newContactFirstName,
+    String? newContactLastName,
+    String? newContactPhone,
+    String? newContactEmail,
+    String? newContactInstagramUrl,
+    String? relationshipStatus,
+    String? spouseFirstName,
+    String? spouseLastName,
+    int? numberOfChildren,
+    List<ImportantDate>? importantDates,
+    List<Contact>? deviceContacts,
+    List<Contact>? filteredDeviceContacts,
+    Contact? selectedDeviceContact,
+    String? searchText,
+    String? notes,
+    String? leadSource,
+    String? customLeadSourceName,
+    String? errorState,
+    Client? client,
+    Function()? onSavePressed,
+    Function()? onCancelPressed,
+    Function()? onNextPressed,
+    Function()? onBackPressed,
+    Function(String)? onClientFirstNameChanged,
+    Function(String)? onClientLastNameChanged,
+    Function(String)? onPhoneTextChanged,
+    Function(String)? onEmailTextChanged,
+    Function(String)? onInstagramUrlChanged,
+    Function(int)? onRelationshipStatusChanged,
+    Function(String)? onSpouseFirstNameChanged,
+    Function(String)? onSpouseLastNameChanged,
+    Function(int)? onNumberOfChildrenChanged,
+    Function(ImportantDate)? onImportantDateAdded,
+    Function(int)? onImportantDateRemoved,
+    Function(String)? onNotesChanged,
+    Function(String)? onClientIconSelected,
+    Function(String)? onErrorStateChanged,
+    Function(String)? onLeadSourceSelected,
+    Function()? onGetDeviceContactsSelected,
+    Function(Contact)? onDeviceContactSelected,
+    Function()? onCLoseSelected,
+    Function(String)? onContactSearchTextChanged,
+    Function()? onStartNewJobSelected,
+    Function(String)? onCustomLeadSourceTextChanged,
   }){
     return NewContactPageState(
       documentId: documentId?? this.documentId,
@@ -272,30 +272,30 @@ class NewContactPageState {
 
   factory NewContactPageState.fromStore(Store<AppState> store) {
     return NewContactPageState(
-      documentId: store.state.newContactPageState.documentId,
-      pageViewIndex: store.state.newContactPageState.pageViewIndex,
-      saveButtonEnabled: store.state.newContactPageState.saveButtonEnabled,
-      shouldClear: store.state.newContactPageState.shouldClear,
-      newContactFirstName: store.state.newContactPageState.newContactFirstName,
-      newContactLastName: store.state.newContactPageState.newContactLastName,
-      newContactPhone: store.state.newContactPageState.newContactPhone,
-      newContactEmail: store.state.newContactPageState.newContactEmail,
-      newContactInstagramUrl: store.state.newContactPageState.newContactInstagramUrl,
-      relationshipStatus: store.state.newContactPageState.relationshipStatus,
-      spouseFirstName: store.state.newContactPageState.spouseFirstName,
-      spouseLastName: store.state.newContactPageState.spouseLastName,
-      numberOfChildren: store.state.newContactPageState.numberOfChildren,
-      importantDates: store.state.newContactPageState.importantDates,
-      deviceContacts: store.state.newContactPageState.deviceContacts,
-      selectedDeviceContact: store.state.newContactPageState.selectedDeviceContact,
-      filteredDeviceContacts: store.state.newContactPageState.filteredDeviceContacts,
-      searchText: store.state.newContactPageState.searchText,
-      notes: store.state.newContactPageState.notes,
-      leadSource: store.state.newContactPageState.leadSource,
-      errorState: store.state.newContactPageState.errorState,
-      client: store.state.newContactPageState.client,
-      customLeadSourceName: store.state.newContactPageState.customLeadSourceName,
-      isComingFromNewJob: store.state.newContactPageState.isComingFromNewJob,
+      documentId: store.state.newContactPageState!.documentId,
+      pageViewIndex: store.state.newContactPageState!.pageViewIndex,
+      saveButtonEnabled: store.state.newContactPageState!.saveButtonEnabled,
+      shouldClear: store.state.newContactPageState!.shouldClear,
+      newContactFirstName: store.state.newContactPageState!.newContactFirstName,
+      newContactLastName: store.state.newContactPageState!.newContactLastName,
+      newContactPhone: store.state.newContactPageState!.newContactPhone,
+      newContactEmail: store.state.newContactPageState!.newContactEmail,
+      newContactInstagramUrl: store.state.newContactPageState!.newContactInstagramUrl,
+      relationshipStatus: store.state.newContactPageState!.relationshipStatus,
+      spouseFirstName: store.state.newContactPageState!.spouseFirstName,
+      spouseLastName: store.state.newContactPageState!.spouseLastName,
+      numberOfChildren: store.state.newContactPageState!.numberOfChildren,
+      importantDates: store.state.newContactPageState!.importantDates,
+      deviceContacts: store.state.newContactPageState!.deviceContacts,
+      selectedDeviceContact: store.state.newContactPageState!.selectedDeviceContact,
+      filteredDeviceContacts: store.state.newContactPageState!.filteredDeviceContacts,
+      searchText: store.state.newContactPageState!.searchText,
+      notes: store.state.newContactPageState!.notes,
+      leadSource: store.state.newContactPageState!.leadSource,
+      errorState: store.state.newContactPageState!.errorState,
+      client: store.state.newContactPageState!.client,
+      customLeadSourceName: store.state.newContactPageState!.customLeadSourceName,
+      isComingFromNewJob: store.state.newContactPageState!.isComingFromNewJob,
       onSavePressed: () => store.dispatch(SaveNewContactAction(store.state.newContactPageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newContactPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newContactPageState)),
@@ -318,7 +318,7 @@ class NewContactPageState {
       onDeviceContactSelected: (contact) => store.dispatch(SetSelectedDeviceContactAction(store.state.newContactPageState, contact)),
       onCloseSelected: () => store.dispatch(ClearDeviceContactsAction(store.state.newContactPageState)),
       onContactSearchTextChanged: (text) => store.dispatch(FilterDeviceContactsAction(store.state.newContactPageState, text)),
-      onStartNewJobSelected: () => store.dispatch(jobActions.InitializeNewContactPageAction(store.state.newJobPageState, store.state.newContactPageState.client)),
+      onStartNewJobSelected: () => store.dispatch(jobActions.InitializeNewContactPageAction(store.state.newJobPageState, store.state.newContactPageState!.client)),
       onCustomLeadSourceTextChanged: (customName) => store.dispatch(UpdateCustomLeadNameAction(store.state.newContactPageState, customName)),
     );
   }

@@ -25,10 +25,10 @@ class LineItemListWidget extends StatelessWidget{
           child: ListView.builder(
             shrinkWrap: true,
             physics: ClampingScrollPhysics(),
-            itemCount: pageState.lineItems.length,
+            itemCount: pageState.lineItems!.length,
             itemBuilder: (context, index) {
               return LineItemWidget(
-                  pageState.lineItems.elementAt(index), index, pageState.lineItems.length, pageState.onLineItemDeleted, pageState);
+                  pageState.lineItems!.elementAt(index), index, pageState.lineItems!.length, pageState.onLineItemDeleted!, pageState);
             },
           ),
         ),

@@ -22,64 +22,64 @@ class NewJobPageState {
   static const String NO_ERROR = "noError";
   static const String ERROR_JOB_TITLE_MISSING = "missingJobTitle";
 
-  final int id;
-  final String documentId;
-  final int pageViewIndex;
-  final bool saveButtonEnabled;
-  final bool shouldClear;
-  final bool comingFromClientDetails;
-  final bool isFinishedFetchingClients;
-  final bool isSelectedClientNew;
-  final bool isSelectedPriceProfileNew;
-  final bool isSelectedJobTypeNew;
-  final String errorState;
-  final Client selectedClient;
-  final String clientFirstName;
-  final String clientSearchText;
-  final String documentPath;
-  final String oneTimePrice;
-  final PriceProfile selectedPriceProfile;
-  final Profile profile;
-  final LocationDandy selectedLocation;
-  final LocationDandy oneTimeLocation;
-  final DateTime selectedDate;
-  final DateTime selectedStartTime;
-  final DateTime selectedEndTime;
-  final DateTime sunsetDateTime;
-  final DateTime initialTimeSelectorTime;
-  final JobStage currentJobStage;
-  final JobType selectedJobType;
-  final List<Client> allClients;
-  final List<Client> filteredClients;
-  final List<PriceProfile> pricingProfiles;
-  final List<LocationDandy> locations;
-  final List<File> imageFiles;
-  final List<EventDandyLight> eventList;
-  final List<Event> deviceEvents;
-  final List<Job> jobs;
-  final List<JobType> jobTypes;
-  final Function() onSavePressed;
-  final Function() onCancelPressed;
-  final Function() onNextPressed;
-  final Function() onBackPressed;
-  final Function(Client) onClientSelected;
-  final Function(String) onClientFirstNameTextChanged;
-  final Function() onClearInputSelected;
-  final Function(PriceProfile) onPriceProfileSelected;
-  final Function(LocationDandy) onLocationSelected;
-  final Function(DateTime) onDateSelected;
-  final Function(JobType) onJobTypeSelected;
-  final Function(DateTime) onStartTimeSelected;
-  final Function(DateTime) onEndTimeSelected;
-  final Function(Job) onJobClicked;
-  final Function(DateTime) onMonthChanged;
-  final Function() onSunsetWeatherSelected;
-  final Function(String) onOneTimePriceChanged;
-  final Function(LocationDandy) onLocationSearchResultSelected;
-  final double lat;
-  final double lon;
-  final Function(bool) onCalendarEnabled;
-  final Function() onSkipSelected;
+  final int? id;
+  final String? documentId;
+  final int? pageViewIndex;
+  final bool? saveButtonEnabled;
+  final bool? shouldClear;
+  final bool? comingFromClientDetails;
+  final bool? isFinishedFetchingClients;
+  final bool? isSelectedClientNew;
+  final bool? isSelectedPriceProfileNew;
+  final bool? isSelectedJobTypeNew;
+  final String? errorState;
+  final Client? selectedClient;
+  final String? clientFirstName;
+  final String? clientSearchText;
+  final String? documentPath;
+  final String? oneTimePrice;
+  final PriceProfile? selectedPriceProfile;
+  final Profile? profile;
+  final LocationDandy? selectedLocation;
+  final LocationDandy? oneTimeLocation;
+  final DateTime? selectedDate;
+  final DateTime? selectedStartTime;
+  final DateTime? selectedEndTime;
+  final DateTime? sunsetDateTime;
+  final DateTime? initialTimeSelectorTime;
+  final JobStage? currentJobStage;
+  final JobType? selectedJobType;
+  final List<Client>? allClients;
+  final List<Client>? filteredClients;
+  final List<PriceProfile>? pricingProfiles;
+  final List<LocationDandy>? locations;
+  final List<File?>? imageFiles;
+  final List<EventDandyLight>? eventList;
+  final List<Event>? deviceEvents;
+  final List<Job>? jobs;
+  final List<JobType>? jobTypes;
+  final Function()? onSavePressed;
+  final Function()? onCancelPressed;
+  final Function()? onNextPressed;
+  final Function()? onBackPressed;
+  final Function(Client)? onClientSelected;
+  final Function(String)? onClientFirstNameTextChanged;
+  final Function()? onClearInputSelected;
+  final Function(PriceProfile)? onPriceProfileSelected;
+  final Function(LocationDandy)? onLocationSelected;
+  final Function(DateTime)? onDateSelected;
+  final Function(JobType)? onJobTypeSelected;
+  final Function(DateTime)? onStartTimeSelected;
+  final Function(DateTime)? onEndTimeSelected;
+  final Function(Job)? onJobClicked;
+  final Function(DateTime)? onMonthChanged;
+  final Function()? onSunsetWeatherSelected;
+  final Function(String)? onOneTimePriceChanged;
+  final Function(LocationDandy)? onLocationSearchResultSelected;
+  final double? lat;
+  final double? lon;
+  final Function(bool)? onCalendarEnabled;
+  final Function()? onSkipSelected;
 
   NewJobPageState({
     @required this.id,
@@ -143,64 +143,64 @@ class NewJobPageState {
   });
 
   NewJobPageState copyWith({
-    int id,
-    String documentId,
-    String documentPath,
-    int pageViewIndex,
-    bool comingFromClientDetails,
-    bool saveButtonEnabled,
-    bool shouldClear,
-    bool isFinishedFetchingClients,
-    bool isSelectedClientNew,
-    bool isSelectedPriceProfileNew,
-    bool isSelectedJobTypeNew,
-    String errorState,
-    Client selectedClient,
-    String clientFirstName,
-    String clientSearchText,
-    PriceProfile selectedPriceProfile,
-    LocationDandy selectedLocation,
-    List<Client> allClients,
-    List<Client> filteredClients,
-    List<PriceProfile> pricingProfiles,
-    List<LocationDandy> locations,
-    List<File> imageFiles,
-    Profile profile,
-    DateTime selectedDate,
-    DateTime selectedStartTime,
-    DateTime selectedEndTime,
-    DateTime sunsetDateTime,
-    DateTime initialTimeSelectorTime,
-    JobType jobType,
-    JobType selectedJobType,
-    List<EventDandyLight> eventList,
-    List<Event> deviceEvents,
-    List<Job> jobs,
-    List<JobType> jobTypes,
-    Function() onSavePressed,
-    Function() onCancelPressed,
-    Function() onNextPressed,
-    Function() onBackPressed,
-    Function(Client) onClientSelected,
-    Function() onClearInputSelected,
-    Function(PriceProfile) onPriceProfileSelected,
-    Function(LocationDandy) onLocationSelected,
-    Function(DateTime) onDateSelected,
-    Function(JobType) onJobTypeSelected,
-    Function(DateTime) onStartTimeSelected,
-    Function(Job) onJobClicked,
-    Function(DateTime) onMonthChanged,
-    Function(String) onClientFirstNameTextChanged,
-    Function() onSunsetWeatherSelected,
-    Function(String) onOneTimePriceChanged,
-    String oneTimePrice,
-    Function(DateTime) onEndTimeSelected,
-    Function(LocationDandy) onLocationSearchResultSelected,
-    double lat,
-    double lon,
-    LocationDandy oneTimeLocation,
-    Function(bool) onCalendarEnabled,
-    Function() onSkipSelected,
+    int? id,
+    String? documentId,
+    String? documentPath,
+    int? pageViewIndex,
+    bool? comingFromClientDetails,
+    bool? saveButtonEnabled,
+    bool? shouldClear,
+    bool? isFinishedFetchingClients,
+    bool? isSelectedClientNew,
+    bool? isSelectedPriceProfileNew,
+    bool? isSelectedJobTypeNew,
+    String? errorState,
+    Client? selectedClient,
+    String? clientFirstName,
+    String? clientSearchText,
+    PriceProfile? selectedPriceProfile,
+    LocationDandy? selectedLocation,
+    List<Client>? allClients,
+    List<Client>? filteredClients,
+    List<PriceProfile>? pricingProfiles,
+    List<LocationDandy>? locations,
+    List<File?>? imageFiles,
+    Profile? profile,
+    DateTime? selectedDate,
+    DateTime? selectedStartTime,
+    DateTime? selectedEndTime,
+    DateTime? sunsetDateTime,
+    DateTime? initialTimeSelectorTime,
+    JobType? jobType,
+    JobType? selectedJobType,
+    List<EventDandyLight>? eventList,
+    List<Event>? deviceEvents,
+    List<Job>? jobs,
+    List<JobType>? jobTypes,
+    Function()? onSavePressed,
+    Function()? onCancelPressed,
+    Function()? onNextPressed,
+    Function()? onBackPressed,
+    Function(Client)? onClientSelected,
+    Function()? onClearInputSelected,
+    Function(PriceProfile)? onPriceProfileSelected,
+    Function(LocationDandy)? onLocationSelected,
+    Function(DateTime)? onDateSelected,
+    Function(JobType)? onJobTypeSelected,
+    Function(DateTime)? onStartTimeSelected,
+    Function(Job)? onJobClicked,
+    Function(DateTime)? onMonthChanged,
+    Function(String)? onClientFirstNameTextChanged,
+    Function()? onSunsetWeatherSelected,
+    Function(String)? onOneTimePriceChanged,
+    String? oneTimePrice,
+    Function(DateTime)? onEndTimeSelected,
+    Function(LocationDandy)? onLocationSearchResultSelected,
+    double? lat,
+    double? lon,
+    LocationDandy? oneTimeLocation,
+    Function(bool)? onCalendarEnabled,
+    Function()? onSkipSelected,
   }){
     return NewJobPageState(
       id: id?? this.id,
@@ -331,44 +331,44 @@ class NewJobPageState {
 
   factory NewJobPageState.fromStore(Store<AppState> store) {
     return NewJobPageState(
-      id: store.state.newJobPageState.id,
-      documentId: store.state.newJobPageState.documentId,
-      documentPath: store.state.newJobPageState.documentPath,
-      pageViewIndex: store.state.newJobPageState.pageViewIndex,
-      saveButtonEnabled: store.state.newJobPageState.saveButtonEnabled,
-      shouldClear: store.state.newJobPageState.shouldClear,
-      isFinishedFetchingClients: store.state.newJobPageState.isFinishedFetchingClients,
-      errorState: store.state.newJobPageState.errorState,
-      selectedClient: store.state.newJobPageState.selectedClient,
-      clientSearchText: store.state.newJobPageState.clientSearchText,
-      selectedPriceProfile: store.state.newJobPageState.selectedPriceProfile,
-      selectedLocation: store.state.newJobPageState.selectedLocation,
-      allClients: store.state.newJobPageState.allClients,
-      deviceEvents: store.state.newJobPageState.deviceEvents,
-      filteredClients: store.state.newJobPageState.filteredClients,
-      pricingProfiles: store.state.newJobPageState.pricingProfiles,
-      locations: store.state.newJobPageState.locations,
-      selectedDate: store.state.newJobPageState.selectedDate,
-      selectedStartTime: store.state.newJobPageState.selectedStartTime,
-      sunsetDateTime: store.state.newJobPageState.sunsetDateTime,
-      selectedJobType: store.state.newJobPageState.selectedJobType,
-      currentJobStage: store.state.newJobPageState.currentJobStage,
-      eventList: store.state.newJobPageState.eventList,
-      jobs: store.state.newJobPageState.jobs,
-      comingFromClientDetails: store.state.newJobPageState.comingFromClientDetails,
-      jobTypes: store.state.newJobPageState.jobTypes,
-      clientFirstName: store.state.newJobPageState.clientFirstName,
-      imageFiles: store.state.newJobPageState.imageFiles,
-      oneTimePrice: store.state.newJobPageState.oneTimePrice,
-      selectedEndTime: store.state.newJobPageState.selectedEndTime,
-      initialTimeSelectorTime: store.state.newJobPageState.initialTimeSelectorTime,
-      oneTimeLocation: store.state.newJobPageState.oneTimeLocation,
-      lat: store.state.newJobPageState.lat,
-      lon: store.state.newJobPageState.lon,
-      profile: store.state.newJobPageState.profile,
-      isSelectedClientNew: store.state.newJobPageState.isSelectedClientNew,
-      isSelectedJobTypeNew: store.state.newJobPageState.isSelectedJobTypeNew,
-      isSelectedPriceProfileNew: store.state.newJobPageState.isSelectedPriceProfileNew,
+      id: store.state.newJobPageState!.id,
+      documentId: store.state.newJobPageState!.documentId,
+      documentPath: store.state.newJobPageState!.documentPath,
+      pageViewIndex: store.state.newJobPageState!.pageViewIndex,
+      saveButtonEnabled: store.state.newJobPageState!.saveButtonEnabled,
+      shouldClear: store.state.newJobPageState!.shouldClear,
+      isFinishedFetchingClients: store.state.newJobPageState!.isFinishedFetchingClients,
+      errorState: store.state.newJobPageState!.errorState,
+      selectedClient: store.state.newJobPageState!.selectedClient,
+      clientSearchText: store.state.newJobPageState!.clientSearchText,
+      selectedPriceProfile: store.state.newJobPageState!.selectedPriceProfile,
+      selectedLocation: store.state.newJobPageState!.selectedLocation,
+      allClients: store.state.newJobPageState!.allClients,
+      deviceEvents: store.state.newJobPageState!.deviceEvents,
+      filteredClients: store.state.newJobPageState!.filteredClients,
+      pricingProfiles: store.state.newJobPageState!.pricingProfiles,
+      locations: store.state.newJobPageState!.locations,
+      selectedDate: store.state.newJobPageState!.selectedDate,
+      selectedStartTime: store.state.newJobPageState!.selectedStartTime,
+      sunsetDateTime: store.state.newJobPageState!.sunsetDateTime,
+      selectedJobType: store.state.newJobPageState!.selectedJobType,
+      currentJobStage: store.state.newJobPageState!.currentJobStage,
+      eventList: store.state.newJobPageState!.eventList,
+      jobs: store.state.newJobPageState!.jobs,
+      comingFromClientDetails: store.state.newJobPageState!.comingFromClientDetails,
+      jobTypes: store.state.newJobPageState!.jobTypes,
+      clientFirstName: store.state.newJobPageState!.clientFirstName,
+      imageFiles: store.state.newJobPageState!.imageFiles,
+      oneTimePrice: store.state.newJobPageState!.oneTimePrice,
+      selectedEndTime: store.state.newJobPageState!.selectedEndTime,
+      initialTimeSelectorTime: store.state.newJobPageState!.initialTimeSelectorTime,
+      oneTimeLocation: store.state.newJobPageState!.oneTimeLocation,
+      lat: store.state.newJobPageState!.lat,
+      lon: store.state.newJobPageState!.lon,
+      profile: store.state.newJobPageState!.profile,
+      isSelectedClientNew: store.state.newJobPageState!.isSelectedClientNew,
+      isSelectedJobTypeNew: store.state.newJobPageState!.isSelectedJobTypeNew,
+      isSelectedPriceProfileNew: store.state.newJobPageState!.isSelectedPriceProfileNew,
       onSavePressed: () => store.dispatch(SaveNewJobAction(store.state.newJobPageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newJobPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newJobPageState)),
@@ -384,7 +384,7 @@ class NewJobPageState {
       onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId)),
       onMonthChanged: (month) => store.dispatch(FetchNewJobDeviceEvents(store.state.newJobPageState, month)),
       onClientFirstNameTextChanged: (firstName) => store.dispatch(SetClientFirstNameAction(store.state.newJobPageState, firstName)),
-      onSunsetWeatherSelected: () => store.dispatch(sunsetPageActions.LoadInitialLocationAndDateComingFromNewJobAction(store.state.sunsetWeatherPageState, store.state.newJobPageState.selectedLocation, store.state.newJobPageState.selectedDate)),
+      onSunsetWeatherSelected: () => store.dispatch(sunsetPageActions.LoadInitialLocationAndDateComingFromNewJobAction(store.state.sunsetWeatherPageState, store.state.newJobPageState!.selectedLocation, store.state.newJobPageState!.selectedDate)),
       onOneTimePriceChanged: (inputText) => store.dispatch(SetOneTimePriceTextAction(store.state.newJobPageState, inputText)),
       onLocationSearchResultSelected: (selectedLocation) => store.dispatch(SetSelectedOneTimeLocation(store.state.newJobPageState, selectedLocation)),
       onCalendarEnabled: (enabled) => store.dispatch(FetchNewJobDeviceEvents(store.state.newJobPageState, DateTime.now())),

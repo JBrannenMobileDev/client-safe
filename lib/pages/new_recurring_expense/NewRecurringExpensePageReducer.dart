@@ -29,18 +29,18 @@ NewRecurringExpensePageState _setSelectedBillingPeriod(NewRecurringExpensePageSt
 
 NewRecurringExpensePageState _setSelectedRecurringExpense(NewRecurringExpensePageState previousState, LoadExistingRecurringExpenseAction action){
   return previousState.copyWith(
-    expenseName: action.recurringExpense.expenseName,
-    expenseDate: action.recurringExpense.initialChargeDate,
-    expenseCost: action.recurringExpense.cost,
-    billingPeriod: action.recurringExpense.billingPeriod,
-    id: action.recurringExpense.id,
-    documentId: action.recurringExpense.documentId,
+    expenseName: action.recurringExpense!.expenseName,
+    expenseDate: action.recurringExpense!.initialChargeDate,
+    expenseCost: action.recurringExpense!.cost,
+    billingPeriod: action.recurringExpense!.billingPeriod,
+    id: action.recurringExpense!.id,
+    documentId: action.recurringExpense!.documentId,
     shouldClear: false,
   );
 }
 
 NewRecurringExpensePageState _updateCost(NewRecurringExpensePageState previousState, UpdateCostAction action){
-  String resultCost = action.newCost.replaceAll('\$', '');
+  String resultCost = action.newCost!.replaceAll('\$', '');
   resultCost = resultCost.replaceAll(',', '');
   resultCost = resultCost.replaceAll(' ', '');
   double doubleCost = double.parse(resultCost);
@@ -63,18 +63,18 @@ NewRecurringExpensePageState _updateName(NewRecurringExpensePageState previousSt
 
 NewRecurringExpensePageState _loadRecurringExpense(NewRecurringExpensePageState previousState, LoadExistingRecurringExpenseData action){
   return previousState.copyWith(
-    id: action.recurringExpense.id,
-    documentId: action.recurringExpense.documentId,
+    id: action.recurringExpense!.id,
+    documentId: action.recurringExpense!.documentId,
     shouldClear: false,
-    expenseName: action.recurringExpense.expenseName,
-    expenseDate: action.recurringExpense.initialChargeDate,
-    expenseCost: action.recurringExpense.cost,
-    billingPeriod: action.recurringExpense.billingPeriod,
+    expenseName: action.recurringExpense!.expenseName,
+    expenseDate: action.recurringExpense!.initialChargeDate,
+    expenseCost: action.recurringExpense!.cost,
+    billingPeriod: action.recurringExpense!.billingPeriod,
   );
 }
 
 NewRecurringExpensePageState _incrementPageViewIndex(NewRecurringExpensePageState previousState, IncrementPageViewIndex action) {
-  int incrementedIndex = previousState.pageViewIndex;
+  int incrementedIndex = previousState.pageViewIndex!;
   incrementedIndex++;
   return previousState.copyWith(
       pageViewIndex: incrementedIndex
@@ -82,7 +82,7 @@ NewRecurringExpensePageState _incrementPageViewIndex(NewRecurringExpensePageStat
 }
 
 NewRecurringExpensePageState _decrementPageViewIndex(NewRecurringExpensePageState previousState, DecrementPageViewIndex action) {
-  int decrementedIndex = previousState.pageViewIndex;
+  int decrementedIndex = previousState.pageViewIndex!;
   decrementedIndex--;
   return previousState.copyWith(
       pageViewIndex: decrementedIndex

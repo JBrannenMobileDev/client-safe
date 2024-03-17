@@ -12,26 +12,26 @@ class NewRecurringExpensePageState {
   static const String BILLING_PERIOD_6MONTHS = '6months';
   static const String BILLING_PERIOD_1YEAR = '1year';
 
-  final int id;
-  final String documentId;
-  final int pageViewIndex;
-  final bool saveButtonEnabled;
-  final bool shouldClear;
-  final String expenseName;
-  final bool isAutoPay;
-  final DateTime expenseDate;
-  final double expenseCost;
-  final String billingPeriod;
-  final Function() onSavePressed;
-  final Function() onCancelPressed;
-  final Function() onNextPressed;
-  final Function() onBackPressed;
-  final Function() onDeleteRecurringExpenseSelected;
-  final Function(String) onNameChanged;
-  final Function(DateTime) onExpenseDateSelected;
-  final Function(String) onCostChanged;
-  final Function(String) onBillingPeriodSelected;
-  final Function(bool) onAutoPaySelected;
+  final int? id;
+  final String? documentId;
+  final int? pageViewIndex;
+  final bool? saveButtonEnabled;
+  final bool? shouldClear;
+  final String? expenseName;
+  final bool? isAutoPay;
+  final DateTime? expenseDate;
+  final double? expenseCost;
+  final String? billingPeriod;
+  final Function()? onSavePressed;
+  final Function()? onCancelPressed;
+  final Function()? onNextPressed;
+  final Function()? onBackPressed;
+  final Function()? onDeleteRecurringExpenseSelected;
+  final Function(String)? onNameChanged;
+  final Function(DateTime)? onExpenseDateSelected;
+  final Function(String)? onCostChanged;
+  final Function(String)? onBillingPeriodSelected;
+  final Function(bool)? onAutoPaySelected;
 
   NewRecurringExpensePageState({
     @required this.id,
@@ -57,26 +57,26 @@ class NewRecurringExpensePageState {
   });
 
   NewRecurringExpensePageState copyWith({
-    int id,
-    String documentId,
-    int pageViewIndex,
-    saveButtonEnabled,
-    bool shouldClear,
-    bool isAutoPay,
-    String expenseName,
-    DateTime expenseDate,
-    String billingPeriod,
-    Function() onSavePressed,
-    Function() onCancelPressed,
-    Function() onNextPressed,
-    Function() onBackPressed,
-    Function() onDeleteRecurringExpenseSelected,
-    Function(String) onNameChanged,
-    Function(DateTime) onExpenseDateSelected,
-    double expenseCost,
-    Function(String) onCostChanged,
-    Function(String) onBillingPeriodSelected,
-    Function(bool) onAutoPaySelected,
+    int? id,
+    String? documentId,
+    int? pageViewIndex,
+    bool? saveButtonEnabled,
+    bool? shouldClear,
+    bool? isAutoPay,
+    String? expenseName,
+    DateTime? expenseDate,
+    String? billingPeriod,
+    Function()? onSavePressed,
+    Function()? onCancelPressed,
+    Function()? onNextPressed,
+    Function()? onBackPressed,
+    Function()? onDeleteRecurringExpenseSelected,
+    Function(String)? onNameChanged,
+    Function(DateTime)? onExpenseDateSelected,
+    double? expenseCost,
+    Function(String)? onCostChanged,
+    Function(String)? onBillingPeriodSelected,
+    Function(bool)? onAutoPaySelected,
   }){
     return NewRecurringExpensePageState(
       id: id?? this.id,
@@ -127,16 +127,16 @@ class NewRecurringExpensePageState {
 
   factory NewRecurringExpensePageState.fromStore(Store<AppState> store) {
     return NewRecurringExpensePageState(
-      id: store.state.newRecurringExpensePageState.id,
-      pageViewIndex: store.state.newRecurringExpensePageState.pageViewIndex,
-      saveButtonEnabled: store.state.newRecurringExpensePageState.saveButtonEnabled,
-      shouldClear: store.state.newRecurringExpensePageState.shouldClear,
-      expenseName: store.state.newRecurringExpensePageState.expenseName,
-      expenseDate: store.state.newRecurringExpensePageState.expenseDate,
-      expenseCost: store.state.newRecurringExpensePageState.expenseCost,
-      billingPeriod: store.state.newRecurringExpensePageState.billingPeriod,
-      isAutoPay: store.state.newRecurringExpensePageState.isAutoPay,
-      documentId: store.state.newRecurringExpensePageState.documentId,
+      id: store.state.newRecurringExpensePageState!.id,
+      pageViewIndex: store.state.newRecurringExpensePageState!.pageViewIndex,
+      saveButtonEnabled: store.state.newRecurringExpensePageState!.saveButtonEnabled,
+      shouldClear: store.state.newRecurringExpensePageState!.shouldClear,
+      expenseName: store.state.newRecurringExpensePageState!.expenseName,
+      expenseDate: store.state.newRecurringExpensePageState!.expenseDate,
+      expenseCost: store.state.newRecurringExpensePageState!.expenseCost,
+      billingPeriod: store.state.newRecurringExpensePageState!.billingPeriod,
+      isAutoPay: store.state.newRecurringExpensePageState!.isAutoPay,
+      documentId: store.state.newRecurringExpensePageState!.documentId,
       onSavePressed: () => store.dispatch(SaveRecurringExpenseProfileAction(store.state.newRecurringExpensePageState)),
       onCancelPressed: () => store.dispatch(ClearRecurringExpenseStateAction(store.state.newRecurringExpensePageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newRecurringExpensePageState)),

@@ -12,23 +12,23 @@ class NewReminderPageState {
   static const String NO_ERROR = "noError";
   static const String ERROR_PROFILE_NAME_MISSING = "missingProfileName";
 
-  final int id;
-  final String documentId;
-  final String when;
-  final bool saveButtonEnabled;
-  final bool shouldClear;
-  final String reminderDescription;
-  final String daysWeeksMonths;
-  final int daysWeeksMonthsAmount;
-  final DateTime selectedTime;
-  final Function() onSavePressed;
-  final Function() onCancelPressed;
-  final Function() onDeleteReminderSelected;
-  final Function(String) whenSelected;
-  final Function(String) onReminderDescriptionChanged;
-  final Function(String) onDaysWeeksMonthsChanged;
-  final Function(int) onDaysWeeksMonthsAmountChanged;
-  final Function(DateTime) onTimeSelected;
+  final int? id;
+  final String? documentId;
+  final String? when;
+  final bool? saveButtonEnabled;
+  final bool? shouldClear;
+  final String? reminderDescription;
+  final String? daysWeeksMonths;
+  final int? daysWeeksMonthsAmount;
+  final DateTime? selectedTime;
+  final Function()? onSavePressed;
+  final Function()? onCancelPressed;
+  final Function()? onDeleteReminderSelected;
+  final Function(String)? whenSelected;
+  final Function(String)? onReminderDescriptionChanged;
+  final Function(String)? onDaysWeeksMonthsChanged;
+  final Function(int)? onDaysWeeksMonthsAmountChanged;
+  final Function(DateTime)? onTimeSelected;
 
   NewReminderPageState({
     @required this.id,
@@ -51,23 +51,23 @@ class NewReminderPageState {
 });
 
   NewReminderPageState copyWith({
-    int id,
-    String documentId,
-    String when,
-    saveButtonEnabled,
-    bool shouldClear,
-    String reminderDescription,
-    String daysWeeksMonths,
-    int daysWeeksMonthsAmount,
-    DateTime selectedTime,
-    Function() onSavePressed,
-    Function() onCancelPressed,
-    Function() onDeleteReminderSelected,
-    Function(String) whenSelected,
-    Function(String) onReminderDescriptionChanged,
-    Function(String) onDaysWeeksMonthsChanged,
-    Function(int) onDaysWeeksMonthsAmountChanged,
-    Function(DateTime) onTimeSelected,
+    int? id,
+    String? documentId,
+    String? when,
+    bool? saveButtonEnabled,
+    bool? shouldClear,
+    String? reminderDescription,
+    String? daysWeeksMonths,
+    int? daysWeeksMonthsAmount,
+    DateTime? selectedTime,
+    Function()? onSavePressed,
+    Function()? onCancelPressed,
+    Function()? onDeleteReminderSelected,
+    Function(String)? whenSelected,
+    Function(String)? onReminderDescriptionChanged,
+    Function(String)? onDaysWeeksMonthsChanged,
+    Function(int)? onDaysWeeksMonthsAmountChanged,
+    Function(DateTime)? onTimeSelected,
   }){
     return NewReminderPageState(
       id: id?? this.id,
@@ -112,15 +112,15 @@ class NewReminderPageState {
 
   factory NewReminderPageState.fromStore(Store<AppState> store) {
     return NewReminderPageState(
-      id: store.state.newReminderPageState.id,
-      when: store.state.newReminderPageState.when,
-      saveButtonEnabled: store.state.newReminderPageState.saveButtonEnabled,
-      shouldClear: store.state.newReminderPageState.shouldClear,
-      reminderDescription: store.state.newReminderPageState.reminderDescription,
-      documentId: store.state.newReminderPageState.documentId,
-      daysWeeksMonths: store.state.newReminderPageState.daysWeeksMonths,
-      daysWeeksMonthsAmount: store.state.newReminderPageState.daysWeeksMonthsAmount,
-      selectedTime: store.state.newReminderPageState.selectedTime,
+      id: store.state.newReminderPageState!.id,
+      when: store.state.newReminderPageState!.when,
+      saveButtonEnabled: store.state.newReminderPageState!.saveButtonEnabled,
+      shouldClear: store.state.newReminderPageState!.shouldClear,
+      reminderDescription: store.state.newReminderPageState!.reminderDescription,
+      documentId: store.state.newReminderPageState!.documentId,
+      daysWeeksMonths: store.state.newReminderPageState!.daysWeeksMonths,
+      daysWeeksMonthsAmount: store.state.newReminderPageState!.daysWeeksMonthsAmount,
+      selectedTime: store.state.newReminderPageState!.selectedTime,
       onSavePressed: () => store.dispatch(SaveNewReminderAction(store.state.newReminderPageState)),
       onCancelPressed: () => store.dispatch(ClearNewReminderStateAction(store.state.newReminderPageState)),
       onDeleteReminderSelected: () => store.dispatch(DeleteReminderAction(store.state.newReminderPageState)),

@@ -1,15 +1,10 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpenseCostTextField.dart';
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/InputDoneView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:intl/intl.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 import '../../widgets/TextDandyLight.dart';
 
@@ -48,7 +43,7 @@ class _NewRecurringExpenseBillingPeriod extends State<NewRecurringExpenseBilling
               children: <Widget>[
                 GestureDetector(
                   onTap: () {
-                    pageState.onBillingPeriodSelected(NewRecurringExpensePageState.BILLING_PERIOD_1MONTH);
+                    pageState.onBillingPeriodSelected!(NewRecurringExpensePageState.BILLING_PERIOD_1MONTH);
                   },
                   child: Container(
                   alignment: Alignment.center,
@@ -68,7 +63,7 @@ class _NewRecurringExpenseBillingPeriod extends State<NewRecurringExpenseBilling
                 ),
                 GestureDetector(
                   onTap: () {
-                    pageState.onBillingPeriodSelected(NewRecurringExpensePageState.BILLING_PERIOD_3MONTHS);
+                    pageState.onBillingPeriodSelected!(NewRecurringExpensePageState.BILLING_PERIOD_3MONTHS);
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -93,7 +88,7 @@ class _NewRecurringExpenseBillingPeriod extends State<NewRecurringExpenseBilling
               children: <Widget>[
                 GestureDetector(
                   onTap: () {
-                    pageState.onBillingPeriodSelected(NewRecurringExpensePageState.BILLING_PERIOD_6MONTHS);
+                    pageState.onBillingPeriodSelected!(NewRecurringExpensePageState.BILLING_PERIOD_6MONTHS);
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -113,7 +108,7 @@ class _NewRecurringExpenseBillingPeriod extends State<NewRecurringExpenseBilling
                 ),
                 GestureDetector(
                   onTap: () {
-                    pageState.onBillingPeriodSelected(NewRecurringExpensePageState.BILLING_PERIOD_1YEAR);
+                    pageState.onBillingPeriodSelected!(NewRecurringExpensePageState.BILLING_PERIOD_1YEAR);
                   },
                   child: Container(
                     alignment: Alignment.center,

@@ -18,9 +18,9 @@ class FilterSelectorChangedAction{
 }
 
 class LoadInitialLocationAndDateComingFromNewJobAction{
-  final SunsetWeatherPageState pageState;
-  final LocationDandy location;
-  final DateTime date;
+  final SunsetWeatherPageState? pageState;
+  final LocationDandy? location;
+  final DateTime? date;
   LoadInitialLocationAndDateComingFromNewJobAction(this.pageState, this.location, this.date);
 }
 

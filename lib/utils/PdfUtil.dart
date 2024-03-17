@@ -26,10 +26,10 @@ class PdfUtil {
     return File(path);
   }
 
-  static savePdfFile(int invoiceNumber, Document pdf) async {
+  static savePdfFile(int? invoiceNumber, Document? pdf) async {
     final String dir = (await getApplicationDocumentsDirectory()).path;
     final String path = '$dir/invoice_$invoiceNumber.pdf';
-    await File(path).writeAsBytes(List.from(await pdf.save()));
+    await File(path).writeAsBytes(List.from(await pdf!.save()));
   }
 
   static Future<String> getInvoiceFilePath(int invoiceNumber) async {
@@ -39,7 +39,7 @@ class PdfUtil {
   }
 
   /// The following methods are for web app
-  static Future<Document> generateInvoicePdfFromInvoice(Invoice invoice, Job job, Client client, Profile profile) async {
+  static Future<Document?> generateInvoicePdfFromInvoice(Invoice invoice, Job job, Client client, Profile profile) async {
     return await generateInvoice(
         job,
         client,
@@ -58,26 +58,26 @@ class PdfUtil {
     );
   }
 
-  static Future<Document> generateInvoice(
-      Job job,
-      Client client,
-      Profile profile,
-      int invoiceNumber,
-      DateTime dueDate,
-      DateTime depositDueDate,
-      List<LineItem> lineItems,
-      double total,
-      double subtotal,
-      double depositValue,
-      double discountValue,
-      double salesTaxPercent,
-      double unpaidAmount,
-      bool depositPaid,
+  static Future<Document?> generateInvoice(
+      Job? job,
+      Client? client,
+      Profile? profile,
+      int? invoiceNumber,
+      DateTime? dueDate,
+      DateTime? depositDueDate,
+      List<LineItem>? lineItems,
+      double? total,
+      double? subtotal,
+      double? depositValue,
+      double? discountValue,
+      double? salesTaxPercent,
+      double? unpaidAmount,
+      bool? depositPaid,
   ) async {
     var response;
     var logoImageData;
 
-    if(profile.logoSelected! && profile.logoUrl != null) {
+    if(profile!.logoSelected! && profile.logoUrl != null) {
       response = await get(Uri.parse(profile.logoUrl!));
       logoImageData = response.bodyBytes;
     }
@@ -197,7 +197,7 @@ class PdfUtil {
                             color: PdfColor.fromHex('#444444'),
                             fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                         )),
-                        Text(client.getClientFullName(),
+                        Text(client!.getClientFullName(),
                             textScaleFactor: 0.85),
                         client.phone != null
                             ? Text(client.phone.toString(),
@@ -228,7 +228,7 @@ class PdfUtil {
                             ? Text(
                                 'Deposit due:  ' +
                                     DateFormat('MMM dd, yyyy')
-                                        .format(dueDate),
+                                        .format(dueDate!),
                                 textScaleFactor: 0.85,
                             style: TextStyle(
                                 color: PdfColor.fromHex('#444444'),
@@ -321,7 +321,7 @@ class PdfUtil {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     ListView.builder(
-                      itemCount: lineItems.length,
+                      itemCount: lineItems!.length,
                       itemBuilder: (context, index) {
                         return Container(
                           width: 246.0,
@@ -459,7 +459,7 @@ class PdfUtil {
                           width: 96.0,
                           alignment: Alignment.centerRight,
                           child: Text(
-                              TextFormatterUtil.formatDecimalCurrency(subtotal),
+                              TextFormatterUtil.formatDecimalCurrency(subtotal!),
                               textScaleFactor: 0.85,
                               textAlign: TextAlign.right,
                               style: TextStyle(
@@ -473,7 +473,7 @@ class PdfUtil {
                   ],
                 )
               ),
-              discountValue > 0
+              discountValue! > 0
                   ? Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -532,7 +532,7 @@ class PdfUtil {
                       ],
                     )
                   : SizedBox(),
-              salesTaxPercent > 0
+              salesTaxPercent! > 0
                   ? Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -578,7 +578,7 @@ class PdfUtil {
                               alignment: Alignment.centerRight,
                               child: Text(
                                 TextFormatterUtil.formatDecimalDigitsCurrency(
-                                    (total * (salesTaxPercent / 100)), 2),
+                                    (total! * (salesTaxPercent / 100)), 2),
                                 textScaleFactor: 0.85,
                                 textAlign: TextAlign.right,
                                   style: TextStyle(
@@ -609,7 +609,7 @@ class PdfUtil {
                       )),
                 ],
               ),
-          depositValue > 0 ? Row(
+          depositValue! > 0 ? Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
@@ -636,7 +636,7 @@ class PdfUtil {
                   Container(
                     width: 120.0,
                     alignment: Alignment.centerRight,
-                    child: Text('Retainer' + (depositPaid ? '(Paid)' : '(Unpaid)'),
+                    child: Text('Retainer' + (depositPaid! ? '(Paid)' : '(Unpaid)'),
                         textScaleFactor: 0.85, textAlign: TextAlign.right,
                         style: TextStyle(
                             color: PdfColor.fromHex('#444444'),
@@ -703,7 +703,7 @@ class PdfUtil {
                         width: 96.0,
                         alignment: Alignment.centerRight,
                         child: Text(
-                          TextFormatterUtil.formatDecimalCurrency(unpaidAmount),
+                          TextFormatterUtil.formatDecimalCurrency(unpaidAmount!),
                           textScaleFactor: 0.85,
                           textAlign: TextAlign.right,
                             style: TextStyle(

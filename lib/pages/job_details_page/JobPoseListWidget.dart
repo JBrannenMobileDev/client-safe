@@ -29,7 +29,7 @@ class JobPoseListWidget extends StatelessWidget {
                   color: Color(ColorConstants.getPeachLight())
                 ),
                 child: DandyLightNetworkImage(
-                  pageState.job.poses.elementAt(index).imageUrl
+                  pageState.job!.poses!.elementAt(index).imageUrl!
                 ),
               ),
               Container(
@@ -51,7 +51,7 @@ class JobPoseListWidget extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  pageState.onDeletePoseSelected(index);
+                  pageState.onDeletePoseSelected!(index);
                 },
                 child: Align(
                     alignment: Alignment.topRight,

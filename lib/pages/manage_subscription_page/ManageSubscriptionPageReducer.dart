@@ -33,7 +33,7 @@ ManageSubscriptionPageState _setShowAppliedDiscount(ManageSubscriptionPageState 
 }
 
 ManageSubscriptionPageState _setDiscountType(ManageSubscriptionPageState previousState, SetDiscountTypeAction action){
-  Offering offering = null;
+  Offering? offering;
   double monthlyPrice = 16.99;
   double annualPrice = 139.99;
 
@@ -44,23 +44,23 @@ ManageSubscriptionPageState _setDiscountType(ManageSubscriptionPageState previou
       annualPrice = 0.00;
       break;
     case DiscountCodes.FIFTY_PERCENT_TYPE:
-      offering = previousState.offerings.getOffering('Beta Discount Standard');
+      offering = previousState.offerings!.getOffering('Beta Discount Standard');
       monthlyPrice = 8.49;
       annualPrice = 69.99;
       break;
     case DiscountCodes.FIRST_3_MONTHS_FREE:
-      offering = previousState.offerings.getOffering('3_months_free');
+      offering = previousState.offerings!.getOffering('3_months_free');
       break;
     default:
       if (previousState.offerings != null) {
-        if(previousState.profile.isBetaTester) {
-          offering = previousState.offerings.getOffering('Beta Discount Standard');
+        if(previousState.profile!.isBetaTester!) {
+          offering = previousState.offerings!.getOffering('Beta Discount Standard');
         } else {
-          offering = previousState.offerings.getOffering('Standard');
+          offering = previousState.offerings!.getOffering('Standard');
         }
       }
-      monthlyPrice = previousState.monthlyPrice;
-      annualPrice = previousState.annualPrice;
+      monthlyPrice = previousState.monthlyPrice!;
+      annualPrice = previousState.annualPrice!;
   }
   return previousState.copyWith(
     annualPrice: annualPrice,
@@ -108,13 +108,13 @@ ManageSubscriptionPageState _resetErrorMsg(ManageSubscriptionPageState previousS
 }
 
 ManageSubscriptionPageState _setSubscriptionState(ManageSubscriptionPageState previousState, SetManageSubscriptionStateAction action){
-  Offering offering = null;
+  Offering? offering;
   double annualPrice = 0;
   double monthlyPrice = 0;
 
-  if(action.profile.isBetaTester) {
+  if(action.profile!.isBetaTester!) {
     if(action.offerings != null) {
-      offering = action.offerings.getOffering('Beta Discount Standard');
+      offering = action.offerings!.getOffering('Beta Discount Standard');
     }
     annualPrice = 49.99;
     monthlyPrice = 4.99;
@@ -122,32 +122,32 @@ ManageSubscriptionPageState _setSubscriptionState(ManageSubscriptionPageState pr
     String identifier = 'standard_1699';
 
     if(action.offerings != null) {
-      offering = action.offerings.getOffering(identifier);
-      annualPrice = offering?.annual?.storeProduct?.price;
-      monthlyPrice = offering?.monthly?.storeProduct?.price;
+      offering = action.offerings!.getOffering(identifier);
+      annualPrice = offering!.annual!.storeProduct.price;
+      monthlyPrice = offering!.monthly!.storeProduct.price;
     } else {
       annualPrice = 139.99;
       monthlyPrice = 16.99;
     }
   }
 
-  String selectedSubscription = null;
+  String? selectedSubscription;
   int radioValue = 0;
 
   if(offering != null) {
-    annualPrice = offering.annual.storeProduct.price;
-    monthlyPrice = offering.monthly.storeProduct.price;
+    annualPrice = offering.annual!.storeProduct.price;
+    monthlyPrice = offering.monthly!.storeProduct.price;
     selectedSubscription = ManageSubscriptionPage.PACKAGE_ANNUAL;
 
-    if(action.subscriptionState.entitlements.all['standard'] != null || action.subscriptionState.entitlements.all['standard_1699'] != null) {
-      if(action.subscriptionState.entitlements.all['standard'].isActive || action.subscriptionState.entitlements.all['standard_1699'].isActive) {
-        if(action.subscriptionState.activeSubscriptions.contains('monthly_half_off') || action.subscriptionState.activeSubscriptions.contains('monthly_subscription') || action.subscriptionState.activeSubscriptions.contains('monthly:standard') || action.subscriptionState.activeSubscriptions.contains('monthly_half_off:monthly-half-off-base') || action.subscriptionState.activeSubscriptions.contains('monthly_1699') || action.subscriptionState.activeSubscriptions.contains('monthly_1699:monthly-1699-base')) {
+    if(action.subscriptionState!.entitlements.all['standard'] != null || action.subscriptionState!.entitlements.all['standard_1699'] != null) {
+      if(action.subscriptionState!.entitlements.all['standard']!.isActive || action.subscriptionState!.entitlements.all['standard_1699']!.isActive) {
+        if(action.subscriptionState!.activeSubscriptions.contains('monthly_half_off') || action.subscriptionState!.activeSubscriptions.contains('monthly_subscription') || action.subscriptionState!.activeSubscriptions.contains('monthly:standard') || action.subscriptionState!.activeSubscriptions.contains('monthly_half_off:monthly-half-off-base') || action.subscriptionState!.activeSubscriptions.contains('monthly_1699') || action.subscriptionState!.activeSubscriptions.contains('monthly_1699:monthly-1699-base')) {
           selectedSubscription = ManageSubscriptionPage.PACKAGE_MONTHLY;
           radioValue = 1;
-        } else if(action.subscriptionState.activeSubscriptions.contains('annual') || action.subscriptionState.activeSubscriptions.contains('annual_half_off') || action.subscriptionState.activeSubscriptions.contains('annual:annual-base') || action.subscriptionState.activeSubscriptions.contains('annual_half_off:annual-half-off-base') || action.subscriptionState.activeSubscriptions.contains('yearly_13999:yearly-13999') || action.subscriptionState.activeSubscriptions.contains('yearly_204')) {
+        } else if(action.subscriptionState!.activeSubscriptions.contains('annual') || action.subscriptionState!.activeSubscriptions.contains('annual_half_off') || action.subscriptionState!.activeSubscriptions.contains('annual:annual-base') || action.subscriptionState!.activeSubscriptions.contains('annual_half_off:annual-half-off-base') || action.subscriptionState!.activeSubscriptions.contains('yearly_13999:yearly-13999') || action.subscriptionState!.activeSubscriptions.contains('yearly_204')) {
           selectedSubscription = ManageSubscriptionPage.PACKAGE_ANNUAL;
-          annualPrice = offering.annual.storeProduct.price;
-          monthlyPrice = offering.monthly.storeProduct.price;
+          annualPrice = offering.annual!.storeProduct.price;
+          monthlyPrice = offering.monthly!.storeProduct.price;
           radioValue = 0;
         }
       }

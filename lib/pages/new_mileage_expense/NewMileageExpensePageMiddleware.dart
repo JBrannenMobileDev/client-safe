@@ -57,73 +57,73 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
 
   void loadExistingMileageExpense(Store<AppState> store, NextDispatcher next, LoadExistingMileageExpenseAction action) async {
     store.dispatch(SetExistingMileageExpenseAction(store.state.newMileageExpensePageState, action.mileageExpense));
-    GeoData startAddress = await getAddress(action.mileageExpense.startLat, action.mileageExpense.startLng);
-    store.dispatch(SetStartLocationNameAction(store.state.newMileageExpensePageState, LatLng(action.mileageExpense.startLat, action.mileageExpense.startLng), startAddress.address));
-    GeoData endAddress = await getAddress(action.mileageExpense.endLat, action.mileageExpense.endLng);
-    store.dispatch(SetEndLocationNameAction(store.state.newMileageExpensePageState, LatLng(action.mileageExpense.endLat, action.mileageExpense.endLng), endAddress.address));
+    GeoData? startAddress = await getAddress(action.mileageExpense!.startLat!, action.mileageExpense!.startLng!);
+    store.dispatch(SetStartLocationNameAction(store.state.newMileageExpensePageState, LatLng(action.mileageExpense!.startLat!, action.mileageExpense!.startLng!), startAddress.address));
+    GeoData endAddress = await getAddress(action.mileageExpense!.endLat!, action.mileageExpense!.endLng!);
+    store.dispatch(SetEndLocationNameAction(store.state.newMileageExpensePageState, LatLng(action.mileageExpense!.endLat!, action.mileageExpense!.endLng!), endAddress.address));
 
-    LatLng startLatLngToUse = LatLng(action.mileageExpense.startLat, action.mileageExpense.startLng);
-    LatLng endLatLngToUse = LatLng(action.mileageExpense.endLat, action.mileageExpense.endLng);
+    LatLng startLatLngToUse = LatLng(action.mileageExpense!.startLat!, action.mileageExpense!.startLng!);
+    LatLng endLatLngToUse = LatLng(action.mileageExpense!.endLat!, action.mileageExpense!.endLng!);
     _calculateAndSetDistance(endLatLngToUse, startLatLngToUse, store);
   }
 
   void saveMileageExpense(Store<AppState> store, NextDispatcher next, SaveMileageExpenseProfileAction action) async {
     MileageExpense expense = MileageExpense(
-      id: action.pageState.id,
+      id: action.pageState!.id,
       documentId: action.pageState?.documentId,
-      totalMiles: action.pageState.isOneWay ? action.pageState.milesDrivenOneWay : action.pageState.milesDrivenRoundTrip,
-      isRoundTrip: !action.pageState.isOneWay,
-      startLat: action.pageState.startLocation != null ? action.pageState.startLocation.latitude : action.pageState.profile.latDefaultHome,
-      startLng: action.pageState.startLocation != null ? action.pageState.startLocation.longitude : action.pageState.profile.lngDefaultHome,
-      endLat: action.pageState.endLocation.latitude,
-      endLng: action.pageState.endLocation.longitude,
-      deductionRate: action.pageState.deductionRate,
-      charge: Charge(chargeDate: action.pageState.expenseDate, chargeAmount: action.pageState.expenseCost),
+      totalMiles: action.pageState!.isOneWay! ? action.pageState!.milesDrivenOneWay : action.pageState!.milesDrivenRoundTrip,
+      isRoundTrip: !action.pageState!.isOneWay!,
+      startLat: action.pageState!.startLocation != null ? action.pageState!.startLocation!.latitude : action.pageState!.profile!.latDefaultHome,
+      startLng: action.pageState!.startLocation != null ? action.pageState!.startLocation!.longitude : action.pageState!.profile!.lngDefaultHome,
+      endLat: action.pageState!.endLocation!.latitude,
+      endLng: action.pageState!.endLocation!.longitude,
+      deductionRate: action.pageState!.deductionRate,
+      charge: Charge(chargeDate: action.pageState!.expenseDate, chargeAmount: action.pageState!.expenseCost),
     );
     await MileageExpenseDao.insertOrUpdate(expense);
 
     EventSender().sendEvent(eventName: EventNames.CREATED_MILEAGE_TRIP, properties: {
-      EventNames.TRIP_PARAM_LAT_START : expense.startLat,
-      EventNames.TRIP_PARAM_LON_START : expense.startLng,
-      EventNames.TRIP_PARAM_LAT_END : expense.endLat,
-      EventNames.TRIP_PARAM_LON_END : expense.endLng,
-      EventNames.TRIP_PARAM_DIST_MILES : expense.totalMiles,
+      EventNames.TRIP_PARAM_LAT_START : expense.startLat!,
+      EventNames.TRIP_PARAM_LON_START : expense.startLng!,
+      EventNames.TRIP_PARAM_LAT_END : expense.endLat!,
+      EventNames.TRIP_PARAM_LON_END : expense.endLng!,
+      EventNames.TRIP_PARAM_DIST_MILES : expense.totalMiles!,
     });
   }
 
   void updateEndLocation(Store<AppState> store, UpdateEndLocationAction action, NextDispatcher next) async{
-    GeoData endAddress = null;
+    GeoData? endAddress;
     try{
-      endAddress = await getAddress(action.endLocation.latitude, action.endLocation.longitude);
+      endAddress = await getAddress(action.endLocation!.latitude, action.endLocation!.longitude);
     } catch(e) {
       print(e);
     }
 
-    store.dispatch(SetEndLocationNameAction(store.state.newMileageExpensePageState, LatLng(action.endLocation.latitude, action.endLocation.longitude), endAddress.address));
+    store.dispatch(SetEndLocationNameAction(store.state.newMileageExpensePageState, LatLng(action.endLocation!.latitude, action.endLocation!.longitude), endAddress!.address));
 
-   LatLng startLatLngToUse;
-    if(store.state.newMileageExpensePageState.startLocation == null) {
-      if(store.state.newMileageExpensePageState.profile.hasDefaultHome()){
-        startLatLngToUse = LatLng(store.state.newMileageExpensePageState.profile.latDefaultHome, store.state.newMileageExpensePageState.profile.lngDefaultHome);
+   LatLng? startLatLngToUse;
+    if(store.state.newMileageExpensePageState!.startLocation == null) {
+      if(store.state.newMileageExpensePageState!.profile!.hasDefaultHome()){
+        startLatLngToUse = LatLng(store.state.newMileageExpensePageState!.profile!.latDefaultHome!, store.state.newMileageExpensePageState!.profile!.lngDefaultHome!);
       }else {
         startLatLngToUse = null;
       }
     }else {
-      startLatLngToUse = store.state.newMileageExpensePageState.startLocation;
+      startLatLngToUse = store.state.newMileageExpensePageState!.startLocation!;
     }
     if(startLatLngToUse != null) {
-      _calculateAndSetDistance(action.endLocation, startLatLngToUse, store);
+      _calculateAndSetDistance(action.endLocation!, startLatLngToUse, store);
     }
   }
 
   void deleteExpense(Store<AppState> store, DeleteMileageExpenseAction action, NextDispatcher next) async{
-    await MileageExpenseDao.delete(action.pageState.documentId);
-    MileageExpense expense = await MileageExpenseDao.getMileageExpenseById(action.pageState.documentId);
+    await MileageExpenseDao.delete(action.pageState!.documentId!);
+    MileageExpense? expense = await MileageExpenseDao.getMileageExpenseById(action.pageState!.documentId!);
     if(expense != null) {
-      await MileageExpenseDao.delete(action.pageState.documentId);
+      await MileageExpenseDao.delete(action.pageState!.documentId!);
     }
     store.dispatch(FetchMileageExpenses(store.state.incomeAndExpensesPageState));
-    GlobalKeyUtil.instance.navigatorKey.currentState.pop();
+    GlobalKeyUtil.instance.navigatorKey.currentState!.pop();
   }
 
   void loadLocations(Store<AppState> store, NextDispatcher next, LoadNewMileageLocationsAction action) async {
@@ -139,7 +139,7 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
 
   void getLocationData(Store<AppState> store, NextDispatcher next, FetchLastKnowPosition action) async {
     List<LocationDandy> locations = await LocationDao.getAllSortedMostFrequent();
-    List<File> imageFiles = [];
+    List<File?> imageFiles = [];
 
     for(LocationDandy location in locations) {
       imageFiles.add(await FileStorage.getLocationImageFile(location));
@@ -148,24 +148,22 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String path = appDocDir.path;
     store.dispatch(MileageDocumentPathAction(store.state.newMileageExpensePageState, path));
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     if(profile != null) {
       store.dispatch(SetProfileData(store.state.newMileageExpensePageState, profile));
       if(profile.hasDefaultHome()){
-        GeoData address = await getAddress(profile.latDefaultHome, profile.lngDefaultHome);
+        GeoData address = await getAddress(profile.latDefaultHome!, profile.lngDefaultHome!);
         store.dispatch(SetLocationNameAction(store.state.newMileageExpensePageState, address.address));
       }
     }
     Position positionLastKnown = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    if(positionLastKnown != null) {
-      store.dispatch(SetInitialMapLatLng(store.state.newMileageExpensePageState, positionLastKnown.latitude, positionLastKnown.longitude));
-    }
+    store.dispatch(SetInitialMapLatLng(store.state.newMileageExpensePageState, positionLastKnown.latitude, positionLastKnown.longitude));
 
     (await LocationDao.getLocationsStream()).listen((locationSnapshots) async {
       List<LocationDandy> locations = [];
-      List<File> imageFiles = [];
+      List<File?> imageFiles = [];
       for(RecordSnapshot locationSnapshot in locationSnapshots) {
-        locations.add(LocationDandy.fromMap(locationSnapshot.value));
+        locations.add(LocationDandy.fromMap(locationSnapshot.value! as Map<String,dynamic>));
       }
 
       for(LocationDandy location in locations) {
@@ -176,24 +174,24 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void saveHomeLocation(Store<AppState> store, SaveHomeLocationAction action, NextDispatcher next) async{
-    GeoData homeAddress = await getAddress(action.startLocation.latitude, action.startLocation.longitude);
+    GeoData homeAddress = await getAddress(action.startLocation!.latitude, action.startLocation!.longitude);
     store.dispatch(SetLocationNameAction(store.state.newMileageExpensePageState, homeAddress.address));
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.latDefaultHome = action.startLocation.latitude;
-    profile.lngDefaultHome = action.startLocation.longitude;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.latDefaultHome = action.startLocation!.latitude;
+    profile.lngDefaultHome = action.startLocation!.longitude;
     await ProfileDao.insertOrUpdate(profile);
     store.dispatch(SetProfileData(store.state.newMileageExpensePageState, profile));
-    updateStartLocation(store, homeAddress, action.startLocation.latitude, action.startLocation.longitude, action.startLocation);
+    updateStartLocation(store, homeAddress, action.startLocation!.latitude, action.startLocation!.longitude, action.startLocation!);
   }
 
   void updateStartLocation(Store<AppState> store, GeoData address, double lat, double lon, LatLng startLocation) async{
     store.dispatch(SetStartLocationNameAction(store.state.newMileageExpensePageState, LatLng(lat, lon), address.address));
 
-    LatLng endLatLngToUse;
-    if(store.state.newMileageExpensePageState.endLocation == null) {
+    LatLng? endLatLngToUse;
+    if(store.state.newMileageExpensePageState!.endLocation == null) {
       endLatLngToUse = null;
     }else {
-      endLatLngToUse = store.state.newMileageExpensePageState.endLocation;
+      endLatLngToUse = store.state.newMileageExpensePageState!.endLocation!;
     }
     if(endLatLngToUse != null) {
       _calculateAndSetDistance(endLatLngToUse, startLocation, store);

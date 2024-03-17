@@ -40,7 +40,7 @@ class NewJobTypeStagesListWidget extends StatelessWidget {
               height: 38.0,
               width: 38.0,
               child: Image.asset(
-                pageState.selectedJobStages.elementAt(index).imageLocation,
+                pageState.selectedJobStages!.elementAt(index).imageLocation!,
                 color: Color(ColorConstants.getPeachDark()),
               ),
             ),
@@ -55,7 +55,7 @@ class NewJobTypeStagesListWidget extends StatelessWidget {
                     children: <Widget>[
                       TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
-                        text: pageState.selectedJobStages.elementAt(index).id <= 14 ? JobStage.getStageText(pageState.selectedJobStages.elementAt(index)) : pageState.selectedJobStages.elementAt(index).stage,
+                        text: pageState.selectedJobStages!.elementAt(index).id! <= 14 ? JobStage.getStageText(pageState.selectedJobStages!.elementAt(index)) : pageState.selectedJobStages!.elementAt(index).stage,
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),

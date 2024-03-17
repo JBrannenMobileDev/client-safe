@@ -19,7 +19,7 @@ class NewContactTextField extends StatelessWidget {
   final FocusNode focusNode;
   final Function onFocusAction;
   final TextCapitalization capitalization;
-  final List<TextInputFormatter> inputFormatter;
+  final List<TextInputFormatter>? inputFormatter;
   final bool textFieldEnabled;
   final int borderColor;
 
@@ -44,7 +44,7 @@ class NewContactTextField extends StatelessWidget {
                 cursorColor: Color(ColorConstants.getBlueDark()),
                 onChanged: (text) {
                   onTextInputChanged(text);
-                  pageState.onErrorStateChanged(NewContactPageState.NO_ERROR);
+                  pageState.onErrorStateChanged!(NewContactPageState.NO_ERROR);
                 },
                 onFieldSubmitted: (term){
                   onFocusAction();

@@ -36,11 +36,11 @@ class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with Aut
 
     return StoreConnector<AppState, NewJobTypePageState>(
       onInit: (store) {
-        stages = store.state.newJobTypePageState.selectedJobStages;
+        stages = store.state.newJobTypePageState!.selectedJobStages!;
       },
       onDidChange: (previous, current) {
         setState(() {
-          stages = current.selectedJobStages;
+          stages = current.selectedJobStages!;
         });
       },
       converter: (store) => NewJobTypePageState.fromStore(store),
@@ -78,7 +78,7 @@ class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with Aut
                     padding: new EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 64.0),
                     shrinkWrap: true,
                     physics: ClampingScrollPhysics(),
-                    itemCount: pageState.selectedJobStages.length,
+                    itemCount: pageState.selectedJobStages!.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Dismissible(
                         key: Key(stages.elementAt(index).id.toString()),
@@ -95,7 +95,7 @@ class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with Aut
                         onDismissed: (direction) {
                           setState(() {
                             // stages.removeAt(index);
-                            pageState.onJobStageDeleted(index);
+                            pageState.onJobStageDeleted!(index);
                           });
                         },
                         child: Padding(

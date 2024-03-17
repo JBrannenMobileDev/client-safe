@@ -17,7 +17,7 @@ import 'JobDetailsPageState.dart';
 import 'SetupMilesDrivenTrackingBottomSheet.dart';
 
 class JobDetailsCard extends StatefulWidget {
-  const JobDetailsCard({Key key}) : super(key: key);
+  const JobDetailsCard({Key? key}) : super(key: key);
 
 
   @override
@@ -27,7 +27,7 @@ class JobDetailsCard extends StatefulWidget {
 }
 
 class _JobDetailsCard extends State<JobDetailsCard> {
-  DateTime newDateTimeHolder;
+  DateTime? newDateTimeHolder;
   bool showMileageError = false;
   bool trackMiles = true;
 
@@ -49,12 +49,12 @@ class _JobDetailsCard extends State<JobDetailsCard> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, JobDetailsPageState>(
       onInit: (store) {
-        newDateTimeHolder = store.state.jobDetailsPageState.job.selectedTime;
-        trackMiles = store.state.jobDetailsPageState.job.shouldTrackMiles;
+        newDateTimeHolder = store.state.jobDetailsPageState!.job!.selectedTime;
+        trackMiles = store.state.jobDetailsPageState!.job!.shouldTrackMiles!;
       },
       onDidChange: (previous, current) {
         setState(() {
-          if(current.job.location == null || current.job.selectedDate == null || current.profile == null || !current.profile.hasDefaultHome()) {
+          if(current.job!.location == null || current.job!.selectedDate == null || current.profile == null || !current.profile!.hasDefaultHome()) {
             showMileageError = true;
           } else {
             showMileageError = false;
@@ -167,7 +167,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                         child: TextDandyLight(
                           type: TextDandyLight.MEDIUM_TEXT,
                           text: "Date:  ${pageState.job?.selectedDate != null
-                              ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.job?.selectedDate)
+                              ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.job!.selectedDate!)
                               : 'Date not selected'}",
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
@@ -202,12 +202,12 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                             setState(() {
                               trackMiles = false;
                             });
-                            pageState.setMileageAutoTrack(false);
+                            pageState!.setMileageAutoTrack!(false);
                           } else {
                             setState(() {
                               trackMiles = true;
                             });
-                            pageState.setMileageAutoTrack(true);
+                            pageState!.setMileageAutoTrack!(true);
                           }
                         },
                         child: Container(
@@ -258,7 +258,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                           setState(() {
                             trackMiles = enabled;
                           });
-                          pageState.setMileageAutoTrack(enabled);
+                          pageState!.setMileageAutoTrack!(enabled);
                         },
                         value: trackMiles,
                       ) : Switch(
@@ -269,7 +269,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                           setState(() {
                             trackMiles = enabled;
                           });
-                          pageState.setMileageAutoTrack(enabled);
+                          pageState!.setMileageAutoTrack!(enabled);
                         },
                         value: trackMiles,
                       )
@@ -375,7 +375,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                                                   child: TextDandyLight(
                                                     type: TextDandyLight.MEDIUM_TEXT,
                                                     text: (pageState.sunsetTime != null
-                                                        ? DateFormat('h:mm a').format(pageState.sunsetTime)
+                                                        ? DateFormat('h:mm a').format(pageState.sunsetTime!)
                                                         : ''),
                                                     textAlign: TextAlign.start,
                                                     overflow: TextOverflow.ellipsis,
@@ -388,7 +388,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                                             TextButton(
                                               style: Styles.getButtonStyle(),
                                               onPressed: () {
-                                                pageState.onNewTimeSelected(newDateTimeHolder);
+                                                pageState!.onNewTimeSelected!(newDateTimeHolder!);
                                                 VibrateUtil.vibrateHeavy();
                                                 Navigator.of(context).pop();
                                               },
@@ -435,7 +435,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                                     children: [
                                       TextDandyLight(
                                         type: TextDandyLight.LARGE_TEXT,
-                                        text: (pageState.job?.selectedTime != null ? DateFormat('h:mm a').format(pageState.job?.selectedTime) : 'Not selected'),
+                                        text: (pageState.job?.selectedTime != null ? DateFormat('h:mm a').format(pageState.job!.selectedTime!) : 'Not selected'),
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
@@ -506,7 +506,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                                                   child: TextDandyLight(
                                                     type: TextDandyLight.MEDIUM_TEXT,
                                                     text: (pageState.sunsetTime != null
-                                                        ? DateFormat('h:mm a').format(pageState.sunsetTime)
+                                                        ? DateFormat('h:mm a').format(pageState.sunsetTime!)
                                                         : ''),
                                                     textAlign: TextAlign.start,
                                                     overflow: TextOverflow.ellipsis,
@@ -519,7 +519,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                                             TextButton(
                                               style: Styles.getButtonStyle(),
                                               onPressed: () {
-                                                pageState.onNewEndTimeSelected(newDateTimeHolder);
+                                                pageState.onNewEndTimeSelected!(newDateTimeHolder!);
                                                 VibrateUtil.vibrateHeavy();
                                                 Navigator.of(context).pop();
                                               },
@@ -567,7 +567,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                                     children: [
                                       TextDandyLight(
                                         type: TextDandyLight.LARGE_TEXT,
-                                        text: (pageState.job?.selectedEndTime != null ? DateFormat('h:mm a').format(pageState.job?.selectedEndTime) : 'Not Selected'),
+                                        text: (pageState.job?.selectedEndTime != null ? DateFormat('h:mm a').format(pageState.job!.selectedEndTime!) : 'Not Selected'),
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,

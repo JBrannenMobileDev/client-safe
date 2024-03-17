@@ -28,7 +28,7 @@ class _SalesTaxRowWidgetPageState extends State<SalesTaxRowWidget> with TickerPr
   Widget build(BuildContext context) {
     return StoreConnector<AppState, NewInvoicePageState>(
         onInit: (appState) {
-          isChecked = appState.state.newInvoicePageState.selectedJob.isDepositPaid();
+          isChecked = appState.state.newInvoicePageState!.selectedJob!.isDepositPaid();
         },
         converter: (store) => NewInvoicePageState.fromStore(store),
         builder: (BuildContext context, NewInvoicePageState pageState) =>
@@ -51,22 +51,22 @@ class _SalesTaxRowWidgetPageState extends State<SalesTaxRowWidget> with TickerPr
                 pageState.pageViewIndex != 3 ? Checkbox(
                   value: pageState.isSalesTaxChecked,
                   activeColor: Color(ColorConstants.getPeachDark()),
-                  onChanged: (bool isChecked) {
+                  onChanged: (bool? isChecked) {
                     setState(() {
                       isChecked = isChecked;
                     });
-                    pageState.onSalesTaxChecked(isChecked);
+                    pageState.onSalesTaxChecked!(isChecked!);
                   },
                 ) : SizedBox(),
               ],
           ),
           Row(
             children: [
-              pageState.isSalesTaxChecked && pageState.pageViewIndex == 1 ? Container(
+              pageState.isSalesTaxChecked! && pageState.pageViewIndex == 1 ? Container(
                 margin: EdgeInsets.only(left: 16.0, right: 16.0),
                 decoration: BoxDecoration(
                     color:Color(
-                        pageState.isSalesTaxChecked
+                        pageState.isSalesTaxChecked!
                             ? ColorConstants.getPrimaryColor()
                             : ColorConstants
                             .getPrimaryBackgroundGrey()),
@@ -81,18 +81,18 @@ class _SalesTaxRowWidgetPageState extends State<SalesTaxRowWidget> with TickerPr
                   },
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
-                      text: pageState.salesTaxPercent > 0 ? pageState.salesTaxPercent.toString() + '%' : '0%',
+                      text: pageState.salesTaxPercent! > 0 ? pageState.salesTaxPercent.toString() + '%' : '0%',
                     textAlign: TextAlign.start,
                     color: Color(ColorConstants.getPrimaryWhite()),
                   ),
                 ),
               ) : SizedBox(),
-              pageState.isSalesTaxChecked ? TextDandyLight(
+              pageState.isSalesTaxChecked! ? TextDandyLight(
                 type: TextDandyLight.LARGE_TEXT,
-                text: pageState.salesTaxPercent > 0 ? TextFormatterUtil.formatDecimalDigitsCurrency(((pageState.subtotal - pageState.discountValue) * (pageState.salesTaxPercent/100)), 2) : '\$0',
+                text: pageState.salesTaxPercent! > 0 ? TextFormatterUtil.formatDecimalDigitsCurrency(((pageState.subtotal! - pageState.discountValue!) * (pageState.salesTaxPercent!/100)), 2) : '\$0',
                 textAlign: TextAlign.start,
                 color: Color(
-                    pageState.salesTaxPercent > 0.0
+                    pageState.salesTaxPercent! > 0.0
                         ? ColorConstants.getPrimaryBlack()
                         : ColorConstants
                         .getPrimaryBackgroundGrey()),

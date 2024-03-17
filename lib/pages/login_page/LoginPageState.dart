@@ -5,49 +5,49 @@ import '../../AppState.dart';
 import 'LoginPageActions.dart';
 
 class LoginPageState {
-  final String firstName;
-  final String lastName;
-  final String businessName;
-  final String emailAddress;
-  final String password;
-  final String loginErrorMessage;
-  final String createAccountErrorMessage;
-  final bool mainButtonsVisible;
-  final bool isForgotPasswordViewVisible;
-  final bool showResendMessage;
-  final bool navigateToHome;
-  final bool shouldShowAccountCreatedDialog;
-  final bool shouldShowResetPasswordSentDialog;
-  final bool showCreateAccountLoadingAnimation;
-  final bool showLoginLoadingAnimation;
-  final bool showLoginErrorAnimation;
-  final bool isUserVerified;
-  final bool isCurrentUserCheckComplete;
-  final bool shouldShowOnBoardingFlow;
-  final bool isLoginWithAppleAvailable;
-  final bool showLoadingAnimation;
-  final User user;
-  final Function(String) onFirstNameChanged;
-  final Function(String) onLastNameChanged;
-  final Function(String) onBusinessNameChanged;
-  final Function(String) onEmailAddressNameChanged;
-  final Function(String) onPasswordChanged;
-  final Function() onCreateAccountSubmitted;
-  final Function() onContinueWithGoogleSubmitted;
-  final Function() onLoginSelected;
-  final Function() onResetPasswordSelected;
-  final Function() onForgotPasswordSelected;
-  final Function() onResendEmailVerificationSelected;
-  final Function(bool) updateMainButtonVisible;
-  final Function(bool) updateForgotPasswordVisible;
-  final Function() onClearErrorMessages;
-  final Function() resetShouldShowSuccessDialog;
-  final Function() resetShouldShowResetPasswordSentDialog;
-  final Function(String) onLoginPasswordChanged;
-  final Function(String) onLoginEmailChanged;
-  final Function() onClearLoginErrorShake;
-  final Function() onSignUpWithAppleSelected;
-  final Function() onSignUpWithGoogleSelected;
+  final String? firstName;
+  final String? lastName;
+  final String? businessName;
+  final String? emailAddress;
+  final String? password;
+  final String? loginErrorMessage;
+  final String? createAccountErrorMessage;
+  final bool? mainButtonsVisible;
+  final bool? isForgotPasswordViewVisible;
+  final bool? showResendMessage;
+  final bool? navigateToHome;
+  final bool? shouldShowAccountCreatedDialog;
+  final bool? shouldShowResetPasswordSentDialog;
+  final bool? showCreateAccountLoadingAnimation;
+  final bool? showLoginLoadingAnimation;
+  final bool? showLoginErrorAnimation;
+  final bool? isUserVerified;
+  final bool? isCurrentUserCheckComplete;
+  final bool? shouldShowOnBoardingFlow;
+  final bool? isLoginWithAppleAvailable;
+  final bool? showLoadingAnimation;
+  final User? user;
+  final Function(String)? onFirstNameChanged;
+  final Function(String)? onLastNameChanged;
+  final Function(String)? onBusinessNameChanged;
+  final Function(String)? onEmailAddressNameChanged;
+  final Function(String)? onPasswordChanged;
+  final Function()? onCreateAccountSubmitted;
+  final Function()? onContinueWithGoogleSubmitted;
+  final Function()? onLoginSelected;
+  final Function()? onResetPasswordSelected;
+  final Function()? onForgotPasswordSelected;
+  final Function()? onResendEmailVerificationSelected;
+  final Function(bool)? updateMainButtonVisible;
+  final Function(bool)? updateForgotPasswordVisible;
+  final Function()? onClearErrorMessages;
+  final Function()? resetShouldShowSuccessDialog;
+  final Function()? resetShouldShowResetPasswordSentDialog;
+  final Function(String)? onLoginPasswordChanged;
+  final Function(String)? onLoginEmailChanged;
+  final Function()? onClearLoginErrorShake;
+  final Function()? onSignUpWithAppleSelected;
+  final Function()? onSignUpWithGoogleSelected;
 
   LoginPageState({
     this.firstName,
@@ -96,49 +96,49 @@ class LoginPageState {
   });
 
   LoginPageState copyWith({
-    String firstName,
-    String lastName,
-    String businessName,
-    String emailAddress,
-    String password,
-    String loginErrorMessage,
-    String createAccountErrorMessage,
-    bool mainButtonsVisible,
-    bool isForgotPasswordViewVisible,
-    bool showResendMessage,
-    bool navigateToHome,
-    bool shouldShowAccountCreatedDialog,
-    bool shouldShowResetPasswordSentDialog,
-    bool showLoginErrorAnimation,
-    bool isLoginWithAppleAvailable,
-    bool showLoadingAnimation,
-    User user,
-    Function(String) onFirstNameChanged,
-    Function(String) onLastNameChanged,
-    Function(String) onBusinessNameChanged,
-    Function(String) onEmailAddressNameChanged,
-    Function(String) onPasswordChanged,
-    Function() onCreateAccountSubmitted,
-    Function() onContinueWithGoogleSubmitted,
-    Function() onLoginSelected,
-    Function() onResetPasswordSelected,
-    Function() onForgotPasswordSelected,
-    Function() onResendEmailVerificationSelected,
-    Function(bool) updateMainButtonVisible,
-    Function(bool) updateForgotPasswordVisible,
-    Function() onClearErrorMessages,
-    Function() resetShouldShowSuccessDialog,
-    Function() resetShouldShowResetPasswordSentDialog,
-    bool showCreateAccountLoadingAnimation,
-    bool showLoginLoadingAnimation,
-    Function(String) onLoginEmailChanged,
-    Function(String) onLoginPasswordChanged,
-    Function() onClearLoginErrorShake,
-    bool isUserVerified,
-    bool isCurrentUserCheckComplete,
-    bool shouldShowOnBoardingFlow,
-    Function() onSignUpWithAppleSelected,
-    Function() onSignUpWithGoogleSelected,
+    String? firstName,
+    String? lastName,
+    String? businessName,
+    String? emailAddress,
+    String? password,
+    String? loginErrorMessage,
+    String? createAccountErrorMessage,
+    bool? mainButtonsVisible,
+    bool? isForgotPasswordViewVisible,
+    bool? showResendMessage,
+    bool? navigateToHome,
+    bool? shouldShowAccountCreatedDialog,
+    bool? shouldShowResetPasswordSentDialog,
+    bool? showLoginErrorAnimation,
+    bool? isLoginWithAppleAvailable,
+    bool? showLoadingAnimation,
+    User? user,
+    Function(String)? onFirstNameChanged,
+    Function(String)? onLastNameChanged,
+    Function(String)? onBusinessNameChanged,
+    Function(String)? onEmailAddressNameChanged,
+    Function(String)? onPasswordChanged,
+    Function()? onCreateAccountSubmitted,
+    Function()? onContinueWithGoogleSubmitted,
+    Function()? onLoginSelected,
+    Function()? onResetPasswordSelected,
+    Function()? onForgotPasswordSelected,
+    Function()? onResendEmailVerificationSelected,
+    Function(bool)? updateMainButtonVisible,
+    Function(bool)? updateForgotPasswordVisible,
+    Function()? onClearErrorMessages,
+    Function()? resetShouldShowSuccessDialog,
+    Function()? resetShouldShowResetPasswordSentDialog,
+    bool? showCreateAccountLoadingAnimation,
+    bool? showLoginLoadingAnimation,
+    Function(String)? onLoginEmailChanged,
+    Function(String)? onLoginPasswordChanged,
+    Function()? onClearLoginErrorShake,
+    bool? isUserVerified,
+    bool? isCurrentUserCheckComplete,
+    bool? shouldShowOnBoardingFlow,
+    Function()? onSignUpWithAppleSelected,
+    Function()? onSignUpWithGoogleSelected,
   }){
     return LoginPageState(
       firstName: firstName ?? this.firstName,
@@ -189,28 +189,28 @@ class LoginPageState {
 
   static LoginPageState fromStore(Store<AppState> store) {
     return LoginPageState(
-      firstName: store.state.loginPageState.firstName,
-      lastName: store.state.loginPageState.lastName,
-      businessName: store.state.loginPageState.businessName,
-      emailAddress: store.state.loginPageState.emailAddress,
-      password: store.state.loginPageState.password,
-      mainButtonsVisible: store.state.loginPageState.mainButtonsVisible,
-      isForgotPasswordViewVisible: store.state.loginPageState.isForgotPasswordViewVisible,
-      showResendMessage: store.state.loginPageState.showResendMessage,
-      navigateToHome: store.state.loginPageState.navigateToHome,
-      loginErrorMessage: store.state.loginPageState.loginErrorMessage,
-      createAccountErrorMessage: store.state.loginPageState.createAccountErrorMessage,
-      shouldShowAccountCreatedDialog: store.state.loginPageState.shouldShowAccountCreatedDialog,
-      shouldShowResetPasswordSentDialog: store.state.loginPageState.shouldShowResetPasswordSentDialog,
-      user: store.state.loginPageState.user,
-      showCreateAccountLoadingAnimation: store.state.loginPageState.showCreateAccountLoadingAnimation,
-      showLoginLoadingAnimation: store.state.loginPageState.showLoginLoadingAnimation,
-      showLoginErrorAnimation: store.state.loginPageState.showLoginErrorAnimation,
-      isUserVerified: store.state.loginPageState.isUserVerified,
-      isCurrentUserCheckComplete: store.state.loginPageState.isCurrentUserCheckComplete,
-      shouldShowOnBoardingFlow: store.state.loginPageState.shouldShowOnBoardingFlow,
-      isLoginWithAppleAvailable: store.state.loginPageState.isLoginWithAppleAvailable,
-      showLoadingAnimation: store.state.loginPageState.showLoadingAnimation,
+      firstName: store.state.loginPageState!.firstName,
+      lastName: store.state.loginPageState!.lastName,
+      businessName: store.state.loginPageState!.businessName,
+      emailAddress: store.state.loginPageState!.emailAddress,
+      password: store.state.loginPageState!.password,
+      mainButtonsVisible: store.state.loginPageState!.mainButtonsVisible,
+      isForgotPasswordViewVisible: store.state.loginPageState!.isForgotPasswordViewVisible,
+      showResendMessage: store.state.loginPageState!.showResendMessage,
+      navigateToHome: store.state.loginPageState!.navigateToHome,
+      loginErrorMessage: store.state.loginPageState!.loginErrorMessage,
+      createAccountErrorMessage: store.state.loginPageState!.createAccountErrorMessage,
+      shouldShowAccountCreatedDialog: store.state.loginPageState!.shouldShowAccountCreatedDialog,
+      shouldShowResetPasswordSentDialog: store.state.loginPageState!.shouldShowResetPasswordSentDialog,
+      user: store.state.loginPageState!.user,
+      showCreateAccountLoadingAnimation: store.state.loginPageState!.showCreateAccountLoadingAnimation,
+      showLoginLoadingAnimation: store.state.loginPageState!.showLoginLoadingAnimation,
+      showLoginErrorAnimation: store.state.loginPageState!.showLoginErrorAnimation,
+      isUserVerified: store.state.loginPageState!.isUserVerified,
+      isCurrentUserCheckComplete: store.state.loginPageState!.isCurrentUserCheckComplete,
+      shouldShowOnBoardingFlow: store.state.loginPageState!.shouldShowOnBoardingFlow,
+      isLoginWithAppleAvailable: store.state.loginPageState!.isLoginWithAppleAvailable,
+      showLoadingAnimation: store.state.loginPageState!.showLoadingAnimation,
       onFirstNameChanged: (firstName) => store.dispatch(UpdateFirstNameAction(store.state.loginPageState, firstName)),
       onLastNameChanged: (lastName) => store.dispatch(UpdateLastNameAction(store.state.loginPageState, lastName)),
       onBusinessNameChanged: (businessName) => store.dispatch(UpdateBusinessNameAction(store.state.loginPageState, businessName)),

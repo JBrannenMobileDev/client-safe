@@ -60,7 +60,7 @@ class _RecurringExpenseDateSelectionState extends State<RecurringExpenseDateSele
                           ),
                         ),
                         onConfirm: (dateTime, intList) {
-                          pageState.onExpenseDateSelected(dateTime);
+                          pageState.onExpenseDateSelected!(dateTime);
                         }
                     );
                   },
@@ -92,7 +92,7 @@ class _RecurringExpenseDateSelectionState extends State<RecurringExpenseDateSele
                         ),
                         child: TextDandyLight(
                           type: TextDandyLight.EXTRA_LARGE_TEXT,
-                          text: DateFormat('MMM dd, yyyy').format(pageState.expenseDate),
+                          text: DateFormat('MMM dd, yyyy').format(pageState.expenseDate!),
                           color: Color(ColorConstants.getPeachDark()),
                         ),
                       ),

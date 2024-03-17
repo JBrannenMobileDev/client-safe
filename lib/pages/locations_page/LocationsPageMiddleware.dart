@@ -9,7 +9,6 @@ import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../data_layer/repositories/FileStorage.dart';
 
 class LocationsPageMiddleware extends MiddlewareClass<AppState> {
   @override
@@ -27,20 +26,20 @@ class LocationsPageMiddleware extends MiddlewareClass<AppState> {
 
   void _launchDrivingDirections(Store<AppState> store, DrivingDirectionsSelected action) async {
     IntentLauncherUtil.launchDrivingDirections(
-        action.location.latitude.toString(),
-        action.location.longitude.toString());
+        action.location!.latitude.toString(),
+        action.location!.longitude.toString());
   }
 
   void _shareDirections(Store<AppState> store, ShareLocationSelected action) {
     Share.share(
-        'Here are the driving directions. \nLocation: ${action.location.locationName}\n\nhttps://www.google.com/maps/search/?api=1&query=${action.location.latitude},${action.location.longitude}');
+        'Here are the driving directions. \nLocation: ${action.location!.locationName}\n\nhttps://www.google.com/maps/search/?api=1&query=${action.location!.latitude},${action.location!.longitude}');
   }
 
   void fetchLocations(Store<AppState> store, NextDispatcher next) async {
    (await LocationDao.getLocationsStream()).listen((snapshots) async {
       List<LocationDandy> streamLocations = [];
       for(RecordSnapshot clientSnapshot in snapshots) {
-        streamLocations.add(LocationDandy.fromMap(clientSnapshot.value));
+        streamLocations.add(LocationDandy.fromMap(clientSnapshot.value! as Map<String,dynamic>));
       }
       store.dispatch(SetLocationsAction(store.state.locationsPageState, streamLocations));
     });

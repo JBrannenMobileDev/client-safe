@@ -57,7 +57,7 @@ class _ContractOptionsDialogState extends State<ContractOptionsDialog>
                         onTap: () {
                         Navigator.of(context).pop();
                         Navigator.of(context).push(
-                          new MaterialPageRoute(builder: (context) => ContractsPage(jobDocumentId: pageState.job.documentId)),
+                          new MaterialPageRoute(builder: (context) => ContractsPage(jobDocumentId: pageState.job!.documentId)),
                         );
                         },
                         child: Container(
