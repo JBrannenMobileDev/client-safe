@@ -29,22 +29,22 @@ class OnBoardingPageState{
   static const String HAS_JOB_YES = "has_job_yes";
   static const String HAS_JOB_NO = "has_job_no";
 
-  final List<String> selectedReasons;
-  final int pagerIndex;
-  final String selectedJobCount;
-  final bool featuresContinueEnabled;
-  final bool typeContinueEnable;
-  final String selectedOptionHasJob;
-  final String otherDescription;
-  final String selectedZoomOption;
-  final List<LeadSource> leadSources;
-  final Function(String) onHasJobAnswered;
-  final Function(String, bool) onFeatureSelected;
-  final Function(int) setPagerIndex;
-  final Function() onViewSampleJobSelected;
-  final Function(String) onOtherChanged;
-  final Function(String) onJobCountSelected;
-  final Function(String) onZoomOptionSelected;
+  final List<String>? selectedReasons;
+  final int? pagerIndex;
+  final String? selectedJobCount;
+  final bool? featuresContinueEnabled;
+  final bool? typeContinueEnable;
+  final String? selectedOptionHasJob;
+  final String? otherDescription;
+  final String? selectedZoomOption;
+  final List<LeadSource>? leadSources;
+  final Function(String)? onHasJobAnswered;
+  final Function(String, bool)? onFeatureSelected;
+  final Function(int)? setPagerIndex;
+  final Function()? onViewSampleJobSelected;
+  final Function(String)? onOtherChanged;
+  final Function(String)? onJobCountSelected;
+  final Function(String)? onZoomOptionSelected;
 
   OnBoardingPageState({
     @required this.onFeatureSelected,
@@ -66,22 +66,22 @@ class OnBoardingPageState{
   });
 
   OnBoardingPageState copyWith({
-    bool featuresContinueEnabled,
-    bool typeContinueEnable,
-    int pagerIndex,
-    String selectedJobCount,
-    String selectedOptionHasJob,
-    String otherDescription,
-    String selectedZoomOption,
-    List<LeadSource> leadSources,
-    List<String> selectedReasons,
-    Function(String, bool) onFeatureSelected,
-    Function(int) setPagerIndex,
-    Function() onViewSampleJobSelected,
-    Function(String) onHasJobAnswered,
-    Function(String) onOtherChanged,
-    Function(String) onJobCountSelected,
-    Function(String) onZoomOptionSelected,
+    bool? featuresContinueEnabled,
+    bool? typeContinueEnable,
+    int? pagerIndex,
+    String? selectedJobCount,
+    String? selectedOptionHasJob,
+    String? otherDescription,
+    String? selectedZoomOption,
+    List<LeadSource>? leadSources,
+    List<String>? selectedReasons,
+    Function(String, bool)? onFeatureSelected,
+    Function(int)? setPagerIndex,
+    Function()? onViewSampleJobSelected,
+    Function(String)? onHasJobAnswered,
+    Function(String)? onOtherChanged,
+    Function(String)? onJobCountSelected,
+    Function(String)? onZoomOptionSelected,
   }){
     return OnBoardingPageState(
       onFeatureSelected: onFeatureSelected?? this.onFeatureSelected,
@@ -124,15 +124,15 @@ class OnBoardingPageState{
 
   factory OnBoardingPageState.fromStore(Store<AppState> store) {
     return OnBoardingPageState(
-      pagerIndex: store.state.onBoardingPageState.pagerIndex,
-      selectedOptionHasJob: store.state.onBoardingPageState.selectedOptionHasJob,
-      leadSources: store.state.onBoardingPageState.leadSources,
-      otherDescription: store.state.onBoardingPageState.otherDescription,
-      selectedReasons: store.state.onBoardingPageState.selectedReasons,
-      featuresContinueEnabled: store.state.onBoardingPageState.featuresContinueEnabled,
-      typeContinueEnable: store.state.onBoardingPageState.typeContinueEnable,
-      selectedJobCount: store.state.onBoardingPageState.selectedJobCount,
-      selectedZoomOption: store.state.onBoardingPageState.selectedZoomOption,
+      pagerIndex: store.state.onBoardingPageState!.pagerIndex,
+      selectedOptionHasJob: store.state.onBoardingPageState!.selectedOptionHasJob,
+      leadSources: store.state.onBoardingPageState!.leadSources,
+      otherDescription: store.state.onBoardingPageState!.otherDescription,
+      selectedReasons: store.state.onBoardingPageState!.selectedReasons,
+      featuresContinueEnabled: store.state.onBoardingPageState!.featuresContinueEnabled,
+      typeContinueEnable: store.state.onBoardingPageState!.typeContinueEnable,
+      selectedJobCount: store.state.onBoardingPageState!.selectedJobCount,
+      selectedZoomOption: store.state.onBoardingPageState!.selectedZoomOption,
       onFeatureSelected: (featureName, isSelected) => store.dispatch(SetFeatureSelectedStateAction(store.state.onBoardingPageState, featureName, isSelected)),
       setPagerIndex: (index) => store.dispatch(SetPagerIndexAction(store.state.onBoardingPageState, index)),
       onViewSampleJobSelected: () => store.dispatch(SetJobForDetailsPage(store.state.onBoardingPageState)),

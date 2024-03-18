@@ -21,11 +21,11 @@ NewReminderPageState _setSelectedTime(NewReminderPageState previousState, SetSel
 NewReminderPageState _loadExistingReminder(NewReminderPageState previousState, LoadExistingReminderData action){
   return previousState.copyWith(
     shouldClear: false,
-    daysWeeksMonths: action.reminder.daysWeeksMonths,
-    daysWeeksMonthsAmount: action.reminder.amount,
-    when: action.reminder.when,
-    documentId: action.reminder.documentId,
-    reminderDescription: action.reminder.description,
+    daysWeeksMonths: action.reminder!.daysWeeksMonths,
+    daysWeeksMonthsAmount: action.reminder!.amount,
+    when: action.reminder!.when,
+    documentId: action.reminder!.documentId,
+    reminderDescription: action.reminder!.description,
   );
 }
 

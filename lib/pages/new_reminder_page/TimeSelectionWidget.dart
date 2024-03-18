@@ -70,7 +70,7 @@ class _TimeSelectionWidgetState extends State<TimeSelectionWidget> {
                     initialDateTime: pageState.selectedTime,
                     onDateTimeChanged: (DateTime time) {
                       vibrate();
-                      pageState.onTimeSelected(time);
+                      pageState.onTimeSelected!(time);
                     },
                     use24hFormat: false,
                     minuteInterval: 1,

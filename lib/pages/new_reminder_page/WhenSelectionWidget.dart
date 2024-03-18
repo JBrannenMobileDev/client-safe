@@ -18,7 +18,7 @@ class WhenSelectionWidget extends StatefulWidget {
   static const String DAYS = "Days";
   static const String WEEKS = "Weeks";
   static const String MONTHS = "Months";
-  final ReminderDandyLight reminder;
+  final ReminderDandyLight? reminder;
 
   WhenSelectionWidget(this.reminder);
 
@@ -30,7 +30,7 @@ class WhenSelectionWidget extends StatefulWidget {
 
 class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  final ReminderDandyLight reminder;
+  final ReminderDandyLight? reminder;
   var daysWeeksMonthsController;
   var amount;
 
@@ -39,10 +39,10 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
   @override
   Widget build(BuildContext context) {
     if(daysWeeksMonthsController == null) {
-      daysWeeksMonthsController = FixedExtentScrollController(initialItem: reminder != null ? (reminder.daysWeeksMonths == 'Days') ? 0 : reminder.daysWeeksMonths == 'Weeks' ? 1 : 2 : 0);
+      daysWeeksMonthsController = FixedExtentScrollController(initialItem: reminder != null ? (reminder!.daysWeeksMonths == 'Days') ? 0 : reminder!.daysWeeksMonths == 'Weeks' ? 1 : 2 : 0);
     }
     if(amount == null) {
-      amount = FixedExtentScrollController(initialItem: reminder != null ? reminder.amount - 1 : 0);
+      amount = FixedExtentScrollController(initialItem: reminder != null ? reminder!.amount! - 1 : 0);
     }
     return StoreConnector<AppState, NewReminderPageState>(
       converter: (store) => NewReminderPageState.fromStore(store),
@@ -89,7 +89,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    pageState.whenSelected(WhenSelectionWidget.BEFORE);
+                    pageState.whenSelected!(WhenSelectionWidget.BEFORE);
                   },
                   child: Container(
                     margin: EdgeInsets.only(top: 4.0),
@@ -114,7 +114,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    pageState.whenSelected(WhenSelectionWidget.ON);
+                    pageState.whenSelected!(WhenSelectionWidget.ON);
                   },
                   child: Container(
                     margin: EdgeInsets.only(top: 4.0),
@@ -139,7 +139,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    pageState.whenSelected(WhenSelectionWidget.AFTER);
+                    pageState.whenSelected!(WhenSelectionWidget.AFTER);
                   },
                   child: Container(
                     margin: EdgeInsets.only(top: 4.0),
@@ -185,7 +185,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                             TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: 'Select how long ' +
-                                  (pageState.when == WhenSelectionWidget.ON ? WhenSelectionWidget.BEFORE : pageState.when) +
+                                  (pageState.when == WhenSelectionWidget.ON ? WhenSelectionWidget.BEFORE : pageState.when!) +
                                   ' the shoot you want the reminder to be sent.',
                               textAlign: TextAlign.start,
                               color: Color(ColorConstants.getPrimaryBlack()),
@@ -212,7 +212,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                             width: 100.0,
                             child: CupertinoPicker(
                               onSelectedItemChanged: (index) {
-                                pageState.onDaysWeeksMonthsChanged(index == 0 ? 'Days' : index == 1 ? 'Weeks' : 'Months');
+                                pageState.onDaysWeeksMonthsChanged!(index == 0 ? 'Days' : index == 1 ? 'Weeks' : 'Months');
                               },
                               scrollController: daysWeeksMonthsController,
                               itemExtent: 24.0,
@@ -254,7 +254,7 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                             width: 100.0,
                             child: CupertinoPicker(
                               onSelectedItemChanged: (index) {
-                                pageState.onDaysWeeksMonthsAmountChanged(index+1);
+                                pageState.onDaysWeeksMonthsAmountChanged!(index+1);
                               },
                               scrollController: amount,
                               itemExtent: 24.0,

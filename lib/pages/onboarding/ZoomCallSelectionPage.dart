@@ -215,7 +215,7 @@ class _ZoomCallSelectionPage extends State<ZoomCallSelectionPage> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    pageState.setPagerIndex(4);
+                    pageState.setPagerIndex!(4);
                   },
                   child: Container(
                     padding: const EdgeInsets.only(left: 16.0, right: 16.0),

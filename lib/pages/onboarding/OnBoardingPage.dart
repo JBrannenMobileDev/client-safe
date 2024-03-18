@@ -23,7 +23,7 @@ class OnBoardingPage extends StatefulWidget {
 }
 
 class _OnBoardingPageState extends State<OnBoardingPage> with TickerProviderStateMixin {
-  ScrollController _scrollController;
+  ScrollController? _scrollController;
   final controller = PageController(
     initialPage: 0,
   );
@@ -35,14 +35,14 @@ class _OnBoardingPageState extends State<OnBoardingPage> with TickerProviderStat
     _scrollController = ScrollController()..addListener(() => setState(() {}));
     currentPageIndex = 0;
     controller.addListener(() {
-      currentPageIndex = controller.page.toInt();
+      currentPageIndex = controller.page!.toInt();
     });
   }
 
   @override
   void dispose() {
     super.dispose();
-    _scrollController.dispose();
+    _scrollController!.dispose();
     controller.dispose();
   }
 
@@ -53,7 +53,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> with TickerProviderStat
         },
         onDidChange: (previous, current) {
           if(currentPageIndex != current.pagerIndex) {
-            controller.animateToPage(current.pagerIndex, duration: const Duration(milliseconds: 500),
+            controller.animateToPage(current.pagerIndex!, duration: const Duration(milliseconds: 500),
                 curve: Curves.ease);
           }
         },
@@ -95,7 +95,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> with TickerProviderStat
                       height: MediaQuery.of(context).size.height,
                       width: 250,
                       child: AnimatedSmoothIndicator(
-                        activeIndex: pageState.pagerIndex,
+                        activeIndex: pageState.pagerIndex!,
                         count: 5,
                         effect: ExpandingDotsEffect(
                             expansionFactor: 2,
@@ -112,7 +112,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> with TickerProviderStat
                       width: MediaQuery.of(context).size.width,
                       child: GestureDetector(
                         onTap: () {
-                          pageState.setPagerIndex(4);
+                          pageState.setPagerIndex!(4);
                         },
                         child: Container(
                           alignment: Alignment.centerRight,

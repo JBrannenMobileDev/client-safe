@@ -52,17 +52,17 @@ class _WhatTypePage extends State<WhatTypePage> {
                       decoration: BoxDecoration(
                           color: Color(pageState.selectedJobCount == OnBoardingPageState.LESS_THAN_5 ? ColorConstants.getPeachLight() : ColorConstants.getPrimaryBackgroundGrey()),
                           borderRadius: BorderRadius.circular(36.0)),
-                      child: RadioListTile(
+                      child: RadioListTile<String>(
                         activeColor: Color(ColorConstants.getPeachDark()),
                         title: TextDandyLight(
                           type: TextDandyLight.MEDIUM_TEXT,
                           text: OnBoardingPageState.LESS_THAN_5,
                           textAlign: TextAlign.start,
                         ),
-                        value: pageState.selectedJobCount,
+                        value: pageState.selectedJobCount!,
                         groupValue: OnBoardingPageState.LESS_THAN_5,
                         onChanged: (value){
-                          pageState.onJobCountSelected(OnBoardingPageState.LESS_THAN_5);
+                          pageState.onJobCountSelected!(OnBoardingPageState.LESS_THAN_5);
                         },
                       )
                     ),
@@ -74,17 +74,17 @@ class _WhatTypePage extends State<WhatTypePage> {
                       decoration: BoxDecoration(
                           color: Color(pageState.selectedJobCount == OnBoardingPageState.BETWEEN_5_15 ? ColorConstants.getPeachLight() : ColorConstants.getPrimaryBackgroundGrey()),
                           borderRadius: BorderRadius.circular(36.0)),
-                      child: RadioListTile(
+                      child: RadioListTile<String>(
                         activeColor: Color(ColorConstants.getPeachDark()),
                         title: TextDandyLight(
                           type: TextDandyLight.MEDIUM_TEXT,
                           text: OnBoardingPageState.BETWEEN_5_15,
                           textAlign: TextAlign.start,
                         ),
-                        value: pageState.selectedJobCount,
+                        value: pageState.selectedJobCount!,
                         groupValue: OnBoardingPageState.BETWEEN_5_15,
                         onChanged: (value){
-                          pageState.onJobCountSelected(OnBoardingPageState.BETWEEN_5_15);
+                          pageState.onJobCountSelected!(OnBoardingPageState.BETWEEN_5_15);
                         },
                       ),
                     ),
@@ -96,17 +96,17 @@ class _WhatTypePage extends State<WhatTypePage> {
                       decoration: BoxDecoration(
                           color: Color(pageState.selectedJobCount == OnBoardingPageState.MORE_THAN_15 ? ColorConstants.getPeachLight() : ColorConstants.getPrimaryBackgroundGrey()),
                           borderRadius: BorderRadius.circular(36.0)),
-                      child: RadioListTile(
+                      child: RadioListTile<String>(
                         activeColor: Color(ColorConstants.getPeachDark()),
                         title: TextDandyLight(
                           type: TextDandyLight.MEDIUM_TEXT,
                           text: OnBoardingPageState.MORE_THAN_15,
                           textAlign: TextAlign.start,
                         ),
-                        value: pageState.selectedJobCount,
+                        value: pageState.selectedJobCount!,
                         groupValue: OnBoardingPageState.MORE_THAN_15,
                         onChanged: (value){
-                          pageState.onJobCountSelected(OnBoardingPageState.MORE_THAN_15);
+                          pageState.onJobCountSelected!(OnBoardingPageState.MORE_THAN_15);
                         },
                       ),
                     ),
@@ -114,13 +114,13 @@ class _WhatTypePage extends State<WhatTypePage> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    if(pageState.typeContinueEnable) {
+                    if(pageState.typeContinueEnable!) {
                       EventSender().sendEvent(
                           eventName: EventNames.ON_BOARDING_JOB_COUNT_SELECTED,
-                          properties: {EventNames.ON_BOARDING_JOB_COUNT_PARAM : pageState.selectedJobCount}
+                          properties: {EventNames.ON_BOARDING_JOB_COUNT_PARAM : pageState.selectedJobCount!}
                       );
-                      EventSender().setUserProfileData('Photographer type', pageState.selectedJobCount);
-                      pageState.setPagerIndex(1);
+                      EventSender().setUserProfileData('Photographer type', pageState.selectedJobCount!);
+                      pageState.setPagerIndex!(1);
                     }
                   },
                   child: Container(
@@ -129,12 +129,12 @@ class _WhatTypePage extends State<WhatTypePage> {
                     alignment: Alignment.center,
                     height: 54.0,
                     decoration: BoxDecoration(
-                        color: Color(pageState.typeContinueEnable ? ColorConstants.getPeachDark() : ColorConstants.getPrimaryBackgroundGrey()),
+                        color: Color(pageState.typeContinueEnable! ? ColorConstants.getPeachDark() : ColorConstants.getPrimaryBackgroundGrey()),
                         borderRadius: BorderRadius.circular(36.0)),
                     child: TextDandyLight(
                       text: 'Continue',
                       type: TextDandyLight.LARGE_TEXT,
-                      color: Color(pageState.typeContinueEnable ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
+                      color: Color(pageState.typeContinueEnable! ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                 ),

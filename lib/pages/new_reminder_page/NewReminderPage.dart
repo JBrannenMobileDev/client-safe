@@ -31,13 +31,13 @@ class NewReminderPage extends StatefulWidget {
 }
 
 class _NewReminderPageState extends State<NewReminderPage> {
-  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final int pageCount = 2;
   final controller = PageController(
     initialPage: 0,
   );
   int currentPageIndex = 0;
-  final ReminderDandyLight reminder;
+  final ReminderDandyLight? reminder;
 
   _NewReminderPageState(this.reminder);
 
@@ -47,36 +47,11 @@ class _NewReminderPageState extends State<NewReminderPage> {
     currentPageIndex = 0;
   }
 
-  Future<bool> _onWillPop() {
-    return showDialog(
-          context: context,
-          builder: (context) => new CupertinoAlertDialog(
-            title: new Text('Are you sure?'),
-            content: new Text('All unsaved information entered will be lost.'),
-            actions: <Widget>[
-              TextButton(
-                style: Styles.getButtonStyle(),
-                onPressed: () => Navigator.of(context).pop(false),
-                child: new Text('No'),
-              ),
-              TextButton(
-                style: Styles.getButtonStyle(),
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
-                child: new Text('Yes'),
-              ),
-            ],
-          ),
-        ) ??
-        false;
-  }
-
   @override
   Widget build(BuildContext context) {
     controller.addListener(() {
       setState(() {
-        currentPageIndex = controller.page.toInt();
+        currentPageIndex = controller.page!.toInt();
       });
     });
     return StoreConnector<AppState, NewReminderPageState>(
@@ -88,7 +63,30 @@ class _NewReminderPageState extends State<NewReminderPage> {
       converter: (store) => NewReminderPageState.fromStore(store),
       builder: (BuildContext context, NewReminderPageState pageState) =>
           WillPopScope(
-          onWillPop: _onWillPop,
+          onWillPop: () async {
+            final shouldPop = await showDialog<bool>(
+                context: context,
+                builder: (context) => CupertinoAlertDialog(
+                  title: Text('Are you sure?'),
+                  content: Text('All unsaved information entered will be lost.'),
+                  actions: <Widget>[
+                    TextButton(
+                      style: Styles.getButtonStyle(),
+                      onPressed: () => Navigator.of(context).pop(false),
+                      child: Text('No'),
+                    ),
+                    TextButton(
+                      style: Styles.getButtonStyle(),
+                      onPressed: () {
+                        Navigator.of(context).pop(true);
+                      },
+                      child: Text('Yes'),
+                    ),
+                  ],
+                )
+            );
+            return shouldPop!;
+          },
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: Colors.transparent,
@@ -96,9 +94,9 @@ class _NewReminderPageState extends State<NewReminderPage> {
               child: Container(
                 width: 375.0,
                 padding: EdgeInsets.only(top: 26.0, bottom: 18.0),
-                decoration: new BoxDecoration(
+                decoration: BoxDecoration(
                     color: Color(ColorConstants.white),
-                    borderRadius: new BorderRadius.all(Radius.circular(16.0))),
+                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.min,
@@ -110,11 +108,11 @@ class _NewReminderPageState extends State<NewReminderPage> {
                         children: <Widget>[
                           TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
-                            text: pageState.shouldClear ? "New Reminder" : "Edit Reminder",
+                            text: pageState.shouldClear! ? "New Reminder" : "Edit Reminder",
                             textAlign: TextAlign.start,
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
-                          !pageState.shouldClear ? GestureDetector(
+                          !pageState.shouldClear! ? GestureDetector(
                             onTap: () {
                               _ackAlert(context, pageState);
                             },
@@ -127,7 +125,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
                                   'assets/images/icons/trash_can.png', color: Color(ColorConstants.getPeachDark()),),
                             ),
                           ) : SizedBox(),
-                          !pageState.shouldClear ? Container(
+                          !pageState.shouldClear! ? Container(
                             margin: EdgeInsets.only(left: 300.0),
                             child: IconButton(
                               icon: const Icon(Icons.save),
@@ -135,7 +133,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
                               color: Color(ColorConstants.getPrimaryColor()),
                               onPressed: () {
                                 showSuccessAnimation();
-                                pageState.onSavePressed();
+                                pageState.onSavePressed!();
                               },
                             ),
                           ) : SizedBox(),
@@ -151,9 +149,9 @@ class _NewReminderPageState extends State<NewReminderPage> {
                       controller: controller,
                       pageSnapping: true,
                       children: <Widget>[
-                        ReminderDescriptionWidget(reminder),
-                        WhenSelectionWidget(reminder),
-                        TimeSelectionWidget(reminder),
+                        ReminderDescriptionWidget(reminder!),
+                        WhenSelectionWidget(reminder!),
+                        TimeSelectionWidget(reminder!),
                       ],
                     ),
                   ),
@@ -220,7 +218,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
     bool canProgress = true;
       switch (currentPageIndex) {
         case 0:
-          canProgress = pageState.reminderDescription.isNotEmpty;
+          canProgress = pageState.reminderDescription!.isNotEmpty;
           break;
         case 1:
           canProgress = true;
@@ -236,7 +234,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
         FocusScope.of(context).unfocus();
       }
     if (currentPageIndex == pageCount && canProgress) {
-      pageState.onSavePressed();
+      pageState.onSavePressed!();
       showSuccessAnimation();
     }
   }
@@ -247,41 +245,41 @@ class _NewReminderPageState extends State<NewReminderPage> {
       builder: (BuildContext context) {
         return Device.get().isIos ?
         CupertinoAlertDialog(
-          title: new Text('Are you sure?'),
-          content: new Text('This reminder will be gone for good!'),
+          title: Text('Are you sure?'),
+          content: Text('This reminder will be gone for good!'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () => Navigator.of(context).pop(false),
-              child: new Text('No'),
+              child: Text('No'),
             ),
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteReminderSelected();
+                pageState.onDeleteReminderSelected!();
                 Navigator.of(context).pop(true);
                 Navigator.of(context).pop(true);
               },
-              child: new Text('Yes'),
+              child: Text('Yes'),
             ),
           ],
         ) : AlertDialog(
-          title: new Text('Are you sure?'),
-          content: new Text('This reminder will be gone for good!'),
+          title: Text('Are you sure?'),
+          content: Text('This reminder will be gone for good!'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () => Navigator.of(context).pop(false),
-              child: new Text('No'),
+              child: Text('No'),
             ),
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteReminderSelected();
+                pageState.onDeleteReminderSelected!();
                 Navigator.of(context).pop(true);
                 Navigator.of(context).pop(true);
               },
-              child: new Text('Yes'),
+              child: Text('Yes'),
             ),
           ],
         );
@@ -314,7 +312,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
 
   void onBackPressed(NewReminderPageState pageState) {
     if (currentPageIndex == 0) {
-      pageState.onCancelPressed();
+      pageState.onCancelPressed!();
       Navigator.of(context).pop();
     } else {
       controller.animateToPage(currentPageIndex - 1,

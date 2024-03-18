@@ -16,17 +16,17 @@ final newSingleExpensePageReducer = combineReducers<NewSingleExpensePageState>([
 
 NewSingleExpensePageState _setSelectedSingleExpense(NewSingleExpensePageState previousState, LoadExistingSingleExpenseAction action){
   return previousState.copyWith(
-    expenseName: action.singleExpense.expenseName,
-    expenseDate: action.singleExpense.charge.chargeDate,
-    expenseCost: action.singleExpense.charge.chargeAmount,
-    id: action.singleExpense.id,
-    documentId: action.singleExpense.documentId,
+    expenseName: action.singleExpense!.expenseName,
+    expenseDate: action.singleExpense!.charge!.chargeDate,
+    expenseCost: action.singleExpense!.charge!.chargeAmount,
+    id: action.singleExpense!.id,
+    documentId: action.singleExpense!.documentId,
     shouldClear: false,
   );
 }
 
 NewSingleExpensePageState _updateCost(NewSingleExpensePageState previousState, UpdateCostAction action){
-  String resultCost = action.newCost.replaceAll('\$', '');
+  String resultCost = action.newCost!.replaceAll('\$', '');
   resultCost = resultCost.replaceAll(',', '');
   resultCost = resultCost.replaceAll(' ', '');
   double doubleCost = double.parse(resultCost);
@@ -50,17 +50,17 @@ NewSingleExpensePageState _updateName(NewSingleExpensePageState previousState, U
 //fix this method
 NewSingleExpensePageState _loadPriceProfile(NewSingleExpensePageState previousState, LoadExistingPricingProfileData action){
   return previousState.copyWith(
-    id: action.singleExpense.id,
-    documentId: action.singleExpense.documentId,
+    id: action.singleExpense!.id,
+    documentId: action.singleExpense!.documentId,
     shouldClear: false,
-    expenseName: action.singleExpense.expenseName,
-    expenseDate: action.singleExpense.charge.chargeDate,
-    expenseCost: action.singleExpense.charge.chargeAmount,
+    expenseName: action.singleExpense!.expenseName,
+    expenseDate: action.singleExpense!.charge!.chargeDate,
+    expenseCost: action.singleExpense!.charge!.chargeAmount,
   );
 }
 
 NewSingleExpensePageState _incrementPageViewIndex(NewSingleExpensePageState previousState, IncrementPageViewIndex action) {
-  int incrementedIndex = previousState.pageViewIndex;
+  int incrementedIndex = previousState.pageViewIndex!;
   incrementedIndex++;
   return previousState.copyWith(
       pageViewIndex: incrementedIndex
@@ -68,7 +68,7 @@ NewSingleExpensePageState _incrementPageViewIndex(NewSingleExpensePageState prev
 }
 
 NewSingleExpensePageState _decrementPageViewIndex(NewSingleExpensePageState previousState, DecrementPageViewIndex action) {
-  int decrementedIndex = previousState.pageViewIndex;
+  int decrementedIndex = previousState.pageViewIndex!;
   decrementedIndex--;
   return previousState.copyWith(
       pageViewIndex: decrementedIndex

@@ -10,22 +10,22 @@ class NewSingleExpensePageState {
   static const String NO_ERROR = "noError";
   static const String ERROR_PROFILE_NAME_MISSING = "missingProfileName";
 
-  final int id;
-  final String documentId;
-  final int pageViewIndex;
-  final bool saveButtonEnabled;
-  final bool shouldClear;
-  final String expenseName;
-  final DateTime expenseDate;
-  final double expenseCost;
-  final Function() onSavePressed;
-  final Function() onCancelPressed;
-  final Function() onNextPressed;
-  final Function() onBackPressed;
-  final Function() onDeleteSingleExpenseSelected;
-  final Function(String) onNameChanged;
-  final Function(DateTime) onExpenseDateSelected;
-  final Function(String) onCostChanged;
+  final int? id;
+  final String? documentId;
+  final int? pageViewIndex;
+  final bool? saveButtonEnabled;
+  final bool? shouldClear;
+  final String? expenseName;
+  final DateTime? expenseDate;
+  final double? expenseCost;
+  final Function()? onSavePressed;
+  final Function()? onCancelPressed;
+  final Function()? onNextPressed;
+  final Function()? onBackPressed;
+  final Function()? onDeleteSingleExpenseSelected;
+  final Function(String)? onNameChanged;
+  final Function(DateTime)? onExpenseDateSelected;
+  final Function(String)? onCostChanged;
 
   NewSingleExpensePageState({
     @required this.id,
@@ -47,22 +47,22 @@ class NewSingleExpensePageState {
   });
 
   NewSingleExpensePageState copyWith({
-    int id,
-    String documentId,
-    int pageViewIndex,
-    saveButtonEnabled,
-    bool shouldClear,
-    String expenseName,
-    DateTime expenseDate,
-    Function() onSavePressed,
-    Function() onCancelPressed,
-    Function() onNextPressed,
-    Function() onBackPressed,
-    Function(PriceProfile) onDeleteSingleExpenseSelected,
-    Function(String) onNameChanged,
-    Function(DateTime) onExpenseDateSelected,
-    double expenseCost,
-    Function(String) onCostChanged,
+    int? id,
+    String? documentId,
+    int? pageViewIndex,
+    bool? saveButtonEnabled,
+    bool? shouldClear,
+    String? expenseName,
+    DateTime? expenseDate,
+    Function()? onSavePressed,
+    Function()? onCancelPressed,
+    Function()? onNextPressed,
+    Function()? onBackPressed,
+    Function()? onDeleteSingleExpenseSelected,
+    Function(String)? onNameChanged,
+    Function(DateTime)? onExpenseDateSelected,
+    double? expenseCost,
+    Function(String)? onCostChanged,
   }){
     return NewSingleExpensePageState(
       id: id?? this.id,
@@ -105,14 +105,14 @@ class NewSingleExpensePageState {
 
   factory NewSingleExpensePageState.fromStore(Store<AppState> store) {
     return NewSingleExpensePageState(
-      id: store.state.newSingleExpensePageState.id,
-      documentId: store.state.newSingleExpensePageState.documentId,
-      pageViewIndex: store.state.newSingleExpensePageState.pageViewIndex,
-      saveButtonEnabled: store.state.newSingleExpensePageState.saveButtonEnabled,
-      shouldClear: store.state.newSingleExpensePageState.shouldClear,
-      expenseName: store.state.newSingleExpensePageState.expenseName,
-      expenseDate: store.state.newSingleExpensePageState.expenseDate,
-      expenseCost: store.state.newSingleExpensePageState.expenseCost,
+      id: store.state.newSingleExpensePageState!.id,
+      documentId: store.state.newSingleExpensePageState!.documentId,
+      pageViewIndex: store.state.newSingleExpensePageState!.pageViewIndex,
+      saveButtonEnabled: store.state.newSingleExpensePageState!.saveButtonEnabled,
+      shouldClear: store.state.newSingleExpensePageState!.shouldClear,
+      expenseName: store.state.newSingleExpensePageState!.expenseName,
+      expenseDate: store.state.newSingleExpensePageState!.expenseDate,
+      expenseCost: store.state.newSingleExpensePageState!.expenseCost,
       onSavePressed: () => store.dispatch(SaveSingleExpenseProfileAction(store.state.newSingleExpensePageState)),
       onCancelPressed: () => store.dispatch(ClearSingleEpenseStateAction(store.state.newSingleExpensePageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newSingleExpensePageState)),

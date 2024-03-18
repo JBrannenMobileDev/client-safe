@@ -35,14 +35,14 @@ OnBoardingPageState _setPagerIndex(OnBoardingPageState previousState, SetPagerIn
 }
 
 OnBoardingPageState _setSelectedFeature(OnBoardingPageState previousState, SetFeatureSelectedStateAction action){
-  if(action.isSelected) {
-    previousState.selectedReasons.add(action.featureName);
+  if(action.isSelected!) {
+    previousState.selectedReasons!.add(action.featureName!);
   } else {
-    previousState.selectedReasons.remove(action.featureName);
+    previousState.selectedReasons!.remove(action.featureName);
   }
 
   return previousState.copyWith(
     selectedReasons: previousState.selectedReasons,
-    featuresContinueEnabled: previousState.selectedReasons.isNotEmpty,
+    featuresContinueEnabled: previousState.selectedReasons!.isNotEmpty,
   );
 }

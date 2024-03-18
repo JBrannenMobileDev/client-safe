@@ -42,7 +42,7 @@ class _LeadSourceSelectionPage extends State<LeadSourceSelectionPage> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, OnBoardingPageState>(
       onInit: (store) {
-        notesController.value = notesController.value.copyWith(text:store.state.jobDetailsPageState.notes);
+        notesController.value = notesController.value.copyWith(text:store.state.jobDetailsPageState!.notes);
       },
       converter: (store) => OnBoardingPageState.fromStore(store),
       builder: (BuildContext context, OnBoardingPageState pageState) =>
@@ -109,7 +109,7 @@ class _LeadSourceSelectionPage extends State<LeadSourceSelectionPage> {
                         eventName: EventNames.ON_BOARDING_LEAD_SOURCE_SELECTED,
                         properties: {EventNames.ON_BOARDING_LEAD_SOURCE_SELECTED_PARAM : _chipLabels.elementAt(selectedIndex)}
                     );
-                    pageState.setPagerIndex(2);
+                    pageState.setPagerIndex!(2);
                   }
                 },
                 child: Container(

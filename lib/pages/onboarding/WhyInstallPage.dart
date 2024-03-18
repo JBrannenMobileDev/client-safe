@@ -45,21 +45,21 @@ class _WhyInstallPage extends State<WhyInstallPage> {
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
-                    checkboxItem(OnBoardingPageState.HAVING_EVERYTHING_IN_ONE_PLACE, pageState.onFeatureSelected, pageState.selectedReasons.contains(OnBoardingPageState.HAVING_EVERYTHING_IN_ONE_PLACE)),
-                    checkboxItem(OnBoardingPageState.LOOK_PROFESSIONAL, pageState.onFeatureSelected, pageState.selectedReasons.contains(OnBoardingPageState.LOOK_PROFESSIONAL)),
-                    checkboxItem(OnBoardingPageState.POSES_FOR_INSPIRATION, pageState.onFeatureSelected, pageState.selectedReasons.contains(OnBoardingPageState.POSES_FOR_INSPIRATION)),
-                    checkboxItem(OnBoardingPageState.CONTRACTS, pageState.onFeatureSelected, pageState.selectedReasons.contains(OnBoardingPageState.CONTRACTS)),
-                    checkboxItem(OnBoardingPageState.INVOICES, pageState.onFeatureSelected, pageState.selectedReasons.contains(OnBoardingPageState.INVOICES)),
-                    checkboxItem(OnBoardingPageState.QUESTIONNAIRES, pageState.onFeatureSelected, pageState.selectedReasons.contains(OnBoardingPageState.QUESTIONNAIRES)),
-                    checkboxItem(OnBoardingPageState.BOOKING_AND_AVAILABILITY, pageState.onFeatureSelected, pageState.selectedReasons.contains(OnBoardingPageState.BOOKING_AND_AVAILABILITY)),
-                    checkboxItem(OnBoardingPageState.CLIENT_GALLERIES, pageState.onFeatureSelected, pageState.selectedReasons.contains(OnBoardingPageState.CLIENT_GALLERIES)),
-                    checkboxItem(OnBoardingPageState.TRACKING_MY_JOBS, pageState.onFeatureSelected, pageState.selectedReasons.contains(OnBoardingPageState.TRACKING_MY_JOBS)),
-                    checkboxItem(OnBoardingPageState.SUN_TRACKER, pageState.onFeatureSelected, pageState.selectedReasons.contains(OnBoardingPageState.SUN_TRACKER)),
-                    checkboxItem(OnBoardingPageState.TRACK_INCOME_AND_EXPENSES, pageState.onFeatureSelected, pageState.selectedReasons.contains(OnBoardingPageState.TRACK_INCOME_AND_EXPENSES)),
-                    checkboxItem(OnBoardingPageState.CLIENT_GUIDES, pageState.onFeatureSelected, pageState.selectedReasons.contains(OnBoardingPageState.CLIENT_GUIDES)),
-                    checkboxItem(OnBoardingPageState.TRACKING_MILES_FOR_TAXES, pageState.onFeatureSelected, pageState.selectedReasons.contains(OnBoardingPageState.TRACKING_MILES_FOR_TAXES)),
-                    checkboxItem(OnBoardingPageState.OTHER, pageState.onFeatureSelected, pageState.selectedReasons.contains(OnBoardingPageState.OTHER)),
-                    pageState.selectedReasons.contains(OnBoardingPageState.OTHER) ? Container(
+                    checkboxItem(OnBoardingPageState.HAVING_EVERYTHING_IN_ONE_PLACE, pageState.onFeatureSelected!, pageState.selectedReasons!.contains(OnBoardingPageState.HAVING_EVERYTHING_IN_ONE_PLACE)),
+                    checkboxItem(OnBoardingPageState.LOOK_PROFESSIONAL, pageState.onFeatureSelected!, pageState.selectedReasons!.contains(OnBoardingPageState.LOOK_PROFESSIONAL)),
+                    checkboxItem(OnBoardingPageState.POSES_FOR_INSPIRATION, pageState.onFeatureSelected!, pageState.selectedReasons!.contains(OnBoardingPageState.POSES_FOR_INSPIRATION)),
+                    checkboxItem(OnBoardingPageState.CONTRACTS, pageState.onFeatureSelected!, pageState.selectedReasons!.contains(OnBoardingPageState.CONTRACTS)),
+                    checkboxItem(OnBoardingPageState.INVOICES, pageState.onFeatureSelected!, pageState.selectedReasons!.contains(OnBoardingPageState.INVOICES)),
+                    checkboxItem(OnBoardingPageState.QUESTIONNAIRES, pageState.onFeatureSelected!, pageState.selectedReasons!.contains(OnBoardingPageState.QUESTIONNAIRES)),
+                    checkboxItem(OnBoardingPageState.BOOKING_AND_AVAILABILITY, pageState.onFeatureSelected!, pageState.selectedReasons!.contains(OnBoardingPageState.BOOKING_AND_AVAILABILITY)),
+                    checkboxItem(OnBoardingPageState.CLIENT_GALLERIES, pageState.onFeatureSelected!, pageState.selectedReasons!.contains(OnBoardingPageState.CLIENT_GALLERIES)),
+                    checkboxItem(OnBoardingPageState.TRACKING_MY_JOBS, pageState.onFeatureSelected!, pageState.selectedReasons!.contains(OnBoardingPageState.TRACKING_MY_JOBS)),
+                    checkboxItem(OnBoardingPageState.SUN_TRACKER, pageState.onFeatureSelected!, pageState.selectedReasons!.contains(OnBoardingPageState.SUN_TRACKER)),
+                    checkboxItem(OnBoardingPageState.TRACK_INCOME_AND_EXPENSES, pageState.onFeatureSelected!, pageState.selectedReasons!.contains(OnBoardingPageState.TRACK_INCOME_AND_EXPENSES)),
+                    checkboxItem(OnBoardingPageState.CLIENT_GUIDES, pageState.onFeatureSelected!, pageState.selectedReasons!.contains(OnBoardingPageState.CLIENT_GUIDES)),
+                    checkboxItem(OnBoardingPageState.TRACKING_MILES_FOR_TAXES, pageState.onFeatureSelected!, pageState.selectedReasons!.contains(OnBoardingPageState.TRACKING_MILES_FOR_TAXES)),
+                    checkboxItem(OnBoardingPageState.OTHER, pageState.onFeatureSelected!, pageState.selectedReasons!.contains(OnBoardingPageState.OTHER)),
+                    pageState.selectedReasons!.contains(OnBoardingPageState.OTHER) ? Container(
                       margin: const EdgeInsets.only(bottom: 116, left: 24, right: 24),
                       child: DandyLightTextField(
                         controller: otherController,
@@ -79,13 +79,13 @@ class _WhyInstallPage extends State<WhyInstallPage> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    if(pageState.featuresContinueEnabled) {
-                      for(String reason in pageState.selectedReasons) {
+                    if(pageState.featuresContinueEnabled!) {
+                      for(String reason in pageState.selectedReasons!) {
                         EventSender().sendEvent(eventName: EventNames.ON_BOARDING_PROBLEM_CHOSEN, properties: {
                           EventNames.ON_BOARDING_PROBLEM_CHOSEN_PARAM : reason,
                         });
                       }
-                      pageState.setPagerIndex(3);
+                      pageState.setPagerIndex!(3);
                     }
                   },
                   child: Container(
@@ -94,14 +94,14 @@ class _WhyInstallPage extends State<WhyInstallPage> {
                     alignment: Alignment.center,
                     height: 54.0,
                     decoration: BoxDecoration(
-                        color: Color(pageState.featuresContinueEnabled ? ColorConstants.getPeachDark() : ColorConstants.getPrimaryBackgroundGrey()),
+                        color: Color(pageState.featuresContinueEnabled! ? ColorConstants.getPeachDark() : ColorConstants.getPrimaryBackgroundGrey()),
                         borderRadius: BorderRadius.circular(36.0),
                         boxShadow: ElevationToShadow[4],
                     ),
                     child: TextDandyLight(
                       text: 'Continue',
                       type: TextDandyLight.LARGE_TEXT,
-                      color: Color(pageState.featuresContinueEnabled ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
+                      color: Color(pageState.featuresContinueEnabled! ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                 ),

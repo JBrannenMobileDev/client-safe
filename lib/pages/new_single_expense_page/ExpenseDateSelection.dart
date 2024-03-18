@@ -60,7 +60,7 @@ class _ExpenseDateSelectionState extends State<ExpenseDateSelection> with Automa
                           ),
                         ),
                         onConfirm: (dateTime, intList) {
-                          pageState.onExpenseDateSelected(dateTime);
+                          pageState.onExpenseDateSelected!(dateTime);
                         }
                     );
                   },
@@ -92,7 +92,7 @@ class _ExpenseDateSelectionState extends State<ExpenseDateSelection> with Automa
                         ),
                         child: TextDandyLight(
                           type: TextDandyLight.LARGE_TEXT,
-                          text: DateFormat('MMM dd, yyyy').format(pageState.expenseDate),
+                          text: DateFormat('MMM dd, yyyy').format(pageState.expenseDate!),
                           color: Color(ColorConstants.getPeachDark()),
                         ),
                       ),

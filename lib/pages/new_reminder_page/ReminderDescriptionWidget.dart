@@ -31,7 +31,7 @@ class _ReminderDescriptionWidgetState extends State<ReminderDescriptionWidget> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, NewReminderPageState>(
       onInit: (store) {
-        descriptionTextController.text = store.state.newReminderPageState.reminderDescription;
+        descriptionTextController.text = store.state.newReminderPageState!.reminderDescription!;
       },
       converter: (store) => NewReminderPageState.fromStore(store),
       builder: (BuildContext context, NewReminderPageState pageState) =>

@@ -27,7 +27,7 @@ class _DoYouHaveAJobPage extends State<DoYouHaveAJobPage> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, OnBoardingPageState>(
       onInit: (store) {
-        notesController.value = notesController.value.copyWith(text:store.state.jobDetailsPageState.notes);
+        notesController.value = notesController.value.copyWith(text:store.state.jobDetailsPageState!.notes);
       },
       converter: (store) => OnBoardingPageState.fromStore(store),
       builder: (BuildContext context, OnBoardingPageState pageState) =>
@@ -52,7 +52,7 @@ class _DoYouHaveAJobPage extends State<DoYouHaveAJobPage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            pageState.onHasJobAnswered(OnBoardingPageState.HAS_JOB_YES);
+                            pageState.onHasJobAnswered!(OnBoardingPageState.HAS_JOB_YES);
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -74,7 +74,7 @@ class _DoYouHaveAJobPage extends State<DoYouHaveAJobPage> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            pageState.onHasJobAnswered(OnBoardingPageState.HAS_JOB_NO);
+                            pageState.onHasJobAnswered!(OnBoardingPageState.HAS_JOB_NO);
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -117,7 +117,7 @@ class _DoYouHaveAJobPage extends State<DoYouHaveAJobPage> {
                             UserOptionsUtil.showNewJobDialog(context, true);
                             break;
                           case OnBoardingPageState.HAS_JOB_NO:
-                            pageState.onViewSampleJobSelected();
+                            pageState.onViewSampleJobSelected!();
                             NavigationUtil.onJobTapped(context, true);
                             break;
                         }
@@ -128,12 +128,12 @@ class _DoYouHaveAJobPage extends State<DoYouHaveAJobPage> {
                         alignment: Alignment.center,
                         height: 54.0,
                         decoration: BoxDecoration(
-                            color: Color(pageState.selectedOptionHasJob.isNotEmpty ? ColorConstants.getPeachDark() : ColorConstants.getPrimaryBackgroundGrey()),
+                            color: Color(pageState.selectedOptionHasJob!.isNotEmpty ? ColorConstants.getPeachDark() : ColorConstants.getPrimaryBackgroundGrey()),
                             borderRadius: BorderRadius.circular(36.0)),
                         child: TextDandyLight(
                           text: getButtonText(pageState),
                           type: TextDandyLight.LARGE_TEXT,
-                          color: Color(pageState.selectedOptionHasJob.isNotEmpty ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
+                          color: Color(pageState.selectedOptionHasJob!.isNotEmpty ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                     ),
