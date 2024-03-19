@@ -97,7 +97,7 @@ class _PosesPageState extends State<PosesPage> {
             floatingActionButton: job == null ? FloatingActionButton(
               onPressed: () {
                 EventSender().sendEvent(eventName: EventNames.BT_UPLOAD_POSE);
-                NavigationUtil.onUploadPoseSelected(context, pageState.profile);
+                NavigationUtil.onUploadPoseSelected(context, pageState.profile!);
               },
               backgroundColor: Color(ColorConstants.getPeachDark()),
               splashColor: Color(ColorConstants.getPeachDark()),
@@ -125,7 +125,7 @@ class _PosesPageState extends State<PosesPage> {
                     color: Color(ColorConstants.getPeachDark()),
                   ),
                   actions: <Widget>[
-                    pageState.isAdmin ? GestureDetector(
+                    pageState.isAdmin! ? GestureDetector(
                       onTap: () {
                         NavigationUtil.onReviewPosesSelected(context);
                       },
@@ -209,9 +209,9 @@ class _PosesPageState extends State<PosesPage> {
                   delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
                     return selectedIndex == 0 ? PoseGroupListWidget(index, job!, comingFromDetails!) : PoseLibraryGroupListWidget(index, job!, comingFromDetails!);
                   },
-                    childCount: selectedIndex == 0 ? pageState.poseGroups.length : pageState.libraryGroups.length, // 1000 list items
+                    childCount: selectedIndex == 0 ? pageState.poseGroups!.length : pageState.libraryGroups!.length, // 1000 list items
                   ),
-                ) : pageState.sortedSubmittedPoses.length > 0 ? SliverPadding(
+                ) : pageState.sortedSubmittedPoses!.length > 0 ? SliverPadding(
                   padding: EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 64),
                   sliver: SliverGrid(
                     gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -227,7 +227,7 @@ class _PosesPageState extends State<PosesPage> {
                         child: _buildItem(context, index),
                       );
                     },
-                      childCount: pageState.sortedSubmittedPoses == null ? 0 : pageState.sortedSubmittedPoses.length,
+                      childCount: pageState.sortedSubmittedPoses == null ? 0 : pageState.sortedSubmittedPoses!.length,
                     ),
                   ),
                 ) : SliverList(
@@ -249,7 +249,7 @@ class _PosesPageState extends State<PosesPage> {
                 SliverList(
                   delegate: SliverChildListDelegate(
                     <Widget>[
-                      selectedIndex == 0 && pageState.savedPoses.length == 0 ? Padding(
+                      selectedIndex == 0 && pageState.savedPoses!.length == 0 ? Padding(
                         padding: EdgeInsets.only(
                             left: 32.0, top: 48.0, right: 32.0),
                         child: TextDandyLight(
@@ -283,14 +283,14 @@ class _PosesPageState extends State<PosesPage> {
                   )),
                 );
               } else {
-                pageState.onImageAddedToJobSelected(pageState.searchResultPoses.elementAt(index), job!);
+                pageState.onImageAddedToJobSelected!(pageState.searchResultPoses!.elementAt(index), job!);
                 VibrateUtil.vibrateMedium();
                 DandyToastUtil.showToastWithGravity('Pose Added!', Color(ColorConstants.getPeachDark()), ToastGravity.CENTER);
                 EventSender().sendEvent(eventName: EventNames.BT_SAVE_SUBMITTED_POSE_TO_JOB_FROM_JOB);
               }
 
               if(job != null) {
-                pageState.onImageAddedToJobSelected(pageState.sortedSubmittedPoses.elementAt(index), job!);
+                pageState.onImageAddedToJobSelected!(pageState.sortedSubmittedPoses!.elementAt(index), job!);
                 VibrateUtil.vibrateMedium();
                 DandyToastUtil.showToastWithGravity('Pose Added!', Color(ColorConstants.getPeachDark()), ToastGravity.CENTER);
                 EventSender().sendEvent(eventName: EventNames.BT_SAVE_SUBMITTED_POSE_TO_JOB_FROM_JOB);

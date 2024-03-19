@@ -24,8 +24,8 @@ import 'PosesActions.dart';
 import 'PosesPageState.dart';
 
 class PosesSearchPage extends StatefulWidget {
-  final Job job;
-  final bool comingFromDetails;
+  final Job? job;
+  final bool? comingFromDetails;
 
   PosesSearchPage(this.job, this.comingFromDetails);
 
@@ -36,10 +36,10 @@ class PosesSearchPage extends StatefulWidget {
 }
 
 class _PosesSearchPageState extends State<PosesSearchPage> {
-  ScrollController _controller;
+  ScrollController? _controller;
   final firstNameTextController = TextEditingController();
-  Job job;
-  bool comingFromDetails;
+  Job? job;
+  bool? comingFromDetails;
 
   _PosesSearchPageState(this.job, this.comingFromDetails);
 
@@ -58,13 +58,13 @@ class _PosesSearchPageState extends State<PosesSearchPage> {
                   )),
                 );
               } else {
-                pageState.onImageAddedToJobSelected(pageState.searchResultPoses.elementAt(index), job);
+                pageState.onImageAddedToJobSelected!(pageState.searchResultPoses!.elementAt(index), job!);
                 VibrateUtil.vibrateMedium();
                 DandyToastUtil.showToastWithGravity('Pose Added!', Color(ColorConstants.getPeachDark()), ToastGravity.CENTER);
                 EventSender().sendEvent(eventName: EventNames.BT_SAVE_LIBRARY_SEARCH_POSE_TO_JOB_FROM_JOB);
               }
             },
-            child: LibraryPoseSearchListWidget(index, job),
+            child: LibraryPoseSearchListWidget(index, job!),
           ),
     );
   }
@@ -72,7 +72,7 @@ class _PosesSearchPageState extends State<PosesSearchPage> {
   @override
   void initState() {
     _controller = ScrollController();
-    _controller.addListener(() {
+    _controller!.addListener(() {
       KeyboardUtil.closeKeyboard(context);
     });
     super.initState();
@@ -86,13 +86,13 @@ class _PosesSearchPageState extends State<PosesSearchPage> {
       },
       onDidChange: (previous, current) {
         if(firstNameTextController.text.isEmpty) {
-          current.onSearchInputChanged('');
+          current.onSearchInputChanged!('');
         }
       },
       converter: (Store<AppState> store) => PosesPageState.fromStore(store),
       builder: (BuildContext context, PosesPageState pageState) =>
           Scaffold(
-            bottomSheet: job != null ? GoToJobPosesBottomSheet(job, comingFromDetails ? 2 : 2) : SizedBox(),
+            bottomSheet: job != null ? GoToJobPosesBottomSheet(job!, comingFromDetails! ? 2 : 2) : SizedBox(),
             backgroundColor: Color(ColorConstants.getPrimaryWhite()),
             body: CustomScrollView(
               controller: _controller,
@@ -102,7 +102,6 @@ class _PosesSearchPageState extends State<PosesSearchPage> {
                     color: Color(
                         ColorConstants.getPeachDark()), //change your color here
                   ),
-                  brightness: Brightness.light,
                   backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                   centerTitle: true,
                   title: TextDandyLight(
@@ -129,7 +128,7 @@ class _PosesSearchPageState extends State<PosesSearchPage> {
                                 hintText: 'Descriptive Words',
                                 inputType: TextInputType.text,
                                 height: 72.0,
-                                onTextInputChanged: pageState.onSearchInputChanged,
+                                onTextInputChanged: pageState.onSearchInputChanged!,
                                 keyboardAction: TextInputAction.done,
                                 capitalization: TextCapitalization.words,
                                 inputTypeError: '',
@@ -156,14 +155,14 @@ class _PosesSearchPageState extends State<PosesSearchPage> {
                           child: _buildItem(context, index),
                         );
                       },
-                      childCount: pageState.searchResultPoses.length, // 1000 list items
+                      childCount: pageState.searchResultPoses!.length, // 1000 list items
                     ),
                   ),
                 ),
                 SliverList(
                     delegate: SliverChildListDelegate.fixed(
                       [
-                        pageState.searchResultPoses.length == 0 ? Container(
+                        pageState.searchResultPoses!.length == 0 ? Container(
                           margin: EdgeInsets.symmetric(horizontal: 24),
                           alignment: Alignment.bottomCenter,
                           child: TextDandyLight(
@@ -173,7 +172,7 @@ class _PosesSearchPageState extends State<PosesSearchPage> {
                             textAlign: TextAlign.center,
                           ),
                         ) : SizedBox(),
-                        pageState.searchResultPoses.length == 0 ? Container(
+                        pageState.searchResultPoses!.length == 0 ? Container(
                           margin: EdgeInsets.symmetric(horizontal: 64, vertical: 8),
                           alignment: Alignment.center,
                           child: TextDandyLight(

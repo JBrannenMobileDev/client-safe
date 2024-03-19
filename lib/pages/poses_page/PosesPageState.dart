@@ -14,20 +14,20 @@ import '../pose_group_page/GroupImage.dart';
 import 'PosesActions.dart';
 
 class PosesPageState{
-  final List<PoseGroup> poseGroups;
-  final List<PoseLibraryGroup> libraryGroups;
-  final List<Pose> searchResultPoses;
-  final List<Pose> allLibraryPoses;
-  final List<Pose> sortedSubmittedPoses;
-  final List<Pose> savedPoses;
-  final List<Job> activeJobs;
-  final String searchInput;
-  final Profile profile;
-  final bool shouldClear;
-  final bool isAdmin;
-  final Function(String) onSearchInputChanged;
-  final Function(Pose, PoseGroup) onImageSaveSelected;
-  final Function(Pose, Job) onImageAddedToJobSelected;
+  final List<PoseGroup>? poseGroups;
+  final List<PoseLibraryGroup>? libraryGroups;
+  final List<Pose>? searchResultPoses;
+  final List<Pose>? allLibraryPoses;
+  final List<Pose>? sortedSubmittedPoses;
+  final List<Pose>? savedPoses;
+  final List<Job>? activeJobs;
+  final String? searchInput;
+  final Profile? profile;
+  final bool? shouldClear;
+  final bool? isAdmin;
+  final Function(String)? onSearchInputChanged;
+  final Function(Pose, PoseGroup)? onImageSaveSelected;
+  final Function(Pose, Job)? onImageAddedToJobSelected;
 
   PosesPageState({
     @required this.poseGroups,
@@ -47,22 +47,22 @@ class PosesPageState{
   });
 
   PosesPageState copyWith({
-    List<PoseGroup> poseGroups,
-    List<PoseLibraryGroup> libraryGroups,
-    bool shouldClear,
-    bool isAdmin,
-    String searchInput,
-    Function(String) onSearchInputChanged,
-    Function(Pose, PoseGroup) onImageSaveSelected,
-    Function(Pose, Job) onImageAddedToJobSelected,
-    List<Job> activeJobs,
-    List<Pose> allLibraryPoses,
-    bool isLoadingSearchImages,
-    List<Pose> searchResultPoses,
-    List<Pose> sortedSubmittedPoses,
-    bool isLoadingSubmittedPoses,
-    Profile profile,
-    List<Pose> savedPoses,
+    List<PoseGroup>? poseGroups,
+    List<PoseLibraryGroup>? libraryGroups,
+    bool? shouldClear,
+    bool? isAdmin,
+    String? searchInput,
+    Function(String)? onSearchInputChanged,
+    Function(Pose, PoseGroup)? onImageSaveSelected,
+    Function(Pose, Job)? onImageAddedToJobSelected,
+    List<Job>? activeJobs,
+    List<Pose>? allLibraryPoses,
+    bool? isLoadingSearchImages,
+    List<Pose>? searchResultPoses,
+    List<Pose>? sortedSubmittedPoses,
+    bool? isLoadingSubmittedPoses,
+    Profile? profile,
+    List<Pose>? savedPoses,
   }){
     return PosesPageState(
       poseGroups: poseGroups?? this.poseGroups,
@@ -101,17 +101,17 @@ class PosesPageState{
 
   factory PosesPageState.fromStore(Store<AppState> store) {
     return PosesPageState(
-      poseGroups: store.state.posesPageState.poseGroups,
-      shouldClear: store.state.posesPageState.shouldClear,
-      libraryGroups: store.state.posesPageState.libraryGroups,
-      isAdmin: store.state.posesPageState.isAdmin,
-      searchInput: store.state.posesPageState.searchInput,
-      activeJobs: store.state.posesPageState.activeJobs,
-      allLibraryPoses: store.state.posesPageState.allLibraryPoses,
-      searchResultPoses: store.state.posesPageState.searchResultPoses,
-      sortedSubmittedPoses: store.state.posesPageState.sortedSubmittedPoses,
-      profile: store.state.posesPageState.profile,
-      savedPoses: store.state.posesPageState.savedPoses,
+      poseGroups: store.state.posesPageState!.poseGroups,
+      shouldClear: store.state.posesPageState!.shouldClear,
+      libraryGroups: store.state.posesPageState!.libraryGroups,
+      isAdmin: store.state.posesPageState!.isAdmin,
+      searchInput: store.state.posesPageState!.searchInput,
+      activeJobs: store.state.posesPageState!.activeJobs,
+      allLibraryPoses: store.state.posesPageState!.allLibraryPoses,
+      searchResultPoses: store.state.posesPageState!.searchResultPoses,
+      sortedSubmittedPoses: store.state.posesPageState!.sortedSubmittedPoses,
+      profile: store.state.posesPageState!.profile,
+      savedPoses: store.state.posesPageState!.savedPoses,
       onSearchInputChanged: (searchInput) => store.dispatch(UpdateSearchInputAction(store.state.posesPageState, searchInput)),
       onImageSaveSelected: (pose, poseGroup) => store.dispatch(SavePoseToMyPosesAction(store.state.posesPageState, pose, poseGroup)),
       onImageAddedToJobSelected: (pose, job) => store.dispatch(SaveImageToJobAction(store.state.posesPageState, pose, job)),

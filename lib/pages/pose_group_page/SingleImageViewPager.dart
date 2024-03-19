@@ -26,35 +26,35 @@ import '../../widgets/TextDandyLight.dart';
 import 'GroupImage.dart';
 
 class SingleImageViewPager extends StatefulWidget {
-  final List<Pose> poses;
-  final int index;
-  final Function(Pose) onDelete;
-  final String groupName;
+  final List<Pose>? poses;
+  final int? index;
+  final Function(Pose)? onDelete;
+  final String? groupName;
 
   SingleImageViewPager(this.poses, this.index, this.onDelete, this.groupName);
 
   @override
   _SingleImageViewPagerState createState() {
-    return _SingleImageViewPagerState(poses, index, onDelete, poses.length, PageController(initialPage: index), groupName);
+    return _SingleImageViewPagerState(poses, index, onDelete, poses!.length, PageController(initialPage: index!), groupName);
   }
 }
 
 class _SingleImageViewPagerState extends State<SingleImageViewPager> {
-  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  final int pageCount;
-  int currentPageIndex;
-  final PageController controller;
-  final List<Pose> poses;
-  final Function(Pose) onDelete;
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final int? pageCount;
+  int? currentPageIndex;
+  final PageController? controller;
+  final List<Pose>? poses;
+  final Function(Pose)? onDelete;
   final List<Container> pages = [];
-  final String groupName;
+  final String? groupName;
 
   _SingleImageViewPagerState(this.poses, this.currentPageIndex, this.onDelete, this.pageCount, this.controller, this.groupName);
 
   @override
   void initState() {
     super.initState();
-    for(Pose pose in poses) {
+    for(Pose pose in poses!) {
       pages.add(
           Container(
             margin: EdgeInsets.only(top: 16),
@@ -66,17 +66,17 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
                     alignment: Alignment.bottomRight,
                     children: [
                       ClipRRect(
-                        borderRadius: new BorderRadius.circular(16.0),
+                        borderRadius: BorderRadius.circular(16.0),
                         child: CachedNetworkImage(
                           fadeOutDuration: Duration(milliseconds: 0),
                           fadeInDuration: Duration(milliseconds: 200),
-                          imageUrl: pose.imageUrl,
+                          imageUrl: pose.imageUrl!,
                           fit: BoxFit.contain,
                           placeholder: (context, url) => Container(
                               height: 116,
                               decoration: BoxDecoration(
                                 color: Colors.transparent,
-                                borderRadius: new BorderRadius.circular(16),
+                                borderRadius: BorderRadius.circular(16),
                               )
                           ),
                         ),
@@ -85,7 +85,7 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
                         height: 116.0,
                         decoration: BoxDecoration(
                             color: Color(ColorConstants.getPrimaryWhite()),
-                            borderRadius: new BorderRadius.circular(8.0),
+                            borderRadius: BorderRadius.circular(8.0),
                             gradient: LinearGradient(
                                 begin: FractionalOffset.center,
                                 end: FractionalOffset.bottomCenter,
@@ -100,7 +100,7 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
                       ) : SizedBox(),
                       pose.isLibraryPose() ? GestureDetector(
                         onTap: () {
-                          IntentLauncherUtil.launchURL(pose.instagramUrl);
+                          IntentLauncherUtil.launchURL(pose.instagramUrl!);
                         },
                         child: Container(
                           padding: EdgeInsets.only(right: 16),
@@ -115,7 +115,7 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
                       ) : SizedBox(),
                     ],
                   ),
-                  pose.prompt.isNotEmpty ? Container(
+                  pose.prompt!.isNotEmpty ? Container(
                     margin: EdgeInsets.only(top: 16, left: 16, bottom: 8),
                     width: double.infinity,
                     child:  TextDandyLight(
@@ -125,7 +125,7 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
                       text: 'PROMPT',
                     ),
                   ) : SizedBox(),
-                  pose.prompt.isNotEmpty ? Container(
+                  pose.prompt!.isNotEmpty ? Container(
                     margin: EdgeInsets.only(left: 16, right: 16, bottom: 32),
                     width: double.infinity,
                     child:  TextDandyLight(
@@ -158,7 +158,7 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
                   // ),
                   pose.isLibraryPose() ? GestureDetector(
                     onTap: () {
-                      IntentLauncherUtil.launchURL(pose.instagramUrl);
+                      IntentLauncherUtil.launchURL(pose.instagramUrl!);
                       EventSender().sendEvent(eventName: EventNames.BT_POSE_INSTAGRAM_PAGE);
                     },
                     child: Container(
@@ -185,31 +185,30 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
     }
   }
 
-  Future<bool> _onDeleteSelected() {
-    return showDialog(
+  Future<bool?> _onDeleteSelected() {
+    return showDialog<bool>(
           context: context,
-          builder: (context) => new CupertinoAlertDialog(
-            title: new Text('Are you sure?'),
-            content: new Text('This pose will be permanently deleted.'),
+          builder: (context) => CupertinoAlertDialog(
+            title: Text('Are you sure?'),
+            content: Text('This pose will be permanently deleted.'),
             actions: <Widget>[
               TextButton(
                 style: Styles.getButtonStyle(),
                 onPressed: () => Navigator.of(context).pop(false),
-                child: new Text('No'),
+                child: Text('No'),
               ),
               TextButton(
                 style: Styles.getButtonStyle(),
                 onPressed: () {
-                  onDelete(poses.elementAt(currentPageIndex));
+                  onDelete!(poses!.elementAt(currentPageIndex!));
                   Navigator.of(context).pop(true);
                   Navigator.of(context).pop(true);
                 },
-                child: new Text('Yes'),
+                child: Text('Yes'),
               ),
             ],
           ),
-        ) ??
-        false;
+        );
   }
 
   getCurrentPage(int page) {

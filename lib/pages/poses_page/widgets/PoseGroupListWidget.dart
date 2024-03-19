@@ -14,9 +14,9 @@ import '../../pose_group_page/PoseGroupPage.dart';
 import '../PosesPageState.dart';
 
 class PoseGroupListWidget extends StatelessWidget {
-  final int index;
-  final Job job;
-  final bool comingFromDetails;
+  final int? index;
+  final Job? job;
+  final bool? comingFromDetails;
 
   PoseGroupListWidget(this.index, this.job, this.comingFromDetails);
 
@@ -28,7 +28,7 @@ class PoseGroupListWidget extends StatelessWidget {
       InkWell(
         onTap: () {
           Navigator.of(context).push(
-            new MaterialPageRoute(builder: (context) => PoseGroupPage(pageState.poseGroups.elementAt(index), job, comingFromDetails)),
+            new MaterialPageRoute(builder: (context) => PoseGroupPage(pageState.poseGroups!.elementAt(index!), job, comingFromDetails)),
           );
         },
         child: Padding(
@@ -51,7 +51,7 @@ class PoseGroupListWidget extends StatelessWidget {
                         color: Color(ColorConstants.getPeachLight())
                       ),
                       child: DandyLightNetworkImage(
-                        pageState.poseGroups.elementAt(index).poses.isNotEmpty ? pageState.poseGroups.elementAt(index).poses.elementAt(0)?.imageUrl : '',
+                        pageState.poseGroups!.elementAt(index!).poses!.isNotEmpty ? pageState.poseGroups!.elementAt(index!).poses!.elementAt(0).imageUrl! : '',
                         borderRadius: 16,
                         resizeWidth: 350,
                         errorIconSize: 64,
@@ -70,7 +70,7 @@ class PoseGroupListWidget extends StatelessWidget {
                               padding: EdgeInsets.only(bottom: 2.0),
                               child: TextDandyLight(
                                 type: TextDandyLight.MEDIUM_TEXT,
-                                text: pageState.poseGroups.elementAt(index).groupName,
+                                text: pageState.poseGroups!.elementAt(index!).groupName,
                                 textAlign: TextAlign.center,
                                 color: Color(ColorConstants.getPrimaryBlack()),
                               ),
@@ -78,7 +78,7 @@ class PoseGroupListWidget extends StatelessWidget {
                               padding: EdgeInsets.only(top: 2.0),
                               child: TextDandyLight(
                                 type: TextDandyLight.MEDIUM_TEXT,
-                                text: pageState.poseGroups.elementAt(index).poses?.length.toString(),
+                                text: pageState.poseGroups!.elementAt(index!).poses?.length.toString(),
                                 textAlign: TextAlign.center,
                                 color: Color(ColorConstants.getPeachDark()),
                               ),

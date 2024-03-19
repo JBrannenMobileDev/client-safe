@@ -8,21 +8,21 @@ import '../../../widgets/TextDandyLight.dart';
 
 
 class DandyLightLibraryTextField extends StatelessWidget {
-  final TextEditingController controller;
-  final String hintText;
-  final String labelText;
-  final TextInputType inputType;
-  final double height;
-  final String inputTypeError;
-  final Function(String) onTextInputChanged;
-  final Function() onEditingCompleted;
-  final TextInputAction keyboardAction;
-  final FocusNode focusNode;
-  final Function onFocusAction;
-  final TextCapitalization capitalization;
-  final List<TextInputFormatter> inputFormatter;
-  final bool enabled;
-  final double radius;
+  final TextEditingController? controller;
+  final String? hintText;
+  final String? labelText;
+  final TextInputType? inputType;
+  final double? height;
+  final String? inputTypeError;
+  final Function(String)? onTextInputChanged;
+  final Function()? onEditingCompleted;
+  final TextInputAction? keyboardAction;
+  final FocusNode? focusNode;
+  final Function? onFocusAction;
+  final TextCapitalization? capitalization;
+  final List<TextInputFormatter>? inputFormatter;
+  final bool? enabled;
+  final double? radius;
 
   DandyLightLibraryTextField({
       this.controller,
@@ -56,10 +56,10 @@ class DandyLightLibraryTextField extends StatelessWidget {
             controller: controller,
             cursorColor: Color(ColorConstants.getPeachDark()),
             onChanged: (text) {
-              onTextInputChanged(text);
+              onTextInputChanged!(text);
             },
             onFieldSubmitted: (term) {
-              onFocusAction();
+              onFocusAction!();
             },
             decoration: InputDecoration(
               contentPadding: EdgeInsets.only(left: 16, top: 32, right: 16, bottom: 0),
@@ -73,28 +73,28 @@ class DandyLightLibraryTextField extends StatelessWidget {
                   color: Color(ColorConstants.getPrimaryBlack())),
               fillColor: Color(ColorConstants.getPrimaryWhite()),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(radius),
+                borderRadius: BorderRadius.circular(radius!),
                 borderSide: BorderSide(
                   color: Color(ColorConstants.getPeachDark()),
                   width: 1.0,
                 ),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(radius),
+                borderRadius: BorderRadius.circular(radius!),
                 borderSide: BorderSide(
                   color: Color(ColorConstants.getPrimaryBackgroundGrey()),
                   width: 1.0,
                 ),
               ),
               disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(radius),
+                borderRadius: BorderRadius.circular(radius!),
                 borderSide: BorderSide(
                   color: Color(ColorConstants.getPrimaryBackgroundGrey()),
                   width: 1.0,
                 ),
               ),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(radius),
+                borderRadius: BorderRadius.circular(radius!),
                 borderSide: BorderSide(
                   color: Color(ColorConstants.getPrimaryBackgroundGrey()),
                   width: 1.0,
@@ -102,7 +102,7 @@ class DandyLightLibraryTextField extends StatelessWidget {
               ),
             ),
             keyboardType: inputType,
-            textCapitalization: capitalization,
+            textCapitalization: capitalization!,
             onEditingComplete: onEditingCompleted,
             inputFormatters: inputFormatter != null ? inputFormatter : null,
             style: new TextStyle(

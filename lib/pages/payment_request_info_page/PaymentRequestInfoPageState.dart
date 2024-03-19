@@ -4,44 +4,44 @@ import '../../AppState.dart';
 import 'PaymentRequestInfoPageActions.dart';
 
 class PaymentRequestInfoPageState{
-  final bool zelleEnabled;
-  final bool venmoEnabled;
-  final bool cashAppEnabled;
-  final bool applePayEnabled;
-  final bool cashEnabled;
-  final bool otherEnabled;
-  final bool wireEnabled;
-  final String zellePhoneEmail;
-  final String zelleFullName;
-  final String venmoLink;
-  final String cashMessage;
-  final String cashAppLink;
-  final String applePayPhone;
-  final String otherMessage;
-  final String wireMessage;
-  final Function(bool) onOtherSelected;
-  final Function(String) onOtherMessageChanged;
-  final Function(bool) onWireSelected;
-  final Function(String) onWireMessageChanged;
-  final Function(bool) onZelleSelected;
-  final Function(String) onZelleTextPhoneEmailChanged;
-  final Function(String) onZelleTextFullNameChanged;
-  final Function(bool) onVenmoSelected;
-  final Function(String) onVenmoTextChanged;
-  final Function(bool) onCashAppSelected;
-  final Function(String) onCashAppTextChanged;
-  final Function(bool) onApplePaySelected;
-  final Function(String) onApplePayTextChanged;
-  final Function(bool) onCashSelected;
-  final Function(String) onCashMessageChanged;
-  final Function() onZellePhoneEmailInputDone;
-  final Function() onZelleFullNameInputDone;
-  final Function() onVenmoInputDone;
-  final Function() onCashAppInputDone;
-  final Function() onApplePayInputDone;
-  final Function() onOtherInputDone;
-  final Function() onWireInputDone;
-  final Function() onCashInputDone;
+  final bool? zelleEnabled;
+  final bool? venmoEnabled;
+  final bool? cashAppEnabled;
+  final bool? applePayEnabled;
+  final bool? cashEnabled;
+  final bool? otherEnabled;
+  final bool? wireEnabled;
+  final String? zellePhoneEmail;
+  final String? zelleFullName;
+  final String? venmoLink;
+  final String? cashMessage;
+  final String? cashAppLink;
+  final String? applePayPhone;
+  final String? otherMessage;
+  final String? wireMessage;
+  final Function(bool)? onOtherSelected;
+  final Function(String)? onOtherMessageChanged;
+  final Function(bool)? onWireSelected;
+  final Function(String)? onWireMessageChanged;
+  final Function(bool)? onZelleSelected;
+  final Function(String)? onZelleTextPhoneEmailChanged;
+  final Function(String)? onZelleTextFullNameChanged;
+  final Function(bool)? onVenmoSelected;
+  final Function(String)? onVenmoTextChanged;
+  final Function(bool)? onCashAppSelected;
+  final Function(String)? onCashAppTextChanged;
+  final Function(bool)? onApplePaySelected;
+  final Function(String)? onApplePayTextChanged;
+  final Function(bool)? onCashSelected;
+  final Function(String)? onCashMessageChanged;
+  final Function()? onZellePhoneEmailInputDone;
+  final Function()? onZelleFullNameInputDone;
+  final Function()? onVenmoInputDone;
+  final Function()? onCashAppInputDone;
+  final Function()? onApplePayInputDone;
+  final Function()? onOtherInputDone;
+  final Function()? onWireInputDone;
+  final Function()? onCashInputDone;
 
   PaymentRequestInfoPageState({
     @required this.zelleEnabled,
@@ -85,45 +85,45 @@ class PaymentRequestInfoPageState{
   });
 
   PaymentRequestInfoPageState copyWith({
-    bool zelleEnabled,
-    bool venmoEnabled,
-    bool cashAppEnabled,
-    bool applePayEnabled,
-    bool cashEnabled,
-    bool otherEnabled,
-    bool wireEnabled,
-    String zellePhoneEmail,
-    String zelleFullName,
-    String venmoLink,
-    String cashAppLink,
-    String applePayPhone,
-    String otherMessage,
-    String wireMessage,
-    String cashMessage,
-    Function() onSignOutSelected,
-    Function(bool) onZelleSelected,
-    Function(String) onZelleTextPhoneEmailChanged,
-    Function(String) onZelleTextFullNameChanged,
-    Function(bool) onVenmoSelected,
-    Function(String) onVenmoTextChanged,
-    Function(bool) onCashAppSelected,
-    Function(String) onCashAppTextChanged,
-    Function(bool) onApplePaySelected,
-    Function(String) onApplePayTextChanged,
-    Function(bool) onCashSelected,
-    Function() onZellePhoneEmailInputDone,
-    Function() onZelleFullNameInputDone,
-    Function() onVenmoInputDone,
-    Function() onCashAppInputDone,
-    Function() onApplePayInputDone,
-    Function(bool) onOtherSelected,
-    Function(String) onOtherMessageChanged,
-    Function() onOtherInputDone,
-    Function(bool) onWireSelected,
-    Function(String) onWireMessageChanged,
-    Function() onWireInputDone,
-    Function(String) onCashMessageChanged,
-    Function() onCashInputDone,
+    bool? zelleEnabled,
+    bool? venmoEnabled,
+    bool? cashAppEnabled,
+    bool? applePayEnabled,
+    bool? cashEnabled,
+    bool? otherEnabled,
+    bool? wireEnabled,
+    String? zellePhoneEmail,
+    String? zelleFullName,
+    String? venmoLink,
+    String? cashAppLink,
+    String? applePayPhone,
+    String? otherMessage,
+    String? wireMessage,
+    String? cashMessage,
+    Function()? onSignOutSelected,
+    Function(bool)? onZelleSelected,
+    Function(String)? onZelleTextPhoneEmailChanged,
+    Function(String)? onZelleTextFullNameChanged,
+    Function(bool)? onVenmoSelected,
+    Function(String)? onVenmoTextChanged,
+    Function(bool)? onCashAppSelected,
+    Function(String)? onCashAppTextChanged,
+    Function(bool)? onApplePaySelected,
+    Function(String)? onApplePayTextChanged,
+    Function(bool)? onCashSelected,
+    Function()? onZellePhoneEmailInputDone,
+    Function()? onZelleFullNameInputDone,
+    Function()? onVenmoInputDone,
+    Function()? onCashAppInputDone,
+    Function()? onApplePayInputDone,
+    Function(bool)? onOtherSelected,
+    Function(String)? onOtherMessageChanged,
+    Function()? onOtherInputDone,
+    Function(bool)? onWireSelected,
+    Function(String)? onWireMessageChanged,
+    Function()? onWireInputDone,
+    Function(String)? onCashMessageChanged,
+    Function()? onCashInputDone,
   }){
     return PaymentRequestInfoPageState(
       zelleEnabled: zelleEnabled ?? this.zelleEnabled,
@@ -210,21 +210,21 @@ class PaymentRequestInfoPageState{
 
   factory PaymentRequestInfoPageState.fromStore(Store<AppState> store) {
     return PaymentRequestInfoPageState(
-      zelleEnabled: store.state.paymentRequestInfoPageState.zelleEnabled,
-      venmoEnabled: store.state.paymentRequestInfoPageState.venmoEnabled,
-      cashAppEnabled: store.state.paymentRequestInfoPageState.cashAppEnabled,
-      applePayEnabled: store.state.paymentRequestInfoPageState.applePayEnabled,
-      zelleFullName: store.state.paymentRequestInfoPageState.zelleFullName,
-      zellePhoneEmail: store.state.paymentRequestInfoPageState.zellePhoneEmail,
-      venmoLink: store.state.paymentRequestInfoPageState.venmoLink,
-      cashAppLink: store.state.paymentRequestInfoPageState.cashAppLink,
-      applePayPhone: store.state.paymentRequestInfoPageState.applePayPhone,
-      cashEnabled: store.state.paymentRequestInfoPageState.cashEnabled,
-      otherEnabled: store.state.paymentRequestInfoPageState.otherEnabled,
-      otherMessage: store.state.paymentRequestInfoPageState.otherMessage,
-      wireEnabled: store.state.paymentRequestInfoPageState.wireEnabled,
-      wireMessage: store.state.paymentRequestInfoPageState.wireMessage,
-      cashMessage: store.state.paymentRequestInfoPageState.cashMessage,
+      zelleEnabled: store.state.paymentRequestInfoPageState!.zelleEnabled,
+      venmoEnabled: store.state.paymentRequestInfoPageState!.venmoEnabled,
+      cashAppEnabled: store.state.paymentRequestInfoPageState!.cashAppEnabled,
+      applePayEnabled: store.state.paymentRequestInfoPageState!.applePayEnabled,
+      zelleFullName: store.state.paymentRequestInfoPageState!.zelleFullName,
+      zellePhoneEmail: store.state.paymentRequestInfoPageState!.zellePhoneEmail,
+      venmoLink: store.state.paymentRequestInfoPageState!.venmoLink,
+      cashAppLink: store.state.paymentRequestInfoPageState!.cashAppLink,
+      applePayPhone: store.state.paymentRequestInfoPageState!.applePayPhone,
+      cashEnabled: store.state.paymentRequestInfoPageState!.cashEnabled,
+      otherEnabled: store.state.paymentRequestInfoPageState!.otherEnabled,
+      otherMessage: store.state.paymentRequestInfoPageState!.otherMessage,
+      wireEnabled: store.state.paymentRequestInfoPageState!.wireEnabled,
+      wireMessage: store.state.paymentRequestInfoPageState!.wireMessage,
+      cashMessage: store.state.paymentRequestInfoPageState!.cashMessage,
       onZelleSelected: (enabled) {
         store.dispatch(UpdateProfileWithZelleStateAction(store.state.paymentRequestInfoPageState, enabled));
         store.dispatch(SaveZelleStateAction(store.state.paymentRequestInfoPageState, enabled));

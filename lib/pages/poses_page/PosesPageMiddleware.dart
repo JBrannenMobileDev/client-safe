@@ -43,25 +43,25 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _saveSelectedPoseToJob(Store<AppState> store, SaveImageToJobAction action) async {
-    Pose pose = action.selectedPose;
-    pose.numOfSaves++;
-    action.selectedJob.poses.add(pose);
+    Pose pose = action.selectedPose!;
+    pose.numOfSaves = pose.numOfSaves! + 1;
+    action.selectedJob!.poses!.add(pose);
     await PoseDao.update(pose);
-    await JobDao.update(action.selectedJob);
+    await JobDao.update(action.selectedJob!);
     store.dispatch(FetchJobPosesAction(store.state.jobDetailsPageState));
   }
 
   void _saveSelectedPoseToMyPoseGroup(Store<AppState> store, SavePoseToMyPosesAction action) async {
-    PoseGroup groupToUpdate = action.selectedGroup;
-    groupToUpdate.poses.add(action.selectedImage);
-    action.selectedImage.numOfSaves++;
-    await PoseDao.update(action.selectedImage);
+    PoseGroup groupToUpdate = action.selectedGroup!;
+    groupToUpdate.poses!.add(action.selectedImage!);
+    action.selectedImage!.numOfSaves = action.selectedImage!.numOfSaves! + 1;
+    await PoseDao.update(action.selectedImage!);
     await PoseGroupDao.update(groupToUpdate);
     store.dispatch(FetchPoseGroupsAction(store.state.posesPageState));
   }
 
   void fetchPoseGroups(Store<AppState> store, NextDispatcher next) async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     store.dispatch(SetIsAdminAction(store.state.posesPageState, AdminCheckUtil.isAdmin(profile)));
     _fetchMyPoseGroups(store, next);
     _fetchLibraryPoseGroups(store, next);
@@ -76,7 +76,7 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
 
     List<Pose> allPoses = [];
     for(PoseLibraryGroup group in groups) {
-      allPoses.addAll(group.poses);
+      allPoses.addAll(group.poses!);
     }
 
     store.dispatch(SetAllPosesAction(store.state.posesPageState, allPoses));
@@ -84,9 +84,9 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
 
   void loadAllSubmittedImages(Store<AppState> store) async {
     (await PoseSubmittedGroupDao.getStream(UidUtil().getUid())).listen((invoiceSnapshots) async {
-      PoseSubmittedGroup submittedGroup = null;
+      PoseSubmittedGroup? submittedGroup;
       for(RecordSnapshot invoiceSnapshot in invoiceSnapshots) {
-        submittedGroup = (PoseSubmittedGroup.fromMap(invoiceSnapshot.value));
+        submittedGroup = (PoseSubmittedGroup.fromMap(invoiceSnapshot.value! as Map<String,dynamic>));
       }
       if(submittedGroup != null) {
         processPoses(store, submittedGroup);
@@ -95,7 +95,7 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void processPoses(Store<AppState> store, PoseSubmittedGroup submittedPosesGroup) async {
-    List<Pose> submittedPoses = submittedPosesGroup.poses;
+    List<Pose> submittedPoses = submittedPosesGroup.poses!;
     submittedPoses.sort();
     store.dispatch(SetSortedSubmittedPosesAction(store.state.posesPageState, submittedPosesGroup.poses));
   }

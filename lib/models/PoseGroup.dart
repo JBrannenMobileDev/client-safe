@@ -17,7 +17,7 @@ class PoseGroup {
     return {
       'documentId' : documentId,
       'groupName': groupName,
-      'poses' : convertPosesToMap(poses!),
+      'poses' : convertPosesToMap(poses),
     };
   }
 
@@ -29,17 +29,17 @@ class PoseGroup {
     );
   }
 
-  List<Map<String, dynamic>> convertPosesToMap(List<Pose> poses){
+  List<Map<String, dynamic>> convertPosesToMap(List<Pose>? poses){
     List<Map<String, dynamic>> listOfMaps = [];
-    for(Pose pose in poses != null ? poses : []){
+    for(Pose pose in poses ?? []){
       listOfMaps.add(pose.toMap());
     }
     return listOfMaps;
   }
 
-  static List<Pose> convertMapsToPoses(List listOfMaps){
+  static List<Pose> convertMapsToPoses(List? listOfMaps){
     List<Pose> listOfPoses = [];
-    for(Map map in listOfMaps != null ? listOfMaps : []){
+    for(Map map in listOfMaps ?? []){
       listOfPoses.add(Pose.fromMap(map as Map<String, dynamic>));
     }
     return listOfPoses;

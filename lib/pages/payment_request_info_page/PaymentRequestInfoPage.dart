@@ -36,84 +36,84 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
   Widget build(BuildContext context) => StoreConnector<AppState, PaymentRequestInfoPageState>(
         onInit: (store) async {
           await store.dispatch(LoadPaymentSettingsFromProfile(store.state.paymentRequestInfoPageState));
-          if(store.state.paymentRequestInfoPageState.zellePhoneEmail?.isNotEmpty == true) {
-            zellePhoneEmailTextController.text = store.state.paymentRequestInfoPageState.zellePhoneEmail;
+          if(store.state.paymentRequestInfoPageState!.zellePhoneEmail?.isNotEmpty == true) {
+            zellePhoneEmailTextController.text = store.state.paymentRequestInfoPageState!.zellePhoneEmail!;
           }
-          if(store.state.paymentRequestInfoPageState.zelleFullName?.isNotEmpty == true) {
-            zelleFullNameTextController.text = store.state.paymentRequestInfoPageState.zelleFullName;
+          if(store.state.paymentRequestInfoPageState!.zelleFullName?.isNotEmpty == true) {
+            zelleFullNameTextController.text = store.state.paymentRequestInfoPageState!.zelleFullName!;
           }
-          if(store.state.paymentRequestInfoPageState.venmoLink?.isNotEmpty == true) {
-            venmoLinkTextController.text = store.state.paymentRequestInfoPageState.venmoLink;
+          if(store.state.paymentRequestInfoPageState!.venmoLink?.isNotEmpty == true) {
+            venmoLinkTextController.text = store.state.paymentRequestInfoPageState!.venmoLink!;
           }
-          if(store.state.paymentRequestInfoPageState.cashAppLink?.isNotEmpty == true) {
-            cashAppLinkTextController.text = store.state.paymentRequestInfoPageState.cashAppLink;
+          if(store.state.paymentRequestInfoPageState!.cashAppLink?.isNotEmpty == true) {
+            cashAppLinkTextController.text = store.state.paymentRequestInfoPageState!.cashAppLink!;
           }
-          if(store.state.paymentRequestInfoPageState.applePayPhone?.isNotEmpty == true) {
-            applePayLinkTextController.text = store.state.paymentRequestInfoPageState.applePayPhone;
+          if(store.state.paymentRequestInfoPageState!.applePayPhone?.isNotEmpty == true) {
+            applePayLinkTextController.text = store.state.paymentRequestInfoPageState!.applePayPhone!;
           }
-          if(store.state.paymentRequestInfoPageState.otherMessage?.isNotEmpty == true) {
-            otherTextController.text = store.state.paymentRequestInfoPageState.otherMessage;
+          if(store.state.paymentRequestInfoPageState!.otherMessage?.isNotEmpty == true) {
+            otherTextController.text = store.state.paymentRequestInfoPageState!.otherMessage!;
           }
-          if(store.state.paymentRequestInfoPageState.wireMessage?.isNotEmpty == true) {
-            wireTextController.text = store.state.paymentRequestInfoPageState.wireMessage;
+          if(store.state.paymentRequestInfoPageState!.wireMessage?.isNotEmpty == true) {
+            wireTextController.text = store.state.paymentRequestInfoPageState!.wireMessage!;
           }
-          if(store.state.paymentRequestInfoPageState.cashMessage?.isNotEmpty == true) {
-            cashTextController.text = store.state.paymentRequestInfoPageState.cashMessage;
+          if(store.state.paymentRequestInfoPageState!.cashMessage?.isNotEmpty == true) {
+            cashTextController.text = store.state.paymentRequestInfoPageState!.cashMessage!;
           } else {
             cashTextController.text = '(Example message) Please send me a message to coordinate a cash payment.  Thank you!';
           }
         },
     onDidChange: (previous, current) {
-      if(previous.zellePhoneEmail.isEmpty && current.zellePhoneEmail?.isNotEmpty == true) {
-        zellePhoneEmailTextController.text = current.zellePhoneEmail;
+      if(previous!.zellePhoneEmail!.isEmpty && current.zellePhoneEmail?.isNotEmpty == true) {
+        zellePhoneEmailTextController.text = current.zellePhoneEmail!;
         zellePhoneEmailTextController.selection = TextSelection.fromPosition(
           TextPosition(
             offset: zellePhoneEmailTextController.text.length,
           ),
         );
       }
-      if(previous.zelleFullName.isEmpty && current.zelleFullName?.isNotEmpty == true) {
-        zelleFullNameTextController.text = current.zelleFullName;
+      if(previous.zelleFullName!.isEmpty && current.zelleFullName?.isNotEmpty == true) {
+        zelleFullNameTextController.text = current.zelleFullName!;
         zelleFullNameTextController.selection = TextSelection.fromPosition(
           TextPosition(
             offset: zelleFullNameTextController.text.length,
           ),
         );
       }
-      if(previous.venmoLink.isEmpty && current.venmoLink?.isNotEmpty == true) {
-        venmoLinkTextController.text = current.venmoLink;
+      if(previous.venmoLink!.isEmpty && current.venmoLink?.isNotEmpty == true) {
+        venmoLinkTextController.text = current.venmoLink!;
         venmoLinkTextController.selection = TextSelection.fromPosition(
           TextPosition(
             offset: venmoLinkTextController.text.length,
           ),
         );
       }
-      if(previous.cashAppLink.isEmpty && current.cashAppLink?.isNotEmpty == true) {
-        cashAppLinkTextController.text = current.cashAppLink;
+      if(previous.cashAppLink!.isEmpty && current.cashAppLink?.isNotEmpty == true) {
+        cashAppLinkTextController.text = current.cashAppLink!;
         cashAppLinkTextController.selection = TextSelection.fromPosition(
           TextPosition(
             offset: cashAppLinkTextController.text.length,
           ),
         );
       }
-      if(previous.applePayPhone.isEmpty && current.applePayPhone?.isNotEmpty == true) {
-        applePayLinkTextController.text = current.applePayPhone;
+      if(previous.applePayPhone!.isEmpty && current.applePayPhone?.isNotEmpty == true) {
+        applePayLinkTextController.text = current.applePayPhone!;
         applePayLinkTextController.selection = TextSelection.fromPosition(
           TextPosition(
             offset: applePayLinkTextController.text.length,
           ),
         );
       }
-      if(previous.otherMessage.isEmpty && current.otherMessage?.isNotEmpty == true) {
-        otherTextController.text = current.otherMessage;
+      if(previous.otherMessage!.isEmpty && current.otherMessage?.isNotEmpty == true) {
+        otherTextController.text = current.otherMessage!;
         otherTextController.selection = TextSelection.fromPosition(
           TextPosition(
             offset: otherTextController.text.length,
           ),
         );
       }
-      if(previous.wireMessage.isEmpty && current.wireMessage?.isNotEmpty == true) {
-        wireTextController.text = current.wireMessage;
+      if(previous.wireMessage!.isEmpty && current.wireMessage?.isNotEmpty == true) {
+        wireTextController.text = current.wireMessage!;
         wireTextController.selection = TextSelection.fromPosition(
           TextPosition(
             offset: wireTextController.text.length,
@@ -134,7 +134,6 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                       iconTheme: IconThemeData(
                         color: Color(ColorConstants.getPrimaryBlack()), //change your color here
                       ),
-                      brightness: Brightness.light,
                       backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
                       pinned: true,
                       centerTitle: true,
@@ -146,7 +145,7 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                         ),
                     ),
                     SliverList(
-                      delegate: new SliverChildListDelegate(
+                      delegate: SliverChildListDelegate(
                         <Widget>[
                           Container(
                             margin: EdgeInsets.only(left: 32.0, top: 16.0, right: 32.0, bottom: 16.0),
@@ -181,21 +180,21 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                       activeColor: Color(ColorConstants.getBlueDark()),
                                       thumbColor: Color(ColorConstants.getPrimaryWhite()),
                                       onChanged: (enabled) {
-                                        pageState.onVenmoSelected(enabled);
+                                        pageState.onVenmoSelected!(enabled);
                                       },
-                                      value: pageState.venmoEnabled,
+                                      value: pageState.venmoEnabled!,
                                     ) : Switch(
                                       activeTrackColor: Color(ColorConstants.getBlueLight()),
                                       inactiveTrackColor: Color(ColorConstants.getBlueLight()),
                                       activeColor: Color(ColorConstants.getBlueDark()),
                                       onChanged: (enabled) {
-                                        pageState.onVenmoSelected(enabled);
+                                        pageState.onVenmoSelected!(enabled);
                                       },
-                                      value: pageState.venmoEnabled,
+                                      value: pageState.venmoEnabled!,
                                     )
                                   ],
                                 ),
-                                pageState.venmoEnabled ? Container(
+                                pageState.venmoEnabled! ? Container(
                                   margin: EdgeInsets.only(top: 16.0, bottom: 8.0),
                                   child: TextDandyLight(
                                     type: TextDandyLight.SMALL_TEXT,
@@ -204,7 +203,7 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                     color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ) : SizedBox(),
-                                pageState.venmoEnabled ? DandyLightSettingsTextField(
+                                pageState.venmoEnabled! ? DandyLightSettingsTextField(
                                   controller: venmoLinkTextController,
                                   hintText: 'Payment link',
                                   inputType: TextInputType.url,
@@ -242,21 +241,21 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                       activeColor: Color(ColorConstants.getBlueDark()),
                                       thumbColor: Color(ColorConstants.getPrimaryWhite()),
                                       onChanged: (enabled) {
-                                        pageState.onWireSelected(enabled);
+                                        pageState.onWireSelected!(enabled);
                                       },
-                                      value: pageState.wireEnabled,
+                                      value: pageState.wireEnabled!,
                                     ) : Switch(
                                       activeTrackColor: Color(ColorConstants.getBlueLight()),
                                       inactiveTrackColor: Color(ColorConstants.getBlueLight()),
                                       activeColor: Color(ColorConstants.getBlueDark()),
                                       onChanged: (enabled) {
-                                        pageState.onWireSelected(enabled);
+                                        pageState.onWireSelected!(enabled);
                                       },
-                                      value: pageState.wireEnabled,
+                                      value: pageState.wireEnabled!,
                                     )
                                   ],
                                 ),
-                                pageState.wireEnabled ? Container(
+                                pageState.wireEnabled! ? Container(
                                   margin: EdgeInsets.only(top: 16.0, bottom: 8.0),
                                   child: TextDandyLight(
                                     type: TextDandyLight.SMALL_TEXT,
@@ -265,7 +264,7 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                     color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ) : SizedBox(),
-                                pageState.wireEnabled ? DandyLightSettingsTextField(
+                                pageState.wireEnabled! ? DandyLightSettingsTextField(
                                   controller: wireTextController,
                                   hintText: 'Details',
                                   inputType: TextInputType.text,
@@ -304,21 +303,21 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                       activeColor: Color(ColorConstants.getBlueDark()),
                                       thumbColor: Color(ColorConstants.getPrimaryWhite()),
                                       onChanged: (enabled) {
-                                        pageState.onCashSelected(enabled);
+                                        pageState.onCashSelected!(enabled);
                                       },
-                                      value: pageState.cashEnabled,
+                                      value: pageState.cashEnabled!,
                                     ) : Switch(
                                       activeTrackColor: Color(ColorConstants.getBlueLight()),
                                       inactiveTrackColor: Color(ColorConstants.getBlueLight()),
                                       activeColor: Color(ColorConstants.getBlueDark()),
                                       onChanged: (enabled) {
-                                        pageState.onCashSelected(enabled);
+                                        pageState.onCashSelected!(enabled);
                                       },
-                                      value: pageState.cashEnabled,
+                                      value: pageState.cashEnabled!,
                                     )
                                   ],
                                 ),
-                                pageState.cashEnabled ? Container(
+                                pageState.cashEnabled! ? Container(
                                   margin: EdgeInsets.only(top: 16.0, bottom: 8.0),
                                   child: TextDandyLight(
                                     type: TextDandyLight.SMALL_TEXT,
@@ -327,7 +326,7 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                     color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ) : SizedBox(),
-                                pageState.cashEnabled ? DandyLightSettingsTextField(
+                                pageState.cashEnabled! ? DandyLightSettingsTextField(
                                   controller: cashTextController,
                                   hintText: 'Message',
                                   inputType: TextInputType.text,
@@ -366,21 +365,21 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                       activeColor: Color(ColorConstants.getBlueDark()),
                                       thumbColor: Color(ColorConstants.getPrimaryWhite()),
                                       onChanged: (enabled) {
-                                        pageState.onZelleSelected(enabled);
+                                        pageState.onZelleSelected!(enabled);
                                       },
-                                      value: pageState.zelleEnabled,
+                                      value: pageState.zelleEnabled!,
                                     ) : Switch(
                                       activeTrackColor: Color(ColorConstants.getBlueLight()),
                                       inactiveTrackColor: Color(ColorConstants.getBlueLight()),
                                       activeColor: Color(ColorConstants.getBlueDark()),
                                       onChanged: (enabled) {
-                                        pageState.onZelleSelected(enabled);
+                                        pageState.onZelleSelected!(enabled);
                                       },
-                                      value: pageState.zelleEnabled,
+                                      value: pageState.zelleEnabled!,
                                     )
                                   ],
                                 ),
-                                pageState.zelleEnabled ? Container(
+                                pageState.zelleEnabled! ? Container(
                                   margin: EdgeInsets.only(top: 16.0, bottom: 8.0),
                                   child: TextDandyLight(
                                     type: TextDandyLight.SMALL_TEXT,
@@ -389,7 +388,7 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                     color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ) : SizedBox(),
-                                pageState.zelleEnabled ? DandyLightSettingsTextField(
+                                pageState.zelleEnabled! ? DandyLightSettingsTextField(
                                   controller: zellePhoneEmailTextController,
                                   hintText: 'Phone or Email',
                                   inputType: TextInputType.emailAddress,
@@ -400,7 +399,7 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                   keyboardAction: TextInputAction.done,
                                   capitalization: TextCapitalization.none,
                                 ) : SizedBox(),
-                                pageState.zelleEnabled ? Container(
+                                pageState.zelleEnabled! ? Container(
                                   margin: EdgeInsets.only(top: 24.0, bottom: 8.0),
                                   child: TextDandyLight(
                                     type: TextDandyLight.SMALL_TEXT,
@@ -409,7 +408,7 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                     color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ) : SizedBox(),
-                                pageState.zelleEnabled ? DandyLightSettingsTextField(
+                                pageState.zelleEnabled! ? DandyLightSettingsTextField(
                                   controller: zelleFullNameTextController,
                                   hintText: 'Full name',
                                   inputType: TextInputType.text,
@@ -448,21 +447,21 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                       activeColor: Color(ColorConstants.getBlueDark()),
                                       thumbColor: Color(ColorConstants.getPrimaryWhite()),
                                       onChanged: (enabled) {
-                                        pageState.onCashAppSelected(enabled);
+                                        pageState.onCashAppSelected!(enabled);
                                       },
-                                      value: pageState.cashAppEnabled,
+                                      value: pageState.cashAppEnabled!,
                                     ) : Switch(
                                       activeTrackColor: Color(ColorConstants.getBlueLight()),
                                       inactiveTrackColor: Color(ColorConstants.getBlueLight()),
                                       activeColor: Color(ColorConstants.getBlueDark()),
                                       onChanged: (enabled) {
-                                        pageState.onCashAppSelected(enabled);
+                                        pageState.onCashAppSelected!(enabled);
                                       },
-                                      value: pageState.cashAppEnabled,
+                                      value: pageState.cashAppEnabled!,
                                     )
                                   ],
                                 ),
-                                pageState.cashAppEnabled ? Container(
+                                pageState.cashAppEnabled! ? Container(
                                   margin: EdgeInsets.only(top: 16.0, bottom: 8.0),
                                   child: TextDandyLight(
                                     type: TextDandyLight.SMALL_TEXT,
@@ -471,7 +470,7 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                     color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ) : SizedBox(),
-                                pageState.cashAppEnabled ? DandyLightSettingsTextField(
+                                pageState.cashAppEnabled! ? DandyLightSettingsTextField(
                                   controller: cashAppLinkTextController,
                                   hintText: 'Payment link',
                                   inputType: TextInputType.url,
@@ -569,21 +568,21 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                       activeColor: Color(ColorConstants.getBlueDark()),
                                       thumbColor: Color(ColorConstants.getPrimaryWhite()),
                                       onChanged: (enabled) {
-                                        pageState.onOtherSelected(enabled);
+                                        pageState.onOtherSelected!(enabled);
                                       },
-                                      value: pageState.otherEnabled,
+                                      value: pageState.otherEnabled!,
                                     ) : Switch(
                                       activeTrackColor: Color(ColorConstants.getBlueLight()),
                                       inactiveTrackColor: Color(ColorConstants.getBlueLight()),
                                       activeColor: Color(ColorConstants.getBlueDark()),
                                       onChanged: (enabled) {
-                                        pageState.onOtherSelected(enabled);
+                                        pageState.onOtherSelected!(enabled);
                                       },
-                                      value: pageState.otherEnabled,
+                                      value: pageState.otherEnabled!,
                                     )
                                   ],
                                 ),
-                                pageState.otherEnabled ? Container(
+                                pageState.otherEnabled! ? Container(
                                   margin: EdgeInsets.only(top: 16.0, bottom: 8.0),
                                   child: TextDandyLight(
                                     type: TextDandyLight.SMALL_TEXT,
@@ -592,7 +591,7 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                     color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ) : SizedBox(),
-                                pageState.otherEnabled ? DandyLightSettingsTextField(
+                                pageState.otherEnabled! ? DandyLightSettingsTextField(
                                   controller: otherTextController,
                                   hintText: 'Message',
                                   inputType: TextInputType.text,

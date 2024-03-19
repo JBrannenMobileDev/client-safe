@@ -64,7 +64,7 @@ LibraryPoseGroupPageState _setPoseGroup(LibraryPoseGroupPageState previousState,
 }
 
 LibraryPoseGroupPageState _setSortedPoses(LibraryPoseGroupPageState previousState, SetSortedPosesAction action){
-  List<Pose> sortedPoses = _sortPoses(action.sortedPoses);
+  List<Pose> sortedPoses = _sortPoses(action.sortedPoses!);
   return previousState.copyWith(
       sortedPoses: sortedPoses
   );
@@ -82,7 +82,7 @@ List<Pose> _sortPoses(List<Pose> poses) {
     }
   }
 
-  oldPoses.sort((a, b) => b.numOfSaves.compareTo(a.numOfSaves) == 0 ? b.createDate.compareTo(a.createDate) : b.numOfSaves.compareTo(a.numOfSaves));
-  newPoses.sort((a, b) => b.numOfSaves.compareTo(a.numOfSaves) == 0 ? b.createDate.compareTo(a.createDate) : b.numOfSaves.compareTo(a.numOfSaves));
+  oldPoses.sort((a, b) => b.numOfSaves!.compareTo(a.numOfSaves!) == 0 ? b.createDate!.compareTo(a.createDate!) : b.numOfSaves!.compareTo(a.numOfSaves!));
+  newPoses.sort((a, b) => b.numOfSaves!.compareTo(a.numOfSaves!) == 0 ? b.createDate!.compareTo(a.createDate!) : b.numOfSaves!.compareTo(a.numOfSaves!));
   return newPoses + oldPoses;
 }

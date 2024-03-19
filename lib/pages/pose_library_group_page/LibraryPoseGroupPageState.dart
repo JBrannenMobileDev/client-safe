@@ -14,18 +14,18 @@ import '../pose_group_page/GroupImage.dart';
 import 'LibraryPoseGroupActions.dart';
 
 class LibraryPoseGroupPageState{
-  final PoseLibraryGroup poseGroup;
-  final Function() onBackSelected;
-  final List<Job> activeJobs;
-  final List<PoseGroup> myPoseGroups;
-  final List<Pose> sortedPoses;
-  final Function(List<XFile>, String, String, List<String>) onNewPoseImagesSelected;
-  final List<GroupImage> poseImages;
-  final Function(Pose, PoseGroup) onImageSaveSelected;
-  final Function(Pose, Job) onImageAddedToJobSelected;
-  final bool isAdmin;
-  final String instagramName;
-  final String instagramUrl;
+  final PoseLibraryGroup? poseGroup;
+  final Function()? onBackSelected;
+  final List<Job>? activeJobs;
+  final List<PoseGroup>? myPoseGroups;
+  final List<Pose>? sortedPoses;
+  final Function(List<XFile>, String, String, List<String>)? onNewPoseImagesSelected;
+  final List<GroupImage>? poseImages;
+  final Function(Pose, PoseGroup)? onImageSaveSelected;
+  final Function(Pose, Job)? onImageAddedToJobSelected;
+  final bool? isAdmin;
+  final String? instagramName;
+  final String? instagramUrl;
 
   LibraryPoseGroupPageState({
     @required this.onNewPoseImagesSelected,
@@ -43,18 +43,18 @@ class LibraryPoseGroupPageState{
   });
 
   LibraryPoseGroupPageState copyWith({
-    Function(List<XFile>, String, List<String>) onNewPoseImagesSelected,
-    List<GroupImage> poseImages,
-    PoseLibraryGroup poseGroup,
-    Function() onBackSelected,
-    Function(Pose, PoseGroup) onImageSaveSelected,
-    Function(Pose, Job) onImageAddedToJobSelected,
-    bool isAdmin,
-    List<Job> activeJobs,
-    List<PoseGroup> myPoseGroups,
-    String instagramName,
-    String instagramUrl,
-    List<Pose> sortedPoses,
+    Function(List<XFile>, String, String, List<String>)? onNewPoseImagesSelected,
+    List<GroupImage>? poseImages,
+    PoseLibraryGroup? poseGroup,
+    Function()? onBackSelected,
+    Function(Pose, PoseGroup)? onImageSaveSelected,
+    Function(Pose, Job)? onImageAddedToJobSelected,
+    bool? isAdmin,
+    List<Job>? activeJobs,
+    List<PoseGroup>? myPoseGroups,
+    String? instagramName,
+    String? instagramUrl,
+    List<Pose>? sortedPoses,
   }){
     return LibraryPoseGroupPageState(
       poseGroup: poseGroup ?? this.poseGroup,
@@ -89,14 +89,14 @@ class LibraryPoseGroupPageState{
 
   factory LibraryPoseGroupPageState.fromStore(Store<AppState> store) {
     return LibraryPoseGroupPageState(
-      poseGroup: store.state.libraryPoseGroupPageState.poseGroup,
-      isAdmin: store.state.libraryPoseGroupPageState.isAdmin,
-      activeJobs: store.state.libraryPoseGroupPageState.activeJobs,
-      myPoseGroups: store.state.libraryPoseGroupPageState.myPoseGroups,
-      instagramName: store.state.libraryPoseGroupPageState.instagramName,
-      instagramUrl: store.state.libraryPoseGroupPageState.instagramUrl,
-      sortedPoses: store.state.libraryPoseGroupPageState.sortedPoses,
-      poseImages: store.state.libraryPoseGroupPageState.poseImages,
+      poseGroup: store.state.libraryPoseGroupPageState!.poseGroup,
+      isAdmin: store.state.libraryPoseGroupPageState!.isAdmin,
+      activeJobs: store.state.libraryPoseGroupPageState!.activeJobs,
+      myPoseGroups: store.state.libraryPoseGroupPageState!.myPoseGroups,
+      instagramName: store.state.libraryPoseGroupPageState!.instagramName,
+      instagramUrl: store.state.libraryPoseGroupPageState!.instagramUrl,
+      sortedPoses: store.state.libraryPoseGroupPageState!.sortedPoses,
+      poseImages: store.state.libraryPoseGroupPageState!.poseImages,
       onNewPoseImagesSelected: (poseImages, name, url, tags) => {
         store.dispatch(SaveLibraryPosesToGroupAction(store.state.libraryPoseGroupPageState, poseImages, name, url, tags)),
       },

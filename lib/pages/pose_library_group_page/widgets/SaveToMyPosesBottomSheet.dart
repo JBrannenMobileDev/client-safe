@@ -39,9 +39,9 @@ class _BottomSheetPageState extends State<SaveToMyPosesBottomSheet> with TickerP
       builder: (BuildContext context, LibraryPoseGroupPageState pageState) =>
           GestureDetector(
             onTap: () {
-              pageState.onImageSaveSelected(pageState.sortedPoses.elementAt(libraryPoseIndex), pageState.myPoseGroups.elementAt(index));
+              pageState.onImageSaveSelected!(pageState.sortedPoses!.elementAt(libraryPoseIndex), pageState.myPoseGroups!.elementAt(index));
               showSuccessAnimation();
-              EventSender().sendEvent(eventName: EventNames.BT_SAVE_LIBRARY_POSE, properties: {EventNames.SAVE_LIBRARY_POSE_PARAM_GROUP_NAME : pageState.poseGroup.groupName});
+              EventSender().sendEvent(eventName: EventNames.BT_SAVE_LIBRARY_POSE, properties: {EventNames.SAVE_LIBRARY_POSE_PARAM_GROUP_NAME : pageState.poseGroup!.groupName!});
             },
             child: MyPoseGroupsListItemWidget(index),
           ),
@@ -73,7 +73,7 @@ class _BottomSheetPageState extends State<SaveToMyPosesBottomSheet> with TickerP
                            color: Color(ColorConstants.getPrimaryBlack()),
                          ),
                        ),
-                       pageState.myPoseGroups.length > 0 ? SingleChildScrollView(
+                       pageState.myPoseGroups!.length > 0 ? SingleChildScrollView(
                          child: Container(
                            height: 302,
                            child: GridView.builder(
@@ -85,7 +85,7 @@ class _BottomSheetPageState extends State<SaveToMyPosesBottomSheet> with TickerP
                                    crossAxisSpacing: 0,
                                    mainAxisSpacing: 0
                                ),
-                               itemCount: pageState.myPoseGroups.length,
+                               itemCount: pageState.myPoseGroups!.length,
                                controller: _controller,
                                physics: AlwaysScrollableScrollPhysics(),
                                key: _listKey,

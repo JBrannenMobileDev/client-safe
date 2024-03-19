@@ -14,7 +14,7 @@ import '../../../widgets/TextDandyLight.dart';
 
 
 class SaveToJobBottomSheet extends StatefulWidget {
-  final int libraryPoseIndex;
+  final int? libraryPoseIndex;
 
   SaveToJobBottomSheet(this.libraryPoseIndex);
 
@@ -27,7 +27,7 @@ class SaveToJobBottomSheet extends StatefulWidget {
 class _SaveToJobBottomSheetState extends State<SaveToJobBottomSheet> with TickerProviderStateMixin {
   final ScrollController _controller = ScrollController();
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
-  final int libraryPoseIndex;
+  final int? libraryPoseIndex;
 
   _SaveToJobBottomSheetState(this.libraryPoseIndex);
 
@@ -37,7 +37,7 @@ class _SaveToJobBottomSheetState extends State<SaveToJobBottomSheet> with Ticker
       builder: (BuildContext context, LibraryPoseGroupPageState pageState) =>
           GestureDetector(
             onTap: () {
-              pageState.onImageAddedToJobSelected(pageState.sortedPoses.elementAt(libraryPoseIndex), pageState.activeJobs.elementAt(index));
+              pageState.onImageAddedToJobSelected!(pageState.sortedPoses!.elementAt(libraryPoseIndex!), pageState.activeJobs!.elementAt(index));
               showSuccessAnimation();
               EventSender().sendEvent(eventName: EventNames.BT_SAVE_LIBRARY_POSE_TO_JOB);
             },
@@ -67,7 +67,7 @@ class _SaveToJobBottomSheetState extends State<SaveToJobBottomSheet> with Ticker
                       ),
                       TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
-                        text: pageState.activeJobs.elementAt(index).jobTitle,
+                        text: pageState.activeJobs!.elementAt(index).jobTitle,
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
@@ -93,7 +93,7 @@ class _SaveToJobBottomSheetState extends State<SaveToJobBottomSheet> with Ticker
     converter: (Store<AppState> store) => LibraryPoseGroupPageState.fromStore(store),
     builder: (BuildContext context, LibraryPoseGroupPageState pageState) =>
          Container(
-           height: pageState.activeJobs.length <= 4 ? 400 : pageState.activeJobs.length <= 5 ? 500 : 600,
+           height: pageState.activeJobs!.length <= 4 ? 400 : pageState.activeJobs!.length <= 5 ? 500 : 600,
            width: MediaQuery.of(context).size.width,
            decoration: BoxDecoration(
                borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
@@ -116,7 +116,7 @@ class _SaveToJobBottomSheetState extends State<SaveToJobBottomSheet> with Ticker
                        height: 302,
                        child: ListView.builder(
                            padding: new EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 300.0),
-                           itemCount: pageState.activeJobs.length,
+                           itemCount: pageState.activeJobs!.length,
                            controller: _controller,
                            physics: AlwaysScrollableScrollPhysics(),
                            key: _listKey,
