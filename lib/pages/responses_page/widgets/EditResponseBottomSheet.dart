@@ -33,8 +33,8 @@ class _EditResponsePageState extends State<EditResponseBottomSheet> {
 
     return StoreConnector<AppState, ResponsesPageState>(
       onInit: (store) {
-        TitleTextController.text = response.response.title;
-        MessageTextController.text = response.response.message;
+        TitleTextController.text = response.response!.title!;
+        MessageTextController.text = response.response!.message!;
       },
       converter: (store) => ResponsesPageState.fromStore(store),
       builder: (BuildContext context, ResponsesPageState modalPageState) =>
@@ -65,7 +65,7 @@ class _EditResponsePageState extends State<EditResponseBottomSheet> {
                       ),
                       TextButton(
                         onPressed: () {
-                          modalPageState.onUpdateResponseSelected(response);
+                          modalPageState.onUpdateResponseSelected!(response);
                           Navigator.of(context).pop();
                         },
                         child: TextDandyLight(
@@ -167,11 +167,11 @@ class _EditResponsePageState extends State<EditResponseBottomSheet> {
   }
 
   _onMessageChanged(String responseMessage) {
-    response.response.message = responseMessage;
+    response.response!.message = responseMessage;
   }
 
   _onTitleChanged(String title) {
-    response.response.title = title;
+    response.response!.title = title;
     response.title = title;
   }
 }

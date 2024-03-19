@@ -27,22 +27,22 @@ class ResponsesPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void deleteResponse(Store<AppState> store, DeleteResponseAction action) async{
-    await ResponseDao.delete(action.item.response.documentId);
-    if(await ResponseDao.getResponseById(action.item.response.documentId) != null) {
-      await ResponseDao.delete(action.item.response.documentId);
+    await ResponseDao.delete(action.item!.response!.documentId!);
+    if(await ResponseDao.getResponseById(action.item!.response!.documentId!) != null) {
+      await ResponseDao.delete(action.item!.response!.documentId!);
     }
     fetchResponses(store);
     store.dispatch(FetchClientDetailsResponsesAction(store.state.clientDetailsPageState));
   }
 
   void updateResponse(Store<AppState> store, UpdateResponseAction action) async{
-    await ResponseDao.insertOrUpdate(action.responseItem.response);
+    await ResponseDao.insertOrUpdate(action.responseItem!.response!);
     fetchResponses(store);
     store.dispatch(FetchClientDetailsResponsesAction(store.state.clientDetailsPageState));
   }
 
   void saveNewResponse(Store<AppState> store, SaveNewResponseAction action, ) async{
-    await ResponseDao.insertOrUpdate(action.response);
+    await ResponseDao.insertOrUpdate(action.response!);
     fetchResponses(store);
     store.dispatch(FetchClientDetailsResponsesAction(store.state.clientDetailsPageState));
     EventSender().sendEvent(eventName: EventNames.CREATED_RESPONSE);

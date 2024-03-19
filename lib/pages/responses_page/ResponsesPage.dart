@@ -29,7 +29,7 @@ class ResponsesPage extends StatefulWidget {
 class _ResponsePageState extends State<ResponsesPage> with TickerProviderStateMixin {
   bool dialVisible = true;
   bool isFabExpanded = false;
-  ScrollController _controller;
+  ScrollController? _controller;
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
   @override
@@ -47,7 +47,6 @@ class _ResponsePageState extends State<ResponsesPage> with TickerProviderStateMi
                     iconTheme: IconThemeData(
                       color: Color(ColorConstants.getBlueDark()), //change your color here
                     ),
-                    brightness: Brightness.light,
                     backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                     pinned: true,
                     centerTitle: true,
@@ -59,9 +58,9 @@ class _ResponsePageState extends State<ResponsesPage> with TickerProviderStateMi
                     actions: <Widget>[
                       GestureDetector(
                         onTap: () {
-                          pageState.onEditSelected();
+                          pageState.onEditSelected!();
                         },
-                        child: pageState.isEditEnabled ? Container(
+                        child: pageState.isEditEnabled! ? Container(
                           margin: EdgeInsets.only(right: 24),
                           alignment: Alignment.centerRight,
                           child: Icon(
@@ -85,7 +84,7 @@ class _ResponsePageState extends State<ResponsesPage> with TickerProviderStateMi
                             height: (MediaQuery.of(context).size.height),
                             child: ListView.builder(
                               padding: new EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 250.0),
-                              itemCount: pageState.items.length,
+                              itemCount: pageState.items!.length,
                               controller: _controller,
                               physics: AlwaysScrollableScrollPhysics(),
                               key: _listKey,

@@ -7,9 +7,9 @@ import '../../AppState.dart';
 
 class PricingProfilesPageState{
 
-  final List<PriceProfile> pricingProfiles;
-  final Function(PriceProfile) onProfileSelected;
-  final Function(PriceProfile) onDeleteProfileSelected;
+  final List<PriceProfile>? pricingProfiles;
+  final Function(PriceProfile)? onProfileSelected;
+  final Function(PriceProfile)? onDeleteProfileSelected;
 
   PricingProfilesPageState({
     @required this.pricingProfiles,
@@ -18,9 +18,9 @@ class PricingProfilesPageState{
   });
 
   PricingProfilesPageState copyWith({
-    List<PriceProfile> pricingProfiles,
-    Function(int) onProfileSelected,
-    Function(PriceProfile) onDeleteProfileSelected,
+    List<PriceProfile>? pricingProfiles,
+    Function(PriceProfile)? onProfileSelected,
+    Function(PriceProfile)? onDeleteProfileSelected,
   }){
     return PricingProfilesPageState(
       pricingProfiles: pricingProfiles?? this.pricingProfiles,
@@ -30,14 +30,14 @@ class PricingProfilesPageState{
   }
 
   factory PricingProfilesPageState.initial() => PricingProfilesPageState(
-    pricingProfiles: List(),
+    pricingProfiles: [],
     onProfileSelected: null,
     onDeleteProfileSelected: null,
   );
 
   factory PricingProfilesPageState.fromStore(Store<AppState> store) {
     return PricingProfilesPageState(
-      pricingProfiles: store.state.pricingProfilesPageState.pricingProfiles,
+      pricingProfiles: store.state.pricingProfilesPageState!.pricingProfiles,
       onProfileSelected: (profile) => store.dispatch(LoadExistingPricingProfileData(store.state.pricingProfilePageState, profile)),
       onDeleteProfileSelected: (priceProfile) => store.dispatch(prefix0.DeletePriceProfileAction(store.state.pricingProfilesPageState, priceProfile)),
     );

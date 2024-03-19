@@ -47,7 +47,7 @@ class _DecisionPagerState extends State<DecisionPager> {
   final PageController controller;
   final List<Pose> poses;
   final List<Widget> pages = [];
-  Pose pose;
+  Pose? pose;
 
   final tagsController = TextEditingController();
   final FocusNode _tagsFocusNode = FocusNode();

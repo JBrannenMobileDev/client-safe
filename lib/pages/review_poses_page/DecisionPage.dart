@@ -57,13 +57,13 @@ class _DecisionPageState extends State<DecisionPage> {
   @override
   void initState() {
     super.initState();
-    promptController.text = pose.prompt;
-    tagsController.text = pose.tags.join(',');
+    promptController.text = pose.prompt!;
+    tagsController.text = pose.tags!.join(',');
 
-    prompt = pose.prompt;
+    prompt = pose.prompt!;
     tags = tagsController.text;
 
-    pose.categories.forEach((category) {
+    pose.categories!.forEach((category) {
       switch(category) {
         case UploadPosePage.FAMILIES:
           familiesSelected = true;
@@ -177,7 +177,7 @@ class _DecisionPageState extends State<DecisionPage> {
                         padding: EdgeInsets.only(left:20, right: 20),
                         child: ClipRRect(
                           borderRadius: new BorderRadius.circular(16.0),
-                          child: CachedNetworkImage(imageUrl: pose.imageUrl, fit: BoxFit.contain,)
+                          child: CachedNetworkImage(imageUrl: pose.imageUrl!, fit: BoxFit.contain,)
                         ),
                       ),
                       pose.reviewStatus == Pose.STATUS_REVIEWED ? Container(
@@ -440,7 +440,7 @@ class _DecisionPageState extends State<DecisionPage> {
                 Flexible(
                   child: GestureDetector(
                     onTap: () {
-                      pageState.onRejectedSelected(pose);
+                      pageState.onRejectedSelected!(pose);
                       setCurrentPage(1 + currentPageIndex);
                       setState(() {
                         pose.reviewStatus = Pose.STATUS_REVIEWED;
@@ -466,7 +466,7 @@ class _DecisionPageState extends State<DecisionPage> {
                 Flexible(
                   child: GestureDetector(
                     onTap: () {
-                      pageState.onApproveSelected(pose, prompt, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected, maternitySelected, newbornSelected, proposalsSelected, petsSelected, weddingsSelected);
+                      pageState.onApproveSelected!(pose, prompt, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected, maternitySelected, newbornSelected, proposalsSelected, petsSelected, weddingsSelected);
                       setCurrentPage(1 + currentPageIndex);
                       setState(() {
                         pose.reviewStatus = Pose.STATUS_FEATURED;

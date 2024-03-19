@@ -20,7 +20,7 @@ class PricingProfilesPage extends StatefulWidget {
 }
 
 class _PricingProfilesPageState extends State<PricingProfilesPage> with TickerProviderStateMixin {
-  ScrollController _scrollController;
+  ScrollController? _scrollController;
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
   @override
@@ -47,7 +47,6 @@ class _PricingProfilesPageState extends State<PricingProfilesPage> with TickerPr
                       iconTheme: IconThemeData(
                         color: Color(ColorConstants.getBlueDark()), //change your color here
                       ),
-                      brightness: Brightness.light,
                       backgroundColor: _isMinimized ? _getAppBarColor() : Colors.transparent,
                       pinned: true,
                       centerTitle: true,
@@ -74,16 +73,16 @@ class _PricingProfilesPageState extends State<PricingProfilesPage> with TickerPr
                       ],
                     ),
                     SliverList(
-                      delegate: new SliverChildListDelegate(
+                      delegate: SliverChildListDelegate(
                         <Widget>[
-                          pageState.pricingProfiles.length > 0 ? ListView.builder(
+                          pageState.pricingProfiles!.length > 0 ? ListView.builder(
                             reverse: false,
-                            padding: new EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 64.0),
+                            padding: EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 64.0),
                             shrinkWrap: true,
                             controller: _scrollController,
                             physics: ClampingScrollPhysics(),
                             key: _listKey,
-                            itemCount: pageState.pricingProfiles.length,
+                            itemCount: pageState.pricingProfiles!.length,
                             itemBuilder: _buildItem,
                           ) :
                           Padding(
@@ -110,109 +109,109 @@ class _PricingProfilesPageState extends State<PricingProfilesPage> with TickerPr
       builder: (BuildContext context, PricingProfilesPageState pageState) =>
           Container(
             margin: EdgeInsets.only(top: 0.0, bottom: 8.0),
-            child: PriceProfileListWidget(pageState.pricingProfiles.elementAt(index), pageState, onProfileSelected, Color(ColorConstants.getBlueLight()), Color(ColorConstants.getPrimaryBlack())),
+            child: PriceProfileListWidget(pageState.pricingProfiles!.elementAt(index), pageState, onProfileSelected, Color(ColorConstants.getBlueLight()), Color(ColorConstants.getPrimaryBlack())),
           ),
     );
   }
 
   onProfileSelected(PriceProfile priceProfile, PricingProfilesPageState pageState,  BuildContext context) {
-    pageState.onProfileSelected(priceProfile);
+    pageState.onProfileSelected!(priceProfile);
     UserOptionsUtil.showNewPriceProfileDialog(context);
   }
 
   bool get _isMinimized {
-    return _scrollController.hasClients && _scrollController.offset > 260.0;
+    return _scrollController!.hasClients && _scrollController!.offset > 260.0;
   }
 
   Color _getAppBarColor() {
-    if (_scrollController.offset > 260 && _scrollController.offset <= 262) {
+    if (_scrollController!.offset > 260 && _scrollController!.offset <= 262) {
       return Colors.black.withOpacity(0.08);
-    } else if (_scrollController.offset > 262 &&
-        _scrollController.offset <= 263) {
+    } else if (_scrollController!.offset > 262 &&
+        _scrollController!.offset <= 263) {
       return Colors.black.withOpacity(0.09);
-    } else if (_scrollController.offset > 263 &&
-        _scrollController.offset <= 264) {
+    } else if (_scrollController!.offset > 263 &&
+        _scrollController!.offset <= 264) {
       return Colors.black.withOpacity(0.10);
-    } else if (_scrollController.offset > 264 &&
-        _scrollController.offset <= 265) {
+    } else if (_scrollController!.offset > 264 &&
+        _scrollController!.offset <= 265) {
       return Colors.black.withOpacity(0.11);
-    } else if (_scrollController.offset > 265 &&
-        _scrollController.offset <= 266) {
+    } else if (_scrollController!.offset > 265 &&
+        _scrollController!.offset <= 266) {
       return Colors.black.withOpacity(0.12);
-    } else if (_scrollController.offset > 266 &&
-        _scrollController.offset <= 267) {
+    } else if (_scrollController!.offset > 266 &&
+        _scrollController!.offset <= 267) {
       return Colors.black.withOpacity(0.13);
-    } else if (_scrollController.offset > 267 &&
-        _scrollController.offset <= 268) {
+    } else if (_scrollController!.offset > 267 &&
+        _scrollController!.offset <= 268) {
       return Colors.black.withOpacity(0.15);
-    } else if (_scrollController.offset > 268 &&
-        _scrollController.offset <= 269) {
+    } else if (_scrollController!.offset > 268 &&
+        _scrollController!.offset <= 269) {
       return Colors.black.withOpacity(0.17);
-    } else if (_scrollController.offset > 269 &&
-        _scrollController.offset <= 270) {
+    } else if (_scrollController!.offset > 269 &&
+        _scrollController!.offset <= 270) {
       return Colors.black.withOpacity(0.19);
-    } else if (_scrollController.offset > 270 &&
-        _scrollController.offset <= 271) {
+    } else if (_scrollController!.offset > 270 &&
+        _scrollController!.offset <= 271) {
       return Colors.black.withOpacity(0.22);
-    } else if (_scrollController.offset > 271 &&
-        _scrollController.offset <= 272) {
+    } else if (_scrollController!.offset > 271 &&
+        _scrollController!.offset <= 272) {
       return Colors.black.withOpacity(0.19);
-    }else if (_scrollController.offset > 272 &&
-        _scrollController.offset <= 273) {
+    }else if (_scrollController!.offset > 272 &&
+        _scrollController!.offset <= 273) {
       return Colors.black.withOpacity(0.20);
-    }else if (_scrollController.offset > 273 &&
-        _scrollController.offset <= 274) {
+    }else if (_scrollController!.offset > 273 &&
+        _scrollController!.offset <= 274) {
       return Colors.black.withOpacity(0.21);
-    }else if (_scrollController.offset > 274 &&
-        _scrollController.offset <= 275) {
+    }else if (_scrollController!.offset > 274 &&
+        _scrollController!.offset <= 275) {
       return Colors.black.withOpacity(0.22);
-    }else if (_scrollController.offset > 275 &&
-        _scrollController.offset <= 276) {
+    }else if (_scrollController!.offset > 275 &&
+        _scrollController!.offset <= 276) {
       return Colors.black.withOpacity(0.23);
-    }else if (_scrollController.offset > 276 &&
-        _scrollController.offset <= 277) {
+    }else if (_scrollController!.offset > 276 &&
+        _scrollController!.offset <= 277) {
       return Colors.black.withOpacity(0.24);
-    }else if (_scrollController.offset > 277 &&
-        _scrollController.offset <= 278) {
+    }else if (_scrollController!.offset > 277 &&
+        _scrollController!.offset <= 278) {
       return Colors.black.withOpacity(0.25);
-    }else if (_scrollController.offset > 278 &&
-        _scrollController.offset <= 279) {
+    }else if (_scrollController!.offset > 278 &&
+        _scrollController!.offset <= 279) {
       return Colors.black.withOpacity(0.26);
-    }else if (_scrollController.offset > 279 &&
-        _scrollController.offset <= 280) {
+    }else if (_scrollController!.offset > 279 &&
+        _scrollController!.offset <= 280) {
       return Colors.black.withOpacity(0.27);
-    }else if (_scrollController.offset > 280 &&
-        _scrollController.offset <= 281) {
+    }else if (_scrollController!.offset > 280 &&
+        _scrollController!.offset <= 281) {
       return Colors.black.withOpacity(0.28);
-    }else if (_scrollController.offset > 281 &&
-        _scrollController.offset <= 282) {
+    }else if (_scrollController!.offset > 281 &&
+        _scrollController!.offset <= 282) {
       return Colors.black.withOpacity(0.29);
-    }else if (_scrollController.offset > 282 &&
-        _scrollController.offset <= 283) {
+    }else if (_scrollController!.offset > 282 &&
+        _scrollController!.offset <= 283) {
       return Colors.black.withOpacity(0.30);
-    }else if (_scrollController.offset > 283 &&
-        _scrollController.offset <= 284) {
+    }else if (_scrollController!.offset > 283 &&
+        _scrollController!.offset <= 284) {
       return Colors.black.withOpacity(0.32);
-    }else if (_scrollController.offset > 284 &&
-        _scrollController.offset <= 285) {
+    }else if (_scrollController!.offset > 284 &&
+        _scrollController!.offset <= 285) {
       return Colors.black.withOpacity(0.33);
-    }else if (_scrollController.offset > 285 &&
-        _scrollController.offset <= 286) {
+    }else if (_scrollController!.offset > 285 &&
+        _scrollController!.offset <= 286) {
       return Colors.black.withOpacity(0.343);
-    }else if (_scrollController.offset > 286 &&
-        _scrollController.offset <= 287) {
+    }else if (_scrollController!.offset > 286 &&
+        _scrollController!.offset <= 287) {
       return Colors.black.withOpacity(0.35);
-    }else if (_scrollController.offset > 287 &&
-        _scrollController.offset <= 288) {
+    }else if (_scrollController!.offset > 287 &&
+        _scrollController!.offset <= 288) {
       return Colors.black.withOpacity(0.36);
-    }else if (_scrollController.offset > 288 &&
-        _scrollController.offset <= 289) {
+    }else if (_scrollController!.offset > 288 &&
+        _scrollController!.offset <= 289) {
       return Colors.black.withOpacity(0.37);
-    }else if (_scrollController.offset > 289 &&
-        _scrollController.offset <= 290) {
+    }else if (_scrollController!.offset > 289 &&
+        _scrollController!.offset <= 290) {
       return Colors.black.withOpacity(0.38);
-    }else if (_scrollController.offset > 290 &&
-        _scrollController.offset <= 291) {
+    }else if (_scrollController!.offset > 290 &&
+        _scrollController!.offset <= 291) {
       return Colors.black.withOpacity(0.39);
     }
     return Colors.black.withOpacity(0.40);

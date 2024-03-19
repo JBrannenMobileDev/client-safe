@@ -39,65 +39,65 @@ class ShareWithClientPageMiddleware extends MiddlewareClass<AppState> {
 
   void savePosesCheckedState(Store<AppState> store, SetPosesCheckBox action, NextDispatcher next) async {
     store.dispatch(UpdatePosesCheckInProgressStateAction(store.state.shareWithClientPageState, true));
-    Job job = await JobDao.getJobById(action.pageState.job.documentId);
-    job.proposal.includePoses = action.checked;
+    Job? job = await JobDao.getJobById(action.pageState!.job!.documentId);
+    job!.proposal!.includePoses = action.checked;
     await JobDao.update(job);
     next(SetPosesCheckBox(store.state.shareWithClientPageState, action.checked));
   }
 
   void saveInvoiceCheckedState(Store<AppState> store, SetInvoiceCheckBox action, NextDispatcher next) async {
     store.dispatch(UpdateInvoiceCheckInProgressStateAction(store.state.shareWithClientPageState, true));
-    Job job = await JobDao.getJobById(action.pageState.job.documentId);
-    job.proposal.includeInvoice = action.checked;
+    Job? job = await JobDao.getJobById(action.pageState!.job!.documentId);
+    job!.proposal!.includeInvoice = action.checked;
     await JobDao.update(job);
     next(SetInvoiceCheckBox(store.state.shareWithClientPageState, action.checked));
   }
 
   void saveContractCheckedState(Store<AppState> store, SetContractCheckBox action, NextDispatcher next) async {
     store.dispatch(UpdateContractCheckInProgressStateAction(store.state.shareWithClientPageState, true));
-    Job job = await JobDao.getJobById(action.pageState.job.documentId);
-    job.proposal.includeContract = action.checked;
+    Job? job = await JobDao.getJobById(action.pageState!.job!.documentId);
+    job!.proposal!.includeContract = action.checked;
     await JobDao.update(job);
     next(SetContractCheckBox(store.state.shareWithClientPageState, action.checked));
   }
 
   void saveMessage(Store<AppState> store, SetClientMessageAction action, NextDispatcher next) async {
-    Job job = await JobDao.getJobById(action.pageState.job.documentId);
-    job.proposal.detailsMessage = action.clientMessage;
+    Job? job = await JobDao.getJobById(action.pageState!.job!.documentId);
+    job!.proposal!.detailsMessage = action.clientMessage;
     await JobDao.update(job);
     next(SetClientMessageAction(store.state.shareWithClientPageState, action.clientMessage));
   }
 
   void saveShareMessage(Store<AppState> store, SetClientShareMessageAction action, NextDispatcher next) async {
-    Job job = await JobDao.getJobById(action.pageState.job.documentId);
-    job.proposal.shareMessage = action.clientMessage;
+    Job? job = await JobDao.getJobById(action.pageState!.job!.documentId);
+    job!.proposal!.shareMessage = action.clientMessage;
     await JobDao.update(job);
     next(SetClientShareMessageAction(store.state.shareWithClientPageState, action.clientMessage));
   }
 
   void saveProposal(Store<AppState> store, SaveProposalAction action, NextDispatcher next) async {
-    Job job = await JobDao.getJobById(action.pageState.job.documentId);
-    Proposal proposal = job.proposal;
-    proposal.detailsMessage = action.pageState.clientMessage;
+    Job? job = await JobDao.getJobById(action.pageState!.job!.documentId);
+    Proposal proposal = job!.proposal!;
+    proposal.detailsMessage = action.pageState!.clientMessage;
 
-    if(proposal.contract != null && proposal.contract.firstSharedDate == null){
-      proposal.contract.firstSharedDate = DateTime.now();
+    if(proposal.contract != null && proposal.contract!.firstSharedDate == null){
+      proposal.contract!.firstSharedDate = DateTime.now();
     }
 
     job.proposal = proposal;
 
     await JobDao.update(job);
-    if(proposal.includeInvoice) {
+    if(proposal.includeInvoice!) {
       await store.dispatch(InvoiceSentAction(store.state.jobDetailsPageState, job.invoice));
     }
     next(SaveProposalAction(store.state.shareWithClientPageState));
   }
 
   void fetchProfile(Store<AppState> store, FetchProfileAction action, NextDispatcher next) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     next(SetProfileShareWIthClientAction(store.state.shareWithClientPageState, profile));
 
-    List<Job> jobs = (await JobDao.getAllJobs()).where((job) => job.proposal != null && job.proposal.detailsMessage != null && job.proposal.detailsMessage.isNotEmpty).toList();
+    List<Job> jobs = (await JobDao.getAllJobs()).where((job) => job.proposal != null && job.proposal!.detailsMessage != null && job.proposal!.detailsMessage!.isNotEmpty).toList();
     store.dispatch(SetAllJobsAction(store.state.shareWithClientPageState, jobs));
   }
 }

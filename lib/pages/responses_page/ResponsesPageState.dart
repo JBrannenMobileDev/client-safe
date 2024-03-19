@@ -9,18 +9,18 @@ import '../../models/ResponsesListItem.dart';
 import 'ResponsesActions.dart';
 
 class ResponsesPageState{
-  final bool isEditEnabled;
-  final List<ResponsesListItem> items;
-  final Function() onEditSelected;
-  final Function() onAddGroupSelected;
-  final Function(ResponsesListItem) onDeleteSelected;
-  final Function() onCancelSelected;
-  final Function() onSaveNewCategorySelected;
-  final Function(Response) onSaveNewResponseSelected;
-  final Function(String) onNewCategoryNameChanged;
-  final Function(String) onNewResponseTitleChanged;
-  final Function(String) onNewResponseMessageChanged;
-  final Function(ResponsesListItem) onUpdateResponseSelected;
+  final bool? isEditEnabled;
+  final List<ResponsesListItem>? items;
+  final Function()? onEditSelected;
+  final Function()? onAddGroupSelected;
+  final Function(ResponsesListItem)? onDeleteSelected;
+  final Function()? onCancelSelected;
+  final Function()? onSaveNewCategorySelected;
+  final Function(Response)? onSaveNewResponseSelected;
+  final Function(String)? onNewCategoryNameChanged;
+  final Function(String)? onNewResponseTitleChanged;
+  final Function(String)? onNewResponseMessageChanged;
+  final Function(ResponsesListItem)? onUpdateResponseSelected;
 
 
   ResponsesPageState({
@@ -39,19 +39,19 @@ class ResponsesPageState{
   });
 
   ResponsesPageState copyWith({
-    List<ResponsesListItem> items,
-    Function() onEditSelected,
-    Function() onAddGroupSelected,
-    Function(ResponsesListItem) onAddResponseSelected,
-    Function(ResponsesListItem) onDeleteSelected,
-    Function() onCancelSelected,
-    Function() onSaveNewCategorySelected,
-    Function(Response) onSaveNewResponseSelected,
-    Function(String) onNewCategoryNameChanged,
-    Function(String) onNewResponseTitleChanged,
-    Function(String) onNewResponseMessageChanged,
-    Function(ResponsesListItem) onUpdateResponseSelected,
-     bool isEditEnabled,
+    List<ResponsesListItem>? items,
+    Function()? onEditSelected,
+    Function()? onAddGroupSelected,
+    Function(ResponsesListItem)? onAddResponseSelected,
+    Function(ResponsesListItem)? onDeleteSelected,
+    Function()? onCancelSelected,
+    Function()? onSaveNewCategorySelected,
+    Function(Response)? onSaveNewResponseSelected,
+    Function(String)? onNewCategoryNameChanged,
+    Function(String)? onNewResponseTitleChanged,
+    Function(String)? onNewResponseMessageChanged,
+    Function(ResponsesListItem)? onUpdateResponseSelected,
+    bool? isEditEnabled,
   }){
     return ResponsesPageState(
       items: items?? this.items,
@@ -86,8 +86,8 @@ class ResponsesPageState{
 
   factory ResponsesPageState.fromStore(Store<AppState> store) {
     return ResponsesPageState(
-      items: store.state.responsesPageState.items,
-      isEditEnabled: store.state.responsesPageState.isEditEnabled,
+      items: store.state.responsesPageState!.items,
+      isEditEnabled: store.state.responsesPageState!.isEditEnabled,
       onEditSelected: () => store.dispatch(UpdateEditStateAction(store.state.responsesPageState)),
       onAddGroupSelected: () => null,
       onDeleteSelected: (item) => store.dispatch(DeleteResponseAction(store.state.responsesPageState, item)),

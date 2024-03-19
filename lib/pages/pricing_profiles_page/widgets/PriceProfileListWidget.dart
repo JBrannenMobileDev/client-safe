@@ -9,11 +9,11 @@ import 'package:intl/intl.dart';
 import '../../../widgets/TextDandyLight.dart';
 
 class PriceProfileListWidget extends StatelessWidget {
-  final PriceProfile priceProfile;
+  final PriceProfile? priceProfile;
   var pageState;
-  final Function onProfileSelected;
-  final Color backgroundColor;
-  final Color textColor;
+  final Function? onProfileSelected;
+  final Color? backgroundColor;
+  final Color? textColor;
 
   PriceProfileListWidget(this.priceProfile, this.pageState, this.onProfileSelected, this.backgroundColor, this.textColor);
 
@@ -21,13 +21,13 @@ class PriceProfileListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
         style: Styles.getButtonStyle(
-          color: backgroundColor.withOpacity(0.5),
+          color: backgroundColor!.withOpacity(0.5),
           shape: RoundedRectangleBorder(
             borderRadius: new BorderRadius.circular(8.0),
           ),
         ),
         onPressed: () {
-          onProfileSelected(priceProfile, pageState, context);
+          onProfileSelected!(priceProfile, pageState, context);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +55,7 @@ class PriceProfileListWidget extends StatelessWidget {
                             children: <Widget>[
                               TextDandyLight(
                                 type: TextDandyLight.MEDIUM_TEXT,
-                                text: priceProfile.profileName,
+                                text: priceProfile!.profileName,
                                 textAlign: TextAlign.start,
                                 color: textColor,
                               ),
@@ -64,7 +64,7 @@ class PriceProfileListWidget extends StatelessWidget {
                                 children: [
                                   TextDandyLight(
                                     type: TextDandyLight.SMALL_TEXT,
-                                    text: 'Price - ' + NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 2).format(priceProfile.flatRate),
+                                    text: 'Price - ' + NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 2).format(priceProfile!.flatRate!),
                                     textAlign: TextAlign.start,
                                     color: textColor,
                                   ),
@@ -72,7 +72,7 @@ class PriceProfileListWidget extends StatelessWidget {
                                     margin: EdgeInsets.only(right: 24.0),
                                     child: TextDandyLight(
                                       type: TextDandyLight.SMALL_TEXT,
-                                      text: (priceProfile.deposit != null ? priceProfile.deposit > 2 ? 'Deposit - ' + NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format(priceProfile.deposit) : '' : ''),
+                                      text: (priceProfile!.deposit != null ? priceProfile!.deposit! > 2 ? 'Deposit - ' + NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format(priceProfile!.deposit) : '' : ''),
                                       textAlign: TextAlign.start,
                                       color: textColor,
                                     ),

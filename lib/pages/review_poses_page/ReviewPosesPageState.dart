@@ -8,11 +8,11 @@ import '../pose_group_page/GroupImage.dart';
 import 'ReviewPosesActions.dart';
 
 class ReviewPosesPageState{
-  final String instagramName;
-  final List<Pose> poses;
-  final List<PoseSubmittedGroup> groups;
-  final Function(Pose, String, String, bool, bool, bool, bool, bool, bool, bool, bool, bool) onApproveSelected;
-  final Function(Pose) onRejectedSelected;
+  final String? instagramName;
+  final List<Pose>? poses;
+  final List<PoseSubmittedGroup?>? groups;
+  final Function(Pose, String, String, bool, bool, bool, bool, bool, bool, bool, bool, bool)? onApproveSelected;
+  final Function(Pose)? onRejectedSelected;
 
   ReviewPosesPageState({
     @required this.onApproveSelected,
@@ -23,11 +23,11 @@ class ReviewPosesPageState{
   });
 
   ReviewPosesPageState copyWith({
-    String instagramName,
-    List<Pose> poses,
-    List<PoseSubmittedGroup> groups,
-    Function(Pose, String, String, bool, bool, bool, bool, bool, bool, bool, bool, bool) onApprovedSelected,
-    Function(Pose) onRejectedSelected,
+    String? instagramName,
+    List<Pose>? poses,
+    List<PoseSubmittedGroup?>? groups,
+    Function(Pose, String, String, bool, bool, bool, bool, bool, bool, bool, bool, bool)? onApprovedSelected,
+    Function(Pose)? onRejectedSelected,
   }){
     return ReviewPosesPageState(
       onApproveSelected: onApproveSelected ?? this.onApproveSelected,
@@ -48,9 +48,9 @@ class ReviewPosesPageState{
 
   factory ReviewPosesPageState.fromStore(Store<AppState> store) {
     return ReviewPosesPageState(
-      instagramName: store.state.reviewPosesPageState.instagramName,
-      poses: store.state.reviewPosesPageState.poses,
-      groups: store.state.reviewPosesPageState.groups,
+      instagramName: store.state.reviewPosesPageState!.instagramName,
+      poses: store.state.reviewPosesPageState!.poses,
+      groups: store.state.reviewPosesPageState!.groups,
       onApproveSelected: (pose, prompt, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected, maternitySelected, newbornSelected, proposalsSelected, petsSelected, weddingsSelected) => {
         store.dispatch(ApprovePoseAction(store.state.reviewPosesPageState, pose, prompt, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected, maternitySelected, newbornSelected, proposalsSelected, petsSelected, weddingsSelected)),
       },

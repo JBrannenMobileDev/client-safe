@@ -39,7 +39,7 @@ ShareWithClientPageState _setInvoiceInProgressState(ShareWithClientPageState pre
 }
 
 ShareWithClientPageState _setAllJobs(ShareWithClientPageState previousState, SetAllJobsAction action){
-  List<Job> jobsWithShareMessage = action.jobs.where((job) => job.proposal.shareMessage.isNotEmpty).toList();
+  List<Job> jobsWithShareMessage = action.jobs!.where((job) => job.proposal!.shareMessage!.isNotEmpty).toList();
   return previousState.copyWith(
     jobs: action.jobs,
     jobsWithShareMessage: jobsWithShareMessage,
@@ -55,10 +55,10 @@ ShareWithClientPageState _setAreChangesSavedState(ShareWithClientPageState previ
 ShareWithClientPageState _setJob(ShareWithClientPageState previousState, SetJobShareWithClientAction action){
   return previousState.copyWith(
     job: action.job,
-    invoiceSelected: action.job.proposal.includeInvoice,
-    contractSelected: action.job.proposal.includeContract,
-    posesSelected: action.job.proposal.includePoses,
-    clientMessage: action.job.proposal.detailsMessage,
+    invoiceSelected: action.job!.proposal!.includeInvoice,
+    contractSelected: action.job!.proposal!.includeContract,
+    posesSelected: action.job!.proposal!.includePoses,
+    clientMessage: action.job!.proposal!.detailsMessage,
   );
 }
 
@@ -69,48 +69,48 @@ ShareWithClientPageState _setProfile(ShareWithClientPageState previousState, Set
 }
 
 ShareWithClientPageState _setClientMessage(ShareWithClientPageState previousState, SetClientMessageAction action){
-  action.pageState.job.proposal.detailsMessage = action.clientMessage;
+  action.pageState!.job!.proposal!.detailsMessage = action.clientMessage;
   return previousState.copyWith(
     clientMessage: action.clientMessage,
-    job: action.pageState.job,
+    job: action.pageState!.job,
     areChangesSaved: false,
   );
 }
 
 ShareWithClientPageState _setClientShareMessage(ShareWithClientPageState previousState, SetClientShareMessageAction action){
-  action.pageState.job.proposal.shareMessage = action.clientMessage;
+  action.pageState!.job!.proposal!.shareMessage = action.clientMessage;
   return previousState.copyWith(
     clientShareMessage: action.clientMessage,
-    job: action.pageState.job,
+    job: action.pageState!.job,
     areChangesSaved: false,
   );
 }
 
 ShareWithClientPageState _setContractChecked(ShareWithClientPageState previousState, SetContractCheckBox action){
-  action.pageState.job.proposal.includeContract = action.checked;
+  action.pageState!.job!.proposal!.includeContract = action.checked;
   return previousState.copyWith(
     contractSelected: action.checked,
-    job: action.pageState.job,
+    job: action.pageState!.job,
     areChangesSaved: false,
     updateContractCheckInProgress: false,
   );
 }
 
 ShareWithClientPageState _setInvoiceChecked(ShareWithClientPageState previousState, SetInvoiceCheckBox action){
-  action.pageState.job.proposal.includeInvoice = action.checked;
+  action.pageState!.job!.proposal!.includeInvoice = action.checked;
   return previousState.copyWith(
     invoiceSelected: action.checked,
-    job: action.pageState.job,
+    job: action.pageState!.job,
     areChangesSaved: false,
     updateInvoiceCheckInProgress: false,
   );
 }
 
 ShareWithClientPageState _setPosesChecked(ShareWithClientPageState previousState, SetPosesCheckBox action){
-  action.pageState.job.proposal.includePoses = action.checked;
+  action.pageState!.job!.proposal!.includePoses = action.checked;
   return previousState.copyWith(
     posesSelected: action.checked,
-    job: action.pageState.job,
+    job: action.pageState!.job,
     areChangesSaved: false,
     updatePosesCheckInProgress: false,
   );

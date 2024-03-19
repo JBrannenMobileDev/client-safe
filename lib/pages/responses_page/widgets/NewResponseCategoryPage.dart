@@ -70,7 +70,7 @@ class _NewResponseCategoryPageState extends State<NewResponseCategoryPage> {
                                   "Category Name",
                                   TextInputType.text,
                                   64.0,
-                                  pageState.onNewCategoryNameChanged,
+                                  pageState.onNewCategoryNameChanged!,
                                   'Category name is required',
                                   TextInputAction.done,
                                   null,
@@ -138,7 +138,7 @@ class _NewResponseCategoryPageState extends State<NewResponseCategoryPage> {
     if(MediaQuery.of(context).viewInsets.bottom != 0) KeyboardUtil.closeKeyboard(context);
 
     showSuccessAnimation();
-    pageState.onSaveNewCategorySelected();
+    pageState.onSaveNewCategorySelected!();
 
   }
 
@@ -167,7 +167,7 @@ class _NewResponseCategoryPageState extends State<NewResponseCategoryPage> {
 
   void onBackPressed(ResponsesPageState pageState) {
     if(MediaQuery.of(context).viewInsets.bottom != 0) KeyboardUtil.closeKeyboard(context);
-    pageState.onCancelSelected();
+    pageState.onCancelSelected!();
     Navigator.of(context).pop();
   }
 }

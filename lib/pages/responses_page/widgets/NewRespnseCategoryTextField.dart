@@ -16,10 +16,10 @@ class NewResponseCategoryTextField extends StatelessWidget {
   final String inputTypeError;
   final Function(String) onTextInputChanged;
   final TextInputAction keyboardAction;
-  final FocusNode focusNode;
-  final Function onFocusAction;
+  final FocusNode? focusNode;
+  final Function? onFocusAction;
   final TextCapitalization capitalization;
-  final List<TextInputFormatter> inputFormatter;
+  final List<TextInputFormatter>? inputFormatter;
 
   NewResponseCategoryTextField(this._controller, this.hintText, this.inputType,
       this.height, this.onTextInputChanged, this.inputTypeError, this.keyboardAction,
@@ -43,7 +43,7 @@ class NewResponseCategoryTextField extends StatelessWidget {
                   onTextInputChanged(text);
                 },
                 onFieldSubmitted: (term){
-                  onFocusAction();
+                  onFocusAction!();
                 },
                 decoration: InputDecoration(
                   alignLabelWithHint: true,

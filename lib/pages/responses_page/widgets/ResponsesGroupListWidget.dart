@@ -25,7 +25,7 @@ class ResponsesGroupListWidget extends StatelessWidget {
       Stack(
             children: [
               _buildItemDetailsWidget(pageState, index, context),
-              pageState.items.elementAt(index).itemType == ResponsesListItem.RESPONSE && pageState.items.elementAt(index).response.message.isEmpty ? Container(
+              pageState.items!.elementAt(index).itemType == ResponsesListItem.RESPONSE && pageState.items!.elementAt(index).response!.message!.isEmpty ? Container(
                 margin: EdgeInsets.only(left: 32, top: 34),
                 child: TextDandyLight(
                   type: TextDandyLight.EXTRA_SMALL_TEXT,
@@ -34,7 +34,7 @@ class ResponsesGroupListWidget extends StatelessWidget {
                   color: Color(ColorConstants.error_red),
                 ),
               ) : SizedBox(),
-              pageState.items.elementAt(index).itemType == ResponsesListItem.RESPONSE && !pageState.isEditEnabled ? Container(
+              pageState.items!.elementAt(index).itemType == ResponsesListItem.RESPONSE && !pageState.isEditEnabled! ? Container(
                 margin: EdgeInsets.only(right: 16, bottom: 8),
                 padding: EdgeInsets.only(right: 8),
                 height: 54,
@@ -53,7 +53,7 @@ class ResponsesGroupListWidget extends StatelessWidget {
   _buildItemDetailsWidget(ResponsesPageState pageState, int index, BuildContext context) {
     Widget result = SizedBox();
 
-    switch(pageState.items.elementAt(index).itemType) {
+    switch(pageState.items!.elementAt(index).itemType) {
       case ResponsesListItem.GROUP_TITLE:
         result = GestureDetector(
           onTap: () {
@@ -69,7 +69,7 @@ class ResponsesGroupListWidget extends StatelessWidget {
             ),
             child:TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
-              text: pageState.items.elementAt(index).title,
+              text: pageState.items!.elementAt(index).title,
               textAlign: TextAlign.center,
               color: Color(ColorConstants.getBlueDark()),
             ),
@@ -85,7 +85,7 @@ class ResponsesGroupListWidget extends StatelessWidget {
               backgroundColor: Colors.transparent,
               barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
               builder: (context) {
-                return EditResponseBottomSheet(pageState.items.elementAt(index));
+                return EditResponseBottomSheet(pageState.items!.elementAt(index));
               },
             );
           },
@@ -102,14 +102,14 @@ class ResponsesGroupListWidget extends StatelessWidget {
                 ),
                 child: TextDandyLight(
                   type: TextDandyLight.MEDIUM_TEXT,
-                  text: pageState.items.elementAt(index).title,
+                  text: pageState.items!.elementAt(index).title,
                   textAlign: TextAlign.start,
                   color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
-              pageState.isEditEnabled ? GestureDetector(
+              pageState.isEditEnabled! ? GestureDetector(
                 onTap: () {
-                  pageState.onDeleteSelected(pageState.items.elementAt(index));
+                  pageState.onDeleteSelected!(pageState.items!.elementAt(index));
                 },
                 child: Container(
                   margin: EdgeInsets.only(right: 16),
@@ -132,7 +132,7 @@ class ResponsesGroupListWidget extends StatelessWidget {
                 backgroundColor: Colors.transparent,
                 barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
                 builder: (context) {
-                  return NewResponseBottomSheet(pageState.items.elementAt(index).groupName);
+                  return NewResponseBottomSheet(pageState.items!.elementAt(index).groupName!);
                 },
               );
         },
@@ -147,7 +147,7 @@ class ResponsesGroupListWidget extends StatelessWidget {
               ),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: '+ ' + pageState.items.elementAt(index).title,
+                text: '+ ' + pageState.items!.elementAt(index).title!,
                 textAlign: TextAlign.start,
                 color: Color(ColorConstants.getBlueDark()),
               ),

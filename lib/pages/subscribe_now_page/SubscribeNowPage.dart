@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class SubscribeNowPage extends StatefulWidget {
-  final Profile profile;
+  final Profile? profile;
 
   SubscribeNowPage({this.profile});
 
@@ -17,7 +17,7 @@ class SubscribeNowPage extends StatefulWidget {
 }
 
 class _SubscribeNowPageState extends State<SubscribeNowPage> with TickerProviderStateMixin {
-  Profile profile;
+  Profile? profile;
 
   _SubscribeNowPageState(this.profile);
 
@@ -377,7 +377,7 @@ class _SubscribeNowPageState extends State<SubscribeNowPage> with TickerProvider
                     GestureDetector(
                       onTap: () {
                         Navigator.of(context).pop();
-                        NavigationUtil.onManageSubscriptionSelected(context, profile);
+                        NavigationUtil.onManageSubscriptionSelected(context, profile!);
                       },
                       child: Container(
                         alignment: Alignment.bottomCenter,

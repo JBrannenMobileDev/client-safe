@@ -60,7 +60,7 @@ class _BottomSheetPageState extends State<ChooseMessageBottomSheet> with TickerP
                        height: MediaQuery.of(context).size.height-116,
                        child: ListView.builder(
                            padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 200.0),
-                           itemCount: pageState.jobs.length,
+                           itemCount: pageState.jobs!.length,
                            controller: _controller,
                            physics: const AlwaysScrollableScrollPhysics(),
                            key: _listKey,
@@ -95,8 +95,8 @@ class _BottomSheetPageState extends State<ChooseMessageBottomSheet> with TickerP
         builder: (BuildContext context, ShareWithClientPageState pageState) =>
             GestureDetector(
               onTap: () {
-                setSelectedMessage(pageState.jobs.elementAt(index).proposal.detailsMessage);
-                pageState.onMessageChanged(pageState.jobs.elementAt(index).proposal.detailsMessage);
+                setSelectedMessage(pageState.jobs!.elementAt(index).proposal!.detailsMessage!);
+                pageState.onMessageChanged!(pageState.jobs!.elementAt(index).proposal!.detailsMessage!);
                 Navigator.of(context).pop();
               },
               child: Column(
@@ -107,7 +107,7 @@ class _BottomSheetPageState extends State<ChooseMessageBottomSheet> with TickerP
                     alignment: Alignment.center,
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      text: pageState.jobs.elementAt(index).jobTitle,
+                      text: pageState.jobs!.elementAt(index).jobTitle,
                       textAlign: TextAlign.center,
                       color: Color(ColorConstants.getPrimaryBlack()),
                     ),
@@ -121,7 +121,7 @@ class _BottomSheetPageState extends State<ChooseMessageBottomSheet> with TickerP
                         borderRadius: const BorderRadius.all(Radius.circular(32.0))),
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      text: pageState.jobs.elementAt(index).proposal.detailsMessage,
+                      text: pageState.jobs!.elementAt(index).proposal!.detailsMessage!,
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.fade,
                       maxLines: 9,
