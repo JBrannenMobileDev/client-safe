@@ -53,7 +53,7 @@ class LibraryPoseCollection {
         });
   }
 
-  Future<List<Pose>> getAll() async {
+  Future<List<Pose>?> getAll() async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('env')

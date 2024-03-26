@@ -499,7 +499,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                               ),
                               Padding(
                                 padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
-                                child: DocumentsCard(pageState: pageState, onSendInvoiceSelected: onSendInvoiceSelected, profile: pageState.profile!),
+                                child: DocumentsCard(pageState: pageState, onSendInvoiceSelected: onSendInvoiceSelected, profile: pageState.profile),
                               ),
                               Padding(
                                 padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),

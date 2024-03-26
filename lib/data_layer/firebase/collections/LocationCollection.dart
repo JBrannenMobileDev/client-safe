@@ -60,7 +60,7 @@ class LocationCollection {
         });
   }
 
-  Future<List<LocationDandy>> getAll(String uid) async {
+  Future<List<LocationDandy>?> getAll(String uid) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('env')

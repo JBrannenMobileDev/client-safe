@@ -207,7 +207,7 @@ class _PosesPageState extends State<PosesPage> {
                 ),
                 selectedIndex != 2 ? SliverList(
                   delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-                    return selectedIndex == 0 ? PoseGroupListWidget(index, job!, comingFromDetails!) : PoseLibraryGroupListWidget(index, job!, comingFromDetails!);
+                    return selectedIndex == 0 ? PoseGroupListWidget(index, job!, comingFromDetails!) : PoseLibraryGroupListWidget(index, job, comingFromDetails!);
                   },
                     childCount: selectedIndex == 0 ? pageState.poseGroups!.length : pageState.libraryGroups!.length, // 1000 list items
                   ),

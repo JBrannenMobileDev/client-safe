@@ -56,7 +56,7 @@ class InvoiceCollection {
         .then((invoice) => Invoice.fromMap(invoice.data() as Map<String, dynamic>));
   }
 
-  Future<List<Invoice>> getAllInvoicesSortedByDate(String uid) async {
+  Future<List<Invoice>?> getAllInvoicesSortedByDate(String uid) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('env')

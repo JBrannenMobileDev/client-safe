@@ -31,7 +31,7 @@ class _PricingProfileSelectionFormState
 
   final FocusNode flatRateInputFocusNode = new FocusNode();
   var flatRateTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '', thousandSeparator: ',', precision: 0);
-  late OverlayEntry overlayEntry;
+  late OverlayEntry? overlayEntry;
   late StreamSubscription<bool> keyboardSubscription;
 
   @override
@@ -203,12 +203,12 @@ class _PricingProfileSelectionFormState
           child: InputDoneView());
     });
 
-    overlayState.insert(overlayEntry);
+    overlayState.insert(overlayEntry!);
   }
 
   removeOverlay() {
     if (overlayEntry != null) {
-      overlayEntry.remove();
+      overlayEntry!.remove();
     }
   }
 

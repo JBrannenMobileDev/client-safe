@@ -18,7 +18,7 @@ import '../../widgets/TextDandyLight.dart';
 class PermissionDialog extends StatefulWidget {
   PermissionDialog({required this.permission, required this.isPermanentlyDenied, this.customMessage, this.callOnGranted});
 
-  final Permission? permission;
+  final Permission permission;
   final bool? isPermanentlyDenied;
   final String? customMessage;
   final Function? callOnGranted;
@@ -30,7 +30,7 @@ class PermissionDialog extends StatefulWidget {
 }
 
 class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepAliveClientMixin {
-  final Permission? permission;
+  final Permission permission;
   final bool? isPermanentlyDenied;
   final String? customMessage;
   final Function? callOnGranted;
@@ -128,8 +128,17 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
                           ) : TextButton(
                             style: Styles.getButtonStyle(),
                             onPressed: () async {
-                              PermissionStatus status = await UserPermissionsUtil.requestPermission(permission: permission!, callOnGranted: callOnGranted!);
-                              Navigator.pop(context, await status.isGranted);
+                              PermissionStatus status;
+                              if(permission == Permission.calendarFullAccess) {
+                                status = await UserPermissionsUtil.requestPermission(permission: Permission.calendarWriteOnly, callOnGranted: null);
+                                if(status.isGranted) {
+                                  status = await UserPermissionsUtil.requestPermission(permission: Permission.calendarFullAccess, callOnGranted: callOnGranted);
+                                }
+                              } else {
+                                status = await UserPermissionsUtil.requestPermission(permission: permission, callOnGranted: callOnGranted);
+                              }
+                              bool isGranted = status.isGranted;
+                              Navigator.pop(context, isGranted);
                             },
                             child: Container(
                               alignment: Alignment.center,
@@ -158,7 +167,7 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
   }
 
   String getTitle(Permission permission) {
-    if(permission == Permission.calendar) {
+    if(permission == Permission.calendarFullAccess) {
       return "Calendar Permission";
     }
     if(permission == Permission.notification) {
@@ -183,7 +192,7 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
   }
 
   String getIconFileLocation(Permission permission) {
-    if(permission == Permission.calendar) {
+    if(permission == Permission.calendarFullAccess) {
       return "assets/images/icons/calendar.png";
     }
     if(permission == Permission.notification) {
@@ -208,7 +217,7 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
   }
 
   String getMessage(Permission permission) {
-    if(permission == Permission.calendar) {
+    if(permission == Permission.calendarFullAccess) {
       return "Calendar permission is required to sync your DandyLight calendar with your personal calendars.";
     }
     if(permission == Permission.notification) {
@@ -233,7 +242,7 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
   }
 
   String getBlockedMessage(Permission permission) {
-    if(permission == Permission.calendar) {
+    if(permission == Permission.calendarFullAccess) {
       return "Calendar permission was previously denied. To enable this permission please go to your device settings.";
     }
     if(permission == Permission.notification) {

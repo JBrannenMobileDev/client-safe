@@ -34,15 +34,15 @@ class JobTypeDao extends Equatable{
   }
 
   static Future<void> _updateLastChangedTime() async {
-    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    Profile profile = (await ProfileDao.getAll())!.elementAt(0);
     profile.jobTypesLastChangeDate = DateTime.now();
     ProfileDao.update(profile);
   }
 
   static Future insertOrUpdate(JobType newJobType) async {
-    List<JobType> jobTypeList = await getAll();
+    List<JobType>? jobTypeList = await getAll();
     bool alreadyExists = false;
-    for(JobType jobType in jobTypeList){
+    for(JobType jobType in jobTypeList!){
       if(newJobType.documentId == jobType.documentId){
         alreadyExists = true;
       }
@@ -88,7 +88,7 @@ class JobTypeDao extends Equatable{
     _updateLastChangedTime();
   }
 
-  static Future<List<JobType>> getAll() async {
+  static Future<List<JobType>?> getAll() async {
     final recordSnapshots = await _jobTypeStore.find(await _db);
     return recordSnapshots.map((snapshot) {
       final jobType = JobType.fromMap(snapshot.value);
@@ -98,7 +98,7 @@ class JobTypeDao extends Equatable{
   }
 
   static Future<JobType?> getJobTypeById(String documentId) async{
-    if((await getAll()).length > 0) {
+    if((await getAll())!.isNotEmpty) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
       final recordSnapshots = await _jobTypeStore.find(await _db, finder: finder);
       List<JobType> list = recordSnapshots.map((snapshot) {
@@ -126,11 +126,11 @@ class JobTypeDao extends Equatable{
   }
 
   static Future<void> syncAllFromFireStore() async {
-    List<JobType> allLocalJobTypes = await getAll();
-    List<JobType> allFireStoreJobTypes = await JobTypesCollection().getAll(UidUtil().getUid());
+    List<JobType>? allLocalJobTypes = await getAll();
+    List<JobType>? allFireStoreJobTypes = await JobTypesCollection().getAll(UidUtil().getUid());
 
-    if(allLocalJobTypes != null && allLocalJobTypes.length > 0) {
-      if(allFireStoreJobTypes != null && allFireStoreJobTypes.length > 0) {
+    if(allLocalJobTypes != null && allLocalJobTypes.isNotEmpty) {
+      if(allFireStoreJobTypes != null && allFireStoreJobTypes.isNotEmpty) {
         //both local and fireStore have clients
         //fireStore is source of truth for this sync.
         await _syncFireStoreToLocal(allLocalJobTypes, allFireStoreJobTypes);
@@ -139,7 +139,7 @@ class JobTypeDao extends Equatable{
         _deleteAllLocalJobTypes(allLocalJobTypes);
       }
     } else {
-      if(allFireStoreJobTypes != null && allFireStoreJobTypes.length > 0){
+      if(allFireStoreJobTypes != null && allFireStoreJobTypes.isNotEmpty){
         //no local clients but there are fireStore clients.
         await _copyAllFireStoreJobTypesToLocal(allFireStoreJobTypes);
       } else {
@@ -168,7 +168,7 @@ class JobTypeDao extends Equatable{
     for(JobType localReminder in allLocalJobTypes) {
       //should only be 1 matching
       List<JobType> matchingFireStoreJobTypes = allFireStoreJobTypes.where((fireStoreReminder) => localReminder.documentId == fireStoreReminder.documentId).toList();
-      if(matchingFireStoreJobTypes !=  null && matchingFireStoreJobTypes.length > 0) {
+      if(matchingFireStoreJobTypes.isNotEmpty) {
         JobType fireStoreJobType = matchingFireStoreJobTypes.elementAt(0);
         final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStoreJobType.documentId));
         await _jobTypeStore.update(
@@ -188,7 +188,7 @@ class JobTypeDao extends Equatable{
 
     for(JobType fireStoreJobTypes in allFireStoreJobTypes) {
       List<JobType> matchingLocalJobTypes = allLocalJobTypes.where((localReminders) => localReminders.documentId == fireStoreJobTypes.documentId).toList();
-      if(matchingLocalJobTypes != null && matchingLocalJobTypes.length > 0) {
+      if(matchingLocalJobTypes.isNotEmpty) {
         //do nothing. SingleExpense already synced.
       } else {
         //add to local. does not exist in local and has not been synced yet.
@@ -203,13 +203,13 @@ class JobTypeDao extends Equatable{
   List<Object> get props => [];
 
   static void deleteAllLocal() async {
-    List<JobType> reminders = await getAll();
-    _deleteAllLocalJobTypes(reminders);
+    List<JobType>? reminders = await getAll();
+    _deleteAllLocalJobTypes(reminders!);
   }
 
   static getByName(String title) async {
-    List<JobType> all = await getAll();
-    for(JobType type in all) {
+    List<JobType>? all = await getAll();
+    for(JobType type in all!) {
       if(type.title == title) return type;
     }
     return null;

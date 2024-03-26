@@ -15,8 +15,8 @@ class JobsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchJobs(Store<AppState> store, NextDispatcher next) async{
-    List<Job> allJobs = await JobDao.getAllJobs();
-    if(allJobs.length > 0) {
+    List<Job>? allJobs = await JobDao.getAllJobs();
+    if(allJobs!.length > 0) {
       store.dispatch(SetJobsDataAction(store.state.jobsPageState, allJobs));
     }
 

@@ -32,7 +32,7 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchProfile(Store<AppState> store, FetchProfileForContractEditAction action, NextDispatcher next) async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     next(SetProfileForContractEditAction(store.state.contractEditPageState, profile));
   }
 

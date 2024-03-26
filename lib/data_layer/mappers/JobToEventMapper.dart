@@ -9,12 +9,12 @@ import '../local_db/daos/ProfileDao.dart';
 
 class JobToEventMapper {
   static map(Job? job, String? calendarId, String? eventIdSaved) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     if(job!.selectedDate == null) return null;
     return Event(
       calendarId,
       eventId: eventIdSaved,
-      title: (profile.businessName!.isNotEmpty ? profile.businessName! + ' - ' : '') + job.jobTitle!,
+      title: (profile!.businessName!.isNotEmpty ? profile.businessName! + ' - ' : '') + job.jobTitle!,
       description: job.notes,
       start: await buildDateTime(job.selectedDate!, job.selectedTime!),
       end: job.selectedEndTime != null ?  await buildDateTime(job.selectedDate!, job.selectedEndTime!) :  await createEndTZDateTime(job),

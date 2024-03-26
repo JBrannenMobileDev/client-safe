@@ -202,12 +202,12 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                             setState(() {
                               trackMiles = false;
                             });
-                            pageState!.setMileageAutoTrack!(false);
+                            pageState.setMileageAutoTrack!(false);
                           } else {
                             setState(() {
                               trackMiles = true;
                             });
-                            pageState!.setMileageAutoTrack!(true);
+                            pageState.setMileageAutoTrack!(true);
                           }
                         },
                         child: Container(

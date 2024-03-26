@@ -28,7 +28,7 @@ class SunsetWeatherMapPage extends StatefulWidget {
 class _SunsetWeatherMapPage extends State<SunsetWeatherMapPage> {
   final Completer<GoogleMapController> _controller = Completer();
   TextEditingController controller = TextEditingController();
-  Timer _throttle;
+  Timer? _throttle;
   final FocusNode _searchFocus = FocusNode();
   @override
   void dispose() {
@@ -50,8 +50,8 @@ class _SunsetWeatherMapPage extends State<SunsetWeatherMapPage> {
       },
       onWillChange: (pageStatePrevious, pageState) async {
         controller.value = controller.value.copyWith(text: pageState.searchText);
-        if(pageState.selectedSearchLocation != null && pageStatePrevious.locationsResults.length > 0){
-          animateTo(pageState.selectedSearchLocation.latitude, pageState.selectedSearchLocation.longitude);
+        if(pageState.selectedSearchLocation != null && pageStatePrevious!.locationsResults!.length > 0){
+          animateTo(pageState.selectedSearchLocation!.latitude!, pageState.selectedSearchLocation!.longitude!);
         }
       },
       converter: (Store<AppState> store) => SunsetWeatherPageState.fromStore(store),
@@ -65,7 +65,7 @@ class _SunsetWeatherMapPage extends State<SunsetWeatherMapPage> {
                 Container(
                   child: GoogleMap(
                     initialCameraPosition: CameraPosition(
-                      target: LatLng(pageState.lat, pageState.lng),
+                      target: LatLng(pageState.lat!, pageState.lng!),
                       zoom: 15,
                     ),
                     onMapCreated: (GoogleMapController controller) {
@@ -82,7 +82,7 @@ class _SunsetWeatherMapPage extends State<SunsetWeatherMapPage> {
                             y: (MediaQuery.of(context).size.height/2).round(),
                           )
                       );
-                      pageState.onMapLocationChanged(latLng);
+                      pageState.onMapLocationChanged!(latLng);
                     },
                   ),
                 ),
@@ -108,7 +108,7 @@ class _SunsetWeatherMapPage extends State<SunsetWeatherMapPage> {
                 margin: EdgeInsets.only(bottom: 14.0),
                 child: GestureDetector(
                   onTap: () {
-                    pageState.onMapLocationSaved();
+                    pageState.onMapLocationSaved!();
                     Navigator.of(context).pop(true);
                     Navigator.of(context).pop(true);
                   },
@@ -147,13 +147,13 @@ class _SunsetWeatherMapPage extends State<SunsetWeatherMapPage> {
                       focusNode: _searchFocus,
                       onChanged: (text) {
                         if(_throttle?.isActive ?? false) {
-                          _throttle.cancel();
+                          _throttle!.cancel();
                         } else {
                           _throttle = Timer(const Duration(milliseconds: 350), () {
-                            pageState.onThrottleGetLocations(text);
+                            pageState.onThrottleGetLocations!(text);
                           });
                         }
-                        pageState.onSearchInputChanged(text);
+                        pageState.onSearchInputChanged!(text);
                       },
                       onEditingComplete: () {
                         _searchFocus.unfocus();
@@ -181,7 +181,7 @@ class _SunsetWeatherMapPage extends State<SunsetWeatherMapPage> {
                   ),
                 ),
               ),
-              pageState.locationsResults.length > 0 ? SafeArea(
+              pageState.locationsResults!.length > 0 ? SafeArea(
                 child: Container(
                   height: 350.0,
                   margin: EdgeInsets.only(top: 64.0, left: 16.0, right: 16.0),
@@ -193,12 +193,12 @@ class _SunsetWeatherMapPage extends State<SunsetWeatherMapPage> {
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: ClampingScrollPhysics(),
-                    itemCount: pageState.locationsResults.length,
+                    itemCount: pageState.locationsResults!.length,
                     itemBuilder: (context, index) {
                       return TextButton(
                         style: Styles.getButtonStyle(),
                         onPressed: () {
-                          pageState.onSearchLocationSelected(pageState.locationsResults.elementAt(index));
+                          pageState.onSearchLocationSelected!(pageState.locationsResults!.elementAt(index));
                           _searchFocus.unfocus();
                         },
                         child: Container(
@@ -223,7 +223,7 @@ class _SunsetWeatherMapPage extends State<SunsetWeatherMapPage> {
                                     Flexible(
                                       child: TextDandyLight(
                                         type: TextDandyLight.SMALL_TEXT,
-                                        text: pageState.locationsResults.elementAt(index).name,
+                                        text: pageState.locationsResults!.elementAt(index).name,
                                         maxLines: 1,
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.visible,
@@ -233,7 +233,7 @@ class _SunsetWeatherMapPage extends State<SunsetWeatherMapPage> {
                                     Expanded(
                                       child: TextDandyLight(
                                         type: TextDandyLight.SMALL_TEXT,
-                                        text: pageState.locationsResults.elementAt(index).address,
+                                        text: pageState.locationsResults!.elementAt(index).address,
                                         maxLines: 1,
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.visible,

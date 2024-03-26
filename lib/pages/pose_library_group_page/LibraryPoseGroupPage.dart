@@ -63,7 +63,7 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
                 EventSender().sendEvent(eventName: EventNames.BT_SAVE_LIBRARY_POSE_TO_JOB_FROM_JOB);
               }
             },
-            child: LibraryPoseListWidget(index, job!),
+            child: LibraryPoseListWidget(index, job),
           ),
     );
   }

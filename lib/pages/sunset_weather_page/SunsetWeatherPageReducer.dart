@@ -59,7 +59,7 @@ SunsetWeatherPageState _setSearchText(SunsetWeatherPageState previousState, SetS
 SunsetWeatherPageState _setSelectedSearchLocation(SunsetWeatherPageState previousState, SetSelectedSearchLocation action){
   return previousState.copyWith(
     selectedSearchLocation: action.selectedSearchLocation,
-    locationResults: List(),
+    locationResults: [],
   );
 }
 
@@ -102,24 +102,24 @@ SunsetWeatherPageState _setHourlyForecast(SunsetWeatherPageState previousState, 
 }
 
 SunsetWeatherPageState _setForecast(SunsetWeatherPageState previousState, SetForecastAction action){
-  DailyForecasts matchingDay;
-  for(DailyForecasts forecastDay in action.forecast5days.dailyForecasts){
-    if(DateFormat('yyyy-MM-dd').format(previousState.selectedDate) == DateFormat('yyyy-MM-dd').format(DateTime.parse(forecastDay.date))) {
+  DailyForecasts? matchingDay;
+  for(DailyForecasts forecastDay in action.forecast5days!.dailyForecasts!){
+    if(DateFormat('yyyy-MM-dd').format(previousState.selectedDate!) == DateFormat('yyyy-MM-dd').format(DateTime.parse(forecastDay.date!))) {
       matchingDay = forecastDay;
       break;
     }
   }
 
-  bool isNight = matchingDay != null ? DateTime.parse(matchingDay.date).hour > 17 : false;
+  bool isNight = matchingDay != null ? DateTime.parse(matchingDay.date!).hour > 17 : false;
 
   return matchingDay != null ? previousState.copyWith(
     showFartherThan7DaysError: false,
-    weatherDescription: isNight ? matchingDay.night.iconPhrase : matchingDay.day.iconPhrase,
-    tempHigh: matchingDay.temperature.maximum.value.toInt().toString(),
-    tempLow: matchingDay.temperature.minimum.value.toInt().toString(),
-    chanceOfRain: isNight ? matchingDay.night.precipitationProbability.toString() : matchingDay.day.precipitationProbability.toString(),
-    cloudCoverage: isNight ? matchingDay.night.cloudCover.toString() : matchingDay.day.cloudCover.toString(),
-    weatherIcon: _getWeatherIcon(isNight ? matchingDay.night.icon : matchingDay.day.icon),
+    weatherDescription: isNight ? matchingDay.night!.iconPhrase : matchingDay.day!.iconPhrase,
+    tempHigh: matchingDay.temperature!.maximum!.value!.toInt().toString(),
+    tempLow: matchingDay.temperature!.minimum!.value!.toInt().toString(),
+    chanceOfRain: isNight ? matchingDay.night!.precipitationProbability.toString() : matchingDay.day!.precipitationProbability.toString(),
+    cloudCoverage: isNight ? matchingDay.night!.cloudCover.toString() : matchingDay.day!.cloudCover.toString(),
+    weatherIcon: _getWeatherIcon(isNight ? matchingDay.night!.icon! : matchingDay.day!.icon!),
     isWeatherDataLoading: false,
     locations: action.locations,
   ) : previousState.copyWith(
@@ -222,16 +222,16 @@ SunsetWeatherPageState _setLocationName(SunsetWeatherPageState previousState, Se
 }
 
 SunsetWeatherPageState _setSunsetTimes(SunsetWeatherPageState previousState, SetSunsetTimeAction action){
-  int degrees6 = _calculate6DegreesOfTime(action.sunset, action.civilTwilightEnd);
+  int degrees6 = _calculate6DegreesOfTime(action.sunset!, action.civilTwilightEnd!);
   int degrees4 = (degrees6 * 0.6666).toInt();
   return previousState.copyWith(
-    morningBlueHour: _getMorningBlueHour(degrees6, degrees4, action.sunrise),
-    sunrise: DateFormat('h:mm a').format(action.sunrise),
-    morningGoldenHour: _getMorningGoldenHour(degrees6, degrees4, action.sunrise),
-    eveningGoldenHour: _getEveningGoldenHour(degrees6, degrees4, action.sunset),
-    sunset: DateFormat('h:mm a').format(action.sunset),
+    morningBlueHour: _getMorningBlueHour(degrees6, degrees4, action.sunrise!),
+    sunrise: DateFormat('h:mm a').format(action.sunrise!),
+    morningGoldenHour: _getMorningGoldenHour(degrees6, degrees4, action.sunrise!),
+    eveningGoldenHour: _getEveningGoldenHour(degrees6, degrees4, action.sunset!),
+    sunset: DateFormat('h:mm a').format(action.sunset!),
     sunsetTimestamp: action.sunset,
-    eveningBlueHour: _getEveningBlueHour(degrees6, degrees4, action.sunset),
+    eveningBlueHour: _getEveningBlueHour(degrees6, degrees4, action.sunset!),
     isSunsetDataLoading: false,
   );
 }

@@ -78,8 +78,8 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(LoadAndSelectNewContactAction(store.state.newJobPageState!, await ClientDao.getClientByCreatedDate(client.createdDate!)));
 
     //Update any job that has this client
-    List<Job> allJobs = await JobDao.getAllJobs();
-    List<Job> jobsWithMatchingClient = allJobs.where((job) => job.clientDocumentId == client.documentId).toList();
+    List<Job>? allJobs = await JobDao.getAllJobs();
+    List<Job> jobsWithMatchingClient = allJobs!.where((job) => job.clientDocumentId == client.documentId).toList();
 
     if(jobsWithMatchingClient.isNotEmpty) {
       for (var job in jobsWithMatchingClient) {

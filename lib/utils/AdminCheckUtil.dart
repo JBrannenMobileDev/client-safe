@@ -15,7 +15,7 @@ class AdminCheckUtil {
   ];
 
   static bool isAdmin(Profile? profile) {
-    String email = profile!.email! != null ? profile!.email! : '';
+    String email = profile!.email != null ? profile.email! : '';
     return ADMIN_EMAILS.contains(email.toLowerCase());
   }
 }

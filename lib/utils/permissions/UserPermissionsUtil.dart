@@ -39,27 +39,36 @@ class UserPermissionsUtil {
   }
 
   static Future<PermissionStatus> requestPermission({required Permission permission, Function? callOnGranted}) async{
-    PermissionStatus status =  await permission.request();
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    PermissionStatus status = await permission.request();
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     switch(status) {
       case PermissionStatus.granted:
       case PermissionStatus.limited:
-        if(permission == Permission.calendar) {
-          profile.calendarEnabled = true;
+        if(permission == Permission.calendarFullAccess) {
+          profile!.calendarEnabled = true;
         }
         if(permission == Permission.reminders) {
-          profile.pushNotificationsEnabled = true;
+          profile!.pushNotificationsEnabled = true;
         }
         break;
       case PermissionStatus.denied:
       case PermissionStatus.restricted:
       case PermissionStatus.permanentlyDenied:
-        if(permission == Permission.calendar) {
-          profile.calendarEnabled = false;
+        if(permission == Permission.calendarFullAccess) {
+          profile!.calendarEnabled = false;
         }
         if(permission == Permission.reminders) {
-          profile.pushNotificationsEnabled = false;
+          profile!.pushNotificationsEnabled = false;
         }
+        break;
+      case PermissionStatus.provisional:
+        if(permission == Permission.calendarFullAccess) {
+          profile!.calendarEnabled = true;
+        }
+        if(permission == Permission.reminders) {
+          profile!.pushNotificationsEnabled = true;
+        }
+        break;
     }
     if(status.isGranted && callOnGranted != null) callOnGranted();
     return status;

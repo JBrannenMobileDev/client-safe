@@ -67,7 +67,7 @@ class RecurringExpenseItem extends StatelessWidget{
                             ),
                             TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
-                              text: ' x ' + recurringExpense!.getCountOfChargesForYear!(pageState!.selectedYear!).toString() + '  =  ',
+                              text: ' x ' + recurringExpense!.getCountOfChargesForYear(pageState!.selectedYear!).toString() + '  =  ',
                               textAlign: TextAlign.start,
                               color: Color(recurringExpense!.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
                             ),

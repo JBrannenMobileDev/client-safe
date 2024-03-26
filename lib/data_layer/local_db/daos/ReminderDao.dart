@@ -33,7 +33,7 @@ class ReminderDao extends Equatable{
   }
 
   static Future<void> _updateLastChangedTime() async {
-    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    Profile profile = (await ProfileDao.getAll())!.elementAt(0);
     profile.remindersLastChangeDate = DateTime.now();
     ProfileDao.update(profile);
   }
@@ -128,8 +128,8 @@ class ReminderDao extends Equatable{
     List<ReminderDandyLight> allLocalReminders = await getAll();
     List<ReminderDandyLight> allFireStoreReminder = await ReminderCollection().getAll(UidUtil().getUid());
 
-    if(allLocalReminders != null && allLocalReminders.length > 0) {
-      if(allFireStoreReminder != null && allFireStoreReminder.length > 0) {
+    if(allLocalReminders.length > 0) {
+      if(allFireStoreReminder.length > 0) {
         //both local and fireStore have clients
         //fireStore is source of truth for this sync.
         await _syncFireStoreToLocal(allLocalReminders, allFireStoreReminder);
@@ -138,7 +138,7 @@ class ReminderDao extends Equatable{
         _deleteAllLocalReminders(allLocalReminders);
       }
     } else {
-      if(allFireStoreReminder != null && allFireStoreReminder.length > 0){
+      if(allFireStoreReminder.length > 0){
         //no local clients but there are fireStore clients.
         await _copyAllFireStoreRemindersToLocal(allFireStoreReminder);
       } else {
@@ -167,7 +167,7 @@ class ReminderDao extends Equatable{
     for(ReminderDandyLight localReminder in allLocalReminders) {
       //should only be 1 matching
       List<ReminderDandyLight> matchingFireStoreReminders = allFireStoreReminders.where((fireStoreReminder) => localReminder.documentId == fireStoreReminder.documentId).toList();
-      if(matchingFireStoreReminders !=  null && matchingFireStoreReminders.length > 0) {
+      if(matchingFireStoreReminders.length > 0) {
         ReminderDandyLight fireStoreReminder = matchingFireStoreReminders.elementAt(0);
         final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStoreReminder.documentId));
         await _reminderStore.update(
@@ -187,7 +187,7 @@ class ReminderDao extends Equatable{
 
     for(ReminderDandyLight fireStoreReminder in allFireStoreReminders) {
       List<ReminderDandyLight> matchingLocalReminders = allLocalReminders.where((localReminders) => localReminders.documentId == fireStoreReminder.documentId).toList();
-      if(matchingLocalReminders != null && matchingLocalReminders.length > 0) {
+      if(matchingLocalReminders.length > 0) {
         //do nothing. SingleExpense already synced.
       } else {
         //add to local. does not exist in local and has not been synced yet.

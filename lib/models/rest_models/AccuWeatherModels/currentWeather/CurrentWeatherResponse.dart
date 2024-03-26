@@ -6,7 +6,7 @@ class CurrentWeatherResponse {
   String? weatherText;
   int? weatherIcon;
   bool? hasPrecipitation;
-  Null? precipitationType;
+  Null precipitationType;
   bool? isDayTime;
   Temperature? temperature;
   String? mobileLink;

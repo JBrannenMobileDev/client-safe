@@ -29,7 +29,7 @@ class _SelectNewJobLocationOptionsDialog extends State<SelectNewJobLocationOptio
     super.build(context);
     return StoreConnector<AppState, NewJobPageState>(
       onInit: (store) {
-        locationNameTextController.text = store.state.newLocationPageState!.locationName;
+        locationNameTextController.text = store.state.newLocationPageState!.locationName!;
       },
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) =>

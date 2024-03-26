@@ -117,7 +117,7 @@ class _ShareClientPortalOptionsBottomSheetPageState extends State<ShareClientPor
   Widget build(BuildContext context) => StoreConnector<AppState, ShareWithClientPageState>(
     onInit: (store) {
       String clientMessage = '[Your message goes here]\n\nAccess your client portal here: \nhttps://dandylight.com/clientPortal/${profile!.uid}+${job!.documentId}';
-      messageController.value = messageController.value.copyWith(text: job!.proposal!.shareMessage! != null && job!.proposal!.shareMessage!.isNotEmpty ? job!.proposal!.shareMessage : clientMessage);
+      messageController.value = messageController.value.copyWith(text: job!.proposal!.shareMessage != null && job!.proposal!.shareMessage!.isNotEmpty ? job!.proposal!.shareMessage : clientMessage);
       if(job!.proposal!.shareMessage == null || job!.proposal!.shareMessage!.isEmpty) {
         store.dispatch(SetClientShareMessageAction(store.state.shareWithClientPageState!, clientMessage));
       } else {
@@ -219,7 +219,7 @@ class _ShareClientPortalOptionsBottomSheetPageState extends State<ShareClientPor
                 GestureDetector(
                   onTap: () {
                     if (client!.phone != null && client!.phone!.isNotEmpty) {
-                      IntentLauncherUtil.sendSMSWithBody(client!.phone!, pageState.clientShareMessage);
+                      IntentLauncherUtil.sendSMSWithBody(client!.phone!, pageState.clientShareMessage!);
                     } else {
                       DandyToastUtil.showErrorToast('A phone number has not been saved for ${client!.firstName}');
                     }
@@ -241,7 +241,7 @@ class _ShareClientPortalOptionsBottomSheetPageState extends State<ShareClientPor
                 GestureDetector(
                   onTap: () {
                     if (client!.email != null && client!.email!.isNotEmpty) {
-                      IntentLauncherUtil.sendEmail(client!.email!, emailTitle!, pageState.clientShareMessage);
+                      IntentLauncherUtil.sendEmail(client!.email!, emailTitle!, pageState.clientShareMessage!);
                     } else {
                       DandyToastUtil.showErrorToast('An email has not been saved for ${client!.firstName}');
                     }
@@ -262,7 +262,7 @@ class _ShareClientPortalOptionsBottomSheetPageState extends State<ShareClientPor
                 ),
                 GestureDetector(
                   onTap: () {
-                    Clipboard.setData(ClipboardData(text: pageState.clientShareMessage));
+                    Clipboard.setData(ClipboardData(text: pageState.clientShareMessage!));
                     DandyToastUtil.showToast('Copied to Clipboard!', Color(ColorConstants.getPeachDark()));
                   },
                   child: Column(
@@ -281,7 +281,7 @@ class _ShareClientPortalOptionsBottomSheetPageState extends State<ShareClientPor
                 ),
                 GestureDetector(
                   onTap: () {
-                    Share.share(pageState.clientShareMessage);
+                    Share.share(pageState.clientShareMessage!);
                   },
                   child: Column(
                     children: [

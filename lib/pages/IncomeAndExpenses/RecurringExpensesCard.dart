@@ -33,7 +33,7 @@ class RecurringExpensesCard extends StatelessWidget{
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.fromLTRB(16.0, pageState!.recurringExpensesForSelectedYear!.length > 3 ? 4 : 16.0, 0.0, 8.0),
+                  margin: EdgeInsets.fromLTRB(16.0, pageState!.recurringExpensesForSelectedYear!.length > 3 ? 4 : 16.0, 0.0, 4.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[

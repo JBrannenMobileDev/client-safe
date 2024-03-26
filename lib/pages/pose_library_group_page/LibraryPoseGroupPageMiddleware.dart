@@ -110,7 +110,7 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     store.dispatch(SetIsAdminLibraryAction(store.state.libraryPoseGroupPageState, AdminCheckUtil.isAdmin(profile)));
     store.dispatch(SetLibraryPoseGroupData(store.state.libraryPoseGroupPageState, action.poseGroup));
-    store.dispatch(SetActiveJobs(store.state.libraryPoseGroupPageState, JobUtil.getActiveJobs((await JobDao.getAllJobs()))));
+    store.dispatch(SetActiveJobs(store.state.libraryPoseGroupPageState, JobUtil.getActiveJobs((await JobDao.getAllJobs())!)));
     _fetchMyPoseGroups(store);
   }
 

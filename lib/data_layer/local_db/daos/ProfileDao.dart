@@ -126,7 +126,7 @@ class ProfileDao extends Equatable{
       Profile? fireStoreProfile = await UserCollection().getUser(uid);
       DateTime now = DateTime.now();
       if(fireStoreProfile != null && now.millisecondsSinceEpoch > (fireStoreProfile.lastSignIn ?? DateTime.utc(1971)).millisecondsSinceEpoch) {
-        Profile updatedProfile = userProfiles!.elementAt(0).copyWith(
+        Profile updatedProfile = userProfiles.elementAt(0).copyWith(
           uid: uid,
           lastSignIn: now,
           clientsLastChangeDate: fireStoreProfile.clientsLastChangeDate,

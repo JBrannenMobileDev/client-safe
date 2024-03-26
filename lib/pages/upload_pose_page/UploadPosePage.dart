@@ -50,7 +50,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
   final FocusNode _tagsFocusNode = FocusNode();
   final promptController = TextEditingController();
   final FocusNode _promptFocusNode = FocusNode();
-  XFile image;
+  XFile? image;
   String name = "";
   String tags = "";
   String prompt = "";
@@ -63,20 +63,20 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
   bool newbornSelected = false;
   bool proposalsSelected = false;
   bool petsSelected = false;
-  Profile profile;
+  Profile? profile;
   bool loading = false;
 
   _UploadPosePageState(this.profile);
 
   Future getDeviceImage(UploadPosePageState pageState) async {
     try{
-      XFile localImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+      XFile? localImage = await ImagePicker().pickImage(source: ImageSource.gallery);
       if(localImage == null) {
         setState((){
           loading = false;
         });
       } else {
-        pageState.onPoseUploaded(localImage);
+        pageState.onPoseUploaded!(localImage);
       }
     } catch(ex) {
       print(ex.toString());
@@ -88,7 +88,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
     onInit: (store) async {
       await store.dispatch(ClearStateAction(store.state.uploadPosePageState));
       await store.dispatch(SetInstagramNameAction(store.state.uploadPosePageState, ''));
-      NameController.text = profile.instagramName.isNotEmpty ? profile.instagramName : '';
+      NameController.text = profile!.instagramName!.isNotEmpty ? profile!.instagramName! : '';
       NameController.selection = TextSelection.collapsed(offset: NameController.text.length);
     },
     converter: (Store<AppState> store) => UploadPosePageState.fromStore(store),
@@ -143,8 +143,8 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                       borderRadius: new BorderRadius.circular(16.0),
                       child: Image(
                         fit: BoxFit.contain,
-                        image: pageState.resizedImage500 != null ? FileImage(File(pageState.resizedImage500.path))
-                            : image != null ? FileImage(File(image.path)) : AssetImage("assets/images/backgrounds/image_background.png"),
+                        image: pageState.resizedImage500 != null ? FileImage(File(pageState.resizedImage500!.path))
+                            : image != null ? FileImage(File(image!.path)) : AssetImage("assets/images/backgrounds/image_background.png") as ImageProvider,
                       ),
                     ),
                   ),
@@ -419,7 +419,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                               tagsController.text.replaceAll(' ', '');
                               List<String> tags = tagsController.text.split(",");
                               if(tags.length > 0) {
-                                pageState.onPoseSubmitted(pageState.resizedImage500, NameController.text, promptController.text, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected
+                                pageState.onPoseSubmitted!(pageState.resizedImage500!, NameController.text, promptController.text, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected
                                    , maternitySelected, newbornSelected, proposalsSelected, petsSelected, weddingsSelected);
                                 EventSender().sendEvent(eventName: EventNames.BT_UPLOAD_SUBMITTED_POSE_SUCCESS);
                                 showSuccessAnimation();

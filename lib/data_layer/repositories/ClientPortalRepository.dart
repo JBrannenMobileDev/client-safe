@@ -7,7 +7,7 @@ import 'package:meta/meta.dart';
 class ClientPortalRepository {
   final DandylightFunctionsApi functions;
 
-  ClientPortalRepository({required this.functions}) : assert(functions != null);
+  ClientPortalRepository({required this.functions});
 
   Future<Job> fetchJob(String userId, String jobId) async {
     return await functions.fetchJob(userId, jobId);

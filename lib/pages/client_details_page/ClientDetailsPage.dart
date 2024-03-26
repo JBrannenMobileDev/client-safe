@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageState.dart';
-import 'package:dandylight/pages/client_details_page/ImportantDatesWidget.dart';
 import 'package:dandylight/pages/client_details_page/JobHistoryWidget.dart';
 import 'package:dandylight/pages/client_details_page/LeadSourceWidget.dart';
 import 'package:dandylight/pages/client_details_page/NotesWidget.dart';

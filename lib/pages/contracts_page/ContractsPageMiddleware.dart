@@ -31,8 +31,8 @@ class ContractsPageMiddleware extends MiddlewareClass<AppState> {
     Contract contract = action.contract!;
     contract.photographerSignedDate = DateTime.now();
     contract.signedByPhotographer = true;
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    contract.photographerSignature = '${profile.firstName} ${profile.lastName}';
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    contract.photographerSignature = '${profile!.firstName} ${profile.lastName}';
     contract.signedByClient = false;
     contract.clientSignature = '';
     Job job = (await JobDao.getJobById(action.jobDocumentId!))!;
@@ -43,8 +43,8 @@ class ContractsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchContracts(Store<AppState> store, NextDispatcher next) async{
-      List<Contract> contracts = await ContractDao.getAll();
-      List<Contract> contractTemplates = await ContractTemplateDao.getAll();
+      List<Contract>? contracts = await ContractDao.getAll();
+      List<Contract>? contractTemplates = await ContractTemplateDao.getAll();
       next(SetContractsAction(store.state.contractsPageState, contracts, contractTemplates));
 
       (await ContractDao.getContractsStream()).listen((snapshots) async {

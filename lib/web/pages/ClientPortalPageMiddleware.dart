@@ -88,13 +88,13 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _generateInvoice(Store<AppState> store, GenerateInvoiceForClientAction action, NextDispatcher next) async{
-    Document pdf = await PdfUtil.generateInvoicePdfFromInvoice(
+    Document? pdf = await PdfUtil.generateInvoicePdfFromInvoice(
         action.pageState!.invoice!,
         action.pageState!.job!,
         action.pageState!.job!.client!,
         action.pageState!.profile!,
     );
-    IntentLauncherUtil.downloadWeb(await pdf.save(), downloadName: action.pageState!.job!.client!.firstName! + '_' + action.pageState!.job!.client!.lastName! + '_invoice.pdf');
+    IntentLauncherUtil.downloadWeb(await pdf!.save(), downloadName: action.pageState!.job!.client!.firstName! + '_' + action.pageState!.job!.client!.lastName! + '_invoice.pdf');
   }
 
   void _saveClientSignature(Store<AppState> store, SaveClientSignatureAction action, NextDispatcher next) async{
@@ -261,7 +261,7 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
   }
 
   Job populateContractWithJobData(Job job, Profile profile) {
-    if(job.proposal!.contract! != null) {
+    if(job.proposal!.contract != null) {
       String populatedJsonTerms = ContractUtils.populate(job, profile);
       job.proposal!.contract!.jsonTerms = populatedJsonTerms;
     }

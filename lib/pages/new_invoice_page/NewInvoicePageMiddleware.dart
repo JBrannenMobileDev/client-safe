@@ -173,8 +173,8 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     List<Client> allClients = await ClientDao.getAllSortedByFirstName();
     int newInvoiceNumber = await NextInvoiceNumberDao.nextNumber();
-    List<Job> allJobs = await JobDao.getAllJobs();
-    allJobs = allJobs.where((job) => job.invoice == null).toList();
+    List<Job>? allJobs = await JobDao.getAllJobs();
+    allJobs = allJobs!.where((job) => job.invoice == null).toList();
     await store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, allJobs, allClients, newInvoiceNumber, profile!.salesTaxRate!));
 
     (await JobDao.getJobsStream()).listen((jobSnapshots) async {

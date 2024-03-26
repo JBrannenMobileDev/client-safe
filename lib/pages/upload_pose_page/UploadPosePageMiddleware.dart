@@ -37,7 +37,7 @@ class UploadPosePageMiddleware extends MiddlewareClass<AppState> {
     final Directory appDocumentDirectory = await getApplicationDocumentsDirectory();
     final String uniqueFileName = Uuid().generateV4();
     final cmdLarge = img.Command()
-      ..decodeImageFile(action.image.path)
+      ..decodeImageFile(action.image!.path)
       ..copyResize(width: 2040)
       ..writeToFile(appDocumentDirectory.path + '/$uniqueFileName' + '500.jpg');
     await cmdLarge.execute();
@@ -46,15 +46,15 @@ class UploadPosePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _setInstagramName(Store<AppState> store, SetInstagramNameAction action, NextDispatcher next) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    if(profile.instagramName.isNotEmpty) {
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(profile!.instagramName!.isNotEmpty) {
       next(SetInstagramNameAction(store.state.uploadPosePageState, profile.instagramName));
     }
   }
 
   void _createAndSavePoses(Store<AppState> store, SubmitUploadedPoseAction action) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.instagramName = action.name;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.instagramName = action.name;
     await ProfileDao.update(profile);
 
     Pose newPose = Pose();
@@ -62,26 +62,26 @@ class UploadPosePageMiddleware extends MiddlewareClass<AppState> {
     newPose.reviewStatus = Pose.STATUS_SUBMITTED;
     newPose.categories = getCategoryList(action);
     newPose.instagramName = action.name;
-    newPose.instagramUrl = "https://www.instagram.com/${action.name.replaceAll('@', '')}/";
+    newPose.instagramUrl = "https://www.instagram.com/${action.name!.replaceAll('@', '')}/";
     newPose.tags = action.tags;
     newPose.prompt = action.prompt;
     newPose = await PoseDao.insertOrUpdate(newPose);
     newPose.createDate = DateTime.now();
-    await FileStorage.saveSubmittedPoseImageFile(action.poseImage500.path, newPose);
-    await PoseSubmittedGroupDao.addNewSubmission(newPose);
+    await FileStorage.saveSubmittedPoseImageFile(action.poseImage500!.path, newPose);
+    PoseSubmittedGroupDao.addNewSubmission(newPose);
   }
 
   List<String> getCategoryList(SubmitUploadedPoseAction action) {
     List<String> categories = [];
-    if(action.petsSelected) categories.add(UploadPosePage.PETS);
-    if(action.proposalsSelected) categories.add(UploadPosePage.PROPOSALS);
-    if(action.newbornSelected) categories.add(UploadPosePage.NEWBORN);
-    if(action.weddingsSelected) categories.add(UploadPosePage.WEDDINGS);
-    if(action.maternitySelected) categories.add(UploadPosePage.MATERNITY);
-    if(action.portraitsSelected) categories.add(UploadPosePage.PORTRAITS);
-    if(action.couplesSelected) categories.add(UploadPosePage.COUPLES);
-    if(action.familiesSelected) categories.add(UploadPosePage.FAMILIES);
-    if(action.engagementsSelected) categories.add(UploadPosePage.ENGAGEMENT);
+    if(action.petsSelected!) categories.add(UploadPosePage.PETS);
+    if(action.proposalsSelected!) categories.add(UploadPosePage.PROPOSALS);
+    if(action.newbornSelected!) categories.add(UploadPosePage.NEWBORN);
+    if(action.weddingsSelected!) categories.add(UploadPosePage.WEDDINGS);
+    if(action.maternitySelected!) categories.add(UploadPosePage.MATERNITY);
+    if(action.portraitsSelected!) categories.add(UploadPosePage.PORTRAITS);
+    if(action.couplesSelected!) categories.add(UploadPosePage.COUPLES);
+    if(action.familiesSelected!) categories.add(UploadPosePage.FAMILIES);
+    if(action.engagementsSelected!) categories.add(UploadPosePage.ENGAGEMENT);
     return categories;
   }
 }

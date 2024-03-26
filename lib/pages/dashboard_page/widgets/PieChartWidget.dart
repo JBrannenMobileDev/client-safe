@@ -54,7 +54,7 @@ class PieChartState extends State<PieChartWidget> {
       alignment: Alignment.topCenter,
       height: 224.0,
       margin: const EdgeInsets.only(top: 0.0),
-      child: chartData != null && chartData.isNotEmpty ? PieChart(
+      child: chartData.isNotEmpty ? PieChart(
         PieChartData(
           pieTouchData: PieTouchData(
             touchCallback: (FlTouchEvent event, pieTouchResponse) {

@@ -50,7 +50,7 @@ import '../pages/share_with_client_page/ShareWithClientPage.dart';
 
 class NavigationUtil {
   static onShowSubscribeNowPage(BuildContext context) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => SubscribeNowPage(profile: profile,)));
   }
   static onClientTapped(BuildContext context) {

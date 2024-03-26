@@ -45,7 +45,7 @@ class TextFormatterUtil {
     return DateFormat('MMM dd, yyyy').format(date);
   }
 
-  static String formatPhoneOrEmail(String textToFormat) {
+  static String formatPhoneOrEmail(String? textToFormat) {
     if(textToFormat == null) return "";
     String numsOnly = textToFormat.replaceAll(RegExp('[^0-9]+'), "");
     bool isPhone = numsOnly.length == 10 || numsOnly.length == 11;
@@ -64,7 +64,7 @@ class TextFormatterUtil {
     return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(input);
   }
 
-  static String formatPhoneNum(String phoneToFormat) {
+  static String formatPhoneNum(String? phoneToFormat) {
     if(phoneToFormat == null) return "";
     String resultNum = "";
     String numsOnly = phoneToFormat.replaceAll(RegExp('[^0-9]+'), "");

@@ -83,7 +83,7 @@ class ClientListWidget extends StatelessWidget {
     if(Client.isOldSource(resultLeadSource)) {
       resultLeadSource = Client.mapOldLeadSourceToNew(resultLeadSource);
     }
-    textToDisplay = "Lead source:  " + (client.customLeadSourceName! != null && client.customLeadSourceName!.isNotEmpty ? client.customLeadSourceName! : resultLeadSource);
+    textToDisplay = "Lead source:  " + (client.customLeadSourceName != null && client.customLeadSourceName!.isNotEmpty ? client.customLeadSourceName! : resultLeadSource);
     return textToDisplay;
   }
 

@@ -9,14 +9,14 @@ import 'package:meta/meta.dart';
 class WeatherApiClient {
   final _baseUrl = 'https://api.weatherapi.com/v1';
 
-  final http.Client httpClient;
+  final http.Client? httpClient;
   WeatherApiClient({
     required this.httpClient,
   }) : assert(httpClient != null);
 
   Future<CurrentWeather> fetchCurrentWeather(double lat, double lon) async {
     final url = '$_baseUrl/current?access_key=' + WEATHER_ACCESS_KEY +  '&query=' + lat.toString() + ',' + lon.toString() + '&units=f';
-    final response = await this.httpClient.get(Uri.parse(url));
+    final response = await this.httpClient!.get(Uri.parse(url));
 
     if (response.statusCode != 200) {
       throw new Exception('error getting quotes');
@@ -35,7 +35,7 @@ class WeatherApiClient {
         + '&days=7'
         + '&aqi=no'
         + '&alerts=no';
-    final response = await this.httpClient.get(Uri.parse(url));
+    final response = await this.httpClient!.get(Uri.parse(url));
 
     if (response.statusCode != 200) {
       throw new Exception('error getting quotes : ' + response.statusCode.toString());

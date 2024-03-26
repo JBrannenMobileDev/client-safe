@@ -281,7 +281,7 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
   }
 
   for(Job job in jobsWithOnlyDepositReceived) {
-    DateTime depositReceivedDate = job.depositReceivedDate!;
+    DateTime? depositReceivedDate = job.depositReceivedDate;
 
     if(depositReceivedDate != null && depositReceivedDate.year == currentYear) {
       int depositMonth = depositReceivedDate.month;
@@ -313,7 +313,7 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
   }
 
   for(Job job in jobsWithPaymentReceived) {
-    DateTime paymentReceivedDate = job.paymentReceivedDate ?? job.selectedDate!;
+    DateTime? paymentReceivedDate = job.paymentReceivedDate ?? job.selectedDate;
 
     if(paymentReceivedDate != null && paymentReceivedDate.year == currentYear) {
       int jobMonth = paymentReceivedDate.month;
@@ -417,7 +417,7 @@ DashboardPageState _setClients(DashboardPageState previousState, SetClientsDashb
     } else {
       newLeadSource = client.leadSource!;
     }
-    groupedList.putIfAbsent(client.customLeadSourceName != null && client!.customLeadSourceName!.isNotEmpty ? client.customLeadSourceName! : newLeadSource, () => <Client>[]).add(client);
+    groupedList.putIfAbsent(client.customLeadSourceName != null && client.customLeadSourceName!.isNotEmpty ? client.customLeadSourceName! : newLeadSource, () => <Client>[]).add(client);
   }
 
   var seen = Set<String>();

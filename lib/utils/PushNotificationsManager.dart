@@ -47,7 +47,7 @@ class PushNotificationsManager {
   Future<Map<String, dynamic>> sendNotification(JobReminder reminder, String jobName) async {
     await _firebaseMessaging.requestPermission();
 
-    for(String deviceId in (await ProfileDao.getAll()).elementAt(0).deviceTokens!) {
+    for(String deviceId in (await ProfileDao.getAll())!.elementAt(0).deviceTokens!) {
       await http.post(
         Uri.parse('https://fcm.googleapis.com/fcm/send'),
         headers: <String, String>{

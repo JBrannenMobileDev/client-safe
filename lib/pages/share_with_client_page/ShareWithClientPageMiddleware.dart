@@ -97,7 +97,7 @@ class ShareWithClientPageMiddleware extends MiddlewareClass<AppState> {
     Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     next(SetProfileShareWIthClientAction(store.state.shareWithClientPageState, profile));
 
-    List<Job> jobs = (await JobDao.getAllJobs()).where((job) => job.proposal != null && job.proposal!.detailsMessage != null && job.proposal!.detailsMessage!.isNotEmpty).toList();
+    List<Job> jobs = (await JobDao.getAllJobs())!.where((job) => job.proposal != null && job.proposal!.detailsMessage != null && job.proposal!.detailsMessage!.isNotEmpty).toList();
     store.dispatch(SetAllJobsAction(store.state.shareWithClientPageState, jobs));
   }
 }

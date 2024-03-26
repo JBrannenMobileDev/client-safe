@@ -43,7 +43,7 @@ class AppSettingsCollection {
         });
   }
 
-  Future<List<AppSettings>> getAll(String uid) async {
+  Future<List<AppSettings>?> getAll(String uid) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('env')

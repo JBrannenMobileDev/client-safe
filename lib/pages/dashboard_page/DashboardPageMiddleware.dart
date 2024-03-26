@@ -98,11 +98,11 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _checkAndCreateMileageTrips(Store<AppState> store, LoadJobsAction action, NextDispatcher next) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    List<Job> jobsThatNeedMileageTripAdded = (await JobDao.getAllJobs()).where((job) => job.isMissingMileageTrip()).toList();
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    List<Job> jobsThatNeedMileageTripAdded = (await JobDao.getAllJobs())!.where((job) => job.isMissingMileageTrip()).toList();
 
     for(Job job in jobsThatNeedMileageTripAdded) {
-      if(profile.latDefaultHome != 0 && profile.lngDefaultHome != 0){
+      if(profile!.latDefaultHome != 0 && profile.lngDefaultHome != 0){
         LatLng start = LatLng(profile.latDefaultHome!, profile.lngDefaultHome!);
         LatLng end = LatLng(job.location!.latitude!, job.location!.longitude!);
         double milesDriven = await GoogleApiClient(httpClient: http.Client()).getTravelDistance(start, end);
@@ -136,24 +136,24 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _setUpdateLastSeenTime(Store<AppState> store, SetUpdateSeenTimestampAction action) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.updateLastSeenDate = action.lastSeenDate;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.updateLastSeenDate = action.lastSeenDate;
     await ProfileDao.update(profile);
     store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
     store.dispatch(SetShouldShowUpdateAction(store.state.dashboardPageState, false, (await AppSettingsDao.getAll())?.first));
   }
 
   Future<void> _updateCanShowPMF(Store<AppState> store, UpdateCanShowPMFSurveyAction action, NextDispatcher next) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.canShowPMFSurvey = action.canShow;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.canShowPMFSurvey = action.canShow;
     profile.requestPMFSurveyDate = action.lastSeenDate;
     await ProfileDao.update(profile);
     store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
   }
 
   Future<void> _updateCanShowReviewRequest(Store<AppState> store, UpdateCanShowRequestReviewAction action, NextDispatcher next) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.canShowAppReview = action.canShow;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.canShowAppReview = action.canShow;
     profile.requestReviewDate = action.lastSeenDate;
     await ProfileDao.update(profile);
     store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
@@ -162,14 +162,14 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   void _checkForUpdate(Store<AppState> store, CheckForAppUpdateAction action) async {
     List<AppSettings>? settingsList = (await AppSettingsDao.getAll());
     AppSettings? settings = settingsList != null && settingsList.isNotEmpty ? settingsList.first : null;
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     if(settings != null) {
       if(settings.show!) {
         PackageInfo packageInfo = await PackageInfo.fromPlatform();
         Version currentVersion = Version.parse(packageInfo.version);
         Version latestVersion = Version.parse(settings.currentBuildVersionNumber!);
 
-        if (latestVersion > currentVersion && (profile.updateLastSeenDate == null || (profile.updateLastSeenDate != null && hasBeenLongEnoughSinceLastRequest(profile.updateLastSeenDate!, 1)))) {
+        if (latestVersion > currentVersion && (profile!.updateLastSeenDate == null || (profile.updateLastSeenDate != null && hasBeenLongEnoughSinceLastRequest(profile.updateLastSeenDate, 1)))) {
           store.dispatch(SetShouldShowUpdateAction(store.state.dashboardPageState, true, settings));
         } else {
           store.dispatch(SetShouldShowUpdateAction(store.state.dashboardPageState, false, settings));
@@ -187,8 +187,8 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _checkForReviewRequest(Store<AppState> store, CheckForReviewRequestAction action, NextDispatcher next) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    if(profile.isSubscribed! && profile.jobsCreatedCount! > 2 && profile.canShowAppReview! && hasBeenLongEnoughSinceLastRequest(profile.requestReviewDate!, 7)) {
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(profile!.isSubscribed! && profile.jobsCreatedCount! > 2 && profile.canShowAppReview! && hasBeenLongEnoughSinceLastRequest(profile.requestReviewDate, 7)) {
       next(SetShouldAppReview(store.state.dashboardPageState, true));
     } else {
       next(SetShouldAppReview(store.state.dashboardPageState, false));
@@ -196,8 +196,8 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _checkForPMFSurvey(Store<AppState> store, CheckForPMFSurveyAction action, NextDispatcher next) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    if(profile.isSubscribed! && profile.jobsCreatedCount! > 8 && profile.canShowPMFSurvey! && hasBeenLongEnoughSinceLastRequest(profile.requestPMFSurveyDate!, 7)) {
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(profile!.isSubscribed! && profile.jobsCreatedCount! > 8 && profile.canShowPMFSurvey! && hasBeenLongEnoughSinceLastRequest(profile.requestPMFSurveyDate, 7)) {
       next(SetShouldShowPMF(store.state.dashboardPageState, true));
     } else {
       next(SetShouldShowPMF(store.state.dashboardPageState, false));
@@ -205,9 +205,9 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _checkForGoToJob(Store<AppState> store, CheckForGoToJobAction action) async {
-    List<Job> allJobs = await JobDao.getAllJobs();
+    List<Job>? allJobs = await JobDao.getAllJobs();
     DateTime now = DateTime.now();
-    for(Job job in allJobs) {
+    for(Job job in allJobs!) {
       if(job.selectedTime != null && job.selectedEndTime != null) {
         DateTime startTime = job.selectedTime!.copyWith(year: job.selectedDate!.year, month: job.selectedDate!.month, day: job.selectedDate!.day);
         startTime.add(const Duration(hours: -1));
@@ -230,18 +230,18 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _updateProfileWithSeenRestorePurchases(Store<AppState> store, UpdateProfileRestorePurchasesSeen action) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.shouldShowRestoreSubscription = false;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.shouldShowRestoreSubscription = false;
     ProfileDao.update(profile);
   }
 
   Future<void> _fetchSubscriptionState(Store<AppState> store, NextDispatcher next) async {
     purchases.CustomerInfo? subscriptionState = await _getSubscriptionState();
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     if ((subscriptionState!.entitlements.all["standard"] != null && subscriptionState.entitlements.all["standard"]!.isActive) || (subscriptionState.entitlements.all["standard_1699"] != null && subscriptionState.entitlements.all["standard_1699"]!.isActive)) {
-      profile.isSubscribed = true;
+      profile!.isSubscribed = true;
     } else {
-      profile.isSubscribed = false;
+      profile!.isSubscribed = false;
     }
     ProfileDao.update(profile);
 
@@ -258,8 +258,8 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _updateProfileWithShowcaseSeen(Store<AppState> store, UpdateProfileWithShowcaseSeen action, NextDispatcher next) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.hasSeenShowcase = true;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.hasSeenShowcase = true;
     await ProfileDao.update(profile);
     store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
   }
@@ -348,17 +348,17 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _loadAllJobs(Store<AppState> store) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
 
-    List<Job> allJobs = await JobDao.getAllJobs();
-    for (var job in allJobs) {
+    List<Job>? allJobs = await JobDao.getAllJobs();
+    for (var job in allJobs!) {
       job.paymentReceivedDate = job.createdDate;
       JobDao.update(job);
     }
     allJobs = await JobDao.getAllJobs();
 
-    List<JobType> allJobTypes = await JobTypeDao.getAll();
+    List<JobType>? allJobTypes = await JobTypeDao.getAll();
     List<SingleExpense> singleExpenses = await SingleExpenseDao.getAll();
     List<MileageExpense> mileageExpenses = await MileageExpenseDao.getAll();
     List<RecurringExpense> recurringExpenses = await RecurringExpenseDao.getAll();
@@ -383,7 +383,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       }
 
       if(newProfile != null) {
-        if(profile.logoUrl != newProfile.logoUrl) {
+        if(profile!.logoUrl != newProfile.logoUrl) {
           store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, newProfile));
         }
       }
@@ -430,7 +430,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _loadClients(Store<AppState> store, action, NextDispatcher next) async {
-    List<Client> clients = await ClientDao.getAll();
+    List<Client>? clients = await ClientDao.getAll();
     store.dispatch(SetClientsDashboardAction(store.state.dashboardPageState, clients));
 
     (await ClientDao.getClientsStream()).listen((clientSnapshots) {
@@ -452,7 +452,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     return currentInfo;
   }
 
-  bool hasBeenLongEnoughSinceLastRequest(DateTime lastRequestDate, int minTimeDays) {
+  bool hasBeenLongEnoughSinceLastRequest(DateTime? lastRequestDate, int minTimeDays) {
     final DateTime now = DateTime.now();
     final oneWeekAgo = now.subtract(Duration(days: minTimeDays));
     return lastRequestDate != null ? lastRequestDate.isBefore(oneWeekAgo) : true;

@@ -5,6 +5,8 @@ import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart' as sembast;
 import 'package:uuid/uuid.dart';
+import 'package:collection/collection.dart';
+
 
 import '../../../models/AppSettings.dart';
 import '../../firebase/collections/AppSettingsCollection.dart';
@@ -32,9 +34,9 @@ class AppSettingsDao extends Equatable{
   }
 
   static Future<AppSettings> insertOrUpdate(AppSettings contract) async {
-    List<AppSettings> contractList = await getAll();
+    List<AppSettings>? contractList = await getAll();
     bool alreadyExists = false;
-    for(AppSettings singleAppSettings in contractList){
+    for(AppSettings singleAppSettings in contractList!){
       if(singleAppSettings.documentId == contract.documentId){
         alreadyExists = true;
       }
@@ -47,7 +49,7 @@ class AppSettingsDao extends Equatable{
   }
 
   static Future<AppSettings?> getById(String contractDocumentId) async{
-    if((await getAll()).length > 0) {
+    if((await getAll())!.isNotEmpty) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', contractDocumentId));
       final recordSnapshots = await _appSettingsStore.find(await _db, finder: finder);
       // Making a List<profileId> out of List<RecordSnapshot>
@@ -92,14 +94,14 @@ class AppSettingsDao extends Equatable{
 
   static Future delete(String? documentId) async {
     final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
-    int countOfUpdatedItems = await _appSettingsStore.delete(
+    await _appSettingsStore.delete(
       await _db,
       finder: finder,
     );
     await AppSettingsCollection().delete(documentId);
   }
 
-  static Future<List<AppSettings>> getAll() async {
+  static Future<List<AppSettings>?> getAll() async {
     final recordSnapshots = await _appSettingsStore.find(await _db);
 
     // Making a List<Client> out of List<RecordSnapshot>
@@ -111,11 +113,11 @@ class AppSettingsDao extends Equatable{
   }
 
   static Future<void> syncAllFromFireStore() async {
-    List<AppSettings> allLocalAppSettingss = await getAll();
-    List<AppSettings> allFireStoreAppSettingss = await AppSettingsCollection().getAll(UidUtil().getUid());
+    List<AppSettings>? allLocalAppSettingss = await getAll();
+    List<AppSettings>? allFireStoreAppSettingss = await AppSettingsCollection().getAll(UidUtil().getUid());
 
-    if(allLocalAppSettingss != null && allLocalAppSettingss.length > 0) {
-      if(allFireStoreAppSettingss != null && allFireStoreAppSettingss.length > 0) {
+    if(allLocalAppSettingss != null && allLocalAppSettingss.isNotEmpty) {
+      if(allFireStoreAppSettingss != null && allFireStoreAppSettingss.isNotEmpty) {
         //both local and fireStore have AppSettingss
         //fireStore is source of truth for this sync.
         await _syncFireStoreToLocal(allLocalAppSettingss, allFireStoreAppSettingss);
@@ -124,7 +126,7 @@ class AppSettingsDao extends Equatable{
         _deleteAllLocalAppSettingss(allLocalAppSettingss);
       }
     } else {
-      if(allFireStoreAppSettingss != null && allFireStoreAppSettingss.length > 0){
+      if(allFireStoreAppSettingss != null && allFireStoreAppSettingss.isNotEmpty){
         //no local AppSettingss but there are fireStore AppSettingss.
         await _copyAllFireStoreAppSettingssToLocal(allFireStoreAppSettingss);
       } else {
@@ -153,7 +155,7 @@ class AppSettingsDao extends Equatable{
     for(AppSettings localAppSettings in allLocalAppSettingss) {
       //should only be 1 matching
       List<AppSettings> matchingFireStoreAppSettingss = allFireStoreAppSettingss.where((fireStoreAppSettings) => localAppSettings.documentId == fireStoreAppSettings.documentId).toList();
-      if(matchingFireStoreAppSettingss !=  null && matchingFireStoreAppSettingss.length > 0) {
+      if(matchingFireStoreAppSettingss.isNotEmpty) {
         AppSettings fireStoreAppSettings = matchingFireStoreAppSettingss.elementAt(0);
         final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStoreAppSettings.documentId));
         await _appSettingsStore.update(
@@ -173,7 +175,7 @@ class AppSettingsDao extends Equatable{
 
     for(AppSettings fireStoreAppSettings in allFireStoreAppSettingss) {
       List<AppSettings> matchingLocalAppSettingss = allLocalAppSettingss.where((localAppSettings) => localAppSettings.documentId == fireStoreAppSettings.documentId).toList();
-      if(matchingLocalAppSettingss != null && matchingLocalAppSettingss.length > 0) {
+      if(matchingLocalAppSettingss.isNotEmpty) {
         //do nothing. AppSettings already synced.
       } else {
         //add to local. does not exist in local and has not been synced yet.
@@ -188,13 +190,13 @@ class AppSettingsDao extends Equatable{
   List<Object> get props => [];
 
   static void deleteAllLocal() async {
-    List<AppSettings> contracts = await getAll();
-    _deleteAllLocalAppSettingss(contracts);
+    List<AppSettings>? contracts = await getAll();
+    _deleteAllLocalAppSettingss(contracts!);
   }
 
   static void deleteAllRemote() async {
-    List<AppSettings> contracts = await getAll();
-    for(AppSettings contract in contracts) {
+    List<AppSettings>? contracts = await getAll();
+    for(AppSettings contract in contracts!) {
       await delete(contract.documentId);
     }
   }

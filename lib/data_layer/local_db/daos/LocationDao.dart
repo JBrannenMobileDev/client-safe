@@ -36,15 +36,15 @@ class LocationDao extends Equatable{
   }
 
   static Future<void> _updateLastChangedTime() async {
-    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    Profile profile = (await ProfileDao.getAll())!.elementAt(0);
     profile.locationsLastChangeDate = DateTime.now();
     ProfileDao.update(profile);
   }
 
   static Future<LocationDandy> insertOrUpdate(LocationDandy location) async {
-    List<LocationDandy> locationList = await getAllSortedMostFrequent();
+    List<LocationDandy>? locationList = await getAllSortedMostFrequent();
     bool alreadyExists = false;
-    for(LocationDandy singleLocation in locationList){
+    for(LocationDandy singleLocation in locationList!){
       if(singleLocation.documentId == location.documentId){
         alreadyExists = true;
       }
@@ -57,7 +57,7 @@ class LocationDao extends Equatable{
   }
 
   static Future<LocationDandy?> getById(String locationDocumentId) async{
-    if((await getAllSortedMostFrequent()).length > 0) {
+    if((await getAllSortedMostFrequent())!.length > 0) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', locationDocumentId));
       final recordSnapshots = await _locationStore.find(await _db, finder: finder);
       // Making a List<profileId> out of List<RecordSnapshot>
@@ -117,12 +117,12 @@ class LocationDao extends Equatable{
       finder: finder,
     );
     await LocationCollection().deleteJob(documentId);
-    FileStorage.deleteLocationFileImage((await getById(documentId))!);
+    FileStorage.deleteLocationFileImage((await getById(documentId)));
     _updateLastChangedTime();
 
   }
 
-  static Future<List<LocationDandy>> getAllSortedMostFrequent() async {
+  static Future<List<LocationDandy>?> getAllSortedMostFrequent() async {
     final finder = sembast.Finder(sortOrders: [
       sembast.SortOrder('numOfSessionsAtThisLocation'),
     ]);
@@ -140,8 +140,8 @@ class LocationDao extends Equatable{
   }
 
   static Future<void> syncAllFromFireStore() async {
-    List<LocationDandy> allLocalLocations = await getAllSortedMostFrequent();
-    List<LocationDandy> allFireStoreLocations = await LocationCollection().getAll(UidUtil().getUid());
+    List<LocationDandy>? allLocalLocations = await getAllSortedMostFrequent();
+    List<LocationDandy>? allFireStoreLocations = await LocationCollection().getAll(UidUtil().getUid());
 
     if(allLocalLocations != null && allLocalLocations.length > 0) {
       if(allFireStoreLocations != null && allFireStoreLocations.length > 0) {
@@ -182,7 +182,7 @@ class LocationDao extends Equatable{
     for(LocationDandy localLocation in allLocalLocations) {
       //should only be 1 matching
       List<LocationDandy> matchingFireStoreLocations = allFireStoreLocations.where((fireStoreLocation) => localLocation.documentId == fireStoreLocation.documentId).toList();
-      if(matchingFireStoreLocations !=  null && matchingFireStoreLocations.length > 0) {
+      if(matchingFireStoreLocations.length > 0) {
         LocationDandy fireStoreLocation = matchingFireStoreLocations.elementAt(0);
         final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStoreLocation.documentId));
         await _locationStore.update(
@@ -202,7 +202,7 @@ class LocationDao extends Equatable{
 
     for(LocationDandy fireStoreLocation in allFireStoreLocations) {
       List<LocationDandy> matchingLocalLocations = allLocalLocations.where((localLocation) => localLocation.documentId == fireStoreLocation.documentId).toList();
-      if(matchingLocalLocations != null && matchingLocalLocations.length > 0) {
+      if(matchingLocalLocations.length > 0) {
         //do nothing. Location already synced.
       } else {
         //add to local. does not exist in local and has not been synced yet.
@@ -217,13 +217,13 @@ class LocationDao extends Equatable{
   List<Object> get props => [];
 
   static void deleteAllLocal() async {
-    List<LocationDandy> locations = await getAllSortedMostFrequent();
-    _deleteAllLocalLocations(locations);
+    List<LocationDandy>? locations = await getAllSortedMostFrequent();
+    _deleteAllLocalLocations(locations!);
   }
 
   static void deleteAllRemote() async {
-    List<LocationDandy> locations = await getAllSortedMostFrequent();
-    for(LocationDandy location in locations) {
+    List<LocationDandy>? locations = await getAllSortedMostFrequent();
+    for(LocationDandy location in locations!) {
       await delete(location.documentId!);
     }
   }

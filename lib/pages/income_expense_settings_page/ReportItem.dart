@@ -39,7 +39,7 @@ class ReportItem extends StatelessWidget{
           borderRadius: BorderRadius.circular(32),
           color: Color(ColorConstants.getPeachDark())
         ),
-        padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
+        margin: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

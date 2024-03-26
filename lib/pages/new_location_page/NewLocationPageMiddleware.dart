@@ -57,7 +57,7 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchLocations(Store<AppState> store, NextDispatcher next) async{
-    List<LocationDandy> locations = await LocationDao.getAllSortedMostFrequent();
+    List<LocationDandy>? locations = await LocationDao.getAllSortedMostFrequent();
     next(SetLocationsAction(store.state.newLocationPageState, locations));
 
     (await LocationDao.getLocationsStream()).listen((locationSnapshots) {

@@ -85,7 +85,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchJobTypeAndSetSelected(Store<AppState> store, UpdateWithNewJobTypeAction action, NextDispatcher next) async {
-    List<JobType> jobTypes = await JobTypeDao.getAll();
+    List<JobType>? jobTypes = await JobTypeDao.getAll();
     store.dispatch(SetJobTypeAndSelectedAction(store.state.newJobPageState, action.jobType, jobTypes));
   }
 
@@ -102,7 +102,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       monthToUse = store.state.jobDetailsPageState!.selectedDate!;
     }
 
-    if((await UserPermissionsUtil.getPermissionStatus(Permission.calendar)).isGranted) {
+    if((await UserPermissionsUtil.getPermissionStatus(Permission.calendarFullAccess)).isGranted) {
       DateTime startDate = DateTime(monthToUse.year, monthToUse.month - 1, 1);
       DateTime endDate = DateTime(monthToUse.year, monthToUse.month + 1, 1);
 
@@ -123,12 +123,12 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
   void _loadAll(Store<AppState> store, action, NextDispatcher next) async {
     List<PriceProfile> allPriceProfiles = await PriceProfileDao.getAllSortedByName();
     List<Client> allClients = await ClientDao.getAllSortedByFirstName();
-    List<LocationDandy> allLocations = await LocationDao.getAllSortedMostFrequent();
-    List<Job> upcomingJobs = await JobDao.getAllJobs();
-    List<JobType> jobTypes = await JobTypeDao.getAll();
+    List<LocationDandy>? allLocations = await LocationDao.getAllSortedMostFrequent();
+    List<Job>? upcomingJobs = await JobDao.getAllJobs();
+    List<JobType>? jobTypes = await JobTypeDao.getAll();
     List<File?>? imageFiles = [];
 
-    for(LocationDandy location in allLocations) {
+    for(LocationDandy location in allLocations!) {
       try{
         imageFiles.add(await FileStorage.getLocationImageFile(location));
       } on Exception {
@@ -246,7 +246,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
 
   void _createJobReminders(Store<AppState> store, Client jobClient) async {
     List<JobReminder> jobReminders = [];
-    List<Job> jobs = await JobDao.getAllJobs();
+    List<Job>? jobs = await JobDao.getAllJobs();
     Job? thisJob;
     String clientName = jobClient.firstName! + " " + jobClient.lastName!;
     String jobTitle = '';
@@ -257,7 +257,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     }
     DateTime selectedDate = store.state.newJobPageState!.selectedDate!;
 
-    for (Job job in jobs) {
+    for (Job job in jobs!) {
       if (job.clientName == clientName && job.jobTitle == jobTitle &&
           job.selectedDate == selectedDate) {
         thisJob = job;

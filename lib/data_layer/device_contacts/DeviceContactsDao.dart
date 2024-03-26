@@ -29,7 +29,7 @@ class DeviceContactsDao {
       for(Item phoneItem in contact.phones!){
         String contactPhone = phoneItem.value ?? "";
         for(Client client in clients){
-          String clientPhone = client.phone;
+          String clientPhone = client.phone!;
           contactPhone = TextFormatterUtil.formatPhoneNum(contactPhone);
           clientPhone = TextFormatterUtil.formatPhoneNum(clientPhone);
           if(contactPhone == clientPhone) return true;

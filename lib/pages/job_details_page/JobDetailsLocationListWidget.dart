@@ -33,7 +33,7 @@ class JobDetailsLocationListWidget extends StatelessWidget {
             child: DandyLightNetworkImage(
               pageState.locations!.elementAt(locationIndex!).imageUrl!,
               errorType:
-              pageState.locations!.elementAt(locationIndex!).imageUrl! !=
+              pageState.locations!.elementAt(locationIndex!).imageUrl !=
                   null &&
                   pageState.locations!
                       .elementAt(locationIndex!)

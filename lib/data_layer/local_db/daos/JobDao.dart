@@ -40,15 +40,15 @@ class JobDao extends Equatable{
   }
 
   static Future<void> _updateProfileJobCount() async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.jobsCreatedCount = profile.jobsCreatedCount! + 1;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.jobsCreatedCount = profile.jobsCreatedCount! + 1;
     ProfileDao.update(profile);
-    EventSender().setUserProfileData(EventNames.JOB_COUNT, profile.jobsCreatedCount!);
+    EventSender().setUserProfileData(EventNames.JOB_COUNT, profile.jobsCreatedCount);
   }
 
   static Future<void> _updateLastChangedTime() async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.jobsLastChangeDate = DateTime.now();
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.jobsLastChangeDate = DateTime.now();
     ProfileDao.update(profile);
   }
 
@@ -58,9 +58,9 @@ class JobDao extends Equatable{
   }
 
   static Future insertOrUpdate(Job job) async {
-    List<Job> jobList = await getAllJobs();
+    List<Job>? jobList = await getAllJobs();
     bool alreadyExists = false;
-    for(Job singleJob in jobList){
+    for(Job singleJob in jobList!){
       if(singleJob.documentId == job.documentId){
         alreadyExists = true;
       }
@@ -125,7 +125,7 @@ class JobDao extends Equatable{
     JobReminderDao.deleteAllWithJobDocumentId(job.documentId);
   }
 
-   static Future<List<Job>> getAllJobs() async {
+   static Future<List<Job>?> getAllJobs() async {
     final recordSnapshots = await _jobStore.find(await _db);
     return recordSnapshots.map((snapshot) {
       final job = Job.fromMap(snapshot.value);
@@ -139,7 +139,7 @@ class JobDao extends Equatable{
   List<Object> get props => [];
 
   static Future<Job?> getJobById(String? jobDocumentId) async{
-    if((await getAllJobs()).length > 0) {
+    if((await getAllJobs())!.isNotEmpty) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', jobDocumentId));
       final recordSnapshots = await _jobStore.find(await _db, finder: finder);
       List<Job> jobs = recordSnapshots.map((snapshot) {
@@ -167,11 +167,11 @@ class JobDao extends Equatable{
   }
 
   static Future<void> syncAllFromFireStore() async {
-    List<Job> allLocalJobs = await getAllJobs();
-    List<Job> allFireStoreJobs = await JobCollection().getAll(UidUtil().getUid());
+    List<Job>? allLocalJobs = await getAllJobs();
+    List<Job>? allFireStoreJobs = await JobCollection().getAll(UidUtil().getUid());
 
-    if(allLocalJobs != null && allLocalJobs.length > 0) {
-      if(allFireStoreJobs != null && allFireStoreJobs.length > 0) {
+    if(allLocalJobs != null && allLocalJobs.isNotEmpty) {
+      if(allFireStoreJobs != null && allFireStoreJobs.isNotEmpty) {
         //both local and fireStore have Jobs
         //fireStore is source of truth for this sync.
         await _syncFireStoreToLocal(allLocalJobs, allFireStoreJobs);
@@ -180,7 +180,7 @@ class JobDao extends Equatable{
         _deleteAllLocalJobs(allLocalJobs);
       }
     } else {
-      if(allFireStoreJobs != null && allFireStoreJobs.length > 0){
+      if(allFireStoreJobs != null && allFireStoreJobs.isNotEmpty){
         //no local Jobs but there are fireStore Jobs.
         await _copyAllFireStoreJobsToLocal(allFireStoreJobs);
       } else {
@@ -209,7 +209,7 @@ class JobDao extends Equatable{
     for(Job localJob in allLocalJobs) {
       //should only be 1 matching
       List<Job> matchingFireStoreJobs = allFireStoreJobs.where((fireStoreJob) => localJob.documentId == fireStoreJob.documentId).toList();
-      if(matchingFireStoreJobs !=  null && matchingFireStoreJobs.length > 0) {
+      if(matchingFireStoreJobs.isNotEmpty) {
         Job fireStoreJob = matchingFireStoreJobs.elementAt(0);
         final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStoreJob.documentId));
         await _jobStore.update(
@@ -229,7 +229,7 @@ class JobDao extends Equatable{
 
     for(Job fireStoreJob in allFireStoreJobs) {
       List<Job> matchingLocalJobs = allLocalJobs.where((localJob) => localJob.documentId == fireStoreJob.documentId).toList();
-      if(matchingLocalJobs != null && matchingLocalJobs.length > 0) {
+      if(matchingLocalJobs.isNotEmpty) {
         //do nothing. Job already synced.
       } else {
         //add to local. does not exist in local and has not been synced yet.
@@ -240,13 +240,13 @@ class JobDao extends Equatable{
   }
 
   static void deleteAllLocal() async {
-    List<Job> jobs = await getAllJobs();
-    _deleteAllLocalJobs(jobs);
+    List<Job>? jobs = await getAllJobs();
+    _deleteAllLocalJobs(jobs!);
   }
 
   static getJobBycreatedDate(DateTime createdDate) async {
-    List<Job> allJobs = await getAllJobs();
-    for(Job job in allJobs){
+    List<Job>? allJobs = await getAllJobs();
+    for(Job job in allJobs!){
       if(job.createdDate!.millisecondsSinceEpoch == createdDate.millisecondsSinceEpoch) return job;
     }
     return null;

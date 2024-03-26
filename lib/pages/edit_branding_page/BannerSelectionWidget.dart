@@ -230,20 +230,18 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
   Future getDeviceImage(EditBrandingPageState pageState) async {
     try {
       XFile? localImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-      XFile? localWebImage = XFile((await CropImageForWeb(localImage!.path))!.path);
-      XFile? localMobileImage = XFile((await CropImageForMobile(localImage.path))!.path);
+      if(localImage != null) {
+        XFile localWebImage = XFile((await CropImageForWeb(localImage.path))!.path);
+        XFile localMobileImage = XFile((await CropImageForMobile(localImage.path))!.path);
 
-      if(localWebImage != null && localMobileImage != null && localImage != null) {
         pageState.onBannerWebUploaded!(localWebImage);
         pageState.onBannerMobileUploaded!(localMobileImage);
         pageState.onBannerUploaded!(localImage);
         EventSender().sendEvent(eventName: EventNames.BRANDING_BANNER_IMAGE_UPLOADED);
-      } else {
-        DandyToastUtil.showErrorToast('Image not loaded');
+        setState(() {
+          loading = false;
+        });
       }
-      setState(() {
-        loading = false;
-      });
     } catch (ex) {
       print(ex.toString());
       DandyToastUtil.showErrorToast('Image not loaded');

@@ -44,7 +44,7 @@ class CalendarSyncUtil {
       List<Event>? eventsForCalendar = (await deviceCalendarPlugin.retrieveEvents(calendar.id, params))
               .data!
               .toList(growable: false);
-      if(eventsForCalendar != null && eventsForCalendar.isNotEmpty) {
+      if(eventsForCalendar.isNotEmpty) {
         events.addAll(eventsForCalendar);
       }
     }
@@ -64,7 +64,7 @@ class CalendarSyncUtil {
     try {
       DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
 
-      List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).calendarIdsToSync!.toList();
+      List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid()))!.calendarIdsToSync!.toList();
       List<String> calendarsToSync = List<String>.from(calendarsIds);
       List<Job> unfinishedJobs = await getUnfinishedJobs();
 
@@ -91,7 +91,7 @@ class CalendarSyncUtil {
     try {
       DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
 
-      List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).calendarIdsToSync!.toList();
+      List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid()))!.calendarIdsToSync!.toList();
       List<String> calendarsToSync = List<String>.from(calendarsIds);
 
       List<Job> unfinishedJobs = await getUnfinishedJobs();
@@ -115,11 +115,11 @@ class CalendarSyncUtil {
   }
 
   static Future<List<Job>> getUnfinishedJobs() async {
-    List<Job> allJobs = await JobDao.getAllJobs();
+    List<Job>? allJobs = await JobDao.getAllJobs();
     List<Job> unfinishedJobs = [];
     DateTime now = DateTime.now();
 
-    for (Job job in allJobs) {
+    for (Job job in allJobs!) {
       if (job.selectedDate!.isAfter(now)) {
         unfinishedJobs.add(job);
       }
@@ -161,7 +161,7 @@ class CalendarSyncUtil {
     try {
       DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
 
-      List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).calendarIdsToSync!.toList();
+      List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid()))!.calendarIdsToSync!.toList();
       List<String> calendarsToSync = List<String>.from(calendarsIds);
 
       for (String calendarId in calendarsToSync) {
@@ -187,9 +187,9 @@ class CalendarSyncUtil {
   static void updateJobEvent(Job job) async {
     try {
       DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
-      Profile profile = (await ProfileDao.getMatchingProfile(UidUtil().getUid()));
+      Profile? profile = (await ProfileDao.getMatchingProfile(UidUtil().getUid()));
       List<dynamic> calendarsIds = [];
-      if(profile.calendarIdsToSync != null) {
+      if(profile!.calendarIdsToSync != null) {
         calendarsIds = profile.calendarIdsToSync!.toList();
       }
       List<String> calendarsToSync = calendarsIds.length > 0 ? List<String>.from(calendarsIds) : [];
@@ -214,7 +214,7 @@ class CalendarSyncUtil {
     try {
       DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
 
-      List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).calendarIdsToSync!.toList();
+      List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid()))!.calendarIdsToSync!.toList();
       List<String> calendarsToSync = List<String>.from(calendarsIds);
 
       for (String calendarId in calendarsToSync) {

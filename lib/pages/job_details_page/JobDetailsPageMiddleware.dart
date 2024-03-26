@@ -155,8 +155,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void saveHomeLocation(Store<AppState> store, SaveJobDetailsHomeLocationAction action, NextDispatcher next) async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.latDefaultHome = action.startLocation!.latitude;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.latDefaultHome = action.startLocation!.latitude;
     profile.lngDefaultHome = action.startLocation!.longitude;
     await ProfileDao.insertOrUpdate(profile);
     store.dispatch(SetProfileToStateAction(store.state.jobDetailsPageState, profile));
@@ -213,8 +213,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void updateProfileWithOnBoardingComplete(Store<AppState> store, SetOnBoardingCompleteAction action, NextDispatcher next) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.onBoardingComplete = true;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.onBoardingComplete = true;
     await ProfileDao.update(profile);
   }
 
@@ -236,10 +236,11 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchJobPoses(Store<AppState> store) async {
-    _fetchJobPosesWithJob(store, store.state.jobDetailsPageState!.job!);
+
+    _fetchJobPosesWithJob(store, store.state.jobDetailsPageState!.job);
   }
 
-  void _fetchJobPosesWithJob(Store<AppState> store, Job job) async {
+  void _fetchJobPosesWithJob(Store<AppState> store, Job? job) async {
     List<String> paths = [];
     if(job != null) {
       for(Pose pose in job.poses!) {
@@ -254,7 +255,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchJobTypes(Store<AppState> store, FetchAllJobTypesAction action, NextDispatcher next) async {
-    List<JobType> jobTypes = await JobTypeDao.getAll();
+    List<JobType>? jobTypes = await JobTypeDao.getAll();
     store.dispatch(SetAllJobTypesAction(store.state.jobDetailsPageState, jobTypes));
 
     (await JobTypeDao.getJobTypeStream()).listen((jobSnapshots) async {
@@ -267,7 +268,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchDeviceEventsForMonth(Store<AppState> store, FetchJobDetailsDeviceEvents? action, NextDispatcher next) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     DateTime? monthToUse;
     if(action != null) {
       monthToUse = action.month;
@@ -275,7 +276,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       monthToUse = store.state.jobDetailsPageState!.selectedDate;
     }
 
-    if(profile.calendarEnabled! && monthToUse != null) {
+    if(profile!.calendarEnabled! && monthToUse != null) {
       DateTime startDate = DateTime(monthToUse.year, monthToUse.month - 1, 1);
       DateTime endDate = DateTime(monthToUse.year, monthToUse.month + 1, 1);
 
@@ -409,10 +410,10 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchLocations(Store<AppState> store, action, NextDispatcher next) async{
-    List<LocationDandy> locations = await LocationDao.getAllSortedMostFrequent();
+    List<LocationDandy>? locations = await LocationDao.getAllSortedMostFrequent();
     List<File?> imageFiles = [];
 
-    for(LocationDandy location in locations) {
+    for(LocationDandy location in locations!) {
       imageFiles.add(await FileStorage.getLocationImageFile(location));
     }
 
@@ -446,7 +447,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchAllJobs(Store<AppState> store, action, NextDispatcher next) async{
-    List<Job> upcomingJobs = await JobDao.getAllJobs();
+    List<Job>? upcomingJobs = await JobDao.getAllJobs();
     store.dispatch(SetEventMapAction(store.state.jobDetailsPageState, upcomingJobs));
 
     (await JobDao.getJobsStream()).listen((jobSnapshots) async {
@@ -560,7 +561,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(FetchAllJobTypesAction(store.state.jobDetailsPageState));
     _fetchJobPosesWithJob(store, job);
 
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     store.dispatch(SetProfileToDetailsStateAction(store.state.jobDetailsPageState, profile));
   }
 

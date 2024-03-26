@@ -25,7 +25,7 @@ class _NotesWidgetPage extends State<NotesWidget> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ClientDetailsPageState>(
       onInit: (store) {
-        notesController.value = notesController.value.copyWith(text:store.state.clientDetailsPageState!.client!.notes!);
+        notesController.value = notesController.value.copyWith(text:store.state.clientDetailsPageState!.client!.notes);
       },
       converter: (store) => ClientDetailsPageState.fromStore(store),
       builder: (BuildContext context, ClientDetailsPageState pageState) =>

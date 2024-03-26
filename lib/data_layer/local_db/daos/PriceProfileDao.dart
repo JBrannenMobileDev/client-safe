@@ -29,7 +29,7 @@ class PriceProfileDao extends Equatable{
   }
 
   static Future<void> _updateLastChangedTime() async {
-    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    Profile profile = (await ProfileDao.getAll())!.elementAt(0);
     profile.priceProfilesLastChangeDate = DateTime.now();
     ProfileDao.update(profile);
   }
@@ -55,7 +55,7 @@ class PriceProfileDao extends Equatable{
   }
 
   static Future<PriceProfile?> getById(String profileDocumentId) async{
-    if((await getAllSortedByName()).length > 0) {
+    if((await getAllSortedByName()).isNotEmpty) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', profileDocumentId));
       final recordSnapshots = await _priceProfileStore.find(await _db, finder: finder);
       // Making a List<profileId> out of List<RecordSnapshot>
@@ -138,8 +138,8 @@ class PriceProfileDao extends Equatable{
     List<PriceProfile> allLocalPriceProfiles = await getAllSortedByName();
     List<PriceProfile> allFireStorePriceProfiles = await PriceProfileCollection().getAll(UidUtil().getUid());
 
-    if(allLocalPriceProfiles != null && allLocalPriceProfiles.length > 0) {
-      if(allFireStorePriceProfiles != null && allFireStorePriceProfiles.length > 0) {
+    if(allLocalPriceProfiles.isNotEmpty) {
+      if(allFireStorePriceProfiles.isNotEmpty) {
         //both local and fireStore have PriceProfiles
         //fireStore is source of truth for this sync.
         await _syncFireStoreToLocal(allLocalPriceProfiles, allFireStorePriceProfiles);
@@ -148,7 +148,7 @@ class PriceProfileDao extends Equatable{
         _deleteAllLocalPriceProfiles(allLocalPriceProfiles);
       }
     } else {
-      if(allFireStorePriceProfiles != null && allFireStorePriceProfiles.length > 0){
+      if(allFireStorePriceProfiles.isNotEmpty){
         //no local PriceProfiles but there are fireStore PriceProfiles.
         await _copyAllFireStorePriceProfilesToLocal(allFireStorePriceProfiles);
       } else {
@@ -177,7 +177,7 @@ class PriceProfileDao extends Equatable{
     for(PriceProfile localPriceProfile in allLocalPriceProfiles) {
       //should only be 1 matching
       List<PriceProfile> matchingFireStorePriceProfiles = allFireStorePriceProfiles.where((fireStorePriceProfile) => localPriceProfile.documentId == fireStorePriceProfile.documentId).toList();
-      if(matchingFireStorePriceProfiles !=  null && matchingFireStorePriceProfiles.length > 0) {
+      if(matchingFireStorePriceProfiles.isNotEmpty) {
         PriceProfile fireStorePriceProfile = matchingFireStorePriceProfiles.elementAt(0);
         final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStorePriceProfile.documentId));
         await _priceProfileStore.update(
@@ -197,7 +197,7 @@ class PriceProfileDao extends Equatable{
 
     for(PriceProfile fireStorePriceProfile in allFireStorePriceProfiles) {
       List<PriceProfile> matchingLocalPriceProfiles = allLocalPriceProfiles.where((localPriceProfile) => localPriceProfile.documentId == fireStorePriceProfile.documentId).toList();
-      if(matchingLocalPriceProfiles != null && matchingLocalPriceProfiles.length > 0) {
+      if(matchingLocalPriceProfiles.isNotEmpty) {
         //do nothing. PriceProfile already synced.
       } else {
         //add to local. does not exist in local and has not been synced yet.

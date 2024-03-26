@@ -41,7 +41,7 @@ class DiscountCodesCollection {
         .snapshots();
   }
 
-  Future<List<DiscountCodes>> getAll() async {
+  Future<List<DiscountCodes>?> getAll() async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('env')

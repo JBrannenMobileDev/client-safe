@@ -62,7 +62,7 @@ class _PayNowPageState extends State<PayNowPage> {
                       margin: const EdgeInsets.only(top: 32, bottom: 32),
                       child: TextDandyLight(
                         type: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextDandyLight.EXTRA_LARGE_TEXT : TextDandyLight.LARGE_TEXT,
-                        fontFamily: pageState.profile.selectedFontTheme?.mainFont,
+                        fontFamily: pageState.profile!.selectedFontTheme?.mainFont,
                         text: 'Payment Options',
                         isBold: true,
                       ),
@@ -96,7 +96,7 @@ class _PayNowPageState extends State<PayNowPage> {
                   child: TextDandyLight(
                     type: TextDandyLight.SMALL_TEXT,
                     textAlign: TextAlign.center,
-                    fontFamily: pageState.profile.selectedFontTheme!.mainFont,
+                    fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
                     text: 'Please mark as paid once payment is complete.',
                     color: Color(ColorConstants.getPrimaryBlack()),
                     isBold: true,
@@ -123,12 +123,12 @@ class _PayNowPageState extends State<PayNowPage> {
             TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: 'Balance due',
-                fontFamily: pageState.profile.selectedFontTheme!.mainFont,
+                fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
                 color: Color(ColorConstants.getPrimaryBlack())
             ),
             TextDandyLight(
                 type: TextDandyLight.EXTRA_LARGE_TEXT,
-                fontFamily: pageState.profile.selectedFontTheme!.mainFont,
+                fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
                 text: TextFormatterUtil.formatDecimalCurrency(amount!),
                 color: Color(ColorConstants.getPrimaryBlack())
             )
@@ -141,10 +141,10 @@ class _PayNowPageState extends State<PayNowPage> {
           onTap: () {
             switch(type) {
               case PayNowPage.TYPE_RETAINER:
-                pageState.onMarkAsPaidDepositSelected(true);
+                pageState.onMarkAsPaidDepositSelected!(true);
                 break;
               case PayNowPage.TYPE_BALANCE:
-                pageState.onMarkAsPaidSelected(true);
+                pageState.onMarkAsPaidSelected!(true);
                 break;
             }
             Navigator.of(context).pop();
@@ -159,7 +159,7 @@ class _PayNowPageState extends State<PayNowPage> {
             ),
             child: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
-              fontFamily: pageState.profile.selectedFontTheme!.mainFont,
+              fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
               text: 'MARK AS PAID',
               color: Color(ColorConstants.getPrimaryBlack()),
             ),
@@ -172,12 +172,12 @@ class _PayNowPageState extends State<PayNowPage> {
   Widget BuildPaymentOptionsWidget(ClientPortalPageState pageState) {
     List<Widget> enabledOptions = [];
     
-    if(pageState.profile.venmoEnabled!) enabledOptions.add(buildVenmoWidget(pageState));
-    if(pageState.profile.wireEnabled!) enabledOptions.add(buildWireWidget(pageState));
-    if(pageState.profile.cashEnabled!) enabledOptions.add(buildCashWidget(pageState));
-    if(pageState.profile.cashAppEnabled!) enabledOptions.add(buildCashAppWidget(pageState));
-    if(pageState.profile.zelleEnabled!) enabledOptions.add(buildZelleWidget(pageState));
-    if(pageState.profile.otherEnabled!) enabledOptions.add(buildOtherWidget(pageState));
+    if(pageState.profile!.venmoEnabled!) enabledOptions.add(buildVenmoWidget(pageState));
+    if(pageState.profile!.wireEnabled!) enabledOptions.add(buildWireWidget(pageState));
+    if(pageState.profile!.cashEnabled!) enabledOptions.add(buildCashWidget(pageState));
+    if(pageState.profile!.cashAppEnabled!) enabledOptions.add(buildCashAppWidget(pageState));
+    if(pageState.profile!.zelleEnabled!) enabledOptions.add(buildZelleWidget(pageState));
+    if(pageState.profile!.otherEnabled!) enabledOptions.add(buildOtherWidget(pageState));
     
     if(DeviceType.getDeviceTypeByContext(context) != Type.Website) {
       return getMobileList(pageState, enabledOptions);
@@ -265,8 +265,8 @@ class _PayNowPageState extends State<PayNowPage> {
     return PaymentOptionWidget(
       title: 'Zelle',
       message: 'Please send funds to our bank account through Zelle by using our mobile phone number or email then mark as paid above.',
-      name: pageState.profile.zelleFullName,
-      email: pageState.profile.zellePhoneEmail,
+      name: pageState.profile!.zelleFullName,
+      email: pageState.profile!.zellePhoneEmail,
       type: type,
     );
   }
@@ -274,7 +274,7 @@ class _PayNowPageState extends State<PayNowPage> {
   Widget buildOtherWidget(ClientPortalPageState pageState) {
     return PaymentOptionWidget(
       title: '',
-      message: pageState.profile.otherMessage,
+      message: pageState.profile!.otherMessage,
       type: type,
     );
   }
@@ -283,7 +283,7 @@ class _PayNowPageState extends State<PayNowPage> {
     return PaymentOptionWidget(
       title: 'Venmo',
       message: 'Please send funds to our Venmo account by selecting the (PAY NOW) button below then mark as paid above.',
-      link: pageState.profile.venmoLink,
+      link: pageState.profile!.venmoLink,
       type: type,
     );
   }
@@ -292,7 +292,7 @@ class _PayNowPageState extends State<PayNowPage> {
     return PaymentOptionWidget(
       title: 'CashApp',
       message: 'Please send funds to our CashApp account by selecting the (PAY NOW) button below then mark as paid above.',
-      link: pageState.profile.cashAppLink,
+      link: pageState.profile!.cashAppLink,
       type: type,
     );
   }
@@ -301,8 +301,8 @@ class _PayNowPageState extends State<PayNowPage> {
     return PaymentOptionWidget(
       title: 'Apple Pay',
       message: 'Please send funds to our Apple Pay account with the phone number provided below then mark as paid above.',
-      phone: DeviceType.getDeviceTypeByContext(context) == Type.Website ? pageState.profile.phone : null,
-      sendSms: pageState.profile.phone,
+      phone: DeviceType.getDeviceTypeByContext(context) == Type.Website ? pageState.profile!.phone : null,
+      sendSms: pageState.profile!.phone,
       messageBody: 'Thank you! Here is the payment.',
       type: type,
     );
@@ -311,11 +311,11 @@ class _PayNowPageState extends State<PayNowPage> {
   Widget buildCashWidget(ClientPortalPageState pageState) {
     return PaymentOptionWidget(
       title: 'Cash',
-      message: pageState.profile.cashMessage != null && pageState.profile.cashMessage!.isNotEmpty ? pageState.profile.cashMessage : 'Please send me a message to coordinate a cash payment.',
-      sendSms: pageState.profile.phone,
-      sendEmail: pageState.profile.email,
+      message: pageState.profile!.cashMessage != null && pageState.profile!.cashMessage!.isNotEmpty ? pageState.profile!.cashMessage : 'Please send me a message to coordinate a cash payment.',
+      sendSms: pageState.profile!.phone,
+      sendEmail: pageState.profile!.email,
       messageTitle: 'Invoice Response - Pay by cash',
-      messageBody: 'Hi ' + pageState.profile.firstName! + ', i will be paying with cash. How would you like me to get the cash to you?',
+      messageBody: 'Hi ' + pageState.profile!.firstName! + ', i will be paying with cash. How would you like me to get the cash to you?',
       type: type,
     );
   }
@@ -323,7 +323,7 @@ class _PayNowPageState extends State<PayNowPage> {
   Widget buildWireWidget(ClientPortalPageState pageState) {
     return PaymentOptionWidget(
       title: 'Wire/E-Transfer',
-      message: pageState.profile.wireMessage != null && pageState.profile.wireMessage!.isNotEmpty ? pageState.profile.wireMessage : 'Please contact me for wire transfer details.',
+      message: pageState.profile!.wireMessage != null && pageState.profile!.wireMessage!.isNotEmpty ? pageState.profile!.wireMessage : 'Please contact me for wire transfer details.',
       type: type,
     );
   }
@@ -331,11 +331,11 @@ class _PayNowPageState extends State<PayNowPage> {
   Widget buildErrorWidget(ClientPortalPageState pageState) {
     return PaymentOptionWidget(
       title: 'Payment Options Not Setup',
-      message: pageState.profile.businessName! + ' has not setup any payment options yet. Please contact ' + pageState.profile.firstName! + ' to discuss payment.',
-      sendSms: pageState.profile.phone,
-      sendEmail: pageState.profile.email,
+      message: pageState.profile!.businessName! + ' has not setup any payment options yet. Please contact ' + pageState.profile!.firstName! + ' to discuss payment.',
+      sendSms: pageState.profile!.phone,
+      sendEmail: pageState.profile!.email,
       messageTitle: 'Payment',
-      messageBody: 'Hi ' + pageState.profile.firstName! + ', how would you like me to pay?',
+      messageBody: 'Hi ' + pageState.profile!.firstName! + ', how would you like me to pay?',
       type: type,
     );
   }

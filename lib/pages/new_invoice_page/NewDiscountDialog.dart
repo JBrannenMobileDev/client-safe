@@ -59,7 +59,7 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
     return StoreConnector<AppState, NewInvoicePageState>(
       converter: (store) => NewInvoicePageState.fromStore(store),
       onInit: (appState) {
-        if (enteredRate != null) {
+        if (enteredRate.isNotEmpty) {
           rateTextController = TextEditingController(text: '\$' + enteredRate);
         }
       },

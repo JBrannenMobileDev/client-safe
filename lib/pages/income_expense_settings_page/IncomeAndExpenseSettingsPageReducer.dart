@@ -152,7 +152,7 @@ buildIncomeAndExpenseRows(
   }
 
   for (var job in paymentReceived) {
-    double? tipAmount = (job.tipAmount != null && job.tipAmount! > 0 ? job.tipAmount : 0) as double?;
+    double? tipAmount = (job.tipAmount != null && job.tipAmount! > 0 ? job.tipAmount : 0)?.toDouble();
     List<String> row = [
       DateFormat('MM-dd-yyyy').format(job.paymentReceivedDate!),
       job.jobTitle!,
@@ -255,7 +255,7 @@ IncomeAndExpenseSettingsPageState _saveVenmoState(IncomeAndExpenseSettingsPageSt
 IncomeAndExpenseSettingsPageState _saveCashAppState(IncomeAndExpenseSettingsPageState previousState, SaveCashAppStateAction action){
   EventSender().sendEvent(eventName: EventNames.PAYMENT_LINK_ADDED, properties: {
     EventNames.LINK_ADDED_PARAM_NAME : "Cash App",
-    EventNames.LINK_ADDED_PARAM_ENABLED : action.enabled!,
+    EventNames.LINK_ADDED_PARAM_ENABLED : action.enabled,
   });
   return previousState.copyWith(
     cashAppEnabled: action.enabled,

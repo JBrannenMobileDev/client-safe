@@ -35,8 +35,6 @@ class MapLocationSelectionWidgetMiddleware extends MiddlewareClass<AppState> {
 
   void setLocationData(Store<AppState> store, NextDispatcher next, SetLastKnowPosition action) async {
     Position positionLastKnown = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    if(positionLastKnown != null) {
-      store.dispatch(SetInitialMapLatLng(store.state.mapLocationSelectionWidgetState, positionLastKnown.latitude, positionLastKnown.longitude));
-    }
+    store.dispatch(SetInitialMapLatLng(store.state.mapLocationSelectionWidgetState, positionLastKnown.latitude, positionLastKnown.longitude));
   }
 }

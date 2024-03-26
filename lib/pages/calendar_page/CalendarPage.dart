@@ -74,13 +74,13 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
       onInit: (store) async {
         store.dispatch(FetchAllCalendarJobsAction(store.state.calendarPageState!));
 
-        PermissionStatus previousStatus = await UserPermissionsUtil.getPermissionStatus(Permission.calendar);
-        bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendar, context: context);
+        PermissionStatus previousStatus = await UserPermissionsUtil.getPermissionStatus(Permission.calendarFullAccess);
+        bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendarFullAccess, context: context);
         if(isGranted) {
           if(!(await previousStatus.isGranted)) {
             UserOptionsUtil.showCalendarSelectionDialog(context, store.state.calendarPageState!.onCalendarEnabled);
           } else {
-            store.dispatch(FetchDeviceEvents(store.state.calendarPageState!, DateTime.now(), store.state.dashboardPageState!.profile.calendarEnabled!));
+            store.dispatch(FetchDeviceEvents(store.state.calendarPageState!, DateTime.now(), store.state.dashboardPageState!.profile!.calendarEnabled!));
           }
         }
       },

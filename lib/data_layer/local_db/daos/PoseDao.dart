@@ -37,7 +37,7 @@ class PoseDao extends Equatable{
   }
 
   static Future<void> _updateLastChangedTime() async {
-    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    Profile profile = (await ProfileDao.getAll())!.elementAt(0);
     profile.posesLastChangeDate = DateTime.now();
     ProfileDao.update(profile);
   }
@@ -164,8 +164,8 @@ class PoseDao extends Equatable{
     List<Pose> allLocalPoses = await getAllSortedMostFrequent();
     List<Pose> allFireStorePoses = await PoseCollection().getAll(UidUtil().getUid());
 
-    if(allLocalPoses != null && allLocalPoses.length > 0) {
-      if(allFireStorePoses != null && allFireStorePoses.length > 0) {
+    if(allLocalPoses.length > 0) {
+      if(allFireStorePoses.length > 0) {
         //both local and fireStore have Poses
         //fireStore is source of truth for this sync.
         await _syncFireStoreToLocal(allLocalPoses, allFireStorePoses);
@@ -174,7 +174,7 @@ class PoseDao extends Equatable{
         _deleteAllLocalPoses(allLocalPoses);
       }
     } else {
-      if(allFireStorePoses != null && allFireStorePoses.length > 0){
+      if(allFireStorePoses.length > 0){
         //no local Poses but there are fireStore Poses.
         await _copyAllFireStorePosesToLocal(allFireStorePoses);
       } else {
@@ -203,7 +203,7 @@ class PoseDao extends Equatable{
     for(Pose localPose in allLocalPoses) {
       //should only be 1 matching
       List<Pose> matchingFireStorePoses = allFireStorePoses.where((fireStorePose) => localPose.documentId == fireStorePose.documentId).toList();
-      if(matchingFireStorePoses !=  null && matchingFireStorePoses.length > 0) {
+      if(matchingFireStorePoses.length > 0) {
         Pose fireStorePose = matchingFireStorePoses.elementAt(0);
         final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStorePose.documentId));
         await _PoseStore.update(
@@ -223,7 +223,7 @@ class PoseDao extends Equatable{
 
     for(Pose fireStorePose in allFireStorePoses) {
       List<Pose> matchingLocalPoses = allLocalPoses.where((localPose) => localPose.documentId == fireStorePose.documentId).toList();
-      if(matchingLocalPoses != null && matchingLocalPoses.length > 0) {
+      if(matchingLocalPoses.length > 0) {
         //do nothing. Pose already synced.
       } else {
         //add to local. does not exist in local and has not been synced yet.

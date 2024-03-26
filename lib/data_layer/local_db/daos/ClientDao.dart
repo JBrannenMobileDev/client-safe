@@ -106,7 +106,7 @@ class ClientDao extends Equatable{
   }
 
   static Future<Client?> getClientByCreatedDate(DateTime createdDate) async{
-    if((await getAll()).length > 0) {
+    if((await getAll())!.isNotEmpty) {
       final recordSnapshots = await _clientStore.find(await _db);
       List<Client> clients = recordSnapshots.map((snapshot) {
         final client = Client.fromMap(snapshot.value);
@@ -140,7 +140,7 @@ class ClientDao extends Equatable{
     }).toList();
   }
 
-  static Future<List<Client>> getAll() async {
+  static Future<List<Client>?> getAll() async {
     final recordSnapshots = await _clientStore.find(await _db);
 
     // Making a List<Client> out of List<RecordSnapshot>
@@ -152,7 +152,7 @@ class ClientDao extends Equatable{
   }
 
   static Future<Client?>? getClientById(String clientDocumentId) async{
-    if((await getAll()).length > 0) {
+    if((await getAll())!.isNotEmpty) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', clientDocumentId));
       final recordSnapshots = await _clientStore.find(await _db, finder: finder);
       // Making a List<Client> out of List<RecordSnapshot>
@@ -169,11 +169,11 @@ class ClientDao extends Equatable{
   }
   
   static Future<void> syncAllFromFireStore() async {
-    List<Client> allLocalClients = await getAll();
-    List<Client> allFireStoreClients = await ClientCollection().getAllClientsSortedByFirstName(UidUtil().getUid());
+    List<Client>? allLocalClients = await getAll();
+    List<Client>? allFireStoreClients = await ClientCollection().getAllClientsSortedByFirstName(UidUtil().getUid());
 
-    if(allLocalClients != null && allLocalClients.length > 0) {
-      if(allFireStoreClients != null && allFireStoreClients.length > 0) {
+    if(allLocalClients != null && allLocalClients.isNotEmpty) {
+      if(allFireStoreClients != null && allFireStoreClients.isNotEmpty) {
         //both local and fireStore have clients
         //fireStore is source of truth for this sync.
         await _syncFireStoreToLocal(allLocalClients, allFireStoreClients);
@@ -182,7 +182,7 @@ class ClientDao extends Equatable{
         _deleteAllLocalClients(allLocalClients);
       }
     } else {
-      if(allFireStoreClients != null && allFireStoreClients.length > 0){
+      if(allFireStoreClients != null && allFireStoreClients.isNotEmpty){
         //no local clients but there are fireStore clients.
         await _copyAllFireStoreClientsToLocal(allFireStoreClients);
       } else {
@@ -211,7 +211,7 @@ class ClientDao extends Equatable{
     for(Client localClient in allLocalClients) {
       //should only be 1 matching
       List<Client> matchingFireStoreClients = allFireStoreClients.where((fireStoreClient) => localClient.documentId == fireStoreClient.documentId).toList();
-      if(matchingFireStoreClients !=  null && matchingFireStoreClients.length > 0) {
+      if(matchingFireStoreClients.isNotEmpty) {
         Client fireStoreClient = matchingFireStoreClients.elementAt(0);
         final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStoreClient.documentId));
         await _clientStore.update(
@@ -231,7 +231,7 @@ class ClientDao extends Equatable{
 
     for(Client fireStoreClient in allFireStoreClients) {
       List<Client> matchingLocalClients = allLocalClients.where((localClient) => localClient.documentId == fireStoreClient.documentId).toList();
-      if(matchingLocalClients != null && matchingLocalClients.length > 0) {
+      if(matchingLocalClients.isNotEmpty) {
         //do nothing. Client already synced.
         //TODO even though client already exists, we still need to update it.
       } else {
@@ -247,7 +247,7 @@ class ClientDao extends Equatable{
   List<Object> get props => [];
 
   static void deleteAllLocal() async {
-    List<Client> clients = await getAll();
-    _deleteAllLocalClients(clients);
+    List<Client>? clients = await getAll();
+    _deleteAllLocalClients(clients!);
   }
 }

@@ -487,7 +487,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                           activeColor: Color(ColorConstants.getBlueDark()),
                                           thumbColor: Color(ColorConstants.getPrimaryWhite()),
                                           onChanged: (enabled) async {
-                                            bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendar, context: context);
+                                            bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendarFullAccess, context: context);
                                             if(isGranted) {
                                               if(enabled) {
                                                 UserOptionsUtil.showCalendarSelectionDialog(context, pageState.onCalendarChanged);
@@ -502,7 +502,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                           inactiveTrackColor: Color(ColorConstants.getBlueLight()),
                                           activeColor: Color(ColorConstants.getBlueDark()),
                                           onChanged: (enabled) async {
-                                            bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendar, context: context);
+                                            bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendarFullAccess, context: context);
                                             if(isGranted) {
                                               if(enabled) {
                                                 UserOptionsUtil.showCalendarSelectionDialog(context, pageState.onCalendarChanged);

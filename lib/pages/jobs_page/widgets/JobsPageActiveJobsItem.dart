@@ -11,8 +11,8 @@ import 'package:intl/intl.dart';
 import '../../../widgets/TextDandyLight.dart';
 
 class JobsPageActiveJobsItem extends StatelessWidget{
-  final Job job;
-  final JobsPageState pageState;
+  final Job? job;
+  final JobsPageState? pageState;
   JobsPageActiveJobsItem({this.job, this.pageState});
 
   @override
@@ -20,7 +20,7 @@ class JobsPageActiveJobsItem extends StatelessWidget{
     return TextButton(
       style: Styles.getButtonStyle(),
       onPressed: () {
-        pageState.onJobClicked(job);
+        pageState!.onJobClicked!(job!);
         NavigationUtil.onJobTapped(context, false);
       },
       child: Padding(
@@ -36,7 +36,7 @@ class JobsPageActiveJobsItem extends StatelessWidget{
                   margin: EdgeInsets.only(right: 18.0, top: 4.0),
                   height: 38.0,
                   width: 38.0,
-                  child: job.stage.getStageImage(Color(ColorConstants.getPeachDark())),
+                  child: job!.stage!.getStageImage(Color(ColorConstants.getPeachDark())),
                 ),
                 Flexible(
                   child: Column(
@@ -49,12 +49,12 @@ class JobsPageActiveJobsItem extends StatelessWidget{
                             padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
                             child: TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
-                              text: job.jobTitle,
+                              text: job!.jobTitle,
                               textAlign: TextAlign.start,
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
-                          job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null
+                          job!.selectedDate != null && job!.selectedTime != null && job!.location != null && job!.priceProfile != null
                               ? SizedBox() : Container(
                             margin: EdgeInsets.only(left: 8.0),
                             height: 20.0,
@@ -67,15 +67,15 @@ class JobsPageActiveJobsItem extends StatelessWidget{
                       ),
                       TextDandyLight(
                         type: TextDandyLight.SMALL_TEXT,
-                        text: 'Stage: ' + job.stage.stage,
+                        text: 'Stage: ' + job!.stage!.stage!,
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                       TextDandyLight(
                         type: TextDandyLight.SMALL_TEXT,
-                        text: _getSubtext(job),
+                        text: _getSubtext(job!),
                         textAlign: TextAlign.start,
-                        color: job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null
+                        color: job!.selectedDate != null && job!.selectedTime != null && job!.location != null && job!.priceProfile != null
                             ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPeachDark()),
                       ),
                     ],
@@ -97,7 +97,7 @@ class JobsPageActiveJobsItem extends StatelessWidget{
 
   String _getSubtext(Job job) {
     if(job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null){
-      return DateFormat('EEE, MMM d').format(job.selectedDate) + ' · ' + DateFormat('h:mm a').format(job.selectedTime);
+      return DateFormat('EEE, MMM d').format(job.selectedDate!) + ' · ' + DateFormat('h:mm a').format(job.selectedTime!);
     }
     if(job.selectedDate == null){
       return 'Date not selected!';

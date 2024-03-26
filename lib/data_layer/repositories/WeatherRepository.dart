@@ -10,7 +10,7 @@ import '../api_clients/AccuWeatherClient.dart';
 class WeatherRepository {
   final AccuWeatherClient weatherApiClient;
 
-  WeatherRepository({required this.weatherApiClient}) : assert(weatherApiClient != null);
+  WeatherRepository({required this.weatherApiClient});
 
   Future<CurrentWeatherResponse> fetchCurrentWeather(double lat, double lon) async {
     return await weatherApiClient.fetchCurrentWeather(lat, lon);

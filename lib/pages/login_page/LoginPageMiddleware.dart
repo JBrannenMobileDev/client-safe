@@ -189,7 +189,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void setShouldShowOnBoarding(Store<AppState> store, Profile existingProfile) async {
-    if(existingProfile.onBoardingComplete! || (await JobDao.getAllJobs()).length > 1) {
+    if(existingProfile.onBoardingComplete! || (await JobDao.getAllJobs())!.length > 1) {
       store.dispatch(UpdateNavigateToOnBoardingAction(store.state.loginPageState, false));
       store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
     } else {
@@ -336,8 +336,8 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       EventSender().setUserProfileData(EventNames.BUILD_NUMBER, (await PackageInfo.fromPlatform()).buildNumber);
     }
     if(user != null && (signInType == EMAIL && !user.emailVerified) || signInType != EMAIL){
-      List<Profile> userProfiles = await ProfileDao.getAll();
-      if(userProfiles.isNotEmpty) {
+      List<Profile>? userProfiles = await ProfileDao.getAll();
+      if(userProfiles!.isNotEmpty) {
         for(Profile profile in userProfiles) {
           await ProfileDao.delete(profile);
         }
@@ -391,7 +391,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           iconFont: FontTheme.Moredya,
           mainFont: FontTheme.OPEN_SANS,
         ),
-        previewJsonContract: (await ContractTemplateDao.getAll()).first.jsonTerms,
+        previewJsonContract: (await ContractTemplateDao.getAll())!.first.jsonTerms,
       );
       await ProfileDao.insertOrUpdate(newProfile);
 
@@ -503,7 +503,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
 
       //Create sample job
       DateTime currentTime = DateTime.now();
-      Client client = (await ClientDao.getAll()).first;
+      Client client = (await ClientDao.getAll())!.first;
       Job jobToSave = Job(
         id: null,
         documentId: store.state.newJobPageState!.documentId,
@@ -513,14 +513,14 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         selectedDate: DateTime.now().add(Duration(days: 3)),
         selectedTime: DateTime(currentTime.year, currentTime.month, currentTime.day, 18, 45),
         selectedEndTime: DateTime(currentTime.year, currentTime.month, currentTime.day, 19, 45),
-        type: (await JobTypeDao.getAll()).first,
+        type: (await JobTypeDao.getAll())!.first,
         stage: JobStage.exampleJobStages().elementAt(1),
         completedStages: [JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED)],
         priceProfile: (await PriceProfileDao.getAllSortedByName()).first,
         createdDate: DateTime.now(),
         client: client,
         depositAmount: 0,
-        location: (await LocationDao.getAllSortedMostFrequent()).first,
+        location: (await LocationDao.getAllSortedMostFrequent())!.first,
         invoice: Invoice(
           clientName: 'Example Client',
           jobName: client.firstName! + ' - Example Job',
@@ -562,7 +562,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           }
         });
       });
-      _saveSelectedPoseToJob(store, (await JobDao.getAllJobs()).first, posesToAdd);
+      _saveSelectedPoseToJob(store, (await JobDao.getAllJobs())!.first, posesToAdd);
 
       if(signInType == EMAIL) {
         await store.dispatch(SetShowAccountCreatedDialogAction(store.state.loginPageState, true, user));
@@ -626,7 +626,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
     final FirebaseAuth auth = FirebaseAuth.instance;
     User? user = auth.currentUser;
 
-    List<Profile> deviceProfiles = await ProfileDao.getAll();
+    List<Profile>? deviceProfiles = await ProfileDao.getAll();
     Profile? profile;
     bool isFromProviderLogin = false;
     String providerEmail = '';
@@ -638,7 +638,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           providerEmail = element.email!;
         }
       });
-      if(deviceProfiles.isNotEmpty){
+      if(deviceProfiles!.isNotEmpty){
         profile = getMatchingProfile(deviceProfiles, user);
         if(profile != null) {
           store.dispatch(UpdateEmailAddressAction(store.state.loginPageState, isFromProviderLogin ? providerEmail : profile.email));
@@ -678,7 +678,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
             profile.previewLogoSelected = false;
             profile.logoCharacter = store.state.loginPageState!.businessName != null && store.state.loginPageState!.businessName!.length > 0 ? store.state.loginPageState!.businessName!.substring(0, 1) : 'A';
             profile.previewLogoCharacter = store.state.loginPageState!.businessName != null && store.state.loginPageState!.businessName!.length > 0 ? store.state.loginPageState!.businessName!.substring(0, 1) : 'A';
-            profile.previewJsonContract = (await ContractTemplateDao.getAll()).first.jsonTerms;
+            profile.previewJsonContract = (await ContractTemplateDao.getAll())!.first.jsonTerms;
           }
           if(profile.selectedFontTheme == null) {
             profile.selectedFontTheme = FontTheme(

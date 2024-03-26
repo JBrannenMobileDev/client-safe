@@ -68,25 +68,25 @@ class EventSender {
   }
 
   void setUserIdentity(String uid) async {
-    if (uid.isNotEmpty && _instance != null && _mixpanel != null) {
+    if (uid.isNotEmpty && _mixpanel != null) {
       _mixpanel!.identify(uid);
     }
   }
 
-  void setUserProfileData(String name, Object data) async {
-    if (name.isNotEmpty && data != null && _instance != null && _mixpanel != null) {
+  void setUserProfileData(String name, Object? data) async {
+    if (name.isNotEmpty && data != null && _mixpanel != null) {
       _mixpanel!.getPeople().set(name, data);
     }
   }
 
   void setUserSuperPropertiesOnce(String name, String data) async {
-    if (name.isNotEmpty && data.isNotEmpty && _instance != null && _mixpanel != null) {
+    if (name.isNotEmpty && data.isNotEmpty && _mixpanel != null) {
       _mixpanel!.registerSuperPropertiesOnce({name : data});
     }
   }
 
   void setUserSuperProperties(String name, String data) async {
-    if (name.isNotEmpty && data.isNotEmpty && _instance != null && _mixpanel != null) {
+    if (name.isNotEmpty && data.isNotEmpty && _mixpanel != null) {
       _mixpanel!.registerSuperProperties({name : data});
     }
   }
@@ -95,7 +95,7 @@ class EventSender {
     required String eventName,
     Map<String, Object>? properties,
   }) async {
-    if (_instance != null && _mixpanel != null) {
+    if (_mixpanel != null) {
       properties ??= {};
       _mixpanel!.track(eventName, properties: properties);
     }

@@ -34,7 +34,7 @@ class ResponseDao extends Equatable{
   }
 
   static Future<void> _updateLastChangedTime() async {
-    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    Profile profile = (await ProfileDao.getAll())!.elementAt(0);
     profile.responsesLastChangeDate = DateTime.now();
     ProfileDao.update(profile);
   }
@@ -126,8 +126,8 @@ class ResponseDao extends Equatable{
     List<Response> allLocalResponses = await getAll();
     List<Response> allFireStoreResponses = await ResponseCollection().getAll(UidUtil().getUid());
 
-    if(allLocalResponses != null && allLocalResponses.length > 0) {
-      if(allFireStoreResponses != null && allFireStoreResponses.length > 0) {
+    if(allLocalResponses.length > 0) {
+      if(allFireStoreResponses.length > 0) {
         //both local and fireStore have clients
         //fireStore is source of truth for this sync.
         await _syncFireStoreToLocal(allLocalResponses, allFireStoreResponses);
@@ -136,7 +136,7 @@ class ResponseDao extends Equatable{
         _deleteAllLocalResponses(allLocalResponses);
       }
     } else {
-      if(allFireStoreResponses != null && allFireStoreResponses.length > 0){
+      if(allFireStoreResponses.length > 0){
         //no local clients but there are fireStore clients.
         await _copyAllFireStoreResponsesToLocal(allFireStoreResponses);
       } else {
@@ -165,7 +165,7 @@ class ResponseDao extends Equatable{
     for(Response localResponse in allLocalResponses) {
       //should only be 1 matching
       List<Response> matchingFireStoreResponses = allFireStoreResponses.where((fireStoreResponse) => localResponse.documentId == fireStoreResponse.documentId).toList();
-      if(matchingFireStoreResponses !=  null && matchingFireStoreResponses.length > 0) {
+      if(matchingFireStoreResponses.length > 0) {
         Response fireStoreResponse = matchingFireStoreResponses.elementAt(0);
         final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStoreResponse.documentId));
         await _responseStore.update(
@@ -185,7 +185,7 @@ class ResponseDao extends Equatable{
 
     for(Response fireStoreResponse in allFireStoreResponses) {
       List<Response> matchingLocalResponses = allLocalResponses.where((localResponse) => localResponse.documentId == fireStoreResponse.documentId).toList();
-      if(matchingLocalResponses != null && matchingLocalResponses.length > 0) {
+      if(matchingLocalResponses.length > 0) {
         //do nothing. Response already synced.
       } else {
         //add to local. does not exist in local and has not been synced yet.

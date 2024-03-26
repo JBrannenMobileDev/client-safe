@@ -52,10 +52,10 @@ class EditBrandingPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _resetBrandingPreviewInProfile(Store<AppState> store, ClearBrandingPreviewStateAction action) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     await ContractTemplateDao.syncAllFromFireStore();
-    Contract contractTemplate = (await ContractTemplateDao.getAll()).first;
-    profile.previewJsonContract = contractTemplate.jsonTerms;
+    Contract contractTemplate = (await ContractTemplateDao.getAll())!.first;
+    profile!.previewJsonContract = contractTemplate.jsonTerms;
     profile.previewLogoSelected = profile.logoSelected;
     profile.previewBannerImageSelected = profile.bannerImageSelected;
     profile.previewColorTheme = profile.selectedColorTheme;
@@ -73,7 +73,7 @@ class EditBrandingPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void savePreview(EditBrandingPageState pageState, Store<AppState> store) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     ColorTheme colorTheme = ColorTheme(
       themeName: 'default',
       iconColor: ColorConstants.getHex(pageState.currentIconColor!),
@@ -89,7 +89,7 @@ class EditBrandingPageMiddleware extends MiddlewareClass<AppState> {
         mainFont: pageState.currentFont
     );
 
-    profile.previewLogoSelected = pageState.logoImageSelected;
+    profile!.previewLogoSelected = pageState.logoImageSelected;
     profile.previewBannerImageSelected = pageState.bannerImageSelected;
     profile.previewColorTheme = colorTheme;
     profile.previewFontTheme = fontTheme;
@@ -122,8 +122,8 @@ class EditBrandingPageMiddleware extends MiddlewareClass<AppState> {
       mainFont: action.pageState!.currentFont
     );
 
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.logoSelected = action.pageState!.logoImageSelected;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.logoSelected = action.pageState!.logoImageSelected;
     profile.bannerImageSelected = action.pageState!.bannerImageSelected;
     profile.selectedColorTheme = colorTheme;
     profile.selectedFontTheme = fontTheme;

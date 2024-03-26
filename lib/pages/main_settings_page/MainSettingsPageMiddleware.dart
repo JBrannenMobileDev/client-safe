@@ -182,7 +182,7 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
       firstName: store.state.mainSettingsPageState!.firstName,
       lastName: store.state.mainSettingsPageState!.lastName,
       businessName: store.state.mainSettingsPageState!.businessName,
-      phone: TextFormatterUtil.formatPhoneNum(store.state.mainSettingsPageState!.businessPhone!),
+      phone: TextFormatterUtil.formatPhoneNum(store.state.mainSettingsPageState!.businessPhone),
       email: store.state.mainSettingsPageState!.businessEmail,
     ));
     if(store.state.mainSettingsPageState!.firstName!.isNotEmpty && store.state.mainSettingsPageState!.lastName!.isNotEmpty && store.state.mainSettingsPageState!.businessName!.isNotEmpty && (store.state.mainSettingsPageState!.businessPhone!.isNotEmpty || store.state.mainSettingsPageState!.businessEmail!.isNotEmpty)) {
@@ -231,8 +231,8 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     List<String> priceProfileNames = ['Wedding Standard', 'Wedding Gold', '1 Hour', '2 Hour', 'Large Family'];
     List<double> prices = [2500, 3500, 450, 600, 500];
     List<String> jobTypeNames = ['Wedding', 'Family', 'Engagement', 'Portrait', 'Newborn'];
-    List<JobType> jobTypes = [];
-    List<Client> clients = [];
+    List<JobType>? jobTypes = [];
+    List<Client>? clients = [];
     List<Job> jobs = [];
     List<PriceProfile> priceProfiles = [];
     List<String> leadSources = Client.getLeadSources();
@@ -256,7 +256,7 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
           leadSource: leadSources.elementAt(randomLeadSource),
           createdDate: months.elementAt(randomMonth)
       );
-      clients.add(client);
+      clients?.add(client);
       await ClientDao.insert(client);
     });
     clients = await ClientDao.getAll();
@@ -288,12 +288,12 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     jobTypes = await JobTypeDao.getAll();
 
     for(int index = 0; index < 52; index++) {
-      JobType jobType = jobTypes.elementAt(Random().nextInt(jobTypes.length));
-      Client resultClient = clients.elementAt(Random().nextInt(clients.length));
+      JobType jobType = jobTypes!.elementAt(Random().nextInt(jobTypes.length));
+      Client? resultClient = clients?.elementAt(Random().nextInt(clients.length));
       PriceProfile priceProfile = priceProfiles.elementAt(Random().nextInt(priceProfiles.length));
       int randomMonth = Random().nextInt(months.length);
       Job jobToSave = Job(
-          clientDocumentId: resultClient.documentId,
+          clientDocumentId: resultClient!.documentId,
           client: resultClient,
           clientName: resultClient.getClientFullName(),
           jobTitle: resultClient.firstName! + ' - ' + jobType.title!,

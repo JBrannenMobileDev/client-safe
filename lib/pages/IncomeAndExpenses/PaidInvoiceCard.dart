@@ -96,7 +96,7 @@ class PaidInvoiceCard extends StatelessWidget{
     }else if(length == 1) {
       return 132.0;
     }else if(length == 2) {
-      return 200.0;
+      return 206.0;
     }else {
       return 307.0;
     }

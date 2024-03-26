@@ -37,7 +37,7 @@ class _SelectLocationDialogState extends State<SelectLocationDialog> {
   @override
   Widget build(BuildContext context) {
     controller.addListener(() {
-      currentPageIndex = controller.page.toInt();
+      currentPageIndex = controller.page!.toInt();
     });
     return StoreConnector<AppState, SunsetWeatherPageState>(
       converter: (store) => SunsetWeatherPageState.fromStore(store),
@@ -121,7 +121,7 @@ class _SelectLocationDialogState extends State<SelectLocationDialog> {
 
     switch(pageState.pageViewIndex){
       case 0:
-        canProgress = pageState.locationName.isNotEmpty;
+        canProgress = pageState.locationName!.isNotEmpty;
         break;
       case 1:
         canProgress = true;
@@ -131,7 +131,7 @@ class _SelectLocationDialogState extends State<SelectLocationDialog> {
         break;
     }
     if (canProgress) {
-      pageState.onNextPressed();
+      pageState.onNextPressed!();
       controller.animateToPage(currentPageIndex + 1,
           duration: Duration(milliseconds: 150), curve: Curves.ease);
       FocusScope.of(context).unfocus();
@@ -139,7 +139,7 @@ class _SelectLocationDialogState extends State<SelectLocationDialog> {
 
     if (pageState.pageViewIndex == pageCount) {
       showSuccessAnimation();
-      pageState.onSaveLocationSelected();
+      pageState.onSaveLocationSelected!();
     }
   }
 
@@ -170,7 +170,7 @@ class _SelectLocationDialogState extends State<SelectLocationDialog> {
     if (pageState.pageViewIndex == 0) {
       Navigator.of(context).pop();
     } else {
-      pageState.onBackPressed();
+      pageState.onBackPressed!();
       controller.animateToPage(currentPageIndex - 1, duration: Duration(milliseconds: 150), curve: Curves.ease);
     }
   }

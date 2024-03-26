@@ -16,7 +16,7 @@ class CalendarUtil {
       Function(Job)? onJobClicked
   ) {
     List<JobCalendarItem> calendarListItems = [];
-    List<JobCalendarItem> fromJobs = _getJobListForSelectedDate(selectedDate!, eventList!, selectedYear!, selectedMonth!, selectedDay!, allJobs!)
+    List<JobCalendarItem> fromJobs = _getJobListForSelectedDate(selectedDate, eventList!, selectedYear!, selectedMonth!, selectedDay!, allJobs!)
         .map((job) => JobCalendarItem(job: job, paddingRight: 24.0, paddingLeft: 24.0, onJobClicked: onJobClicked,))
         .toList();
     List<JobCalendarItem> fromDeviceEvents = _getEventListForSelectedDate(selectedDate, eventList, selectedYear, selectedMonth, selectedDay)
@@ -31,7 +31,7 @@ class CalendarUtil {
   }
 
   static List<Job> _getJobListForSelectedDate(
-      DateTime selectedDate,
+      DateTime? selectedDate,
       List<EventDandyLight> eventList,
       int selectedYear,
       int selectedMonth,
@@ -68,7 +68,7 @@ class CalendarUtil {
   }
 
   static List<EventDandyLight> _getEventListForSelectedDate(
-      DateTime selectedDate,
+      DateTime? selectedDate,
       List<EventDandyLight> eventList,
       int selectedYear,
       int selectedMonth,

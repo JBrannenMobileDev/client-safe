@@ -32,7 +32,7 @@ class SembastDb {
   static SembastDb get instance => _singleton;
 
   // Completer is used for transforming synchronous code into asynchronous code.
-  late Completer<Database> _dbOpenCompleter;
+  late Completer<Database>? _dbOpenCompleter = null;
 
   // A private constructor. Allows us to create instances of AppDatabase
   // only from within the AppDatabase class itself.
@@ -52,7 +52,7 @@ class SembastDb {
     // If the database is already opened, awaiting the future will happen instantly.
     // Otherwise, awaiting the returned future will take some time - until complete() is called
     // on the Completer in _openDatabase() below.
-    return _dbOpenCompleter.future;
+    return _dbOpenCompleter!.future;
   }
 
   Future _openDatabase() async {
@@ -63,7 +63,7 @@ class SembastDb {
 
     _database = await databaseFactoryIo.openDatabase(dbPath);
     // Any code awaiting the Completer's future will now start executing
-    _dbOpenCompleter.complete(_database);
+    _dbOpenCompleter!.complete(_database);
   }
 
   Future deleteAllLocalData() async {

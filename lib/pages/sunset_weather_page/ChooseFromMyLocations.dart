@@ -39,7 +39,7 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
             borderRadius: BorderRadius.circular(16.0),
           ),
           alignment: Alignment.topCenter,
-          child: pageState.locations.length > 0
+          child: pageState.locations!.length > 0
               ? Column(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
@@ -58,7 +58,7 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                 child: TextDandyLight(
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: pageState.selectedLocation != null
-                      ? pageState.selectedLocation.locationName
+                      ? pageState.selectedLocation!.locationName
                       : "",
                   textAlign: TextAlign.start,
                   color: Color(ColorConstants.getPrimaryColor()),
@@ -76,7 +76,7 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                           childAspectRatio: 2 / 2.75,
                           crossAxisSpacing: 16,
                           mainAxisSpacing: 16),
-                      itemCount: pageState.locations.length,
+                      itemCount: pageState.locations!.length,
                       controller: _controller,
                       physics: const ClampingScrollPhysics(),
                       key: _listKey,

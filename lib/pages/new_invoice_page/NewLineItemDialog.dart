@@ -40,11 +40,11 @@ class _NewLineItemDialogState extends State<NewLineItemDialog>
       converter: (store) => NewInvoicePageState.fromStore(store),
       onInit: (appState) {
 
-        if (enteredRate != null) {
+        if (enteredRate.isNotEmpty) {
           rateTextController = TextEditingController(text: '\$' + enteredRate);
         }
 
-        if (enteredQuantity != null) {
+        if (enteredQuantity.isNotEmpty) {
           quantityTextController = TextEditingController(text: '1' + enteredQuantity);
         }
       },

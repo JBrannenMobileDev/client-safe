@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
@@ -23,7 +24,6 @@ import '../../widgets/TextDandyLight.dart';
 import 'ContractEditActions.dart';
 import 'ContractEditPageState.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-
 
 class ContractEditPage extends StatefulWidget {
   final Contract? contract;
@@ -385,22 +385,24 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                   ) : SizedBox(),
                   Container(
                     color: Color(ColorConstants.getPrimaryWhite()),
-                    padding: EdgeInsets.only(bottom: 4, top: 18),
-                    child: quill.QuillToolbar.basic(
-                      controller: _controller,
-                      showUndo: false,
-                      showRedo: false,
-                      showClearFormat: false,
-                      showCodeBlock: false,
-                      showIndent: false,
-                      showDirection: false,
-                      showInlineCode: false,
-                      showQuote: false,
-                      showSmallButton: false,
-                      showSubscript: false,
-                      showSuperscript: false,
-                      showLink: false,
-                      showAlignmentButtons: true,
+                    padding: const EdgeInsets.only(bottom: 4, top: 18),
+                    child: quill.QuillToolbar.simple(
+                      configurations: quill.QuillSimpleToolbarConfigurations(
+                        controller: _controller!,
+                        showUndo: false,
+                        showRedo: false,
+                        showClearFormat: false,
+                        showCodeBlock: false,
+                        showIndent: false,
+                        showDirection: false,
+                        showInlineCode: false,
+                        showQuote: false,
+                        showSmallButton: false,
+                        showSubscript: false,
+                        showSuperscript: false,
+                        showLink: false,
+                        showAlignmentButtons: true,
+                      )
                     ),
                   )
                 ],
@@ -410,16 +412,18 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
       );
 
   Widget getEditor() {
-    return quill.QuillEditor(
-      controller: _controller,
-      scrollable: true,
+    return quill.QuillEditor.basic(
       scrollController: ScrollController(),
       focusNode: contractFocusNode,
-      padding: EdgeInsets.all(0),
-      autoFocus: true,
-      readOnly: false,
-      expands: false,
-      placeholder: "Past contract terms here",
+      configurations: QuillEditorConfigurations(
+        controller: _controller!,
+        scrollable: true,
+        padding: const EdgeInsets.all(0),
+        autoFocus: true,
+        readOnly: false,
+        expands: false,
+        placeholder: "Past contract terms here",
+      )
     );
   }
 
@@ -625,7 +629,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: DateFormat('EEE, MMMM dd, yyyy').format(
-                        pageState.contract! != null && pageState.contract!.clientSignedDate! != null
+                        pageState.contract != null && pageState.contract!.clientSignedDate != null
                             ? pageState.contract!.clientSignedDate!
                             : DateTime.now()),
                   ),

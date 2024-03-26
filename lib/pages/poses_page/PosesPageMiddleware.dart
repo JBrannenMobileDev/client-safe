@@ -66,7 +66,7 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
     _fetchMyPoseGroups(store, next);
     _fetchLibraryPoseGroups(store, next);
     loadAllSubmittedImages(store);
-    store.dispatch(SetActiveJobsToPosesPage(store.state.posesPageState, JobUtil.getActiveJobs((await JobDao.getAllJobs()))));
+    store.dispatch(SetActiveJobsToPosesPage(store.state.posesPageState, JobUtil.getActiveJobs((await JobDao.getAllJobs())!)));
     store.dispatch(SetPosesProfileAction(store.state.posesPageState, profile));
   }
 

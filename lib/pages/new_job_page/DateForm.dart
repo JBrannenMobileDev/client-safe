@@ -66,8 +66,8 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
     super.build(context);
     return StoreConnector<AppState, NewJobPageState>(
       onInit: (appState) async {
-        PermissionStatus previousStatus = await UserPermissionsUtil.getPermissionStatus(Permission.calendar);
-        bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendar, context: context);
+        PermissionStatus previousStatus = await UserPermissionsUtil.getPermissionStatus(Permission.calendarFullAccess);
+        bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendarFullAccess, context: context);
         if(isGranted) {
           if(!(previousStatus.isGranted)) {
             UserOptionsUtil.showCalendarSelectionDialog(context, appState.state.newJobPageState!.onCalendarEnabled);

@@ -31,8 +31,8 @@ class CalendarPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _loadAll(Store<AppState> store, action, NextDispatcher next) async {
-    List<Job> allJobs = await JobDao.getAllJobs();
-    store.dispatch(SetJobsCalendarStateAction(store.state.calendarPageState!, allJobs));
+    List<Job>? allJobs = await JobDao.getAllJobs();
+    store.dispatch(SetJobsCalendarStateAction(store.state.calendarPageState!, allJobs!));
     store.dispatch(SetDeviceEventsAction(store.state.calendarPageState!, []));
 
     (await JobDao.getJobsStream()).listen((jobSnapshots) async {

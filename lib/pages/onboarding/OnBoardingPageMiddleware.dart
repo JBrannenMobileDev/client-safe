@@ -15,13 +15,13 @@ class OnBoardingPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _setSampleJob(Store<AppState> store, SetJobForDetailsPage action, NextDispatcher next) async{
-    List<Job> jobs = await JobDao.getAllJobs();
-    if(jobs.length == 0) {
+    List<Job>? jobs = await JobDao.getAllJobs();
+    if(jobs!.length == 0) {
       await JobDao.syncAllFromFireStore();
       jobs = await JobDao.getAllJobs();
     }
-    if(jobs.length > 0) {
-      store.dispatch(SetJobInfo(store.state.jobDetailsPageState, (await JobDao.getAllJobs()).first.documentId));
+    if(jobs!.length > 0) {
+      store.dispatch(SetJobInfo(store.state.jobDetailsPageState, (await JobDao.getAllJobs())!.first.documentId));
     }
   }
 }

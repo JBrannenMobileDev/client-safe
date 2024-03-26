@@ -4,14 +4,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 class DandylightSharedPrefs {
   static const String EVENT_ID_MAP_KEY = 'eventIdMapKey';
 
-  static Future<String> getEventIdMap() async {
+  static Future<String?> getEventIdMap() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(EVENT_ID_MAP_KEY)!;
+    return prefs.getString(EVENT_ID_MAP_KEY);
   }
 
   static Future<List<JobEventIdMap>> getListOfKnowJobEventsOnDeviceCalendars() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String mapString = prefs.getString(EVENT_ID_MAP_KEY)!;
+    String? mapString = prefs.getString(EVENT_ID_MAP_KEY);
     if(mapString != null) {
       return JobEventIdMap.decode(mapString);
     }
@@ -21,7 +21,7 @@ class DandylightSharedPrefs {
   static void saveEventId(String? eventId, String? calendarId, String? jobId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     JobEventIdMap newMap = JobEventIdMap(calendarId: calendarId, jobId: jobId, eventId: eventId);
-    String mapsString = await getEventIdMap();
+    String? mapsString = await getEventIdMap();
     if(mapsString == null) {
       _addAndSaveNewEventIdMap(newMap, prefs, []);
     } else {
@@ -38,7 +38,7 @@ class DandylightSharedPrefs {
   }
 
   static Future<String?> getEventIdByJobAndCalendar(String jobId, String calendarId) async {
-    String mapsString = await getEventIdMap();
+    String? mapsString = await getEventIdMap();
     if(mapsString !=  null) {
       List<JobEventIdMap> eventIds = JobEventIdMap.decode(mapsString);
 
@@ -62,7 +62,7 @@ class DandylightSharedPrefs {
 
   static void deleteEvent(String jobId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String mapsString = await getEventIdMap();
+    String? mapsString = await getEventIdMap();
     if(mapsString != null) {
       List<JobEventIdMap> eventIds = JobEventIdMap.decode(mapsString);
       List<JobEventIdMap> eventsToSave = [];

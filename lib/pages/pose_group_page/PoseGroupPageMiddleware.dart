@@ -114,7 +114,7 @@ class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
   void _loadPoseImages(Store<AppState> store, LoadPoseImagesFromStorage action) async{
     store.dispatch(SetPoseGroupData(store.state.poseGroupPageState, action.poseGroup));
     store.dispatch(SetPoseImagesToState(store.state.poseGroupPageState, action.poseGroup!.poses));
-    store.dispatch(SetActiveJobsToPoses(store.state.poseGroupPageState, JobUtil.getActiveJobs((await JobDao.getAllJobs()))));
+    store.dispatch(SetActiveJobsToPoses(store.state.poseGroupPageState, JobUtil.getActiveJobs((await JobDao.getAllJobs())!)));
   }
 
   pathsDoNotMatch(String path, List<XFile> selectedImages) {

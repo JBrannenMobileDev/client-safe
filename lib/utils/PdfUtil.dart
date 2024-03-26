@@ -90,7 +90,7 @@ class PdfUtil {
                     : TextFormatterUtil.isPhone(profile.zellePhoneEmail!)
                         ? 'Phone: '
                         : 'Phone or Email') +
-                TextFormatterUtil.formatPhoneOrEmail(profile.zellePhoneEmail!) +
+                TextFormatterUtil.formatPhoneOrEmail(profile.zellePhoneEmail) +
                 '\nName: ' +
                 profile.zelleFullName!
             : '';
@@ -1083,7 +1083,7 @@ class PdfUtil {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    logoImageData! != null ? Padding(
+                    logoImageData != null ? Padding(
                       padding: const EdgeInsets.only(right: 16),
                       child: Container(
                           alignment: Alignment.centerLeft,
@@ -1304,7 +1304,7 @@ class PdfUtil {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    logoImageData! != null ? Padding(
+                    logoImageData != null ? Padding(
                       padding: const EdgeInsets.only(right: 16),
                       child: Container(
                           alignment: Alignment.centerLeft,

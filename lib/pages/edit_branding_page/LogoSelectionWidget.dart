@@ -252,21 +252,27 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
   Future getDeviceImage(EditBrandingPageState pageState) async {
     try {
       XFile? localImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-      CroppedFile? croppedImage = await ImageCropper().cropImage(
-        sourcePath: localImage!.path,
-        maxWidth: 300,
-        maxHeight: 300,
-        aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
-        cropStyle: CropStyle.circle,
-      );
-      localImage = XFile(croppedImage!.path);
-      if (localImage == null) {
+      if(localImage != null) {
+        CroppedFile? croppedImage = await ImageCropper().cropImage(
+          sourcePath: localImage.path,
+          maxWidth: 300,
+          maxHeight: 300,
+          aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+          cropStyle: CropStyle.circle,
+        );
+        if(croppedImage != null) {
+          localImage = XFile(croppedImage.path);
+          pageState.onLogoUploaded!(localImage);
+          EventSender().sendEvent(eventName: EventNames.BRANDING_UPLOADED_ICON);
+        } else {
+          setState(() {
+            loading = false;
+          });
+        }
+      } else {
         setState(() {
           loading = false;
         });
-      } else {
-        pageState.onLogoUploaded!(localImage);
-        EventSender().sendEvent(eventName: EventNames.BRANDING_UPLOADED_ICON);
       }
     } catch (ex) {
       print(ex.toString());

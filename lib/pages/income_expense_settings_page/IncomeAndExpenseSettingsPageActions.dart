@@ -8,7 +8,7 @@ import 'IncomeAndExpenseSettingsPageState.dart';
 
 class SaveZelleStateAction{
   final IncomeAndExpenseSettingsPageState? pageState;
-  final bool? enabled;
+  final bool enabled;
   SaveZelleStateAction(this.pageState, this.enabled);
 }
 
@@ -55,19 +55,19 @@ class LoadPaymentSettingsFromProfile{
 
 class SaveVenmoStateAction{
   final IncomeAndExpenseSettingsPageState? pageState;
-  final bool? enabled;
+  final bool enabled;
   SaveVenmoStateAction(this.pageState, this.enabled);
 }
 
 class SaveCashAppStateAction{
   final IncomeAndExpenseSettingsPageState? pageState;
-  final bool? enabled;
+  final bool enabled;
   SaveCashAppStateAction(this.pageState, this.enabled);
 }
 
 class SaveApplePayStateAction{
   final IncomeAndExpenseSettingsPageState? pageState;
-  final bool? enabled;
+  final bool enabled;
   SaveApplePayStateAction(this.pageState, this.enabled);
 }
 

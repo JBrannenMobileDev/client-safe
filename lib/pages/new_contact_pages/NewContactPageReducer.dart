@@ -95,7 +95,7 @@ NewContactPageState _loadClient(NewContactPageState previousState, LoadExistingC
 NewContactPageState _setSelectedDeviceContact(NewContactPageState previousState, SetSelectedDeviceContactAction action){
   String? phone = action.selectedContact!.phones != null && action.selectedContact!.phones!.isNotEmpty ? action.selectedContact!.phones!.toList().elementAt(0).value : '';
   String? email = action.selectedContact!.emails != null && action.selectedContact!.emails!.isNotEmpty ? action.selectedContact!.emails!.toList().elementAt(0).value : '';
-  phone = TextFormatterUtil.formatPhoneNum(phone!);
+  phone = TextFormatterUtil.formatPhoneNum(phone);
   return previousState.copyWith(
       selectedDeviceContact: action.selectedContact,
       deviceContacts: [],

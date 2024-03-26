@@ -127,7 +127,7 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void loadLocations(Store<AppState> store, NextDispatcher next, LoadNewMileageLocationsAction action) async {
-    List<LocationDandy> locations = await LocationDao.getAllSortedMostFrequent();
+    List<LocationDandy>? locations = await LocationDao.getAllSortedMostFrequent();
     List<File> imageFiles = [];
 
     // for(LocationDandy location in locations) {
@@ -138,10 +138,10 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void getLocationData(Store<AppState> store, NextDispatcher next, FetchLastKnowPosition action) async {
-    List<LocationDandy> locations = await LocationDao.getAllSortedMostFrequent();
+    List<LocationDandy>? locations = await LocationDao.getAllSortedMostFrequent();
     List<File?> imageFiles = [];
 
-    for(LocationDandy location in locations) {
+    for(LocationDandy location in locations!) {
       imageFiles.add(await FileStorage.getLocationImageFile(location));
     }
     store.dispatch(SetMileageLocationsAction(store.state.newMileageExpensePageState, locations, imageFiles));

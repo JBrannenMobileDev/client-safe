@@ -67,7 +67,7 @@ class _SignContractPageState extends State<ProposalPage> {
               canPop: false,
               child: Scaffold(
           backgroundColor: Color(ColorConstants.getPrimaryWhite()),
-          body: pageState.isLoadingInitial ? Container(
+          body: pageState.isLoadingInitial! ? Container(
             alignment: Alignment.center,
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
@@ -103,21 +103,21 @@ class _SignContractPageState extends State<ProposalPage> {
                             child: Stack(
                               alignment: Alignment.centerLeft,
                               children: [
-                                pageState.profile.bannerWebUrl != null && pageState.profile.bannerMobileUrl != null && pageState.profile.bannerImageSelected == true ? Container(
+                                pageState.profile!.bannerWebUrl != null && pageState.profile!.bannerMobileUrl != null && pageState.profile!.bannerImageSelected == true ? Container(
                                   height: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MediaQuery.of(context).size.height/2 : 300,
                                   decoration: BoxDecoration(
                                     color: Colors.transparent,
                                   ),
                                   child: DandyLightNetworkImage(
-                                    DeviceType.getDeviceTypeByContext(context)! == Type.Website ? pageState.profile.bannerWebUrl! : pageState.profile.bannerMobileUrl!,
+                                    DeviceType.getDeviceTypeByContext(context)! == Type.Website ? pageState.profile!.bannerWebUrl! : pageState.profile!.bannerMobileUrl!,
                                     borderRadius: 0,
                                     resizeWidth: 2160,
-                                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.bannerColor!),
+                                    color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.bannerColor!),
                                   ),
                                 ) : Container(
                                   height: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MediaQuery.of(context).size.height/2 : 300,
                                   decoration: BoxDecoration(
-                                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.bannerColor!),
+                                    color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.bannerColor!),
                                   ),
                                 ),
                                 DeviceType.getDeviceTypeByContext(context) == Type.Website && pageState.profile?.logoUrl != null && pageState.profile?.logoSelected == true ? Padding(
@@ -129,20 +129,20 @@ class _SignContractPageState extends State<ProposalPage> {
                                     decoration: BoxDecoration(
                                       boxShadow: ElevationToShadow[0],
                                       shape: BoxShape.circle,
-                                      color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.iconColor!),
+                                      color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
                                     ),
                                     child: ClipRRect(
                                       borderRadius: new BorderRadius.circular(75.0),
                                       child: Container(
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.iconColor!),
+                                          color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
                                         ),
                                         width: 150,
                                         height: 150,
                                         child: DandyLightNetworkImage(
-                                          pageState.profile.logoUrl!,
-                                          color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.iconColor!),
+                                          pageState.profile!.logoUrl!,
+                                          color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
                                         ),
                                       ),
                                     ),
@@ -157,13 +157,13 @@ class _SignContractPageState extends State<ProposalPage> {
                                     decoration: BoxDecoration(
                                       boxShadow: ElevationToShadow[0],
                                       shape: BoxShape.circle,
-                                      color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.iconColor!),
+                                      color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
                                     ),
                                     child: TextDandyLight(
                                       type: TextDandyLight.BRAND_LOGO,
-                                      text: pageState.profile.logoCharacter,
-                                      fontFamily: pageState.profile.selectedFontTheme!.iconFont,
-                                      color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.iconTextColor!),
+                                      text: pageState.profile!.logoCharacter,
+                                      fontFamily: pageState.profile!.selectedFontTheme!.iconFont,
+                                      color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconTextColor!),
                                     ),
                                   ),
                                 ) : SizedBox(),
@@ -177,20 +177,20 @@ class _SignContractPageState extends State<ProposalPage> {
                                         margin: EdgeInsets.only(left: calculateCompanyNameMargin(MediaQuery.of(context).size.width)),
                                         child: TextDandyLight(
                                           type: TextDandyLight.EXTRA_EXTRA_LARGE_TEXT,
-                                          fontFamily: pageState.profile.selectedFontTheme!.mainFont,
-                                          text: pageState.job.client?.getClientFullName(),
-                                          color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme!.bannerColor!) && !pageState.profile.bannerImageSelected! ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
-                                          addShadow: pageState.profile.bannerImageSelected! ? true : false,
+                                          fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
+                                          text: pageState.job!.client?.getClientFullName(),
+                                          color: ColorConstants.isWhiteString(pageState.profile!.selectedColorTheme!.bannerColor!) && !pageState.profile!.bannerImageSelected! ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
+                                          addShadow: pageState.profile!.bannerImageSelected! ? true : false,
                                         ),
                                       ),
                                       Container(
                                         margin: EdgeInsets.only(left: calculateCompanyNameMargin(MediaQuery.of(context).size.width)),
                                         child: TextDandyLight(
                                           type: TextDandyLight.LARGE_TEXT,
-                                          fontFamily: pageState.profile.selectedFontTheme!.mainFont,
-                                          text: pageState.profile.businessName != null ? pageState.profile.businessName : 'Your Business Name',
-                                          color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme!.bannerColor!) && !pageState.profile.bannerImageSelected! ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
-                                          addShadow: pageState.profile.bannerImageSelected! ? true : false,
+                                          fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
+                                          text: pageState.profile!.businessName != null ? pageState.profile!.businessName : 'Your Business Name',
+                                          color: ColorConstants.isWhiteString(pageState.profile!.selectedColorTheme!.bannerColor!) && !pageState.profile!.bannerImageSelected! ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
+                                          addShadow: pageState.profile!.bannerImageSelected! ? true : false,
                                         ),
                                       )
                                     ],
@@ -204,7 +204,7 @@ class _SignContractPageState extends State<ProposalPage> {
                             margin: EdgeInsets.only(top: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MediaQuery.of(context).size.height/2 - 124 : 264, bottom: 124),
                             width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 1440 : MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
-                                boxShadow: ElevationToShadow[DeviceType.getDeviceTypeByContext(context) == Type.Website && (!ColorConstants.isWhiteString(pageState.profile.selectedColorTheme!.bannerColor!) || pageState.profile.bannerImageSelected!) ? 2 : 0],
+                                boxShadow: ElevationToShadow[DeviceType.getDeviceTypeByContext(context) == Type.Website && (!ColorConstants.isWhiteString(pageState.profile!.selectedColorTheme!.bannerColor!) || pageState.profile!.bannerImageSelected!) ? 2 : 0],
                                 color: Color(ColorConstants.getPrimaryWhite()),
                                 borderRadius: BorderRadius.circular(16)
                             ),
@@ -231,7 +231,7 @@ class _SignContractPageState extends State<ProposalPage> {
                     ),
                   ) : Container(),
                 ),
-                DeviceType.getDeviceTypeByContext(context) != Type.Website && _menuButtonsSmallScreen(pageState)! != null ? _menuButtonsSmallScreen(pageState)! : SizedBox()
+                DeviceType.getDeviceTypeByContext(context) != Type.Website && _menuButtonsSmallScreen(pageState) != null ? _menuButtonsSmallScreen(pageState)! : SizedBox()
               ],
             ),
           ),
@@ -257,7 +257,7 @@ class _SignContractPageState extends State<ProposalPage> {
             child: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
               text: 'Details',
-              fontFamily: pageState.profile.selectedFontTheme!.mainFont,
+              fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
               isBold: isHoveredDetails || selectedPage == DETAILS,
               color: Colors.black,
             ),
@@ -290,7 +290,7 @@ class _SignContractPageState extends State<ProposalPage> {
             width: 150,
             child: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
-              fontFamily: pageState.profile.selectedFontTheme!.mainFont,
+              fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
               text: 'Contract',
               isBold: isHoveredContract || selectedPage == CONTRACT,
             ),
@@ -323,7 +323,7 @@ class _SignContractPageState extends State<ProposalPage> {
             width: 150,
             child: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
-              fontFamily: pageState.profile.selectedFontTheme!.mainFont,
+              fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
               text: 'Invoice',
               isBold: isHoveredInvoice || selectedPage == INVOICE,
             ),
@@ -341,7 +341,7 @@ class _SignContractPageState extends State<ProposalPage> {
           },
         ),
       ) : SizedBox(),
-      pageState.proposal.includePoses! && pageState.job.poses!.length > 0 ? GestureDetector(
+      pageState.proposal!.includePoses! && pageState.job!.poses!.length > 0 ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = POSES;
@@ -356,7 +356,7 @@ class _SignContractPageState extends State<ProposalPage> {
             width: 150,
             child: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
-              fontFamily: pageState.profile.selectedFontTheme!.mainFont,
+              fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
               text: 'Poses',
               isBold: isHoveredPoses || selectedPage == POSES,
             ),
@@ -388,7 +388,7 @@ class _SignContractPageState extends State<ProposalPage> {
             width: 150,
             child: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
-              fontFamily: pageState.profile.selectedFontTheme!.mainFont,
+              fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
               text: 'Questionnaire',
               isBold: isHoveredQuestionnaire || selectedPage == QUESTIONNAIRE,
             ),
@@ -419,7 +419,7 @@ class _SignContractPageState extends State<ProposalPage> {
             width: 150,
             child: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
-              fontFamily: pageState.profile.selectedFontTheme!.mainFont,
+              fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
               text: 'Feedback',
               isBold: isHoveredFeedback || selectedPage == FEEDBACK,
             ),
@@ -459,7 +459,7 @@ class _SignContractPageState extends State<ProposalPage> {
       ),
     )];
 
-    if(pageState.proposal.contract != null && pageState.proposal.includeContract!) {
+    if(pageState.proposal!.contract != null && pageState.proposal!.includeContract!) {
       result.add(GestureDetector(
         onTap: () {
           setState(() {
@@ -479,7 +479,7 @@ class _SignContractPageState extends State<ProposalPage> {
       ));
     }
 
-    if(pageState.invoice != null && pageState.proposal.includeInvoice!) {
+    if(pageState.invoice != null && pageState.proposal!.includeInvoice!) {
       result.add(GestureDetector(
         onTap: () {
           setState(() {
@@ -499,7 +499,7 @@ class _SignContractPageState extends State<ProposalPage> {
       ));
     }
 
-    if(pageState.job.poses != null && pageState.job.poses!.length > 0 && pageState.proposal.includePoses!) {
+    if(pageState.job!.poses != null && pageState.job!.poses!.length > 0 && pageState.proposal!.includePoses!) {
       result.add(GestureDetector(
         onTap: () {
           setState(() {
@@ -523,7 +523,7 @@ class _SignContractPageState extends State<ProposalPage> {
   }
 
   Widget? _menuButtonsSmallScreen(ClientPortalPageState pageState) {
-    if((pageState.proposal.contract != null && pageState.proposal.includeContract!) || (pageState.invoice != null && pageState.proposal.includeInvoice!) || (pageState.job.poses != null && pageState.job.poses!.length > 0 && pageState.proposal.includePoses!)) {
+    if((pageState.proposal!.contract != null && pageState.proposal!.includeContract!) || (pageState.invoice != null && pageState.proposal!.includeInvoice!) || (pageState.job!.poses != null && pageState.job!.poses!.length > 0 && pageState.proposal!.includePoses!)) {
       List<Widget> buttons = buildButtonList(pageState);
       return UnconstrainedBox(
         child: Container(
@@ -533,7 +533,7 @@ class _SignContractPageState extends State<ProposalPage> {
           padding: EdgeInsets.only(left: 16, right: 16),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
-            color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.buttonColor!),
+            color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.buttonColor!),
             boxShadow: ElevationToShadow[4],
           ),
           child: Row(
@@ -587,14 +587,14 @@ class _SignContractPageState extends State<ProposalPage> {
         pageState.profile?.bannerWebUrl != null && pageState.profile?.bannerMobileUrl != null && pageState.profile?.bannerImageSelected == true ? Container(
           height: 300,
           child: DandyLightNetworkImage(
-            DeviceType.getDeviceTypeByContext(context)! == Type.Website ? pageState.profile.bannerWebUrl! : pageState.profile.bannerMobileUrl!,
+            DeviceType.getDeviceTypeByContext(context) == Type.Website ? pageState.profile!.bannerWebUrl! : pageState.profile!.bannerMobileUrl!,
             borderRadius: 0,
-            color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.bannerColor!),
+            color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.bannerColor!),
           ),
         ) : Container(
           height: 300,
           decoration: BoxDecoration(
-            color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.bannerColor!),
+            color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.bannerColor!),
           ),
         ),
         Container(
@@ -606,27 +606,27 @@ class _SignContractPageState extends State<ProposalPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              pageState.profile?.logoUrl != null  && pageState.profile.logoSelected! ? Container(
+              pageState.profile?.logoUrl != null  && pageState.profile!.logoSelected! ? Container(
                 alignment: Alignment.center,
                 height: 42,
                 width: 42,
                 decoration: BoxDecoration(
                   boxShadow: ElevationToShadow[0],
                   shape: BoxShape.circle,
-                  color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.iconColor!),
+                  color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
                 ),
                 child: ClipRRect(
                   borderRadius: new BorderRadius.circular(21.0),
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.iconColor!),
+                      color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
                     ),
                     width: 42,
                     height: 42,
                     child: DandyLightNetworkImage(
-                      pageState.profile.logoUrl!,
-                      color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.iconColor!),
+                      pageState.profile!.logoUrl!,
+                      color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
                     ),
                   ),
                 ),
@@ -639,19 +639,19 @@ class _SignContractPageState extends State<ProposalPage> {
                     width: 42,
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.iconColor!),
+                        color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
                         boxShadow: ElevationToShadow[1],
                     ),
                   ),
                   Container(
-                    margin: getMargin(pageState.profile.selectedFontTheme!.iconFont!),
+                    margin: getMargin(pageState.profile!.selectedFontTheme!.iconFont!),
                     child: TextDandyLight(
                       type: TextDandyLight.EXTRA_LARGE_TEXT,
-                      fontFamily: pageState.profile.selectedFontTheme!.iconFont,
+                      fontFamily: pageState.profile!.selectedFontTheme!.iconFont,
                       textAlign: TextAlign.center,
-                      text: pageState.profile.logoCharacter,
+                      text: pageState.profile!.logoCharacter,
                       isMobileWeb: true,
-                      color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme!.iconColor!) ? Color(ColorConstants.getPrimaryBlack()) : ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.iconTextColor!),
+                      color: ColorConstants.isWhiteString(pageState.profile!.selectedColorTheme!.iconColor!) ? Color(ColorConstants.getPrimaryBlack()) : ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconTextColor!),
                     ),
                   )
                 ],
@@ -660,11 +660,11 @@ class _SignContractPageState extends State<ProposalPage> {
                 margin: EdgeInsets.only(left: 8),
                 child: TextDandyLight(
                   type: TextDandyLight.MEDIUM_TEXT,
-                  text: pageState.profile.businessName != null ? pageState.profile.businessName : 'Your Business Name',
-                  fontFamily: pageState.profile.selectedFontTheme!.mainFont,
+                  text: pageState.profile!.businessName != null ? pageState.profile!.businessName : 'Your Business Name',
+                  fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
                   textAlign: TextAlign.center,
-                  color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme!.bannerColor!) && !pageState.profile.bannerImageSelected! ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
-                  addShadow: pageState.profile.bannerImageSelected! ? true : false,
+                  color: ColorConstants.isWhiteString(pageState.profile!.selectedColorTheme!.bannerColor!) && !pageState.profile!.bannerImageSelected! ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
+                  addShadow: pageState.profile!.bannerImageSelected! ? true : false,
                 ),
               ),
             ],
@@ -674,11 +674,11 @@ class _SignContractPageState extends State<ProposalPage> {
           alignment: Alignment.center,
           child: TextDandyLight(
             type: TextDandyLight.EXTRA_LARGE_TEXT,
-            text: pageState.job.clientName,
-            fontFamily: pageState.profile.selectedFontTheme!.mainFont,
+            text: pageState.job!.clientName,
+            fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
             textAlign: TextAlign.center,
-            color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme!.bannerColor!) && !pageState.profile.bannerImageSelected! ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
-            addShadow: pageState.profile.bannerImageSelected! ? true : false,
+            color: ColorConstants.isWhiteString(pageState.profile!.selectedColorTheme!.bannerColor!) && !pageState.profile!.bannerImageSelected! ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
+            addShadow: pageState.profile!.bannerImageSelected! ? true : false,
           ),
         ),
       ],
@@ -691,14 +691,14 @@ class _SignContractPageState extends State<ProposalPage> {
         pageState.profile?.bannerWebUrl != null && pageState.profile?.bannerMobileUrl != null && pageState.profile?.bannerImageSelected == true ? Container(
           height: 300,
           child: DandyLightNetworkImage(
-            DeviceType.getDeviceTypeByContext(context)! == Type.Website ? pageState.profile.bannerWebUrl! : pageState.profile.bannerMobileUrl!,
+            DeviceType.getDeviceTypeByContext(context)! == Type.Website ? pageState.profile!.bannerWebUrl! : pageState.profile!.bannerMobileUrl!,
             borderRadius: 0,
-            color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.bannerColor!),
+            color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.bannerColor!),
           ),
         ) : Container(
           height: 300,
           decoration: BoxDecoration(
-            color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.bannerColor!),
+            color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.bannerColor!),
           ),
         ),
         Container(
@@ -709,27 +709,27 @@ class _SignContractPageState extends State<ProposalPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              pageState.profile?.logoUrl != null  && pageState.profile.logoSelected! ? Container(
+              pageState.profile?.logoUrl != null  && pageState.profile!.logoSelected! ? Container(
                 alignment: Alignment.center,
                 height: 96,
                 width: 96,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.iconColor!),
+                  color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
                 ),
                 child: ClipRRect(
                   borderRadius: new BorderRadius.circular(66.0),
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.iconColor!),
+                      color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
                       boxShadow: ElevationToShadow[1],
                     ),
                     width: 96,
                     height: 96,
                     child: DandyLightNetworkImage(
-                      pageState.profile.logoUrl!,
-                      color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.iconColor!),
+                      pageState.profile!.logoUrl!,
+                      color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
                     ),
                   ),
                 ),
@@ -742,7 +742,7 @@ class _SignContractPageState extends State<ProposalPage> {
                     width: 96,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.iconColor!),
+                      color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
                       boxShadow: ElevationToShadow[1],
                     ),
                   ),
@@ -752,10 +752,10 @@ class _SignContractPageState extends State<ProposalPage> {
                     width: 96,
                     child: TextDandyLight(
                       type: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextDandyLight.BRAND_LOGO : TextDandyLight.BRAND_LOGO_SMALL,
-                      fontFamily: pageState.profile.selectedFontTheme!.iconFont!,
+                      fontFamily: pageState.profile!.selectedFontTheme!.iconFont!,
                       textAlign: TextAlign.center,
-                      text: pageState.profile.logoCharacter,
-                      color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme!.iconTextColor!),
+                      text: pageState.profile!.logoCharacter,
+                      color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconTextColor!),
                     ),
                   )
                 ],
@@ -764,21 +764,21 @@ class _SignContractPageState extends State<ProposalPage> {
                 margin: const EdgeInsets.only(top: 12),
                 child: TextDandyLight(
                   type: TextDandyLight.EXTRA_LARGE_TEXT,
-                  text: pageState.job.client?.getClientFullName(),
+                  text: pageState.job!.client?.getClientFullName(),
                   textAlign: TextAlign.center,
-                  fontFamily: pageState.profile.selectedFontTheme!.mainFont,
-                  color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme!.bannerColor!) && !pageState.profile.bannerImageSelected! ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
-                  addShadow: pageState.profile.bannerImageSelected! ? true : false,
+                  fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
+                  color: ColorConstants.isWhiteString(pageState.profile!.selectedColorTheme!.bannerColor!) && !pageState.profile!.bannerImageSelected! ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
+                  addShadow: pageState.profile!.bannerImageSelected! ? true : false,
                 ),
               ),
               Container(
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
-                  text: pageState.profile.businessName != null ? pageState.profile.businessName : 'Your Business Name',
-                  fontFamily: pageState.profile.selectedFontTheme!.mainFont,
+                  text: pageState.profile!.businessName != null ? pageState.profile!.businessName : 'Your Business Name',
+                  fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
                   textAlign: TextAlign.center,
-                  color: ColorConstants.isWhiteString(pageState.profile.selectedColorTheme!.bannerColor!) && !pageState.profile.bannerImageSelected! ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
-                  addShadow: pageState.profile.bannerImageSelected! ? true : false,
+                  color: ColorConstants.isWhiteString(pageState.profile!.selectedColorTheme!.bannerColor!) && !pageState.profile!.bannerImageSelected! ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
+                  addShadow: pageState.profile!.bannerImageSelected! ? true : false,
                 ),
               ),
             ],

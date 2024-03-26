@@ -113,9 +113,8 @@ class PoseSubmittedGroupDao extends Equatable{
     });
 
     // Making a List<Client> out of List<RecordSnapshot>
-    if(recordSnapshots != null) {
+    if(recordSnapshots.isNotEmpty) {
       return recordSnapshots.map((snapshot) {
-        if(snapshot == null) return null;
         final pose = PoseSubmittedGroup.fromMap(snapshot.value);
         pose.id = snapshot.key;
         return pose;
@@ -126,7 +125,7 @@ class PoseSubmittedGroupDao extends Equatable{
   }
 
   static Future<void> syncAllFromFireStore() async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     if(AdminCheckUtil.isAdmin(profile)) {
       List<PoseSubmittedGroup> fireStorePoseSubmittedGroups = await PoseSubmittedGroupCollection().getPoseSubmittedGroupsThatNeedReview();
       await _deleteAllLocalPoseSubmittedGroups(fireStorePoseSubmittedGroups);
@@ -136,7 +135,7 @@ class PoseSubmittedGroupDao extends Equatable{
     } else {
       PoseSubmittedGroup? poseSubmittedGroup = await getByUid(UidUtil().getUid());
       PoseSubmittedGroup? fireStorePoseSubmittedGroup = await PoseSubmittedGroupCollection().getPoseSubmittedGroup();
-      await _syncFireStoreToLocal(poseSubmittedGroup!, fireStorePoseSubmittedGroup!);
+      await _syncFireStoreToLocal(poseSubmittedGroup!, fireStorePoseSubmittedGroup);
     }
   }
 
@@ -150,7 +149,7 @@ class PoseSubmittedGroupDao extends Equatable{
     }
   }
 
-  static Future<void> _syncFireStoreToLocal(PoseSubmittedGroup? localPoseSubmittedGroup, PoseSubmittedGroup fireStorePoseSubmittedGroup) async {
+  static Future<void> _syncFireStoreToLocal(PoseSubmittedGroup? localPoseSubmittedGroup, PoseSubmittedGroup? fireStorePoseSubmittedGroup) async {
     if(fireStorePoseSubmittedGroup != null) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('uid', fireStorePoseSubmittedGroup.uid));
       await _PoseSubmittedGroupGroupStore.update(
@@ -220,6 +219,6 @@ class PoseSubmittedGroupDao extends Equatable{
 
   static void deleteAllLocal() async {
     List<PoseSubmittedGroup?> locations = await getAllSortedMostFrequent();
-    _deleteAllLocalPoseSubmittedGroups(locations!);
+    _deleteAllLocalPoseSubmittedGroups(locations);
   }
 }

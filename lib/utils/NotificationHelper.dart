@@ -72,8 +72,8 @@ class NotificationHelper {
             if(notificationResponse.payload == JobReminder.MILEAGE_EXPENSE_ID) {
               UserOptionsUtil.showNewMileageExpenseSelected(context, null);
             }else if(notificationResponse.payload == JobReminder.POSE_FEATURED_ID) {
-              Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-              profile.showNewMileageExpensePage = true;
+              Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+              profile!.showNewMileageExpensePage = true;
               ProfileDao.update(profile);
             } else {
               // Job job = await JobDao.getJobById(notificationResponse.payload);
@@ -84,8 +84,8 @@ class NotificationHelper {
             print('Notification selected with action');
             if (notificationResponse.actionId == navigationActionId) {
               if(notificationResponse.payload == JobReminder.MILEAGE_EXPENSE_ID) {
-                Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-                profile.showNewMileageExpensePage = true;
+                Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+                profile!.showNewMileageExpensePage = true;
                 ProfileDao.update(profile);
               }
             }
@@ -102,10 +102,10 @@ class NotificationHelper {
       bool isGranted = (await UserPermissionsUtil.getPermissionStatus(Permission.notification)).isGranted;
       if(isGranted) {
         List<JobReminder> pendingReminders = await JobReminderDao.getPendingJobReminders();
-        List<Job> allJobs = await JobDao.getAllJobs();
+        List<Job>? allJobs = await JobDao.getAllJobs();
         clearAll();
 
-        if(allJobs.length == 1 && allJobs.elementAt(0).clientName == "Example Client") {
+        if(allJobs!.length == 1 && allJobs.elementAt(0).clientName == "Example Client") {
           scheduleStartFirstJobReminder();
         }
 
@@ -180,7 +180,7 @@ class NotificationHelper {
   }
 
   void scheduleStartFirstJobReminder() async {
-    DateTime profileCreatedDate = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).accountCreatedDate!;
+    DateTime profileCreatedDate = (await ProfileDao.getMatchingProfile(UidUtil().getUid()))!.accountCreatedDate!;
     profileCreatedDate = profileCreatedDate.add(Duration(days: 3));
 
     if(DateTime.now().isBefore(profileCreatedDate)) {

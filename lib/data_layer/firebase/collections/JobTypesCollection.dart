@@ -64,7 +64,7 @@ class JobTypesCollection {
         });
   }
 
-  Future<List<JobType>> getAll(String uid) async {
+  Future<List<JobType>?> getAll(String uid) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('env')

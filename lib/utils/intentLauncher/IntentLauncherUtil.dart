@@ -57,10 +57,10 @@ class IntentLauncherUtil{
 
   static sharePdfMobile(Document pdf, String filename) async {
     final output = await getTemporaryDirectory();
-    final file = File("${output.path}/$filename");
-    await file.writeAsBytes(await pdf.save());
+    final File? file = File("${output.path}/$filename");
 
     if (file != null) {
+      await file.writeAsBytes(await pdf.save());
       await Share.shareXFiles(
         [XFile(file.path)],
         sharePositionOrigin: Rect.fromCircle(
@@ -134,8 +134,8 @@ class IntentLauncherUtil{
   }
 
   static Future shareDepositRequest(depositAmount) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    String zelleInfo = profile.zellePhoneEmail != null && profile.zellePhoneEmail!.isNotEmpty ? '\n\nZelle\n' + 'Add recipient info:\n' + (TextFormatterUtil.isEmail(profile.zellePhoneEmail!) ? 'Email: ' : TextFormatterUtil.isPhone(profile.zellePhoneEmail!) ? 'Phone: ' : 'Phone or Email') + TextFormatterUtil.formatPhoneOrEmail(profile.zellePhoneEmail!) + '\nName: ' + profile.zelleFullName! : '';
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    String zelleInfo = profile!.zellePhoneEmail != null && profile.zellePhoneEmail!.isNotEmpty ? '\n\nZelle\n' + 'Add recipient info:\n' + (TextFormatterUtil.isEmail(profile.zellePhoneEmail!) ? 'Email: ' : TextFormatterUtil.isPhone(profile.zellePhoneEmail!) ? 'Phone: ' : 'Phone or Email') + TextFormatterUtil.formatPhoneOrEmail(profile.zellePhoneEmail!) + '\nName: ' + profile.zelleFullName! : '';
     String venmoInfo = profile.venmoLink != null && profile.venmoLink!.isNotEmpty ? '\n\nVenmo\n' + profile!.venmoLink! : '';
     String cashAppInfo = profile.cashAppLink != null && profile.cashAppLink!.isNotEmpty ? '\n\nCash App\n' + profile!.cashAppLink! : '';
     String applePayInfo = profile.applePayPhone != null && profile.applePayPhone!.isNotEmpty ? '\n\nApple Pay\n' + TextFormatterUtil.formatPhoneNum(profile.applePayPhone!) : '';
@@ -143,8 +143,8 @@ class IntentLauncherUtil{
   }
 
   static Future sharePaymentLinks() async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    String zelleInfo = profile.zellePhoneEmail != null && profile.zellePhoneEmail!.isNotEmpty ? '\n\nZelle\n' + 'Add recipient info:\n' + (TextFormatterUtil.isEmail(profile.zellePhoneEmail!) ? 'Email: ' : TextFormatterUtil.isPhone(profile.zellePhoneEmail!) ? 'Phone: ' : 'Phone or Email') + TextFormatterUtil.formatPhoneOrEmail(profile.zellePhoneEmail!) + '\nName: ' + profile.zelleFullName! : '';
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    String zelleInfo = profile!.zellePhoneEmail != null && profile.zellePhoneEmail!.isNotEmpty ? '\n\nZelle\n' + 'Add recipient info:\n' + (TextFormatterUtil.isEmail(profile.zellePhoneEmail!) ? 'Email: ' : TextFormatterUtil.isPhone(profile.zellePhoneEmail!) ? 'Phone: ' : 'Phone or Email') + TextFormatterUtil.formatPhoneOrEmail(profile.zellePhoneEmail!) + '\nName: ' + profile.zelleFullName! : '';
     String venmoInfo = profile.venmoLink != null && profile.venmoLink!.isNotEmpty ? '\n\nVenmo\n' + profile.venmoLink! : '';
     String cashAppInfo = profile.cashAppLink != null && profile.cashAppLink!.isNotEmpty ? '\n\nCash App\n' + profile.cashAppLink! : '';
     String applePayInfo = profile.applePayPhone != null && profile.applePayPhone!.isNotEmpty ? '\n\nApple Pay\n' + TextFormatterUtil.formatPhoneNum(profile.applePayPhone!) : '';
@@ -153,8 +153,8 @@ class IntentLauncherUtil{
 
   static Future shareInvoice(Invoice invoice) async{
     File invoiceFile = File(await PdfUtil.getInvoiceFilePath(invoice.invoiceId!));
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    String zelleInfo = profile.zellePhoneEmail != null && profile.zellePhoneEmail!.isNotEmpty ? '\n\nZelle\n' + 'Add recipient info:\n' + (TextFormatterUtil.isEmail(profile.zellePhoneEmail!) ? 'Email: ' : TextFormatterUtil.isPhone(profile.zellePhoneEmail!) ? 'Phone: ' : 'Phone or Email') + TextFormatterUtil.formatPhoneOrEmail(profile.zellePhoneEmail!) + '\nName: ' + profile.zelleFullName! : '';
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    String zelleInfo = profile!.zellePhoneEmail != null && profile.zellePhoneEmail!.isNotEmpty ? '\n\nZelle\n' + 'Add recipient info:\n' + (TextFormatterUtil.isEmail(profile.zellePhoneEmail!) ? 'Email: ' : TextFormatterUtil.isPhone(profile.zellePhoneEmail!) ? 'Phone: ' : 'Phone or Email') + TextFormatterUtil.formatPhoneOrEmail(profile.zellePhoneEmail!) + '\nName: ' + profile.zelleFullName! : '';
     String venmoInfo = profile.venmoLink != null && profile.venmoLink!.isNotEmpty ? '\n\nVenmo\n' + profile.venmoLink! : '';
     String cashAppInfo = profile.cashAppLink != null && profile.cashAppLink!.isNotEmpty ? '\n\nCash App\n' + profile.cashAppLink! : '';
     String applePayInfo = profile.applePayPhone != null && profile.applePayPhone!.isNotEmpty ? '\n\nApple Pay\n' + TextFormatterUtil.formatPhoneNum(profile.applePayPhone!) : '';

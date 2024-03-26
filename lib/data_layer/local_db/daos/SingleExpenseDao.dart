@@ -33,7 +33,7 @@ class SingleExpenseDao extends Equatable{
   }
 
   static Future<void> _updateLastChangedTime() async {
-    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    Profile profile = (await ProfileDao.getAll())!.elementAt(0);
     profile.singleExpensesLastChangeDate = DateTime.now();
     ProfileDao.update(profile);
   }
@@ -97,7 +97,7 @@ class SingleExpenseDao extends Equatable{
   }
 
   static Future<SingleExpense?> getSingleExpenseById(String documentId) async{
-    if((await getAll()).length > 0) {
+    if((await getAll()).isNotEmpty) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
       final recordSnapshots = await _singleExpenseStore.find(await _db, finder: finder);
       List<SingleExpense> list = recordSnapshots.map((snapshot) {
@@ -105,7 +105,7 @@ class SingleExpenseDao extends Equatable{
         expense.id = snapshot.key;
         return expense;
       }).toList();
-      return list != null && list.length > 0 ? list.first : null;
+      return list.isNotEmpty ? list.first : null;
     } else {
       return null;
     }
@@ -124,8 +124,8 @@ class SingleExpenseDao extends Equatable{
     List<SingleExpense> allLocalSingleExpenses = await getAll();
     List<SingleExpense> allFireStoreSingleExpenses = await SingleExpenseCollection().getAll(UidUtil().getUid());
 
-    if(allLocalSingleExpenses != null && allLocalSingleExpenses.length > 0) {
-      if(allFireStoreSingleExpenses != null && allFireStoreSingleExpenses.length > 0) {
+    if(allLocalSingleExpenses.isNotEmpty) {
+      if(allFireStoreSingleExpenses.isNotEmpty) {
         //both local and fireStore have clients
         //fireStore is source of truth for this sync.
         await _syncFireStoreToLocal(allLocalSingleExpenses, allFireStoreSingleExpenses);
@@ -134,7 +134,7 @@ class SingleExpenseDao extends Equatable{
         _deleteAllLocalSingleExpenses(allLocalSingleExpenses);
       }
     } else {
-      if(allFireStoreSingleExpenses != null && allFireStoreSingleExpenses.length > 0){
+      if(allFireStoreSingleExpenses.isNotEmpty){
         //no local clients but there are fireStore clients.
         await _copyAllFireStoreSingleExpensesToLocal(allFireStoreSingleExpenses);
       } else {
@@ -163,7 +163,7 @@ class SingleExpenseDao extends Equatable{
     for(SingleExpense localSingleExpense in allLocalSingleExpenses) {
       //should only be 1 matching
       List<SingleExpense> matchingFireStoreSingleExpenses = allFireStoreSingleExpenses.where((fireStoreSingleExpense) => localSingleExpense.documentId == fireStoreSingleExpense.documentId).toList();
-      if(matchingFireStoreSingleExpenses !=  null && matchingFireStoreSingleExpenses.length > 0) {
+      if(matchingFireStoreSingleExpenses.isNotEmpty) {
         SingleExpense fireStoreSingleExpense = matchingFireStoreSingleExpenses.elementAt(0);
         final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStoreSingleExpense.documentId));
         await _singleExpenseStore.update(
@@ -183,7 +183,7 @@ class SingleExpenseDao extends Equatable{
 
     for(SingleExpense fireStoreSingleExpense in allFireStoreSingleExpenses) {
       List<SingleExpense> matchingLocalSingleExpenses = allLocalSingleExpenses.where((localSingleExpense) => localSingleExpense.documentId == fireStoreSingleExpense.documentId).toList();
-      if(matchingLocalSingleExpenses != null && matchingLocalSingleExpenses.length > 0) {
+      if(matchingLocalSingleExpenses.isNotEmpty) {
         //do nothing. SingleExpense already synced.
       } else {
         //add to local. does not exist in local and has not been synced yet.

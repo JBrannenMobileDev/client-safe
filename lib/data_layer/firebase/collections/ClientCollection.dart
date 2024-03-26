@@ -61,7 +61,7 @@ class ClientCollection {
         .then((client) => Client.fromMap(client.data() as Map<String, dynamic>));
   }
 
-  Future<List<Client>> getAllClientsSortedByFirstName(String uid) async {
+  Future<List<Client>?> getAllClientsSortedByFirstName(String uid) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('env')
@@ -96,7 +96,7 @@ class ClientCollection {
       result.documentId = clientDocument.id;
       clientList.add(result);
     }
-    clientList.sort((clientA, clientB) => clientA.firstName.compareTo(clientB.firstName));
+    clientList.sort((clientA, clientB) => clientA.firstName!.compareTo(clientB.firstName!));
     return clientList;
   }
 }

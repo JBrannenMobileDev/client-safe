@@ -44,7 +44,7 @@ class ContractTemplateCollection {
         });
   }
 
-  Future<List<Contract>> getAll(String uid) async {
+  Future<List<Contract>?> getAll(String uid) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('env')

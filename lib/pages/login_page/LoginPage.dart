@@ -39,6 +39,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   // static const String SIGN_IN_WITH_GOOGLE = 'Sign in with Google';
   static const String SIGN_IN_WITH_FACEBOOK = 'Sign in with Facebook';
   static const String CREATE_ACCOUNT = 'Create Account';
+  static const String DEFAULT = 'default';
 
   TextEditingController firstNameTextController = TextEditingController();
   TextEditingController lastNameTextController = TextEditingController();
@@ -77,7 +78,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   late Tween<double> marginTopCreateAccountTween;
   late Tween<double> sunHeightTween;
   late Tween<double> sunRadiusTween;
-  String? selectedButton;
+  String? selectedButton = DEFAULT;
 
   final int pageCount = 7;
   final controller = PageController(
@@ -444,7 +445,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               //     lightPeachMountainsStep1,
               //   ],
               // ),
-              !pageState.isUserVerified!  && selectedButton == null ? Container(
+              !pageState.isUserVerified!  && selectedButton == DEFAULT ? Container(
                 alignment: Alignment.topCenter,
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
@@ -1139,7 +1140,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   ),
                 ),
               ),
-              selectedButton != null ? SafeArea(
+              selectedButton != DEFAULT ? SafeArea(
                 child: Container(
                   margin: const EdgeInsets.only(top: 12.0),
                   child: TextDandyLight(
@@ -1282,7 +1283,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   }
 
   Widget _getCreateAccountTextFieldWidgets(String? selectedButton, LoginPageState pageState) {
-    if(selectedButton != null) {
+    if(selectedButton != DEFAULT) {
       return SafeArea(
         child: Container(
           margin: const EdgeInsets.only(top: 64.0),
@@ -1512,7 +1513,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   }
 
   void _onBackPressed(LoginPageState pageState) {
-    selectedButton = null;
+    selectedButton = DEFAULT;
     _controllerCreateAccount.reverse();
     _controllerLogoOut.reverse();
     _controller.forward();

@@ -170,8 +170,8 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
     print('notification(${notificationResponse.id}) action tapped: ''${notificationResponse.actionId} with'' payload: ${notificationResponse.payload}');
 
     if((notificationResponse.payload?.isNotEmpty ?? false) && notificationResponse.payload == JobReminder.MILEAGE_EXPENSE_ID) {
-      Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-      profile.showNewMileageExpensePage = true;
+      Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+      profile!.showNewMileageExpensePage = true;
       ProfileDao.update(profile);
     }
   }
@@ -287,22 +287,22 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
           if(store.state.dashboardPageState!.unseenNotificationCount! > 0) {
             _runAnimation();
           }
-          List<Job> allJobs = await JobDao.getAllJobs();
-          List<JobReminder> allReminders = await JobReminderDao.getAll();
+          List<Job>? allJobs = await JobDao.getAllJobs();
+          List<JobReminder>? allReminders = await JobReminderDao.getAll();
           final notificationHelper = NotificationHelper();
           notificationHelper.setTapBackgroundMethod(notificationTapBackground);
 
           //If permanently denied we do not want to bug the user every time they log in.  We will prompt every time they start a job instead. Also they can change the permission from the app settings.
-          Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-          if(profile.deviceTokens != null) {
+          Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+          if(profile!.deviceTokens != null) {
             bool isNotificationsGranted = profile.deviceTokens!.length > 1 ? (await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context)) : (await UserPermissionsUtil.getPermissionStatus(Permission.notification)).isGranted;
             profile.pushNotificationsEnabled = isNotificationsGranted;
             if(isNotificationsGranted) {
-              setupNotifications(notificationHelper, allJobs, allReminders);
+              setupNotifications(notificationHelper, allJobs!, allReminders!);
               String? token = await PushNotificationsManager().getToken();
               profile.addUniqueDeviceToken(token!);
-              Profile mostRecent = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-              profile.hasSeenShowcase = mostRecent.hasSeenShowcase;
+              Profile? mostRecent = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+              profile.hasSeenShowcase = mostRecent!.hasSeenShowcase;
               ProfileDao.update(profile);
             }
           }
@@ -340,10 +340,10 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
           }
 
           if(profile.deviceTokens != null) {
-            bool isCalendarGranted = profile.deviceTokens!.length > 1 ? (await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendar, context: context)) : (await UserPermissionsUtil.getPermissionStatus(Permission.calendar)).isGranted;
+            bool isCalendarGranted = profile.deviceTokens!.length > 1 ? (await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendarFullAccess, context: context)) : (await UserPermissionsUtil.getPermissionStatus(Permission.calendarFullAccess)).isGranted;
             if(isCalendarGranted && store.state.dashboardPageState!.profile != null && !store.state.dashboardPageState!.profile!.calendarEnabled!) {
-              Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-              profile.calendarEnabled = true;
+              Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+              profile!.calendarEnabled = true;
               ProfileDao.update(profile);
               UserOptionsUtil.showCalendarSelectionDialog(context, null);
             }

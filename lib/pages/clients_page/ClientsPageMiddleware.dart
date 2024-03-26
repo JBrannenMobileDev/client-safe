@@ -18,7 +18,7 @@ class ClientsPageMiddleware extends MiddlewareClass<AppState> {
 
   void fetchClients(Store<AppState> store, NextDispatcher next) async{
       List<Client> clients = await ClientDao.getAllSortedByFirstName();
-      List<Job> allJobs = await JobDao.getAllJobs();
+      List<Job>? allJobs = await JobDao.getAllJobs();
       next(SetClientsData(store.state.clientsPageState, clients, allJobs));
 
       (await ClientDao.getClientsStream()).listen((clientSnapshots) async {

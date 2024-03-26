@@ -14,7 +14,7 @@ import '../../widgets/TextDandyLight.dart';
 class SunsetWeatherLocationListWidget extends StatelessWidget {
   final int locationIndex;
 
-  const SunsetWeatherLocationListWidget(this.locationIndex, {Key key}) : super(key: key);
+  const SunsetWeatherLocationListWidget(this.locationIndex, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class SunsetWeatherLocationListWidget extends StatelessWidget {
       builder: (BuildContext context, SunsetWeatherPageState pageState) => Stack(
         alignment: Alignment.bottomCenter,
         children: <Widget>[
-          pageState.locations.isNotEmpty
+          pageState.locations!.isNotEmpty
               ? Container(
             width: double.infinity,
             margin: const EdgeInsets.only(bottom: 28.0),
@@ -32,28 +32,27 @@ class SunsetWeatherLocationListWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(8.0),
             ),
             child: DandyLightNetworkImage(
-              pageState.locations.elementAt(locationIndex).imageUrl,
-              errorType:
-              pageState.locations.elementAt(locationIndex).imageUrl !=
+              pageState.locations!.elementAt(locationIndex).imageUrl ?? '',
+              errorType: pageState.locations!.elementAt(locationIndex).imageUrl !=
                   null &&
-                  pageState.locations
+                  pageState.locations!
                       .elementAt(locationIndex)
-                      .imageUrl
+                      .imageUrl!
                       .isNotEmpty
                   ? DandyLightNetworkImage.ERROR_TYPE_INTERNET
                   : DandyLightNetworkImage.ERROR_TYPE_NO_IMAGE,
-              errorIconSize: pageState.locations.elementAt(locationIndex).imageUrl != null && pageState.locations.elementAt(locationIndex).imageUrl.isNotEmpty ? 44 : 96,
+              errorIconSize: pageState.locations!.elementAt(locationIndex).imageUrl != null && pageState.locations!.elementAt(locationIndex).imageUrl!.isNotEmpty ? 44 : 96,
             ),
           )
               : const SizedBox(),
           TextDandyLight(
             type: TextDandyLight.SMALL_TEXT,
-            text: pageState.locations.elementAt(locationIndex).locationName,
+            text: pageState.locations!.elementAt(locationIndex).locationName,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
             color: Color(ColorConstants.getPrimaryBlack()),
           ),
-          pageState.selectedLocation == pageState.locations.elementAt(locationIndex)
+          pageState.selectedLocation == pageState.locations!.elementAt(locationIndex)
               ? Container(
             margin: const EdgeInsets.only(bottom: 28.0),
             alignment: Alignment.center,
@@ -85,8 +84,8 @@ class SunsetWeatherLocationListWidget extends StatelessWidget {
             width: double.infinity,
             child: GestureDetector(
               onTap: () async {
-                pageState.onLocationSelected(pageState.locations.elementAt(locationIndex));
-                pageState.onLocationSaved();
+                pageState.onLocationSelected!(pageState.locations!.elementAt(locationIndex));
+                pageState.onLocationSaved!();
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },

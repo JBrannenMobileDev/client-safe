@@ -15,7 +15,7 @@ class DiscountCodes {
 
   Map<String, dynamic> toMap() {
     return {
-      'codes' : convertCodesToMap(codes!),
+      'codes' : convertCodesToMap(codes),
       'type' : type,
     };
   }
@@ -27,7 +27,7 @@ class DiscountCodes {
     );
   }
 
-  List<Map<String, dynamic>> convertCodesToMap(List<Code> codes){
+  List<Map<String, dynamic>> convertCodesToMap(List<Code>? codes){
     List<Map<String, dynamic>> listOfMaps = [];
     for(Code code in codes != null ? codes : []){
       listOfMaps.add(code.toMap());
@@ -35,7 +35,7 @@ class DiscountCodes {
     return listOfMaps;
   }
 
-  static List<Code> convertMapsToCodes(List listOfMaps){
+  static List<Code> convertMapsToCodes(List? listOfMaps){
     List<Code> listOfCodes = [];
     for(Map map in listOfMaps != null ? listOfMaps : []){
       listOfCodes.add(Code.fromMap(map as Map<String, dynamic>));

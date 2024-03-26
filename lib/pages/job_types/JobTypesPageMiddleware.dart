@@ -16,7 +16,7 @@ class JobTypesPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchJobTypes(Store<AppState> store, NextDispatcher next) async{
-      List<JobType> jobTypes = await JobTypeDao.getAll();
+      List<JobType>? jobTypes = await JobTypeDao.getAll();
       next(SetJobTypesAction(store.state.jobTypesPageState, jobTypes));
 
       (await JobTypeDao.getJobTypeStream()).listen((snapshots) async {
