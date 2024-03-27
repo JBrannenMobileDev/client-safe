@@ -92,9 +92,9 @@ class PaidInvoiceCard extends StatelessWidget{
 
   double getContainerHeight(int length, IncomeAndExpensesPageState pageState) {
     if(length == 0) {
-      return 165.0;
+      return 168.0;
     }else if(length == 1) {
-      return 132.0;
+      return 134.0;
     }else if(length == 2) {
       return 206.0;
     }else {

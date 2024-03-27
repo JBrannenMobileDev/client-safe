@@ -434,6 +434,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                     children: [
                       SpeedDialChild(
                         child: const Icon(Icons.business_center),
+                        shape: const CircleBorder(),
                         backgroundColor: Color(ColorConstants.getBlueLight()),
                         labelWidget: Container(
                           alignment: Alignment.center,
@@ -457,6 +458,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                       ),
                       SpeedDialChild(
                         child: const Icon(Icons.person_add),
+                        shape: const CircleBorder(),
                         backgroundColor: Color(ColorConstants.getBlueLight()),
                         labelWidget: Container(
                           alignment: Alignment.center,

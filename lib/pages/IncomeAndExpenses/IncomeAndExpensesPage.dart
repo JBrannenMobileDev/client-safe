@@ -295,6 +295,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                   children: selectedIndex == 0 ? [
                     SpeedDialChild(
                       child: const Icon(Icons.add),
+                      shape: const CircleBorder(),
                       backgroundColor: Color(ColorConstants.getBlueLight()),
                       labelWidget: Container(
                         alignment: Alignment.center,
@@ -322,6 +323,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                     ),
                     SpeedDialChild(
                       child: const Icon(Icons.add),
+                      shape: const CircleBorder(),
                       backgroundColor: Color(ColorConstants.getBlueLight()),
                       labelWidget: Container(
                         alignment: Alignment.center,
@@ -345,6 +347,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                   ] : [
                     SpeedDialChild(
                         child: const Icon(Icons.add),
+                        shape: const CircleBorder(),
                         backgroundColor: Color(ColorConstants.getPeachLight()),
                         labelWidget: Container(
                           alignment: Alignment.center,
@@ -367,6 +370,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                     ),
                     SpeedDialChild(
                       child: const Icon(Icons.add),
+                      shape: const CircleBorder(),
                       backgroundColor: Color(ColorConstants.getPeachLight()),
                       labelWidget: Container(
                         alignment: Alignment.center,
@@ -389,6 +393,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                     ),
                     SpeedDialChild(
                       child: const Icon(Icons.add),
+                      shape: const CircleBorder(),
                       backgroundColor: Color(ColorConstants.getPeachLight()),
                       labelWidget: Container(
                         alignment: Alignment.center,
