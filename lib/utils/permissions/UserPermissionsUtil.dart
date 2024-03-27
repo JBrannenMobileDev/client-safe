@@ -17,7 +17,7 @@ class UserPermissionsUtil {
     Function? callOnGranted,
   }) async {
 
-    bool isPermanentlyDenied = await permission!.status.isPermanentlyDenied;
+    bool isPermanentlyDenied = (await getPermissionStatus(permission!)).isPermanentlyDenied;
     bool isGranted = await permission.status.isGranted;
     if(!isGranted) {
       bool isGranted = await showDialog(

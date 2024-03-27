@@ -170,7 +170,7 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     profile.calendarEnabled = action.enabled;
     await ProfileDao.update(profile);
     EventSender().setUserProfileData(EventNames.CALENDAR_SYNC_ENABLED, action.enabled!);
-    store.dispatch(UpdateCalendarEnabled(store.state.mainSettingsPageState, profile.calendarEnabled ?? false));
+    store.dispatch(UpdateCalendarEnabled(store.state.mainSettingsPageState, profile.calendarEnabled));
     if(!action.enabled!) {
       CalendarSyncUtil.removeJobsFromDeviceCalendars();
     }

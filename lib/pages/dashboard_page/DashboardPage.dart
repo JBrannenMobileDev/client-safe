@@ -339,13 +339,19 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
             }
           }
 
-          if(profile.deviceTokens != null) {
+          if(profile.deviceTokens != null && profile.calendarEnabled!) {
             bool isCalendarGranted = profile.deviceTokens!.length > 1 ? (await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendarFullAccess, context: context)) : (await UserPermissionsUtil.getPermissionStatus(Permission.calendarFullAccess)).isGranted;
-            if(isCalendarGranted && store.state.dashboardPageState!.profile != null && !store.state.dashboardPageState!.profile!.calendarEnabled!) {
+            if(isCalendarGranted && store.state.dashboardPageState!.profile != null) {
               Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-              profile!.calendarEnabled = true;
+              if(profile!.calendarEnabled == false) {
+                profile.calendarEnabled = true;
+                ProfileDao.update(profile);
+                UserOptionsUtil.showCalendarSelectionDialog(context, null);
+              }
+            } else if(!isCalendarGranted && store.state.dashboardPageState!.profile != null && store.state.dashboardPageState!.profile!.calendarEnabled!){
+              Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+              profile!.calendarEnabled = false;
               ProfileDao.update(profile);
-              UserOptionsUtil.showCalendarSelectionDialog(context, null);
             }
           }
         },

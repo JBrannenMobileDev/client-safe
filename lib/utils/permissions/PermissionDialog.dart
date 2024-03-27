@@ -25,13 +25,13 @@ class PermissionDialog extends StatefulWidget {
 
   @override
   _PermissionDialogState createState() {
-    return _PermissionDialogState(permission, isPermanentlyDenied, customMessage, callOnGranted);
+    return _PermissionDialogState(permission, isPermanentlyDenied!, customMessage, callOnGranted);
   }
 }
 
 class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepAliveClientMixin {
   final Permission permission;
-  final bool? isPermanentlyDenied;
+  bool isPermanentlyDenied;
   final String? customMessage;
   final Function? callOnGranted;
 
@@ -128,17 +128,24 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
                           ) : TextButton(
                             style: Styles.getButtonStyle(),
                             onPressed: () async {
-                              PermissionStatus status;
+                              bool isGranted = false;
                               if(permission == Permission.calendarFullAccess) {
-                                status = await UserPermissionsUtil.requestPermission(permission: Permission.calendarWriteOnly, callOnGranted: null);
+                                PermissionStatus status = await UserPermissionsUtil.requestPermission(permission: Permission.calendarWriteOnly, callOnGranted: null);
                                 if(status.isGranted) {
-                                  status = await UserPermissionsUtil.requestPermission(permission: Permission.calendarFullAccess, callOnGranted: callOnGranted);
+                                  PermissionStatus fullAccessStatus = (await UserPermissionsUtil.requestPermission(permission: Permission.calendarFullAccess, callOnGranted: callOnGranted));
+                                  isGranted = fullAccessStatus.isGranted;
+                                  if(fullAccessStatus.isPermanentlyDenied) {
+                                    setState(() {
+                                      isPermanentlyDenied = true;
+                                    });
+                                  }
                                 }
                               } else {
-                                status = await UserPermissionsUtil.requestPermission(permission: permission, callOnGranted: callOnGranted);
+                                isGranted = (await UserPermissionsUtil.requestPermission(permission: permission, callOnGranted: callOnGranted)).isGranted;
                               }
-                              bool isGranted = status.isGranted;
-                              Navigator.pop(context, isGranted);
+                              if(!isPermanentlyDenied) {
+                                Navigator.pop(context, isGranted);
+                              }
                             },
                             child: Container(
                               alignment: Alignment.center,

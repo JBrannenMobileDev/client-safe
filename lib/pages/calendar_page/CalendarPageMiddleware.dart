@@ -6,9 +6,12 @@ import 'package:dandylight/data_layer/local_db/shared_preferences/JobEventIdMap.
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/calendar_page/CalendarPageActions.dart';
 import 'package:dandylight/utils/CalendarSyncUtil.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
+
+import '../../models/Profile.dart';
 
 class CalendarPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -25,8 +28,11 @@ class CalendarPageMiddleware extends MiddlewareClass<AppState> {
   void _fetchDeviceEventsForMonth(Store<AppState> store, FetchDeviceEvents action, NextDispatcher next) async {
     DateTime startDate = DateTime(action.month.year, action.month.month - 1, 1);
     DateTime endDate = DateTime(action.month.year, action.month.month + 1, 1);
-    List<Event> deviceEvents = await removeDandylightJobsFromDeviceEventList(await CalendarSyncUtil.getDeviceEventsForDateRange(startDate, endDate));
-    store.dispatch(SetDeviceEventsAction(store.state.calendarPageState!, deviceEvents));
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(profile != null && profile.calendarEnabled != null && profile.calendarEnabled!) {
+      List<Event> deviceEvents = await removeDandylightJobsFromDeviceEventList(await CalendarSyncUtil.getDeviceEventsForDateRange(startDate, endDate));
+      store.dispatch(SetDeviceEventsAction(store.state.calendarPageState!, deviceEvents));
+    }
     store.dispatch(SetSelectedDateAction(store.state.calendarPageState!, action.month));
   }
 

@@ -6,6 +6,7 @@ import 'package:dandylight/data_layer/mappers/JobToEventMapper.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:device_calendar/device_calendar.dart';
+import 'package:flutter/services.dart';
 
 import '../data_layer/local_db/daos/JobDao.dart';
 import '../data_layer/local_db/daos/ProfileDao.dart';
@@ -147,10 +148,10 @@ class CalendarSyncUtil {
 
       List<Calendar> allCalendars = calendarsResult.data!.toList(growable: false);
       for (Calendar calendar in allCalendars) {
-        if (!calendar.isReadOnly!) {
-          writableCalendars.add(calendar);
-        }
+        writableCalendars.add(calendar);
       }
+    } on PlatformException catch (err) {
+      print(err);
     } catch (e) {
       print(e);
     }
