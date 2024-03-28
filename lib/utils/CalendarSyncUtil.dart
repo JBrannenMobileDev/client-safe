@@ -19,8 +19,7 @@ class CalendarSyncUtil {
     try {
       DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
       final calendarsResult = await _deviceCalendarPlugin.retrieveCalendars();
-      return _getAllEvents(
-          calendarsResult, _deviceCalendarPlugin, startDate, endDate);
+      return _getAllEvents(calendarsResult, _deviceCalendarPlugin, startDate, endDate);
     } catch (e) {
       print(e);
     }
@@ -32,12 +31,14 @@ class CalendarSyncUtil {
       DeviceCalendarPlugin deviceCalendarPlugin,
       DateTime startDate,
       DateTime endDate) async {
+
+    List<dynamic> idsToSync = (await ProfileDao.getMatchingProfile(UidUtil().getUid()))?.calendarIdsToSync?.toList() ?? [];
     List<Event> events = [];
     List<Calendar> allCalendars = calendarsResult.data != null ? calendarsResult.data!.toList(growable: false) : [];
     List<Calendar> calendars = [];
 
     for (Calendar calendar in allCalendars) {
-      if (calendar.accountType != 'Birthdays') calendars.add(calendar);
+      if (calendar.accountType != 'Birthdays' && idsToSync.contains(calendar.id)) calendars.add(calendar);
     }
 
     for (Calendar calendar in calendars) {
@@ -142,13 +143,17 @@ class CalendarSyncUtil {
   static Future<List<Calendar>> getWritableCalendars() async {
     List<Calendar> writableCalendars = [];
     try{
-      DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
+      DeviceCalendarPlugin _deviceCalendarPlugin = DeviceCalendarPlugin();
 
       final calendarsResult = await _deviceCalendarPlugin.retrieveCalendars();
 
-      List<Calendar> allCalendars = calendarsResult.data!.toList(growable: false);
-      for (Calendar calendar in allCalendars) {
-        writableCalendars.add(calendar);
+      if(calendarsResult.data != null) {
+        List<Calendar> allCalendars = calendarsResult.data!.toList(growable: false);
+        for (Calendar calendar in allCalendars) {
+          if (!calendar.isReadOnly!) {
+            writableCalendars.add(calendar);
+          }
+        }
       }
     } on PlatformException catch (err) {
       print(err);

@@ -31,7 +31,7 @@ class _PricingProfileSelectionFormState
 
   final FocusNode flatRateInputFocusNode = new FocusNode();
   var flatRateTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '', thousandSeparator: ',', precision: 0);
-  late OverlayEntry? overlayEntry;
+  OverlayEntry? overlayEntry;
   late StreamSubscription<bool> keyboardSubscription;
 
   @override

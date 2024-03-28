@@ -15,26 +15,48 @@ class UserPermissionsUtil {
     required BuildContext? context,
     String? customMessage,
     Function? callOnGranted,
+    Profile? profile,
   }) async {
 
-    bool isPermanentlyDenied = (await getPermissionStatus(permission!)).isPermanentlyDenied;
+    bool isPermanentlyDenied = await permission!.status.isPermanentlyDenied;
     bool isGranted = await permission.status.isGranted;
-    if(!isGranted) {
-      bool isGranted = await showDialog(
-        context: context!,
-        builder: (BuildContext context) {
-          return PermissionDialog(
+
+    if(profile != null) {
+      if(!isGranted || !profile.calendarEnabled! ) {
+        bool isGranted = await showDialog(
+          context: context!,
+          builder: (BuildContext context) {
+            return PermissionDialog(
               permission: permission,
               isPermanentlyDenied: isPermanentlyDenied,
               customMessage: customMessage,
               callOnGranted: callOnGranted,
-          );
-        },
-      );
-      return isGranted;
-    } else if(isGranted && callOnGranted != null) {
-      callOnGranted();
+            );
+          },
+        );
+        return isGranted;
+      } else if(isGranted && callOnGranted != null) {
+        callOnGranted();
+      }
+    } else {
+      if(!isGranted) {
+        bool isGranted = await showDialog(
+          context: context!,
+          builder: (BuildContext context) {
+            return PermissionDialog(
+              permission: permission,
+              isPermanentlyDenied: isPermanentlyDenied,
+              customMessage: customMessage,
+              callOnGranted: callOnGranted,
+            );
+          },
+        );
+        return isGranted;
+      } else if(isGranted && callOnGranted != null) {
+        callOnGranted();
+      }
     }
+
     return isGranted;
   }
 

@@ -7,6 +7,8 @@ import 'package:dandylight/utils/UidUtil.dart';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:redux/redux.dart';
 
+import '../calendar_page/CalendarPageActions.dart';
+
 class CalendarSelectionPageMiddleware extends MiddlewareClass<AppState> {
 
   @override
@@ -27,8 +29,8 @@ class CalendarSelectionPageMiddleware extends MiddlewareClass<AppState> {
     profile!.calendarIdsToSync = action.pageState!.selectedCalendars!.map((calendar) => calendar.id).toList();
     profile.calendarEnabled = true;
     await ProfileDao.update(profile);
-
     CalendarSyncUtil.syncJobsToDeviceCalendars();
+    store.dispatch(FetchDeviceEvents(store.state.calendarPageState!, DateTime.now(), true));
   }
 
   void fetchCalendars(Store<AppState> store, NextDispatcher next) async{

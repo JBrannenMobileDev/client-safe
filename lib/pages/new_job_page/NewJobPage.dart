@@ -363,7 +363,7 @@ class _NewJobPageState extends State<NewJobPage>{
     double height = 380.0;
     switch(currentPageIndex){
       case 0:
-        height = 600;
+        height = 604;
         break;
       case 1:
         height = 450.0;
