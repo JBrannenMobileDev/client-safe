@@ -132,7 +132,9 @@ class InvoiceDao extends Equatable{
   }
 
   static Future deleteByInvoice(Invoice? invoice) async {
-    await deleteById(invoice!.documentId);
+    if(invoice != null) {
+      await deleteById(invoice.documentId);
+    }
   }
 
   static Future<List<Invoice>?> getAllSortedByDueDate() async {

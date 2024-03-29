@@ -33,7 +33,7 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
   final FocusNode flatRateInputFocusNode = new FocusNode();
-  var flatRateTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '', thousandSeparator: ',', precision: 0);
+  var flatRateTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '.', thousandSeparator: ',', precision: 2);
   String oneTimePrice = '';
   OverlayEntry? overlayEntry;
   late StreamSubscription<bool> keyboardSubscription;
@@ -65,15 +65,15 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
     super.build(context);
     return StoreConnector<AppState, JobDetailsPageState>(
       onInit: (store) {
-        flatRateTextController.text = '\$';
         flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
         flatRateInputFocusNode.addListener(() {
           flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
         });
       },
       onDidChange: (previous, current) {
-        if(flatRateTextController.text == '') flatRateTextController.text = '\$';
-        flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
+        if(flatRateTextController.text.isNotEmpty) {
+          flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
+        }
       },
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) =>
@@ -87,7 +87,7 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
                 color: Color(ColorConstants.getPrimaryWhite()),
                 borderRadius: BorderRadius.circular(16.0),
               ),
-              child: pageState.priceProfiles!.length > 0
+              child: pageState.priceProfiles!.isNotEmpty
                   ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -291,9 +291,8 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
 
   onProfileSelected(PriceProfile priceProfile, var pageState, BuildContext context) {
     pageState.onPriceProfileSelected(priceProfile);
-    flatRateTextController.text = '\$';
+    flatRateTextController.text = '0.0';
     oneTimePrice = '';
-    flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
   }
 
   showOverlay(BuildContext context) {

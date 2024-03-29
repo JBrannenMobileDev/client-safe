@@ -84,7 +84,7 @@ class _BottomSheetPageState extends State<SelectSavedResponseBottomSheet> with T
                       children: [
                         TextDandyLight(
                           type: TextDandyLight.MEDIUM_TEXT,
-                          text: 'You have not saved any responses yet. Go to your (Response Collection) page to save some response templates.',
+                          text: 'You have not saved any responses yet. Go to your (Response Collection) page to create and save a response template.',
                           textAlign: TextAlign.center,
                           color: Color(ColorConstants.getPrimaryGreyMedium()),
                         ),

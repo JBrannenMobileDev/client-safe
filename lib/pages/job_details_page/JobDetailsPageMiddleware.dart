@@ -305,7 +305,9 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void deleteInvoice(Store<AppState> store, OnDeleteInvoiceSelectedAction action, NextDispatcher next) async {
-    await InvoiceDao.deleteByInvoice(action.invoice);
+    if(action.invoice != null) {
+      await InvoiceDao.deleteByInvoice(action.invoice!);
+    }
     List<JobStage> completedJobStages = store.state.jobDetailsPageState!.job!.completedStages!.toList();
     completedJobStages.remove(JobStage(stage: JobStage.STAGE_8_PAYMENT_REQUESTED));
     Job jobToSave = store.state.jobDetailsPageState!.job!;
@@ -403,9 +405,6 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(SetNewSelectedLocation(store.state.jobDetailsPageState, action.location));
-    if(action.location != null) {
-      store.dispatch(SetLocationImageAction(store.state.jobDetailsPageState, await FileStorage.getLocationImageFile(action.location)));
-    }
     fetchSunsetWeatherForSelectedDate(store, next, jobToSave);
   }
 
@@ -539,9 +538,6 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       }
       await store.dispatch(SetJobAction(store.state.jobDetailsPageState, job));
 
-      if(job.location != null) {
-        store.dispatch(SetLocationImageAction(store.state.jobDetailsPageState, await FileStorage.getLocationImageFile(job.location!)));
-      }
       Client? client = await ClientDao.getClientById(job.clientDocumentId!);
       store.dispatch(SetClientAction(store.state.jobDetailsPageState, client));
       _fetchDeviceEventsForMonth(store, null, next);

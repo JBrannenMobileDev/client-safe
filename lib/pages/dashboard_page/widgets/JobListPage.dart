@@ -63,7 +63,9 @@ class JobListPage extends StatelessWidget{
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                ), systemOverlayStyle: SystemUiOverlayStyle.dark,
+                ),
+                surfaceTintColor: Colors.transparent,
+                systemOverlayStyle: SystemUiOverlayStyle.dark,
               ),
               SliverList(
                 delegate: SliverChildListDelegate(

@@ -63,12 +63,6 @@ class SetShouldTrackAction {
   SetShouldTrackAction(this.pageState, this.enabled);
 }
 
-class SetLocationImageAction {
-  final JobDetailsPageState? pageState;
-  final File? locationImage;
-  SetLocationImageAction(this.pageState, this.locationImage);
-}
-
 class SetJobInfoWithJobDocumentId{
   final JobDetailsPageState? pageState;
   final String? jobDocumentId;

@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 
 import '../data_layer/local_db/daos/JobDao.dart';
 import '../data_layer/local_db/daos/ProfileDao.dart';
+import '../data_layer/local_db/shared_preferences/JobEventIdMap.dart';
 import 'UidUtil.dart';
 
 class CalendarSyncUtil {
@@ -23,7 +24,30 @@ class CalendarSyncUtil {
     } catch (e) {
       print(e);
     }
-    return events;
+    return await removeDandylightJobsFromDeviceEventList(events);
+  }
+
+  static Future<List<Event>> removeDandylightJobsFromDeviceEventList(List<Event> list) async {
+    List<JobEventIdMap> savedDeviceEventMaps = await DandylightSharedPrefs.getListOfKnowJobEventsOnDeviceCalendars();
+    List<Event> eventsToRemove = [];
+
+    for(Event event in list) {
+      for(JobEventIdMap savedEventMap in savedDeviceEventMaps) {
+        if(savedEventMap.eventId == event.eventId) {
+          eventsToRemove.add(event);
+        }
+      }
+    }
+
+    List<Event> resultEvents = [];
+
+    for(Event event in list) {
+      if(!eventsToRemove.contains(event)) {
+        resultEvents.add(event);
+      }
+    }
+
+    return resultEvents;
   }
 
   static Future<List<Event>> _getAllEvents(

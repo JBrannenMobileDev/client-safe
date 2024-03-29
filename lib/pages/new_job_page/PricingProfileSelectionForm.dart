@@ -30,7 +30,7 @@ class _PricingProfileSelectionFormState
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
   final FocusNode flatRateInputFocusNode = new FocusNode();
-  var flatRateTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '', thousandSeparator: ',', precision: 0);
+  var flatRateTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '.', thousandSeparator: ',', precision: 2);
   OverlayEntry? overlayEntry;
   late StreamSubscription<bool> keyboardSubscription;
 
@@ -58,14 +58,15 @@ class _PricingProfileSelectionFormState
     super.build(context);
     return StoreConnector<AppState, NewJobPageState>(
       onInit: (store) {
-        flatRateTextController.text = '\$' + (store.state.newJobPageState!.oneTimePrice!.isNotEmpty ? store.state.newJobPageState!.oneTimePrice! : '');
+        if(store.state.newJobPageState!.oneTimePrice!.isNotEmpty) {
+          flatRateTextController.text = (store.state.newJobPageState!.oneTimePrice!);
+        }
         flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
         flatRateInputFocusNode.addListener(() {
           flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
          });
         },
       onDidChange: (previous, current) {
-        if(current.oneTimePrice == '') flatRateTextController.text = '\$';
         flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
       },
       converter: (store) => NewJobPageState.fromStore(store),

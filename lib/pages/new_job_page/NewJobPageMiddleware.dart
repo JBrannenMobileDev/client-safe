@@ -228,14 +228,13 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       );
 
     await JobDao.insertOrUpdate(jobToSave);
-    _createJobReminders(store, resultClient);
+    _createJobReminders(store, resultClient, jobToSave);
 
     EventSender().sendEvent(eventName: EventNames.CREATED_JOB, properties: _buildEventProperties(jobToSave));
 
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
-    store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, store.state.clientDetailsPageState!.client));
+    store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, store.state.newJobPageState!.selectedClient));
     store.dispatch(calendar.FetchAllCalendarJobsAction(store.state.calendarPageState!));
-
     Job? jobWithDocumentId = await JobDao.getJobBycreatedDate(jobToSave.createdDate!);
     if(jobWithDocumentId != null) {
       store.dispatch(jobDetails.SetJobInfo(store.state.jobDetailsPageState, jobWithDocumentId.documentId));
@@ -244,18 +243,13 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
-  void _createJobReminders(Store<AppState> store, Client jobClient) async {
+  void _createJobReminders(Store<AppState> store, Client jobClient, Job jobToSave) async {
     List<JobReminder> jobReminders = [];
     List<Job>? jobs = await JobDao.getAllJobs();
     Job? thisJob;
-    String clientName = jobClient.firstName! + " " + jobClient.lastName!;
-    String jobTitle = '';
-    if(store.state.newJobPageState!.selectedJobType != null) {
-      jobTitle = store.state.newJobPageState!.selectedClient!.firstName! + ' - ' + store.state.newJobPageState!.selectedJobType!.title!;
-    } else {
-      jobTitle = store.state.newJobPageState!.selectedClient!.firstName! + ' - Job';
-    }
-    DateTime selectedDate = store.state.newJobPageState!.selectedDate!;
+    String clientName = jobToSave.clientName!;
+    String jobTitle = jobToSave.jobTitle!;
+    DateTime selectedDate = jobToSave.selectedDate!;
 
     for (Job job in jobs!) {
       if (job.clientName == clientName && job.jobTitle == jobTitle &&
