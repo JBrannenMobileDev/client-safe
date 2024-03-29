@@ -135,11 +135,11 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                             margin: const EdgeInsets.only(right: 18.0, left: 2.0),
                                             height: 28.0,
                                             width: 28.0,
-                                            child: Image.asset('assets/images/icons/zoom.png'),
+                                            child: Image.asset('assets/images/icons/question_mark.png'),
                                           ),
                                           TextDandyLight(
                                             type: TextDandyLight.MEDIUM_TEXT,
-                                            text: 'Book a Zoom call',
+                                            text: 'Take a survey',
                                             textAlign: TextAlign.center,
                                             color: Color(ColorConstants.getPrimaryBlack()),
                                           )

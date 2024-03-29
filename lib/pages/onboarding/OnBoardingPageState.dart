@@ -24,7 +24,7 @@ class OnBoardingPageState{
   static const String MORE_THAN_15 = "More than 10";
   static const String APP_WALKTHROUGH = "App walkthrough (15min)";
   static const String FIRST_TIME_SETUP = "First time setup (15min)";
-  static const String NEW_USER_SURVEY = "New user survey (15 min)\nGet 3 months FREE";
+  static const String NEW_USER_SURVEY = "New user survey (3-5 min)\nGet 3 months FREE";
 
   static const String HAS_JOB_YES = "has_job_yes";
   static const String HAS_JOB_NO = "has_job_no";

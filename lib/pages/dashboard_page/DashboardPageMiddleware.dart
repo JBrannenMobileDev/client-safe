@@ -352,10 +352,6 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
 
     List<Job>? allJobs = await JobDao.getAllJobs();
-    for (var job in allJobs!) {
-      job.paymentReceivedDate = job.createdDate;
-      JobDao.update(job);
-    }
     allJobs = await JobDao.getAllJobs();
 
     List<JobType>? allJobTypes = await JobTypeDao.getAll();

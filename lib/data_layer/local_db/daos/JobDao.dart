@@ -118,8 +118,10 @@ class JobDao extends Equatable{
     await _jobStore.delete(
       await _db,
       finder: finder,
-    );
-    await JobCollection().deleteJob(job.documentId);
+    ).catchError((error) {
+      print(error.toString());
+    });
+    await JobCollection().deleteJob(job.documentId);//this is where it breaks
     _updateLastChangedTime();
     CalendarSyncUtil.deleteJobEvent(job);
     JobReminderDao.deleteAllWithJobDocumentId(job.documentId);
