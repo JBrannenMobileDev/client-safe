@@ -357,11 +357,11 @@ class UserOptionsUtil {
     );
   }
 
-  static void showNewInvoiceDialog(BuildContext context, Function? onSendInvoiceSelected, bool shouldClear) {
+  static void showNewInvoiceDialog(BuildContext context, Function? onSendInvoiceSelected, {Job? job}) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return NewInvoiceDialog(onSendInvoiceSelected: onSendInvoiceSelected, shouldClear: shouldClear);
+        return NewInvoiceDialog(onSendInvoiceSelected: onSendInvoiceSelected, job: job);
       },
     );
   }

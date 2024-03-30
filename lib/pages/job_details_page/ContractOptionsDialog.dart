@@ -32,7 +32,7 @@ class _ContractOptionsDialogState extends State<ContractOptionsDialog>
             backgroundColor: Colors.transparent,
             child: Container(
               height: 250.0,
-              width: 450,
+              width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.only(left: 32.0, right: 32.0),
               decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),

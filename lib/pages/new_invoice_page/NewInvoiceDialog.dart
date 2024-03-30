@@ -16,26 +16,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../models/Invoice.dart';
 import '../../models/Job.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class NewInvoiceDialog extends StatefulWidget {
   final Function? onSendInvoiceSelected;
-  final bool? shouldClear;
+  final Job? job;
 
-  NewInvoiceDialog({this.onSendInvoiceSelected, this.shouldClear});
+  NewInvoiceDialog({this.onSendInvoiceSelected, this.job});
 
   @override
   _NewInvoiceDialogState createState() {
-    return _NewInvoiceDialogState(onSendInvoiceSelected, shouldClear);
+    return _NewInvoiceDialogState(onSendInvoiceSelected, job);
   }
 }
 
 class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepAliveClientMixin {
   Function? onSendInvoiceSelected;
-  bool? shouldClear;
+  Job? job;
 
-  _NewInvoiceDialogState(this.onSendInvoiceSelected, this.shouldClear);
+  _NewInvoiceDialogState(this.onSendInvoiceSelected, this.job);
 
   OverlayEntry? overlayEntry;
   final int pageCount = 3;
@@ -49,11 +50,15 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
     super.build(context);
     return StoreConnector<AppState, NewInvoicePageState>(
       onInit: (appState) async {
-        if(shouldClear!) appState.dispatch(ClearStateAction(appState.state.newInvoicePageState));
-        appState.dispatch(FetchAllInvoiceJobsAction(appState.state.newInvoicePageState));
+        if(job != null) {
+          appState.dispatch(ClearNewInvoiceStateAction(appState.state.newInvoicePageState));
+          appState.dispatch(SaveSelectedJobAction(appState.state.newInvoicePageState, job));
+        } else {
+          appState.dispatch(FetchAllInvoiceJobsAction(appState.state.newInvoicePageState));
+        }
       },
       onDidChange: (prev, pageState) {
-        if(!shouldClear! && !hasJumpToBeenCalled) {
+        if(job != null && !hasJumpToBeenCalled) {
           controller.jumpToPage(1);
           hasJumpToBeenCalled = true;
         }
@@ -131,7 +136,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                                 },
                                 child: TextDandyLight(
                                   type: TextDandyLight.MEDIUM_TEXT,
-                                  text: pageState.pageViewIndex == 0 || ((pageState.pageViewIndex == 1) && hasJumpToBeenCalled) || ((pageState.pageViewIndex == 1) && (!shouldClear! && !hasJumpToBeenCalled)) ? 'Cancel' : 'Back',
+                                  text: pageState.pageViewIndex == 0 || ((pageState.pageViewIndex == 1) && hasJumpToBeenCalled) || ((pageState.pageViewIndex == 1) && (job != null && !hasJumpToBeenCalled)) ? 'Cancel' : 'Back',
                                   textAlign: TextAlign.center,
                                   color: Color(ColorConstants.getPrimaryBlack()),
                                 ),
@@ -256,7 +261,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
   }
 
   void onBackPressed(NewInvoicePageState pageState) {
-    if (pageState.pageViewIndex == 0 || ((pageState.pageViewIndex == 1) && hasJumpToBeenCalled) || ((pageState.pageViewIndex == 1) && (!shouldClear! && !hasJumpToBeenCalled))) {
+    if (pageState.pageViewIndex == 0 || ((pageState.pageViewIndex == 1) && hasJumpToBeenCalled) || ((pageState.pageViewIndex == 1) && (job != null && !hasJumpToBeenCalled))) {
       pageState.onCancelPressed!();
       Navigator.of(context).pop();
     } else {

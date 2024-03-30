@@ -211,7 +211,7 @@ class BarChartState extends State<BarChartWidget> {
     switch (value.toInt()) {
       case 0:
         DateTime currentMonth = DateTime.now();
-        DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 5, currentMonth.day);
+        DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 5);
         String monthShort = _getMonthStringShort(resultMonth.month);
         text = TextDandyLight(
             type: TextDandyLight.MEDIUM_TEXT,
@@ -219,7 +219,7 @@ class BarChartState extends State<BarChartWidget> {
         break;
       case 1:
         DateTime currentMonth = DateTime.now();
-        DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 4, currentMonth.day);
+        DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 4);
         String monthShort = _getMonthStringShort(resultMonth.month);
         text = TextDandyLight(
             type: TextDandyLight.MEDIUM_TEXT,
@@ -227,7 +227,7 @@ class BarChartState extends State<BarChartWidget> {
         break;
       case 2:
         DateTime currentMonth = DateTime.now();
-        DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 3, currentMonth.day);
+        DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 3);
         String monthShort = _getMonthStringShort(resultMonth.month);
         text = TextDandyLight(
             type: TextDandyLight.MEDIUM_TEXT,
@@ -235,7 +235,7 @@ class BarChartState extends State<BarChartWidget> {
         break;
       case 3:
         DateTime currentMonth = DateTime.now();
-        DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 2, currentMonth.day);
+        DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 2);
         String monthShort = _getMonthStringShort(resultMonth.month);
         text = TextDandyLight(
             type: TextDandyLight.MEDIUM_TEXT,
@@ -243,7 +243,7 @@ class BarChartState extends State<BarChartWidget> {
         break;
       case 4:
         DateTime currentMonth = DateTime.now();
-        DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 1, currentMonth.day);
+        DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 1);
         String monthShort = _getMonthStringShort(resultMonth.month);
         text = TextDandyLight(
             type: TextDandyLight.MEDIUM_TEXT,

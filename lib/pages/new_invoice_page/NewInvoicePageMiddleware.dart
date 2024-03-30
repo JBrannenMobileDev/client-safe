@@ -84,7 +84,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     await InvoiceDao.insertOrUpdate(
         Invoice(
           clientDocumentId: pageState.selectedJob!.clientDocumentId,
-          documentId: pageState.selectedJob!.invoice!.documentId,
+          documentId: pageState.selectedJob!.invoice?.documentId,
           invoiceId: pageState.invoiceNumber,
           clientName: pageState.selectedJob!.clientName,
           jobName: pageState.selectedJob!.jobTitle,
@@ -175,7 +175,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     int newInvoiceNumber = await NextInvoiceNumberDao.nextNumber();
     List<Job>? allJobs = await JobDao.getAllJobs();
     allJobs = allJobs!.where((job) => job.invoice == null).toList();
-    await store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, allJobs, allClients, newInvoiceNumber, profile!.salesTaxRate!));
+    await store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, allJobs, allClients, newInvoiceNumber, profile!.salesTaxRate));
 
     (await JobDao.getJobsStream()).listen((jobSnapshots) async {
       List<Job> jobs = [];

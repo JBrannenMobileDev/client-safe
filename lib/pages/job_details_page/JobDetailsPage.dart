@@ -129,12 +129,12 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
         },
         builder: (BuildContext context, JobDetailsPageState pageState) {
           if((pageState.newStagAnimationIndex != -1 || scrollPosition == -2) && _stagesScrollController.hasClients) {
-            Timer(const Duration(milliseconds: 150), () => {
+            Timer(const Duration(milliseconds: 150), () {
               _stagesScrollController.animateTo(
                 _getScrollToOffset(pageState),
                 curve: Curves.easeInOutCubic,
                 duration: const Duration(milliseconds: 1000),
-              ),
+              );
             },
             );
             _stagesScrollController = ScrollController(initialScrollOffset: _getScrollToOffset(pageState));
@@ -298,10 +298,8 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                             if(document.getDocumentType() == DocumentItem.DOCUMENT_TYPE_INVOICE) containsInvoice = true;
                           }
                           if(!containsInvoice) {
-                            pageState.onAddInvoiceSelected!();
-                            UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected, false);
+                            UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected, job: pageState.job);
                           }else{
-                            pageState.onAddInvoiceSelected!();
                             UserOptionsUtil.showInvoiceOptionsDialog(context, onSendInvoiceSelected);
                           }
                         } else {

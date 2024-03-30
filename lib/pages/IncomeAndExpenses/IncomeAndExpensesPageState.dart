@@ -59,7 +59,6 @@ class IncomeAndExpensesPageState {
   final Function(String)? onAllInvoicesFilterChanged;
   final Function(String)? onAllExpensesFilterChanged;
   final Function(int)? onYearChanged;
-  final Function(Invoice)? onEditInvoiceSelected;
   final Function(Invoice)? onDeleteSelected;
   final Function(Invoice)? onInvoiceSent;
   final Function()? onBackPressed;
@@ -92,7 +91,6 @@ class IncomeAndExpensesPageState {
     @required this.incomeForSelectedYear,
     @required this.onFilterChanged,
     @required this.onYearChanged,
-    @required this.onEditInvoiceSelected,
     @required this.onDeleteSelected,
     @required this.unpaidInvoices,
     @required this.onInvoiceSent,
@@ -165,7 +163,6 @@ class IncomeAndExpensesPageState {
     Function(String)? onFilterChanged,
     Function(int)? onYearChanged,
     Job? selectedJob,
-    Function(Invoice)? onEditInvoiceSelected,
     Function(Invoice)? onDeleteSelected,
     Function(Invoice)? onInvoiceSent,
     Function(String)? onAllInvoicesFilterChanged,
@@ -220,7 +217,6 @@ class IncomeAndExpensesPageState {
       incomeForSelectedYear: incomeForSelectedYear ?? this.incomeForSelectedYear,
       onFilterChanged: onFilterChanged?? this.onFilterChanged,
       onYearChanged: onYearChanged ?? this.onYearChanged,
-      onEditInvoiceSelected: onEditInvoiceSelected ?? this.onEditInvoiceSelected,
       onDeleteSelected: onDeleteSelected ?? this.onDeleteSelected,
       unpaidInvoices: unpaidInvoices ?? this.unpaidInvoices,
       onInvoiceSent: onInvoiceSent ?? this.onInvoiceSent,
@@ -286,7 +282,6 @@ class IncomeAndExpensesPageState {
     incomeForSelectedYear: 0,
     onFilterChanged: null,
     onYearChanged: null,
-    onEditInvoiceSelected: null,
     onDeleteSelected: null,
     unpaidInvoices: [],
     onInvoiceSent: null,
@@ -384,7 +379,6 @@ class IncomeAndExpensesPageState {
       onJobSearchTextChanged: (searchText) => store.dispatch(JobSearchTextChangedAction(store.state.incomeAndExpensesPageState, searchText)),
       onFilterChanged: (filterType) => store.dispatch(FilterChangedAction(store.state.incomeAndExpensesPageState, filterType)),
       onYearChanged: (year) => store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, year)),
-      onEditInvoiceSelected: (invoice) => store.dispatch(InvoiceEditSelected(store.state.incomeAndExpensesPageState, invoice)),
       onDeleteSelected: (invoice) => store.dispatch(DeleteInvoiceAction(store.state.incomeAndExpensesPageState, invoice)),
       onInvoiceSent: (invoice) => store.dispatch(OnInvoiceSentAction(store.state.incomeAndExpensesPageState, invoice)),
       onAllInvoicesFilterChanged: (filter) => store.dispatch(OnAllInvoicesFilterChangedAction(store.state.incomeAndExpensesPageState, filter)),
@@ -442,7 +436,6 @@ class IncomeAndExpensesPageState {
       onFilterChanged.hashCode ^
       unpaidInvoices.hashCode ^
       selectedJob.hashCode ^
-      onEditInvoiceSelected.hashCode ^
       onInvoiceSent.hashCode ^
       paidInvoices.hashCode ^
       totalTips.hashCode ^
@@ -516,7 +509,6 @@ class IncomeAndExpensesPageState {
               mileageExpensesForSelectedYear == other.mileageExpensesForSelectedYear &&
               onAllExpensesFilterChanged == other.onAllExpensesFilterChanged &&
               singleExpensesForSelectedYear == other.singleExpensesForSelectedYear &&
-              onEditInvoiceSelected == other.onEditInvoiceSelected &&
               paidInvoices == other.paidInvoices &&
               onRecurringExpenseChargeChecked == other.onRecurringExpenseChargeChecked &&
               allInvoicesFilterType == other.allInvoicesFilterType &&

@@ -7,6 +7,8 @@ import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 
+import '../../models/Invoice.dart';
+
 class FetchAllInvoiceJobsAction{
   final NewInvoicePageState?  pageState;
   FetchAllInvoiceJobsAction(this.pageState);
@@ -53,9 +55,9 @@ class ClearSearchInputActon{
   ClearSearchInputActon(this.pageState);
 }
 
-class ClearStateAction{
+class ClearNewInvoiceStateAction{
   final NewInvoicePageState?  pageState;
-  ClearStateAction(this.pageState);
+  ClearNewInvoiceStateAction(this.pageState);
 }
 
 class SaveSelectedJobAction {

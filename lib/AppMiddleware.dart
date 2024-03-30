@@ -176,7 +176,6 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveNewInvoiceAction>(NewInvoicePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateJobOnInvoiceSent>(NewInvoicePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadAllInvoicesAction>(IncomeAndExpensePageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, InvoiceEditSelected>(IncomeAndExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteInvoiceAction>(IncomeAndExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, OnInvoiceSentAction>(IncomeAndExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadAllJobsAction>(IncomeAndExpensePageMiddleware()));

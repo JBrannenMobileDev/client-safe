@@ -23,7 +23,6 @@ class NewInvoicePageState {
   final String? invoiceDocumentId;
   final int? pageViewIndex;
   final bool? saveButtonEnabled;
-  final bool? shouldClear;
   final bool? isFinishedFetchingClients;
   final bool? isInEditMode;
   final double? total;
@@ -92,7 +91,6 @@ class NewInvoicePageState {
     @required this.invoiceNumber,
     @required this.pageViewIndex,
     @required this.saveButtonEnabled,
-    @required this.shouldClear,
     @required this.isFinishedFetchingClients,
     @required this.unpaidAmount,
     @required this.total,
@@ -162,7 +160,6 @@ class NewInvoicePageState {
     int? invoiceNumber,
     int? pageViewIndex,
     bool? saveButtonEnabled,
-    bool? shouldClear,
     bool? isFinishedFetchingClients,
     bool? isInEditMode,
     double? total,
@@ -230,7 +227,6 @@ class NewInvoicePageState {
       invoiceNumber: invoiceNumber ?? this.invoiceNumber,
       pageViewIndex: pageViewIndex?? this.pageViewIndex,
       saveButtonEnabled: saveButtonEnabled?? this.saveButtonEnabled,
-      shouldClear: shouldClear?? this.shouldClear,
       isFinishedFetchingClients: isFinishedFetchingClients?? this.isFinishedFetchingClients,
       isInEditMode: isInEditMode ?? this.isInEditMode,
       total: total ?? this.total,
@@ -305,7 +301,6 @@ class NewInvoicePageState {
         invoiceNumber: 0,
         pageViewIndex: 0,
         saveButtonEnabled: false,
-        shouldClear: true,
         isFinishedFetchingClients: false,
         total: 0.0,
         depositValue: 0.0,
@@ -376,7 +371,6 @@ class NewInvoicePageState {
       invoiceNumber: store.state.newInvoicePageState!.invoiceNumber,
       pageViewIndex: store.state.newInvoicePageState!.pageViewIndex,
       saveButtonEnabled: store.state.newInvoicePageState!.saveButtonEnabled,
-      shouldClear: store.state.newInvoicePageState!.shouldClear,
       isFinishedFetchingClients: store.state.newInvoicePageState!.isFinishedFetchingClients,
       selectedJob: store.state.newInvoicePageState!.selectedJob,
       jobSearchText: store.state.newInvoicePageState!.jobSearchText,
@@ -423,7 +417,7 @@ class NewInvoicePageState {
       onNewLineItemRateTextChanged: (rate) => store.dispatch(UpdateLineItemRateAction(store.state.newInvoicePageState, rate)),
       onNewLineItemQuantityTextChanged: (quantity) => store.dispatch(UpdateLineItemQuantityAction(store.state.newInvoicePageState, quantity)),
       onSavePressed: () => store.dispatch(SaveNewInvoiceAction(store.state.newInvoicePageState)),
-      onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newInvoicePageState)),
+      onCancelPressed: () => store.dispatch(ClearNewInvoiceStateAction(store.state.newInvoicePageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newInvoicePageState)),
       onBackPressed: () => store.dispatch(DecrementPageViewIndex(store.state.newInvoicePageState)),
       onJobSelected: (selectedJob) => store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, selectedJob)),
@@ -451,7 +445,6 @@ class NewInvoicePageState {
       onDepositActionPressed.hashCode ^
       pageViewIndex.hashCode ^
       saveButtonEnabled.hashCode ^
-      shouldClear.hashCode ^
       isFinishedFetchingClients.hashCode ^
       selectedJob.hashCode ^
       jobSearchText.hashCode ^
@@ -512,7 +505,6 @@ class NewInvoicePageState {
           onDepositActionPressed == other.onDepositActionPressed &&
           pageViewIndex == other.pageViewIndex &&
           saveButtonEnabled == other.saveButtonEnabled &&
-          shouldClear == other.shouldClear &&
           onDepositDueDateSelected == other.onDepositDueDateSelected &&
           isFinishedFetchingClients == other.isFinishedFetchingClients &&
           selectedJob == other.selectedJob &&

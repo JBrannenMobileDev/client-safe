@@ -316,7 +316,7 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
       if(job.paymentReceivedDate!.year == lastMonthLastYearDate.year && job.paymentReceivedDate!.month == lastMonthLastYearDate.month) {
         lastMonthLastYear = lastMonthLastYear + job.getJobCost() + (job.tipAmount != null ? job.tipAmount! : 0);
       }
-    } else {
+    } else if(job.paymentReceivedDate != null){
       if(job.paymentReceivedDate!.year == now.year && job.paymentReceivedDate!.month == now.month) {
         thisMonth = thisMonth + (job.tipAmount != null ? job.tipAmount! : 0);
       }

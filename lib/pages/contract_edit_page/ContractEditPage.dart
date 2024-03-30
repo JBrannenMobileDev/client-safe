@@ -74,8 +74,10 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
     keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
       setState(() {
         if(visible) {
+          showOverlay(context);
           isKeyboardVisible = true;
         } else {
+          removeOverlay();
           isKeyboardVisible = false;
         }
       });
@@ -225,6 +227,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
             },
             child: Scaffold(
               appBar: AppBar(
+                surfaceTintColor: Colors.transparent,
                 iconTheme: IconThemeData(
                   color: Color(ColorConstants.getPrimaryBlack()), //change your color here
                 ),
@@ -334,7 +337,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                         if(jobDocumentId != null && jobDocumentId!.isNotEmpty && contract!.signedByClient!) {
                           _ackSaveChangesAlert(context, pageState);
                         } else {
-                          pageState.onContractSaved!(_controller!.document, jobDocumentId!);
+                          pageState.onContractSaved!(_controller!.document, jobDocumentId);
                           showSuccessAnimation();
                         }
                       },
@@ -389,6 +392,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                     child: quill.QuillToolbar.simple(
                       configurations: quill.QuillSimpleToolbarConfigurations(
                         controller: _controller!,
+                        toolbarSize: 38,
                         showUndo: false,
                         showRedo: false,
                         showClearFormat: false,
@@ -400,8 +404,11 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                         showSmallButton: false,
                         showSubscript: false,
                         showSuperscript: false,
+                        showSearchButton: false,
                         showLink: false,
                         showAlignmentButtons: true,
+                        multiRowsDisplay: false,
+                        color: Color(ColorConstants.getPrimaryWhite()),
                       )
                     ),
                   )
@@ -418,11 +425,10 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
       configurations: QuillEditorConfigurations(
         controller: _controller!,
         scrollable: true,
-        padding: const EdgeInsets.all(0),
         autoFocus: true,
         readOnly: false,
         expands: false,
-        placeholder: "Past contract terms here",
+        placeholder: "Paste contract terms here",
       )
     );
   }

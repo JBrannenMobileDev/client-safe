@@ -108,7 +108,7 @@ class _RequestPaymentLinksDialogPage extends State<RequestPaymentLinksDialog> {
                       GestureDetector(
                         onTap: () {
                           Navigator.of(context).pop();
-                          UserOptionsUtil.showNewInvoiceDialog(context, null, true);
+                          UserOptionsUtil.showNewInvoiceDialog(context, null);
                         },
                         child: Container(
                           height: 78.0,
@@ -129,7 +129,7 @@ class _RequestPaymentLinksDialogPage extends State<RequestPaymentLinksDialog> {
                       GestureDetector(
                         onTap: () {
                           Navigator.of(context).pop();
-                          UserOptionsUtil.showNewInvoiceDialog(context, null, true);
+                          UserOptionsUtil.showNewInvoiceDialog(context, null);
                           NavigationUtil.onPaymentRequestInfoSelected(context);
                         },
                         child: Container(

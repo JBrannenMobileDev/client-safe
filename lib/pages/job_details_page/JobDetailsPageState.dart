@@ -87,7 +87,6 @@ class JobDetailsPageState {
   final Function(int)? onAddToTip;
   final Function()? onSaveTipChange;
   final Function()? onClearUnsavedTip;
-  final Function()? onAddInvoiceSelected;
   final Function(Invoice)? onDeleteInvoiceSelected;
   final Function(Contract)? onDeleteContractSelected;
   final Function(Invoice)? onInvoiceSent;
@@ -145,7 +144,6 @@ class JobDetailsPageState {
     @required this.onAddToDeposit,
     @required this.onSaveAddOnCost,
     @required this.onClearUnsavedDeposit,
-    @required this.onAddInvoiceSelected,
     @required this.documents,
     @required this.onDeleteInvoiceSelected,
     @required this.onInvoiceSent,
@@ -240,7 +238,6 @@ class JobDetailsPageState {
     Function(int)? onAddToDeposit,
     Function()? onSaveAddOnCost,
     Function()? onClearUnsavedDeposit,
-    Function()? onAddInvoiceSelected,
     List<DocumentItem>? documents,
     Function(Invoice)? onDeleteInvoiceSelected,
     Function(Contract)? onDeleteContractSelected,
@@ -308,7 +305,6 @@ class JobDetailsPageState {
       onAddToDeposit: onAddToDeposit ?? this.onAddToDeposit,
       onSaveAddOnCost:  onSaveAddOnCost ?? this.onSaveAddOnCost,
       onClearUnsavedDeposit: onClearUnsavedDeposit ?? this.onClearUnsavedDeposit,
-      onAddInvoiceSelected: onAddInvoiceSelected ?? this.onAddInvoiceSelected,
       documents: documents ?? this.documents,
       onDeleteInvoiceSelected: onDeleteInvoiceSelected ?? this.onDeleteInvoiceSelected,
       invoice: invoice ?? this.invoice,
@@ -410,10 +406,6 @@ class JobDetailsPageState {
         onAddToDeposit: (amountToAdd) => store.dispatch(AddToAddOnCostAction(store.state.jobDetailsPageState, amountToAdd)),
         onSaveAddOnCost: () => store.dispatch(SaveAddOnCostAction(store.state.jobDetailsPageState)),
         onClearUnsavedDeposit: () => store.dispatch(ClearUnsavedDepositAction(store.state.jobDetailsPageState)),
-        onAddInvoiceSelected: () async {
-          await store.dispatch(SetShouldClearAction(store.state.newInvoicePageState!, false));
-          store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState!, store.state.jobDetailsPageState!.job!));
-        },
         onDeleteInvoiceSelected: (invoice) => store.dispatch(OnDeleteInvoiceSelectedAction(store.state.jobDetailsPageState, invoice)),
         onDeleteContractSelected: (contract) => store.dispatch(OnDeleteContractSelectedAction(store.state.jobDetailsPageState, contract)),
         onInvoiceSent: (invoice) => store.dispatch(InvoiceSentAction(store.state.jobDetailsPageState, invoice)),
@@ -484,7 +476,6 @@ class JobDetailsPageState {
     onAddToDeposit: null,
     onSaveAddOnCost: null,
     onClearUnsavedDeposit: null,
-    onAddInvoiceSelected: null,
     profile: null,
     invoice: null,
     setMileageAutoTrack: null,
@@ -547,7 +538,6 @@ class JobDetailsPageState {
       jobs.hashCode ^
       invoice.hashCode ^
       onMonthChanged.hashCode ^
-      onAddInvoiceSelected.hashCode ^
       jobTitleText.hashCode ^
       onNameChangeSaved.hashCode ^
       selectedLocation.hashCode ^
@@ -593,7 +583,6 @@ class JobDetailsPageState {
           other is JobDetailsPageState &&
               unsavedAddOnCostAmount == other.unsavedAddOnCostAmount &&
               onAddToDeposit == other.onAddToDeposit &&
-              onAddInvoiceSelected == other.onAddInvoiceSelected &&
               onSaveAddOnCost == other.onSaveAddOnCost &&
               job == other.job &&
               eveningGoldenHour == other.eveningGoldenHour &&

@@ -11,7 +11,7 @@ final newInvoicePageReducer = combineReducers<NewInvoicePageState>([
   TypedReducer<NewInvoicePageState, SetAllJobsAction>(_setJobs),
   TypedReducer<NewInvoicePageState, SetShouldClearAction>(_setShouldClear),
   TypedReducer<NewInvoicePageState, SaveSelectedJobAction>(_saveSelectedJob),
-  TypedReducer<NewInvoicePageState, ClearStateAction>(_clearState),
+  TypedReducer<NewInvoicePageState, ClearNewInvoiceStateAction>(_clearState),
   TypedReducer<NewInvoicePageState, IncrementPageViewIndex>(_incrementPageViewIndex),
   TypedReducer<NewInvoicePageState, DecrementPageViewIndex>(_decrementPageViewIndex),
   TypedReducer<NewInvoicePageState, FilterJobList>(_filterJobs),
@@ -80,7 +80,6 @@ NewInvoicePageState _setDepositDueDate(NewInvoicePageState previousState, SetSel
 
 NewInvoicePageState _setShouldClear(NewInvoicePageState previousState, SetShouldClearAction action) {
   return previousState.copyWith(
-    shouldClear: action.shouldClear,
     pageViewIndex: 1,
   );
 }
@@ -304,7 +303,7 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
   );
 }
 
-NewInvoicePageState _clearState(NewInvoicePageState previousState, ClearStateAction action) {
+NewInvoicePageState _clearState(NewInvoicePageState previousState, ClearNewInvoiceStateAction action) {
   return NewInvoicePageState.initial();
 }
 

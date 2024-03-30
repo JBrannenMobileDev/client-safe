@@ -13,7 +13,7 @@ class ContractEditPageState{
   final Profile? profile;
   final bool? isNew;
   final String? newFromName;
-  final Function(Document, String)? onContractSaved;
+  final Function(Document, String?)? onContractSaved;
   final Function()? onDeleteSelected;
   final Function(String)? onNameChanged;
   final Function()? deleteFromJob;
@@ -36,7 +36,7 @@ class ContractEditPageState{
     Profile? profile,
     bool? isNew,
     String? newFromName,
-    Function(Document, String)? onContractSaved,
+    Function(Document, String?)? onContractSaved,
     Function(String)? onNameChanged,
     Function()? onDeleteSelected,
     Function()? deleteFromJob,

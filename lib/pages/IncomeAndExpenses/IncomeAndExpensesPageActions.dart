@@ -50,12 +50,6 @@ class UpdateSingleExpenseShowHideState{
   UpdateSingleExpenseShowHideState(this.pageState);
 }
 
-class InvoiceEditSelected{
-  final IncomeAndExpensesPageState? pageState;
-  final Invoice? invoice;
-  InvoiceEditSelected(this.pageState, this.invoice);
-}
-
 class DeleteInvoiceAction{
   final IncomeAndExpensesPageState? pageState;
   final Invoice? invoice;

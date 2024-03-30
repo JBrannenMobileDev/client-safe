@@ -51,6 +51,7 @@ class _PreviewContractPageState extends State<PreviewContractPage> with TickerPr
                 backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                 centerTitle: true,
                 elevation: 0.0,
+                surfaceTintColor: Colors.transparent,
                 title: Container(
                   alignment: Alignment.center,
                   width: 250,

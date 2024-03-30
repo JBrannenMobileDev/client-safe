@@ -189,27 +189,27 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
   LineChartMonthData data5 = LineChartMonthData(name: name5, income: 0, monthInt: now.month);
   chartItems.add(data5);
 
-  DateTime nowMinus1 = DateTime(now.year, now.month - 1, now.day);
+  DateTime nowMinus1 = DateTime(now.year, (now.month - 1));
   String name4 = DateFormat.MMMM().format(nowMinus1);
   LineChartMonthData data4 = LineChartMonthData(name: name4, income: 0, monthInt: nowMinus1.month);
   chartItems.add(data4);
 
-  DateTime nowMinus2 = DateTime(now.year, now.month - 2, now.day);
+  DateTime nowMinus2 = DateTime(now.year, now.month - 2);
   String name3 = DateFormat.MMMM().format(nowMinus2);
   LineChartMonthData data3 = LineChartMonthData(name: name3, income: 0, monthInt: nowMinus2.month);
   chartItems.add(data3);
 
-  DateTime nowMinus3 = DateTime(now.year, now.month - 3, now.day);
+  DateTime nowMinus3 = DateTime(now.year, now.month - 3);
   String name2 = DateFormat.MMMM().format(nowMinus3);
   LineChartMonthData data2 = LineChartMonthData(name: name2, income: 0, monthInt: nowMinus3.month);
   chartItems.add(data2);
 
-  DateTime nowMinus4 = DateTime(now.year, now.month - 4, now.day);
+  DateTime nowMinus4 = DateTime(now.year, now.month - 4);
   String name1 = DateFormat.MMMM().format(nowMinus4);
   LineChartMonthData data1 = LineChartMonthData(name: name1, income: 0, monthInt: nowMinus4.month);
   chartItems.add(data1);
 
-  DateTime nowMinus5 = DateTime(now.year, now.month - 5, now.day);
+  DateTime nowMinus5 = DateTime(now.year, now.month - 5);
   String name0 = DateFormat.MMMM().format(nowMinus5);
   LineChartMonthData data = LineChartMonthData(name: name0, income: 0, monthInt: nowMinus5.month);
   chartItems.add(data);

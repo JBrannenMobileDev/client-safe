@@ -30,9 +30,6 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
     if(action is LoadAllJobsAction){
       fetchJobs(store, next);
     }
-    if(action is InvoiceEditSelected){
-      onEditInvoice(store, action, next);
-    }
     if(action is DeleteInvoiceAction){
       deleteInvoice(store, action, next);
     }
@@ -219,12 +216,6 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
         }
         store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, invoices));
       });
-  }
-
-  void onEditInvoice(Store<AppState> store, InvoiceEditSelected action, NextDispatcher next) async {
-    Job? job = await JobDao.getJobById(action.invoice!.jobDocumentId);
-    store.dispatch(SetShouldClearAction(store.state.newInvoicePageState!, false));
-    store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState!, job!));
   }
 
   void updateInvoiceToSent(Store<AppState> store, OnInvoiceSentAction action, NextDispatcher next) async {
