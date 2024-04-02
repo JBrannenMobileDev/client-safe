@@ -75,7 +75,7 @@ class _BottomSheetPageState extends State<SaveToMyPosesBottomSheet> with TickerP
                        ),
                        pageState.myPoseGroups!.length > 0 ? SingleChildScrollView(
                          child: Container(
-                           height: 302,
+                           height: 300,
                            child: GridView.builder(
                                padding: new EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 300.0),
                                gridDelegate:

@@ -241,8 +241,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                   TextButton(
                                     style: Styles.getButtonStyle(),
                                     onPressed: () {
-                                      Share.share('Hey checkout this app.'
-                                          '\n\nDandyLight - Photography Business Management'
+                                      Share.share('DandyLight - All-in-one photography business management'
                                       // '\n\nUse this referral code when signing up so your friend can get 3 months free.'
                                       // '\n\nCode: ' + pageState.profile.referralUid +
                                           '\n\nhttps://linktr.ee/dandylight');

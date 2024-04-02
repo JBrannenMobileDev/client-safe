@@ -259,7 +259,7 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
           DandyToastUtil.showToast('Cost must be greater than \$0.0', Color(ColorConstants.getPrimaryColor()));
         }
       } else {
-        DandyToastUtil.showToast('Expense charge date is required', Color(ColorConstants.getPrimaryColor()));
+        DandyToastUtil.showToast('Date of trip is required', Color(ColorConstants.getPrimaryColor()));
       }
     }
   }

@@ -53,7 +53,7 @@ class PoseLibraryGroupListWidget extends StatelessWidget {
                       width: 108.0,
                       margin: EdgeInsets.only(right: 16.0),
                       child: DandyLightNetworkImage(
-                        pageState.libraryGroups!.elementAt(index!).poses!.elementAt(index!).imageUrl!,
+                        pageState.libraryGroups!.elementAt(index!).poses!.first.imageUrl ?? '',
                         borderRadius: 16,
                         resizeWidth: 350,
                         errorIconSize: 24,

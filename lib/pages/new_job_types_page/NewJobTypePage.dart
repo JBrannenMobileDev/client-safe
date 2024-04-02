@@ -185,7 +185,7 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
                       controller: controller,
                       pageSnapping: true,
                       children: <Widget>[
-                        JobTypeNameSelectionWidget(jobType!),
+                        JobTypeNameSelectionWidget(jobType),
                         JobStageSelectionForm(),
                         ReminderSelectionWidget(),
                       ],

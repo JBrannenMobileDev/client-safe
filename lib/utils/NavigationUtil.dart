@@ -137,7 +137,7 @@ class NavigationUtil {
   static onPosesSelected(BuildContext context, Job? job, bool comingFromJobDetails, bool goToSubmittedPoses) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => PosesPage(job, comingFromJobDetails, goToSubmittedPoses)));
   }
-  static onSearchPosesSelected(BuildContext context, Job job, bool comingFromJobDetails) {
+  static onSearchPosesSelected(BuildContext context, Job? job, bool comingFromJobDetails) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => PosesSearchPage(job, comingFromJobDetails)));
   }
   static void onSuccessfulLogin(BuildContext context) {

@@ -18,7 +18,7 @@ class TimeSelectionWidget extends StatefulWidget {
   static const String DAYS = "Days";
   static const String WEEKS = "Weeks";
   static const String MONTHS = "Months";
-  final ReminderDandyLight reminder;
+  final ReminderDandyLight? reminder;
 
   TimeSelectionWidget(this.reminder);
 
@@ -30,7 +30,7 @@ class TimeSelectionWidget extends StatefulWidget {
 
 class _TimeSelectionWidgetState extends State<TimeSelectionWidget> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  final ReminderDandyLight reminder;
+  final ReminderDandyLight? reminder;
 
   _TimeSelectionWidgetState(this.reminder);
 

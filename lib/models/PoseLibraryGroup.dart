@@ -15,6 +15,27 @@ class PoseLibraryGroup {
     this.numOfSaves,
   });
 
+  void sort() {
+    List<Pose> newPoses = [];
+    List<Pose> oldPoses = [];
+
+    if(poses != null) {
+      for(Pose pose in poses!) {
+        if(pose.isNewPose()){
+          newPoses.add(pose);
+        } else {
+          oldPoses.add(pose);
+        }
+      }
+
+      oldPoses.sort((a, b) => b.numOfSaves!.compareTo(a.numOfSaves!) == 0 ? b.createDate!.compareTo(a.createDate!) : b.numOfSaves!.compareTo(a.numOfSaves!));
+      newPoses.sort((a, b) => b.numOfSaves!.compareTo(a.numOfSaves!) == 0 ? b.createDate!.compareTo(a.createDate!) : b.numOfSaves!.compareTo(a.numOfSaves!));
+      poses = newPoses + oldPoses;
+    } else {
+      poses = [];
+    }
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'documentId' : documentId,

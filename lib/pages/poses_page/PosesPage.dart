@@ -151,7 +151,7 @@ class _PosesPageState extends State<PosesPage> {
                     ) : SizedBox(),
                     GestureDetector(
                       onTap: () {
-                        NavigationUtil.onSearchPosesSelected(context, job!, comingFromDetails!);
+                        NavigationUtil.onSearchPosesSelected(context, job, comingFromDetails!);
                         EventSender().sendEvent(eventName: EventNames.NAV_TO_POSE_LIBRARY_SEARCH);
                       },
                       child: Container(
@@ -207,7 +207,7 @@ class _PosesPageState extends State<PosesPage> {
                 ),
                 selectedIndex != 2 ? SliverList(
                   delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-                    return selectedIndex == 0 ? PoseGroupListWidget(index, job!, comingFromDetails!) : PoseLibraryGroupListWidget(index, job, comingFromDetails!);
+                    return selectedIndex == 0 ? PoseGroupListWidget(index, job, comingFromDetails!) : PoseLibraryGroupListWidget(index, job, comingFromDetails!);
                   },
                     childCount: selectedIndex == 0 ? pageState.poseGroups!.length : pageState.libraryGroups!.length, // 1000 list items
                   ),
@@ -296,7 +296,7 @@ class _PosesPageState extends State<PosesPage> {
                 EventSender().sendEvent(eventName: EventNames.BT_SAVE_SUBMITTED_POSE_TO_JOB_FROM_JOB);
               }
             },
-            child: SubmittedPoseListWidget(index, job!),
+            child: SubmittedPoseListWidget(index, job),
           ),
     );
   }

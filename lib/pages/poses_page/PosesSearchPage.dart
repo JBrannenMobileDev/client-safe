@@ -64,7 +64,7 @@ class _PosesSearchPageState extends State<PosesSearchPage> {
                 EventSender().sendEvent(eventName: EventNames.BT_SAVE_LIBRARY_SEARCH_POSE_TO_JOB_FROM_JOB);
               }
             },
-            child: LibraryPoseSearchListWidget(index, job!),
+            child: LibraryPoseSearchListWidget(index, job),
           ),
     );
   }

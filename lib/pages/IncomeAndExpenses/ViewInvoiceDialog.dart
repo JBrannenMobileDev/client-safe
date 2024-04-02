@@ -32,7 +32,7 @@ import 'ViewSalesTaxRowWidget.dart';
 class ViewInvoiceDialog extends StatefulWidget {
   final Invoice invoice;
   final Job job;
-  final Function onSendInvoiceSelected;
+  final Function? onSendInvoiceSelected;
 
   ViewInvoiceDialog(this.invoice, this.job, this.onSendInvoiceSelected);
 
@@ -45,7 +45,7 @@ class ViewInvoiceDialog extends StatefulWidget {
 class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKeepAliveClientMixin {
   final Invoice invoice;
   final Job job;
-  final Function onSendInvoiceSelected;
+  final Function? onSendInvoiceSelected;
 
   _ViewInvoiceDialogState(this.invoice, this.job, this.onSendInvoiceSelected);
 

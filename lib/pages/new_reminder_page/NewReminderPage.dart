@@ -20,7 +20,7 @@ import 'TimeSelectionWidget.dart';
 import 'WhenSelectionWidget.dart';
 
 class NewReminderPage extends StatefulWidget {
-  final ReminderDandyLight reminder;
+  final ReminderDandyLight? reminder;
 
   NewReminderPage(this.reminder);
 
@@ -149,9 +149,9 @@ class _NewReminderPageState extends State<NewReminderPage> {
                       controller: controller,
                       pageSnapping: true,
                       children: <Widget>[
-                        ReminderDescriptionWidget(reminder!),
-                        WhenSelectionWidget(reminder!),
-                        TimeSelectionWidget(reminder!),
+                        ReminderDescriptionWidget(reminder),
+                        WhenSelectionWidget(reminder),
+                        TimeSelectionWidget(reminder),
                       ],
                     ),
                   ),

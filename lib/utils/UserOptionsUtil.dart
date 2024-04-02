@@ -130,7 +130,7 @@ class UserOptionsUtil {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return NewReminderPage(reminder!);
+        return NewReminderPage(reminder);
       },
     );
   }
@@ -139,7 +139,7 @@ class UserOptionsUtil {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return NewJobTypePage(jobType!);
+        return NewJobTypePage(jobType);
       },
     );
   }
@@ -388,7 +388,7 @@ class UserOptionsUtil {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return ViewInvoiceDialog(invoice!, job!, onSendInvoiceSelected!);
+        return ViewInvoiceDialog(invoice!, job!, onSendInvoiceSelected);
       },
     );
   }

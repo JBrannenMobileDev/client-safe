@@ -33,7 +33,7 @@ class JobLocationListWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                   child: DandyLightNetworkImage(
-                    pageState.locations!.elementAt(locationIndex).imageUrl!,
+                    pageState.locations!.elementAt(locationIndex).imageUrl ?? '',
                     errorType:
                         pageState.locations!.elementAt(locationIndex).imageUrl !=
                                     null &&

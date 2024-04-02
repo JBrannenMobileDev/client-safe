@@ -42,7 +42,9 @@ class _LocationOptionsMileageExpenseDialogState extends State<LocationOptionsMil
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16.0),
             ),
+            surfaceTintColor: Colors.transparent,
             child: Container(
+              color: Color(ColorConstants.getPrimaryWhite()),
               height: 272.0,
               margin: EdgeInsets.only(left: 26.0, right: 26.0),
               child: Column(

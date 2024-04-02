@@ -72,6 +72,9 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
 
   void _fetchLibraryPoseGroups(Store<AppState> store, NextDispatcher next) async {
     List<PoseLibraryGroup> groups = await PoseLibraryGroupDao.getAllSortedMostFrequent();
+    for(PoseLibraryGroup group in groups) {
+      group.sort();
+    }
     store.dispatch(SetPoseLibraryGroupsAction(store.state.posesPageState, groups));
 
     List<Pose> allPoses = [];

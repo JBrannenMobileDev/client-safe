@@ -57,7 +57,9 @@ class DandyLightTextField extends StatelessWidget {
               onTextInputChanged!(text);
             },
             onFieldSubmitted: (term) {
-              onFocusAction!();
+              if(onFocusAction != null) {
+                onFocusAction!();
+              }
             },
             decoration: InputDecoration(
               alignLabelWithHint: true,

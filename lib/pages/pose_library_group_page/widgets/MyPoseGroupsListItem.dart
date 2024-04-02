@@ -28,7 +28,7 @@ class MyPoseGroupsListItemWidget extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               Container(
-                height: 103,
+                height: 104,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,

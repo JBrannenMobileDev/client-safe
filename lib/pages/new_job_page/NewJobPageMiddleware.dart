@@ -109,6 +109,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       List<Event> deviceEvents = await CalendarSyncUtil.getDeviceEventsForDateRange(startDate, endDate);
       store.dispatch(SetNewJobDeviceEventsAction(store.state.newJobPageState, deviceEvents));
     }
+    store.dispatch(SetSelectedDateAction(store.state.newJobPageState!, monthToUse));
   }
 
   void _fetchSunsetTime(Store<AppState> store, action, NextDispatcher next) async{

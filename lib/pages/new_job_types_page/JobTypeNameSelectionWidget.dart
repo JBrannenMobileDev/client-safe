@@ -9,7 +9,7 @@ import '../new_pricing_profile_page/DandyLightTextField.dart';
 import 'NewJobTypePageState.dart';
 
 class JobTypeNameSelectionWidget extends StatefulWidget{
-  final JobType jobType;
+  final JobType? jobType;
 
   JobTypeNameSelectionWidget(this.jobType);
 
@@ -21,7 +21,7 @@ class JobTypeNameSelectionWidget extends StatefulWidget{
 
 class _JobTypeNameSelectionWidgetState extends State<JobTypeNameSelectionWidget> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  final JobType jobType;
+  final JobType? jobType;
   final descriptionTextController = TextEditingController();
 
   _JobTypeNameSelectionWidgetState(this.jobType);

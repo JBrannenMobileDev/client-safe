@@ -53,7 +53,7 @@ class _BottomSheetPageState extends State<SaveToMyPosesBottomSheet> with TickerP
     converter: (Store<AppState> store) => PosesPageState.fromStore(store),
     builder: (BuildContext context, PosesPageState pageState) =>
          Container(
-           height: 350,
+           height: 360,
            width: MediaQuery.of(context).size.width,
            decoration: BoxDecoration(
                borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),

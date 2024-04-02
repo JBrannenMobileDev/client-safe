@@ -334,6 +334,7 @@ class Job {
     for(JobStage completedStage in completedStages!){
       if(completedStage.stage == JobStage.STAGE_9_PAYMENT_RECEIVED || completedStage.stage == JobStage.STAGE_14_JOB_COMPLETE || completedStage.stage == JobStage.STAGE_COMPLETED_CHECK) return true;
     }
+    if(invoice != null && invoice!.invoicePaid!) return true;
     return false;
   }
 

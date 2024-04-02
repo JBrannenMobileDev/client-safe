@@ -36,7 +36,7 @@ class LocationListWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8.0),
                 ),
              child: DandyLightNetworkImage(
-               pageState.locations!.elementAt(index)!.imageUrl!,
+               pageState.locations!.elementAt(index)!.imageUrl ?? '',
                errorType: pageState.locations!.elementAt(index)!.imageUrl != null && pageState.locations!.elementAt(index)!.imageUrl!.isNotEmpty ? DandyLightNetworkImage.ERROR_TYPE_INTERNET : DandyLightNetworkImage.ERROR_TYPE_NO_IMAGE,
                errorIconSize: pageState.locations!.elementAt(index)!.imageUrl != null && pageState.locations!.elementAt(index)!.imageUrl!.isNotEmpty ? 44 : 96,
              ),

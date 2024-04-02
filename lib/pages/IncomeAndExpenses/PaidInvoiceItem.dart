@@ -57,7 +57,7 @@ class PaidInvoiceItem extends StatelessWidget{
                       child: TextDandyLight(
                         type: TextDandyLight.SMALL_TEXT,
                         text: ((invoice!.total != null || invoice!.discount != null)
-                                ? TextFormatterUtil.formatDecimalDigitsCurrency(invoice!.total! - invoice!.discount!, 2)
+                                ? TextFormatterUtil.formatDecimalDigitsCurrency(invoice!.total!, 2)
                                 : '0'),
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),

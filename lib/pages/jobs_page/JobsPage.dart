@@ -73,6 +73,7 @@ class _JobsPageState extends State<JobsPage> {
                         backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                         pinned: true,
                         centerTitle: true,
+                        surfaceTintColor: Colors.transparent,
                         title: Container(
                           child: TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,

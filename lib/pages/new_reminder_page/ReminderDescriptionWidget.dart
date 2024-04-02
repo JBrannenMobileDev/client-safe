@@ -10,7 +10,7 @@ import 'NewReminderActions.dart';
 import 'NewReminderPageState.dart';
 
 class ReminderDescriptionWidget extends StatefulWidget{
-  final ReminderDandyLight reminder;
+  final ReminderDandyLight? reminder;
 
   ReminderDescriptionWidget(this.reminder);
 
@@ -22,7 +22,7 @@ class ReminderDescriptionWidget extends StatefulWidget{
 
 class _ReminderDescriptionWidgetState extends State<ReminderDescriptionWidget> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  final ReminderDandyLight reminder;
+  final ReminderDandyLight? reminder;
   final descriptionTextController = TextEditingController();
 
   _ReminderDescriptionWidgetState(this.reminder);

@@ -82,7 +82,7 @@ class _PoseGroupPageState extends State<PoseGroupPage>
                 EventSender().sendEvent(eventName: EventNames.BT_SAVE_MY_POSE_TO_JOB_FROM_JOB);
               }
             },
-            child: PoseListWidget(index, job!),
+            child: PoseListWidget(index, job),
           ),
     );
   }
