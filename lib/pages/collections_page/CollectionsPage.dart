@@ -40,6 +40,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
               backgroundColor: Color(ColorConstants.getPrimaryWhite()),
               pinned: true,
               centerTitle: true,
+              surfaceTintColor: Colors.transparent,
               title: Center(
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,

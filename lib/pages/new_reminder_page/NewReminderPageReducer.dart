@@ -26,6 +26,7 @@ NewReminderPageState _loadExistingReminder(NewReminderPageState previousState, L
     when: action.reminder!.when,
     documentId: action.reminder!.documentId,
     reminderDescription: action.reminder!.description,
+    selectedTime: action.reminder!.time
   );
 }
 
