@@ -30,6 +30,7 @@ class NewInvoicePageState {
   final double? depositValue;
   final bool? isDepositChecked;
   final double? salesTaxPercent;
+  final double? salesTaxAmount;
   final bool? isSalesTaxChecked;
   final double? unpaidAmount;
   final double? discountValue;
@@ -152,6 +153,7 @@ class NewInvoicePageState {
     @required this.subtotal,
     @required this.depositDueDate,
     @required this.onDepositDueDateSelected,
+    @required this.salesTaxAmount,
   });
 
   NewInvoicePageState copyWith({
@@ -217,6 +219,7 @@ class NewInvoicePageState {
     double? salesTaxPercent,
     bool? isSalesTaxChecked,
     bool? isDepositChecked,
+    double? salesTaxAmount,
     Function(bool)? onDepositChecked,
     Function(bool)? onSalesTaxChecked,
     Function(String)? onSalesTaxRateChanged,
@@ -289,6 +292,7 @@ class NewInvoicePageState {
       onInvoiceSent: onInvoiceSent ?? this.onInvoiceSent,
       subtotal: subtotal ?? this.subtotal,
       depositDueDate: depositDueDate ?? this.depositDueDate,
+      salesTaxAmount: salesTaxAmount ?? this.salesTaxAmount,
     );
   }
 
@@ -362,6 +366,7 @@ class NewInvoicePageState {
         onSalesTaxRateChanged: null,
         onInvoiceSent: null,
         subtotal: 0,
+        salesTaxAmount: 0,
       );
   }
 
@@ -404,6 +409,7 @@ class NewInvoicePageState {
       isSalesTaxChecked: store.state.newInvoicePageState!.isSalesTaxChecked,
       subtotal: store.state.newInvoicePageState!.subtotal,
       depositDueDate: store.state.newInvoicePageState!.depositDueDate,
+      salesTaxAmount: store.state.newInvoicePageState!.salesTaxAmount,
       onDueDateSelected: (dueDate) => store.dispatch(SetSelectedDueDate(store.state.newInvoicePageState, dueDate)),
       onDepositDueDateSelected: (dueDate) => store.dispatch(SetSelectedDepositDueDate(store.state.newInvoicePageState, dueDate)),
       onNewDiscountFilterChanged: (selectorName) => store.dispatch(UpdateNewDiscountSelectorAction(store.state.newInvoicePageState, selectorName)),
@@ -492,6 +498,7 @@ class NewInvoicePageState {
       isSalesTaxChecked.hashCode ^
       onSalesTaxRateChanged.hashCode ^
       onInvoiceSent.hashCode ^
+      salesTaxAmount.hashCode ^
       newDiscountFilter.hashCode;
 
   @override
@@ -552,5 +559,6 @@ class NewInvoicePageState {
           isSalesTaxChecked == other.isSalesTaxChecked &&
           onSalesTaxRateChanged == other.onSalesTaxRateChanged &&
           onInvoiceSent == other.onInvoiceSent &&
+          salesTaxAmount == other.salesTaxAmount &&
           newDiscountFilter == other.newDiscountFilter;
 }

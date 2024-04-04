@@ -33,7 +33,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              margin: EdgeInsets.only(bottom: 8),
+              margin: const EdgeInsets.only(bottom: 8),
               alignment: Alignment.center,
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
@@ -42,7 +42,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
               ),
             ),
             Container(
-              margin: EdgeInsets.only(bottom: 48),
+              margin: const EdgeInsets.only(bottom: 48),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   color: Color(ColorConstants.getPrimaryWhite())
@@ -50,7 +50,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
               child: Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: 20, left: 16, right: 16),
+                    padding: const EdgeInsets.only(top: 20, left: 16, right: 16),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -82,7 +82,8 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  shape: RoundedRectangleBorder(
+                                  surfaceTintColor: Colors.transparent,
+                                  shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(150),
                                           topRight: Radius.circular(150),
@@ -155,7 +156,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 20, left: 16, right: 16),
+                    padding: const EdgeInsets.only(top: 20, left: 16, right: 16),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -187,7 +188,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  shape: RoundedRectangleBorder(
+                                  shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(150),
                                           topRight: Radius.circular(150),
@@ -260,7 +261,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 20, left: 16, right: 16),
+                    padding: const EdgeInsets.only(top: 20, left: 16, right: 16),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -292,7 +293,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  shape: RoundedRectangleBorder(
+                                  shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(150),
                                           topRight: Radius.circular(150),
@@ -365,7 +366,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 20, left: 16, right: 16),
+                    padding: const EdgeInsets.only(top: 20, left: 16, right: 16),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -397,7 +398,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  shape: RoundedRectangleBorder(
+                                  shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(150),
                                           topRight: Radius.circular(150),
@@ -470,7 +471,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 20),
+                    padding: const EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -502,7 +503,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  shape: RoundedRectangleBorder(
+                                  shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(150),
                                           topRight: Radius.circular(150),

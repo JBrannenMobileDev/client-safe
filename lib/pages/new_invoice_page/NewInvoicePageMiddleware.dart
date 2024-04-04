@@ -101,7 +101,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
           total: pageState.total,
           lineItems: pageState.lineItems,
           sentDate: pageState.selectedJob!.invoice?.sentDate,
-          salesTaxAmount: pageState.isSalesTaxChecked! ? (pageState.total! * (pageState.salesTaxPercent!/100)) : 0.0,
+          salesTaxAmount: pageState.salesTaxAmount,
           salesTaxRate: pageState.salesTaxPercent,
           subtotal: pageState.subtotal,
     ), pageState.selectedJob!);

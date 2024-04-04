@@ -249,10 +249,8 @@ class _NewContactPageState extends State<NewContactPage> {
               break;
             }
 
-            if (!InputValidatorUtil.isPhoneNumberValid(
-                pageState.newContactPhone!)) {
-              pageState
-                  .onErrorStateChanged!(NewContactPageState.ERROR_PHONE_INVALID);
+            if (!InputValidatorUtil.isPhoneNumberValid(pageState.newContactPhone!)) {
+              pageState.onErrorStateChanged!(NewContactPageState.ERROR_PHONE_INVALID);
               HapticFeedback.heavyImpact();
               break;
             }

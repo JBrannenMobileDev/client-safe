@@ -112,11 +112,11 @@ class SingleExpenseCard extends StatelessWidget{
     if(length == 0) {
       return 169.0;
     }else if(length == 1) {
-      return 249.0;
+      return 254.0;
     }else if(length == 2) {
-      return 323.0;
+      return 328.0;
     }else if(length == 3) {
-      return 397.0;
+      return 402.0;
     }else {
       return 412;
     }

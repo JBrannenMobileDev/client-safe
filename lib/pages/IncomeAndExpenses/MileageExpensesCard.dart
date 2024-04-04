@@ -182,7 +182,7 @@ class MileageExpensesCard extends StatelessWidget {
     if(length == 0) {
       return 196.0;
     }else if(length == 1) {
-      return 271.0;
+      return 276.0;
     }else if(length == 2) {
       return 350.0;
     }else if(length == 3) {

@@ -71,12 +71,13 @@ NewContactPageState _filterContacts(NewContactPageState previousState, FilterDev
 }
 
 NewContactPageState _loadClient(NewContactPageState previousState, LoadExistingClientData action){
+  String phone = TextFormatterUtil.formatPhoneNum(action.client!.phone);
   return previousState.copyWith(
     documentId: action.client!.documentId,
     shouldClear: false,
     newContactFirstName: action.client!.firstName,
     newContactLastName: action.client!.lastName,
-    newContactPhone: action.client!.phone,
+    newContactPhone: phone,
     newContactEmail: action.client!.email,
     newContactInstagramUrl: action.client!.instagramProfileUrl,
     relationshipStatus: action.client!.relationshipStatus,

@@ -25,6 +25,7 @@ class JobHistoryListPage extends StatelessWidget{
             slivers: <Widget>[
               SliverAppBar(
                 backgroundColor: Color(ColorConstants.getPrimaryWhite()),
+                surfaceTintColor: Colors.transparent,
                 pinned: true,
                 floating: false,
                 forceElevated: false,

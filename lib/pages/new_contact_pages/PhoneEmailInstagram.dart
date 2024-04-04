@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageState.dart';
+import 'package:dandylight/utils/TextFormatterUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,7 +13,6 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import '../../utils/ColorConstants.dart';
 import '../../utils/InputDoneView.dart';
 import 'NewContactTextField.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 class PhoneEmailInstagram extends StatefulWidget {
   @override
@@ -23,8 +23,7 @@ class PhoneEmailInstagram extends StatefulWidget {
 
 class NumberTextInputFormatter extends TextInputFormatter {
   @override
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
 
       int selectionIndex = newValue.selection.end;
       String resultNum = "";
@@ -85,7 +84,7 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
         super.build(context);
         return StoreConnector<AppState, NewContactPageState>(
         onInit: (store) {
-          phoneTextController.text = store.state.newContactPageState!.newContactPhone!;
+          phoneTextController.text = TextFormatterUtil.formatPhoneNum(store.state.newContactPageState!.newContactPhone!);
           emailTextController.text = store.state.newContactPageState!.newContactEmail!;
           instagramUrlTextController.text = store.state.newContactPageState!.newContactInstagramUrl!;
         },
@@ -100,7 +99,7 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
                   phoneTextController,
                   "Phone",
                   TextInputType.phone,
-                  64.0,
+                  66.0,
                   pageState.onPhoneTextChanged!,
                   NewContactPageState.ERROR_PHONE_INVALID,
                   TextInputAction.next,
@@ -118,7 +117,7 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
                   emailTextController,
                   "Email",
                   TextInputType.emailAddress,
-                  64.0,
+                  66.0,
                   pageState.onEmailTextChanged!,
                   NewContactPageState.ERROR_EMAIL_NAME_INVALID,
                   TextInputAction.next,
@@ -133,7 +132,7 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
                   instagramUrlTextController,
                   "Instagram URL",
                   TextInputType.url,
-                  64.0,
+                  66.0,
                   pageState.onInstagramUrlChanged!,
                   NewContactPageState.ERROR_INSTAGRAM_URL_INVALID,
                   TextInputAction.done,

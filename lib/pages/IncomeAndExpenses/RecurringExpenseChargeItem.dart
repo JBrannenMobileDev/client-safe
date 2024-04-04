@@ -19,7 +19,7 @@ class RecurringExpenseChargeItem extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 74.0,
+      height: 80.0,
       child: TextButton(
         style: Styles.getButtonStyle(),
         onPressed: () {

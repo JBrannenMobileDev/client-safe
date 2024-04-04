@@ -99,8 +99,8 @@ EditBrandingPageState _SetSelectedFont(EditBrandingPageState previousState, SetS
     action.pageState!.profile!.logoSelected!, action.pageState!.logoImageSelected!,
     action.pageState!.profile!.bannerImageSelected!, action.pageState!.bannerImageSelected!,
     action.pageState!.profile!.logoCharacter ?? 'M', action.pageState!.logoCharacter!,
-    action.pageState!.resizedLogoImage!, action.pageState!.resizedLogoImage!,
-    action.pageState!.bannerImage!, action.pageState!.bannerImage!,
+    action.pageState!.resizedLogoImage, action.pageState!.resizedLogoImage,
+    action.pageState!.bannerImage, action.pageState!.bannerImage,
   );
 
   return previousState.copyWith(
