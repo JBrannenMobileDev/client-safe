@@ -515,7 +515,7 @@ class _StageItemState extends State<StageItem>
                             child: TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: actionButtonText,
-                              textAlign: TextAlign.start,
+                              textAlign: TextAlign.center,
                               color: Color(ColorConstants.getPrimaryWhite()),
                             ),
                           ),

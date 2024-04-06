@@ -480,7 +480,7 @@ class _InvoicePageState extends State<InvoicePage> {
                 ],
               ),
             ) : SizedBox(),
-            pageState.invoice!.salesTaxAmount! > 0 ? Container(
+            pageState.invoice!.salesTaxRate! > 0 ? Container(
               width: 540,
               margin: EdgeInsets.only(left: 16, right: 16, top: 16),
               padding: EdgeInsets.only(left: 32, right: 32),

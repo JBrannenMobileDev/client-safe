@@ -603,7 +603,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       }
     }
     if(stageToComplete.stage == JobStage.STAGE_5_DEPOSIT_RECEIVED){
-      if(action.job!.invoice != null){
+      if(action.job!.invoice != null && !action.job!.invoice!.depositPaid!){
         jobToSave.invoice!.depositPaid = true;
         jobToSave.depositReceivedDate = DateTime.now();
         jobToSave.invoice!.unpaidAmount = action.job!.invoice!.unpaidAmount! - action.job!.invoice!.depositAmount!;
@@ -655,7 +655,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       }
     }
     if(stageToRemove.stage == JobStage.STAGE_5_DEPOSIT_RECEIVED){
-      if(store.state.jobDetailsPageState!.invoice != null){
+      if(store.state.jobDetailsPageState!.invoice != null && store.state.jobDetailsPageState!.invoice!.depositPaid!){
         jobToSave.invoice!.depositPaid = false;
         jobToSave.invoice!.unpaidAmount = action.job!.invoice!.unpaidAmount! + action.job!.invoice!.depositAmount!;
         await InvoiceDao.updateInvoiceOnly(action.job!.invoice!);
