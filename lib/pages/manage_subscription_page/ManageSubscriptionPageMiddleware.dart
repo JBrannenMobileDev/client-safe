@@ -42,22 +42,27 @@ class ManageSubscriptionPageMiddleware extends MiddlewareClass<AppState> {
     DiscountCodesRepository repo = DiscountCodesRepository();
     String discountType = await repo.getMatchingDiscount(action.discountCode!);
 
-    if(discountType.isNotEmpty) {
-      store.dispatch(SetDiscountTypeAction(store.state.manageSubscriptionPageState, discountType));
+    if(action.discountCode != null && action.discountCode!.isNotEmpty && action.discountCode!.toUpperCase() == "STORY3") {
+      store.dispatch(SetDiscountTypeAction(store.state.manageSubscriptionPageState, DiscountCodes.A_LITTLE_STORY_30));
       store.dispatch(SetDiscountCodeAction(store.state.manageSubscriptionPageState, action.discountCode));
-      if(discountType == DiscountCodes.LIFETIME_FREE) {
-        DiscountCodesRepository repo = DiscountCodesRepository();
-        Profile? profile = await ProfileDao.getMatchingProfile(action.pageState!.profile!.uid!);
-        profile!.isFreeForLife = true;
-        await ProfileDao.update(profile);
-        repo.assignUserToCode(action.pageState!.discountCode!, store.state.dashboardPageState!.profile!.uid!);
-        store.dispatch(SetProfileAction(store.state.manageSubscriptionPageState, profile));
-      }
-      if(discountType == DiscountCodes.FIRST_3_MONTHS_FREE) {
-        repo.assignUserToCode(action.pageState!.discountCode!, store.state.dashboardPageState!.profile!.uid!);
-      }
     } else {
-      store.dispatch(SetShowDiscountErrorStateAction(store.state.manageSubscriptionPageState, true));
+      if(discountType.isNotEmpty) {
+        store.dispatch(SetDiscountTypeAction(store.state.manageSubscriptionPageState, discountType));
+        store.dispatch(SetDiscountCodeAction(store.state.manageSubscriptionPageState, action.discountCode));
+        if(discountType == DiscountCodes.LIFETIME_FREE) {
+          DiscountCodesRepository repo = DiscountCodesRepository();
+          Profile? profile = await ProfileDao.getMatchingProfile(action.pageState!.profile!.uid!);
+          profile!.isFreeForLife = true;
+          await ProfileDao.update(profile);
+          repo.assignUserToCode(action.pageState!.discountCode!, store.state.dashboardPageState!.profile!.uid!);
+          store.dispatch(SetProfileAction(store.state.manageSubscriptionPageState, profile));
+        }
+        if(discountType == DiscountCodes.FIRST_3_MONTHS_FREE) {
+          repo.assignUserToCode(action.pageState!.discountCode!, store.state.dashboardPageState!.profile!.uid!);
+        }
+      } else {
+        store.dispatch(SetShowDiscountErrorStateAction(store.state.manageSubscriptionPageState, true));
+      }
     }
   }
 

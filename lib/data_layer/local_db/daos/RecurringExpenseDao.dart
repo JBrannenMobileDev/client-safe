@@ -100,11 +100,16 @@ class RecurringExpenseDao extends Equatable{
     if((await getAll()).length > 0) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
       final recordSnapshots = await _recurringExpenseStore.find(await _db, finder: finder);
-      return recordSnapshots.map((snapshot) {
+      List<RecurringExpense> list =  recordSnapshots.map((snapshot) {
         final expense = RecurringExpense.fromMap(snapshot.value);
         expense.id = snapshot.key;
         return expense;
-      }).toList()?.elementAt(0);
+      }).toList();
+      if(list.isNotEmpty) {
+        return list.elementAt(0);
+      } else {
+        return null;
+      }
     } else {
       return null;
     }

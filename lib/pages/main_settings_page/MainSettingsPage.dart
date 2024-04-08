@@ -109,7 +109,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                       sliver: SliverList(
                         delegate: SliverChildListDelegate(
                           <Widget>[
-                            Container(
+                            !(pageState.profile?.isSubscribed ?? false) ? Container(
                               margin: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0, top: 16),
                               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
                               decoration: BoxDecoration(
@@ -139,7 +139,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                           ),
                                           TextDandyLight(
                                             type: TextDandyLight.MEDIUM_TEXT,
-                                            text: 'Take a survey',
+                                            text: 'Get 3 months free!',
                                             textAlign: TextAlign.center,
                                             color: Color(ColorConstants.getPrimaryBlack()),
                                           )
@@ -153,7 +153,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                   ),
                                 ),
                               ),
-                            ),
+                            ) : const SizedBox(),
                             Container(
                               margin: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 32.0, top: 16),
                               padding: const EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),

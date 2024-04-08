@@ -4,6 +4,7 @@ class DiscountCodes {
   static const String FIFTY_PERCENT_TYPE = "50Percent";
   static const String LIFETIME_FREE = "lifetimeFree";
   static const String FIRST_3_MONTHS_FREE = "First3MonthsFree";
+  static const String A_LITTLE_STORY_30 = "ALittleStory30";
 
   List<Code>? codes;
   String? type;

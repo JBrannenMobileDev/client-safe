@@ -34,10 +34,15 @@ ManageSubscriptionPageState _setShowAppliedDiscount(ManageSubscriptionPageState 
 
 ManageSubscriptionPageState _setDiscountType(ManageSubscriptionPageState previousState, SetDiscountTypeAction action){
   Offering? offering;
-  double monthlyPrice = 16.99;
-  double annualPrice = 139.99;
+  double monthlyPrice = 99.99;
+  double annualPrice = 9.99;
 
   switch(action.discountType) {
+    case DiscountCodes.A_LITTLE_STORY_30:
+      offering = previousState.offerings!.getOffering('Discount 30%');
+      monthlyPrice = 6.99;
+      annualPrice = 69.99;
+      break;
     case DiscountCodes.LIFETIME_FREE:
       offering = null;
       monthlyPrice = 0.00;
@@ -45,8 +50,8 @@ ManageSubscriptionPageState _setDiscountType(ManageSubscriptionPageState previou
       break;
     case DiscountCodes.FIFTY_PERCENT_TYPE:
       offering = previousState.offerings!.getOffering('Beta Discount Standard');
-      monthlyPrice = 8.49;
-      annualPrice = 69.99;
+      monthlyPrice = 4.99;
+      annualPrice = 49.99;
       break;
     case DiscountCodes.FIRST_3_MONTHS_FREE:
       offering = previousState.offerings!.getOffering('3_months_free');
@@ -119,15 +124,17 @@ ManageSubscriptionPageState _setSubscriptionState(ManageSubscriptionPageState pr
     annualPrice = 49.99;
     monthlyPrice = 4.99;
   } else {
-    String identifier = 'standard_1699';
+    String identifier = 'Standard';
 
     if(action.offerings != null) {
       offering = action.offerings!.getOffering(identifier);
-      annualPrice = offering!.annual!.storeProduct.price;
-      monthlyPrice = offering!.monthly!.storeProduct.price;
+      if(offering != null) {
+        annualPrice = offering.annual!.storeProduct.price;
+        monthlyPrice = offering.monthly!.storeProduct.price;
+      }
     } else {
-      annualPrice = 139.99;
-      monthlyPrice = 16.99;
+      annualPrice = 99.99;
+      monthlyPrice = 9.99;
     }
   }
 
@@ -139,14 +146,47 @@ ManageSubscriptionPageState _setSubscriptionState(ManageSubscriptionPageState pr
     monthlyPrice = offering.monthly!.storeProduct.price;
     selectedSubscription = ManageSubscriptionPage.PACKAGE_ANNUAL;
 
-    if(action.subscriptionState!.entitlements.all['standard'] != null || action.subscriptionState!.entitlements.all['standard_1699'] != null) {
-      if(action.subscriptionState!.entitlements.all['standard']!.isActive || action.subscriptionState!.entitlements.all['standard_1699']!.isActive) {
-        if(action.subscriptionState!.activeSubscriptions.contains('monthly_half_off') || action.subscriptionState!.activeSubscriptions.contains('monthly_subscription') || action.subscriptionState!.activeSubscriptions.contains('monthly:standard') || action.subscriptionState!.activeSubscriptions.contains('monthly_half_off:monthly-half-off-base') || action.subscriptionState!.activeSubscriptions.contains('monthly_1699') || action.subscriptionState!.activeSubscriptions.contains('monthly_1699:monthly-1699-base')) {
+    if(action.subscriptionState!.entitlements.all['standard'] != null || action.subscriptionState!.entitlements.all['standard_1699'] != null || action.subscriptionState!.entitlements.all['Discount 30%'] != null) {
+      if(action.subscriptionState!.entitlements.all['standard']!.isActive || action.subscriptionState!.entitlements.all['standard_1699']!.isActive || action.subscriptionState!.entitlements.all['Discount 30%']!.isActive || action.subscriptionState!.entitlements.all['3_months_free']!.isActive) {
+        if(action.subscriptionState!.activeSubscriptions.contains('monthly_half_off') || action.subscriptionState!.activeSubscriptions.contains('monthly_subscription') || action.subscriptionState!.activeSubscriptions.contains('monthly:standard') || action.subscriptionState!.activeSubscriptions.contains('monthly_half_off:monthly-half-off-base') || action.subscriptionState!.activeSubscriptions.contains('monthly_1699') || action.subscriptionState!.activeSubscriptions.contains('monthly_discount_30') || action.subscriptionState!.activeSubscriptions.contains('monthly_1699:monthly-1699-base') || action.subscriptionState!.activeSubscriptions.contains('monthly_discount_30:monthly-discount-30') || action.subscriptionState!.activeSubscriptions.contains('annual_3_months_free') || action.subscriptionState!.activeSubscriptions.contains('annual_3_months_free:annual-three-months-free-base')) {
+          if(action.subscriptionState!.activeSubscriptions.contains('monthly_half_off') || action.subscriptionState!.activeSubscriptions.contains('monthly_half_off:monthly-half-off-base')) {
+            offering = action.offerings!.getOffering('Beta Discount Standard');
+          }
+          if(action.subscriptionState!.activeSubscriptions.contains('monthly_subscription') || action.subscriptionState!.activeSubscriptions.contains('monthly:standard')) {
+            offering = action.offerings!.getOffering('Standard');
+          }
+          if(action.subscriptionState!.activeSubscriptions.contains('monthly_1699') || action.subscriptionState!.activeSubscriptions.contains('monthly_1699:monthly-1699-base')) {
+            offering = action.offerings!.getOffering('standard_1699');
+          }
+          if(action.subscriptionState!.activeSubscriptions.contains('monthly_discount_30') || action.subscriptionState!.activeSubscriptions.contains('monthly_discount_30:monthly-discount-30')) {
+            offering = action.offerings!.getOffering('Discount 30%');
+          }
+          if(action.subscriptionState!.activeSubscriptions.contains('monthly_3_months_free') || action.subscriptionState!.activeSubscriptions.contains('monthly_3_months_free:1699-3-free-months')) {
+            offering = action.offerings!.getOffering('3_months_free');
+          }
           selectedSubscription = ManageSubscriptionPage.PACKAGE_MONTHLY;
+          annualPrice = offering!.annual!.storeProduct.price;
+          monthlyPrice = offering.monthly!.storeProduct.price;
           radioValue = 1;
-        } else if(action.subscriptionState!.activeSubscriptions.contains('annual') || action.subscriptionState!.activeSubscriptions.contains('annual_half_off') || action.subscriptionState!.activeSubscriptions.contains('annual:annual-base') || action.subscriptionState!.activeSubscriptions.contains('annual_half_off:annual-half-off-base') || action.subscriptionState!.activeSubscriptions.contains('yearly_13999:yearly-13999') || action.subscriptionState!.activeSubscriptions.contains('yearly_204')) {
+        } else if(action.subscriptionState!.activeSubscriptions.contains('annual') || action.subscriptionState!.activeSubscriptions.contains('annual_half_off') || action.subscriptionState!.activeSubscriptions.contains('annual:annual-base') || action.subscriptionState!.activeSubscriptions.contains('annual_half_off:annual-half-off-base') || action.subscriptionState!.activeSubscriptions.contains('yearly_13999:yearly-13999') || action.subscriptionState!.activeSubscriptions.contains('yearly_204') || action.subscriptionState!.activeSubscriptions.contains('annual_discount_30') || action.subscriptionState!.activeSubscriptions.contains('annual_discount_30:annual-discount-30') || action.subscriptionState!.activeSubscriptions.contains('annual_3_months_free') || action.subscriptionState!.activeSubscriptions.contains('annual_3_months_free:annual-three-months-free-base')) {
+          if(action.subscriptionState!.activeSubscriptions.contains('annual_half_off') || action.subscriptionState!.activeSubscriptions.contains('annual_half_off:annual-half-off-base')) {
+            offering = action.offerings!.getOffering('Beta Discount Standard');
+          }
+          if(action.subscriptionState!.activeSubscriptions.contains('annual') || action.subscriptionState!.activeSubscriptions.contains('annual:annual-base')) {
+            offering = action.offerings!.getOffering('Standard');
+          }
+          if(action.subscriptionState!.activeSubscriptions.contains('yearly_204') || action.subscriptionState!.activeSubscriptions.contains('yearly_13999:yearly-13999')) {
+            offering = action.offerings!.getOffering('standard_1699');
+          }
+          if(action.subscriptionState!.activeSubscriptions.contains('annual_discount_30') || action.subscriptionState!.activeSubscriptions.contains('annual_discount_30:annual-discount-30')) {
+            offering = action.offerings!.getOffering('Discount 30%');
+          }
+          if(action.subscriptionState!.activeSubscriptions.contains('monthly_3_months_free') || action.subscriptionState!.activeSubscriptions.contains('monthly_3_months_free:1699-3-free-months')) {
+            offering = action.offerings!.getOffering('3_months_free');
+          }
+
           selectedSubscription = ManageSubscriptionPage.PACKAGE_ANNUAL;
-          annualPrice = offering.annual!.storeProduct.price;
+          annualPrice = offering!.annual!.storeProduct.price;
           monthlyPrice = offering.monthly!.storeProduct.price;
           radioValue = 0;
         }
