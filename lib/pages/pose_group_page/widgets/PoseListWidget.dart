@@ -39,7 +39,7 @@ class PoseListWidget extends StatelessWidget {
           Stack(
             children: [
               pageState.poseImages!.length > index! ? DandyLightNetworkImage(
-                  pageState.poseImages!.elementAt(index!).imageUrl!
+                  pageState.poseImages!.elementAt(index!).imageUrl ?? ''
               ) : SizedBox(),
               pageState.poseImages!.length > index! ? Container(
                 height: 150.0,

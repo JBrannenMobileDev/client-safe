@@ -78,7 +78,7 @@ class _ReviewPosesPageState extends State<ReviewPosesPage> with TickerProviderSt
       child: Padding(
         padding: EdgeInsets.only(left:0.5, right: 0.5, top: 1),
         child: DandyLightNetworkImage(
-          pageState.poses!.elementAt(index).imageUrl!,
+          pageState.poses!.elementAt(index).imageUrl ?? '',
           resizeWidth: 350,
         )
       ),

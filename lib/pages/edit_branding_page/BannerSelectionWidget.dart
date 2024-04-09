@@ -99,7 +99,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                                     topLeft: Radius.circular(16),
                                 ),
                                 child: DandyLightNetworkImage(
-                                  pageState.profile!.bannerMobileUrl!,
+                                  pageState.profile!.bannerMobileUrl ?? '',
                                   color: pageState.currentBannerColor!,
                                   borderRadius: 0,
                                 ),

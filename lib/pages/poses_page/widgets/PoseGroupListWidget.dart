@@ -51,7 +51,7 @@ class PoseGroupListWidget extends StatelessWidget {
                         color: Color(ColorConstants.getPeachLight())
                       ),
                       child: DandyLightNetworkImage(
-                        pageState.poseGroups!.elementAt(index!).poses!.isNotEmpty ? pageState.poseGroups!.elementAt(index!).poses!.elementAt(0).imageUrl! : '',
+                        pageState.poseGroups!.elementAt(index!).poses!.isNotEmpty ? pageState.poseGroups!.elementAt(index!).poses!.elementAt(0).imageUrl ?? '' : '',
                         borderRadius: 16,
                         resizeWidth: 350,
                         errorIconSize: 64,

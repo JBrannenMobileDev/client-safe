@@ -70,6 +70,7 @@ class _JobsPageState extends State<JobsPage> {
                   CustomScrollView(
                     slivers: <Widget>[
                       SliverAppBar(
+                        automaticallyImplyLeading: false,
                         backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                         pinned: true,
                         centerTitle: true,

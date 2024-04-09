@@ -103,6 +103,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                     controller: scrollController,
                     slivers: <Widget>[
                       SliverAppBar(
+                        automaticallyImplyLeading: false,
                         iconTheme: IconThemeData(
                           color: Color(ColorConstants.getPrimaryWhite()), //change your color here
                         ),

@@ -178,12 +178,6 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
             cursor: SystemMouseCursors.click,
             child: GestureDetector(
               onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return PaymentConfirmationWidget(pageState);
-                    }
-                );
                 IntentLauncherUtil.sendEmail(sendEmail!, messageTitle!, messageBody!);
                 EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_CASH_SEND_EMAIL_SELECTED);
               },

@@ -82,6 +82,7 @@ class _ClientsPageState extends State<ClientsPage> {
                   CustomScrollView(
                     slivers: <Widget>[
                       SliverAppBar(
+                        automaticallyImplyLeading: false,
                         surfaceTintColor: Colors.transparent,
                         leading: comingFromUnconverted != null && comingFromUnconverted! ? GestureDetector(
                           onTap:(){

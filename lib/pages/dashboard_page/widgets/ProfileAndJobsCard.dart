@@ -130,7 +130,7 @@ class ProfileAndJobsCard extends StatelessWidget {
                         width: 96,
                         height: 96,
                         child: DandyLightNetworkImage(
-                          pageState.profile!.logoUrl!,
+                          pageState.profile!.logoUrl ?? '',
                           color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
                         )
                     ),

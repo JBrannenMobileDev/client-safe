@@ -162,13 +162,13 @@ class UserOptionsUtil {
     );
   }
 
-  static void showNewJobDialog(BuildContext context, bool comingFromOnBoarding) async {
+  static void showNewJobDialog(BuildContext context, bool comingFromOnBoarding, {int initialIndex = 0}) async {
     Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     if(profile!.isSubscribed! || profile.jobsCreatedCount! < 5 || profile.isFreeForLife! || AdminCheckUtil.isAdmin(profile)) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
-          return NewJobPage(comingFromOnBoarding);
+          return NewJobPage(comingFromOnBoarding, initialIndex: initialIndex);
         },
       );
     } else {

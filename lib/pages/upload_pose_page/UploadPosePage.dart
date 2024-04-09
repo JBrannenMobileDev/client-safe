@@ -95,6 +95,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
     builder: (BuildContext context, UploadPosePageState pageState) =>
          Scaffold(
            appBar: AppBar(
+             surfaceTintColor: Colors.transparent,
              iconTheme: IconThemeData(
                color: Color(ColorConstants.getPrimaryBlack())
              ),

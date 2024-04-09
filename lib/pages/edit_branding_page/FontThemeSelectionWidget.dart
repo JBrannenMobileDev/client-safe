@@ -90,7 +90,7 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                                   color: pageState.currentIconColor
                               ),
                               child: DandyLightNetworkImage(
-                                pageState.profile!.logoUrl!
+                                pageState.profile!.logoUrl ?? ''
                               )
                             )
                           ) : Container(

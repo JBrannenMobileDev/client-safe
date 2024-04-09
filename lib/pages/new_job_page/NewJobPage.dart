@@ -28,20 +28,22 @@ import 'PricingProfileSelectionForm.dart';
 
 class NewJobPage extends StatefulWidget {
   final bool? comingFromOnBoarding;
+  final int? initialIndex;
 
-  NewJobPage(this.comingFromOnBoarding);
+  NewJobPage(this.comingFromOnBoarding, {this.initialIndex = 0});
 
   @override
   _NewJobPageState createState() {
-    return _NewJobPageState(comingFromOnBoarding);
+    return _NewJobPageState(comingFromOnBoarding, initialIndex);
   }
 }
 
 class _NewJobPageState extends State<NewJobPage>{
   final int pageCount = 5;
   final bool? comingFromOnBoarding;
+  final int? initialIndex;
 
-  _NewJobPageState(this.comingFromOnBoarding);
+  _NewJobPageState(this.comingFromOnBoarding, this.initialIndex);
 
   final controller = PageController(
     initialPage: 0,
@@ -72,6 +74,12 @@ class _NewJobPageState extends State<NewJobPage>{
       },
       onInitialBuild: (current) {
         localState = current;
+        if(initialIndex! > 0) {
+          setState(() {
+            currentPageIndex = initialIndex!;
+            controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 150), curve: Curves.ease);
+          });
+        }
       },
       onWillChange: (previous, current) {
         if(!previous!.isSelectedClientNew! && current.isSelectedClientNew!) {

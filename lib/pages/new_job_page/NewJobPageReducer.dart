@@ -130,7 +130,7 @@ NewJobPageState _loadWithSelectedClient(NewJobPageState previousState, Initializ
       clientFirstName: action.client != null ? action.client!.firstName : '',
       shouldClear: false,
       comingFromClientDetails: true,
-      pageViewIndex: 0,
+      pageViewIndex: 1,
   );
 }
 

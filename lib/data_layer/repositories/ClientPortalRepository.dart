@@ -13,7 +13,7 @@ class ClientPortalRepository {
     return await functions.fetchJob(userId, jobId);
   }
 
-  Future<Profile> fetchProfile(String userId, String jobId) async {
+  Future<Profile> fetchProfile(String userId, String? jobId) async {
     return await functions.fetchProfile(userId, jobId);
   }
 

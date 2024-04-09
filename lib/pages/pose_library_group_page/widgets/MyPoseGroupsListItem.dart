@@ -41,7 +41,7 @@ class MyPoseGroupsListItemWidget extends StatelessWidget {
                         color: Color(ColorConstants.getPeachLight())
                       ),
                       child: pageState.myPoseGroups!.elementAt(index).poses!.length > 0 ? DandyLightNetworkImage(
-                        pageState.myPoseGroups!.elementAt(index).poses!.elementAt(0).imageUrl!,
+                        pageState.myPoseGroups!.elementAt(index).poses!.elementAt(0).imageUrl ?? '',
                         resizeWidth: 250,
                       ) : Container(
                         padding: EdgeInsets.all(8),

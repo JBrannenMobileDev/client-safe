@@ -61,7 +61,7 @@ class SubmittedPoseListWidget extends StatelessWidget {
           Stack(
             children: [
               pageState.sortedSubmittedPoses!.length > index ? DandyLightNetworkImage(
-                  pageState.sortedSubmittedPoses!.elementAt(index).imageUrl!,
+                  pageState.sortedSubmittedPoses!.elementAt(index).imageUrl ?? '',
               ) : SizedBox(),
               Container(
                 alignment: Alignment.bottomRight,

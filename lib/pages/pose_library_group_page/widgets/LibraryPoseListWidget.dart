@@ -63,7 +63,7 @@ class LibraryPoseListWidget extends StatelessWidget {
           Stack(
             children: [
               pageState.sortedPoses!.length > index! ? DandyLightNetworkImage(
-                pageState.sortedPoses!.elementAt(index!).imageUrl!
+                pageState.sortedPoses!.elementAt(index!).imageUrl ?? ''
               ) : SizedBox(),
               pageState.sortedPoses!.length > index! ? Container(
                 height: 150.0,

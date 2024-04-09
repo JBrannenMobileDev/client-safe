@@ -109,7 +109,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                     color: Colors.transparent,
                                   ),
                                   child: DandyLightNetworkImage(
-                                    DeviceType.getDeviceTypeByContext(context)! == Type.Website ? pageState.profile!.bannerWebUrl! : pageState.profile!.bannerMobileUrl!,
+                                    DeviceType.getDeviceTypeByContext(context)! == Type.Website ? pageState.profile!.bannerWebUrl ?? '' : pageState.profile!.bannerMobileUrl ?? '',
                                     borderRadius: 0,
                                     resizeWidth: 2160,
                                     color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.bannerColor!),
@@ -141,7 +141,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                         width: 150,
                                         height: 150,
                                         child: DandyLightNetworkImage(
-                                          pageState.profile!.logoUrl!,
+                                          pageState.profile!.logoUrl ?? '',
                                           color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
                                         ),
                                       ),
@@ -587,7 +587,7 @@ class _SignContractPageState extends State<ProposalPage> {
         pageState.profile?.bannerWebUrl != null && pageState.profile?.bannerMobileUrl != null && pageState.profile?.bannerImageSelected == true ? Container(
           height: 300,
           child: DandyLightNetworkImage(
-            DeviceType.getDeviceTypeByContext(context) == Type.Website ? pageState.profile!.bannerWebUrl! : pageState.profile!.bannerMobileUrl!,
+            DeviceType.getDeviceTypeByContext(context) == Type.Website ? pageState.profile!.bannerWebUrl ?? '' : pageState.profile!.bannerMobileUrl ?? '',
             borderRadius: 0,
             color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.bannerColor!),
           ),
@@ -625,7 +625,7 @@ class _SignContractPageState extends State<ProposalPage> {
                     width: 42,
                     height: 42,
                     child: DandyLightNetworkImage(
-                      pageState.profile!.logoUrl!,
+                      pageState.profile!.logoUrl ?? '',
                       color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
                     ),
                   ),
@@ -691,7 +691,7 @@ class _SignContractPageState extends State<ProposalPage> {
         pageState.profile?.bannerWebUrl != null && pageState.profile?.bannerMobileUrl != null && pageState.profile?.bannerImageSelected == true ? Container(
           height: 300,
           child: DandyLightNetworkImage(
-            DeviceType.getDeviceTypeByContext(context)! == Type.Website ? pageState.profile!.bannerWebUrl! : pageState.profile!.bannerMobileUrl!,
+            DeviceType.getDeviceTypeByContext(context)! == Type.Website ? pageState.profile!.bannerWebUrl ?? '' : pageState.profile!.bannerMobileUrl ?? '',
             borderRadius: 0,
             color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.bannerColor!),
           ),
@@ -728,7 +728,7 @@ class _SignContractPageState extends State<ProposalPage> {
                     width: 96,
                     height: 96,
                     child: DandyLightNetworkImage(
-                      pageState.profile!.logoUrl!,
+                      pageState.profile!.logoUrl ?? '',
                       color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
                     ),
                   ),

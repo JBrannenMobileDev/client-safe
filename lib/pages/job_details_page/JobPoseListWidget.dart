@@ -29,7 +29,7 @@ class JobPoseListWidget extends StatelessWidget {
                   color: Color(ColorConstants.getPeachLight())
                 ),
                 child: DandyLightNetworkImage(
-                  pageState.job!.poses!.elementAt(index).imageUrl!
+                  pageState.job!.poses!.elementAt(index).imageUrl ?? ''
                 ),
               ),
               Container(

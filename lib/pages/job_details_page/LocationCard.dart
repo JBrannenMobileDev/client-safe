@@ -136,7 +136,7 @@ class _LocationCard extends State<LocationCard> {
                               color: Color(ColorConstants.getBlueLight()).withOpacity(0.25)
                             ),
                             child: DandyLightNetworkImage(
-                              pageState.job!.location!.imageUrl!,
+                              pageState.job!.location!.imageUrl ?? '',
                               color: Color(ColorConstants.getBlueLight()).withOpacity(0.25),
                               errorType: pageState.job!.location!.imageUrl != null && pageState.job!.location!.imageUrl!.isNotEmpty ? DandyLightNetworkImage.ERROR_TYPE_INTERNET : DandyLightNetworkImage.ERROR_TYPE_NO_IMAGE,
                               errorIconSize: pageState.job!.location!.imageUrl != null && pageState.job!.location!.imageUrl!.isNotEmpty ? 44 : 96,

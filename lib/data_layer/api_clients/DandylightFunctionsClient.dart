@@ -28,7 +28,7 @@ class DandylightFunctionsApi {
     return Job.fromMap(json);
   }
 
-  Future<Profile> fetchProfile(String userId, String jobId) async {
+  Future<Profile> fetchProfile(String userId, String? jobId) async {
     final url = '$_baseUrl/getProfile/?userId=$userId&jobId=$jobId';
     final response = await this.httpClient!.get(Uri.parse(url));
 

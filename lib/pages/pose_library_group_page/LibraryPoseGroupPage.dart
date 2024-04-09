@@ -111,6 +111,7 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
                     snap: false,
                     floating: true,
                     forceElevated: false,
+                    surfaceTintColor: Colors.transparent,
                     title: Container(
                       child: TextDandyLight(
                         type: TextDandyLight.LARGE_TEXT,

@@ -125,8 +125,8 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                               width: 164,
                               height: 164,
                               child: DandyLightNetworkImage(
-                                pageState.profile!.logoUrl!,
-                                color: pageState!.currentIconColor!,
+                                pageState.profile!.logoUrl ?? '',
+                                color: pageState.currentIconColor!,
                               )
                             ),
                           ) : Stack(

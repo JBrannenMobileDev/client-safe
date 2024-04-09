@@ -57,7 +57,7 @@ class LibraryPoseSearchListWidget extends StatelessWidget {
           Stack(
             children: [
               DandyLightNetworkImage(
-                pageState.searchResultPoses!.elementAt(index!).imageUrl!,
+                pageState.searchResultPoses!.elementAt(index!).imageUrl ?? '',
               ),
               Container(
                 height: 150.0,

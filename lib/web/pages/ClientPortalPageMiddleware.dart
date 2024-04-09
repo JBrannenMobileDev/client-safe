@@ -51,7 +51,7 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
 
   void _fetchProposal(Store<AppState> store, FetchProposalDataAction action, NextDispatcher next) async{
     ClientPortalRepository? repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
-    Profile? profile = await repository.fetchProfile(action.userId!, action.jobId!);
+    Profile? profile = await repository.fetchProfile(action.userId!, action.jobId);
     Job? job;
     if(action.isBrandingPreview!) {
       job = buildExampleJob();
