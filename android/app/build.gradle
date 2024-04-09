@@ -28,7 +28,8 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion 33
+    namespace = "com.dandylight.mobile"
+    compileSdkVersion flutter.compileSdkVersion
 
     lintOptions {
         disable 'InvalidPackage'
@@ -36,9 +37,10 @@ android {
 
     defaultConfig {
         applicationId "com.dandylight.mobile"
-        minSdkVersion 20
-        targetSdkVersion 33
+        minSdkVersion 24
+        targetSdkVersion flutter.targetSdkVersion
         multiDexEnabled true
+        ndkVersion flutter.ndkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -58,6 +60,14 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
+            // Enables code shrinking, obfuscation, and optimization for only
+            // your project's release build type. Make sure to use a build
+            // variant with `isDebuggable=false`.
+//            isMinifyEnabled = true
+
+//            // Enables resource shrinking, which is performed by the
+//            // Android Gradle plugin.
+//            isShrinkResources = true
         }
     }
 
@@ -89,3 +99,5 @@ dependencies {
 
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+
+
