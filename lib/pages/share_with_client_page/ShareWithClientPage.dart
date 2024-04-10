@@ -2,6 +2,7 @@
 import 'dart:async';
 
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/pages/share_with_client_page/ChooseMessageBottomSheet.dart';
 import 'package:dandylight/pages/share_with_client_page/ShareWithClientActions.dart';
@@ -172,9 +173,20 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
           store.dispatch(SetJobShareWithClientAction(store.state.shareWithClientPageState, job));
           String clientName = job!.client != null ? job!.client!.firstName! : 'Client';
           String clientMessage = "(Example message in client portal - DELETE THIS TEXT BEFORE SENDING TO CLIENT)\n\nHi ${clientName},\nI wanted to thank you again for choosing our photography services. We're excited to work with you to capture your special moments.\n\nTo make things official, kindly review and sign the contract. It outlines our agreement's essential details.\n\nIf you have any questions, please don't hesitate to ask.\n\nBest regards,\n\n${profile!.firstName} ${profile!.lastName ?? ''}\n${profile!.businessName ?? ''}";
-          messageController.value = messageController.value.copyWith(text: job!.proposal!.detailsMessage != null && job!.proposal!.detailsMessage!.isNotEmpty ? job!.proposal!.detailsMessage : clientMessage);
-          if(job!.proposal!.detailsMessage == null || job!.proposal!.detailsMessage!.isEmpty) {
-            store.dispatch(SetClientMessageAction(store.state.shareWithClientPageState, clientMessage));
+          if(job!.proposal!.detailsMessage != null && job!.proposal!.detailsMessage!.isNotEmpty) {
+            messageController.value = messageController.value.copyWith(text: job!.proposal!.detailsMessage);
+            store.dispatch(SetClientMessageAction(store.state.shareWithClientPageState, job!.proposal!.detailsMessage));
+          } else {
+            String messageToSet = '';
+            List<Job> jobs = (await JobDao.getAllJobs())!.where((job) => job.proposal != null && job.proposal!.detailsMessage != null && job.proposal!.detailsMessage!.isNotEmpty).toList();
+            jobs = jobs.reversed.toList();
+            if(jobs.elementAt(0).proposal!.detailsMessage != null) {
+              messageToSet = jobs.elementAt(0).proposal!.detailsMessage!;
+            } else {
+              messageToSet = clientMessage;
+            }
+            store.dispatch(SetClientMessageAction(store.state.shareWithClientPageState, messageToSet));
+            messageController.value = messageController.value.copyWith(text: messageToSet);
           }
 
           setState(() {
@@ -229,6 +241,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                     backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
                     pinned: true,
                     centerTitle: true,
+                    surfaceTintColor: Colors.transparent,
                     title: TextDandyLight(
                       type: TextDandyLight.LARGE_TEXT,
                       text: "Share With Client",
