@@ -466,8 +466,12 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(jobToSave.selectedDate != null && (jobToSave.selectedEndTime != null || jobToSave.selectedTime != null)){
       List<JobReminder?>? jobReminders = await JobReminderDao.getRemindersByJobId(action.pageState!.job!.documentId!);
       JobReminder? reminderToUpdate;
-      if(jobReminders!.isNotEmpty) {
-        reminderToUpdate = jobReminders.firstWhere((reminder) => reminder!.payload == JobReminder.MILEAGE_EXPENSE_ID, orElse: () => null);
+      if(jobReminders != null && jobReminders.isNotEmpty) {
+        for(JobReminder? reminder in jobReminders.toList()) {
+          if(reminder!.payload == JobReminder.MILEAGE_EXPENSE_ID) {
+            reminderToUpdate = reminder;
+          }
+        }
       }
 
       if(reminderToUpdate != null) {

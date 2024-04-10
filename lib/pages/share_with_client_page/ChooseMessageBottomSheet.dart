@@ -38,7 +38,7 @@ class _BottomSheetPageState extends State<ChooseMessageBottomSheet> with TickerP
            alignment: Alignment.topRight,
            children: [
              Container(
-               height: MediaQuery.of(context).size.height-64,
+               height: MediaQuery.of(context).size.height-62,
                decoration: BoxDecoration(
                    borderRadius: const BorderRadius.vertical(top: Radius.circular(16.0)),
                    color: Color(ColorConstants.getPrimaryWhite())),

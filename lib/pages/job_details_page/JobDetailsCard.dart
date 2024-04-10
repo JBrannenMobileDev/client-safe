@@ -342,7 +342,6 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                                             minuteInterval: 1,
                                             mode: CupertinoDatePickerMode.time,
                                           ),
-
                                         ),
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceAround,
