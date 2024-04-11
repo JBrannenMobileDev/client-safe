@@ -600,16 +600,20 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       stage: action.job!.stage,
     );
     if(stageToComplete.stage == JobStage.STAGE_9_PAYMENT_RECEIVED){
-      jobToSave.paymentReceivedDate = DateTime.now();
+      DateTime now = DateTime.now();
+      jobToSave.paymentReceivedDate = now;
       if(action.job!.invoice != null){
         jobToSave.invoice!.invoicePaid = true;
+        jobToSave.invoice!.invoicePaidDate = now;
         await InvoiceDao.updateInvoiceOnly(jobToSave.invoice);
       }
     }
     if(stageToComplete.stage == JobStage.STAGE_5_DEPOSIT_RECEIVED){
       if(action.job!.invoice != null && !action.job!.invoice!.depositPaid!){
+        DateTime now = DateTime.now();
         jobToSave.invoice!.depositPaid = true;
-        jobToSave.depositReceivedDate = DateTime.now();
+        jobToSave.invoice!.depositPaidDate = now;
+        jobToSave.depositReceivedDate = now;
         jobToSave.invoice!.unpaidAmount = action.job!.invoice!.unpaidAmount! - action.job!.invoice!.depositAmount!;
         await InvoiceDao.updateInvoiceOnly(jobToSave.invoice);
       }
@@ -648,6 +652,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(stageToRemove.stage == JobStage.STAGE_9_PAYMENT_RECEIVED){
       if(jobToSave.invoice != null){
         jobToSave.invoice!.invoicePaid = false;
+        jobToSave.invoice!.invoicePaidDate = null;
         await InvoiceDao.updateInvoiceOnly(jobToSave.invoice);
       }
     }
@@ -661,6 +666,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(stageToRemove.stage == JobStage.STAGE_5_DEPOSIT_RECEIVED){
       if(store.state.jobDetailsPageState!.invoice != null && store.state.jobDetailsPageState!.invoice!.depositPaid!){
         jobToSave.invoice!.depositPaid = false;
+        jobToSave.invoice!.depositPaidDate = null;
         jobToSave.invoice!.unpaidAmount = action.job!.invoice!.unpaidAmount! + action.job!.invoice!.depositAmount!;
         await InvoiceDao.updateInvoiceOnly(action.job!.invoice!);
       }

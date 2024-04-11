@@ -19,6 +19,8 @@ class Invoice {
   DateTime? sentDate;
   DateTime? dueDate;
   DateTime? depositDueDate;
+  DateTime? depositPaidDate;
+  DateTime? invoicePaidDate;
   bool? depositPaid;
   bool? invoicePaid;
   PriceProfile? priceProfile;
@@ -56,6 +58,8 @@ class Invoice {
     this.depositDueDate,
     this.subtotal,
     this.balancePaidAmount,
+    this.depositPaidDate,
+    this.invoicePaidDate,
   });
 
   Map<String, dynamic> toMap() {
@@ -82,6 +86,8 @@ class Invoice {
       'salesTaxAmount' : salesTaxAmount,
       'salesTaxRate' : salesTaxRate,
       'depositDueDate' : depositDueDate?.millisecondsSinceEpoch ?? null,
+      'depositPaidDate' : depositPaidDate?.millisecondsSinceEpoch ?? null,
+      'invoicePaidDate' : invoicePaidDate?.millisecondsSinceEpoch ?? null,
     };
   }
 
@@ -97,6 +103,8 @@ class Invoice {
       createdDate: map['createdDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['createdDate']) : null,
       sentDate: map['sentDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['sentDate']) : null,
       dueDate: map['dueDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['dueDate']) : map['createdDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['createdDate']) : null,
+      depositPaidDate: map['depositPaidDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['depositPaidDate']) : null,
+      invoicePaidDate: map['invoicePaidDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['invoicePaidDate']) : null,
       depositPaid: map['depositPaid'],
       invoicePaid: map['invoicePaid'],
       priceProfile: PriceProfile.fromMap(map['priceProfile']),

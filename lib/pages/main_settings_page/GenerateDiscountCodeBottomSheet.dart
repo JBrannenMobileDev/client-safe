@@ -108,6 +108,8 @@ class _GenerateDiscountCodeBottomSheetState extends State<GenerateDiscountCodeBo
                            pageState.generate3MonthsFreeCode!();
                            break;
                        }
+                     } else if(discountType == DiscountCodes.FIRST_3_MONTHS_FREE) {
+                       pageState.generate3MonthsFreeCode!();
                      }
                    },
                    child: Container(

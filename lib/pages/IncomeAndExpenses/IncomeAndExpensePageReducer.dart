@@ -260,22 +260,6 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
   DateTime lastMonthLastYearDate = DateTime(now.year-1, now.month-1);
 
   List<Invoice> paidInvoices = previousState.allInvoices!.where((invoice) => invoice.invoicePaid!).toList();
-  // List<Invoice> paidInvoicesForSelectedYear = paidInvoices.where((invoice) => invoice.createdDate!.year == action.year).toList();
-  // for(Invoice invoice in paidInvoicesForSelectedYear){
-  //   totalForSelectedYear = totalForSelectedYear + (invoice.total! - invoice.discount!);
-  //   if(invoice.dueDate!.year == now.year && invoice.dueDate!.month == now.month) {
-  //     thisMonth = thisMonth + (invoice.total! - invoice.discount!);
-  //   }
-  //   if(invoice.dueDate!.year == lastMonthDate.year && invoice.dueDate!.month == lastMonthDate.month) {
-  //     lastMonth = lastMonth + (invoice.total! - invoice.discount!);
-  //   }
-  //   if(invoice.dueDate!.year == thisMonthLastYearDate.year && invoice.dueDate!.month == thisMonthLastYearDate.month) {
-  //     thisMonthLastYear = thisMonthLastYear + (invoice.total! - invoice.discount!);
-  //   }
-  //   if(invoice.dueDate!.year == lastMonthLastYearDate.year && invoice.dueDate!.month == lastMonthLastYearDate.month) {
-  //     lastMonthLastYear = lastMonthLastYear + (invoice.total! - invoice.discount!);
-  //   }
-  // }
 
   for(Job job in jobsWithOnlyDepositReceived){
     if(job.depositReceivedDate != null) {

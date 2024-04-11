@@ -94,8 +94,10 @@ class DiscountCodesRepository {
             Profile? profile = await ProfileDao.getMatchingProfile(uid);
             if(matchingIndex != -1) {
               discount.codes![matchingIndex].uid = uid;
-              profile!.instagramUrl = discount.codes![matchingIndex].instaUrl;
-              await ProfileDao.update(profile);
+              if(discount.codes![matchingIndex].instaUrl != null && discount.codes![matchingIndex].instaUrl!.isNotEmpty) {
+                profile!.instagramUrl = discount.codes![matchingIndex].instaUrl;
+                await ProfileDao.update(profile);
+              }
             }
             await DiscountCodesDao.update(discount);
             result = result;

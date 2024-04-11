@@ -32,7 +32,7 @@ class JobUtil {
     return _jobsCompleted;
   }
 
-  static bool _containsJobStage(String desiredStage, List<JobStage> completedStages) {
+  static bool containsJobStage(String desiredStage, List<JobStage> completedStages) {
     for(JobStage jobStage in completedStages){
       if(jobStage.stage == desiredStage) return true;
     }
