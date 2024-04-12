@@ -20,6 +20,7 @@ import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/LineChartMonthData.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:flutter/services.dart';
@@ -32,6 +33,7 @@ import 'package:version/version.dart';
 import 'package:http/http.dart' as http;
 
 import '../../data_layer/api_clients/GoogleApiClient.dart';
+import '../../data_layer/local_db/daos/IncomeAndExpenseDao.dart';
 import '../../data_layer/local_db/daos/PoseSubmittedGroupDao.dart';
 import '../../models/Charge.dart';
 import '../../models/Pose.dart';
@@ -359,10 +361,11 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     List<MileageExpense> mileageExpenses = await MileageExpenseDao.getAll();
     List<RecurringExpense> recurringExpenses = await RecurringExpenseDao.getAll();
 
-
     store.dispatch(SetJobsDataAction(store.state.jobsPageState!, allJobs));
     store.dispatch(SetJobToStateAction(store.state.dashboardPageState, allJobs, singleExpenses, recurringExpenses, mileageExpenses));
     store.dispatch(SetJobTypeChartData(store.state.dashboardPageState, allJobs, allJobTypes));
+    List<LineChartMonthData> chartItems = await IncomeAndExpenseDao.getNetProfitChartData();
+    store.dispatch(SetIncomeInfoAction(store.state.dashboardPageState, chartItems));
 
     (await ProfileDao.getProfileStream()).listen((profilesSnapshots) async {
       List<Profile> profiles = [];
@@ -395,33 +398,6 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       allJobs = await JobDao.getAllJobs();
       store.dispatch(SetJobsDataAction(store.state.jobsPageState!, allJobs));
       store.dispatch(SetJobTypeChartData(store.state.dashboardPageState, allJobs, allJobTypes));
-    });
-
-    (await SingleExpenseDao.getSingleExpenseStream()).listen((singleSnapshots) async {
-      List<SingleExpense> expenses = [];
-      for(RecordSnapshot clientSnapshot in singleSnapshots) {
-        expenses.add(SingleExpense.fromMap(clientSnapshot.value! as Map<String,dynamic>));
-      }
-      allJobs = await JobDao.getAllJobs();
-      store.dispatch(SetJobToStateAction(store.state.dashboardPageState, allJobs, expenses, recurringExpenses, mileageExpenses));
-    });
-
-    (await RecurringExpenseDao.getRecurringExpenseStream()).listen((singleSnapshots) async {
-      List<RecurringExpense> expenses = [];
-      for(RecordSnapshot clientSnapshot in singleSnapshots) {
-        expenses.add(RecurringExpense.fromMap(clientSnapshot.value! as Map<String,dynamic>));
-      }
-      allJobs = await JobDao.getAllJobs();
-      store.dispatch(SetJobToStateAction(store.state.dashboardPageState, allJobs, singleExpenses, expenses, mileageExpenses));
-    });
-
-    (await MileageExpenseDao.getMileageExpenseStream()).listen((singleSnapshots) async {
-      List<MileageExpense> expenses = [];
-      for(RecordSnapshot clientSnapshot in singleSnapshots) {
-        expenses.add(MileageExpense.fromMap(clientSnapshot.value! as Map<String,dynamic>));
-      }
-      allJobs = await JobDao.getAllJobs();
-      store.dispatch(SetJobToStateAction(store.state.dashboardPageState, allJobs, singleExpenses, recurringExpenses, expenses));
     });
   }
 

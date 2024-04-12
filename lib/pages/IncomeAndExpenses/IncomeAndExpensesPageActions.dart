@@ -8,6 +8,8 @@ import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:dandylight/models/SingleExpense.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 
+import '../dashboard_page/widgets/LineChartMonthData.dart';
+
 class FilterChangedAction{
   final IncomeAndExpensesPageState? pageState;
   final String? filterType;
@@ -23,10 +25,12 @@ class UpdateSelectedYearAction{
 class SetSelectedYearAction{
   final IncomeAndExpensesPageState? pageState;
   final int? year;
-  final List<Job>? completedJobs;
-  final List<Job>? completedJobsPreviousYear;
   final List<Job>? allJobs;
-  SetSelectedYearAction(this.pageState, this.year, this.completedJobs, this.completedJobsPreviousYear, this.allJobs);
+  final double totalIncomeForYear;
+  final double totalIncomeForThisMonth;
+  final double totalIncomeForLastMonth;
+  final List<LineChartMonthData> chartItems;
+  SetSelectedYearAction(this.pageState, this.year, this.allJobs, this.totalIncomeForYear, this.totalIncomeForThisMonth, this.totalIncomeForLastMonth, this.chartItems);
 }
 
 class LoadAllInvoicesAction{

@@ -16,9 +16,13 @@ import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
+import 'package:dandylight/utils/DateTimeUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
+
+import '../../data_layer/local_db/daos/IncomeAndExpenseDao.dart';
+import '../dashboard_page/widgets/LineChartMonthData.dart';
 
 class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
 
@@ -81,32 +85,23 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
 
   void _fetchCompletedJobs(Store<AppState> store, UpdateSelectedYearAction action) async{
     List<Job>? allJobs = await JobDao.getAllJobs();
-    List<Job> allJObsWithPaymentReceivedInSelectedYear = (allJobs!.where((job) => (Job.containsStage(job.completedStages, JobStage.STAGE_14_JOB_COMPLETE)
-        && !Job.containsStage(job.completedStages, JobStage.STAGE_9_PAYMENT_RECEIVED) && job.invoice == null)
-        && (job.selectedDate != null && job.selectedDate!.year == action.year)).toList()
+    DateTime now = DateTime.now();
+    DateTime lastMonth = DateTimeUtil.subtractMonths(now, 1);
+    double totalIncomeForYear = await IncomeAndExpenseDao.getIncomeForYear(action.year ?? DateTime.now().year);
+    double totalIncomeForThisMonth = await IncomeAndExpenseDao.getIncomeForYearAndMonth(action.year ?? DateTime.now().year, DateTime.now().month);
+    double totalIncomeForLastMonth = await IncomeAndExpenseDao.getIncomeForYearAndMonth(action.year ?? DateTime.now().year, lastMonth.month);
+    List<LineChartMonthData> chartItems = await IncomeAndExpenseDao.getIncomeChartData();
+    store.dispatch(
+        SetSelectedYearAction(
+            store.state.incomeAndExpensesPageState,
+            action.year,
+            allJobs,
+            totalIncomeForYear,
+            totalIncomeForThisMonth,
+            totalIncomeForLastMonth,
+            chartItems,
+        )
     );
-    List<Job> allJObsWithPaymentReceivedInPreviousYear = (allJobs!.where((job) => (Job.containsStage(job.completedStages, JobStage.STAGE_14_JOB_COMPLETE)
-        && !Job.containsStage(job.completedStages, JobStage.STAGE_9_PAYMENT_RECEIVED) && job.invoice == null)
-        && (job.selectedDate != null && job.selectedDate!.year == (action.year! - 1))).toList()
-    );
-
-    (await JobDao.getJobsStream()).listen((jobSnapshots) async {
-      List<Job> allJobs = [];
-      for(RecordSnapshot clientSnapshot in jobSnapshots) {
-        allJobs.add(Job.fromMap(clientSnapshot.value! as Map<String,dynamic>));
-      }
-      List<Job> allJObsWithPaymentReceivedInSelectedYear = (allJobs.where((job) => (Job.containsStage(job.completedStages, JobStage.STAGE_14_JOB_COMPLETE)
-          && !Job.containsStage(job.completedStages, JobStage.STAGE_9_PAYMENT_RECEIVED) && job.invoice == null)
-          && (job.selectedDate != null && job.selectedDate!.year == action.year)).toList()
-      );
-      List<Job> allJObsWithPaymentReceivedInPreviousYear = (allJobs.where((job) => (Job.containsStage(job.completedStages, JobStage.STAGE_14_JOB_COMPLETE)
-          && !Job.containsStage(job.completedStages, JobStage.STAGE_9_PAYMENT_RECEIVED) && job.invoice == null)
-          && (job.selectedDate != null && job.selectedDate!.year == (action.year! - 1))).toList()
-      );
-      store.dispatch(SetSelectedYearAction(store.state.incomeAndExpensesPageState, action.year, allJObsWithPaymentReceivedInSelectedYear, allJObsWithPaymentReceivedInPreviousYear, allJobs));
-    });
-
-    store.dispatch(SetSelectedYearAction(store.state.incomeAndExpensesPageState, action.year, allJObsWithPaymentReceivedInSelectedYear, allJObsWithPaymentReceivedInPreviousYear, allJobs));
   }
 
   void _updateRecurringExpenseChargeCancelDate(Store<AppState> store, SaveCancelledSubscriptionAction action, NextDispatcher next) async{

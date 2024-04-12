@@ -14,7 +14,7 @@ class MonthlyIncomeLineChart extends StatelessWidget{
   Widget build(BuildContext context) {
     return Container(
     child: Container(
-            margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 24.0),
+            margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
                 borderRadius: new BorderRadius.all(Radius.circular(12.0))),

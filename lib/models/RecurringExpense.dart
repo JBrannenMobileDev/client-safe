@@ -290,4 +290,14 @@ class RecurringExpense {
     }
     return false;
   }
+
+  double getTotalForYearAndMonth(int year, int month) {
+    double total= 0.0;
+    for(Charge charge in charges!) {
+      if(charge.chargeDate!.year == year && charge.chargeDate!.month == month && charge.isPaid!) {
+        total = total + charge.chargeAmount!;
+      }
+    }
+    return total;
+  }
 }

@@ -38,7 +38,14 @@ final dashboardPageReducer = combineReducers<DashboardPageState>([
   TypedReducer<DashboardPageState, SetShouldShowPMF>(_setShouldShowPMF),
   TypedReducer<DashboardPageState, SetShouldAppReview>(setShouldShowAppReview),
   TypedReducer<DashboardPageState, SetShouldShowUpdateAction>(setShouldShowUpdate),
+  TypedReducer<DashboardPageState, SetIncomeInfoAction>(setIncomeInfo),
 ]);
+
+DashboardPageState setIncomeInfo(DashboardPageState previousState, SetIncomeInfoAction action) {
+  return previousState.copyWith(
+    lineChartMonthData: action.netProfitChartData.reversed.toList(),
+  );
+}
 
 DashboardPageState setShouldShowUpdate(DashboardPageState previousState, SetShouldShowUpdateAction action) {
   return previousState.copyWith(
@@ -147,18 +154,11 @@ DashboardPageState _setJobs(DashboardPageState previousState, SetJobToStateActio
     if(jobsForStage.isNotEmpty) activeStages.add(stage);
   }
 
-
-  List<Job> jobsWithPaymentReceived = action.allJobs!.where((job) => job.isPaymentReceived() == true).toList();
-  List<Job> jobsWithOnlyDepositReceived = action.allJobs!.where((job) => job.isPaymentReceived() == false && job.isDepositPaid() == true).toList();
-  List<LineChartMonthData> chartItems = buildChartData(jobsWithPaymentReceived, action.singleExpenses!, action.recurringExpense!, action.mileageExpenses!, jobsWithOnlyDepositReceived);
-
-
   return previousState.copyWith(
       upcomingJobs: JobUtil.getUpComingJobs(action.allJobs!),
       allJobs: action.allJobs,
       activeJobs: activeJobs,
       allUserStages: activeStages,
-      lineChartMonthData: chartItems.reversed.toList(),
       jobsThisWeek: jobsThisWeek,
       areJobsLoaded: true,
       activeJobsWithUnsignedContract: JobUtil.getJobsWithUnsignedContracts(activeJobs),

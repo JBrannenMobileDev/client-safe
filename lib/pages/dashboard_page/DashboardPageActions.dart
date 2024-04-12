@@ -1,6 +1,7 @@
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/LineChartMonthData.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 import '../../models/AppSettings.dart';
@@ -48,6 +49,12 @@ class SetJobToStateAction{
   final List<RecurringExpense>? recurringExpense;
   final List<MileageExpense>? mileageExpenses;
   SetJobToStateAction(this.pageState, this.allJobs, this.singleExpenses, this.recurringExpense, this.mileageExpenses);
+}
+
+class SetIncomeInfoAction{
+  final DashboardPageState? pageState;
+  final List<LineChartMonthData> netProfitChartData;
+  SetIncomeInfoAction(this.pageState, this.netProfitChartData);
 }
 
 class SetJobTypeChartData{
