@@ -16,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-import '../../models/Invoice.dart';
 import '../../models/Job.dart';
 import '../../widgets/TextDandyLight.dart';
 
