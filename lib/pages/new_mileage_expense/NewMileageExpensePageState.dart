@@ -18,42 +18,42 @@ class NewMileageExpensePageState {
   static const String NO_ERROR = "noError";
   static const String ERROR_PROFILE_NAME_MISSING = "missingProfileName";
 
-  final int id;
-  final String documentId;
-  final int pageViewIndex;
-  final bool saveButtonEnabled;
-  final bool shouldClear;
-  final DateTime expenseDate;
-  final double expenseCost;
-  final Function() onSavePressed;
-  final Function() onCancelPressed;
-  final Function() onNextPressed;
-  final Function() onBackPressed;
-  final Function() onDeleteMileageExpenseSelected;
-  final Function(LatLng) onStartLocationChanged;
-  final Function(LatLng) onEndLocationChanged;
-  final Function(DateTime) onExpenseDateSelected;
-  final String searchText;
-  final double lat;
-  final double lng;
-  final LocationDandy selectedSearchLocation;
-  final Profile profile;
-  final String selectedHomeLocationName;
-  final String startLocationName;
-  final String endLocationName;
-  final bool isOneWay;
-  final double milesDrivenOneWay;
-  final double milesDrivenRoundTrip;
-  final double deductionRate;
-  final LatLng startLocation;
-  final LatLng endLocation;
-  final String filterType;
-  final Function(String) onFilterChanged;
-  final LocationDandy selectedLocation;
-  final List<LocationDandy> locations;
-  final List<File> imageFiles;
-  final Function(LocationDandy) onLocationSelected;
-  final String documentPath;
+  final int? id;
+  final String? documentId;
+  final int? pageViewIndex;
+  final bool? saveButtonEnabled;
+  final bool? shouldClear;
+  final DateTime? expenseDate;
+  final double? expenseCost;
+  final Function()? onSavePressed;
+  final Function()? onCancelPressed;
+  final Function()? onNextPressed;
+  final Function()? onBackPressed;
+  final Function()? onDeleteMileageExpenseSelected;
+  final Function(LatLng)? onStartLocationChanged;
+  final Function(LatLng)? onEndLocationChanged;
+  final Function(DateTime)? onExpenseDateSelected;
+  final String? searchText;
+  final double? lat;
+  final double? lng;
+  final LocationDandy? selectedSearchLocation;
+  final Profile? profile;
+  final String? selectedHomeLocationName;
+  final String? startLocationName;
+  final String? endLocationName;
+  final bool? isOneWay;
+  final double? milesDrivenOneWay;
+  final double? milesDrivenRoundTrip;
+  final double? deductionRate;
+  final LatLng? startLocation;
+  final LatLng? endLocation;
+  final String? filterType;
+  final Function(String)? onFilterChanged;
+  final LocationDandy? selectedLocation;
+  final List<LocationDandy>? locations;
+  final List<File?>? imageFiles;
+  final Function(LocationDandy)? onLocationSelected;
+  final String? documentPath;
 
   NewMileageExpensePageState({
     @required this.id,
@@ -95,43 +95,43 @@ class NewMileageExpensePageState {
   });
 
   NewMileageExpensePageState copyWith({
-    int id,
-    String documentId,
-    int pageViewIndex,
-    saveButtonEnabled,
-    bool shouldClear,
-    DateTime expenseDate,
-    Function() onSavePressed,
-    Function() onCancelPressed,
-    Function() onNextPressed,
-    Function() onBackPressed,
-    Function(PriceProfile) onDeleteMileageExpenseSelected,
-    Function(LatLng) onStartLocationChanged,
-    Function(LatLng) onEndLocationChanged,
-    Function(DateTime) onExpenseDateSelected,
-    double expenseCost,
-    double lat,
-    double lng,
-    String searchText,
-    List<PlacesLocation> locationResults,
-    LocationDandy selectedSearchLocation,
-    Profile profile,
-    String selectedHomeLocationName,
-    String startLocationName,
-    String endLocationName,
-    bool isOneWay,
-    double milesDrivenOneWay,
-    double milesDrivenRoundTrip,
-    double deductionRate,
-    LatLng startLocation,
-    LatLng endLocation,
-    String filterType,
-    Function(String) onFilterChanged,
-    LocationDandy selectedLocation,
-    List<LocationDandy> locations,
-    List<File> imageFiles,
-    Function(LocationDandy) onLocationSelected,
-    String documentPath,
+    int? id,
+    String? documentId,
+    int? pageViewIndex,
+    bool? saveButtonEnabled,
+    bool? shouldClear,
+    DateTime? expenseDate,
+    Function()? onSavePressed,
+    Function()? onCancelPressed,
+    Function()? onNextPressed,
+    Function()? onBackPressed,
+    Function()? onDeleteMileageExpenseSelected,
+    Function(LatLng)? onStartLocationChanged,
+    Function(LatLng)? onEndLocationChanged,
+    Function(DateTime)? onExpenseDateSelected,
+    double? expenseCost,
+    double? lat,
+    double? lng,
+    String? searchText,
+    List<PlacesLocation>? locationResults,
+    LocationDandy? selectedSearchLocation,
+    Profile? profile,
+    String? selectedHomeLocationName,
+    String? startLocationName,
+    String? endLocationName,
+    bool? isOneWay,
+    double? milesDrivenOneWay,
+    double? milesDrivenRoundTrip,
+    double? deductionRate,
+    LatLng? startLocation,
+    LatLng? endLocation,
+    String? filterType,
+    Function(String)? onFilterChanged,
+    LocationDandy? selectedLocation,
+    List<LocationDandy>? locations,
+    List<File?>? imageFiles,
+    Function(LocationDandy)? onLocationSelected,
+    String? documentPath,
   }){
     return NewMileageExpensePageState(
       id: id?? this.id,
@@ -214,32 +214,32 @@ class NewMileageExpensePageState {
 
   factory NewMileageExpensePageState.fromStore(Store<AppState> store) {
     return NewMileageExpensePageState(
-      id: store.state.newMileageExpensePageState.id,
-      pageViewIndex: store.state.newMileageExpensePageState.pageViewIndex,
-      saveButtonEnabled: store.state.newMileageExpensePageState.saveButtonEnabled,
-      shouldClear: store.state.newMileageExpensePageState.shouldClear,
-      expenseDate: store.state.newMileageExpensePageState.expenseDate,
-      expenseCost: store.state.newMileageExpensePageState.expenseCost,
-      lat: store.state.newMileageExpensePageState.lat,
-      lng: store.state.newMileageExpensePageState.lng,
-      searchText: store.state.newMileageExpensePageState.searchText,
-      selectedSearchLocation: store.state.newMileageExpensePageState.selectedSearchLocation,
-      profile: store.state.newMileageExpensePageState.profile,
-      selectedHomeLocationName: store.state.newMileageExpensePageState.selectedHomeLocationName,
-      startLocationName: store.state.newMileageExpensePageState.startLocationName,
-      endLocationName: store.state.newMileageExpensePageState.endLocationName,
-      isOneWay: store.state.newMileageExpensePageState.isOneWay,
-      milesDrivenOneWay: store.state.newMileageExpensePageState.milesDrivenOneWay,
-      milesDrivenRoundTrip: store.state.newMileageExpensePageState.milesDrivenRoundTrip,
-      deductionRate: store.state.newMileageExpensePageState.deductionRate,
-      startLocation: store.state.newMileageExpensePageState.startLocation,
-      endLocation: store.state.newMileageExpensePageState.endLocation,
-      filterType: store.state.newMileageExpensePageState.filterType,
-      selectedLocation: store.state.newMileageExpensePageState.selectedLocation,
-      locations: store.state.newMileageExpensePageState.locations,
-      documentPath: store.state.newMileageExpensePageState.documentPath,
-      documentId: store.state.newMileageExpensePageState.documentId,
-      imageFiles: store.state.newMileageExpensePageState.imageFiles,
+      id: store.state.newMileageExpensePageState!.id,
+      pageViewIndex: store.state.newMileageExpensePageState!.pageViewIndex,
+      saveButtonEnabled: store.state.newMileageExpensePageState!.saveButtonEnabled,
+      shouldClear: store.state.newMileageExpensePageState!.shouldClear,
+      expenseDate: store.state.newMileageExpensePageState!.expenseDate,
+      expenseCost: store.state.newMileageExpensePageState!.expenseCost,
+      lat: store.state.newMileageExpensePageState!.lat,
+      lng: store.state.newMileageExpensePageState!.lng,
+      searchText: store.state.newMileageExpensePageState!.searchText,
+      selectedSearchLocation: store.state.newMileageExpensePageState!.selectedSearchLocation,
+      profile: store.state.newMileageExpensePageState!.profile,
+      selectedHomeLocationName: store.state.newMileageExpensePageState!.selectedHomeLocationName,
+      startLocationName: store.state.newMileageExpensePageState!.startLocationName,
+      endLocationName: store.state.newMileageExpensePageState!.endLocationName,
+      isOneWay: store.state.newMileageExpensePageState!.isOneWay,
+      milesDrivenOneWay: store.state.newMileageExpensePageState!.milesDrivenOneWay,
+      milesDrivenRoundTrip: store.state.newMileageExpensePageState!.milesDrivenRoundTrip,
+      deductionRate: store.state.newMileageExpensePageState!.deductionRate,
+      startLocation: store.state.newMileageExpensePageState!.startLocation,
+      endLocation: store.state.newMileageExpensePageState!.endLocation,
+      filterType: store.state.newMileageExpensePageState!.filterType,
+      selectedLocation: store.state.newMileageExpensePageState!.selectedLocation,
+      locations: store.state.newMileageExpensePageState!.locations,
+      documentPath: store.state.newMileageExpensePageState!.documentPath,
+      documentId: store.state.newMileageExpensePageState!.documentId,
+      imageFiles: store.state.newMileageExpensePageState!.imageFiles,
       onSavePressed: () => store.dispatch(SaveMileageExpenseProfileAction(store.state.newMileageExpensePageState)),
       onCancelPressed: () => store.dispatch(ClearMileageExpenseStateAction(store.state.newMileageExpensePageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newMileageExpensePageState)),

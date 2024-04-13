@@ -49,7 +49,7 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, EditBrandingPageState>(
         onInit: (store) {
-          if(store.state.dashboardPageState.profile.logoSelected) {
+          if(store.state.dashboardPageState!.profile!.logoSelected!) {
             selections[0] = true;
             selections[1] = false;
           } else {
@@ -91,7 +91,7 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                     children: [
                       GestureDetector(
                         onTap: () {
-                          if(pageState.logoImageSelected) {
+                          if(pageState.logoImageSelected!) {
                             setState(() {
                               loading = true;
                             });
@@ -101,7 +101,7 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                             EventSender().sendEvent(eventName: EventNames.BRANDING_CHANGED_LOGO_CHARACTER);
                           }
                         },
-                        child: pageState.logoImageSelected ? Container(
+                        child: pageState.logoImageSelected! ? Container(
                           child: pageState.resizedLogoImage != null ? Stack(
                             children: [
                               ClipRRect(
@@ -111,11 +111,11 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                                   fit: BoxFit.cover,
                                   width: 164,
                                   height: 164,
-                                  image: FileImage(File(pageState.resizedLogoImage.path)),
+                                  image: FileImage(File(pageState.resizedLogoImage!.path)),
                                 ),
                               )
                             ],
-                          ) : pageState.profile.logoUrl != null && pageState.profile.logoUrl.isNotEmpty ? ClipRRect(
+                          ) : pageState.profile!.logoUrl != null && pageState.profile!.logoUrl!.isNotEmpty ? ClipRRect(
                             borderRadius: new BorderRadius.circular(82.0),
                             child: Container(
                               decoration: BoxDecoration(
@@ -125,8 +125,8 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                               width: 164,
                               height: 164,
                               child: DandyLightNetworkImage(
-                                pageState.profile.logoUrl,
-                                color: pageState.currentIconColor,
+                                pageState.profile!.logoUrl ?? '',
+                                color: pageState.currentIconColor!,
                               )
                             ),
                           ) : Stack(
@@ -172,7 +172,7 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                               width: 164,
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: pageState.logoImageSelected
+                                  color: pageState.logoImageSelected!
                                       ? Color(ColorConstants
                                       .getPrimaryGreyMedium())
                                       : pageState.currentIconColor),
@@ -181,7 +181,7 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                               type: TextDandyLight.BRAND_LOGO,
                               fontFamily: pageState.currentIconFont,
                               textAlign: TextAlign.center,
-                              text: pageState.logoCharacter.substring(0, 1),
+                              text: pageState.logoCharacter!.substring(0, 1),
                               color: pageState.currentIconTextColor,
                             )
                           ],
@@ -219,12 +219,12 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                               if(index == 0) {
                                 selections[0] = true;
                                 selections[1] = false;
-                                pageState.onLogoImageSelected(true);
+                                pageState.onLogoImageSelected!(true);
                                 EventSender().sendEvent(eventName: EventNames.BRANDING_LOGO_IMAGE_SELECTED);
                               } else {
                                 selections[1] = true;
                                 selections[0] = false;
-                                pageState.onLogoImageSelected(false);
+                                pageState.onLogoImageSelected!(false);
                                 EventSender().sendEvent(eventName: EventNames.BRANDING_LOGO_CHARACTER_SELECTED);
                               }
                             });
@@ -251,22 +251,28 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
 
   Future getDeviceImage(EditBrandingPageState pageState) async {
     try {
-      XFile localImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-      CroppedFile croppedImage = await ImageCropper().cropImage(
-        sourcePath: localImage.path,
-        maxWidth: 300,
-        maxHeight: 300,
-        aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
-        cropStyle: CropStyle.circle,
-      );
-      localImage = XFile(croppedImage.path);
-      if (localImage == null) {
+      XFile? localImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if(localImage != null) {
+        CroppedFile? croppedImage = await ImageCropper().cropImage(
+          sourcePath: localImage.path,
+          maxWidth: 300,
+          maxHeight: 300,
+          aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+          cropStyle: CropStyle.circle,
+        );
+        if(croppedImage != null) {
+          localImage = XFile(croppedImage.path);
+          pageState.onLogoUploaded!(localImage);
+          EventSender().sendEvent(eventName: EventNames.BRANDING_UPLOADED_ICON);
+        } else {
+          setState(() {
+            loading = false;
+          });
+        }
+      } else {
         setState(() {
           loading = false;
         });
-      } else {
-        pageState.onLogoUploaded(localImage);
-        EventSender().sendEvent(eventName: EventNames.BRANDING_UPLOADED_ICON);
       }
     } catch (ex) {
       print(ex.toString());

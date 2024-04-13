@@ -14,7 +14,7 @@ import 'DashboardPageState.dart';
 
 
 class RequestAppReviewBottomSheet extends StatefulWidget {
-  const RequestAppReviewBottomSheet({Key key}) : super(key: key);
+  const RequestAppReviewBottomSheet({Key? key}) : super(key: key);
 
 
   @override
@@ -24,7 +24,7 @@ class RequestAppReviewBottomSheet extends StatefulWidget {
 }
 
 class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomSheet> with TickerProviderStateMixin {
-  InAppReview inAppReview;
+  InAppReview? inAppReview;
   int state = 0;
 
 
@@ -89,7 +89,7 @@ class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomShee
         GestureDetector(
           onTap: () {
             _sendSuggestion(pageState);
-            pageState.updateCanShowRequestReview(false, DateTime.now());
+            pageState.updateCanShowRequestReview!(false, DateTime.now());
             EventSender().sendEvent(eventName: EventNames.BT_TAKE_PMF_SURVEY);
           },
           child: Container(
@@ -115,9 +115,9 @@ class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomShee
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Checkbox(
-                value: !pageState.profile.canShowAppReview,
+                value: !pageState.profile!.canShowAppReview!,
                 onChanged: (checked) {
-                  pageState.updateCanShowRequestReview(!checked, DateTime.now());
+                  pageState.updateCanShowRequestReview!(!checked!, DateTime.now());
                 },
                 checkColor: Color(ColorConstants.getPrimaryWhite()),
                 fillColor: MaterialStateProperty.resolveWith(getColor),
@@ -149,9 +149,9 @@ class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomShee
         ),
         GestureDetector(
           onTap: () async {
-            if (await inAppReview.isAvailable()) {
-              inAppReview.requestReview();
-              pageState.updateCanShowRequestReview(false, DateTime.now());
+            if (await inAppReview!.isAvailable()) {
+              inAppReview!.requestReview();
+              pageState.updateCanShowRequestReview!(false, DateTime.now());
               EventSender().sendEvent(eventName: EventNames.BT_REVIEW_APP);
             }
           },
@@ -174,7 +174,7 @@ class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomShee
         GestureDetector(
           onTap: () {
             Share.share('Checkout DandyLight:\n\nhttps://linktr.ee/dandylight');
-            pageState.updateCanShowRequestReview(false, DateTime.now());
+            pageState.updateCanShowRequestReview!(false, DateTime.now());
             EventSender().sendEvent(eventName: EventNames.BT_SHARE_WITH_FRIEND);
           },
           child: Container(
@@ -200,9 +200,9 @@ class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomShee
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Checkbox(
-                value: !pageState.profile.canShowAppReview,
+                value: !pageState.profile!.canShowAppReview!,
                 onChanged: (checked) {
-                  pageState.updateCanShowRequestReview(!checked, DateTime.now());
+                  pageState.updateCanShowRequestReview!(!checked!, DateTime.now());
                 },
                 checkColor: Color(ColorConstants.getPrimaryWhite()),
                 fillColor: MaterialStateProperty.resolveWith(getColor),
@@ -262,9 +262,9 @@ class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomShee
               ),
               GestureDetector(
                 onTap: () async {
-                  if (await inAppReview.isAvailable()) {
-                    inAppReview.requestReview();
-                    pageState.updateCanShowRequestReview(false, DateTime.now());
+                  if (await inAppReview!.isAvailable()) {
+                    inAppReview!.requestReview();
+                    pageState.updateCanShowRequestReview!(false, DateTime.now());
                     EventSender().sendEvent(eventName: EventNames.BT_ENJOYING_DANDY_LIGHT_YES);
                     Navigator.of(context).pop();
                   } else {
@@ -296,9 +296,9 @@ class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomShee
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Checkbox(
-                value: !pageState.profile.canShowAppReview,
+                value: !pageState.profile!.canShowAppReview!,
                 onChanged: (checked) {
-                  pageState.updateCanShowRequestReview(!checked, DateTime.now());
+                  pageState.updateCanShowRequestReview!(!checked!, DateTime.now());
                 },
                 checkColor: Color(ColorConstants.getPrimaryWhite()),
                 fillColor: MaterialStateProperty.resolveWith(getColor),
@@ -316,6 +316,6 @@ class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomShee
     );
   }
 
-  void _sendSuggestion(DashboardPageState pageState) async => await IntentLauncherUtil.sendEmail('support@dandylight.com', "Suggestion", 'User Info: \nid = ${pageState.profile.uid}\naccount email = ${pageState.profile.email}\nfirst name = ${pageState.profile.firstName}\n\nSuggestion: ');
+  void _sendSuggestion(DashboardPageState pageState) async => await IntentLauncherUtil.sendEmail('support@dandylight.com', "Suggestion", 'User Info: \nid = ${pageState.profile!.uid}\naccount email = ${pageState.profile!.email}\nfirst name = ${pageState.profile!.firstName}\n\nSuggestion: ');
 
 }

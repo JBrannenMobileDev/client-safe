@@ -1,5 +1,4 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactDeviceContactListWidget.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -31,17 +30,17 @@ class _NameAndGenderState extends State<NameAndGender>
   final FocusNode _firstNameFocus = FocusNode();
   final FocusNode _lastNameFocus = FocusNode();
   int selectorIndex = 1;
-  Map<int, Widget> genders;
+  Map<int, Widget>? genders;
   ScrollController _controller = ScrollController();
-  Function onImportContactsLocal;
+  Function? onImportContactsLocal;
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return StoreConnector<AppState, NewContactPageState>(
       onInit: (store) {
-        firstNameTextController.value = firstNameTextController.value.copyWith(text:store.state.newContactPageState.newContactFirstName);
-        lastNameTextController.value = lastNameTextController.value.copyWith(text:store.state.newContactPageState.newContactLastName,);
+        firstNameTextController.value = firstNameTextController.value.copyWith(text:store.state.newContactPageState!.newContactFirstName!);
+        lastNameTextController.value = lastNameTextController.value.copyWith(text:store.state.newContactPageState!.newContactLastName!);
       },
       onInitialBuild: (current) {
         onImportContactsLocal = current.onGetDeviceContactsSelected;
@@ -58,7 +57,7 @@ class _NameAndGenderState extends State<NameAndGender>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            pageState.deviceContacts.length > 0 ?
+            pageState.deviceContacts!.length > 0 ?
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -73,9 +72,9 @@ class _NameAndGenderState extends State<NameAndGender>
                       tooltip: 'Cancel',
                       onPressed: () => {
                         if(searchTextController.text.length > 0){
-                          pageState.onContactSearchTextChanged('')
+                          pageState.onContactSearchTextChanged!('')
                         }else{
-                          pageState.onCloseSelected()
+                          pageState.onCloseSelected!()
                         }
                       },
                     ),
@@ -96,7 +95,7 @@ class _NameAndGenderState extends State<NameAndGender>
                           cursorColor: Color(ColorConstants.getBlueDark()),
                           controller: searchTextController,
                           onChanged: (text) {
-                            pageState.onContactSearchTextChanged(text);
+                            pageState.onContactSearchTextChanged!(text);
                           },
                           decoration: InputDecoration(
                             alignLabelWithHint: true,
@@ -137,7 +136,7 @@ class _NameAndGenderState extends State<NameAndGender>
                     shrinkWrap: true,
                     controller: _controller,
                     physics: ClampingScrollPhysics(),
-                    itemCount: pageState.filteredDeviceContacts.length,
+                    itemCount: pageState.filteredDeviceContacts!.length,
                     itemBuilder: _buildItem,
                   ),
                 ),
@@ -185,8 +184,8 @@ class _NameAndGenderState extends State<NameAndGender>
                     firstNameTextController,
                     "First Name",
                     TextInputType.text,
-                    64.0,
-                    pageState.onClientFirstNameChanged,
+                    66.0,
+                    pageState.onClientFirstNameChanged!,
                     NewContactPageState.ERROR_FIRST_NAME_MISSING,
                     TextInputAction.next,
                     _firstNameFocus,
@@ -200,8 +199,8 @@ class _NameAndGenderState extends State<NameAndGender>
                     lastNameTextController,
                     "Last Name",
                     TextInputType.text,
-                    64.0,
-                    pageState.onClientLastNameChanged,
+                    66.0,
+                    pageState.onClientLastNameChanged!,
                     NewContactPageState.NO_ERROR,
                     TextInputAction.done,
                     _lastNameFocus,
@@ -220,7 +219,7 @@ class _NameAndGenderState extends State<NameAndGender>
   }
 
   void callOnGranted() {
-    onImportContactsLocal();
+    onImportContactsLocal!();
   }
 
   Widget _buildItem(BuildContext context, int index) {

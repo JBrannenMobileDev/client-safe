@@ -10,11 +10,11 @@ final clientsPageReducer = combineReducers<ClientsPageState>([
 ]);
 
 ClientsPageState _setClientData(ClientsPageState previousState, SetClientsData action){
-  List<Client> _clients = action.clients.where((client) => (_hasAJob(client.documentId, action.allJobs))).toList();
-  List<Client> _leads = action.clients.where((client) => (!_hasAJob(client.documentId, action.allJobs))).toList();
-  _clients.sort((client1, client2) => client1.firstName.compareTo(client2.firstName));
-  _leads.sort((client1, client2) => client1.firstName.compareTo(client2.firstName));
-  action.clients.sort((client1, client2) => client1.firstName.compareTo(client2.firstName));
+  List<Client> _clients = action.clients!.where((client) => (_hasAJob(client.documentId!, action.allJobs!))).toList();
+  List<Client> _leads = action.clients!.where((client) => (!_hasAJob(client.documentId!, action.allJobs!))).toList();
+  _clients.sort((client1, client2) => client1.firstName!.compareTo(client2.firstName!));
+  _leads.sort((client1, client2) => client1.firstName!.compareTo(client2.firstName!));
+  action.clients!.sort((client1, client2) => client1.firstName!.compareTo(client2.firstName!));
   return previousState.copyWith(
       clients: _clients,
       leads: _leads,

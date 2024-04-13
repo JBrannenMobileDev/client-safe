@@ -55,7 +55,7 @@ class PoseCollection {
         .doc(documentId)
         .get()
         .then((posesSnapshot) {
-          Pose result = Pose.fromMap(posesSnapshot.data());
+          Pose result = Pose.fromMap(posesSnapshot.data() as Map<String, dynamic>);
           result.documentId = posesSnapshot.id;
           return result;
         });
@@ -94,7 +94,7 @@ class PoseCollection {
   List<Pose> _buildPosesList(QuerySnapshot poses) {
     List<Pose> posesList = [];
     for(DocumentSnapshot poseSnapshot in poses.docs){
-      Pose result = Pose.fromMap(poseSnapshot.data());
+      Pose result = Pose.fromMap(poseSnapshot.data() as Map<String, dynamic>);
       result.documentId = poseSnapshot.id;
       posesList.add(result);
     }

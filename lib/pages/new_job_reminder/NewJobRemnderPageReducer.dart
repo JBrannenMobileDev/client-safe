@@ -23,13 +23,13 @@ NewJobReminderPageState _setSelectedTime(NewJobReminderPageState previousState, 
 
 NewJobReminderPageState _incrementPageView(NewJobReminderPageState previousState, IncrementPageViewIndex action) {
   return previousState.copyWith(
-    pageViewIndex: previousState.pageViewIndex + 1,
+    pageViewIndex: previousState.pageViewIndex! + 1,
   );
 }
 
 NewJobReminderPageState _decrementPageView(NewJobReminderPageState previousState, DecrementPageViewIndex action) {
   return previousState.copyWith(
-    pageViewIndex: previousState.pageViewIndex - 1,
+    pageViewIndex: previousState.pageViewIndex! - 1,
   );
 }
 

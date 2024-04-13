@@ -10,14 +10,14 @@ import '../../models/Job.dart';
 import 'PoseGroupActions.dart';
 
 class PoseGroupPageState{
-  final PoseGroup poseGroup;
-  final Function(List<XFile>) onNewPoseImagesSelected;
-  final Function(Pose) onDeletePoseSelected;
-  final Function() onDeletePoseGroupSelected;
-  final Function() onBackSelected;
-  final List<Pose> poseImages;
-  final List<Job> activeJobs;
-  final Function(Pose, Job) onImageAddedToJobSelected;
+  final PoseGroup? poseGroup;
+  final Function(List<XFile>)? onNewPoseImagesSelected;
+  final Function(Pose)? onDeletePoseSelected;
+  final Function()? onDeletePoseGroupSelected;
+  final Function()? onBackSelected;
+  final List<Pose>? poseImages;
+  final List<Job>? activeJobs;
+  final Function(Pose, Job)? onImageAddedToJobSelected;
 
   PoseGroupPageState({
     @required this.poseGroup,
@@ -31,14 +31,14 @@ class PoseGroupPageState{
   });
 
   PoseGroupPageState copyWith({
-    PoseGroup poseGroup,
-    Function(List<XFile>) onNewPoseImagesSelected,
-    Function(Pose) onDeletePoseSelected,
-    Function() onDeletePoseGroupSelected,
-    Function() onBackSelected,
-    List<Pose> poseImages,
-    List<Job> activeJobs,
-    Function(Pose, Job) onImageAddedToJobSelected,
+    PoseGroup? poseGroup,
+    Function(List<XFile>)? onNewPoseImagesSelected,
+    Function(Pose)? onDeletePoseSelected,
+    Function()? onDeletePoseGroupSelected,
+    Function()? onBackSelected,
+    List<Pose>? poseImages,
+    List<Job>? activeJobs,
+    Function(Pose, Job)? onImageAddedToJobSelected,
   }){
     return PoseGroupPageState(
       poseGroup: poseGroup ?? this.poseGroup,
@@ -65,9 +65,9 @@ class PoseGroupPageState{
 
   factory PoseGroupPageState.fromStore(Store<AppState> store) {
     return PoseGroupPageState(
-      poseGroup: store.state.poseGroupPageState.poseGroup,
-      poseImages: store.state.poseGroupPageState.poseImages,
-      activeJobs: store.state.poseGroupPageState.activeJobs,
+      poseGroup: store.state.poseGroupPageState!.poseGroup,
+      poseImages: store.state.poseGroupPageState!.poseImages,
+      activeJobs: store.state.poseGroupPageState!.activeJobs,
       onDeletePoseSelected: (pose) => store.dispatch(DeletePoseAction(store.state.poseGroupPageState, pose)),
       onDeletePoseGroupSelected: () => store.dispatch(DeletePoseGroupSelected(store.state.poseGroupPageState)),
       onNewPoseImagesSelected: (poseImages) => {

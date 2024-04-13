@@ -10,10 +10,10 @@ class ResponsesListItem{
   static const String GROUP_TITLE = 'group_title';
   static const String ADD_ANOTHER_BUTTON = 'add_another_button';
 
-  String itemType;
-  String title;
-  String groupName;
-  Response response;
+  String? itemType;
+  String? title;
+  String? groupName;
+  Response? response;
 
   ResponsesListItem({
     this.itemType,

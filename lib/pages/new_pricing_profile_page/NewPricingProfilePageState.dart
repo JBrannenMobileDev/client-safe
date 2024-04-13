@@ -10,31 +10,31 @@ class NewPricingProfilePageState {
   static const String NO_ERROR = "noError";
   static const String ERROR_PROFILE_NAME_MISSING = "missingProfileName";
 
-  final int id;
-  final String documentId;
-  final int pageViewIndex;
-  final bool saveButtonEnabled;
-  final bool shouldClear;
-  final bool includeSalesTax;
-  final String profileName;
-  final String profileIcon;
-  final double flatRate;
-  final double deposit;
-  final double taxPercent;
-  final double taxAmount;
-  final double total;
-  final Function() onSavePressed;
-  final Function() onCancelPressed;
-  final Function() onNextPressed;
-  final Function() onBackPressed;
-  final Function() onDeleteProfileSelected;
-  final Function(String) onProfileNameChanged;
-  final Function(String) onProfileIconSelected;
-  final Function(String) onFilterChanged;
-  final Function(String) onFlatRateTextChanged;
-  final Function(String) onDepositTextChanged;
-  final Function(bool) onIncludesSalesTaxChanged;
-  final Function(String) onTaxPercentChanged;
+  final int? id;
+  final String? documentId;
+  final int? pageViewIndex;
+  final bool? saveButtonEnabled;
+  final bool? shouldClear;
+  final bool? includeSalesTax;
+  final String? profileName;
+  final String? profileIcon;
+  final double? flatRate;
+  final double? deposit;
+  final double? taxPercent;
+  final double? taxAmount;
+  final double? total;
+  final Function()? onSavePressed;
+  final Function()? onCancelPressed;
+  final Function()? onNextPressed;
+  final Function()? onBackPressed;
+  final Function()? onDeleteProfileSelected;
+  final Function(String)? onProfileNameChanged;
+  final Function(String)? onProfileIconSelected;
+  final Function(String)? onFilterChanged;
+  final Function(String)? onFlatRateTextChanged;
+  final Function(String)? onDepositTextChanged;
+  final Function(bool)? onIncludesSalesTaxChanged;
+  final Function(String)? onTaxPercentChanged;
 
   NewPricingProfilePageState({
     @required this.id,
@@ -65,32 +65,32 @@ class NewPricingProfilePageState {
   });
 
   NewPricingProfilePageState copyWith({
-    int id,
-    String documentId,
-    int pageViewIndex,
-    saveButtonEnabled,
-    bool shouldClear,
-    bool includeSalesTax,
-    String profileName,
-    String profileIcon,
-    String rateType,
-    double flatRate,
-    double deposit,
-    double taxPercent,
-    double taxAmount,
-    double total,
-    Function() onSavePressed,
-    Function() onCancelPressed,
-    Function() onNextPressed,
-    Function() onBackPressed,
-    Function(PriceProfile) onDeleteProfileSelected,
-    Function(String) onProfileNameChanged,
-    Function(String) onProfileIconSelected,
-    Function(String) onFilterChanged,
-    Function(String) onFlatRateTextChanged,
-    Function(String) onDepositTextChanged,
-    Function(bool) onIncludesSalesTaxChanged,
-    Function(String) onTaxPercentChanged,
+    int? id,
+    String? documentId,
+    int? pageViewIndex,
+    bool? saveButtonEnabled,
+    bool? shouldClear,
+    bool? includeSalesTax,
+    String? profileName,
+    String? profileIcon,
+    String? rateType,
+    double? flatRate,
+    double? deposit,
+    double? taxPercent,
+    double? taxAmount,
+    double? total,
+    Function()? onSavePressed,
+    Function()? onCancelPressed,
+    Function()? onNextPressed,
+    Function()? onBackPressed,
+    Function()? onDeleteProfileSelected,
+    Function(String)? onProfileNameChanged,
+    Function(String)? onProfileIconSelected,
+    Function(String)? onFilterChanged,
+    Function(String)? onFlatRateTextChanged,
+    Function(String)? onDepositTextChanged,
+    Function(bool)? onIncludesSalesTaxChanged,
+    Function(String)? onTaxPercentChanged,
   }){
     return NewPricingProfilePageState(
       id: id?? this.id,
@@ -151,19 +151,19 @@ class NewPricingProfilePageState {
 
   factory NewPricingProfilePageState.fromStore(Store<AppState> store) {
     return NewPricingProfilePageState(
-      id: store.state.pricingProfilePageState.id,
-      pageViewIndex: store.state.pricingProfilePageState.pageViewIndex,
-      saveButtonEnabled: store.state.pricingProfilePageState.saveButtonEnabled,
-      shouldClear: store.state.pricingProfilePageState.shouldClear,
-      profileName: store.state.pricingProfilePageState.profileName,
-      profileIcon: store.state.pricingProfilePageState.profileIcon,
-      flatRate: store.state.pricingProfilePageState.flatRate,
-      documentId: store.state.pricingProfilePageState.documentId,
-      deposit: store.state.pricingProfilePageState.deposit,
-      includeSalesTax: store.state.pricingProfilePageState.includeSalesTax,
-      taxAmount: store.state.pricingProfilePageState.taxAmount,
-      taxPercent: store.state.pricingProfilePageState.taxPercent,
-      total: store.state.pricingProfilePageState.total,
+      id: store.state.pricingProfilePageState!.id,
+      pageViewIndex: store.state.pricingProfilePageState!.pageViewIndex,
+      saveButtonEnabled: store.state.pricingProfilePageState!.saveButtonEnabled,
+      shouldClear: store.state.pricingProfilePageState!.shouldClear,
+      profileName: store.state.pricingProfilePageState!.profileName,
+      profileIcon: store.state.pricingProfilePageState!.profileIcon,
+      flatRate: store.state.pricingProfilePageState!.flatRate,
+      documentId: store.state.pricingProfilePageState!.documentId,
+      deposit: store.state.pricingProfilePageState!.deposit,
+      includeSalesTax: store.state.pricingProfilePageState!.includeSalesTax,
+      taxAmount: store.state.pricingProfilePageState!.taxAmount,
+      taxPercent: store.state.pricingProfilePageState!.taxPercent,
+      total: store.state.pricingProfilePageState!.total,
       onSavePressed: () => store.dispatch(SavePricingProfileAction(store.state.pricingProfilePageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.pricingProfilePageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.pricingProfilePageState)),

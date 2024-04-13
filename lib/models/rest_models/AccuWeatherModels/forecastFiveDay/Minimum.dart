@@ -1,7 +1,7 @@
 class Minimum {
-  double value;
-  String unit;
-  int unitType;
+  double? value;
+  String? unit;
+  int? unitType;
 
   Minimum({this.value, this.unit, this.unitType});
 

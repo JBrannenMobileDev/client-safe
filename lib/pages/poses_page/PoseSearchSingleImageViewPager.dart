@@ -27,26 +27,26 @@ import '../../widgets/TextDandyLight.dart';
 import '../pose_group_page/GroupImage.dart';
 
 class PoseSearchSingleImageViewPager extends StatefulWidget {
-  final List<Pose> poses;
-  final int index;
-  final String groupName;
+  final List<Pose>? poses;
+  final int? index;
+  final String? groupName;
 
   PoseSearchSingleImageViewPager(this.poses, this.index, this.groupName);
 
   @override
   _PoseSearchSingleImageViewPagerState createState() {
-    return _PoseSearchSingleImageViewPagerState(poses, index, poses.length, PageController(initialPage: index), groupName);
+    return _PoseSearchSingleImageViewPagerState(poses, index, poses!.length, PageController(initialPage: index!), groupName);
   }
 }
 
 class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageViewPager> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  final int pageCount;
-  int currentPageIndex;
-  final PageController controller;
-  final List<Pose> poses;
+  final int? pageCount;
+  int? currentPageIndex;
+  final PageController? controller;
+  final List<Pose>? poses;
   final List<Container> pages = [];
-  final String groupName;
+  final String? groupName;
 
   _PoseSearchSingleImageViewPagerState(this.poses, this.currentPageIndex, this.pageCount, this.controller, this.groupName);
 
@@ -81,7 +81,7 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
   @override
   void initState() {
     super.initState();
-    for(Pose pose in poses) {
+    for(Pose pose in poses!) {
       pages.add(
           Container(
             margin: EdgeInsets.only(top: 16),
@@ -97,7 +97,7 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
                         child: CachedNetworkImage(
                           fadeOutDuration: Duration(milliseconds: 0),
                           fadeInDuration: Duration(milliseconds: 200),
-                          imageUrl: pose.imageUrl,
+                          imageUrl: pose.imageUrl!,
                           fit: BoxFit.contain,
                           placeholder: (context, url) => Container(
                               height: 116,
@@ -127,7 +127,7 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
                       ),
                       GestureDetector(
                         onTap: () {
-                          IntentLauncherUtil.launchURL(pose.instagramUrl);
+                          IntentLauncherUtil.launchURL(pose.instagramUrl!);
                         },
                         child: Container(
                           padding: EdgeInsets.only(right: 16),
@@ -142,7 +142,7 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
                       ),
                     ],
                   ),
-                  pose.prompt.isNotEmpty ? Container(
+                  pose.prompt!.isNotEmpty ? Container(
                     margin: EdgeInsets.only(top: 16, left: 16, bottom: 8),
                     width: double.infinity,
                     child:  TextDandyLight(
@@ -152,7 +152,7 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
                       text: 'PROMPT',
                     ),
                   ) : SizedBox(),
-                  pose.prompt.isNotEmpty ? Container(
+                  pose.prompt!.isNotEmpty ? Container(
                     margin: EdgeInsets.only(left: 16, right: 16, bottom: 32),
                     width: double.infinity,
                     child:  TextDandyLight(
@@ -164,7 +164,7 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
                   ) : SizedBox(),
                   GestureDetector(
                     onTap: () {
-                      IntentLauncherUtil.launchURL(pose.instagramUrl);
+                      IntentLauncherUtil.launchURL(pose.instagramUrl!);
                       EventSender().sendEvent(eventName: EventNames.BT_POSE_INSTAGRAM_PAGE);
                     },
                     child: Container(
@@ -218,7 +218,7 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
               actions: [
                 GestureDetector(
                   onTap: () {
-                    IntentLauncherUtil.launchURL(poses.elementAt(currentPageIndex).instagramUrl);
+                    IntentLauncherUtil.launchURL(poses!.elementAt(currentPageIndex!).instagramUrl!);
                     EventSender().sendEvent(eventName: EventNames.BT_POSE_INSTAGRAM_PAGE);
                   },
                   child: Container(

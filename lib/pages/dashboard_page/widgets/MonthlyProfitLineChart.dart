@@ -7,9 +7,9 @@ import '../../../widgets/TextDandyLight.dart';
 import 'BarChartWidget.dart';
 
 class MonthlyProfitLineChart extends StatelessWidget{
-  const MonthlyProfitLineChart({Key key, this.pageState}) : super(key: key);
+  const MonthlyProfitLineChart({Key? key, this.pageState}) : super(key: key);
 
-  final DashboardPageState pageState;
+  final DashboardPageState? pageState;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,7 +28,7 @@ class MonthlyProfitLineChart extends StatelessWidget{
                     color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
-                BarChartWidget(monthsData: pageState.lineChartMonthData),
+                BarChartWidget(monthsData: pageState!.lineChartMonthData),
               ],
             ),
     );

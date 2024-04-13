@@ -59,7 +59,7 @@ class _ReviewPosesPageState extends State<ReviewPosesPage> with TickerProviderSt
            body: GridView.builder(
              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
              itemBuilder: (_, index) => _buildItem(context, index, pageState),
-             itemCount: pageState.poses.length,
+             itemCount: pageState.poses!.length,
            ),
          ),
     );
@@ -69,7 +69,7 @@ class _ReviewPosesPageState extends State<ReviewPosesPage> with TickerProviderSt
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => DecisionPager(
-              pageState.poses,
+              pageState.poses!,
               index,
           )),
         );
@@ -77,7 +77,7 @@ class _ReviewPosesPageState extends State<ReviewPosesPage> with TickerProviderSt
       child: Padding(
         padding: const EdgeInsets.only(left:0.5, right: 0.5, top: 1),
         child: DandyLightNetworkImage(
-          pageState.poses.elementAt(index).imageUrl,
+          pageState.poses!.elementAt(index).imageUrl ?? '',
           resizeWidth: 350,
         )
       ),

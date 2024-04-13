@@ -26,10 +26,10 @@ class PdfUtil {
     return File(path);
   }
 
-  static savePdfFile(int invoiceNumber, Document pdf) async {
+  static savePdfFile(int? invoiceNumber, Document? pdf) async {
     final String dir = (await getApplicationDocumentsDirectory()).path;
     final String path = '$dir/invoice_$invoiceNumber.pdf';
-    await File(path).writeAsBytes(List.from(await pdf.save()));
+    await File(path).writeAsBytes(List.from(await pdf!.save()));
   }
 
   static Future<String> getInvoiceFilePath(int invoiceNumber) async {
@@ -39,76 +39,76 @@ class PdfUtil {
   }
 
   /// The following methods are for web app
-  static Future<Document> generateInvoicePdfFromInvoice(Invoice invoice, Job job, Client client, Profile profile) async {
+  static Future<Document?> generateInvoicePdfFromInvoice(Invoice invoice, Job job, Client client, Profile profile) async {
     return await generateInvoice(
         job,
         client,
         profile,
-        invoice.invoiceId,
-        invoice.dueDate,
-        invoice.depositDueDate,
-        invoice.lineItems,
-        invoice.total,
-        invoice.subtotal,
-        invoice.depositAmount,
-        invoice.discount,
-        invoice.salesTaxRate,
-        invoice.unpaidAmount,
-        invoice.depositPaid,
+        invoice.invoiceId!,
+        invoice.dueDate!,
+        invoice.depositDueDate!,
+        invoice.lineItems!,
+        invoice.total!,
+        invoice.subtotal!,
+        invoice.depositAmount!,
+        invoice.discount!,
+        invoice.salesTaxRate!,
+        invoice.unpaidAmount!,
+        invoice.depositPaid!,
     );
   }
 
-  static Future<Document> generateInvoice(
-      Job job,
-      Client client,
-      Profile profile,
-      int invoiceNumber,
-      DateTime dueDate,
-      DateTime depositDueDate,
-      List<LineItem> lineItems,
-      double total,
-      double subtotal,
-      double depositValue,
-      double discountValue,
-      double salesTaxPercent,
-      double unpaidAmount,
-      bool depositPaid,
+  static Future<Document?> generateInvoice(
+      Job? job,
+      Client? client,
+      Profile? profile,
+      int? invoiceNumber,
+      DateTime? dueDate,
+      DateTime? depositDueDate,
+      List<LineItem>? lineItems,
+      double? total,
+      double? subtotal,
+      double? depositValue,
+      double? discountValue,
+      double? salesTaxPercent,
+      double? unpaidAmount,
+      bool? depositPaid,
   ) async {
     var response;
     var logoImageData;
 
-    if(profile.logoSelected && profile.logoUrl != null) {
-      response = await get(Uri.parse(profile.logoUrl));
+    if(profile!.logoSelected! && profile.logoUrl != null) {
+      response = await get(Uri.parse(profile.logoUrl!));
       logoImageData = response.bodyBytes;
     }
 
-    String zelleInfo = profile.zellePhoneEmail != null && profile.zellePhoneEmail.isNotEmpty
+    String zelleInfo = profile.zellePhoneEmail != null && profile.zellePhoneEmail!.isNotEmpty
             ? 'Zelle\n' +
                 'Recipient info:\n' +
-                (TextFormatterUtil.isEmail(profile.zellePhoneEmail)
+                (TextFormatterUtil.isEmail(profile.zellePhoneEmail!)
                     ? 'Email: '
-                    : TextFormatterUtil.isPhone(profile.zellePhoneEmail)
+                    : TextFormatterUtil.isPhone(profile.zellePhoneEmail!)
                         ? 'Phone: '
                         : 'Phone or Email') +
                 TextFormatterUtil.formatPhoneOrEmail(profile.zellePhoneEmail) +
                 '\nName: ' +
-                profile.zelleFullName
+                profile.zelleFullName!
             : '';
-    String venmoInfo = profile.venmoLink != null && profile.venmoLink.isNotEmpty
-        ? 'Venmo\n' + profile.venmoLink
+    String venmoInfo = profile.venmoLink != null && profile.venmoLink!.isNotEmpty
+        ? 'Venmo\n' + profile.venmoLink!
         : '';
     String cashAppInfo =
-        profile.cashAppLink != null && profile.cashAppLink.isNotEmpty
-            ? 'Cash App\n' + profile.cashAppLink
+        profile.cashAppLink != null && profile.cashAppLink!.isNotEmpty
+            ? 'Cash App\n' + profile.cashAppLink!
             : '';
     String applePayInfo =
-        profile.applePayPhone != null && profile.applePayPhone.isNotEmpty
+        profile.applePayPhone != null && profile.applePayPhone!.isNotEmpty
             ? 'Apple Pay\n' +
-                TextFormatterUtil.formatPhoneNum(profile.applePayPhone)
+                TextFormatterUtil.formatPhoneNum(profile.applePayPhone!)
             : '';
 
     final Document pdf = Document();
-    bool makeTextBold = profile.selectedFontTheme != null ? FontTheme.shouldUseBold(profile.selectedFontTheme.mainFont) : false;
+    bool makeTextBold = profile.selectedFontTheme != null ? FontTheme.shouldUseBold(profile.selectedFontTheme!.mainFont!) : false;
 
     pdf.addPage(MultiPage(
         theme: ThemeData.withFont(
@@ -134,7 +134,7 @@ class PdfUtil {
               padding: const EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
               decoration: BoxDecoration(border: Border.all()),
               child: Text(
-                  profile.businessName + ' Invoice',
+                  profile.businessName! + ' Invoice',
                   style: Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.grey, fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal)
               )
           );
@@ -168,7 +168,7 @@ class PdfUtil {
                                 child: Container(
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: PdfColor.fromHex(profile.selectedColorTheme.iconColor),
+                                    color: PdfColor.fromHex(profile.selectedColorTheme!.iconColor!),
                                   ),
                                   width: 150,
                                   height: 150,
@@ -197,7 +197,7 @@ class PdfUtil {
                             color: PdfColor.fromHex('#444444'),
                             fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                         )),
-                        Text(client.getClientFullName(),
+                        Text(client!.getClientFullName(),
                             textScaleFactor: 0.85),
                         client.phone != null
                             ? Text(client.phone.toString(),
@@ -228,7 +228,7 @@ class PdfUtil {
                             ? Text(
                                 'Deposit due:  ' +
                                     DateFormat('MMM dd, yyyy')
-                                        .format(dueDate),
+                                        .format(dueDate!),
                                 textScaleFactor: 0.85,
                             style: TextStyle(
                                 color: PdfColor.fromHex('#444444'),
@@ -256,7 +256,7 @@ class PdfUtil {
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: PdfColor.fromHex(profile.selectedColorTheme.buttonColor),
+                  color: PdfColor.fromHex(profile.selectedColorTheme!.buttonColor!),
                 ),
                 child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -269,7 +269,7 @@ class PdfUtil {
                             textScaleFactor: 0.85,
                             textAlign: TextAlign.left,
                             style: TextStyle(
-                                color: PdfColor.fromHex(profile.selectedColorTheme.buttonTextColor),
+                                color: PdfColor.fromHex(profile.selectedColorTheme!.buttonTextColor!),
                                 fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                             )
                         ),
@@ -283,7 +283,7 @@ class PdfUtil {
                                 textScaleFactor: 0.85,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
-                                    color: PdfColor.fromHex(profile.selectedColorTheme.buttonTextColor),
+                                    color: PdfColor.fromHex(profile.selectedColorTheme!.buttonTextColor!),
                                     fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                                 )
                             ),
@@ -293,7 +293,7 @@ class PdfUtil {
                             alignment: Alignment.centerRight,
                             child: Text('Price',
                                 textScaleFactor: 0.85, textAlign: TextAlign.right, style: TextStyle(
-                                    color: PdfColor.fromHex(profile.selectedColorTheme.buttonTextColor),
+                                    color: PdfColor.fromHex(profile.selectedColorTheme!.buttonTextColor!),
                                     fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                                 )),
                           ),
@@ -305,7 +305,7 @@ class PdfUtil {
                                 textScaleFactor: 0.85,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
-                                    color: PdfColor.fromHex(profile.selectedColorTheme.buttonTextColor),
+                                    color: PdfColor.fromHex(profile.selectedColorTheme!.buttonTextColor!),
                                     fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                                 )
                             ),
@@ -321,13 +321,13 @@ class PdfUtil {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     ListView.builder(
-                      itemCount: lineItems.length,
+                      itemCount: lineItems!.length,
                       itemBuilder: (context, index) {
                         return Container(
                           width: 246.0,
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            lineItems.elementAt(index).itemName,
+                            lineItems.elementAt(index).itemName!,
                             textScaleFactor: 0.85,
                             textAlign: TextAlign.left,
                               style: TextStyle(
@@ -459,7 +459,7 @@ class PdfUtil {
                           width: 96.0,
                           alignment: Alignment.centerRight,
                           child: Text(
-                              TextFormatterUtil.formatDecimalCurrency(subtotal),
+                              TextFormatterUtil.formatDecimalCurrency(subtotal!),
                               textScaleFactor: 0.85,
                               textAlign: TextAlign.right,
                               style: TextStyle(
@@ -473,7 +473,7 @@ class PdfUtil {
                   ],
                 )
               ),
-              discountValue > 0
+              discountValue! > 0
                   ? Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -532,7 +532,7 @@ class PdfUtil {
                       ],
                     )
                   : SizedBox(),
-              salesTaxPercent > 0
+              salesTaxPercent! > 0
                   ? Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -578,7 +578,7 @@ class PdfUtil {
                               alignment: Alignment.centerRight,
                               child: Text(
                                 TextFormatterUtil.formatDecimalDigitsCurrency(
-                                    (total * (salesTaxPercent / 100)), 2),
+                                    (total! * (salesTaxPercent / 100)), 2),
                                 textScaleFactor: 0.85,
                                 textAlign: TextAlign.right,
                                   style: TextStyle(
@@ -609,7 +609,7 @@ class PdfUtil {
                       )),
                 ],
               ),
-          depositValue > 0 ? Row(
+          depositValue! > 0 ? Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
@@ -636,7 +636,7 @@ class PdfUtil {
                   Container(
                     width: 120.0,
                     alignment: Alignment.centerRight,
-                    child: Text('Retainer' + (depositPaid ? '(Paid)' : '(Unpaid)'),
+                    child: Text('Retainer' + (depositPaid! ? '(Paid)' : '(Unpaid)'),
                         textScaleFactor: 0.85, textAlign: TextAlign.right,
                         style: TextStyle(
                             color: PdfColor.fromHex('#444444'),
@@ -703,7 +703,7 @@ class PdfUtil {
                         width: 96.0,
                         alignment: Alignment.centerRight,
                         child: Text(
-                          TextFormatterUtil.formatDecimalCurrency(unpaidAmount),
+                          TextFormatterUtil.formatDecimalCurrency(unpaidAmount!),
                           textScaleFactor: 0.85,
                           textAlign: TextAlign.right,
                             style: TextStyle(
@@ -892,7 +892,7 @@ class PdfUtil {
                         Container(
                           margin: const EdgeInsets.only(top: 0, bottom: 4),
                           child: Text(
-                              DateFormat('EEE, MMMM dd, yyyy').format(contract.photographerSignedDate),
+                              DateFormat('EEE, MMMM dd, yyyy').format(contract.photographerSignedDate!),
                               textScaleFactor: .85,
                               style: TextStyle(
                                 color: PdfColor.fromHex('#444444'),
@@ -916,7 +916,7 @@ class PdfUtil {
                         Container(
                           margin: const EdgeInsets.only(top: 0, bottom: 4),
                           child: Text(
-                            profile.firstName + ' ' + profile.lastName,
+                            profile.firstName! + ' ' + profile.lastName!,
                             textScaleFactor: .85,
                           ),
                         )
@@ -933,7 +933,7 @@ class PdfUtil {
                     ),
                     Container(
                       child: Text(
-                          contract.signedByPhotographer ? (profile.firstName + ' ' + profile.lastName) : '',
+                          contract.signedByPhotographer! ? (profile.firstName! + ' ' + profile.lastName!) : '',
                           textScaleFactor: .85,
                           style: TextStyle(
                             font: signatureFont,
@@ -969,7 +969,7 @@ class PdfUtil {
                         Container(
                           margin: const EdgeInsets.only(top: 0, bottom: 4),
                           child: Text(
-                            DateFormat('EEE, MMMM dd, yyyy').format(proposal.contract.clientSignedDate ?? DateTime.now()),
+                            DateFormat('EEE, MMMM dd, yyyy').format(proposal.contract!.clientSignedDate ?? DateTime.now()),
                             textScaleFactor: .85,
                           ),
                         )
@@ -989,7 +989,7 @@ class PdfUtil {
                         Container(
                           margin: const EdgeInsets.only(top: 0, bottom: 4),
                           child: Text(
-                            job.client.getClientFullName(),
+                            job.client!.getClientFullName(),
                             textScaleFactor: .85,
                           ),
                         )
@@ -1006,7 +1006,7 @@ class PdfUtil {
                     ),
                     Container(
                       child: Text(
-                          proposal.contract.signedByClient ? contract.clientSignature : '',
+                          proposal.contract!.signedByClient! ? contract.clientSignature! : '',
                           textScaleFactor: .85,
                           style: TextStyle(
                             font: signatureFont,
@@ -1032,16 +1032,16 @@ class PdfUtil {
   }
 
   static Future<Document> generateIncomeAndExpenses(Profile profile, Report report) async {
-    Response response;
-    Uint8List logoImageData;
+    Response? response;
+    Uint8List? logoImageData;
 
-    if(profile.logoSelected && profile.logoUrl != null) {
-      response = await get(Uri.parse(profile.logoUrl));
+    if(profile.logoSelected! && profile.logoUrl != null) {
+      response = await get(Uri.parse(profile.logoUrl!));
       logoImageData = response.bodyBytes;
     }
 
     final Document pdf = Document();
-    bool makeTextBold = profile.selectedFontTheme != null ? FontTheme.shouldUseBold(profile.selectedFontTheme.mainFont) : false;
+    bool makeTextBold = profile.selectedFontTheme != null ? FontTheme.shouldUseBold(profile.selectedFontTheme!.mainFont!) : false;
 
     pdf.addPage(MultiPage(
         theme: ThemeData.withFont(
@@ -1095,7 +1095,7 @@ class PdfUtil {
                             child: Container(
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: PdfColor.fromHex(profile.selectedColorTheme.iconColor),
+                                color: PdfColor.fromHex(profile.selectedColorTheme!.iconColor!),
                               ),
                               width: 150,
                               height: 150,
@@ -1124,7 +1124,7 @@ class PdfUtil {
                         color: PdfColor.fromHex('#444444'),
                         fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                     )),
-                    Text(profile.firstName + profile.lastName, textScaleFactor: 0.85),
+                    Text(profile.firstName! + profile.lastName!, textScaleFactor: 0.85),
                     profile.email != null
                         ? Text(profile.email.toString(),
                         textScaleFactor: 0.85, style: TextStyle(
@@ -1167,7 +1167,7 @@ class PdfUtil {
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              color: PdfColor.fromHex(profile.selectedColorTheme.buttonColor),
+              color: PdfColor.fromHex(profile.selectedColorTheme!.buttonColor!),
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1181,7 +1181,7 @@ class PdfUtil {
                       textScaleFactor: 0.85,
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                          color: PdfColor.fromHex(profile.selectedColorTheme.buttonTextColor),
+                          color: PdfColor.fromHex(profile.selectedColorTheme!.buttonTextColor!),
                           fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                       )
                   ),
@@ -1195,7 +1195,7 @@ class PdfUtil {
                           textScaleFactor: 0.85,
                           textAlign: TextAlign.right,
                           style: TextStyle(
-                              color: PdfColor.fromHex(profile.selectedColorTheme.buttonTextColor),
+                              color: PdfColor.fromHex(profile.selectedColorTheme!.buttonTextColor!),
                               fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                           )
                       ),
@@ -1205,7 +1205,7 @@ class PdfUtil {
                       alignment: Alignment.centerRight,
                       child: Text('Income',
                           textScaleFactor: 0.85, textAlign: TextAlign.right, style: TextStyle(
-                              color: PdfColor.fromHex(profile.selectedColorTheme.buttonTextColor),
+                              color: PdfColor.fromHex(profile.selectedColorTheme!.buttonTextColor!),
                               fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                           )),
                     ),
@@ -1217,7 +1217,7 @@ class PdfUtil {
                           textScaleFactor: 0.85,
                           textAlign: TextAlign.right,
                           style: TextStyle(
-                              color: PdfColor.fromHex(profile.selectedColorTheme.buttonTextColor),
+                              color: PdfColor.fromHex(profile.selectedColorTheme!.buttonTextColor!),
                               fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                           )
                       ),
@@ -1231,9 +1231,9 @@ class PdfUtil {
             padding: const EdgeInsets.only(left: 16, right: 16),
             child: Table(
               children: List.generate(
-                report.rows.length,
+                report.rows!.length,
                     (index) {
-                  final listData = report.rows[index];
+                  final listData = report.rows![index];
                   return TableRow(
                     children: [
                       Text(listData[0]),
@@ -1253,15 +1253,15 @@ class PdfUtil {
 
   static Future<Document> generateMileageReport(Profile profile, Report report) async {
     Response response;
-    Uint8List logoImageData;
+    Uint8List? logoImageData;
 
-    if(profile.logoSelected && profile.logoUrl != null) {
-      response = await get(Uri.parse(profile.logoUrl));
+    if(profile.logoSelected! && profile.logoUrl != null) {
+      response = await get(Uri.parse(profile.logoUrl!));
       logoImageData = response.bodyBytes;
     }
 
     final Document pdf = Document();
-    bool makeTextBold = profile.selectedFontTheme != null ? FontTheme.shouldUseBold(profile.selectedFontTheme.mainFont) : false;
+    bool makeTextBold = profile.selectedFontTheme != null ? FontTheme.shouldUseBold(profile.selectedFontTheme!.mainFont!) : false;
 
     pdf.addPage(MultiPage(
         theme: ThemeData.withFont(
@@ -1316,7 +1316,7 @@ class PdfUtil {
                             child: Container(
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: PdfColor.fromHex(profile.selectedColorTheme.iconColor),
+                                color: PdfColor.fromHex(profile.selectedColorTheme!.iconColor!),
                               ),
                               width: 150,
                               height: 150,
@@ -1345,7 +1345,7 @@ class PdfUtil {
                         color: PdfColor.fromHex('#444444'),
                         fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                     )),
-                    Text(profile.firstName + profile.lastName, textScaleFactor: 0.85),
+                    Text(profile.firstName! + profile.lastName!, textScaleFactor: 0.85),
                     profile.email != null
                         ? Text(profile.email.toString(),
                         textScaleFactor: 0.85, style: TextStyle(
@@ -1381,7 +1381,7 @@ class PdfUtil {
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              color: PdfColor.fromHex(profile.selectedColorTheme.buttonColor),
+              color: PdfColor.fromHex(profile.selectedColorTheme!.buttonColor!),
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -1395,7 +1395,7 @@ class PdfUtil {
                       textScaleFactor: 0.85,
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                          color: PdfColor.fromHex(profile.selectedColorTheme.buttonTextColor),
+                          color: PdfColor.fromHex(profile.selectedColorTheme!.buttonTextColor!),
                           fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                       )
                   ),
@@ -1407,7 +1407,7 @@ class PdfUtil {
                       textScaleFactor: 0.85,
                       textAlign: TextAlign.right,
                       style: TextStyle(
-                          color: PdfColor.fromHex(profile.selectedColorTheme.buttonTextColor),
+                          color: PdfColor.fromHex(profile.selectedColorTheme!.buttonTextColor!),
                           fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                       )
                   ),
@@ -1419,9 +1419,9 @@ class PdfUtil {
               padding: const EdgeInsets.only(left: 16, right: 16),
               child: Table(
                 children: List.generate(
-                  report.rows.length,
+                  report.rows!.length,
                       (index) {
-                    final listData = report.rows[index];
+                    final listData = report.rows![index];
                     return TableRow(
                       children: [
                         Text(listData[0]),

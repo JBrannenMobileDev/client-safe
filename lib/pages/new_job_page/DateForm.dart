@@ -26,8 +26,8 @@ class DateForm extends StatefulWidget {
 }
 
 class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
-  AnimationController _animationController;
-  List<EventDandyLight> _events;
+  AnimationController? _animationController;
+  List<EventDandyLight>? _events;
 
   @override
   void initState() {
@@ -38,12 +38,12 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
       duration: const Duration(milliseconds: 400),
     );
 
-    _animationController.forward();
+    _animationController!.forward();
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
+    _animationController!.dispose();
     super.dispose();
   }
 
@@ -66,11 +66,11 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
     super.build(context);
     return StoreConnector<AppState, NewJobPageState>(
       onInit: (appState) async {
-        PermissionStatus previousStatus = await UserPermissionsUtil.getPermissionStatus(Permission.calendar);
-        bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendar, context: context);
+        PermissionStatus previousStatus = await UserPermissionsUtil.getPermissionStatus(Permission.calendarFullAccess);
+        bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendarFullAccess, context: context);
         if(isGranted) {
-          if(!(await previousStatus.isGranted)) {
-            UserOptionsUtil.showCalendarSelectionDialog(context, appState.state.newJobPageState.onCalendarEnabled);
+          if(!(previousStatus.isGranted)) {
+            UserOptionsUtil.showCalendarSelectionDialog(context, appState.state.newJobPageState!.onCalendarEnabled);
           } else {
             appState.dispatch(FetchNewJobDeviceEvents(appState.state.newJobPageState, DateTime.now()));
           }
@@ -96,9 +96,9 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
             Expanded(child: CalendarUtil.buildEventList(
                 pageState.selectedDate,
                 pageState.eventList,
-                pageState.selectedDate != null ? pageState.selectedDate.year : DateTime.now().year,
-                pageState.selectedDate != null ? pageState.selectedDate.month : DateTime.now().month,
-                pageState.selectedDate != null ? pageState.selectedDate.day : DateTime.now().day,
+                pageState.selectedDate != null ? pageState.selectedDate!.year : DateTime.now().year,
+                pageState.selectedDate != null ? pageState.selectedDate!.month : DateTime.now().month,
+                pageState.selectedDate != null ? pageState.selectedDate!.day : DateTime.now().day,
                 pageState.jobs,
                 pageState.onJobClicked,
               ),
@@ -114,7 +114,7 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
     _events = pageState.eventList;
     return TableCalendar(
       locale: 'en_US',
-      eventLoader: (day) => _events.where((event) => isSameDay(event.selectedDate,day)).toList(), //THIS IS IMPORTANT,
+      eventLoader: (day) => _events!.where((event) => isSameDay(event.selectedDate,day)).toList(), //THIS IS IMPORTANT,
       calendarFormat: CalendarFormat.month,
       startingDayOfWeek: StartingDayOfWeek.sunday,
       availableGestures: AvailableGestures.all,
@@ -123,9 +123,9 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
         CalendarFormat.week: '',
       },
       onPageChanged: (focusedDay) {
-        pageState.onMonthChanged(focusedDay);
+        pageState.onMonthChanged!(focusedDay);
       },
-      focusedDay: pageState.selectedDate != null ? pageState.selectedDate : DateTime.now(),
+      focusedDay: pageState.selectedDate != null ? pageState.selectedDate! : DateTime.now(),
       firstDay: DateTime.utc(2010, 10, 16),
       lastDay: DateTime.utc(2100, 3, 14),
       selectedDayPredicate: (day) => isSameDay(pageState.selectedDate, day),
@@ -194,7 +194,7 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
       calendarBuilders: CalendarBuilders(
         selectedBuilder: (context, date, _) {
           return FadeTransition(
-            opacity: Tween(begin: 0.0, end: 1.0).animate(_animationController),
+            opacity: Tween(begin: 0.0, end: 1.0).animate(_animationController!),
             child: Container(
               alignment: Alignment.center,
               margin: const EdgeInsets.all(4.0),
@@ -249,9 +249,9 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
         },
       ),
       onDaySelected: (date, events) async {
-        await pageState.onDateSelected(date);
-        _onDaySelected(date,  _events.where((event) => isSameDay(event.selectedDate,date)).toList(), pageState);
-        _animationController.forward(from: 0.0);
+        await pageState.onDateSelected!(date);
+        _onDaySelected(date,  _events!.where((event) => isSameDay(event.selectedDate,date)).toList(), pageState);
+        _animationController!.forward(from: 0.0);
       },
     );
   }
@@ -300,7 +300,7 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
       width: 8.0,
       height: 8.0,
       decoration: BoxDecoration(
-          shape: BoxShape.circle, color: Color(!event.isPersonalEvent ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryBackgroundGrey())),
+          shape: BoxShape.circle, color: Color(!event.isPersonalEvent! ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryBackgroundGrey())),
     );
   }
 

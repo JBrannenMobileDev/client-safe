@@ -5,13 +5,13 @@ import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 
 class JobType {
-  int id;
-  String documentId;
-  String title;
-  int flatRate;
-  DateTime createdDate;
-  List<JobStage> stages;
-  List<ReminderDandyLight> reminders;
+  int? id;
+  String? documentId;
+  String? title;
+  int? flatRate;
+  DateTime? createdDate;
+  List<JobStage>? stages;
+  List<ReminderDandyLight>? reminders;
 
 
 
@@ -26,13 +26,13 @@ class JobType {
   });
 
   JobType copyWith({
-    int id,
-    String documentId,
-    String title,
-    int flatRate,
-    DateTime createdDate,
-    List<JobStage> stages,
-    List<ReminderDandyLight> reminders,
+    int? id,
+    String? documentId,
+    String? title,
+    int? flatRate,
+    DateTime? createdDate,
+    List<JobStage>? stages,
+    List<ReminderDandyLight>? reminders,
   }){
     return JobType(
       id: id?? this.id,
@@ -51,8 +51,8 @@ class JobType {
       'title' : title,
       'createdDate' : createdDate?.toString() ?? "",
       'flatRate' : flatRate,
-      'stages' : convertStagesToMap(stages),
-      'reminders' : convertRemindersToMap(reminders),
+      'stages' : convertStagesToMap(stages!),
+      'reminders' : convertRemindersToMap(reminders!),
     };
   }
 
@@ -69,7 +69,7 @@ class JobType {
 
   List<Map<String, dynamic>> convertStagesToMap(List<JobStage> Stages){
     List<Map<String, dynamic>> listOfMaps = [];
-    for(JobStage jobStage in stages){
+    for(JobStage jobStage in stages!){
       listOfMaps.add(jobStage.toMap());
     }
     return listOfMaps;
@@ -78,7 +78,7 @@ class JobType {
   static List<JobStage> convertMapsToJobStages(List listOfMaps){
     List<JobStage> listOfJobStages = [];
     for(Map map in listOfMaps){
-      listOfJobStages.add(JobStage.fromMap(map));
+      listOfJobStages.add(JobStage.fromMap(map as Map<String, dynamic>));
     }
     return listOfJobStages;
   }
@@ -94,7 +94,7 @@ class JobType {
   static List<ReminderDandyLight> convertMapsToReminders(List reminders){
     List<ReminderDandyLight> listOfReminders = [];
     for(Map map in reminders){
-      listOfReminders.add(ReminderDandyLight.fromMap(map));
+      listOfReminders.add(ReminderDandyLight.fromMap(map as Map<String, dynamic>));
     }
     return listOfReminders;
   }

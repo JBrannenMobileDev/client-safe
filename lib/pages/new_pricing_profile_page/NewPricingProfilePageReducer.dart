@@ -18,15 +18,15 @@ final newPricingProfilePageReducer = combineReducers<NewPricingProfilePageState>
 ]);
 
 NewPricingProfilePageState _updateTaxPercent(NewPricingProfilePageState previousState, UpdateTaxPercentAction action){
-  double percent = action.taxPercent != null ? double.tryParse(action.taxPercent.replaceAll('%', '')) ?? 0.0 : 0.0;
+  double percent = action.taxPercent != null ? double.tryParse(action.taxPercent!.replaceAll('%', '')) ?? 0.0 : 0.0;
   percent = double.parse(percent.toStringAsFixed(1));
   double taxAmount = 0;
-  if(action.pageState.flatRate != 0 && percent != 0) {
-    taxAmount = (action.pageState.flatRate * percent) / 100;
+  if(action.pageState!.flatRate != 0 && percent != 0) {
+    taxAmount = (action.pageState!.flatRate! * percent) / 100;
   }
   return previousState.copyWith(
     taxPercent: percent,
-    total: taxAmount + action.pageState.flatRate,
+    total: taxAmount + action.pageState!.flatRate!,
     taxAmount: taxAmount,
   );
 }
@@ -44,7 +44,7 @@ NewPricingProfilePageState _resetPageIndex(NewPricingProfilePageState previousSt
 }
 
 NewPricingProfilePageState _updateDepositAmount(NewPricingProfilePageState previousState, UpdateDepositAmountAction action){
-  String resultCost = action.depositAmount.replaceAll('\$', '');
+  String resultCost = action.depositAmount!.replaceAll('\$', '');
   resultCost = resultCost.replaceAll(',', '');
   resultCost = resultCost.replaceAll(' ', '');
   double doubleCost = resultCost.isNotEmpty ? double.parse(resultCost) : 0.0;
@@ -60,11 +60,11 @@ NewPricingProfilePageState _saveRateType(NewPricingProfilePageState previousStat
 }
 
 NewPricingProfilePageState _updateFlatRate(NewPricingProfilePageState previousState, UpdateFlatRateTextAction action){
-  String resultCost = action.flatRateText.replaceAll('\$', '');
+  String resultCost = action.flatRateText!.replaceAll('\$', '');
   resultCost = resultCost.replaceAll(',', '');
   resultCost = resultCost.replaceAll(' ', '');
   double doubleCost = resultCost.isNotEmpty ? double.parse(resultCost) : 0.0;
-  double taxAmount = (doubleCost * action.pageState.taxPercent)/100;
+  double taxAmount = (doubleCost * action.pageState!.taxPercent!)/100;
   return previousState.copyWith(
     flatRate: doubleCost,
     taxAmount: taxAmount,
@@ -79,21 +79,21 @@ NewPricingProfilePageState _updateName(NewPricingProfilePageState previousState,
 }
 
 NewPricingProfilePageState _loadPriceProfile(NewPricingProfilePageState previousState, LoadExistingPricingProfileData action){
-  double resultCost = action.profile.flatRate;
-  double taxAmount = (resultCost * action.profile.salesTaxPercent)/100;
+  double resultCost = action.profile!.flatRate!;
+  double taxAmount = (resultCost * action.profile!.salesTaxPercent!)/100;
   return previousState.copyWith(
-    id: action.profile.id,
-    documentId: action.profile.documentId,
+    id: action.profile!.id,
+    documentId: action.profile!.documentId,
     shouldClear: false,
-    profileName: action.profile.profileName,
-    profileIcon: action.profile.icon,
-    rateType: action.profile.rateType,
-    flatRate: action.profile.flatRate,
-    deposit: action.profile.deposit,
+    profileName: action.profile!.profileName,
+    profileIcon: action.profile!.icon,
+    rateType: action.profile!.rateType,
+    flatRate: action.profile!.flatRate,
+    deposit: action.profile!.deposit,
     taxAmount: taxAmount,
     total: (resultCost + taxAmount),
-    taxPercent: action.profile.salesTaxPercent,
-    includeSalesTax: action.profile.includeSalesTax,
+    taxPercent: action.profile!.salesTaxPercent,
+    includeSalesTax: action.profile!.includeSalesTax,
   );
 }
 
@@ -104,7 +104,7 @@ NewPricingProfilePageState _setProfileIcon(NewPricingProfilePageState previousSt
 }
 
 NewPricingProfilePageState _incrementPageViewIndex(NewPricingProfilePageState previousState, IncrementPageViewIndex action) {
-  int incrementedIndex = previousState.pageViewIndex;
+  int incrementedIndex = previousState.pageViewIndex!;
   incrementedIndex++;
   return previousState.copyWith(
       pageViewIndex: incrementedIndex
@@ -112,7 +112,7 @@ NewPricingProfilePageState _incrementPageViewIndex(NewPricingProfilePageState pr
 }
 
 NewPricingProfilePageState _decrementPageViewIndex(NewPricingProfilePageState previousState, DecrementPageViewIndex action) {
-  int decrementedIndex = previousState.pageViewIndex;
+  int decrementedIndex = previousState.pageViewIndex!;
   decrementedIndex--;
   return previousState.copyWith(
       pageViewIndex: decrementedIndex

@@ -66,8 +66,8 @@ class _CustomJobStageBottomSheetState extends State<CustomJobStageBottomSheet> w
                   ),
                   GestureDetector(
                     onTap: () async {
-                      if(pageState.newStageName != null && pageState.newStageName.length > 0) {
-                        pageState.saveNewStage();
+                      if(pageState.newStageName != null && pageState.newStageName!.length > 0) {
+                        pageState.saveNewStage!();
                       }
                       Navigator.of(context).pop();
                     },

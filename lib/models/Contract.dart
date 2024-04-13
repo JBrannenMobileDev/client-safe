@@ -1,16 +1,16 @@
 class Contract {
-  int id;
-  String documentId;
-  String contractName;
-  String photographerSignature;
-  String clientSignature;
-  String terms;//do not use. remove this field when you have a chance..   Might be never!
-  String jsonTerms;
-  bool signedByClient = false;
-  bool signedByPhotographer = false;
-  DateTime clientSignedDate;
-  DateTime photographerSignedDate;
-  DateTime firstSharedDate;
+  int? id;
+  String? documentId;
+  String? contractName;
+  String? photographerSignature;
+  String? clientSignature;
+  String? terms;//do not use. remove this field when you have a chance..   Might be never!
+  String? jsonTerms;
+  bool? signedByClient = false;
+  bool? signedByPhotographer = false;
+  DateTime? clientSignedDate;
+  DateTime? photographerSignedDate;
+  DateTime? firstSharedDate;
 
 
   Contract({

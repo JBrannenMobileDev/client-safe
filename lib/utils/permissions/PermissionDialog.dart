@@ -16,24 +16,24 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class PermissionDialog extends StatefulWidget {
-  PermissionDialog({@required this.permission, @required this.isPermanentlyDenied, this.customMessage, this.callOnGranted});
+  PermissionDialog({required this.permission, required this.isPermanentlyDenied, this.customMessage, this.callOnGranted});
 
   final Permission permission;
-  final bool isPermanentlyDenied;
-  final String customMessage;
-  final Function callOnGranted;
+  final bool? isPermanentlyDenied;
+  final String? customMessage;
+  final Function? callOnGranted;
 
   @override
   _PermissionDialogState createState() {
-    return _PermissionDialogState(permission, isPermanentlyDenied, customMessage, callOnGranted);
+    return _PermissionDialogState(permission, isPermanentlyDenied!, customMessage, callOnGranted);
   }
 }
 
 class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepAliveClientMixin {
   final Permission permission;
-  final bool isPermanentlyDenied;
-  final String customMessage;
-  final Function callOnGranted;
+  bool isPermanentlyDenied;
+  final String? customMessage;
+  final Function? callOnGranted;
 
   _PermissionDialogState(this.permission, this.isPermanentlyDenied, this.customMessage, this.callOnGranted);
 
@@ -61,19 +61,19 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
                             margin: EdgeInsets.only(top: 16, bottom: 16),
                             child: TextDandyLight(
                               type: TextDandyLight.LARGE_TEXT,
-                              text: getTitle(permission),
+                              text: getTitle(permission!),
                             )
                         ),
                         Container(
                           height: 64,
-                          child: Image.asset(getIconFileLocation(permission), color: Color(ColorConstants.getPrimaryBlack()),),
+                          child: Image.asset(getIconFileLocation(permission!), color: Color(ColorConstants.getPrimaryBlack()),),
                         ),
                         Container(
                             margin: EdgeInsets.only(left: 32, right: 32, top: 24, bottom: 32),
                             child: TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
                               textAlign: TextAlign.center,
-                              text: customMessage != null ? customMessage : isPermanentlyDenied ? getBlockedMessage(permission) :  getMessage(permission),
+                              text: customMessage != null ? customMessage : isPermanentlyDenied! ? getBlockedMessage(permission!) :  getMessage(permission!),
                             )
                         ),
                       ],
@@ -104,7 +104,7 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
                               ),
                             ),
                           ),
-                          isPermanentlyDenied ? TextButton(
+                          isPermanentlyDenied! ? TextButton(
                             style: Styles.getButtonStyle(),
                             onPressed: () {
                               openAppSettings();
@@ -128,8 +128,24 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
                           ) : TextButton(
                             style: Styles.getButtonStyle(),
                             onPressed: () async {
-                              PermissionStatus status = await UserPermissionsUtil.requestPermission(permission: permission, callOnGranted: callOnGranted);
-                              Navigator.pop(context, await status.isGranted);
+                              bool isGranted = false;
+                              if(permission == Permission.calendarFullAccess) {
+                                PermissionStatus status = await UserPermissionsUtil.requestPermission(permission: Permission.calendarWriteOnly, callOnGranted: null);
+                                if(status.isGranted) {
+                                  PermissionStatus fullAccessStatus = (await UserPermissionsUtil.requestPermission(permission: Permission.calendarFullAccess, callOnGranted: callOnGranted));
+                                  isGranted = fullAccessStatus.isGranted;
+                                  if(fullAccessStatus.isPermanentlyDenied) {
+                                    setState(() {
+                                      isPermanentlyDenied = true;
+                                    });
+                                  }
+                                }
+                              } else {
+                                isGranted = (await UserPermissionsUtil.requestPermission(permission: permission, callOnGranted: callOnGranted)).isGranted;
+                              }
+                              if(!isPermanentlyDenied) {
+                                Navigator.pop(context, isGranted);
+                              }
                             },
                             child: Container(
                               alignment: Alignment.center,
@@ -158,7 +174,7 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
   }
 
   String getTitle(Permission permission) {
-    if(permission == Permission.calendar) {
+    if(permission == Permission.calendarFullAccess) {
       return "Calendar Permission";
     }
     if(permission == Permission.notification) {
@@ -183,7 +199,7 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
   }
 
   String getIconFileLocation(Permission permission) {
-    if(permission == Permission.calendar) {
+    if(permission == Permission.calendarFullAccess) {
       return "assets/images/icons/calendar.png";
     }
     if(permission == Permission.notification) {
@@ -208,7 +224,7 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
   }
 
   String getMessage(Permission permission) {
-    if(permission == Permission.calendar) {
+    if(permission == Permission.calendarFullAccess) {
       return "Calendar permission is required to sync your DandyLight calendar with your personal calendars.";
     }
     if(permission == Permission.notification) {
@@ -233,7 +249,7 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
   }
 
   String getBlockedMessage(Permission permission) {
-    if(permission == Permission.calendar) {
+    if(permission == Permission.calendarFullAccess) {
       return "Calendar permission was previously denied. To enable this permission please go to your device settings.";
     }
     if(permission == Permission.notification) {

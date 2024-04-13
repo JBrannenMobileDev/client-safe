@@ -36,13 +36,13 @@ class ViewInvoiceLineItemWidget extends StatelessWidget {
             children: <Widget>[
               TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: lineItem.itemQuantity > 1 ? ('(' + lineItem.itemQuantity.toString() + ' x \$' + lineItem.itemPrice.toInt().toString() + ')   ') : '',
+                text: lineItem.itemQuantity! > 1 ? ('(' + lineItem.itemQuantity.toString() + ' x \$' + lineItem.itemPrice!.toInt().toString() + ')   ') : '',
                 textAlign: TextAlign.start,
                 color: Color(ColorConstants.getPrimaryBlack()),
               ),
               TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: '\$' + (lineItem.itemPrice.toInt() * lineItem.itemQuantity).toString(),
+                text: '\$' + (lineItem.itemPrice!.toInt() * lineItem.itemQuantity!).toString(),
                 textAlign: TextAlign.start,
                 color: Color(ColorConstants.getPrimaryBlack()),
               ),

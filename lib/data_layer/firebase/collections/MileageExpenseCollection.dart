@@ -54,7 +54,7 @@ class MileageExpenseCollection {
         .doc(documentId)
         .get()
         .then((expenseSnapshot) {
-          MileageExpense expense = MileageExpense.fromMap(expenseSnapshot.data());
+          MileageExpense expense = MileageExpense.fromMap(expenseSnapshot.data() as Map<String, dynamic>);
           expense.documentId = expenseSnapshot.id;
           return expense;
         });
@@ -93,7 +93,7 @@ class MileageExpenseCollection {
   List<MileageExpense> _buildMileageExpensesList(QuerySnapshot jobs) {
     List<MileageExpense> expensesList = [];
     for(DocumentSnapshot expenseSnapshot in jobs.docs){
-      MileageExpense expense = MileageExpense.fromMap(expenseSnapshot.data());
+      MileageExpense expense = MileageExpense.fromMap(expenseSnapshot.data() as Map<String, dynamic>);
       expense.documentId = expenseSnapshot.id;
       expensesList.add(expense);
     }

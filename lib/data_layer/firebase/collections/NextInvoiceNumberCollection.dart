@@ -42,7 +42,7 @@ class NextInvoiceNumberCollection {
         .set(NextInvoiceNumber(highestInvoiceNumber: startingValue).toMap());
   }
 
-  Future<NextInvoiceNumber> getNextInvoiceNumber(String uid) async {
+  Future<NextInvoiceNumber?> getNextInvoiceNumber(String uid) async {
     final databaseReference = FirebaseFirestore.instance;
     return await  databaseReference
         .collection('env')
@@ -52,6 +52,6 @@ class NextInvoiceNumberCollection {
         .collection('nextInvoiceNumber')
         .doc(singletonItemId)
         .get()
-        .then((nextInvoiceNUmber) => NextInvoiceNumber.fromMap(nextInvoiceNUmber.data()));
+        .then((nextInvoiceNUmber) => NextInvoiceNumber.fromMap(nextInvoiceNUmber.data() as Map<String, dynamic>));
   }
 }

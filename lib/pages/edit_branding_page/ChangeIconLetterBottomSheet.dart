@@ -41,7 +41,7 @@ class _ChangeIconLetterBottomSheetPageState extends State<ChangeIconLetterBottom
                    GestureDetector(
                      onTap: () {
                        if(controller.text.length == 1) {
-                         pageState.onLogoLetterChanged(controller.text);
+                         pageState.onLogoLetterChanged!(controller.text);
                          Navigator.of(context).pop();
                        }
                      },

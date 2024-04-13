@@ -26,7 +26,7 @@ class _NewRecurringExpenseName extends State<NewRecurringExpenseName> with Autom
     super.build(context);
     return StoreConnector<AppState, NewRecurringExpensePageState>(
       onInit: (store) {
-        profileNameTextController.text = store.state.newRecurringExpensePageState?.expenseName;
+        profileNameTextController.text = store.state.newRecurringExpensePageState!.expenseName!;
       },
       converter: (store) => NewRecurringExpensePageState.fromStore(store),
       builder: (BuildContext context, NewRecurringExpensePageState pageState) =>
@@ -48,9 +48,8 @@ class _NewRecurringExpenseName extends State<NewRecurringExpenseName> with Autom
                 controller: profileNameTextController,
                 hintText: "Recurring expense name",
                 inputType: TextInputType.text,
-                focusNode: null,
                 height: 66.0,
-                onTextInputChanged: pageState.onNameChanged,
+                onTextInputChanged: pageState.onNameChanged!,
                 keyboardAction: TextInputAction.done,
                 capitalization: TextCapitalization.words,
             ),

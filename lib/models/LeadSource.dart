@@ -15,9 +15,9 @@ class LeadSource{
   static const String TYPE_DANDYLIGHT_BLOG = "Dandylight Blog";
   static const String TYPE_PINTEREST = "Pinterest";
 
-  final DateTime date;
-  final String type;
-  final int chipIndex;
+  final DateTime? date;
+  final String? type;
+  final int? chipIndex;
 
   LeadSource({
     @required this.date,
@@ -27,7 +27,7 @@ class LeadSource{
 
   Map<String, dynamic> toMap() {
     return {
-      'date' : date.millisecondsSinceEpoch,
+      'date' : date!.millisecondsSinceEpoch,
       'type' : type,
       'chipIndex' : chipIndex
     };

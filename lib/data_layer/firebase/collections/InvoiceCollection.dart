@@ -53,10 +53,10 @@ class InvoiceCollection {
         .collection('invoices')
         .doc(documentId)
         .get()
-        .then((invoice) => Invoice.fromMap(invoice.data()));
+        .then((invoice) => Invoice.fromMap(invoice.data() as Map<String, dynamic>));
   }
 
-  Future<List<Invoice>> getAllInvoicesSortedByDate(String uid) async {
+  Future<List<Invoice>?> getAllInvoicesSortedByDate(String uid) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('env')
@@ -99,7 +99,7 @@ class InvoiceCollection {
   List<Invoice> _buildInvoicesList(QuerySnapshot invoices) {
     List<Invoice> invoiceList = [];
     for(DocumentSnapshot invoiceDocument in invoices.docs){
-      Invoice result = Invoice.fromMap(invoiceDocument.data());
+      Invoice result = Invoice.fromMap(invoiceDocument.data() as Map<String, dynamic>);
       result.documentId = invoiceDocument.id;
       invoiceList.add(result);
     }

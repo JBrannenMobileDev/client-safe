@@ -2,7 +2,6 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
-import 'package:dandylight/pages/IncomeAndExpenses/PdfViewerPage.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/VewInvoiceLineItemListWidget.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/ViewInvoiceBalanceDueWidget.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/ViewInvoiceDepositRowWidget.dart';
@@ -12,6 +11,7 @@ import 'package:dandylight/pages/new_invoice_page/GrayDividerWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
+import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/PdfUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
@@ -33,7 +33,7 @@ import 'ViewSalesTaxRowWidget.dart';
 class ViewInvoiceDialog extends StatefulWidget {
   final Invoice invoice;
   final Job job;
-  final Function onSendInvoiceSelected;
+  final Function? onSendInvoiceSelected;
 
   ViewInvoiceDialog(this.invoice, this.job, this.onSendInvoiceSelected);
 
@@ -46,7 +46,7 @@ class ViewInvoiceDialog extends StatefulWidget {
 class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKeepAliveClientMixin {
   final Invoice invoice;
   final Job job;
-  final Function onSendInvoiceSelected;
+  final Function? onSendInvoiceSelected;
 
   _ViewInvoiceDialogState(this.invoice, this.job, this.onSendInvoiceSelected);
 
@@ -67,7 +67,7 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteSelected(invoice);
+                pageState.onDeleteSelected!(invoice);
                 Navigator.of(context).pop(true);
                 Navigator.of(context).pop(true);
               },
@@ -86,7 +86,7 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteSelected(invoice);
+                pageState.onDeleteSelected!(invoice);
                 Navigator.of(context).pop(true);
                 Navigator.of(context).pop(true);
               },
@@ -180,9 +180,9 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                   VewInvoiceLineItemListWidget(invoice, true),
                                   GrayDividerWidget(),
                                   ViewInvoiceSubtotalRowWidget(invoice),
-                                  invoice.depositPaid ? ViewInvoiceDepositRowWidget(invoice, job) : SizedBox(),
-                                  invoice.discount > 0 ? ViewInvoiceDiscountRowWidget(invoice) : SizedBox(),
-                                  invoice.salesTaxRate > 0 ? ViewSalesTaxRowWidget(invoice) : SizedBox(),
+                                  invoice.depositPaid! ? ViewInvoiceDepositRowWidget(invoice, job) : SizedBox(),
+                                  invoice.discount! > 0 ? ViewInvoiceDiscountRowWidget(invoice) : SizedBox(),
+                                  invoice.salesTaxRate! > 0 ? ViewSalesTaxRowWidget(invoice) : SizedBox(),
                                   GrayDividerWidget(),
                                   ViewInvoiceBalanceDueWidget(invoice),
                                   invoice.dueDate != null ? Container(
@@ -198,7 +198,7 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                         ),
                                         TextDandyLight(
                                           type: TextDandyLight.MEDIUM_TEXT,
-                                          text: DateFormat('MMM dd, yyyy').format(invoice.dueDate),
+                                          text: DateFormat('MMM dd, yyyy').format(invoice.dueDate!),
                                           textAlign: TextAlign.start,
                                           color: Color(ColorConstants.getPrimaryBlack()),
                                         ),
@@ -214,8 +214,7 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                         children: <Widget>[
                                           GestureDetector(
                                             onTap: () async {
-                                              IntentLauncherUtil.launchBrandingPreviewURL(UidUtil().getUid(), job.documentId);
-                                              EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_FROM_VIEW_INVOICE_PAGE);
+                                              NavigationUtil.onShareWIthClientSelected(context, job);
                                             },
                                             child: Container(
                                               margin: EdgeInsets.only(top: 4.0, bottom: 4.0),

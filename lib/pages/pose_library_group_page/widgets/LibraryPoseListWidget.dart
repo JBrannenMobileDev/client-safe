@@ -22,8 +22,8 @@ import 'SaveToJobBottomSheet.dart';
 import 'SaveToMyPosesBottomSheet.dart';
 
 class LibraryPoseListWidget extends StatelessWidget {
-  final int index;
-  final Job job;
+  final int? index;
+  final Job? job;
 
   LibraryPoseListWidget(this.index, this.job);
 
@@ -62,10 +62,10 @@ class LibraryPoseListWidget extends StatelessWidget {
       builder: (BuildContext context, LibraryPoseGroupPageState pageState) =>
           Stack(
             children: [
-              pageState.sortedPoses.length > index ? DandyLightNetworkImage(
-                pageState.sortedPoses.elementAt(index).imageUrl
+              pageState.sortedPoses!.length > index! ? DandyLightNetworkImage(
+                pageState.sortedPoses!.elementAt(index!).imageUrl ?? ''
               ) : SizedBox(),
-              pageState.sortedPoses.length > index ? Container(
+              pageState.sortedPoses!.length > index! ? Container(
                 height: 150.0,
                 decoration: BoxDecoration(
                     color: Color(ColorConstants.getPrimaryWhite()),
@@ -82,7 +82,7 @@ class LibraryPoseListWidget extends StatelessWidget {
                           1.0
                         ])),
               ) : SizedBox(),
-              pageState.sortedPoses.length > index ? pageState.sortedPoses.elementAt(index).isNewPose() ? Container(
+              pageState.sortedPoses!.length > index! ? pageState.sortedPoses!.elementAt(index!).isNewPose() ? Container(
                 alignment: Alignment.bottomRight,
                 child: CornerBanner(
                   bannerPosition: CornerBannerPosition.bottomRight,
@@ -97,7 +97,7 @@ class LibraryPoseListWidget extends StatelessWidget {
                   ),
                 ),
               ) : SizedBox() : SizedBox(),
-              pageState.sortedPoses.length > index ? job == null ? GestureDetector(
+              pageState.sortedPoses!.length > index! ? job == null ? GestureDetector(
                 onTap: () {
                   _showSaveToJobBottomSheet(context, index);
                 },
@@ -116,7 +116,7 @@ class LibraryPoseListWidget extends StatelessWidget {
                     ),
                   ),
               ) : SizedBox() : SizedBox(),
-              pageState.sortedPoses.length > index ?  job == null ? GestureDetector(
+              pageState.sortedPoses!.length > index! ?  job == null ? GestureDetector(
                 onTap: () {
                   _showSaveToMyPosesBottomSheet(context, index);
                 },

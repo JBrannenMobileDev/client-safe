@@ -11,7 +11,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class RecurringExpenseDetailsPage extends StatefulWidget {
-  final RecurringExpense selectedExpense;
+  final RecurringExpense? selectedExpense;
   RecurringExpenseDetailsPage(this.selectedExpense);
 
   @override
@@ -23,7 +23,7 @@ class RecurringExpenseDetailsPage extends StatefulWidget {
 class _RecurringExpenseDetailsPageState extends State<RecurringExpenseDetailsPage> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   ScrollController _controller = ScrollController();
-  final RecurringExpense selectedExpense;
+  final RecurringExpense? selectedExpense;
   
   _RecurringExpenseDetailsPageState(this.selectedExpense);
   
@@ -40,19 +40,18 @@ class _RecurringExpenseDetailsPageState extends State<RecurringExpenseDetailsPag
                     slivers: <Widget>[
                       SliverAppBar(
                         iconTheme: IconThemeData(color: Color(ColorConstants.getPrimaryBlack())),
-                        brightness: Brightness.light,
                         backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                         pinned: true,
                         centerTitle: true,
                         title: TextDandyLight(
                           type: TextDandyLight.LARGE_TEXT,
-                          text: selectedExpense.expenseName + ' Charges',
+                          text: selectedExpense!.expenseName! + ' Charges',
                           color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                         actions: <Widget>[
                           GestureDetector(
                             onTap: () {
-                              pageState.onEditRecurringExpenseItemSelected(selectedExpense);
+                              pageState.onEditRecurringExpenseItemSelected!(selectedExpense!);
                               UserOptionsUtil.showNewRecurringExpenseDialog(context);
                             },
                             child: Container(
@@ -74,7 +73,7 @@ class _RecurringExpenseDetailsPageState extends State<RecurringExpenseDetailsPag
                               controller: _controller,
                               physics: ClampingScrollPhysics(),
                               key: _listKey,
-                              itemCount: selectedExpense.charges.length,
+                              itemCount: selectedExpense!.charges!.length,
                               itemBuilder: _buildItem,
                             ),
                           ],
@@ -87,14 +86,14 @@ class _RecurringExpenseDetailsPageState extends State<RecurringExpenseDetailsPag
                     child: SafeArea(
                       child: GestureDetector(
                         onTap: () {
-                          selectedExpense.cancelDate == null ? pageState.onCancelRecurringSubscriptionSelected(selectedExpense) : pageState.onResumeRecurringSubscriptionSelected(selectedExpense);
+                          selectedExpense!.cancelDate == null ? pageState.onCancelRecurringSubscriptionSelected!(selectedExpense!) : pageState.onResumeRecurringSubscriptionSelected!(selectedExpense!);
                         },
                         child: Container(
                           padding: EdgeInsets.all(12.0),
                           height: 64.0,
                           width: 272.0,
                           decoration: BoxDecoration(
-                              color: Color(selectedExpense.cancelDate != null ? ColorConstants.getBlueDark() : ColorConstants.getPeachDark()),
+                              color: Color(selectedExpense!.cancelDate != null ? ColorConstants.getBlueDark() : ColorConstants.getPeachDark()),
                               borderRadius: BorderRadius.circular(36.0)
                           ),
                           child: Row(
@@ -103,7 +102,7 @@ class _RecurringExpenseDetailsPageState extends State<RecurringExpenseDetailsPag
                             children: <Widget>[
                               TextDandyLight(
                                 type: TextDandyLight.MEDIUM_TEXT,
-                                text: selectedExpense.cancelDate == null ? 'Stop Recurring Expense' : 'Resume Recurring Expense',
+                                text: selectedExpense!.cancelDate == null ? 'Stop Recurring Expense' : 'Resume Recurring Expense',
                                 textAlign: TextAlign.center,
                                 color: Color(ColorConstants.getPrimaryWhite()),
                               )
@@ -123,7 +122,7 @@ class _RecurringExpenseDetailsPageState extends State<RecurringExpenseDetailsPag
     return StoreConnector<AppState, IncomeAndExpensesPageState>(
       converter: (store) => IncomeAndExpensesPageState.fromStore(store),
       builder: (BuildContext context, IncomeAndExpensesPageState pageState) =>
-          RecurringExpenseChargeItem(pageState: pageState, charge: selectedExpense.charges.reversed.toList().elementAt(index), selectedExpense: selectedExpense),
+          RecurringExpenseChargeItem(pageState: pageState, charge: selectedExpense!.charges!.reversed.toList().elementAt(index), selectedExpense: selectedExpense),
     );
   }
 }

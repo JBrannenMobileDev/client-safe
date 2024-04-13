@@ -34,14 +34,14 @@ class SembastDb {
   static SembastDb get instance => _singleton;
 
   // Completer is used for transforming synchronous code into asynchronous code.
-  Completer<Database> _dbOpenCompleter;
+  late Completer<Database>? _dbOpenCompleter = null;
 
   // A private constructor. Allows us to create instances of AppDatabase
   // only from within the AppDatabase class itself.
   SembastDb._();
 
   // Sembast database object
-  Database _database;
+  late Database _database;
 
   // Database object accessor
   Future<Database> get database async {
@@ -54,7 +54,7 @@ class SembastDb {
     // If the database is already opened, awaiting the future will happen instantly.
     // Otherwise, awaiting the returned future will take some time - until complete() is called
     // on the Completer in _openDatabase() below.
-    return _dbOpenCompleter.future;
+    return _dbOpenCompleter!.future;
   }
 
   Future _openDatabase() async {
@@ -65,30 +65,30 @@ class SembastDb {
 
     _database = await databaseFactoryIo.openDatabase(dbPath);
     // Any code awaiting the Completer's future will now start executing
-    _dbOpenCompleter.complete(_database);
+    _dbOpenCompleter!.complete(_database);
   }
 
   Future deleteAllLocalData() async {
-    await QuestionnairesDao.deleteAllLocal();
-    await ClientDao.deleteAllLocal();
-    await InvoiceDao.deleteAllLocal();
-    await JobDao.deleteAllLocal();
-    await LocationDao.deleteAllLocal();
-    await MileageExpenseDao.deleteAllLocal();
-    await PriceProfileDao.deleteAllLocal();
-    await RecurringExpenseDao.deleteAllLocal();
-    await SingleExpenseDao.deleteAllLocal();
-    await NextInvoiceNumberDao.deleteAllLocal();
-    await ReminderDao.deleteAllLocal();
-    await JobTypeDao.deleteAllLocal();
-    await JobReminderDao.deleteAllLocal();
-    await ContractDao.deleteAllLocal();
-    await PoseDao.deleteAllLocal();
-    await PoseGroupDao.deleteAllLocal();
-    await ResponseDao.deleteAllLocal();
-    await PoseLibraryGroupDao.deleteAllLocal();
+    QuestionnairesDao.deleteAllLocal();
+    ClientDao.deleteAllLocal();
+    InvoiceDao.deleteAllLocal();
+    JobDao.deleteAllLocal();
+    LocationDao.deleteAllLocal();
+    MileageExpenseDao.deleteAllLocal();
+    PriceProfileDao.deleteAllLocal();
+    RecurringExpenseDao.deleteAllLocal();
+    SingleExpenseDao.deleteAllLocal();
+    NextInvoiceNumberDao.deleteAllLocal();
+    ReminderDao.deleteAllLocal();
+    JobTypeDao.deleteAllLocal();
+    JobReminderDao.deleteAllLocal();
+    ContractDao.deleteAllLocal();
+    PoseDao.deleteAllLocal();
+    PoseGroupDao.deleteAllLocal();
+    ResponseDao.deleteAllLocal();
+    PoseLibraryGroupDao.deleteAllLocal();
 
     //Last step always
-    await ProfileDao.deleteAllProfilesLocal();
+    ProfileDao.deleteAllProfilesLocal();
   }
 }

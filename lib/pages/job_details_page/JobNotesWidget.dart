@@ -10,7 +10,7 @@ import '../new_contact_pages/NewContactPageState.dart';
 import 'JobDetailsPageState.dart';
 
 class JobNotesWidget extends StatefulWidget {
-  const JobNotesWidget({Key key}) : super(key: key);
+  const JobNotesWidget({Key? key}) : super(key: key);
 
 
   @override
@@ -27,7 +27,7 @@ class _NotesWidgetPage extends State<JobNotesWidget> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, JobDetailsPageState>(
       onInit: (store) {
-        notesController.value = notesController.value.copyWith(text:store.state.jobDetailsPageState.job.notes);
+        notesController.value = notesController.value.copyWith(text:store.state.jobDetailsPageState!.job!.notes);
       },
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) =>
@@ -58,7 +58,7 @@ class _NotesWidgetPage extends State<JobNotesWidget> {
                     "",
                     TextInputType.text,
                     110.0,
-                    pageState.onNotesTextChanged,
+                    pageState.onNotesTextChanged!,
                     NewContactPageState.NO_ERROR,
                     TextInputAction.done,
                     _notesFocusNode,

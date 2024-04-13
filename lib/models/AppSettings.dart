@@ -1,10 +1,10 @@
 class AppSettings {
-  int id;
-  String documentId;
-  String currentBuildVersionNumber;
-  String updateTitle;
-  String updateMessage;
-  bool show;
+  int? id;
+  String? documentId;
+  String? currentBuildVersionNumber;
+  String? updateTitle;
+  String? updateMessage;
+  bool? show;
 
   AppSettings({
     this.id,

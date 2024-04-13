@@ -30,7 +30,7 @@ class _LocationSelectionFormState
       builder: (BuildContext context, NewJobPageState pageState) => Container(
         alignment: Alignment.topCenter,
         margin: EdgeInsets.only(left: 16.0, right: 16.0),
-        child: pageState.locations.length > 0
+        child: pageState.locations!.length > 0
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
@@ -47,7 +47,7 @@ class _LocationSelectionFormState
                     padding: EdgeInsets.only(bottom: 0.0),
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      text: pageState.selectedLocation != null ? pageState.selectedLocation.locationName : pageState.oneTimeLocation != null ? pageState.oneTimeLocation.locationName : "",
+                      text: pageState.selectedLocation != null ? pageState.selectedLocation!.locationName : pageState.oneTimeLocation != null ? pageState.oneTimeLocation!.locationName : "",
                       textAlign: TextAlign.start,
                       color: Color(ColorConstants.getBlueDark()),
                     ),
@@ -64,7 +64,7 @@ class _LocationSelectionFormState
                                 childAspectRatio: 2 / 2.75,
                                 crossAxisSpacing: 16,
                                 mainAxisSpacing: 16),
-                            itemCount: pageState.locations.length,
+                            itemCount: pageState.locations!.length,
                             controller: _controller,
                             physics: ClampingScrollPhysics(),
                             key: _listKey,

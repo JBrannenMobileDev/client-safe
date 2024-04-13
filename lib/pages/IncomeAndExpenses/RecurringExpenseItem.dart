@@ -9,8 +9,8 @@ import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class RecurringExpenseItem extends StatelessWidget{
-  final RecurringExpense recurringExpense;
-  final IncomeAndExpensesPageState pageState;
+  final RecurringExpense? recurringExpense;
+  final IncomeAndExpensesPageState? pageState;
   RecurringExpenseItem({this.recurringExpense, this.pageState});
 
   @override
@@ -20,7 +20,7 @@ class RecurringExpenseItem extends StatelessWidget{
       child: TextButton(
         style: Styles.getButtonStyle(),
         onPressed: () async {
-          NavigationUtil.onRecurringChargeSelected(context, recurringExpense);
+          NavigationUtil.onRecurringChargeSelected(context, recurringExpense!);
         },
         child: Padding(
           padding: EdgeInsets.fromLTRB(8.0, 12.0, 0.0, 12.0),
@@ -34,7 +34,7 @@ class RecurringExpenseItem extends StatelessWidget{
                     margin: EdgeInsets.only(right: 18.0, top: 0.0),
                     height: 42.0,
                     width: 42.0,
-                    child: Image.asset(recurringExpense.cancelDate == null ? 'assets/images/icons/income_received.png' : 'assets/images/icons/cancel.png', color: Color(ColorConstants.getPeachDark()),),
+                    child: Image.asset(recurringExpense!.cancelDate == null ? 'assets/images/icons/income_received.png' : 'assets/images/icons/cancel.png', color: Color(ColorConstants.getPeachDark()),),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,9 +47,9 @@ class RecurringExpenseItem extends StatelessWidget{
                           children: <Widget>[
                             TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
-                              text: (recurringExpense.expenseName != null ? recurringExpense.expenseName : 'Item name') + (recurringExpense.cancelDate != null ? ' • Canceled' : ''),
+                              text: (recurringExpense!.expenseName != null ? recurringExpense!.expenseName : 'Item name')! + (recurringExpense!.cancelDate != null ? ' • Canceled' : ''),
                               textAlign: TextAlign.start,
-                              color: Color(recurringExpense.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
+                              color: Color(recurringExpense!.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
                             ),
                           ],
                         ),
@@ -61,20 +61,20 @@ class RecurringExpenseItem extends StatelessWidget{
                           children: [
                             TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
-                              amount: recurringExpense.cost,
-                              color: Color(recurringExpense.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
+                              amount: recurringExpense!.cost,
+                              color: Color(recurringExpense!.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
                               isCurrency: true
                             ),
                             TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
-                              text: ' x ' + recurringExpense.getCountOfChargesForYear(pageState.selectedYear).toString() + '  =  ',
+                              text: ' x ' + recurringExpense!.getCountOfChargesForYear(pageState!.selectedYear!).toString() + '  =  ',
                               textAlign: TextAlign.start,
-                              color: Color(recurringExpense.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
+                              color: Color(recurringExpense!.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
                             ),
                             TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
-                              amount: recurringExpense.getTotalOfChargesForYear(pageState.selectedYear),
-                              color: Color(recurringExpense.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
+                              amount: recurringExpense!.getTotalOfChargesForYear!(pageState!.selectedYear!),
+                              color: Color(recurringExpense!.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
                               isCurrency: true
                             ),
                           ],

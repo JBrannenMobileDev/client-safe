@@ -40,7 +40,7 @@ IncomeAndExpenseSettingsPageState _buildMileageReport(IncomeAndExpenseSettingsPa
             header: header,
             rows: buildMileageRows(
               startYear,
-              action.mileageExpenses,
+              action.mileageExpenses!,
             ),
             year: startYear,
             type: Report.TYPE_MILEAGE,
@@ -57,13 +57,13 @@ buildMileageRows(
     int year,
     List<MileageExpense> mileageExpenses,
 ) {
-  List<MileageExpense> expensesForYear = mileageExpenses.where((expense) => expense.charge.chargeDate.year == year).toList();
+  List<MileageExpense> expensesForYear = mileageExpenses.where((expense) => expense.charge!.chargeDate!.year == year).toList();
   List<List<String>> rows = [];
 
   for (var expense in expensesForYear) {
     rows.add([
-      DateFormat('MM-dd-yyyy').format(expense.charge.chargeDate),
-      TextFormatterUtil.formatLargeNumber(expense.totalMiles),
+      DateFormat('MM-dd-yyyy').format(expense.charge!.chargeDate!),
+      TextFormatterUtil.formatLargeNumber(expense.totalMiles!),
     ]);
   }
 
@@ -85,8 +85,8 @@ buildMileageRows(
 }
 
 IncomeAndExpenseSettingsPageState _buildIncomeExpenseReport(IncomeAndExpenseSettingsPageState previousState, BuildIncomeExpenseReportAction action){
-  List<Job> jobsWithPaymentReceived = action.allJobs.where((job) => job.isPaymentReceived() == true).toList();
-  List<Job> jobsWithOnlyDepositReceived = action.allJobs.where((job) => job.isPaymentReceived() == false && job.isDepositPaid() == true).toList();
+  List<Job> jobsWithPaymentReceived = action.allJobs!.where((job) => job.isPaymentReceived() == true).toList();
+  List<Job> jobsWithOnlyDepositReceived = action.allJobs!.where((job) => job.isPaymentReceived() == false && job.isDepositPaid() == true).toList();
 
   int startYear = 2023;
   int endYear = DateTime.now().year;
@@ -101,8 +101,8 @@ IncomeAndExpenseSettingsPageState _buildIncomeExpenseReport(IncomeAndExpenseSett
             startYear,
             jobsWithPaymentReceived,
             jobsWithOnlyDepositReceived,
-            action.singleExpenses,
-            action.recurringExpenses,
+            action.singleExpenses!,
+            action.recurringExpenses!,
           ),
           year: startYear,
           type: Report.TYPE_INCOME_EXPENSE,
@@ -122,20 +122,20 @@ buildIncomeAndExpenseRows(
     List<SingleExpense> singleExpenses,
     List<RecurringExpense> recurringExpenses,
 ) {
-  List<Job> paymentReceived = jobsWithPaymentReceived.where((job) => job.paymentReceivedDate.year == year).toList();
-  List<Job> onlyDepositReceived = jobsWithOnlyDepositReceived.where((job) => job.paymentReceivedDate.year == year).toList();
-  List<SingleExpense> singleForYear = singleExpenses.where((expense) => expense.charge.chargeDate.year == year).toList();
+  List<Job> paymentReceived = jobsWithPaymentReceived.where((job) => job.paymentReceivedDate!.year == year).toList();
+  List<Job> onlyDepositReceived = jobsWithOnlyDepositReceived.where((job) => (job.depositReceivedDate?.year ?? job.paymentReceivedDate?.year) == year).toList();
+  List<SingleExpense> singleForYear = singleExpenses.where((expense) => expense.charge!.chargeDate!.year == year).toList();
   List<List<String>> rows = [];
 
   //Add recurring charges for year
   for (var expense in recurringExpenses) {
-    for (var charge in expense.charges) {
-      if(charge.chargeDate.year == year) {
+    for (var charge in expense.charges!) {
+      if(charge.chargeDate!.year == year) {
         rows.add([
-          DateFormat('MM-dd-yyyy').format(charge.chargeDate),
-          expense.expenseName,
+          DateFormat('MM-dd-yyyy').format(charge.chargeDate!),
+          expense.expenseName!,
           ' ',
-          TextFormatterUtil.formatSimpleCurrencyNoNumberSign(charge.chargeAmount)
+          TextFormatterUtil.formatSimpleCurrencyNoNumberSign(charge.chargeAmount!)
         ]);
       }
     }
@@ -144,30 +144,30 @@ buildIncomeAndExpenseRows(
   //Add single charges for year
   for (var singleExpense in singleForYear) {
     rows.add([
-      DateFormat('MM-dd-yyyy').format(singleExpense.charge.chargeDate),
-      singleExpense.expenseName,
+      DateFormat('MM-dd-yyyy').format(singleExpense.charge!.chargeDate!),
+      singleExpense.expenseName!,
       ' ',
-      TextFormatterUtil.formatSimpleCurrencyNoNumberSign(singleExpense.charge.chargeAmount)
+      TextFormatterUtil.formatSimpleCurrencyNoNumberSign(singleExpense.charge!.chargeAmount!)
     ]);
   }
 
   for (var job in paymentReceived) {
-    double tipAmount = job.tipAmount != null && job.tipAmount > 0 ? job.tipAmount : 0;
+    double? tipAmount = (job.tipAmount != null && job.tipAmount! > 0 ? job.tipAmount : 0)?.toDouble();
     List<String> row = [
-      DateFormat('MM-dd-yyyy').format(job.paymentReceivedDate),
-      job.jobTitle,
-      job.invoice != null ? TextFormatterUtil.formatSimpleCurrencyNoNumberSign(job.invoice.total + tipAmount) : TextFormatterUtil.formatSimpleCurrencyNoNumberSign(job.priceProfile.flatRate + tipAmount),
+      DateFormat('MM-dd-yyyy').format(job.paymentReceivedDate!),
+      job.jobTitle!,
+      job.invoice != null ? TextFormatterUtil.formatSimpleCurrencyNoNumberSign(job.invoice!.total! + tipAmount!) : TextFormatterUtil.formatSimpleCurrencyNoNumberSign(job.priceProfile!.flatRate! + tipAmount!),
       ' ',
     ];
     rows.add(row);
   }
 
   for (var job in onlyDepositReceived) {
-    double tipAmount = job.tipAmount != null && job.tipAmount > 0 ? job.tipAmount : 0;
+    double? tipAmount = (job.tipAmount != null && job.tipAmount! > 0 ? job.tipAmount : 0) as double?;
     List<String> row = [
-      DateFormat('MM-dd-yyyy').format(job.depositReceivedDate),
+      DateFormat('MM-dd-yyyy').format(job.depositReceivedDate!),
       '${job.jobTitle} - deposit only',
-      job.depositAmount != null ? TextFormatterUtil.formatSimpleCurrencyNoNumberSign(job.depositAmount + tipAmount) : '0',
+      job.depositAmount != null ? TextFormatterUtil.formatSimpleCurrencyNoNumberSign(job.depositAmount! + tipAmount!) : '0',
       ' ',
     ];
     rows.add(row);
@@ -235,7 +235,7 @@ IncomeAndExpenseSettingsPageState _setApplePayPhoneText(IncomeAndExpenseSettings
 IncomeAndExpenseSettingsPageState _saveZelleState(IncomeAndExpenseSettingsPageState previousState, SaveZelleStateAction action){
   EventSender().sendEvent(eventName: EventNames.PAYMENT_LINK_ADDED, properties: {
     EventNames.LINK_ADDED_PARAM_NAME : "Zelle",
-    EventNames.LINK_ADDED_PARAM_ENABLED : action.enabled,
+    EventNames.LINK_ADDED_PARAM_ENABLED : action.enabled!,
   });
   return previousState.copyWith(
     zelleEnabled: action.enabled,
@@ -245,7 +245,7 @@ IncomeAndExpenseSettingsPageState _saveZelleState(IncomeAndExpenseSettingsPageSt
 IncomeAndExpenseSettingsPageState _saveVenmoState(IncomeAndExpenseSettingsPageState previousState, SaveVenmoStateAction action){
   EventSender().sendEvent(eventName: EventNames.PAYMENT_LINK_ADDED, properties: {
     EventNames.LINK_ADDED_PARAM_NAME : "Venmo",
-    EventNames.LINK_ADDED_PARAM_ENABLED : action.enabled,
+    EventNames.LINK_ADDED_PARAM_ENABLED : action.enabled!,
   });
   return previousState.copyWith(
     venmoEnabled: action.enabled,
@@ -265,7 +265,7 @@ IncomeAndExpenseSettingsPageState _saveCashAppState(IncomeAndExpenseSettingsPage
 IncomeAndExpenseSettingsPageState _saveApplePayState(IncomeAndExpenseSettingsPageState previousState, SaveApplePayStateAction action){
   EventSender().sendEvent(eventName: EventNames.PAYMENT_LINK_ADDED, properties: {
     EventNames.LINK_ADDED_PARAM_NAME : "Apple Pay",
-    EventNames.LINK_ADDED_PARAM_ENABLED : action.enabled,
+    EventNames.LINK_ADDED_PARAM_ENABLED : action.enabled!,
   });
   return previousState.copyWith(
     applePayEnabled: action.enabled,

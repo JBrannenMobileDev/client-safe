@@ -22,7 +22,7 @@ class ClientListWidget extends StatelessWidget {
     return StoreConnector<AppState, ClientsPageState>(
       converter: (store) => ClientsPageState.fromStore(store),
       builder: (BuildContext context, ClientsPageState pageState) =>
-          new TextButton(
+          TextButton(
             style: Styles.getButtonStyle(),
         onPressed: () {
           _onClientTapped(
@@ -31,7 +31,7 @@ class ClientListWidget extends StatelessWidget {
         child: Row(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(left: 8.0, right: 16.0, top: 4.0),
+              margin: const EdgeInsets.only(left: 8.0, right: 16.0, top: 4.0),
               height: 44.0,
               width: 44.0,
               child: Image.asset('assets/images/icons/profile_icon.png', color: Color(ColorConstants.getPeachDark()),),
@@ -70,30 +70,27 @@ class ClientListWidget extends StatelessWidget {
 
   Client getClient(int index, ClientsPageState pageState) {
     return pageState.filterType == ClientsPage.FILTER_TYPE_ALL
-        ? pageState.all.elementAt(index)
+        ? pageState.all!.elementAt(index)
         : pageState.filterType == ClientsPage.FILTER_TYPE_CLIENTS
-            ? pageState.clients.elementAt(index)
-            : pageState.leads.elementAt(index);
+            ? pageState.clients!.elementAt(index)
+            : pageState.leads!.elementAt(index);
   }
 
   String _buildSubtitleText(ClientsPageState pageState, int clientIndex) {
     Client client = getClient(clientIndex, pageState);
     String textToDisplay = "";
-    String resultLeadSource = client.leadSource;
+    String resultLeadSource = client.leadSource!;
     if(Client.isOldSource(resultLeadSource)) {
       resultLeadSource = Client.mapOldLeadSourceToNew(resultLeadSource);
     }
-    if (client.jobs?.length ?? 0 > 0) {
-    } else {
-      textToDisplay = "Lead source:  " + (client.customLeadSourceName != null && client.customLeadSourceName.isNotEmpty ? client.customLeadSourceName : resultLeadSource);
-    }
+    textToDisplay = "Lead source:  " + (client.customLeadSourceName != null && client.customLeadSourceName!.isNotEmpty ? client.customLeadSourceName! : resultLeadSource);
     return textToDisplay;
   }
 
   _onClientTapped(Client selectedClient, ClientsPageState pageState, BuildContext context) {
-    pageState.onClientClicked(selectedClient);
+    pageState.onClientClicked!(selectedClient);
     Navigator.of(context).push(
-      new MaterialPageRoute(builder: (context) => ClientDetailsPage()),
+      MaterialPageRoute(builder: (context) => ClientDetailsPage()),
     );
   }
 }

@@ -8,8 +8,8 @@ import '../../utils/ColorConstants.dart';
 import 'CsvPdfBottomSheet.dart';
 
 class ReportItem extends StatelessWidget{
-  final Report report;
-  const ReportItem({Key key, this.report}) : super(key: key);
+  final Report? report;
+  const ReportItem({Key? key, this.report}) : super(key: key);
 
   void _showAppUpdateBottomSheet(BuildContext context, Report report) {
     showModalBottomSheet(
@@ -30,7 +30,7 @@ class ReportItem extends StatelessWidget{
     return TextButton(
       style: Styles.getButtonStyle(),
       onPressed: () {
-        _showAppUpdateBottomSheet(context, report);
+        _showAppUpdateBottomSheet(context, report!);
       },
       child: Container(
         height: 54,
@@ -39,7 +39,7 @@ class ReportItem extends StatelessWidget{
           borderRadius: BorderRadius.circular(32),
           color: Color(ColorConstants.getPeachDark())
         ),
-        padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
+        margin: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -51,7 +51,7 @@ class ReportItem extends StatelessWidget{
             const SizedBox(width: 32),
             TextDandyLight(
               type: TextDandyLight.LARGE_TEXT,
-              text: report.year.toString(),
+              text: report!.year!.toString(),
               color: Color(ColorConstants.getPrimaryWhite()),
             )
           ],

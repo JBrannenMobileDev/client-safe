@@ -8,29 +8,31 @@ class Invoice {
   static const String DISCOUNT_TYPE_FIXED_AMOUNT = "Fixed amount";
   static const String DISCOUNT_TYPE_PERCENTAGE = "Percentage";
 
-  int id;
-  String documentId;
-  String clientDocumentId;
-  int invoiceId;
-  String jobDocumentId;
-  String clientName;
-  String jobName;
-  DateTime createdDate;
-  DateTime sentDate;
-  DateTime dueDate;
-  DateTime depositDueDate;
-  bool depositPaid;
-  bool invoicePaid;
-  PriceProfile priceProfile;
-  double discount;
-  double subtotal;
-  double total;
-  double unpaidAmount;
-  double balancePaidAmount;
-  double depositAmount;
-  double salesTaxAmount;
-  double salesTaxRate;
-  List<LineItem> lineItems;
+  int? id;
+  String? documentId;
+  String? clientDocumentId;
+  int? invoiceId;
+  String? jobDocumentId;
+  String? clientName;
+  String? jobName;
+  DateTime? createdDate;
+  DateTime? sentDate;
+  DateTime? dueDate;
+  DateTime? depositDueDate;
+  DateTime? depositPaidDate;
+  DateTime? invoicePaidDate;
+  bool? depositPaid;
+  bool? invoicePaid;
+  PriceProfile? priceProfile;
+  double? discount;
+  double? subtotal;
+  double? total;
+  double? unpaidAmount;
+  double? balancePaidAmount;
+  double? depositAmount;
+  double? salesTaxAmount;
+  double? salesTaxRate;
+  List<LineItem>? lineItems;
 
   Invoice({
     this.id,
@@ -56,6 +58,8 @@ class Invoice {
     this.depositDueDate,
     this.subtotal,
     this.balancePaidAmount,
+    this.depositPaidDate,
+    this.invoicePaidDate,
   });
 
   Map<String, dynamic> toMap() {
@@ -71,7 +75,7 @@ class Invoice {
       'dueDate' : dueDate?.millisecondsSinceEpoch ?? null,
       'depositPaid': depositPaid,
       'invoicePaid': invoicePaid,
-      'priceProfile': priceProfile.toMap(),
+      'priceProfile': priceProfile!.toMap(),
       'discount': discount,
       'total': total,
       'subtotal' : subtotal,
@@ -82,6 +86,8 @@ class Invoice {
       'salesTaxAmount' : salesTaxAmount,
       'salesTaxRate' : salesTaxRate,
       'depositDueDate' : depositDueDate?.millisecondsSinceEpoch ?? null,
+      'depositPaidDate' : depositPaidDate?.millisecondsSinceEpoch ?? null,
+      'invoicePaidDate' : invoicePaidDate?.millisecondsSinceEpoch ?? null,
     };
   }
 
@@ -97,6 +103,8 @@ class Invoice {
       createdDate: map['createdDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['createdDate']) : null,
       sentDate: map['sentDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['sentDate']) : null,
       dueDate: map['dueDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['dueDate']) : map['createdDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['createdDate']) : null,
+      depositPaidDate: map['depositPaidDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['depositPaidDate']) : null,
+      invoicePaidDate: map['invoicePaidDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['invoicePaidDate']) : null,
       depositPaid: map['depositPaid'],
       invoicePaid: map['invoicePaid'],
       priceProfile: PriceProfile.fromMap(map['priceProfile']),
@@ -112,35 +120,35 @@ class Invoice {
     );
   }
 
-  List<Map<String, dynamic>> convertLineItemsToMaps(List<LineItem> lineItems){
+  List<Map<String, dynamic>> convertLineItemsToMaps(List<LineItem>? lineItems){
     List<Map<String, dynamic>> listOfMaps = [];
-    for(LineItem lineItem in lineItems){
+    for(LineItem lineItem in lineItems!){
       listOfMaps.add(lineItem.toMap());
     }
     return listOfMaps;
   }
 
   static List<LineItem> convertMapsToLineItems(List listOfMaps){
-    List<LineItem> listOfLineItems = List();
+    List<LineItem> listOfLineItems = [];
     for(Map map in listOfMaps){
-      listOfLineItems.add(LineItem.fromMap(map));
+      listOfLineItems.add(LineItem.fromMap(map as Map<String, dynamic>));
     }
     return listOfLineItems;
   }
 
   bool isOverdue() {
     DateTime now = DateTime.now();
-    if(dueDate != null && now.isAfter(dueDate) && invoicePaid) return true;
+    if(dueDate != null && now.isAfter(dueDate!) && invoicePaid!) return true;
     return false;
   }
 
   double calculateUnpaidAmount() {
-    if(!invoicePaid) {
-      double result = subtotal - discount;
-      double tax = result * (salesTaxRate/100);
+    if(!invoicePaid!) {
+      double result = subtotal! - discount!;
+      double tax = result * (salesTaxRate!/100);
       result = result + tax;
-      if(depositPaid) {
-        result = result - depositAmount;
+      if(depositPaid!) {
+        result = result - depositAmount!;
       }
       return result;
     }

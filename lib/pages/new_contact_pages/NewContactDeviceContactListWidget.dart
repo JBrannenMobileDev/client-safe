@@ -24,10 +24,10 @@ class NewContactDeviceContactListWidget extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: new BorderRadius.circular(18.0),
           ),
-          color: pageState.filteredDeviceContacts.elementAt(clientIndex).identifier == pageState.selectedDeviceContact?.identifier ? Color(ColorConstants.getPrimaryColor()) : Colors.transparent,
+          color: pageState.filteredDeviceContacts!.elementAt(clientIndex).identifier == pageState.selectedDeviceContact?.identifier ? Color(ColorConstants.getPrimaryColor()) : Colors.transparent,
         ),
         onPressed: () {
-          pageState.onDeviceContactSelected(pageState.filteredDeviceContacts.elementAt(clientIndex));
+          pageState.onDeviceContactSelected!(pageState.filteredDeviceContacts!.elementAt(clientIndex));
         },
         child: Row(
           children: <Widget>[
@@ -47,9 +47,9 @@ class NewContactDeviceContactListWidget extends StatelessWidget {
                     children: <Widget>[
                       TextDandyLight(
                         type: TextDandyLight.EXTRA_SMALL_TEXT,
-                        text: pageState.filteredDeviceContacts.elementAt(clientIndex).displayName?? 'Name not available',
+                        text: pageState.filteredDeviceContacts!.elementAt(clientIndex).displayName?? 'Name not available',
                         textAlign: TextAlign.start,
-                        color: pageState.filteredDeviceContacts.elementAt(clientIndex).identifier == pageState.selectedDeviceContact?.identifier ? Color(ColorConstants.getPrimaryWhite()) : Color(ColorConstants.getPrimaryBlack()),
+                        color: pageState.filteredDeviceContacts!.elementAt(clientIndex).identifier == pageState.selectedDeviceContact?.identifier ? Color(ColorConstants.getPrimaryWhite()) : Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ],
                   ),

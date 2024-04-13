@@ -3,8 +3,8 @@ import 'package:image_picker/image_picker.dart';
 import '../../models/Pose.dart';
 
 class GroupImage implements Comparable<GroupImage>{
-  final XFile file;
-  final Pose pose;
+  final XFile? file;
+  final Pose? pose;
 
   GroupImage({this.file, this.pose});
 
@@ -16,7 +16,7 @@ class GroupImage implements Comparable<GroupImage>{
   ///
   @override
   int compareTo(GroupImage other) {
-    if(this.pose.createDate.isAtSameMomentAs(other.pose.createDate)) return 0;
-    return this.pose.createDate.isBefore(other.pose.createDate) ? 1 : -1;
+    if(this.pose!.createDate!.isAtSameMomentAs(other.pose!.createDate!)) return 0;
+    return this.pose!.createDate!.isBefore(other.pose!.createDate!) ? 1 : -1;
   }
 }

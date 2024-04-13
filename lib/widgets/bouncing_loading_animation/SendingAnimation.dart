@@ -9,9 +9,9 @@ class SendingAnimation extends StatefulWidget {
 
 class _SendingAnimation extends State<SendingAnimation>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Tween<Offset> offsetTweenUp;
-  Tween<Offset> offsetTweenDown;
+  AnimationController? _controller;
+  Tween<Offset>? offsetTweenUp;
+  Tween<Offset>? offsetTweenDown;
 
   @override
   initState() {
@@ -31,12 +31,12 @@ class _SendingAnimation extends State<SendingAnimation>
       end: Offset.zero,
     );
 
-    _controller.repeat().orCancel;
+    _controller!.repeat().orCancel;
   }
 
-  Animation<Offset> get stepOne => offsetTweenUp.animate(
+  Animation<Offset> get stepOne => offsetTweenUp!.animate(
         new CurvedAnimation(
-          parent: _controller,
+          parent: _controller!,
           curve: new Interval(
             0.0,
             0.17,
@@ -45,9 +45,9 @@ class _SendingAnimation extends State<SendingAnimation>
         ),
       );
 
-  Animation<Offset> get stepTwoUp => offsetTweenUp.animate(
+  Animation<Offset> get stepTwoUp => offsetTweenUp!.animate(
     new CurvedAnimation(
-      parent: _controller,
+      parent: _controller!,
       curve: new Interval(
         0.17,
         0.34,
@@ -56,9 +56,9 @@ class _SendingAnimation extends State<SendingAnimation>
     ),
   );
 
-  Animation<Offset> get stepTwoDown => offsetTweenDown.animate(
+  Animation<Offset> get stepTwoDown => offsetTweenDown!.animate(
     new CurvedAnimation(
-      parent: _controller,
+      parent: _controller!,
       curve: new Interval(
         0.17,
         0.34,
@@ -67,9 +67,9 @@ class _SendingAnimation extends State<SendingAnimation>
     ),
   );
 
-  Animation<Offset> get stepThreeUp => offsetTweenUp.animate(
+  Animation<Offset> get stepThreeUp => offsetTweenUp!.animate(
     new CurvedAnimation(
-      parent: _controller,
+      parent: _controller!,
       curve: new Interval(
         0.34,
         0.51,
@@ -78,9 +78,9 @@ class _SendingAnimation extends State<SendingAnimation>
     ),
   );
 
-  Animation<Offset> get stepThreeDown => offsetTweenDown.animate(
+  Animation<Offset> get stepThreeDown => offsetTweenDown!.animate(
     new CurvedAnimation(
-      parent: _controller,
+      parent: _controller!,
       curve: new Interval(
         0.34,
         0.51,
@@ -89,9 +89,9 @@ class _SendingAnimation extends State<SendingAnimation>
     ),
   );
 
-  Animation<Offset> get stepFourDown => offsetTweenDown.animate(
+  Animation<Offset> get stepFourDown => offsetTweenDown!.animate(
     new CurvedAnimation(
-      parent: _controller,
+      parent: _controller!,
       curve: new Interval(
         0.51,
         0.68,
@@ -103,7 +103,7 @@ class _SendingAnimation extends State<SendingAnimation>
   // This is important for perf. When the widget is gone, remove the controller.
   @override
   dispose() {
-    _controller?.dispose();
+    _controller!?.dispose();
     super.dispose();
   }
 
@@ -115,17 +115,17 @@ class _SendingAnimation extends State<SendingAnimation>
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
-          new SendingTranslationCircle(controller: _controller,
+          new SendingTranslationCircle(controller: _controller!,
             animations: [
               stepOne,
               stepTwoDown,
             ],),
-          new SendingTranslationCircle(controller: _controller,
+          new SendingTranslationCircle(controller: _controller!,
             animations: [
               stepTwoUp,
               stepThreeDown,
             ],),
-          new SendingTranslationCircle(controller: _controller,
+          new SendingTranslationCircle(controller: _controller!,
             animations: [
               stepThreeUp,
               stepFourDown,

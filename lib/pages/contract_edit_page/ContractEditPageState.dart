@@ -8,15 +8,15 @@ import '../../models/Profile.dart';
 import 'ContractEditActions.dart';
 
 class ContractEditPageState{
-  final String contractName;
-  final Contract contract;
-  final Profile profile;
-  final bool isNew;
-  final String newFromName;
-  final Function(Document, String) onContractSaved;
-  final Function() onDeleteSelected;
-  final Function(String) onNameChanged;
-  final Function() deleteFromJob;
+  final String? contractName;
+  final Contract? contract;
+  final Profile? profile;
+  final bool? isNew;
+  final String? newFromName;
+  final Function(Document, String?)? onContractSaved;
+  final Function()? onDeleteSelected;
+  final Function(String)? onNameChanged;
+  final Function()? deleteFromJob;
 
   ContractEditPageState({
     @required this.contract,
@@ -31,15 +31,15 @@ class ContractEditPageState{
   });
 
   ContractEditPageState copyWith({
-    String contractName,
-    Contract contract,
-    Profile profile,
-    bool isNew,
-    String newFromName,
-    Function(Document, String) onContractSaved,
-    Function(String) onNameChanged,
-    Function() onDeleteSelected,
-    Function() deleteFromJob,
+    String? contractName,
+    Contract? contract,
+    Profile? profile,
+    bool? isNew,
+    String? newFromName,
+    Function(Document, String?)? onContractSaved,
+    Function(String)? onNameChanged,
+    Function()? onDeleteSelected,
+    Function()? deleteFromJob,
   }){
     return ContractEditPageState(
       contract: contract?? this.contract,
@@ -68,12 +68,12 @@ class ContractEditPageState{
 
   factory ContractEditPageState.fromStore(Store<AppState> store) {
     return ContractEditPageState(
-      contract: store.state.contractEditPageState.contract,
-      contractName: store.state.contractEditPageState.contractName,
-      profile: store.state.contractEditPageState.profile,
-      isNew: store.state.contractEditPageState.isNew,
-      deleteFromJob: store.state.contractEditPageState.deleteFromJob,
-      newFromName: store.state.contractEditPageState.newFromName,
+      contract: store.state.contractEditPageState!.contract,
+      contractName: store.state.contractEditPageState!.contractName,
+      profile: store.state.contractEditPageState!.profile,
+      isNew: store.state.contractEditPageState!.isNew,
+      deleteFromJob: store.state.contractEditPageState!.deleteFromJob,
+      newFromName: store.state.contractEditPageState!.newFromName,
       onContractSaved: (contract, jobDocumentId) => store.dispatch(SaveContractAction(store.state.contractEditPageState, contract, jobDocumentId)),
       onNameChanged: (contractName) => store.dispatch(SetContractNameAction(store.state.contractEditPageState, contractName)),
       onDeleteSelected: () => store.dispatch(DeleteContractAction(store.state.contractEditPageState)),

@@ -34,7 +34,6 @@ class LocationsPage extends StatelessWidget {
                     iconTheme: IconThemeData(
                       color: Color(ColorConstants.getBlueDark()), //change your color here
                     ),
-                    brightness: Brightness.light,
                     backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                     pinned: true,
                     centerTitle: true,
@@ -47,7 +46,7 @@ class LocationsPage extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           UserOptionsUtil.showNewLocationDialog(context);
-                          pageState.clearNewLocationState();
+                          pageState.clearNewLocationState!();
                         },
                         child: Container(
                           margin: const EdgeInsets.only(right: 26.0),
@@ -61,7 +60,7 @@ class LocationsPage extends StatelessWidget {
                   SliverList(
                     delegate: SliverChildListDelegate(
                       <Widget>[
-                        pageState.locations.isNotEmpty ? Padding(
+                        pageState.locations!.isNotEmpty ? Padding(
                           padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                           child: SizedBox(
                             height: (MediaQuery.of(context).size.height),
@@ -72,7 +71,7 @@ class LocationsPage extends StatelessWidget {
                               childAspectRatio: 2 / 2.75,
                               crossAxisSpacing: 16,
                               mainAxisSpacing: 16),
-                              itemCount: pageState.locations.length,
+                              itemCount: pageState.locations!.length,
                               controller: _controller,
                               physics: const AlwaysScrollableScrollPhysics(),
                               key: _listKey,
@@ -105,7 +104,7 @@ class LocationsPage extends StatelessWidget {
       builder: (BuildContext context, LocationsPageState pageState) =>
           GestureDetector(
             onTap: () {
-              pageState.onLocationSelected(pageState.locations.elementAt(index));
+              pageState.onLocationSelected!(pageState.locations!.elementAt(index)!);
               UserOptionsUtil.showNewLocationDialog(context);
             },
             child: LocationListWidget(index),

@@ -67,7 +67,7 @@ class _NewResponsePageState extends State<NewResponseBottomSheet> {
                       ),
                       TextButton(
                         onPressed: () {
-                          modalPageState.onSaveNewResponseSelected(response);
+                          modalPageState.onSaveNewResponseSelected!(response);
                           Navigator.of(context).pop();
                         },
                         child: TextDandyLight(

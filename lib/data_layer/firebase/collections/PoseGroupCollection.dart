@@ -54,7 +54,7 @@ class PoseGroupCollection {
         .doc(documentId)
         .get()
         .then((groupSnapshot) {
-          PoseGroup result = PoseGroup.fromMap(groupSnapshot.data());
+          PoseGroup result = PoseGroup.fromMap(groupSnapshot.data() as Map<String, dynamic>);
           result.documentId = groupSnapshot.id;
           return result;
         });
@@ -93,7 +93,7 @@ class PoseGroupCollection {
   List<PoseGroup> _buildPoseGroupsList(QuerySnapshot poseGroups) {
     List<PoseGroup> poseGroupsList = [];
     for(DocumentSnapshot groupSnapshot in poseGroups.docs){
-      PoseGroup result = PoseGroup.fromMap(groupSnapshot.data());
+      PoseGroup result = PoseGroup.fromMap(groupSnapshot.data() as Map<String, dynamic>);
       result.documentId = groupSnapshot.id;
       poseGroupsList.add(result);
     }

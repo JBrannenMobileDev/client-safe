@@ -16,27 +16,27 @@ class JobListPage extends StatelessWidget{
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   final ScrollController _controller = ScrollController();
 
-  JobListPage({Key key,
+  JobListPage({Key? key,
     this.pageState,
     this.pageTitle,
     this.stage,
     this.isActiveJobs
   }) : super(key: key);
 
-  final DashboardPageState pageState;
-  final String pageTitle;
-  List<Job> jobs;
-  final JobStage stage;
-  final bool isActiveJobs;
+  final DashboardPageState? pageState;
+  final String? pageTitle;
+  List<Job>? jobs;
+  final JobStage? stage;
+  final bool? isActiveJobs;
 
   @override
   Widget build(BuildContext context)=> StoreConnector<AppState, DashboardPageState>(
       converter: (Store<AppState> store) => DashboardPageState.fromStore(store),
       onInit: (store) {
-        jobs = stage != null ? JobUtil.getJobsForStage(store.state.dashboardPageState.activeJobs, stage) : isActiveJobs ? store.state.dashboardPageState.activeJobs : store.state.dashboardPageState.jobsThisWeek;
+        jobs = stage != null ? JobUtil.getJobsForStage(store.state.dashboardPageState!.activeJobs!, stage!) : isActiveJobs! ? store.state.dashboardPageState!.activeJobs : store.state.dashboardPageState!.jobsThisWeek;
       },
       onDidChange: (previousPageState, currentPageState) {
-        jobs = stage != null ? JobUtil.getJobsForStage(currentPageState.activeJobs, stage) : isActiveJobs ? currentPageState.activeJobs : currentPageState.jobsThisWeek;
+        jobs = stage != null ? JobUtil.getJobsForStage(currentPageState.activeJobs!, stage!) : isActiveJobs! ? currentPageState.activeJobs : currentPageState.jobsThisWeek;
       },
       builder: (BuildContext context, DashboardPageState pageState) => Scaffold(
       backgroundColor: Color(ColorConstants.getPrimaryWhite()),
@@ -63,7 +63,9 @@ class JobListPage extends StatelessWidget{
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                ), systemOverlayStyle: SystemUiOverlayStyle.dark,
+                ),
+                surfaceTintColor: Colors.transparent,
+                systemOverlayStyle: SystemUiOverlayStyle.dark,
               ),
               SliverList(
                 delegate: SliverChildListDelegate(
@@ -75,7 +77,7 @@ class JobListPage extends StatelessWidget{
                       controller: _controller,
                       physics: const ClampingScrollPhysics(),
                       key: _listKey,
-                      itemCount: jobs != null ? jobs.length : 0,
+                      itemCount: jobs != null ? jobs!.length : 0,
                       itemBuilder: _buildItem,
                     ),
                   ],
@@ -90,7 +92,7 @@ class JobListPage extends StatelessWidget{
 
 
   Widget _buildItem(BuildContext context, int index) {
-    return JobInProgressItem(job: jobs.elementAt(index), pageState: pageState);
+    return JobInProgressItem(job: jobs!.elementAt(index), pageState: pageState);
   }
 
 }

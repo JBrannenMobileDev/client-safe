@@ -48,7 +48,7 @@ class _BottomSheetPageState extends State<ShareWithClientSetupBottomSheet> with 
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, ShareWithClientPageState>(
     onDidChange: (previous, current) {
-      if(current.profile.hasSetupBrand && current.profile.isProfileComplete() && current.profile.paymentOptionsSelected()) {
+      if(current.profile!.hasSetupBrand! && current.profile!.isProfileComplete() && current.profile!.paymentOptionsSelected()) {
         setState(() {
           shouldPop = true;
         });
@@ -88,7 +88,7 @@ class _BottomSheetPageState extends State<ShareWithClientSetupBottomSheet> with 
                    ),
                    GestureDetector(
                      onTap: () {
-                       NavigationUtil.onEditProfileSelected(context, pageState.profile);
+                       NavigationUtil.onEditProfileSelected(context, pageState.profile!);
                      },
                      child: Container(
                        height: 48,
@@ -104,7 +104,7 @@ class _BottomSheetPageState extends State<ShareWithClientSetupBottomSheet> with 
                                  width: 24,
                                  child: Image.asset(
                                    'assets/images/job_progress/complete_check.png',
-                                   color: Color(pageState.profile.isProfileComplete() ? ColorConstants.getBlueDark() : ColorConstants.getPrimaryGreyMedium()),
+                                   color: Color(pageState.profile!.isProfileComplete() ? ColorConstants.getBlueDark() : ColorConstants.getPrimaryGreyMedium()),
                                  ),
                                ),
                                TextDandyLight(
@@ -143,7 +143,7 @@ class _BottomSheetPageState extends State<ShareWithClientSetupBottomSheet> with 
                                  width: 24,
                                  child: Image.asset(
                                    'assets/images/job_progress/complete_check.png',
-                                   color: Color(pageState.profile.hasSetupBrand ? ColorConstants.getBlueDark() : ColorConstants.getPrimaryGreyMedium()),
+                                   color: Color(pageState.profile!.hasSetupBrand! ? ColorConstants.getBlueDark() : ColorConstants.getPrimaryGreyMedium()),
                                  ),
                                ),
                                TextDandyLight(
@@ -181,7 +181,7 @@ class _BottomSheetPageState extends State<ShareWithClientSetupBottomSheet> with 
                                  width: 24,
                                  child: Image.asset(
                                    'assets/images/job_progress/complete_check.png',
-                                   color: Color(pageState.profile.paymentOptionsSelected() ? ColorConstants.getBlueDark() : ColorConstants.getPrimaryGreyMedium()),
+                                   color: Color(pageState.profile!.paymentOptionsSelected() ? ColorConstants.getBlueDark() : ColorConstants.getPrimaryGreyMedium()),
                                  ),
                                ),
                                TextDandyLight(

@@ -6,12 +6,12 @@ import '../../AppState.dart';
 import 'NewPoseGroupActions.dart';
 
 class NewPoseGroupPageState{
-  final int id;
-  final String documentId;
-  final String groupName;
-  final Function() onSaveSelected;
-  final Function() onCanceledSelected;
-  final Function(String) onNameChanged;
+  final int? id;
+  final String? documentId;
+  final String? groupName;
+  final Function()? onSaveSelected;
+  final Function()? onCanceledSelected;
+  final Function(String)? onNameChanged;
 
   NewPoseGroupPageState({
     @required this.id,
@@ -23,12 +23,12 @@ class NewPoseGroupPageState{
   });
 
   NewPoseGroupPageState copyWith({
-    int id,
-    String documentId,
-    String groupName,
-    Function() onSaveSelected,
-    Function() onCanceledSelected,
-    Function(String) onNameChanged,
+    int? id,
+    String? documentId,
+    String? groupName,
+    Function()? onSaveSelected,
+    Function()? onCanceledSelected,
+    Function(String)? onNameChanged,
   }){
     return NewPoseGroupPageState(
       id: id?? this.id,
@@ -51,9 +51,9 @@ class NewPoseGroupPageState{
 
   factory NewPoseGroupPageState.fromStore(Store<AppState> store) {
     return NewPoseGroupPageState(
-      id: store.state.newPoseGroupPageState.id,
-      documentId: store.state.newPoseGroupPageState.documentId,
-      groupName: store.state.newPoseGroupPageState.groupName,
+      id: store.state.newPoseGroupPageState!.id,
+      documentId: store.state.newPoseGroupPageState!.documentId,
+      groupName: store.state.newPoseGroupPageState!.groupName,
       onSaveSelected: () {
         store.dispatch(SaveAction(store.state.newPoseGroupPageState));
       },

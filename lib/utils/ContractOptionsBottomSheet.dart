@@ -33,6 +33,7 @@ class _ContractOptionsBottomSheetPageState extends State<ContractOptionsBottomSh
   Widget build(BuildContext context) =>
       Container(
         height: 264.0,
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(topRight: Radius.circular(16), topLeft: Radius.circular(16)),
           color: Color(ColorConstants.getPrimaryWhite()),

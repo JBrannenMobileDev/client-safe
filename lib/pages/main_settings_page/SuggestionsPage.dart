@@ -39,7 +39,6 @@ class _SuggestionsPageState extends State<SuggestionsPage>
                     iconTheme: IconThemeData(
                       color: Color(ColorConstants.getPrimaryBlack()), //change your color here
                     ),
-                    brightness: Brightness.light,
                     backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
                     centerTitle: true,
                     elevation: 0.0,
@@ -67,7 +66,7 @@ class _SuggestionsPageState extends State<SuggestionsPage>
                     height: 450.0,
                     inputTypeError: '',
                     onTextInputChanged: (firstNameText) =>
-                        pageState.onFirstNameChanged(firstNameText),
+                        pageState.onFirstNameChanged!(firstNameText),
                     onEditingCompleted: null,
                     keyboardAction: TextInputAction.done,
                     capitalization: TextCapitalization.sentences,
@@ -77,7 +76,7 @@ class _SuggestionsPageState extends State<SuggestionsPage>
                   ),
                   GestureDetector(
                     onTap: () {
-                      pageState.onSendSuggestionSelected(suggestionTextController.text);
+                      pageState.onSendSuggestionSelected!(suggestionTextController.text);
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {

@@ -10,7 +10,6 @@ import '../../utils/intentLauncher/IntentLauncherUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
-import '../responses_page/widgets/ResponsesGroupListWidget.dart';
 import 'ClientDetailsPageActions.dart';
 import 'ClientDetailsPageState.dart';
 import 'SelectSavedResponseBottomSheet.dart';
@@ -20,8 +19,8 @@ class SendMessageOptionsBottomSheet extends StatefulWidget {
   static const String TYPE_SMS = "Text";
   static const String TYPE_EMAIL = "Email";
 
-  final String type;
-  final String phoneOrEmail;
+  final String? type;
+  final String? phoneOrEmail;
 
   SendMessageOptionsBottomSheet(this.type, this.phoneOrEmail);
 
@@ -32,10 +31,10 @@ class SendMessageOptionsBottomSheet extends StatefulWidget {
 }
 
 class _BottomSheetPageState extends State<SendMessageOptionsBottomSheet> with TickerProviderStateMixin {
-  ScrollController _controller;
+  ScrollController? _controller;
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
-  final String type;
-  final String phoneOrEmail;
+  final String? type;
+  final String? phoneOrEmail;
 
   _BottomSheetPageState(this.type, this.phoneOrEmail);
 
@@ -80,11 +79,11 @@ class _BottomSheetPageState extends State<SendMessageOptionsBottomSheet> with Ti
                     onTap: () {
                       switch(type) {
                         case SelectSavedResponseBottomSheet.TYPE_SMS:
-                          IntentLauncherUtil.sendSMS(phoneOrEmail);
+                          IntentLauncherUtil.sendSMS(phoneOrEmail!);
                           EventSender().sendEvent(eventName: EventNames.BT_SEND_TEXT);
                           break;
                         case SelectSavedResponseBottomSheet.TYPE_EMAIL:
-                          IntentLauncherUtil.sendEmail(phoneOrEmail, '', '');
+                          IntentLauncherUtil.sendEmail(phoneOrEmail!, '', '');
                           EventSender().sendEvent(eventName: EventNames.BT_SEND_EMAIL);
                           break;
                       }

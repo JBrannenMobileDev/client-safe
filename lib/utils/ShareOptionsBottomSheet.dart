@@ -54,8 +54,8 @@ class _ShareOptionsBottomSheetPageState extends State<ShareOptionsBottomSheet> w
                 children: [
                   GestureDetector(
                     onTap: () {
-                      if (client.phone != null && client.phone.length > 0) {
-                        IntentLauncherUtil.sendSMSWithBody(client.phone, message);
+                      if (client.phone != null && client.phone!.length > 0) {
+                        IntentLauncherUtil.sendSMSWithBody(client.phone!, message);
                       } else {
                         DandyToastUtil.showErrorToast('A phone number has not been saved for ${client.firstName}');
                       }
@@ -76,8 +76,8 @@ class _ShareOptionsBottomSheetPageState extends State<ShareOptionsBottomSheet> w
                   ),
                   GestureDetector(
                     onTap: () {
-                      if (client.email != null && client.email.length > 0) {
-                        IntentLauncherUtil.sendEmail(client.email, emailTitle, message);
+                      if (client.email != null && client.email!.length! > 0) {
+                        IntentLauncherUtil.sendEmail(client.email!, emailTitle, message);
                       } else {
                         DandyToastUtil.showErrorToast('An email has not been saved for ${client.firstName}');
                       }

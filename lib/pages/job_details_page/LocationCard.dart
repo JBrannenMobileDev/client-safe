@@ -14,7 +14,7 @@ import '../../widgets/TextDandyLight.dart';
 import 'JobDetailsPageState.dart';
 
 class LocationCard extends StatefulWidget {
-  const LocationCard({Key key}) : super(key: key);
+  const LocationCard({Key? key}) : super(key: key);
 
 
   @override
@@ -24,13 +24,13 @@ class LocationCard extends StatefulWidget {
 }
 
 class _LocationCard extends State<LocationCard> {
-  DateTime newDateTimeHolder;
+  DateTime? newDateTimeHolder;
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, JobDetailsPageState>(
       onInit: (store) {
-        newDateTimeHolder = store.state.jobDetailsPageState.job.selectedTime;
+        newDateTimeHolder = store.state.jobDetailsPageState!.job!.selectedTime;
       },
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) =>
@@ -67,7 +67,7 @@ class _LocationCard extends State<LocationCard> {
                           onTap: () async {
                             bool isGranted = (await UserPermissionsUtil.showPermissionRequest(permission: Permission.locationWhenInUse, context: context));
                             if(isGranted) {
-                              pageState.onDrivingDirectionsSelected(pageState.selectedLocation);
+                              pageState.onDrivingDirectionsSelected!(pageState.selectedLocation!);
                             }
                           },
                           behavior: HitTestBehavior.opaque,
@@ -93,8 +93,8 @@ class _LocationCard extends State<LocationCard> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            String message = 'Hi ${pageState.job.clientName.split(' ')[0]}, here are the driving directions to the location we discussed. \n${pageState.selectedLocation.locationName}\n\nhttps://www.google.com/maps/search/?api=1&query=${pageState.selectedLocation.latitude},${pageState.selectedLocation.longitude}';
-                            UserOptionsUtil.showShareOptionsSheet(context, pageState.client, message, 'Location details');
+                            String message = 'Hi ${pageState.job!.clientName!.split(' ')[0]}, here are the driving directions to the location we discussed. \n${pageState.selectedLocation!.locationName}\n\nhttps://www.google.com/maps/search/?api=1&query=${pageState.selectedLocation!.latitude},${pageState.selectedLocation!.longitude}';
+                            UserOptionsUtil.showShareOptionsSheet(context, pageState.client!, message, 'Location details');
                           },
                           behavior: HitTestBehavior.opaque,
                           child: Container(
@@ -128,7 +128,7 @@ class _LocationCard extends State<LocationCard> {
                             UserOptionsUtil.showLocationSelectionDialog(context);
                           },
                           behavior: HitTestBehavior.opaque,
-                          child: pageState.job.location != null ? Container(
+                          child: pageState.job!.location != null ? Container(
                             height: 235,
                             width: 200,
                             decoration: BoxDecoration(
@@ -136,10 +136,10 @@ class _LocationCard extends State<LocationCard> {
                               color: Color(ColorConstants.getBlueLight()).withOpacity(0.25)
                             ),
                             child: DandyLightNetworkImage(
-                              pageState.job.location.imageUrl,
+                              pageState.job!.location!.imageUrl ?? '',
                               color: Color(ColorConstants.getBlueLight()).withOpacity(0.25),
-                              errorType: pageState.job.location.imageUrl != null && pageState.job.location.imageUrl.isNotEmpty ? DandyLightNetworkImage.ERROR_TYPE_INTERNET : DandyLightNetworkImage.ERROR_TYPE_NO_IMAGE,
-                              errorIconSize: pageState.job.location.imageUrl != null && pageState.job.location.imageUrl.isNotEmpty ? 44 : 96,
+                              errorType: pageState.job!.location!.imageUrl != null && pageState.job!.location!.imageUrl!.isNotEmpty ? DandyLightNetworkImage.ERROR_TYPE_INTERNET : DandyLightNetworkImage.ERROR_TYPE_NO_IMAGE,
+                              errorIconSize: pageState.job!.location!.imageUrl != null && pageState.job!.location!.imageUrl!.isNotEmpty ? 44 : 96,
                               errorIconColor: Color(ColorConstants.getBlueDark()),
                               borderRadius: 12,
                             ),
@@ -159,8 +159,8 @@ class _LocationCard extends State<LocationCard> {
                           margin: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
-                            text: pageState.job.location == null ? 'Location not selected' :
-                            pageState.job.location.locationName,
+                            text: pageState.job!.location == null ? 'Location not selected' :
+                            pageState.job!.location!.locationName,
                             maxLines: 1,
                             textAlign: TextAlign.center,
                             color: Color(ColorConstants.getPrimaryBlack()),

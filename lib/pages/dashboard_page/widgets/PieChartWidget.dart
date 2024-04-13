@@ -11,11 +11,11 @@ class PieChartWidget extends StatefulWidget {
   static const String JOB_TYPE_BREAKDOWN = 'job_type_breakdown';
   static const String LEAD_SOURCES = 'lead_sources';
 
-  const PieChartWidget({Key key, this.chartType}) : super(key: key);
-  final String chartType;
+  const PieChartWidget({Key? key, this.chartType}) : super(key: key);
+  final String? chartType;
 
   @override
-  State<StatefulWidget> createState() => PieChartState(chartType);
+  State<StatefulWidget> createState() => PieChartState(chartType!);
 }
 
 class PieChartState extends State<PieChartWidget> {
@@ -32,20 +32,20 @@ class PieChartState extends State<PieChartWidget> {
     onInit: (store) {
       switch(chartType) {
         case PieChartWidget.JOB_TYPE_BREAKDOWN:
-          chartData = store.state.dashboardPageState.jobTypeBreakdownData;
+          chartData = store.state.dashboardPageState!.jobTypeBreakdownData!;
           break;
         case PieChartWidget.LEAD_SOURCES:
-          chartData = store.state.dashboardPageState.leadSourcesData;
+          chartData = store.state.dashboardPageState!.leadSourcesData!;
           break;
       }
     },
       onDidChange: (previous, current) {
         switch(chartType) {
           case PieChartWidget.JOB_TYPE_BREAKDOWN:
-            chartData = current.jobTypeBreakdownData;
+            chartData = current.jobTypeBreakdownData!;
             break;
           case PieChartWidget.LEAD_SOURCES:
-            chartData = current.leadSourcesData;
+            chartData = current.leadSourcesData!;
             break;
         }
       },
@@ -54,7 +54,7 @@ class PieChartState extends State<PieChartWidget> {
       alignment: Alignment.topCenter,
       height: 224.0,
       margin: const EdgeInsets.only(top: 0.0),
-      child: chartData != null && chartData.isNotEmpty ? PieChart(
+      child: chartData.isNotEmpty ? PieChart(
         PieChartData(
           pieTouchData: PieTouchData(
             touchCallback: (FlTouchEvent event, pieTouchResponse) {
@@ -65,7 +65,7 @@ class PieChartState extends State<PieChartWidget> {
                   touchedIndex = -1;
                   return;
                 }
-                touchedIndex = pieTouchResponse.touchedSection.touchedSectionIndex;
+                touchedIndex = pieTouchResponse.touchedSection!.touchedSectionIndex;
               });
             },
           ),

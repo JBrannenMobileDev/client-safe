@@ -1,16 +1,16 @@
 import 'package:dandylight/models/rest_models/AccuWeatherModels/hourlyForecast/Temperature.dart';
 
 class HourWeather {
-  String dateTime;
-  int epochDateTime;
-  int weatherIcon;
-  String iconPhrase;
-  bool hasPrecipitation;
-  bool isDaylight;
-  Temperature temperature;
-  int precipitationProbability;
-  String mobileLink;
-  String link;
+  String? dateTime;
+  int? epochDateTime;
+  int? weatherIcon;
+  String? iconPhrase;
+  bool? hasPrecipitation;
+  bool? isDaylight;
+  Temperature? temperature;
+  int? precipitationProbability;
+  String? mobileLink;
+  String? link;
 
   HourWeather(
       {this.dateTime,
@@ -48,7 +48,7 @@ class HourWeather {
     data['HasPrecipitation'] = this.hasPrecipitation;
     data['IsDaylight'] = this.isDaylight;
     if (this.temperature != null) {
-      data['Temperature'] = this.temperature.toJson();
+      data['Temperature'] = this.temperature!.toJson();
     }
     data['PrecipitationProbability'] = this.precipitationProbability;
     data['MobileLink'] = this.mobileLink;

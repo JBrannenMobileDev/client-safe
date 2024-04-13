@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 class JobEventIdMap {
-  String calendarId;
-  String jobId;
-  String eventId;
+  String? calendarId;
+  String? jobId;
+  String? eventId;
 
   JobEventIdMap({
     this.calendarId,

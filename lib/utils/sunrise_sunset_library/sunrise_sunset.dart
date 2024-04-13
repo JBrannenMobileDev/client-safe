@@ -6,10 +6,10 @@ import 'package:http/http.dart' as http;
 
 class SunriseSunset {
   /// Get results from the Sunrise Sunset API for the given [date], [latitude], and [longitude].
-  static Future<SunriseSunsetResponse> getResults({
-    DateTime date,
-    double latitude,
-    double longitude,
+  static Future<SunriseSunsetResponse?> getResults({
+    DateTime? date,
+    double? latitude,
+    double? longitude,
   }) async {
     try {
       Uri uri = Uri(

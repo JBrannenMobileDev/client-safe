@@ -1,5 +1,8 @@
 
+import 'dart:async';
+
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/pages/share_with_client_page/ChooseMessageBottomSheet.dart';
 import 'package:dandylight/pages/share_with_client_page/ShareWithClientActions.dart';
@@ -13,7 +16,7 @@ import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 import '../../models/Job.dart';
@@ -26,9 +29,10 @@ import '../../widgets/TextDandyLight.dart';
 import 'ShareWithClientPageState.dart';
 import 'ShareWithClientSetupBottomSheet.dart';
 import 'ShareWithClientTextField.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 class ShareWithClientPage extends StatefulWidget {
-  final Job job;
+  final Job? job;
   ShareWithClientPage({this.job});
 
   @override
@@ -38,29 +42,53 @@ class ShareWithClientPage extends StatefulWidget {
 }
 
 class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerProviderStateMixin {
-  final Job job;
-  Profile profile;
+  final Job? job;
+  Profile? profile;
   final messageController = TextEditingController();
   final FocusNode _messageFocusNode = FocusNode();
-  OverlayEntry overlayEntry;
+  OverlayEntry? overlayEntry;
   bool isKeyboardVisible = false;
   bool initialSetupState = false;
-  _isThisPageShowing(BuildContext context) => pageContext != null && ModalRoute.of(pageContext)?.isCurrent == true;
-  BuildContext pageContext;
+  _isThisPageShowing(BuildContext context) => pageContext != null && ModalRoute.of(pageContext!)?.isCurrent == true;
+  BuildContext? pageContext;
   bool contractChecked = false;
   bool invoiceChecked = false;
   bool posesChecked = false;
+  _isProgressDialogShowing(BuildContext context) => progressContext != null && progressContext!.mounted && ModalRoute.of(progressContext!)?.isCurrent == true;
+  BuildContext? progressContext;
+  late StreamSubscription<bool> keyboardSubscription;
   bool questionnairesChecked = false;
-  _isProgressDialogShowing(BuildContext context) => progressContext != null && progressContext.mounted && ModalRoute.of(progressContext)?.isCurrent == true;
-  BuildContext progressContext;
 
   @override
   void initState() {
     super.initState();
-    contractChecked = job.proposal.includeContract;
-    invoiceChecked = job.proposal.includeInvoice;
-    posesChecked = job.proposal.includePoses;
-    questionnairesChecked = job.proposal.includeQuestionnaires;
+    contractChecked = job!.proposal!.includeContract!;
+    invoiceChecked = job!.proposal!.includeInvoice!;
+    posesChecked = job!.proposal!.includePoses!;
+    questionnairesChecked = job!.proposal!.includeQuestionnaires!;
+
+    var keyboardVisibilityController = KeyboardVisibilityController();
+    keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
+      setState(() {
+        if(visible) {
+          showOverlay(context);
+          setState(() {
+            isKeyboardVisible = true;
+          });
+        } else {
+          removeOverlay();
+          setState(() {
+            isKeyboardVisible = false;
+          });
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    keyboardSubscription.cancel();
+    super.dispose();
   }
 
   _ShareWithClientPageState(this.job);
@@ -72,7 +100,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
         EventSender().sendEvent(eventName: EventNames.BRANDING_EDIT_FROM_SHARE);
         break;
       case 'Business Info':
-        NavigationUtil.onEditProfileSelected(context, profile);
+        NavigationUtil.onEditProfileSelected(context, profile!);
         EventSender().sendEvent(eventName: EventNames.SETUP_BUSINESS_INFO_FROM_SHARE);
         break;
       case 'Payment Options':
@@ -93,12 +121,12 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
           child: InputDoneView());
     });
 
-    overlayState.insert(overlayEntry);
+    overlayState.insert(overlayEntry!);
   }
 
   removeOverlay() {
     if (overlayEntry != null) {
-      overlayEntry.remove();
+      overlayEntry!.remove();
       overlayEntry = null;
     }
   }
@@ -145,29 +173,26 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
           pageContext = context;
           await store.dispatch(FetchProfileAction(store.state.shareWithClientPageState));
           store.dispatch(SetJobShareWithClientAction(store.state.shareWithClientPageState, job));
-          String clientName = job.client != null ? job.client.firstName : 'Client';
-          String clientMessage = "(Example message in client portal - DELETE THIS TEXT BEFORE SENDING TO CLIENT)\n\nHi ${clientName},\nI wanted to thank you again for choosing our photography services. We're excited to work with you to capture your special moments.\n\nTo make things official, kindly review and sign the contract. It outlines our agreement's essential details.\n\nIf you have any questions, please don't hesitate to ask.\n\nBest regards,\n\n${profile.firstName} ${profile.lastName ?? ''}\n${profile.businessName ?? ''}";
-          messageController.value = messageController.value.copyWith(text: job.proposal.detailsMessage != null && job.proposal.detailsMessage.isNotEmpty ? job.proposal.detailsMessage : clientMessage);
-          if(job.proposal.detailsMessage == null || job.proposal.detailsMessage.isEmpty) {
-            store.dispatch(SetClientMessageAction(store.state.shareWithClientPageState, clientMessage));
+          String clientName = job!.client != null ? job!.client!.firstName! : 'Client';
+          String clientMessage = "(Example message in client portal - DELETE THIS TEXT BEFORE SENDING TO CLIENT)\n\nHi ${clientName},\nI wanted to thank you again for choosing our photography services. We're excited to work with you to capture your special moments.\n\nTo make things official, kindly review and sign the contract. It outlines our agreement's essential details.\n\nIf you have any questions, please don't hesitate to ask.\n\nBest regards,\n\n${profile!.firstName} ${profile!.lastName ?? ''}\n${profile!.businessName ?? ''}";
+          if(job!.proposal!.detailsMessage != null && job!.proposal!.detailsMessage!.isNotEmpty) {
+            messageController.value = messageController.value.copyWith(text: job!.proposal!.detailsMessage);
+            store.dispatch(SetClientMessageAction(store.state.shareWithClientPageState, job!.proposal!.detailsMessage));
+          } else {
+            String messageToSet = '';
+            List<Job> jobs = (await JobDao.getAllJobs())!.where((job) => job.proposal != null && job.proposal!.detailsMessage != null && job.proposal!.detailsMessage!.isNotEmpty).toList();
+            jobs = jobs.reversed.toList();
+            if(jobs.elementAt(0).proposal!.detailsMessage != null) {
+              messageToSet = jobs.elementAt(0).proposal!.detailsMessage!;
+            } else {
+              messageToSet = clientMessage;
+            }
+            store.dispatch(SetClientMessageAction(store.state.shareWithClientPageState, messageToSet));
+            messageController.value = messageController.value.copyWith(text: messageToSet);
           }
 
-          KeyboardVisibilityNotification().addNewListener(
-              onShow: () {
-                showOverlay(context);
-                setState(() {
-                  isKeyboardVisible = true;
-                });
-              },
-              onHide: () {
-                removeOverlay();
-                setState(() {
-                  isKeyboardVisible = false;
-                });
-              }
-          );
           setState(() {
-            initialSetupState = !profile.isProfileComplete() || !profile.hasSetupBrand || !profile.paymentOptionsSelected();
+            initialSetupState = !profile!.isProfileComplete() || !profile!.hasSetupBrand! || !profile!.paymentOptionsSelected();
           });
           EventSender().setUserProfileData(EventNames.IS_PORTAL_SETUP_COMPLETE, !initialSetupState);
         },
@@ -183,9 +208,9 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
             });
             _showSetupSheet(context);
           } else {
-            if(previous.profile != null && current.profile != null) {
-              bool shouldShowCurrent = !current.profile.isProfileComplete() || !current.profile.hasSetupBrand || !current.profile.paymentOptionsSelected();
-              bool shouldShowPrevious = !previous.profile.isProfileComplete() || !previous.profile.hasSetupBrand || !previous.profile.paymentOptionsSelected();
+            if(previous!.profile != null && current.profile != null) {
+              bool shouldShowCurrent = !current.profile!.isProfileComplete() || !current.profile!.hasSetupBrand! || !current.profile!.paymentOptionsSelected();
+              bool shouldShowPrevious = !previous.profile!.isProfileComplete() || !previous.profile!.hasSetupBrand! || !previous.profile!.paymentOptionsSelected();
               if(shouldShowCurrent && !shouldShowPrevious) {
                 if(_isThisPageShowing(context)) {
                   _showSetupSheet(context);
@@ -194,16 +219,16 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
             }
           }
 
-          if(progressContext != null && _isProgressDialogShowing(context) && !current.updatePosesCheckInProgress && !current.updateInvoiceCheckInProgress && !current.updateContractCheckInProgress && !current.updateQuestionnairesCheckInProgress) {
+          if(progressContext != null && _isProgressDialogShowing(context) && !current.updatePosesCheckInProgress! && !current.updateInvoiceCheckInProgress! && !current.updateContractCheckInProgress! && !current.updateQuestionnairesCheckInProgress!) {
             Navigator.of(context).pop();
-            IntentLauncherUtil.launchBrandingPreviewURL(UidUtil().getUid(), job.documentId);
+            IntentLauncherUtil.launchBrandingPreviewURL(UidUtil().getUid(), job!.documentId!);
             EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_PREVIEW_SELECTED);
             EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_PREVIEW_SELECTED, properties: {
               EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_INVOICE : invoiceChecked,
               EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_CONTRACT : contractChecked,
               EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_POSES : posesChecked,
               EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_QUESTIONNAIRES : questionnairesChecked,
-              EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK : 'https://dandylight.com/clientPortal/${profile.uid}+${job.documentId}',
+              EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK : 'https://dandylight.com/clientPortal/${profile!.uid}+${job!.documentId}',
             });
           }
         },
@@ -216,10 +241,10 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                 slivers: <Widget>[
                   SliverAppBar(
                     iconTheme: IconThemeData(color: Color(ColorConstants.getPrimaryBlack())),
-                    brightness: Brightness.light,
                     backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
                     pinned: true,
                     centerTitle: true,
+                    surfaceTintColor: Colors.transparent,
                     title: TextDandyLight(
                       type: TextDandyLight.LARGE_TEXT,
                       text: "Share With Client",
@@ -315,7 +340,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                                   ),
                                 ),
                               ),
-                              profile != null && profile.jobsCreatedCount > 1 ? GestureDetector(
+                              profile != null && profile!.jobsCreatedCount! > 1 ? GestureDetector(
                                 onTap: () {
                                   _showChooseMessageSheet(context);
                                 },
@@ -406,7 +431,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                                     value: contractChecked,
                                     activeColor: Color(ColorConstants.getPeachDark()),
                                     onChanged: (selected) {
-                                      pageState.onContractCheckBoxSelected(selected);
+                                      pageState.onContractCheckBoxSelected!(selected!);
                                       setState(() {
                                         contractChecked = selected;
                                       });
@@ -429,7 +454,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                                     value: invoiceChecked,
                                     activeColor: Color(ColorConstants.getPeachDark()),
                                     onChanged: (selected) {
-                                      pageState.onInvoiceCheckBoxSelected(selected);
+                                      pageState.onInvoiceCheckBoxSelected!(selected!);
                                       setState(() {
                                         invoiceChecked = selected;
                                       });
@@ -475,7 +500,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                                     value: posesChecked,
                                     activeColor: Color(ColorConstants.getPeachDark()),
                                     onChanged: (selected) {
-                                      pageState.onPosesCheckBoxSelected(selected);
+                                      pageState.onPosesCheckBoxSelected!(selected!);
                                       setState(() {
                                         posesChecked = selected;
                                       });
@@ -504,8 +529,8 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                       padding: const EdgeInsets.only(bottom: 32),
                       child: GestureDetector(
                         onTap: () {
-                          if(pageState.profile.isProfileComplete() && pageState.profile.hasSetupBrand && pageState.profile.paymentOptionsSelected()) {
-                            if(pageState.updateContractCheckInProgress || pageState.updateInvoiceCheckInProgress || pageState.updatePosesCheckInProgress || pageState.updateQuestionnairesCheckInProgress) {
+                          if(pageState.profile!.isProfileComplete() && pageState.profile!.hasSetupBrand! && pageState.profile!.paymentOptionsSelected()) {
+                            if(pageState.updateContractCheckInProgress || pageState.updateInvoiceCheckInProgress! || pageState.updatePosesCheckInProgress! || pageState.updateQuestionnairesCheckInProgress!) {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -540,22 +565,22 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                               );
                             } else {
                               if(_isProgressDialogShowing(context)) Navigator.of(context).pop();
-                              pageState.saveProposal();
-                              IntentLauncherUtil.launchBrandingPreviewURL(UidUtil().getUid(), job.documentId);
+                              pageState.saveProposal!();
+                              IntentLauncherUtil.launchBrandingPreviewURL(UidUtil().getUid(), job!.documentId!);
                               EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_PREVIEW_SELECTED);
                               EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_PREVIEW_SELECTED, properties: {
                                 EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_INVOICE : invoiceChecked,
                                 EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_CONTRACT : contractChecked,
                                 EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_POSES : posesChecked,
                                 EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_QUESTIONNAIRES : questionnairesChecked,
-                                EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK : 'https://dandylight.com/clientPortal/${profile.uid}+${job.documentId}',
+                                EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK : 'https://dandylight.com/clientPortal/${profile!.uid}+${job!.documentId}',
                               });
                             }
                           } else {
                             String toastMessage = '';
-                            if(!pageState.profile.isProfileComplete()) {
+                            if(!pageState.profile!.isProfileComplete()) {
                               toastMessage = 'Please complete your profile first.';
-                            } else if(!pageState.profile.hasSetupBrand) {
+                            } else if(!pageState.profile!.hasSetupBrand!) {
                               toastMessage = 'Please setup your brand first.';
                             }
                             DandyToastUtil.showErrorToast(toastMessage);
@@ -587,15 +612,15 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                       padding: const EdgeInsets.only(bottom: 32),
                       child: GestureDetector(
                         onTap: () {
-                          pageState.saveProposal();
-                          String emailTitle = pageState.profile.businessName != null && pageState.profile.businessName.isNotEmpty ? '${pageState.profile.businessName} - Session details' : pageState.profile.firstName != null && pageState.profile.firstName.isNotEmpty ? '${pageState.profile.firstName} - Session details' : 'Session details';
-                          UserOptionsUtil.showShareClientPortalOptionsSheet(context, pageState.job.client,  emailTitle, profile, job);
+                          pageState.saveProposal!();
+                          String emailTitle = pageState.profile!.businessName != null && pageState.profile!.businessName!.isNotEmpty ? '${pageState.profile!.businessName} - Session details' : pageState.profile!.firstName != null && pageState.profile!.firstName!.isNotEmpty ? '${pageState.profile!.firstName} - Session details' : 'Session details';
+                          UserOptionsUtil.showShareClientPortalOptionsSheet(context, pageState.job!.client!,  emailTitle, profile!, job!);
                           EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED, properties: {
                             EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_INVOICE : pageState.invoiceSelected,
                             EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_CONTRACT : pageState.contractSelected,
                             EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_POSES : pageState.posesSelected,
                             EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_QUESTIONNAIRES : pageState.questionnairesSelected,
-                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK : 'https://dandylight.com/clientPortal/${profile.uid}+${job.documentId}',
+                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK : 'https://dandylight.com/clientPortal/${profile!.uid}+${job!.documentId}',
                           });
                         },
                         child: Container(

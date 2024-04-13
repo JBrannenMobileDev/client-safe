@@ -11,7 +11,7 @@ import 'ShareWithClientPageState.dart';
 
 class ChooseShareMessageBottomSheet extends StatefulWidget {
   final Function(String) setSelectedMessage;
-  const ChooseShareMessageBottomSheet(this.setSelectedMessage, {Key key}) : super(key: key);
+  const ChooseShareMessageBottomSheet(this.setSelectedMessage, {Key? key}) : super(key: key);
 
 
   @override
@@ -60,7 +60,7 @@ class _ChooseShareMessageBottomSheetPageState extends State<ChooseShareMessageBo
                        height: MediaQuery.of(context).size.height-116,
                        child: ListView.builder(
                            padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 200.0),
-                           itemCount: pageState.jobsWithShareMessage.length,
+                           itemCount: pageState.jobsWithShareMessage!.length,
                            controller: _controller,
                            physics: const AlwaysScrollableScrollPhysics(),
                            key: _listKey,
@@ -95,8 +95,8 @@ class _ChooseShareMessageBottomSheetPageState extends State<ChooseShareMessageBo
         builder: (BuildContext context, ShareWithClientPageState pageState) =>
             GestureDetector(
               onTap: () {
-                setSelectedMessage(pageState.jobsWithShareMessage.elementAt(index).proposal.shareMessage);
-                pageState.onShareMessageChanged(pageState.jobsWithShareMessage.elementAt(index).proposal.shareMessage);
+                setSelectedMessage(pageState.jobsWithShareMessage!.elementAt(index).proposal!.shareMessage!);
+                pageState.onShareMessageChanged!(pageState.jobsWithShareMessage!.elementAt(index).proposal!.shareMessage!);
                 Navigator.of(context).pop();
               },
               child: Column(
@@ -107,7 +107,7 @@ class _ChooseShareMessageBottomSheetPageState extends State<ChooseShareMessageBo
                     alignment: Alignment.center,
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      text: pageState.jobsWithShareMessage.elementAt(index).jobTitle,
+                      text: pageState.jobsWithShareMessage!.elementAt(index).jobTitle,
                       textAlign: TextAlign.center,
                       color: Color(ColorConstants.getPrimaryBlack()),
                     ),
@@ -121,7 +121,7 @@ class _ChooseShareMessageBottomSheetPageState extends State<ChooseShareMessageBo
                         borderRadius: const BorderRadius.all(Radius.circular(32.0))),
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      text: pageState.jobsWithShareMessage.elementAt(index).proposal.shareMessage,
+                      text: pageState.jobsWithShareMessage!.elementAt(index).proposal!.shareMessage,
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.fade,
                       maxLines: 9,

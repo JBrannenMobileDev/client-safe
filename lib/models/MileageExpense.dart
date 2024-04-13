@@ -1,17 +1,17 @@
 import 'package:dandylight/models/Charge.dart';
 
 class MileageExpense {
-  int id;
-  String documentId;
-  String jobDocumentId;
-  double totalMiles;
-  bool isRoundTrip;
-  double startLat;
-  double startLng;
-  double deductionRate;
-  double endLat;
-  double endLng;
-  Charge charge;
+  int? id;
+  String? documentId;
+  String? jobDocumentId;
+  double? totalMiles;
+  bool? isRoundTrip;
+  double? startLat;
+  double? startLng;
+  double? deductionRate;
+  double? endLat;
+  double? endLng;
+  Charge? charge;
 
 
   MileageExpense({
@@ -39,7 +39,7 @@ class MileageExpense {
       'deductionRate' : deductionRate,
       'endLat' : endLat,
       'endLng' : endLng,
-      'charge' : charge.toMap(),
+      'charge' : charge!.toMap(),
     };
   }
 

@@ -24,7 +24,7 @@ class AllInvoicesPage extends StatefulWidget {
 class _AllInvoicesPageState extends State<AllInvoicesPage> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   ScrollController _controller = ScrollController();
-  Map<int, Widget> filterNames;
+  Map<int, Widget>? filterNames;
   int selectorIndex = 0;
 
   @override
@@ -47,7 +47,7 @@ class _AllInvoicesPageState extends State<AllInvoicesPage> {
     };
     return StoreConnector<AppState, IncomeAndExpensesPageState>(
         onInit: (store) {
-          selectorIndex = store.state.incomeAndExpensesPageState.allInvoicesFilterType == AllInvoicesPage.FILTER_TYPE_UNPAID ? 0 : 1;
+          selectorIndex = store.state.incomeAndExpensesPageState!.allInvoicesFilterType == AllInvoicesPage.FILTER_TYPE_UNPAID ? 0 : 1;
           filterNames = <int, Widget>{
             0: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
@@ -75,7 +75,6 @@ class _AllInvoicesPageState extends State<AllInvoicesPage> {
                   CustomScrollView(
                     slivers: <Widget>[
                       SliverAppBar(
-                        brightness: Brightness.light,
                         backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                         pinned: true,
                         centerTitle: true,
@@ -89,7 +88,7 @@ class _AllInvoicesPageState extends State<AllInvoicesPage> {
                         actions: <Widget>[
                           GestureDetector(
                             onTap: () {
-                              UserOptionsUtil.showNewInvoiceDialog(context, null, true);
+                              UserOptionsUtil.showNewInvoiceDialog(context, null);
                             },
                             child: Container(
                               margin: EdgeInsets.only(right: 12.0),
@@ -106,12 +105,12 @@ class _AllInvoicesPageState extends State<AllInvoicesPage> {
                             child: CupertinoSlidingSegmentedControl<int>(
                               backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                               thumbColor: Color(ColorConstants.getPrimaryColor()),
-                              children: filterNames,
-                              onValueChanged: (int filterTypeIndex) {
+                              children: filterNames!,
+                              onValueChanged: (int? filterTypeIndex) {
                                 setState(() {
-                                  selectorIndex = filterTypeIndex;
+                                  selectorIndex = filterTypeIndex!;
                                 });
-                                pageState.onAllInvoicesFilterChanged(filterTypeIndex == 0 ? AllInvoicesPage.FILTER_TYPE_UNPAID : AllInvoicesPage.FILTER_TYPE_PAID);
+                                pageState.onAllInvoicesFilterChanged!(filterTypeIndex == 0 ? AllInvoicesPage.FILTER_TYPE_UNPAID : AllInvoicesPage.FILTER_TYPE_PAID);
                               },
                               groupValue: selectorIndex,
                             ),
@@ -129,7 +128,7 @@ class _AllInvoicesPageState extends State<AllInvoicesPage> {
                               controller: _controller,
                               physics: ClampingScrollPhysics(),
                               key: _listKey,
-                              itemCount: selectorIndex == 0 ? pageState.unpaidInvoices.length : pageState.paidInvoices.length,
+                              itemCount: selectorIndex == 0 ? pageState.unpaidInvoices!.length : pageState.paidInvoices!.length,
                               itemBuilder: _buildItem,
                             ),
                           ],
@@ -148,6 +147,6 @@ Widget _buildItem(BuildContext context, int index) {
   return StoreConnector<AppState, IncomeAndExpensesPageState>(
     converter: (store) => IncomeAndExpensesPageState.fromStore(store),
     builder: (BuildContext context, IncomeAndExpensesPageState pageState) =>
-        pageState.allInvoicesFilterType == AllInvoicesPage.FILTER_TYPE_UNPAID ? InvoiceItem(invoice: pageState.unpaidInvoices.elementAt(index)) : PaidInvoiceItem(invoice: pageState.paidInvoices.elementAt(index)),
+        pageState.allInvoicesFilterType == AllInvoicesPage.FILTER_TYPE_UNPAID ? InvoiceItem(invoice: pageState.unpaidInvoices!.elementAt(index)) : PaidInvoiceItem(invoice: pageState.paidInvoices!.elementAt(index)),
   );
 }

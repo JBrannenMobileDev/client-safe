@@ -28,9 +28,9 @@ class NewLocationMapPage extends StatefulWidget {
 class _NewLocationMapPage extends State<NewLocationMapPage> {
   final Completer<GoogleMapController> _controller = Completer();
   TextEditingController controller = TextEditingController();
-  Timer _throttle;
+  Timer? _throttle;
   final FocusNode _searchFocus = FocusNode();
-  LatLng latLngLocal = null;
+  LatLng? latLngLocal;
 
   @override
   void dispose() {
@@ -52,22 +52,21 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
       },
       onWillChange: (pageStatePrevious, pageState) async {
         controller.value = controller.value.copyWith(text: pageState.searchText);
-        if(pageState.selectedSearchLocation != null && pageStatePrevious.locationsResults.length > 0){
-          animateTo(pageState.selectedSearchLocation.latitude, pageState.selectedSearchLocation.longitude);
+        if(pageState.selectedSearchLocation != null && pageStatePrevious!.locationsResults!.length > 0){
+          animateTo(pageState.selectedSearchLocation!.latitude!, pageState.selectedSearchLocation!.longitude!);
         }
       },
       converter: (Store<AppState> store) =>
           NewLocationPageState.fromStore(store),
       builder: (BuildContext context, NewLocationPageState pageState) =>
           Scaffold(
-            resizeToAvoidBottomInset: false,
             backgroundColor: Color(ColorConstants.getBlueDark()),
             body: Stack(
               alignment: Alignment.topCenter,
               children: <Widget>[
                 GoogleMap(
                   initialCameraPosition: CameraPosition(
-                    target: LatLng(pageState.newLocationLatitude, pageState.newLocationLongitude),
+                    target: LatLng(pageState.newLocationLatitude!, pageState.newLocationLongitude!),
                     zoom: 15,
                   ),
                   onMapCreated: (GoogleMapController controller) {
@@ -78,12 +77,14 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
                   compassEnabled: false,
                   onCameraIdle: () async{
                     final GoogleMapController controller = await _controller.future;
-                    LatLng latLng = await controller.getLatLng(
-                        ScreenCoordinate(
-                          x: (MediaQuery.of(context).size.width/2).round(),
-                          y: (MediaQuery.of(context).size.height/2).round(),
-                        )
-                    );
+                    double screenWidth = MediaQuery.of(context).size.width * MediaQuery.of(context).devicePixelRatio;
+                    double screenHeight = MediaQuery.of(context).size.height * MediaQuery.of(context).devicePixelRatio;
+
+                    double middleX = screenWidth / 2;
+                    double middleY = screenHeight / 2;
+
+                    ScreenCoordinate screenCoordinate = ScreenCoordinate(x: middleX.round(), y: middleY.round());
+                    LatLng latLng = await controller.getLatLng(screenCoordinate);
                     setState(() {
                       latLngLocal = latLng;
                     });
@@ -91,7 +92,7 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
                 ),Container(
                   alignment: Alignment.center,
                   child: Container(
-                    margin: EdgeInsets.only(bottom: 36.0),
+                    margin: EdgeInsets.only(bottom: 48.0),
                     alignment: Alignment.center,
                     height: 48.0,
                     width: 48.0,
@@ -110,8 +111,8 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
                     margin: EdgeInsets.only(bottom: 14.0),
                     child: GestureDetector(
                       onTap: () {
-                        pageState.onLocationChanged(latLngLocal);
-                        pageState.onMapLocationSaved();
+                        pageState.onLocationChanged!(latLngLocal!);
+                        pageState.onMapLocationSaved!();
                         Navigator.of(context).pop(true);
                       },
                       child: Container(
@@ -149,13 +150,13 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
                         focusNode: _searchFocus,
                         onChanged: (text) {
                           if(_throttle?.isActive ?? false) {
-                            _throttle.cancel();
+                            _throttle!.cancel();
                           } else {
                             _throttle = Timer(const Duration(milliseconds: 350), () {
-                              pageState.onThrottleGetLocations(text);
+                              pageState.onThrottleGetLocations!(text);
                             });
                           }
-                          pageState.onSearchInputChanged(text);
+                          pageState.onSearchInputChanged!(text);
                         },
                         style: TextStyle(
                           fontFamily: TextDandyLight.getFontFamily(),
@@ -193,7 +194,7 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
                     ),
                   ),
                 ),
-                pageState.locationsResults.length > 0  && controller.value.text.isNotEmpty ? SafeArea(
+                pageState.locationsResults!.length > 0  && controller.value.text.isNotEmpty ? SafeArea(
                   child: Container(
                     height: 350.0,
                     margin: EdgeInsets.only(top: 64.0, left: 32.0, right: 32.0),
@@ -205,12 +206,12 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
                     child: ListView.builder(
                       shrinkWrap: true,
                       physics: ClampingScrollPhysics(),
-                      itemCount: pageState.locationsResults.length,
+                      itemCount: pageState.locationsResults!.length,
                       itemBuilder: (context, index) {
                         return TextButton(
                           style: Styles.getButtonStyle(),
                           onPressed: () {
-                            pageState.onSearchLocationSelected(pageState.locationsResults.elementAt(index));
+                            pageState.onSearchLocationSelected!(pageState.locationsResults!.elementAt(index));
                             _searchFocus.unfocus();
                           },
                           child: Container(
@@ -235,7 +236,7 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
                                       Flexible(
                                         child: TextDandyLight(
                                           type: TextDandyLight.SMALL_TEXT,
-                                          text: pageState.locationsResults.elementAt(index).name,
+                                          text: pageState.locationsResults!.elementAt(index).name,
                                           maxLines: 1,
                                           textAlign: TextAlign.start,
                                           overflow: TextOverflow.visible,
@@ -245,7 +246,7 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
                                       Expanded(
                                         child: TextDandyLight(
                                           type: TextDandyLight.SMALL_TEXT,
-                                          text: pageState.locationsResults.elementAt(index).address,
+                                          text: pageState.locationsResults!.elementAt(index).address,
                                           maxLines: 1,
                                           textAlign: TextAlign.start,
                                           overflow: TextOverflow.visible,

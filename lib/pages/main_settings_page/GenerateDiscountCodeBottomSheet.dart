@@ -42,7 +42,7 @@ class _GenerateDiscountCodeBottomSheetState extends State<GenerateDiscountCodeBo
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, MainSettingsPageState>(
     onDidChange: (previous, current) {
-      if(previous.discountCode.isEmpty && current.discountCode.isNotEmpty && !hasPopped) {
+      if(previous!.discountCode!.isEmpty && current.discountCode!.isNotEmpty && !hasPopped) {
         hasPopped = true;
         Navigator.of(context).pop();
       }
@@ -83,7 +83,7 @@ class _GenerateDiscountCodeBottomSheetState extends State<GenerateDiscountCodeBo
                      "Instagram URL",
                      TextInputType.text,
                      110.0,
-                     pageState.onInstaUrlChanged,
+                     pageState.onInstaUrlChanged!,
                      NewContactPageState.NO_ERROR,
                      TextInputAction.done,
                      _notesFocusNode,
@@ -99,12 +99,17 @@ class _GenerateDiscountCodeBottomSheetState extends State<GenerateDiscountCodeBo
                      if(notesController.text.length > 0) {
                        switch(discountType){
                          case DiscountCodes.LIFETIME_FREE:
-                           pageState.generateFreeDiscountCode();
+                           pageState.generateFreeDiscountCode!();
                            break;
                          case DiscountCodes.FIFTY_PERCENT_TYPE:
-                           pageState.generate50DiscountCode();
+                           pageState.generate50DiscountCode!();
+                           break;
+                         case DiscountCodes.FIRST_3_MONTHS_FREE:
+                           pageState.generate3MonthsFreeCode!();
                            break;
                        }
+                     } else if(discountType == DiscountCodes.FIRST_3_MONTHS_FREE) {
+                       pageState.generate3MonthsFreeCode!();
                      }
                    },
                    child: Container(

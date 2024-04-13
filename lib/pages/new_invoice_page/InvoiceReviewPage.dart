@@ -1,5 +1,4 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/IncomeAndExpenses/PdfViewerPage.dart';
 import 'package:dandylight/pages/new_invoice_page/BalanceDueWidget.dart';
 import 'package:dandylight/pages/new_invoice_page/DepositRowWidget.dart';
 import 'package:dandylight/pages/new_invoice_page/DiscountRowWidget.dart';
@@ -63,9 +62,9 @@ class _InvoiceReviewPageState extends State<InvoiceReviewPage> with AutomaticKee
               LineItemListWidget(pageState, true),
               GrayDividerWidget(),
               SubtotalRowWidget(pageState),
-              pageState.selectedJob != null ? (pageState.selectedJob.isDepositPaid() ? DepositRowWidget() : SizedBox()) : SizedBox(),
-              pageState.discountValue > 0 ? DiscountRowWidget(pageState) : SizedBox(),
-              pageState.isSalesTaxChecked ? SalesTaxRowWidget() : SizedBox(height: 16.0,),
+              pageState.selectedJob != null ? (pageState.selectedJob!.isDepositPaid() ? DepositRowWidget() : SizedBox()) : SizedBox(),
+              pageState.discountValue! > 0 ? DiscountRowWidget(pageState) : SizedBox(),
+              pageState.isSalesTaxChecked! ? SalesTaxRowWidget() : SizedBox(height: 16.0,),
               SizedBox(height: 16.0,),
               GrayDividerWidget(),
               BalanceDueWidget(pageState),
@@ -74,7 +73,7 @@ class _InvoiceReviewPageState extends State<InvoiceReviewPage> with AutomaticKee
                 alignment: Alignment.centerLeft,
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
-                  text: 'Due date:   ' + DateFormat('MMM dd, yyyy').format(pageState.dueDate),
+                  text: 'Due date:   ' + DateFormat('MMM dd, yyyy').format(pageState.dueDate!),
                   textAlign: TextAlign.start,
                   color: Color(ColorConstants.getPrimaryBlack()),
                 ),

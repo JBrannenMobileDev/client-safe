@@ -1,9 +1,9 @@
 
 class LeadSourcePieChartRowData {
-  String sourceName;
-  int count;
-  int conversionRate;
-  int color;
+  String? sourceName;
+  int? count;
+  int? conversionRate;
+  int? color;
 
   LeadSourcePieChartRowData({
     this.sourceName,

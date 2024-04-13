@@ -1,12 +1,12 @@
 import 'package:dandylight/models/rest_models/OneHourForecast.dart';
 
 class OneDayForecast {
-  final String date;
-  final int date_epoch;
-  final int mintemp;
-  final int maxtemp;
-  final int avgtemp;
-  final List<OneHourForecast> hourly;
+  final String? date;
+  final int? date_epoch;
+  final int? mintemp;
+  final int? maxtemp;
+  final int? avgtemp;
+  final List<OneHourForecast>? hourly;
 
   const OneDayForecast({
     this.date,
@@ -29,7 +29,7 @@ class OneDayForecast {
   }
 
   static List<OneHourForecast> convertMapsToJobStages(List listOfMaps){
-    List<OneHourForecast> listOfHourForecasts = List();
+    List<OneHourForecast> listOfHourForecasts = [];
     for(Map map in listOfMaps){
       listOfHourForecasts.add(OneHourForecast.fromMap(map));
     }

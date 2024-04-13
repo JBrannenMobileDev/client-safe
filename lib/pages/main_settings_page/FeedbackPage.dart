@@ -6,7 +6,7 @@ import 'package:flutter_device_type/flutter_device_type.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class FeedbackPage extends StatelessWidget {
-  const FeedbackPage({Key key}) : super(key: key);
+  const FeedbackPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

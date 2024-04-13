@@ -24,7 +24,7 @@ class AddTipDialog extends StatefulWidget {
 
 class _AddTipDialogState extends State<AddTipDialog> with AutomaticKeepAliveClientMixin {
 
-  OverlayEntry overlayEntry;
+  OverlayEntry? overlayEntry;
   final int pageCount = 2;
   final controller = PageController(
     initialPage: 0,
@@ -57,7 +57,7 @@ class _AddTipDialogState extends State<AddTipDialog> with AutomaticKeepAliveClie
                     tooltip: 'Close',
                     color: Color(ColorConstants.getPeachDark()),
                     onPressed: () {
-                      pageState.onClearUnsavedTip();
+                      pageState.onClearUnsavedTip!();
                       Navigator.of(context).pop();
                     },
                   ),
@@ -147,8 +147,8 @@ class _AddTipDialogState extends State<AddTipDialog> with AutomaticKeepAliveClie
       }
 
       if (canProgress) {
-        pageState.onNextPressed();
-        controller.animateToPage(pageState.pageViewIndex + 1,
+        pageState.onNextPressed!();
+        controller.animateToPage(pageState.pageViewIndex! + 1,
             duration: Duration(milliseconds: 150), curve: Curves.ease);
         if (MediaQuery
             .of(context)
@@ -161,7 +161,7 @@ class _AddTipDialogState extends State<AddTipDialog> with AutomaticKeepAliveClie
       showSuccessAnimation(
         context,
       );
-      pageState.onSaveTipSelected();
+      pageState.onSaveTipSelected!();
     }
   }
 
@@ -179,12 +179,12 @@ class _AddTipDialogState extends State<AddTipDialog> with AutomaticKeepAliveClie
           child: InputDoneView());
     });
 
-    overlayState.insert(overlayEntry);
+    overlayState.insert(overlayEntry!);
   }
 
   removeOverlay() {
     if (overlayEntry != null) {
-      overlayEntry.remove();
+      overlayEntry!.remove();
       overlayEntry = null;
     }
   }
@@ -212,11 +212,11 @@ class _AddTipDialogState extends State<AddTipDialog> with AutomaticKeepAliveClie
 
   void onBackPressed(IncomeAndExpensesPageState pageState) {
     if (pageState.pageViewIndex == 0) {
-      pageState.onCancelPressed();
+      pageState.onCancelPressed!();
       Navigator.of(context).pop();
     } else {
-      pageState.onBackPressed();
-      controller.animateToPage(pageState.pageViewIndex - 1,
+      pageState.onBackPressed!();
+      controller.animateToPage(pageState.pageViewIndex! - 1,
           duration: Duration(milliseconds: 150), curve: Curves.ease);
     }
   }

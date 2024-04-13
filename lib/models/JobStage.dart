@@ -64,9 +64,9 @@ class JobStage {
 
   JobStage({this.id, this.stage, this.imageLocation});
 
-  int id;
-  String stage;
-  String imageLocation;
+  int? id;
+  String? stage;
+  String? imageLocation;
 
   Image getCompletedImage(Color color) {
     return Image.asset(

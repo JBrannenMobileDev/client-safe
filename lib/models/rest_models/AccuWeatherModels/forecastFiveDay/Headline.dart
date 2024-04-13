@@ -1,13 +1,13 @@
 class Headline {
-  String effectiveDate;
-  int effectiveEpochDate;
-  int severity;
-  String text;
-  String category;
-  String endDate;
-  int endEpochDate;
-  String mobileLink;
-  String link;
+  String? effectiveDate;
+  int? effectiveEpochDate;
+  int? severity;
+  String? text;
+  String? category;
+  String? endDate;
+  int? endEpochDate;
+  String? mobileLink;
+  String? link;
 
   Headline(
       {this.effectiveDate,

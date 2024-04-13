@@ -15,7 +15,7 @@ import 'PricingInfo.dart';
 import 'package:universal_html/html.dart' as html;
 
 class LandingPage extends StatefulWidget{
-  final String comingFrom;
+  final String? comingFrom;
   LandingPage({this.comingFrom});
 
 
@@ -30,7 +30,7 @@ class _LandingPageState extends State<LandingPage> {
   static const String HOME = 'home';
   static const String BLOG = 'blog';
   static const String ABOUT = 'about';
-  final String comingFrom;
+  final String? comingFrom;
 
   _LandingPageState(this.comingFrom);
 
@@ -158,7 +158,7 @@ class _LandingPageState extends State<LandingPage> {
                                       mode: LaunchMode.externalApplication,
                                     );
                                     EventSender().sendEvent(eventName: EventNames.WEBSITE_DOWNLOAD_CLICKED, properties: {
-                                      EventNames.WEBSITE_DOWNLOAD_CLICKED_PARAM : comingFrom
+                                      EventNames.WEBSITE_DOWNLOAD_CLICKED_PARAM : comingFrom!
                                     });
                                   },
                                   child: Container(
@@ -196,7 +196,7 @@ class _LandingPageState extends State<LandingPage> {
                                       mode: LaunchMode.externalApplication,
                                     );
                                     EventSender().sendEvent(eventName: EventNames.WEBSITE_DOWNLOAD_CLICKED, properties: {
-                                      EventNames.WEBSITE_DOWNLOAD_CLICKED_PARAM : comingFrom
+                                      EventNames.WEBSITE_DOWNLOAD_CLICKED_PARAM : comingFrom!
                                     });
                                   },
                                   child: Container(
@@ -351,7 +351,7 @@ class _LandingPageState extends State<LandingPage> {
                   mode: LaunchMode.externalApplication,
                 );
                 EventSender().sendEvent(eventName: EventNames.WEBSITE_DOWNLOAD_CLICKED, properties: {
-                  EventNames.WEBSITE_DOWNLOAD_CLICKED_PARAM : comingFrom
+                  EventNames.WEBSITE_DOWNLOAD_CLICKED_PARAM : comingFrom!
                 });
               },
               child: Container(
@@ -391,7 +391,7 @@ class _LandingPageState extends State<LandingPage> {
                   mode: LaunchMode.externalApplication,
                 );
                 EventSender().sendEvent(eventName: EventNames.WEBSITE_DOWNLOAD_CLICKED, properties: {
-                  EventNames.WEBSITE_DOWNLOAD_CLICKED_PARAM : comingFrom
+                  EventNames.WEBSITE_DOWNLOAD_CLICKED_PARAM : comingFrom!
                 });
               },
               child: Container(
@@ -440,7 +440,7 @@ class _LandingPageState extends State<LandingPage> {
               mode: LaunchMode.externalApplication,
             );
             EventSender().sendEvent(eventName: EventNames.WEBSITE_DOWNLOAD_CLICKED, properties: {
-              EventNames.WEBSITE_DOWNLOAD_CLICKED_PARAM : comingFrom
+              EventNames.WEBSITE_DOWNLOAD_CLICKED_PARAM : comingFrom!
             });
           },
           child: Container(
@@ -498,7 +498,7 @@ class _LandingPageState extends State<LandingPage> {
               mode: LaunchMode.externalApplication,
             );
             EventSender().sendEvent(eventName: EventNames.WEBSITE_DOWNLOAD_CLICKED, properties: {
-              EventNames.WEBSITE_DOWNLOAD_CLICKED_PARAM : comingFrom
+              EventNames.WEBSITE_DOWNLOAD_CLICKED_PARAM : comingFrom!
             });
           },
           child: Container(

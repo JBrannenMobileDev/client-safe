@@ -10,7 +10,7 @@ import '../sunset_weather_page/SunsetWeatherPage.dart';
 import 'JobDetailsPageState.dart';
 
 class SunsetWeatherCard extends StatefulWidget {
-  const SunsetWeatherCard({Key key}) : super(key: key);
+  const SunsetWeatherCard({Key? key}) : super(key: key);
 
 
   @override
@@ -20,19 +20,19 @@ class SunsetWeatherCard extends StatefulWidget {
 }
 
 class _SunsetWeatherCard extends State<SunsetWeatherCard> {
-  DateTime newDateTimeHolder;
+  DateTime? newDateTimeHolder;
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, JobDetailsPageState>(
       onInit: (store) {
-        newDateTimeHolder = store.state.jobDetailsPageState.job.selectedTime;
+        newDateTimeHolder = store.state.jobDetailsPageState!.job!.selectedTime;
       },
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) =>
           GestureDetector(
             onTap: () {
-              pageState.onSunsetWeatherSelected();
+              pageState.onSunsetWeatherSelected!();
               Navigator.of(context).push(
                 MaterialPageRoute(
                     builder: (context) => SunsetWeatherPage()),
@@ -60,7 +60,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                   ),
                   Container(
                     margin: const EdgeInsets.only(top: 64),
-                    child: pageState.weatherIcon.isNotEmpty ? Row(
+                    child: pageState.weatherIcon!.isNotEmpty ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -73,7 +73,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                             shape: BoxShape.circle,
                           ),
                           child: pageState.weatherIcon != null
-                              ? Image.asset(pageState.weatherIcon, color: Color(ColorConstants.getBlueLight()),)
+                              ? Image.asset(pageState.weatherIcon!, color: Color(ColorConstants.getBlueLight()),)
                               : const SizedBox(),
                         ),
                         Container(

@@ -6,9 +6,11 @@ import 'package:dandylight/data_layer/mappers/JobToEventMapper.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:device_calendar/device_calendar.dart';
+import 'package:flutter/services.dart';
 
 import '../data_layer/local_db/daos/JobDao.dart';
 import '../data_layer/local_db/daos/ProfileDao.dart';
+import '../data_layer/local_db/shared_preferences/JobEventIdMap.dart';
 import 'UidUtil.dart';
 
 class CalendarSyncUtil {
@@ -18,12 +20,34 @@ class CalendarSyncUtil {
     try {
       DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
       final calendarsResult = await _deviceCalendarPlugin.retrieveCalendars();
-      return _getAllEvents(
-          calendarsResult, _deviceCalendarPlugin, startDate, endDate);
+      return _getAllEvents(calendarsResult, _deviceCalendarPlugin, startDate, endDate);
     } catch (e) {
       print(e);
     }
-    return events;
+    return await removeDandylightJobsFromDeviceEventList(events);
+  }
+
+  static Future<List<Event>> removeDandylightJobsFromDeviceEventList(List<Event> list) async {
+    List<JobEventIdMap> savedDeviceEventMaps = await DandylightSharedPrefs.getListOfKnowJobEventsOnDeviceCalendars();
+    List<Event> eventsToRemove = [];
+
+    for(Event event in list) {
+      for(JobEventIdMap savedEventMap in savedDeviceEventMaps) {
+        if(savedEventMap.eventId == event.eventId) {
+          eventsToRemove.add(event);
+        }
+      }
+    }
+
+    List<Event> resultEvents = [];
+
+    for(Event event in list) {
+      if(!eventsToRemove.contains(event)) {
+        resultEvents.add(event);
+      }
+    }
+
+    return resultEvents;
   }
 
   static Future<List<Event>> _getAllEvents(
@@ -31,20 +55,22 @@ class CalendarSyncUtil {
       DeviceCalendarPlugin deviceCalendarPlugin,
       DateTime startDate,
       DateTime endDate) async {
+
+    List<dynamic> idsToSync = (await ProfileDao.getMatchingProfile(UidUtil().getUid()))?.calendarIdsToSync?.toList() ?? [];
     List<Event> events = [];
-    List<Calendar> allCalendars = calendarsResult.data != null ? calendarsResult.data.toList(growable: false) : [];
+    List<Calendar> allCalendars = calendarsResult.data != null ? calendarsResult.data!.toList(growable: false) : [];
     List<Calendar> calendars = [];
 
     for (Calendar calendar in allCalendars) {
-      if (calendar.accountType != 'Birthdays') calendars.add(calendar);
+      if (calendar.accountType != 'Birthdays' && idsToSync.contains(calendar.id)) calendars.add(calendar);
     }
 
     for (Calendar calendar in calendars) {
       RetrieveEventsParams params = RetrieveEventsParams(startDate: startDate, endDate: endDate);
-      List<Event> eventsForCalendar = (await deviceCalendarPlugin.retrieveEvents(calendar.id, params))
-              .data
-              ?.toList(growable: false);
-      if(eventsForCalendar != null && eventsForCalendar.isNotEmpty) {
+      List<Event>? eventsForCalendar = (await deviceCalendarPlugin.retrieveEvents(calendar.id, params))
+              .data!
+              .toList(growable: false);
+      if(eventsForCalendar.isNotEmpty) {
         events.addAll(eventsForCalendar);
       }
     }
@@ -64,7 +90,7 @@ class CalendarSyncUtil {
     try {
       DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
 
-      List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).calendarIdsToSync.toList();
+      List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid()))!.calendarIdsToSync!.toList();
       List<String> calendarsToSync = List<String>.from(calendarsIds);
       List<Job> unfinishedJobs = await getUnfinishedJobs();
 
@@ -74,14 +100,14 @@ class CalendarSyncUtil {
               job,
               calendarId,
               await DandylightSharedPrefs.getEventIdByJobAndCalendar(
-                  job.documentId, calendarId));
-          if (event.eventId.isNotEmpty) {
+                  job.documentId!, calendarId));
+          if (event.eventId!.isNotEmpty) {
             await _deviceCalendarPlugin.deleteEvent(
                 event.calendarId, event.eventId);
           }
         }
       }
-      await DandylightSharedPrefs.deleteAllEvents();
+      DandylightSharedPrefs.deleteAllEvents();
     } catch (e) {
       print(e);
     }
@@ -91,7 +117,7 @@ class CalendarSyncUtil {
     try {
       DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
 
-      List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).calendarIdsToSync.toList();
+      List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid()))!.calendarIdsToSync!.toList();
       List<String> calendarsToSync = List<String>.from(calendarsIds);
 
       List<Job> unfinishedJobs = await getUnfinishedJobs();
@@ -99,11 +125,11 @@ class CalendarSyncUtil {
       for (String calendarId in calendarsToSync) {
         for (Job job in unfinishedJobs) {
           if(job.selectedTime != null && job.selectedDate != null){
-            Event event = await JobToEventMapper.map(job, calendarId, await DandylightSharedPrefs.getEventIdByJobAndCalendar(job.documentId, calendarId));
+            Event event = await JobToEventMapper.map(job, calendarId, await DandylightSharedPrefs.getEventIdByJobAndCalendar(job.documentId!, calendarId));
             final createEventResult = await _deviceCalendarPlugin.createOrUpdateEvent(event);
-            if (createEventResult.isSuccess && (createEventResult.data?.isNotEmpty ?? false)) {
-              String eventId = createEventResult.data;
-              await DandylightSharedPrefs.saveEventId(
+            if (createEventResult!.isSuccess && (createEventResult.data?.isNotEmpty ?? false)) {
+              String eventId = createEventResult.data!;
+              DandylightSharedPrefs.saveEventId(
                   eventId, calendarId, job.documentId);
             }
           }
@@ -115,12 +141,12 @@ class CalendarSyncUtil {
   }
 
   static Future<List<Job>> getUnfinishedJobs() async {
-    List<Job> allJobs = await JobDao.getAllJobs();
+    List<Job>? allJobs = await JobDao.getAllJobs();
     List<Job> unfinishedJobs = [];
     DateTime now = DateTime.now();
 
-    for (Job job in allJobs) {
-      if (job.selectedDate.isAfter(now)) {
+    for (Job job in allJobs!) {
+      if (job.selectedDate!.isAfter(now)) {
         unfinishedJobs.add(job);
       }
     }
@@ -128,10 +154,10 @@ class CalendarSyncUtil {
   }
 
   static List<Calendar> _getWritableCalendars(Result<UnmodifiableListView<Calendar>> calendarsResult) {
-    List<Calendar> allCalendars = calendarsResult.data.toList(growable: false);
+    List<Calendar> allCalendars = calendarsResult.data!.toList(growable: false);
     List<Calendar> writableCalendars = [];
     for (Calendar calendar in allCalendars) {
-      if (!calendar.isReadOnly) {
+      if (!calendar.isReadOnly!) {
         writableCalendars.add(calendar);
       }
     }
@@ -141,16 +167,20 @@ class CalendarSyncUtil {
   static Future<List<Calendar>> getWritableCalendars() async {
     List<Calendar> writableCalendars = [];
     try{
-      DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
+      DeviceCalendarPlugin _deviceCalendarPlugin = DeviceCalendarPlugin();
 
       final calendarsResult = await _deviceCalendarPlugin.retrieveCalendars();
 
-      List<Calendar> allCalendars = calendarsResult.data.toList(growable: false);
-      for (Calendar calendar in allCalendars) {
-        if (!calendar.isReadOnly) {
-          writableCalendars.add(calendar);
+      if(calendarsResult.data != null) {
+        List<Calendar> allCalendars = calendarsResult.data!.toList(growable: false);
+        for (Calendar calendar in allCalendars) {
+          if (!calendar.isReadOnly!) {
+            writableCalendars.add(calendar);
+          }
         }
       }
+    } on PlatformException catch (err) {
+      print(err);
     } catch (e) {
       print(e);
     }
@@ -161,7 +191,7 @@ class CalendarSyncUtil {
     try {
       DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
 
-      List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).calendarIdsToSync.toList();
+      List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid()))!.calendarIdsToSync!.toList();
       List<String> calendarsToSync = List<String>.from(calendarsIds);
 
       for (String calendarId in calendarsToSync) {
@@ -169,13 +199,13 @@ class CalendarSyncUtil {
             job,
             calendarId,
             await DandylightSharedPrefs.getEventIdByJobAndCalendar(
-                job.documentId, calendarId));
+                job.documentId!, calendarId));
         final createEventResult =
             await _deviceCalendarPlugin.createOrUpdateEvent(event);
-        if (createEventResult.isSuccess &&
+        if (createEventResult!.isSuccess &&
             (createEventResult.data?.isNotEmpty ?? false)) {
-          String eventId = createEventResult.data;
-          await DandylightSharedPrefs.saveEventId(
+          String eventId = createEventResult.data!;
+          DandylightSharedPrefs.saveEventId(
               eventId, calendarId, job.documentId);
         }
       }
@@ -187,10 +217,10 @@ class CalendarSyncUtil {
   static void updateJobEvent(Job job) async {
     try {
       DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
-      Profile profile = (await ProfileDao.getMatchingProfile(UidUtil().getUid()));
+      Profile? profile = (await ProfileDao.getMatchingProfile(UidUtil().getUid()));
       List<dynamic> calendarsIds = [];
-      if(profile.calendarIdsToSync != null) {
-        calendarsIds = profile.calendarIdsToSync.toList();
+      if(profile!.calendarIdsToSync != null) {
+        calendarsIds = profile.calendarIdsToSync!.toList();
       }
       List<String> calendarsToSync = calendarsIds.length > 0 ? List<String>.from(calendarsIds) : [];
 
@@ -198,11 +228,11 @@ class CalendarSyncUtil {
         Event event = await JobToEventMapper.map(
             job,
             calendarId,
-            await DandylightSharedPrefs.getEventIdByJobAndCalendar(job.documentId, calendarId));
+            await DandylightSharedPrefs.getEventIdByJobAndCalendar(job.documentId!, calendarId));
         final createEventResult = await _deviceCalendarPlugin.createOrUpdateEvent(event);
-        if (createEventResult.isSuccess && (createEventResult.data?.isNotEmpty ?? false)) {
-          String eventId = createEventResult.data;
-          await DandylightSharedPrefs.saveEventId(eventId, calendarId, job.documentId);
+        if (createEventResult!.isSuccess && (createEventResult!.data?.isNotEmpty ?? false)) {
+          String eventId = createEventResult.data!;
+          DandylightSharedPrefs.saveEventId(eventId, calendarId, job.documentId);
         }
       }
     } catch (e) {
@@ -214,17 +244,17 @@ class CalendarSyncUtil {
     try {
       DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
 
-      List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).calendarIdsToSync.toList();
+      List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid()))!.calendarIdsToSync!.toList();
       List<String> calendarsToSync = List<String>.from(calendarsIds);
 
       for (String calendarId in calendarsToSync) {
         Event event = await JobToEventMapper.map(
             job,
             calendarId,
-            await DandylightSharedPrefs.getEventIdByJobAndCalendar(job.documentId, calendarId));
+            await DandylightSharedPrefs.getEventIdByJobAndCalendar(job.documentId!, calendarId));
         final deleteEventResult = await _deviceCalendarPlugin.deleteEvent(calendarId, event.eventId);
-        if (deleteEventResult.isSuccess && deleteEventResult.data) {
-          await DandylightSharedPrefs.deleteEvent(job.documentId);
+        if (deleteEventResult.isSuccess && deleteEventResult.data!) {
+          DandylightSharedPrefs.deleteEvent(job.documentId!);
         }
       }
     } catch (e) {

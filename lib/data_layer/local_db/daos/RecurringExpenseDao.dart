@@ -29,7 +29,7 @@ class RecurringExpenseDao extends Equatable{
   }
 
   static Future<void> _updateLastChangedTime() async {
-    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    Profile profile = (await ProfileDao.getAll())!.elementAt(0);
     profile.recurringExpensesLastChangeDate = DateTime.now();
     ProfileDao.update(profile);
   }
@@ -96,15 +96,20 @@ class RecurringExpenseDao extends Equatable{
     }).toList();
   }
 
-  static Future<RecurringExpense> getRecurringExpenseById(String documentId) async{
+  static Future<RecurringExpense?> getRecurringExpenseById(String documentId) async{
     if((await getAll()).length > 0) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
       final recordSnapshots = await _recurringExpenseStore.find(await _db, finder: finder);
-      return recordSnapshots.map((snapshot) {
+      List<RecurringExpense> list =  recordSnapshots.map((snapshot) {
         final expense = RecurringExpense.fromMap(snapshot.value);
         expense.id = snapshot.key;
         return expense;
-      }).toList()?.elementAt(0);
+      }).toList();
+      if(list.isNotEmpty) {
+        return list.elementAt(0);
+      } else {
+        return null;
+      }
     } else {
       return null;
     }
@@ -123,8 +128,8 @@ class RecurringExpenseDao extends Equatable{
     List<RecurringExpense> allLocalRecurringExpenses = await getAll();
     List<RecurringExpense> allFireStoreRecurringExpenses = await RecurringExpenseCollection().getAll(UidUtil().getUid());
 
-    if(allLocalRecurringExpenses != null && allLocalRecurringExpenses.length > 0) {
-      if(allFireStoreRecurringExpenses != null && allFireStoreRecurringExpenses.length > 0) {
+    if(allLocalRecurringExpenses.length > 0) {
+      if(allFireStoreRecurringExpenses.length > 0) {
         //both local and fireStore have clients
         //fireStore is source of truth for this sync.
         await _syncFireStoreToLocal(allLocalRecurringExpenses, allFireStoreRecurringExpenses);
@@ -133,7 +138,7 @@ class RecurringExpenseDao extends Equatable{
         _deleteAllLocalRecurringExpenses(allLocalRecurringExpenses);
       }
     } else {
-      if(allFireStoreRecurringExpenses != null && allFireStoreRecurringExpenses.length > 0){
+      if(allFireStoreRecurringExpenses.length > 0){
         //no local clients but there are fireStore clients.
         await _copyAllFireStoreRecurringExpensesToLocal(allFireStoreRecurringExpenses);
       } else {
@@ -162,7 +167,7 @@ class RecurringExpenseDao extends Equatable{
     for(RecurringExpense localRecurringExpense in allLocalRecurringExpenses) {
       //should only be 1 matching
       List<RecurringExpense> matchingFireStoreRecurringExpenses = allFireStoreRecurringExpenses.where((fireStoreRecurringExpense) => localRecurringExpense.documentId == fireStoreRecurringExpense.documentId).toList();
-      if(matchingFireStoreRecurringExpenses !=  null && matchingFireStoreRecurringExpenses.length > 0) {
+      if(matchingFireStoreRecurringExpenses.length > 0) {
         RecurringExpense fireStoreRecurringExpense = matchingFireStoreRecurringExpenses.elementAt(0);
         final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStoreRecurringExpense.documentId));
         await _recurringExpenseStore.update(
@@ -182,7 +187,7 @@ class RecurringExpenseDao extends Equatable{
 
     for(RecurringExpense fireStoreRecurringExpense in allFireStoreRecurringExpenses) {
       List<RecurringExpense> matchingLocalRecurringExpenses = allLocalRecurringExpenses.where((localRecurringExpense) => localRecurringExpense.documentId == fireStoreRecurringExpense.documentId).toList();
-      if(matchingLocalRecurringExpenses != null && matchingLocalRecurringExpenses.length > 0) {
+      if(matchingLocalRecurringExpenses.length > 0) {
         //do nothing. RecurringExpense already synced.
       } else {
         //add to local. does not exist in local and has not been synced yet.

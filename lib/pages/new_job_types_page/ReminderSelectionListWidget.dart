@@ -60,7 +60,7 @@ class ReminderSelectionListWidget extends StatelessWidget {
                           width: MediaQuery.of(context).size.width - 181,
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
-                            text: pageState.allDandyLightReminders.elementAt(index).description,
+                            text: pageState.allDandyLightReminders!.elementAt(index).description,
                             textAlign: TextAlign.start,
                             maxLines: 1,
                             overflow: TextOverflow.fade,
@@ -70,8 +70,8 @@ class ReminderSelectionListWidget extends StatelessWidget {
                         Container(
                           child: TextDandyLight(
                             type: TextDandyLight.EXTRA_SMALL_TEXT,
-                            text: pageState.allDandyLightReminders.elementAt(index).when == 'on' ? 'Day of shoot' :
-                            pageState.allDandyLightReminders.elementAt(index).amount.toString() + ' ' + (pageState.allDandyLightReminders.elementAt(index).amount == 1 ? pageState.allDandyLightReminders.elementAt(index).daysWeeksMonths.substring(0, pageState.allDandyLightReminders.elementAt(index).daysWeeksMonths.length - 1) : pageState.allDandyLightReminders.elementAt(index).daysWeeksMonths) + ' ' + pageState.allDandyLightReminders.elementAt(index).when,
+                            text: pageState.allDandyLightReminders!.elementAt(index).when == 'on' ? 'Day of shoot' :
+                            pageState.allDandyLightReminders!.elementAt(index).amount.toString() + ' ' + (pageState.allDandyLightReminders!.elementAt(index).amount! == 1 ? pageState.allDandyLightReminders!.elementAt(index).daysWeeksMonths!.substring(0, pageState.allDandyLightReminders!.elementAt(index).daysWeeksMonths!.length - 1) : pageState.allDandyLightReminders!.elementAt(index).daysWeeksMonths!) + ' ' + pageState.allDandyLightReminders!.elementAt(index).when!,
                             textAlign: TextAlign.start,
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
@@ -85,9 +85,9 @@ class ReminderSelectionListWidget extends StatelessWidget {
                   child: Checkbox(
                     checkColor: Color(ColorConstants.getPrimaryWhite()),
                     fillColor: MaterialStateProperty.resolveWith(getColor),
-                    value: pageState.selectedReminders.contains(pageState.allDandyLightReminders.elementAt(index)),
-                    onChanged: (bool isChecked) {
-                      pageState.onReminderSelected(index, isChecked);
+                    value: pageState.selectedReminders!.contains(pageState.allDandyLightReminders!.elementAt(index)),
+                    onChanged: (bool? isChecked) {
+                      pageState.onReminderSelected!(index, isChecked!);
                     },
                   ),
                 ),

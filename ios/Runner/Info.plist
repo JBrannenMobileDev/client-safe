@@ -30,8 +30,12 @@
 	<true/>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Music!</string>
-	<key>NSCalendarsUsageDescription</key>
-	<string>Calendar permission will make it easier to schedule jobs. Your phone calendar will be synced with the DandyLight calendar.</string>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+    <string>Calendar permission will make it easier to schedule jobs. Your phone calendar will be synced with the DandyLight calendar.</string>
+    <key>NSCalendarsWriteOnlyAccessUsageDescription</key>
+    <string>We need access to your calendars to provide awesome features.</string>
+    <key>NSCalendarsUsageDescription</key>
+    <string>We need access to your calendars to provide awesome features.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera will be used to take a picture of this location.</string>
 	<key>NSContactsUsageDescription</key>

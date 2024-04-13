@@ -35,7 +35,7 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
               Center(
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
-                  text: 'Select a due date',
+                  text: 'Select final payment due date',
                   textAlign: TextAlign.start,
                   color: Color(ColorConstants.getPrimaryBlack()),
                 ),
@@ -51,7 +51,7 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
                         dateFormat: 'MMMM dd yyyy',
                         pickerMode: DateTimePickerMode.date,
                         onConfirm: (dateTime, intList) {
-                          pageState.onDueDateSelected(dateTime);
+                          pageState.onDueDateSelected!(dateTime);
                         },
                         pickerTheme: DateTimePickerTheme(
                           cancelTextStyle: TextStyle(
@@ -91,7 +91,7 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
                         ),
                         child: TextDandyLight(
                           type: TextDandyLight.LARGE_TEXT,
-                          text: DateFormat('MMM dd, yyyy').format(pageState.dueDate),
+                          text: DateFormat('MMM dd, yyyy').format(pageState.dueDate!),
                           color: Color(ColorConstants.getPeachDark()),
                         ),
                       ),
@@ -109,7 +109,7 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
                   ),
                 ),
               ),
-              pageState.depositValue > 0 ? Container(
+              pageState.depositValue! > 0 ? Container(
                 alignment: Alignment.topCenter,
                 margin: EdgeInsets.only(top: 64),
                 child: TextDandyLight(
@@ -119,7 +119,7 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
                   color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ) : SizedBox(),
-              pageState.depositValue > 0 ? Container(
+              pageState.depositValue! > 0 ? Container(
                 margin: EdgeInsets.only(top: 16.0),
                 alignment: Alignment.center,
                 child: TextButton(
@@ -130,7 +130,7 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
                         dateFormat: 'MMMM dd yyyy',
                         pickerMode: DateTimePickerMode.date,
                         onConfirm: (dateTime, intList) {
-                          pageState.onDepositDueDateSelected(dateTime);
+                          pageState.onDepositDueDateSelected!(dateTime);
                         },
                         pickerTheme: DateTimePickerTheme(
                           cancelTextStyle: TextStyle(
@@ -170,7 +170,7 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
                         ),
                         child: TextDandyLight(
                           type: TextDandyLight.LARGE_TEXT,
-                          text: DateFormat('MMM dd, yyyy').format(pageState.depositDueDate),
+                          text: DateFormat('MMM dd, yyyy').format(pageState.depositDueDate!),
                           color: Color(ColorConstants.getPeachDark()),
                         ),
                       ),

@@ -17,16 +17,12 @@ import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:dandylight/utils/PdfUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
-import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
-import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 import 'package:sembast/sembast.dart';
 
 import '../../data_layer/local_db/daos/ProfileDao.dart';
 import '../../models/Profile.dart';
-import '../../utils/TextFormatterUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 
@@ -64,18 +60,18 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _invoiceSent(Store<AppState> store, UpdateJobOnInvoiceSent action) async {
-    Job job = await JobDao.getJobById(action.pageState.selectedJob.documentId);
-    List<JobStage> completedStages = job.completedStages;
+    Job? job = await JobDao.getJobById(action.pageState!.selectedJob!.documentId!);
+    List<JobStage>? completedStages = job!.completedStages;
     if(!Job.containsStage(completedStages, JobStage.STAGE_8_PAYMENT_REQUESTED)) {
-      completedStages.add(JobStage(stage: JobStage.STAGE_8_PAYMENT_REQUESTED));
+      completedStages!.add(JobStage(stage: JobStage.STAGE_8_PAYMENT_REQUESTED));
     }
     job.completedStages = completedStages;
-    job.stage = Job.getNextUncompletedStage(job.completedStages, job.type.stages, job);
+    job.stage = Job.getNextUncompletedStage(job!.completedStages!, job.type!.stages!, job);
     await JobDao.update(job);
     await JobDao.update(job);
 
-    Invoice invoice = await InvoiceDao.getInvoiceById(job.invoice.documentId);
-    invoice.sentDate = DateTime.now();
+    Invoice? invoice = await InvoiceDao.getInvoiceById(job.invoice!.documentId!);
+    invoice!.sentDate = DateTime.now();
     await InvoiceDao.update(invoice, job);
 
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
@@ -83,75 +79,75 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _saveInvoice(Store<AppState> store, action, NextDispatcher next) async {
-    bool invoicePaid = store.state.newInvoicePageState.selectedJob.isPaymentReceived();
-    NewInvoicePageState pageState = store.state.newInvoicePageState;
+    bool invoicePaid = store.state.newInvoicePageState!.selectedJob!.isPaymentReceived();
+    NewInvoicePageState pageState = store.state.newInvoicePageState!;
     await InvoiceDao.insertOrUpdate(
         Invoice(
-          clientDocumentId: pageState.selectedJob.clientDocumentId,
-          documentId: pageState.selectedJob.invoice?.documentId,
+          clientDocumentId: pageState.selectedJob!.clientDocumentId,
+          documentId: pageState.selectedJob!.invoice?.documentId,
           invoiceId: pageState.invoiceNumber,
-          clientName: pageState.selectedJob.clientName,
-          jobName: pageState.selectedJob.jobTitle,
-          jobDocumentId: pageState.selectedJob.documentId,
+          clientName: pageState.selectedJob!.clientName,
+          jobName: pageState.selectedJob!.jobTitle,
+          jobDocumentId: pageState.selectedJob!.documentId,
           unpaidAmount: pageState.unpaidAmount,
           createdDate: DateTime.now(),
           dueDate: pageState.dueDate,
           depositDueDate: pageState.depositDueDate,
           depositPaid: false,
           invoicePaid: invoicePaid,
-          priceProfile: pageState.selectedJob.priceProfile,
+          priceProfile: pageState.selectedJob!.priceProfile,
           discount: pageState.discountValue,
           depositAmount: pageState.depositValue,
           total: pageState.total,
           lineItems: pageState.lineItems,
-          sentDate: pageState.selectedJob.invoice?.sentDate,
-          salesTaxAmount: pageState.isSalesTaxChecked ? (pageState.total * (pageState.salesTaxPercent/100)) : 0.0,
+          sentDate: pageState.selectedJob!.invoice?.sentDate,
+          salesTaxAmount: pageState.salesTaxAmount,
           salesTaxRate: pageState.salesTaxPercent,
           subtotal: pageState.subtotal,
-    ), pageState.selectedJob);
+    ), pageState.selectedJob!);
 
     EventSender().sendEvent(eventName: EventNames.CREATED_INVOICE);
 
     store.dispatch(LoadAllInvoicesAction(store.state.incomeAndExpensesPageState));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
-    store.dispatch(SetNewInvoice(store.state.jobDetailsPageState, (await JobDao.getJobById(pageState.selectedJob.documentId)).invoice));
+    store.dispatch(SetNewInvoice(store.state.jobDetailsPageState, (await JobDao.getJobById(pageState.selectedJob!.documentId))!.invoice!));
   }
 
   void _updateDepositStatus(Store<AppState> store, UpdateDepositStatusAction action, NextDispatcher next) async {
-    bool isDepositPaid = store.state.newInvoicePageState.selectedJob.isDepositPaid();
-    Job selectedJob = store.state.newInvoicePageState.selectedJob;
-    if(!action.isChecked && isDepositPaid) {
-      List<JobStage> completedJobStages = selectedJob.completedStages.toList();
+    bool isDepositPaid = store.state.newInvoicePageState!.selectedJob!.isDepositPaid();
+    Job selectedJob = store.state.newInvoicePageState!.selectedJob!;
+    if(!action.isChecked! && isDepositPaid) {
+      List<JobStage> completedJobStages = selectedJob.completedStages!.toList();
       JobStage stageToRemove = JobStage(stage: JobStage.STAGE_5_DEPOSIT_RECEIVED);
       completedJobStages = _removeStage(stageToRemove, completedJobStages);
       selectedJob.completedStages = completedJobStages;
-      JobStage highestCompletedState;
+      JobStage? highestCompletedState;
       for(JobStage completedStage in completedJobStages){
-        if(highestCompletedState == null) highestCompletedState = completedStage;
-        if(getIndexOfStageInStages(completedStage, selectedJob.type.stages) > getIndexOfStageInStages(highestCompletedState, selectedJob.type.stages)) highestCompletedState = completedStage;
+        highestCompletedState ??= completedStage;
+        if(getIndexOfStageInStages(completedStage, selectedJob.type!.stages!) > getIndexOfStageInStages(highestCompletedState, selectedJob.type!.stages!)) highestCompletedState = completedStage;
       }
       if(highestCompletedState != null){
-        selectedJob.stage = JobStage.getNextStage(highestCompletedState, selectedJob.type.stages);
+        selectedJob.stage = JobStage.getNextStage(highestCompletedState, selectedJob.type!.stages!);
       }else{
-        selectedJob.stage = JobStage.getStageFromIndex(1, selectedJob.type.stages);
+        selectedJob.stage = JobStage.getStageFromIndex(1, selectedJob.type!.stages!);
       }
       await JobDao.insertOrUpdate(selectedJob.copyWith());
       store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, selectedJob.copyWith()));
-    }else if(action.isChecked && !isDepositPaid){
-      List<JobStage> completedJobStages = selectedJob.completedStages.toList();
+    }else if(action.isChecked! && !isDepositPaid){
+      List<JobStage> completedJobStages = selectedJob.completedStages!.toList();
       JobStage stageToComplete = JobStage(stage: JobStage.STAGE_5_DEPOSIT_RECEIVED);
       completedJobStages.add(stageToComplete);
       selectedJob.completedStages = completedJobStages;
-      selectedJob.stage = _getNextUncompletedStage(JobStage(stage: JobStage.STAGE_5_DEPOSIT_RECEIVED), selectedJob.completedStages, selectedJob);
+      selectedJob.stage = _getNextUncompletedStage(JobStage(stage: JobStage.STAGE_5_DEPOSIT_RECEIVED), selectedJob.completedStages!, selectedJob);
       await JobDao.insertOrUpdate(selectedJob.copyWith());
       store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, selectedJob.copyWith()));
     }
   }
 
   JobStage _getNextUncompletedStage(JobStage currentStage, List<JobStage> completedStages, Job job) {
-    JobStage nextStage = JobStage.getNextStage(currentStage, job.type.stages);
+    JobStage nextStage = JobStage.getNextStage(currentStage, job.type!.stages!);
     while(_completedStagesContainsNextStage(completedStages, nextStage)){
-      nextStage = JobStage.getNextStage(nextStage, job.type.stages);
+      nextStage = JobStage.getNextStage(nextStage, job.type!.stages!);
     }
     return nextStage;
   }
@@ -174,17 +170,17 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _loadAll(Store<AppState> store, FetchAllInvoiceJobsAction action, NextDispatcher next) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     List<Client> allClients = await ClientDao.getAllSortedByFirstName();
     int newInvoiceNumber = await NextInvoiceNumberDao.nextNumber();
-    List<Job> allJobs = await JobDao.getAllJobs();
-    allJobs = allJobs.where((job) => job.invoice == null).toList();
-    await store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, allJobs, allClients, newInvoiceNumber, profile.salesTaxRate));
+    List<Job>? allJobs = await JobDao.getAllJobs();
+    allJobs = allJobs!.where((job) => job.invoice == null).toList();
+    await store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, allJobs, allClients, newInvoiceNumber, profile!.salesTaxRate));
 
     (await JobDao.getJobsStream()).listen((jobSnapshots) async {
       List<Job> jobs = [];
       for(RecordSnapshot clientSnapshot in jobSnapshots) {
-        jobs.add(Job.fromMap(clientSnapshot.value));
+        jobs.add(Job.fromMap(clientSnapshot.value! as Map<String,dynamic>));
       }
       await store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, jobs, allClients, newInvoiceNumber, profile.salesTaxRate));
     });
@@ -192,7 +188,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     (await ClientDao.getClientsStream()).listen((clientSnapshots) async {
       List<Client> clients = [];
       for(RecordSnapshot clientSnapshot in clientSnapshots) {
-        clients.add(Client.fromMap(clientSnapshot.value));
+        clients.add(Client.fromMap(clientSnapshot.value! as Map<String,dynamic>));
       }
       await store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, allJobs, clients, newInvoiceNumber, profile.salesTaxRate));
     });
@@ -215,24 +211,24 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _generateNewInvoicePdf(Store<AppState> store, action, NextDispatcher next) async {
-    NewInvoicePageState pageState = store.state.newInvoicePageState;
-    Document pdf = await PdfUtil.generateInvoice(
-      pageState.selectedJob,
-      await ClientDao.getClientById(pageState.selectedJob.clientDocumentId),
+    NewInvoicePageState? pageState = store.state.newInvoicePageState;
+    Document? pdf = await PdfUtil.generateInvoice(
+      pageState!.selectedJob!,
+      await ClientDao.getClientById(pageState.selectedJob!.clientDocumentId!),
       await ProfileDao.getMatchingProfile(UidUtil().getUid()),
       pageState.invoiceNumber,
       pageState.dueDate,
       pageState.dueDate,
       pageState.lineItems,
       pageState.total,
-      calculateSubtotal(pageState.lineItems),
+      calculateSubtotal(pageState.lineItems!),
       pageState.depositValue,
       pageState.discountValue,
       pageState.salesTaxPercent,
       pageState.unpaidAmount,
       pageState.isDepositChecked,
     );
-    await PdfUtil.savePdfFile(store.state.newInvoicePageState.invoiceNumber, pdf);
+    await PdfUtil.savePdfFile(store.state.newInvoicePageState!.invoiceNumber, pdf);
   }
 
   getIndexOfStageInStages(JobStage completedStage, List<JobStage> stages) {

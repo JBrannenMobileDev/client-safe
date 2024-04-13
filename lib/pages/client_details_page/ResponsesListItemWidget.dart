@@ -33,7 +33,7 @@ class ResponsesListItemWidget extends StatelessWidget {
   _buildItemDetailsWidget(ClientDetailsPageState pageState, int index, BuildContext context) {
     Widget result = SizedBox();
 
-    switch(pageState.items.elementAt(index).itemType) {
+    switch(pageState.items!.elementAt(index).itemType) {
       case ResponsesListItem.GROUP_TITLE:
         result = GestureDetector(
           onTap: () {
@@ -49,7 +49,7 @@ class ResponsesListItemWidget extends StatelessWidget {
             ),
             child:TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
-              text: pageState.items.elementAt(index).title,
+              text: pageState.items!.elementAt(index).title,
               textAlign: TextAlign.center,
               color: Color(ColorConstants.getPrimaryGreyMedium()),
             ),
@@ -61,11 +61,11 @@ class ResponsesListItemWidget extends StatelessWidget {
           onTap: () {
             switch(type) {
               case SelectSavedResponseBottomSheet.TYPE_SMS:
-                IntentLauncherUtil.sendSMSWithBody(phoneOrEmail, pageState.items.elementAt(index).response.message);
+                IntentLauncherUtil.sendSMSWithBody(phoneOrEmail, pageState.items!.elementAt(index).response!.message!);
                 EventSender().sendEvent(eventName: EventNames.BT_SEND_SAVED_TEXT);
                 break;
               case SelectSavedResponseBottomSheet.TYPE_EMAIL:
-                IntentLauncherUtil.sendEmail(phoneOrEmail, '', pageState.items.elementAt(index).response.message);
+                IntentLauncherUtil.sendEmail(phoneOrEmail, '', pageState.items!.elementAt(index).response!.message!);
                 EventSender().sendEvent(eventName: EventNames.BT_SEND_SAVED_EMAIL);
                 break;
             }
@@ -81,7 +81,7 @@ class ResponsesListItemWidget extends StatelessWidget {
             ),
             child: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
-              text: pageState.items.elementAt(index).title,
+              text: pageState.items!.elementAt(index).title,
               textAlign: TextAlign.start,
               color: Color(ColorConstants.getPrimaryBlack()),
             ),

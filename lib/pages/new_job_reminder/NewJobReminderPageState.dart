@@ -8,21 +8,21 @@ import 'package:redux/redux.dart';
 
 @immutable
 class NewJobReminderPageState {
-  final int id;
-  final String documentId;
-  final int pageViewIndex;
-  final bool comingFromJobDetails;
-  final bool isFinishedFetchingReminders;
-  final bool hasNotCreatedAnyReminders;
-  final ReminderDandyLight selectedReminder;
-  final DateTime selectedTime;
-  final List<ReminderDandyLight> allReminders;
-  final Function(Job) onSavePressed;
-  final Function() onCancelPressed;
-  final Function() onNextPressed;
-  final Function() onBackPressed;
-  final Function(ReminderDandyLight) onReminderSelected;
-  final Function(DateTime) onTimeSelected;
+  final int? id;
+  final String? documentId;
+  final int? pageViewIndex;
+  final bool? comingFromJobDetails;
+  final bool? isFinishedFetchingReminders;
+  final bool? hasNotCreatedAnyReminders;
+  final ReminderDandyLight? selectedReminder;
+  final DateTime? selectedTime;
+  final List<ReminderDandyLight>? allReminders;
+  final Function(Job)? onSavePressed;
+  final Function()? onCancelPressed;
+  final Function()? onNextPressed;
+  final Function()? onBackPressed;
+  final Function(ReminderDandyLight)? onReminderSelected;
+  final Function(DateTime)? onTimeSelected;
 
   NewJobReminderPageState({
     @required this.id,
@@ -43,21 +43,21 @@ class NewJobReminderPageState {
   });
 
   NewJobReminderPageState copyWith({
-    int id,
-    String documentId,
-    int pageViewIndex,
-    bool comingFromJobDetails,
-    bool isFinishedFetchingReminders,
-    ReminderDandyLight selectedReminder,
-    DateTime selectedTime,
-    List<ReminderDandyLight> allReminders,
-    Function() onSavePressed,
-    Function() onCancelPressed,
-    Function() onNextPressed,
-    Function() onBackPressed,
-    Function(ReminderDandyLight) onReminderSelected,
-    Function(DateTime) onTimeSelected,
-    bool hasNotCreatedAnyReminders,
+    int? id,
+    String? documentId,
+    int? pageViewIndex,
+    bool? comingFromJobDetails,
+    bool? isFinishedFetchingReminders,
+    ReminderDandyLight? selectedReminder,
+    DateTime? selectedTime,
+    List<ReminderDandyLight>? allReminders,
+    Function(Job)? onSavePressed,
+    Function()? onCancelPressed,
+    Function()? onNextPressed,
+    Function()? onBackPressed,
+    Function(ReminderDandyLight)? onReminderSelected,
+    Function(DateTime)? onTimeSelected,
+    bool? hasNotCreatedAnyReminders,
   }){
     return NewJobReminderPageState(
       id: id?? this.id,
@@ -102,15 +102,15 @@ class NewJobReminderPageState {
 
   factory NewJobReminderPageState.fromStore(Store<AppState> store) {
     return NewJobReminderPageState(
-      id: store.state.newJobReminderPageState.id,
-      documentId: store.state.newJobReminderPageState.documentId,
-      pageViewIndex: store.state.newJobReminderPageState.pageViewIndex,
-      isFinishedFetchingReminders: store.state.newJobReminderPageState.isFinishedFetchingReminders,
-      selectedTime: store.state.newJobReminderPageState.selectedTime,
-      comingFromJobDetails: store.state.newJobReminderPageState.comingFromJobDetails,
-      allReminders: store.state.newJobReminderPageState.allReminders,
-      selectedReminder: store.state.newJobReminderPageState.selectedReminder,
-      hasNotCreatedAnyReminders: store.state.newJobReminderPageState.hasNotCreatedAnyReminders,
+      id: store.state.newJobReminderPageState!.id,
+      documentId: store.state.newJobReminderPageState!.documentId,
+      pageViewIndex: store.state.newJobReminderPageState!.pageViewIndex,
+      isFinishedFetchingReminders: store.state.newJobReminderPageState!.isFinishedFetchingReminders,
+      selectedTime: store.state.newJobReminderPageState!.selectedTime,
+      comingFromJobDetails: store.state.newJobReminderPageState!.comingFromJobDetails,
+      allReminders: store.state.newJobReminderPageState!.allReminders,
+      selectedReminder: store.state.newJobReminderPageState!.selectedReminder,
+      hasNotCreatedAnyReminders: store.state.newJobReminderPageState!.hasNotCreatedAnyReminders,
       onSavePressed: (job) => store.dispatch(SaveNewJobReminderAction(store.state.newJobReminderPageState, job)),
       onCancelPressed: () => store.dispatch(ClearNewJobReminderStateAction(store.state.newJobReminderPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newJobReminderPageState)),

@@ -70,9 +70,9 @@ JobDetailsPageState _setPoseFilePaths(JobDetailsPageState previousState, SetPose
 }
 
 JobDetailsPageState _setForecast(JobDetailsPageState previousState, SetForecastAction action){
-  DailyForecasts matchingDay;
-  for(DailyForecasts forecastDay in action.forecast5days.dailyForecasts){
-    if(previousState.selectedDate != null && DateFormat('yyyy-MM-dd').format(previousState.selectedDate) == DateFormat('yyyy-MM-dd').format(DateTime.parse(forecastDay.date))) {
+  DailyForecasts? matchingDay;
+  for(DailyForecasts forecastDay in action.forecast5days!.dailyForecasts!){
+    if(previousState.selectedDate != null && DateFormat('yyyy-MM-dd').format(previousState.selectedDate!) == DateFormat('yyyy-MM-dd').format(DateTime.parse(forecastDay.date!))) {
       matchingDay = forecastDay;
       break;
     }
@@ -80,13 +80,13 @@ JobDetailsPageState _setForecast(JobDetailsPageState previousState, SetForecastA
 
   bool isNight = false;
   if(matchingDay != null) {
-    isNight = DateTime.parse(matchingDay.date).hour > 17;
+    isNight = DateTime.parse(matchingDay.date!).hour > 17;
     return previousState.copyWith(
-      tempHigh: matchingDay.temperature.maximum.value.toInt().toString(),
-      tempLow: matchingDay.temperature.minimum.value.toInt().toString(),
-      chanceOfRain: isNight ? matchingDay.night.precipitationProbability.toString() : matchingDay.day.precipitationProbability.toString(),
-      cloudCoverage: isNight ? matchingDay.night.cloudCover.toString() : matchingDay.day.cloudCover.toString(),
-      weatherIcon: _getWeatherIcon(isNight ? matchingDay.night.icon : matchingDay.day.icon),
+      tempHigh: matchingDay.temperature!.maximum!.value!.toInt().toString(),
+      tempLow: matchingDay.temperature!.minimum!.value!.toInt().toString(),
+      chanceOfRain: isNight ? matchingDay.night!.precipitationProbability.toString() : matchingDay.day!.precipitationProbability.toString(),
+      cloudCoverage: isNight ? matchingDay.night!.cloudCover.toString() : matchingDay.day!.cloudCover.toString(),
+      weatherIcon: _getWeatherIcon(isNight ? matchingDay.night!.icon! : matchingDay.day!.icon!),
     );
   }
   return previousState;
@@ -164,12 +164,12 @@ String _getWeatherIcon(int iconId) {
 }
 
 JobDetailsPageState _setSunsetTimes(JobDetailsPageState previousState, SetSunsetTimeAction action){
-  int degrees6 = _calculate6DegreesOfTime(action.sunset, action.civilTwilightEnd);
+  int degrees6 = _calculate6DegreesOfTime(action.sunset!, action.civilTwilightEnd!);
   int degrees4 = (degrees6 * 0.6666).toInt(); //Magic math to calculate golden and blue hour
   return previousState.copyWith(
-    eveningGoldenHour: _getEveningGoldenHour(degrees6, degrees4, action.sunset),
-    sunset: DateFormat('h:mma').format(action.sunset),
-    eveningBlueHour: _getEveningBlueHour(degrees6, degrees4, action.sunset),
+    eveningGoldenHour: _getEveningGoldenHour(degrees6, degrees4, action.sunset!),
+    sunset: DateFormat('h:mma').format(action.sunset!),
+    eveningBlueHour: _getEveningBlueHour(degrees6, degrees4, action.sunset!),
   );
 }
 
@@ -208,15 +208,15 @@ JobDetailsPageState _clearState(JobDetailsPageState previousState, ClearPrevious
 }
 
 JobDetailsPageState _deleteDocument(JobDetailsPageState previousState, DeleteDocumentFromLocalStateAction action) {
-  List<DocumentItem> documents = previousState.documents;
+  List<DocumentItem> documents = previousState.documents!;
 
-  DocumentItem documentToDelete;
+  DocumentItem? documentToDelete;
   for(DocumentItem documentItem in documents){
     switch(action.documentType) {
       case DocumentItem.DOCUMENT_TYPE_INVOICE:
         if(documentItem.getDocumentType() == DocumentItem.DOCUMENT_TYPE_INVOICE){
           documentToDelete = documentItem;
-          action.pageState.job.invoice = null;
+          action.pageState!.job!.invoice = null;
         }
         break;
       case DocumentItem.DOCUMENT_TYPE_CONTRACT:
@@ -232,7 +232,7 @@ JobDetailsPageState _deleteDocument(JobDetailsPageState previousState, DeleteDoc
   }
 
   return previousState.copyWith(
-    job: action.pageState.job,
+    job: action.pageState!.job,
     invoice: null,
     documents: documents,
   );
@@ -253,10 +253,10 @@ JobDetailsPageState _setSelectedDate(JobDetailsPageState previousState, SetJobDe
 
 JobDetailsPageState _setDeviceEvents(JobDetailsPageState previousState, SetDeviceEventsAction action) {
   List<EventDandyLight> eventList = [];
-  for(Job job in previousState.jobs) {
+  for(Job job in previousState.jobs!) {
     eventList.add(EventDandyLight.fromJob(job));
   }
-  for(Event event in action.deviceEvents) {
+  for(Event event in action.deviceEvents!) {
     eventList.add(EventDandyLight.fromDeviceEvent(event));
   }
   return previousState.copyWith(
@@ -272,9 +272,9 @@ JobDetailsPageState _setReminders(JobDetailsPageState previousState, SetReminder
 }
 
 JobDetailsPageState _setInvoiceDocument(JobDetailsPageState previousState, SetNewInvoice action) {
-  List<DocumentItem> documents = previousState.documents;
+  List<DocumentItem> documents = previousState.documents!;
 
-  DocumentItem documentToReplace;
+  DocumentItem? documentToReplace;
   for(DocumentItem documentItem in documents){
     if(documentItem.getDocumentType() == DocumentItem.DOCUMENT_TYPE_INVOICE){
       documentToReplace = documentItem;
@@ -303,7 +303,7 @@ JobDetailsPageState _clearUnsavedDeposit(JobDetailsPageState previousState, Clea
 }
 
 JobDetailsPageState _saveAddOnCost(JobDetailsPageState previousState, AddToAddOnCostAction action) {
-  double newAmount = previousState.unsavedAddOnCostAmount + action.amountToAdd;
+  double newAmount = previousState.unsavedAddOnCostAmount! + action.amountToAdd!;
   return previousState.copyWith(unsavedAddOnCostAmount: newAmount);
 }
 
@@ -312,7 +312,7 @@ JobDetailsPageState _clearUnsavedTip(JobDetailsPageState previousState, ClearUns
 }
 
 JobDetailsPageState _addToUnsavedTip(JobDetailsPageState previousState, AddToTipAction action) {
-  int newAmount = previousState.unsavedTipAmount + action.amountToAdd;
+  int newAmount = previousState.unsavedTipAmount! + action.amountToAdd!;
   return previousState.copyWith(unsavedTipAmount: newAmount);
 }
 
@@ -338,10 +338,10 @@ JobDetailsPageState _setSelectedLocation(JobDetailsPageState previousState, SetN
 
 JobDetailsPageState _setEventMap(JobDetailsPageState previousState, SetEventMapAction action) {
   List<EventDandyLight> eventList = [];
-  for(Job job in action.upcomingJobs) {
+  for(Job job in action.upcomingJobs!) {
     eventList.add(EventDandyLight.fromJob(job));
   }
-  for(Event event in previousState.deviceEvents) {
+  for(Event event in previousState.deviceEvents!) {
     eventList.add(EventDandyLight.fromDeviceEvent(event));
   }
   return previousState.copyWith(
@@ -378,16 +378,16 @@ JobDetailsPageState _updateScrollOffset(JobDetailsPageState previousState, Updat
 
 JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobAction action){
   List<DocumentItem> documents = [];
-  if(action.job.invoice != null) {
+  if(action.job!.invoice != null) {
     documents.add(InvoiceDocument(
-      isPaid: action.job.invoice.invoicePaid,
-      depositPaid: action.job.invoice.depositPaid,
+      isPaid: action.job!.invoice!.invoicePaid!,
+      depositPaid: action.job!.invoice!.depositPaid!,
     ));
   }
-  if(action.job.proposal != null && action.job.proposal.contract != null) {
+  if(action.job!.proposal != null && action.job!.proposal!.contract != null) {
     documents.add(ContractDocument(
-        contractName: action.job.proposal.contract.contractName,
-        isSigned: action.job.proposal.contract.signedByClient
+        contractName: action.job!.proposal!.contract!.contractName!,
+        isSigned: action.job!.proposal!.contract!.signedByClient!
     ));
   }
   if(action.job.proposal.questionnaires != null && action.job.proposal.questionnaires.isNotEmpty) {
@@ -398,16 +398,16 @@ JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobAction 
       ));
     }
   }
-  action.job.completedStages.sort((a, b) => a.compareTo(b));
-  LocationDandy newLocation = action.job.location != null ? action.job.location : null;
+  action.job!.completedStages!.sort((a, b) => a.compareTo(b));
+  LocationDandy? newLocation = action.job!.location != null ? action.job!.location : null;
   return previousState.copyWith(
     job: action.job,
     selectedLocation: newLocation,
     documents: documents,
-    invoice: action.job.invoice,
-    selectedDate: action.job.selectedDate,
-    jobType: action.job.type,
-    notes: action.job.notes,
+    invoice: action.job!.invoice,
+    selectedDate: action.job!.selectedDate,
+    jobType: action.job!.type,
+    notes: action.job!.notes,
     mileageTrip: null,
   );
 }
@@ -429,13 +429,13 @@ JobDetailsPageState _setNewStagAnimationIndex(JobDetailsPageState previousState,
 }
 
 JobDetailsPageState _setExpandedIndex(JobDetailsPageState previousState, SetExpandedIndexAction action){
-  previousState.expandedIndexes.add(action.index);
+  previousState.expandedIndexes!.add(action.index!);
   return previousState.copyWith(expandedIndexes: previousState.expandedIndexes,
   );
 }
 
 JobDetailsPageState _removeExpandedIndex(JobDetailsPageState previousState, RemoveExpandedIndexAction action){
-  previousState.expandedIndexes.remove(action.index);
+  previousState.expandedIndexes!.remove(action.index);
   return previousState.copyWith(expandedIndexes: previousState.expandedIndexes,
   );
 }

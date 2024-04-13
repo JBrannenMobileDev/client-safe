@@ -6,15 +6,15 @@ import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/widgets.dart';
 
 class EventDandyLight{
-  DateTime selectedDate;
-  DateTime selectedTime;
-  DateTime start;
-  DateTime end;
-  bool isPersonalEvent;
-  String eventTitle;
-  AssetImage icon;
-  String nextStageText;
-  String jobDocumentId;
+  DateTime? selectedDate;
+  DateTime? selectedTime;
+  DateTime? start;
+  DateTime? end;
+  bool? isPersonalEvent;
+  String? eventTitle;
+  AssetImage? icon;
+  String? nextStageText;
+  String? jobDocumentId;
 
 
   EventDandyLight({
@@ -28,8 +28,8 @@ class EventDandyLight{
       selectedTime: job.selectedTime,
       isPersonalEvent: false,
       eventTitle: job.jobTitle,
-      icon: job.stage.getNextStageImage(),
-      nextStageText: 'Stage: ' + JobStage.getStageText(job.stage),
+      icon: job.stage!.getNextStageImage(),
+      nextStageText: 'Stage: ' + JobStage.getStageText(job.stage!),
       jobDocumentId: job.documentId,
     );
   }

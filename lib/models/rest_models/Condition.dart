@@ -1,7 +1,7 @@
 class Condition {
-  String text;
-  String icon;
-  int code;
+  String? text;
+  String? icon;
+  int? code;
 
   Condition({this.text, this.icon, this.code});
 

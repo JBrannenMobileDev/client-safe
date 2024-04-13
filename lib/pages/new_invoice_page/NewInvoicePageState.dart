@@ -6,7 +6,6 @@ import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/models/LineItem.dart';
 import 'package:dandylight/pages/new_invoice_page/NewDiscountDialog.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
-import 'package:dandylight/pages/new_invoice_page/PriceBreakdownForm.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 
@@ -19,73 +18,73 @@ class NewInvoicePageState {
   static const String DISCOUNT_STAGE_AMOUNT_SELECTION = 'amountSelection';
   static const String DISCOUNT_STAGE_STAGE_ADDED = 'stageAdded';
 
-  final int id;
-  final int invoiceNumber;
-  final String invoiceDocumentId;
-  final int pageViewIndex;
-  final bool saveButtonEnabled;
-  final bool shouldClear;
-  final bool isFinishedFetchingClients;
-  final bool isInEditMode;
-  final double total;
-  final double subtotal;
-  final double depositValue;
-  final bool isDepositChecked;
-  final double salesTaxPercent;
-  final bool isSalesTaxChecked;
-  final double unpaidAmount;
-  final double discountValue;
-  final Job selectedJob;
-  final String jobSearchText;
-  final String flatRateText;
-  final String hourlyRate;
-  final String hourlyQuantity;
-  final String itemRate;
-  final String itemQuantity;
-  final List<Job> jobs;
-  final bool showPriceEdit;
-  final List<Job> filteredJobs;
-  final List<Client> allClients;
-  final List<LineItem> lineItems;
-  final String newLineItemName;
-  final String newLineItemRate;
-  final String newLineItemQuantity;
-  final String newDiscountRate;
-  final String newDiscountPercentage;
-  final String newDiscountFilter;
-  final Discount discount;
-  final DateTime dueDate;
-  final DateTime depositDueDate;
-  final bool invoicePdfSaved;
-  final Function(DateTime) onDueDateSelected;
-  final Function(DateTime) onDepositDueDateSelected;
-  final Function() onEditSelected;
-  final Function() onDeleteDiscountSelected;
-  final Function(String) onNewDiscountFilterChanged;
-  final Function(String) onNewDiscountRateTextChanged;
-  final Function(String) onNewDiscountPercentageTextChanged;
-  final Function() onNewDiscountSavedSelected;
-  final Function() onNewDiscountCancelSelected;
-  final Function(String) onNewLineItemNameTextChanged;
-  final Function(String) onNewLineItemRateTextChanged;
-  final Function(String) onNewLineItemQuantityTextChanged;
-  final Function() onNewLineItemSaveSelected;
-  final Function() onNewLineItemCanceled;
-  final Function(int) onLineItemDeleted;
-  final Function() onSavePressed;
-  final Function() onCancelPressed;
-  final Function() onNextPressed;
-  final Function() onBackPressed;
-  final Function(Job) onJobSelected;
-  final Function(String) onJobSearchTextChanged;
-  final Function() onClearInputSelected;
-  final Function(String) onFlatRateTextChanged;
-  final Function(bool) onDepositActionPressed;
-  final Function() generateInvoicePdf;
-  final Function(bool) onDepositChecked;
-  final Function(bool) onSalesTaxChecked;
-  final Function(String) onSalesTaxRateChanged;
-  final Function() onInvoiceSent;
+  final int? id;
+  final int? invoiceNumber;
+  final String? invoiceDocumentId;
+  final int? pageViewIndex;
+  final bool? saveButtonEnabled;
+  final bool? isFinishedFetchingClients;
+  final bool? isInEditMode;
+  final double? total;
+  final double? subtotal;
+  final double? depositValue;
+  final bool? isDepositChecked;
+  final double? salesTaxPercent;
+  final double? salesTaxAmount;
+  final bool? isSalesTaxChecked;
+  final double? unpaidAmount;
+  final double? discountValue;
+  final Job? selectedJob;
+  final String? jobSearchText;
+  final String? flatRateText;
+  final String? hourlyRate;
+  final String? hourlyQuantity;
+  final String? itemRate;
+  final String? itemQuantity;
+  final List<Job>? jobs;
+  final bool? showPriceEdit;
+  final List<Job>? filteredJobs;
+  final List<Client>? allClients;
+  final List<LineItem>? lineItems;
+  final String? newLineItemName;
+  final String? newLineItemRate;
+  final String? newLineItemQuantity;
+  final String? newDiscountRate;
+  final String? newDiscountPercentage;
+  final String? newDiscountFilter;
+  final Discount? discount;
+  final DateTime? dueDate;
+  final DateTime? depositDueDate;
+  final bool? invoicePdfSaved;
+  final Function(DateTime)? onDueDateSelected;
+  final Function(DateTime)? onDepositDueDateSelected;
+  final Function()? onEditSelected;
+  final Function()? onDeleteDiscountSelected;
+  final Function(String)? onNewDiscountFilterChanged;
+  final Function(String)? onNewDiscountRateTextChanged;
+  final Function(String)? onNewDiscountPercentageTextChanged;
+  final Function()? onNewDiscountSavedSelected;
+  final Function()? onNewDiscountCancelSelected;
+  final Function(String)? onNewLineItemNameTextChanged;
+  final Function(String)? onNewLineItemRateTextChanged;
+  final Function(String)? onNewLineItemQuantityTextChanged;
+  final Function()? onNewLineItemSaveSelected;
+  final Function()? onNewLineItemCanceled;
+  final Function(int)? onLineItemDeleted;
+  final Function()? onSavePressed;
+  final Function()? onCancelPressed;
+  final Function()? onNextPressed;
+  final Function()? onBackPressed;
+  final Function(Job)? onJobSelected;
+  final Function(String)? onJobSearchTextChanged;
+  final Function()? onClearInputSelected;
+  final Function(String)? onFlatRateTextChanged;
+  final Function(bool)? onDepositActionPressed;
+  final Function()? generateInvoicePdf;
+  final Function(bool)? onDepositChecked;
+  final Function(bool)? onSalesTaxChecked;
+  final Function(String)? onSalesTaxRateChanged;
+  final Function()? onInvoiceSent;
 
   NewInvoicePageState({
     @required this.id,
@@ -93,7 +92,6 @@ class NewInvoicePageState {
     @required this.invoiceNumber,
     @required this.pageViewIndex,
     @required this.saveButtonEnabled,
-    @required this.shouldClear,
     @required this.isFinishedFetchingClients,
     @required this.unpaidAmount,
     @required this.total,
@@ -155,83 +153,83 @@ class NewInvoicePageState {
     @required this.subtotal,
     @required this.depositDueDate,
     @required this.onDepositDueDateSelected,
+    @required this.salesTaxAmount,
   });
 
   NewInvoicePageState copyWith({
-    int id,
-    String invoiceDocumentId,
-    int invoiceNumber,
-    int pageViewIndex,
-    bool saveButtonEnabled,
-    bool shouldClear,
-    bool isFinishedFetchingClients,
-    bool isInEditMode,
-    double total,
-    double depositValue,
-    double unpaidAmount,
-    double discountValue,
-    Job selectedJob,
-    String jobSearchText,
-    String flatRateText,
-    String hourlyRate,
-    String hourlyQuantity,
-    String itemRate,
-    String itemQuantity,
-    List<Job> jobs,
-    List<Job> filteredJobs,
-    List<Client> allClients,
-    List<LineItem> lineItems,
-    String newLineItemName,
-    String newLineItemRate,
-    String newLineItemQuantity,
-    String newDiscountRate,
-    String newDiscountPercentage,
-    Discount discount,
-    String newDiscountFilter,
-    bool invoicePdfSaved,
-    DateTime dueDate,
-    DateTime depositDueDate,
-    double subtotal,
-    Function(DateTime) dueDateSelected,
-    Function(DateTime) onDepositDueDateSelected,
-    Function() onEditSelected,
-    Function(String) onNewDiscountFilterChanged,
-    Function(String) onNewDiscountRateTextChanged,
-    Function(String) onNewDiscountPercentageTextChanged,
-    Function() onNewDiscountSavedSelected,
-    Function() onNewDiscountCancelSelected,
-    Function(String) onNewLineItemNameTextChanged,
-    Function(String) onNewLineItemRateTextChanged,
-    Function(String) onNewLineItemQuantityTextChanged,
-    Function() onNewLineItemSaveSelected,
-    Function() onNewLineItemCanceled,
-    Function() onSavePressed,
-    Function() onCancelPressed,
-    Function() onNextPressed,
-    Function() onBackPressed,
-    Function(Job) onJobSelected,
-    Function(String) onJobSearchTextChanged,
-    Function() onClearInputSelected,
-    Function(String) onFlatRateTextChanged,
-    Function(int) onLineItemDeleted,
-    Function() onDeleteDiscountSelected,
-    Function(bool) onDepositActionPressed,
-    Function() generateInvoicePdf,
-    bool showPriceEdit,
-    double salesTaxPercent,
-    bool isSalesTaxChecked,
-    bool isDepositChecked,
-    Function(bool) onDepositChecked,
-    Function(bool) onSalesTaxChecked,
-    Function(String) onSalesTaxRateChanged,
-    Function() onInvoiceSent,
+    int? id,
+    String? invoiceDocumentId,
+    int? invoiceNumber,
+    int? pageViewIndex,
+    bool? saveButtonEnabled,
+    bool? isFinishedFetchingClients,
+    bool? isInEditMode,
+    double? total,
+    double? depositValue,
+    double? unpaidAmount,
+    double? discountValue,
+    Job? selectedJob,
+    String? jobSearchText,
+    String? flatRateText,
+    String? hourlyRate,
+    String? hourlyQuantity,
+    String? itemRate,
+    String? itemQuantity,
+    List<Job>? jobs,
+    List<Job>? filteredJobs,
+    List<Client>? allClients,
+    List<LineItem>? lineItems,
+    String? newLineItemName,
+    String? newLineItemRate,
+    String? newLineItemQuantity,
+    String? newDiscountRate,
+    String? newDiscountPercentage,
+    Discount? discount,
+    String? newDiscountFilter,
+    bool? invoicePdfSaved,
+    DateTime? dueDate,
+    DateTime? depositDueDate,
+    double? subtotal,
+    Function(DateTime)? dueDateSelected,
+    Function(DateTime)? onDepositDueDateSelected,
+    Function()? onEditSelected,
+    Function(String)? onNewDiscountFilterChanged,
+    Function(String)? onNewDiscountRateTextChanged,
+    Function(String)? onNewDiscountPercentageTextChanged,
+    Function()? onNewDiscountSavedSelected,
+    Function()? onNewDiscountCancelSelected,
+    Function(String)? onNewLineItemNameTextChanged,
+    Function(String)? onNewLineItemRateTextChanged,
+    Function(String)? onNewLineItemQuantityTextChanged,
+    Function()? onNewLineItemSaveSelected,
+    Function()? onNewLineItemCanceled,
+    Function()? onSavePressed,
+    Function()? onCancelPressed,
+    Function()? onNextPressed,
+    Function()? onBackPressed,
+    Function(Job)? onJobSelected,
+    Function(String)? onJobSearchTextChanged,
+    Function()? onClearInputSelected,
+    Function(String)? onFlatRateTextChanged,
+    Function(int)? onLineItemDeleted,
+    Function()? onDeleteDiscountSelected,
+    Function(bool)? onDepositActionPressed,
+    Function()? generateInvoicePdf,
+    bool? showPriceEdit,
+    double? salesTaxPercent,
+    bool? isSalesTaxChecked,
+    bool? isDepositChecked,
+    double? salesTaxAmount,
+    Function(bool)? onDepositChecked,
+    Function(bool)? onSalesTaxChecked,
+    Function(String)? onSalesTaxRateChanged,
+    Function()? onInvoiceSent,
   }){
     return NewInvoicePageState(
       id: id?? this.id,
       invoiceNumber: invoiceNumber ?? this.invoiceNumber,
       pageViewIndex: pageViewIndex?? this.pageViewIndex,
       saveButtonEnabled: saveButtonEnabled?? this.saveButtonEnabled,
-      shouldClear: shouldClear?? this.shouldClear,
       isFinishedFetchingClients: isFinishedFetchingClients?? this.isFinishedFetchingClients,
       isInEditMode: isInEditMode ?? this.isInEditMode,
       total: total ?? this.total,
@@ -294,6 +292,7 @@ class NewInvoicePageState {
       onInvoiceSent: onInvoiceSent ?? this.onInvoiceSent,
       subtotal: subtotal ?? this.subtotal,
       depositDueDate: depositDueDate ?? this.depositDueDate,
+      salesTaxAmount: salesTaxAmount ?? this.salesTaxAmount,
     );
   }
 
@@ -306,7 +305,6 @@ class NewInvoicePageState {
         invoiceNumber: 0,
         pageViewIndex: 0,
         saveButtonEnabled: false,
-        shouldClear: true,
         isFinishedFetchingClients: false,
         total: 0.0,
         depositValue: 0.0,
@@ -368,49 +366,50 @@ class NewInvoicePageState {
         onSalesTaxRateChanged: null,
         onInvoiceSent: null,
         subtotal: 0,
+        salesTaxAmount: 0,
       );
   }
 
   factory NewInvoicePageState.fromStore(Store<AppState> store) {
     return NewInvoicePageState(
-      id: store.state.newInvoicePageState.id,
-      invoiceNumber: store.state.newInvoicePageState.invoiceNumber,
-      pageViewIndex: store.state.newInvoicePageState.pageViewIndex,
-      saveButtonEnabled: store.state.newInvoicePageState.saveButtonEnabled,
-      shouldClear: store.state.newInvoicePageState.shouldClear,
-      isFinishedFetchingClients: store.state.newInvoicePageState.isFinishedFetchingClients,
-      selectedJob: store.state.newInvoicePageState.selectedJob,
-      jobSearchText: store.state.newInvoicePageState.jobSearchText,
-      jobs: store.state.newInvoicePageState.jobs,
-      filteredJobs: store.state.newInvoicePageState.filteredJobs,
-      allClients: store.state.newInvoicePageState.allClients,
-      flatRateText: store.state.newInvoicePageState.flatRateText,
-      hourlyRate: store.state.newInvoicePageState.hourlyRate,
-      hourlyQuantity: store.state.newInvoicePageState.hourlyQuantity,
-      itemRate: store.state.newInvoicePageState.itemRate,
-      itemQuantity: store.state.newInvoicePageState.itemQuantity,
-      total: store.state.newInvoicePageState.total,
-      depositValue: store.state.newInvoicePageState.depositValue,
-      unpaidAmount: store.state.newInvoicePageState.unpaidAmount,
-      lineItems: store.state.newInvoicePageState.lineItems,
-      newLineItemName: store.state.newInvoicePageState.newLineItemName,
-      newLineItemRate: store.state.newInvoicePageState.newLineItemRate,
-      newLineItemQuantity: store.state.newInvoicePageState.newLineItemQuantity,
-      newDiscountPercentage: store.state.newInvoicePageState.newDiscountPercentage,
-      newDiscountRate: store.state.newInvoicePageState.newDiscountRate,
-      discount: store.state.newInvoicePageState.discount,
-      newDiscountFilter: store.state.newInvoicePageState.newDiscountFilter,
-      discountValue: store.state.newInvoicePageState.discountValue,
-      isInEditMode: store.state.newInvoicePageState.isInEditMode,
-      dueDate: store.state.newInvoicePageState.dueDate,
-      invoicePdfSaved: store.state.newInvoicePageState.invoicePdfSaved,
-      invoiceDocumentId: store.state.newInvoicePageState.invoiceDocumentId,
-      showPriceEdit: store.state.newInvoicePageState.showPriceEdit,
-      isDepositChecked: store.state.newInvoicePageState.isDepositChecked,
-      salesTaxPercent: store.state.newInvoicePageState.salesTaxPercent,
-      isSalesTaxChecked: store.state.newInvoicePageState.isSalesTaxChecked,
-      subtotal: store.state.newInvoicePageState.subtotal,
-      depositDueDate: store.state.newInvoicePageState.depositDueDate,
+      id: store.state.newInvoicePageState!.id,
+      invoiceNumber: store.state.newInvoicePageState!.invoiceNumber,
+      pageViewIndex: store.state.newInvoicePageState!.pageViewIndex,
+      saveButtonEnabled: store.state.newInvoicePageState!.saveButtonEnabled,
+      isFinishedFetchingClients: store.state.newInvoicePageState!.isFinishedFetchingClients,
+      selectedJob: store.state.newInvoicePageState!.selectedJob,
+      jobSearchText: store.state.newInvoicePageState!.jobSearchText,
+      jobs: store.state.newInvoicePageState!.jobs,
+      filteredJobs: store.state.newInvoicePageState!.filteredJobs,
+      allClients: store.state.newInvoicePageState!.allClients,
+      flatRateText: store.state.newInvoicePageState!.flatRateText,
+      hourlyRate: store.state.newInvoicePageState!.hourlyRate,
+      hourlyQuantity: store.state.newInvoicePageState!.hourlyQuantity,
+      itemRate: store.state.newInvoicePageState!.itemRate,
+      itemQuantity: store.state.newInvoicePageState!.itemQuantity,
+      total: store.state.newInvoicePageState!.total,
+      depositValue: store.state.newInvoicePageState!.depositValue,
+      unpaidAmount: store.state.newInvoicePageState!.unpaidAmount,
+      lineItems: store.state.newInvoicePageState!.lineItems,
+      newLineItemName: store.state.newInvoicePageState!.newLineItemName,
+      newLineItemRate: store.state.newInvoicePageState!.newLineItemRate,
+      newLineItemQuantity: store.state.newInvoicePageState!.newLineItemQuantity,
+      newDiscountPercentage: store.state.newInvoicePageState!.newDiscountPercentage,
+      newDiscountRate: store.state.newInvoicePageState!.newDiscountRate,
+      discount: store.state.newInvoicePageState!.discount,
+      newDiscountFilter: store.state.newInvoicePageState!.newDiscountFilter,
+      discountValue: store.state.newInvoicePageState!.discountValue,
+      isInEditMode: store.state.newInvoicePageState!.isInEditMode,
+      dueDate: store.state.newInvoicePageState!.dueDate,
+      invoicePdfSaved: store.state.newInvoicePageState!.invoicePdfSaved,
+      invoiceDocumentId: store.state.newInvoicePageState!.invoiceDocumentId,
+      showPriceEdit: store.state.newInvoicePageState!.showPriceEdit,
+      isDepositChecked: store.state.newInvoicePageState!.isDepositChecked,
+      salesTaxPercent: store.state.newInvoicePageState!.salesTaxPercent,
+      isSalesTaxChecked: store.state.newInvoicePageState!.isSalesTaxChecked,
+      subtotal: store.state.newInvoicePageState!.subtotal,
+      depositDueDate: store.state.newInvoicePageState!.depositDueDate,
+      salesTaxAmount: store.state.newInvoicePageState!.salesTaxAmount,
       onDueDateSelected: (dueDate) => store.dispatch(SetSelectedDueDate(store.state.newInvoicePageState, dueDate)),
       onDepositDueDateSelected: (dueDate) => store.dispatch(SetSelectedDepositDueDate(store.state.newInvoicePageState, dueDate)),
       onNewDiscountFilterChanged: (selectorName) => store.dispatch(UpdateNewDiscountSelectorAction(store.state.newInvoicePageState, selectorName)),
@@ -424,7 +423,7 @@ class NewInvoicePageState {
       onNewLineItemRateTextChanged: (rate) => store.dispatch(UpdateLineItemRateAction(store.state.newInvoicePageState, rate)),
       onNewLineItemQuantityTextChanged: (quantity) => store.dispatch(UpdateLineItemQuantityAction(store.state.newInvoicePageState, quantity)),
       onSavePressed: () => store.dispatch(SaveNewInvoiceAction(store.state.newInvoicePageState)),
-      onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newInvoicePageState)),
+      onCancelPressed: () => store.dispatch(ClearNewInvoiceStateAction(store.state.newInvoicePageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newInvoicePageState)),
       onBackPressed: () => store.dispatch(DecrementPageViewIndex(store.state.newInvoicePageState)),
       onJobSelected: (selectedJob) => store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, selectedJob)),
@@ -452,7 +451,6 @@ class NewInvoicePageState {
       onDepositActionPressed.hashCode ^
       pageViewIndex.hashCode ^
       saveButtonEnabled.hashCode ^
-      shouldClear.hashCode ^
       isFinishedFetchingClients.hashCode ^
       selectedJob.hashCode ^
       jobSearchText.hashCode ^
@@ -500,6 +498,7 @@ class NewInvoicePageState {
       isSalesTaxChecked.hashCode ^
       onSalesTaxRateChanged.hashCode ^
       onInvoiceSent.hashCode ^
+      salesTaxAmount.hashCode ^
       newDiscountFilter.hashCode;
 
   @override
@@ -513,7 +512,6 @@ class NewInvoicePageState {
           onDepositActionPressed == other.onDepositActionPressed &&
           pageViewIndex == other.pageViewIndex &&
           saveButtonEnabled == other.saveButtonEnabled &&
-          shouldClear == other.shouldClear &&
           onDepositDueDateSelected == other.onDepositDueDateSelected &&
           isFinishedFetchingClients == other.isFinishedFetchingClients &&
           selectedJob == other.selectedJob &&
@@ -561,5 +559,6 @@ class NewInvoicePageState {
           isSalesTaxChecked == other.isSalesTaxChecked &&
           onSalesTaxRateChanged == other.onSalesTaxRateChanged &&
           onInvoiceSent == other.onInvoiceSent &&
+          salesTaxAmount == other.salesTaxAmount &&
           newDiscountFilter == other.newDiscountFilter;
 }

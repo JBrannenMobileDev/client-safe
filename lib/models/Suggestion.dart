@@ -1,7 +1,7 @@
 class Suggestion {
-  String message;
-  String userId;
-  DateTime dateSubmitted;
+  String? message;
+  String? userId;
+  DateTime? dateSubmitted;
 
   Suggestion({
     this.message,

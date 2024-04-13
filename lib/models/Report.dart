@@ -3,10 +3,10 @@ class Report {
   static const String TYPE_INCOME_EXPENSE = 'Income & Expense Reports';
   static const String TYPE_MILEAGE = 'Mileage Reports';
 
-  int year;
-  String type;
-  List<String> header;
-  List<List<String>> rows;
+  int? year;
+  String? type;
+  List<String>? header;
+  List<List<String>>? rows;
 
   Report({
     this.year,
@@ -35,7 +35,7 @@ class Report {
 
   double getTotalIncome() {
     double totalIncome = 0;
-    List<List<String>> copyOfRows = List.from(rows);
+    List<List<String>> copyOfRows = List.from(rows!);
     copyOfRows.removeLast();
 
     for(var row in copyOfRows) {
@@ -49,7 +49,7 @@ class Report {
 
   double getTotalExpenses() {
     double totalExpenses = 0;
-    List<List<String>> copyOfRows = List.from(rows);
+    List<List<String>> copyOfRows = List.from(rows!);
     copyOfRows.removeLast();
 
     for(var row in copyOfRows) {
@@ -63,7 +63,7 @@ class Report {
 
   double getTotalMilesDriven() {
     double total = 0;
-    List<List<String>> copyOfRows = List.from(rows);
+    List<List<String>> copyOfRows = List.from(rows!);
     copyOfRows.removeLast();
 
     for(var row in copyOfRows) {

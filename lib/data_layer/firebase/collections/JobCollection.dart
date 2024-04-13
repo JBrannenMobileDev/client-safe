@@ -17,7 +17,7 @@ class JobCollection {
         .set(job.toMap());
   }
 
-  Future<void> deleteJob(String documentId) async {
+  Future<void> deleteJob(String? documentId) async {
     try {
       final databaseReference = FirebaseFirestore.instance;
       await databaseReference
@@ -54,13 +54,13 @@ class JobCollection {
         .doc(documentId)
         .get()
         .then((jobSnapshot) {
-          Job result = Job.fromMap(jobSnapshot.data());
+          Job result = Job.fromMap(jobSnapshot.data() as Map<String, dynamic>);
           result.documentId = jobSnapshot.id;
           return result;
         });
   }
 
-  Future<List<Job>> getAll(String uid) async {
+  Future<List<Job>?> getAll(String uid) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('env')
@@ -91,9 +91,9 @@ class JobCollection {
   }
 
   List<Job> _buildJobsList(QuerySnapshot jobs) {
-    List<Job> jobsList = List();
+    List<Job> jobsList = [];
     for(DocumentSnapshot jobSnapshot in jobs.docs){
-      Job result = Job.fromMap(jobSnapshot.data());
+      Job result = Job.fromMap(jobSnapshot.data() as Map<String, dynamic>);
       result.documentId = jobSnapshot.id;
       jobsList.add(result);
     }

@@ -27,7 +27,7 @@ class _NewSingleExpenseName extends State<NewSingleExpenseName> with AutomaticKe
     super.build(context);
     return StoreConnector<AppState, NewSingleExpensePageState>(
       onInit: (store) {
-        profileNameTextController.text = store.state.newSingleExpensePageState?.expenseName;
+        profileNameTextController.text = store.state.newSingleExpensePageState!.expenseName!;
       },
       converter: (store) => NewSingleExpensePageState.fromStore(store),
       builder: (BuildContext context, NewSingleExpensePageState pageState) =>
@@ -49,9 +49,8 @@ class _NewSingleExpenseName extends State<NewSingleExpenseName> with AutomaticKe
                 controller: profileNameTextController,
                 hintText: "Single expense name",
                 inputType: TextInputType.text,
-                focusNode: null,
                 height: 66.0,
-                onTextInputChanged: pageState.onNameChanged,
+                onTextInputChanged: pageState.onNameChanged!,
                 keyboardAction: TextInputAction.done,
                 capitalization: TextCapitalization.words,
             ),

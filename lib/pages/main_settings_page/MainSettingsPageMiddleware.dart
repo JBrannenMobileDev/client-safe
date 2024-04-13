@@ -49,7 +49,6 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SavePushNotificationSettingAction) {
       savePushNotificationSetting(store, action, next);
     }
-
     if(action is SaveCalendarSettingAction) {
       saveCalendarSetting(store, action, next);
     }
@@ -71,6 +70,9 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is GenerateFreeDiscountCodeAction) {
       generateFreeDiscountCode(store, action, next);
     }
+    if(action is GenerateFirst3MonthsFreeCodeAction) {
+      generateFirst3MonthsFreeCode(store, action, next);
+    }
     if(action is PopulateAccountWithData) {
       _generateAccountData(store, action, next);
     }
@@ -80,11 +82,11 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void saveHomeLocation(Store<AppState> store, SaveMainSettingsHomeLocationAction action, NextDispatcher next) async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.latDefaultHome = action.startLocation.latitude;
-    profile.lngDefaultHome = action.startLocation.longitude;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.latDefaultHome = action.startLocation!.latitude;
+    profile.lngDefaultHome = action.startLocation!.longitude;
     await ProfileDao.insertOrUpdate(profile);
-    store.dispatch(SetHomeLocationToState(store.state.mainSettingsPageState, profile, (await getAddress(profile.latDefaultHome, profile.lngDefaultHome)).address));
+    store.dispatch(SetHomeLocationToState(store.state.mainSettingsPageState, profile, (await getAddress(profile.latDefaultHome!, profile.lngDefaultHome!)).address));
   }
 
   Future<GeoData> getAddress(double lat, double lng) async {
@@ -96,24 +98,29 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void generate50DiscountCode(Store<AppState> store, Generate50DiscountCodeAction action, NextDispatcher next) async{
-    String newCode = await DiscountCodesRepository().generateAndSaveCode(DiscountCodes.FIFTY_PERCENT_TYPE, action.pageState.instaUrl);
+    String newCode = await DiscountCodesRepository().generateAndSaveCode(DiscountCodes.FIFTY_PERCENT_TYPE, action.pageState!.instaUrl!);
     store.dispatch(SetDiscountCodeAction(store.state.mainSettingsPageState, newCode));
   }
 
   void generateFreeDiscountCode(Store<AppState> store, GenerateFreeDiscountCodeAction action, NextDispatcher next) async{
-    String newCode = await DiscountCodesRepository().generateAndSaveCode(DiscountCodes.LIFETIME_FREE, action.pageState.instaUrl);
+    String newCode = await DiscountCodesRepository().generateAndSaveCode(DiscountCodes.LIFETIME_FREE, action.pageState!.instaUrl!);
+    store.dispatch(SetDiscountCodeAction(store.state.mainSettingsPageState, newCode));
+  }
+
+  void generateFirst3MonthsFreeCode(Store<AppState> store, GenerateFirst3MonthsFreeCodeAction action, NextDispatcher next) async{
+    String newCode = await DiscountCodesRepository().generateAndSaveCode(DiscountCodes.FIRST_3_MONTHS_FREE, action.pageState!.instaUrl!);
     store.dispatch(SetDiscountCodeAction(store.state.mainSettingsPageState, newCode));
   }
 
   void loadSettings(Store<AppState> store, NextDispatcher next) async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     bool isAdmin = AdminCheckUtil.isAdmin(profile);
     store.dispatch(SetIsAdminAction(store.state.mainSettingsPageState, isAdmin));
 
     (await ProfileDao.getProfileStream()).listen((snapshots) async {
-        Profile profile;
+        Profile? profile;
         for(RecordSnapshot profileSnapshot in snapshots) {
-          Profile newProfile = Profile.fromMap(profileSnapshot.value);
+          Profile newProfile = Profile.fromMap(profileSnapshot.value! as Map<String,dynamic>);
           if(newProfile.uid == UidUtil().getUid()) {
             profile = newProfile;
           }
@@ -123,7 +130,7 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
           store.dispatch(UpdateCalendarEnabled(store.state.mainSettingsPageState, profile.calendarEnabled ?? false));
           store.dispatch(LoadUserProfileDataAction(store.state.mainSettingsPageState, profile));
           if(profile.hasDefaultHome()) {
-            store.dispatch(SetHomeAddressNameAction(store.state.mainSettingsPageState, (await getAddress(profile.latDefaultHome, profile.lngDefaultHome)).address));
+            store.dispatch(SetHomeAddressNameAction(store.state.mainSettingsPageState, (await getAddress(profile.latDefaultHome!, profile.lngDefaultHome!)).address));
           } else {
             store.dispatch(SetHomeAddressNameAction(store.state.mainSettingsPageState, 'Select a home location'));
           }
@@ -134,9 +141,9 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void savePushNotificationSetting(Store<AppState> store, SavePushNotificationSettingAction action, NextDispatcher next) async{
-    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    Profile? profile = (await ProfileDao.getAll())!.elementAt(0);
     profile.pushNotificationsEnabled = action.enabled;
-    if(profile.pushNotificationsEnabled) {
+    if(profile!.pushNotificationsEnabled!) {
       await PushNotificationsManager().init();
       NotificationHelper().createAndUpdatePendingNotifications();
     } else {
@@ -144,46 +151,46 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
       // profile.removeDeviceToken(await PushNotificationsManager().getToken());
     }
     await ProfileDao.update(profile);
-    EventSender().setUserProfileData(EventNames.NOTIFICATIONS_ENABLED, action.enabled);
+    EventSender().setUserProfileData(EventNames.NOTIFICATIONS_ENABLED, action.enabled!);
     store.dispatch(UpdatePushNotificationEnabled(store.state.mainSettingsPageState, profile.pushNotificationsEnabled ?? false));
   }
 
   void removeDeviceToken(Store<AppState> store, RemoveDeviceTokenAction action, NextDispatcher next) async{
-    List<Profile> profiles = await ProfileDao.getAll();
-    await purchases.Purchases.logIn(profiles.elementAt(0).uid);
+    List<Profile?>? profiles = await ProfileDao.getAll();
     if(profiles != null && profiles.isNotEmpty) {
-      Profile profile = profiles.elementAt(0);
+      await purchases.Purchases.logIn(profiles.elementAt(0)!.uid!);
+      Profile profile = profiles.elementAt(0)!;
       // profile.removeDeviceToken(await PushNotificationsManager().getToken());
       await ProfileDao.update(profile);
     }
   }
 
   void saveCalendarSetting(Store<AppState> store, SaveCalendarSettingAction action, NextDispatcher next) async{
-    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    Profile profile = (await ProfileDao.getAll())!.elementAt(0);
     profile.calendarEnabled = action.enabled;
     await ProfileDao.update(profile);
-    EventSender().setUserProfileData(EventNames.CALENDAR_SYNC_ENABLED, action.enabled);
-    store.dispatch(UpdateCalendarEnabled(store.state.mainSettingsPageState, profile.calendarEnabled ?? false));
-    if(!action.enabled) {
+    EventSender().setUserProfileData(EventNames.CALENDAR_SYNC_ENABLED, action.enabled!);
+    store.dispatch(UpdateCalendarEnabled(store.state.mainSettingsPageState, profile.calendarEnabled));
+    if(!action.enabled!) {
       CalendarSyncUtil.removeJobsFromDeviceCalendars();
     }
   }
 
   void saveUpdatedUserProfile(Store<AppState> store, SaveUpdatedUserProfileAction action, NextDispatcher next) async{
-    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    Profile profile = (await ProfileDao.getAll())!.elementAt(0);
     await ProfileDao.update(profile.copyWith(
-      firstName: store.state.mainSettingsPageState.firstName,
-      lastName: store.state.mainSettingsPageState.lastName,
-      businessName: store.state.mainSettingsPageState.businessName,
-      phone: TextFormatterUtil.formatPhoneNum(store.state.mainSettingsPageState.businessPhone),
-      email: store.state.mainSettingsPageState.businessEmail,
+      firstName: store.state.mainSettingsPageState!.firstName,
+      lastName: store.state.mainSettingsPageState!.lastName,
+      businessName: store.state.mainSettingsPageState!.businessName,
+      phone: TextFormatterUtil.formatPhoneNum(store.state.mainSettingsPageState!.businessPhone),
+      email: store.state.mainSettingsPageState!.businessEmail,
     ));
-    if(store.state.mainSettingsPageState.firstName.isNotEmpty && store.state.mainSettingsPageState.lastName.isNotEmpty && store.state.mainSettingsPageState.businessName.isNotEmpty && (store.state.mainSettingsPageState.businessPhone.isNotEmpty || store.state.mainSettingsPageState.businessEmail.isNotEmpty)) {
+    if(store.state.mainSettingsPageState!.firstName!.isNotEmpty && store.state.mainSettingsPageState!.lastName!.isNotEmpty && store.state.mainSettingsPageState!.businessName!.isNotEmpty && (store.state.mainSettingsPageState!.businessPhone!.isNotEmpty || store.state.mainSettingsPageState!.businessEmail!.isNotEmpty)) {
       EventSender().setUserProfileData(EventNames.IS_PROFILE_SETUP_COMPLETE, true);
     } else {
       EventSender().setUserProfileData(EventNames.IS_PROFILE_SETUP_COMPLETE, false);
     }
-    store.dispatch(FetchProfileAction(store.state.shareWithClientPageState));
+    store.dispatch(FetchProfileAction(store.state.shareWithClientPageState!));
   }
 
   void sendSuggestion(Store<AppState> store, SendSuggestionAction action, NextDispatcher next) async{
@@ -199,14 +206,14 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
 
   void deleteAccount(Store<AppState> store, DeleteAccountAction action) async {
     store.dispatch(SetDeleteProgressAction(store.state.mainSettingsPageState, true));
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     if(profile != null) {
-      String email = profile.email;
-      if(await FirebaseAuthentication().reAuthenticateUser(action.pageState.password, email)) {
-        await CalendarSyncUtil.removeJobsFromDeviceCalendars();
+      String email = profile.email!;
+      if(await FirebaseAuthentication().reAuthenticateUser(action.pageState!.password!, email)) {
+        CalendarSyncUtil.removeJobsFromDeviceCalendars();
         await SembastDb.instance.deleteAllLocalData();
         await FirebaseAuthentication().deleteFirebaseData();
-        await FirebaseAuthentication().deleteAccount(action.pageState.password, email);
+        FirebaseAuthentication().deleteAccount(action.pageState!.password!, email);
         store.dispatch(ResetLoginState(store.state.loginPageState));
         store.dispatch(SetDeleteProgressAction(store.state.mainSettingsPageState, false));
       } else {
@@ -218,14 +225,14 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _generateAccountData(Store<AppState> store, PopulateAccountWithData action, NextDispatcher next) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     List<String> names = ['Amanda', 'Jessica', 'Sara', 'Shawna', 'Justine', 'Tony', 'Ashley', 'Meagan', 'Debbie',
       'Connie', 'Carissa', 'Christina', 'Albert', 'Samantha', 'Linda', 'Lisa', 'Sandy', 'Fiona'];
     List<String> priceProfileNames = ['Wedding Standard', 'Wedding Gold', '1 Hour', '2 Hour', 'Large Family'];
     List<double> prices = [2500, 3500, 450, 600, 500];
     List<String> jobTypeNames = ['Wedding', 'Family', 'Engagement', 'Portrait', 'Newborn'];
-    List<JobType> jobTypes = [];
-    List<Client> clients = [];
+    List<JobType>? jobTypes = [];
+    List<Client>? clients = [];
     List<Job> jobs = [];
     List<PriceProfile> priceProfiles = [];
     List<String> leadSources = Client.getLeadSources();
@@ -238,7 +245,7 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
       DateTime(2023, 10, Random().nextInt(28)),
     ];
 
-    await names.forEach((name) async {
+    names.forEach((name) async {
       int randomLeadSource = Random().nextInt(leadSources.length);
       int randomMonth = Random().nextInt(months.length);
       Client client = Client(
@@ -249,7 +256,7 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
           leadSource: leadSources.elementAt(randomLeadSource),
           createdDate: months.elementAt(randomMonth)
       );
-      clients.add(client);
+      clients?.add(client);
       await ClientDao.insert(client);
     });
     clients = await ClientDao.getAll();
@@ -281,28 +288,28 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     jobTypes = await JobTypeDao.getAll();
 
     for(int index = 0; index < 52; index++) {
-      JobType jobType = jobTypes.elementAt(Random().nextInt(jobTypes.length));
-      Client resultClient = clients.elementAt(Random().nextInt(clients.length));
+      JobType jobType = jobTypes!.elementAt(Random().nextInt(jobTypes.length));
+      Client? resultClient = clients?.elementAt(Random().nextInt(clients.length));
       PriceProfile priceProfile = priceProfiles.elementAt(Random().nextInt(priceProfiles.length));
       int randomMonth = Random().nextInt(months.length);
       Job jobToSave = Job(
-          clientDocumentId: resultClient.documentId,
+          clientDocumentId: resultClient!.documentId,
           client: resultClient,
           clientName: resultClient.getClientFullName(),
-          jobTitle: resultClient.firstName + ' - ' + jobType.title,
+          jobTitle: resultClient.firstName! + ' - ' + jobType.title!,
           selectedDate: months.elementAt(Random().nextInt(months.length)),
           selectedTime: null,
           selectedEndTime: null,
           paymentReceivedDate: months.elementAt(randomMonth),
           type: jobType,
-          stage: JobStage.getNextStage(JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED), jobType.stages),
+          stage: JobStage.getNextStage(JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED), jobType.stages!),
           completedStages: [JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED), JobStage(stage: JobStage.STAGE_9_PAYMENT_RECEIVED), JobStage(stage:  JobStage.STAGE_14_JOB_COMPLETE)],
           location: null,
           priceProfile: priceProfile,
           createdDate: months.elementAt(randomMonth),
           depositAmount: 0,
           proposal: Proposal(
-              detailsMessage: "(Example client portal message)\n\nHi ${resultClient.firstName},\nI wanted to thank you again for choosing our photography services. We're excited to work with you to capture your special moments.\n\nTo make things official, kindly review and sign the contract. It outlines our agreement's essential details.\n\nIf you have any questions, please don't hesitate to ask.\n\nBest regards,\n\n${profile.firstName} ${profile.lastName ?? ''}\n${profile.businessName ?? ''}"
+              detailsMessage: "(Example client portal message)\n\nHi ${resultClient.firstName},\nI wanted to thank you again for choosing our photography services. We're excited to work with you to capture your special moments.\n\nTo make things official, kindly review and sign the contract. It outlines our agreement's essential details.\n\nIf you have any questions, please don't hesitate to ask.\n\nBest regards,\n\n${profile!.firstName} ${profile.lastName ?? ''}\n${profile.businessName ?? ''}"
           )
       );
       await JobDao.insert(jobToSave);

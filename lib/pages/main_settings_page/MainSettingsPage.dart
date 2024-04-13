@@ -30,7 +30,7 @@ import '../../widgets/TextDandyLight.dart';
 import 'GenerateDiscountCodeBottomSheet.dart';
 
 class MainSettingsPage extends StatefulWidget {
-  const MainSettingsPage({Key key}) : super(key: key);
+  const MainSettingsPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -39,7 +39,7 @@ class MainSettingsPage extends StatefulWidget {
 }
 
 class _MainSettingsPageState extends State<MainSettingsPage> with TickerProviderStateMixin, WidgetsBindingObserver {
-  MainSettingsPageState localState;
+  MainSettingsPageState? localState;
 
   @override
   void initState() {
@@ -59,7 +59,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.resumed) {
       PermissionStatus status = await UserPermissionsUtil.getPermissionStatus(Permission.notification);
-      if(status.isGranted) localState.onPushNotificationsChanged(true);
+      if(status.isGranted) localState!.onPushNotificationsChanged!(true);
     }
   }
 
@@ -76,8 +76,8 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
             localState = current;
         },
         onDidChange: (previous, current) {
-          if(previous.discountCode != current.discountCode) {
-            Clipboard.setData(ClipboardData(text: current.discountCode));
+          if(previous!.discountCode != current.discountCode) {
+            Clipboard.setData(ClipboardData(text: current.discountCode!));
             DandyToastUtil.showToast('${current.discountCode} Copied to Clipboard!', const Color(ColorConstants.error_red));
           }
         },
@@ -109,6 +109,51 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                       sliver: SliverList(
                         delegate: SliverChildListDelegate(
                           <Widget>[
+                            !(pageState.profile?.isSubscribed ?? false) ? Container(
+                              margin: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0, top: 16),
+                              padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
+                              decoration: BoxDecoration(
+                                color: Color(ColorConstants.getPrimaryWhite()),
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                              child: TextButton(
+                                style: Styles.getButtonStyle(),
+                                onPressed: () {
+                                  NavigationUtil.onBookACallSelected(context);
+                                },
+                                child: SizedBox(
+                                  height: 48.0,
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            alignment: Alignment.center,
+                                            margin: const EdgeInsets.only(right: 18.0, left: 2.0),
+                                            height: 28.0,
+                                            width: 28.0,
+                                            child: Image.asset('assets/images/icons/question_mark.png'),
+                                          ),
+                                          TextDandyLight(
+                                            type: TextDandyLight.MEDIUM_TEXT,
+                                            text: 'Get 3 months free!',
+                                            textAlign: TextAlign.center,
+                                            color: Color(ColorConstants.getPrimaryBlack()),
+                                          )
+                                        ],
+                                      ),
+                                      Icon(
+                                        Icons.chevron_right,
+                                        color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ) : const SizedBox(),
                             Container(
                               margin: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 32.0, top: 16),
                               padding: const EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
@@ -121,7 +166,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                   TextButton(
                                     style: Styles.getButtonStyle(),
                                     onPressed: () {
-                                      NavigationUtil.onEditProfileSelected(context, pageState.profile);
+                                      NavigationUtil.onEditProfileSelected(context, pageState.profile!);
                                     },
                                     child: SizedBox(
                                       height: 48.0,
@@ -196,8 +241,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                   TextButton(
                                     style: Styles.getButtonStyle(),
                                     onPressed: () {
-                                      Share.share('Hey checkout this app.'
-                                          '\n\nDandyLight - Photography Business Management'
+                                      Share.share('DandyLight - All-in-one photography business management'
                                       // '\n\nUse this referral code when signing up so your friend can get 3 months free.'
                                       // '\n\nCode: ' + pageState.profile.referralUid +
                                           '\n\nhttps://linktr.ee/dandylight');
@@ -242,7 +286,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                   TextButton(
                                     style: Styles.getButtonStyle(),
                                     onPressed: () {
-                                      NavigationUtil.onManageSubscriptionSelected(context, pageState.profile);
+                                      NavigationUtil.onManageSubscriptionSelected(context, pageState.profile!);
                                     },
                                     child: SizedBox(
                                       height: 48.0,
@@ -399,18 +443,18 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                           thumbColor: Color(ColorConstants.getPrimaryWhite()),
                                           onChanged: (enabled) async {
                                             bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context);
-                                            if(isGranted) pageState.onPushNotificationsChanged(enabled);
+                                            if(isGranted) pageState.onPushNotificationsChanged!(enabled);
                                           },
-                                          value: pageState.pushNotificationsEnabled,
+                                          value: pageState.pushNotificationsEnabled!,
                                         ) : Switch(
                                           activeTrackColor: Color(ColorConstants.getBlueLight()),
                                           inactiveTrackColor: Color(ColorConstants.getBlueLight()),
                                           activeColor: Color(ColorConstants.getBlueDark()),
                                           onChanged: (enabled) async {
                                             bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context);
-                                            if(isGranted) pageState.onPushNotificationsChanged(enabled);
+                                            if(isGranted) pageState.onPushNotificationsChanged!(enabled);
                                           },
-                                          value: pageState.pushNotificationsEnabled,
+                                          value: pageState.pushNotificationsEnabled!,
                                         )
                                       ],
                                     ),
@@ -442,31 +486,31 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                           activeColor: Color(ColorConstants.getBlueDark()),
                                           thumbColor: Color(ColorConstants.getPrimaryWhite()),
                                           onChanged: (enabled) async {
-                                            bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendar, context: context);
+                                            bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendarFullAccess, context: context);
                                             if(isGranted) {
                                               if(enabled) {
                                                 UserOptionsUtil.showCalendarSelectionDialog(context, pageState.onCalendarChanged);
                                               } else {
-                                                pageState.onCalendarChanged(enabled);
+                                                pageState.onCalendarChanged!(enabled);
                                               }
                                             }
                                           },
-                                          value: pageState.calendarEnabled,
+                                          value: pageState.calendarEnabled!,
                                         ) : Switch(
                                           activeTrackColor: Color(ColorConstants.getBlueLight()),
                                           inactiveTrackColor: Color(ColorConstants.getBlueLight()),
                                           activeColor: Color(ColorConstants.getBlueDark()),
                                           onChanged: (enabled) async {
-                                            bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendar, context: context);
+                                            bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendarFullAccess, context: context);
                                             if(isGranted) {
                                               if(enabled) {
                                                 UserOptionsUtil.showCalendarSelectionDialog(context, pageState.onCalendarChanged);
                                               } else {
-                                                pageState.onCalendarChanged(enabled);
+                                                pageState.onCalendarChanged!(enabled);
                                               }
                                             }
                                           },
-                                          value: pageState.calendarEnabled,
+                                          value: pageState.calendarEnabled!,
                                         )
                                       ],
                                     ),
@@ -664,7 +708,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                 ],
                               ),
                             ),
-                            pageState.isAdmin ? Container(
+                            pageState.isAdmin! ? Container(
                               margin: const EdgeInsets.only(left: 16.0, right: 16.0, top: 0.0, bottom: 32.0),
                               padding: const EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
                               decoration: BoxDecoration(
@@ -773,7 +817,50 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                   TextButton(
                                     style: Styles.getButtonStyle(),
                                     onPressed: () {
-                                      Clipboard.setData(ClipboardData(text: pageState.discountCode));
+                                      _showGenerateDiscountCodeBottomSheet(context, DiscountCodes.FIRST_3_MONTHS_FREE);
+                                    },
+                                    child: SizedBox(
+                                      height: 48.0,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Row(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Container(
+                                                alignment: Alignment.center,
+                                                margin: const EdgeInsets.only(right: 16.0),
+                                                height: 28.0,
+                                                width: 28.0,
+                                                child: Icon(
+                                                  Icons.discount,
+                                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                                ),
+                                              ),
+                                              TextDandyLight(
+                                                type: TextDandyLight.MEDIUM_TEXT,
+                                                text: 'Generate 3 Months Free Discount Code',
+                                                textAlign: TextAlign.center,
+                                                color: Color(ColorConstants.getPrimaryBlack()),
+                                              ),
+                                            ],
+                                          ),
+                                          Icon(
+                                            Icons.add,
+                                            color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    style: Styles.getButtonStyle(),
+                                    onPressed: () {
+                                      Clipboard.setData(ClipboardData(text: pageState.discountCode!));
                                       DandyToastUtil.showToast('${pageState.discountCode} Copied to Clipboard!', const Color(ColorConstants.error_red));
                                     },
                                     child: SizedBox(
@@ -817,7 +904,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                   TextButton(
                                     style: Styles.getButtonStyle(),
                                     onPressed: () {
-                                      pageState.populateAccountWithData();
+                                      pageState.populateAccountWithData!();
                                     },
                                     child: SizedBox(
                                       height: 48.0,
@@ -863,7 +950,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                             TextButton(
                               style: Styles.getButtonStyle(),
                               onPressed: () {
-                                pageState.onSignOutSelected();
+                                pageState.onSignOutSelected!();
                                 FirebaseAuthentication().signOut();
                                 NavigationUtil.onSignOutSelected(context);
                               },
@@ -910,8 +997,8 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
     );
   }
 
-  void _sendSuggestionEmail(MainSettingsPageState pageState) async => await IntentLauncherUtil.sendEmail('support@dandylight.com', "Suggestion", 'User Info: \nid = ${pageState.profile.uid}\naccount email = ${pageState.profile.email}\nfirst name = ${pageState.profile.firstName}\n\nSuggestion: \n[Please enter your suggestion here.]');
-  void _sendIssueReportEmail(MainSettingsPageState pageState) async => await IntentLauncherUtil.sendEmail('support@dandylight.com', "Reporting an issue", 'User Info: \nid = ${pageState.profile.uid}\naccount email = ${pageState.profile.email}\nfirst name = ${pageState.profile.firstName}\n\nIssue description: \n[Your message here - Attaching a screenshot of the issue will help us resolve the issue even faster.]');
+  void _sendSuggestionEmail(MainSettingsPageState pageState) async => await IntentLauncherUtil.sendEmail('support@dandylight.com', "Suggestion", 'User Info: \nid = ${pageState.profile!.uid}\naccount email = ${pageState.profile!.email}\nfirst name = ${pageState.profile!.firstName}\n\nSuggestion: \n[Please enter your suggestion here.]');
+  void _sendIssueReportEmail(MainSettingsPageState pageState) async => await IntentLauncherUtil.sendEmail('support@dandylight.com', "Reporting an issue", 'User Info: \nid = ${pageState.profile!.uid}\naccount email = ${pageState.profile!.email}\nfirst name = ${pageState.profile!.firstName}\n\nIssue description: \n[Your message here - Attaching a screenshot of the issue will help us resolve the issue even faster.]');
   void _launchPrivacyPolicyURL() async => await canLaunchUrl(Uri.parse('https://www.privacypolicies.com/live/9b78efad-d67f-4e08-9e02-035399b830ed')) ? await launchUrl(Uri.parse('https://www.privacypolicies.com/live/9b78efad-d67f-4e08-9e02-035399b830ed')) : throw 'Could not launch';
   void _launchTermsOfServiceURL() async => await canLaunchUrl(Uri.parse('https://www.privacypolicies.com/live/acaa632a-a22b-490b-87ee-7bd9c94c679e')) ? await launchUrl(Uri.parse('https://www.privacypolicies.com/live/acaa632a-a22b-490b-87ee-7bd9c94c679e')) : throw 'Could not launch';
   void _launchAppleEULA() async => await canLaunchUrl(Uri.parse('https://www.apple.com/legal/internet-services/itunes/dev/stdeula/')) ? await launchUrl(Uri.parse('https://www.apple.com/legal/internet-services/itunes/dev/stdeula/')) : throw 'Could not launch';

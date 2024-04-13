@@ -32,7 +32,7 @@ class _ContractOptionsDialogState extends State<ContractOptionsDialog>
             backgroundColor: Colors.transparent,
             child: Container(
               height: 250.0,
-              width: 450,
+              width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.only(left: 32.0, right: 32.0),
               decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
@@ -57,7 +57,7 @@ class _ContractOptionsDialogState extends State<ContractOptionsDialog>
                         onTap: () {
                         Navigator.of(context).pop();
                         Navigator.of(context).push(
-                          new MaterialPageRoute(builder: (context) => ContractsPage(jobDocumentId: pageState.job.documentId)),
+                          new MaterialPageRoute(builder: (context) => ContractsPage(jobDocumentId: pageState.job!.documentId)),
                         );
                         },
                         child: Container(

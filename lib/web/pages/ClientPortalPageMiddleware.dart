@@ -50,10 +50,10 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchProposal(Store<AppState> store, FetchProposalDataAction action, NextDispatcher next) async{
-    ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
-    Profile profile = await repository.fetchProfile(action.userId, action.jobId);
-    Job job = null;
-    if(action.isBrandingPreview) {
+    ClientPortalRepository? repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
+    Profile? profile = await repository.fetchProfile(action.userId!, action.jobId);
+    Job? job;
+    if(action.isBrandingPreview!) {
       job = buildExampleJob();
       job.invoice = buildExampleInvoice();
       job.proposal = buildExampleProposal(profile.previewJsonContract, profile.firstName);
@@ -71,8 +71,11 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
       profile.logoSelected = profile.previewLogoSelected;
       profile.logoCharacter = profile.previewLogoCharacter;
     } else {
-      job = await repository.fetchJob(action.userId, action.jobId);
+      job = await repository.fetchJob(action.userId!, action.jobId!);
       job = populateContractWithJobData(job, profile);
+      if(job.invoice!.salesTaxRate! > 0 && job.invoice!.salesTaxAmount == 0) {
+        job.invoice!.salesTaxAmount = (job.invoice!.subtotal! * job.invoice!.salesTaxRate!)/100;
+      }
     }
 
     store.dispatch(SetProposalAction(store.state.clientPortalPageState, job.proposal));
@@ -83,37 +86,37 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _generateContract(Store<AppState> store, GenerateContractForClientAction action, NextDispatcher next) async{
-    Document pdf = await PdfUtil.generateContract(action.pageState.proposal.contract, action.pageState.proposal, action.pageState.profile, action.pageState.job);
-    IntentLauncherUtil.downloadWeb(await pdf.save(), downloadName: action.pageState.job.client.firstName + '_' + action.pageState.job.client.lastName + '_contract.pdf');
+    Document pdf = await PdfUtil.generateContract(action.pageState!.proposal!.contract!, action.pageState!.proposal!, action.pageState!.profile!, action.pageState!.job!);
+    IntentLauncherUtil.downloadWeb(await pdf.save(), downloadName: action.pageState!.job!.client!.firstName! + '_' + action.pageState!.job!.client!.lastName! + '_contract.pdf');
   }
 
   void _generateInvoice(Store<AppState> store, GenerateInvoiceForClientAction action, NextDispatcher next) async{
-    Document pdf = await PdfUtil.generateInvoicePdfFromInvoice(
-        action.pageState.invoice,
-        action.pageState.job,
-        action.pageState.job.client,
-        action.pageState.profile,
+    Document? pdf = await PdfUtil.generateInvoicePdfFromInvoice(
+        action.pageState!.invoice!,
+        action.pageState!.job!,
+        action.pageState!.job!.client!,
+        action.pageState!.profile!,
     );
-    IntentLauncherUtil.downloadWeb(await pdf.save(), downloadName: action.pageState.job.client.firstName + '_' + action.pageState.job.client.lastName + '_invoice.pdf');
+    IntentLauncherUtil.downloadWeb(await pdf!.save(), downloadName: action.pageState!.job!.client!.firstName! + '_' + action.pageState!.job!.client!.lastName! + '_invoice.pdf');
   }
 
   void _saveClientSignature(Store<AppState> store, SaveClientSignatureAction action, NextDispatcher next) async{
-    Proposal proposal = action.pageState.proposal;
+    Proposal proposal = action.pageState!.proposal!;
 
-    if(action.signature == null || action.signature.isEmpty) {
+    if(action.signature == null || action.signature!.isEmpty) {
       store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "Please sign the contract before saving your signature."));
       store.dispatch(SetLoadingStateAction(store.state.clientPortalPageState, false));
     } else {
       ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
-      int errorCode = await repository.saveClientSignature(action.pageState.userId, action.pageState.jobId, action.signature);
+      int errorCode = await repository.saveClientSignature(action.pageState!.userId!, action.pageState!.jobId!, action.signature!);
       if(errorCode != 200) {
         store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "There was an error saving your signature. Please try again."));
       } else {
-        proposal.contract.clientSignature = action.signature;
-        proposal.contract.signedByClient = true;
-        proposal.contract.clientSignedDate = DateTime.now();
-        action.pageState.job.proposal = proposal;
-        store.dispatch(SetJobAction(store.state.clientPortalPageState, action.pageState.job));
+        proposal.contract!.clientSignature = action.signature;
+        proposal.contract!.signedByClient = true;
+        proposal.contract!.clientSignedDate = DateTime.now();
+        action.pageState!.job!.proposal = proposal;
+        store.dispatch(SetJobAction(store.state.clientPortalPageState, action.pageState!.job));
         store.dispatch(SetProposalAction(store.state.clientPortalPageState, proposal));
         EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_CONTRACT_SIGNED);
       }
@@ -122,51 +125,51 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _updateProposalInvoicePaid(Store<AppState> store, UpdateProposalInvoicePaidAction action, NextDispatcher next) async{
-    Invoice invoice = action.pageState.invoice;
+    Invoice invoice = action.pageState!.invoice!;
     invoice.invoicePaid = action.isPaid;
-    if(action.isPaid) {
+    if(action.isPaid!) {
       invoice.balancePaidAmount = invoice.unpaidAmount;
       invoice.unpaidAmount = invoice.calculateUnpaidAmount();
     } else {
       invoice.balancePaidAmount = 0.0;
-      invoice.unpaidAmount = invoice.total - (invoice.depositPaid ? invoice.depositAmount : 0.0);
+      invoice.unpaidAmount = invoice.total! - (invoice.depositPaid! ? invoice.depositAmount! : 0.0);
     }
 
     store.dispatch(SetInvoiceAction(store.state.clientPortalPageState, invoice));
 
-    if(!action.pageState.isBrandingPreview) {
+    if(!action.pageState!.isBrandingPreview!) {
       ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
       await repository.updateInvoiceAsPaid(
-        action.pageState.userId,
-        action.pageState.jobId,
-        action.pageState.invoice.documentId,
-        action.isPaid,
-        invoice.balancePaidAmount,
-        invoice.unpaidAmount,
+        action.pageState!.userId!,
+        action.pageState!.jobId!,
+        action.pageState!.invoice!.documentId!,
+        action.isPaid!,
+        invoice.balancePaidAmount!,
+        invoice.unpaidAmount!,
       );
       EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_TOTAL_MARKED_AS_PAID);
     }
   }
 
   void _updateProposalInvoiceDepositPaid(Store<AppState> store, UpdateProposalInvoiceDepositPaidAction action, NextDispatcher next) async{
-    if(!action.pageState.invoice.invoicePaid) {
-      Invoice invoice = action.pageState.invoice;
+    if(!action.pageState!.invoice!.invoicePaid!) {
+      Invoice invoice = action.pageState!.invoice!;
       invoice.depositPaid = action.isPaid;
-      if(action.isPaid) {
-        invoice.unpaidAmount = invoice.unpaidAmount - invoice.depositAmount;
+      if(action.isPaid!) {
+        invoice.unpaidAmount = invoice.unpaidAmount! - invoice.depositAmount!;
       } else {
-        invoice.unpaidAmount = invoice.unpaidAmount + invoice.depositAmount;
+        invoice.unpaidAmount = invoice.unpaidAmount! + invoice.depositAmount!;
       }
       store.dispatch(SetInvoiceAction(store.state.clientPortalPageState, invoice));
 
-      if(!action.pageState.isBrandingPreview) {
+      if(!action.pageState!.isBrandingPreview!) {
         ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
         await repository.updateInvoiceAsDepositPaid(
-            action.pageState.userId,
-            action.pageState.jobId,
-            action.pageState.invoice.documentId,
-            action.isPaid,
-            invoice.unpaidAmount
+            action.pageState!.userId!,
+            action.pageState!.jobId!,
+            action.pageState!.invoice!.documentId!,
+            action.isPaid!,
+            invoice.unpaidAmount!
         );
         EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_DEPOSIT_MARKED_AS_PAID);
       }
@@ -202,7 +205,7 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
     );
   }
 
-  Proposal buildExampleProposal(String jsonContract, String photographerName) {
+  Proposal buildExampleProposal(String? jsonContract, String? photographerName) {
     if(photographerName == null || photographerName.isEmpty) photographerName = 'Photographer Name';
     return Proposal(
       includePoses: true,
@@ -261,9 +264,9 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
   }
 
   Job populateContractWithJobData(Job job, Profile profile) {
-    if(job.proposal.contract != null) {
+    if(job.proposal!.contract != null) {
       String populatedJsonTerms = ContractUtils.populate(job, profile);
-      job.proposal.contract.jsonTerms = populatedJsonTerms;
+      job.proposal!.contract!.jsonTerms = populatedJsonTerms;
     }
     return job;
   }

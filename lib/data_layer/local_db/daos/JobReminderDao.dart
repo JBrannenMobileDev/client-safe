@@ -41,15 +41,15 @@ class JobReminderDao extends Equatable{
   }
 
   static Future<void> _updateLastChangedTime() async {
-    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    Profile profile = (await ProfileDao.getAll())!.elementAt(0);
     profile.jobReminderLastChangeDate = DateTime.now();
     ProfileDao.update(profile);
   }
 
   static Future insertOrUpdate(JobReminder newReminder) async {
-    List<JobReminder> reminderList = await getAll();
+    List<JobReminder>? reminderList = await getAll();
     bool alreadyExists = false;
-    for(JobReminder reminder in reminderList){
+    for(JobReminder reminder in reminderList!){
       if(newReminder.documentId == reminder.documentId){
         alreadyExists = true;
       }
@@ -91,7 +91,7 @@ class JobReminderDao extends Equatable{
     );
   }
 
-  static Future delete(String documentId) async {
+  static Future delete(String? documentId) async {
     final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
     await _jobReminderStore.delete(
       await _db,
@@ -101,7 +101,7 @@ class JobReminderDao extends Equatable{
     _updateLastChangedTime();
   }
 
-  static Future<List<JobReminder>> getAll() async {
+  static Future<List<JobReminder>?> getAll() async {
     final recordSnapshots = await _jobReminderStore.find(await _db);
     return recordSnapshots.map((snapshot) {
       final reminder = JobReminder.fromMap(snapshot.value);
@@ -110,8 +110,8 @@ class JobReminderDao extends Equatable{
     }).toList();
   }
 
-  static Future<List<JobReminder>> getRemindersByJobId(String documentId) async{
-    if((await getAll()).length > 0) {
+  static Future<List<JobReminder>?> getRemindersByJobId(String documentId) async{
+    if((await getAll())!.isNotEmpty) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('jobDocumentId', documentId));
       final recordSnapshots = await _jobReminderStore.find(await _db, finder: finder);
       return recordSnapshots.map((snapshot) {
@@ -124,17 +124,17 @@ class JobReminderDao extends Equatable{
     }
   }
 
-  static Future<JobReminder> getReminderById(String documentId) async{
-    if((await getAll()).length > 0) {
+  static Future<JobReminder?> getReminderById(String documentId) async{
+    if((await getAll())!.isNotEmpty) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
       final recordSnapshots = await _jobReminderStore.find(await _db, finder: finder);
       List<JobReminder> reminders = recordSnapshots.map((snapshot) {
-        final reminder = JobReminder.fromMap(snapshot.value);
+        final JobReminder reminder = JobReminder.fromMap(snapshot.value);
         reminder.id = snapshot.key;
         return reminder;
       }).toList();
 
-      if(reminders != null && reminders.isNotEmpty) {
+      if(reminders.isNotEmpty) {
         return reminders.elementAt(0);
       }
       return null;
@@ -153,11 +153,11 @@ class JobReminderDao extends Equatable{
   }
 
   static Future<void> syncAllFromFireStore() async {
-    List<JobReminder> allLocalReminders = await getAll();
-    List<JobReminder> allFireStoreReminder = await JobReminderCollection().getAll(UidUtil().getUid());
+    List<JobReminder>? allLocalReminders = await getAll();
+    List<JobReminder>? allFireStoreReminder = await JobReminderCollection().getAll(UidUtil().getUid());
 
-    if(allLocalReminders != null && allLocalReminders.length > 0) {
-      if(allFireStoreReminder != null && allFireStoreReminder.length > 0) {
+    if(allLocalReminders != null && allLocalReminders.isNotEmpty) {
+      if(allFireStoreReminder != null && allFireStoreReminder.isNotEmpty) {
         //both local and fireStore have clients
         //fireStore is source of truth for this sync.
         await _syncFireStoreToLocal(allLocalReminders, allFireStoreReminder);
@@ -166,7 +166,7 @@ class JobReminderDao extends Equatable{
         _deleteAllLocalReminders(allLocalReminders);
       }
     } else {
-      if(allFireStoreReminder != null && allFireStoreReminder.length > 0){
+      if(allFireStoreReminder != null && allFireStoreReminder.isNotEmpty){
         //no local clients but there are fireStore clients.
         await _copyAllFireStoreRemindersToLocal(allFireStoreReminder);
       } else {
@@ -194,8 +194,8 @@ class JobReminderDao extends Equatable{
   static Future<void> _syncFireStoreToLocal(List<JobReminder> allLocalReminders, List<JobReminder> allFireStoreReminders) async {
     for(JobReminder localReminder in allLocalReminders) {
       //should only be 1 matching
-      List<JobReminder> matchingFireStoreReminders = allFireStoreReminders.where((fireStoreReminder) => localReminder.documentId == fireStoreReminder.documentId).toList();
-      if(matchingFireStoreReminders !=  null && matchingFireStoreReminders.length > 0) {
+      List<JobReminder>? matchingFireStoreReminders = allFireStoreReminders.where((fireStoreReminder) => localReminder.documentId == fireStoreReminder.documentId).toList();
+      if(matchingFireStoreReminders.isNotEmpty) {
         JobReminder fireStoreReminder = matchingFireStoreReminders.elementAt(0);
         final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStoreReminder.documentId));
         await _jobReminderStore.update(
@@ -215,7 +215,7 @@ class JobReminderDao extends Equatable{
 
     for(JobReminder fireStoreReminder in allFireStoreReminders) {
       List<JobReminder> matchingLocalReminders = allLocalReminders.where((localReminders) => localReminders.documentId == fireStoreReminder.documentId).toList();
-      if(matchingLocalReminders != null && matchingLocalReminders.length > 0) {
+      if(matchingLocalReminders.isNotEmpty) {
         //do nothing. SingleExpense already synced.
       } else {
         //add to local. does not exist in local and has not been synced yet.
@@ -226,34 +226,34 @@ class JobReminderDao extends Equatable{
   }
 
   static Future<List<JobReminder>> getPendingJobReminders() async {
-    List<JobReminder> pendingReminders = await getAll();
+    List<JobReminder>? pendingReminders = await getAll();
     List<JobReminder> reducedReminders = [];
     DateTime now = DateTime.now();
-    for(JobReminder reminder in pendingReminders) {
-      reminder.triggerTime = await reminder.reminder.getTriggerTime(getJobDate(reminder));
-      if(reminder.triggerTime != null && now.isBefore(reminder.triggerTime)) {
+    for(JobReminder reminder in pendingReminders! ) {
+      reminder.triggerTime = await reminder.reminder!.getTriggerTime(getJobDate(reminder));
+      if(reminder.triggerTime != null && now.isBefore(reminder.triggerTime!)) {
         reducedReminders.add(reminder);
       }
     }
-    reducedReminders..sort((item1, item2)  => (item1.triggerTime).compareTo(item2.triggerTime));
+    reducedReminders.sort((item1, item2)  => (item1.triggerTime!).compareTo(item2.triggerTime!));
     return reducedReminders;
   }
 
   static Future<List<JobReminder>> getTriggeredReminders() async {
-    List<JobReminder> pendingReminders = await getAll();
+    List<JobReminder>? pendingReminders = await getAll();
     List<JobReminder> reducedReminders = [];
     DateTime now = DateTime.now();
-    for(JobReminder reminder in pendingReminders) {
-      reminder.triggerTime = await reminder.reminder.getTriggerTime(getJobDate(reminder));
-      if(reminder.triggerTime != null && now.isAfter(reminder.triggerTime)) {
+    for(JobReminder reminder in pendingReminders!) {
+      reminder.triggerTime = await reminder.reminder!.getTriggerTime(getJobDate(reminder));
+      if(reminder.triggerTime != null && now.isAfter(reminder.triggerTime!)) {
         reducedReminders.add(reminder);
       }
     }
-    reducedReminders..sort((item1, item2)  => (item1.triggerTime).compareTo(item2.triggerTime));
+    reducedReminders.sort((item1, item2)  => (item1.triggerTime!).compareTo(item2.triggerTime!));
     return reducedReminders;
   }
 
-  static Future<DateTime> getJobDate(JobReminder item1) async {
+  static Future<DateTime?> getJobDate(JobReminder item1) async {
     return await item1.getJobDate();
   }
 
@@ -261,9 +261,9 @@ class JobReminderDao extends Equatable{
   // TODO: implement props
   List<Object> get props => [];
 
-  static void deleteAllWithJobDocumentId(String jobDocumentId) async {
-    List<JobReminder> allReminders = await getAll();
-    for(JobReminder reminder in allReminders) {
+  static void deleteAllWithJobDocumentId(String? jobDocumentId) async {
+    List<JobReminder>? allReminders = await getAll();
+    for(JobReminder reminder in allReminders!) {
       if(reminder.jobDocumentId == jobDocumentId) {
         await delete(reminder.documentId);
       }
@@ -271,7 +271,7 @@ class JobReminderDao extends Equatable{
   }
 
   static void deleteAllLocal() async {
-    List<JobReminder> reminders = await getAll();
-    _deleteAllLocalReminders(reminders);
+    List<JobReminder>? reminders = await getAll();
+    _deleteAllLocalReminders(reminders!);
   }
 }

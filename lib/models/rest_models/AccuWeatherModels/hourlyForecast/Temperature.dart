@@ -1,7 +1,7 @@
 class Temperature {
-  double value;
-  String unit;
-  int unitType;
+  double? value;
+  String? unit;
+  int? unitType;
 
   Temperature({this.value, this.unit, this.unitType});
 

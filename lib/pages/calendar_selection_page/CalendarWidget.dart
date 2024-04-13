@@ -59,7 +59,7 @@ class CalendarWidget extends StatefulWidget {
                       children: <Widget>[
                         TextDandyLight(
                           type: TextDandyLight.MEDIUM_TEXT,
-                          text: pageState.writableCalendars
+                          text: pageState.writableCalendars!
                               .elementAt(index)
                               .accountName,
                           textAlign: TextAlign.start,
@@ -68,7 +68,7 @@ class CalendarWidget extends StatefulWidget {
                         ),
                         TextDandyLight(
                           type: TextDandyLight.SMALL_TEXT,
-                          text: pageState.writableCalendars
+                          text: pageState.writableCalendars!
                               .elementAt(index)
                               .name,
                           textAlign: TextAlign.start,
@@ -87,11 +87,11 @@ class CalendarWidget extends StatefulWidget {
                         value: checkedValue,
                         onChanged: (isChecked) {
                           setState(() {
-                            checkedValue = isChecked;
+                            checkedValue = isChecked!;
                           });
-                          pageState.onCalendarSelected(
-                              pageState.writableCalendars.elementAt(index),
-                              isChecked);
+                          pageState.onCalendarSelected!(
+                              pageState.writableCalendars!.elementAt(index),
+                              isChecked!);
                         }
                     ),
                   ),

@@ -6,21 +6,21 @@ import 'package:flutter/widgets.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class DandyLightTextField extends StatelessWidget {
-  final TextEditingController controller;
-  final String hintText;
-  final String labelText;
-  final TextInputType inputType;
-  final double height;
-  final String inputTypeError;
-  final Function(String) onTextInputChanged;
-  final Function() onEditingCompleted;
-  final TextInputAction keyboardAction;
-  final FocusNode focusNode;
-  final Function onFocusAction;
-  final TextCapitalization capitalization;
-  final List<TextInputFormatter> inputFormatter;
-  final bool enabled;
-  final int maxLength;
+  final TextEditingController? controller;
+  final String? hintText;
+  final String? labelText;
+  final TextInputType? inputType;
+  final double? height;
+  final String? inputTypeError;
+  final Function(String)? onTextInputChanged;
+  final Function()? onEditingCompleted;
+  final TextInputAction? keyboardAction;
+  final FocusNode? focusNode;
+  final Function? onFocusAction;
+  final TextCapitalization? capitalization;
+  final List<TextInputFormatter>? inputFormatter;
+  final bool? enabled;
+  final int? maxLength;
 
   DandyLightTextField({
       this.controller,
@@ -54,10 +54,10 @@ class DandyLightTextField extends StatelessWidget {
             controller: controller,
             cursorColor: Color(ColorConstants.getPrimaryBlack()),
             onChanged: (text) {
-              onTextInputChanged(text);
+              onTextInputChanged!(text);
             },
             onFieldSubmitted: (term) {
-              onFocusAction();
+              onFocusAction!();
             },
             decoration: InputDecoration(
               alignLabelWithHint: true,
@@ -94,12 +94,12 @@ class DandyLightTextField extends StatelessWidget {
               ),
             ),
             keyboardType: inputType,
-            textCapitalization: capitalization,
+            textCapitalization: capitalization!,
             onEditingComplete: onEditingCompleted,
             inputFormatters: inputFormatter != null ? inputFormatter : null,
             style: new TextStyle(
                 fontFamily: TextDandyLight.getFontFamily(),
-                fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
                 fontWeight: TextDandyLight.getFontWeight(),
                 color: Color(ColorConstants.getPrimaryBlack())),
           )

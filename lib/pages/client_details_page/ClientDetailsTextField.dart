@@ -21,7 +21,7 @@ class ClientDetailsTextView extends StatelessWidget {
   final FocusNode focusNode;
   final Function onFocusAction;
   final TextCapitalization capitalization;
-  final List<TextInputFormatter> inputFormatter;
+  final List<TextInputFormatter>? inputFormatter;
   final bool textFieldEnabled;
   final int borderColor;
 

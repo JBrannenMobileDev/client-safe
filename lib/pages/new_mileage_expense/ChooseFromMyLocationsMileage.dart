@@ -14,7 +14,7 @@ import '../../widgets/TextDandyLight.dart';
 class ChooseFromMyLocationsMileage extends StatefulWidget {
   final Function(LatLng) onLocationSaved;
 
-  const ChooseFromMyLocationsMileage(this.onLocationSaved, {Key key}) : super(key: key);
+  const ChooseFromMyLocationsMileage(this.onLocationSaved, {Key? key}) : super(key: key);
 
   @override
   _ChooseFromMyLocationsMileageState createState() {
@@ -47,7 +47,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                 borderRadius: BorderRadius.circular(16.0),
               ),
               alignment: Alignment.center,
-              child: pageState.locations.isNotEmpty
+              child: pageState.locations!.isNotEmpty
                   ? Column(
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
@@ -65,7 +65,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: pageState.selectedLocation != null
-                          ? pageState.selectedLocation.locationName
+                          ? pageState.selectedLocation!.locationName
                           : "",
                       textAlign: TextAlign.start,
                       color: Color(ColorConstants.getPeachDark()),
@@ -83,7 +83,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                               childAspectRatio: 2 / 2.75,
                               crossAxisSpacing: 16,
                               mainAxisSpacing: 16),
-                          itemCount: pageState.locations.length,
+                          itemCount: pageState.locations!.length,
                           controller: _controller,
                           physics: const ClampingScrollPhysics(),
                           key: _listKey,
@@ -193,7 +193,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                     // splashColor: Color(ColorConstants.getPrimaryColor()),
                     onPressed: () {
                       if(pageState.selectedLocation != null){
-                        onLocationSaved(LatLng(pageState.selectedLocation.latitude, pageState.selectedLocation.longitude));
+                        onLocationSaved(LatLng(pageState.selectedLocation!.latitude!, pageState.selectedLocation!.longitude!));
                         Navigator.of(context).pop();
                       }
                     },

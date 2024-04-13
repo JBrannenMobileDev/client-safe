@@ -5,10 +5,10 @@ import '../../AppState.dart';
 import 'UploadPoseActions.dart';
 
 class UploadPosePageState{
-  final String instagramName;
-  final XFile resizedImage500;
-  final Function(XFile) onPoseUploaded;
-  final Function(XFile, String, String, List<String>, bool, bool, bool, bool, bool, bool, bool, bool, bool) onPoseSubmitted;
+  final String? instagramName;
+  final XFile? resizedImage500;
+  final Function(XFile)? onPoseUploaded;
+  final Function(XFile, String, String, List<String>, bool, bool, bool, bool, bool, bool, bool, bool, bool)? onPoseSubmitted;
 
   UploadPosePageState({
     @required this.onPoseSubmitted,
@@ -18,10 +18,10 @@ class UploadPosePageState{
   });
 
   UploadPosePageState copyWith({
-    String instagramName,
-    XFile resizedImage500,
-    Function(XFile) onPoseUploaded,
-    Function(XFile, String, String, List<String>, bool, bool, bool, bool, bool, bool, bool, bool, bool) onPoseSubmitted,
+    String? instagramName,
+    XFile? resizedImage500,
+    Function(XFile)? onPoseUploaded,
+    Function(XFile, String, String, List<String>, bool, bool, bool, bool, bool, bool, bool, bool, bool)? onPoseSubmitted,
   }){
     return UploadPosePageState(
       onPoseSubmitted: onPoseSubmitted ?? this.onPoseSubmitted,
@@ -40,8 +40,8 @@ class UploadPosePageState{
 
   factory UploadPosePageState.fromStore(Store<AppState> store) {
     return UploadPosePageState(
-      instagramName: store.state.uploadPosePageState.instagramName,
-      resizedImage500: store.state.uploadPosePageState.resizedImage500,
+      instagramName: store.state.uploadPosePageState!.instagramName,
+      resizedImage500: store.state.uploadPosePageState!.resizedImage500,
       onPoseSubmitted: (poseImage500, name, prompt, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected
           , maternitySelected, newbornSelected, proposalsSelected, petsSelected, weddingsSelected) => {
         store.dispatch(SubmitUploadedPoseAction(store.state.uploadPosePageState, poseImage500, name, prompt, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected

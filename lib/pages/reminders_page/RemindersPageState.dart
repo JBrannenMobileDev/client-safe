@@ -8,9 +8,9 @@ import '../../AppState.dart';
 
 class RemindersPageState{
 
-  final List<ReminderDandyLight> reminders;
-  final Function(ReminderDandyLight) onReminderSelected;
-  final Function(ReminderDandyLight) onDeleteReminderSelected;
+  final List<ReminderDandyLight>? reminders;
+  final Function(ReminderDandyLight)? onReminderSelected;
+  final Function(ReminderDandyLight)? onDeleteReminderSelected;
 
   RemindersPageState({
     @required this.reminders,
@@ -19,9 +19,9 @@ class RemindersPageState{
   });
 
   RemindersPageState copyWith({
-    List<ReminderDandyLight> reminders,
-    Function(ReminderDandyLight) onReminderSelected,
-    Function(ReminderDandyLight) onDeleteReminderSelected,
+    List<ReminderDandyLight>? reminders,
+    Function(ReminderDandyLight)? onReminderSelected,
+    Function(ReminderDandyLight)? onDeleteReminderSelected,
   }){
     return RemindersPageState(
       reminders: reminders?? this.reminders,
@@ -31,14 +31,14 @@ class RemindersPageState{
   }
 
   factory RemindersPageState.initial() => RemindersPageState(
-    reminders: List(),
+    reminders: [],
     onReminderSelected: null,
     onDeleteReminderSelected: null,
   );
 
   factory RemindersPageState.fromStore(Store<AppState> store) {
     return RemindersPageState(
-      reminders: store.state.remindersPageState.reminders,
+      reminders: store.state.remindersPageState!.reminders,
       onReminderSelected: (reminder) => store.dispatch(LoadExistingReminderData(store.state.newReminderPageState, reminder)),
       onDeleteReminderSelected: (reminder) => store.dispatch(collectionReminder.DeleteReminderAction(store.state.remindersPageState, reminder)),
     );

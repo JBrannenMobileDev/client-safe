@@ -36,13 +36,13 @@ class ViewInvoiceDepositRowWidget extends StatelessWidget{
           ),
           TextDandyLight(
             type: TextDandyLight.MEDIUM_TEXT,
-            text: (invoice.depositPaid
+            text: (invoice.depositPaid!
                 ? '-'
                 : '') + '\$' +
-                (job.depositAmount != null ? job.depositAmount.toInt().toString() : '0'),
+                (job.depositAmount != null ? job.depositAmount!.toInt().toString() : '0'),
             textAlign: TextAlign.start,
             color: Color(
-                invoice.depositPaid
+                invoice.depositPaid!
                     ? ColorConstants.getPrimaryBlack()
                     : ColorConstants
                     .getPrimaryBackgroundGrey()),

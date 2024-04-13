@@ -65,11 +65,11 @@ NewJobPageState setPricePackagesAndSelectedPackage(NewJobPageState previousState
 }
 
 NewJobPageState _setSelectedClientFromNewContactPage(NewJobPageState previousState, LoadAndSelectNewContactAction action){
-  action.pageState.allClients.insert(0, action.selectedClient);
+  action.pageState!.allClients!.insert(0, action.selectedClient!);
   return previousState.copyWith(
-    allClients: action.pageState.allClients,
+    allClients: action.pageState!.allClients,
     clientSearchText: '',
-    filteredClients: action.pageState.allClients,
+    filteredClients: action.pageState!.allClients,
     selectedClient: action.selectedClient,
     isSelectedClientNew: true,
     pageViewIndex: 1,
@@ -84,7 +84,7 @@ NewJobPageState _setInitMapLatLng(NewJobPageState previousState, SetInitialMapLa
 }
 
 NewJobPageState _setOneTimePrice(NewJobPageState previousState, SetOneTimePriceTextAction action) {
-  String numbersOnly = action.inputText.replaceAll('\$', '').replaceAll(' ', '').replaceAll(',', '');
+  String numbersOnly = action.inputText!.replaceAll('\$', '').replaceAll(' ', '').replaceAll(',', '');
   if(numbersOnly == '0') {
     numbersOnly = '';
   }
@@ -100,10 +100,10 @@ NewJobPageState _updateComingFromClientDetails(NewJobPageState previousState, Up
 
 NewJobPageState _setNewJobDeviceEvents(NewJobPageState previousState, SetNewJobDeviceEventsAction action) {
   List<EventDandyLight> eventList = [];
-  for(Job job in previousState.jobs) {
+  for(Job job in previousState.jobs!) {
     eventList.add(EventDandyLight.fromJob(job));
   }
-  for(Event event in action.deviceEvents) {
+  for(Event event in action.deviceEvents!) {
     eventList.add(EventDandyLight.fromDeviceEvent(event));
   }
   return previousState.copyWith(
@@ -127,10 +127,10 @@ NewJobPageState _setSelectedEndTime(NewJobPageState previousState, SetSelectedEn
 NewJobPageState _loadWithSelectedClient(NewJobPageState previousState, InitializeNewContactPageAction action) {
   return previousState.copyWith(
       selectedClient: action.client,
-      clientFirstName: action.client != null ? action.client.firstName : '',
+      clientFirstName: action.client != null ? action.client!.firstName : '',
       shouldClear: false,
       comingFromClientDetails: true,
-      pageViewIndex: 0,
+      pageViewIndex: 1,
   );
 }
 
@@ -147,11 +147,11 @@ NewJobPageState _setSelectedDate(NewJobPageState previousState, SetSelectedDateA
 
 NewJobPageState _setSunsetTime(NewJobPageState previousState, SetSunsetTimeAction action) {
   DateTime selectedTime = action.sunset != null ? DateTime(
-    action.sunset.year,
-    action.sunset.month,
-    action.sunset.day,
-    (action.sunset.hour - 1),
-    ((action.sunset.minute / 10).floor() * 10),
+    action.sunset!.year,
+    action.sunset!.month,
+    action.sunset!.day,
+    (action.sunset!.hour - 1),
+    ((action.sunset!.minute / 10).floor() * 10),
   ) : DateTime.now();
   return previousState.copyWith(
       sunsetDateTime: action.sunset,
@@ -166,8 +166,8 @@ NewJobPageState _setJobType(NewJobPageState previousState, SetSelectedJobTypeAct
 }
 
 NewJobPageState _setSelectedPriceProfile(NewJobPageState previousState, SetSelectedPriceProfile action) {
-  PriceProfile newProfile;
-  if(previousState.selectedPriceProfile != action.priceProfile) newProfile = action.priceProfile;
+  PriceProfile? newProfile;
+  if(previousState.selectedPriceProfile != action.priceProfile) newProfile = action.priceProfile!;
   return previousState.copyWith(
       selectedPriceProfile: newProfile,
       oneTimePrice: '',
@@ -175,8 +175,8 @@ NewJobPageState _setSelectedPriceProfile(NewJobPageState previousState, SetSelec
 }
 
 NewJobPageState _setSelectedLocation(NewJobPageState previousState, SetSelectedLocation action) {
-  LocationDandy newLocation;
-  if(previousState.selectedLocation != action.location) newLocation = action.location;
+  LocationDandy? newLocation;
+  if(previousState.selectedLocation != action.location) newLocation = action.location!;
   return previousState.copyWith(
       selectedLocation: newLocation,
       oneTimeLocation: null,
@@ -184,14 +184,14 @@ NewJobPageState _setSelectedLocation(NewJobPageState previousState, SetSelectedL
 }
 
 NewJobPageState _setSelectedOneTimeLocation(NewJobPageState previousState, SetSelectedOneTimeLocation action) {
-  List<LocationDandy> allLocations = action.pageState.locations;
-  List<File> imageFiles = action.pageState.imageFiles;
+  List<LocationDandy> allLocations = action.pageState!.locations!;
+  List<File?>? imageFiles = action.pageState!.imageFiles!;
   if(previousState.oneTimeLocation == null) {
-    allLocations.insert(0, action.location);
+    allLocations.insert(0, action.location!);
     imageFiles.insert(0, File(""));
   } else {
     allLocations.remove(previousState.oneTimeLocation);
-    allLocations.insert(0, action.location);
+    allLocations.insert(0, action.location!);
   }
   return previousState.copyWith(
       oneTimeLocation: action.location,
@@ -207,13 +207,13 @@ NewJobPageState _updateErrorState(NewJobPageState previousState, UpdateErrorStat
 }
 
 NewJobPageState _incrementPageViewIndex(NewJobPageState previousState, IncrementPageViewIndex action) {
-  int incrementedIndex = previousState.pageViewIndex;
+  int incrementedIndex = previousState.pageViewIndex!;
   incrementedIndex++;
   return previousState.copyWith(pageViewIndex: incrementedIndex);
 }
 
 NewJobPageState _decrementPageViewIndex(NewJobPageState previousState, DecrementPageViewIndex action) {
-  int decrementedIndex = previousState.pageViewIndex;
+  int decrementedIndex = previousState.pageViewIndex!;
   decrementedIndex--;
   return previousState.copyWith(pageViewIndex: decrementedIndex);
 }
@@ -236,16 +236,16 @@ NewJobPageState _setAll(NewJobPageState previousState, SetAllToStateAction actio
 }
 
 NewJobPageState _setSelectedClient(NewJobPageState previousState, ClientSelectedAction action) {
-  Client selectedClient = previousState.selectedClient == action.client ? null : action.client;
+  Client? selectedClient = previousState.selectedClient == action.client ? null : action.client;
   return previousState.copyWith(
     selectedClient: selectedClient,
-    clientFirstName: selectedClient.firstName,
+    clientFirstName: selectedClient!.firstName,
     isSelectedClientNew: false,
   );
 }
 
 NewJobPageState _setClientFirstName(NewJobPageState previousState, SetClientFirstNameAction action) {
-  List<Client> filteredClients = _filterClients(previousState, action.firstName);
+  List<Client> filteredClients = _filterClients(previousState, action.firstName!);
   return previousState.copyWith(
     selectedClient: null,
     clientFirstName: action.firstName,
@@ -254,13 +254,13 @@ NewJobPageState _setClientFirstName(NewJobPageState previousState, SetClientFirs
 }
 
 List<Client> _filterClients(NewJobPageState previousState, String firstName) {
-  List<Client> filteredClientsByFirstName = firstName.isNotEmpty
-      ? previousState.allClients
+  List<Client>? filteredClientsByFirstName = firstName.isNotEmpty
+      ? previousState.allClients!
           .where((client) => client
               .getClientFullName()
               .toLowerCase()
               .contains(firstName.toLowerCase())
           ).toList()
       : previousState.allClients;
-  return filteredClientsByFirstName;
+  return filteredClientsByFirstName!;
 }

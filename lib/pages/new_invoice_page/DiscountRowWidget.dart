@@ -26,18 +26,18 @@ class DiscountRowWidget extends StatelessWidget{
                 children: [
                   TextDandyLight(
                     type: TextDandyLight.LARGE_TEXT,
-                    text: 'Discount' + (pageState.discount?.selectedFilter == NewDiscountDialog.SELECTOR_TYPE_PERCENTAGE && pageState.discountValue > 0.0
+                    text: 'Discount' + (pageState.discount?.selectedFilter == NewDiscountDialog.SELECTOR_TYPE_PERCENTAGE && pageState.discountValue! > 0.0
                         ? ' (' +
-                        pageState.discount.percentage.toString() + '%)'
+                        pageState.discount!.percentage.toString() + '%)'
                         : ''),
                     textAlign: TextAlign.start,
                     color: Color(ColorConstants.getPrimaryBlack()),
                   ),
-                  pageState.discountValue > 0.0  && pageState.pageViewIndex != 3 ? Container(
+                  pageState.discountValue! > 0.0  && pageState.pageViewIndex != 3 ? Container(
                     margin: EdgeInsets.only(left: 20.0),
                     child: GestureDetector(
                       onTap: () {
-                        pageState.onDeleteDiscountSelected();
+                        pageState.onDeleteDiscountSelected!();
                       },
                       child: TextDandyLight(
                         type: TextDandyLight.LARGE_TEXT,
@@ -74,11 +74,11 @@ class DiscountRowWidget extends StatelessWidget{
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  pageState.discountValue > 0.0 ? TextDandyLight(
+                  pageState.discountValue! > 0.0 ? TextDandyLight(
                     type: TextDandyLight.LARGE_TEXT,
-                    text: (pageState.discountValue.toInt() > 0 ? '-' : '') + TextFormatterUtil.formatDecimalDigitsCurrency (pageState.discountValue, 2),
+                    text: (pageState.discountValue!.toInt() > 0 ? '-' : '') + TextFormatterUtil.formatDecimalDigitsCurrency (pageState.discountValue!, 2),
                     textAlign: TextAlign.start,
-                    color: Color(pageState.discountValue.toInt() > 0 ? ColorConstants
+                    color: Color(pageState.discountValue!.toInt() > 0 ? ColorConstants
                         .getPrimaryBlack() : ColorConstants
                         .getPrimaryBackgroundGrey()),
                   ) : SizedBox(),

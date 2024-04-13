@@ -19,9 +19,9 @@ import '../../pose_library_group_page/LibraryPoseGroupPage.dart';
 import '../PosesPageState.dart';
 
 class PoseLibraryGroupListWidget extends StatelessWidget {
-  final int index;
-  final Job job;
-  final bool comingFromDetails;
+  final int? index;
+  final Job? job;
+  final bool? comingFromDetails;
 
   PoseLibraryGroupListWidget(this.index, this.job, this.comingFromDetails);
 
@@ -33,13 +33,13 @@ class PoseLibraryGroupListWidget extends StatelessWidget {
       InkWell(
         onTap: () {
           Navigator.of(context).push(
-            new MaterialPageRoute(builder: (context) => LibraryPoseGroupPage(pageState.libraryGroups.elementAt(index), job, comingFromDetails)),
+            new MaterialPageRoute(builder: (context) => LibraryPoseGroupPage(pageState.libraryGroups!.elementAt(index!), job, comingFromDetails)),
           );
           EventSender().sendEvent(eventName: EventNames.NAV_TO_POSE_LIBRARY_GROUP);
         },
         child: Padding(
           padding: EdgeInsets.only(left: 16.0, right: 16.0),
-          child: pageState.libraryGroups.elementAt(index).poses.length > 0 ? Stack(
+          child: pageState.libraryGroups!.elementAt(index!).poses!.length > 0 ? Stack(
             alignment: Alignment.centerRight,
             children: [
               Container(
@@ -53,7 +53,7 @@ class PoseLibraryGroupListWidget extends StatelessWidget {
                       width: 108.0,
                       margin: EdgeInsets.only(right: 16.0),
                       child: DandyLightNetworkImage(
-                        pageState.libraryGroups.elementAt(index).poses.elementAt(index).imageUrl,
+                        pageState.libraryGroups!.elementAt(index!).poses!.first.imageUrl ?? '',
                         borderRadius: 16,
                         resizeWidth: 350,
                         errorIconSize: 24,
@@ -63,7 +63,7 @@ class PoseLibraryGroupListWidget extends StatelessWidget {
                       padding: EdgeInsets.only(bottom: 2.0),
                       child: TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
-                        text: pageState.libraryGroups.elementAt(index).groupName,
+                        text: pageState.libraryGroups!.elementAt(index!).groupName,
                         textAlign: TextAlign.center,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),

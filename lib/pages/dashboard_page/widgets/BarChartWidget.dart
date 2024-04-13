@@ -9,8 +9,8 @@ import 'LineChartMonthData.dart';
 
 
 class BarChartWidget extends StatefulWidget {
-  const BarChartWidget({Key key, this.monthsData}) : super(key: key);
-  final List<LineChartMonthData> monthsData;
+  const BarChartWidget({Key? key, this.monthsData}) : super(key: key);
+  final List<LineChartMonthData>? monthsData;
 
   @override
   State<StatefulWidget> createState() => BarChartState();
@@ -25,7 +25,7 @@ class BarChartState extends State<BarChartWidget> {
   @override
   Widget build(BuildContext context) {
     bool noData = true;
-    for(LineChartMonthData data in widget.monthsData) {
+    for(LineChartMonthData data in widget.monthsData!) {
       if(data.income != 0) {
         noData = false;
       }
@@ -100,17 +100,17 @@ class BarChartState extends State<BarChartWidget> {
   List<BarChartGroupData> showingGroups() => List.generate(6, (i) {
     switch (i) {
       case 0:
-        return makeGroupData(0, widget.monthsData.elementAt(i).income, isTouched: i == touchedIndex, isNegative: widget.monthsData.elementAt(i).income < 0);
+        return makeGroupData(0, widget.monthsData!.elementAt(i).income!, isTouched: i == touchedIndex, isNegative: widget.monthsData!.elementAt(i).income! < 0);
       case 1:
-        return makeGroupData(1, widget.monthsData.elementAt(i).income, isTouched: i == touchedIndex, isNegative: widget.monthsData.elementAt(i).income < 0);
+        return makeGroupData(1, widget.monthsData!.elementAt(i).income!, isTouched: i == touchedIndex, isNegative: widget.monthsData!.elementAt(i).income! < 0);
       case 2:
-        return makeGroupData(2, widget.monthsData.elementAt(i).income, isTouched: i == touchedIndex, isNegative: widget.monthsData.elementAt(i).income < 0);
+        return makeGroupData(2, widget.monthsData!.elementAt(i).income!, isTouched: i == touchedIndex, isNegative: widget.monthsData!.elementAt(i).income! < 0);
       case 3:
-        return makeGroupData(3, widget.monthsData.elementAt(i).income, isTouched: i == touchedIndex, isNegative: widget.monthsData.elementAt(i).income < 0);
+        return makeGroupData(3, widget.monthsData!.elementAt(i).income!, isTouched: i == touchedIndex, isNegative: widget.monthsData!.elementAt(i).income! < 0);
       case 4:
-        return makeGroupData(4, widget.monthsData.elementAt(i).income, isTouched: i == touchedIndex, isNegative: widget.monthsData.elementAt(i).income < 0);
+        return makeGroupData(4, widget.monthsData!.elementAt(i).income!, isTouched: i == touchedIndex, isNegative: widget.monthsData!.elementAt(i).income! < 0);
       case 5:
-        return makeGroupData(5, widget.monthsData.elementAt(i).income, isTouched: i == touchedIndex, isNegative: widget.monthsData.elementAt(i).income < 0);
+        return makeGroupData(5, widget.monthsData!.elementAt(i).income!, isTouched: i == touchedIndex, isNegative: widget.monthsData!.elementAt(i).income! < 0);
       default:
         return throw Error();
     }
@@ -125,22 +125,22 @@ class BarChartState extends State<BarChartWidget> {
               String weekDay;
               switch (group.x.toInt()) {
                 case 0:
-                  weekDay = widget.monthsData.elementAt(group.x.toInt()).name;
+                  weekDay = widget.monthsData!.elementAt(group.x.toInt()).name!;
                   break;
                 case 1:
-                  weekDay = widget.monthsData.elementAt(group.x.toInt()).name;
+                  weekDay = widget.monthsData!.elementAt(group.x.toInt()).name!;
                   break;
                 case 2:
-                  weekDay = widget.monthsData.elementAt(group.x.toInt()).name;
+                  weekDay = widget.monthsData!.elementAt(group.x.toInt()).name!;
                   break;
                 case 3:
-                  weekDay = widget.monthsData.elementAt(group.x.toInt()).name;
+                  weekDay = widget.monthsData!.elementAt(group.x.toInt()).name!;
                   break;
                 case 4:
-                  weekDay = widget.monthsData.elementAt(group.x.toInt()).name;
+                  weekDay = widget.monthsData!.elementAt(group.x.toInt()).name!;
                   break;
                 case 5:
-                  weekDay = widget.monthsData.elementAt(group.x.toInt()).name;
+                  weekDay = widget.monthsData!.elementAt(group.x.toInt()).name!;
                   break;
                 default:
                   throw Error();
@@ -173,7 +173,7 @@ class BarChartState extends State<BarChartWidget> {
               touchedIndex = -1;
               return;
             }
-            touchedIndex = barTouchResponse.spot.touchedBarGroupIndex;
+            touchedIndex = barTouchResponse.spot!.touchedBarGroupIndex;
           });
         },
       ),
@@ -211,7 +211,7 @@ class BarChartState extends State<BarChartWidget> {
     switch (value.toInt()) {
       case 0:
         DateTime currentMonth = DateTime.now();
-        DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 5, currentMonth.day);
+        DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 5);
         String monthShort = _getMonthStringShort(resultMonth.month);
         text = TextDandyLight(
             type: TextDandyLight.MEDIUM_TEXT,
@@ -219,7 +219,7 @@ class BarChartState extends State<BarChartWidget> {
         break;
       case 1:
         DateTime currentMonth = DateTime.now();
-        DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 4, currentMonth.day);
+        DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 4);
         String monthShort = _getMonthStringShort(resultMonth.month);
         text = TextDandyLight(
             type: TextDandyLight.MEDIUM_TEXT,
@@ -227,7 +227,7 @@ class BarChartState extends State<BarChartWidget> {
         break;
       case 2:
         DateTime currentMonth = DateTime.now();
-        DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 3, currentMonth.day);
+        DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 3);
         String monthShort = _getMonthStringShort(resultMonth.month);
         text = TextDandyLight(
             type: TextDandyLight.MEDIUM_TEXT,
@@ -235,7 +235,7 @@ class BarChartState extends State<BarChartWidget> {
         break;
       case 3:
         DateTime currentMonth = DateTime.now();
-        DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 2, currentMonth.day);
+        DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 2);
         String monthShort = _getMonthStringShort(resultMonth.month);
         text = TextDandyLight(
             type: TextDandyLight.MEDIUM_TEXT,
@@ -243,7 +243,7 @@ class BarChartState extends State<BarChartWidget> {
         break;
       case 4:
         DateTime currentMonth = DateTime.now();
-        DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 1, currentMonth.day);
+        DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 1);
         String monthShort = _getMonthStringShort(resultMonth.month);
         text = TextDandyLight(
             type: TextDandyLight.MEDIUM_TEXT,

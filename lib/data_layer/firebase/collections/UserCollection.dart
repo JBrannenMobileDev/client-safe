@@ -39,7 +39,7 @@ class UserCollection {
         .snapshots();
   }
 
-  Future<Profile> getUser(String uid) async {
+  Future<Profile?> getUser(String uid) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('env')
@@ -48,7 +48,7 @@ class UserCollection {
         .doc(uid)
         .get()
         .then((userProfile) {
-          Profile profile = Profile.fromMap(userProfile.data());
+          Profile profile = Profile.fromMap(userProfile.data() as Map<String, dynamic>);
           profile.uid = userProfile.id;
           return profile;
         })

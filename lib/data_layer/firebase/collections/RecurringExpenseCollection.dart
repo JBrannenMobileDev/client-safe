@@ -54,7 +54,7 @@ class RecurringExpenseCollection {
         .doc(documentId)
         .get()
         .then((expenseSnapshot) {
-            RecurringExpense expense = RecurringExpense.fromMap(expenseSnapshot.data());
+            RecurringExpense expense = RecurringExpense.fromMap(expenseSnapshot.data() as Map<String, dynamic>);
             expense.documentId = expenseSnapshot.id;
             return expense;
         });
@@ -93,7 +93,7 @@ class RecurringExpenseCollection {
   List<RecurringExpense> _buildRecurringExpensesList(QuerySnapshot jobs) {
     List<RecurringExpense> expensesList = [];
     for(DocumentSnapshot expenseSnapshot in jobs.docs){
-      RecurringExpense expense = RecurringExpense.fromMap(expenseSnapshot.data());
+      RecurringExpense expense = RecurringExpense.fromMap(expenseSnapshot.data() as Map<String, dynamic>);
       expense.documentId = expenseSnapshot.id;
       expensesList.add(expense);
     }

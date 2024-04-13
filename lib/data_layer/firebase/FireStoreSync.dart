@@ -34,6 +34,7 @@ import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/models/Response.dart';
 import 'package:dandylight/models/SingleExpense.dart';
 import 'package:dandylight/utils/UidUtil.dart';
+import 'package:collection/collection.dart';
 
 import '../../models/JobStage.dart';
 import '../../models/JobType.dart';
@@ -44,8 +45,8 @@ import '../local_db/daos/ResponseDao.dart';
 class FireStoreSync {
     
     Future<void> dandyLightAppInitializationSync(String uid) async {
-        Profile userLocalDb = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-        Profile userFireStoreDb = await UserCollection().getUser(UidUtil().getUid());
+        Profile? userLocalDb = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+        Profile? userFireStoreDb = await UserCollection().getUser(UidUtil().getUid());
         if(userLocalDb != null && userFireStoreDb != null) {
             await _syncClients(userLocalDb, userFireStoreDb);
             await _syncInvoices(userLocalDb, userFireStoreDb);
@@ -76,7 +77,7 @@ class FireStoreSync {
     }
 
     Profile getMatchingProfile(List<Profile> profiles, String uid) {
-        Profile result = null;
+        late Profile result;
         for(Profile profile in profiles) {
             if(profile.uid == uid) {
                 result = profile;
@@ -90,14 +91,14 @@ class FireStoreSync {
             .listen((documentSnapshot) async {
                 bool exists = (await NextInvoiceNumberDao.getAllSorted()).isNotEmpty;
                 if(exists) {
-                    Map<String, dynamic> map = documentSnapshot.data();
+                    Map<String, dynamic>? map = documentSnapshot.data() as Map<String, dynamic>?;
                     NextInvoiceNumber nextNumber;
                     if(map != null) {
                         nextNumber = NextInvoiceNumber.fromMap(map);
                     } else {
                         nextNumber = NextInvoiceNumber();
                     }
-                    NextInvoiceNumber nextNumberLocal = await NextInvoiceNumberDao.getNextNumber();
+                    NextInvoiceNumber? nextNumberLocal = await NextInvoiceNumberDao.getNextNumber();
                     nextNumber.id = 1;
                     if(nextNumberLocal != null) {
                         NextInvoiceNumberDao.updateLocalOnly(nextNumber);
@@ -110,8 +111,8 @@ class FireStoreSync {
         ClientDao.getClientsStreamFromFireStore()
             .listen((snapshots) async {
                 for(DocumentChange snapshot in snapshots.docChanges) {
-                    Client client = Client.fromMap(snapshot.doc.data());
-                    Client clientFromLocal = await ClientDao.getClientById(client.documentId);
+                    Client client = Client.fromMap(snapshot.doc.data() as Map<String, dynamic>);
+                    Client? clientFromLocal = await ClientDao.getClientById(client.documentId!);
                     if(clientFromLocal != null) {
                         ClientDao.updateLocalOnly(client);
                     }else {
@@ -123,8 +124,8 @@ class FireStoreSync {
         PriceProfileDao.getPriceProfilesStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                PriceProfile priceProfile = PriceProfile.fromMap(snapshot.doc.data());
-                PriceProfile priceProfileFromLocal = await PriceProfileDao.getById(priceProfile.documentId);
+                PriceProfile priceProfile = PriceProfile.fromMap(snapshot.doc.data() as Map<String, dynamic>);
+                PriceProfile? priceProfileFromLocal = await PriceProfileDao.getById(priceProfile.documentId!);
                 if(priceProfileFromLocal != null) {
                     PriceProfileDao.updateLocalOnly(priceProfile);
                 }else {
@@ -136,8 +137,8 @@ class FireStoreSync {
         LocationDao.getLocationsStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                LocationDandy location = LocationDandy.fromMap(snapshot.doc.data());
-                LocationDandy locationFromLocal = await LocationDao.getById(location.documentId);
+                LocationDandy location = LocationDandy.fromMap(snapshot.doc.data() as Map<String, dynamic>);
+                LocationDandy? locationFromLocal = await LocationDao.getById(location.documentId!);
                 if(locationFromLocal != null) {
                     LocationDao.updateLocalOnly(location);
                 }else {
@@ -149,8 +150,8 @@ class FireStoreSync {
         JobDao.getJobsStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                Job job = Job.fromMap(snapshot.doc.data());
-                Job jobFromLocal = await JobDao.getJobById(job.documentId);
+                Job job = Job.fromMap(snapshot.doc.data() as Map<String, dynamic>);
+                Job? jobFromLocal = await JobDao.getJobById(job.documentId);
                 if(jobFromLocal != null) {
                     JobDao.updateLocalOnly(job);
                 }else {
@@ -162,8 +163,8 @@ class FireStoreSync {
         InvoiceDao.getInvoicesStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                Invoice invoice = Invoice.fromMap(snapshot.doc.data());
-                Invoice invoiceFromLocal = await InvoiceDao.getInvoiceById(invoice.documentId);
+                Invoice invoice = Invoice.fromMap(snapshot.doc.data() as Map<String, dynamic>);
+                Invoice? invoiceFromLocal = await InvoiceDao.getInvoiceById(invoice.documentId!);
                 if(invoiceFromLocal != null) {
                     InvoiceDao.updateLocalOnly(invoice);
                 }else {
@@ -175,8 +176,8 @@ class FireStoreSync {
         MileageExpenseDao.getMileageExpensesStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                MileageExpense expense = MileageExpense.fromMap(snapshot.doc.data());
-                MileageExpense expenseFromLocal = await MileageExpenseDao.getMileageExpenseById(expense.documentId);
+                MileageExpense expense = MileageExpense.fromMap(snapshot.doc.data() as Map<String, dynamic>);
+                MileageExpense? expenseFromLocal = await MileageExpenseDao.getMileageExpenseById(expense.documentId!);
                 if(expenseFromLocal != null) {
                     MileageExpenseDao.updateLocalOnly(expense);
                 }else {
@@ -188,8 +189,8 @@ class FireStoreSync {
         RecurringExpenseDao.getRecurringExpensesStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                RecurringExpense expense = RecurringExpense.fromMap(snapshot.doc.data());
-                RecurringExpense expenseFromLocal = await RecurringExpenseDao.getRecurringExpenseById(expense.documentId);
+                RecurringExpense expense = RecurringExpense.fromMap(snapshot.doc.data() as Map<String, dynamic>);
+                RecurringExpense? expenseFromLocal = await RecurringExpenseDao.getRecurringExpenseById(expense.documentId!);
                 if(expenseFromLocal != null) {
                     RecurringExpenseDao.updateLocalOnly(expense);
                 }else {
@@ -201,8 +202,8 @@ class FireStoreSync {
         SingleExpenseDao.getSingleExpensesStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                SingleExpense expense = SingleExpense.fromMap(snapshot.doc.data());
-                SingleExpense expenseFromLocal = await SingleExpenseDao.getSingleExpenseById(expense.documentId);
+                SingleExpense expense = SingleExpense.fromMap(snapshot.doc.data() as Map<String, dynamic>);
+                SingleExpense? expenseFromLocal = await SingleExpenseDao.getSingleExpenseById(expense.documentId!);
                 if(expenseFromLocal != null) {
                     SingleExpenseDao.updateLocalOnly(expense);
                 }else {
@@ -214,8 +215,8 @@ class FireStoreSync {
         ReminderDao.getReminderStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                ReminderDandyLight reminder = ReminderDandyLight.fromMap(snapshot.doc.data());
-                ReminderDandyLight reminderFromLocal = await ReminderDao.getReminderById(reminder.documentId);
+                ReminderDandyLight reminder = ReminderDandyLight.fromMap(snapshot.doc.data() as Map<String, dynamic>);
+                ReminderDandyLight? reminderFromLocal = await ReminderDao.getReminderById(reminder.documentId!);
                 if(reminderFromLocal != null) {
                     ReminderDao.updateLocalOnly(reminder);
                 }else {
@@ -227,8 +228,8 @@ class FireStoreSync {
         JobReminderDao.getReminderStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                JobReminder reminder = JobReminder.fromMap(snapshot.doc.data());
-                JobReminder reminderFromLocal = await JobReminderDao.getReminderById(reminder.documentId);
+                JobReminder reminder = JobReminder.fromMap(snapshot.doc.data() as Map<String, dynamic>);
+                JobReminder? reminderFromLocal = await JobReminderDao.getReminderById(reminder.documentId!);
                 if(reminderFromLocal != null) {
                     JobReminderDao.updateLocalOnly(reminder);
                 }else {
@@ -240,8 +241,8 @@ class FireStoreSync {
         JobTypeDao.getJobTypeStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                JobType jobType = JobType.fromMap(snapshot.doc.data());
-                JobType jobTypeFromLocal = await JobTypeDao.getJobTypeById(jobType.documentId);
+                JobType jobType = JobType.fromMap(snapshot.doc.data() as Map<String, dynamic>);
+                JobType? jobTypeFromLocal = await JobTypeDao.getJobTypeById(jobType.documentId!);
                 if(jobTypeFromLocal != null) {
                     JobTypeDao.updateLocalOnly(jobType);
                 }else {
@@ -253,8 +254,8 @@ class FireStoreSync {
         ContractDao.getContractsStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                Contract contract = Contract.fromMap(snapshot.doc.data());
-                Contract contractFromLocal = await ContractDao.getById(contract.documentId);
+                Contract contract = Contract.fromMap(snapshot.doc.data() as Map<String, dynamic>);
+                Contract? contractFromLocal = await ContractDao.getById(contract.documentId!);
                 if(contractFromLocal != null) {
                     ContractDao.updateLocalOnly(contract);
                 }else {
@@ -266,8 +267,8 @@ class FireStoreSync {
         PoseDao.getPosesStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                Pose pose = Pose.fromMap(snapshot.doc.data());
-                Pose poseFromLocal = await PoseDao.getById(pose.documentId);
+                Pose pose = Pose.fromMap(snapshot.doc.data() as Map<String, dynamic>);
+                Pose? poseFromLocal = await PoseDao.getById(pose.documentId!);
                 if(poseFromLocal != null) {
                     PoseDao.updateLocalOnly(pose);
                 }else {
@@ -279,8 +280,8 @@ class FireStoreSync {
         PoseGroupDao.getPoseGroupsStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                PoseGroup poseGroup = PoseGroup.fromMap(snapshot.doc.data());
-                PoseGroup poseGroupFromLocal = await PoseGroupDao.getById(poseGroup.documentId);
+                PoseGroup poseGroup = PoseGroup.fromMap(snapshot.doc.data() as Map<String, dynamic>);
+                PoseGroup? poseGroupFromLocal = await PoseGroupDao.getById(poseGroup.documentId!);
                 if(poseGroupFromLocal != null) {
                     PoseGroupDao.updateLocalOnly(poseGroup);
                 }else {
@@ -292,8 +293,8 @@ class FireStoreSync {
         ResponseDao.getResponsesStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                Response response = Response.fromMap(snapshot.doc.data());
-                Response responseFromLocal = await ResponseDao.getResponseById(response.documentId);
+                Response response = Response.fromMap(snapshot.doc.data() as Map<String, dynamic>);
+                Response? responseFromLocal = await ResponseDao.getResponseById(response.documentId!);
                 if(responseFromLocal != null) {
                     ResponseDao.updateLocalOnly(response);
                 }else {
@@ -319,8 +320,8 @@ class FireStoreSync {
     Future<void> _syncClients(Profile userLocalDb, Profile userFireStoreDb) async {
         if((userLocalDb.clientsLastChangeDate != userFireStoreDb.clientsLastChangeDate) || (userLocalDb.clientsLastChangeDate == null && userFireStoreDb.clientsLastChangeDate != null)) {
             if(userLocalDb.clientsLastChangeDate != null && userFireStoreDb.clientsLastChangeDate != null) {
-                if (userLocalDb.clientsLastChangeDate.millisecondsSinceEpoch <
-                    userFireStoreDb.clientsLastChangeDate
+                if (userLocalDb.clientsLastChangeDate!.millisecondsSinceEpoch <
+                    userFireStoreDb.clientsLastChangeDate!
                         .millisecondsSinceEpoch) {
                     await ClientDao.syncAllFromFireStore();
                 } else {
@@ -333,8 +334,8 @@ class FireStoreSync {
     Future<void> _syncPoses(Profile userLocalDb, Profile userFireStoreDb) async {
         if((userLocalDb.posesLastChangeDate != userFireStoreDb.posesLastChangeDate) || (userLocalDb.posesLastChangeDate == null && userFireStoreDb.posesLastChangeDate != null)) {
             if(userLocalDb.posesLastChangeDate != null && userFireStoreDb.posesLastChangeDate != null) {
-                if (userLocalDb.posesLastChangeDate.millisecondsSinceEpoch <
-                    userFireStoreDb.posesLastChangeDate
+                if (userLocalDb.posesLastChangeDate!.millisecondsSinceEpoch <
+                    userFireStoreDb.posesLastChangeDate!
                         .millisecondsSinceEpoch) {
                     await PoseDao.syncAllFromFireStore();
                 } else {
@@ -347,8 +348,8 @@ class FireStoreSync {
     Future<void> _syncPoseGroups(Profile userLocalDb, Profile userFireStoreDb) async {
         if((userLocalDb.poseGroupsLastChangeDate != userFireStoreDb.poseGroupsLastChangeDate) || (userLocalDb.poseGroupsLastChangeDate == null && userFireStoreDb.poseGroupsLastChangeDate != null)) {
             if(userLocalDb.poseGroupsLastChangeDate != null && userFireStoreDb.poseGroupsLastChangeDate != null) {
-                if (userLocalDb.poseGroupsLastChangeDate.millisecondsSinceEpoch <
-                    userFireStoreDb.poseGroupsLastChangeDate
+                if (userLocalDb.poseGroupsLastChangeDate!.millisecondsSinceEpoch <
+                    userFireStoreDb.poseGroupsLastChangeDate!
                         .millisecondsSinceEpoch) {
                     await PoseGroupDao.syncAllFromFireStore();
                 } else {
@@ -361,7 +362,7 @@ class FireStoreSync {
     Future<void> _syncInvoices(Profile userLocalDb, Profile userFireStoreDb) async {
         if((userLocalDb.invoicesLastChangeDate != userFireStoreDb.invoicesLastChangeDate) || (userLocalDb.invoicesLastChangeDate == null && userFireStoreDb.invoicesLastChangeDate != null)) {
             if(userLocalDb.invoicesLastChangeDate != null && userFireStoreDb.invoicesLastChangeDate != null){
-                if(userLocalDb.invoicesLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.invoicesLastChangeDate.millisecondsSinceEpoch) {
+                if(userLocalDb.invoicesLastChangeDate!.millisecondsSinceEpoch < userFireStoreDb.invoicesLastChangeDate!.millisecondsSinceEpoch) {
                     await InvoiceDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.
@@ -373,7 +374,7 @@ class FireStoreSync {
     Future<void> _syncJobs(Profile userLocalDb, Profile userFireStoreDb) async {
         if((userLocalDb.jobsLastChangeDate != userFireStoreDb.jobsLastChangeDate) || (userLocalDb.jobsLastChangeDate == null && userFireStoreDb.jobsLastChangeDate != null)) {
             if(userLocalDb.jobsLastChangeDate != null && userFireStoreDb.jobsLastChangeDate != null){
-                if(userLocalDb.jobsLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.jobsLastChangeDate.millisecondsSinceEpoch) {
+                if(userLocalDb.jobsLastChangeDate!.millisecondsSinceEpoch < userFireStoreDb.jobsLastChangeDate!.millisecondsSinceEpoch) {
                     await JobDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.
@@ -385,7 +386,7 @@ class FireStoreSync {
     Future<void> _syncLocations(Profile userLocalDb, Profile userFireStoreDb) async {
         if((userLocalDb.locationsLastChangeDate != userFireStoreDb.locationsLastChangeDate) || (userLocalDb.locationsLastChangeDate == null && userFireStoreDb.locationsLastChangeDate != null)) {
             if(userLocalDb.locationsLastChangeDate != null && userFireStoreDb.locationsLastChangeDate != null){
-                if(userLocalDb.locationsLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.locationsLastChangeDate.millisecondsSinceEpoch) {
+                if(userLocalDb.locationsLastChangeDate!.millisecondsSinceEpoch < userFireStoreDb.locationsLastChangeDate!.millisecondsSinceEpoch) {
                     await LocationDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.
@@ -397,7 +398,7 @@ class FireStoreSync {
     Future<void> _syncMileageExpenses(Profile userLocalDb, Profile userFireStoreDb) async {
         if((userLocalDb.mileageExpensesLastChangeDate != userFireStoreDb.mileageExpensesLastChangeDate) || (userLocalDb.mileageExpensesLastChangeDate == null && userFireStoreDb.mileageExpensesLastChangeDate != null)) {
             if(userLocalDb.mileageExpensesLastChangeDate != null && userFireStoreDb.mileageExpensesLastChangeDate != null){
-                if(userLocalDb.mileageExpensesLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.mileageExpensesLastChangeDate.millisecondsSinceEpoch) {
+                if(userLocalDb.mileageExpensesLastChangeDate!.millisecondsSinceEpoch < userFireStoreDb.mileageExpensesLastChangeDate!.millisecondsSinceEpoch) {
                     await MileageExpenseDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.
@@ -409,7 +410,7 @@ class FireStoreSync {
     Future<void> _syncPriceProfiles(Profile userLocalDb, Profile userFireStoreDb) async {
         if((userLocalDb.priceProfilesLastChangeDate != userFireStoreDb.priceProfilesLastChangeDate) || (userLocalDb.priceProfilesLastChangeDate == null && userFireStoreDb.priceProfilesLastChangeDate != null)) {
             if(userLocalDb.priceProfilesLastChangeDate != null && userFireStoreDb.priceProfilesLastChangeDate != null){
-                if(userLocalDb.priceProfilesLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.priceProfilesLastChangeDate.millisecondsSinceEpoch) {
+                if(userLocalDb.priceProfilesLastChangeDate!.millisecondsSinceEpoch < userFireStoreDb.priceProfilesLastChangeDate!.millisecondsSinceEpoch) {
                     await PriceProfileDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.
@@ -421,7 +422,7 @@ class FireStoreSync {
     Future<void> _syncRecurringExpenses(Profile userLocalDb, Profile userFireStoreDb) async {
         if((userLocalDb.recurringExpensesLastChangeDate != userFireStoreDb.recurringExpensesLastChangeDate) || (userLocalDb.recurringExpensesLastChangeDate == null && userFireStoreDb.recurringExpensesLastChangeDate != null)) {
             if(userLocalDb.recurringExpensesLastChangeDate != null && userFireStoreDb.recurringExpensesLastChangeDate != null){
-                if(userLocalDb.recurringExpensesLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.recurringExpensesLastChangeDate.millisecondsSinceEpoch) {
+                if(userLocalDb.recurringExpensesLastChangeDate!.millisecondsSinceEpoch < userFireStoreDb.recurringExpensesLastChangeDate!.millisecondsSinceEpoch) {
                     await RecurringExpenseDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.
@@ -433,7 +434,7 @@ class FireStoreSync {
     Future<void> _syncNextInvoiceNumber(Profile userLocalDb, Profile userFireStoreDb) async {
         if((userLocalDb.nextInvoiceNumberLastChangeDate != userFireStoreDb.nextInvoiceNumberLastChangeDate) || (userLocalDb.nextInvoiceNumberLastChangeDate == null && userFireStoreDb.nextInvoiceNumberLastChangeDate != null)) {
             if(userLocalDb.nextInvoiceNumberLastChangeDate != null && userFireStoreDb.nextInvoiceNumberLastChangeDate != null){
-                if(userLocalDb.nextInvoiceNumberLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.nextInvoiceNumberLastChangeDate.millisecondsSinceEpoch) {
+                if(userLocalDb.nextInvoiceNumberLastChangeDate!.millisecondsSinceEpoch < userFireStoreDb.nextInvoiceNumberLastChangeDate!.millisecondsSinceEpoch) {
                     await NextInvoiceNumberDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.
@@ -445,7 +446,7 @@ class FireStoreSync {
     Future<void> _syncSingleExpenses(Profile userLocalDb, Profile userFireStoreDb) async {
         if((userLocalDb.singleExpensesLastChangeDate != userFireStoreDb.singleExpensesLastChangeDate) || (userLocalDb.singleExpensesLastChangeDate == null && userFireStoreDb.singleExpensesLastChangeDate != null)) {
             if(userLocalDb.singleExpensesLastChangeDate != null && userFireStoreDb.singleExpensesLastChangeDate != null){
-                if(userLocalDb.singleExpensesLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.singleExpensesLastChangeDate.millisecondsSinceEpoch) {
+                if(userLocalDb.singleExpensesLastChangeDate!.millisecondsSinceEpoch < userFireStoreDb.singleExpensesLastChangeDate!.millisecondsSinceEpoch) {
                     await SingleExpenseDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.
@@ -457,7 +458,7 @@ class FireStoreSync {
     Future<void> _syncReminders(Profile userLocalDb, Profile userFireStoreDb) async {
         if((userLocalDb.remindersLastChangeDate != userFireStoreDb.remindersLastChangeDate) || (userLocalDb.remindersLastChangeDate == null && userFireStoreDb.remindersLastChangeDate != null)) {
             if(userLocalDb.remindersLastChangeDate != null && userFireStoreDb.remindersLastChangeDate != null){
-                if(userLocalDb.remindersLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.remindersLastChangeDate.millisecondsSinceEpoch) {
+                if(userLocalDb.remindersLastChangeDate!.millisecondsSinceEpoch < userFireStoreDb.remindersLastChangeDate!.millisecondsSinceEpoch) {
                     await ReminderDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.
@@ -469,7 +470,7 @@ class FireStoreSync {
     Future<void> _syncJobReminders(Profile userLocalDb, Profile userFireStoreDb) async {
         if((userLocalDb.jobReminderLastChangeDate != userFireStoreDb.jobReminderLastChangeDate) || (userLocalDb.jobReminderLastChangeDate == null && userFireStoreDb.jobReminderLastChangeDate != null)) {
             if(userLocalDb.jobReminderLastChangeDate != null && userFireStoreDb.jobReminderLastChangeDate != null){
-                if(userLocalDb.jobReminderLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.jobReminderLastChangeDate.millisecondsSinceEpoch) {
+                if(userLocalDb.jobReminderLastChangeDate!.millisecondsSinceEpoch < userFireStoreDb.jobReminderLastChangeDate!.millisecondsSinceEpoch) {
                     await JobReminderDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.
@@ -481,7 +482,7 @@ class FireStoreSync {
     Future<void> _syncJobTypes(Profile userLocalDb, Profile userFireStoreDb) async {
         if((userLocalDb.jobTypesLastChangeDate != userFireStoreDb.jobTypesLastChangeDate) || (userLocalDb.jobTypesLastChangeDate == null && userFireStoreDb.jobTypesLastChangeDate != null)) {
             if(userLocalDb.jobTypesLastChangeDate != null && userFireStoreDb.jobTypesLastChangeDate != null){
-                if(userLocalDb.jobTypesLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.jobTypesLastChangeDate.millisecondsSinceEpoch) {
+                if(userLocalDb.jobTypesLastChangeDate!.millisecondsSinceEpoch < userFireStoreDb.jobTypesLastChangeDate!.millisecondsSinceEpoch) {
                     await JobTypeDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.
@@ -493,7 +494,7 @@ class FireStoreSync {
     Future<void> _syncContracts(Profile userLocalDb, Profile userFireStoreDb) async {
         if((userLocalDb.contractsLastChangeDate != userFireStoreDb.contractsLastChangeDate) || (userLocalDb.contractsLastChangeDate == null && userFireStoreDb.contractsLastChangeDate != null)) {
             if(userLocalDb.contractsLastChangeDate != null && userFireStoreDb.contractsLastChangeDate != null){
-                if(userLocalDb.contractsLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.contractsLastChangeDate.millisecondsSinceEpoch) {
+                if(userLocalDb.contractsLastChangeDate!.millisecondsSinceEpoch < userFireStoreDb.contractsLastChangeDate!.millisecondsSinceEpoch) {
                     await ContractDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.
@@ -505,7 +506,7 @@ class FireStoreSync {
     Future<void> _syncProfile(Profile userLocalDb, Profile userFireStoreDb) async {
         if((userLocalDb.profileLastChangeDate != userFireStoreDb.profileLastChangeDate) || (userLocalDb.profileLastChangeDate == null && userFireStoreDb.profileLastChangeDate != null)) {
             if(userLocalDb.profileLastChangeDate != null && userFireStoreDb.profileLastChangeDate != null){
-                if(userLocalDb.profileLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.profileLastChangeDate.millisecondsSinceEpoch) {
+                if(userLocalDb.profileLastChangeDate!.millisecondsSinceEpoch < userFireStoreDb.profileLastChangeDate!.millisecondsSinceEpoch) {
                     await ProfileDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.
@@ -517,7 +518,7 @@ class FireStoreSync {
     Future<void> _syncResponses(Profile userLocalDb, Profile userFireStoreDb) async {
         if((userLocalDb.responsesLastChangeDate != userFireStoreDb.responsesLastChangeDate) || (userLocalDb.responsesLastChangeDate == null && userFireStoreDb.responsesLastChangeDate != null)) {
             if(userLocalDb.responsesLastChangeDate != null && userFireStoreDb.responsesLastChangeDate != null){
-                if(userLocalDb.responsesLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.responsesLastChangeDate.millisecondsSinceEpoch) {
+                if(userLocalDb.responsesLastChangeDate!.millisecondsSinceEpoch < userFireStoreDb.responsesLastChangeDate!.millisecondsSinceEpoch) {
                     await ProfileDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.
@@ -543,12 +544,12 @@ class FireStoreSync {
   }
 
   void checkForJobComplete() async {
-    List<Job> allJobs = await JobDao.getAllJobs();
-    for(Job job in allJobs) {
-        if(job.selectedTime != null && containsStage(job.type.stages, JobStage.STAGE_7_SESSION_COMPLETE)) {
-            if(!containsStage(job.completedStages, JobStage.STAGE_7_SESSION_COMPLETE)) {
+    List<Job>? allJobs = await JobDao.getAllJobs();
+    for(Job job in allJobs!) {
+        if(job.selectedTime != null && containsStage(job.type!.stages!, JobStage.STAGE_7_SESSION_COMPLETE)) {
+            if(!containsStage(job.completedStages!, JobStage.STAGE_7_SESSION_COMPLETE)) {
                 DateTime now = DateTime.now();
-                DateTime selectedDateAndTime = DateTime(job.selectedDate.year, job.selectedDate.month, job.selectedDate.day, job.selectedTime.hour, job.selectedTime.minute);
+                DateTime selectedDateAndTime = DateTime(job.selectedDate!.year, job.selectedDate!.month, job.selectedDate!.day, job.selectedTime!.hour, job.selectedTime!.minute);
                 if(now.isAfter(selectedDateAndTime)){
                     updateJobToSessionCompleted(job);
                 }
@@ -565,12 +566,12 @@ class FireStoreSync {
   }
 
   void updateJobToSessionCompleted(Job job) async {
-      List<JobStage> completedJobStages = job.completedStages.toList();
-      JobStage stageToComplete = job.type.stages.firstWhere((stage) => stage.stage == JobStage.STAGE_7_SESSION_COMPLETE);
-      int stageIndex = null;
+      List<JobStage> completedJobStages = job.completedStages!.toList();
+      JobStage? stageToComplete = job.type!.stages!.firstWhereOrNull((stage) => stage.stage == JobStage.STAGE_7_SESSION_COMPLETE);
+      int? stageIndex;
 
-      for(int index = 0; index < job.type.stages.length; index++) {
-          if(job.type.stages.elementAt(index).stage == JobStage.STAGE_7_SESSION_COMPLETE) {
+      for(int index = 0; index < job.type!.stages!.length; index++) {
+          if(job.type!.stages!.elementAt(index).stage == JobStage.STAGE_7_SESSION_COMPLETE) {
               stageIndex = index;
           }
       }
@@ -578,7 +579,7 @@ class FireStoreSync {
       if(stageToComplete != null && stageIndex != null) {
           completedJobStages.add(stageToComplete);
           job.completedStages = completedJobStages;
-          job.stage = _getNextUncompletedStage(stageIndex, job.completedStages, job);
+          job.stage = _getNextUncompletedStage(stageIndex, job.completedStages!, job);
           Job jobToSave = job.copyWith(
               completedStages: completedJobStages,
               stage: job.stage,
@@ -588,14 +589,14 @@ class FireStoreSync {
   }
 
     JobStage _getNextUncompletedStage(int stageIndex, List<JobStage> completedStages, Job job) {
-        if(job.type.stages.elementAt(stageIndex).stage != JobStage.STAGE_14_JOB_COMPLETE) {
-            JobStage nextStage = job.type.stages.elementAt(stageIndex++);
+        if(job.type!.stages!.elementAt(stageIndex).stage != JobStage.STAGE_14_JOB_COMPLETE) {
+            JobStage nextStage = job.type!.stages!.elementAt(stageIndex++);
             while(_completedStagesContainsNextStage(completedStages, nextStage)){
-                nextStage = JobStage.getNextStage(nextStage, job.type.stages);
+                nextStage = JobStage.getNextStage(nextStage, job.type!.stages!);
             }
             return nextStage;
         }
-        return job.type.stages.elementAt(stageIndex);
+        return job.type!.stages!.elementAt(stageIndex);
     }
 
     bool _completedStagesContainsNextStage(List<JobStage> completedStages, JobStage nextStage) {

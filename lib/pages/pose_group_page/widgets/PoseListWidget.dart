@@ -12,8 +12,8 @@ import '../../../models/Job.dart';
 import '../../../widgets/DandyLightNetworkImage.dart';
 
 class PoseListWidget extends StatelessWidget {
-  final int index;
-  final Job job;
+  final int? index;
+  final Job? job;
 
   PoseListWidget(this.index, this.job);
 
@@ -38,10 +38,10 @@ class PoseListWidget extends StatelessWidget {
       builder: (BuildContext context, PoseGroupPageState pageState) =>
           Stack(
             children: [
-              pageState.poseImages.length > index ? DandyLightNetworkImage(
-                  pageState.poseImages.elementAt(index).imageUrl
+              pageState.poseImages!.length > index! ? DandyLightNetworkImage(
+                  pageState.poseImages!.elementAt(index!).imageUrl ?? ''
               ) : SizedBox(),
-              pageState.poseImages.length > index ? Container(
+              pageState.poseImages!.length > index! ? Container(
                 height: 150.0,
                 decoration: BoxDecoration(
                     color: Color(ColorConstants.getPrimaryWhite()),
@@ -58,7 +58,7 @@ class PoseListWidget extends StatelessWidget {
                           1.0
                         ])),
               ) : SizedBox(),
-              pageState.poseImages.length > index ? job == null ? GestureDetector(
+              pageState.poseImages!.length > index! ? job == null ? GestureDetector(
                 onTap: () {
                   _showSaveToJobBottomSheet(context, index);
                 },
@@ -77,9 +77,9 @@ class PoseListWidget extends StatelessWidget {
                   ),
                 ),
               ) : SizedBox() : SizedBox(),
-              pageState.poseImages.length > index ? job == null? GestureDetector(
+              pageState.poseImages!.length > index! ? job == null? GestureDetector(
                 onTap: () {
-                  pageState.onDeletePoseSelected(pageState.poseImages.elementAt(index));
+                  pageState.onDeletePoseSelected!(pageState.poseImages!.elementAt(index!));
                 },
                 child: Align(
                   alignment: Alignment.topRight,
@@ -96,7 +96,7 @@ class PoseListWidget extends StatelessWidget {
                   ),
                 ),
               ) : SizedBox() : SizedBox(),
-              pageState.poseImages.length <= index ? Container(
+              pageState.poseImages!.length <= index! ? Container(
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: Color(ColorConstants.getPeachLight()),

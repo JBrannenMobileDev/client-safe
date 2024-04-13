@@ -37,54 +37,54 @@ class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void initData(Store<AppState> store, InitializeProfileSettings action, NextDispatcher next) async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    next(UpdateIncludeSalesTaxAction(store.state.pricingProfilePageState, profile.usesSalesTax));
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    next(UpdateIncludeSalesTaxAction(store.state.pricingProfilePageState, profile!.usesSalesTax));
     next(UpdateTaxPercentAction(store.state.pricingProfilePageState, profile.salesTaxRate.toString()));
   }
 
   void updateTaxPercent(Store<AppState> store, UpdateTaxPercentAction action, NextDispatcher next) async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    String result = action.taxPercent.replaceAll('%', '').replaceAll(',', '');
-    profile.salesTaxRate = double.parse(result);
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    String result = action.taxPercent!.replaceAll('%', '').replaceAll(',', '');
+    profile!.salesTaxRate = double.parse(result);
     ProfileDao.update(profile);
     next(action);
   }
 
   void updateIncludeSalesTaxState(Store<AppState> store, UpdateIncludeSalesTaxAction action, NextDispatcher next) async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.usesSalesTax = action.include;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.usesSalesTax = action.include;
     ProfileDao.update(profile);
     next(action);
   }
 
   void saveProfile(Store<AppState> store, action, NextDispatcher next) async{
     PriceProfile priceProfile = PriceProfile(
-      id: store.state.pricingProfilePageState.id,
-      documentId: store.state.pricingProfilePageState.documentId,
-      profileName: store.state.pricingProfilePageState.profileName,
-      flatRate: store.state.pricingProfilePageState.flatRate,
+      id: store.state.pricingProfilePageState!.id,
+      documentId: store.state.pricingProfilePageState!.documentId,
+      profileName: store.state.pricingProfilePageState!.profileName,
+      flatRate: store.state.pricingProfilePageState!.flatRate,
       icon: 'assets/images/icons/income_received.png',
-      includeSalesTax: store.state.pricingProfilePageState.includeSalesTax,
-      salesTaxPercent: store.state.pricingProfilePageState.taxPercent,
-      deposit: store.state.pricingProfilePageState.deposit != null ? store.state.pricingProfilePageState.deposit : 0,
+      includeSalesTax: store.state.pricingProfilePageState!.includeSalesTax,
+      salesTaxPercent: store.state.pricingProfilePageState!.taxPercent,
+      deposit: store.state.pricingProfilePageState!.deposit != null ? store.state.pricingProfilePageState!.deposit : 0,
     );
     await PriceProfileDao.insertOrUpdate(priceProfile);
     EventSender().sendEvent(eventName: EventNames.CREATED_PRICE_PACKAGE, properties: {
-      EventNames.PRICE_PACKAGE_PARAM_NAME : priceProfile.profileName,
-      EventNames.PRICE_PACKAGE_PARAM_PRICE : priceProfile.flatRate,
-      EventNames.PRICE_PACKAGE_PARAM_DEPOSIT : priceProfile.deposit,
+      EventNames.PRICE_PACKAGE_PARAM_NAME : priceProfile.profileName!,
+      EventNames.PRICE_PACKAGE_PARAM_PRICE : priceProfile.flatRate!,
+      EventNames.PRICE_PACKAGE_PARAM_DEPOSIT : priceProfile.deposit!,
     });
-    store.dispatch(FetchPricingProfilesAction(store.state.pricingProfilesPageState));
-    PriceProfile newProfileWithDocumentId = await PriceProfileDao.getByNameAndPrice(priceProfile.profileName, priceProfile.flatRate);
+    store.dispatch(FetchPricingProfilesAction(store.state.pricingProfilesPageState!));
+    PriceProfile newProfileWithDocumentId = await PriceProfileDao.getByNameAndPrice(priceProfile.profileName!, priceProfile.flatRate!);
     store.dispatch(prefix0.UpdateWithNewPricePackageAction(store.state.newJobPageState, newProfileWithDocumentId));
     store.dispatch(ClearStateAction(store.state.pricingProfilePageState));
   }
 
   void _deletePricingProfile(Store<AppState> store, action, NextDispatcher next) async{
-    await PriceProfileDao.delete(PriceProfile(id: store.state.pricingProfilePageState.id, documentId: store.state.pricingProfilePageState.documentId));
-    await PriceProfileDao.delete(PriceProfile(id: store.state.pricingProfilePageState.id, documentId: store.state.pricingProfilePageState.documentId));
-    store.dispatch(FetchPricingProfilesAction(store.state.pricingProfilesPageState));
+    await PriceProfileDao.delete(PriceProfile(id: store.state.pricingProfilePageState!.id, documentId: store.state.pricingProfilePageState!.documentId));
+    await PriceProfileDao.delete(PriceProfile(id: store.state.pricingProfilePageState!.id, documentId: store.state.pricingProfilePageState!.documentId));
+    store.dispatch(FetchPricingProfilesAction(store.state.pricingProfilesPageState!));
     store.dispatch(ClearStateAction(store.state.pricingProfilePageState));
-    GlobalKeyUtil.instance.navigatorKey.currentState.pop();
+    GlobalKeyUtil.instance.navigatorKey.currentState!.pop();
   }
 }

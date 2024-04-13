@@ -9,9 +9,9 @@ class BouncingLoadingAnimatedIcon extends StatefulWidget {
 
 class _BouncingLoadingAnimatedIcon extends State<BouncingLoadingAnimatedIcon>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Tween<Offset> offsetTweenUp;
-  Tween<Offset> offsetTweenDown;
+  AnimationController? _controller;
+  Tween<Offset>? offsetTweenUp;
+  Tween<Offset>? offsetTweenDown;
 
   @override
   initState() {
@@ -31,12 +31,12 @@ class _BouncingLoadingAnimatedIcon extends State<BouncingLoadingAnimatedIcon>
       end: Offset.zero,
     );
 
-    _controller.repeat().orCancel;
+    _controller!.repeat().orCancel;
   }
 
-  Animation<Offset> get stepOne => offsetTweenUp.animate(
+  Animation<Offset> get stepOne => offsetTweenUp!.animate(
         new CurvedAnimation(
-          parent: _controller,
+          parent: _controller!,
           curve: new Interval(
             0.0,
             0.17,
@@ -45,9 +45,9 @@ class _BouncingLoadingAnimatedIcon extends State<BouncingLoadingAnimatedIcon>
         ),
       );
 
-  Animation<Offset> get stepTwoUp => offsetTweenUp.animate(
+  Animation<Offset> get stepTwoUp => offsetTweenUp!.animate(
     new CurvedAnimation(
-      parent: _controller,
+      parent: _controller!,
       curve: new Interval(
         0.17,
         0.34,
@@ -56,9 +56,9 @@ class _BouncingLoadingAnimatedIcon extends State<BouncingLoadingAnimatedIcon>
     ),
   );
 
-  Animation<Offset> get stepTwoDown => offsetTweenDown.animate(
+  Animation<Offset> get stepTwoDown => offsetTweenDown!.animate(
     new CurvedAnimation(
-      parent: _controller,
+      parent: _controller!,
       curve: new Interval(
         0.17,
         0.34,
@@ -67,9 +67,9 @@ class _BouncingLoadingAnimatedIcon extends State<BouncingLoadingAnimatedIcon>
     ),
   );
 
-  Animation<Offset> get stepThreeUp => offsetTweenUp.animate(
+  Animation<Offset> get stepThreeUp => offsetTweenUp!.animate(
     new CurvedAnimation(
-      parent: _controller,
+      parent: _controller!,
       curve: new Interval(
         0.34,
         0.51,
@@ -78,9 +78,9 @@ class _BouncingLoadingAnimatedIcon extends State<BouncingLoadingAnimatedIcon>
     ),
   );
 
-  Animation<Offset> get stepThreeDown => offsetTweenDown.animate(
+  Animation<Offset> get stepThreeDown => offsetTweenDown!.animate(
     new CurvedAnimation(
-      parent: _controller,
+      parent: _controller!,
       curve: new Interval(
         0.34,
         0.51,
@@ -89,9 +89,9 @@ class _BouncingLoadingAnimatedIcon extends State<BouncingLoadingAnimatedIcon>
     ),
   );
 
-  Animation<Offset> get stepFourUp => offsetTweenUp.animate(
+  Animation<Offset> get stepFourUp => offsetTweenUp!.animate(
     new CurvedAnimation(
-      parent: _controller,
+      parent: _controller!,
       curve: new Interval(
         0.51,
         0.68,
@@ -100,9 +100,9 @@ class _BouncingLoadingAnimatedIcon extends State<BouncingLoadingAnimatedIcon>
     ),
   );
 
-  Animation<Offset> get stepFourDown => offsetTweenDown.animate(
+  Animation<Offset> get stepFourDown => offsetTweenDown!.animate(
     new CurvedAnimation(
-      parent: _controller,
+      parent: _controller!,
       curve: new Interval(
         0.51,
         0.68,
@@ -111,9 +111,9 @@ class _BouncingLoadingAnimatedIcon extends State<BouncingLoadingAnimatedIcon>
     ),
   );
 
-  Animation<Offset> get stepFiveUp => offsetTweenUp.animate(
+  Animation<Offset> get stepFiveUp => offsetTweenUp!.animate(
     new CurvedAnimation(
-      parent: _controller,
+      parent: _controller!,
       curve: new Interval(
         0.68,
         0.85,
@@ -122,9 +122,9 @@ class _BouncingLoadingAnimatedIcon extends State<BouncingLoadingAnimatedIcon>
     ),
   );
 
-  Animation<Offset> get stepFiveDown => offsetTweenDown.animate(
+  Animation<Offset> get stepFiveDown => offsetTweenDown!.animate(
     new CurvedAnimation(
-      parent: _controller,
+      parent: _controller!,
       curve: new Interval(
         0.68,
         0.85,
@@ -133,9 +133,9 @@ class _BouncingLoadingAnimatedIcon extends State<BouncingLoadingAnimatedIcon>
     ),
   );
 
-  Animation<Offset> get stepSixDown => offsetTweenDown.animate(
+  Animation<Offset> get stepSixDown => offsetTweenDown!.animate(
     new CurvedAnimation(
-      parent: _controller,
+      parent: _controller!,
       curve: new Interval(
         0.85,
         1.0,
@@ -158,27 +158,27 @@ class _BouncingLoadingAnimatedIcon extends State<BouncingLoadingAnimatedIcon>
           child: new Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              new TranslationCircle(controller: _controller,
+              new TranslationCircle(controller: _controller!,
                 animations: [
                   stepOne,
                   stepTwoDown,
                 ],),
-              new TranslationCircle(controller: _controller,
+              new TranslationCircle(controller: _controller!,
                 animations: [
                   stepTwoUp,
                   stepThreeDown,
                 ],),
-              new TranslationCircle(controller: _controller,
+              new TranslationCircle(controller: _controller!,
                 animations: [
                   stepThreeUp,
                   stepFourDown,
                 ],),
-              new TranslationCircle(controller: _controller,
+              new TranslationCircle(controller: _controller!,
                 animations: [
                   stepFourUp,
                   stepFiveDown,
                 ],),
-              new TranslationCircle(controller: _controller,
+              new TranslationCircle(controller: _controller!,
                 animations: [
                   stepFiveUp,
                   stepSixDown,

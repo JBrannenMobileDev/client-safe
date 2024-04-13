@@ -44,11 +44,11 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
   @override
   Widget build(BuildContext context) {
     controller.addListener(() {
-      currentPageIndex = controller.page.toInt();
+      currentPageIndex = controller.page!.toInt();
     });
     return StoreConnector<AppState, NewSingleExpensePageState>(
       onInit: (store) {
-        if(store.state.newSingleExpensePageState.shouldClear) store.dispatch(ClearSingleEpenseStateAction(store.state.newSingleExpensePageState));
+        if(store.state.newSingleExpensePageState!.shouldClear!) store.dispatch(ClearSingleEpenseStateAction(store.state.newSingleExpensePageState));
       },
       converter: (store) => NewSingleExpensePageState.fromStore(store),
       builder: (BuildContext context, NewSingleExpensePageState pageState) =>
@@ -73,11 +73,11 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
                         children: <Widget>[
                           TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
-                            text: pageState.shouldClear ? "New Single Expense" : "Edit Single Expense",
+                            text: pageState.shouldClear! ? "New Single Expense" : "Edit Single Expense",
                             textAlign: TextAlign.start,
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
-                          !pageState.shouldClear ? GestureDetector(
+                          !pageState.shouldClear! ? GestureDetector(
                             onTap: () {
                               _ackAlert(context, pageState);
                             },
@@ -90,7 +90,7 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
                                   'assets/images/icons/trash_can.png', color: Color(ColorConstants.getPeachDark()),),
                             ),
                           ) : SizedBox(),
-                          !pageState.shouldClear ? Container(
+                          !pageState.shouldClear! ? Container(
                             margin: EdgeInsets.only(left: 300.0),
                             child: IconButton(
                               icon: const Icon(Icons.save),
@@ -98,7 +98,7 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
                               color: Color(ColorConstants.getPeachDark()),
                               onPressed: () {
                                 showSuccessAnimation();
-                                pageState.onSavePressed();
+                                pageState.onSavePressed!();
                               },
                             ),
                           ) : SizedBox(),
@@ -187,7 +187,7 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
     if (pageState.pageViewIndex != pageCount) {
       switch (pageState.pageViewIndex) {
         case 0:
-          if (pageState.expenseName.length > 0) {
+          if (pageState.expenseName!.length > 0) {
             canProgress = true;
           } else {
             HapticFeedback.heavyImpact();
@@ -206,16 +206,16 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
       }
 
       if (canProgress) {
-        pageState.onNextPressed();
+        pageState.onNextPressed!();
         controller.animateToPage(currentPageIndex + 1,
             duration: Duration(milliseconds: 150), curve: Curves.ease);
         if(MediaQuery.of(context).viewInsets.bottom != 0) KeyboardUtil.closeKeyboard(context);
       }
     }
     if (pageState.pageViewIndex == pageCount) {
-      if(pageState.expenseCost > 0.0){
+      if(pageState.expenseCost! > 0.0){
         showSuccessAnimation();
-        pageState.onSavePressed();
+        pageState.onSavePressed!();
       } else {
         DandyToastUtil.showErrorToast('Cost must be greater than \$0.0');
       }
@@ -239,7 +239,7 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteSingleExpenseSelected();
+                pageState.onDeleteSingleExpenseSelected!();
                 Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),
@@ -257,7 +257,7 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteSingleExpenseSelected();
+                pageState.onDeleteSingleExpenseSelected!();
                 Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),
@@ -293,10 +293,10 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
 
   void onBackPressed(NewSingleExpensePageState pageState) {
     if (pageState.pageViewIndex == 0) {
-      pageState.onCancelPressed();
+      pageState.onCancelPressed!();
       Navigator.of(context).pop();
     } else {
-      pageState.onBackPressed();
+      pageState.onBackPressed!();
       controller.animateToPage(currentPageIndex - 1,
           duration: Duration(milliseconds: 150), curve: Curves.ease);
     }

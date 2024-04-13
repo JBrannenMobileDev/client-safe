@@ -1,7 +1,7 @@
 class SupplementalAdminAreas {
-  int level;
-  String localizedName;
-  String englishName;
+  int? level;
+  String? localizedName;
+  String? englishName;
 
   SupplementalAdminAreas({this.level, this.localizedName, this.englishName});
 

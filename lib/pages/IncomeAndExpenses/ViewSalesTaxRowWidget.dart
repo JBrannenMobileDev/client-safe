@@ -59,7 +59,7 @@ class ViewSalesTaxRowWidget extends StatelessWidget{
               ),
               TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: TextFormatterUtil.formatSimpleCurrency(invoice.salesTaxAmount.toInt()),
+                text: TextFormatterUtil.formatSimpleCurrency(invoice.salesTaxAmount!.toInt()),
                 textAlign: TextAlign.start,
                 color: Color(ColorConstants.getPrimaryBlack(),
                 ),

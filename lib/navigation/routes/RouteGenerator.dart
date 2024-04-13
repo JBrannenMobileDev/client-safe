@@ -11,7 +11,7 @@ import '../../web/pages/landingPage/LandingPage.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    var uri = Uri.parse(settings.name);
+    var uri = Uri.parse(settings.name!);
 
     /**
      * Client Portal
@@ -22,7 +22,7 @@ class RouteGenerator {
       EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_VIEWED);
       return _GeneratePageRoute(
           widget: ProposalPage(userId: params[0], jobId: params[1], isBrandingPreview: false),
-          routeName: settings.name
+          routeName: settings.name!
       );
     }
 
@@ -34,7 +34,7 @@ class RouteGenerator {
       EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_PREVIEW_VIEWED);
       return _GeneratePageRoute(
           widget: ProposalPage(userId: uid, jobId: null, isBrandingPreview: true),
-          routeName: settings.name
+          routeName: settings.name!
       );
     }
 
@@ -47,7 +47,7 @@ class RouteGenerator {
       });
       return _GeneratePageRoute(
           widget: LandingPage(comingFrom: RouteNames.POSE_INFO),
-          routeName: settings.name
+          routeName: settings.name!
       );
     }
 
@@ -60,7 +60,7 @@ class RouteGenerator {
       });
       return _GeneratePageRoute(
           widget: DeleteAccountInfoPage(),
-          routeName: settings.name
+          routeName: settings.name!
       );
     }
 
@@ -73,27 +73,27 @@ class RouteGenerator {
       });
       return _GeneratePageRoute(
           widget: LandingPage(comingFrom: uri.pathSegments.first),
-          routeName: settings.name
+          routeName: settings.name!
       );
     }
 
     EventSender().sendEvent(eventName: EventNames.WEBSITE_VIEWED);
     return _GeneratePageRoute(
         widget: LandingPage(comingFrom: 'organicSearch'),
-        routeName: settings.name
+        routeName: settings.name!
     );
   }
 }
 
 class _GeneratePageRoute extends PageRouteBuilder {
-  final Widget widget;
-  final String routeName;
+  final Widget? widget;
+  final String? routeName;
   _GeneratePageRoute({this.widget, this.routeName})
       : super(
       settings: RouteSettings(name: routeName),
       pageBuilder: (BuildContext context, Animation<double> animation,
           Animation<double> secondaryAnimation) {
-        return widget;
+        return widget!;
       },
       transitionDuration: Duration(milliseconds: 500),
       transitionsBuilder: (BuildContext context,

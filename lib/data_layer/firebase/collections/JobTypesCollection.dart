@@ -58,13 +58,13 @@ class JobTypesCollection {
         .doc(documentId)
         .get()
         .then((expenseSnapshot) {
-          JobType jobType = JobType.fromMap(expenseSnapshot.data());
+          JobType jobType = JobType.fromMap(expenseSnapshot.data() as Map<String, dynamic>);
           jobType.documentId = expenseSnapshot.id;
           return jobType;
         });
   }
 
-  Future<List<JobType>> getAll(String uid) async {
+  Future<List<JobType>?> getAll(String uid) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('env')
@@ -97,7 +97,7 @@ class JobTypesCollection {
   List<JobType> _buildJobTypesList(QuerySnapshot jobTypes) {
     List<JobType> jobTypesList = [];
     for(DocumentSnapshot jobTypesSnapshot in jobTypes.docs){
-      JobType jobType = JobType.fromMap(jobTypesSnapshot.data());
+      JobType jobType = JobType.fromMap(jobTypesSnapshot.data() as Map<String, dynamic>);
       jobType.documentId = jobTypesSnapshot.id;
       jobTypesList.add(jobType);
     }

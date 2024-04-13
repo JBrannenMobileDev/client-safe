@@ -28,7 +28,7 @@ class NextInvoiceNumberDao extends Equatable{
   }
 
   static Future<void> _updateLastChangedTime() async {
-    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    Profile profile = (await ProfileDao.getAll())!.elementAt(0);
     profile.nextInvoiceNumberLastChangeDate = DateTime.now();
     ProfileDao.update(profile);
   }
@@ -80,7 +80,7 @@ class NextInvoiceNumberDao extends Equatable{
     );
   }
 
-  static Future<NextInvoiceNumber> getNextNumber() async{
+  static Future<NextInvoiceNumber?> getNextNumber() async{
     final recordSnapshots = await _nextInvoiceNumberStore.find(await _db);
 
     return recordSnapshots.map((snapshot) {
@@ -104,19 +104,19 @@ class NextInvoiceNumberDao extends Equatable{
   static Future<int> nextNumber() async {
     List<NextInvoiceNumber> allNextNumbers = await getAllSorted();
     if(allNextNumbers.length == 0 || allNextNumbers.elementAt(0).highestInvoiceNumber == null) return 1000;
-    int nextNumber = allNextNumbers.elementAt(0).highestInvoiceNumber++;
+    int nextNumber = allNextNumbers.elementAt(0).highestInvoiceNumber = allNextNumbers.elementAt(0).highestInvoiceNumber! + 1;
     return nextNumber;
   }
 
   static syncAllFromFireStore() async {
-    NextInvoiceNumber fireStoreCloud = await NextInvoiceNumberCollection().getNextInvoiceNumber(UidUtil().getUid());
+    NextInvoiceNumber? fireStoreCloud = await NextInvoiceNumberCollection().getNextInvoiceNumber(UidUtil().getUid());
     int local = await nextNumber();
-    int fireStore = fireStoreCloud != null ? fireStoreCloud.highestInvoiceNumber : 0;
+    int fireStore = fireStoreCloud != null ? fireStoreCloud.highestInvoiceNumber! : 0;
     if(local == fireStore) return;
     if(local > fireStore) {
       await NextInvoiceNumberCollection().updateNextInvoiceNumber(NextInvoiceNumber(highestInvoiceNumber: local));
     } else {
-      fireStoreCloud.id = 1;
+      fireStoreCloud!.id = 1;
       await updateLocalOnly(fireStoreCloud);
     }
   }

@@ -16,10 +16,10 @@ class DistanceMatrixResponse {
     this.status,
   });
 
-  List<String> destinationAddresses;
-  List<String> originAddresses;
-  List<Row> rows;
-  String status;
+  List<String>? destinationAddresses;
+  List<String>? originAddresses;
+  List<Row>? rows;
+  String? status;
 
   factory DistanceMatrixResponse.fromJson(Map<String, dynamic> json) => DistanceMatrixResponse(
     destinationAddresses: List<String>.from(json["destination_addresses"].map((x) => x)),
@@ -29,16 +29,16 @@ class DistanceMatrixResponse {
   );
 
   Map<String, dynamic> toJson() => {
-    "destination_addresses": List<dynamic>.from(destinationAddresses.map((x) => x)),
-    "origin_addresses": List<dynamic>.from(originAddresses.map((x) => x)),
-    "rows": List<dynamic>.from(rows.map((x) => x.toJson())),
+    "destination_addresses": List<dynamic>.from(destinationAddresses!.map((x) => x)),
+    "origin_addresses": List<dynamic>.from(originAddresses!.map((x) => x)),
+    "rows": List<dynamic>.from(rows!.map((x) => x.toJson())),
     "status": status,
   };
 }
 
 class Row {
   Row({
-    this.elements,
+    required this.elements,
   });
 
   List<Element> elements;
@@ -54,9 +54,9 @@ class Row {
 
 class Element {
   Element({
-    this.distance,
-    this.duration,
-    this.status,
+    required this.distance,
+    required this.duration,
+    required this.status,
   });
 
   Distance distance;
@@ -78,8 +78,8 @@ class Element {
 
 class Distance {
   Distance({
-    this.text,
-    this.value,
+    required this.text,
+    required this.value,
   });
 
   String text;

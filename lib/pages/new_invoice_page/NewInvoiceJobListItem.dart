@@ -22,11 +22,11 @@ class NewInvoiceJobListItem extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(32.0),
               ),
-              color: pageState.filteredJobs.elementAt(index).documentId == pageState.selectedJob?.documentId ? Color(ColorConstants.getBlueDark()) : Colors.transparent,
+              color: pageState.filteredJobs!.elementAt(index).documentId == pageState.selectedJob?.documentId ? Color(ColorConstants.getBlueDark()) : Colors.transparent,
             ),
 
         onPressed: () {
-          pageState.onJobSelected(pageState.filteredJobs.elementAt(index));
+          pageState.onJobSelected!(pageState.filteredJobs!.elementAt(index));
         },
         child: Row(
           children: <Widget>[
@@ -34,7 +34,7 @@ class NewInvoiceJobListItem extends StatelessWidget {
               margin: EdgeInsets.only(left: 8.0, right: 16.0, top: 2.0, bottom: 2.0),
               height: 44.0,
               width: 44.0,
-              child: pageState.filteredJobs.elementAt(index).stage.getStageImage(Color(ColorConstants.getPeachDark())),
+              child: pageState.filteredJobs!.elementAt(index).stage!.getStageImage(Color(ColorConstants.getPeachDark())),
             ),
             Expanded(
               child: Container(
@@ -47,9 +47,9 @@ class NewInvoiceJobListItem extends StatelessWidget {
                     children: <Widget>[
                       TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
-                        text: pageState.filteredJobs.elementAt(index).jobTitle,
+                        text: pageState.filteredJobs!.elementAt(index).jobTitle,
                         textAlign: TextAlign.start,
-                        color: pageState.filteredJobs.elementAt(index).documentId == pageState.selectedJob?.documentId ? Color(ColorConstants.getPrimaryWhite()) : Color(ColorConstants.getPrimaryBlack()),
+                        color: pageState.filteredJobs!.elementAt(index).documentId == pageState.selectedJob?.documentId ? Color(ColorConstants.getPrimaryWhite()) : Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ],
                   ),

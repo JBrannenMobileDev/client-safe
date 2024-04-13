@@ -34,42 +34,42 @@ class NewJobTypePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void saveNewJobType(Store<AppState> store, SaveNewJobTypeAction action, NextDispatcher next) async{
-    List<JobStage> stages = store.state.newJobTypePageState.selectedJobStages;
+    List<JobStage>? stages = store.state.newJobTypePageState!.selectedJobStages;
 
-    stages.insert(0, JobStage(id: 1, stage: JobStage.STAGE_1_INQUIRY_RECEIVED, imageLocation: JobStage.getImageLocation(JobStage.STAGE_1_INQUIRY_RECEIVED)));
-    stages.add(JobStage(id: 14, stage: JobStage.STAGE_14_JOB_COMPLETE, imageLocation: JobStage.getImageLocation(JobStage.STAGE_14_JOB_COMPLETE)));
+    stages!.insert(0, JobStage(id: 1, stage: JobStage.STAGE_1_INQUIRY_RECEIVED, imageLocation: JobStage.getImageLocation(JobStage.STAGE_1_INQUIRY_RECEIVED)));
+    stages!.add(JobStage(id: 14, stage: JobStage.STAGE_14_JOB_COMPLETE, imageLocation: JobStage.getImageLocation(JobStage.STAGE_14_JOB_COMPLETE)));
     JobType newJobType = JobType(
-      id: store.state.newJobTypePageState.id,
-      documentId: store.state.newJobTypePageState.documentId,
-      title: store.state.newJobTypePageState.title,
+      id: store.state.newJobTypePageState!.id,
+      documentId: store.state.newJobTypePageState!.documentId,
+      title: store.state.newJobTypePageState!.title,
       createdDate: DateTime.now(),
       stages: stages,
-      reminders: store.state.newJobTypePageState.selectedReminders,
+      reminders: store.state.newJobTypePageState!.selectedReminders,
     );
 
     await JobTypeDao.insertOrUpdate(newJobType);
 
     EventSender().sendEvent(eventName: EventNames.CREATED_JOB_TYPE, properties: {
-      EventNames.JOB_TYPE_PARAM_NAME : newJobType.title,
-      EventNames.JOB_TYPE_PARAM_REMINDER_NAMES : newJobType.reminders.map((reminder) => reminder.description).toList(),
-      EventNames.JOB_TYPE_PARAM_STAGE_NAMES : newJobType.stages.map((stage) => stage.stage).toList(),
+      EventNames.JOB_TYPE_PARAM_NAME : newJobType.title!,
+      EventNames.JOB_TYPE_PARAM_REMINDER_NAMES : newJobType.reminders!.map((reminder) => reminder.description).toList(),
+      EventNames.JOB_TYPE_PARAM_STAGE_NAMES : newJobType.stages!.map((stage) => stage.stage).toList(),
     });
 
     store.dispatch(FetchJobTypesAction(store.state.jobTypesPageState));
 
-    JobType jobTypeWithDocumentId = await JobTypeDao.getByName(newJobType.title);
+    JobType jobTypeWithDocumentId = await JobTypeDao.getByName(newJobType.title!);
     store.dispatch(UpdateWithNewJobTypeAction(store.state.newJobPageState, jobTypeWithDocumentId));
   }
 
   void _deleteJobType(Store<AppState> store, DeleteJobTypeAction action, NextDispatcher next) async{
-    await JobTypeDao.delete(store.state.newJobTypePageState.documentId);
-    JobType jobType = await JobTypeDao.getJobTypeById(action.pageState.documentId);
+    await JobTypeDao.delete(store.state.newJobTypePageState!.documentId!);
+    JobType? jobType = await JobTypeDao.getJobTypeById(action.pageState!.documentId!);
     if(jobType != null) {
-      await JobTypeDao.delete(action.pageState.documentId);
+      await JobTypeDao.delete(action.pageState!.documentId!);
     }
 
     store.dispatch(FetchJobTypesAction(store.state.jobTypesPageState));
-    GlobalKeyUtil.instance.navigatorKey.currentState.pop();
+    GlobalKeyUtil.instance.navigatorKey.currentState!.pop();
   }
 
   bool stageListContainsStage(List<JobStage> unorderedSelectedStages, JobStage orderedStage) {

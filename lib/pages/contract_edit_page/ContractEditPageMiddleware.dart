@@ -32,76 +32,76 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchProfile(Store<AppState> store, FetchProfileForContractEditAction action, NextDispatcher next) async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     next(SetProfileForContractEditAction(store.state.contractEditPageState, profile));
   }
 
   void deleteContract(Store<AppState> store, DeleteContractAction action, NextDispatcher next) async{
-    if(action.pageState.contract != null) {
-      await ContractDao.delete(action.pageState.contract.documentId);
-      await ContractDao.delete(action.pageState.contract.documentId);
+    if(action.pageState!.contract != null) {
+      await ContractDao.delete(action.pageState!.contract!.documentId);
+      await ContractDao.delete(action.pageState!.contract!.documentId);
     }
   }
 
   void saveContract(Store<AppState> store, SaveContractAction action, NextDispatcher next) async{
-    Contract contract = null;
-    if(action.jobDocumentId != null && action.jobDocumentId.isNotEmpty) {
-      Job job = await JobDao.getJobById(action.jobDocumentId);
-      Contract contract = job.proposal.contract;
-      contract.jsonTerms = jsonEncode(action.quillContract.toDelta().toJson());
-      contract.terms = action.quillContract.toPlainText();
-      contract.contractName = action.pageState.contractName;
+    Contract? contract;
+    if(action.jobDocumentId != null && action.jobDocumentId!.isNotEmpty) {
+      Job? job = await JobDao.getJobById(action.jobDocumentId);
+      Contract? contract = job!.proposal!.contract!;
+      contract.jsonTerms = jsonEncode(action.quillContract!.toDelta().toJson());
+      contract.terms = action.quillContract!.toPlainText();
+      contract.contractName = action.pageState!.contractName;
       contract.signedByClient = false;
       contract.clientSignedDate = null;
       contract.clientSignature = "";
       contract.photographerSignedDate = DateTime.now();
-      job.proposal.contract = contract;
+      job.proposal!.contract = contract;
       await JobDao.update(job);
 
-      List<JobStage> completedStages = job.completedStages;
+      List<JobStage> completedStages = job.completedStages!;
       bool isContractSignedChecked = false;
       completedStages.forEach((stage) {
         if(stage.stage == JobStage.STAGE_4_PROPOSAL_SIGNED) isContractSignedChecked = true;
       });
 
       if(isContractSignedChecked) {
-        List<JobStage> stages = job.type.stages;
+        List<JobStage>? stages = job.type!.stages;
         int index = -1;
-        for(int i = 0; i < stages.length; i++) {
+        for(int i = 0; i < stages!.length; i++) {
           if(stages.elementAt(i).stage == JobStage.STAGE_4_PROPOSAL_SIGNED) {
             index = i;
           }
         }
-        store.dispatch(UndoStageAction(store.state.jobDetailsPageState, job, index));
+        store.dispatch(UndoStageAction(store.state.jobDetailsPageState!, job, index));
       }
-      store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId));
+      store.dispatch(SetJobInfo(store.state.jobDetailsPageState!, job.documentId!));
     } else {
-      if(action.pageState.contract == null) {
+      if(action.pageState!.contract == null) {
         contract = Contract(
-          contractName: action.pageState.contractName,
-          terms: action.quillContract.toPlainText(),
-          jsonTerms: jsonEncode(action.quillContract.toDelta().toJson()),
+          contractName: action.pageState!.contractName!,
+          terms: action.quillContract!.toPlainText(),
+          jsonTerms: jsonEncode(action.quillContract!.toDelta().toJson()),
           signedByPhotographer: true,
           signedByClient: false,
         );
-        if(action.pageState.isNew) {
+        if(action.pageState!.isNew!) {
           contract.documentId = null;
         }
       } else {
-        contract = action.pageState.contract;
-        if(action.pageState.isNew) {
+        contract = action.pageState!.contract!;
+        if(action.pageState!.isNew!) {
           contract.documentId = null;
         }
-        contract.contractName = action.pageState.contractName;
+        contract.contractName = action.pageState!.contractName;
         contract.signedByClient = false;
         contract.signedByPhotographer = true;
-        contract.terms = action.quillContract.toPlainText();
-        contract.jsonTerms = jsonEncode(action.quillContract.toDelta().toJson());
+        contract.terms = action.quillContract!.toPlainText();
+        contract.jsonTerms = jsonEncode(action.quillContract!.toDelta().toJson());
       }
       await ContractDao.insertOrUpdate(contract);
-      if(action.pageState.isNew) {
+      if(action.pageState!.isNew!) {
         EventSender().sendEvent(eventName: EventNames.CONTRACT_CREATED, properties: {
-          EventNames.CONTRACT_CREATED_FROM_PARAM : action.pageState.newFromName,
+          EventNames.CONTRACT_CREATED_FROM_PARAM : action.pageState!.newFromName!,
         });
       }
     }

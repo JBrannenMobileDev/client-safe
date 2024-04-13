@@ -54,7 +54,7 @@ class PriceProfileCollection {
         .doc(documentId)
         .get()
         .then((priceProfileSnapshot) {
-            PriceProfile profile = PriceProfile.fromMap(priceProfileSnapshot.data());
+            PriceProfile profile = PriceProfile.fromMap(priceProfileSnapshot.data() as Map<String, dynamic>);
             profile.documentId = priceProfileSnapshot.id;
             return profile;
         });
@@ -91,9 +91,9 @@ class PriceProfileCollection {
   }
 
   List<PriceProfile> _buildPriceProfilesList(QuerySnapshot jobs) {
-    List<PriceProfile> priceProfilesList = List();
+    List<PriceProfile> priceProfilesList = [];
     for(DocumentSnapshot priceProfileSnapshot in jobs.docs){
-      PriceProfile profile = PriceProfile.fromMap(priceProfileSnapshot.data());
+      PriceProfile profile = PriceProfile.fromMap(priceProfileSnapshot.data() as Map<String, dynamic>);
       profile.documentId = priceProfileSnapshot.id;
       priceProfilesList.add(profile);
     }

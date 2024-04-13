@@ -12,7 +12,7 @@ final responsesReducer = combineReducers<ResponsesPageState>([
 
 ResponsesPageState _setEnabledState(ResponsesPageState previousState, UpdateEditStateAction action){
   return previousState.copyWith(
-    isEditEnabled: !action.pageState.isEditEnabled,
+    isEditEnabled: !action.pageState!.isEditEnabled!,
   );
 }
 
@@ -22,7 +22,7 @@ ResponsesPageState _setResponses(ResponsesPageState previousState, SetResponsesA
   List<ResponsesListItem> prePhotoshootResponses = [];
   List<ResponsesListItem> postPhotoshootResponses = [];
 
-  for(Response response in action.responses) {
+  for(Response response in action.responses!) {
     switch(response.parentGroup) {
       case Response.GROUP_TITLE_PRE_BOOKING:
         preBookingResponses.add(ResponsesListItem(

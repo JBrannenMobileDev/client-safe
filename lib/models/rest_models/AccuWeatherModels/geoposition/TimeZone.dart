@@ -1,9 +1,9 @@
 class TimeZone {
-  String code;
-  String name;
-  double gmtOffset;
-  bool isDaylightSaving;
-  String nextOffsetChange;
+  String? code;
+  String? name;
+  double? gmtOffset;
+  bool? isDaylightSaving;
+  String? nextOffsetChange;
 
   TimeZone(
       {this.code,

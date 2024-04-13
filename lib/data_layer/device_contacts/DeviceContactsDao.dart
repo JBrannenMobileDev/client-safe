@@ -14,7 +14,7 @@ class DeviceContactsDao {
     Iterable<Contact> allContacts = await getDeviceContacts();
     List<Contact> result = [];
     for (Contact contact in allContacts) {
-      if (contact.phones != null && contact.phones.isNotEmpty && contact.displayName != null && contact.displayName.isNotEmpty){
+      if (contact.phones != null && contact.phones!.isNotEmpty && contact.displayName != null && contact.displayName!.isNotEmpty){
         if(!contactAlreadyExists(clients, contact)){
           result.add(contact);
         }
@@ -25,11 +25,11 @@ class DeviceContactsDao {
 
   static bool contactAlreadyExists(List<Client> clients, Contact contact) {
     bool result = false;
-    if(contact.phones != null && contact.phones.length > 0){
-      for(Item phoneItem in contact.phones){
-        String contactPhone = phoneItem.value;
+    if(contact.phones != null && contact.phones!.isNotEmpty){
+      for(Item phoneItem in contact.phones!){
+        String contactPhone = phoneItem.value ?? "";
         for(Client client in clients){
-          String clientPhone = client.phone;
+          String clientPhone = client.phone!;
           contactPhone = TextFormatterUtil.formatPhoneNum(contactPhone);
           clientPhone = TextFormatterUtil.formatPhoneNum(clientPhone);
           if(contactPhone == clientPhone) return true;
@@ -55,7 +55,7 @@ class DeviceContactsDao {
     Iterable<Contact> allContacts = await getDeviceContacts();
     bool contactAlreadyExists = false;
     for (Contact contact in allContacts) {
-      Iterable<Item> phoneNumbers = contact.phones.toList();
+      Iterable<Item> phoneNumbers = contact.phones!.toList();
       for(Item phone in phoneNumbers) {
         if(phone.value == client.phone) contactAlreadyExists = true;
       }

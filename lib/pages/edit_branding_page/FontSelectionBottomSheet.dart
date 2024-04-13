@@ -79,7 +79,7 @@ class _FontSelectionBottomSheetPageState extends State<FontSelectionBottomSheet>
         builder: (BuildContext context, EditBrandingPageState pageState) =>
             GestureDetector(
               onTap: () {
-                pageState.onFontSaved(allFonts.elementAt(index), id);
+                pageState.onFontSaved!(allFonts.elementAt(index), id);
                 Navigator.of(context).pop();
                 if(id == FontTheme.ICON_FONT_ID) {
                   EventSender().sendEvent(eventName: EventNames.BRANDING_ICON_FONT_CHANGED);

@@ -20,7 +20,7 @@ import 'JobTypeNameSelectionWidget.dart';
 import 'ReminderSelectionWidget.dart';
 
 class NewJobTypePage extends StatefulWidget {
-  final JobType jobType;
+  final JobType? jobType;
 
   NewJobTypePage(this.jobType);
 
@@ -31,13 +31,13 @@ class NewJobTypePage extends StatefulWidget {
 }
 
 class _NewJobTypePageState extends State<NewJobTypePage> {
-  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final int pageCount = 2;
   final controller = PageController(
     initialPage: 0,
   );
   int currentPageIndex = 0;
-  final JobType jobType;
+  final JobType? jobType;
 
   _NewJobTypePageState(this.jobType);
 
@@ -45,31 +45,6 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
   void initState() {
     super.initState();
     currentPageIndex = 0;
-  }
-
-  Future<bool> _onWillPop() {
-    return showDialog(
-          context: context,
-          builder: (context) => new CupertinoAlertDialog(
-            title: new Text('Are you sure?'),
-            content: new Text('All unsaved information entered will be lost.'),
-            actions: <Widget>[
-              TextButton(
-                style: Styles.getButtonStyle(),
-                onPressed: () => Navigator.of(context).pop(false),
-                child: new Text('No'),
-              ),
-              TextButton(
-                style: Styles.getButtonStyle(),
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
-                child: new Text('Yes'),
-              ),
-            ],
-          ),
-        ) ??
-        false;
   }
 
   void _showCustomStageBottomSheet(BuildContext context) {
@@ -90,7 +65,7 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
   Widget build(BuildContext context) {
     controller.addListener(() {
       setState(() {
-        currentPageIndex = controller.page.toInt();
+        currentPageIndex = controller.page!.toInt();
       });
     });
     return StoreConnector<AppState, NewJobTypePageState>(
@@ -105,7 +80,30 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
       converter: (store) => NewJobTypePageState.fromStore(store),
       builder: (BuildContext context, NewJobTypePageState pageState) =>
           WillPopScope(
-          onWillPop: _onWillPop,
+          onWillPop: () async {
+            final shouldPop = await showDialog<bool>(
+                context: context,
+                builder: (context) => CupertinoAlertDialog(
+                  title: Text('Are you sure?'),
+                  content: Text('All unsaved information entered will be lost.'),
+                  actions: <Widget>[
+                    TextButton(
+                      style: Styles.getButtonStyle(),
+                      onPressed: () => Navigator.of(context).pop(false),
+                      child: Text('No'),
+                    ),
+                    TextButton(
+                      style: Styles.getButtonStyle(),
+                      onPressed: () {
+                        Navigator.of(context).pop(true);
+                      },
+                      child: Text('Yes'),
+                    ),
+                  ],
+                )
+            );
+            return shouldPop!;
+          },
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: Colors.transparent,
@@ -113,9 +111,9 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
               child: Container(
                 width: 375.0,
                 padding: EdgeInsets.only(top: 26.0, bottom: 18.0),
-                decoration: new BoxDecoration(
+                decoration: BoxDecoration(
                     color: Color(ColorConstants.white),
-                    borderRadius: new BorderRadius.all(Radius.circular(16.0))),
+                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.min,
@@ -127,11 +125,11 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
                         children: <Widget>[
                           TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
-                            text: pageState.shouldClear ? "New Job Type" : "Edit Job Type",
+                            text: pageState.shouldClear! ? "New Job Type" : "Edit Job Type",
                             textAlign: TextAlign.start,
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
-                          !pageState.shouldClear ? GestureDetector(
+                          !pageState.shouldClear! ? GestureDetector(
                             onTap: () {
                               _ackAlert(context, pageState);
                             },
@@ -144,7 +142,7 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
                                   'assets/images/icons/trash_can.png', color: Color(ColorConstants.getPeachDark()),),
                             ),
                           ) : SizedBox(),
-                          !pageState.shouldClear && currentPageIndex != 2 ? Container(
+                          !pageState.shouldClear! && currentPageIndex != 2 ? Container(
                             margin: EdgeInsets.only(left: 300.0),
                             child: IconButton(
                               icon: const Icon(Icons.save, size: 32,),
@@ -152,7 +150,7 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
                               color: Color(ColorConstants.getPeachDark()),
                               onPressed: () {
                                 showSuccessAnimation();
-                                pageState.onSavePressed();
+                                pageState.onSavePressed!();
                               },
                             ),
                           ) : SizedBox(),
@@ -167,7 +165,7 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
                             },
                             child: Container(
                               alignment: Alignment.centerRight,
-                              margin: EdgeInsets.only(right: pageState.shouldClear ? 24.0 : 66),
+                              margin: EdgeInsets.only(right: pageState.shouldClear! ? 24.0 : 66),
                               height: 28.0,
                               child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPeachDark()),),
                             ),
@@ -253,13 +251,13 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
     if (currentPageIndex != pageCount) {
       switch (currentPageIndex) {
         case 0:
-          canProgress = pageState.title.isNotEmpty;
+          canProgress = pageState.title!.isNotEmpty;
           break;
         case 1:
-          canProgress = pageState.selectedJobStages.isNotEmpty;
+          canProgress = pageState.selectedJobStages!.isNotEmpty;
           break;
         case 2:
-          canProgress = pageState.selectedReminders.isNotEmpty;
+          canProgress = pageState.selectedReminders!.isNotEmpty;
           break;
       }
 
@@ -270,7 +268,7 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
       }
     }
     if (currentPageIndex == pageCount) {
-      pageState.onSavePressed();
+      pageState.onSavePressed!();
       showSuccessAnimation();
     }
   }
@@ -281,39 +279,39 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
       builder: (BuildContext context) {
         return Device.get().isIos ?
         CupertinoAlertDialog(
-          title: new Text('Are you sure?'),
-          content: new Text('This jobType will be gone for good!'),
+          title: Text('Are you sure?'),
+          content: Text('This jobType will be gone for good!'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () => Navigator.of(context).pop(false),
-              child: new Text('No'),
+              child: Text('No'),
             ),
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteJobTypeSelected();
+                pageState.onDeleteJobTypeSelected!();
                 Navigator.of(context).pop(true);
               },
-              child: new Text('Yes'),
+              child: Text('Yes'),
             ),
           ],
         ) : AlertDialog(
-          title: new Text('Are you sure?'),
-          content: new Text('This reminder will be gone for good!'),
+          title: Text('Are you sure?'),
+          content: Text('This reminder will be gone for good!'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () => Navigator.of(context).pop(false),
-              child: new Text('No'),
+              child: Text('No'),
             ),
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteJobTypeSelected();
+                pageState.onDeleteJobTypeSelected!();
                 Navigator.of(context).pop(true);
               },
-              child: new Text('Yes'),
+              child: Text('Yes'),
             ),
           ],
         );
@@ -346,7 +344,7 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
 
   void onBackPressed(NewJobTypePageState pageState) {
     if (currentPageIndex == 0) {
-      pageState.onCancelPressed();
+      pageState.onCancelPressed!();
       Navigator.of(context).pop();
     } else {
       controller.animateToPage(currentPageIndex - 1,

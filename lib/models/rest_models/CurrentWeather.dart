@@ -3,9 +3,9 @@ import 'package:dandylight/models/rest_models/Location.dart';
 import 'package:dandylight/models/rest_models/Request.dart';
 
 class CurrentWeather {
-  final Request request;
-  final Location location;
-  final Current current;
+  final Request? request;
+  final Location? location;
+  final Current? current;
 
   const CurrentWeather({this.request, this.location, this.current});
 

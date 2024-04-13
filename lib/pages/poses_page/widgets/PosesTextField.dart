@@ -11,17 +11,17 @@ import 'package:flutter_redux/flutter_redux.dart';
 import '../../../widgets/TextDandyLight.dart';
 
 class PosesTextField extends StatelessWidget {
-  final TextEditingController controller;
-  final String hintText;
-  final TextInputType inputType;
-  final double height;
-  final String inputTypeError;
-  final Function(String) onTextInputChanged;
-  final TextInputAction keyboardAction;
-  final FocusNode focusNode;
-  final Function onFocusAction;
-  final TextCapitalization capitalization;
-  final List<TextInputFormatter> inputFormatter;
+  final TextEditingController? controller;
+  final String? hintText;
+  final TextInputType? inputType;
+  final double? height;
+  final String? inputTypeError;
+  final Function(String)? onTextInputChanged;
+  final TextInputAction? keyboardAction;
+  final FocusNode? focusNode;
+  final Function? onFocusAction;
+  final TextCapitalization? capitalization;
+  final List<TextInputFormatter>? inputFormatter;
 
   PosesTextField({
       this.controller,
@@ -50,21 +50,21 @@ class PosesTextField extends StatelessWidget {
             maxLines: 24,
             controller: controller,
             onChanged: (text) {
-              onTextInputChanged(text);
+              onTextInputChanged!(text);
             },
             onFieldSubmitted: (term) {
               if(onFocusAction != null) {
-                onFocusAction();
+                onFocusAction!();
               }
             },
             cursorColor: Color(ColorConstants.getBlueDark()),
             decoration: InputDecoration(
               suffixIcon: IconButton(
-                icon: Icon(controller.text.length > 0 ? Icons.close : Icons.search, color: Color(ColorConstants.getBlueLight())),
+                icon: Icon(controller!.text.length > 0 ? Icons.close : Icons.search, color: Color(ColorConstants.getBlueLight())),
                 onPressed: () {
-                  if(controller.text.length > 0) {
-                    controller.text = '';
-                    onTextInputChanged('');
+                  if(controller!.text.length > 0) {
+                    controller!.text = '';
+                    onTextInputChanged!('');
                   }
                 },
               ),
@@ -112,7 +112,7 @@ class PosesTextField extends StatelessWidget {
               ),
             ),
             keyboardType: inputType,
-            textCapitalization: capitalization,
+            textCapitalization: capitalization!,
             inputFormatters: inputFormatter != null ? inputFormatter : null,
             style: TextStyle(
               fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),

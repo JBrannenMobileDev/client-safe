@@ -191,7 +191,7 @@ class ImageUtil{
         imageLocation = jobStageIcons[13];
         break;
       default:
-        imageLocation = stage.imageLocation;
+        imageLocation = stage.imageLocation!;
         break;
     }
     return Image.asset(

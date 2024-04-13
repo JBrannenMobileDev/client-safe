@@ -11,8 +11,8 @@ import 'package:flutter/material.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class VewInvoiceLineItemListWidget extends StatelessWidget{
-  final Invoice pageState;
-  final bool shrinkWrap;
+  final Invoice? pageState;
+  final bool? shrinkWrap;
 
   VewInvoiceLineItemListWidget(this.pageState, this.shrinkWrap);
 
@@ -23,18 +23,18 @@ class VewInvoiceLineItemListWidget extends StatelessWidget{
       children: <Widget>[
         Container(
           margin: EdgeInsets.only(left: 16.0, right: 16.0),
-          height: shrinkWrap ? _getHeight(pageState.lineItems.length) : 164.0,
+          height: shrinkWrap! ? _getHeight(pageState!.lineItems!.length) : 164.0,
           child: ListView.builder(
             shrinkWrap: true,
             physics: ClampingScrollPhysics(),
-            itemCount: pageState.lineItems.length,
+            itemCount: pageState!.lineItems!.length,
             itemBuilder: (context, index) {
               return ViewInvoiceLineItemWidget(
-                  pageState.lineItems.elementAt(index), index, pageState.lineItems.length);
+                  pageState!.lineItems!.elementAt(index), index, pageState!.lineItems!.length);
             },
           ),
         ),
-        _getHeight(pageState.lineItems.length) == 164.0 ? Container(
+        _getHeight(pageState!.lineItems!.length) == 164.0 ? Container(
           height: 64.0,
           decoration: new BoxDecoration(
             gradient: new LinearGradient(
@@ -48,7 +48,7 @@ class VewInvoiceLineItemListWidget extends StatelessWidget{
                 tileMode: TileMode.clamp),
           ),
         ) : SizedBox(),
-        !shrinkWrap ? Container(
+        !shrinkWrap! ? Container(
           margin: EdgeInsets.only(left: 8.0, bottom: 16.0),
           decoration: BoxDecoration(
               color: Color(

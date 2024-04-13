@@ -26,7 +26,7 @@ class _NewProfileName extends State<NewProfileName> with AutomaticKeepAliveClien
     super.build(context);
     return StoreConnector<AppState, NewPricingProfilePageState>(
       onInit: (store) {
-        profileNameTextController.text = store.state.pricingProfilePageState.profileName;
+        profileNameTextController.text = store.state.pricingProfilePageState!.profileName!;
       },
       converter: (store) => NewPricingProfilePageState.fromStore(store),
       builder: (BuildContext context, NewPricingProfilePageState pageState) =>
@@ -48,10 +48,8 @@ class _NewProfileName extends State<NewProfileName> with AutomaticKeepAliveClien
                 controller: profileNameTextController,
                 hintText: "Price Profile Name",
                 inputType: TextInputType.text,
-                focusNode: null,
-                onFocusAction: null,
-                height: 66.0,
-                onTextInputChanged: pageState.onProfileNameChanged,
+                height: 64.0,
+                onTextInputChanged: pageState.onProfileNameChanged!,
                 keyboardAction: TextInputAction.done,
                 capitalization: TextCapitalization.words,
             ),

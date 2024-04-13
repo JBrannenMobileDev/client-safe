@@ -177,7 +177,7 @@ LoginPageState _updateShowResendMessage(LoginPageState previousState, UpdateShow
 }
 
 LoginPageState _updateFirstName(LoginPageState previousState, UpdateFirstNameAction action) {
-  if(previousState.firstName.isEmpty && action.firstName.isNotEmpty) {
+  if(previousState.firstName!.isEmpty && action.firstName!.isNotEmpty) {
     EventSender().sendEvent(eventName: EventNames.FIRST_NAME_ENTERED);
   }
   return previousState.copyWith(
@@ -186,7 +186,7 @@ LoginPageState _updateFirstName(LoginPageState previousState, UpdateFirstNameAct
 }
 
 LoginPageState _updateLastName(LoginPageState previousState, UpdateLastNameAction action) {
-  if(previousState.lastName.isEmpty && action.lastName.isNotEmpty) {
+  if(previousState.lastName!.isEmpty && action.lastName!.isNotEmpty) {
     EventSender().sendEvent(eventName: EventNames.LAST_NAME_ENTERED);
   }
   return previousState.copyWith(
@@ -195,7 +195,7 @@ LoginPageState _updateLastName(LoginPageState previousState, UpdateLastNameActio
 }
 
 LoginPageState _updateBusinessName(LoginPageState previousState, UpdateBusinessNameAction action) {
-  if(previousState.businessName.isEmpty && action.businessName.isNotEmpty) {
+  if(previousState.businessName!.isEmpty && action.businessName!.isNotEmpty) {
     EventSender().sendEvent(eventName: EventNames.BUSINESS_NAME_ENTERED);
   }
   return previousState.copyWith(
@@ -204,7 +204,7 @@ LoginPageState _updateBusinessName(LoginPageState previousState, UpdateBusinessN
 }
 
 LoginPageState _updateEmailAddress(LoginPageState previousState, UpdateEmailAddressAction action) {
-  if(previousState.emailAddress.isEmpty && action.emailAddress.isNotEmpty) {
+  if(previousState.emailAddress!.isEmpty && action.emailAddress!.isNotEmpty) {
     EventSender().sendEvent(eventName: EventNames.EMAIL_ENTERED);
   }
   return previousState.copyWith(
@@ -213,7 +213,7 @@ LoginPageState _updateEmailAddress(LoginPageState previousState, UpdateEmailAddr
 }
 
 LoginPageState _updatePassword(LoginPageState previousState, UpdatePasswordAction action) {
-  if(previousState.password.isEmpty && action.password.isNotEmpty) {
+  if(previousState.password!.isEmpty && action.password!.isNotEmpty) {
     EventSender().sendEvent(eventName: EventNames.PASSWORD_ENTERED);
   }
   return previousState.copyWith(

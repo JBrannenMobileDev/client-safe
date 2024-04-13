@@ -3,97 +3,97 @@ import 'FontTheme.dart';
 import 'Questionnaire.dart';
 
 class Profile{
-  int id;
-  String uid;
-  String referralUid;
-  List<dynamic> deviceTokens;
-  List<dynamic> calendarIdsToSync;
-  String firstName;
-  String lastName;
-  String licenseNumber;
-  String email;
-  String phone;
-  String businessName;
-  bool zelleEnabled;
-  bool venmoEnabled;
-  bool cashAppEnabled;
-  bool applePayEnabled;
-  bool cashEnabled;
-  bool otherEnabled;
-  bool wireEnabled;
-  bool hasSetupBrand;
-  bool canShowAppReview; //set to false if user clicks do not show again or if they click the request action
-  bool canShowPMFSurvey; //set to false if user clicks do not show again or if they click the request action
-  DateTime requestReviewDate;
-  DateTime requestPMFSurveyDate;
-  DateTime updateLastSeenDate;
-  String zellePhoneEmail;
-  String zelleFullName;
-  String venmoLink;
-  String cashAppLink;
-  String applePayPhone;
-  String instagramUrl;
-  String instagramName;
-  String otherMessage;
-  String cashMessage;
-  String wireMessage;
-  double latDefaultHome;
-  double lngDefaultHome;
-  double salesTaxRate;
-  int jobsCreatedCount;
-  bool logoSelected;
-  bool bannerImageSelected;
-  String logoUrl;
-  String bannerWebUrl;
-  String bannerMobileUrl;
-  String logoCharacter;
-  bool previewLogoSelected;
-  bool previewBannerImageSelected;
-  String previewLogoUrl;
-  String previewBannerWebUrl;
-  String previewBannerMobileUrl;
-  String previewLogoCharacter;
-  String previewJsonContract;
-  ColorTheme selectedColorTheme;
-  FontTheme selectedFontTheme;
-  ColorTheme previewColorTheme;
-  FontTheme previewFontTheme;
-  bool pushNotificationsEnabled = false;
-  bool calendarEnabled = false;
-  bool showNewMileageExpensePage = false;
-  bool termsOfServiceAndPrivacyPolicyChecked = false;
-  bool showRequestPaymentLinksDialog = true;
-  bool hasSeenShowcase = false;
-  bool hasSeenIncomeInfo = false;
-  bool isBetaTester = false;
-  bool shouldShowRestoreSubscription = false;
-  bool usesSalesTax = false;
-  bool isFreeForLife = false;
-  bool onBoardingComplete = false;
-  bool isSubscribed = false;
-  DateTime accountCreatedDate;
-  DateTime lastSignIn;
-  DateTime clientsLastChangeDate;
-  DateTime invoicesLastChangeDate;
-  DateTime jobsLastChangeDate;
-  DateTime locationsLastChangeDate;
-  DateTime mileageExpensesLastChangeDate;
-  DateTime priceProfilesLastChangeDate;
-  DateTime recurringExpensesLastChangeDate;
-  DateTime singleExpensesLastChangeDate;
-  DateTime nextInvoiceNumberLastChangeDate;
-  DateTime profileLastChangeDate;
-  DateTime remindersLastChangeDate;
-  DateTime jobReminderLastChangeDate;
-  DateTime jobTypesLastChangeDate;
-  DateTime contractsLastChangeDate;
-  DateTime posesLastChangeDate;
-  DateTime poseGroupsLastChangeDate;
-  DateTime poseLibraryGroupLastChangeDate;
-  DateTime responsesLastChangeDate;
-  DateTime discountCodesLastChangedTime;
-  DateTime questionnairesLastChangedTime;
-  List<Questionnaire> directSendQuestionnaires; //job questionnaires are saved in the proposal object in a job object.
+  int? id;
+  String? uid;
+  String? referralUid;
+  List<dynamic>? deviceTokens;
+  List<dynamic>? calendarIdsToSync;
+  String? firstName;
+  String? lastName;
+  String? licenseNumber;
+  String? email;
+  String? phone;
+  String? businessName;
+  bool? zelleEnabled;
+  bool? venmoEnabled;
+  bool? cashAppEnabled;
+  bool? applePayEnabled;
+  bool? cashEnabled;
+  bool? otherEnabled;
+  bool? wireEnabled;
+  bool? hasSetupBrand;
+  bool? canShowAppReview; //set to false if user clicks do not show again or if they click the request action
+  bool? canShowPMFSurvey; //set to false if user clicks do not show again or if they click the request action
+  DateTime? requestReviewDate;
+  DateTime? requestPMFSurveyDate;
+  DateTime? updateLastSeenDate;
+  String? zellePhoneEmail;
+  String? zelleFullName;
+  String? venmoLink;
+  String? cashAppLink;
+  String? applePayPhone;
+  String? instagramUrl;
+  String? instagramName;
+  String? otherMessage;
+  String? cashMessage;
+  String? wireMessage;
+  double? latDefaultHome;
+  double? lngDefaultHome;
+  double? salesTaxRate;
+  int? jobsCreatedCount;
+  bool? logoSelected;
+  bool? bannerImageSelected;
+  String? logoUrl;
+  String? bannerWebUrl;
+  String? bannerMobileUrl;
+  String? logoCharacter;
+  bool? previewLogoSelected;
+  bool? previewBannerImageSelected;
+  String? previewLogoUrl;
+  String? previewBannerWebUrl;
+  String? previewBannerMobileUrl;
+  String? previewLogoCharacter;
+  String? previewJsonContract;
+  ColorTheme? selectedColorTheme;
+  FontTheme? selectedFontTheme;
+  ColorTheme? previewColorTheme;
+  FontTheme? previewFontTheme;
+  bool? pushNotificationsEnabled = false;
+  bool? calendarEnabled = false;
+  bool? showNewMileageExpensePage = false;
+  bool? termsOfServiceAndPrivacyPolicyChecked = false;
+  bool? showRequestPaymentLinksDialog = true;
+  bool? hasSeenShowcase = false;
+  bool? hasSeenIncomeInfo = false;
+  bool? isBetaTester = false;
+  bool? shouldShowRestoreSubscription = false;
+  bool? usesSalesTax = false;
+  bool? isFreeForLife = false;
+  bool? onBoardingComplete = false;
+  bool? isSubscribed = false;
+  DateTime? accountCreatedDate;
+  DateTime? lastSignIn;
+  DateTime? clientsLastChangeDate;
+  DateTime? invoicesLastChangeDate;
+  DateTime? jobsLastChangeDate;
+  DateTime? locationsLastChangeDate;
+  DateTime? mileageExpensesLastChangeDate;
+  DateTime? priceProfilesLastChangeDate;
+  DateTime? recurringExpensesLastChangeDate;
+  DateTime? singleExpensesLastChangeDate;
+  DateTime? nextInvoiceNumberLastChangeDate;
+  DateTime? profileLastChangeDate;
+  DateTime? remindersLastChangeDate;
+  DateTime? jobReminderLastChangeDate;
+  DateTime? jobTypesLastChangeDate;
+  DateTime? contractsLastChangeDate;
+  DateTime? posesLastChangeDate;
+  DateTime? poseGroupsLastChangeDate;
+  DateTime? poseLibraryGroupLastChangeDate;
+  DateTime? responsesLastChangeDate;
+  DateTime? discountCodesLastChangedTime;
+  DateTime? questionnairesLastChangedTime;
+  List<Questionnaire>? directSendQuestionnaires;
 
   Profile({
     this.id,
@@ -190,97 +190,97 @@ class Profile{
   });
 
   Profile copyWith({
-    int id,
-    String uid,
-    String referralUid,
-    List<dynamic> deviceTokens,
-    List<dynamic> calendarIdsToSync,
-    String firstName,
-    String lastName,
-    String businessName,
-    String email,
-    String phone,
-    String licenseNumber,
-    String zellePhoneEmail,
-    String zelleFullName,
-    String venmoLink,
-    String cashAppLink,
-    String applePayPhone,
-    String instagramUrl,
-    String instagramName,
-    String cashMessage,
-    double latDefaultHome,
-    double lngDefaultHome,
-    bool pushNotificationsEnabled,
-    bool calendarEnabled,
-    bool bannerImageSelected,
-    bool showNewMileageExpensePage,
-    bool termsOfServiceAndPrivacyPolicyChecked,
-    bool showRequestPaymentLinksDialog,
-    bool hasSeenShowcase,
-    bool hasSeenIncomeInfo,
-    bool isBetaTester,
-    bool shouldShowRestoreSubscription,
-    bool usesSalesTax,
-    bool isFreeForLife,
-    bool onBoardingComplete,
-    bool isSubscribed,
-    bool zelleEnabled,
-    bool venmoEnabled,
-    bool cashAppEnabled,
-    bool applePayEnabled,
-    bool cashEnabled,
-    bool hasSetupBrand,
-    bool otherEnabled,
-    bool wireEnabled,
-    bool canShowAppReview,
-    bool canShowPMFSurvey,
-    DateTime requestReviewDate,
-    DateTime requestPMFSurveyDate,
-    DateTime updateLastSeenDate,
-    String wireMessage,
-    int jobsCreatedCount,
-    bool logoSelected,
-    String logoUrl,
-    String bannerWebUrl,
-    String bannerMobileUrl,
-    String logoCharacter,
-    String otherMessage,
-    bool previewLogoSelected,
-    String previewLogoUrl,
-    String previewBannerWebUrl,
-    String previewBannerMobileUrl,
-    String previewJsonContract,
-    bool previewBannerImageSelected,
-    String previewLogoCharacter,
-    double salesTaxRate,
-    ColorTheme selectedColorTheme,
-    ColorTheme previewColorTheme,
-    FontTheme selectedFontTheme,
-    FontTheme previewFontTheme,
-    DateTime lastSignIn,
-    DateTime clientsLastChangeDate,
-    DateTime invoicesLastChangeDate,
-    DateTime jobsLastChangeDate,
-    DateTime locationsLastChangeDate,
-    DateTime mileageExpensesLastChangeDate,
-    DateTime priceProfilesLastChangeDate,
-    DateTime recurringExpensesLastChangeDate,
-    DateTime singleExpensesLastChangeDate,
-    DateTime nextInvoiceNumberLastChangeDate,
-    DateTime profileLastChangeDate,
-    DateTime remindersLastChangeDate,
-    DateTime jobReminderLastChangeDate,
-    DateTime jobTypesLastChangeDate,
-    DateTime contractsLastChangeDate,
-    DateTime posesLastChangeDate,
-    DateTime poseGroupsLastChangeDate,
-    DateTime responsesLastChangeDate,
-    DateTime accountCreatedDate,
-    DateTime poseLibraryGroupLastChangeDate,
-    DateTime discountCodesLastChangedTime,
-    DateTime questionnairesLastChangedTime,
-    List<Questionnaire> directSendQuestionnaires,
+    int? id,
+    String? uid,
+    String? referralUid,
+    List<dynamic>? deviceTokens,
+    List<dynamic>? calendarIdsToSync,
+    String? firstName,
+    String? lastName,
+    String? businessName,
+    String? email,
+    String? phone,
+    String? licenseNumber,
+    String? zellePhoneEmail,
+    String? zelleFullName,
+    String? venmoLink,
+    String? cashAppLink,
+    String? applePayPhone,
+    String? instagramUrl,
+    String? instagramName,
+    String? cashMessage,
+    double? latDefaultHome,
+    double? lngDefaultHome,
+    bool? pushNotificationsEnabled,
+    bool? calendarEnabled,
+    bool? bannerImageSelected,
+    bool? showNewMileageExpensePage,
+    bool? termsOfServiceAndPrivacyPolicyChecked,
+    bool? showRequestPaymentLinksDialog,
+    bool? hasSeenShowcase,
+    bool? hasSeenIncomeInfo,
+    bool? isBetaTester,
+    bool? shouldShowRestoreSubscription,
+    bool? usesSalesTax,
+    bool? isFreeForLife,
+    bool? onBoardingComplete,
+    bool? isSubscribed,
+    bool? zelleEnabled,
+    bool? venmoEnabled,
+    bool? cashAppEnabled,
+    bool? applePayEnabled,
+    bool? cashEnabled,
+    bool? hasSetupBrand,
+    bool? otherEnabled,
+    bool? wireEnabled,
+    bool? canShowAppReview,
+    bool? canShowPMFSurvey,
+    DateTime? requestReviewDate,
+    DateTime? requestPMFSurveyDate,
+    DateTime? updateLastSeenDate,
+    String? wireMessage,
+    int? jobsCreatedCount,
+    bool? logoSelected,
+    String? logoUrl,
+    String? bannerWebUrl,
+    String? bannerMobileUrl,
+    String? logoCharacter,
+    String? otherMessage,
+    bool? previewLogoSelected,
+    String? previewLogoUrl,
+    String? previewBannerWebUrl,
+    String? previewBannerMobileUrl,
+    String? previewJsonContract,
+    bool? previewBannerImageSelected,
+    String? previewLogoCharacter,
+    double? salesTaxRate,
+    ColorTheme? selectedColorTheme,
+    ColorTheme? previewColorTheme,
+    FontTheme? selectedFontTheme,
+    FontTheme? previewFontTheme,
+    DateTime? lastSignIn,
+    DateTime? clientsLastChangeDate,
+    DateTime? invoicesLastChangeDate,
+    DateTime? jobsLastChangeDate,
+    DateTime? locationsLastChangeDate,
+    DateTime? mileageExpensesLastChangeDate,
+    DateTime? priceProfilesLastChangeDate,
+    DateTime? recurringExpensesLastChangeDate,
+    DateTime? singleExpensesLastChangeDate,
+    DateTime? nextInvoiceNumberLastChangeDate,
+    DateTime? profileLastChangeDate,
+    DateTime? remindersLastChangeDate,
+    DateTime? jobReminderLastChangeDate,
+    DateTime? jobTypesLastChangeDate,
+    DateTime? contractsLastChangeDate,
+    DateTime? posesLastChangeDate,
+    DateTime? poseGroupsLastChangeDate,
+    DateTime? responsesLastChangeDate,
+    DateTime? accountCreatedDate,
+    DateTime? poseLibraryGroupLastChangeDate,
+    DateTime? discountCodesLastChangedTime,
+    DateTime? questionnairesLastChangedTime,
+    List<Questionnaire>? directSendQuestionnaires,
   }){
     return Profile(
       id: id ?? this.id,
@@ -592,31 +592,31 @@ class Profile{
 
   bool removeDeviceToken(String deviceToken) {
     deviceTokens = deviceTokens?.toList();
-    return deviceTokens?.remove(deviceToken);
+    return deviceTokens!.remove(deviceToken);
   }
 
   bool addUniqueDeviceToken(String deviceToken) {
     bool alreadyExists = false;
     if(deviceTokens == null) deviceTokens = [];
-    deviceTokens = deviceTokens.toList();
-    for(String listToken in deviceTokens) {
+    deviceTokens = deviceTokens!.toList();
+    for(String? listToken in deviceTokens!) {
       if(listToken == deviceToken) alreadyExists = true;
     }
-    if(!alreadyExists) deviceTokens.add(deviceToken);
+    if(!alreadyExists) deviceTokens!.add(deviceToken);
     return !alreadyExists;
   }
 
   bool isFirstDevice() {
     if(deviceTokens == null) deviceTokens = [];
-    deviceTokens = deviceTokens.toList();
-    return deviceTokens.length <= 1;
+    deviceTokens = deviceTokens!.toList();
+    return deviceTokens!.length <= 1;
   }
 
   bool paymentOptionsSelected() {
-    return zelleEnabled || venmoEnabled || cashAppEnabled || applePayEnabled || cashEnabled || otherEnabled || wireEnabled;
+    return zelleEnabled! || venmoEnabled! || cashAppEnabled! || applePayEnabled! || cashEnabled! || otherEnabled! || wireEnabled!;
   }
 
   bool isProfileComplete() {
-    return businessName.isNotEmpty && (email.isNotEmpty || phone.isNotEmpty) && firstName.isNotEmpty;
+    return businessName!.isNotEmpty && (email!.isNotEmpty || phone!.isNotEmpty) && firstName!.isNotEmpty;
   }
 }

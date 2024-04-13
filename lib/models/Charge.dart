@@ -1,8 +1,8 @@
 
 class Charge{
-  DateTime chargeDate;
-  double chargeAmount;
-  bool isPaid;
+  DateTime? chargeDate;
+  double? chargeAmount;
+  bool? isPaid;
 
   Charge({
     this.chargeDate,

@@ -16,16 +16,16 @@ import '../../widgets/TextDandyLight.dart';
 class ReminderViewDialog extends StatefulWidget {
   ReminderViewDialog({this.jobReminder});
 
-  final JobReminder jobReminder;
+  final JobReminder? jobReminder;
 
   @override
   _ReminderViewDialogState createState() {
-    return _ReminderViewDialogState(jobReminder);
+    return _ReminderViewDialogState(jobReminder!);
   }
 }
 
 class _ReminderViewDialogState extends State<ReminderViewDialog> with AutomaticKeepAliveClientMixin {
-  final JobReminder jobReminder;
+  final JobReminder? jobReminder;
 
   _ReminderViewDialogState(this.jobReminder);
 
@@ -76,7 +76,7 @@ class _ReminderViewDialogState extends State<ReminderViewDialog> with AutomaticK
                             width: MediaQuery.of(context).size.width,
                             child: TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
-                              text: jobReminder.reminder.description,
+                              text: jobReminder!.reminder!.description,
                               textAlign: TextAlign.start,
                               maxLines: 4,
                               color: Color(ColorConstants.getPrimaryBlack()),
@@ -87,8 +87,8 @@ class _ReminderViewDialogState extends State<ReminderViewDialog> with AutomaticK
                             width: MediaQuery.of(context).size.width,
                             child: TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
-                              text: jobReminder.reminder.when == 'on' ? 'Day of shoot' :
-                              jobReminder.reminder.amount.toString() + ' ' + (jobReminder.reminder.amount == 1 ? jobReminder.reminder.daysWeeksMonths.substring(0, jobReminder.reminder.daysWeeksMonths.length - 1) : jobReminder.reminder.daysWeeksMonths) + ' ' + jobReminder.reminder.when,
+                              text: jobReminder!.reminder!.when == 'on' ? 'Day of shoot' :
+                              jobReminder!.reminder!.amount.toString() + ' ' + (jobReminder!.reminder!.amount == 1 ? jobReminder!.reminder!.daysWeeksMonths!.substring(0, jobReminder!.reminder!.daysWeeksMonths!.length - 1) : jobReminder!.reminder!.daysWeeksMonths!) + ' ' + jobReminder!.reminder!.when!,
                               textAlign: TextAlign.start,
                               maxLines: 4,
                               color: Color(ColorConstants.getPrimaryBlack()),

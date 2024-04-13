@@ -19,7 +19,7 @@ class ReminderNotificationsPage extends StatelessWidget{
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   final ScrollController _controller = ScrollController();
 
-  ReminderNotificationsPage({Key key}) : super(key: key);
+  ReminderNotificationsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, DashboardPageState>(
@@ -51,14 +51,14 @@ class ReminderNotificationsPage extends StatelessWidget{
                       color: Color(ColorConstants.getPeachDark()),
                       tooltip: 'Close',
                       onPressed: () {
-                        pageState.onNotificationViewClosed();
+                        pageState.onNotificationViewClosed!();
                         Navigator.of(context).pop();
                       },
                     ),
                       actions: <Widget>[
                         TextButton(
                           onPressed: () {
-                            pageState.markAllAsSeen();
+                            pageState.markAllAsSeen!();
                           },
                           child: Icon(
                             Icons.done_all,
@@ -77,24 +77,24 @@ class ReminderNotificationsPage extends StatelessWidget{
                           controller: _controller,
                           physics: const ClampingScrollPhysics(),
                           key: _listKey,
-                          itemCount: pageState.reminders.length,
+                          itemCount: pageState.reminders!.length!,
                           itemBuilder: (context, index) {
                             return TextButton(
                               style: Styles.getButtonStyle(),
                               onPressed: () {
-                                if(pageState.reminders.elementAt(index).payload == JobReminder.MILEAGE_EXPENSE_ID) {
+                                if(pageState.reminders!.elementAt(index).payload == JobReminder.MILEAGE_EXPENSE_ID) {
                                   EventSender().sendEvent(eventName: EventNames.BT_VIEW_FEATURED_POSES_FROM_NOTIFICATIONS);
                                   UserOptionsUtil.showNewMileageExpenseSelected(context, null);
-                                } else if(pageState.reminders.elementAt(index).payload == JobReminder.POSE_FEATURED_ID) {
+                                } else if(pageState.reminders!.elementAt(index).payload == JobReminder.POSE_FEATURED_ID) {
                                   EventSender().sendEvent(eventName: EventNames.BT_VIEW_FEATURED_POSES_FROM_NOTIFICATIONS);
                                   NavigationUtil.onPosesSelected(context, null, false, true);
                                 } else {
                                   EventSender().sendEvent(eventName: EventNames.BT_VIEW_FEATURED_POSES_FROM_NOTIFICATIONS);
                                   NavigationUtil.onJobTapped(context, false);
                                 }
-                                pageState.onReminderSelected(pageState.reminders.elementAt(index));
+                                pageState.onReminderSelected!(pageState.reminders!.elementAt(index));
                               },
-                              child: pageState.reminders.elementAt(index).payload == JobReminder.POSE_FEATURED_ID ? Padding(
+                              child: pageState.reminders!.elementAt(index).payload == JobReminder.POSE_FEATURED_ID ? Padding(
                                 padding: const EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 24.0),
                                 child: Stack(
                                   alignment: Alignment.centerRight,
@@ -108,7 +108,7 @@ class ReminderNotificationsPage extends StatelessWidget{
                                           width: 32.0,
                                           child: Icon(
                                             Icons.star,
-                                            color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryBackgroundGrey() : ColorConstants.getPrimaryColor()),
+                                            color: Color(pageState.reminders!.elementAt(index).hasBeenSeen! ? ColorConstants.getPrimaryBackgroundGrey() : ColorConstants.getPrimaryColor()),
                                             size: 32.0,
                                           )
                                         ),
@@ -116,11 +116,11 @@ class ReminderNotificationsPage extends StatelessWidget{
                                           width: MediaQuery.of(context).size.width - 126,
                                           child: TextDandyLight(
                                             type: TextDandyLight.SMALL_TEXT,
-                                            text: _buildSubmittedNotificationText(pageState.unseenFeaturedPoses.length),
+                                            text: _buildSubmittedNotificationText(pageState.unseenFeaturedPoses!.length),
                                             textAlign: TextAlign.start,
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1,
-                                            color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
+                                            color: Color(pageState.reminders!.elementAt(index).hasBeenSeen! ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
                                           ),
                                         ),
                                       ],
@@ -144,7 +144,7 @@ class ReminderNotificationsPage extends StatelessWidget{
                                           height: 32.0,
                                           width: 32.0,
                                           child: Image.asset(
-                                            'assets/images/collection_icons/reminder_icon_white.png', color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryBackgroundGrey() : ColorConstants.getPeachDark()),),
+                                            'assets/images/collection_icons/reminder_icon_white.png', color: Color(pageState.reminders!.elementAt(index).hasBeenSeen! ? ColorConstants.getPrimaryBackgroundGrey() : ColorConstants.getPeachDark()),),
                                         ),
                                         Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,33 +153,33 @@ class ReminderNotificationsPage extends StatelessWidget{
                                               width: MediaQuery.of(context).size.width - 126,
                                               child: TextDandyLight(
                                                 type: TextDandyLight.SMALL_TEXT,
-                                                text: pageState.allJobs.where((job) => job.documentId == pageState.reminders.elementAt(index).jobDocumentId).first.jobTitle,
+                                                text: pageState.allJobs!.where((job) => job.documentId == pageState.reminders!.elementAt(index).jobDocumentId).first.jobTitle,
                                                 textAlign: TextAlign.start,
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 1,
-                                                color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
+                                                color: Color(pageState.reminders!.elementAt(index).hasBeenSeen! ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
                                               ),
                                             ),
                                             SizedBox(
                                               width: MediaQuery.of(context).size.width - 126,
                                               child: TextDandyLight(
                                                 type: TextDandyLight.SMALL_TEXT,
-                                                text: pageState.reminders.elementAt(index).reminder.description,
+                                                text: pageState.reminders!.elementAt(index).reminder!.description,
                                                 textAlign: TextAlign.start,
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 1,
-                                                color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
+                                                color: Color(pageState.reminders!.elementAt(index).hasBeenSeen! ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
                                               ),
                                             ),
                                             SizedBox(
                                               width: MediaQuery.of(context).size.width - 126,
                                               child: TextDandyLight(
                                                 type: TextDandyLight.SMALL_TEXT,
-                                                text: DateFormat('EEE, MMMM d  (h:mm aaa)').format(pageState.reminders.elementAt(index).triggerTime),
+                                                text: DateFormat('EEE, MMMM d  (h:mm aaa)').format(pageState.reminders!.elementAt(index).triggerTime!),
                                                 textAlign: TextAlign.start,
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 1,
-                                                color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
+                                                color: Color(pageState.reminders!.elementAt(index).hasBeenSeen! ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
                                               ),
                                             )
                                           ],

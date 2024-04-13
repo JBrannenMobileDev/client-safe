@@ -10,17 +10,17 @@ import 'package:flutter_redux/flutter_redux.dart';
 import '../../../widgets/TextDandyLight.dart';
 
 class NewJobTextField extends StatelessWidget {
-  final TextEditingController controller;
-  final String hintText;
-  final TextInputType inputType;
-  final double height;
-  final String inputTypeError;
-  final Function(String) onTextInputChanged;
-  final TextInputAction keyboardAction;
-  final FocusNode focusNode;
-  final Function onFocusAction;
-  final TextCapitalization capitalization;
-  final List<TextInputFormatter> inputFormatter;
+  final TextEditingController? controller;
+  final String? hintText;
+  final TextInputType? inputType;
+  final double? height;
+  final String? inputTypeError;
+  final Function(String)? onTextInputChanged;
+  final TextInputAction? keyboardAction;
+  final FocusNode? focusNode;
+  final Function? onFocusAction;
+  final TextCapitalization? capitalization;
+  final List<TextInputFormatter>? inputFormatter;
 
   NewJobTextField({
       this.controller,
@@ -50,10 +50,10 @@ class NewJobTextField extends StatelessWidget {
             maxLines: 24,
             controller: controller,
             onChanged: (text) {
-              onTextInputChanged(text);
+              onTextInputChanged!(text);
             },
             onFieldSubmitted: (term) {
-              onFocusAction();
+              onFocusAction!();
             },
             cursorColor: Color(ColorConstants.getBlueDark()),
             decoration: InputDecoration(
@@ -102,7 +102,7 @@ class NewJobTextField extends StatelessWidget {
               ),
             ),
             keyboardType: inputType,
-            textCapitalization: capitalization,
+            textCapitalization: capitalization!,
             inputFormatters: inputFormatter != null ? inputFormatter : null,
             style: TextStyle(
               fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),

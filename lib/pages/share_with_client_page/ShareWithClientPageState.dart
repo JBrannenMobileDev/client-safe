@@ -7,30 +7,30 @@ import '../../models/Proposal.dart';
 import 'ShareWithClientActions.dart';
 
 class ShareWithClientPageState{
-  final Profile profile;
-  final Proposal proposal;
-  final bool contractSelected;
-  final bool invoiceSelected;
-  final bool posesSelected;
-  final bool questionnairesSelected;
-  final bool areChangesSaved;
-  final String clientMessage;//Message in client portal
-  final String clientShareMessage;//Message in the share message (SMS/Email)
-  final Job job;
-  final bool updateContractCheckInProgress;
-  final bool updateInvoiceCheckInProgress;
-  final bool updatePosesCheckInProgress;
-  final bool updateQuestionnairesCheckInProgress;
-  final List<Job> jobs;
-  final List<Job> jobsWithShareMessage;
-  final Function(String) onMessageChanged;
-  final Function(String) onShareMessageChanged;
-  final Function() onProposalShared;
-  final Function(bool) onContractCheckBoxSelected;
-  final Function(bool) onInvoiceCheckBoxSelected;
-  final Function(bool) onPosesCheckBoxSelected;
-  final Function(bool) onQuestionnairesCheckBoxSelected;
-  final Function() saveProposal;
+  final Profile? profile;
+  final Proposal? proposal;
+  final bool? contractSelected;
+  final bool? invoiceSelected;
+  final bool? posesSelected;
+  final bool? questionnairesSelected;
+  final bool? areChangesSaved;
+  final String? clientMessage;//Message in client portal
+  final String? clientShareMessage;//Message in the share message (SMS/Email)
+  final Job? job;
+  final bool? updateContractCheckInProgress;
+  final bool? updateInvoiceCheckInProgress;
+  final bool? updatePosesCheckInProgress;
+  final bool? updateQuestionnairesCheckInProgress;
+  final List<Job>? jobs;
+  final List<Job>? jobsWithShareMessage;
+  final Function(String)? onMessageChanged;
+  final Function(String)? onShareMessageChanged;
+  final Function()? onProposalShared;
+  final Function(bool)? onContractCheckBoxSelected;
+  final Function(bool)? onInvoiceCheckBoxSelected;
+  final Function(bool)? onPosesCheckBoxSelected;
+  final Function(bool)? onQuestionnairesCheckBoxSelected;
+  final Function()? saveProposal;
 
 
   ShareWithClientPageState({
@@ -61,30 +61,30 @@ class ShareWithClientPageState{
   });
 
   ShareWithClientPageState copyWith({
-    Profile profile,
-    Proposal proposal,
-    bool contractSelected,
-    bool invoiceSelected,
-    bool posesSelected,
-    bool questionnairesSelected,
-    bool areChangesSaved,
-    String clientMessage,
-    String clientShareMessage,
-    Job job,
-    List<Job> jobs,
-    List<Job> jobsWithShareMessage,
-    bool updateContractCheckInProgress,
-    bool updateInvoiceCheckInProgress,
-    bool updatePosesCheckInProgress,
-    bool updateQuestionnairesCheckInProgress,
-    Function(String) onMessageChanged,
-    Function(String) onShareMessageChanged,
-    Function() onProposalShared,
-    Function(bool) onContractCheckBoxSelected,
-    Function(bool) onInvoiceCheckBoxSelected,
-    Function(bool) onPosesCheckBoxSelected,
-    Function(bool) onQuestionnairesCheckBoxSelected,
-    Function() saveProposal,
+    Profile? profile,
+    Proposal? proposal,
+    bool? contractSelected,
+    bool? invoiceSelected,
+    bool? posesSelected,
+    bool? questionnairesSelected,
+    bool? areChangesSaved,
+    String? clientMessage,
+    String? clientShareMessage,
+    Job? job,
+    List<Job>? jobs,
+    List<Job>? jobsWithShareMessage,
+    bool? updateContractCheckInProgress,
+    bool? updateInvoiceCheckInProgress,
+    bool? updatePosesCheckInProgress,
+    bool? updateQuestionnairesCheckInProgress,
+    Function(String)? onMessageChanged,
+    Function(String)? onShareMessageChanged,
+    Function()? onProposalShared,
+    Function(bool)? onContractCheckBoxSelected,
+    Function(bool)? onInvoiceCheckBoxSelected,
+    Function(bool)? onPosesCheckBoxSelected,
+    Function(bool)? onQuestionnairesCheckBoxSelected,
+    Function()? saveProposal,
   }){
     return ShareWithClientPageState(
       profile: profile ?? this.profile,
@@ -143,20 +143,20 @@ class ShareWithClientPageState{
 
   factory ShareWithClientPageState.fromStore(Store<AppState> store) {
     return ShareWithClientPageState(
-      profile: store.state.shareWithClientPageState.profile,
-      proposal: store.state.shareWithClientPageState.proposal,
-      contractSelected: store.state.shareWithClientPageState.contractSelected,
-      invoiceSelected: store.state.shareWithClientPageState.invoiceSelected,
-      posesSelected: store.state.shareWithClientPageState.posesSelected,
-      clientMessage: store.state.shareWithClientPageState.clientMessage,
-      job: store.state.shareWithClientPageState.job,
-      areChangesSaved: store.state.shareWithClientPageState.areChangesSaved,
-      jobs: store.state.shareWithClientPageState.jobs,
-      updateContractCheckInProgress: store.state.shareWithClientPageState.updateContractCheckInProgress,
-      updateInvoiceCheckInProgress: store.state.shareWithClientPageState.updateInvoiceCheckInProgress,
-      updatePosesCheckInProgress: store.state.shareWithClientPageState.updatePosesCheckInProgress,
-      clientShareMessage: store.state.shareWithClientPageState.clientShareMessage,
-      jobsWithShareMessage: store.state.shareWithClientPageState.jobsWithShareMessage,
+      profile: store.state.shareWithClientPageState!.profile,
+      proposal: store.state.shareWithClientPageState!.proposal,
+      contractSelected: store.state.shareWithClientPageState!.contractSelected,
+      invoiceSelected: store.state.shareWithClientPageState!.invoiceSelected,
+      posesSelected: store.state.shareWithClientPageState!.posesSelected,
+      clientMessage: store.state.shareWithClientPageState!.clientMessage,
+      job: store.state.shareWithClientPageState!.job,
+      areChangesSaved: store.state.shareWithClientPageState!.areChangesSaved,
+      jobs: store.state.shareWithClientPageState!.jobs,
+      updateContractCheckInProgress: store.state.shareWithClientPageState!.updateContractCheckInProgress,
+      updateInvoiceCheckInProgress: store.state.shareWithClientPageState!.updateInvoiceCheckInProgress,
+      updatePosesCheckInProgress: store.state.shareWithClientPageState!.updatePosesCheckInProgress,
+      clientShareMessage: store.state.shareWithClientPageState!.clientShareMessage,
+      jobsWithShareMessage: store.state.shareWithClientPageState!.jobsWithShareMessage,
       questionnairesSelected: store.state.shareWithClientPageState.questionnairesSelected,
       updateQuestionnairesCheckInProgress: store.state.shareWithClientPageState.updateQuestionnairesCheckInProgress,
       onMessageChanged: (message) => store.dispatch(SetClientMessageAction(store.state.shareWithClientPageState, message)),

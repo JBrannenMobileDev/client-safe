@@ -49,9 +49,9 @@ PosesPageState _setActiveJobs(PosesPageState previousState, SetActiveJobsToPoses
 }
 
 PosesPageState _setSearchInput(PosesPageState previousState, UpdateSearchInputAction action){
-  List<String> searchWords = action.searchInput.split(' ').map((word) => word.toLowerCase()).toList();
+  List<String> searchWords = action.searchInput!.split(' ').map((word) => word.toLowerCase()).toList();
   List<Pose> searchResultsPoses = [];
-  List<Pose> allPoses = action.pageState.allLibraryPoses;
+  List<Pose> allPoses = action.pageState!.allLibraryPoses!;
   List<Pose> poseDuplicateReference = [];
 
   for(String word in searchWords) {
@@ -59,7 +59,7 @@ PosesPageState _setSearchInput(PosesPageState previousState, UpdateSearchInputAc
       for(int index = 0; index < allPoses.length; index++) {
 
         //Compare by Instagram Name
-        if(allPoses.elementAt(index).instagramName.toLowerCase().contains(word)) {
+        if(allPoses.elementAt(index).instagramName!.toLowerCase().contains(word)) {
           if(!poseDuplicateReference.contains(allPoses.elementAt(index))) {
             searchResultsPoses.add(allPoses.elementAt(index));
             poseDuplicateReference.add(allPoses.elementAt(index));
@@ -67,7 +67,7 @@ PosesPageState _setSearchInput(PosesPageState previousState, UpdateSearchInputAc
         }
 
         //Compare by Instagram Url
-        if(allPoses.elementAt(index).instagramUrl.toLowerCase().contains(word)) {
+        if(allPoses.elementAt(index).instagramUrl!.toLowerCase().contains(word)) {
           if(!poseDuplicateReference.contains(allPoses.elementAt(index))) {
             searchResultsPoses.add(allPoses.elementAt(index));
             poseDuplicateReference.add(allPoses.elementAt(index));
@@ -89,7 +89,7 @@ PosesPageState _setSearchInput(PosesPageState previousState, UpdateSearchInputAc
 
   return previousState.copyWith(
     searchInput: action.searchInput,
-    searchResultPoses: action.searchInput.isNotEmpty ? searchResultsPoses : [],
+    searchResultPoses: action.searchInput!.isNotEmpty ? searchResultsPoses : [],
   );
 }
 
@@ -98,7 +98,7 @@ bool poseMatchesAllSearchWords(List<String> searchWords, Pose pose) {
   int expectedMatchingWords = searchWords.length;
 
   searchWords.forEach((searchWord) {
-    pose.tags.forEach((tag) {
+    pose.tags!.forEach((tag) {
       if(tag.toLowerCase() == searchWord.toLowerCase()) {
         matchingWords++;
       }

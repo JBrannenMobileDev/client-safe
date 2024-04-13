@@ -7,16 +7,16 @@ import '../pages/calendar_page/JobCalendarItem.dart';
 
 class CalendarUtil {
   static Widget buildEventList(
-      DateTime selectedDate,
-      List<EventDandyLight> eventList,
-      int selectedYear,
-      int selectedMonth,
-      int selectedDay,
-      List<Job> allJobs,
-      Function(Job) onJobClicked
+      DateTime? selectedDate,
+      List<EventDandyLight>? eventList,
+      int? selectedYear,
+      int? selectedMonth,
+      int? selectedDay,
+      List<Job>? allJobs,
+      Function(Job)? onJobClicked
   ) {
     List<JobCalendarItem> calendarListItems = [];
-    List<JobCalendarItem> fromJobs = _getJobListForSelectedDate(selectedDate, eventList, selectedYear, selectedMonth, selectedDay, allJobs)
+    List<JobCalendarItem> fromJobs = _getJobListForSelectedDate(selectedDate, eventList!, selectedYear!, selectedMonth!, selectedDay!, allJobs!)
         .map((job) => JobCalendarItem(job: job, paddingRight: 24.0, paddingLeft: 24.0, onJobClicked: onJobClicked,))
         .toList();
     List<JobCalendarItem> fromDeviceEvents = _getEventListForSelectedDate(selectedDate, eventList, selectedYear, selectedMonth, selectedDay)
@@ -31,7 +31,7 @@ class CalendarUtil {
   }
 
   static List<Job> _getJobListForSelectedDate(
-      DateTime selectedDate,
+      DateTime? selectedDate,
       List<EventDandyLight> eventList,
       int selectedYear,
       int selectedMonth,
@@ -42,9 +42,9 @@ class CalendarUtil {
     if (selectedDate != null) {
       for (EventDandyLight event in eventList) {
         if(event.selectedDate != null){
-          if (event.selectedDate.year == selectedYear &&
-              event.selectedDate.month == selectedMonth &&
-              event.selectedDate.day == selectedDay) {
+          if (event.selectedDate!.year == selectedYear &&
+              event.selectedDate!.month == selectedMonth &&
+              event.selectedDate!.day == selectedDay) {
             matchingEvents.add(event);
           }
         }
@@ -68,7 +68,7 @@ class CalendarUtil {
   }
 
   static List<EventDandyLight> _getEventListForSelectedDate(
-      DateTime selectedDate,
+      DateTime? selectedDate,
       List<EventDandyLight> eventList,
       int selectedYear,
       int selectedMonth,
@@ -78,9 +78,9 @@ class CalendarUtil {
     if (selectedDate != null) {
       for (EventDandyLight event in eventList) {
         if(event.start != null){
-          if (event.start.year == selectedYear &&
-              event.start.month == selectedMonth &&
-              event.start.day == selectedDay) {
+          if (event.start!.year == selectedYear &&
+              event.start!.month == selectedMonth &&
+              event.start!.day == selectedDay) {
             matchingEvents.add(event);
           }
         }
@@ -96,7 +96,7 @@ class CalendarUtil {
   static List<EventDandyLight> _getListOfDeviceCalendarEventsFromEvents(List<EventDandyLight> events) {
     List<EventDandyLight> eventsResult = [];
     for(EventDandyLight event in events){
-      if(event.isPersonalEvent) {
+      if(event.isPersonalEvent!) {
         eventsResult.add(event);
 
       }

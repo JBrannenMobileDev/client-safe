@@ -35,7 +35,7 @@ class _LeadSourceSelection extends State<LeadSourceSelection>
     super.build(context);
     return StoreConnector<AppState, NewContactPageState>(
       onInit: (store) {
-        customLeadController.value = customLeadController.value.copyWith(text:store.state.newContactPageState.customLeadSourceName);
+        customLeadController.value = customLeadController.value.copyWith(text:store.state.newContactPageState!.customLeadSourceName);
       },
       onWillChange: (statePrevious, stateNew) {
         customLeadController.value = customLeadController.value.copyWith(text:stateNew.customLeadSourceName);
@@ -53,7 +53,7 @@ class _LeadSourceSelection extends State<LeadSourceSelection>
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: "How did " +
-                    pageState.newContactFirstName +
+                    pageState.newContactFirstName! +
                     " hear about your business?",
                 textAlign: TextAlign.start,
                 color: Color(ColorConstants.getPrimaryBlack()),
@@ -88,7 +88,7 @@ class _LeadSourceSelection extends State<LeadSourceSelection>
                           onSelected: (bool selected) {
                             setState(() {
                               if (selected) {
-                                pageState.onLeadSourceSelected(_chipLabels.elementAt(index));
+                                pageState.onLeadSourceSelected!(_chipLabels.elementAt(index));
                               }
                             });
                           },
@@ -106,7 +106,7 @@ class _LeadSourceSelection extends State<LeadSourceSelection>
                   "Custom Name",
                   TextInputType.text,
                   66.0,
-                  pageState.onCustomLeadSourceTextChanged,
+                  pageState.onCustomLeadSourceTextChanged!,
                   NewContactPageState.NO_ERROR,
                   TextInputAction.done,
                   _customLeadFocusNode,
@@ -131,6 +131,6 @@ class _LeadSourceSelection extends State<LeadSourceSelection>
   bool get wantKeepAlive => true;
 
   int getIconPosition(NewContactPageState pageState, List<String> leadSourceIconsWhite) {
-    return leadSourceIconsWhite.indexOf(pageState.leadSource);
+    return leadSourceIconsWhite.indexOf(pageState.leadSource!);
   }
 }

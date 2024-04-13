@@ -1,12 +1,10 @@
 import 'package:dandylight/models/Contract.dart';
-import 'package:dandylight/navigation/routes/RouteNames.dart';
 import 'package:dandylight/pages/pose_library_group_page/LibraryPoseGroupPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../AppState.dart';
 import '../../../widgets/TextDandyLight.dart';
@@ -15,7 +13,7 @@ import 'ContractsPageState.dart';
 
 
 class NewContractOptionsBottomSheet extends StatefulWidget {
-  final String jobDocumentId;
+  final String? jobDocumentId;
 
   NewContractOptionsBottomSheet({this.jobDocumentId = null});
 
@@ -29,7 +27,7 @@ class _NewContractOptionsBottomSheetState extends State<NewContractOptionsBottom
   final ScrollController _controller = ScrollController();
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   final List<String> options = ['Blank Contract', 'General (template)', 'Wedding (template)', 'Portrait (template)'];
-  final String jobDocumentId;
+  final String? jobDocumentId;
 
   _NewContractOptionsBottomSheetState(this.jobDocumentId);
 
@@ -42,22 +40,22 @@ class _NewContractOptionsBottomSheetState extends State<NewContractOptionsBottom
               switch(options.elementAt(index)) {
                 case 'Blank Contract':
                   Navigator.of(context).pop();
-                  Contract generalContract = pageState.contractTemplates.firstWhere((template) => template.contractName == options.elementAt(index));
+                  Contract generalContract = pageState.contractTemplates!.firstWhere((template) => template.contractName == options.elementAt(index));
                   NavigationUtil.onContractSelected(context, generalContract, "Blank Contract", true, jobDocumentId, null);
                   break;
                 case 'General (template)':
                   Navigator.of(context).pop();
-                  Contract generalContract = pageState.contractTemplates.firstWhere((template) => template.contractName == options.elementAt(index));
+                  Contract generalContract = pageState.contractTemplates!.firstWhere((template) => template.contractName == options.elementAt(index));
                   NavigationUtil.onContractSelected(context, generalContract, "General Contract", true, jobDocumentId, null);
                   break;
                 case 'Wedding (template)':
                   Navigator.of(context).pop();
-                  Contract weddingContract = pageState.contractTemplates.firstWhere((template) => template.contractName == options.elementAt(index));
+                  Contract weddingContract = pageState.contractTemplates!.firstWhere((template) => template.contractName == options.elementAt(index));
                   NavigationUtil.onContractSelected(context, weddingContract, "Wedding Contract", true, jobDocumentId, null);
                   break;
                 case 'Portrait (template)':
                   Navigator.of(context).pop();
-                  Contract portraitContract = pageState.contractTemplates.firstWhere((template) => template.contractName == options.elementAt(index));
+                  Contract portraitContract = pageState.contractTemplates!.firstWhere((template) => template.contractName == options.elementAt(index));
                   NavigationUtil.onContractSelected(context, portraitContract, "Portrait Contract", true, jobDocumentId, null);
                   break;
               }

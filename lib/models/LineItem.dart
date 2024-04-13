@@ -1,10 +1,10 @@
 
 class LineItem {
 
-  int id;
-  String itemName;
-  double itemPrice;
-  int itemQuantity;
+  int? id;
+  String? itemName;
+  double? itemPrice;
+  int? itemQuantity;
 
   LineItem({
     this.id,
@@ -32,6 +32,6 @@ class LineItem {
   }
 
   double getTotal() {
-    return itemPrice * itemQuantity;
+    return itemPrice! * itemQuantity!;
   }
 }

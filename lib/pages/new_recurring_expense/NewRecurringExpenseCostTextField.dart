@@ -6,17 +6,17 @@ import 'package:flutter/widgets.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class NewRecurringExpenseCostTextField extends StatelessWidget {
-  final TextEditingController _controller;
-  final String hintText;
-  final TextInputType inputType;
-  final double height;
-  final String inputTypeError;
-  final Function(String) onTextInputChanged;
-  final TextInputAction keyboardAction;
-  final FocusNode focusNode;
-  final Function onFocusAction;
-  final TextCapitalization capitalization;
-  final List<TextInputFormatter> inputFormatter;
+  final TextEditingController? _controller;
+  final String? hintText;
+  final TextInputType? inputType;
+  final double? height;
+  final String? inputTypeError;
+  final Function(String)? onTextInputChanged;
+  final TextInputAction? keyboardAction;
+  final FocusNode? focusNode;
+  final Function? onFocusAction;
+  final TextCapitalization? capitalization;
+  final List<TextInputFormatter>? inputFormatter;
 
   NewRecurringExpenseCostTextField(this._controller, this.hintText, this.inputType,
       this.height, this.onTextInputChanged, this.inputTypeError, this.keyboardAction,
@@ -37,11 +37,11 @@ class NewRecurringExpenseCostTextField extends StatelessWidget {
                 maxLines: 24,
                 controller: _controller,
                 onChanged: (text) {
-                  onTextInputChanged(text);
+                  onTextInputChanged!(text);
                   HapticFeedback.heavyImpact();
                 },
                 onFieldSubmitted: (term){
-                  onFocusAction();
+                  onFocusAction!();
                 },
                 decoration: InputDecoration(
                   alignLabelWithHint: true,
@@ -84,7 +84,7 @@ class NewRecurringExpenseCostTextField extends StatelessWidget {
                   ),
                 ),
                 keyboardType: inputType,
-                textCapitalization: capitalization,
+                textCapitalization: capitalization!,
                 inputFormatters: inputFormatter != null ? inputFormatter : null,
                 style: new TextStyle(
                     fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_LARGE_TEXT),

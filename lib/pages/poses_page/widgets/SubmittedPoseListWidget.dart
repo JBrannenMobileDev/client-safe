@@ -21,7 +21,7 @@ import 'SaveToMyPosesBottomSheet.dart';
 
 class SubmittedPoseListWidget extends StatelessWidget {
   final int index;
-  final Job job;
+  final Job? job;
 
   SubmittedPoseListWidget(this.index, this.job);
 
@@ -60,16 +60,16 @@ class SubmittedPoseListWidget extends StatelessWidget {
       builder: (BuildContext context, PosesPageState pageState) =>
           Stack(
             children: [
-              pageState.sortedSubmittedPoses.length > index ? DandyLightNetworkImage(
-                  pageState.sortedSubmittedPoses.elementAt(index).imageUrl,
+              pageState.sortedSubmittedPoses!.length > index ? DandyLightNetworkImage(
+                  pageState.sortedSubmittedPoses!.elementAt(index).imageUrl ?? '',
               ) : SizedBox(),
               Container(
                 alignment: Alignment.bottomRight,
                 child: CornerBanner(
                   bannerPosition: CornerBannerPosition.bottomRight,
-                  bannerColor: Color(pageState.sortedSubmittedPoses.elementAt(index).reviewStatus == Pose.STATUS_FEATURED ? ColorConstants.getBlueDark() : ColorConstants.getPeachDark()),
+                  bannerColor: Color(pageState.sortedSubmittedPoses!.elementAt(index).reviewStatus == Pose.STATUS_FEATURED ? ColorConstants.getBlueDark() : ColorConstants.getPeachDark()),
                   child: Text(
-                    pageState.sortedSubmittedPoses.elementAt(index).reviewStatus == Pose.STATUS_REVIEWED ? "Submitted" : pageState.sortedSubmittedPoses.elementAt(index).reviewStatus,
+                    pageState.sortedSubmittedPoses!.elementAt(index).reviewStatus! == Pose.STATUS_REVIEWED ? "Submitted" : pageState.sortedSubmittedPoses!.elementAt(index).reviewStatus!,
                     style: TextStyle(
                       fontFamily: TextDandyLight.getFontFamily(),
                       fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
@@ -78,7 +78,7 @@ class SubmittedPoseListWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              pageState.sortedSubmittedPoses.elementAt(index).reviewStatus == Pose.STATUS_FEATURED ? GestureDetector(
+              pageState.sortedSubmittedPoses!.elementAt(index).reviewStatus == Pose.STATUS_FEATURED ? GestureDetector(
                 onTap: () {
                   _showSaveToJobBottomSheet(context, index);
                 },
@@ -92,7 +92,7 @@ class SubmittedPoseListWidget extends StatelessWidget {
                   ),
                 ),
               ) : SizedBox(),
-              pageState.sortedSubmittedPoses.length > index ? job == null ? GestureDetector(
+              pageState.sortedSubmittedPoses!.length > index ? job == null ? GestureDetector(
                 onTap: () {
                   _showSaveToJobBottomSheet(context, index);
                 },
@@ -111,7 +111,7 @@ class SubmittedPoseListWidget extends StatelessWidget {
                     ),
                   ),
               ) : SizedBox() : SizedBox(),
-              pageState.sortedSubmittedPoses.length > index ?  job == null ? GestureDetector(
+              pageState.sortedSubmittedPoses!.length > index ?  job == null ? GestureDetector(
                 onTap: () {
                   _showSaveToMyPosesBottomSheet(context, index);
                 },

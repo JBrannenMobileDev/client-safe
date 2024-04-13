@@ -12,27 +12,27 @@ class NewJobTypePageState {
   static const String NO_ERROR = "noError";
   static const String ERROR_PROFILE_NAME_MISSING = "missingProfileName";
 
-  final int id;
-  final String documentId;
-  final bool saveButtonEnabled;
-  final bool shouldClear;
-  final String title;
-  final String newStageName;
-  final bool checkAllTypes;
-  final bool checkAllReminders;
-  final List<ReminderDandyLight> selectedReminders;
-  final List<ReminderDandyLight> allDandyLightReminders;
-  final List<JobStage> selectedJobStages;
-  final Function() onSavePressed;
-  final Function() onCancelPressed;
-  final Function() onDeleteJobTypeSelected;
-  final Function(String) onTitleChanged;
-  final Function(String) onCustomStageNameChanged;
-  final Function(int, bool) onReminderSelected;
-  final Function(int) onJobStageDeleted;
-  final Function(List<JobStage>) onJobStagesReordered;
-  final Function(bool) checkAllRemindersChecked;
-  final Function() saveNewStage;
+  final int? id;
+  final String? documentId;
+  final bool? saveButtonEnabled;
+  final bool? shouldClear;
+  final String? title;
+  final String? newStageName;
+  final bool? checkAllTypes;
+  final bool? checkAllReminders;
+  final List<ReminderDandyLight>? selectedReminders;
+  final List<ReminderDandyLight>? allDandyLightReminders;
+  final List<JobStage>? selectedJobStages;
+  final Function()? onSavePressed;
+  final Function()? onCancelPressed;
+  final Function()? onDeleteJobTypeSelected;
+  final Function(String)? onTitleChanged;
+  final Function(String)? onCustomStageNameChanged;
+  final Function(int, bool)? onReminderSelected;
+  final Function(int)? onJobStageDeleted;
+  final Function(List<JobStage>)? onJobStagesReordered;
+  final Function(bool)? checkAllRemindersChecked;
+  final Function()? saveNewStage;
 
   NewJobTypePageState({
     @required this.id,
@@ -59,27 +59,27 @@ class NewJobTypePageState {
 });
 
   NewJobTypePageState copyWith({
-    int id,
-    String documentId,
-    bool saveButtonEnabled,
-    bool shouldClear,
-    String title,
-    String newStageName,
-    List<ReminderDandyLight> selectedReminders,
-    List<JobStage> selectedJobStages,
-    List<ReminderDandyLight> allDandyLightReminders,
-    Function() onSavePressed,
-    Function() onCancelPressed,
-    Function() onDeleteJobTypeSelected,
-    Function(String) onTitleChanged,
-    Function(int, bool) onReminderSelected,
-    Function(int) onJobStageDeleted,
-    bool checkAllTypes,
-    bool checkAllReminders,
-    Function(bool) checkAllRemindersChecked,
-    Function(List<JobStage>) onJobStagesReordered,
-    Function(String) onCustomStageNameChanged,
-    Function() saveNewStage,
+    int? id,
+    String? documentId,
+    bool? saveButtonEnabled,
+    bool? shouldClear,
+    String? title,
+    String? newStageName,
+    List<ReminderDandyLight>? selectedReminders,
+    List<JobStage>? selectedJobStages,
+    List<ReminderDandyLight>? allDandyLightReminders,
+    Function()? onSavePressed,
+    Function()? onCancelPressed,
+    Function()? onDeleteJobTypeSelected,
+    Function(String)? onTitleChanged,
+    Function(int, bool)? onReminderSelected,
+    Function(int)? onJobStageDeleted,
+    bool? checkAllTypes,
+    bool? checkAllReminders,
+    Function(bool)? checkAllRemindersChecked,
+    Function(List<JobStage>)? onJobStagesReordered,
+    Function(String)? onCustomStageNameChanged,
+    Function()? saveNewStage,
   }){
     return NewJobTypePageState(
       id: id?? this.id,
@@ -132,17 +132,17 @@ class NewJobTypePageState {
 
   factory NewJobTypePageState.fromStore(Store<AppState> store) {
     return NewJobTypePageState(
-      id: store.state.newJobTypePageState.id,
-      saveButtonEnabled: store.state.newJobTypePageState.saveButtonEnabled,
-      shouldClear: store.state.newJobTypePageState.shouldClear,
-      title: store.state.newJobTypePageState.title,
-      documentId: store.state.newJobTypePageState.documentId,
-      selectedReminders: store.state.newJobTypePageState.selectedReminders,
-      selectedJobStages: store.state.newJobTypePageState.selectedJobStages,
-      allDandyLightReminders: store.state.newJobTypePageState.allDandyLightReminders,
-      checkAllTypes: store.state.newJobTypePageState.checkAllTypes,
-      checkAllReminders: store.state.newJobTypePageState.checkAllReminders,
-      newStageName: store.state.newJobTypePageState.newStageName,
+      id: store.state.newJobTypePageState!.id,
+      saveButtonEnabled: store.state.newJobTypePageState!.saveButtonEnabled,
+      shouldClear: store.state.newJobTypePageState!.shouldClear,
+      title: store.state.newJobTypePageState!.title,
+      documentId: store.state.newJobTypePageState!.documentId,
+      selectedReminders: store.state.newJobTypePageState!.selectedReminders,
+      selectedJobStages: store.state.newJobTypePageState!.selectedJobStages,
+      allDandyLightReminders: store.state.newJobTypePageState!.allDandyLightReminders,
+      checkAllTypes: store.state.newJobTypePageState!.checkAllTypes,
+      checkAllReminders: store.state.newJobTypePageState!.checkAllReminders,
+      newStageName: store.state.newJobTypePageState!.newStageName,
       onSavePressed: () => store.dispatch(SaveNewJobTypeAction(store.state.newJobTypePageState)),
       onCancelPressed: () => store.dispatch(ClearNewJobTypeStateAction(store.state.newJobTypePageState)),
       onDeleteJobTypeSelected: () => store.dispatch(DeleteJobTypeAction(store.state.newJobTypePageState)),

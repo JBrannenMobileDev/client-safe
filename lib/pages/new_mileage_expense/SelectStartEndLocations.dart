@@ -21,7 +21,7 @@ class SelectStartEndLocationsPage extends StatefulWidget {
 
 class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> with AutomaticKeepAliveClientMixin {
   int selectedIndex = 1;
-  Map<int, Widget> tabs;
+  Map<int, Widget>? tabs;
   
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
     super.build(context);
     return StoreConnector<AppState, NewMileageExpensePageState>(
       onInit: (appState) {
-        selectedIndex = appState.state.newMileageExpensePageState.isOneWay ? 0 : 1;
+        selectedIndex = appState.state.newMileageExpensePageState!.isOneWay! ? 0 : 1;
       },
       converter: (store) => NewMileageExpensePageState.fromStore(store),
       builder: (BuildContext context, NewMileageExpensePageState pageState) =>
@@ -72,9 +72,9 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
               onTap: () {
                 UserOptionsUtil.showMileageLocationSelectionDialog(
                     context,
-                    pageState.onStartLocationChanged,
-                    (pageState.profile != null && pageState.profile.hasDefaultHome()) ? pageState.profile.latDefaultHome : pageState.startLocation != null ? pageState.startLocation.latitude : pageState.lat,
-                    (pageState.profile != null && pageState.profile.hasDefaultHome()) ? pageState.profile.lngDefaultHome : pageState.startLocation != null ? pageState.startLocation.longitude : pageState.lng
+                    pageState.onStartLocationChanged!,
+                    (pageState.profile != null && pageState.profile!.hasDefaultHome()) ? pageState.profile!.latDefaultHome : pageState.startLocation != null ? pageState.startLocation!.latitude : pageState.lat,
+                    (pageState.profile != null && pageState.profile!.hasDefaultHome()) ? pageState.profile!.lngDefaultHome : pageState.startLocation != null ? pageState.startLocation!.longitude : pageState.lng
                 );
               },
               child: Container(
@@ -98,7 +98,7 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                         margin: EdgeInsets.only(right: 16),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
-                            text: pageState.startLocationName.isNotEmpty ? pageState.startLocationName : pageState.selectedHomeLocationName.isNotEmpty ? pageState.selectedHomeLocationName : 'Select a location',
+                            text: pageState.startLocationName!.isNotEmpty ? pageState.startLocationName : pageState.selectedHomeLocationName!.isNotEmpty ? pageState.selectedHomeLocationName : 'Select a location',
                             textAlign: TextAlign.center,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
@@ -123,9 +123,9 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
               onTap: () {
                 UserOptionsUtil.showMileageLocationSelectionDialog(
                     context,
-                    pageState.onEndLocationChanged,
-                    pageState.profile.hasDefaultHome() ? pageState.profile.latDefaultHome : pageState.startLocation != null ? pageState.startLocation.latitude : pageState.lat,
-                    pageState.profile.hasDefaultHome() ? pageState.profile.lngDefaultHome : pageState.startLocation != null ? pageState.startLocation.longitude : pageState.lng
+                    pageState.onEndLocationChanged!,
+                    pageState.profile!.hasDefaultHome() ? pageState.profile!.latDefaultHome : pageState.startLocation != null ? pageState.startLocation!.latitude : pageState.lat,
+                    pageState.profile!.hasDefaultHome() ? pageState.profile!.lngDefaultHome : pageState.startLocation != null ? pageState.startLocation!.longitude : pageState.lng
                 );
               },
               child: Container(
@@ -149,7 +149,7 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                         margin: EdgeInsets.only(right: 16),
                         child: TextDandyLight(
                           type: TextDandyLight.MEDIUM_TEXT,
-                          text: pageState.endLocationName.isEmpty ? 'Select a location' : pageState.endLocationName,
+                          text: pageState.endLocationName!.isEmpty ? 'Select a location' : pageState.endLocationName,
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
@@ -168,12 +168,12 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
               child: CupertinoSlidingSegmentedControl<int>(
                 thumbColor: Color(ColorConstants.getBlueDark()),
                 backgroundColor: Colors.transparent,
-                children: tabs,
-                onValueChanged: (int filterTypeIndex) {
+                children: tabs!,
+                onValueChanged: (int? filterTypeIndex) {
                   setState(() {
-                    selectedIndex = filterTypeIndex;
+                    selectedIndex = filterTypeIndex!;
                   });
-                  pageState.onFilterChanged(filterTypeIndex == 0 ? SelectStartEndLocationsPage.FILTER_TYPE_ONE_WAY : SelectStartEndLocationsPage.FILTER_TYPE_ROUND_TRIP);
+                  pageState.onFilterChanged!(filterTypeIndex == 0 ? SelectStartEndLocationsPage.FILTER_TYPE_ONE_WAY : SelectStartEndLocationsPage.FILTER_TYPE_ROUND_TRIP);
                 },
                 groupValue: selectedIndex,
               ),
@@ -200,7 +200,7 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                         children: [
                           TextDandyLight(
                             type: TextDandyLight.EXTRA_LARGE_TEXT,
-                            amount: pageState.isOneWay ? pageState.milesDrivenOneWay : pageState.milesDrivenRoundTrip,
+                            amount: pageState.isOneWay! ? pageState.milesDrivenOneWay : pageState.milesDrivenRoundTrip,
                             color: Color(ColorConstants.getPrimaryBlack()),
                             isNumber: true,
                             decimalPlaces: 1,

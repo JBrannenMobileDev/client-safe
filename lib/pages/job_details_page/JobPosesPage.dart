@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../../../AppState.dart';
 import '../../../utils/NavigationUtil.dart';
@@ -24,7 +23,7 @@ class JobPosesPage extends StatelessWidget{
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (context) => JobDetailsSingleImageViewPager(
-                  pageState.job.poses,
+                  pageState.job!.poses,
                   index,
                   pageState.onDeletePoseSelected,
                   'Job Poses',
@@ -58,7 +57,7 @@ class JobPosesPage extends StatelessWidget{
                     centerTitle: true,
                     title: TextDandyLight(
                       type: TextDandyLight.LARGE_TEXT,
-                      text: pageState.job.jobTitle,
+                      text: pageState.job!.jobTitle,
                       color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                       actions: <Widget>[
@@ -90,7 +89,7 @@ class JobPosesPage extends StatelessWidget{
                           child: _buildItem(context, index),
                         );
                       },
-                        childCount: pageState.job.poses.length, // 1000 list items
+                        childCount: pageState.job!.poses!.length, // 1000 list items
                       ),
                     ),
                   ),
@@ -100,7 +99,7 @@ class JobPosesPage extends StatelessWidget{
                 alignment: Alignment.bottomCenter,
                 child: GestureDetector(
                   onTap: () {
-                    NavigationUtil.onShareWIthClientSelected(context, pageState.job, );
+                    NavigationUtil.onShareWIthClientSelected(context, pageState.job!);
                     EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_FROM_JOB_POSES_PAGE);                  },
                   child: Container(
                     margin: EdgeInsets.only(bottom: 36),

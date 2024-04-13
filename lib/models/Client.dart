@@ -81,29 +81,29 @@ class Client{
     'assets/images/icons/email_icon_white.png',
   ];
 
-  int id;
-  String documentId;
-  String firstName;
-  String lastName;
-  String email;
-  String phone;
-  String leadSource;
-  String customLeadSourceName;
-  String relationshipStatus;
-  String spouseFirstName;
-  String spouseLastName;
-  int numOfChildren;
-  List<ImportantDate> importantDates;
-  List<String> albumLinks;
-  String instagramProfileUrl;
-  List<Job> jobs;
-  String notes;
-  DateTime createdDate;
+  int? id;
+  String? documentId;
+  String? firstName;
+  String? lastName;
+  String? email;
+  String? phone;
+  String? leadSource;
+  String? customLeadSourceName;
+  String? relationshipStatus;
+  String? spouseFirstName;
+  String? spouseLastName;
+  int? numOfChildren;
+  List<ImportantDate>? importantDates;
+  List<String>? albumLinks;
+  String? instagramProfileUrl;
+  List<Job>? jobs;
+  String? notes;
+  DateTime? createdDate;
 
   Client({
     this.id,
     this.documentId,
-    @required this.firstName,
+    required this.firstName,
     this.lastName,
     this.email,
     this.phone,
@@ -165,7 +165,7 @@ class Client{
     );
   }
 
-  List<Map<String, dynamic>> convertImportantDatesToMaps(List<ImportantDate> importantDates){
+  List<Map<String, dynamic>> convertImportantDatesToMaps(List<ImportantDate>? importantDates){
     List<Map<String, dynamic>> listOfMaps = [];
     if(importantDates != null) {
       for (ImportantDate importantDate in importantDates) {
@@ -177,20 +177,18 @@ class Client{
 
   static List<ImportantDate> convertMapsToImportantDates(List listOfMaps){
     List<ImportantDate> listOfImportantDates = [];
-    if(listOfMaps != null) {
-      for(Map map in listOfMaps){
-        listOfImportantDates.add(ImportantDate.fromMap(map));
-      }
+    for(Map map in listOfMaps){
+      listOfImportantDates.add(ImportantDate.fromMap(map as Map<String, dynamic>));
     }
-    return listOfImportantDates;
+      return listOfImportantDates;
   }
 
   String getClientFullName(){
-    return firstName + " " + lastName;
+    return "$firstName $lastName";
   }
 
   String getClientSpouseFullName(){
-    return spouseFirstName + " " + spouseLastName;
+    return "$spouseFirstName $spouseLastName";
   }
 
   String getLeadSourceName() {

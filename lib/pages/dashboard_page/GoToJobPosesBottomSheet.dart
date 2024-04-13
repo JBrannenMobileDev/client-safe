@@ -17,7 +17,7 @@ import 'DashboardPageState.dart';
 class GoToJobPosesBottomSheet extends StatefulWidget {
   final Job job;
 
-  const GoToJobPosesBottomSheet(this.job, {Key key}) : super(key: key);
+  const GoToJobPosesBottomSheet(this.job, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -64,7 +64,7 @@ class _GoToJobPosesBottomSheetState extends State<GoToJobPosesBottomSheet> with 
                      ),
                      GestureDetector(
                        onTap: () {
-                         pageState.onJobClicked(job.documentId);
+                         pageState.onJobClicked!(job.documentId!);
                          Navigator.of(context).pop();
                          NavigationUtil.onJobPosesSelected(context);
                          EventSender().sendEvent(eventName: EventNames.NAV_TO_JOB_POSES_FROM_BOTTOM_SHEET);
@@ -86,7 +86,7 @@ class _GoToJobPosesBottomSheetState extends State<GoToJobPosesBottomSheet> with 
                      ),
                      GestureDetector(
                        onTap: () {
-                         pageState.onJobClicked(job.documentId);
+                         pageState.onJobClicked!(job.documentId!);
                          Navigator.of(context).pop();
                          NavigationUtil.onJobTapped(context, false);
                          EventSender().sendEvent(eventName: EventNames.NAV_TO_JOB_POSES_FROM_BOTTOM_SHEET);
@@ -110,7 +110,7 @@ class _GoToJobPosesBottomSheetState extends State<GoToJobPosesBottomSheet> with 
                      GestureDetector(
                        onTap: () {
                          if(job.location != null) {
-                           pageState.drivingDirectionsSelected(job.location);
+                           pageState.drivingDirectionsSelected!(job.location!);
                          } else {
                             DandyToastUtil.showErrorToast('No location set for this job.');
                          }

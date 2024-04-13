@@ -24,18 +24,18 @@
 ///
 ///
 class SunriseSunsetData {
-  final DateTime sunrise;
-  final DateTime sunset;
-  final DateTime solarNoon;
+  final DateTime? sunrise;
+  final DateTime? sunset;
+  final DateTime? solarNoon;
 
   ///Expressed in seconds
-  final int dayLength;
-  final DateTime civilTwilightBegin;
-  final DateTime civilTwilightEnd;
-  final DateTime nauticalTwilightBegin;
-  final DateTime nauticalTwilightEnd;
-  final DateTime astronomicalTwilightBegin;
-  final DateTime astronomicalTwilightEnd;
+  final int? dayLength;
+  final DateTime? civilTwilightBegin;
+  final DateTime? civilTwilightEnd;
+  final DateTime? nauticalTwilightBegin;
+  final DateTime? nauticalTwilightEnd;
+  final DateTime? astronomicalTwilightBegin;
+  final DateTime? astronomicalTwilightEnd;
 
   SunriseSunsetData._({
     this.sunrise,

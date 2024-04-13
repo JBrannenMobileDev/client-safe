@@ -28,7 +28,7 @@ class MyPoseGroupsListItemWidget extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               Container(
-                height: 103,
+                height: 104,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -40,8 +40,8 @@ class MyPoseGroupsListItemWidget extends StatelessWidget {
                         borderRadius: new BorderRadius.circular(16.0),
                         color: Color(ColorConstants.getPeachLight())
                       ),
-                      child: pageState.myPoseGroups.elementAt(index).poses.length > 0 ? DandyLightNetworkImage(
-                        pageState.myPoseGroups.elementAt(index).poses.elementAt(0).imageUrl,
+                      child: pageState.myPoseGroups!.elementAt(index).poses!.length > 0 ? DandyLightNetworkImage(
+                        pageState.myPoseGroups!.elementAt(index).poses!.elementAt(0).imageUrl ?? '',
                         resizeWidth: 250,
                       ) : Container(
                         padding: EdgeInsets.all(8),
@@ -52,7 +52,7 @@ class MyPoseGroupsListItemWidget extends StatelessWidget {
                       padding: EdgeInsets.only(top: 8.0),
                       child: TextDandyLight(
                         type: TextDandyLight.SMALL_TEXT,
-                        text: pageState.myPoseGroups.elementAt(index).groupName,
+                        text: pageState.myPoseGroups!.elementAt(index).groupName,
                         textAlign: TextAlign.center,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),

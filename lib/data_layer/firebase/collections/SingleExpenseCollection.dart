@@ -56,7 +56,7 @@ class SingleExpenseCollection {
         .doc(documentId)
         .get()
         .then((expenseSnapshot) {
-          SingleExpense expense = SingleExpense.fromMap(expenseSnapshot.data());
+          SingleExpense expense = SingleExpense.fromMap(expenseSnapshot.data() as Map<String, dynamic>);
           expense.documentId = expenseSnapshot.id;
           return expense;
         });
@@ -93,9 +93,9 @@ class SingleExpenseCollection {
   }
 
   List<SingleExpense> _buildSingleExpensesList(QuerySnapshot jobs) {
-    List<SingleExpense> expensesList = List();
+    List<SingleExpense> expensesList = [];
     for(DocumentSnapshot expenseSnapshot in jobs.docs){
-      SingleExpense expense = SingleExpense.fromMap(expenseSnapshot.data());
+      SingleExpense expense = SingleExpense.fromMap(expenseSnapshot.data() as Map<String, dynamic>);
       expense.documentId = expenseSnapshot.id;
       expensesList.add(expense);
     }

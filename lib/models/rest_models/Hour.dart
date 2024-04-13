@@ -1,39 +1,39 @@
 import 'Condition.dart';
 
 class Hour {
-  int timeEpoch;
-  String time;
-  double tempC;
-  double tempF;
-  int isDay;
-  Condition condition;
-  double windMph;
-  double windKph;
-  int windDegree;
-  String windDir;
-  double pressureMb;
-  double pressureIn;
-  double precipMm;
-  double precipIn;
-  int humidity;
-  int cloud;
-  double feelslikeC;
-  double feelslikeF;
-  double windchillC;
-  double windchillF;
-  double heatindexC;
-  double heatindexF;
-  double dewpointC;
-  double dewpointF;
-  int willItRain;
-  int chanceOfRain;
-  int willItSnow;
-  int chanceOfSnow;
-  double visKm;
-  double visMiles;
-  double gustMph;
-  double gustKph;
-  double uv;
+  int? timeEpoch;
+  String? time;
+  double? tempC;
+  double? tempF;
+  int? isDay;
+  Condition? condition;
+  double? windMph;
+  double? windKph;
+  int? windDegree;
+  String? windDir;
+  double? pressureMb;
+  double? pressureIn;
+  double? precipMm;
+  double? precipIn;
+  int? humidity;
+  int? cloud;
+  double? feelslikeC;
+  double? feelslikeF;
+  double? windchillC;
+  double? windchillF;
+  double? heatindexC;
+  double? heatindexF;
+  double? dewpointC;
+  double? dewpointF;
+  int? willItRain;
+  int? chanceOfRain;
+  int? willItSnow;
+  int? chanceOfSnow;
+  double? visKm;
+  double? visMiles;
+  double? gustMph;
+  double? gustKph;
+  double? uv;
 
   Hour(
       {this.timeEpoch,
@@ -116,7 +116,7 @@ class Hour {
     data['temp_f'] = this.tempF;
     data['is_day'] = this.isDay;
     if (this.condition != null) {
-      data['condition'] = this.condition.toJson();
+      data['condition'] = this.condition!.toJson();
     }
     data['wind_mph'] = this.windMph;
     data['wind_kph'] = this.windKph;

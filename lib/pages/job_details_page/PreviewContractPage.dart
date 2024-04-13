@@ -4,13 +4,13 @@ import 'dart:ui';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:intl/intl.dart';
 import '../../models/FontTheme.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class PreviewContractPage extends StatefulWidget {
-  final String jsonTerms;
+  final String? jsonTerms;
 
   PreviewContractPage({this.jsonTerms});
 
@@ -21,24 +21,24 @@ class PreviewContractPage extends StatefulWidget {
 }
 
 class _PreviewContractPageState extends State<PreviewContractPage> with TickerProviderStateMixin {
-  quill.QuillController _controller;
+  QuillController? _controller;
   TextEditingController _clientSignatureController = TextEditingController(text: "Client Name");
   TextEditingController _photogSigController = TextEditingController(text: 'Photographer Name');
   final FocusNode titleFocusNode = FocusNode();
   final FocusNode contractFocusNode = FocusNode();
   final TextEditingController controllerTitle = TextEditingController();
-  OverlayEntry overlayEntry;
-  final String jsonTerms;
+  OverlayEntry? overlayEntry;
+  final String? jsonTerms;
 
   _PreviewContractPageState(this.jsonTerms);
 
 
   @override
   void initState() {
-    _controller = quill.QuillController(
-      document: quill.Document.fromJson(jsonDecode(jsonTerms)),
-        selection: TextSelection.collapsed(offset: 0)
-    );
+    _controller = jsonTerms != null ? QuillController(
+        document: Document.fromJson(jsonDecode(jsonTerms!)),
+        selection: const TextSelection.collapsed(offset: 0)
+    ) : QuillController.basic();
     super.initState();
   }
 
@@ -51,6 +51,7 @@ class _PreviewContractPageState extends State<PreviewContractPage> with TickerPr
                 backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                 centerTitle: true,
                 elevation: 0.0,
+                surfaceTintColor: Colors.transparent,
                 title: Container(
                   alignment: Alignment.center,
                   width: 250,
@@ -98,17 +99,19 @@ class _PreviewContractPageState extends State<PreviewContractPage> with TickerPr
       );
 
   Widget getEditor() {
-    return quill.QuillEditor(
-      controller: _controller,
-      scrollable: true,
+    return QuillEditor.basic(
       scrollController: ScrollController(),
       focusNode: contractFocusNode,
-      padding: EdgeInsets.all(0),
-      autoFocus: false,
-      readOnly: true,
-      expands: false,
-      showCursor: false,
-      placeholder: "Past contract terms here",
+      configurations: QuillEditorConfigurations(
+        controller: _controller!,
+        scrollable: true,
+        padding: const EdgeInsets.all(0),
+        autoFocus: false,
+        readOnly: true,
+        expands: false,
+        showCursor: false,
+        placeholder: "Past contract terms here",
+      ),
     );
   }
 

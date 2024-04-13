@@ -68,7 +68,7 @@ MainSettingsPageState _updatePassword(MainSettingsPageState previousState, SaveP
 MainSettingsPageState _updateDeleteProgress(MainSettingsPageState previousState, SetDeleteProgressAction action){
   return previousState.copyWith(
     isDeleteInProgress: action.isInProgressDeleting,
-    isDeleteFinished: !action.isInProgressDeleting
+    isDeleteFinished: !action.isInProgressDeleting!
   );
 }
 
@@ -116,64 +116,11 @@ MainSettingsPageState _setCalendarState(MainSettingsPageState previousState, Upd
 
 MainSettingsPageState _setUserProfileInfo(MainSettingsPageState previousState, LoadUserProfileDataAction action){
   return previousState.copyWith(
-    firstName: action.profile.firstName,
-    lastName: action.profile.lastName,
-    businessName: action.profile.businessName,
-    businessEmail: action.profile.email,
-    businessPhone: action.profile.phone,
+    firstName: action.profile!.firstName,
+    lastName: action.profile!.lastName,
+    businessName: action.profile!.businessName,
+    businessEmail: action.profile!.email,
+    businessPhone: action.profile!.phone,
     profile: action.profile,
   );
-}
-
-bool showPublishChangesButton(
-    Color iconColorToSave,
-    Color iconTextColorToSave,
-    Color buttonColorToSave,
-    Color buttonTextColorToSave,
-    Color bannerColorToSave,
-    String iconFont,
-    String mainFont,
-    Profile profile,
-    bool logoImageSelected,
-    bool newLogoImageSelected,
-    bool bannerImageSelected,
-    bool newBannerImageSelected,
-    String currentLogoLetter,
-    String newLogoLetter,
-    XFile currentLogoImage,
-    XFile newLogoImage,
-    XFile currentBannerImage,
-    XFile newBannerImage,
-) {
-  bool showPublishButton = false;
-
-  if(profile.selectedFontTheme.iconFont != iconFont) {
-    showPublishButton = true;
-  }
-  if(profile.selectedFontTheme.mainFont != mainFont) {
-    showPublishButton = true;
-  }
-  if(profile.selectedColorTheme.bannerColor != ColorConstants.getHex(bannerColorToSave)) {
-    showPublishButton = true;
-  }
-  if(profile.selectedColorTheme.buttonColor != ColorConstants.getHex(buttonColorToSave)) {
-    showPublishButton = true;
-  }
-  if(profile.selectedColorTheme.buttonTextColor != ColorConstants.getHex(buttonTextColorToSave)) {
-    showPublishButton = true;
-  }
-  if(profile.selectedColorTheme.iconColor != ColorConstants.getHex(iconColorToSave)) {
-    showPublishButton = true;
-  }
-  if(profile.selectedColorTheme.iconTextColor != ColorConstants.getHex(iconTextColorToSave)) {
-    showPublishButton = true;
-  }
-
-  if(logoImageSelected != newLogoImageSelected) showPublishButton = true;
-  if(bannerImageSelected != newBannerImageSelected) showPublishButton = true;
-  if(currentLogoLetter != newLogoLetter) showPublishButton = true;
-  if(currentLogoImage != null && currentLogoImage.path != newLogoImage.path) showPublishButton = true;
-  if(currentBannerImage != null && currentBannerImage.path != newBannerImage.path) showPublishButton = true;
-
-  return showPublishButton;
 }

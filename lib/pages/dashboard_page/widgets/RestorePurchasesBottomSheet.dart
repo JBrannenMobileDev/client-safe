@@ -11,8 +11,8 @@ import '../DashboardPageState.dart';
 
 
 class RestorePurchasesBottomSheet extends StatefulWidget {
-  final String message;
-  const RestorePurchasesBottomSheet(this.message, {Key key}) : super(key: key);
+  final String? message;
+  const RestorePurchasesBottomSheet(this.message, {Key? key}) : super(key: key);
 
 
   @override
@@ -22,7 +22,7 @@ class RestorePurchasesBottomSheet extends StatefulWidget {
 }
 
 class _BottomSheetPageState extends State<RestorePurchasesBottomSheet> with TickerProviderStateMixin {
-  final String message;
+  final String? message;
   _BottomSheetPageState(this.message);
 
   @override

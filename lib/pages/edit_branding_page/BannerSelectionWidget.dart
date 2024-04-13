@@ -32,7 +32,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
   Widget build(BuildContext context) =>
       StoreConnector<AppState, EditBrandingPageState>(
         onInit: (store) async {
-          if(store.state.dashboardPageState.profile.bannerImageSelected) {
+          if(store.state.dashboardPageState!.profile!.bannerImageSelected!) {
             selections[0] = true;
             selections[1] = false;
           } else {
@@ -80,7 +80,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                         },
                         child: Stack(
                           children: [
-                            pageState.bannerImageSelected ? pageState.bannerImage != null ? ClipRRect(
+                            pageState.bannerImageSelected! ? pageState.bannerImage != null ? ClipRRect(
                               borderRadius: new BorderRadius.only(
                                   topRight: Radius.circular(16),
                                   topLeft: Radius.circular(16)
@@ -89,9 +89,9 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                                 fit: BoxFit.cover,
                                 width: double.infinity,
                                 height: 164,
-                                image: FileImage(File(pageState.bannerImage.path)),
+                                image: FileImage(File(pageState.bannerImage!.path)),
                               ),
-                            ) : pageState.profile.bannerMobileUrl != null ? Container(
+                            ) : pageState.profile!.bannerMobileUrl != null ? Container(
                               height: 164,
                               child: ClipRRect(
                                 borderRadius: new BorderRadius.only(
@@ -99,8 +99,8 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                                     topLeft: Radius.circular(16),
                                 ),
                                 child: DandyLightNetworkImage(
-                                  pageState.profile.bannerMobileUrl,
-                                  color: pageState.currentBannerColor,
+                                  pageState.profile!.bannerMobileUrl ?? '',
+                                  color: pageState.currentBannerColor!,
                                   borderRadius: 0,
                                 ),
                               ),
@@ -116,7 +116,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                                 ),
                               ),
                             ) : SizedBox(),
-                            !pageState.bannerImageSelected ? Container(
+                            !pageState.bannerImageSelected! ? Container(
                               alignment: Alignment.center,
                               height: 164,
                               width: double.infinity,
@@ -128,7 +128,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                                 ),
                               ),
                             ) : SizedBox(),
-                            pageState.bannerImageSelected && pageState.bannerImage == null && pageState.profile.bannerMobileUrl == null ? Row(
+                            pageState.bannerImageSelected! && pageState.bannerImage == null && pageState.profile!.bannerMobileUrl == null ? Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisSize: MainAxisSize.max,
@@ -136,7 +136,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                                 Container(
                                   child: Image.asset(
                                     'assets/images/icons/file_upload.png',
-                                    color: ColorConstants.isWhite(pageState.currentBannerColor) ? Color(ColorConstants.getPrimaryGreyMedium()) : Color(ColorConstants.getPrimaryWhite()),
+                                    color: ColorConstants.isWhite(pageState.currentBannerColor!) ? Color(ColorConstants.getPrimaryGreyMedium()) : Color(ColorConstants.getPrimaryWhite()),
                                     width: 48,
                                   ),
                                 ),
@@ -148,12 +148,12 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                                     fontFamily: pageState.currentFont,
                                     textAlign: TextAlign.center,
                                     text: 'Upload Banner Image',
-                                    color: ColorConstants.isWhite(pageState.currentBannerColor) ? Color(ColorConstants.getPrimaryGreyMedium()) : Color(ColorConstants.getPrimaryWhite()),
+                                    color: ColorConstants.isWhite(pageState.currentBannerColor!) ? Color(ColorConstants.getPrimaryGreyMedium()) : Color(ColorConstants.getPrimaryWhite()),
                                   ),
                                 ),
                               ],
                             ) : SizedBox(),
-                            pageState.bannerImageSelected && (pageState.bannerImage != null || pageState.profile.bannerMobileUrl != null && pageState.profile.bannerMobileUrl.isNotEmpty) ? Container(
+                            pageState.bannerImageSelected! && (pageState.bannerImage != null || pageState.profile!.bannerMobileUrl != null && pageState.profile!.bannerMobileUrl!.isNotEmpty) ? Container(
                               alignment: Alignment.topRight,
                               width: double.infinity,
                               padding: EdgeInsets.only(top: 16, right: 16),
@@ -198,12 +198,12 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                               if(index == 0) {
                                 selections[0] = true;
                                 selections[1] = false;
-                                pageState.onBannerImageSelected(true);
+                                pageState.onBannerImageSelected!(true);
                                 EventSender().sendEvent(eventName: EventNames.BRANDING_BANNER_IMAGE_SELECTED);
                               } else {
                                 selections[1] = true;
                                 selections[0] = false;
-                                pageState.onBannerImageSelected(false);
+                                pageState.onBannerImageSelected!(false);
                                 EventSender().sendEvent(eventName: EventNames.BRANDING_BANNER_COLOR_SELECTED);
                               }
                             });
@@ -229,28 +229,26 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
 
   Future getDeviceImage(EditBrandingPageState pageState) async {
     try {
-      XFile localImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-      XFile localWebImage = XFile((await CropImageForWeb(localImage.path)).path);
-      XFile localMobileImage = XFile((await CropImageForMobile(localImage.path)).path);
+      XFile? localImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if(localImage != null) {
+        XFile localWebImage = XFile((await CropImageForWeb(localImage.path))!.path);
+        XFile localMobileImage = XFile((await CropImageForMobile(localImage.path))!.path);
 
-      if(localWebImage != null && localMobileImage != null && localImage != null) {
-        pageState.onBannerWebUploaded(localWebImage);
-        pageState.onBannerMobileUploaded(localMobileImage);
-        pageState.onBannerUploaded(localImage);
+        pageState.onBannerWebUploaded!(localWebImage);
+        pageState.onBannerMobileUploaded!(localMobileImage);
+        pageState.onBannerUploaded!(localImage);
         EventSender().sendEvent(eventName: EventNames.BRANDING_BANNER_IMAGE_UPLOADED);
-      } else {
-        DandyToastUtil.showErrorToast('Image not loaded');
+        setState(() {
+          loading = false;
+        });
       }
-      setState(() {
-        loading = false;
-      });
     } catch (ex) {
       print(ex.toString());
       DandyToastUtil.showErrorToast('Image not loaded');
     }
   }
 
-  Future<CroppedFile> CropImageForWeb(String path) async {
+  Future<CroppedFile?> CropImageForWeb(String path) async {
     return await ImageCropper().cropImage(
       sourcePath: path,
       maxWidth: 1920,
@@ -273,7 +271,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
     );
   }
 
-  Future<CroppedFile> CropImageForMobile(String path) async {
+  Future<CroppedFile?> CropImageForMobile(String path) async {
     return await ImageCropper().cropImage(
       sourcePath: path,
       maxWidth: 1080, //1080

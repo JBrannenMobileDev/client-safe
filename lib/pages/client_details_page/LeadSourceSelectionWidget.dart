@@ -36,7 +36,7 @@ class _LeadSourceSelectionWidget extends State<LeadSourceSelectionWidget> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ClientDetailsPageState>(
       onInit: (store) {
-        customLeadController.value = customLeadController.value.copyWith(text:store.state.clientDetailsPageState.customLeadSourceName);
+        customLeadController.value = customLeadController.value.copyWith(text:store.state.clientDetailsPageState!.customLeadSourceName);
       },
       onWillChange: (statePrevious, stateNew) {
         customLeadController.value = customLeadController.value.copyWith(text:stateNew.customLeadSourceName);
@@ -69,7 +69,7 @@ class _LeadSourceSelectionWidget extends State<LeadSourceSelectionWidget> {
                           ),
                           TextButton(
                             onPressed: () {
-                              modalPageState.onSaveLeadSourceSelected();
+                              modalPageState!.onSaveLeadSourceSelected!();
                               Navigator.of(context).pop();
                             },
                             child: TextDandyLight(
@@ -120,7 +120,7 @@ class _LeadSourceSelectionWidget extends State<LeadSourceSelectionWidget> {
                                     onSelected: (bool selected) {
                                       setState(() {
                                         if (selected) {
-                                          modalPageState.onLeadSourceSelected(_chipLabels.elementAt(index));
+                                          modalPageState!.onLeadSourceSelected!(_chipLabels.elementAt(index));
                                         }
                                       });
                                     },
@@ -140,7 +140,7 @@ class _LeadSourceSelectionWidget extends State<LeadSourceSelectionWidget> {
                       "Custom Name",
                       TextInputType.text,
                       66.0,
-                      modalPageState.onCustomLeadSourceTextChanged,
+                      modalPageState.onCustomLeadSourceTextChanged!,
                       NewContactPageState.NO_ERROR,
                       TextInputAction.done,
                       _customLeadFocusNode,
@@ -165,7 +165,7 @@ class _LeadSourceSelectionWidget extends State<LeadSourceSelectionWidget> {
   }
 
   int getIconPosition(ClientDetailsPageState pageState, List<String> leadSourceIconsWhite) {
-    return leadSourceIconsWhite.indexOf(pageState.leadSource);
+    return leadSourceIconsWhite.indexOf(pageState.leadSource!);
   }
 }
 

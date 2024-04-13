@@ -97,7 +97,7 @@ class LeadSourceWidget extends StatelessWidget {
   }
 
   String _getLeadSourceName(ClientDetailsPageState pageState) {
-    return (pageState.client.customLeadSourceName != null && pageState.client.customLeadSourceName.isNotEmpty ? pageState.client.customLeadSourceName : pageState.client.leadSource);
+    return (pageState.client!.customLeadSourceName != null && pageState.client!.customLeadSourceName!.isNotEmpty ? pageState.client!.customLeadSourceName! : pageState!.client!.leadSource!);
 
   }
 }

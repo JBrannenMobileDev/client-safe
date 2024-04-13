@@ -13,9 +13,9 @@ import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class InvoiceItem extends StatelessWidget{
-  final Invoice invoice;
-  final Function onSendInvoiceSelected;
-  final IncomeAndExpensesPageState pageState;
+  final Invoice? invoice;
+  final Function? onSendInvoiceSelected;
+  final IncomeAndExpensesPageState? pageState;
   InvoiceItem({this.invoice, this.pageState, this.onSendInvoiceSelected});
 
   @override
@@ -23,7 +23,7 @@ class InvoiceItem extends StatelessWidget{
     return TextButton(
       style: Styles.getButtonStyle(),
       onPressed: () async {
-        UserOptionsUtil.showViewInvoiceDialog(context, invoice, await JobDao.getJobById(invoice.jobDocumentId), onSendInvoiceSelected);
+        UserOptionsUtil.showViewInvoiceDialog(context, invoice, await JobDao.getJobById(invoice!.jobDocumentId!), onSendInvoiceSelected);
       },
       child: Padding(
         padding: EdgeInsets.fromLTRB(8.0, 12.0, 0.0, 12.0),
@@ -47,7 +47,7 @@ class InvoiceItem extends StatelessWidget{
                       padding: EdgeInsets.only(bottom: 2.0),
                       child: TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
-                        text: (invoice.jobName != null ? invoice.jobName : 'Job name'),
+                        text: (invoice!.jobName != null ? invoice!.jobName : 'Job name'),
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
@@ -56,11 +56,11 @@ class InvoiceItem extends StatelessWidget{
                       padding: EdgeInsets.only(top: 2.0),
                       child: TextDandyLight(
                         type: TextDandyLight.SMALL_TEXT,
-                        text: (invoice.isOverdue() ? 'OVERDUE' :  (invoice.dueDate != null ? ('Due: ' + DateFormat('MMM dd, yyyy').format(invoice.dueDate))
-                                    : 'no due date')) + ' • ' + (invoice.unpaidAmount != null ? TextFormatterUtil.formatDecimalDigitsCurrency(invoice.unpaidAmount, 2)
+                        text: (invoice!.isOverdue() ? 'OVERDUE' :  (invoice!.dueDate != null ? ('Due: ' + DateFormat('MMM dd, yyyy').format(invoice!.dueDate!))
+                                    : 'no due date')) + ' • ' + (invoice!.unpaidAmount != null ? TextFormatterUtil.formatDecimalDigitsCurrency(invoice!.unpaidAmount!, 2)
                                 : '0'),
                         textAlign: TextAlign.start,
-                        color: invoice.isOverdue() ? Color(ColorConstants.getPeachDark()) : Color(ColorConstants.getPrimaryBlack()),
+                        color: invoice!.isOverdue() ? Color(ColorConstants.getPeachDark()) : Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                   ],

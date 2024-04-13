@@ -30,9 +30,9 @@ import '../poses_page/GoToJobPosesBottomSheet.dart';
 import 'PoseGroupActions.dart';
 
 class PoseGroupPage extends StatefulWidget {
-  final PoseGroup poseGroup;
-  final Job job;
-  final bool comingFromDetails;
+  final PoseGroup? poseGroup;
+  final Job? job;
+  final bool? comingFromDetails;
 
   PoseGroupPage(this.poseGroup, this.job, this.comingFromDetails);
 
@@ -44,17 +44,17 @@ class PoseGroupPage extends StatefulWidget {
 
 class _PoseGroupPageState extends State<PoseGroupPage>
     with TickerProviderStateMixin {
-  final PoseGroup poseGroup;
-  final Job job;
-  final bool comingFromDetails;
+  final PoseGroup? poseGroup;
+  final Job? job;
+  final bool? comingFromDetails;
 
   _PoseGroupPageState(this.poseGroup, this.job, this.comingFromDetails);
 
   Future getDeviceImage(PoseGroupPageState pageState) async {
     try{
-      List<XFile> images = await ImagePicker().pickMultiImage();
-      if(images.length != null && images.length > 0) {
-        pageState.onNewPoseImagesSelected(images);
+      List<XFile>? images = await ImagePicker().pickMultiImage();
+      if(images.length > 0) {
+        pageState.onNewPoseImagesSelected!(images);
       }
     } catch(ex) {
       print(ex.toString());
@@ -72,11 +72,11 @@ class _PoseGroupPageState extends State<PoseGroupPage>
                     pageState.poseImages,
                     index,
                     pageState.onDeletePoseSelected,
-                    pageState.poseGroup.groupName,
+                    pageState.poseGroup!.groupName,
                 )),
                 );
               } else {
-                pageState.onImageAddedToJobSelected(pageState.poseImages.elementAt(index), job);
+                pageState.onImageAddedToJobSelected!(pageState.poseImages!.elementAt(index), job!);
                 VibrateUtil.vibrateMedium();
                 DandyToastUtil.showToastWithGravity('Pose Added!', Color(ColorConstants.getPeachDark()), ToastGravity.CENTER);
                 EventSender().sendEvent(eventName: EventNames.BT_SAVE_MY_POSE_TO_JOB_FROM_JOB);
@@ -105,7 +105,7 @@ class _PoseGroupPageState extends State<PoseGroupPage>
                   TextButton(
                     style: Styles.getButtonStyle(),
                     onPressed: () {
-                      pageState.onDeletePoseGroupSelected();
+                      pageState.onDeletePoseGroupSelected!();
                       Navigator.of(context).pop(true);
                     },
                     child: new Text('Yes'),
@@ -125,7 +125,7 @@ class _PoseGroupPageState extends State<PoseGroupPage>
                   TextButton(
                     style: Styles.getButtonStyle(),
                     onPressed: () {
-                      pageState.onDeletePoseGroupSelected();
+                      pageState.onDeletePoseGroupSelected!();
                       Navigator.of(context).pop(true);
                     },
                     child: new Text('Yes'),
@@ -136,8 +136,8 @@ class _PoseGroupPageState extends State<PoseGroupPage>
     );
   }
 
-  AnimationController _controllerSlideUp;
-  Tween<Offset> slideUpTween;
+  AnimationController? _controllerSlideUp;
+  Tween<Offset>? slideUpTween;
   bool isBottomSheetVisible = false;
   bool selectAllChecked = false;
 
@@ -156,9 +156,9 @@ class _PoseGroupPageState extends State<PoseGroupPage>
     );
   }
 
-  Animation<Offset> get slideUpAnimation => slideUpTween.animate(
+  Animation<Offset> get slideUpAnimation => slideUpTween!.animate(
         new CurvedAnimation(
-          parent: _controllerSlideUp,
+          parent: _controllerSlideUp!,
           curve: Curves.ease,
         ),
       );
@@ -173,7 +173,7 @@ class _PoseGroupPageState extends State<PoseGroupPage>
       converter: (Store<AppState> store) => PoseGroupPageState.fromStore(store),
       builder: (BuildContext context, PoseGroupPageState pageState) =>
           Scaffold(
-          bottomSheet: job != null ? GoToJobPosesBottomSheet(job, comingFromDetails ? 2 : 2) : SizedBox(),
+          bottomSheet: job != null ? GoToJobPosesBottomSheet(job!, comingFromDetails! ? 2 : 2) : SizedBox(),
           backgroundColor: Color(ColorConstants.getPrimaryWhite()),
           body: Stack(
             children: [
@@ -194,7 +194,7 @@ class _PoseGroupPageState extends State<PoseGroupPage>
                     title: Container(
                       child: TextDandyLight(
                         type: TextDandyLight.LARGE_TEXT,
-                        text: poseGroup.groupName,
+                        text: poseGroup!.groupName,
                         color: Color(ColorConstants.getPeachDark()),
                       ),
                     ),
@@ -240,14 +240,14 @@ class _PoseGroupPageState extends State<PoseGroupPage>
                           child: _buildItem(context, index),
                         );
                       },
-                        childCount: pageState.poseGroup != null ? pageState.poseGroup.poses.length : 0, // 1000 list items
+                        childCount: pageState.poseGroup != null ? pageState.poseGroup!.poses!.length : 0, // 1000 list items
                       ),
                     ),
                   ),
                   SliverList(
                     delegate: new SliverChildListDelegate(
                       <Widget>[
-                        pageState.poseImages.length == 0 ? Column(
+                        pageState.poseImages!.length == 0 ? Column(
                           children: [
                             Padding(
                               padding: EdgeInsets.only(

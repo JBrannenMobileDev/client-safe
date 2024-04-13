@@ -15,12 +15,12 @@ class RecurringExpensesCard extends StatelessWidget{
   RecurringExpensesCard({
     this.pageState});
 
-  final IncomeAndExpensesPageState pageState;
+  final IncomeAndExpensesPageState? pageState;
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: 148.0),
-      height: getContainerHeight(pageState.recurringExpensesForSelectedYear.length, pageState),
+      height: getContainerHeight(pageState!.recurringExpensesForSelectedYear!.length, pageState!),
     child:Stack(
         alignment: Alignment.topCenter,
         children: <Widget>[
@@ -33,20 +33,20 @@ class RecurringExpensesCard extends StatelessWidget{
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.fromLTRB(16.0, pageState.recurringExpensesForSelectedYear.length > 3 ? 4 : 16.0, 0.0, 8.0),
+                  margin: EdgeInsets.fromLTRB(16.0, pageState!.recurringExpensesForSelectedYear!.length > 3 ? 4 : 16.0, 0.0, 4.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
-                        text: 'Recurring Expenses (' + pageState.selectedYear.toString() + ')',
+                        text: 'Recurring Expenses (' + pageState!.selectedYear.toString() + ')',
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
-                      pageState.recurringExpensesForSelectedYear != null && pageState.recurringExpensesForSelectedYear.length > 3 ? TextButton(
+                      pageState!.recurringExpensesForSelectedYear != null && pageState!.recurringExpensesForSelectedYear!.length > 3 ? TextButton(
                         style: Styles.getButtonStyle(),
                         onPressed: () {
-                          pageState.onViewAllExpensesSelected(2);
+                          pageState!.onViewAllExpensesSelected!(2);
                           Navigator.of(context).push(
                             new MaterialPageRoute(builder: (context) => AllExpensesPage()),
                           );
@@ -55,7 +55,7 @@ class RecurringExpensesCard extends StatelessWidget{
                           alignment: Alignment.centerRight,
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'View all(' + pageState.recurringExpensesForSelectedYear.length.toString() + ')',
+                            text: 'View all(' + pageState!.recurringExpensesForSelectedYear!.length.toString() + ')',
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
@@ -63,24 +63,24 @@ class RecurringExpensesCard extends StatelessWidget{
                     ],
                   ),
                 ),
-                pageState.recurringExpensesForSelectedYear.length > 0 ? Container(
+                pageState!.recurringExpensesForSelectedYear!.length > 0 ? Container(
                   alignment: Alignment.center,
                   margin: EdgeInsets.only(top: 8.0),
                   child: TextDandyLight(
                     type: TextDandyLight.EXTRA_EXTRA_LARGE_TEXT,
-                      amount: pageState.recurringExpensesForSelectedYearTotal,
+                      amount: pageState!.recurringExpensesForSelectedYearTotal,
                       color: Color(ColorConstants.getPeachDark()),
                       isCurrency: true,
                       decimalPlaces: 0,
                     ),
                 ) : SizedBox(),
-                pageState.recurringExpensesForSelectedYear.length > 0 ? ListView.builder(
+                pageState!.recurringExpensesForSelectedYear!.length > 0 ? ListView.builder(
                   padding: EdgeInsets.only(top:16.0, bottom: 16.0),
                     reverse: false,
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     key: _listKey,
-                    itemCount: _getItemCount(pageState),
+                    itemCount: _getItemCount(pageState!),
                     itemBuilder: _buildItem,
                   ) : Container(
                   alignment: Alignment.center,
@@ -102,10 +102,10 @@ class RecurringExpensesCard extends StatelessWidget{
   }
 
   int _getItemCount(IncomeAndExpensesPageState pageState) {
-    if( pageState.recurringExpensesForSelectedYear.length > 3) {
+    if( pageState.recurringExpensesForSelectedYear!.length > 3) {
       return 3;
     } else {
-      return pageState.recurringExpensesForSelectedYear.length;
+      return pageState.recurringExpensesForSelectedYear!.length;
     }
   }
 
@@ -124,6 +124,6 @@ class RecurringExpensesCard extends StatelessWidget{
   }
 
   Widget _buildItem(BuildContext context, int index) {
-    return RecurringExpenseItem(recurringExpense: pageState.recurringExpensesForSelectedYear.elementAt(index), pageState: pageState);
+    return RecurringExpenseItem(recurringExpense: pageState!.recurringExpensesForSelectedYear!.elementAt(index), pageState: pageState);
   }
 }

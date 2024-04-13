@@ -2,16 +2,16 @@ import 'package:dandylight/models/Charge.dart';
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageState.dart';
 
 class RecurringExpense {
-  int id;
-  String documentId;
-  String expenseName;
-  double cost;
-  String billingPeriod;
-  bool isAutoPay;
-  DateTime initialChargeDate;
-  DateTime cancelDate;
-  DateTime resumeDate;
-  List<Charge> charges;
+  int? id;
+  String? documentId;
+  String? expenseName;
+  double? cost;
+  String? billingPeriod;
+  bool? isAutoPay;
+  DateTime? initialChargeDate;
+  DateTime? cancelDate;
+  DateTime? resumeDate;
+  List<Charge>? charges;
 
 
   RecurringExpense({
@@ -37,7 +37,7 @@ class RecurringExpense {
       'initialChargeDate' : initialChargeDate?.millisecondsSinceEpoch ?? null,
       'cancelDate' : cancelDate?.millisecondsSinceEpoch ?? null,
       'resumeDate' : resumeDate?.millisecondsSinceEpoch ?? null,
-      'charges' : convertChargesToMap(charges),
+      'charges' : convertChargesToMap(charges!),
     };
   }
 
@@ -56,7 +56,7 @@ class RecurringExpense {
   }
 
   List<Map<String, dynamic>> convertChargesToMap(List<Charge> charges){
-    List<Map<String, dynamic>> listOfMaps = List();
+    List<Map<String, dynamic>> listOfMaps = [];
     for(Charge charge in charges){
       listOfMaps.add(charge.toMap());
     }
@@ -64,9 +64,9 @@ class RecurringExpense {
   }
 
   static List<Charge> convertMapsToCharges(List listOfMaps){
-    List<Charge> listOfCharges = List();
+    List<Charge> listOfCharges = [];
     for(Map map in listOfMaps){
-      listOfCharges.add(Charge.fromMap(map));
+      listOfCharges.add(Charge.fromMap(map as Map<String, dynamic>));
     }
     return listOfCharges;
   }
@@ -91,28 +91,28 @@ class RecurringExpense {
   void _populateMissing1MonthCharges() {
     DateTime dateOfMostRecentCharge;
     if(charges == null) {
-      charges = List();
+      charges = [];
     }
-    if(charges.length == 0) {
-      dateOfMostRecentCharge = initialChargeDate;
-      charges.add(
+    if(charges!.length == 0) {
+      dateOfMostRecentCharge = initialChargeDate!;
+      charges!.add(
           Charge(
-            chargeAmount: cost,
+            chargeAmount: cost!,
             chargeDate: dateOfMostRecentCharge,
             isPaid: (isAutoPay ?? true) ? true : false,
           )
       );
     } else {
-      dateOfMostRecentCharge = charges.last.chargeDate;
+      dateOfMostRecentCharge = charges!.last.chargeDate!;
     }
     DateTime now = DateTime.now();
     DateTime dateToIncrement = dateOfMostRecentCharge;
 
     //only compare months if the years are the same implement a method to do this
     while(isChargeDateBefore(dateToIncrement, now)) {
-      charges.add(
+      charges!.add(
           Charge(
-            chargeAmount: cost,
+            chargeAmount: cost!,
             chargeDate: DateTime(dateToIncrement.year, dateToIncrement.month + 1, dateToIncrement.day),
             isPaid: (isAutoPay ?? true) ? true : false,
           )
@@ -124,28 +124,28 @@ class RecurringExpense {
   void _populateMissing3MonthsCharges() {
     DateTime dateOfMostRecentCharge;
     if(charges == null) {
-      charges = List();
+      charges = [];
     }
-    if(charges.length == 0) {
-      dateOfMostRecentCharge = initialChargeDate;
-      charges.add(
+    if(charges!.length == 0) {
+      dateOfMostRecentCharge = initialChargeDate!;
+      charges!.add(
           Charge(
-            chargeAmount: cost,
+            chargeAmount: cost!,
             chargeDate: dateOfMostRecentCharge,
             isPaid: (isAutoPay ?? true) ? true : false,
           )
       );
     } else {
-      dateOfMostRecentCharge = charges.last.chargeDate;
+      dateOfMostRecentCharge = charges!.last.chargeDate!;
     }
     DateTime now = DateTime.now();
     DateTime dateToIncrement = dateOfMostRecentCharge;
 
     //only compare months if the years are the same implement a method to do this
     while(isChargeDateBefore(dateToIncrement, now)) {
-      charges.add(
+      charges!.add(
           Charge(
-            chargeAmount: cost,
+            chargeAmount: cost!,
             chargeDate: DateTime(dateToIncrement.year, dateToIncrement.month + 3, dateToIncrement.day),
             isPaid: (isAutoPay ?? true) ? true : false,
           )
@@ -157,27 +157,27 @@ class RecurringExpense {
   void _populateMissing6MonthsCharges() {
     DateTime dateOfMostRecentCharge;
     if(charges == null) {
-      charges = List();
+      charges = [];
     }
-    if(charges.length == 0) {
-      dateOfMostRecentCharge = initialChargeDate;
-      charges.add(
+    if(charges!.length == 0) {
+      dateOfMostRecentCharge = initialChargeDate!;
+      charges!.add(
           Charge(
-            chargeAmount: cost,
+            chargeAmount: cost!,
             chargeDate: dateOfMostRecentCharge,
             isPaid: (isAutoPay ?? true) ? true : false,
           )
       );
     } else {
-      dateOfMostRecentCharge = charges.last.chargeDate;
+      dateOfMostRecentCharge = charges!.last.chargeDate!;
     }
     DateTime now = DateTime.now();
 
       DateTime dateToIncrement = dateOfMostRecentCharge;
       while(isChargeDateBefore(dateToIncrement, now)) {
-        charges.add(
+        charges!.add(
             Charge(
-              chargeAmount: cost,
+              chargeAmount: cost!,
               chargeDate: DateTime(dateToIncrement.year, dateToIncrement.month + 6, dateToIncrement.day),
               isPaid: (isAutoPay ?? true) ? true : false,
             )
@@ -189,26 +189,26 @@ class RecurringExpense {
   void _populateMissing1YearCharges() {
     DateTime dateOfMostRecentCharge;
     if(charges == null) {
-      charges = List();
+      charges = [];
     }
-    if(charges.length == 0) {
-      dateOfMostRecentCharge = initialChargeDate;
-      charges.add(
+    if(charges!.length == 0) {
+      dateOfMostRecentCharge = initialChargeDate!;
+      charges!.add(
           Charge(
-            chargeAmount: cost,
+            chargeAmount: cost!,
             chargeDate: dateOfMostRecentCharge,
             isPaid: (isAutoPay ?? true) ? true : false,
           )
       );
     } else {
-      dateOfMostRecentCharge = charges.last.chargeDate;
+      dateOfMostRecentCharge = charges!.last.chargeDate!;
     }
     DateTime now = DateTime.now();
       DateTime dateToIncrement = dateOfMostRecentCharge;
       while(isChargeDateBefore(dateToIncrement, now)) {
-        charges.add(
+        charges!.add(
             Charge(
-              chargeAmount: cost,
+              chargeAmount: cost!,
               chargeDate: DateTime(dateToIncrement.year + 1, dateToIncrement.month, dateToIncrement.day),
               isPaid: (isAutoPay ?? true) ? true : false,
             )
@@ -219,9 +219,9 @@ class RecurringExpense {
 
   double getTotalOfChargesForYear(int year) {
     double total= 0.0;
-    for(Charge charge in charges) {
-      if(charge.chargeDate.year == year && charge.isPaid) {
-        total = total + charge.chargeAmount;
+    for(Charge charge in charges!) {
+      if(charge.chargeDate!.year == year && charge.isPaid!) {
+        total = total + charge.chargeAmount!;
       }
     }
     return total;
@@ -229,8 +229,8 @@ class RecurringExpense {
 
   int getCountOfChargesForYear(int year) {
     int total = 0;
-    for(Charge charge in charges) {
-      if(charge.chargeDate.year == year && charge.isPaid) {
+    for(Charge charge in charges!) {
+      if(charge.chargeDate!.year == year && charge.isPaid!) {
         total = total + 1;
       }
     }
@@ -289,5 +289,15 @@ class RecurringExpense {
         break;
     }
     return false;
+  }
+
+  double getTotalForYearAndMonth(int year, int month) {
+    double total= 0.0;
+    for(Charge charge in charges!) {
+      if(charge.chargeDate!.year == year && charge.chargeDate!.month == month && charge.isPaid!) {
+        total = total + charge.chargeAmount!;
+      }
+    }
+    return total;
   }
 }

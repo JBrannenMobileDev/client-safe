@@ -6,14 +6,14 @@ import 'Night.dart';
 import 'Temperature.dart';
 
 class DailyForecasts {
-  String date;
-  int epochDate;
-  Temperature temperature;
-  Day day;
-  Night night;
-  List<String> sources;
-  String mobileLink;
-  String link;
+  String? date;
+  int? epochDate;
+  Temperature? temperature;
+  Day? day;
+  Night? night;
+  List<String>? sources;
+  String? mobileLink;
+  String? link;
 
   DailyForecasts(
       {this.date,
@@ -43,13 +43,13 @@ class DailyForecasts {
     data['Date'] = this.date;
     data['EpochDate'] = this.epochDate;
     if (this.temperature != null) {
-      data['Temperature'] = this.temperature.toJson();
+      data['Temperature'] = this.temperature!.toJson();
     }
     if (this.day != null) {
-      data['Day'] = this.day.toJson();
+      data['Day'] = this.day!.toJson();
     }
     if (this.night != null) {
-      data['Night'] = this.night.toJson();
+      data['Night'] = this.night!.toJson();
     }
     data['Sources'] = this.sources;
     data['MobileLink'] = this.mobileLink;

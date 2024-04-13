@@ -7,14 +7,14 @@ import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 
 class ClientsPageState {
-  final String filterType;
-  final Client selectedClient;
-  final List<Client> all;
-  final List<Client> clients;
-  final List<Client> leads;
-  final Function(String) onFilterChanged;
-  final Function(Client) onClientClicked;
-  final Function() fetchClientData;
+  final String? filterType;
+  final Client? selectedClient;
+  final List<Client>? all;
+  final List<Client>? clients;
+  final List<Client>? leads;
+  final Function(String)? onFilterChanged;
+  final Function(Client)? onClientClicked;
+  final Function()? fetchClientData;
 
   ClientsPageState({
     @required this.filterType,
@@ -28,14 +28,14 @@ class ClientsPageState {
   });
 
   ClientsPageState copyWith({
-    String filterType,
-    Client selectedClient,
-    List<Client> all,
-    List<Client> clients,
-    List<Client> leads,
-    Function(String) onFilterChanged,
-    Function(String) onClientClicked,
-    Function() fetchClientData,
+    String? filterType,
+    Client? selectedClient,
+    List<Client>? all,
+    List<Client>? clients,
+    List<Client>? leads,
+    Function(String)? onFilterChanged,
+    Function(Client)? onClientClicked,
+    Function()? fetchClientData,
   }){
     return ClientsPageState(
       filterType: filterType?? this.filterType,
@@ -52,9 +52,9 @@ class ClientsPageState {
   factory ClientsPageState.initial() => ClientsPageState(
     filterType: ClientsPage.FILTER_TYPE_ALL,
     selectedClient: null,
-    all: List(),
-    clients: List(),
-    leads: List(),
+    all: [],
+    clients: [],
+    leads: [],
     onFilterChanged: null,
     onClientClicked: null,
     fetchClientData: null,
@@ -62,11 +62,11 @@ class ClientsPageState {
 
   factory ClientsPageState.fromStore(Store<AppState> store) {
     return ClientsPageState(
-      filterType: store.state.clientsPageState.filterType,
-      selectedClient: store.state.clientsPageState.selectedClient,
-      all: store.state.clientsPageState.all,
-      clients: store.state.clientsPageState.clients,
-      leads: store.state.clientsPageState.leads,
+      filterType: store.state.clientsPageState!.filterType,
+      selectedClient: store.state.clientsPageState!.selectedClient,
+      all: store.state.clientsPageState!.all,
+      clients: store.state.clientsPageState!.clients,
+      leads: store.state.clientsPageState!.leads,
       onFilterChanged: (filterType) => store.dispatch(FilterChangedAction(store.state.clientsPageState, filterType)),
       onClientClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
       fetchClientData: () => store.dispatch(FetchClientData(store.state.clientsPageState)),

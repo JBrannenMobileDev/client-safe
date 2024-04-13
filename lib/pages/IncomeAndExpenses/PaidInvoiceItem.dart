@@ -13,9 +13,9 @@ import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class PaidInvoiceItem extends StatelessWidget{
-  final Invoice invoice;
-  final Function onSendInvoiceSelected;
-  final IncomeAndExpensesPageState pageState;
+  final Invoice? invoice;
+  final Function? onSendInvoiceSelected;
+  final IncomeAndExpensesPageState? pageState;
   PaidInvoiceItem({this.invoice, this.pageState, this.onSendInvoiceSelected});
 
   @override
@@ -23,7 +23,7 @@ class PaidInvoiceItem extends StatelessWidget{
     return TextButton(
       style: Styles.getButtonStyle(),
       onPressed: () async {
-        UserOptionsUtil.showViewInvoiceDialog(context, invoice, await JobDao.getJobById(invoice.jobDocumentId), onSendInvoiceSelected);
+        UserOptionsUtil.showViewInvoiceDialog(context, invoice, await JobDao.getJobById(invoice!.jobDocumentId!), onSendInvoiceSelected);
       },
       child: Padding(
         padding: EdgeInsets.fromLTRB(8.0, 12.0, 0.0, 12.0),
@@ -47,7 +47,7 @@ class PaidInvoiceItem extends StatelessWidget{
                       padding: EdgeInsets.only(bottom: 2.0),
                       child: TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
-                        text: (invoice.jobName != null ? invoice.jobName : 'Job name'),
+                        text: (invoice!.jobName != null ? invoice!.jobName : 'Job name'),
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
@@ -56,8 +56,8 @@ class PaidInvoiceItem extends StatelessWidget{
                       padding: EdgeInsets.only(top: 2.0),
                       child: TextDandyLight(
                         type: TextDandyLight.SMALL_TEXT,
-                        text: (invoice.total - invoice.discount != null
-                                ? TextFormatterUtil.formatDecimalDigitsCurrency(invoice.total - invoice.discount, 2)
+                        text: ((invoice!.total != null || invoice!.discount != null)
+                                ? TextFormatterUtil.formatDecimalDigitsCurrency(invoice!.total!, 2)
                                 : '0'),
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),

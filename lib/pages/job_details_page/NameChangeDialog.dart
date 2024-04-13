@@ -27,7 +27,7 @@ class _NameChangeDialogState extends State<NameChangeDialog>
     super.build(context);
     return StoreConnector<AppState, JobDetailsPageState>(
       onInit: (store) {
-        jobTitleTextController.text = store.state.jobDetailsPageState.job.jobTitle;
+        jobTitleTextController.text = store.state.jobDetailsPageState!.job!.jobTitle!;
       },
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) =>
@@ -60,7 +60,7 @@ class _NameChangeDialogState extends State<NameChangeDialog>
                       hintText: "Job name",
                       inputType: TextInputType.text,
                       height: 64.0,
-                      onTextInputChanged: pageState.onJobTitleTextChanged,
+                      onTextInputChanged: pageState.onJobTitleTextChanged!,
                       keyboardAction: TextInputAction.done,
                       capitalization: TextCapitalization.words,
                     ),
@@ -82,7 +82,7 @@ class _NameChangeDialogState extends State<NameChangeDialog>
                         TextButton(
                           style: Styles.getButtonStyle(),
                           onPressed: () {
-                            pageState.onNameChangeSaved();
+                            pageState.onNameChangeSaved!();
                             VibrateUtil.vibrateHeavy();
                             Navigator.of(context).pop();
                           },

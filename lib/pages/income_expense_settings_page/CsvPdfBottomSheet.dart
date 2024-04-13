@@ -13,8 +13,8 @@ import 'package:to_csv/to_csv.dart' as export_csv;
 
 
 class CsvPdfBottomSheet extends StatefulWidget {
-  final Report report;
-  const CsvPdfBottomSheet({Key key, this.report}) : super(key: key);
+  final Report? report;
+  const CsvPdfBottomSheet({Key? key, this.report}) : super(key: key);
 
 
   @override
@@ -24,7 +24,7 @@ class CsvPdfBottomSheet extends StatefulWidget {
 }
 
 class _CsvPdfBottomSheetState extends State<CsvPdfBottomSheet> with TickerProviderStateMixin {
-  final Report report;
+  final Report? report;
 
   _CsvPdfBottomSheetState(this.report);
 
@@ -55,12 +55,12 @@ class _CsvPdfBottomSheetState extends State<CsvPdfBottomSheet> with TickerProvid
                      children: [
                        GestureDetector(
                          onTap: () {
-                           if(report.type == Report.TYPE_INCOME_EXPENSE) {
-                             pageState.onDownloadIncomeExpenseReport(report);
+                           if(report!.type == Report.TYPE_INCOME_EXPENSE) {
+                             pageState.onDownloadIncomeExpenseReport!(report!);
                            }
 
-                           if(report.type == Report.TYPE_MILEAGE) {
-                             pageState.onDownloadMileageReport(report);
+                           if(report!.type == Report.TYPE_MILEAGE) {
+                             pageState.onDownloadMileageReport!(report!);
                            }
                            Navigator.of(context).pop();
                          },
@@ -78,12 +78,12 @@ class _CsvPdfBottomSheetState extends State<CsvPdfBottomSheet> with TickerProvid
                        ),
                        GestureDetector(
                          onTap: () {
-                           if(report.type == Report.TYPE_INCOME_EXPENSE) {
-                             export_csv.myCSV(report.header, report.rows, 'IncomeAndExpensesReport_${report.year}.csv');
+                           if(report!.type == Report.TYPE_INCOME_EXPENSE) {
+                             export_csv.myCSV(report!.header!, report!.rows!, fileName: 'IncomeAndExpensesReport_${report!.year}.csv');
                            }
 
-                           if(report.type == Report.TYPE_MILEAGE) {
-                             export_csv.myCSV(report.header, report.rows, 'MileageReport_${report.year}.csv');
+                           if(report!.type == Report.TYPE_MILEAGE) {
+                             export_csv.myCSV(report!.header!, report!.rows!, fileName: 'MileageReport_${report!.year}.csv');
                            }
                            Navigator.of(context).pop();
                          },

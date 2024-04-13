@@ -42,15 +42,15 @@ class InvoiceDao extends Equatable{
   }
 
   static Future<void> _updateLastChangedTime() async {
-    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    Profile profile = (await ProfileDao.getAll())!.elementAt(0);
     profile.invoicesLastChangeDate = DateTime.now();
     ProfileDao.update(profile);
   }
 
   static Future insertOrUpdate(Invoice invoice, Job selectedJob) async {
-    List<Invoice> invoices = await getAllSortedByDueDate();
+    List<Invoice>? invoices = await getAllSortedByDueDate();
     bool alreadyExists = false;
-    for(Invoice singleInvoice in invoices){
+    for(Invoice singleInvoice in invoices!){
       if(singleInvoice.documentId == invoice.documentId){
         alreadyExists = true;
       }
@@ -58,9 +58,9 @@ class InvoiceDao extends Equatable{
     if(alreadyExists){
       await update(invoice, selectedJob);
     }else{
-      List<Invoice> allInvoices = await getAllSortedByDueDate();
-      List<Invoice> invoicesToDelete = List();
-      for(Invoice invoiceItem in allInvoices){
+      List<Invoice>? allInvoices = await getAllSortedByDueDate();
+      List<Invoice> invoicesToDelete = [];
+      for(Invoice invoiceItem in allInvoices!){
         if(invoiceItem.jobDocumentId == invoice.jobDocumentId) invoicesToDelete.add(invoiceItem);
       }
 
@@ -70,31 +70,31 @@ class InvoiceDao extends Equatable{
 
       await insert(invoice, selectedJob);
       List<NextInvoiceNumber> nextInvoiceNumbers = await NextInvoiceNumberDao.getAllSorted();
-      if(nextInvoiceNumbers.length == 0){
+      if(nextInvoiceNumbers.isEmpty){
         nextInvoiceNumbers.add(NextInvoiceNumber(highestInvoiceNumber: 1000));
         await NextInvoiceNumberCollection().setStartingValue(1000);
       }
       NextInvoiceNumber nextInvoiceNumber = nextInvoiceNumbers.elementAt(0);
-      nextInvoiceNumber.highestInvoiceNumber = (nextInvoiceNumber.highestInvoiceNumber + 1);
+      nextInvoiceNumber.highestInvoiceNumber = (nextInvoiceNumber.highestInvoiceNumber! + 1);
       await NextInvoiceNumberDao.insertOrUpdate(nextInvoiceNumber);
     }
   }
 
-  static Future update(Invoice invoice, Job jobToUpdate) async {
-    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', invoice.documentId));
+  static Future update(Invoice? invoice, Job? jobToUpdate) async {
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', invoice!.documentId));
     await _invoiceStore.update(
       await _db,
       invoice.toMap(),
       finder: finder,
     );
-    jobToUpdate.invoice = invoice;
+    jobToUpdate!.invoice = invoice;
     await JobDao.update(jobToUpdate);
     await InvoiceCollection().updateInvoice(invoice);
     _updateLastChangedTime();
   }
 
-  static Future updateInvoiceOnly(Invoice invoice) async {
-    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', invoice.documentId));
+  static Future updateInvoiceOnly(Invoice? invoice) async {
+    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', invoice!.documentId));
     await _invoiceStore.update(
       await _db,
       invoice.toMap(),
@@ -114,15 +114,15 @@ class InvoiceDao extends Equatable{
     await InvoiceCollection().updateInvoice(invoice);
   }
 
-  static Future deleteById(String documentId) async {
+  static Future deleteById(String? documentId) async {
     final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
     await _invoiceStore.delete(
       await _db,
       finder: finder,
     );
-    await InvoiceCollection().deleteInvoice(documentId);
-    List<Job> jobs = await JobDao.getAllJobs();
-    for(Job job in jobs){
+    await InvoiceCollection().deleteInvoice(documentId!);
+    List<Job>? jobs = await JobDao.getAllJobs();
+    for(Job job in jobs!){
       if(job.invoice?.documentId == documentId){
         job.invoice = null;
         await JobDao.update(job);
@@ -131,11 +131,13 @@ class InvoiceDao extends Equatable{
     _updateLastChangedTime();
   }
 
-  static Future deleteByInvoice(Invoice invoice) async {
-    await deleteById(invoice.documentId);
+  static Future deleteByInvoice(Invoice? invoice) async {
+    if(invoice != null) {
+      await deleteById(invoice.documentId);
+    }
   }
 
-  static Future<List<Invoice>> getAllSortedByDueDate() async {
+  static Future<List<Invoice>?> getAllSortedByDueDate() async {
     final finder = sembast.Finder(sortOrders: [
       sembast.SortOrder('year'),
     ]);
@@ -152,8 +154,8 @@ class InvoiceDao extends Equatable{
   // TODO: implement props
   List<Object> get props => [];
 
-  static Future<Invoice> getInvoiceById(String documentId) async{
-    if((await getAllSortedByDueDate()).length > 0) {
+  static Future<Invoice?> getInvoiceById(String documentId) async{
+    if((await getAllSortedByDueDate())!.isNotEmpty) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
       final recordSnapshots = await _invoiceStore.find(await _db, finder: finder);
       // Making a List<Client> out of List<RecordSnapshot>
@@ -162,7 +164,7 @@ class InvoiceDao extends Equatable{
         invoice.id = snapshot.key;
         return invoice;
       }).toList();
-      if(list.length > 0) {
+      if(list.isNotEmpty) {
         return list.elementAt(0);
       } else {
         return null;
@@ -183,11 +185,11 @@ class InvoiceDao extends Equatable{
   }
 
   static Future<void> syncAllFromFireStore() async {
-    List<Invoice> allLocalInvoices = await getAllSortedByDueDate();
-    List<Invoice> allFireStoreInvoices = await InvoiceCollection().getAllInvoicesSortedByDate(UidUtil().getUid());
+    List<Invoice>? allLocalInvoices = await getAllSortedByDueDate();
+    List<Invoice>? allFireStoreInvoices = await InvoiceCollection().getAllInvoicesSortedByDate(UidUtil().getUid());
 
-    if(allLocalInvoices != null && allLocalInvoices.length > 0) {
-      if(allFireStoreInvoices != null && allFireStoreInvoices.length > 0) {
+    if(allLocalInvoices != null && allLocalInvoices.isNotEmpty) {
+      if(allFireStoreInvoices != null && allFireStoreInvoices.isNotEmpty) {
         //both local and fireStore have Invoices
         //fireStore is source of truth for this sync.
         await _syncFireStoreToLocal(allLocalInvoices, allFireStoreInvoices);
@@ -196,7 +198,7 @@ class InvoiceDao extends Equatable{
         _deleteAllLocalInvoices(allLocalInvoices);
       }
     } else {
-      if(allFireStoreInvoices != null && allFireStoreInvoices.length > 0){
+      if(allFireStoreInvoices != null && allFireStoreInvoices.isNotEmpty){
         //no local Invoices but there are fireStore Invoices.
         await _copyAllFireStoreInvoicesToLocal(allFireStoreInvoices);
       } else {
@@ -225,7 +227,7 @@ class InvoiceDao extends Equatable{
     for(Invoice localInvoice in allLocalInvoices) {
       //should only be 1 matching
       List<Invoice> matchingFireStoreInvoices = allFireStoreInvoices.where((fireStoreInvoice) => localInvoice.documentId == fireStoreInvoice.documentId).toList();
-      if(matchingFireStoreInvoices !=  null && matchingFireStoreInvoices.length > 0) {
+      if(matchingFireStoreInvoices.isNotEmpty) {
         Invoice fireStoreInvoice = matchingFireStoreInvoices.elementAt(0);
         final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStoreInvoice.documentId));
         await _invoiceStore.update(
@@ -245,7 +247,7 @@ class InvoiceDao extends Equatable{
 
     for(Invoice fireStoreInvoice in allFireStoreInvoices) {
       List<Invoice> matchingLocalInvoices = allLocalInvoices.where((localInvoice) => localInvoice.documentId == fireStoreInvoice.documentId).toList();
-      if(matchingLocalInvoices != null && matchingLocalInvoices.length > 0) {
+      if(matchingLocalInvoices.isNotEmpty) {
         //do nothing. Invoice already synced.
       } else {
         //add to local. does not exist in local and has not been synced yet.
@@ -256,13 +258,13 @@ class InvoiceDao extends Equatable{
   }
 
   static void deleteAllLocal() async {
-    List<Invoice> invoices = await getAllSortedByDueDate();
-    _deleteAllLocalInvoices(invoices);
+    List<Invoice>? invoices = await getAllSortedByDueDate();
+    _deleteAllLocalInvoices(invoices!);
   }
 
   static void deleteAllRemote() async {
-    List<Invoice> invoices = await getAllSortedByDueDate();
-    for(Invoice invoice in invoices) {
+    List<Invoice>? invoices = await getAllSortedByDueDate();
+    for(Invoice invoice in invoices!) {
       await deleteById(invoice.documentId);
     }
   }

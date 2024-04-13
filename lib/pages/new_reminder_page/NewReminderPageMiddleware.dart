@@ -24,34 +24,34 @@ class NewReminderPageMiddleware extends MiddlewareClass<AppState> {
 
   void saveReminder(Store<AppState> store, SaveNewReminderAction action, NextDispatcher next) async{
     ReminderDandyLight reminder = ReminderDandyLight(
-      id: store.state.newReminderPageState.id,
-      documentId: store.state.newReminderPageState.documentId,
-      description: store.state.newReminderPageState.reminderDescription,
-      daysWeeksMonths: store.state.newReminderPageState.daysWeeksMonths,
-      when: store.state.newReminderPageState.when,
-      amount: store.state.newReminderPageState.daysWeeksMonthsAmount,
-      time: store.state.newReminderPageState.selectedTime,
+      id: store.state.newReminderPageState!.id,
+      documentId: store.state.newReminderPageState!.documentId,
+      description: store.state.newReminderPageState!.reminderDescription,
+      daysWeeksMonths: store.state.newReminderPageState!.daysWeeksMonths,
+      when: store.state.newReminderPageState!.when,
+      amount: store.state.newReminderPageState!.daysWeeksMonthsAmount,
+      time: store.state.newReminderPageState!.selectedTime,
     );
     await ReminderDao.insertOrUpdate(reminder);
 
     EventSender().sendEvent(eventName: EventNames.CREATED_REMINDER, properties: {
-      EventNames.REMINDER_PARAM_NAME : reminder.description,
-      EventNames.REMINDER_PARAM_BEFORE_ON_AFTER : reminder.when,
-      EventNames.REMINDER_PARAM_DAYS_WEEKS_MONTHS : reminder.daysWeeksMonths,
-      EventNames.REMINDER_PARAM_DAYS_WEEKS_MONTHS_AMOUNT : reminder.amount,
+      EventNames.REMINDER_PARAM_NAME : reminder.description!,
+      EventNames.REMINDER_PARAM_BEFORE_ON_AFTER : reminder.when!,
+      EventNames.REMINDER_PARAM_DAYS_WEEKS_MONTHS : reminder.daysWeeksMonths!,
+      EventNames.REMINDER_PARAM_DAYS_WEEKS_MONTHS_AMOUNT : reminder.amount!,
     });
 
     store.dispatch(ClearNewReminderStateAction(store.state.newReminderPageState));
-    store.dispatch(collectionReminders.FetchRemindersAction(store.state.remindersPageState));
+    store.dispatch(collectionReminders.FetchRemindersAction(store.state.remindersPageState!));
     store.dispatch(LoadPricesPackagesAndRemindersAction(store.state.newJobTypePageState));
   }
 
   void _deleteReminder(Store<AppState> store, DeleteReminderAction action, NextDispatcher next) async{
-    await ReminderDao.delete(store.state.newReminderPageState.documentId);
-    ReminderDandyLight reminder = await ReminderDao.getReminderById(action.pageState.documentId);
+    await ReminderDao.delete(store.state.newReminderPageState!.documentId!);
+    ReminderDandyLight? reminder = await ReminderDao.getReminderById(action.pageState!.documentId!);
     if(reminder != null) {
-      await ReminderDao.delete(action.pageState.documentId);
+      await ReminderDao.delete(action.pageState!.documentId!);
     }
-    store.dispatch(collectionReminders.FetchRemindersAction(store.state.remindersPageState));
+    store.dispatch(collectionReminders.FetchRemindersAction(store.state.remindersPageState!));
   }
 }

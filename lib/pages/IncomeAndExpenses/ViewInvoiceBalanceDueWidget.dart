@@ -29,7 +29,7 @@ class ViewInvoiceBalanceDueWidget extends StatelessWidget{
           TextDandyLight(
             type: TextDandyLight.LARGE_TEXT,
             text: '\$' +
-                invoice.unpaidAmount.toInt().toString(),
+                invoice.unpaidAmount!.toInt().toString(),
             textAlign: TextAlign.start,
             color: Color(ColorConstants.getPrimaryBlack()),
           ),

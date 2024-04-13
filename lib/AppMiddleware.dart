@@ -185,7 +185,6 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveNewInvoiceAction>(NewInvoicePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateJobOnInvoiceSent>(NewInvoicePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadAllInvoicesAction>(IncomeAndExpensePageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, InvoiceEditSelected>(IncomeAndExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteInvoiceAction>(IncomeAndExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, OnInvoiceSentAction>(IncomeAndExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadAllJobsAction>(IncomeAndExpensePageMiddleware()));
@@ -251,6 +250,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveMainSettingsHomeLocationAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, Generate50DiscountCodeAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, GenerateFreeDiscountCodeAction>(MainSettingsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, GenerateFirst3MonthsFreeCodeAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveNewReminderAction>(NewReminderPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteReminderAction>(NewReminderPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteReminderFromJobAction>(JobDetailsPageMiddleware()));
@@ -325,7 +325,6 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, ValidateCodeAction>(ManageSubscriptionPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, AssignDiscountCodeToUser>(ManageSubscriptionPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetJobForDetailsPage>(OnBoardingPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, SetSelectedLeadSourceAction>(OnBoardingPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SubmitUploadedPoseAction>(UploadPosePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetInstagramNameAction>(UploadPosePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, ResizeImageAction>(UploadPosePageMiddleware()));

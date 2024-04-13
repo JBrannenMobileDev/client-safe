@@ -43,12 +43,12 @@ class _JobTypeSelection extends State<JobTypeSelection>
                     color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
-                pageState.jobTypes.length > 0 ? Container(
+                pageState.jobTypes!.length > 0 ? Container(
                   height: 411.0,
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: AlwaysScrollableScrollPhysics(),
-                    itemCount: pageState.jobTypes.length,
+                    itemCount: pageState.jobTypes!.length,
                     itemBuilder: _buildItem,
                   ),
                 ) : Container(
@@ -77,12 +77,12 @@ class _JobTypeSelection extends State<JobTypeSelection>
                 borderRadius: new BorderRadius.circular(25.0),
               ),
               color: pageState.selectedJobType != null &&
-                  pageState.selectedJobType.documentId == pageState.jobTypes.elementAt(index).documentId ? Color(
+                  pageState.selectedJobType!.documentId == pageState.jobTypes!.elementAt(index).documentId ? Color(
                   ColorConstants.getPrimaryBackgroundGrey()) : Colors.transparent,
             ),
             onPressed: () {
-              pageState.onJobTypeSelected(
-                  pageState.jobTypes.elementAt(index));
+              pageState.onJobTypeSelected!(
+                  pageState.jobTypes!.elementAt(index));
             },
             child: Row(
               children: <Widget>[
@@ -103,7 +103,7 @@ class _JobTypeSelection extends State<JobTypeSelection>
                         children: <Widget>[
                           TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
-                            text: pageState.jobTypes.elementAt(index).title,
+                            text: pageState.jobTypes!.elementAt(index).title,
                             textAlign: TextAlign.start,
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),

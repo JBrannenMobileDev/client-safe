@@ -24,19 +24,17 @@ class MapLocationSelectionWidgetMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchLocationDetails(Store<AppState> store, NextDispatcher next, FetchSearchLocationDetails action) async {
-    LocationDandy selectedSearchLocation = await LocationDandy.LocationDandy(latitude: action.selectedSearchLocation.lat, longitude: action.selectedSearchLocation.lon, locationName: action.selectedSearchLocation.name, address: action.selectedSearchLocation.address);
+    LocationDandy selectedSearchLocation = LocationDandy.LocationDandy(latitude: action.selectedSearchLocation!.lat, longitude: action.selectedSearchLocation!.lon, locationName: action.selectedSearchLocation!.name, address: action.selectedSearchLocation!.address);
     store.dispatch(SetSelectedSearchLocation(store.state.mapLocationSelectionWidgetState, selectedSearchLocation));
   }
 
   void fetchLocations(Store<AppState> store, NextDispatcher next, FetchGoogleLocationsAction action) async {
-    List<PlacesLocation> locations = await GoogleApiClient(httpClient: http.Client()).getLocationResults(action.input);
+    List<PlacesLocation> locations = await GoogleApiClient(httpClient: http.Client()).getLocationResults(action.input!);
     store.dispatch(SetLocationResultsAction(store.state.mapLocationSelectionWidgetState, locations));
   }
 
   void setLocationData(Store<AppState> store, NextDispatcher next, SetLastKnowPosition action) async {
     Position positionLastKnown = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    if(positionLastKnown != null) {
-      store.dispatch(SetInitialMapLatLng(store.state.mapLocationSelectionWidgetState, positionLastKnown.latitude, positionLastKnown.longitude));
-    }
+    store.dispatch(SetInitialMapLatLng(store.state.mapLocationSelectionWidgetState, positionLastKnown.latitude, positionLastKnown.longitude));
   }
 }

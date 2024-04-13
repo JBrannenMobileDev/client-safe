@@ -13,54 +13,54 @@ import 'package:redux/redux.dart';
 import '../../models/rest_models/Hour.dart';
 
 class SunsetWeatherPageState {
-  final bool comingFromNewJob;
-  final int selectedFilterIndex;
-  final Function(int) onSelectorChanged;
-  final String locationName;
-  final Function() onFetchCurrentLocation;
-  final String morningBlueHour;
-  final String sunrise;
-  final String morningGoldenHour;
-  final String eveningGoldenHour;
-  final String sunset;
-  final DateTime sunsetTimestamp;
-  final String eveningBlueHour;
-  final String weatherDescription;
-  final String chanceOfRain;
-  final String cloudCoverage;
-  final String weatherIcon;
-  final DateTime selectedDate;
-  final String tempHigh;
-  final String tempLow;
-  final Function(DateTime) onDateSelected;
-  final bool showFartherThan7DaysError;
-  final bool isWeatherDataLoading;
-  final bool isSunsetDataLoading;
-  final List<HourWeather> hoursForecast;
-  final int pageViewIndex;
-  final Function() onNextPressed;
-  final Function() onSaveLocationSelected;
-  final Function() onCanceledSelected;
-  final Function() onBackPressed;
-  final List<LocationDandy> locations;
-  final List<File> locationImages;
-  final LocationDandy selectedLocation;
-  final Function(LocationDandy) onLocationSelected;
-  final Function() onLocationSaved;
-  final String documentPath;
-  final LatLng currentMapLatLng;
-  final Function(LatLng) onMapLocationChanged;
-  final Function() onMapLocationSaved;
-  final double lat;
-  final double lng;
-  final Function(String) onSearchInputChanged;
-  final Function(String) onThrottleGetLocations;
-  final String searchText;
-  final List<PlacesLocation> locationsResults;
-  final Function(PlacesLocation) onSearchLocationSelected;
-  final LocationDandy selectedSearchLocation;
-  final Function() chooseLocationSelected;
-  final Function() clearPageState;
+  final bool? comingFromNewJob;
+  final int? selectedFilterIndex;
+  final Function(int)? onSelectorChanged;
+  final String? locationName;
+  final Function()? onFetchCurrentLocation;
+  final String? morningBlueHour;
+  final String? sunrise;
+  final String? morningGoldenHour;
+  final String? eveningGoldenHour;
+  final String? sunset;
+  final DateTime? sunsetTimestamp;
+  final String? eveningBlueHour;
+  final String? weatherDescription;
+  final String? chanceOfRain;
+  final String? cloudCoverage;
+  final String? weatherIcon;
+  final DateTime? selectedDate;
+  final String? tempHigh;
+  final String? tempLow;
+  final Function(DateTime)? onDateSelected;
+  final bool? showFartherThan7DaysError;
+  final bool? isWeatherDataLoading;
+  final bool? isSunsetDataLoading;
+  final List<HourWeather>? hoursForecast;
+  final int? pageViewIndex;
+  final Function()? onNextPressed;
+  final Function()? onSaveLocationSelected;
+  final Function()? onCanceledSelected;
+  final Function()? onBackPressed;
+  final List<LocationDandy>? locations;
+  final List<File?>? locationImages;
+  final LocationDandy? selectedLocation;
+  final Function(LocationDandy)? onLocationSelected;
+  final Function()? onLocationSaved;
+  final String? documentPath;
+  final LatLng? currentMapLatLng;
+  final Function(LatLng)? onMapLocationChanged;
+  final Function()? onMapLocationSaved;
+  final double? lat;
+  final double? lng;
+  final Function(String)? onSearchInputChanged;
+  final Function(String)? onThrottleGetLocations;
+  final String? searchText;
+  final List<PlacesLocation>? locationsResults;
+  final Function(PlacesLocation)? onSearchLocationSelected;
+  final LocationDandy? selectedSearchLocation;
+  final Function()? chooseLocationSelected;
+  final Function()? clearPageState;
 
   SunsetWeatherPageState({
     @required this.selectedFilterIndex,
@@ -114,54 +114,54 @@ class SunsetWeatherPageState {
   });
 
   SunsetWeatherPageState copyWith({
-    bool comingFromNewJob,
-    int selectedFilterIndex,
-    Function(int) onSelectorChanged,
-    String locationName,
-    Function() onFetchCurrentLocation,
-    String morningBlueHour,
-    String sunrise,
-    String morningGoldenHour,
-    String eveningGoldenHour,
-    String sunset,
-    String eveningBlueHour,
-    String weatherDescription,
-    String chanceOfRain,
-    String cloudCoverage,
-    String weatherIcon,
-    DateTime selectedDate,
-    String tempHigh,
-    String tempLow,
-    Function(DateTime) onDateSelected,
-    DateTime sunsetTimestamp,
-    bool showFartherThan7DaysError,
-    bool isWeatherDataLoading,
-    bool isSunsetDataLoading,
-    List<HourWeather> hoursForecast,
-    int pageViewIndex,
-    Function() onNextPressed,
-    Function() onSaveLocationSelected,
-    Function() onCanceledSelected,
-    Function() onBackPressed,
-    List<LocationDandy> locations,
-    List<File> locationImages,
-    LocationDandy selectedLocation,
-    Function(LocationDandy) onLocationSelected,
-    String documentPath,
-    Function() onLocationSaved,
-    LatLng currentMapLatLng,
-    Function(LatLng) onMapLocationChanged,
-    Function() onMapLocationSaved,
-    double lat,
-    double lng,
-    Function(String) onSearchInputChanged,
-    String searchText,
-    List<PlacesLocation> locationResults,
-    Function(PlacesLocation) onSearchLocationSelected,
-    LocationDandy selectedSearchLocation,
-    Function(String) onThrottleGetLocations,
-    Function() chooseLocationSelected,
-    Function() clearPageState,
+    bool? comingFromNewJob,
+    int? selectedFilterIndex,
+    Function(int)? onSelectorChanged,
+    String? locationName,
+    Function()? onFetchCurrentLocation,
+    String? morningBlueHour,
+    String? sunrise,
+    String? morningGoldenHour,
+    String? eveningGoldenHour,
+    String? sunset,
+    String? eveningBlueHour,
+    String? weatherDescription,
+    String? chanceOfRain,
+    String? cloudCoverage,
+    String? weatherIcon,
+    DateTime? selectedDate,
+    String? tempHigh,
+    String? tempLow,
+    Function(DateTime)? onDateSelected,
+    DateTime? sunsetTimestamp,
+    bool? showFartherThan7DaysError,
+    bool? isWeatherDataLoading,
+    bool? isSunsetDataLoading,
+    List<HourWeather>? hoursForecast,
+    int? pageViewIndex,
+    Function()? onNextPressed,
+    Function()? onSaveLocationSelected,
+    Function()? onCanceledSelected,
+    Function()? onBackPressed,
+    List<LocationDandy>? locations,
+    List<File?>? locationImages,
+    LocationDandy? selectedLocation,
+    Function(LocationDandy)? onLocationSelected,
+    String? documentPath,
+    Function()? onLocationSaved,
+    LatLng? currentMapLatLng,
+    Function(LatLng)? onMapLocationChanged,
+    Function()? onMapLocationSaved,
+    double? lat,
+    double? lng,
+    Function(String)? onSearchInputChanged,
+    String? searchText,
+    List<PlacesLocation>? locationResults,
+    Function(PlacesLocation)? onSearchLocationSelected,
+    LocationDandy? selectedSearchLocation,
+    Function(String)? onThrottleGetLocations,
+    Function()? chooseLocationSelected,
+    Function()? clearPageState,
   }){
     return SunsetWeatherPageState(
       selectedFilterIndex: selectedFilterIndex ?? this.selectedFilterIndex,
@@ -268,42 +268,42 @@ class SunsetWeatherPageState {
 
   factory SunsetWeatherPageState.fromStore(Store<AppState> store) {
     return SunsetWeatherPageState(
-      comingFromNewJob: store.state.sunsetWeatherPageState.comingFromNewJob,
-      selectedFilterIndex: store.state.sunsetWeatherPageState.selectedFilterIndex,
-      locationName: store.state.sunsetWeatherPageState.locationName,
-      morningBlueHour: store.state.sunsetWeatherPageState.morningBlueHour,
-      sunrise: store.state.sunsetWeatherPageState.sunrise,
-      morningGoldenHour: store.state.sunsetWeatherPageState.morningGoldenHour,
-      eveningGoldenHour: store.state.sunsetWeatherPageState.eveningGoldenHour,
-      sunset: store.state.sunsetWeatherPageState.sunset,
-      eveningBlueHour: store.state.sunsetWeatherPageState.eveningBlueHour,
-      weatherDescription: store.state.sunsetWeatherPageState.weatherDescription,
-      chanceOfRain: store.state.sunsetWeatherPageState.chanceOfRain,
-      cloudCoverage: store.state.sunsetWeatherPageState.cloudCoverage,
-      weatherIcon: store.state.sunsetWeatherPageState.weatherIcon,
-      selectedDate: store.state.sunsetWeatherPageState.selectedDate,
-      tempHigh: store.state.sunsetWeatherPageState.tempHigh,
-      tempLow: store.state.sunsetWeatherPageState.tempLow,
-      sunsetTimestamp: store.state.sunsetWeatherPageState.sunsetTimestamp,
-      isWeatherDataLoading: store.state.sunsetWeatherPageState.isWeatherDataLoading,
-      isSunsetDataLoading: store.state.sunsetWeatherPageState.isSunsetDataLoading,
-      showFartherThan7DaysError: store.state.sunsetWeatherPageState.showFartherThan7DaysError,
-      hoursForecast: store.state.sunsetWeatherPageState.hoursForecast,
-      pageViewIndex: store.state.sunsetWeatherPageState.pageViewIndex,
-      onNextPressed: store.state.sunsetWeatherPageState.onNextPressed,
-      onSaveLocationSelected: store.state.sunsetWeatherPageState.onSaveLocationSelected,
-      onCanceledSelected: store.state.sunsetWeatherPageState.onCanceledSelected,
-      onBackPressed: store.state.sunsetWeatherPageState.onBackPressed,
-      locations: store.state.sunsetWeatherPageState.locations,
-      selectedLocation: store.state.sunsetWeatherPageState.selectedLocation,
-      documentPath: store.state.sunsetWeatherPageState.documentPath,
-      currentMapLatLng: store.state.sunsetWeatherPageState.currentMapLatLng,
-      lat: store.state.sunsetWeatherPageState.lat,
-      lng: store.state.sunsetWeatherPageState.lng,
-      searchText: store.state.sunsetWeatherPageState.searchText,
-      locationsResults: store.state.sunsetWeatherPageState.locationsResults,
-      selectedSearchLocation: store.state.sunsetWeatherPageState.selectedSearchLocation,
-      locationImages: store.state.sunsetWeatherPageState.locationImages,
+      comingFromNewJob: store.state.sunsetWeatherPageState!.comingFromNewJob,
+      selectedFilterIndex: store.state.sunsetWeatherPageState!.selectedFilterIndex,
+      locationName: store.state.sunsetWeatherPageState!.locationName,
+      morningBlueHour: store.state.sunsetWeatherPageState!.morningBlueHour,
+      sunrise: store.state.sunsetWeatherPageState!.sunrise,
+      morningGoldenHour: store.state.sunsetWeatherPageState!.morningGoldenHour,
+      eveningGoldenHour: store.state.sunsetWeatherPageState!.eveningGoldenHour,
+      sunset: store.state.sunsetWeatherPageState!.sunset,
+      eveningBlueHour: store.state.sunsetWeatherPageState!.eveningBlueHour,
+      weatherDescription: store.state.sunsetWeatherPageState!.weatherDescription,
+      chanceOfRain: store.state.sunsetWeatherPageState!.chanceOfRain,
+      cloudCoverage: store.state.sunsetWeatherPageState!.cloudCoverage,
+      weatherIcon: store.state.sunsetWeatherPageState!.weatherIcon,
+      selectedDate: store.state.sunsetWeatherPageState!.selectedDate,
+      tempHigh: store.state.sunsetWeatherPageState!.tempHigh,
+      tempLow: store.state.sunsetWeatherPageState!.tempLow,
+      sunsetTimestamp: store.state.sunsetWeatherPageState!.sunsetTimestamp,
+      isWeatherDataLoading: store.state.sunsetWeatherPageState!.isWeatherDataLoading,
+      isSunsetDataLoading: store.state.sunsetWeatherPageState!.isSunsetDataLoading,
+      showFartherThan7DaysError: store.state.sunsetWeatherPageState!.showFartherThan7DaysError,
+      hoursForecast: store.state.sunsetWeatherPageState!.hoursForecast,
+      pageViewIndex: store.state.sunsetWeatherPageState!.pageViewIndex,
+      onNextPressed: store.state.sunsetWeatherPageState!.onNextPressed,
+      onSaveLocationSelected: store.state.sunsetWeatherPageState!.onSaveLocationSelected,
+      onCanceledSelected: store.state.sunsetWeatherPageState!.onCanceledSelected,
+      onBackPressed: store.state.sunsetWeatherPageState!.onBackPressed,
+      locations: store.state.sunsetWeatherPageState!.locations,
+      selectedLocation: store.state.sunsetWeatherPageState!.selectedLocation,
+      documentPath: store.state.sunsetWeatherPageState!.documentPath,
+      currentMapLatLng: store.state.sunsetWeatherPageState!.currentMapLatLng,
+      lat: store.state.sunsetWeatherPageState!.lat,
+      lng: store.state.sunsetWeatherPageState!.lng,
+      searchText: store.state.sunsetWeatherPageState!.searchText,
+      locationsResults: store.state.sunsetWeatherPageState!.locationsResults,
+      selectedSearchLocation: store.state.sunsetWeatherPageState!.selectedSearchLocation,
+      locationImages: store.state.sunsetWeatherPageState!.locationImages,
       onSelectorChanged: (index) => store.dispatch(FilterSelectorChangedAction(store.state.sunsetWeatherPageState, index)),
       onFetchCurrentLocation: () => store.dispatch(SetLastKnowPosition(store.state.sunsetWeatherPageState)),
       onDateSelected: (newDate) => store.dispatch(FetchDataForSelectedDateAction(store.state.sunsetWeatherPageState, newDate)),

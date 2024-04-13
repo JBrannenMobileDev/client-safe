@@ -1,12 +1,12 @@
 
 class ColorTheme {
-  int id;
-  String themeName;
-  String bannerColor;
-  String iconColor;
-  String iconTextColor;
-  String buttonColor;
-  String buttonTextColor;
+  int? id;
+  String? themeName;
+  String? bannerColor;
+  String? iconColor;
+  String? iconTextColor;
+  String? buttonColor;
+  String? buttonTextColor;
 
   ColorTheme({
     this.id,

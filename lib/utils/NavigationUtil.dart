@@ -47,13 +47,14 @@ import '../pages/income_expense_settings_page/ReportsPage.dart';
 import '../pages/edit_branding_page/EditBrandingPage.dart';
 import '../pages/new_question_page/NewQuestionPage.dart';
 import '../pages/new_questionnaire_page/NewQuestionnairePage.dart';
+import '../pages/main_settings_page/BookAZoomCallPage.dart';
 import '../pages/poses_page/PosesPage.dart';
 import '../pages/questionnaires_page/QuestionnairesPage.dart';
 import '../pages/share_with_client_page/ShareWithClientPage.dart';
 
 class NavigationUtil {
   static onShowSubscribeNowPage(BuildContext context) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => SubscribeNowPage(profile: profile,)));
   }
   static onClientTapped(BuildContext context) {
@@ -80,7 +81,7 @@ class NavigationUtil {
   static onRecurringChargeSelected(BuildContext context, RecurringExpense recurringExpense) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => RecurringExpenseDetailsPage(recurringExpense)));
   }
-  static onSelectMapLocation(BuildContext context, Function(LatLng) onLocationSaved, double lat, double lng, Function(LocationDandy) saveSelectedLocation) {
+  static onSelectMapLocation(BuildContext context, Function(LatLng)? onLocationSaved, double lat, double lng, Function(LocationDandy)? saveSelectedLocation) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => MapLocationSelectionWidget(onLocationSaved, lat, lng, saveSelectedLocation)));
   }
   static onSignOutSelected(BuildContext context) async {
@@ -107,6 +108,9 @@ class NavigationUtil {
   static onEditProfileSelected(BuildContext context, Profile profile) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditAccountPage(profile)));
   }
+  static onBookACallSelected(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => BookAZoomCallPage()));
+  }
   static onShareWIthClientSelected(BuildContext context, Job job) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ShareWithClientPage(job: job)));
   }
@@ -128,7 +132,7 @@ class NavigationUtil {
   static onManageSubscriptionSelected(BuildContext context, Profile profile) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ManageSubscriptionPage(profile)));
   }
-  static onStageStatsSelected(BuildContext context, DashboardPageState pageState, String title, JobStage stage, bool isActiveJobs) {
+  static onStageStatsSelected(BuildContext context, DashboardPageState pageState, String title, JobStage? stage, bool isActiveJobs) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobListPage(pageState: pageState, pageTitle: title, stage: stage, isActiveJobs: isActiveJobs)));
   }
   static onDashboardContractsSelected(BuildContext context, DashboardPageState pageState, bool signed) {
@@ -152,10 +156,10 @@ class NavigationUtil {
   static onUploadPoseSelected(BuildContext context, Profile profile) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => UploadPosePage(profile)));
   }
-  static onPosesSelected(BuildContext context, Job job, bool comingFromJobDetails, bool goToSubmittedPoses) {
+  static onPosesSelected(BuildContext context, Job? job, bool comingFromJobDetails, bool goToSubmittedPoses) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => PosesPage(job, comingFromJobDetails, goToSubmittedPoses)));
   }
-  static onSearchPosesSelected(BuildContext context, Job job, bool comingFromJobDetails) {
+  static onSearchPosesSelected(BuildContext context, Job? job, bool comingFromJobDetails) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => PosesSearchPage(job, comingFromJobDetails)));
   }
   static void onSuccessfulLogin(BuildContext context) {

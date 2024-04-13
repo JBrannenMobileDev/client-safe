@@ -16,7 +16,7 @@ final mapLocationSelectionWidgetReducer = combineReducers<MapLocationSelectionWi
 MapLocationSelectionWidgetState _clearSearchText(MapLocationSelectionWidgetState previousState, ClearSearchTextAction action){
   return previousState.copyWith(
     searchText: '',
-      locationResults: List(),
+      locationResults: [],
   );
 }
 
@@ -45,8 +45,8 @@ MapLocationSelectionWidgetState _setLocationResults(MapLocationSelectionWidgetSt
 
 MapLocationSelectionWidgetState _setCurrentMapLatLng(MapLocationSelectionWidgetState previousState, SetCurrentMapLatLngAction action){
   return previousState.copyWith(
-    lat: action.currentLatLng.latitude,
-    lng: action.currentLatLng.longitude,
+    lat: action.currentLatLng!.latitude,
+    lng: action.currentLatLng!.longitude,
   );
 }
 

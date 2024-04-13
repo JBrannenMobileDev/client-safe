@@ -1,9 +1,6 @@
 import 'dart:async';
 
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
-import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
-import 'package:dandylight/data_layer/repositories/FileStorage.dart';
-import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart' as sembast;
@@ -35,9 +32,9 @@ class ContractTemplateDao extends Equatable{
   }
 
   static Future<Contract> insertOrUpdate(Contract contract) async {
-    List<Contract> contractList = await getAll();
+    List<Contract>? contractList = await getAll();
     bool alreadyExists = false;
-    for(Contract singleContract in contractList){
+    for(Contract singleContract in contractList!){
       if(singleContract.documentId == contract.documentId){
         alreadyExists = true;
       }
@@ -49,8 +46,8 @@ class ContractTemplateDao extends Equatable{
     }
   }
 
-  static Future<Contract> getById(String contractDocumentId) async{
-    if((await getAll()).length > 0) {
+  static Future<Contract?> getById(String contractDocumentId) async{
+    if((await getAll())!.isNotEmpty) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', contractDocumentId));
       final recordSnapshots = await _contractTemplateStore.find(await _db, finder: finder);
       // Making a List<profileId> out of List<RecordSnapshot>
@@ -93,16 +90,16 @@ class ContractTemplateDao extends Equatable{
     );
   }
 
-  static Future delete(String documentId) async {
+  static Future delete(String? documentId) async {
     final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
-    int countOfUpdatedItems = await _contractTemplateStore.delete(
+    await _contractTemplateStore.delete(
       await _db,
       finder: finder,
     );
     await ContractTemplateCollection().deleteJob(documentId);
   }
 
-  static Future<List<Contract>> getAll() async {
+  static Future<List<Contract>?> getAll() async {
     final recordSnapshots = await _contractTemplateStore.find(await _db);
 
     // Making a List<Client> out of List<RecordSnapshot>
@@ -114,11 +111,11 @@ class ContractTemplateDao extends Equatable{
   }
 
   static Future<void> syncAllFromFireStore() async {
-    List<Contract> allLocalContracts = await getAll();
-    List<Contract> allFireStoreContracts = await ContractTemplateCollection().getAll(UidUtil().getUid());
+    List<Contract>? allLocalContracts = await getAll();
+    List<Contract>? allFireStoreContracts = await ContractTemplateCollection().getAll(UidUtil().getUid());
 
-    if(allLocalContracts != null && allLocalContracts.length > 0) {
-      if(allFireStoreContracts != null && allFireStoreContracts.length > 0) {
+    if(allLocalContracts != null && allLocalContracts.isNotEmpty) {
+      if(allFireStoreContracts != null && allFireStoreContracts.isNotEmpty) {
         //both local and fireStore have Contracts
         //fireStore is source of truth for this sync.
         await _syncFireStoreToLocal(allLocalContracts, allFireStoreContracts);
@@ -127,7 +124,7 @@ class ContractTemplateDao extends Equatable{
         _deleteAllLocalContracts(allLocalContracts);
       }
     } else {
-      if(allFireStoreContracts != null && allFireStoreContracts.length > 0){
+      if(allFireStoreContracts != null && allFireStoreContracts.isNotEmpty){
         //no local Contracts but there are fireStore Contracts.
         await _copyAllFireStoreContractsToLocal(allFireStoreContracts);
       } else {
@@ -156,7 +153,7 @@ class ContractTemplateDao extends Equatable{
     for(Contract localContract in allLocalContracts) {
       //should only be 1 matching
       List<Contract> matchingFireStoreContracts = allFireStoreContracts.where((fireStoreContract) => localContract.documentId == fireStoreContract.documentId).toList();
-      if(matchingFireStoreContracts !=  null && matchingFireStoreContracts.length > 0) {
+      if(matchingFireStoreContracts.isNotEmpty) {
         Contract fireStoreContract = matchingFireStoreContracts.elementAt(0);
         final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStoreContract.documentId));
         await _contractTemplateStore.update(
@@ -176,7 +173,7 @@ class ContractTemplateDao extends Equatable{
 
     for(Contract fireStoreContract in allFireStoreContracts) {
       List<Contract> matchingLocalContracts = allLocalContracts.where((localContract) => localContract.documentId == fireStoreContract.documentId).toList();
-      if(matchingLocalContracts != null && matchingLocalContracts.length > 0) {
+      if(matchingLocalContracts.isNotEmpty) {
         //do nothing. Contract already synced.
       } else {
         //add to local. does not exist in local and has not been synced yet.
@@ -191,13 +188,13 @@ class ContractTemplateDao extends Equatable{
   List<Object> get props => [];
 
   static void deleteAllLocal() async {
-    List<Contract> contracts = await getAll();
-    _deleteAllLocalContracts(contracts);
+    List<Contract>? contracts = await getAll();
+    _deleteAllLocalContracts(contracts!);
   }
 
   static void deleteAllRemote() async {
-    List<Contract> contracts = await getAll();
-    for(Contract contract in contracts) {
+    List<Contract>? contracts = await getAll();
+    for(Contract contract in contracts!) {
       await delete(contract.documentId);
     }
   }

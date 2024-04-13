@@ -21,8 +21,8 @@ class NewDateSelectionDialog extends StatefulWidget {
 }
 
 class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
-  AnimationController _animationController;
-  List<EventDandyLight> _events;
+  AnimationController? _animationController;
+  List<EventDandyLight>? _events;
 
   @override
   void initState() {
@@ -33,23 +33,23 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
       duration: const Duration(milliseconds: 400),
     );
 
-    _animationController.forward();
+    _animationController!.forward();
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
+    _animationController!.dispose();
     super.dispose();
   }
 
   void _onDaySelected(DateTime day, List events, JobDetailsPageState pageState) {
     setState(() {
       CalendarUtil.buildEventList(
-        pageState.job.selectedDate,
+        pageState.job!.selectedDate,
         pageState.eventList,
-        pageState.job.selectedDate.year,
-        pageState.job.selectedDate.month,
-        pageState.job.selectedDate.day,
+        pageState.job!.selectedDate!.year,
+        pageState.job!.selectedDate!.month,
+        pageState.job!.selectedDate!.day,
         pageState.jobs,
         pageState.onJobClicked,
       );
@@ -90,9 +90,9 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
               Expanded(child: CalendarUtil.buildEventList(
                   pageState.selectedDate,
                   pageState.eventList,
-                  pageState.selectedDate != null ? pageState.selectedDate.year : DateTime.now().year,
-                  pageState.selectedDate != null ? pageState.selectedDate.month : DateTime.now().month,
-                  pageState.selectedDate != null ? pageState.selectedDate.day : DateTime.now().day,
+                  pageState.selectedDate != null ? pageState.selectedDate!.year : DateTime.now().year,
+                  pageState.selectedDate != null ? pageState.selectedDate!.month : DateTime.now().month,
+                  pageState.selectedDate != null ? pageState.selectedDate!.day : DateTime.now().day,
                   pageState.jobs,
                   pageState.onJobClicked,
                 ),
@@ -117,7 +117,7 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
                     TextButton(
                       style: Styles.getButtonStyle(),
                       onPressed: () {
-                        pageState.onSaveSelectedDate();
+                        pageState.onSaveSelectedDate!();
                         VibrateUtil.vibrateHeavy();
                         Navigator.of(context).pop();
                       },
@@ -143,7 +143,7 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
     _events = pageState.eventList;
     return TableCalendar(
       locale: 'en_US',
-      eventLoader: (day) => _events.where((event) => isSameDay(event.selectedDate ?? DateTime.now() ,day)).toList(), //THIS IS IMPORTANT,
+      eventLoader: (day) => _events!.where((event) => isSameDay(event.selectedDate ?? DateTime.now() ,day)).toList(), //THIS IS IMPORTANT,
       calendarFormat: CalendarFormat.month,
       startingDayOfWeek: StartingDayOfWeek.sunday,
       availableGestures: AvailableGestures.all,
@@ -155,7 +155,7 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
         CalendarFormat.week: '',
       },
       onPageChanged: (focusedDay) {
-        pageState.onMonthChanged(focusedDay);
+        pageState.onMonthChanged!(focusedDay);
       },
       selectedDayPredicate: (day) => isSameDay(pageState.selectedDate ?? DateTime.now(), day),
       calendarStyle: CalendarStyle(
@@ -230,7 +230,7 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
       calendarBuilders: CalendarBuilders(
         selectedBuilder: (context, date, _) {
           return FadeTransition(
-            opacity: Tween(begin: 0.0, end: 1.0).animate(_animationController),
+            opacity: Tween(begin: 0.0, end: 1.0).animate(_animationController!),
             child: Container(
               alignment: Alignment.center,
               margin: const EdgeInsets.all(4.0),
@@ -278,9 +278,9 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
         },
       ),
       onDaySelected: (date, events) {
-        pageState.onNewDateSelected(date);
-        _onDaySelected(date, _events.where((event) => isSameDay(event.selectedDate,date)).toList(), pageState);
-        _animationController.forward(from: 0.0);
+        pageState.onNewDateSelected!(date);
+        _onDaySelected(date, _events!.where((event) => isSameDay(event.selectedDate,date)).toList(), pageState);
+        _animationController!.forward(from: 0.0);
       },
     );
   }
@@ -329,7 +329,7 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
       width: 8.0,
       height: 8.0,
       decoration: BoxDecoration(
-          shape: BoxShape.circle, color: Color(!event.isPersonalEvent ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryBackgroundGrey())),
+          shape: BoxShape.circle, color: Color(!event.isPersonalEvent! ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryBackgroundGrey())),
     );
   }
 

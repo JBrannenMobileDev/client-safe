@@ -12,7 +12,7 @@ import 'DashboardPageState.dart';
 
 
 class RequestPMFSurveyBottomSheet extends StatefulWidget {
-  const RequestPMFSurveyBottomSheet({Key key}) : super(key: key);
+  const RequestPMFSurveyBottomSheet({Key? key}) : super(key: key);
 
 
   @override
@@ -66,7 +66,7 @@ class _RequestPMFSurveyBottomSheetState extends State<RequestPMFSurveyBottomShee
                   GestureDetector(
                     onTap: () {
                       IntentLauncherUtil.launchPMFSurvey();
-                      pageState.updateCanShowPMF(false, DateTime.now());
+                      pageState.updateCanShowPMF!(false, DateTime.now());
                       EventSender().sendEvent(eventName: EventNames.BT_TAKE_PMF_SURVEY);
                     },
                     child: Container(
@@ -91,9 +91,9 @@ class _RequestPMFSurveyBottomSheetState extends State<RequestPMFSurveyBottomShee
                      mainAxisAlignment: MainAxisAlignment.center,
                      children: [
                        Checkbox(
-                         value: !pageState.profile.canShowPMFSurvey,
+                         value: !pageState.profile!.canShowPMFSurvey!,
                          onChanged: (checked) {
-                           pageState.updateCanShowPMF(!checked, DateTime.now());
+                           pageState.updateCanShowPMF!(!checked!, DateTime.now());
                          },
                          checkColor: Color(ColorConstants.getPrimaryWhite()),
                          fillColor: MaterialStateProperty.resolveWith(getColor),

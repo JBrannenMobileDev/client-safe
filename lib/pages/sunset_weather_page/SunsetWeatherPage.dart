@@ -24,7 +24,7 @@ class SunsetWeatherPage extends StatefulWidget {
   static const String FILTER_TYPE_EVENING = "Evening";
   static const String FILTER_TYPE_MORNING = "Morning";
 
-  const SunsetWeatherPage({Key key}) : super(key: key);
+  const SunsetWeatherPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -53,7 +53,6 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
             CustomScrollView(
               slivers: <Widget>[
                 SliverAppBar(
-                  brightness: Brightness.light,
                   backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                   pinned: true,
                   centerTitle: true,
@@ -64,7 +63,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                     color: Color(ColorConstants.getPrimaryBlack()),
                     tooltip: 'Close',
                     onPressed: () {
-                      pageState.clearPageState();
+                      pageState.clearPageState!();
                       Navigator.of(context).pop();
                     },
                   ),
@@ -83,15 +82,15 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                           margin: const EdgeInsets.only(top: 8.0, left: 0.0, bottom: 8),
                           child: TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
-                            text: '${DateFormat('EEEE').format(pageState.selectedDate)} - ${pageState.weatherDescription}',
+                            text: '${DateFormat('EEEE').format(pageState.selectedDate!)} - ${pageState.weatherDescription}',
                             textAlign: TextAlign.center,
                             overflow: TextOverflow.fade,
                             maxLines: 1,
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
-                        pageState.isWeatherDataLoading
-                            ? pageState.showFartherThan7DaysError
+                        pageState.isWeatherDataLoading!
+                            ? pageState.showFartherThan7DaysError!
                             ? Container(
                           alignment: Alignment.center,
                           margin: const EdgeInsets.only(
@@ -142,7 +141,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                 shape: BoxShape.circle,
                               ),
                               child: pageState.weatherIcon != null
-                                  ? Image.asset(pageState.weatherIcon, color: Color(ColorConstants.getBlueLight()),)
+                                  ? Image.asset(pageState.weatherIcon!, color: Color(ColorConstants.getBlueLight()),)
                                   : const SizedBox(),
                             ),
                             Container(
@@ -221,7 +220,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                         TextButton(
                           style: Styles.getButtonStyle(),
                           onPressed: () {
-                            pageState.chooseLocationSelected();
+                            pageState.chooseLocationSelected!();
                             UserOptionsUtil.showSelectLocationDialog(context);
                           },
                           child: Container(
@@ -274,7 +273,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                     ),
                                   ),
                                   onConfirm: (dateTime, intList) {
-                                    pageState.onDateSelected(dateTime);
+                                    pageState.onDateSelected!(dateTime);
                                   });
                             },
                             child: Container(
@@ -296,7 +295,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                   TextDandyLight(
                                     type: TextDandyLight.MEDIUM_TEXT,
                                     text: DateFormat('MMM dd, yyy')
-                                        .format(pageState.selectedDate),
+                                        .format(pageState.selectedDate!),
                                     textAlign: TextAlign.start,
                                     overflow: TextOverflow.fade,
                                     maxLines: 1,
@@ -308,8 +307,8 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                             ),
                           ),
                         ),
-                        pageState.isWeatherDataLoading
-                            ? pageState.hoursForecast.isEmpty
+                        pageState.isWeatherDataLoading!
+                            ? pageState.hoursForecast!.isEmpty
                             ? Container(
                           alignment: Alignment.center,
                           margin: const EdgeInsets.only(
@@ -346,7 +345,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                             ],
                           ),
                         )
-                            : pageState.hoursForecast.isNotEmpty ? Container(
+                            : pageState.hoursForecast!.isNotEmpty ? Container(
                           alignment: Alignment.center,
                           padding: const EdgeInsets.all(0.0),
                           margin: const EdgeInsets.only(top: 0.0, bottom: 32.0),
@@ -354,7 +353,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                           child: ListView.builder(
                             controller: _controller,
                             shrinkWrap: true,
-                            itemCount: pageState.hoursForecast.length,
+                            itemCount: pageState.hoursForecast!.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: _buildSingleDayForecastItem,
                           ),
@@ -385,7 +384,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
-                        pageState.isSunsetDataLoading
+                        pageState.isSunsetDataLoading!
                             ? SizedBox(
                           height:
                           (MediaQuery.of(context).size.width / 4) + 16,
@@ -508,7 +507,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
-                        pageState.isSunsetDataLoading
+                        pageState.isSunsetDataLoading!
                             ? SizedBox(
                           height:
                           (MediaQuery.of(context).size.width / 4) + 16,
@@ -685,7 +684,7 @@ Widget _buildSingleDayForecastItem(BuildContext context, int index) {
           children: <Widget>[
             TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
-              text: _getHourText(pageState.hoursForecast.elementAt(index).dateTime),
+              text: _getHourText(pageState.hoursForecast!.elementAt(index).dateTime!),
               textAlign: TextAlign.start,
               color: Color(ColorConstants.getPrimaryBlack()),
             ),
@@ -696,13 +695,13 @@ Widget _buildSingleDayForecastItem(BuildContext context, int index) {
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
               ),
-              child: Image.asset(getWeatherIcon(pageState.hoursForecast.elementAt(index).weatherIcon), color: Color(ColorConstants.getBlueLight()),),
+              child: Image.asset(getWeatherIcon(pageState.hoursForecast!.elementAt(index).weatherIcon!), color: Color(ColorConstants.getBlueLight()),),
             ),
             TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
-              text: '${pageState.hoursForecast
+              text: '${pageState.hoursForecast!
                       .elementAt(index)
-                      .temperature.value.toInt()}°',
+                      .temperature!.value!.toInt()}°',
               textAlign: TextAlign.start,
               color: Color(ColorConstants.getPrimaryBlack()),
             ),

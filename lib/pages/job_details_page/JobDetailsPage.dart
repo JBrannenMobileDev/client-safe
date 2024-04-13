@@ -44,10 +44,10 @@ import 'PosesCard.dart';
 import 'SunsetWeatherCard.dart';
 
 class JobDetailsPage extends StatefulWidget {
-  const JobDetailsPage({Key key, this.destination, this.comingFromOnBoarding = false, this.jobDocumentId}) : super(key: key);
-  final JobDetailsPage destination;
-  final bool comingFromOnBoarding;
-  final String jobDocumentId;
+  const JobDetailsPage({Key? key, this.destination, this.comingFromOnBoarding = false, this.jobDocumentId}) : super(key: key);
+  final JobDetailsPage? destination;
+  final bool? comingFromOnBoarding;
+  final String? jobDocumentId;
 
   @override
   State<StatefulWidget> createState() {
@@ -60,13 +60,13 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
   final ScrollController _scrollController = ScrollController(keepScrollOffset: true);
   ScrollController _stagesScrollController = ScrollController(keepScrollOffset: true);
   double scrollPosition = -2;
-  bool comingFromOnBoarding;
+  bool? comingFromOnBoarding;
   _JobDetailsPageState(this.comingFromOnBoarding, this.jobDocumentId);
   bool sliverCollapsed = false;
   bool isFabExpanded = false;
   bool dialVisible = true;
-  JobDetailsPageState pageStateLocal;
-  String jobDocumentId;
+  JobDetailsPageState? pageStateLocal;
+  String? jobDocumentId;
 
   Future<void> _ackAlert(BuildContext context, JobDetailsPageState pageState) {
     return showDialog<void>(
@@ -85,7 +85,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteSelected();
+                pageState.onDeleteSelected!();
                 Navigator.of(context).pop(true);
               },
               child: const Text('Yes'),
@@ -103,7 +103,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteSelected();
+                pageState.onDeleteSelected!();
                 Navigator.of(context).pop(true);
               },
               child: const Text('Yes'),
@@ -129,16 +129,16 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
         },
         builder: (BuildContext context, JobDetailsPageState pageState) {
           if((pageState.newStagAnimationIndex != -1 || scrollPosition == -2) && _stagesScrollController.hasClients) {
-            Timer(const Duration(milliseconds: 150), () => {
+            Timer(const Duration(milliseconds: 150), () {
               _stagesScrollController.animateTo(
                 _getScrollToOffset(pageState),
                 curve: Curves.easeInOutCubic,
                 duration: const Duration(milliseconds: 1000),
-              ),
+              );
             },
             );
             _stagesScrollController = ScrollController(initialScrollOffset: _getScrollToOffset(pageState));
-            pageState.setNewIndexForStageAnimation(-1);
+            pageState.setNewIndexForStageAnimation!(-1);
             if(scrollPosition == -2) scrollPosition = 0;
           }
               return pageState.job != null ? Scaffold(
@@ -236,6 +236,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
 
                     SpeedDialChild(
                       child: const Icon(Icons.add),
+                      shape: const CircleBorder(),
                       backgroundColor: Color(ColorConstants.getBlueLight()),
                       labelWidget: Container(
                         alignment: Alignment.center,
@@ -257,7 +258,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                       onTap: () {
                         if(pageState.job.priceProfile != null) {
                           bool containsInvoice = false;
-                          for(DocumentItem document in pageState.documents){
+                          for(DocumentItem document in pageState.documents!){
                             if(document.getDocumentType() == DocumentItem.DOCUMENT_TYPE_INVOICE) containsInvoice = true;
                           }
                           if(!containsInvoice) {
@@ -274,6 +275,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                     ),
                     SpeedDialChild(
                       child: const Icon(Icons.add),
+                      shape: const CircleBorder(),
                       backgroundColor: Color(ColorConstants.getBlueLight()),
                       labelWidget: Container(
                         alignment: Alignment.center,
@@ -298,6 +300,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                     ),
                     SpeedDialChild(
                       child: const Icon(Icons.add),
+                      shape: const CircleBorder(),
                       backgroundColor: Color(ColorConstants.getBlueLight()),
                       labelWidget: Container(
                         alignment: Alignment.center,
@@ -356,7 +359,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                     ),
                   ],
                 ),
-                      comingFromOnBoarding ? GestureDetector(
+                      comingFromOnBoarding! ? GestureDetector(
                         onTap: () {
                           _launchBrandingPreviewURL(UidUtil().getUid());
                           EventSender().sendEvent(eventName: EventNames.ON_BOARDING_PREVIEW_CLIENT_PORTAL_SELECTED);
@@ -379,7 +382,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         ),
                       ) : GestureDetector(
                         onTap: () {
-                          NavigationUtil.onShareWIthClientSelected(context, pageState.job);
+                          NavigationUtil.onShareWIthClientSelected(context, pageState.job!);
                           EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_FROM_JOB);
                         },
                         child: Container(
@@ -420,7 +423,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                           systemOverlayStyle: SystemUiOverlayStyle.light,
                           title: TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
-                            text: pageState.job.jobTitle,
+                            text: pageState.job!.jobTitle,
                             color: Color(ColorConstants.getPrimaryBlack()),
                             overflow: TextOverflow.fade,
                           ),
@@ -434,7 +437,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                           forceElevated: false,
                           expandedHeight: 305.0,
                           actions: <Widget>[
-                            !comingFromOnBoarding ? IconButton(
+                            !comingFromOnBoarding! ? IconButton(
                               icon: ImageIcon(ImageUtil.getTrashIconWhite()),
                               tooltip: 'Delete Job',
                               onPressed: () {
@@ -473,7 +476,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                                           scrollDirection: Axis.horizontal,
                                           physics: const NeverScrollableScrollPhysics(),
                                           padding: const EdgeInsets.all(16.0),
-                                          itemCount: pageState.job.type.stages.length,
+                                          itemCount: pageState.job!.type!.stages!.length,
                                           itemBuilder: _buildItem,
                                         ),
                                       ),
@@ -522,9 +525,9 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                             ])),
                       ],
                     ),
-                    comingFromOnBoarding ? GestureDetector(
+                    comingFromOnBoarding! ? GestureDetector(
                       onTap: () async {
-                        pageState.setOnBoardingComplete();
+                        pageState.setOnBoardingComplete!();
                         EventSender().sendEvent(eventName: EventNames.ON_BOARDING_COMPLETE, properties: {
                           EventNames.ON_BOARDING_COMPLETED_BY_PARAM : 'View sample job complete',
                         });
@@ -556,10 +559,10 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
   }
 
   void onSendInvoiceSelected() {
-    pageStateLocal.onInvoiceSent(pageStateLocal.invoice);
-    pageStateLocal.onStageCompleted(pageStateLocal.job, 7);
-    pageStateLocal.removeExpandedIndex(7);
-    pageStateLocal.setNewIndexForStageAnimation((JobStage.getIndexOfCurrentStage(pageStateLocal.job.stage.stage, pageStateLocal.job.type.stages)));
+    pageStateLocal!.onInvoiceSent!(pageStateLocal!.invoice!);
+    pageStateLocal!.onStageCompleted!(pageStateLocal!.job!, 7);
+    pageStateLocal!.removeExpandedIndex!(7);
+    pageStateLocal!.setNewIndexForStageAnimation!((JobStage.getIndexOfCurrentStage(pageStateLocal!.job!.stage!.stage!, pageStateLocal!.job!.type!.stages!)));
     VibrateUtil.vibrateHeavy();
   }
 
@@ -573,9 +576,9 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
 
   double _getScrollToOffset(JobDetailsPageState pageState) {
     if(pageState.job != null) {
-      int stageIndex = JobStage.getIndexOfCurrentStage(pageState.job.stage.stage, pageState.job.type.stages);
+      int stageIndex = JobStage.getIndexOfCurrentStage(pageState.job!.stage!.stage!, pageState.job!.type!.stages!);
 
-      return (stageIndex * 200.0) - ((stageIndex == pageState.job.type.stages.length - 1) ? 150 : (stageIndex == pageState.job.type.stages.length ) ? 360 : 0);
+      return (stageIndex * 200.0) - ((stageIndex == pageState.job!.type!.stages!.length - 1) ? 150 : (stageIndex == pageState.job!.type!.stages!.length ) ? 360 : 0);
     }
     return 0.0;
   }
@@ -583,7 +586,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
   Widget _buildItem(BuildContext context, int index) {
     return StoreConnector<AppState, JobDetailsPageState>(
       converter: (store) => JobDetailsPageState.fromStore(store),
-      builder: (BuildContext context, JobDetailsPageState pageState) => _getWidgetForIndex(index, pageState.job),
+      builder: (BuildContext context, JobDetailsPageState pageState) => _getWidgetForIndex(index, pageState.job!),
     );
   }
 

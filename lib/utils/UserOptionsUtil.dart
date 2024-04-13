@@ -92,7 +92,7 @@ class UserOptionsUtil {
     );
   }
 
-  static void showCalendarSelectionDialog(BuildContext context, Function(bool) onCalendarChanged){
+  static void showCalendarSelectionDialog(BuildContext context, Function(bool)? onCalendarChanged){
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -110,11 +110,11 @@ class UserOptionsUtil {
     );
   }
 
-  static void showMileageLocationSelectionDialog(BuildContext context, Function(LatLng) onLocationSaved, double lat, double lng) {
+  static void showMileageLocationSelectionDialog(BuildContext context, Function(LatLng) onLocationSaved, double? lat, double? lng) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return LocationOptionsMileageExpenseDialog(onLocationSaved, lat, lng);
+        return LocationOptionsMileageExpenseDialog(onLocationSaved, lat!, lng!);
       },
     );
   }
@@ -128,7 +128,7 @@ class UserOptionsUtil {
     );
   }
 
-  static void showNewReminderDialog(BuildContext context, ReminderDandyLight reminder){
+  static void showNewReminderDialog(BuildContext context, ReminderDandyLight? reminder){
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -137,7 +137,7 @@ class UserOptionsUtil {
     );
   }
 
-  static void showNewJobTypePage(BuildContext context, JobType jobType){
+  static void showNewJobTypePage(BuildContext context, JobType? jobType){
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -155,7 +155,7 @@ class UserOptionsUtil {
     );
   }
 
-  static void showNewMileageExpenseSelected(BuildContext context, MileageExpense trip){
+  static void showNewMileageExpenseSelected(BuildContext context, MileageExpense? trip){
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -164,13 +164,13 @@ class UserOptionsUtil {
     );
   }
 
-  static void showNewJobDialog(BuildContext context, bool comingFromOnBoarding) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    if(profile.isSubscribed || profile.jobsCreatedCount < 5 || profile.isFreeForLife || AdminCheckUtil.isAdmin(profile)) {
+  static void showNewJobDialog(BuildContext context, bool comingFromOnBoarding, {int initialIndex = 0}) async {
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(profile!.isSubscribed! || profile.jobsCreatedCount! < 5 || profile.isFreeForLife! || AdminCheckUtil.isAdmin(profile)) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
-          return NewJobPage(comingFromOnBoarding);
+          return NewJobPage(comingFromOnBoarding, initialIndex: initialIndex);
         },
       );
     } else {
@@ -255,7 +255,7 @@ class UserOptionsUtil {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return const LocationSelectionDialog();
+        return LocationSelectionDialog();
       },
     );
   }
@@ -359,11 +359,11 @@ class UserOptionsUtil {
     );
   }
 
-  static void showNewInvoiceDialog(BuildContext context, Function onSendInvoiceSelected, bool shouldClear) {
+  static void showNewInvoiceDialog(BuildContext context, Function? onSendInvoiceSelected, {Job? job}) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return NewInvoiceDialog(onSendInvoiceSelected: onSendInvoiceSelected, shouldClear: shouldClear);
+        return NewInvoiceDialog(onSendInvoiceSelected: onSendInvoiceSelected, job: job);
       },
     );
   }
@@ -386,11 +386,11 @@ class UserOptionsUtil {
     );
   }
 
-  static void showViewInvoiceDialog(BuildContext context, Invoice invoice, Job job, Function onSendInvoiceSelected) {
+  static void showViewInvoiceDialog(BuildContext context, Invoice? invoice, Job? job, Function? onSendInvoiceSelected) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return ViewInvoiceDialog(invoice, job, onSendInvoiceSelected);
+        return ViewInvoiceDialog(invoice!, job!, onSendInvoiceSelected);
       },
     );
   }

@@ -12,7 +12,7 @@ import '../../../utils/analytics/EventSender.dart';
 import '../../../widgets/TextDandyLight.dart';
 
 class ContractsCard extends StatelessWidget {
-  const ContractsCard({Key key}) : super(key: key);
+  const ContractsCard({Key? key}) : super(key: key);
 
 
   @override
@@ -60,7 +60,7 @@ class ContractsCard extends StatelessWidget {
                           children: [
                             TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
-                              text: pageState.activeJobsWithUnsignedContract != null ? pageState.activeJobsWithUnsignedContract.length.toString() : '0',
+                              text: pageState.activeJobsWithUnsignedContract != null ? pageState.activeJobsWithUnsignedContract?.length.toString() : '0',
                               textAlign: TextAlign.center,
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),
@@ -95,7 +95,7 @@ class ContractsCard extends StatelessWidget {
                           children: [
                             TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
-                              text: pageState.activeJobsWithSignedContract != null ? pageState.activeJobsWithSignedContract.length.toString() : '0',
+                              text: pageState.activeJobsWithSignedContract != null ? pageState.activeJobsWithSignedContract?.length.toString() : '0',
                               textAlign: TextAlign.center,
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),

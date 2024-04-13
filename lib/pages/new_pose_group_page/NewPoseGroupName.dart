@@ -26,7 +26,7 @@ class _NewPoseGroupName extends State<NewPoseGroupName> with AutomaticKeepAliveC
     super.build(context);
     return StoreConnector<AppState, NewPoseGroupPageState>(
       onInit: (store) {
-        contractNameTextController.text = store.state.newPoseGroupPageState.groupName;
+        contractNameTextController.text = store.state.newPoseGroupPageState!.groupName!;
       },
       converter: (store) => NewPoseGroupPageState.fromStore(store),
       builder: (BuildContext context, NewPoseGroupPageState pageState) =>

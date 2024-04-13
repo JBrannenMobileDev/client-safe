@@ -18,14 +18,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../widgets/TextDandyLight.dart';
 
 class NewContactPage extends StatefulWidget {
-  final bool comingFromNewJob;
+  final bool? comingFromNewJob;
   NewContactPage({this.comingFromNewJob});
 
   @override
@@ -37,63 +36,61 @@ class NewContactPage extends StatefulWidget {
 class _NewContactPageState extends State<NewContactPage> {
   _NewContactPageState(this.comingFromNewJob);
 
-  final bool comingFromNewJob;
+  final bool? comingFromNewJob;
   final int pageCount = 2;
   final controller = PageController(
     initialPage: 0,
   );
-  String clientDocumentId;
+  String? clientDocumentId;
 
   @override
   void initState() {
     super.initState();
   }
 
-  Future<bool> _onWillPop() {
-    return showDialog(
-          context: context,
-          builder: (context) => new CupertinoAlertDialog(
-            title: new Text('Are you sure?'),
-            content: new Text('All unsaved information entered will be lost.'),
-            actions: <Widget>[
-          TextButton(
-              style: Styles.getButtonStyle(),
-                onPressed: () => Navigator.of(context).pop(false),
-                child: new Text('No'),
-              ),
-          TextButton(
-            style: Styles.getButtonStyle(),
-            onPressed: () {
-              Navigator.of(context).pop(true);
-            },
-            child: new Text('Yes'),
-              ),
-            ],
-          ),
-        ) ??
-        false;
-  }
-
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, NewContactPageState>(
       onInit: (store) async{
-        if(comingFromNewJob) {
+        if(comingFromNewJob!) {
           store.dispatch(SetIsComingFromNewJobAction(store.state.newContactPageState));
         }
-        store.state.newContactPageState.shouldClear ? store.dispatch(ClearStateAction(store.state.newContactPageState)) : null;
+        store.state.newContactPageState!.shouldClear! ? store.dispatch(ClearStateAction(store.state.newContactPageState)) : null;
       },
       onDidChange: (prev, pageState) {
         if(pageState.client != null) {
-          if (pageState.client.documentId != null) {
-            clientDocumentId = pageState.client.documentId;
+          if (pageState.client!.documentId != null) {
+            clientDocumentId = pageState.client!.documentId;
           }
         }
       },
       converter: (store) => NewContactPageState.fromStore(store),
       builder: (BuildContext context, NewContactPageState pageState) =>
           WillPopScope(
-          onWillPop: _onWillPop,
+          onWillPop: () async {
+            final shouldPop = await showDialog<bool>(
+              context: context,
+              builder: (context) => new CupertinoAlertDialog(
+                title: new Text('Are you sure?'),
+                content: new Text('All unsaved information entered will be lost.'),
+                actions: <Widget>[
+                  TextButton(
+                    style: Styles.getButtonStyle(),
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: new Text('No'),
+                  ),
+                  TextButton(
+                    style: Styles.getButtonStyle(),
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                    child: new Text('Yes'),
+                  ),
+                ],
+              ),
+            );
+            return shouldPop!;
+          },
           child: Scaffold(
             backgroundColor: Colors.transparent,
             body: Center(
@@ -115,7 +112,7 @@ class _NewContactPageState extends State<NewContactPage> {
                         children: <Widget>[
                           TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
-                            text: pageState.shouldClear ? "New Contact" : "Edit Contact",
+                            text: pageState.shouldClear! ? "New Contact" : "Edit Contact",
                             textAlign: TextAlign.start,
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
@@ -126,12 +123,12 @@ class _NewContactPageState extends State<NewContactPage> {
                               tooltip: 'Delete',
                               color: Color(ColorConstants.getPeachDark()),
                               onPressed: () {
-                                pageState.onCancelPressed();
+                                pageState.onCancelPressed!();
                                 Navigator.of(context).pop(true);
                               },
                             ),
                           ),
-                          !pageState.shouldClear ? Container(
+                          !pageState.shouldClear! ? Container(
                             margin: EdgeInsets.only(left: 300.0),
                             child: IconButton(
                               icon: const Icon(Icons.save),
@@ -139,7 +136,7 @@ class _NewContactPageState extends State<NewContactPage> {
                               color: Color(ColorConstants.getPrimaryColor()),
                               onPressed: () {
                                 showSuccessAnimation();
-                                pageState.onSavePressed();
+                                pageState.onSavePressed!();
                               },
                             ),
                           ) : SizedBox(),
@@ -147,7 +144,7 @@ class _NewContactPageState extends State<NewContactPage> {
                       ),
                     ),
                     Container(
-                      height: pageState.pageViewIndex == 0 && pageState.deviceContacts.length > 0 ? 350.0 : _getWidgetHeight(pageState.pageViewIndex),
+                      height: pageState.pageViewIndex == 0 && pageState.deviceContacts!.length > 0 ? 350.0 : _getWidgetHeight(pageState.pageViewIndex!),
                       child: PageView(
                         physics: NeverScrollableScrollPhysics(),
                         controller: controller,
@@ -237,31 +234,29 @@ class _NewContactPageState extends State<NewContactPage> {
     if (pageState.pageViewIndex != pageCount) {
       switch (pageState.pageViewIndex) {
         case 0:
-          if (pageState.newContactFirstName.isNotEmpty) {
+          if (pageState.newContactFirstName!.isNotEmpty) {
             canProgress = true;
           } else {
-            pageState.onErrorStateChanged(NewContactPageState.ERROR_FIRST_NAME_MISSING);
+            pageState.onErrorStateChanged!(NewContactPageState.ERROR_FIRST_NAME_MISSING);
             HapticFeedback.heavyImpact();
           }
           break;
         case 1:
-            if (!InputValidatorUtil.isEmailValid(pageState.newContactEmail)) {
-              pageState.onErrorStateChanged(
+            if (!InputValidatorUtil.isEmailValid(pageState.newContactEmail!)) {
+              pageState.onErrorStateChanged!(
                   NewContactPageState.ERROR_EMAIL_NAME_INVALID);
               HapticFeedback.heavyImpact();
               break;
             }
 
-            if (!InputValidatorUtil.isPhoneNumberValid(
-                pageState.newContactPhone)) {
-              pageState
-                  .onErrorStateChanged(NewContactPageState.ERROR_PHONE_INVALID);
+            if (!InputValidatorUtil.isPhoneNumberValid(pageState.newContactPhone!)) {
+              pageState.onErrorStateChanged!(NewContactPageState.ERROR_PHONE_INVALID);
               HapticFeedback.heavyImpact();
               break;
             }
 
-            if (!InputValidatorUtil.isInstagramUrlValid(pageState.newContactInstagramUrl)) {
-              pageState.onErrorStateChanged(NewContactPageState.ERROR_INSTAGRAM_URL_INVALID);
+            if (!InputValidatorUtil.isInstagramUrlValid(pageState.newContactInstagramUrl!)) {
+              pageState.onErrorStateChanged!(NewContactPageState.ERROR_INSTAGRAM_URL_INVALID);
               HapticFeedback.heavyImpact();
               break;
             }
@@ -273,8 +268,8 @@ class _NewContactPageState extends State<NewContactPage> {
       }
 
       if (canProgress) {
-        pageState.onNextPressed();
-        controller.animateToPage(pageState.pageViewIndex + 1,
+        pageState.onNextPressed!();
+        controller.animateToPage(pageState.pageViewIndex! + 1,
             duration: Duration(milliseconds: 150), curve: Curves.ease);
         FocusScope.of(context).unfocus();
       }
@@ -282,7 +277,7 @@ class _NewContactPageState extends State<NewContactPage> {
     if (pageState.pageViewIndex == pageCount) {
       await UserPermissionsUtil.showPermissionRequest(permission: Permission.contacts, context: context);
       showSuccessAnimation();
-      pageState.onSavePressed();
+      pageState.onSavePressed!();
     }
   }
 
@@ -306,9 +301,9 @@ class _NewContactPageState extends State<NewContactPage> {
 
   void onFlareCompleted(String unused) async{
     Navigator.of(context).pop();
-    List<Job> jobs = await JobDao.getAllJobs();
-    List<Job> thisClientsJobs = jobs.where((job) => job.clientDocumentId == clientDocumentId).toList();
-    if(thisClientsJobs.length == 0 && !comingFromNewJob){
+    List<Job>? jobs = await JobDao.getAllJobs();
+    List<Job> thisClientsJobs = jobs!.where((job) => job.clientDocumentId == clientDocumentId).toList();
+    if(thisClientsJobs.length == 0 && !comingFromNewJob!){
       Navigator.of(context).pop();
       UserOptionsUtil.showJobPromptDialog(context);
     }else {
@@ -318,11 +313,11 @@ class _NewContactPageState extends State<NewContactPage> {
 
   void onBackPressed(NewContactPageState pageState) {
     if (pageState.pageViewIndex == 0) {
-      pageState.onCancelPressed();
+      pageState.onCancelPressed!();
       Navigator.of(context).pop();
     } else {
-      pageState.onBackPressed();
-      controller.animateToPage(pageState.pageViewIndex - 1,
+      pageState.onBackPressed!();
+      controller.animateToPage(pageState.pageViewIndex! - 1,
           duration: Duration(milliseconds: 150), curve: Curves.ease);
     }
   }

@@ -11,11 +11,14 @@ class AdminCheckUtil {
     'jpshots@mailinator.com',
     'dandylightprod@mailinator.com',
     'dandylightdemo@mailinator.com',
-    'dandylightprodtest2@mailinator.com'
+    'dandylightprodtest2@mailinator.com',
+    'Vintagevibesphotography@gmail.com',
+    'dandylightadmin@mailinator.com'
   ];
 
-  static bool isAdmin(Profile profile) {
-    String email = profile.email != null ? profile.email : '';
+  static bool isAdmin(Profile? profile) {
+    String email = profile!.email != null ? profile.email! : '';
+    print(email);
     return ADMIN_EMAILS.contains(email.toLowerCase());
   }
 }

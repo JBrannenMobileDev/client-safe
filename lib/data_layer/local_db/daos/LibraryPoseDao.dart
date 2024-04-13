@@ -35,15 +35,15 @@ class LibraryPoseDao extends Equatable{
   }
 
   static Future<void> _updateLastChangedTime() async {
-    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    Profile profile = (await ProfileDao.getAll())!.elementAt(0);
     profile.posesLastChangeDate = DateTime.now();
     ProfileDao.update(profile);
   }
 
   static Future<Pose> insertOrUpdate(Pose pose) async {
-    List<Pose> poseList = await getAllSortedMostFrequent();
+    List<Pose>? poseList = await getAllSortedMostFrequent();
     bool alreadyExists = false;
-    for(Pose singlePose in poseList){
+    for(Pose singlePose in poseList!){
       if(singlePose.documentId == pose.documentId){
         alreadyExists = true;
       }
@@ -55,8 +55,8 @@ class LibraryPoseDao extends Equatable{
     }
   }
 
-  static Future<Pose> getById(String poseDocumentId) async{
-    if((await getAllSortedMostFrequent()).length > 0) {
+  static Future<Pose?> getById(String poseDocumentId) async{
+    if((await getAllSortedMostFrequent())!.isNotEmpty) {
       final finder = Finder(filter: Filter.equals('documentId', poseDocumentId));
       final recordSnapshots = await _PoseStore.find(await _db, finder: finder);
       // Making a List<profileId> out of List<RecordSnapshot>
@@ -105,16 +105,16 @@ class LibraryPoseDao extends Equatable{
   }
 
   static Future delete(String documentId) async {
-    await FileStorage.deletePoseFileImage(await getById(documentId));
+    FileStorage.deletePoseFileImage(await getById(documentId));
     final finder = Finder(filter: Filter.equals('documentId', documentId));
-    int countOfUpdatedItems = await _PoseStore.delete(
+    await _PoseStore.delete(
       await _db,
       finder: finder,
     );
     await LibraryPoseCollection().deletePose(documentId);
   }
 
-  static Future<List<Pose>> getAllSortedMostFrequent() async {
+  static Future<List<Pose>?> getAllSortedMostFrequent() async {
     final finder = Finder(sortOrders: [
       SortOrder('numOfSaves'),
     ]);
@@ -132,11 +132,11 @@ class LibraryPoseDao extends Equatable{
   }
 
   static Future<void> syncAllFromFireStore() async {
-    List<Pose> allLocalPoses = await getAllSortedMostFrequent();
-    List<Pose> allFireStorePoses = await LibraryPoseCollection().getAll();
+    List<Pose>? allLocalPoses = await getAllSortedMostFrequent();
+    List<Pose>? allFireStorePoses = await LibraryPoseCollection().getAll();
 
-    if(allLocalPoses != null && allLocalPoses.length > 0) {
-      if(allFireStorePoses != null && allFireStorePoses.length > 0) {
+    if(allLocalPoses != null && allLocalPoses.isNotEmpty) {
+      if(allFireStorePoses != null && allFireStorePoses.isNotEmpty) {
         //both local and fireStore have Poses
         //fireStore is source of truth for this sync.
         await _syncFireStoreToLocal(allLocalPoses, allFireStorePoses);
@@ -145,7 +145,7 @@ class LibraryPoseDao extends Equatable{
         _deleteAllLocalPoses(allLocalPoses);
       }
     } else {
-      if(allFireStorePoses != null && allFireStorePoses.length > 0){
+      if(allFireStorePoses != null && allFireStorePoses.isNotEmpty){
         //no local Poses but there are fireStore Poses.
         await _copyAllFireStorePosesToLocal(allFireStorePoses);
       } else {
@@ -174,7 +174,7 @@ class LibraryPoseDao extends Equatable{
     for(Pose localPose in allLocalPoses) {
       //should only be 1 matching
       List<Pose> matchingFireStorePoses = allFireStorePoses.where((fireStorePose) => localPose.documentId == fireStorePose.documentId).toList();
-      if(matchingFireStorePoses !=  null && matchingFireStorePoses.length > 0) {
+      if(matchingFireStorePoses.isNotEmpty) {
         Pose fireStorePose = matchingFireStorePoses.elementAt(0);
         final finder = Finder(filter: Filter.equals('documentId', fireStorePose.documentId));
         await _PoseStore.update(
@@ -194,7 +194,7 @@ class LibraryPoseDao extends Equatable{
 
     for(Pose fireStorePose in allFireStorePoses) {
       List<Pose> matchingLocalPoses = allLocalPoses.where((localPose) => localPose.documentId == fireStorePose.documentId).toList();
-      if(matchingLocalPoses != null && matchingLocalPoses.length > 0) {
+      if(matchingLocalPoses.isNotEmpty) {
         //do nothing. Pose already synced.
       } else {
         //add to local. does not exist in local and has not been synced yet.
@@ -209,14 +209,14 @@ class LibraryPoseDao extends Equatable{
   List<Object> get props => [];
 
   static void deleteAllLocal() async {
-    List<Pose> locations = await getAllSortedMostFrequent();
-    _deleteAllLocalPoses(locations);
+    List<Pose>? locations = await getAllSortedMostFrequent();
+    _deleteAllLocalPoses(locations!);
   }
 
   static void deleteAllRemote() async {
-    List<Pose> poses = await getAllSortedMostFrequent();
-    for(Pose pose in poses) {
-      await delete(pose.documentId);
+    List<Pose>? poses = await getAllSortedMostFrequent();
+    for(Pose pose in poses!) {
+      await delete(pose.documentId!);
     }
   }
 }

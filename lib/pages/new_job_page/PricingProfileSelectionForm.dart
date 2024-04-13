@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
@@ -6,11 +8,11 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 import '../../utils/InputDoneView.dart';
+import '../../utils/flutter_masked_text.dart';
 import '../../widgets/TextDandyLight.dart';
 import '../new_pricing_profile_page/DandyLightTextField.dart';
 
@@ -28,36 +30,49 @@ class _PricingProfileSelectionFormState
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
   final FocusNode flatRateInputFocusNode = new FocusNode();
-  var flatRateTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '', thousandSeparator: ',', precision: 0);
-  OverlayEntry overlayEntry;
+  var flatRateTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '.', thousandSeparator: ',', precision: 2);
+  OverlayEntry? overlayEntry;
+  late StreamSubscription<bool> keyboardSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    var keyboardVisibilityController = KeyboardVisibilityController();
+    keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
+      if(visible) {
+        showOverlay(context);
+      }else {
+        removeOverlay();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    keyboardSubscription.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return StoreConnector<AppState, NewJobPageState>(
       onInit: (store) {
-        KeyboardVisibilityNotification().addNewListener(
-            onShow: () {
-              showOverlay(context);
-            },
-            onHide: () {
-              removeOverlay();
-            }
-        );
-        flatRateTextController.text = '\$' + (store.state.newJobPageState.oneTimePrice.isNotEmpty ? store.state.newJobPageState.oneTimePrice : '');
+        if(store.state.newJobPageState!.oneTimePrice!.isNotEmpty) {
+          flatRateTextController.text = (store.state.newJobPageState!.oneTimePrice!);
+        }
         flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
         flatRateInputFocusNode.addListener(() {
           flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
          });
         },
       onDidChange: (previous, current) {
-        if(current.oneTimePrice == '') flatRateTextController.text = '\$';
         flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
       },
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) => Container(
         margin: EdgeInsets.only(left: 16.0, right: 16.0),
-        child: pageState.pricingProfiles.length > 0
+        child: pageState.pricingProfiles!.length > 0
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -83,7 +98,7 @@ class _PricingProfileSelectionFormState
                       controller: _controller,
                       physics: ClampingScrollPhysics(),
                       key: _listKey,
-                      itemCount: pageState.pricingProfiles.length +1,
+                      itemCount: pageState.pricingProfiles!.length +1,
                       itemBuilder: _buildItem,
                     ),
                   ),
@@ -110,7 +125,7 @@ class _PricingProfileSelectionFormState
                       inputType: TextInputType.number,
                       focusNode: flatRateInputFocusNode,
                       height: 60.0,
-                      onTextInputChanged: pageState.onOneTimePriceChanged,
+                      onTextInputChanged: pageState.onOneTimePriceChanged!,
                       capitalization: TextCapitalization.none,
                       keyboardAction: TextInputAction.done,
                       labelText: 'One time price',
@@ -148,7 +163,7 @@ class _PricingProfileSelectionFormState
                 inputType: TextInputType.number,
                 focusNode: flatRateInputFocusNode,
                 height: 66.0,
-                onTextInputChanged: pageState.onOneTimePriceChanged,
+                onTextInputChanged: pageState.onOneTimePriceChanged!,
                 capitalization: TextCapitalization.none,
                 keyboardAction: TextInputAction.done,
                 labelText: 'One time price',
@@ -165,10 +180,10 @@ class _PricingProfileSelectionFormState
             ],
           ),
         ) : NewJobPriceProfileListWidget(
-              pageState.pricingProfiles.elementAt(index - 1),
+              pageState.pricingProfiles!.elementAt(index - 1),
               pageState,
               onProfileSelected,
-              pageState.selectedPriceProfile?.documentId == pageState.pricingProfiles.elementAt(index - 1)?.documentId && pageState.oneTimePrice.isEmpty ? Color(ColorConstants.getPrimaryBackgroundGrey()) : Color(ColorConstants.getPrimaryWhite()),
+              pageState.selectedPriceProfile?.documentId == pageState.pricingProfiles!.elementAt(index - 1).documentId && pageState.oneTimePrice!.isEmpty ? Color(ColorConstants.getPrimaryBackgroundGrey()) : Color(ColorConstants.getPrimaryWhite()),
               Color(ColorConstants.getPrimaryBlack())),
       ),
     );
@@ -189,13 +204,12 @@ class _PricingProfileSelectionFormState
           child: InputDoneView());
     });
 
-    overlayState.insert(overlayEntry);
+    overlayState.insert(overlayEntry!);
   }
 
   removeOverlay() {
     if (overlayEntry != null) {
-      overlayEntry.remove();
-      overlayEntry = null;
+      overlayEntry!.remove();
     }
   }
 

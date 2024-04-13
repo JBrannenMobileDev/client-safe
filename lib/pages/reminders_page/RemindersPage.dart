@@ -21,7 +21,7 @@ class RemindersPage extends StatefulWidget {
 }
 
 class _RemindersPageState extends State<RemindersPage> with TickerProviderStateMixin {
-  ScrollController _scrollController;
+  ScrollController? _scrollController;
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
   @override
@@ -48,7 +48,6 @@ class _RemindersPageState extends State<RemindersPage> with TickerProviderStateM
                       iconTheme: IconThemeData(
                         color: Color(ColorConstants.getBlueDark()), //change your color here
                       ),
-                      brightness: Brightness.light,
                       backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                       pinned: true,
                       centerTitle: true,
@@ -73,16 +72,16 @@ class _RemindersPageState extends State<RemindersPage> with TickerProviderStateM
                       ],
                     ),
                     SliverList(
-                      delegate: new SliverChildListDelegate(
+                      delegate: SliverChildListDelegate(
                         <Widget>[
-                          pageState.reminders.length > 0 ? ListView.builder(
+                          pageState.reminders!.length > 0 ? ListView.builder(
                             reverse: false,
                             padding: new EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 64.0),
                             shrinkWrap: true,
                             controller: _scrollController,
                             physics: ClampingScrollPhysics(),
                             key: _listKey,
-                            itemCount: pageState.reminders.length,
+                            itemCount: pageState.reminders!.length,
                             itemBuilder: _buildItem,
                           ) :
                           Padding(
@@ -109,13 +108,13 @@ class _RemindersPageState extends State<RemindersPage> with TickerProviderStateM
       builder: (BuildContext context, RemindersPageState pageState) =>
           Container(
             margin: EdgeInsets.only(top: 0.0, bottom: 8.0),
-            child: ReminderListWidget(pageState.reminders.elementAt(index), pageState, onReminderSelected, Color(ColorConstants.getBlueLight()), Color(ColorConstants.getPrimaryBlack())),
+            child: ReminderListWidget(pageState.reminders!.elementAt(index), pageState, onReminderSelected, Color(ColorConstants.getBlueLight()), Color(ColorConstants.getPrimaryBlack())),
           ),
     );
   }
 
   onReminderSelected(ReminderDandyLight reminder, RemindersPageState pageState,  BuildContext context) {
-    pageState.onReminderSelected(reminder);
+    pageState.onReminderSelected!(reminder);
     UserOptionsUtil.showNewReminderDialog(context, reminder);
   }
 }

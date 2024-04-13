@@ -1,7 +1,7 @@
 class Metric {
-  double value;
-  String unit;
-  int unitType;
+  double? value;
+  String? unit;
+  int? unitType;
 
   Metric({this.value, this.unit, this.unitType});
 

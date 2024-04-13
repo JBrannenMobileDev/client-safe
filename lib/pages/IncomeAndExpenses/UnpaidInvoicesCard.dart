@@ -16,7 +16,7 @@ class UnpaidInvoicesCard extends StatelessWidget{
   UnpaidInvoicesCard({
     this.pageState});
 
-  final IncomeAndExpensesPageState pageState;
+  final IncomeAndExpensesPageState? pageState;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,7 +24,7 @@ class UnpaidInvoicesCard extends StatelessWidget{
         alignment: Alignment.topCenter,
         children: <Widget>[
           Container(
-            height: getContainerHeight(pageState.unpaidInvoices.length, pageState),
+            height: getContainerHeight(pageState!.unpaidInvoices!.length, pageState!),
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 24.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
@@ -43,10 +43,10 @@ class UnpaidInvoicesCard extends StatelessWidget{
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
-                      pageState.unpaidInvoices != null && pageState.unpaidInvoices.length > 3 ? TextButton(
+                      pageState!.unpaidInvoices != null && pageState!.unpaidInvoices!.length > 3 ? TextButton(
                         style: Styles.getButtonStyle(),
                         onPressed: () {
-                          pageState.onViewAllSelected(true);
+                          pageState!.onViewAllSelected!(true);
                           Navigator.of(context).push(
                             new MaterialPageRoute(builder: (context) => AllInvoicesPage()),
                           );
@@ -55,7 +55,7 @@ class UnpaidInvoicesCard extends StatelessWidget{
                           alignment: Alignment.centerRight,
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'View all (' + pageState.unpaidInvoices.length.toString() + ')',
+                            text: 'View all (' + pageState!.unpaidInvoices!.length.toString() + ')',
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
@@ -63,13 +63,13 @@ class UnpaidInvoicesCard extends StatelessWidget{
                     ],
                   ),
                 ),
-                pageState.unpaidInvoices.length > 0 ? ListView.builder(
+                pageState!.unpaidInvoices!.length > 0 ? ListView.builder(
                   padding: EdgeInsets.only(top:0.0, bottom: 16.0),
                     reverse: false,
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     key: _listKey,
-                    itemCount: _getItemCount(pageState),
+                    itemCount: _getItemCount(pageState!),
                     itemBuilder: _buildItem,
                   ) : Container(
                   alignment: Alignment.center,
@@ -98,20 +98,20 @@ class UnpaidInvoicesCard extends StatelessWidget{
     }else if(length == 2) {
       return 200.0;
     }else {
-      return 295.0;
+      return 302.0;
     }
   }
 
   Widget _buildItem(BuildContext context, int index) {
-    List<Invoice> invoices = pageState.unpaidInvoices;
+    List<Invoice> invoices = pageState!.unpaidInvoices!;
     return InvoiceItem(invoice: invoices.elementAt(index), pageState: pageState);
   }
 
   int _getItemCount(IncomeAndExpensesPageState pageState) {
-    if(pageState.unpaidInvoices.length > 3) {
+    if(pageState.unpaidInvoices!.length > 3) {
       return 3;
     } else {
-      return pageState.unpaidInvoices.length;
+      return pageState.unpaidInvoices!.length;
     }
   }
 }

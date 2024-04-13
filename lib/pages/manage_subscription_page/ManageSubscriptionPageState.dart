@@ -8,31 +8,31 @@ import 'ManageSubscriptionPage.dart';
 import 'ManageSubscriptionPageActions.dart';
 
 class ManageSubscriptionPageState {
-  final int radioValue;
-  final String uiState;
-  final String errorMsg;
-  final String remainingTimeMessage;
-  final String discountCode;
-  final String discountType;
-  final double annualPrice;
-  final double monthlyPrice;
-  final bool isLoading;
-  final bool shouldPopBack;
-  final bool showDiscountError;
-  final bool showAppliedDiscount;
-  final purchases.CustomerInfo subscriptionState;
-  final String selectedSubscription;
-  final purchases.Package monthlyPackage;
-  final purchases.Package annualPackage;
-  final Profile profile;
-  final purchases.Offerings offerings;
-  final Function() onSubscribeSelected;
-  final Function() onRestoreSubscriptionSelected;
-  final Function(String) onSubscriptionSelected;
-  final Function() resetErrorMsg;
-  final Function(String) setErrorMsg;
-  final Function(String) checkIfDiscountExists;
-  final Function() onApplyDiscount;
+  final int? radioValue;
+  final String? uiState;
+  final String? errorMsg;
+  final String? remainingTimeMessage;
+  final String? discountCode;
+  final String? discountType;
+  final double? annualPrice;
+  final double? monthlyPrice;
+  final bool? isLoading;
+  final bool? shouldPopBack;
+  final bool? showDiscountError;
+  final bool? showAppliedDiscount;
+  final purchases.CustomerInfo? subscriptionState;
+  final String? selectedSubscription;
+  final purchases.Package? monthlyPackage;
+  final purchases.Package? annualPackage;
+  final Profile? profile;
+  final purchases.Offerings? offerings;
+  final Function()? onSubscribeSelected;
+  final Function()? onRestoreSubscriptionSelected;
+  final Function(String)? onSubscriptionSelected;
+  final Function()? resetErrorMsg;
+  final Function(String)? setErrorMsg;
+  final Function(String)? checkIfDiscountExists;
+  final Function()? onApplyDiscount;
 
   ManageSubscriptionPageState({
     @required this.uiState,
@@ -63,31 +63,31 @@ class ManageSubscriptionPageState {
   });
 
   ManageSubscriptionPageState copyWith({
-    int radioValue,
-    String uiState,
-    String errorMsg,
-    String remainingTimeMessage,
-    String selectedSubscription,
-    String discountCode,
-    String discountType,
-    purchases.Package monthlyPackage,
-    purchases.Package annualPackage,
-    Profile profile,
-    purchases.CustomerInfo subscriptionState,
-    double annualPrice,
-    double monthlyPrice,
-    bool isLoading,
-    bool shouldPopBack,
-    bool showDiscountError,
-    bool showAppliedDiscount,
-    purchases.Offerings offerings,
-    Function() onSubscribeSelected,
-    Function() onRestoreSubscriptionSelected,
-    Function(String) onSubscriptionSelected,
-    Function() resetErrorMsg,
-    Function(String) setErrorMsg,
-    Function(String) checkIfDiscountExists,
-    Function() onApplyDiscount,
+    int? radioValue,
+    String? uiState,
+    String? errorMsg,
+    String? remainingTimeMessage,
+    String? selectedSubscription,
+    String? discountCode,
+    String? discountType,
+    purchases.Package? monthlyPackage,
+    purchases.Package? annualPackage,
+    Profile? profile,
+    purchases.CustomerInfo? subscriptionState,
+    double? annualPrice,
+    double? monthlyPrice,
+    bool? isLoading,
+    bool? shouldPopBack,
+    bool? showDiscountError,
+    bool? showAppliedDiscount,
+    purchases.Offerings? offerings,
+    Function()? onSubscribeSelected,
+    Function()? onRestoreSubscriptionSelected,
+    Function(String)? onSubscriptionSelected,
+    Function()? resetErrorMsg,
+    Function(String)? setErrorMsg,
+    Function(String)? checkIfDiscountExists,
+    Function()? onApplyDiscount,
   }){
     return ManageSubscriptionPageState(
       uiState: uiState?? this.uiState,
@@ -148,24 +148,24 @@ class ManageSubscriptionPageState {
 
   factory ManageSubscriptionPageState.fromStore(Store<AppState> store) {
     return ManageSubscriptionPageState(
-      uiState: store.state.manageSubscriptionPageState.uiState,
-      selectedSubscription: store.state.manageSubscriptionPageState.selectedSubscription,
-      profile: store.state.manageSubscriptionPageState.profile,
-      offerings: store.state.manageSubscriptionPageState.offerings,
-      subscriptionState: store.state.manageSubscriptionPageState.subscriptionState,
-      annualPrice: store.state.manageSubscriptionPageState.annualPrice,
-      monthlyPrice: store.state.manageSubscriptionPageState.monthlyPrice,
-      errorMsg: store.state.manageSubscriptionPageState.errorMsg,
-      monthlyPackage: store.state.manageSubscriptionPageState.monthlyPackage,
-      annualPackage: store.state.manageSubscriptionPageState.annualPackage,
-      isLoading: store.state.manageSubscriptionPageState.isLoading,
-      radioValue: store.state.manageSubscriptionPageState.radioValue,
-      shouldPopBack: store.state.manageSubscriptionPageState.shouldPopBack,
-      remainingTimeMessage: store.state.manageSubscriptionPageState.remainingTimeMessage,
-      showDiscountError: store.state.manageSubscriptionPageState.showDiscountError,
-      discountCode: store.state.manageSubscriptionPageState.discountCode,
-      discountType: store.state.manageSubscriptionPageState.discountType,
-      showAppliedDiscount: store.state.manageSubscriptionPageState.showAppliedDiscount,
+      uiState: store.state.manageSubscriptionPageState!.uiState,
+      selectedSubscription: store.state.manageSubscriptionPageState!.selectedSubscription,
+      profile: store.state.manageSubscriptionPageState!.profile,
+      offerings: store.state.manageSubscriptionPageState!.offerings,
+      subscriptionState: store.state.manageSubscriptionPageState!.subscriptionState,
+      annualPrice: store.state.manageSubscriptionPageState!.annualPrice,
+      monthlyPrice: store.state.manageSubscriptionPageState!.monthlyPrice,
+      errorMsg: store.state.manageSubscriptionPageState!.errorMsg,
+      monthlyPackage: store.state.manageSubscriptionPageState!.monthlyPackage,
+      annualPackage: store.state.manageSubscriptionPageState!.annualPackage,
+      isLoading: store.state.manageSubscriptionPageState!.isLoading,
+      radioValue: store.state.manageSubscriptionPageState!.radioValue,
+      shouldPopBack: store.state.manageSubscriptionPageState!.shouldPopBack,
+      remainingTimeMessage: store.state.manageSubscriptionPageState!.remainingTimeMessage,
+      showDiscountError: store.state.manageSubscriptionPageState!.showDiscountError,
+      discountCode: store.state.manageSubscriptionPageState!.discountCode,
+      discountType: store.state.manageSubscriptionPageState!.discountType,
+      showAppliedDiscount: store.state.manageSubscriptionPageState!.showAppliedDiscount,
       onSubscribeSelected: () => store.dispatch(SubscribeSelectedAction(store.state.manageSubscriptionPageState)),
       onRestoreSubscriptionSelected: () => store.dispatch(RestoreSubscriptionAction(store.state.manageSubscriptionPageState)),
       onSubscriptionSelected: (package) => store.dispatch(SubscriptionSelectedAction(store.state.manageSubscriptionPageState, package)),

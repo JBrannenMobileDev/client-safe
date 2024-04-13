@@ -7,20 +7,20 @@ import '../../widgets/TextDandyLight.dart';
 
 
 class ShareWithClientTextField extends StatelessWidget {
-  final TextEditingController controller;
-  final String hintText;
-  final TextInputType inputType;
-  final double height;
-  final String inputTypeError;
-  final Function(String) onTextInputChanged;
-  final TextInputAction keyboardAction;
-  final FocusNode focusNode;
-  final Function onFocusAction;
-  final TextCapitalization capitalization;
-  final List<TextInputFormatter> inputFormatter;
-  final bool textFieldEnabled;
-  final bool showBorder;
-  final bool usePadding;
+  final TextEditingController? controller;
+  final String? hintText;
+  final TextInputType? inputType;
+  final double? height;
+  final String? inputTypeError;
+  final Function(String)? onTextInputChanged;
+  final TextInputAction? keyboardAction;
+  final FocusNode? focusNode;
+  final Function? onFocusAction;
+  final TextCapitalization? capitalization;
+  final List<TextInputFormatter>? inputFormatter;
+  final bool? textFieldEnabled;
+  final bool? showBorder;
+  final bool? usePadding;
 
   ShareWithClientTextField(this.controller, this.hintText, this.inputType,
       this.height, this.onTextInputChanged, this.inputTypeError, this.keyboardAction,
@@ -37,7 +37,7 @@ class ShareWithClientTextField extends StatelessWidget {
                 controller: controller,
                 cursorColor: Color(ColorConstants.getPrimaryBlack()),
                 onChanged: (text) {
-                  onTextInputChanged(text);
+                  onTextInputChanged!(text);
                 },
                 decoration: InputDecoration(
                   alignLabelWithHint: true,
@@ -49,21 +49,21 @@ class ShareWithClientTextField extends StatelessWidget {
                   ),
                   hintText: hintText,
                   fillColor: Color(ColorConstants.getPrimaryWhite()),
-                  border: showBorder ? OutlineInputBorder(
+                  border: showBorder! ? OutlineInputBorder(
                     borderSide: BorderSide(
                         color: Color(ColorConstants.getPeachDark()),
                         width: 2.0
                     ),
                     borderRadius: BorderRadius.circular(16)
                   ) : InputBorder.none,
-                  focusedBorder: showBorder ? OutlineInputBorder(
+                  focusedBorder: showBorder! ? OutlineInputBorder(
                     borderSide: BorderSide(
                         color: Color(ColorConstants.getPeachDark()),
                         width: 2.0
                     ),
                       borderRadius: BorderRadius.circular(16)
                   ) : InputBorder.none,
-                  enabledBorder: showBorder ? OutlineInputBorder(
+                  enabledBorder: showBorder! ? OutlineInputBorder(
                     borderSide: BorderSide(
                         color: Color(ColorConstants.getPeachDark()),
                         width: 2.0
@@ -72,18 +72,18 @@ class ShareWithClientTextField extends StatelessWidget {
                   ) : InputBorder.none,
                   errorBorder: InputBorder.none,
                   disabledBorder: InputBorder.none,
-                  contentPadding: EdgeInsets.only(left: usePadding ? 16 : 0, top: usePadding ? 16 : 0, right: usePadding ? 16 : 0, bottom: 0),
+                  contentPadding: EdgeInsets.only(left: usePadding! ? 16 : 0, top: usePadding! ? 16 : 0, right: usePadding! ? 16 : 0, bottom: 0),
                   isDense: true,
                 ),
                 keyboardType: inputType,
-                textCapitalization: capitalization,
+                textCapitalization: capitalization!,
                 maxLines: 500,
                 inputFormatters: inputFormatter != null ? inputFormatter : null,
                 style: TextStyle(
                     fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
                     fontFamily: TextDandyLight.getFontFamily(),
                     fontWeight: TextDandyLight.getFontWeight(),
-                    color: textFieldEnabled ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBackgroundGrey())
+                    color: textFieldEnabled! ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBackgroundGrey())
                 ),
               ),
     );

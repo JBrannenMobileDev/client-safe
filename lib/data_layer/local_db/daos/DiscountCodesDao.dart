@@ -7,8 +7,6 @@ import 'package:dandylight/models/DiscountCodes.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart' as sembast;
 
-import '../../../models/Profile.dart';
-
 class DiscountCodesDao extends Equatable{
   static const String DISCOUNT_CODES_STORE_NAME = 'discountCodes';
   // A Store with int keys and Map<String, dynamic> values.
@@ -29,9 +27,9 @@ class DiscountCodesDao extends Equatable{
   }
 
   static Future insertOrUpdate(DiscountCodes discount) async {
-    List<DiscountCodes> discounts = await getAll();
+    List<DiscountCodes>? discounts = await getAll();
     bool alreadyExists = false;
-    for(DiscountCodes singleDiscount in discounts){
+    for(DiscountCodes singleDiscount in discounts!){
       if(singleDiscount.type == discount.type){
         alreadyExists = true;
       }
@@ -72,10 +70,10 @@ class DiscountCodesDao extends Equatable{
       await _db,
       finder: finder,
     );
-    await DiscountCodesCollection().deleteDiscountCodes(discount.type);
+    await DiscountCodesCollection().deleteDiscountCodes(discount.type!);
   }
 
-  static Future<List<DiscountCodes>> getAll() async {
+  static Future<List<DiscountCodes>?> getAll() async {
     final recordSnapshots = await _discountCodesStore.find(await _db);
     return recordSnapshots.map((snapshot) {
       final discount = DiscountCodes.fromMap(snapshot.value);
@@ -84,11 +82,11 @@ class DiscountCodesDao extends Equatable{
   }
 
   static Future<void> syncAllFromFireStore() async {
-    List<DiscountCodes> discounts = await getAll();
-    List<DiscountCodes> fireStoreDiscounts = await DiscountCodesCollection().getAll();
+    List<DiscountCodes>? discounts = await getAll();
+    List<DiscountCodes>? fireStoreDiscounts = await DiscountCodesCollection().getAll();
 
-    if(discounts != null && discounts.length > 0) {
-      if(fireStoreDiscounts != null && fireStoreDiscounts.length > 0) {
+    if(discounts != null && discounts.isNotEmpty) {
+      if(fireStoreDiscounts != null && fireStoreDiscounts.isNotEmpty) {
         //both local and fireStore have Locations
         //fireStore is source of truth for this sync.
         await _syncFireStoreToLocal(discounts, fireStoreDiscounts);
@@ -97,7 +95,7 @@ class DiscountCodesDao extends Equatable{
         _deleteAllLocal(discounts);
       }
     } else {
-      if(fireStoreDiscounts != null && fireStoreDiscounts.length > 0){
+      if(fireStoreDiscounts != null && fireStoreDiscounts.isNotEmpty){
         //no local Locations but there are fireStore Locations.
         await _copyAllFireStoreToLocal(fireStoreDiscounts);
       } else {
@@ -126,7 +124,7 @@ class DiscountCodesDao extends Equatable{
     for(DiscountCodes localDiscount in allLocal) {
       //should only be 1 matching
       List<DiscountCodes> matchingFireStore = allFireStore.where((fireStore) => localDiscount.type == fireStore.type).toList();
-      if(matchingFireStore !=  null && matchingFireStore.length > 0) {
+      if(matchingFireStore.isNotEmpty) {
         DiscountCodes fireStore = matchingFireStore.elementAt(0);
         final finder = sembast.Finder(filter: sembast.Filter.equals('type', fireStore.type));
         await _discountCodesStore.update(
@@ -146,7 +144,7 @@ class DiscountCodesDao extends Equatable{
 
     for(DiscountCodes fireStore in allFireStore) {
       List<DiscountCodes> matchingLocal = allLocal.where((local) => local.type == fireStore.type).toList();
-      if(matchingLocal != null && matchingLocal.length > 0) {
+      if(matchingLocal.isNotEmpty) {
         //do nothing. Location already synced.
       } else {
         //add to local. does not exist in local and has not been synced yet.
@@ -155,15 +153,15 @@ class DiscountCodesDao extends Equatable{
     }
   }
 
-  static Future<DiscountCodes> getDiscountCodesByType(String type) async{
-    if((await getAll()).length > 0) {
+  static Future<DiscountCodes?> getDiscountCodesByType(String type) async{
+    if((await getAll())!.isNotEmpty) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('type', type));
       final recordSnapshots = await _discountCodesStore.find(await _db, finder: finder);
       List<DiscountCodes> discounts = recordSnapshots.map((snapshot) {
         final expense = DiscountCodes.fromMap(snapshot.value);
         return expense;
       }).toList();
-      if(discounts.length > 0) return discounts.elementAt(0);
+      if(discounts.isNotEmpty) return discounts.elementAt(0);
       return null;
     } else {
       return null;
@@ -179,13 +177,13 @@ class DiscountCodesDao extends Equatable{
   List<Object> get props => [];
 
   static void deleteAllLocal() async {
-    List<DiscountCodes> locations = await getAll();
-    _deleteAllLocal(locations);
+    List<DiscountCodes>? locations = await getAll();
+    _deleteAllLocal(locations!);
   }
 
   static void deleteAllRemote() async {
-    List<DiscountCodes> discounts = await getAll();
-    for(DiscountCodes discount in discounts) {
+    List<DiscountCodes>? discounts = await getAll();
+    for(DiscountCodes discount in discounts!) {
       await delete(discount);
     }
   }

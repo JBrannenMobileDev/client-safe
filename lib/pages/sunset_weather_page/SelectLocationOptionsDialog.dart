@@ -29,7 +29,7 @@ class _SelectLocationOptionsDialog extends State<SelectLocationOptionsDialog> wi
     super.build(context);
     return StoreConnector<AppState, SunsetWeatherPageState>(
       onInit: (store) {
-        locationNameTextController.text = store.state.newLocationPageState.locationName;
+        locationNameTextController.text = store.state.newLocationPageState!.locationName!;
       },
       converter: (store) => SunsetWeatherPageState.fromStore(store),
       builder: (BuildContext context, SunsetWeatherPageState pageState) =>
@@ -80,7 +80,7 @@ class _SelectLocationOptionsDialog extends State<SelectLocationOptionsDialog> wi
                 ),
                 GestureDetector(
                   onTap: () {
-                    pageState.onSearchInputChanged('');
+                    pageState.onSearchInputChanged!('');
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => SunsetWeatherMapPage()),
                     );

@@ -66,6 +66,14 @@ class FileStorage {
     await _uploadPreviewBannerMobileImageFile(pathLarge, profile, handleProgress);
   }
 
+  static void deleteLocationFileImage(LocationDandy? location) async {
+    _deleteLocationImageFileFromCloud(location);
+  }
+
+  static void deletePoseFileImage(Pose? pose) async {
+    _deletePoseImageFileFromCloud(pose);
+  }
+
   static saveQuestionWebImageFile(String pathLarge, Function(String) saveDownloadUrl, Function(TaskSnapshot) handleProgress) async {
     await _uploadQuestionWebImageFile(pathLarge, saveDownloadUrl, handleProgress);
   }
@@ -74,24 +82,16 @@ class FileStorage {
     await _uploadQuestionMobileImageFile(pathLarge, saveDownloadUrl, handleProgress);
   }
 
-  static void deleteLocationFileImage(LocationDandy location) async {
-    _deleteLocationImageFileFromCloud(location);
-  }
-
-  static void deletePoseFileImage(Pose pose) async {
-    _deletePoseImageFileFromCloud(pose);
-  }
-
   //Intended for flutter web
   static void webDownload(Object bytes, String fileName) {
-    Uri uri = Uri.parse("data:application/octet-stream;base64,${base64Encode(bytes)}");
+    Uri uri = Uri.parse("data:application/octet-stream;base64,${base64Encode(bytes as List<int>)}");
     launchUrl(uri);
   }
 
-  static Future<File> getLocationImageFile(LocationDandy location) async {
+  static Future<File?> getLocationImageFile(LocationDandy location) async {
     final storageRef = FirebaseStorage.instance.ref();
     final cloudFilePath = storageRef.child(location.address == "exampleJob" ? _buildExampleLocationImagePath(location) : _buildLocationImagePath(location));
-    String imageUrl = null;
+    String? imageUrl = null;
     try{
       imageUrl = await cloudFilePath.getDownloadURL();
     } catch(ex) {
@@ -105,8 +105,8 @@ class FileStorage {
     }
   }
 
-  static Future<File> getPoseImageFile(Pose pose, PoseGroup group, bool isLibraryPose, Job job) async {
-    String imageUrl = pose.imageUrl;
+  static Future<File?> getPoseImageFile(Pose pose, PoseGroup? group, bool isLibraryPose, Job job) async {
+    String? imageUrl = pose.imageUrl;
     if(imageUrl == null || imageUrl.isEmpty) {
       final storageRef = FirebaseStorage.instance.ref();
       final cloudFilePath = storageRef.child(isLibraryPose ? _buildPoseLibraryImagePath(pose) : _buildPoseImagePath(pose));
@@ -116,20 +116,8 @@ class FileStorage {
     return await DandylightCacheManager.instance.getSingleFile(imageUrl);
   }
 
-  static Future<File> getPoseLibraryImageFile(Pose pose, PoseLibraryGroup group) async {
-    String imageUrl = pose.imageUrl;
-
-    if(imageUrl == null || imageUrl.isEmpty) {
-      final storageRef = FirebaseStorage.instance.ref();
-      final cloudFilePath = storageRef.child(_buildPoseLibraryImagePath(pose));
-      imageUrl = await cloudFilePath.getDownloadURL();
-      _updatePoseLibraryImageUrl(pose, imageUrl, group);
-    }
-    return await DandylightCacheManager.instance.getSingleFile(imageUrl);
-  }
-
   static Future<File> getSubmittedPoseImageFile(Pose pose) async {
-    String imageUrl = pose.imageUrl;
+    String? imageUrl = pose.imageUrl;
 
     if(imageUrl == null || imageUrl.isEmpty) {
       final storageRef = FirebaseStorage.instance.ref();
@@ -140,26 +128,14 @@ class FileStorage {
     return await DandylightCacheManager.instance.getSingleFile(imageUrl);
   }
 
-  static _updatePoseLibraryImageUrl(Pose poseToUpdate, String imageUrl, PoseLibraryGroup group) async {
-    poseToUpdate.imageUrl = imageUrl;
-    if(group != null) {
-      for(Pose pose in group.poses) {
-        if(pose.documentId == poseToUpdate.documentId) {
-          pose.imageUrl = imageUrl;
-        }
-      }
-      await PoseLibraryGroupDao.update(group);
-    }
-  }
-
-  static _updatePoseImageUrl(Pose poseToUpdate, String imageUrl, PoseGroup group, Job job) async {
+  static _updatePoseImageUrl(Pose poseToUpdate, String imageUrl, PoseGroup? group, Job? job) async {
     //update Pose
     poseToUpdate.imageUrl = imageUrl;
     await PoseDao.insertOrUpdate(poseToUpdate);
 
     //Update PoseGroup that includes this pose
     if(group != null) {
-      for(Pose pose in group.poses) {
+      for(Pose pose in group.poses!) {
         if(pose.documentId == poseToUpdate.documentId) {
           pose.imageUrl = imageUrl;
         }
@@ -169,15 +145,15 @@ class FileStorage {
 
     //Update Job poses that include this pose
     if(job != null) {
-      job.poses.removeWhere((pose) => pose.documentId == poseToUpdate.documentId);
-      job.poses.add(poseToUpdate);
+      job.poses!.removeWhere((pose) => pose.documentId == poseToUpdate.documentId);
+      job.poses!.add(poseToUpdate);
       JobDao.update(job);
     }
   }
 
   static _updateLibraryPoseImageUrl(Pose poseToUpdate, String imageUrl, PoseLibraryGroup group) async {
     poseToUpdate.imageUrl = imageUrl;
-    for(Pose pose in group.poses) {
+    for(Pose pose in group.poses!) {
       if(pose.documentId == poseToUpdate.documentId) {
         pose.imageUrl = imageUrl;
       }
@@ -188,42 +164,42 @@ class FileStorage {
   static _updateSubmittedPoseImageUrlLarge(Pose poseToUpdate, String imageUrl) async {
     poseToUpdate.imageUrl = imageUrl;
     await PoseDao.update(poseToUpdate);
-    await PoseSubmittedGroupDao.updatePoseInGroup(poseToUpdate, UidUtil().getUid());
+    PoseSubmittedGroupDao.updatePoseInGroup(poseToUpdate, UidUtil().getUid());
   }
 
   static _updateProfileIconImageUrlLarge(Profile profileToUpdate, String imageUrl) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.logoUrl = imageUrl;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.logoUrl = imageUrl;
     await ProfileDao.update(profile);
   }
 
   static _updateProfilePreviewIconImageUrlLarge(Profile profileToUpdate, String imageUrl) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.previewLogoUrl = imageUrl;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.previewLogoUrl = imageUrl;
     await ProfileDao.update(profile);
   }
 
   static _updateBannerWebImageUrlLarge(Profile profileToUpdate, String imageUrl) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.bannerWebUrl = imageUrl;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.bannerWebUrl = imageUrl;
     await ProfileDao.update(profile);
   }
 
   static _updateBannerMobileImageUrlLarge(Profile profileToUpdate, String imageUrl) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.bannerMobileUrl = imageUrl;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.bannerMobileUrl = imageUrl;
     await ProfileDao.update(profile);
   }
 
   static _updatePreviewBannerWebImageUrlLarge(Profile profileToUpdate, String imageUrl) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.previewBannerWebUrl = imageUrl;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.previewBannerWebUrl = imageUrl;
     await ProfileDao.update(profile);
   }
 
   static _updatePreviewBannerMobileImageUrlLarge(Profile profileToUpdate, String imageUrl) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.previewBannerMobileUrl = imageUrl;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.previewBannerMobileUrl = imageUrl;
     await ProfileDao.update(profile);
   }
 
@@ -237,12 +213,12 @@ class FileStorage {
       final storageRef = FirebaseStorage.instance.ref();
       final cloudFilePath = await storageRef.child(_buildPoseImagePath(pose));
       String imageUrl = await cloudFilePath.getDownloadURL();
-      poseGroup.poses.firstWhere((groupPose) => groupPose.documentId == pose.documentId)?.imageUrl = imageUrl;
+      poseGroup.poses!.firstWhere((groupPose) => groupPose.documentId == pose.documentId)?.imageUrl = imageUrl;
     }
     await PoseGroupDao.update(poseGroup);
   }
 
-  static _deleteLocationImageFileFromCloud(LocationDandy location) async {
+  static _deleteLocationImageFileFromCloud(LocationDandy? location) async {
     try{
       if(location != null) {
         final storageRef = FirebaseStorage.instance.ref();
@@ -253,7 +229,7 @@ class FileStorage {
     }
   }
 
-  static _deletePoseImageFileFromCloud(Pose pose) async {
+  static _deletePoseImageFileFromCloud(Pose? pose) async {
     try{
       if(pose != null) {
         final storageRef = FirebaseStorage.instance.ref();
@@ -325,256 +301,240 @@ class FileStorage {
   static _uploadLibraryPoseImageFile(String imagePathLarge, Pose pose, PoseLibraryGroup group) async {
     final storageRef = FirebaseStorage.instance.ref();
 
-    if(imagePathLarge != null) {
-      final uploadTask = storageRef
-          .child(_buildPoseLibraryImagePath(pose))
-          .putFile(File(imagePathLarge));
+    final uploadTask = storageRef
+        .child(_buildPoseLibraryImagePath(pose))
+        .putFile(File(imagePathLarge));
 
-      uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
-        switch (taskSnapshot.state) {
-          case TaskState.running:
-            final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
-            print("Upload is $progress% complete.");
-            break;
-          case TaskState.paused:
-            print("Upload is paused.");
-            break;
-          case TaskState.canceled:
-            print("Upload was canceled");
-            break;
-          case TaskState.error:
-          // Handle unsuccessful uploads
-            break;
-          case TaskState.success:
-            _fetchAndSaveLibraryPoseImageDownloadUrl(pose, group);
-            break;
-        }
-      });
-    }
+    uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+      switch (taskSnapshot.state) {
+        case TaskState.running:
+          final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
+          print("Upload is $progress% complete.");
+          break;
+        case TaskState.paused:
+          print("Upload is paused.");
+          break;
+        case TaskState.canceled:
+          print("Upload was canceled");
+          break;
+        case TaskState.error:
+        // Handle unsuccessful uploads
+          break;
+        case TaskState.success:
+          _fetchAndSaveLibraryPoseImageDownloadUrl(pose, group);
+          break;
+      }
+    });
   }
 
   static _uploadSubmittedPoseImageFile(String imagePathLarge, Pose pose) async {
     final storageRef = FirebaseStorage.instance.ref();
 
-    if(imagePathLarge != null) {
-      final uploadTaskLarge = storageRef
-          .child(_buildPoseLibraryImagePath(pose))
-          .putFile(File(imagePathLarge));
+    final uploadTaskLarge = storageRef
+        .child(_buildPoseLibraryImagePath(pose))
+        .putFile(File(imagePathLarge));
 
-      uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
-        switch (taskSnapshot.state) {
-          case TaskState.running:
-            final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
-            print("Upload is $progress% complete.");
-            break;
-          case TaskState.paused:
-            print("Upload is paused.");
-            break;
-          case TaskState.canceled:
-            print("Upload was canceled");
-            break;
-          case TaskState.error:
-          // Handle unsuccessful uploads
-            break;
-          case TaskState.success:
-            _fetchAndSaveSubmittedPoseImageDownloadUrlLarge(pose);
-            break;
-        }
-      });
-    }
+    uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+      switch (taskSnapshot.state) {
+        case TaskState.running:
+          final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
+          print("Upload is $progress% complete.");
+          break;
+        case TaskState.paused:
+          print("Upload is paused.");
+          break;
+        case TaskState.canceled:
+          print("Upload was canceled");
+          break;
+        case TaskState.error:
+        // Handle unsuccessful uploads
+          break;
+        case TaskState.success:
+          _fetchAndSaveSubmittedPoseImageDownloadUrlLarge(pose);
+          break;
+      }
+    });
   }
 
   static _uploadProfileIconImageFile(String imagePathLarge, Profile profile, Function(TaskSnapshot) handleProgress) async {
     final storageRef = FirebaseStorage.instance.ref();
 
-    if(imagePathLarge != null) {
-      final uploadTaskLarge = storageRef
-          .child(_buildProfileIconImagePath(imagePathLarge))
-          .putFile(File(imagePathLarge));
+    final uploadTaskLarge = storageRef
+        .child(_buildProfileIconImagePath(imagePathLarge))
+        .putFile(File(imagePathLarge));
 
-      uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
-        handleProgress(taskSnapshot);
-        switch (taskSnapshot.state) {
-          case TaskState.running:
-            final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
-            print("Upload is $progress% complete.");
-            break;
-          case TaskState.paused:
-            print("Upload is paused.");
-            break;
-          case TaskState.canceled:
-            print("Upload was canceled");
-            break;
-          case TaskState.error:
-          // Handle unsuccessful uploads
-            break;
-          case TaskState.success:
-            print("Upload was successful");
-            _fetchAndSaveProfileIconImageDownloadUrlLarge(imagePathLarge, profile);
-            break;
-        }
-      });
-    }
+    uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+      handleProgress(taskSnapshot);
+      switch (taskSnapshot.state) {
+        case TaskState.running:
+          final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
+          print("Upload is $progress% complete.");
+          break;
+        case TaskState.paused:
+          print("Upload is paused.");
+          break;
+        case TaskState.canceled:
+          print("Upload was canceled");
+          break;
+        case TaskState.error:
+        // Handle unsuccessful uploads
+          break;
+        case TaskState.success:
+          print("Upload was successful");
+          _fetchAndSaveProfileIconImageDownloadUrlLarge(imagePathLarge, profile);
+          break;
+      }
+    });
   }
 
   static _uploadProfilePreviewIconImageFile(String imagePathLarge, Profile profile, Function(TaskSnapshot) handleProgress) async {
     final storageRef = FirebaseStorage.instance.ref();
 
-    if(imagePathLarge != null) {
-      final uploadTaskLarge = storageRef
-          .child(_buildProfilePreviewIconImagePath(imagePathLarge))
-          .putFile(File(imagePathLarge));
+    final uploadTaskLarge = storageRef
+        .child(_buildProfilePreviewIconImagePath(imagePathLarge))
+        .putFile(File(imagePathLarge));
 
-      uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
-        handleProgress(taskSnapshot);
-        switch (taskSnapshot.state) {
-          case TaskState.running:
-            final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
-            print("Upload is $progress% complete.");
-            break;
-          case TaskState.paused:
-            print("Upload is paused.");
-            break;
-          case TaskState.canceled:
-            print("Upload was canceled");
-            break;
-          case TaskState.error:
-          // Handle unsuccessful uploads
-            break;
-          case TaskState.success:
-            _fetchAndSaveProfilePreviewIconImageDownloadUrlLarge(imagePathLarge, profile);
-            break;
-        }
-      });
-    }
+    uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+      handleProgress(taskSnapshot);
+      switch (taskSnapshot.state) {
+        case TaskState.running:
+          final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
+          print("Upload is $progress% complete.");
+          break;
+        case TaskState.paused:
+          print("Upload is paused.");
+          break;
+        case TaskState.canceled:
+          print("Upload was canceled");
+          break;
+        case TaskState.error:
+        // Handle unsuccessful uploads
+          break;
+        case TaskState.success:
+          _fetchAndSaveProfilePreviewIconImageDownloadUrlLarge(imagePathLarge, profile);
+          break;
+      }
+    });
   }
 
   static _uploadBannerWebImageFile(String imagePathLarge, Profile profile, Function(TaskSnapshot) handleProgress) async {
     final storageRef = FirebaseStorage.instance.ref();
 
-    if(imagePathLarge != null) {
-      final uploadTaskLarge = storageRef
-          .child(_buildBannerWebImagePath(imagePathLarge))
-          .putFile(File(imagePathLarge));
+    final uploadTaskLarge = storageRef
+        .child(_buildBannerWebImagePath(imagePathLarge))
+        .putFile(File(imagePathLarge));
 
-      uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
-        handleProgress(taskSnapshot);
-        switch (taskSnapshot.state) {
-          case TaskState.running:
-            final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
-            print("Upload is $progress% complete.");
-            break;
-          case TaskState.paused:
-            print("Upload is paused.");
-            break;
-          case TaskState.canceled:
-            print("Upload was canceled");
-            break;
-          case TaskState.error:
-          // Handle unsuccessful uploads
-            break;
-          case TaskState.success:
-            _fetchAndSaveBannerWebImageDownloadUrlLarge(imagePathLarge, profile);
-            break;
-        }
-      });
-    }
+    uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+      handleProgress(taskSnapshot);
+      switch (taskSnapshot.state) {
+        case TaskState.running:
+          final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
+          print("Upload is $progress% complete.");
+          break;
+        case TaskState.paused:
+          print("Upload is paused.");
+          break;
+        case TaskState.canceled:
+          print("Upload was canceled");
+          break;
+        case TaskState.error:
+        // Handle unsuccessful uploads
+          break;
+        case TaskState.success:
+          _fetchAndSaveBannerWebImageDownloadUrlLarge(imagePathLarge, profile);
+          break;
+      }
+    });
   }
 
   static _uploadBannerMobileImageFile(String imagePathLarge, Profile profile, Function(TaskSnapshot) handleProgress) async {
     final storageRef = FirebaseStorage.instance.ref();
 
-    if(imagePathLarge != null) {
-      final uploadTaskLarge = storageRef
-          .child(_buildBannerMobileImagePath(imagePathLarge))
-          .putFile(File(imagePathLarge));
+    final uploadTaskLarge = storageRef
+        .child(_buildBannerMobileImagePath(imagePathLarge))
+        .putFile(File(imagePathLarge));
 
-      uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
-        handleProgress(taskSnapshot);
-        switch (taskSnapshot.state) {
-          case TaskState.running:
-            final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
-            print("Upload is $progress% complete.");
-            break;
-          case TaskState.paused:
-            print("Upload is paused.");
-            break;
-          case TaskState.canceled:
-            print("Upload was canceled");
-            break;
-          case TaskState.error:
-          // Handle unsuccessful uploads
-            break;
-          case TaskState.success:
-            _fetchAndSaveBannerMobileImageDownloadUrlLarge(imagePathLarge, profile);
-            break;
-        }
-      });
-    }
+    uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+      handleProgress(taskSnapshot);
+      switch (taskSnapshot.state) {
+        case TaskState.running:
+          final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
+          print("Upload is $progress% complete.");
+          break;
+        case TaskState.paused:
+          print("Upload is paused.");
+          break;
+        case TaskState.canceled:
+          print("Upload was canceled");
+          break;
+        case TaskState.error:
+        // Handle unsuccessful uploads
+          break;
+        case TaskState.success:
+          _fetchAndSaveBannerMobileImageDownloadUrlLarge(imagePathLarge, profile);
+          break;
+      }
+    });
   }
 
   static _uploadPreviewBannerWebImageFile(String imagePathLarge, Profile profile, Function(TaskSnapshot) handleProgress) async {
     final storageRef = FirebaseStorage.instance.ref();
 
-    if(imagePathLarge != null) {
-      final uploadTaskLarge = storageRef
-          .child(_buildPreviewBannerWebImagePath(imagePathLarge))
-          .putFile(File(imagePathLarge));
+    final uploadTaskLarge = storageRef
+        .child(_buildPreviewBannerWebImagePath(imagePathLarge))
+        .putFile(File(imagePathLarge));
 
-      uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
-        handleProgress(taskSnapshot);
-        switch (taskSnapshot.state) {
-          case TaskState.running:
-            final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
-            print("Upload is $progress% complete.");
-            break;
-          case TaskState.paused:
-            print("Upload is paused.");
-            break;
-          case TaskState.canceled:
-            print("Upload was canceled");
-            break;
-          case TaskState.error:
-          // Handle unsuccessful uploads
-            break;
-          case TaskState.success:
-            _fetchAndSavePreviewBannerWebImageDownloadUrlLarge(imagePathLarge, profile);
-            break;
-        }
-      });
-    }
+    uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+      handleProgress(taskSnapshot);
+      switch (taskSnapshot.state) {
+        case TaskState.running:
+          final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
+          print("Upload is $progress% complete.");
+          break;
+        case TaskState.paused:
+          print("Upload is paused.");
+          break;
+        case TaskState.canceled:
+          print("Upload was canceled");
+          break;
+        case TaskState.error:
+        // Handle unsuccessful uploads
+          break;
+        case TaskState.success:
+          _fetchAndSavePreviewBannerWebImageDownloadUrlLarge(imagePathLarge, profile);
+          break;
+      }
+    });
   }
 
   static _uploadPreviewBannerMobileImageFile(String imagePathLarge, Profile profile, Function(TaskSnapshot) handleProgress) async {
     final storageRef = FirebaseStorage.instance.ref();
 
-    if(imagePathLarge != null) {
-      final uploadTaskLarge = storageRef
-          .child(_buildPreviewBannerMobileImagePath(imagePathLarge))
-          .putFile(File(imagePathLarge));
+    final uploadTaskLarge = storageRef
+        .child(_buildPreviewBannerMobileImagePath(imagePathLarge))
+        .putFile(File(imagePathLarge));
 
-      uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
-        handleProgress(taskSnapshot);
-        switch (taskSnapshot.state) {
-          case TaskState.running:
-            final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
-            print("Upload is $progress% complete.");
-            break;
-          case TaskState.paused:
-            print("Upload is paused.");
-            break;
-          case TaskState.canceled:
-            print("Upload was canceled");
-            break;
-          case TaskState.error:
-          // Handle unsuccessful uploads
-            break;
-          case TaskState.success:
-            _fetchAndSavePreviewBannerMobileImageDownloadUrlLarge(imagePathLarge, profile);
-            break;
-        }
-      });
-    }
+    uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+      handleProgress(taskSnapshot);
+      switch (taskSnapshot.state) {
+        case TaskState.running:
+          final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
+          print("Upload is $progress% complete.");
+          break;
+        case TaskState.paused:
+          print("Upload is paused.");
+          break;
+        case TaskState.canceled:
+          print("Upload was canceled");
+          break;
+        case TaskState.error:
+        // Handle unsuccessful uploads
+          break;
+        case TaskState.success:
+          _fetchAndSavePreviewBannerMobileImageDownloadUrlLarge(imagePathLarge, profile);
+          break;
+      }
+    });
   }
 
   static _uploadQuestionWebImageFile(String imagePathLarge, Function(String) saveDownloadUrl, Function(TaskSnapshot) handleProgress) async {

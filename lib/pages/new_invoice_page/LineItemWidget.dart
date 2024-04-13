@@ -40,13 +40,13 @@ class LineItemWidget extends StatelessWidget {
             children: <Widget>[
               TextDandyLight(
                 type: TextDandyLight.LARGE_TEXT,
-                text: lineItem.itemQuantity > 1 ? ('(' + lineItem.itemQuantity.toString() + ' x ' + TextFormatterUtil.formatSimpleCurrency(lineItem.itemPrice.toInt()) + ')   ') : '',
+                text: lineItem.itemQuantity! > 1 ? ('(' + lineItem.itemQuantity.toString() + ' x ' + TextFormatterUtil.formatSimpleCurrency(lineItem.itemPrice!.toInt()) + ')   ') : '',
                 textAlign: TextAlign.start,
                 color: Color(ColorConstants.getPrimaryBlack()),
               ),
               TextDandyLight(
                 type: TextDandyLight.LARGE_TEXT,
-                text: TextFormatterUtil.formatDecimalDigitsCurrency(lineItem.itemPrice * lineItem.itemQuantity, 2),
+                text: TextFormatterUtil.formatDecimalDigitsCurrency(lineItem.itemPrice! * lineItem.itemQuantity!, 2),
                 textAlign: TextAlign.start,
                 color: Color(ColorConstants.getPrimaryBlack()),
               ),

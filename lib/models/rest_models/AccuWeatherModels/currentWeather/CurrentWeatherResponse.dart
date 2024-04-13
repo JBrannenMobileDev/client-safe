@@ -1,16 +1,16 @@
 import 'package:dandylight/models/rest_models/AccuWeatherModels/currentWeather/Temperature.dart';
 
 class CurrentWeatherResponse {
-  String localObservationDateTime;
-  int epochTime;
-  String weatherText;
-  int weatherIcon;
-  bool hasPrecipitation;
+  String? localObservationDateTime;
+  int? epochTime;
+  String? weatherText;
+  int? weatherIcon;
+  bool? hasPrecipitation;
   Null precipitationType;
-  bool isDayTime;
-  Temperature temperature;
-  String mobileLink;
-  String link;
+  bool? isDayTime;
+  Temperature? temperature;
+  String? mobileLink;
+  String? link;
 
   CurrentWeatherResponse(
       {this.localObservationDateTime,
@@ -49,7 +49,7 @@ class CurrentWeatherResponse {
     data['PrecipitationType'] = this.precipitationType;
     data['IsDayTime'] = this.isDayTime;
     if (this.temperature != null) {
-      data['Temperature'] = this.temperature.toJson();
+      data['Temperature'] = this.temperature!.toJson();
     }
     data['MobileLink'] = this.mobileLink;
     data['Link'] = this.link;

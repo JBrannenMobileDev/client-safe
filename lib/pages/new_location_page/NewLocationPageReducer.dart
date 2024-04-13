@@ -35,8 +35,8 @@ NewLocationPageState _setSearchText(NewLocationPageState previousState, SetSearc
 NewLocationPageState _setSelectedSearchLocation(NewLocationPageState previousState, SetSelectedSearchLocation action){
   return previousState.copyWith(
     selectedSearchLocation: action.selectedSearchLocation,
-    newLocationLatitude: action.selectedSearchLocation.latitude,
-    newLocationLongitude: action.selectedSearchLocation.longitude,
+    newLocationLatitude: action.selectedSearchLocation!.latitude,
+    newLocationLongitude: action.selectedSearchLocation!.longitude,
     locationsResults: [],
   );
 }
@@ -54,7 +54,7 @@ NewLocationPageState _setImagePath(NewLocationPageState previousState, SaveImage
 }
 
 NewLocationPageState _incrementPageViewIndex(NewLocationPageState previousState, IncrementPageViewIndex action) {
-  int incrementedIndex = previousState.pageViewIndex;
+  int incrementedIndex = previousState.pageViewIndex!;
   incrementedIndex++;
   return previousState.copyWith(
       pageViewIndex: incrementedIndex
@@ -62,7 +62,7 @@ NewLocationPageState _incrementPageViewIndex(NewLocationPageState previousState,
 }
 
 NewLocationPageState _decrementPageViewIndex(NewLocationPageState previousState, DecrementPageViewIndex action) {
-  int decrementedIndex = previousState.pageViewIndex;
+  int decrementedIndex = previousState.pageViewIndex!;
   decrementedIndex--;
   return previousState.copyWith(
       pageViewIndex: decrementedIndex
@@ -71,7 +71,7 @@ NewLocationPageState _decrementPageViewIndex(NewLocationPageState previousState,
 
 NewLocationPageState _updatePageView(NewLocationPageState previousState, IncrementPageViewIndex action){
   return previousState.copyWith(
-    pageViewIndex: (previousState.pageViewIndex + 1),
+    pageViewIndex: (previousState.pageViewIndex! + 1),
   );
 }
 
@@ -100,8 +100,8 @@ NewLocationPageState _clearState(NewLocationPageState previousState, ClearStateA
 
 NewLocationPageState _updateLocation(NewLocationPageState previousState, UpdateLocation action) {
   return previousState.copyWith(
-    newLocationLatitude: action.latLng.latitude,
-    newLocationLongitude: action.latLng.longitude,
+    newLocationLatitude: action.latLng!.latitude,
+    newLocationLongitude: action.latLng!.longitude,
     selectedLatLng: action.latLng,
     locationUpdate: true,
     pageViewIndex: 2,
@@ -116,12 +116,12 @@ NewLocationPageState _updateLocationName(NewLocationPageState previousState, Upd
 
 NewLocationPageState _loadLocationData(NewLocationPageState previousState, LoadExistingLocationData action){
   return previousState.copyWith(
-    id: action.location.id,
-    documentId: action.location.documentId,
+    id: action.location!.id,
+    documentId: action.location!.documentId,
     shouldClear: false,
-    locationName: action.location.locationName,
-    newLocationLatitude: action.location.latitude,
-    newLocationLongitude: action.location.longitude,
+    locationName: action.location!.locationName,
+    newLocationLatitude: action.location!.latitude,
+    newLocationLongitude: action.location!.longitude,
     pageViewIndex: 0,
   );
 }

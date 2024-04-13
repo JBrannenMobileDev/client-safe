@@ -1,19 +1,13 @@
+import 'dart:async';
+
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_invoice_page/InputDoneView.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
-import 'package:dandylight/pages/new_invoice_page/NewInvoiceTextField.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/RateTypeSelection.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/TextFormatterUtil.dart';
-import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
-
-import '../../models/Job.dart';
-import '../../models/JobStage.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'BalanceDueWidget.dart';
 import 'DepositRowWidget.dart';
@@ -22,6 +16,7 @@ import 'GrayDividerWidget.dart';
 import 'LineItemListWidget.dart';
 import 'SalesTaxRowWidget.dart';
 import 'SubtotalRowWidget.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 class PriceBreakdownForm extends StatefulWidget {
 
@@ -32,9 +27,32 @@ class PriceBreakdownForm extends StatefulWidget {
 }
 
 class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticKeepAliveClientMixin {
-  OverlayEntry overlayEntry;
+  OverlayEntry? overlayEntry;
   final FocusNode flatRateInputFocusNode = FocusNode();
   var flatRateTextController = TextEditingController(text: '\$');
+  late StreamSubscription<bool> keyboardSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+
+    var keyboardVisibilityController = KeyboardVisibilityController();
+    keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
+      setState(() {
+        if(visible) {
+          showOverlay(context);
+        } else {
+          removeOverlay();
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    keyboardSubscription.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,19 +63,10 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
     return StoreConnector<AppState, NewInvoicePageState>(
       onInit: (appState) {
 
-        if (appState.state.newInvoicePageState.selectedJob?.priceProfile != null) {
-          flatRateTextController = TextEditingController(text: '\$' + appState.state.newInvoicePageState.selectedJob.priceProfile
-              .flatRate.toInt().toString());
+        if (appState.state.newInvoicePageState!.selectedJob?.priceProfile != null) {
+          flatRateTextController = TextEditingController(text: '\$' + appState.state.newInvoicePageState!.selectedJob!.priceProfile!
+              .flatRate!.toInt().toString());
         }
-
-        KeyboardVisibilityNotification().addNewListener(
-            onShow: () {
-              showOverlay(context);
-            },
-            onHide: () {
-              removeOverlay();
-            }
-        );
 
         flatRateInputFocusNode.addListener(() {
           bool hasFocus = overlayEntry != null;
@@ -69,7 +78,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
         );
       },
       onDidChange: (prev, pageState) {
-        flatRateTextController.text = pageState.flatRateText.length == 0 ? '\$' : '\$' + double.parse(pageState.flatRateText.replaceFirst(r'$', '')).toInt().toString();
+        flatRateTextController.text = pageState.flatRateText!.length == 0 ? '\$' : '\$' + double.parse(pageState.flatRateText!.replaceFirst(r'$', '')).toInt().toString();
         flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
       },
       converter: (store) => NewInvoicePageState.fromStore(store),
@@ -103,7 +112,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
                   DiscountRowWidget(pageState),
                   SalesTaxRowWidget(),
                   GrayDividerWidget(),
-                  pageState.selectedJob.priceProfile.deposit > 0 ? DepositRowWidget() : SizedBox(),
+                  (pageState.selectedJob?.priceProfile?.deposit ?? 0) > 0 ? DepositRowWidget() : SizedBox(),
                   BalanceDueWidget(pageState),
                 ],
               )
@@ -123,12 +132,12 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
           child: InputDoneView());
     });
 
-    overlayState.insert(overlayEntry);
+    overlayState.insert(overlayEntry!);
   }
 
   removeOverlay() {
     if (overlayEntry != null) {
-      overlayEntry.remove();
+      overlayEntry!.remove();
       overlayEntry = null;
     }
   }

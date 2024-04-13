@@ -137,7 +137,7 @@ class _NewPoseGroupPageState extends State<NewPoseGroupPage> {
     if(MediaQuery.of(context).viewInsets.bottom != 0) KeyboardUtil.closeKeyboard(context);
 
     showSuccessAnimation();
-    pageState.onSaveSelected();
+    pageState.onSaveSelected!();
   }
 
   void showSuccessAnimation(){
@@ -165,7 +165,7 @@ class _NewPoseGroupPageState extends State<NewPoseGroupPage> {
 
   void onBackPressed(NewPoseGroupPageState pageState) {
     if(MediaQuery.of(context).viewInsets.bottom != 0) KeyboardUtil.closeKeyboard(context);
-    pageState.onCanceledSelected();
+    pageState.onCanceledSelected!();
     Navigator.of(context).pop();
   }
 }

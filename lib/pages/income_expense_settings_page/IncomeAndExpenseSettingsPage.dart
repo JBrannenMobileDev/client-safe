@@ -13,7 +13,7 @@ import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class IncomeAndExpenseSettingsPage extends StatefulWidget {
-  const IncomeAndExpenseSettingsPage({Key key}) : super(key: key);
+  const IncomeAndExpenseSettingsPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -43,7 +43,6 @@ class _IncomeAndExpenseSettingsPageState extends State<IncomeAndExpenseSettingsP
                       iconTheme: IconThemeData(
                         color: Color(ColorConstants.getPrimaryBlack()), //change your color here
                       ),
-                      brightness: Brightness.light,
                       backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
                       pinned: true,
                       centerTitle: true,

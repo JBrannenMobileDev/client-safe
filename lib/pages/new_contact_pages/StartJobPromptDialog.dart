@@ -45,7 +45,7 @@ class _StartJobPromptDialogState extends State<StartJobPromptDialog>
                     padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      text: "Would you like to start a job for " + pageState.newContactFirstName + ' ' + pageState.newContactLastName + ' now ?',
+                      text: "Would you like to start a job for " + pageState.newContactFirstName! + ' ' + pageState.newContactLastName! + ' now ?',
                       textAlign: TextAlign.center,
                       color: Color(ColorConstants.getPrimaryBlack()),
                     ),
@@ -55,10 +55,10 @@ class _StartJobPromptDialogState extends State<StartJobPromptDialog>
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
-                          pageState.onStartNewJobSelected();
-                          pageState.onCancelPressed();//just clears the pageState for cleanup.
+                          pageState.onStartNewJobSelected!();
+                          pageState.onCancelPressed!();//just clears the pageState for cleanup.
                           Navigator.of(context).pop();
-                          UserOptionsUtil.showNewJobDialog(context, false);
+                          UserOptionsUtil.showNewJobDialog(context, false, initialIndex: 1);
                           EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "Start job Prompt"});
                         },
                         child: Container(

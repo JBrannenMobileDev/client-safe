@@ -1,10 +1,10 @@
 
 class Feedback {
 
-  int id;
-  String selectedFilter;
-  double rate;
-  double percentage;
+  int? id;
+  String? selectedFilter;
+  double? rate;
+  double? percentage;
 
   Feedback({
     this.id,

@@ -6,9 +6,9 @@ import '../../AppState.dart';
 import 'ContractsActions.dart';
 
 class ContractsPageState{
-  final List<Contract> contracts;
-  final List<Contract> contractTemplates;
-  final Function(Contract, String) onSaveToJobSelected;
+  final List<Contract>? contracts;
+  final List<Contract>? contractTemplates;
+  final Function(Contract, String)? onSaveToJobSelected;
 
   ContractsPageState({
     @required this.contracts,
@@ -17,9 +17,9 @@ class ContractsPageState{
   });
 
   ContractsPageState copyWith({
-    List<Contract> contracts,
-    List<Contract> contractTemplates,
-    Function(Contract, String) onSaveToJobSelected,
+    List<Contract>? contracts,
+    List<Contract>? contractTemplates,
+    Function(Contract, String)? onSaveToJobSelected,
   }){
     return ContractsPageState(
       contracts: contracts?? this.contracts,
@@ -36,8 +36,8 @@ class ContractsPageState{
 
   factory ContractsPageState.fromStore(Store<AppState> store) {
     return ContractsPageState(
-      contracts: store.state.contractsPageState.contracts,
-      contractTemplates: store.state.contractsPageState.contractTemplates,
+      contracts: store.state.contractsPageState!.contracts,
+      contractTemplates: store.state.contractsPageState!.contractTemplates,
       onSaveToJobSelected: (contract, jobDocumentId) => store.dispatch(SaveContractToJobAction(store.state.contractsPageState, contract, jobDocumentId)),
     );
   }

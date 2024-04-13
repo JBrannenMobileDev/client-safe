@@ -11,12 +11,12 @@ import '../../AppState.dart';
 
 class LocationsPageState{
 
-  final List<LocationDandy> locations;
-  final bool shouldClear;
-  final Function(LocationDandy) onLocationSelected;
-  final Function(LocationDandy) onDrivingDirectionsSelected;
-  final Function(LocationDandy) onShareLocationSelected;
-  final Function() clearNewLocationState;
+  final List<LocationDandy?>? locations;
+  final bool? shouldClear;
+  final Function(LocationDandy)? onLocationSelected;
+  final Function(LocationDandy)? onDrivingDirectionsSelected;
+  final Function(LocationDandy)? onShareLocationSelected;
+  final Function()? clearNewLocationState;
 
 
   LocationsPageState({
@@ -29,12 +29,12 @@ class LocationsPageState{
   });
 
   LocationsPageState copyWith({
-    List<LocationDandy> locations,
-    bool shouldClear,
-    Function(int) onLocationSelected,
-    Function(LocationDandy) onDrivingDirectionsSelected,
-    Function(LocationDandy) onShareLocationSelected,
-    Function() clearNewLocationState,
+    List<LocationDandy?>? locations,
+    bool? shouldClear,
+    Function(LocationDandy)? onLocationSelected,
+    Function(LocationDandy)? onDrivingDirectionsSelected,
+    Function(LocationDandy)? onShareLocationSelected,
+    Function()? clearNewLocationState,
   }){
     return LocationsPageState(
       locations: locations?? this.locations,
@@ -57,8 +57,8 @@ class LocationsPageState{
 
   factory LocationsPageState.fromStore(Store<AppState> store) {
     return LocationsPageState(
-      locations: store.state.locationsPageState.locations,
-      shouldClear: store.state.locationsPageState.shouldClear,
+      locations: store.state.locationsPageState!.locations,
+      shouldClear: store.state.locationsPageState!.shouldClear,
       onLocationSelected: (location) => store.dispatch(LoadExistingLocationData(store.state.newLocationPageState, location)),
       onDrivingDirectionsSelected: (location) => store.dispatch(DrivingDirectionsSelected(store.state.locationsPageState, location)),
       onShareLocationSelected: (location) => store.dispatch(ShareLocationSelected(store.state.locationsPageState, location)),

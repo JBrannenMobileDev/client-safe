@@ -4,47 +4,47 @@ import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageState.dart';
 
 class SetSelectedTimeAction{
-  final NewJobReminderPageState pageState;
-  final DateTime time;
+  final NewJobReminderPageState? pageState;
+  final DateTime? time;
   SetSelectedTimeAction(this.pageState, this.time);
 }
 
 class FetchAllRemindersAction{
-  final NewJobReminderPageState pageState;
+  final NewJobReminderPageState? pageState;
   FetchAllRemindersAction(this.pageState);
 }
 
 class SaveNewJobReminderAction{
-  final NewJobReminderPageState pageState;
-  final Job job;
+  final NewJobReminderPageState? pageState;
+  final Job? job;
   SaveNewJobReminderAction(this.pageState, this.job);
 }
 
 class ClearNewJobReminderStateAction{
-  final NewJobReminderPageState pageState;
+  final NewJobReminderPageState? pageState;
   ClearNewJobReminderStateAction(this.pageState);
 }
 
 class IncrementPageViewIndex{
-  final NewJobReminderPageState pageState;
+  final NewJobReminderPageState? pageState;
   IncrementPageViewIndex(this.pageState);
 }
 
 class DecrementPageViewIndex{
-  final NewJobReminderPageState pageState;
+  final NewJobReminderPageState? pageState;
   DecrementPageViewIndex(this.pageState);
 }
 
 class ReminderSelectedAction{
-  final NewJobReminderPageState pageState;
-  final ReminderDandyLight reminder;
+  final NewJobReminderPageState? pageState;
+  final ReminderDandyLight? reminder;
   ReminderSelectedAction(this.pageState, this.reminder);
 }
 
 class SetAllRemindersAction{
-  final NewJobReminderPageState pageState;
-  final List<ReminderDandyLight> allReminders;
-  final int allRemindersLength;
+  final NewJobReminderPageState? pageState;
+  final List<ReminderDandyLight>? allReminders;
+  final int? allRemindersLength;
   SetAllRemindersAction(this.pageState, this.allReminders, this.allRemindersLength);
 }
 

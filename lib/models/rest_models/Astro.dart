@@ -1,10 +1,10 @@
 class Astro {
-  String sunrise;
-  String sunset;
-  String moonrise;
-  String moonset;
-  String moonPhase;
-  String moonIllumination;
+  String? sunrise;
+  String? sunset;
+  String? moonrise;
+  String? moonset;
+  String? moonPhase;
+  String? moonIllumination;
 
   Astro(
       {this.sunrise,

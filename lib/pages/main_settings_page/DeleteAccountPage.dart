@@ -26,14 +26,14 @@ class _DeleteAccountPageState extends State<DeleteAccountPage>
   TextEditingController passwordTextController = TextEditingController();
 
 
-  bool isChecked = false;
+  bool? isChecked = false;
 
   @override
   Widget build(BuildContext context) =>
       StoreConnector<AppState, MainSettingsPageState>(
         converter: (Store<AppState> store) => MainSettingsPageState.fromStore(store),
         onDidChange: (prevState, currentState) {
-          if(!prevState.isDeleteFinished && currentState.isDeleteFinished) {
+          if(!prevState!.isDeleteFinished! && currentState!.isDeleteFinished!) {
             showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -52,12 +52,12 @@ class _DeleteAccountPageState extends State<DeleteAccountPage>
             NavigationUtil.onSignOutSelected(context);
           }
 
-          if(currentState.password.isNotEmpty && passwordTextController.text != currentState.password)passwordTextController.text = currentState.password;
+          if(currentState.password!.isNotEmpty && passwordTextController.text != currentState.password)passwordTextController.text = currentState.password!;
         },
         builder: (BuildContext context, MainSettingsPageState pageState) =>
             WillPopScope(
                 onWillPop: () async{
-                  return !pageState.isDeleteInProgress;
+                  return !pageState.isDeleteInProgress!;
                 },
                 child: Scaffold(
                   backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
@@ -74,7 +74,6 @@ class _DeleteAccountPageState extends State<DeleteAccountPage>
                                 iconTheme: IconThemeData(
                                   color: Color(ColorConstants.getPrimaryBlack()), //change your color here
                                 ),
-                                brightness: Brightness.light,
                                 backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
                                 centerTitle: true,
                                 elevation: 0.0,
@@ -110,7 +109,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage>
                                   Checkbox(
                                     value: isChecked,
                                     activeColor: Color(ColorConstants.error_red),
-                                    onChanged: (bool value) { // This is where we update the state when the checkbox is tapped
+                                    onChanged: (bool? value) { // This is where we update the state when the checkbox is tapped
                                       setState(() {
                                         isChecked = value;
                                       });
@@ -118,7 +117,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage>
                                   ),
                                 ],
                               ),
-                              pageState.passwordErrorMessage.isNotEmpty ? Container(
+                              pageState.passwordErrorMessage!.isNotEmpty ? Container(
                                 padding: EdgeInsets.only(left: 54.0),
                                 alignment: Alignment.bottomLeft,
                                 height: 32.0,
@@ -138,7 +137,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage>
                                 height: 64.0,
                                 inputTypeError: 'Valid Password is required',
                                 onTextInputChanged: (password) {
-                                  pageState.onPasswordChanged(password);
+                                  pageState.onPasswordChanged!(password);
                                 },
                                 onEditingCompleted: null,
                                 keyboardAction: TextInputAction.done,
@@ -149,7 +148,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage>
                               )
                             ],
                           ),
-                          pageState.isDeleteInProgress ? Container(
+                          pageState.isDeleteInProgress! ? Container(
                             alignment: Alignment.center,
                             child: LoadingAnimationWidget.fourRotatingDots(
                               color: Color(ColorConstants.getBlueDark()),
@@ -158,8 +157,8 @@ class _DeleteAccountPageState extends State<DeleteAccountPage>
                           ) : SizedBox(),
                           GestureDetector(
                             onTap: () {
-                              if(isChecked && !pageState.isDeleteInProgress && !pageState.isDeleteFinished) {
-                                pageState.onDeleteAccountSelected();
+                              if(isChecked! && !pageState.isDeleteInProgress! && !pageState.isDeleteFinished!) {
+                                pageState.onDeleteAccountSelected!();
                               }
                             },
                             child: Container(
@@ -167,7 +166,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage>
                               alignment: Alignment.center,
                               height: 48.0,
                               decoration: BoxDecoration(
-                                  color: Color(isChecked  && !pageState.isDeleteInProgress && !pageState.isDeleteFinished ? ColorConstants.getBlueDark() : ColorConstants.getPrimaryGreyMedium()),
+                                  color: Color(isChecked!  && !pageState.isDeleteInProgress! && !pageState.isDeleteFinished! ? ColorConstants.getBlueDark() : ColorConstants.getPrimaryGreyMedium()),
                                   borderRadius: BorderRadius.circular(32.0)),
                               child: TextDandyLight(
                                 type: TextDandyLight.LARGE_TEXT,

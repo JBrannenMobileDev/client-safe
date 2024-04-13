@@ -41,9 +41,11 @@ class _CollectionsPageState extends State<CollectionsPage> {
         body: CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
+              automaticallyImplyLeading: false,
               backgroundColor: Color(ColorConstants.getPrimaryWhite()),
               pinned: true,
               centerTitle: true,
+              surfaceTintColor: Colors.transparent,
               title: Center(
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
@@ -62,7 +64,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: 10,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
+                            crossAxisCount: DeviceType.getDeviceType() == Type.Tablet ? 4 : 2,
                             childAspectRatio: (DeviceType.getDeviceType() == Type.Tablet ? 150 : 112) / (DeviceType.getDeviceType() == Type.Tablet ? 150 : 124),
                         ),
                         itemBuilder: (BuildContext context, int index) {

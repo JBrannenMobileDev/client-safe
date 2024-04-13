@@ -13,7 +13,7 @@ import 'DashboardPageState.dart';
 
 
 class AppUpdateBottomSheet extends StatefulWidget {
-  const AppUpdateBottomSheet({Key key}) : super(key: key);
+  const AppUpdateBottomSheet({Key? key}) : super(key: key);
 
 
   @override
@@ -41,7 +41,7 @@ class _AppUpdateBottomSheetState extends State<AppUpdateBottomSheet> with Ticker
                     margin: const EdgeInsets.only(bottom: 16, left: 12, right: 12),
                     child: TextDandyLight(
                       type: TextDandyLight.LARGE_TEXT,
-                      text: pageState.appSettings.updateTitle,
+                      text: pageState.appSettings!.updateTitle,
                     ),
                   ),
                  Container(
@@ -49,7 +49,7 @@ class _AppUpdateBottomSheetState extends State<AppUpdateBottomSheet> with Ticker
                    child: TextDandyLight(
                      type: TextDandyLight.MEDIUM_TEXT,
                      textAlign: TextAlign.center,
-                     text: pageState.appSettings.updateMessage,
+                     text: pageState.appSettings!.updateMessage,
                    ),
                  ),
                   GestureDetector(

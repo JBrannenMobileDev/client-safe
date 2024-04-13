@@ -13,7 +13,7 @@ import '../../../widgets/TextDandyLight.dart';
 class JobTypeBreakdownPieChart extends StatelessWidget{
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
-  JobTypeBreakdownPieChart({Key key}) : super(key: key);
+  JobTypeBreakdownPieChart({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, DashboardPageState>(
@@ -35,7 +35,7 @@ class JobTypeBreakdownPieChart extends StatelessWidget{
                     color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
-                pageState.jobTypeBreakdownData.isNotEmpty ? PieChartWidget(chartType: PieChartWidget.JOB_TYPE_BREAKDOWN,) :
+                pageState.jobTypeBreakdownData!.isNotEmpty ? PieChartWidget(chartType: PieChartWidget.JOB_TYPE_BREAKDOWN,) :
                   Column(
                     children: [
                       Container(
@@ -55,14 +55,14 @@ class JobTypeBreakdownPieChart extends StatelessWidget{
                       ),
                     ],
                   ),
-                pageState.jobTypeBreakdownData.isNotEmpty ? ListView.builder(
+                pageState.jobTypeBreakdownData!.isNotEmpty ? ListView.builder(
                   reverse: false,
                   padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
                   shrinkWrap: true,
                   controller: null,
                   physics: const ClampingScrollPhysics(),
                   key: _listKey,
-                  itemCount: pageState.jobTypePieChartRowData.length,
+                  itemCount: pageState.jobTypePieChartRowData!.length,
                   itemBuilder: (BuildContext context, int index) {
                     return SizedBox(
                       height: 48.0,
@@ -76,14 +76,14 @@ class JobTypeBreakdownPieChart extends StatelessWidget{
                                 width: 18.0,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(9.0),
-                                    color: Color(pageState.jobTypePieChartRowData.elementAt(index).color)
+                                    color: Color(pageState.jobTypePieChartRowData!.elementAt(index).color!)
                                 ),
                               ),
                               Container(
                                 margin: const EdgeInsets.only(left: 8.0),
                                 child: TextDandyLight(
                                   type: TextDandyLight.SMALL_TEXT,
-                                  text: '${pageState.jobTypePieChartRowData.elementAt(index).jobType} - ${pageState.jobTypePieChartRowData.elementAt(index).count}',
+                                  text: '${pageState.jobTypePieChartRowData!.elementAt(index).jobType} - ${pageState.jobTypePieChartRowData!.elementAt(index).count}',
                                   textAlign: TextAlign.start,
                                   color: Color(ColorConstants.getPrimaryBlack()),
                                 ),
@@ -94,7 +94,7 @@ class JobTypeBreakdownPieChart extends StatelessWidget{
                             margin: const EdgeInsets.only(left: 8.0),
                             child: TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
-                              text: TextFormatterUtil.formatSimpleCurrency(pageState.jobTypePieChartRowData.elementAt(index).totalIncomeForType),
+                              text: TextFormatterUtil.formatSimpleCurrency(pageState.jobTypePieChartRowData!.elementAt(index).totalIncomeForType!),
                               textAlign: TextAlign.start,
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),

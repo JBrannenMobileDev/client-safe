@@ -1,8 +1,4 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/Client.dart';
-import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
-import 'package:dandylight/pages/clients_page/ClientsPage.dart';
-import 'package:dandylight/pages/clients_page/ClientsPageActions.dart';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
@@ -10,12 +6,12 @@ import 'package:redux/redux.dart';
 import 'CalendarSelectionActions.dart';
 
 class CalendarSelectionPageState {
-  final List<Calendar> selectedCalendars;
-  final List<Calendar> writableCalendars;
-  final Function(Calendar, bool) onCalendarSelected;
-  final Function() fetchWritableCalendars;
-  final Function() onSaveSelected;
-  final Function() onCancelSelected;
+  final List<Calendar>? selectedCalendars;
+  final List<Calendar>? writableCalendars;
+  final Function(Calendar, bool)? onCalendarSelected;
+  final Function()? fetchWritableCalendars;
+  final Function()? onSaveSelected;
+  final Function()? onCancelSelected;
 
   CalendarSelectionPageState({
     @required this.onCalendarSelected,
@@ -27,12 +23,12 @@ class CalendarSelectionPageState {
   });
 
   CalendarSelectionPageState copyWith({
-    List<Calendar> selectedCalendars,
-    List<Calendar> writableCalendars,
-    Function(Calendar, bool) onCalendarSelected,
-    Function() fetchWritableCalendars,
-    Function() onSaveSelected,
-    Function() onCancelSelected,
+    List<Calendar>? selectedCalendars,
+    List<Calendar>? writableCalendars,
+    Function(Calendar, bool)? onCalendarSelected,
+    Function()? fetchWritableCalendars,
+    Function()? onSaveSelected,
+    Function()? onCancelSelected,
   }){
     return CalendarSelectionPageState(
       selectedCalendars: selectedCalendars?? this.selectedCalendars,
@@ -55,8 +51,8 @@ class CalendarSelectionPageState {
 
   factory CalendarSelectionPageState.fromStore(Store<AppState> store) {
     return CalendarSelectionPageState(
-      selectedCalendars: store.state.calendarSelectionPageState.selectedCalendars,
-      writableCalendars: store.state.calendarSelectionPageState.writableCalendars,
+      selectedCalendars: store.state.calendarSelectionPageState!.selectedCalendars,
+      writableCalendars: store.state.calendarSelectionPageState!.writableCalendars,
       onCalendarSelected: (calendar, isSelected) => store.dispatch(UpdateSelectedCalendarsAction(store.state.calendarSelectionPageState, calendar, isSelected)),
       onSaveSelected: () => store.dispatch(SaveSelectedAction(store.state.calendarSelectionPageState)),
       fetchWritableCalendars: () => store.dispatch(FetchWritableCalendars(store.state.calendarSelectionPageState)),

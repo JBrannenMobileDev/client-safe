@@ -1,11 +1,11 @@
 class Night {
-  int icon;
-  String iconPhrase;
-  bool hasPrecipitation;
-  String precipitationType;
-  String precipitationIntensity;
-  int precipitationProbability;
-  int cloudCover;
+  int? icon;
+  String? iconPhrase;
+  bool? hasPrecipitation;
+  String? precipitationType;
+  String? precipitationIntensity;
+  int? precipitationProbability;
+  int? cloudCover;
 
   Night(
       {this.icon,

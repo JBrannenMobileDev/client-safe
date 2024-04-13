@@ -8,9 +8,9 @@ import '../../utils/UserOptionsUtil.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class RemindersCard extends StatelessWidget {
-  RemindersCard({Key key, this.pageState}) : super(key: key);
+  RemindersCard({Key? key, this.pageState}) : super(key: key);
 
-  final JobDetailsPageState pageState;
+  final JobDetailsPageState? pageState;
   final ScrollController _controller = ScrollController();
 
   @override
@@ -39,7 +39,7 @@ class RemindersCard extends StatelessWidget {
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                 ),
-                pageState.reminders.isNotEmpty
+                pageState!.reminders!.isNotEmpty
                     ? ConstrainedBox(
                   constraints: const BoxConstraints(
                     minHeight: 65.0,
@@ -50,7 +50,7 @@ class RemindersCard extends StatelessWidget {
                     shrinkWrap: true,
                     controller: _controller,
                     physics: const ClampingScrollPhysics(),
-                    itemCount: pageState.reminders.length,
+                    itemCount: pageState!.reminders!.length,
                     itemBuilder: _buildItem,
                   ),
                 ) : Column(
@@ -77,7 +77,7 @@ class RemindersCard extends StatelessWidget {
   }
 
   Widget _buildItem(BuildContext context, int index) {
-    JobReminder jobReminder = pageState.reminders.elementAt(index);
+    JobReminder jobReminder = pageState!.reminders!.elementAt(index);
     return TextButton(
       style: Styles.getButtonStyle(),
       onPressed: () {
@@ -105,7 +105,7 @@ class RemindersCard extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 8.0),
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      text: jobReminder.reminder.description,
+                      text: jobReminder.reminder!.description,
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 3,
@@ -117,7 +117,7 @@ class RemindersCard extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                pageState.onDeleteReminderSelected(jobReminder);
+                pageState!.onDeleteReminderSelected!(jobReminder);
               },
               child: Container(
                 margin: const EdgeInsets.only(right: 8.0),

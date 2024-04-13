@@ -6,33 +6,33 @@ class JobUtil {
   static List<Job> getJobsInProgress(List<Job> jobs) {
     DateTime now = DateTime.now();
     DateTime currentDate = DateTime.utc(now.year, now.month, now.day, 0,0,0,0,0);
-    List<Job> _jobsInProgress = jobs.where((job) => (!_containsJobStage(JobStage.STAGE_14_JOB_COMPLETE, job.completedStages) && (currentDate.millisecondsSinceEpoch >= job.selectedDate.millisecondsSinceEpoch))).toList();
-    _jobsInProgress.sort((job1, job2) => job2.selectedDate?.millisecondsSinceEpoch?.compareTo(job2.selectedDate?.millisecondsSinceEpoch ?? 0) ?? 0);
+    List<Job> _jobsInProgress = jobs.where((job) => (!containsJobStage(JobStage.STAGE_14_JOB_COMPLETE, job.completedStages!) && (currentDate.millisecondsSinceEpoch >= job.selectedDate!.millisecondsSinceEpoch!))).toList();
+    _jobsInProgress.sort((job1, job2) => job2.selectedDate?.millisecondsSinceEpoch.compareTo(job2.selectedDate?.millisecondsSinceEpoch ?? 0) ?? 0);
     return _jobsInProgress;
   }
 
   static List<Job> getUpComingJobs(List<Job> jobs) {
     DateTime now = DateTime.now();
     DateTime currentDate = DateTime.utc(now.year, now.month, now.day, 0,0,0,0,0);
-    List<Job> _jobsInProgress = jobs.where((job) => (job.selectedDate != null && job.selectedDate.isAfter(currentDate))).toList();
-    _jobsInProgress = _jobsInProgress.where((job) => (!_containsJobStage(JobStage.STAGE_14_JOB_COMPLETE, job.completedStages))).toList();
-    _jobsInProgress.sort((job1, job2) => job2.selectedDate?.millisecondsSinceEpoch?.compareTo(job2.selectedDate?.millisecondsSinceEpoch ?? 0) ?? 0);
+    List<Job> _jobsInProgress = jobs.where((job) => (job.selectedDate != null && job.selectedDate!.isAfter(currentDate))).toList();
+    _jobsInProgress = _jobsInProgress.where((job) => (!containsJobStage(JobStage.STAGE_14_JOB_COMPLETE, job.completedStages!))).toList();
+    _jobsInProgress.sort((job1, job2) => job2.selectedDate?.millisecondsSinceEpoch.compareTo(job2.selectedDate?.millisecondsSinceEpoch ?? 0) ?? 0);
     return _jobsInProgress;
   }
 
   static List<Job> getActiveJobs(List<Job> jobs) {
-    List<Job> _jobsCompleted = jobs.where((job) => (!_containsJobStage(JobStage.STAGE_14_JOB_COMPLETE, job.completedStages))).toList();
-    _jobsCompleted.sort((job1, job2) => job2.selectedDate?.millisecondsSinceEpoch?.compareTo(job2.selectedDate?.millisecondsSinceEpoch ?? 0) ?? 0);
+    List<Job> _jobsCompleted = jobs.where((job) => (!containsJobStage(JobStage.STAGE_14_JOB_COMPLETE, job.completedStages!))).toList();
+    _jobsCompleted.sort((job1, job2) => job2.selectedDate?.millisecondsSinceEpoch.compareTo(job2.selectedDate?.millisecondsSinceEpoch ?? 0) ?? 0);
     return _jobsCompleted;
   }
 
   static List<Job> getJobsCompleted(List<Job> jobs) {
-    List<Job> _jobsCompleted = jobs.where((job) => (_containsJobStage(JobStage.STAGE_14_JOB_COMPLETE, job.completedStages))).toList();
-    _jobsCompleted.sort((job1, job2) => job2.selectedDate?.millisecondsSinceEpoch?.compareTo(job2.selectedDate?.millisecondsSinceEpoch ?? 0) ?? 0);
+    List<Job> _jobsCompleted = jobs.where((job) => (containsJobStage(JobStage.STAGE_14_JOB_COMPLETE, job.completedStages!))).toList();
+    _jobsCompleted.sort((job1, job2) => job2.selectedDate?.millisecondsSinceEpoch.compareTo(job2.selectedDate?.millisecondsSinceEpoch ?? 0) ?? 0);
     return _jobsCompleted;
   }
 
-  static bool _containsJobStage(String desiredStage, List<JobStage> completedStages) {
+  static bool containsJobStage(String desiredStage, List<JobStage> completedStages) {
     for(JobStage jobStage in completedStages){
       if(jobStage.stage == desiredStage) return true;
     }
@@ -42,7 +42,7 @@ class JobUtil {
   static getJobsForStage(List<Job> activeJobs, JobStage stage) {
     List<Job> result = [];
     for(Job job in activeJobs) {
-      if(job.stage.stage == stage.stage) {
+      if(job.stage!.stage! == stage.stage) {
         result.add(job);
       }
     }
@@ -50,11 +50,11 @@ class JobUtil {
   }
 
   static getJobsWithSignedContracts(List<Job> jobs) {
-    return jobs.where((job) => job.proposal != null && job.proposal.contract != null && job.proposal.contract.signedByClient).toList();
+    return jobs.where((job) => job.proposal != null && job.proposal!.contract != null && job.proposal!.contract!.signedByClient!).toList();
   }
 
   static getJobsWithUnsignedContracts(List<Job> jobs) {
-    return jobs.where((job) => job.proposal != null && job.proposal.contract != null && !job.proposal.contract.signedByClient).toList();
+    return jobs.where((job) => job.proposal != null && job.proposal!.contract != null && !job.proposal!.contract!.signedByClient!).toList();
   }
 
   static getJobsWithQuestionnaires(List<Job> jobs) {

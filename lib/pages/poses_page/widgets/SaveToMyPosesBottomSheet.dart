@@ -39,7 +39,7 @@ class _BottomSheetPageState extends State<SaveToMyPosesBottomSheet> with TickerP
       builder: (BuildContext context, PosesPageState pageState) =>
           GestureDetector(
             onTap: () {
-              pageState.onImageSaveSelected(pageState.searchResultPoses.elementAt(libraryPoseIndex), pageState.poseGroups.elementAt(index));
+              pageState.onImageSaveSelected!(pageState.searchResultPoses!.elementAt(libraryPoseIndex), pageState.poseGroups!.elementAt(index));
               showSuccessAnimation();
               EventSender().sendEvent(eventName: EventNames.BT_SAVE_LIBRARY_SEARCH_POSE);
             },
@@ -53,7 +53,7 @@ class _BottomSheetPageState extends State<SaveToMyPosesBottomSheet> with TickerP
     converter: (Store<AppState> store) => PosesPageState.fromStore(store),
     builder: (BuildContext context, PosesPageState pageState) =>
          Container(
-           height: 350,
+           height: 360,
            width: MediaQuery.of(context).size.width,
            decoration: BoxDecoration(
                borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
@@ -73,7 +73,7 @@ class _BottomSheetPageState extends State<SaveToMyPosesBottomSheet> with TickerP
                          color: Color(ColorConstants.getPrimaryBlack()),
                        ),
                      ),
-                     pageState.poseGroups.length > 0 ? SingleChildScrollView(
+                     pageState.poseGroups!.length > 0 ? SingleChildScrollView(
                        child: Container(
                          height: 302,
                          child: GridView.builder(
@@ -85,7 +85,7 @@ class _BottomSheetPageState extends State<SaveToMyPosesBottomSheet> with TickerP
                                  crossAxisSpacing: 0,
                                  mainAxisSpacing: 0
                              ),
-                             itemCount: pageState.poseGroups.length,
+                             itemCount: pageState.poseGroups!.length,
                              controller: _controller,
                              physics: AlwaysScrollableScrollPhysics(),
                              key: _listKey,

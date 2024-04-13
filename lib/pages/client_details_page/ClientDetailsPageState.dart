@@ -12,29 +12,29 @@ import '../../models/ImportantDate.dart';
 import '../../models/ResponsesListItem.dart';
 
 class ClientDetailsPageState {
-  final Client client;
-  final List<Job> clientJobs;
-  final String leadSource;
-  final String customLeadSourceName;
-  final String notes;
-  final bool showNoSavedResponsesError;
-  final List<ResponsesListItem> items;
-  final List<ImportantDate> importantDates;
-  final Function(Client) onEditClientClicked;
-  final Function() onDeleteClientClicked;
-  final Function() onCallClientClicked;
-  final Function() onMessageClientClicked;
-  final Function() onEmailClientClicked;
-  final Function(Client) onStartNewJobClicked;
-  final Function(Job) onJobSelected;
-  final Function() onInstagramSelected;
-  final Function(String) onCustomLeadSourceTextChanged;
-  final Function(String) onLeadSourceSelected;
-  final Function() onSaveLeadSourceSelected;
-  final Function(String) onNotesTextChanged;
-  final Function(ImportantDate) onImportantDateAdded;
-  final Function(int) onImportantDateRemoved;
-  final Function() onSaveImportantDatesSelected;
+  final Client? client;
+  final List<Job>? clientJobs;
+  final String? leadSource;
+  final String? customLeadSourceName;
+  final String? notes;
+  final bool? showNoSavedResponsesError;
+  final List<ResponsesListItem>? items;
+  final List<ImportantDate>? importantDates;
+  final Function(Client)? onEditClientClicked;
+  final Function()? onDeleteClientClicked;
+  final Function()? onCallClientClicked;
+  final Function()? onMessageClientClicked;
+  final Function()? onEmailClientClicked;
+  final Function(Client)? onStartNewJobClicked;
+  final Function(Job)? onJobSelected;
+  final Function()? onInstagramSelected;
+  final Function(String)? onCustomLeadSourceTextChanged;
+  final Function(String)? onLeadSourceSelected;
+  final Function()? onSaveLeadSourceSelected;
+  final Function(String)? onNotesTextChanged;
+  final Function(ImportantDate)? onImportantDateAdded;
+  final Function(int)? onImportantDateRemoved;
+  final Function()? onSaveImportantDatesSelected;
 
   ClientDetailsPageState({
     @required this.client,
@@ -63,29 +63,29 @@ class ClientDetailsPageState {
   });
 
   ClientDetailsPageState copyWith({
-    Client client,
-    List<Job> clientJobs,
-    String leadSource,
-    String customLeadSourceName,
-    bool showNoSavedResponsesError,
-    Function(Client) onEditClientClicked,
-    Function() onDeleteClientClicked,
-    Function() onCallClientClicked,
-    Function() onMessageClientClicked,
-    Function() onEmailClientClicked,
-    Function(Client) onStartNewJobClicked,
-    Function(Job) onJobSelected,
-    Function() onInstagramSelected,
-    Function(String) onCustomLeadSourceTextChanged,
-    Function(String) onLeadSourceSelected,
-    Function() onSaveLeadSourceSelected,
-    Function(String) onNotesTextChanged,
-    String notes,
-    List<ImportantDate> importantDates,
-    Function(ImportantDate) onImportantDateAdded,
-    Function(int) onImportantDateRemoved,
-    Function() onSaveImportantDatesSelected,
-    List<ResponsesListItem> items,
+    Client? client,
+    List<Job>? clientJobs,
+    String? leadSource,
+    String? customLeadSourceName,
+    bool? showNoSavedResponsesError,
+    Function(Client)? onEditClientClicked,
+    Function()? onDeleteClientClicked,
+    Function()? onCallClientClicked,
+    Function()? onMessageClientClicked,
+    Function()? onEmailClientClicked,
+    Function(Client)? onStartNewJobClicked,
+    Function(Job)? onJobSelected,
+    Function()? onInstagramSelected,
+    Function(String)? onCustomLeadSourceTextChanged,
+    Function(String)? onLeadSourceSelected,
+    Function()? onSaveLeadSourceSelected,
+    Function(String)? onNotesTextChanged,
+    String? notes,
+    List<ImportantDate>? importantDates,
+    Function(ImportantDate)? onImportantDateAdded,
+    Function(int)? onImportantDateRemoved,
+    Function()? onSaveImportantDatesSelected,
+    List<ResponsesListItem>? items,
   }){
     return ClientDetailsPageState(
       client: client?? this.client,
@@ -142,21 +142,21 @@ class ClientDetailsPageState {
 
   factory ClientDetailsPageState.fromStore(Store<AppState> store) {
     return ClientDetailsPageState(
-      client: store.state.clientDetailsPageState.client,
-      clientJobs: store.state.clientDetailsPageState.clientJobs,
-      leadSource: store.state.clientDetailsPageState.leadSource,
-      customLeadSourceName: store.state.clientDetailsPageState.customLeadSourceName,
-      notes: store.state.clientDetailsPageState.notes,
-      importantDates: store.state.clientDetailsPageState.importantDates,
-      items: store.state.clientDetailsPageState.items,
-      showNoSavedResponsesError: store.state.clientDetailsPageState.showNoSavedResponsesError,
-      onEditClientClicked: (client) => store.dispatch(LoadExistingClientData(store.state.newContactPageState, client)),
+      client: store.state.clientDetailsPageState!.client,
+      clientJobs: store.state.clientDetailsPageState!.clientJobs,
+      leadSource: store.state.clientDetailsPageState!.leadSource,
+      customLeadSourceName: store.state.clientDetailsPageState!.customLeadSourceName,
+      notes: store.state.clientDetailsPageState!.notes,
+      importantDates: store.state.clientDetailsPageState!.importantDates,
+      items: store.state.clientDetailsPageState!.items,
+      showNoSavedResponsesError: store.state.clientDetailsPageState!.showNoSavedResponsesError,
+      onEditClientClicked: (client) => store.dispatch(LoadExistingClientData(store.state.newContactPageState!, client)),
       onDeleteClientClicked: () => store.dispatch(DeleteClientAction(store.state.clientDetailsPageState)),
       onCallClientClicked: () => store.dispatch(null),
       onMessageClientClicked: () => store.dispatch(null),
       onEmailClientClicked: () => store.dispatch(null),
-      onStartNewJobClicked: (client) => store.dispatch(InitializeNewContactPageAction(store.state.newJobPageState, client)),
-      onJobSelected: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId)),
+      onStartNewJobClicked: (client) => store.dispatch(InitializeNewContactPageAction(store.state.newJobPageState!, client)),
+      onJobSelected: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState!, job.documentId!)),
       onInstagramSelected: () => store.dispatch(InstagramSelectedAction(store.state.clientDetailsPageState)),
       onCustomLeadSourceTextChanged: (customLead) => store.dispatch(UpdateTempCustomLeadNameAction(store.state.clientDetailsPageState, customLead)),
       onLeadSourceSelected: (leadSource) => store.dispatch(SetTempLeadSourceAction(store.state.clientDetailsPageState, leadSource)),

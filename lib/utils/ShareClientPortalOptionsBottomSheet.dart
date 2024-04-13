@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -5,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:redux/redux.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -20,12 +22,12 @@ import 'DandyToastUtil.dart';
 import 'intentLauncher/IntentLauncherUtil.dart';
 
 class ShareClientPortalOptionsBottomSheet extends StatefulWidget {
-  final Client client;
-  final String emailTitle;
-  final Profile profile;
-  final Job job;
+  final Client? client;
+  final String? emailTitle;
+  final Profile? profile;
+  final Job? job;
 
-  const ShareClientPortalOptionsBottomSheet(this.client, this.emailTitle, this.profile, this.job, {Key key}) : super(key: key);
+  const ShareClientPortalOptionsBottomSheet(this.client, this.emailTitle, this.profile, this.job, {Key? key}) : super(key: key);
 
 
   @override
@@ -35,11 +37,11 @@ class ShareClientPortalOptionsBottomSheet extends StatefulWidget {
 }
 
 class _ShareClientPortalOptionsBottomSheetPageState extends State<ShareClientPortalOptionsBottomSheet> with TickerProviderStateMixin, WidgetsBindingObserver {
-  final Client client;
-  final String emailTitle;
-  final Profile profile;
-  final Job job;
-  OverlayEntry overlayEntry;
+  final Client? client;
+  final String? emailTitle;
+  final Profile? profile;
+  final Job? job;
+  OverlayEntry? overlayEntry;
   bool isKeyboardVisible = false;
   final messageController = TextEditingController();
   final FocusNode _messageFocusNode = FocusNode();
@@ -57,12 +59,12 @@ class _ShareClientPortalOptionsBottomSheetPageState extends State<ShareClientPor
           child: InputDoneView());
     });
 
-    overlayState.insert(overlayEntry);
+    overlayState.insert(overlayEntry!);
   }
 
   removeOverlay() {
     if (overlayEntry != null) {
-      overlayEntry.remove();
+      overlayEntry!.remove();
       overlayEntry = null;
     }
   }
@@ -87,31 +89,40 @@ class _ShareClientPortalOptionsBottomSheetPageState extends State<ShareClientPor
     });
   }
 
+  late StreamSubscription<bool> keyboardSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+
+    var keyboardVisibilityController = KeyboardVisibilityController();
+    keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
+      setState(() {
+        if(visible) {
+          isKeyboardVisible = true;
+        } else {
+          isKeyboardVisible = false;
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    keyboardSubscription.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, ShareWithClientPageState>(
     onInit: (store) {
-      String clientMessage = '[Your message goes here]\n\nAccess your client portal here: \nhttps://dandylight.com/clientPortal/${profile.uid}+${job.documentId}';
-      messageController.value = messageController.value.copyWith(text: job.proposal.shareMessage != null && job.proposal.shareMessage.isNotEmpty ? job.proposal.shareMessage : clientMessage);
-      if(job.proposal.shareMessage == null || job.proposal.shareMessage.isEmpty) {
-        store.dispatch(SetClientShareMessageAction(store.state.shareWithClientPageState, clientMessage));
+      String clientMessage = '[Your message goes here]\n\nAccess your client portal here: \nhttps://dandylight.com/clientPortal/${profile!.uid}+${job!.documentId}';
+      messageController.value = messageController.value.copyWith(text: job!.proposal!.shareMessage != null && job!.proposal!.shareMessage!.isNotEmpty ? job!.proposal!.shareMessage : clientMessage);
+      if(job!.proposal!.shareMessage == null || job!.proposal!.shareMessage!.isEmpty) {
+        store.dispatch(SetClientShareMessageAction(store.state.shareWithClientPageState!, clientMessage));
       } else {
-        store.dispatch(SetClientShareMessageAction(store.state.shareWithClientPageState, job.proposal.shareMessage));
+        store.dispatch(SetClientShareMessageAction(store.state.shareWithClientPageState!, job!.proposal!.shareMessage!));
       }
-
-      KeyboardVisibilityNotification().addNewListener(
-          onShow: () {
-            showOverlay(context);
-            setState(() {
-              isKeyboardVisible = true;
-            });
-          },
-          onHide: () {
-            removeOverlay();
-            setState(() {
-              isKeyboardVisible = false;
-            });
-          }
-      );
     },
   converter: (Store<AppState> store) => ShareWithClientPageState.fromStore(store),
   builder: (BuildContext context, ShareWithClientPageState pageState) =>
@@ -128,7 +139,7 @@ class _ShareClientPortalOptionsBottomSheetPageState extends State<ShareClientPor
               margin: const EdgeInsets.only(top: 16, bottom: 32),
               child: TextDandyLight(
                 type: TextDandyLight.LARGE_TEXT,
-                text: 'Share with ${client.firstName}',
+                text: 'Share with ${client!.firstName}',
               ),
             ),
             Container(
@@ -168,7 +179,7 @@ class _ShareClientPortalOptionsBottomSheetPageState extends State<ShareClientPor
                       true,
                     ),
                   ),
-                  profile != null && profile.jobsCreatedCount > 1 ? GestureDetector(
+                  profile != null && profile!.jobsCreatedCount! > 1 ? GestureDetector(
                     onTap: () {
                       _showChooseMessageSheet(context);
                     },
@@ -207,10 +218,10 @@ class _ShareClientPortalOptionsBottomSheetPageState extends State<ShareClientPor
               children: [
                 GestureDetector(
                   onTap: () {
-                    if (client.phone != null && client.phone.isNotEmpty) {
-                      IntentLauncherUtil.sendSMSWithBody(client.phone, pageState.clientShareMessage);
+                    if (client!.phone != null && client!.phone!.isNotEmpty) {
+                      IntentLauncherUtil.sendSMSWithBody(client!.phone!, pageState.clientShareMessage!);
                     } else {
-                      DandyToastUtil.showErrorToast('A phone number has not been saved for ${client.firstName}');
+                      DandyToastUtil.showErrorToast('A phone number has not been saved for ${client!.firstName}');
                     }
                   },
                   child: Column(
@@ -229,10 +240,10 @@ class _ShareClientPortalOptionsBottomSheetPageState extends State<ShareClientPor
                 ),
                 GestureDetector(
                   onTap: () {
-                    if (client.email != null && client.email.isNotEmpty) {
-                      IntentLauncherUtil.sendEmail(client.email, emailTitle, pageState.clientShareMessage);
+                    if (client!.email != null && client!.email!.isNotEmpty) {
+                      IntentLauncherUtil.sendEmail(client!.email!, emailTitle!, pageState.clientShareMessage!);
                     } else {
-                      DandyToastUtil.showErrorToast('An email has not been saved for ${client.firstName}');
+                      DandyToastUtil.showErrorToast('An email has not been saved for ${client!.firstName}');
                     }
                   },
                   child: Column(
@@ -251,7 +262,7 @@ class _ShareClientPortalOptionsBottomSheetPageState extends State<ShareClientPor
                 ),
                 GestureDetector(
                   onTap: () {
-                    Clipboard.setData(ClipboardData(text: pageState.clientShareMessage));
+                    Clipboard.setData(ClipboardData(text: pageState.clientShareMessage!));
                     DandyToastUtil.showToast('Copied to Clipboard!', Color(ColorConstants.getPeachDark()));
                   },
                   child: Column(
@@ -270,7 +281,7 @@ class _ShareClientPortalOptionsBottomSheetPageState extends State<ShareClientPor
                 ),
                 GestureDetector(
                   onTap: () {
-                    Share.share(pageState.clientShareMessage);
+                    Share.share(pageState.clientShareMessage!);
                   },
                   child: Column(
                     children: [

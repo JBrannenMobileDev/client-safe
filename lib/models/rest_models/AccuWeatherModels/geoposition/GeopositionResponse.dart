@@ -6,21 +6,21 @@ import 'package:dandylight/models/rest_models/AccuWeatherModels/geoposition/Supp
 import 'package:dandylight/models/rest_models/AccuWeatherModels/geoposition/TimeZone.dart';
 
 class GeoPositionResponse {
-  int version;
-  String key;
-  String type;
-  int rank;
-  String localizedName;
-  String englishName;
-  String primaryPostalCode;
-  Region region;
-  Country country;
-  AdministrativeArea administrativeArea;
-  TimeZone timeZone;
-  GeoPosition geoPosition;
-  bool isAlias;
-  List<SupplementalAdminAreas> supplementalAdminAreas;
-  List<String> dataSets;
+  int? version;
+  String? key;
+  String? type;
+  int? rank;
+  String? localizedName;
+  String? englishName;
+  String? primaryPostalCode;
+  Region? region;
+  Country? country;
+  AdministrativeArea? administrativeArea;
+  TimeZone? timeZone;
+  GeoPosition? geoPosition;
+  bool? isAlias;
+  List<SupplementalAdminAreas>? supplementalAdminAreas;
+  List<String>? dataSets;
 
   GeoPositionResponse(
       {this.version,
@@ -62,9 +62,9 @@ class GeoPositionResponse {
         : null;
     isAlias = json['IsAlias'];
     if (json['SupplementalAdminAreas'] != null) {
-      supplementalAdminAreas = new List<SupplementalAdminAreas>();
+      supplementalAdminAreas = [];
       json['SupplementalAdminAreas'].forEach((v) {
-        supplementalAdminAreas.add(new SupplementalAdminAreas.fromJson(v));
+        supplementalAdminAreas!.add(new SupplementalAdminAreas.fromJson(v));
       });
     }
     dataSets = json['DataSets'].cast<String>();
@@ -80,24 +80,24 @@ class GeoPositionResponse {
     data['EnglishName'] = this.englishName;
     data['PrimaryPostalCode'] = this.primaryPostalCode;
     if (this.region != null) {
-      data['Region'] = this.region.toJson();
+      data['Region'] = this.region!.toJson();
     }
     if (this.country != null) {
-      data['Country'] = this.country.toJson();
+      data['Country'] = this.country!.toJson();
     }
     if (this.administrativeArea != null) {
-      data['AdministrativeArea'] = this.administrativeArea.toJson();
+      data['AdministrativeArea'] = this.administrativeArea!.toJson();
     }
     if (this.timeZone != null) {
-      data['TimeZone'] = this.timeZone.toJson();
+      data['TimeZone'] = this.timeZone!.toJson();
     }
     if (this.geoPosition != null) {
-      data['GeoPosition'] = this.geoPosition.toJson();
+      data['GeoPosition'] = this.geoPosition!.toJson();
     }
     data['IsAlias'] = this.isAlias;
     if (this.supplementalAdminAreas != null) {
       data['SupplementalAdminAreas'] =
-          this.supplementalAdminAreas.map((v) => v.toJson()).toList();
+          this.supplementalAdminAreas!.map((v) => v.toJson()).toList();
     }
     data['DataSets'] = this.dataSets;
     return data;

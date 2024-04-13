@@ -1,12 +1,12 @@
 class LocationDandy {
-  int id;
-  String documentId;
-  String locationName;
-  double latitude;
-  double longitude;
-  String address;
-  int numOfSessionsAtThisLocation;
-  String imageUrl;
+  int? id;
+  String? documentId;
+  String? locationName;
+  double? latitude;
+  double? longitude;
+  String? address;
+  int? numOfSessionsAtThisLocation;
+  String? imageUrl;
 
 
   LocationDandy.LocationDandy({

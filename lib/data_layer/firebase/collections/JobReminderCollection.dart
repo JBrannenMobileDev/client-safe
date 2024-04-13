@@ -19,7 +19,7 @@ class JobReminderCollection {
         });
   }
 
-  Future<void> deleteReminder(String documentId) async {
+  Future<void> deleteReminder(String? documentId) async {
     try {
       final databaseReference = FirebaseFirestore.instance;
       await databaseReference
@@ -56,13 +56,13 @@ class JobReminderCollection {
         .doc(documentId)
         .get()
         .then((expenseSnapshot) {
-          JobReminder reminder = JobReminder.fromMap(expenseSnapshot.data());
+          JobReminder reminder = JobReminder.fromMap(expenseSnapshot.data() as Map<String, dynamic>);
           reminder.documentId = expenseSnapshot.id;
           return reminder;
         });
   }
 
-  Future<List<JobReminder>> getAll(String uid) async {
+  Future<List<JobReminder>?> getAll(String uid) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('env')
@@ -95,7 +95,7 @@ class JobReminderCollection {
   List<JobReminder> _buildRemindersList(QuerySnapshot reminders) {
     List<JobReminder> remindersList = [];
     for(DocumentSnapshot reminderSnapshot in reminders.docs){
-      JobReminder reminder = JobReminder.fromMap(reminderSnapshot.data());
+      JobReminder reminder = JobReminder.fromMap(reminderSnapshot.data() as Map<String, dynamic>);
       reminder.documentId = reminderSnapshot.id;
       remindersList.add(reminder);
     }

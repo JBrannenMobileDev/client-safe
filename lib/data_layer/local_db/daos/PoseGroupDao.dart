@@ -36,7 +36,7 @@ class PoseGroupDao extends Equatable{
   }
 
   static Future<void> _updateLastChangedTime() async {
-    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    Profile profile = (await ProfileDao.getAll())!.elementAt(0);
     profile.poseGroupsLastChangeDate = DateTime.now();
     ProfileDao.update(profile);
   }
@@ -56,7 +56,7 @@ class PoseGroupDao extends Equatable{
     }
   }
 
-  static Future<PoseGroup> getById(String poseDocumentId) async{
+  static Future<PoseGroup?> getById(String poseDocumentId) async{
     if((await getAllSortedMostFrequent()).length > 0) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', poseDocumentId));
       final recordSnapshots = await _PoseGroupGroupStore.find(await _db, finder: finder);
@@ -115,8 +115,6 @@ class PoseGroupDao extends Equatable{
     await _PoseGroupGroupStore.delete(
       await _db,
       finder: finder,
-    ).onError(
-            (error, stackTrace) => null
     );
     await PoseGroupCollection().deletePoseGroup(documentId);
     _updateLastChangedTime();
@@ -143,8 +141,8 @@ class PoseGroupDao extends Equatable{
     List<PoseGroup> allLocalPoseGroups = await getAllSortedMostFrequent();
     List<PoseGroup> allFireStorePoseGroups = await PoseGroupCollection().getAll(UidUtil().getUid());
 
-    if(allLocalPoseGroups != null && allLocalPoseGroups.length > 0) {
-      if(allFireStorePoseGroups != null && allFireStorePoseGroups.length > 0) {
+    if(allLocalPoseGroups.length > 0) {
+      if(allFireStorePoseGroups.length > 0) {
         //both local and fireStore have PoseGroups
         //fireStore is source of truth for this sync.
         await _syncFireStoreToLocal(allLocalPoseGroups, allFireStorePoseGroups);
@@ -153,7 +151,7 @@ class PoseGroupDao extends Equatable{
         _deleteAllLocalPoseGroups(allLocalPoseGroups);
       }
     } else {
-      if(allFireStorePoseGroups != null && allFireStorePoseGroups.length > 0){
+      if(allFireStorePoseGroups.length > 0){
         //no local PoseGroups but there are fireStore PoseGroups.
         await _copyAllFireStorePoseGroupsToLocal(allFireStorePoseGroups);
       } else {
@@ -182,7 +180,7 @@ class PoseGroupDao extends Equatable{
     for(PoseGroup localPoseGroup in allLocalPoseGroups) {
       //should only be 1 matching
       List<PoseGroup> matchingFireStorePoseGroups = allFireStorePoseGroups.where((fireStorePoseGroup) => localPoseGroup.documentId == fireStorePoseGroup.documentId).toList();
-      if(matchingFireStorePoseGroups !=  null && matchingFireStorePoseGroups.length > 0) {
+      if(matchingFireStorePoseGroups.length > 0) {
         PoseGroup fireStorePoseGroup = matchingFireStorePoseGroups.elementAt(0);
         final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStorePoseGroup.documentId));
         await _PoseGroupGroupStore.update(
@@ -202,7 +200,7 @@ class PoseGroupDao extends Equatable{
 
     for(PoseGroup fireStorePoseGroup in allFireStorePoseGroups) {
       List<PoseGroup> matchingLocalPoseGroups = allLocalPoseGroups.where((localPoseGroup) => localPoseGroup.documentId == fireStorePoseGroup.documentId).toList();
-      if(matchingLocalPoseGroups != null && matchingLocalPoseGroups.length > 0) {
+      if(matchingLocalPoseGroups.length > 0) {
         //do nothing. PoseGroup already synced.
       } else {
         //add to local. does not exist in local and has not been synced yet.

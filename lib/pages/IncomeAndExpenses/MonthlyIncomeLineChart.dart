@@ -1,5 +1,4 @@
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
-import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -10,12 +9,12 @@ import '../dashboard_page/widgets/BarChartWidget.dart';
 class MonthlyIncomeLineChart extends StatelessWidget{
   MonthlyIncomeLineChart({this.pageState});
 
-  final IncomeAndExpensesPageState pageState;
+  final IncomeAndExpensesPageState? pageState;
   @override
   Widget build(BuildContext context) {
     return Container(
     child: Container(
-            margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 24.0),
+            margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
                 borderRadius: new BorderRadius.all(Radius.circular(12.0))),
@@ -30,7 +29,7 @@ class MonthlyIncomeLineChart extends StatelessWidget{
                     color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
-                BarChartWidget(monthsData: pageState.lineChartMonthData),
+                BarChartWidget(monthsData: pageState!.lineChartMonthData),
               ],
             ),
     ),

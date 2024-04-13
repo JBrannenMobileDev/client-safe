@@ -20,10 +20,10 @@ import '../../widgets/TextDandyLight.dart';
 import 'MapLocationSelectionWidgetActions.dart';
 
 class MapLocationSelectionWidget extends StatefulWidget {
-  final Function(LatLng) onMapLocationSaved;
-  final Function(LocationDandy) saveSelectedLocation;
-  final double lat;
-  final double lng;
+  final Function(LatLng)? onMapLocationSaved;
+  final Function(LocationDandy)? saveSelectedLocation;
+  final double? lat;
+  final double? lng;
 
   MapLocationSelectionWidget(this.onMapLocationSaved, this.lat, this.lng, this.saveSelectedLocation);
 
@@ -37,14 +37,14 @@ class MapLocationSelectionWidget extends StatefulWidget {
 class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget> {
   final Completer<GoogleMapController> _controller = Completer();
   TextEditingController controller = TextEditingController();
-  Timer _throttle;
+  Timer? _throttle;
   final FocusNode _searchFocus = FocusNode();
 
-  final Function(LatLng) onMapLocationSaved;
-  final Function(LocationDandy) saveSelectedLocation;
+  final Function(LatLng)? onMapLocationSaved;
+  final Function(LocationDandy)? saveSelectedLocation;
 
-  double lat;
-  double lng;
+  double? lat;
+  double? lng;
 
   _MapLocationSelectionWidgetState(this.onMapLocationSaved, this.lat, this.lng, this.saveSelectedLocation);
 
@@ -81,8 +81,8 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
       },
       onWillChange: (pageStatePrevious, pageState) async {
         controller.value = controller.value.copyWith(text: pageState.searchText);
-        if(pageState.selectedSearchLocation != null && pageStatePrevious.locationResults.length > 0){
-          animateTo(pageState.selectedSearchLocation.latitude, pageState.selectedSearchLocation.longitude);
+        if(pageState.selectedSearchLocation != null && pageStatePrevious!.locationResults!.isNotEmpty){
+          animateTo(pageState.selectedSearchLocation!.latitude!, pageState.selectedSearchLocation!.longitude!);
         }
       },
       converter: (Store<AppState> store) => MapLocationSelectionWidgetState.fromStore(store),
@@ -96,7 +96,7 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
                 Container(
                   child: GoogleMap(
                     initialCameraPosition: CameraPosition(
-                      target: LatLng(lat, lng),
+                      target: LatLng(lat!, lng!),
                       zoom: 15,
                     ),
                     onMapCreated: (GoogleMapController controller) {
@@ -113,14 +113,14 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
                             y: (MediaQuery.of(context).size.height/2).round(),
                           )
                       );
-                      pageState.onMapLocationChanged(latLng);
+                      pageState.onMapLocationChanged!(latLng);
                     },
                   ),
                 ),
                 Container(
                   alignment: Alignment.center,
                   child: Container(
-                    margin: EdgeInsets.only(bottom: 36.0),
+                    margin: const EdgeInsets.only(bottom: 36.0),
                     alignment: Alignment.center,
                     height: 48.0,
                     width: 48.0,
@@ -136,23 +136,23 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
             SafeArea(
               child: Container(
                 alignment: Alignment.bottomCenter,
-                margin: EdgeInsets.only(bottom: 14.0),
+                margin: const EdgeInsets.only(bottom: 14.0),
                 child: GestureDetector(
                   onTap: () {
                     if(onMapLocationSaved != null) {
                       if(pageState.selectedSearchLocation != null) {
-                        onMapLocationSaved(LatLng(pageState.selectedSearchLocation.latitude, pageState.selectedSearchLocation.longitude));
-                        saveSelectedLocation(pageState.selectedSearchLocation);
+                        onMapLocationSaved!(LatLng(pageState.selectedSearchLocation!.latitude!, pageState.selectedSearchLocation!.longitude!));
+                        saveSelectedLocation!(pageState.selectedSearchLocation!);
                       }else {
-                        onMapLocationSaved(LatLng(pageState.lat, pageState.lng));
+                        onMapLocationSaved!(LatLng(pageState.lat!, pageState.lng!));
                       }
-                      onMapLocationSaved(LatLng(pageState.lat, pageState.lng));
+                      onMapLocationSaved!(LatLng(pageState.lat!, pageState.lng!));
                     }
                     if(saveSelectedLocation != null) {
-                      if(pageState.selectedSearchLocation != null && pageState.selectedSearchLocation.latitude == pageState.lat && pageState.selectedSearchLocation.longitude == pageState.lng) {
-                        saveSelectedLocation(pageState.selectedSearchLocation);
+                      if(pageState.selectedSearchLocation != null && pageState.selectedSearchLocation!.latitude == pageState.lat && pageState.selectedSearchLocation!.longitude == pageState.lng) {
+                        saveSelectedLocation!(pageState.selectedSearchLocation!);
                       }else {
-                        saveSelectedLocation(LocationDandy.LocationDandy(
+                        saveSelectedLocation!(LocationDandy.LocationDandy(
                             latitude: pageState.lat,
                             longitude: pageState.lng,
                           locationName: 'One-Time Location'
@@ -185,7 +185,7 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
                   width: 250.0,
                   height: 50.0,
                   alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(left: 16.0),
+                  padding: const EdgeInsets.only(left: 16.0),
                   decoration: BoxDecoration(
                       boxShadow: ElevationToShadow[2],
                       borderRadius: BorderRadius.circular(26.0),
@@ -196,13 +196,13 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
                       focusNode: _searchFocus,
                       onChanged: (text) {
                         if(_throttle?.isActive ?? false) {
-                          _throttle.cancel();
+                          _throttle!.cancel();
                         } else {
                           _throttle = Timer(const Duration(milliseconds: 150), () {
-                            pageState.onThrottleGetLocations(text);
+                            pageState.onThrottleGetLocations!(text);
                           });
                         }
-                        pageState.onSearchInputChanged(text);
+                        pageState.onSearchInputChanged!(text);
                       },
                       onEditingComplete: () {
                         _searchFocus.unfocus();
@@ -216,7 +216,7 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
                       cursorColor: Colors.black,
                       keyboardType: TextInputType.text,
                       textCapitalization: TextCapitalization.words,
-                      decoration: new InputDecoration(
+                      decoration: const InputDecoration(
                       border: InputBorder.none,
                       focusedBorder: InputBorder.none,
                       enabledBorder: InputBorder.none,
@@ -230,12 +230,12 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
                   ),
                 ),
               ),
-              pageState.searchText.length > 0 && pageState.selectedSearchLocation == null ? SafeArea(
+              pageState.searchText!.isNotEmpty && pageState.selectedSearchLocation == null ? SafeArea(
                 child: Container(
-                  constraints: BoxConstraints(
+                  constraints: const BoxConstraints(
                     minHeight: 64,
                   ),
-                  margin: EdgeInsets.only(top: 64.0, left: 16.0, right: 16.0),
+                  margin: const EdgeInsets.only(top: 64.0, left: 16.0, right: 16.0),
                   decoration: BoxDecoration(
                     boxShadow: ElevationToShadow[2],
                     color: Color(ColorConstants.getPrimaryWhite()),
@@ -243,25 +243,25 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
                   ),
                   child: ListView.builder(
                     shrinkWrap: true,
-                    physics: ClampingScrollPhysics(),
-                    itemCount: pageState.locationResults.length,
+                    physics: const ClampingScrollPhysics(),
+                    itemCount: pageState.locationResults!.length,
                     itemBuilder: (context, index) {
                       return TextButton(
                         style: Styles.getButtonStyle(),
                         onPressed: () {
-                          pageState.onSearchLocationSelected(pageState.locationResults.elementAt(index));
+                          pageState.onSearchLocationSelected!(pageState.locationResults!.elementAt(index));
                           _searchFocus.unfocus();
                         },
                         child: Container(
                           height: 64.0,
                           margin: EdgeInsets.only(top: index == 0 ? 16.0 : 0.0),
-                          padding: EdgeInsets.only(left: 8.0),
+                          padding: const EdgeInsets.only(left: 8.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                margin: EdgeInsets.only(right: 16.0, top: 4.0),
+                                margin: const EdgeInsets.only(right: 16.0, top: 4.0),
                                 height: 32.0,
                                 width: 32.0,
                                 child: Image.asset('assets/images/collection_icons/location_pin_blue.png'),
@@ -274,7 +274,7 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
                                     Flexible(
                                       child: TextDandyLight(
                                         type: TextDandyLight.SMALL_TEXT,
-                                        text: pageState.locationResults.elementAt(index).name,
+                                        text: pageState.locationResults!.elementAt(index).name,
                                         maxLines: 1,
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.visible,
@@ -284,7 +284,7 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
                                     Expanded(
                                       child: TextDandyLight(
                                         type: TextDandyLight.SMALL_TEXT,
-                                        text: pageState.locationResults.elementAt(index).address,
+                                        text: pageState.locationResults!.elementAt(index).address,
                                         maxLines: 1,
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.visible,
@@ -301,13 +301,13 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
                     },
                   ),
                 ),
-              ) : SizedBox(),
+              ) : const SizedBox(),
                 SafeArea(
                   child: Container(
                     alignment: Alignment.topLeft,
                     child: Container(
-                      margin: EdgeInsets.only(left: 8.0),
-                      padding: EdgeInsets.only(left: 8.0),
+                      margin: const EdgeInsets.only(left: 8.0),
+                      padding: const EdgeInsets.only(left: 8.0),
                       alignment: Alignment.topLeft,
                       height: 50.0,
                       width: 50.0,
@@ -327,7 +327,7 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
                 ),
                 _searchFocus.hasFocus ? SafeArea(
                   child: Container(
-                    margin: EdgeInsets.only(right: 16.0),
+                    margin: const EdgeInsets.only(right: 16.0),
                     alignment: Alignment.topRight,
                     child: Container(
                       alignment: Alignment.center,
@@ -348,13 +348,13 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
                           color: Color(ColorConstants.getPrimaryColor()),
                           onPressed: () {
                             _searchFocus.unfocus();
-                            pageState.onClearSearchTextSelected();
+                            pageState.onClearSearchTextSelected!();
                           },
                         ),
                       ),
                     ),
                   ),
-                ) : SizedBox(),
+                ) : const SizedBox(),
               ],
             ),
           ),

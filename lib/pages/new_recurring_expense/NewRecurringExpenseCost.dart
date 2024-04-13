@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpenseCostTextField.dart';
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageState.dart';
@@ -6,12 +8,11 @@ import 'package:dandylight/utils/InputDoneView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:intl/intl.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
 
+import '../../utils/flutter_masked_text.dart';
 import '../../widgets/TextDandyLight.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 
 class NewRecurringExpenseCost extends StatefulWidget {
@@ -23,24 +24,38 @@ class NewRecurringExpenseCost extends StatefulWidget {
 
 class _NewRecurringExpenseCost extends State<NewRecurringExpenseCost> with AutomaticKeepAliveClientMixin {
   final costTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '.', thousandSeparator: ',');
-  OverlayEntry overlayEntry;
+  OverlayEntry? overlayEntry;
   final FocusNode costFocusNode = new FocusNode();
+  late StreamSubscription<bool> keyboardSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+
+    var keyboardVisibilityController = KeyboardVisibilityController();
+    keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
+      setState(() {
+        if(visible) {
+          showOverlay(context);
+        } else {
+          removeOverlay();
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    keyboardSubscription.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return StoreConnector<AppState, NewRecurringExpensePageState>(
       onInit: (store) {
-          costTextController.updateValue(store.state.newRecurringExpensePageState.expenseCost);
-          KeyboardVisibilityNotification().addNewListener(
-              onShow: () {
-                showOverlay(context);
-              },
-              onHide: () {
-                removeOverlay();
-              }
-          );
-
+          costTextController.updateValue(store.state.newRecurringExpensePageState!.expenseCost!);
           costFocusNode.addListener(() {
             bool hasFocus = costFocusNode.hasFocus;
             if (hasFocus)
@@ -94,12 +109,12 @@ class _NewRecurringExpenseCost extends State<NewRecurringExpenseCost> with Autom
           child: InputDoneView());
     });
 
-    overlayState.insert(overlayEntry);
+    overlayState.insert(overlayEntry!);
   }
 
   removeOverlay() {
     if (overlayEntry != null) {
-      overlayEntry.remove();
+      overlayEntry!.remove();
       overlayEntry = null;
     }
   }

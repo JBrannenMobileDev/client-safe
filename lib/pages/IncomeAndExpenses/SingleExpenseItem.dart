@@ -10,8 +10,8 @@ import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class SingleExpenseItem extends StatelessWidget{
-  final SingleExpense singleExpense;
-  final IncomeAndExpensesPageState pageState;
+  final SingleExpense? singleExpense;
+  final IncomeAndExpensesPageState? pageState;
   SingleExpenseItem({this.singleExpense, this.pageState});
 
   @override
@@ -21,7 +21,7 @@ class SingleExpenseItem extends StatelessWidget{
       child: TextButton(
         style: Styles.getButtonStyle(),
         onPressed: () async {
-          pageState.onSingleExpenseItemSelected(singleExpense);
+          pageState!.onSingleExpenseItemSelected!(singleExpense!);
           UserOptionsUtil.showNewSingleExpenseDialog(context);
         },
         child: Padding(
@@ -49,7 +49,7 @@ class SingleExpenseItem extends StatelessWidget{
                           children: <Widget>[
                             TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
-                              text: (singleExpense.expenseName != null ? singleExpense.expenseName : 'Item name'),
+                              text: (singleExpense!.expenseName != null ? singleExpense!.expenseName : 'Item name'),
                               textAlign: TextAlign.start,
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),
@@ -63,13 +63,13 @@ class SingleExpenseItem extends StatelessWidget{
                           children: [
                             TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
-                              text: DateFormat('MMM dd, yyyy').format(singleExpense.charge.chargeDate) + '  •  ',
+                              text: DateFormat('MMM dd, yyyy').format(singleExpense!.charge!.chargeDate!) + '  •  ',
                               textAlign: TextAlign.start,
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                             TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
-                              amount: singleExpense.charge.chargeAmount,
+                              amount: singleExpense!.charge!.chargeAmount,
                               color: Color(ColorConstants.getPrimaryBlack()),
                               isCurrency: true
                             ),

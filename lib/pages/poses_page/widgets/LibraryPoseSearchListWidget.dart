@@ -16,8 +16,8 @@ import '../../../widgets/TextDandyLight.dart';
 import 'SaveToJobBottomSheet.dart';
 
 class LibraryPoseSearchListWidget extends StatelessWidget {
-  final int index;
-  final Job job;
+  final int? index;
+  final Job? job;
 
   LibraryPoseSearchListWidget(this.index, this.job);
 
@@ -57,7 +57,7 @@ class LibraryPoseSearchListWidget extends StatelessWidget {
           Stack(
             children: [
               DandyLightNetworkImage(
-                pageState.searchResultPoses.elementAt(index).imageUrl,
+                pageState.searchResultPoses!.elementAt(index!).imageUrl ?? '',
               ),
               Container(
                 height: 150.0,
@@ -76,7 +76,7 @@ class LibraryPoseSearchListWidget extends StatelessWidget {
                           1.0
                         ])),
               ),
-              pageState.searchResultPoses.elementAt(index).isNewPose() ? Container(
+              pageState.searchResultPoses!.elementAt(index!).isNewPose() ? Container(
                 alignment: Alignment.bottomRight,
                 child: CornerBanner(
                   bannerPosition: CornerBannerPosition.bottomRight,

@@ -10,8 +10,8 @@ import '../../../utils/styles/Styles.dart';
 import '../../../widgets/TextDandyLight.dart';
 
 class JobCompletedItem extends StatelessWidget{
-  final Job job;
-  final JobsPageState pageState;
+  final Job? job;
+  final JobsPageState? pageState;
   JobCompletedItem({this.job, this.pageState});
 
   @override
@@ -19,7 +19,7 @@ class JobCompletedItem extends StatelessWidget{
     return TextButton(
       style: Styles.getButtonStyle(),
       onPressed: () {
-        pageState.onJobClicked(job);
+        pageState!.onJobClicked!(job!);
         NavigationUtil.onJobTapped(context, false);
       },
       child: Padding(
@@ -34,7 +34,7 @@ class JobCompletedItem extends StatelessWidget{
                   margin: EdgeInsets.only(right: 18.0, top: 0.0),
                   height: 42.0,
                   width: 42.0,
-                  child: job.stage.getCompletedImage(Color(ColorConstants.getPeachDark())),
+                  child: job!.stage!.getCompletedImage(Color(ColorConstants.getPeachDark())),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,14 +44,14 @@ class JobCompletedItem extends StatelessWidget{
                       padding: EdgeInsets.only(bottom: 4.0),
                       child: TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
-                        text: job.jobTitle,
+                        text: job!.jobTitle,
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     TextDandyLight(
                       type: TextDandyLight.SMALL_TEXT,
-                      text: NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format(job.getJobCost()),
+                      text: NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format(job!.getJobCost()),
                       textAlign: TextAlign.start,
                       color: Color(ColorConstants.getPrimaryBlack()),
                     ),

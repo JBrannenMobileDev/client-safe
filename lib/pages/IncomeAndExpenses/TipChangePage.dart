@@ -25,7 +25,7 @@ class _TipChangePageState extends State<TipChangePage>
     super.build(context);
     return StoreConnector<AppState, IncomeAndExpensesPageState>(
       onInit: (store) {
-        jobTitleTextController.text = store.state.incomeAndExpensesPageState.selectedJob.jobTitle;
+        jobTitleTextController.text = store.state.incomeAndExpensesPageState!.selectedJob!.jobTitle!;
       },
       converter: (store) => IncomeAndExpensesPageState.fromStore(store),
       builder: (BuildContext context, IncomeAndExpensesPageState pageState) =>
@@ -66,7 +66,7 @@ class _TipChangePageState extends State<TipChangePage>
                                 color: Color(ColorConstants.getPrimaryColor()),
                               ),
                               onPressed: () {
-                                pageState.onAddToTip(1);
+                                pageState.onAddToTip!(1);
                               },
                               child: Container(
                                 alignment: Alignment.center,
@@ -102,7 +102,7 @@ class _TipChangePageState extends State<TipChangePage>
                                 ),
                               ),
                               onPressed: () {
-                                pageState.onAddToTip(5);
+                                pageState.onAddToTip!(5);
                               },
                               child: Container(
                                 alignment: Alignment.center,
@@ -145,7 +145,7 @@ class _TipChangePageState extends State<TipChangePage>
                                   ),
                                 ),
                                 onPressed: () {
-                                  pageState.onAddToTip(25);
+                                  pageState.onAddToTip!(25);
                                 },
                                 child: Container(
                                   alignment: Alignment.center,
@@ -181,7 +181,7 @@ class _TipChangePageState extends State<TipChangePage>
                                   ),
                                 ),
                                 onPressed: () {
-                                  pageState.onAddToTip(100);
+                                  pageState.onAddToTip!(100);
                                 },
                                 child: Container(
                                   alignment: Alignment.center,

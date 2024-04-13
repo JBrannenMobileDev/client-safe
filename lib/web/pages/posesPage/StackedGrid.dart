@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import '../../../utils/DeviceType.dart';
 
 class StackedGrid extends StatelessWidget {
-  final List<Pose> poses;
+  final List<Pose>? poses;
   final double GRID_PADDING = 16;
   
   StackedGrid({this.poses});
@@ -15,7 +15,7 @@ class StackedGrid extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.max,
-      children: buildColumns(poses, context),
+      children: buildColumns(poses!, context),
     );
   }
 
@@ -129,7 +129,7 @@ class StackedGrid extends StatelessWidget {
           child: Container(
             width: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : 2.25),
             child: Image.network(
-                pose.imageUrl,
+                pose.imageUrl!,
                 fit: BoxFit.cover,
             ),
           ),

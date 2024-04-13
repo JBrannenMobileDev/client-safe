@@ -49,8 +49,7 @@ import 'RequestAppReviewBottomSheet.dart';
 import 'RequestPMFSurveyBottomSheet.dart';
 
 class DashboardPage extends StatelessWidget {
-  const DashboardPage({Key key, this.destination, this.comingFromLogin}) : super(key: key);
-  final DashboardPage destination;
+  const DashboardPage({Key? key, required this.comingFromLogin}) : super(key: key);
   final bool comingFromLogin;
 
   @override
@@ -70,7 +69,7 @@ class DashboardPage extends StatelessWidget {
 
 class HolderPage extends StatefulWidget {
   final bool comingFromLogin;
-  const HolderPage({Key key, this.comingFromLogin}) : super(key: key);
+  const HolderPage({Key? key, required this.comingFromLogin}) : super(key: key);
 
   @override
   _DashboardPageState createState() => _DashboardPageState(comingFromLogin);
@@ -82,7 +81,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
   final GlobalKey _three = GlobalKey();
   final GlobalKey _four = GlobalKey();
 
-  ScrollController _scrollController;
+  ScrollController? _scrollController;
   bool dialVisible = true;
   bool isFabExpanded = false;
   bool comingFromLogin;
@@ -94,11 +93,11 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
 
   _DashboardPageState(this.comingFromLogin);
 
-  AnimationController controller;
-  AnimationController _animationController;
+  AnimationController? controller;
+  AnimationController? _animationController;
 
-  Tween<Offset> offsetUpTween;
-  Tween<Offset> offsetDownTween;
+  Tween<Offset>? offsetUpTween;
+  Tween<Offset>? offsetDownTween;
 
   void _startShowcase() {
     ShowCaseWidget.of(context).startShowCase([_one, _two, _three, _four]);
@@ -124,30 +123,30 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
     if (comingFromLogin) {
       controller = AnimationController(
           duration: const Duration(milliseconds: 500), vsync: this);
-      controller.forward();
+      controller!.forward();
     } else {
       controller = AnimationController(
           duration: const Duration(milliseconds: 0), vsync: this);
-      controller.forward();
+      controller!.forward();
     }
   }
 
   void _runAnimation() async {
     for (int i = 0; i < 4; i++) {
-      await _animationController.forward();
-      await _animationController.reverse();
+      await _animationController!.forward();
+      await _animationController!.reverse();
     }
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    controller!.dispose();
     super.dispose();
   }
 
-  Animation<Offset> get offsetAnimationUp => offsetUpTween.animate(
+  Animation<Offset> get offsetAnimationUp => offsetUpTween!.animate(
         CurvedAnimation(
-          parent: controller,
+          parent: controller!,
           curve: const Interval(
             0.0,
             1.0,
@@ -156,9 +155,9 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
         ),
       );
 
-  Animation<Offset> get offsetAnimationDown => offsetDownTween.animate(
+  Animation<Offset> get offsetAnimationDown => offsetDownTween!.animate(
         CurvedAnimation(
-          parent: controller,
+          parent: controller!,
           curve: const Interval(
             0.0,
             1.0,
@@ -172,13 +171,13 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
     print('notification(${notificationResponse.id}) action tapped: ''${notificationResponse.actionId} with'' payload: ${notificationResponse.payload}');
 
     if((notificationResponse.payload?.isNotEmpty ?? false) && notificationResponse.payload == JobReminder.MILEAGE_EXPENSE_ID) {
-      Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-      profile.showNewMileageExpensePage = true;
+      Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+      profile!.showNewMileageExpensePage = true;
       ProfileDao.update(profile);
     }
   }
 
-  void _showRestorePurchasesSheet(BuildContext context, String restoreMessage) {
+  void _showRestorePurchasesSheet(BuildContext context, String? restoreMessage) {
     EventSender().sendEvent(eventName: EventNames.BT_RESTORE_PURCHASES_SHEET);
     showModalBottomSheet(
       context: context,
@@ -216,7 +215,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
       backgroundColor: Colors.transparent,
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
-        return const RequestAppReviewBottomSheet();
+        return RequestAppReviewBottomSheet();
       },
     );
   }
@@ -230,7 +229,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
       backgroundColor: Colors.transparent,
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
-        return const RequestPMFSurveyBottomSheet();
+        return RequestPMFSurveyBottomSheet();
       },
     );
   }
@@ -244,10 +243,10 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
       backgroundColor: Colors.transparent,
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
-        return const AppUpdateBottomSheet();
+        return AppUpdateBottomSheet();
       },
     ).whenComplete( () {
-      pageState.markUpdateAsSeen(pageState.appSettings);
+      pageState.markUpdateAsSeen!(pageState.appSettings!);
     });
   }
 
@@ -255,7 +254,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
   Future<void> setupInteractedMessage() async {
     // Get any messages which caused the application to open from
     // a terminated state.
-    RemoteMessage initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) {
       _handleMessage(initialMessage);
     }
@@ -286,48 +285,48 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
           store.dispatch(CheckForPMFSurveyAction(store.state.dashboardPageState));
           store.dispatch(CheckForReviewRequestAction(store.state.dashboardPageState));
           store.dispatch(CheckForAppUpdateAction(store.state.dashboardPageState));
-          if(store.state.dashboardPageState.unseenNotificationCount > 0) {
+          if(store.state.dashboardPageState!.unseenNotificationCount! > 0) {
             _runAnimation();
           }
-          List<Job> allJobs = await JobDao.getAllJobs();
-          List<JobReminder> allReminders = await JobReminderDao.getAll();
+          List<Job>? allJobs = await JobDao.getAllJobs();
+          List<JobReminder>? allReminders = await JobReminderDao.getAll();
           final notificationHelper = NotificationHelper();
           notificationHelper.setTapBackgroundMethod(notificationTapBackground);
 
           //If permanently denied we do not want to bug the user every time they log in.  We will prompt every time they start a job instead. Also they can change the permission from the app settings.
-          Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-          if(profile.deviceTokens != null) {
-            bool isNotificationsGranted = profile.deviceTokens.length > 1 ? (await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context)) : (await UserPermissionsUtil.getPermissionStatus(Permission.notification)).isGranted;
+          Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+          if(profile!.deviceTokens != null) {
+            bool isNotificationsGranted = profile.deviceTokens!.length > 1 ? (await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context)) : (await UserPermissionsUtil.getPermissionStatus(Permission.notification)).isGranted;
             profile.pushNotificationsEnabled = isNotificationsGranted;
             if(isNotificationsGranted) {
-              setupNotifications(notificationHelper, allJobs, allReminders);
-              String token = await PushNotificationsManager().getToken();
-              profile.addUniqueDeviceToken(token);
-              Profile mostRecent = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-              profile.hasSeenShowcase = mostRecent.hasSeenShowcase;
+              setupNotifications(notificationHelper, allJobs!, allReminders!);
+              String? token = await PushNotificationsManager().getToken();
+              profile.addUniqueDeviceToken(token!);
+              Profile? mostRecent = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+              profile.hasSeenShowcase = mostRecent!.hasSeenShowcase;
               ProfileDao.update(profile);
             }
           }
 
-          if(store.state.dashboardPageState.profile != null && store.state.dashboardPageState.profile.shouldShowRestoreSubscription) {
-            String restoreMessage;
+          if(store.state.dashboardPageState!.profile != null && store.state.dashboardPageState!.profile!.shouldShowRestoreSubscription!) {
+            String? restoreMessage;
 
-            if(store.state.dashboardPageState.subscriptionState!= null) {
-              if(store.state.dashboardPageState.subscriptionState.entitlements.all['standard'] != null || store.state.dashboardPageState.subscriptionState.entitlements.all['standard_1699'] != null) {
-                if(store.state.dashboardPageState.subscriptionState.entitlements.all['standard'].isActive || store.state.dashboardPageState.subscriptionState.entitlements.all['standard_1699'].isActive) {
+            if(store.state.dashboardPageState!.subscriptionState != null) {
+              if(store.state.dashboardPageState!.subscriptionState!.entitlements.all['standard'] != null || store.state.dashboardPageState!.subscriptionState!.entitlements.all['standard_1699'] != null) {
+                if(store.state.dashboardPageState!.subscriptionState!.entitlements.all['standard']!.isActive || (store.state.dashboardPageState!.subscriptionState!.entitlements.all['standard_1699']?.isActive ?? false)) {
                   restoreMessage = ManageSubscriptionPage.SUBSCRIBED;
-                  store.state.dashboardPageState.profile.isSubscribed = true;
-                  ProfileDao.update(store.state.dashboardPageState.profile);
+                  store.state.dashboardPageState!.profile!.isSubscribed = true;
+                  ProfileDao.update(store.state.dashboardPageState!.profile!);
                   EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.SUBSCRIBED);
                 } else {
-                  store.state.dashboardPageState.profile.isSubscribed = false;
-                  ProfileDao.update(store.state.dashboardPageState.profile);
+                  store.state.dashboardPageState!.profile!.isSubscribed = false;
+                  ProfileDao.update(store.state.dashboardPageState!.profile!);
                   EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.SUBSCRIPTION_EXPIRED);
                   //Subscription expired - do nothing
                 }
               } else {
-                store.state.dashboardPageState.profile.isSubscribed = false;
-                ProfileDao.update(store.state.dashboardPageState.profile);
+                store.state.dashboardPageState!.profile!.isSubscribed = false;
+                ProfileDao.update(store.state.dashboardPageState!.profile!);
                 restoreMessage = ManageSubscriptionPage.FREE_TRIAL;
                 EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.FREE_TRIAL);
               }
@@ -341,39 +340,39 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
             }
           }
 
-          if(profile.deviceTokens != null) {
-            bool isCalendarGranted = profile.deviceTokens.length > 1 ? (await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendar, context: context)) : (await UserPermissionsUtil.getPermissionStatus(Permission.calendar)).isGranted;
-            if(isCalendarGranted && store.state.dashboardPageState.profile != null && !store.state.dashboardPageState.profile.calendarEnabled) {
-              Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-              profile.calendarEnabled = true;
-              ProfileDao.update(profile);
-              UserOptionsUtil.showCalendarSelectionDialog(context, null);
+          if(profile.deviceTokens != null && profile.calendarEnabled!) {
+            bool isCalendarGranted = (await UserPermissionsUtil.getPermissionStatus(Permission.calendarFullAccess)).isGranted;
+            if(!isCalendarGranted) {
+              bool fullAccessGranted = (await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendarFullAccess, context: context));
+              if(fullAccessGranted) {
+                UserOptionsUtil.showCalendarSelectionDialog(context, null);
+              }
             }
           }
         },
         onDidChange: (previous, current) async {
-          if(!hasSeenAPpUpdate && !previous.shouldShowAppUpdate && current.shouldShowAppUpdate) {
+          if(!hasSeenAPpUpdate && !previous!.shouldShowAppUpdate! && current.shouldShowAppUpdate!) {
             setState(() {
               hasSeenAPpUpdate = true;
               _showAppUpdateBottomSheet(context, current);
             });
-          } else if(!current.hasSeenShowcase) {
+          } else if(!current.hasSeenShowcase!) {
             _startShowcase();
-            current.onShowcaseSeen();
-          } else if(!goToHasBeenSeen && !current.goToSeen && current.goToPosesJob != null){
-            _showGoToJobPosesSheet(context, current.goToPosesJob);
+            current.onShowcaseSeen!();
+          } else if(!goToHasBeenSeen && !current.goToSeen! && current.goToPosesJob != null){
+            _showGoToJobPosesSheet(context, current.goToPosesJob!);
             setState(() {
               goToHasBeenSeen = true;
             });
-            current.onGoToSeen();
-          } else if(!previous.shouldShowNewMileageExpensePage && current.shouldShowNewMileageExpensePage) {
+            current.onGoToSeen!();
+          } else if(!previous!.shouldShowNewMileageExpensePage! && current.shouldShowNewMileageExpensePage!) {
             UserOptionsUtil.showNewMileageExpenseSelected(context, null);
-          } else if(!hasSeenRequestReview && !previous.shouldShowRequestReview && current.shouldShowRequestReview) {
+          } else if(!hasSeenRequestReview && !previous.shouldShowRequestReview! && current.shouldShowRequestReview!) {
             setState(() {
               hasSeenRequestReview = true;
             });
             _showRequestAppReviewBottomSheet(context);
-          } else if(!hasSeenPMFRequest && !previous.shouldShowPMFRequest && current.shouldShowPMFRequest) {
+          } else if(!hasSeenPMFRequest && !previous.shouldShowPMFRequest! && current.shouldShowPMFRequest!) {
             setState(() {
               hasSeenPMFRequest = true;
             });
@@ -430,6 +429,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                     children: [
                       SpeedDialChild(
                         child: const Icon(Icons.business_center),
+                        shape: const CircleBorder(),
                         backgroundColor: Color(ColorConstants.getBlueLight()),
                         labelWidget: Container(
                           alignment: Alignment.center,
@@ -453,6 +453,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                       ),
                       SpeedDialChild(
                         child: const Icon(Icons.person_add),
+                        shape: const CircleBorder(),
                         backgroundColor: Color(ColorConstants.getBlueLight()),
                         labelWidget: Container(
                           alignment: Alignment.center,
@@ -477,9 +478,9 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                     ],
                   ),
               ),
-                  pageState.profile != null && !pageState.profile.isSubscribed && !pageState.profile.isFreeForLife ? GestureDetector(
+                  pageState.profile != null && !pageState.profile!.isSubscribed! && !pageState.profile!.isFreeForLife! ? GestureDetector(
                     onTap: () {
-                      NavigationUtil.onManageSubscriptionSelected(context, pageState.profile);
+                      NavigationUtil.onManageSubscriptionSelected(context, pageState.profile!);
                       EventSender().sendEvent(eventName: EventNames.BT_SUBSCRIBE_NOW);
                     },
                     child: Container(
@@ -638,7 +639,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                               turns: Tween(begin: 0.0, end: -.05)
                                                   .chain(CurveTween(
                                                   curve: Curves.elasticIn))
-                                                  .animate(_animationController),
+                                                  .animate(_animationController!),
                                               child: Container(
                                                 margin: const EdgeInsets.only(right: 16.0),
                                                 height: 28.0,
@@ -649,7 +650,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                         ],
                                       ),
                                     ),
-                                    pageState.unseenNotificationCount > 0 ? Container(
+                                    pageState.unseenNotificationCount! > 0 ? Container(
                                       margin: const EdgeInsets.only(bottom: 16.0),
                                       width: 8.0,
                                       height: 8.0,
@@ -696,7 +697,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                           ),
                         ], systemOverlayStyle: SystemUiOverlayStyle.dark,
                       ),
-                      pageState.areJobsLoaded ? SliverList(
+                      pageState.areJobsLoaded! ? SliverList(
                           delegate: SliverChildListDelegate(<Widget>[
                             SlideTransition(
                               position: offsetAnimationUp,
@@ -716,7 +717,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                             ),
                             SlideTransition(
                               position: offsetAnimationUp,
-                              child: pageState.activeJobs == null || pageState.activeJobs.isEmpty ? StartAJobButton(pageState: pageState) : const SizedBox(),
+                              child: pageState.activeJobs == null || pageState.activeJobs!.isEmpty ? StartAJobButton(pageState: pageState) : const SizedBox(),
                             ),
                             SlideTransition(
                                 position: offsetAnimationUp,

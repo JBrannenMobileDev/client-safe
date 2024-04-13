@@ -24,7 +24,7 @@ class NotificationHelper {
   static final int START_FIRST_JOB_ID = 63;
   static final int ONE_WEEK_LEFT_ID = 62;
 
-  Function(NotificationResponse notificationResponse) notificationTapBackground;
+  Function(NotificationResponse notificationResponse)? notificationTapBackground;
 
   factory NotificationHelper() {
     return _singleton;
@@ -36,7 +36,7 @@ class NotificationHelper {
 
   NotificationHelper._SingletonConstructor();
 
-  FlutterLocalNotificationsPlugin flutterNotificationPlugin;
+  FlutterLocalNotificationsPlugin? flutterNotificationPlugin;
 
   Future<void> initNotifications(BuildContext context) async {
     flutterNotificationPlugin = FlutterLocalNotificationsPlugin();
@@ -62,7 +62,7 @@ class NotificationHelper {
 
     var initializationSettings = new InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
 
-    await flutterNotificationPlugin.initialize(
+    await flutterNotificationPlugin!.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse:
           (NotificationResponse notificationResponse) async {
@@ -72,8 +72,8 @@ class NotificationHelper {
             if(notificationResponse.payload == JobReminder.MILEAGE_EXPENSE_ID) {
               UserOptionsUtil.showNewMileageExpenseSelected(context, null);
             }else if(notificationResponse.payload == JobReminder.POSE_FEATURED_ID) {
-              Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-              profile.showNewMileageExpensePage = true;
+              Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+              profile!.showNewMileageExpensePage = true;
               ProfileDao.update(profile);
             } else {
               // Job job = await JobDao.getJobById(notificationResponse.payload);
@@ -84,8 +84,8 @@ class NotificationHelper {
             print('Notification selected with action');
             if (notificationResponse.actionId == navigationActionId) {
               if(notificationResponse.payload == JobReminder.MILEAGE_EXPENSE_ID) {
-                Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-                profile.showNewMileageExpensePage = true;
+                Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+                profile!.showNewMileageExpensePage = true;
                 ProfileDao.update(profile);
               }
             }
@@ -102,10 +102,10 @@ class NotificationHelper {
       bool isGranted = (await UserPermissionsUtil.getPermissionStatus(Permission.notification)).isGranted;
       if(isGranted) {
         List<JobReminder> pendingReminders = await JobReminderDao.getPendingJobReminders();
-        List<Job> allJobs = await JobDao.getAllJobs();
+        List<Job>? allJobs = await JobDao.getAllJobs();
         clearAll();
 
-        if(allJobs.length == 1 && allJobs.elementAt(0).clientName == "Example Client") {
+        if(allJobs!.length == 1 && allJobs.elementAt(0).clientName == "Example Client") {
           scheduleStartFirstJobReminder();
         }
 
@@ -116,11 +116,11 @@ class NotificationHelper {
               scheduleNotification(
                 index,
                 'Reminder',
-                '(' + (await JobDao.getJobById(reminderToSchedule.jobDocumentId)).jobTitle + ')\n' + reminderToSchedule.reminder.description,
-                reminderToSchedule.payload,
-                reminderToSchedule.triggerTime,
+                '(' + (await JobDao.getJobById(reminderToSchedule.jobDocumentId))!.jobTitle! + ')\n' + reminderToSchedule.reminder!.description!,
+                reminderToSchedule.payload!,
+                reminderToSchedule.triggerTime!,
               );
-              print("Reminder has been scheduled.   notificationId = " + index.toString() + "   jobReminderId = " + reminderToSchedule.documentId + "   Trigger time = " + reminderToSchedule.triggerTime.toString());
+              print("Reminder has been scheduled.   notificationId = " + index.toString() + "   jobReminderId = " + reminderToSchedule.documentId! + "   Trigger time = " + reminderToSchedule.triggerTime.toString());
             }
           }
         }
@@ -129,9 +129,9 @@ class NotificationHelper {
 
   Future<String> getNotificationJobId() async {
     String jobId = "";
-    final NotificationAppLaunchDetails notificationAppLaunchDetails = await flutterNotificationPlugin.getNotificationAppLaunchDetails();
+    final NotificationAppLaunchDetails? notificationAppLaunchDetails = await flutterNotificationPlugin?.getNotificationAppLaunchDetails();
     if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
-      jobId = notificationAppLaunchDetails.notificationResponse?.payload;
+      jobId = notificationAppLaunchDetails!.notificationResponse!.payload!;
     }
     print("Notification app launch JobId = $jobId");
     return jobId;
@@ -139,13 +139,13 @@ class NotificationHelper {
 
   Future<void> clearAll() async {
     if(flutterNotificationPlugin != null) {
-      await flutterNotificationPlugin.cancelAll();
+      await flutterNotificationPlugin!.cancelAll();
     }
   }
 
-  Future<void> turnOffNotificationById(num id) async {
+  Future<void> turnOffNotificationById(int id) async {
     if(flutterNotificationPlugin != null) {
-      await flutterNotificationPlugin.cancel(id);
+      await flutterNotificationPlugin!.cancel(id);
     }
   }
 
@@ -157,7 +157,7 @@ class NotificationHelper {
       DateTime scheduledNotificationDateTime) async {
     bool isGranted = (await UserPermissionsUtil.getPermissionStatus(Permission.notification)).isGranted;
     if(isGranted && flutterNotificationPlugin != null) {
-      await flutterNotificationPlugin.zonedSchedule(
+      await flutterNotificationPlugin!.zonedSchedule(
         id,
         title,
         body,
@@ -180,7 +180,7 @@ class NotificationHelper {
   }
 
   void scheduleStartFirstJobReminder() async {
-    DateTime profileCreatedDate = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).accountCreatedDate;
+    DateTime profileCreatedDate = (await ProfileDao.getMatchingProfile(UidUtil().getUid()))!.accountCreatedDate!;
     profileCreatedDate = profileCreatedDate.add(Duration(days: 3));
 
     if(DateTime.now().isBefore(profileCreatedDate)) {

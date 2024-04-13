@@ -48,7 +48,7 @@ class PoseLibraryGroupDao extends Equatable{
     }
   }
 
-  static Future<PoseLibraryGroup> getById(String poseDocumentId) async{
+  static Future<PoseLibraryGroup?> getById(String poseDocumentId) async{
     if((await getAllSortedMostFrequent()).length > 0) {
       final finder = Finder(filter: Filter.equals('documentId', poseDocumentId));
       final recordSnapshots = await _PoseLibraryGroupStore.find(await _db, finder: finder);
@@ -102,8 +102,6 @@ class PoseLibraryGroupDao extends Equatable{
     await _PoseLibraryGroupStore.delete(
       await _db,
       finder: finder,
-    ).onError(
-            (error, stackTrace) => null
     );
     await PoseLibraryGroupsCollection().delete(documentId);
   }
@@ -129,8 +127,8 @@ class PoseLibraryGroupDao extends Equatable{
     List<PoseLibraryGroup> allLocalPoseGroups = await getAllSortedMostFrequent();
     List<PoseLibraryGroup> allFireStorePoseGroups = await PoseLibraryGroupsCollection().get();
 
-    if(allLocalPoseGroups != null && allLocalPoseGroups.length > 0) {
-      if(allFireStorePoseGroups != null && allFireStorePoseGroups.length > 0) {
+    if(allLocalPoseGroups.length > 0) {
+      if(allFireStorePoseGroups.length > 0) {
         //both local and fireStore have PoseGroups
         //fireStore is source of truth for this sync.
         await _syncFireStoreToLocal(allLocalPoseGroups, allFireStorePoseGroups);
@@ -139,7 +137,7 @@ class PoseLibraryGroupDao extends Equatable{
         _deleteAllLocalPoseGroups(allLocalPoseGroups);
       }
     } else {
-      if(allFireStorePoseGroups != null && allFireStorePoseGroups.length > 0){
+      if(allFireStorePoseGroups.length > 0){
         //no local PoseGroups but there are fireStore PoseGroups.
         await _copyAllFireStorePoseGroupsToLocal(allFireStorePoseGroups);
       } else {
@@ -168,7 +166,7 @@ class PoseLibraryGroupDao extends Equatable{
     for(PoseLibraryGroup localPoseGroup in allLocalPoseGroups) {
       //should only be 1 matching
       List<PoseLibraryGroup> matchingFireStorePoseGroups = allFireStorePoseGroups.where((fireStorePoseGroup) => localPoseGroup.documentId == fireStorePoseGroup.documentId).toList();
-      if(matchingFireStorePoseGroups !=  null && matchingFireStorePoseGroups.length > 0) {
+      if(matchingFireStorePoseGroups.length > 0) {
         PoseLibraryGroup fireStorePoseGroup = matchingFireStorePoseGroups.elementAt(0);
         final finder = Finder(filter: Filter.equals('documentId', fireStorePoseGroup.documentId));
         await _PoseLibraryGroupStore.update(
@@ -188,7 +186,7 @@ class PoseLibraryGroupDao extends Equatable{
 
     for(PoseLibraryGroup fireStorePoseGroup in allFireStorePoseGroups) {
       List<PoseLibraryGroup> matchingLocalPoseGroups = allLocalPoseGroups.where((localPoseGroup) => localPoseGroup.documentId == fireStorePoseGroup.documentId).toList();
-      if(matchingLocalPoseGroups != null && matchingLocalPoseGroups.length > 0) {
+      if(matchingLocalPoseGroups.length > 0) {
         //do nothing. PoseGroup already synced.
       } else {
         //add to local. does not exist in local and has not been synced yet.

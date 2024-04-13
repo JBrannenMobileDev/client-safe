@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import '../utils/ColorConstants.dart';
 
 class DividerWidget extends StatelessWidget {
-  final double width;
+  final double? width;
 
   DividerWidget({this.width});
 

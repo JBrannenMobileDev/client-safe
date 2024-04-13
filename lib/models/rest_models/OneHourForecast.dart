@@ -1,10 +1,10 @@
 class OneHourForecast {
-  final String time;
-  final int temperature;
-  final int weather_code;
-  final List<dynamic> weather_descriptions;
-  final int cloudcover;
-  final int chanceofrain;
+  final String? time;
+  final int? temperature;
+  final int? weather_code;
+  final List<dynamic>? weather_descriptions;
+  final int? cloudcover;
+  final int? chanceofrain;
 
   const OneHourForecast({
     this.time,

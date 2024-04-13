@@ -22,9 +22,9 @@ import 'LibraryPoseGroupActions.dart';
 import 'LibrarySingleImageViewPager.dart';
 
 class LibraryPoseGroupPage extends StatefulWidget {
-  final PoseLibraryGroup poseGroup;
-  final Job job;
-  final bool comingFromDetails;
+  final PoseLibraryGroup? poseGroup;
+  final Job? job;
+  final bool? comingFromDetails;
 
   LibraryPoseGroupPage(this.poseGroup, this.job, this.comingFromDetails);
 
@@ -36,9 +36,9 @@ class LibraryPoseGroupPage extends StatefulWidget {
 
 class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
     with TickerProviderStateMixin {
-  final PoseLibraryGroup poseGroup;
-  final Job job;
-  final bool comingFromDetails;
+  final PoseLibraryGroup? poseGroup;
+  final Job? job;
+  final bool? comingFromDetails;
 
   _LibraryPoseGroupPageState(this.poseGroup, this.job, this.comingFromDetails);
 
@@ -53,11 +53,11 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
                   new MaterialPageRoute(builder: (context) => LibrarySingleImageViewPager(
                       pageState.sortedPoses,
                       index,
-                      pageState.poseGroup.groupName
+                      pageState.poseGroup!.groupName
                   )),
                 );
               } else {
-                pageState.onImageAddedToJobSelected(pageState.sortedPoses.elementAt(index), job);
+                pageState.onImageAddedToJobSelected!(pageState.sortedPoses!.elementAt(index), job!);
                 VibrateUtil.vibrateMedium();
                 DandyToastUtil.showToastWithGravity('Pose Added!', Color(ColorConstants.getPeachDark()), ToastGravity.CENTER);
                 EventSender().sendEvent(eventName: EventNames.BT_SAVE_LIBRARY_POSE_TO_JOB_FROM_JOB);
@@ -93,7 +93,7 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
       converter: (Store<AppState> store) => LibraryPoseGroupPageState.fromStore(store),
       builder: (BuildContext context, LibraryPoseGroupPageState pageState) =>
           Scaffold(
-          bottomSheet: job != null ? GoToJobPosesBottomSheet(job, comingFromDetails ? 2 : 2) : SizedBox(),
+          bottomSheet: job != null ? GoToJobPosesBottomSheet(job!, comingFromDetails! ? 2 : 2) : SizedBox(),
           backgroundColor: Color(ColorConstants.getPrimaryWhite()),
           body: Stack(
             children: [
@@ -111,15 +111,16 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
                     snap: false,
                     floating: true,
                     forceElevated: false,
+                    surfaceTintColor: Colors.transparent,
                     title: Container(
                       child: TextDandyLight(
                         type: TextDandyLight.LARGE_TEXT,
-                        text: poseGroup.groupName,
+                        text: poseGroup!.groupName,
                         color: Color(ColorConstants.getPeachDark()),
                       ),
                     ),
                     actions: <Widget>[
-                      pageState.isAdmin ? GestureDetector(
+                      pageState.isAdmin! ? GestureDetector(
                         onTap: () {
                           _showAddImageBottomSheet(context);
                         },
@@ -149,7 +150,7 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
                           child: _buildItem(context, index),
                         );
                       },
-                        childCount: pageState.sortedPoses.length, // 1000 list items
+                        childCount: pageState.sortedPoses!.length, // 1000 list items
                       ),
                     ),
                   ),

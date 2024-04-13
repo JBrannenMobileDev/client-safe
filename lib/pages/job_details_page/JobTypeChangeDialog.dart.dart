@@ -78,7 +78,7 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
                     child: ListView.builder(
                       shrinkWrap: true,
                       physics: AlwaysScrollableScrollPhysics(),
-                      itemCount: pageState.jobTypes.length,
+                      itemCount: pageState.jobTypes!.length,
                       itemBuilder: _buildItem,
                     ),
                   ),
@@ -102,7 +102,7 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
                         TextButton(
                           style: Styles.getButtonStyle(),
                           onPressed: () {
-                            pageState.onJobTypeSaveSelected();
+                            pageState.onJobTypeSaveSelected!();
                             VibrateUtil.vibrateHeavy();
                             Navigator.of(context).pop();
                           },
@@ -133,17 +133,17 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
               shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(32.0),
               ),
-              color: pageState.jobType.documentId == pageState.jobTypes.elementAt(index).documentId ? Color(
+              color: pageState.jobType!.documentId == pageState.jobTypes!.elementAt(index).documentId ? Color(
                   ColorConstants.getBlueDark()) : Colors.transparent,
             ),
             onPressed: () {
-              pageState.onJobTypeSelected(
-                  pageState.jobTypes.elementAt(index)
+              pageState.onJobTypeSelected!(
+                  pageState.jobTypes!.elementAt(index)
               );
             },
             child: Row(
               children: <Widget>[
-                pageState.jobType.documentId == pageState.jobTypes.elementAt(index).documentId ? Container(
+                pageState.jobType!.documentId == pageState.jobTypes!.elementAt(index).documentId ? Container(
                   margin: EdgeInsets.only(left: 8, right: 16.0),
                   height: 28.0,
                   width: 28.0,
@@ -165,9 +165,9 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
                         children: <Widget>[
                           TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
-                            text: pageState.jobTypes.elementAt(index).title,
+                            text: pageState.jobTypes!.elementAt(index).title,
                             textAlign: TextAlign.start,
-                            color: pageState.jobType.documentId == pageState.jobTypes.elementAt(index).documentId ? Color(
+                            color: pageState.jobType!.documentId == pageState.jobTypes!.elementAt(index).documentId ? Color(
                                 ColorConstants.getPrimaryWhite()) : Color(
                                 ColorConstants.getPeachDark()),
                           ),

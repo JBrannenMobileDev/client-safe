@@ -1,8 +1,8 @@
 class PlacesLocation {
-  String address;
-  String name;
-  double lat;
-  double lon;
+  String? address;
+  String? name;
+  double? lat;
+  double? lon;
 
   PlacesLocation({
     this.address,

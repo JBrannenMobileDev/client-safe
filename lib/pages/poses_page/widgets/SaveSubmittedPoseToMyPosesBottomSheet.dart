@@ -39,7 +39,7 @@ class _BottomSheetPageState extends State<SaveSubmittedPoseToMyPosesBottomSheet>
       builder: (BuildContext context, PosesPageState pageState) =>
           GestureDetector(
             onTap: () {
-              pageState.onImageSaveSelected(pageState.sortedSubmittedPoses.elementAt(poseIndex), pageState.poseGroups.elementAt(index));
+              pageState.onImageSaveSelected!(pageState.sortedSubmittedPoses!.elementAt(poseIndex), pageState.poseGroups!.elementAt(index));
               showSuccessAnimation();
               EventSender().sendEvent(eventName: EventNames.BT_SAVE_SUBMITTED_POSE);
             },
@@ -73,7 +73,7 @@ class _BottomSheetPageState extends State<SaveSubmittedPoseToMyPosesBottomSheet>
                          color: Color(ColorConstants.getPrimaryBlack()),
                        ),
                      ),
-                     pageState.poseGroups.length > 0 ? SingleChildScrollView(
+                     pageState.poseGroups!.length > 0 ? SingleChildScrollView(
                        child: Container(
                          height: 302,
                          child: GridView.builder(
@@ -85,7 +85,7 @@ class _BottomSheetPageState extends State<SaveSubmittedPoseToMyPosesBottomSheet>
                                  crossAxisSpacing: 0,
                                  mainAxisSpacing: 0
                              ),
-                             itemCount: pageState.poseGroups.length,
+                             itemCount: pageState.poseGroups!.length,
                              controller: _controller,
                              physics: AlwaysScrollableScrollPhysics(),
                              key: _listKey,

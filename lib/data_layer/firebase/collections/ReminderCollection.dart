@@ -57,7 +57,7 @@ class ReminderCollection {
         .doc(documentId)
         .get()
         .then((expenseSnapshot) {
-          ReminderDandyLight reminder = ReminderDandyLight.fromMap(expenseSnapshot.data());
+          ReminderDandyLight reminder = ReminderDandyLight.fromMap(expenseSnapshot.data() as Map<String, dynamic>);
           reminder.documentId = expenseSnapshot.id;
           return reminder;
         });
@@ -96,7 +96,7 @@ class ReminderCollection {
   List<ReminderDandyLight> _buildRemindersList(QuerySnapshot reminders) {
     List<ReminderDandyLight> remindersList = [];
     for(DocumentSnapshot reminderSnapshot in reminders.docs){
-      ReminderDandyLight reminder = ReminderDandyLight.fromMap(reminderSnapshot.data());
+      ReminderDandyLight reminder = ReminderDandyLight.fromMap(reminderSnapshot.data() as Map<String, dynamic>);
       reminder.documentId = reminderSnapshot.id;
       remindersList.add(reminder);
     }

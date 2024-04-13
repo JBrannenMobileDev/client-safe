@@ -12,9 +12,9 @@ import '../../utils/TextFormatterUtil.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class IncomeInsights extends StatelessWidget {
-  const IncomeInsights({Key key, this.pageState}) : super(key: key);
+  const IncomeInsights({Key? key, this.pageState}) : super(key: key);
 
-  final IncomeAndExpensesPageState pageState;
+  final IncomeAndExpensesPageState? pageState;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class IncomeInsights extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 42.0),
                         child: TextDandyLight(
                           type: TextDandyLight.EXTRA_LARGE_TEXT,
-                          text: TextFormatterUtil.formatSimpleCurrency(pageState.thisMonthIncome),
+                          text: TextFormatterUtil.formatSimpleCurrency(pageState!.thisMonthIncome!),
                           textAlign: TextAlign.start,
                           color: Color(ColorConstants.getPrimaryBlack()),
                         ),
@@ -80,7 +80,7 @@ class IncomeInsights extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 42.0),
                         child: TextDandyLight(
                           type: TextDandyLight.EXTRA_LARGE_TEXT,
-                          text: TextFormatterUtil.formatSimpleCurrency(pageState.lastMonthIncome),
+                          text: TextFormatterUtil.formatSimpleCurrency(pageState!.lastMonthIncome!),
                           textAlign: TextAlign.start,
                           color: Color(ColorConstants.getPrimaryBlack()),
                         ),
@@ -91,71 +91,6 @@ class IncomeInsights extends StatelessWidget {
               ],
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                width: (MediaQuery.of(context).size.width / 2) - (21) - (DeviceType.getDeviceType() == Type.Tablet ? 150 : 0),
-                height: 120.0,
-                decoration: BoxDecoration(
-                    color: Color(ColorConstants.getPrimaryWhite()),
-                    borderRadius: const BorderRadius.all(Radius.circular(12.0))),
-                child: Stack(
-                  alignment: Alignment.topCenter,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: TextDandyLight(
-                        type: TextDandyLight.SMALL_TEXT,
-                        text: 'This Month \nLast Year',
-                        textAlign: TextAlign.center,
-                        color: Color(ColorConstants.getPrimaryBlack()),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 54.0),
-                      child: TextDandyLight(
-                        type: TextDandyLight.EXTRA_LARGE_TEXT,
-                        text: TextFormatterUtil.formatSimpleCurrency(pageState.thisMonthLastYearIncome),
-                        textAlign: TextAlign.start,
-                        color: Color(ColorConstants.getPrimaryBlack()),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: (MediaQuery.of(context).size.width / 2) - (21) - (DeviceType.getDeviceType() == Type.Tablet ? 150 : 0),
-                height: 120.0,
-                decoration: BoxDecoration(
-                    color: Color(ColorConstants.getPrimaryWhite()),
-                    borderRadius: const BorderRadius.all(Radius.circular(12.0))),
-                child: Stack(
-                  alignment: Alignment.topCenter,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: TextDandyLight(
-                        type: TextDandyLight.SMALL_TEXT,
-                        text: 'Last Month \nLast Year',
-                        textAlign: TextAlign.center,
-                        color: Color(ColorConstants.getPrimaryBlack()),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 54.0),
-                      child: TextDandyLight(
-                        type: TextDandyLight.EXTRA_LARGE_TEXT,
-                        text: TextFormatterUtil.formatSimpleCurrency(pageState.lastMonthLastYearIncome),
-                        textAlign: TextAlign.start,
-                        color: Color(ColorConstants.getPrimaryBlack()),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          )
         ],
       ),
     );

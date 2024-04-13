@@ -49,9 +49,9 @@ class _BottomSheetPageState extends State<AddLibraryPhotoBottomSheet> with Ticke
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, LibraryPoseGroupPageState>(
     onInit: (store) {
-      if(store.state.libraryPoseGroupPageState.instagramName.isNotEmpty) {
-        NameController.text = store.state.libraryPoseGroupPageState.instagramName;
-        urlController.text = store.state.libraryPoseGroupPageState.instagramUrl;
+      if(store.state.libraryPoseGroupPageState!.instagramName!.isNotEmpty) {
+        NameController.text = store.state.libraryPoseGroupPageState!.instagramName!;
+        urlController.text = store.state.libraryPoseGroupPageState!.instagramUrl!;
       }
     },
     converter: (Store<AppState> store) => LibraryPoseGroupPageState.fromStore(store),
@@ -149,7 +149,7 @@ class _BottomSheetPageState extends State<AddLibraryPhotoBottomSheet> with Ticke
                          tagsController.text.replaceAll(' ', '');
                          List<String> tags = tagsController.text.split(",");
                          if(tags.length > 0) {
-                           pageState.onNewPoseImagesSelected(images, NameController.text, urlController.text, tags);
+                           pageState.onNewPoseImagesSelected!(images, NameController.text, urlController.text, tags);
                            Navigator.of(context).pop();
                          } else {
                            DandyToastUtil.showToastWithGravity('Invalid Tags!', Color(ColorConstants.error_red), ToastGravity.CENTER);

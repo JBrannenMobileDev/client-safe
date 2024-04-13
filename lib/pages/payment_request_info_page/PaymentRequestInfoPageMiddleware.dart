@@ -64,8 +64,8 @@ class PaymentRequestInfoPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void loadSettings(Store<AppState> store, NextDispatcher next) async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    store.dispatch(SaveZelleStateAction(store.state.paymentRequestInfoPageState, profile.zelleEnabled));
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    store.dispatch(SaveZelleStateAction(store.state.paymentRequestInfoPageState, profile!.zelleEnabled));
     store.dispatch(SetZellePhoneEmailTextAction(store.state.paymentRequestInfoPageState, profile.zellePhoneEmail));
     store.dispatch(SetZelleFullNameTextAction(store.state.paymentRequestInfoPageState, profile.zelleFullName));
     store.dispatch(SaveVenmoStateAction(store.state.paymentRequestInfoPageState, profile.venmoEnabled));
@@ -84,98 +84,98 @@ class PaymentRequestInfoPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void updateZelleSelection(Store<AppState> store, NextDispatcher next, UpdateProfileWithZelleStateAction action)async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.zelleEnabled = action.enabled;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.zelleEnabled = action.enabled;
     updateProfile(profile, store);
   }
 
   void updateVenmoSelection(Store<AppState> store, NextDispatcher next, UpdateProfileWithVenmoStateAction action)async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.venmoEnabled = action.enabled;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.venmoEnabled = action.enabled;
     updateProfile(profile, store);
   }
 
   void updateCashAppSelection(Store<AppState> store, NextDispatcher next, UpdateProfileWithCashAppStateAction action)async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.cashAppEnabled = action.enabled;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.cashAppEnabled = action.enabled;
     updateProfile(profile, store);
   }
 
   void updateApplePaySelection(Store<AppState> store, NextDispatcher next, UpdateProfileWithApplePayStateAction action)async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.applePayEnabled = action.enabled;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.applePayEnabled = action.enabled;
     updateProfile(profile, store);
   }
 
   void updateCashSelection(Store<AppState> store, NextDispatcher next, UpdateProfileWithCashStateAction action)async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.cashEnabled = action.enabled;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.cashEnabled = action.enabled;
     updateProfile(profile, store);
   }
 
   void updateOtherSelection(Store<AppState> store, NextDispatcher next, UpdateProfileWithOtherStateAction action)async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.otherEnabled = action.enabled;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.otherEnabled = action.enabled;
     updateProfile(profile, store);
   }
 
   void updateWireSelection(Store<AppState> store, NextDispatcher next, UpdateProfileWithWireStateAction action)async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.wireEnabled = action.enabled;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.wireEnabled = action.enabled;
     updateProfile(profile, store);
   }
 
   void saveZellePhoneEmail(Store<AppState> store, NextDispatcher next, SaveZellePhoneEmailInput action)async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.zellePhoneEmail = action.pageState.zellePhoneEmail;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.zellePhoneEmail = action.pageState!.zellePhoneEmail;
     updateProfile(profile, store);
   }
 
   void saveZelleFullName(Store<AppState> store, NextDispatcher next, SaveZelleFullNameInput action)async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.zelleFullName = action.pageState.zelleFullName;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.zelleFullName = action.pageState!.zelleFullName;
     updateProfile(profile, store);
   }
 
   void saveVenmoInput(Store<AppState> store, NextDispatcher next, SaveVenmoInput action)async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.venmoLink = action.pageState.venmoLink;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.venmoLink = action.pageState!.venmoLink;
     updateProfile(profile, store);
   }
 
   void saveCashAppInput(Store<AppState> store, NextDispatcher next, SaveCashAppInput action)async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.cashAppLink = action.pageState.cashAppLink;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.cashAppLink = action.pageState!.cashAppLink;
     updateProfile(profile, store);
   }
 
   void saveApplePayPhone(Store<AppState> store, NextDispatcher next, SaveApplePayInput action)async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.applePayPhone = action.pageState.applePayPhone;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.applePayPhone = action.pageState!.applePayPhone;
     updateProfile(profile, store);
   }
 
   void saveOtherMessage(Store<AppState> store, NextDispatcher next, SaveOtherInput action)async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.otherMessage = action.pageState.otherMessage;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.otherMessage = action.pageState!.otherMessage;
     updateProfile(profile, store);
   }
 
   void saveWireMessage(Store<AppState> store, NextDispatcher next, SaveWireInput action)async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.wireMessage = action.pageState.wireMessage;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.wireMessage = action.pageState!.wireMessage;
     updateProfile(profile, store);
   }
 
   void saveCashMessage(Store<AppState> store, NextDispatcher next, SaveCashInput action)async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.cashMessage = action.pageState.cashMessage;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.cashMessage = action.pageState!.cashMessage;
     updateProfile(profile, store);
   }
 
   void updateProfile(Profile profile, Store<AppState> store) async {
     await ProfileDao.update(profile);
-    store.dispatch(FetchProfileAction(store.state.shareWithClientPageState));
+    store.dispatch(FetchProfileAction(store.state.shareWithClientPageState!));
 
     if(profile.paymentOptionsSelected()) {
       EventSender().setUserProfileData(EventNames.IS_PAYMENT_OPTIONS_SETUP_COMPLETE, true);

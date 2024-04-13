@@ -1,7 +1,7 @@
 import 'ForecastDay.dart';
 
 class Forecast {
-  List<Forecastday> forecastday;
+  List<Forecastday>? forecastday;
 
   Forecast({this.forecastday});
 
@@ -9,7 +9,7 @@ class Forecast {
     if (json['forecastday'] != null) {
       forecastday = <Forecastday>[];
       json['forecastday'].forEach((v) {
-        forecastday.add(new Forecastday.fromJson(v));
+        forecastday!.add(new Forecastday.fromJson(v));
       });
     }
   }
@@ -17,7 +17,7 @@ class Forecast {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.forecastday != null) {
-      data['forecastday'] = this.forecastday.map((v) => v.toJson()).toList();
+      data['forecastday'] = this.forecastday!.map((v) => v.toJson()).toList();
     }
     return data;
   }

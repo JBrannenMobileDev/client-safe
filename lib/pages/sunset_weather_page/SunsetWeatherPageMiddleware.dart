@@ -52,10 +52,10 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void loadLocationImageFiles(Store<AppState> store, NextDispatcher next, LoadLocationImageFilesAction action) async {
-    List<File> imageFiles = [];
+    List<File?> imageFiles = [];
 
-    if(store.state.sunsetWeatherPageState.locations != null) {
-      for(LocationDandy location in store.state.sunsetWeatherPageState.locations) {
+    if(store.state.sunsetWeatherPageState!.locations != null) {
+      for(LocationDandy location in store.state.sunsetWeatherPageState!.locations!) {
         imageFiles.add(await FileStorage.getLocationImageFile(location));
       }
 
@@ -64,17 +64,17 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchLocationDetails(Store<AppState> store, NextDispatcher next, FetchSearchLocationDetails action) async {
-    LocationDandy selectedSearchLocation = LocationDandy.LocationDandy(latitude: action.selectedSearchLocation.lat, longitude: action.selectedSearchLocation.lon);
+    LocationDandy selectedSearchLocation = LocationDandy.LocationDandy(latitude: action.selectedSearchLocation!.lat, longitude: action.selectedSearchLocation!.lon);
     store.dispatch(SetSelectedSearchLocation(store.state.sunsetWeatherPageState, selectedSearchLocation));
   }
 
   void fetchLocations(Store<AppState> store, NextDispatcher next, FetchGoogleLocationsAction action) async {
-    List<PlacesLocation> locations = await GoogleApiClient(httpClient: http.Client()).getLocationResults(action.input);
+    List<PlacesLocation> locations = await GoogleApiClient(httpClient: http.Client()).getLocationResults(action.input!);
     store.dispatch(SetLocationResultsAction(store.state.sunsetWeatherPageState, locations));
   }
 
   void updateWeatherWithCurrentLatLng(Store<AppState> store, NextDispatcher next, SaveCurrentMapLatLngAction action) async {
-    LatLng latLng = store.state.sunsetWeatherPageState.currentMapLatLng;
+    LatLng? latLng = store.state.sunsetWeatherPageState!.currentMapLatLng;
     if(latLng != null) {
 
       GeoData address = await getAddress(latLng.latitude, latLng.longitude);
@@ -84,17 +84,17 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(
           SetSunsetTimeAction(
             store.state.sunsetWeatherPageState,
-            response.data.nauticalTwilightBegin.toLocal(),
-            response.data.civilTwilightBegin.toLocal(),
-            response.data.sunrise.toLocal(),
-            response.data.sunset.toLocal(),
-            response.data.civilTwilightEnd.toLocal(),
-            response.data.nauticalTwilightEnd.toLocal(),
+            response!.data!.nauticalTwilightBegin!.toLocal(),
+            response.data!.civilTwilightBegin!.toLocal(),
+            response.data!.sunrise!.toLocal(),
+            response.data!.sunset!.toLocal(),
+            response.data!.civilTwilightEnd!.toLocal(),
+            response.data!.nauticalTwilightEnd!.toLocal(),
           )
       );
       ForecastFiveDayResponse forecast5days = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetch5DayForecast(latLng.latitude, latLng.longitude);
       DateTime now = DateTime.now();
-      if(action.pageState.selectedDate.year == now.year && action.pageState.selectedDate.month == now.month && action.pageState.selectedDate.day == now.day) {
+      if(action.pageState!.selectedDate!.year == now.year && action.pageState!.selectedDate!.month == now.month && action.pageState!.selectedDate!.day == now.day) {
         List<HourWeather> hourlyForecast = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetchHourly12Weather(latLng.latitude, latLng.longitude);
         store.dispatch(SetHourlyForecastAction(store.state.sunsetWeatherPageState, hourlyForecast));
       }
@@ -103,7 +103,7 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void updateWeatherAndSunsetData(Store<AppState> store, NextDispatcher next, OnLocationSavedAction action) async {
-    LocationDandy selectedLocation = store.state.sunsetWeatherPageState.selectedLocation;
+    LocationDandy? selectedLocation = store.state.sunsetWeatherPageState!.selectedLocation;
     if(selectedLocation != null) {
       store.dispatch(SetLocationNameAction(store.state.sunsetWeatherPageState, selectedLocation.locationName));
 
@@ -111,18 +111,18 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(
           SetSunsetTimeAction(
             store.state.sunsetWeatherPageState,
-            response.data.nauticalTwilightBegin.toLocal(),
-            response.data.civilTwilightBegin.toLocal(),
-            response.data.sunrise.toLocal(),
-            response.data.sunset.toLocal(),
-            response.data.civilTwilightEnd.toLocal(),
-            response.data.nauticalTwilightEnd.toLocal(),
+            response!.data!.nauticalTwilightBegin!.toLocal(),
+            response.data!.civilTwilightBegin!.toLocal(),
+            response.data!.sunrise!.toLocal(),
+            response.data!.sunset!.toLocal(),
+            response.data!.civilTwilightEnd!.toLocal(),
+            response.data!.nauticalTwilightEnd!.toLocal(),
           )
       );
-      ForecastFiveDayResponse forecast5days = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetch5DayForecast(selectedLocation.latitude, selectedLocation.longitude);
+      ForecastFiveDayResponse forecast5days = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetch5DayForecast(selectedLocation.latitude!, selectedLocation.longitude!);
       DateTime now = DateTime.now();
-      if(action.pageState.selectedDate.year == now.year && action.pageState.selectedDate.month == now.month && action.pageState.selectedDate.day == now.day) {
-        List<HourWeather> hourlyForecast = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetchHourly12Weather(selectedLocation.latitude, selectedLocation.longitude);
+      if(action.pageState!.selectedDate!.year == now.year && action.pageState!.selectedDate!.month == now.month && action.pageState!.selectedDate!.day == now.day) {
+        List<HourWeather> hourlyForecast = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetchHourly12Weather(selectedLocation.latitude!, selectedLocation.longitude!);
         store.dispatch(SetHourlyForecastAction(store.state.sunsetWeatherPageState, hourlyForecast));
       }
       store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast5days, await LocationDao.getAllSortedMostFrequent()));
@@ -130,58 +130,54 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void setLocationData(Store<AppState> store, NextDispatcher next, SetLastKnowPosition action) async {
-    if(!store.state.sunsetWeatherPageState.comingFromNewJob) {
+    if(!store.state.sunsetWeatherPageState!.comingFromNewJob!) {
       Position positionLastKnown = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      if(positionLastKnown != null) {
-        store.dispatch(SetInitialMapLatLng(store.state.sunsetWeatherPageState, positionLastKnown.latitude, positionLastKnown.longitude));
+      store.dispatch(SetInitialMapLatLng(store.state.sunsetWeatherPageState!, positionLastKnown.latitude, positionLastKnown.longitude));
 
-        GeoData address = await getAddress(positionLastKnown.latitude, positionLastKnown.longitude);
-        store.dispatch(SetLocationNameAction(store.state.sunsetWeatherPageState, address.address));
+      GeoData address = await getAddress(positionLastKnown.latitude, positionLastKnown.longitude);
+      store.dispatch(SetLocationNameAction(store.state.sunsetWeatherPageState, address.address));
 
-        (await LocationDao.getLocationsStream()).listen((locationSnapshots) {
-          List<LocationDandy> locations = [];
-          for(RecordSnapshot locationSnapshot in locationSnapshots) {
-            locations.add(LocationDandy.fromMap(locationSnapshot.value));
-          }
-          store.dispatch(SetLocationsAction(store.state.sunsetWeatherPageState, locations));
-        });
-
-        ForecastFiveDayResponse forecast5days = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetch5DayForecast(positionLastKnown.latitude, positionLastKnown.longitude);
-        DateTime now = DateTime.now();
-        if(action.pageState.selectedDate.year == now.year && action.pageState.selectedDate.month == now.month && action.pageState.selectedDate.day == now.day) {
-          List<HourWeather> hourlyForecast = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetchHourly12Weather(positionLastKnown.latitude, positionLastKnown.longitude);
-          store.dispatch(SetHourlyForecastAction(store.state.sunsetWeatherPageState, hourlyForecast));
+      (await LocationDao.getLocationsStream()).listen((locationSnapshots) {
+        List<LocationDandy> locations = [];
+        for(RecordSnapshot locationSnapshot in locationSnapshots) {
+          locations.add(LocationDandy.fromMap(locationSnapshot.value! as Map<String,dynamic>));
         }
-        store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast5days, await LocationDao.getAllSortedMostFrequent()));
+        store.dispatch(SetLocationsAction(store.state.sunsetWeatherPageState, locations));
+      });
 
-        final response = await SunriseSunset.getResults(date: DateTime.now(), latitude: positionLastKnown.latitude, longitude: positionLastKnown.longitude);
-        store.dispatch(
-            SetSunsetTimeAction(
-              store.state.sunsetWeatherPageState,
-              response.data.nauticalTwilightBegin.toLocal(),
-              response.data.civilTwilightBegin.toLocal(),
-              response.data.sunrise.toLocal(),
-              response.data.sunset.toLocal(),
-              response.data.civilTwilightEnd.toLocal(),
-              response.data.nauticalTwilightEnd.toLocal(),
-            )
-        );
+      ForecastFiveDayResponse forecast5days = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetch5DayForecast(positionLastKnown.latitude, positionLastKnown.longitude);
+      DateTime now = DateTime.now();
+      if(action.pageState!.selectedDate!.year == now.year && action.pageState!.selectedDate!.month == now.month && action.pageState!.selectedDate!.day == now.day) {
+        List<HourWeather> hourlyForecast = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetchHourly12Weather(positionLastKnown.latitude, positionLastKnown.longitude);
+        store.dispatch(SetHourlyForecastAction(store.state.sunsetWeatherPageState, hourlyForecast));
       }
+      store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast5days, await LocationDao.getAllSortedMostFrequent()));
+
+      final response = await SunriseSunset.getResults(date: DateTime.now(), latitude: positionLastKnown.latitude, longitude: positionLastKnown.longitude);
+      store.dispatch(
+          SetSunsetTimeAction(
+            store.state.sunsetWeatherPageState,
+            response!.data!.nauticalTwilightBegin!.toLocal(),
+            response.data!.civilTwilightBegin!.toLocal(),
+            response.data!.sunrise!.toLocal(),
+            response.data!.sunset!.toLocal(),
+            response.data!.civilTwilightEnd!.toLocal(),
+            response.data!.nauticalTwilightEnd!.toLocal(),
+          )
+      );
     }
   }
 
   void fetchForSelectedDate(Store<AppState> store, NextDispatcher next, FetchDataForSelectedDateAction action) async{
     double lat = 0.0;
     double long = 0.0;
-    if(store.state.sunsetWeatherPageState.selectedLocation == null) {
+    if(store.state.sunsetWeatherPageState!.selectedLocation == null) {
       Position positionLastKnown = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      if(positionLastKnown != null) {
-        lat = positionLastKnown.latitude;
-        long = positionLastKnown.longitude;
-      }
+      lat = positionLastKnown.latitude;
+      long = positionLastKnown.longitude;
     } else {
-      lat = store.state.sunsetWeatherPageState.selectedLocation.latitude;
-      long = store.state.sunsetWeatherPageState.selectedLocation.longitude;
+      lat = store.state.sunsetWeatherPageState!.selectedLocation!.latitude!;
+      long = store.state.sunsetWeatherPageState!.selectedLocation!.longitude!;
     }
 
     if(lat != 0.0 && long != 0.0) {
@@ -192,18 +188,18 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(
           SetSunsetTimeAction(
             store.state.sunsetWeatherPageState,
-            response.data.nauticalTwilightBegin.toLocal(),
-            response.data.civilTwilightBegin.toLocal(),
-            response.data.sunrise.toLocal(),
-            response.data.sunset.toLocal(),
-            response.data.civilTwilightEnd.toLocal(),
-            response.data.nauticalTwilightEnd.toLocal(),
+            response!.data!.nauticalTwilightBegin!.toLocal(),
+            response.data!.civilTwilightBegin!.toLocal(),
+            response.data!.sunrise!.toLocal(),
+            response.data!.sunset!.toLocal(),
+            response.data!.civilTwilightEnd!.toLocal(),
+            response.data!.nauticalTwilightEnd!.toLocal(),
           )
       );
 
       ForecastFiveDayResponse forecast5days = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetch5DayForecast(lat, long);
       DateTime now = DateTime.now();
-      if(action.selectedDate.year == now.year && action.selectedDate.month == now.month && action.selectedDate.day == now.day) {
+      if(action.selectedDate!.year == now.year && action.selectedDate!.month == now.month && action.selectedDate!.day == now.day) {
         List<HourWeather> hourlyForecast = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetchHourly12Weather(lat, long);
         store.dispatch(SetHourlyForecastAction(store.state.sunsetWeatherPageState, hourlyForecast));
       } else {
@@ -218,39 +214,37 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
     double long = 0.0;
     if(action.location == null) {
       Position positionLastKnown = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      if(positionLastKnown != null) {
-        lat = positionLastKnown.latitude;
-        long = positionLastKnown.longitude;
-      }
+      lat = positionLastKnown.latitude;
+      long = positionLastKnown.longitude;
     } else {
-      lat = action.location.latitude;
-      long = action.location.longitude;
+      lat = action.location!.latitude!;
+      long = action.location!.longitude!;
     }
 
     if(lat != 0.0 && long != 0.0) {
 
-      DateTime selectedDate = action.date != null ? action.date : DateTime.now();
+      DateTime selectedDate = action.date != null ? action.date! : DateTime.now();
 
       store.dispatch(SetComingFromNewJobAction(store.state.sunsetWeatherPageState, true));
       store.dispatch(SetSelectedDateAction(store.state.sunsetWeatherPageState, selectedDate));
-      store.dispatch(SetLocationNameAction(store.state.sunsetWeatherPageState, action.location.locationName));
+      store.dispatch(SetLocationNameAction(store.state.sunsetWeatherPageState, action.location!.locationName));
 
       final response = await SunriseSunset.getResults(date: selectedDate, latitude: lat, longitude: long);
       store.dispatch(
           SetSunsetTimeAction(
             store.state.sunsetWeatherPageState,
-            response.data.nauticalTwilightBegin.toLocal(),
-            response.data.civilTwilightBegin.toLocal(),
-            response.data.sunrise.toLocal(),
-            response.data.sunset.toLocal(),
-            response.data.civilTwilightEnd.toLocal(),
-            response.data.nauticalTwilightEnd.toLocal(),
+            response!.data!.nauticalTwilightBegin!.toLocal(),
+            response.data!.civilTwilightBegin!.toLocal(),
+            response.data!.sunrise!.toLocal(),
+            response.data!.sunset!.toLocal(),
+            response.data!.civilTwilightEnd!.toLocal(),
+            response.data!.nauticalTwilightEnd!.toLocal(),
           )
       );
 
       ForecastFiveDayResponse forecast5days = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetch5DayForecast(lat, long);
       DateTime now = DateTime.now();
-      if(action.date.year == now.year && action.date.month == now.month && action.date.day == now.day) {
+      if(action.date!.year == now.year && action.date!.month == now.month && action.date!.day == now.day) {
         List<HourWeather> hourlyForecast = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetchHourly12Weather(lat, long);
         store.dispatch(SetHourlyForecastAction(store.state.sunsetWeatherPageState, hourlyForecast));
       }

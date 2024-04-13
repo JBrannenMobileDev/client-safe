@@ -21,8 +21,8 @@ class ColorThemeDao extends Equatable{
     return colorTheme;
   }
 
-  static Future insertLocalOnly(ColorTheme colorTheme) async {
-    colorTheme.id = null;
+  static Future insertLocalOnly(ColorTheme? colorTheme) async {
+    colorTheme!.id = null;
     await _ColorThemeStore.add(await _db, colorTheme.toMap());
   }
 
