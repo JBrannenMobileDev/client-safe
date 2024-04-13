@@ -22,7 +22,7 @@ class AnswerQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchProfile(Store<AppState> store, FetchProfileForAnswerAction action, NextDispatcher next) async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    next(SetProfileForAnswerAction(store.state.answerQuestionnairePageState, profile));
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    next(SetProfileForAnswerAction(store.state.answerQuestionnairePageState, profile!));
   }
 }

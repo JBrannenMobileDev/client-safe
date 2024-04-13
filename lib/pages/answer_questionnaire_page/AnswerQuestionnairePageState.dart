@@ -8,12 +8,12 @@ import '../../models/Question.dart';
 import 'AnswerQuestionnaireActions.dart';
 
 class AnswerQuestionnairePageState{
-  final Questionnaire questionnaire;
-  final Profile profile;
-  final bool isNew;
+  final Questionnaire? questionnaire;
+  final Profile? profile;
+  final bool? isNew;
 
   //Short form
-  final Function(String, Question) onShortFormAnswerChanged;
+  final Function(String, Question)? onShortFormAnswerChanged;
 
   AnswerQuestionnairePageState({
     @required this.questionnaire,
@@ -23,10 +23,10 @@ class AnswerQuestionnairePageState{
   });
 
   AnswerQuestionnairePageState copyWith({
-    Questionnaire questionnaire,
-    Profile profile,
-    bool isNew,
-    Function(String, Question) onShortFormAnswerChanged,
+    Questionnaire? questionnaire,
+    Profile? profile,
+    bool? isNew,
+    Function(String, Question)? onShortFormAnswerChanged,
   }){
     return AnswerQuestionnairePageState(
       questionnaire: questionnaire?? this.questionnaire,
