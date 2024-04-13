@@ -112,7 +112,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
                   DiscountRowWidget(pageState),
                   SalesTaxRowWidget(),
                   GrayDividerWidget(),
-                  pageState.selectedJob!.priceProfile!.deposit! > 0 ? DepositRowWidget() : SizedBox(),
+                  (pageState.selectedJob?.priceProfile?.deposit ?? 0) > 0 ? DepositRowWidget() : SizedBox(),
                   BalanceDueWidget(pageState),
                 ],
               )

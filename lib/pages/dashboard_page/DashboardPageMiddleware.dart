@@ -97,7 +97,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SetUpdateSeenTimestampAction) {
       _setUpdateLastSeenTime(store, action);
     }
-  }
+  }  //TODO check tax export logic
 
   Future<void> _checkAndCreateMileageTrips(Store<AppState> store, LoadJobsAction action, NextDispatcher next) async {
     Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());

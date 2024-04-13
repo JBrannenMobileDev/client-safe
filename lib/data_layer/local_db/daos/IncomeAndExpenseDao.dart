@@ -6,10 +6,14 @@ import 'package:intl/intl.dart';
 
 import '../../../models/Job.dart';
 import '../../../models/JobStage.dart';
+import '../../../models/JobType.dart';
 import '../../../models/RecurringExpense.dart';
 import '../../../models/SingleExpense.dart';
+import '../../../pages/dashboard_page/JobTypePieChartRowData.dart';
 import '../../../pages/dashboard_page/widgets/LineChartMonthData.dart';
+import '../../../utils/ColorConstants.dart';
 import '../../../utils/DateTimeUtil.dart';
+import 'JobTypeDao.dart';
 import 'RecurringExpenseDao.dart';
 
 class IncomeAndExpenseDao {
@@ -161,6 +165,7 @@ class IncomeAndExpenseDao {
   }
 
   static List<Job> _filterJobsForYear(List<Job> jobs, int year) {
+    jobs = jobs.reversed.toList();
     List<Job> result = [];
     for(Job job in jobs) {
       if(job.depositReceivedDate != null && job.paymentReceivedDate == null && job.depositReceivedDate!.year == year) {

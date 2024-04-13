@@ -609,6 +609,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       }
     }
     if(stageToComplete.stage == JobStage.STAGE_5_DEPOSIT_RECEIVED){
+      DateTime now = DateTime.now();
+      jobToSave.depositReceivedDate = now;
       if(action.job!.invoice != null && !action.job!.invoice!.depositPaid!){
         DateTime now = DateTime.now();
         jobToSave.invoice!.depositPaid = true;
@@ -650,6 +652,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       createdDate: store.state.jobDetailsPageState!.job!.createdDate,
     );
     if(stageToRemove.stage == JobStage.STAGE_9_PAYMENT_RECEIVED){
+      jobToSave.paymentReceivedDate = null;
       if(jobToSave.invoice != null){
         jobToSave.invoice!.invoicePaid = false;
         jobToSave.invoice!.invoicePaidDate = null;
@@ -664,6 +667,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       }
     }
     if(stageToRemove.stage == JobStage.STAGE_5_DEPOSIT_RECEIVED){
+      jobToSave.depositReceivedDate = null;
       if(store.state.jobDetailsPageState!.invoice != null && store.state.jobDetailsPageState!.invoice!.depositPaid!){
         jobToSave.invoice!.depositPaid = false;
         jobToSave.invoice!.depositPaidDate = null;

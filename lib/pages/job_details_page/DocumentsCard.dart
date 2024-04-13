@@ -78,7 +78,8 @@ class DocumentsCard extends StatelessWidget {
       onPressed: () async {
         switch(item.getDocumentType()) {
           case DocumentItem.DOCUMENT_TYPE_INVOICE:
-            UserOptionsUtil.showViewInvoiceDialog(context, pageState!.invoice, await JobDao.getJobById(pageState!.invoice!.jobDocumentId), onSendInvoiceSelected);
+            UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected, job: pageState!.job);
+            // UserOptionsUtil.showViewInvoiceDialog(context, pageState!.invoice, await JobDao.getJobById(pageState!.invoice!.jobDocumentId), onSendInvoiceSelected);
             break;
           case DocumentItem.DOCUMENT_TYPE_CONTRACT:
             UserOptionsUtil.showContractOptionsSheet(context, pageState!.job!, profile!, openContractEditPage);

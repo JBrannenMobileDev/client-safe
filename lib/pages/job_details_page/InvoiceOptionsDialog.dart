@@ -61,7 +61,7 @@ class _InvoiceOptionsDialogState extends State<InvoiceOptionsDialog>
                       GestureDetector(
                         onTap: () {
                         Navigator.of(context).pop();
-                        UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected);
+                        UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected, job: pageState.job);
                         },
                         child: Container(
                           height: 112.0,

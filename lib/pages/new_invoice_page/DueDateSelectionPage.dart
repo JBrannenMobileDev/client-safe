@@ -35,7 +35,7 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
               Center(
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
-                  text: 'Select a due date',
+                  text: 'Select final payment due date',
                   textAlign: TextAlign.start,
                   color: Color(ColorConstants.getPrimaryBlack()),
                 ),

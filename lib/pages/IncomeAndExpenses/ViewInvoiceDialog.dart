@@ -11,6 +11,7 @@ import 'package:dandylight/pages/new_invoice_page/GrayDividerWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
+import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/PdfUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
@@ -213,8 +214,7 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                         children: <Widget>[
                                           GestureDetector(
                                             onTap: () async {
-                                              IntentLauncherUtil.launchBrandingPreviewURL(UidUtil().getUid(), job.documentId!);
-                                              EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_FROM_VIEW_INVOICE_PAGE);
+                                              NavigationUtil.onShareWIthClientSelected(context, job);
                                             },
                                             child: Container(
                                               margin: EdgeInsets.only(top: 4.0, bottom: 4.0),

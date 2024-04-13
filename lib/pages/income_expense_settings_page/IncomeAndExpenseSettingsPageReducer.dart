@@ -123,7 +123,7 @@ buildIncomeAndExpenseRows(
     List<RecurringExpense> recurringExpenses,
 ) {
   List<Job> paymentReceived = jobsWithPaymentReceived.where((job) => job.paymentReceivedDate!.year == year).toList();
-  List<Job> onlyDepositReceived = jobsWithOnlyDepositReceived.where((job) => job.paymentReceivedDate!.year == year).toList();
+  List<Job> onlyDepositReceived = jobsWithOnlyDepositReceived.where((job) => (job.depositReceivedDate?.year ?? job.paymentReceivedDate?.year) == year).toList();
   List<SingleExpense> singleForYear = singleExpenses.where((expense) => expense.charge!.chargeDate!.year == year).toList();
   List<List<String>> rows = [];
 
