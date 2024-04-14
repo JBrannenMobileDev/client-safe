@@ -290,9 +290,9 @@ class DashboardPageState {
       activeJobsWithUnsignedContract: store.state.dashboardPageState!.activeJobsWithUnsignedContract,
       allJobsWithSignedContract: store.state.dashboardPageState!.allJobsWithSignedContract,
       allJobsWithUnsignedContract: store.state.dashboardPageState!.allJobsWithUnsignedContract,
-      completedQuestionnaires: store.state.dashboardPageState.completedQuestionnaires,
-      notCompleteQuestionnaires: store.state.dashboardPageState.notCompleteQuestionnaires,
-      allQuestionnaires: store.state.dashboardPageState.allQuestionnaires,
+      completedQuestionnaires: store.state.dashboardPageState!.completedQuestionnaires,
+      notCompleteQuestionnaires: store.state.dashboardPageState!.notCompleteQuestionnaires,
+      allQuestionnaires: store.state.dashboardPageState!.allQuestionnaires,
       onLeadClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
       onJobClicked: (job) {
         store.dispatch(SetJobInfo(store.state.jobDetailsPageState!, job));

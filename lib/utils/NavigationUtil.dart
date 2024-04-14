@@ -70,7 +70,7 @@ class NavigationUtil {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => PreviewContractPage(jsonTerms: jsonTerms)));
   }
   static onInAppPreviewQuestionnaireSelected(BuildContext context, Questionnaire questionnaire) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => null));
+    // Navigator.of(context).push(MaterialPageRoute(builder: (context) => null));
   }
   static onJobTapped(BuildContext context, bool comingFromOnBoarding) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobDetailsPage(comingFromOnBoarding: comingFromOnBoarding,)));
@@ -120,10 +120,10 @@ class NavigationUtil {
   static onAddQuestionnaireToJobSelected(BuildContext context, String jobDocumentId) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => QuestionnairesPage(jobDocumentId: jobDocumentId, addToJobNew: true)));
   }
-  static onContractSelected(BuildContext context, Contract contract, String contractName, bool isNew, String jobDocumentId, Function(BuildContext) onDeleteFromJob) {
+  static onContractSelected(BuildContext context, Contract contract, String contractName, bool isNew, String? jobDocumentId, Function(BuildContext)? onDeleteFromJob) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ContractEditPage(contract: contract, contractName: contractName, isNew: isNew, jobDocumentId: jobDocumentId, deleteFromJob: onDeleteFromJob)));
   }
-  static onQuestionnaireSelected(BuildContext context, Questionnaire questionnaire, String title, bool isNew, String jobDocumentId, Function(BuildContext, Questionnaire) onDeleteFromJob) {
+  static onQuestionnaireSelected(BuildContext context, Questionnaire? questionnaire, String title, bool isNew, String? jobDocumentId, Function(BuildContext, Questionnaire) onDeleteFromJob) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewQuestionnairePage(questionnaire: questionnaire, title: title, isNew: isNew, jobDocumentId: jobDocumentId, deleteFromJob: onDeleteFromJob)));
   }
   static onNewQuestionSelected(BuildContext context, Question question, Function(Question) onQuestionSaved, int number) {

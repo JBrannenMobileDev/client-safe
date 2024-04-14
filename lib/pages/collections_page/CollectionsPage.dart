@@ -20,7 +20,7 @@ import '../poses_page/PosesPage.dart';
 import '../responses_page/ResponsesPage.dart';
 
 class CollectionsPage extends StatefulWidget {
-  const CollectionsPage({Key key}) : super(key: key);
+  const CollectionsPage({Key? key}) : super(key: key);
 
 
   @override

@@ -6,22 +6,22 @@ import 'package:flutter/widgets.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class TextFieldDandylight extends StatelessWidget {
-  final TextEditingController controller;
-  final String hintText;
-  final String labelText;
-  final TextInputType inputType;
-  final double height;
-  final String inputTypeError;
-  final Function(String) onTextInputChanged;
-  final Function() onEditingCompleted;
-  final TextInputAction keyboardAction;
-  final FocusNode focusNode;
-  final Function onFocusAction;
-  final TextCapitalization capitalization;
-  final List<TextInputFormatter> inputFormatter;
-  final bool enabled;
-  final bool obscureText;
-  int maxLines = 1;
+  final TextEditingController? controller;
+  final String? hintText;
+  final String? labelText;
+  final TextInputType? inputType;
+  final double? height;
+  final String? inputTypeError;
+  final Function(String)? onTextInputChanged;
+  final Function()? onEditingCompleted;
+  final TextInputAction? keyboardAction;
+  final FocusNode? focusNode;
+  final Function? onFocusAction;
+  final TextCapitalization? capitalization;
+  final List<TextInputFormatter>? inputFormatter;
+  final bool? enabled;
+  final bool? obscureText;
+  int? maxLines = 1;
 
   TextFieldDandylight({
       this.controller,
@@ -54,7 +54,7 @@ class TextFieldDandylight extends StatelessWidget {
             borderRadius: BorderRadius.circular(16.0),
           ),
           child: TextFormField(
-            obscureText: obscureText,
+            obscureText: obscureText ?? false,
             cursorColor: Color(ColorConstants.getBlueDark()),
             enabled: enabled,
             focusNode: focusNode,
@@ -62,11 +62,11 @@ class TextFieldDandylight extends StatelessWidget {
             maxLines: maxLines,
             controller: controller,
             onChanged: (text) {
-              onTextInputChanged(text);
+              onTextInputChanged!(text);
             },
             onFieldSubmitted: (term) {
               if(onFocusAction != null) {
-                onFocusAction();
+                onFocusAction!();
               }
             },
             decoration: InputDecoration.collapsed(

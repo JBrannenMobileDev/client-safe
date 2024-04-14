@@ -306,8 +306,8 @@ class FireStoreSync {
         QuestionnairesDao.getQuestionnairesStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                Questionnaire questionnaire = Questionnaire.fromMap(snapshot.doc.data());
-                Questionnaire questionnaireFromLocal = await QuestionnairesDao.getById(questionnaire.documentId);
+                Questionnaire questionnaire = Questionnaire.fromMap(snapshot.doc.data() as Map<String,dynamic>);
+                Questionnaire? questionnaireFromLocal = await QuestionnairesDao.getById(questionnaire.documentId!);
                 if(questionnaireFromLocal != null) {
                     QuestionnairesDao.updateLocalOnly(questionnaire);
                 }else {
@@ -530,7 +530,7 @@ class FireStoreSync {
     Future<void> _syncQuestionnaires(Profile userLocalDb, Profile userFireStoreDb) async {
         if((userLocalDb.questionnairesLastChangedTime != userFireStoreDb.questionnairesLastChangedTime) || (userLocalDb.questionnairesLastChangedTime == null && userFireStoreDb.questionnairesLastChangedTime != null)) {
             if(userLocalDb.questionnairesLastChangedTime != null && userFireStoreDb.questionnairesLastChangedTime != null){
-                if(userLocalDb.questionnairesLastChangedTime.millisecondsSinceEpoch < userFireStoreDb.questionnairesLastChangedTime.millisecondsSinceEpoch) {
+                if(userLocalDb.questionnairesLastChangedTime!.millisecondsSinceEpoch < userFireStoreDb.questionnairesLastChangedTime!.millisecondsSinceEpoch) {
                     await ProfileDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.

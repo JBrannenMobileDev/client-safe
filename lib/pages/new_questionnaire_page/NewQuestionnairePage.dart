@@ -9,7 +9,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:redux/redux.dart';
 
 import '../../utils/ImageUtil.dart';
@@ -24,13 +23,13 @@ import 'NewQuestionnaireActions.dart';
 import 'NewQuestionnairePageState.dart';
 
 class NewQuestionnairePage extends StatefulWidget {
-  final Questionnaire questionnaire;
-  final String title;
-  final bool isNew;
-  final String jobDocumentId;
-  final Function(BuildContext, Questionnaire) deleteFromJob;
+  final Questionnaire? questionnaire;
+  final String? title;
+  final bool? isNew;
+  final String? jobDocumentId;
+  final Function(BuildContext, Questionnaire)? deleteFromJob;
 
-  const NewQuestionnairePage({Key key, this.questionnaire, this.title, this.isNew, this.jobDocumentId, this.deleteFromJob}) : super(key: key);
+  const NewQuestionnairePage({Key? key, this.questionnaire, this.title, this.isNew, this.jobDocumentId, this.deleteFromJob}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -41,14 +40,14 @@ class NewQuestionnairePage extends StatefulWidget {
 class _NewQuestionnairePageState extends State<NewQuestionnairePage> with TickerProviderStateMixin {
   final FocusNode titleFocusNode = FocusNode();
   final TextEditingController controllerTitle = TextEditingController();
-  final String title;
-  final bool isNew;
+  final String? title;
+  final bool? isNew;
   bool hasUnsavedChanges = false;
-  final String jobDocumentId;
-  final Function(BuildContext, Questionnaire) deleteFromJob;
+  final String? jobDocumentId;
+  final Function(BuildContext, Questionnaire)? deleteFromJob;
   bool isKeyboardVisible = false;
-  OverlayEntry overlayEntry;
-  final Questionnaire questionnaire;
+  OverlayEntry? overlayEntry;
+  final Questionnaire? questionnaire;
   TextEditingController titleTextController = TextEditingController();
   final messageController = TextEditingController();
   final FocusNode _messageFocusNode = FocusNode();

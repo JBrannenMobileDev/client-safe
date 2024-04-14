@@ -7,7 +7,7 @@ import '../../../widgets/TextDandyLight.dart';
 
 class QuestionnaireDocument implements DocumentItem {
   final bool isComplete;
-  final Questionnaire questionnaire;
+  final Questionnaire? questionnaire;
 
   QuestionnaireDocument({this.isComplete = false, this.questionnaire});
 
@@ -40,7 +40,7 @@ class QuestionnaireDocument implements DocumentItem {
           color: Color(ColorConstants.getPeachDark()),
         ) : TextDandyLight(
           type: TextDandyLight.SMALL_TEXT,
-          text: questionnaire.title,
+          text: questionnaire?.title ?? '',
           textAlign: TextAlign.start,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,

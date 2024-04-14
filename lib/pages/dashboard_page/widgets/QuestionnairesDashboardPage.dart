@@ -15,7 +15,7 @@ import '../DashboardPageState.dart';
 
 
 class QuestionnairesDashboardPage extends StatefulWidget {
-  const QuestionnairesDashboardPage(this.selectorIndex, {Key key}) : super(key: key);
+  const QuestionnairesDashboardPage(this.selectorIndex, {Key? key}) : super(key: key);
 
   static const String FILTER_TYPE_NOT_COMPLETED = "Incomplete";
   static const String FILTER_TYPE_COMPETED = "Complete";
@@ -31,8 +31,8 @@ class QuestionnairesDashboardPage extends StatefulWidget {
 class _QuestionnairesDashboardPageState extends State<QuestionnairesDashboardPage> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   ScrollController _controller = ScrollController();
-  int selectorIndex;
-  Map<int, Widget> type;
+  int? selectorIndex;
+  Map<int, Widget>? type;
 
   _QuestionnairesDashboardPageState(this.selectorIndex);
 
@@ -74,7 +74,6 @@ class _QuestionnairesDashboardPageState extends State<QuestionnairesDashboardPag
                         iconTheme: IconThemeData(
                           color: Color(ColorConstants.getPrimaryBlack()), //change your color here
                         ),
-                        brightness: Brightness.light,
                         backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                         pinned: true,
                         centerTitle: true,
@@ -90,8 +89,8 @@ class _QuestionnairesDashboardPageState extends State<QuestionnairesDashboardPag
                             child: CupertinoSlidingSegmentedControl<int>(
                               backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                               thumbColor: Color(ColorConstants.getBlueLight()),
-                              children: type,
-                              onValueChanged: (int filterTypeIndex) {
+                              children: type!,
+                              onValueChanged: (int? filterTypeIndex) {
                                 setState(() {
                                   selectorIndex = filterTypeIndex;
                                 });
@@ -111,7 +110,7 @@ class _QuestionnairesDashboardPageState extends State<QuestionnairesDashboardPag
                               controller: _controller,
                               physics: const ClampingScrollPhysics(),
                               key: _listKey,
-                              itemCount: selectorIndex == 0 ? pageState.notCompleteQuestionnaires.length : selectorIndex == 1 ? pageState.completedQuestionnaires.length : pageState.allQuestionnaires.length,
+                              itemCount: selectorIndex == 0 ? (pageState.notCompleteQuestionnaires?.length ?? 0) : selectorIndex == 1 ? (pageState.completedQuestionnaires?.length ?? 0) : (pageState.allQuestionnaires?.length ?? 0),
                               itemBuilder: (context, index) {
                                 return TextButton(
                                   style: Styles.getButtonStyle(),
@@ -184,24 +183,24 @@ class _QuestionnairesDashboardPageState extends State<QuestionnairesDashboardPag
       );
   }
 
-  List<Questionnaire> getListBasedOnSelectorIndex(int index, DashboardPageState pageState) {
+  List<Questionnaire> getListBasedOnSelectorIndex(int? index, DashboardPageState pageState) {
     List<Questionnaire> result = [];
     switch(index) {
       case 0:
-        result = pageState.notCompleteQuestionnaires;
+        result = pageState.notCompleteQuestionnaires!;
         break;
       case 1:
-        result = pageState.completedQuestionnaires;
+        result = pageState.completedQuestionnaires!;
         break;
       case 2:
-        result = pageState.allQuestionnaires;
+        result = pageState.allQuestionnaires!;
         break;
     }
     return result;
   }
 
   void openQuestionnaireEditPage(BuildContext context, Questionnaire questionnaire) {
-    NavigationUtil.onQuestionnaireSelected(context, questionnaire, questionnaire.title, false, questionnaire.jobDocumentId, _ackQuestionnaireAlert);
+    NavigationUtil.onQuestionnaireSelected(context, questionnaire, questionnaire.title ?? '', false, questionnaire.jobDocumentId, _ackQuestionnaireAlert);
   }
 
   Future<void> _ackQuestionnaireAlert(BuildContext context, Questionnaire questionnaire) {

@@ -353,32 +353,32 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _loadAllQuestionnaires(Store<AppState> store) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    List<Questionnaire> profileQuestionnaires = profile.directSendQuestionnaires;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    List<Questionnaire> profileQuestionnaires = profile?.directSendQuestionnaires ?? [];
     List<Questionnaire> allQuestionnaires = profileQuestionnaires;
-    List<Questionnaire> notCompleteQuestionnaires = profileQuestionnaires.where((questionnaire) => questionnaire.showInNotComplete && !questionnaire.isComplete).toList();
-    List<Questionnaire> completeQuestionnaireNotReviewed = profileQuestionnaires.where((questionnaire) => !questionnaire.isReviewed && questionnaire.isComplete).toList();
+    List<Questionnaire> notCompleteQuestionnaires = profileQuestionnaires.where((questionnaire) => questionnaire.showInNotComplete! && !questionnaire.isComplete!).toList();
+    List<Questionnaire> completeQuestionnaireNotReviewed = profileQuestionnaires.where((questionnaire) => !questionnaire.isReviewed! && questionnaire.isComplete!).toList();
 
-    List<Job> activeJobs = JobUtil.getActiveJobs(await JobDao.getAllJobs());
+    List<Job>? activeJobs = JobUtil.getActiveJobs(await JobDao.getAllJobs());
     List<Job> activeJobsWithQuestionnaires = JobUtil.getJobsWithQuestionnaires(activeJobs);
 
     for(Job job in activeJobsWithQuestionnaires) {
-      for(Questionnaire questionnaire in job.proposal.questionnaires) {
-        if(questionnaire.showInNotComplete && !questionnaire.isComplete) {
+      for(Questionnaire questionnaire in job.proposal!.questionnaires!) {
+        if(questionnaire.showInNotComplete! && !questionnaire.isComplete!) {
           notCompleteQuestionnaires.add(questionnaire);
         }
-        if(!questionnaire.isReviewed && questionnaire.isComplete) {
+        if(!questionnaire.isReviewed! && questionnaire.isComplete!) {
           completeQuestionnaireNotReviewed.add(questionnaire);
         }
       }
-      allQuestionnaires.addAll(job.proposal.questionnaires);
+      allQuestionnaires.addAll(job.proposal!.questionnaires!);
     }
 
     allQuestionnaires = allQuestionnaires.reversed.toList();
     notCompleteQuestionnaires = notCompleteQuestionnaires.reversed.toList();
     completeQuestionnaireNotReviewed = completeQuestionnaireNotReviewed.reversed.toList();
 
-    store.dispatch(SetQuestionnairesToDashboardAction(store.state.dashboardPageState, notCompleteQuestionnaires, completeQuestionnaireNotReviewed, allQuestionnaires));
+    store.dispatch(SetQuestionnairesToDashboardAction(store.state.dashboardPageState!, notCompleteQuestionnaires, completeQuestionnaireNotReviewed, allQuestionnaires));
   }
 
   Future<void> _loadAllJobs(Store<AppState> store) async {

@@ -10,39 +10,39 @@ import 'Question.dart';
 ///    without connecting them to a job/user. These may also include answers.
 class Questionnaire {
 
-  int id;
-  String documentId;
-  String jobDocumentId;
-  String title;
-  String message;
-  List<Question> questions;
-  bool isComplete;
-  bool isReviewed;
-  bool showInNotComplete;
-  DateTime dateCompleted;
-  DateTime dateCreated;
+  int? id;
+  String? documentId;
+  String? jobDocumentId;
+  String? title;
+  String? message;
+  List<Question>? questions;
+  bool? isComplete;
+  bool? isReviewed;
+  bool? showInNotComplete;
+  DateTime? dateCompleted;
+  DateTime? dateCreated;
 
   String getMainImageUrl() {
-    return questions.isNotEmpty ? questions.first.webImageUrl : '';
+    return questions!.isNotEmpty ? questions!.first.webImageUrl! : '';
   }
 
   bool hasImage() {
-    for(Question question in questions) {
-      if(question.showImage && question.mobileImageUrl != null && question.mobileImageUrl.isNotEmpty) return true;
+    for(Question question in questions!) {
+      if(question.showImage! && question.mobileImageUrl != null && question.mobileImageUrl!.isNotEmpty) return true;
     }
     return false;
   }
 
   String getDisplayImageUrl() {
-    for(Question question in questions) {
-      if(question.showImage && question.mobileImageUrl != null && question.mobileImageUrl.isNotEmpty) return question.mobileImageUrl;
+    for(Question question in questions!) {
+      if(question.showImage! && question.mobileImageUrl != null && question.mobileImageUrl!.isNotEmpty) return question.mobileImageUrl!;
     }
     return '';
   }
 
   double getLengthInMinutes() {
     double result = 0;
-    for(Question question in questions) {
+    for(Question question in questions!) {
       switch(question.type) {
         case Question.TYPE_NUMBER:
           result = result + 0.25;
@@ -54,11 +54,11 @@ class Questionnaire {
           result = result + 1;
           break;
         case Question.TYPE_CONTACT_INFO:
-          if(question.includeFirstName) result = result + 0.15;
-          if(question.includeLastName) result = result + 0.15;
-          if(question.includeEmail) result = result + 0.15;
-          if(question.includePhone) result = result + 0.15;
-          if(question.includeInstagramName) result = result + 0.25;
+          if(question.includeFirstName!) result = result + 0.15;
+          if(question.includeLastName!) result = result + 0.15;
+          if(question.includeEmail!) result = result + 0.15;
+          if(question.includePhone!) result = result + 0.15;
+          if(question.includeInstagramName!) result = result + 0.25;
           break;
         case Question.TYPE_ADDRESS:
           result = result + 0.35;
@@ -73,7 +73,7 @@ class Questionnaire {
           result = result + 0.10;
           break;
         case Question.TYPE_CHECK_BOXES:
-          if(question.choicesCheckBoxes.length <= 10) {
+          if(question.choicesCheckBoxes!.length <= 10) {
             result = result + 0.35;
           } else {
             result = result + 0.60;
@@ -106,7 +106,7 @@ class Questionnaire {
       'jobDocumentId' : jobDocumentId,
       'title' : title,
       'message' : message,
-      'questions' : convertQuestionsToMap(questions),
+      'questions' : convertQuestionsToMap(questions!),
       'isComplete' : isComplete,
       'dateCompleted' : dateCompleted?.toString() ?? "",
       'dateCreated' : dateCreated?.toString() ?? "",
@@ -142,7 +142,7 @@ class Questionnaire {
   static List<Question> convertMapsToQuestions(List listOfMaps){
     List<Question> listOfQuestions = [];
     for(Map map in listOfMaps){
-      listOfQuestions.add(Question.fromMap(map));
+      listOfQuestions.add(Question.fromMap(map as Map<String,dynamic>));
     }
     return listOfQuestions;
   }

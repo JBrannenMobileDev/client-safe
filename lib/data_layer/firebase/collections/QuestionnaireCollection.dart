@@ -55,7 +55,7 @@ class QuestionnaireCollection {
         .doc(documentId)
         .get()
         .then((snapshot) {
-          Questionnaire result = Questionnaire.fromMap(snapshot.data());
+          Questionnaire result = Questionnaire.fromMap(snapshot.data() as Map<String, dynamic>);
           result.documentId = snapshot.id;
           return result;
         });
@@ -94,7 +94,7 @@ class QuestionnaireCollection {
   List<Questionnaire> _buildQuestionnairesList(QuerySnapshot contracts) {
     List<Questionnaire> list = [];
     for(DocumentSnapshot snapshot in contracts.docs){
-      Questionnaire result = Questionnaire.fromMap(snapshot.data());
+      Questionnaire result = Questionnaire.fromMap(snapshot.data() as Map<String,dynamic>);
       result.documentId = snapshot.id;
       list.add(result);
     }

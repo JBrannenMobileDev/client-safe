@@ -13,10 +13,10 @@ import 'QuestionnairesActions.dart';
 import 'QuestionnairesPageState.dart';
 
 class QuestionnairesPage extends StatefulWidget {
-  final String jobDocumentId;
-  final bool addToJobNew;
+  final String? jobDocumentId;
+  final bool? addToJobNew;
 
-  const QuestionnairesPage({Key key, this.jobDocumentId, this.addToJobNew}) : super(key: key);
+  const QuestionnairesPage({Key? key, this.jobDocumentId, this.addToJobNew}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -25,10 +25,10 @@ class QuestionnairesPage extends StatefulWidget {
 }
 
 class _QuestionnairesPageState extends State<QuestionnairesPage> with TickerProviderStateMixin, WidgetsBindingObserver {
-  ScrollController _scrollController;
+  ScrollController? _scrollController;
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
-  final String jobDocumentId;
-  final bool addToJobNew;
+  final String? jobDocumentId;
+  final bool? addToJobNew;
 
   _QuestionnairesPageState(this.jobDocumentId, this.addToJobNew);
 

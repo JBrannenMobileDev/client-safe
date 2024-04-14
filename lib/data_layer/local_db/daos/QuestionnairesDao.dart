@@ -30,14 +30,14 @@ class QuestionnairesDao extends Equatable{
     return questionnaire;
   }
 
-  static Future insertLocalOnly(Questionnaire questionnaire) async {
-    questionnaire.id = null;
+  static Future insertLocalOnly(Questionnaire? questionnaire) async {
+    questionnaire!.id = null;
     await _questionnairesStore.add(await _db, questionnaire.toMap());
   }
 
   static Future<void> _updateLastChangedTime() async {
-    Profile profile = (await ProfileDao.getMatchingProfile(UidUtil().getUid()));
-    profile.questionnairesLastChangedTime = DateTime.now();
+    Profile? profile = (await ProfileDao.getMatchingProfile(UidUtil().getUid()));
+    profile!.questionnairesLastChangedTime = DateTime.now();
     ProfileDao.update(profile);
   }
 
@@ -56,7 +56,7 @@ class QuestionnairesDao extends Equatable{
     }
   }
 
-  static Future<Questionnaire> getById(String questionnaireDocumentId) async{
+  static Future<Questionnaire?> getById(String questionnaireDocumentId) async{
     if((await getAll()).isNotEmpty) {
       final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', questionnaireDocumentId));
       final recordSnapshots = await _questionnairesStore.find(await _db, finder: finder);
@@ -216,7 +216,7 @@ class QuestionnairesDao extends Equatable{
   static void deleteAllRemote() async {
     List<Questionnaire> questionnaires = await getAll();
     for(Questionnaire questionnaire in questionnaires) {
-      await delete(questionnaire.documentId);
+      await delete(questionnaire.documentId!);
     }
   }
 }

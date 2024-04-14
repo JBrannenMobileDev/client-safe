@@ -31,71 +31,71 @@ class Question {
     ];
   }
 
-  String id;
-  String type;
-  String question;
-  String webImageUrl;
-  String mobileImageUrl;
-  bool showImage;
-  bool isRequired;
-  XFile webImage;
-  XFile mobileImage;
+  String? id;
+  String? type;
+  String? question;
+  String? webImageUrl;
+  String? mobileImageUrl;
+  bool? showImage;
+  bool? isRequired;
+  XFile? webImage;
+  XFile? mobileImage;
 
   //CheckBoxes
-  List<dynamic> choicesCheckBoxes;
-  List<dynamic> answersCheckBoxes;
-  bool includeOtherCheckBoxes;
-  bool multipleSelection;
+  List<dynamic>? choicesCheckBoxes;
+  List<dynamic>? answersCheckBoxes;
+  bool? includeOtherCheckBoxes;
+  bool? multipleSelection;
 
   //Contact info
-  String firstName;
-  String lastName;
-  String phone;
-  String email;
-  String instagramName;
-  bool includeFirstName;
-  bool includeLastName;
-  bool includePhone;
-  bool includeEmail;
-  bool includeInstagramName;
+  String? firstName;
+  String? lastName;
+  String? phone;
+  String? email;
+  String? instagramName;
+  bool? includeFirstName;
+  bool? includeLastName;
+  bool? includePhone;
+  bool? includeEmail;
+  bool? includeInstagramName;
 
   //Address
-  String address;
-  String addressLine2;
-  String cityTown;
-  String stateRegionProvince;
-  String zipPostCode;
-  String country;
-  bool addressRequired;
-  bool cityTownRequired;
-  bool stateRegionProvinceRequired;
-  bool zipPostCodeRequired;
-  bool countryRequired;
+  String? address;
+  String? addressLine2;
+  String? cityTown;
+  String? stateRegionProvince;
+  String? zipPostCode;
+  String? country;
+  bool? addressRequired;
+  bool? cityTownRequired;
+  bool? stateRegionProvinceRequired;
+  bool? zipPostCodeRequired;
+  bool? countryRequired;
 
   //Short form
-  String shortAnswer;
-  String shortHint;
+  String? shortAnswer;
+  String? shortHint;
 
   //Long form
-  String longAnswer;
-  String longHint;
+  String? longAnswer;
+  String? longHint;
 
   //Rating
-  String ratingDescription;
-  int numOfStars;
-  int ratingAnswer;
+  String? ratingDescription;
+  int? numOfStars;
+  int? ratingAnswer;
 
   //Date
-  DateTime selectedDate;
-  int month;
-  int day;
-  int year;
+  DateTime? selectedDate;
+  int? month;
+  int? day;
+  int? year;
 
   //Number
-  int number;
+  int? number;
 
   //Yes/No
-  bool yesSelected;
+  bool? yesSelected;
 
 
   Question({
@@ -283,7 +283,7 @@ class Question {
     bool isAnswered = false;
     switch(type) {
       case TYPE_SHORT_FORM_RESPONSE:
-        isAnswered = shortAnswer != null && shortAnswer.isNotEmpty;
+        isAnswered = shortAnswer != null && shortAnswer!.isNotEmpty;
         break;
     }
     return isAnswered;

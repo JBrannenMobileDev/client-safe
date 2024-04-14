@@ -131,7 +131,7 @@ class JobDao extends Equatable{
     JobReminderDao.deleteAllWithJobDocumentId(job.documentId);
   }
 
-   static Future<List<Job>?> getAllJobs() async {
+   static Future<List<Job>> getAllJobs() async {
     final recordSnapshots = await _jobStore.find(await _db);
     return recordSnapshots.map((snapshot) {
       final job = Job.fromMap(snapshot.value);

@@ -7,12 +7,10 @@ import 'package:redux/redux.dart';
 import '../../../AppState.dart';
 import '../../../utils/DeviceType.dart';
 import '../../../utils/NavigationUtil.dart';
-import '../../../utils/analytics/EventNames.dart';
-import '../../../utils/analytics/EventSender.dart';
 import '../../../widgets/TextDandyLight.dart';
 
 class QuestionnairesCard extends StatelessWidget {
-  const QuestionnairesCard({Key key}) : super(key: key);
+  const QuestionnairesCard({Key? key}) : super(key: key);
 
 
   @override
@@ -59,7 +57,7 @@ class QuestionnairesCard extends StatelessWidget {
                           children: [
                             TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
-                              text: pageState.notCompleteQuestionnaires != null ? pageState.notCompleteQuestionnaires.length.toString() : '0',
+                              text: pageState.notCompleteQuestionnaires != null ? pageState.notCompleteQuestionnaires!.length.toString() : '0',
                               textAlign: TextAlign.center,
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),
@@ -93,7 +91,7 @@ class QuestionnairesCard extends StatelessWidget {
                           children: [
                             TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
-                              text: pageState.completedQuestionnaires != null ? pageState.completedQuestionnaires.length.toString() : '0',
+                              text: pageState.completedQuestionnaires != null ? pageState.completedQuestionnaires!.length.toString() : '0',
                               textAlign: TextAlign.center,
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),

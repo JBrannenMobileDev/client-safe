@@ -566,10 +566,12 @@ class Profile{
     );
   }
 
-  List<Map<String, dynamic>> convertQuestionnairesToMap(List<Questionnaire> questionnaires){
+  List<Map<String, dynamic>> convertQuestionnairesToMap(List<Questionnaire>? questionnaires){
     List<Map<String, dynamic>> listOfMaps = [];
-    for(Questionnaire questionnaire in questionnaires){
-      listOfMaps.add(questionnaire.toMap());
+    if(questionnaires != null) {
+      for(Questionnaire questionnaire in questionnaires){
+        listOfMaps.add(questionnaire.toMap());
+      }
     }
     return listOfMaps;
   }
@@ -577,7 +579,7 @@ class Profile{
   static List<Questionnaire> convertMapsToQuestionnaires(List listOfMaps){
     List<Questionnaire> listOfQuestionnaires = [];
     for(Map map in listOfMaps){
-      listOfQuestionnaires.add(Questionnaire.fromMap(map));
+      listOfQuestionnaires.add(Questionnaire.fromMap(map as Map<String,dynamic>));
     }
     return listOfQuestionnaires;
   }
