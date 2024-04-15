@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 import '../../utils/ImageUtil.dart';
 import '../../utils/InputDoneView.dart';
@@ -51,6 +53,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
   TextEditingController titleTextController = TextEditingController();
   final messageController = TextEditingController();
   final FocusNode _messageFocusNode = FocusNode();
+  late StreamSubscription<bool> keyboardSubscription;
 
   List<Question> questions = [];
 
@@ -65,16 +68,40 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
     });
   }
 
+  @override
+  void initState() {
+    super.initState();
+
+    var keyboardVisibilityController = KeyboardVisibilityController();
+    keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
+      setState(() {
+        if(visible) {
+          showOverlay(context);
+          isKeyboardVisible = true;
+        } else {
+          removeOverlay();
+          isKeyboardVisible = false;
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    keyboardSubscription.cancel();
+    super.dispose();
+  }
+
   _NewQuestionnairePageState(this.questionnaire, this.title, this.isNew, this.jobDocumentId, this.deleteFromJob);
 
   @override
   Widget build(BuildContext context) =>
       StoreConnector<AppState, NewQuestionnairePageState>(
         onInit: (store) {
-          store.dispatch(ClearNewQuestionnaireState(store.state.newQuestionnairePageState, isNew, title));
+          store.dispatch(ClearNewQuestionnaireState(store.state.newQuestionnairePageState, isNew!, title!));
           if(questionnaire != null) {
             store.dispatch(SetQuestionnaireAction(store.state.newQuestionnairePageState, questionnaire, jobDocumentId));
-            questions = List.of(questionnaire.questions);
+            questions = List.of(questionnaire?.questions ?? []);
           } else {
             Questionnaire questionnaire = Questionnaire();
             questionnaire.questions = [];
@@ -83,23 +110,9 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
           }
           store.dispatch(FetchProfileForNewQuestionnaireAction(store.state.newQuestionnairePageState));
 
-          KeyboardVisibilityNotification().addNewListener(
-              onShow: () {
-                showOverlay(context);
-                setState(() {
-                  isKeyboardVisible = true;
-                });
-              },
-              onHide: () {
-                removeOverlay();
-                setState(() {
-                  isKeyboardVisible = false;
-                });
-              }
-          );
           if(questionnaire != null) {
-            titleTextController.text = questionnaire.title;
-            messageController.text = questionnaire.message;
+            titleTextController.text = questionnaire!.title!;
+            messageController.text = questionnaire!.message!;
           }
         },
         onDidChange: (previous, current) {
@@ -169,12 +182,12 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                 ),
                 backgroundColor: Color(ColorConstants.getPrimaryGreyLight()),
                 actions: <Widget>[
-                  !isNew ? IconButton(
+                  !(isNew ?? true) ? IconButton(
                     icon: ImageIcon(ImageUtil.getTrashIconWhite(), color: Color(ColorConstants.getPrimaryBlack()),),
                     tooltip: 'Delete Questionnaire',
                     onPressed: () {
-                      if(jobDocumentId != null && jobDocumentId.isNotEmpty) {
-                        deleteFromJob(context, questionnaire);
+                      if(jobDocumentId != null && jobDocumentId!.isNotEmpty) {
+                        deleteFromJob!(context, questionnaire!);
                       }else {
                         _ackDeleteAlert(context, pageState);
                       }
@@ -185,7 +198,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                 elevation: 0.0,
                 title: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
-                  text: isNew ? 'New Questionnaire' : 'Edit Questionnaire',
+                  text: isNew ?? true ? 'New Questionnaire' : 'Edit Questionnaire',
                 ),
               ),
               backgroundColor: Color(ColorConstants.getPrimaryGreyLight()),
@@ -214,7 +227,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                             inputType: TextInputType.text,
                             height: 64.0,
                             inputTypeError: 'Title is required',
-                            onTextInputChanged: (newTitle) => pageState.onNameChanged(newTitle),
+                            onTextInputChanged: (newTitle) => pageState.onNameChanged!(newTitle),
                             onEditingCompleted: null,
                             keyboardAction: TextInputAction.next,
                             focusNode: titleFocusNode,
@@ -319,7 +332,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                           ) : const SizedBox(),
                           GestureDetector(
                             onTap: () {
-                              NavigationUtil.onNewQuestionSelected(context, null, onQuestionSaved, (questions?.length ?? 0) +1);
+                              NavigationUtil.onNewQuestionSelected(context, null, onQuestionSaved, (questions.length) +1);
                             },
                             child: Container(
                               alignment: Alignment.center,
@@ -349,7 +362,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                           alignment: Alignment.bottomCenter,
                           child: GestureDetector(
                             onTap: () {
-                              NavigationUtil.onAnswerQuestionnaireSelected(context, true, questionnaire, false);
+                              NavigationUtil.onAnswerQuestionnaireSelected(context, true, questionnaire!, false);
                             },
                             child: Container(
                               alignment: Alignment.center,
@@ -375,7 +388,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                           alignment: Alignment.bottomCenter,
                           child: GestureDetector(
                             onTap: () {
-                              pageState.onQuestionnaireSaved(jobDocumentId, questions, isNew);
+                              pageState.onQuestionnaireSaved!(jobDocumentId, questions, isNew ?? false);
                               showSuccessAnimation();
                             },
                             child: Container(
@@ -468,7 +481,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteSelected();
+                pageState.onDeleteSelected!();
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
@@ -487,7 +500,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteSelected();
+                pageState.onDeleteSelected!();
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
@@ -510,12 +523,12 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
           child: InputDoneView());
     });
 
-    overlayState.insert(overlayEntry);
+    overlayState.insert(overlayEntry!);
   }
 
   removeOverlay() {
     if (overlayEntry != null) {
-      overlayEntry.remove();
+      overlayEntry!.remove();
       overlayEntry = null;
     }
   }

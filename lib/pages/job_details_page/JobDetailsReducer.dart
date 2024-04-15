@@ -390,10 +390,10 @@ JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobAction 
         isSigned: action.job!.proposal!.contract!.signedByClient!
     ));
   }
-  if(action.job.proposal.questionnaires != null && action.job.proposal.questionnaires.isNotEmpty) {
-    for(Questionnaire questionnaire in action.job.proposal.questionnaires) {
+  if(action.job!.proposal!.questionnaires != null && action.job!.proposal!.questionnaires!.isNotEmpty) {
+    for(Questionnaire questionnaire in action.job!.proposal!.questionnaires!) {
       documents.add(QuestionnaireDocument(
-        isComplete: questionnaire.isComplete,
+        isComplete: questionnaire.isComplete!,
         questionnaire: questionnaire,
       ));
     }

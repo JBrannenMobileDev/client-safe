@@ -469,7 +469,7 @@ class _StageItemState extends State<StageItem>
                                       if(document.getDocumentType() == DocumentItem.DOCUMENT_TYPE_INVOICE) containsInvoice = true;
                                     }
                                     if(!containsInvoice) {
-                                      UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected, job: pageState.job);
+                                      UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected!, job: pageState.job);
                                     }else{
                                       UserOptionsUtil.showInvoiceOptionsDialog(context, onSendInvoiceSelected!);
                                     }
@@ -485,7 +485,7 @@ class _StageItemState extends State<StageItem>
                                   EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_FROM_INVOICE_STAGE);
                                   pageState.onInvoiceSent!(pageState.invoice!);
                                 }else {
-                                  UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected, job: pageState.job);
+                                  UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected!, job: pageState.job);
                                 }
                                 EventSender().sendEvent(eventName: EventNames.BT_STAGE_ACTION, properties: {EventNames.ACTIVE_STAGE_PARAM_NAME : JobStage.STAGE_9_PAYMENT_RECEIVED});
                                 break;

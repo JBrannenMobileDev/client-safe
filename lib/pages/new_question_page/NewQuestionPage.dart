@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
@@ -12,8 +13,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:redux/redux.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 import '../../utils/InputDoneView.dart';
 import '../../utils/NavigationUtil.dart';
@@ -26,11 +27,11 @@ import 'NewQuestionPageState.dart';
 import 'TypeSelectionBottomSheet.dart';
 
 class NewQuestionPage extends StatefulWidget {
-  final Question question;
-  final int number;
-  final Function(Question) onQuestionSaved;
+  final Question? question;
+  final int? number;
+  final Function(Question)? onQuestionSaved;
 
-  const NewQuestionPage({Key key, this.question, this.onQuestionSaved, this.number}) : super(key: key);
+  const NewQuestionPage({Key? key, this.question, this.onQuestionSaved, this.number}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -39,15 +40,16 @@ class NewQuestionPage extends StatefulWidget {
 }
 
 class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderStateMixin {
-  final Function(Question) onQuestionSaved;
+  final Function(Question)? onQuestionSaved;
   final TextEditingController controllerTitle = TextEditingController();
   final bool hasUnsavedChanges = false;
   bool isKeyboardVisible = false;
-  OverlayEntry overlayEntry;
-  final Question question;
-  final int number;
+  OverlayEntry? overlayEntry;
+  final Question? question;
+  final int? number;
   final messageController = TextEditingController();
   final FocusNode _messageFocusNode = FocusNode();
+  late StreamSubscription<bool> keyboardSubscription;
 
   TextEditingController questionTextController = TextEditingController();
   final FocusNode questionFocusNode = FocusNode();
@@ -64,6 +66,30 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
     });
   }
 
+  @override
+  void initState() {
+    super.initState();
+
+    var keyboardVisibilityController = KeyboardVisibilityController();
+    keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
+      setState(() {
+        if(visible) {
+          showOverlay(context);
+          isKeyboardVisible = true;
+        } else {
+          removeOverlay();
+          isKeyboardVisible = false;
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    keyboardSubscription.cancel();
+    super.dispose();
+  }
+
   _NewQuestionPageState(this.question, this.onQuestionSaved, this.number);
 
   @override
@@ -72,27 +98,12 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
         onInit: (store) {
           store.dispatch(ClearNewQuestionState(store.state.newQuestionPageState));
           if(question != null) {
-            store.dispatch(SetQuestionAction(store.state.newQuestionPageState, question));
+            store.dispatch(SetQuestionAction(store.state.newQuestionPageState, question!));
 
-            if(question.question != null && question.question.isNotEmpty) {
-              questionTextController.text = question.question;
+            if(question!.question != null && question!.question!.isNotEmpty) {
+              questionTextController.text = question!.question!;
             }
           }
-
-          KeyboardVisibilityNotification().addNewListener(
-              onShow: () {
-                showOverlay(context);
-                setState(() {
-                  isKeyboardVisible = true;
-                });
-              },
-              onHide: () {
-                removeOverlay();
-                setState(() {
-                  isKeyboardVisible = false;
-                });
-              }
-          );
         },
         converter: (Store<AppState> store) => NewQuestionPageState.fromStore(store),
         builder: (BuildContext context, NewQuestionPageState pageState) => WillPopScope(
@@ -171,13 +182,13 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                           selectedTypeView(pageState),
                           showImageSwitch(pageState),
                           isRequiredSwitch(pageState),
-                          pageState.question.type == Question.TYPE_ADDRESS ? isAddressItemRequiredSwitch(pageState, 'Address required', pageState.onAddressRequiredChanged, pageState.question.addressRequired) : const SizedBox(),
-                          pageState.question.type == Question.TYPE_ADDRESS ? isAddressItemRequiredSwitch(pageState, 'City/Town required', pageState.onCityTownRequiredChanged, pageState.question.cityTownRequired) : const SizedBox(),
-                          pageState.question.type == Question.TYPE_ADDRESS ? isAddressItemRequiredSwitch(pageState, 'State/Region/Province required', pageState.onStateRegionProvinceRequiredChanged, pageState.question.stateRegionProvinceRequired) : const SizedBox(),
-                          pageState.question.type == Question.TYPE_ADDRESS ? isAddressItemRequiredSwitch(pageState, 'Zip/Post code required', pageState.onZipPostCodeRequiredChanged, pageState.question.zipPostCodeRequired) : const SizedBox(),
-                          pageState.question.type == Question.TYPE_ADDRESS ? isAddressItemRequiredSwitch(pageState, 'Country required', pageState.onCountryRequiredChanged, pageState.question.countryRequired) : const SizedBox(),
-                          pageState.question.type == Question.TYPE_CONTACT_INFO ? contactInfoSettings(pageState) : const SizedBox(),
-                          pageState.question.type == Question.TYPE_CHECK_BOXES ? multipleSelectionView(pageState) : const SizedBox(),
+                          pageState.question!.type == Question.TYPE_ADDRESS ? isAddressItemRequiredSwitch(pageState, 'Address required', pageState.onAddressRequiredChanged!, pageState.question!.addressRequired ?? false) : const SizedBox(),
+                          pageState.question!.type == Question.TYPE_ADDRESS ? isAddressItemRequiredSwitch(pageState, 'City/Town required', pageState.onCityTownRequiredChanged!, pageState.question!.cityTownRequired ?? false) : const SizedBox(),
+                          pageState.question!.type == Question.TYPE_ADDRESS ? isAddressItemRequiredSwitch(pageState, 'State/Region/Province required', pageState.onStateRegionProvinceRequiredChanged!, pageState.question!.stateRegionProvinceRequired ?? false) : const SizedBox(),
+                          pageState.question!.type == Question.TYPE_ADDRESS ? isAddressItemRequiredSwitch(pageState, 'Zip/Post code required', pageState.onZipPostCodeRequiredChanged!, pageState.question!.zipPostCodeRequired ?? false) : const SizedBox(),
+                          pageState.question!.type == Question.TYPE_ADDRESS ? isAddressItemRequiredSwitch(pageState, 'Country required', pageState.onCountryRequiredChanged!, pageState.question!.countryRequired ?? false) : const SizedBox(),
+                          pageState.question!.type == Question.TYPE_CONTACT_INFO ? contactInfoSettings(pageState) : const SizedBox(),
+                          pageState.question!.type == Question.TYPE_CHECK_BOXES ? multipleSelectionView(pageState) : const SizedBox(),
                           Container(
                             margin: const EdgeInsets.only(top: 32),
 
@@ -196,7 +207,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                       alignment: Alignment.bottomCenter,
                       child: GestureDetector(
                         onTap: () {
-                          onQuestionSaved(pageState.question);
+                          onQuestionSaved!(pageState.question!);
                           showSuccessAnimation();
                         },
                         child: Container(
@@ -263,12 +274,12 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
           child: InputDoneView());
     });
 
-    overlayState.insert(overlayEntry);
+    overlayState.insert(overlayEntry!);
   }
 
   removeOverlay() {
     if (overlayEntry != null) {
-      overlayEntry.remove();
+      overlayEntry!.remove();
       overlayEntry = null;
     }
   }
@@ -279,23 +290,23 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
         alignment: Alignment.topCenter,
         children: [
           Container(
-            margin: EdgeInsets.only(left: 24, right: 24, top: (pageState.question.showImage ? 240 : 16), bottom: 164),
+            margin: EdgeInsets.only(left: 24, right: 24, top: (pageState.question!.showImage! ? 240 : 16), bottom: 164),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                 bottomRight: const Radius.circular(16),
                 bottomLeft: const Radius.circular(16),
-                topRight: Radius.circular(pageState.question.showImage ? 0 : 16),
-                topLeft: Radius.circular(pageState.question.showImage ? 0 : 16),
+                topRight: Radius.circular(pageState.question!.showImage! ? 0 : 16),
+                topLeft: Radius.circular(pageState.question!.showImage! ? 0 : 16),
               ),
               color: Color(ColorConstants.getPrimaryWhite()),
             ),
             child: buildQuestion(pageState),
           ),
-          pageState.question.showImage ? GestureDetector(
+          pageState.question!.showImage! ? GestureDetector(
             onTap: () {
               selectAPhoto(pageState);
             },
-            child: pageState.question.mobileImageUrl != null ? Container(
+            child: pageState.question!.mobileImageUrl != null ? Container(
               margin: const EdgeInsets.only(left: 24, right: 24, top: 16),
               height: 224,
               child: ClipRRect(
@@ -304,7 +315,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                   topLeft: Radius.circular(16),
                 ),
                 child: DandyLightNetworkImage(
-                  pageState.question.mobileImageUrl,
+                  pageState.question!.mobileImageUrl!,
                   color: Color(ColorConstants.getPrimaryWhite()),
                   borderRadius: 0,
                 ),
@@ -323,11 +334,11 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
               ),
             ),
           ) : const SizedBox(),
-          pageState.question.showImage ? GestureDetector(
+          pageState.question!.showImage! ? GestureDetector(
             onTap: () {
               selectAPhoto(pageState);
             },
-            child: pageState.question.mobileImageUrl == null ? Container(
+            child: pageState.question!.mobileImageUrl == null ? Container(
               alignment: Alignment.center,
               height: 224,
               margin: const EdgeInsets.only(left: 24, right: 24, top: 16),
@@ -363,7 +374,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
               ),
             ) : const SizedBox(),
           ) : const SizedBox(),
-          pageState.question.showImage ? (pageState.webImage != null || pageState.question.webImageUrl != null && pageState.question.webImageUrl.isNotEmpty) ?
+          pageState.question!.showImage! ? (pageState.webImage != null || pageState.question!.webImageUrl != null && pageState.question!.webImageUrl!.isNotEmpty) ?
           GestureDetector(
             onTap: () {
               selectAPhoto(pageState);
@@ -401,18 +412,18 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
             activeColor: Color(ColorConstants.getBlueDark()),
             thumbColor: Color(ColorConstants.getPrimaryWhite()),
             onChanged: (showImage) async {
-              pageState.onShowImageChanged(showImage);
+              pageState.onShowImageChanged!(showImage);
             },
-            value: pageState.question.showImage,
+            value: pageState.question!.showImage!,
           ) : Switch(
             activeTrackColor: Color(ColorConstants.getBlueDark()),
             inactiveTrackColor: Color(ColorConstants.getPeachDark()),
             inactiveThumbColor: Color(ColorConstants.getPrimaryWhite()),
             activeColor: Color(ColorConstants.getPrimaryWhite()),
             onChanged: (showImage) async {
-              pageState.onShowImageChanged(showImage);
+              pageState.onShowImageChanged!(showImage);
             },
-            value: pageState.question.showImage,
+            value: pageState.question!.showImage!,
           ),
         ],
       ),
@@ -435,18 +446,18 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
             activeColor: Color(ColorConstants.getBlueDark()),
             thumbColor: Color(ColorConstants.getPrimaryWhite()),
             onChanged: (required) async {
-              pageState.isRequiredChanged(required);
+              pageState.isRequiredChanged!(required);
             },
-            value: pageState.question.isRequired,
+            value: pageState.question!.isRequired!,
           ) : Switch(
             activeTrackColor: Color(ColorConstants.getBlueDark()),
             inactiveTrackColor: Color(ColorConstants.getPeachDark()),
             inactiveThumbColor: Color(ColorConstants.getPrimaryWhite()),
             activeColor: Color(ColorConstants.getPrimaryWhite()),
             onChanged: (required) async {
-              pageState.isRequiredChanged(required);
+              pageState.isRequiredChanged!(required);
             },
-            value: pageState.question.isRequired,
+            value: pageState.question!.isRequired!,
           ),
         ],
       ),
@@ -546,11 +557,11 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(topLeft: Radius.circular(26), bottomLeft: Radius.circular(26)),
                       ),
-                      child: NewQuestionListWidget.getIconFromType(pageState.question.type),
+                      child: NewQuestionListWidget.getIconFromType(pageState.question!.type!),
                     ),
                     TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      text: pageState.question.type,
+                      text: pageState.question!.type,
                       color: Color(ColorConstants.getBlueDark()),
                     ),
                     Container(
@@ -576,13 +587,13 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
   }
 
   void selectAPhoto(NewQuestionPageState pageState) {
-    NavigationUtil.onSelectAPhotoSelected(context, pageState.onUploadedImageSelected);
+    NavigationUtil.onSelectAPhotoSelected(context, pageState.onUploadedImageSelected!);
   }
 
   Widget buildQuestion(NewQuestionPageState pageState) {
     Widget result = const SizedBox();
 
-    switch(pageState.question.type) {
+    switch(pageState.question!.type) {
       case Question.TYPE_ADDRESS:
         result = Container(
           margin: const EdgeInsets.only(top: 16),
@@ -608,7 +619,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                         maxLines: 3,
                         controller: questionTextController,
                         onChanged: (text) {
-                          pageState.onQuestionChanged(text);
+                          pageState.onQuestionChanged!(text);
                         },
                         onFieldSubmitted: (term) {
                           questionFocusNode.unfocus();
@@ -637,12 +648,12 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                   ],
                 ),
               ),
-              addressItem('Address', '1234 Jefferson Way', pageState.question.addressRequired),
+              addressItem('Address', '1234 Jefferson Way', pageState.question!.addressRequired ?? false),
               addressItem('Address line 2', 'apartment 42', false),
-              addressItem('City/Town', 'Temecula', pageState.question.cityTownRequired),
-              addressItem('State/Region/Province', 'California', pageState.question.stateRegionProvinceRequired),
-              addressItem('ZIP/Post code', '92591', pageState.question.zipPostCodeRequired),
-              addressItem('Country', 'United States', pageState.question.countryRequired),
+              addressItem('City/Town', 'Temecula', pageState.question!.cityTownRequired ?? false),
+              addressItem('State/Region/Province', 'California', pageState.question!.stateRegionProvinceRequired ?? false),
+              addressItem('ZIP/Post code', '92591', pageState.question!.zipPostCodeRequired ?? false),
+              addressItem('Country', 'United States', pageState.question!.countryRequired ?? false),
             ],
           ),
         );
@@ -672,7 +683,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                         maxLines: 3,
                         controller: questionTextController,
                         onChanged: (text) {
-                          pageState.onQuestionChanged(text);
+                          pageState.onQuestionChanged!(text);
                         },
                         onFieldSubmitted: (term) {
                           questionFocusNode.unfocus();
@@ -821,7 +832,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                         maxLines: 3,
                         controller: questionTextController,
                         onChanged: (text) {
-                          pageState.onQuestionChanged(text);
+                          pageState.onQuestionChanged!(text);
                         },
                         onFieldSubmitted: (term) {
                           questionFocusNode.unfocus();
@@ -954,7 +965,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                         maxLines: 3,
                         controller: questionTextController,
                         onChanged: (text) {
-                          pageState.onQuestionChanged(text);
+                          pageState.onQuestionChanged!(text);
                         },
                         onFieldSubmitted: (term) {
                           questionFocusNode.unfocus();
@@ -1030,7 +1041,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                         maxLines: 3,
                         controller: questionTextController,
                         onChanged: (text) {
-                          pageState.onQuestionChanged(text);
+                          pageState.onQuestionChanged!(text);
                         },
                         onFieldSubmitted: (term) {
                           questionFocusNode.unfocus();
@@ -1141,7 +1152,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                         maxLines: 3,
                         controller: questionTextController,
                         onChanged: (text) {
-                          pageState.onQuestionChanged(text);
+                          pageState.onQuestionChanged!(text);
                         },
                         onFieldSubmitted: (term) {
                           questionFocusNode.unfocus();
@@ -1220,7 +1231,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                         maxLines: 3,
                         controller: questionTextController,
                         onChanged: (text) {
-                          pageState.onQuestionChanged(text);
+                          pageState.onQuestionChanged!(text);
                         },
                         onFieldSubmitted: (term) {
                           questionFocusNode.unfocus();
@@ -1249,11 +1260,11 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                   ],
                 ),
               ),
-              pageState.question.includeFirstName ? contactItem('First name', 'Jane') : const SizedBox(),
-              pageState.question.includeLastName ? contactItem('Last name', 'Smith') : const SizedBox(),
-              pageState.question.includePhone ? contactItem('Phone number', '(888)-888-8888') : const SizedBox(),
-              pageState.question.includeEmail ? contactItem('Email', 'name@example.com') : const SizedBox(),
-              pageState.question.includeInstagramName ? contactItem('Instagram name', 'yourInstagramNameHere') : const SizedBox(),
+              pageState.question!.includeFirstName ?? false ? contactItem('First name', 'Jane') : const SizedBox(),
+              pageState.question!.includeLastName ?? false ? contactItem('Last name', 'Smith') : const SizedBox(),
+              pageState.question!.includePhone ?? false ? contactItem('Phone number', '(888)-888-8888') : const SizedBox(),
+              pageState.question!.includeEmail ?? false ? contactItem('Email', 'name@example.com') : const SizedBox(),
+              pageState.question!.includeInstagramName ?? false ? contactItem('Instagram name', 'yourInstagramNameHere') : const SizedBox(),
             ],
           ),
         );
@@ -1285,7 +1296,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                           maxLines: 3,
                           controller: questionTextController,
                           onChanged: (text) {
-                            pageState.onQuestionChanged(text);
+                            pageState.onQuestionChanged!(text);
                           },
                           onFieldSubmitted: (term) {
                             questionFocusNode.unfocus();
@@ -1357,11 +1368,11 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                   ),
                   GestureDetector(
                     onTap: () {
-                      pageState.onIncludeFirstNameChanged(!pageState.question.includeFirstName);
+                      pageState.onIncludeFirstNameChanged!(!(pageState.question!.includeFirstName ?? false));
                     },
                     child: Container(
                       margin: const EdgeInsets.only(right: 24),
-                      child: Icon(pageState.question.includeFirstName ?? true ? Icons.visibility : Icons.visibility_off, color: Color(ColorConstants.getPrimaryBlack())),
+                      child: Icon(pageState.question!.includeFirstName ?? true ? Icons.visibility : Icons.visibility_off, color: Color(ColorConstants.getPrimaryBlack())),
                     ),
                   ),
                 ]
@@ -1379,11 +1390,11 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                   ),
                   GestureDetector(
                     onTap: () {
-                      pageState.onIncludeLastNameChanged(!pageState.question.includeLastName);
+                      pageState.onIncludeLastNameChanged!(!(pageState.question!.includeLastName ?? false));
                     },
                     child: Container(
                       margin: const EdgeInsets.only(right: 24),
-                      child: Icon(pageState.question.includeLastName ?? true ? Icons.visibility : Icons.visibility_off, color: Color(ColorConstants.getPrimaryBlack())),
+                      child: Icon(pageState.question!.includeLastName ?? true ? Icons.visibility : Icons.visibility_off, color: Color(ColorConstants.getPrimaryBlack())),
                     ),
                   ),
                 ]
@@ -1401,11 +1412,11 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                   ),
                   GestureDetector(
                     onTap: () {
-                      pageState.onIncludePhoneChanged(!pageState.question.includePhone);
+                      pageState.onIncludePhoneChanged!(!(pageState.question!.includePhone ?? false));
                     },
                     child: Container(
                       margin: const EdgeInsets.only(right: 24),
-                      child: Icon(pageState.question.includePhone ?? true ? Icons.visibility : Icons.visibility_off, color: Color(ColorConstants.getPrimaryBlack())),
+                      child: Icon(pageState.question!.includePhone ?? true ? Icons.visibility : Icons.visibility_off, color: Color(ColorConstants.getPrimaryBlack())),
                     ),
                   ),
                 ]
@@ -1423,11 +1434,11 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                   ),
                   GestureDetector(
                     onTap: () {
-                      pageState.onIncludeEmailChanged(!pageState.question.includeEmail);
+                      pageState.onIncludeEmailChanged!(!(pageState.question!.includeEmail ?? false));
                     },
                     child: Container(
                       margin: const EdgeInsets.only(right: 24),
-                      child: Icon(pageState.question.includeEmail ?? true ? Icons.visibility : Icons.visibility_off, color: Color(ColorConstants.getPrimaryBlack())),
+                      child: Icon(pageState.question!.includeEmail ?? true ? Icons.visibility : Icons.visibility_off, color: Color(ColorConstants.getPrimaryBlack())),
                     ),
                   ),
                 ]
@@ -1445,11 +1456,11 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                   ),
                   GestureDetector(
                     onTap: () {
-                      pageState.onIncludeInstagramNameChanged(!pageState.question.includeInstagramName);
+                      pageState.onIncludeInstagramNameChanged!(!(pageState.question!.includeInstagramName ?? false));
                     },
                     child: Container(
                       margin: const EdgeInsets.only(right: 24),
-                      child: Icon(pageState.question.includeInstagramName ?? true ? Icons.visibility : Icons.visibility_off, color: Color(ColorConstants.getPrimaryBlack())),
+                      child: Icon(pageState.question!.includeInstagramName ?? true ? Icons.visibility : Icons.visibility_off, color: Color(ColorConstants.getPrimaryBlack())),
                     ),
                   ),
                 ]
@@ -1528,16 +1539,16 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
     Widget result = ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: pageState.question.choicesCheckBoxes?.length ?? 0,
+      itemCount: pageState.question!.choicesCheckBoxes?.length ?? 0,
       itemBuilder: (BuildContext context, int index) {
-        return pageState.question.choicesCheckBoxes != null && pageState.question.choicesCheckBoxes.isNotEmpty ? ListTile(
+        return pageState.question!.choicesCheckBoxes != null && pageState.question!.choicesCheckBoxes!.isNotEmpty ? ListTile(
           horizontalTitleGap: 4,
           dense: true,
-          title: Text(pageState.question.choicesCheckBoxes[index]),
+          title: Text(pageState.question!.choicesCheckBoxes![index]),
           leading: Image.asset('assets/images/icons/checkbox.png', color: Color(ColorConstants.getPeachDark()), height: 26, width: 26),
           trailing: GestureDetector(
             onTap: () {
-              pageState.onCheckBoxChoiceRemoved(pageState.question.choicesCheckBoxes[index]);
+              pageState.onCheckBoxChoiceRemoved!(pageState.question!.choicesCheckBoxes![index]);
             },
             child: Icon(Icons.delete, color: Color(ColorConstants.getPrimaryGreyMedium()), size: 26),
           )
@@ -1564,18 +1575,18 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
             activeColor: Color(ColorConstants.getBlueDark()),
             thumbColor: Color(ColorConstants.getPrimaryWhite()),
             onChanged: (required) async {
-              pageState.onMultipleSelectionChanged(required);
+              pageState.onMultipleSelectionChanged!(required);
             },
-            value: pageState.question.multipleSelection,
+            value: pageState.question!.multipleSelection ?? false,
           ) : Switch(
             activeTrackColor: Color(ColorConstants.getBlueDark()),
             inactiveTrackColor: Color(ColorConstants.getPeachDark()),
             inactiveThumbColor: Color(ColorConstants.getPrimaryWhite()),
             activeColor: Color(ColorConstants.getPrimaryWhite()),
             onChanged: (required) async {
-              pageState.onMultipleSelectionChanged(required);
+              pageState.onMultipleSelectionChanged!(required);
             },
-            value: pageState.question.multipleSelection,
+            value: pageState.question!.multipleSelection!,
           ),
         ],
       ),

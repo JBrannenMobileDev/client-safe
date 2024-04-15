@@ -18,7 +18,7 @@ class SetQuestionnairesAction{
 class SaveQuestionnaireToJobAction {
   final QuestionnairesPageState pageState;
   final Questionnaire questionnaire;
-  final String jobDocumentId;
+  final String? jobDocumentId;
   SaveQuestionnaireToJobAction(this.pageState, this.questionnaire, this.jobDocumentId);
 }
 

@@ -102,7 +102,7 @@ class JobDetailsPageState {
   final Function(LocationDandy)? onDrivingDirectionsSelected;
   final Function(bool)? setMileageAutoTrack;
   final Function(LatLng)? onStartLocationChanged;
-  final Function(Questionnaire) onDeleteQuestionnaireSelected;
+  final Function(Questionnaire)? onDeleteQuestionnaireSelected;
 
 
   JobDetailsPageState({
@@ -262,7 +262,7 @@ class JobDetailsPageState {
     Function()? onSunsetWeatherSelected,
     Function(LocationDandy)? onDrivingDirectionsSelected,
     Function(LatLng)? onStartLocationChanged,
-    Function(Questionnaire) onDeleteQuestionnaireSelected,
+    Function(Questionnaire)? onDeleteQuestionnaireSelected,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
@@ -428,7 +428,7 @@ class JobDetailsPageState {
         onDrivingDirectionsSelected: (location) => store.dispatch(DrivingDirectionsJobSelected(store.state.jobDetailsPageState, location)),
         setMileageAutoTrack: (enabled) => store.dispatch(SetShouldTrackAction(store.state.jobDetailsPageState, enabled)),
         onStartLocationChanged: (latLng) => store.dispatch(SaveJobDetailsHomeLocationAction(store.state.jobDetailsPageState, latLng)),
-        onDeleteQuestionnaireSelected: (questionnaire) => store.dispatch(DeleteQuestionnaireFromJobAction(store.state.jobDetailsPageState, questionnaire)),
+        onDeleteQuestionnaireSelected: (questionnaire) => store.dispatch(DeleteQuestionnaireFromJobAction(store.state.jobDetailsPageState!, questionnaire)),
     );
   }
 

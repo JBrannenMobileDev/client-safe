@@ -14,13 +14,13 @@ class NewQuestionListWidget extends StatelessWidget {
   final int position;
   NewQuestionnairePageState pageState;
 
-  NewQuestionListWidget(this.question, this.pageState, this.position, {Key key}) : super(key: key);
+  NewQuestionListWidget(this.question, this.pageState, this.position, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          NavigationUtil.onNewQuestionSelected(context, question, pageState.onQuestionSaved, position);
+          NavigationUtil.onNewQuestionSelected(context, question, pageState.onQuestionSaved!, position);
         },
         child: Stack(
           alignment: Alignment.centerRight,
@@ -44,7 +44,7 @@ class NewQuestionListWidget extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(10),
-                      child: getIconFromType(question.type),
+                      child: getIconFromType(question.type!),
                     ),
                   ),
                   Expanded(
@@ -83,7 +83,7 @@ class NewQuestionListWidget extends StatelessWidget {
               color: Color(ColorConstants.getPrimaryBlack()),
             ),
           ),
-          question.question != null && question.question.isNotEmpty ? Padding(
+          question.question != null && question.question!.isNotEmpty ? Padding(
             padding: const EdgeInsets.only(bottom: 2.0),
             child: TextDandyLight(
               type: TextDandyLight.SMALL_TEXT,

@@ -11,7 +11,7 @@ import '../../widgets/TextDandyLight.dart';
 
 
 class TypeSelectionBottomSheet extends StatefulWidget {
-  const TypeSelectionBottomSheet({Key key}) : super(key: key);
+  const TypeSelectionBottomSheet({Key? key}) : super(key: key);
 
 
   @override
@@ -38,7 +38,7 @@ class _TypeSelectionBottomSheetState extends State<TypeSelectionBottomSheet> wit
                itemBuilder: (BuildContext context, int index) {
                  return GestureDetector(
                    onTap: () {
-                     pageState.onTypeChanged(Question.allTypes().elementAt(index));
+                     pageState.onTypeChanged!(Question.allTypes().elementAt(index));
                      Navigator.of(context).pop();
                    },
                    child: ListTile(

@@ -256,17 +256,15 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         ),
                       ),
                       onTap: () {
-                        if(pageState.job.priceProfile != null) {
+                        if(pageState.job!.priceProfile != null) {
                           bool containsInvoice = false;
                           for(DocumentItem document in pageState.documents!){
                             if(document.getDocumentType() == DocumentItem.DOCUMENT_TYPE_INVOICE) containsInvoice = true;
                           }
                           if(!containsInvoice) {
-                            pageState.onAddInvoiceSelected();
-                            UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected, false);
+                            UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected);
                           }else{
-                            pageState.onAddInvoiceSelected();
-                            UserOptionsUtil.showInvoiceOptionsDialog(context, onSendInvoiceSelected);
+                            UserOptionsUtil.showInvoiceOptionsDialog(context, onSendInvoiceSelected, job: pageState.job);
                           }
                         } else {
                           DandyToastUtil.showErrorToast('Please select a price package for this job before creating an invoice.');
@@ -295,7 +293,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         ),
                       ),
                       onTap: () async {
-                        NavigationUtil.onAddQuestionnaireToJobSelected(context, pageState.job.documentId);
+                        NavigationUtil.onAddQuestionnaireToJobSelected(context, pageState.job!.documentId!);
                       },
                     ),
                     SpeedDialChild(
@@ -321,12 +319,12 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                       ),
                       onTap: () {
                         bool containsContract = false;
-                        for(DocumentItem document in pageState.documents){
+                        for(DocumentItem document in pageState.documents!){
                           if(document.getDocumentType() == DocumentItem.DOCUMENT_TYPE_CONTRACT) containsContract = true;
                         }
                         if(!containsContract) {
                           Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => ContractsPage(jobDocumentId: pageState.job.documentId)),
+                            MaterialPageRoute(builder: (context) => ContractsPage(jobDocumentId: pageState.job!.documentId)),
                           );
                         }else{
                           UserOptionsUtil.showContractOptionsDialog(context);
@@ -354,7 +352,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         ),
                       ),
                       onTap: () {
-                        UserOptionsUtil.showNewJobReminderDialog(context, pageState.job);
+                        UserOptionsUtil.showNewJobReminderDialog(context, pageState.job!);
                       },
                     ),
                   ],

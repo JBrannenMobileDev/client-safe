@@ -11,7 +11,7 @@ import '../../widgets/TextDandyLight.dart';
 
 
 class AddCheckboxOptionBottomSheet extends StatefulWidget {
-  const AddCheckboxOptionBottomSheet({Key key}) : super(key: key);
+  const AddCheckboxOptionBottomSheet({Key? key}) : super(key: key);
 
 
   @override
@@ -98,7 +98,7 @@ class _AddCheckboxOptionBottomSheetState extends State<AddCheckboxOptionBottomSh
                      )),
                  GestureDetector(
                    onTap: () {
-                     pageState.onCheckBoxChoiceAdded(choiceTextController.text);
+                     pageState.onCheckBoxChoiceAdded!(choiceTextController.text);
                      Navigator.of(context).pop();
                    },
                    child: Container(

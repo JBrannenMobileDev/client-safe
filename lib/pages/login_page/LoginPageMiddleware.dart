@@ -792,7 +792,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           store.dispatch(SetIsUserVerifiedAction(store.state.loginPageState, user.emailVerified));
           store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
           store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
-          await EventSender().setUserIdentity(user.uid);
+          EventSender().setUserIdentity(user.uid);
           await FireStoreSync().dandyLightAppInitializationSync(user.uid).then((value) async {
             store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
             ProfileDao.updateUserLoginTime(user.uid);

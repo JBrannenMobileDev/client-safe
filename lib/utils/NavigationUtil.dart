@@ -123,10 +123,10 @@ class NavigationUtil {
   static onContractSelected(BuildContext context, Contract contract, String contractName, bool isNew, String? jobDocumentId, Function(BuildContext)? onDeleteFromJob) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ContractEditPage(contract: contract, contractName: contractName, isNew: isNew, jobDocumentId: jobDocumentId, deleteFromJob: onDeleteFromJob)));
   }
-  static onQuestionnaireSelected(BuildContext context, Questionnaire? questionnaire, String title, bool isNew, String? jobDocumentId, Function(BuildContext, Questionnaire) onDeleteFromJob) {
+  static onQuestionnaireSelected(BuildContext context, Questionnaire? questionnaire, String title, bool isNew, String? jobDocumentId, Function(BuildContext, Questionnaire)? onDeleteFromJob) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewQuestionnairePage(questionnaire: questionnaire, title: title, isNew: isNew, jobDocumentId: jobDocumentId, deleteFromJob: onDeleteFromJob)));
   }
-  static onNewQuestionSelected(BuildContext context, Question question, Function(Question) onQuestionSaved, int number) {
+  static onNewQuestionSelected(BuildContext context, Question? question, Function(Question) onQuestionSaved, int number) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewQuestionPage(question: question, onQuestionSaved: onQuestionSaved, number: number)));
   }
   static onManageSubscriptionSelected(BuildContext context, Profile profile) {

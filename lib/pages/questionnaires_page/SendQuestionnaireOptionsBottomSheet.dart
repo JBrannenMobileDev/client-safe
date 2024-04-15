@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/Questionnaire.dart';
@@ -6,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:redux/redux.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../AppState.dart';
@@ -17,12 +18,13 @@ import '../../utils/intentLauncher/IntentLauncherUtil.dart';
 import '../../widgets/TextDandyLight.dart';
 import '../share_with_client_page/ShareWithClientTextField.dart';
 import 'QuestionnairesPageState.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 
 class SendQuestionnaireOptionsBottomSheet extends StatefulWidget {
-  final Questionnaire questionnaire;
+  final Questionnaire? questionnaire;
 
-  const SendQuestionnaireOptionsBottomSheet(this.questionnaire, {Key key}) : super(key: key);
+  const SendQuestionnaireOptionsBottomSheet(this.questionnaire, {Key? key}) : super(key: key);
 
 
   @override
@@ -32,11 +34,12 @@ class SendQuestionnaireOptionsBottomSheet extends StatefulWidget {
 }
 
 class _ShareClientPortalOptionsBottomSheetPageState extends State<SendQuestionnaireOptionsBottomSheet> with TickerProviderStateMixin, WidgetsBindingObserver {
-  final Questionnaire questionnaire;
-  OverlayEntry overlayEntry;
+  final Questionnaire? questionnaire;
+  OverlayEntry? overlayEntry;
   bool isKeyboardVisible = false;
   final messageController = TextEditingController();
   final FocusNode _messageFocusNode = FocusNode();
+  late StreamSubscription<bool> keyboardSubscription;
 
   _ShareClientPortalOptionsBottomSheetPageState(this.questionnaire);
 
@@ -50,12 +53,12 @@ class _ShareClientPortalOptionsBottomSheetPageState extends State<SendQuestionna
           left: 0.0,
           child: InputDoneView());
     });
-    overlayState.insert(overlayEntry);
+    overlayState.insert(overlayEntry!);
   }
 
   removeOverlay() {
     if (overlayEntry != null) {
-      overlayEntry.remove();
+      overlayEntry!.remove();
       overlayEntry = null;
     }
   }
@@ -82,6 +85,31 @@ class _ShareClientPortalOptionsBottomSheetPageState extends State<SendQuestionna
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    var keyboardVisibilityController = KeyboardVisibilityController();
+    keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
+      setState(() {
+        if(visible) {
+          showOverlay(context);
+          isKeyboardVisible = true;
+        } else {
+          removeOverlay();
+          isKeyboardVisible = false;
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    keyboardSubscription.cancel();
+    super.dispose();
+  }
+
+
+  @override
   Widget build(BuildContext context) => StoreConnector<AppState, QuestionnairesPageState>(
     onInit: (store) {
       // String clientMessage = '[Your message goes here]\n\nAccess your client portal here: \nhttps://dandylight.com/questionnaire/${profile.uid}+${questionnaire.documentId}';
@@ -91,21 +119,6 @@ class _ShareClientPortalOptionsBottomSheetPageState extends State<SendQuestionna
       // } else {
       //   store.dispatch(SetClientShareMessageAction(store.state.shareWithClientPageState, job.proposal.shareMessage));
       // }
-
-      KeyboardVisibilityNotification().addNewListener(
-          onShow: () {
-            showOverlay(context);
-            setState(() {
-              isKeyboardVisible = true;
-            });
-          },
-          onHide: () {
-            removeOverlay();
-            setState(() {
-              isKeyboardVisible = false;
-            });
-          }
-      );
     },
   converter: (Store<AppState> store) => QuestionnairesPageState.fromStore(store),
   builder: (BuildContext context, QuestionnairesPageState pageState) =>
@@ -239,7 +252,7 @@ class _ShareClientPortalOptionsBottomSheetPageState extends State<SendQuestionna
             ),
             GestureDetector(
               onTap: () {
-                Share.share(pageState.shareMessage);
+                Share.share(pageState.shareMessage!);
               },
               child: Container(
                 alignment: Alignment.center,

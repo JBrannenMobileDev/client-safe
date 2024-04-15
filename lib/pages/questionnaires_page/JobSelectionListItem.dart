@@ -1,5 +1,4 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:dandylight/pages/questionnaires_page/QuestionnairesPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
@@ -29,9 +28,9 @@ class JobSelectionListItem extends StatelessWidget {
               color: Colors.transparent,
             ),
         onPressed: () {
-          pageState.onSaveToJobSelected(questionnaire, pageState.activeJobs.elementAt(index).documentId);
+          pageState.onSaveToJobSelected!(questionnaire, pageState.activeJobs!.elementAt(index).documentId!);
           Navigator.of(context).pop();
-          NavigationUtil.onJobSelected(context, pageState.activeJobs.elementAt(index).documentId);
+          NavigationUtil.onJobSelected(context, pageState.activeJobs!.elementAt(index).documentId!);
         },
         child: Row(
           children: <Widget>[
@@ -39,7 +38,7 @@ class JobSelectionListItem extends StatelessWidget {
               margin: const EdgeInsets.only(left: 8.0, right: 16.0, top: 2.0, bottom: 2.0),
               height: 44.0,
               width: 44.0,
-              child: pageState.activeJobs.elementAt(index).stage.getStageImage(Color(ColorConstants.getPeachDark())),
+              child: pageState.activeJobs!.elementAt(index).stage!.getStageImage(Color(ColorConstants.getPeachDark())),
             ),
             Expanded(
               child: Container(
@@ -51,7 +50,7 @@ class JobSelectionListItem extends StatelessWidget {
                   children: <Widget>[
                     TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      text: pageState.activeJobs.elementAt(index).jobTitle,
+                      text: pageState.activeJobs!.elementAt(index).jobTitle,
                       textAlign: TextAlign.start,
                       color: Color(ColorConstants.getPrimaryBlack()),
                     ),

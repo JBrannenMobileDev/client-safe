@@ -6,31 +6,31 @@ import '../../models/Question.dart';
 import 'NewQuestionActions.dart';
 
 class NewQuestionPageState{
-  final Question question;
-  final XFile webImage;
-  final XFile mobileImage;
-  final Function(String) onQuestionChanged;
-  final Function(bool) isRequiredChanged;
-  final Function(String) onCheckBoxChoiceAdded;
-  final Function(String) onCheckBoxChoiceRemoved;
-  final Function(bool) onIncludeOtherCheckBoxChoiceChanged;
-  final Function(bool) onIncludeFirstNameChanged;
-  final Function(bool) onIncludeLastNameChanged;
-  final Function(bool) onIncludePhoneChanged;
-  final Function(bool) onIncludeEmailChanged;
-  final Function(bool) onIncludeInstagramNameChanged;
-  final Function(String) onShortFormHintChanged;
-  final Function(String) onLongFormHintChanged;
-  final Function(int) onNumberOfStarsChanged;
-  final Function(String) onUploadedImageSelected;
-  final Function(String) onTypeChanged;
-  final Function(bool) onShowImageChanged;
-  final Function(bool) onMultipleSelectionChanged;
-  final Function(bool) onAddressRequiredChanged;
-  final Function(bool) onCityTownRequiredChanged;
-  final Function(bool) onStateRegionProvinceRequiredChanged;
-  final Function(bool) onZipPostCodeRequiredChanged;
-  final Function(bool) onCountryRequiredChanged;
+  final Question? question;
+  final XFile? webImage;
+  final XFile? mobileImage;
+  final Function(String)? onQuestionChanged;
+  final Function(bool)? isRequiredChanged;
+  final Function(String)? onCheckBoxChoiceAdded;
+  final Function(String)? onCheckBoxChoiceRemoved;
+  final Function(bool)? onIncludeOtherCheckBoxChoiceChanged;
+  final Function(bool)? onIncludeFirstNameChanged;
+  final Function(bool)? onIncludeLastNameChanged;
+  final Function(bool)? onIncludePhoneChanged;
+  final Function(bool)? onIncludeEmailChanged;
+  final Function(bool)? onIncludeInstagramNameChanged;
+  final Function(String)? onShortFormHintChanged;
+  final Function(String)? onLongFormHintChanged;
+  final Function(int)? onNumberOfStarsChanged;
+  final Function(String)? onUploadedImageSelected;
+  final Function(String)? onTypeChanged;
+  final Function(bool)? onShowImageChanged;
+  final Function(bool)? onMultipleSelectionChanged;
+  final Function(bool)? onAddressRequiredChanged;
+  final Function(bool)? onCityTownRequiredChanged;
+  final Function(bool)? onStateRegionProvinceRequiredChanged;
+  final Function(bool)? onZipPostCodeRequiredChanged;
+  final Function(bool)? onCountryRequiredChanged;
 
   NewQuestionPageState({
     @required this.question,
@@ -61,31 +61,31 @@ class NewQuestionPageState{
   });
 
   NewQuestionPageState copyWith({
-    Question question,
-    XFile webImage,
-    XFile mobileImage,
-    Function(String) onQuestionChanged,
-    Function(bool) isRequiredChanged,
-    Function(String) onCheckBoxChoiceAdded,
-    Function(String) onCheckBoxChoiceRemoved,
-    Function(bool) onIncludeOtherCheckBoxChoiceChanged,
-    Function(bool) onIncludeFirstNameChanged,
-    Function(bool) onIncludeLastNameChanged,
-    Function(bool) onIncludePhoneChanged,
-    Function(bool) onIncludeEmailChanged,
-    Function(bool) onIncludeInstagramNameChanged,
-    Function(String) onShortFormHintChanged,
-    Function(String) onLongFormHintChanged,
-    Function(int) onNumberOfStarsChanged,
-    Function(String) onTypeChanged,
-    Function(bool) onShowImageChanged,
-    Function(bool) onMultipleSelectionChanged,
-    Function(bool) onAddressRequiredChanged,
-    Function(bool) onCityTownRequiredChanged,
-    Function(bool) onStateRegionProvinceRequiredChanged,
-    Function(bool) onZipPostCodeRequiredChanged,
-    Function(bool) onCountryRequiredChanged,
-    Function(String) onUploadedImageSelected,
+    Question? question,
+    XFile? webImage,
+    XFile? mobileImage,
+    Function(String)? onQuestionChanged,
+    Function(bool)? isRequiredChanged,
+    Function(String)? onCheckBoxChoiceAdded,
+    Function(String)? onCheckBoxChoiceRemoved,
+    Function(bool)? onIncludeOtherCheckBoxChoiceChanged,
+    Function(bool)? onIncludeFirstNameChanged,
+    Function(bool)? onIncludeLastNameChanged,
+    Function(bool)? onIncludePhoneChanged,
+    Function(bool)? onIncludeEmailChanged,
+    Function(bool)? onIncludeInstagramNameChanged,
+    Function(String)? onShortFormHintChanged,
+    Function(String)? onLongFormHintChanged,
+    Function(int)? onNumberOfStarsChanged,
+    Function(String)? onTypeChanged,
+    Function(bool)? onShowImageChanged,
+    Function(bool)? onMultipleSelectionChanged,
+    Function(bool)? onAddressRequiredChanged,
+    Function(bool)? onCityTownRequiredChanged,
+    Function(bool)? onStateRegionProvinceRequiredChanged,
+    Function(bool)? onZipPostCodeRequiredChanged,
+    Function(bool)? onCountryRequiredChanged,
+    Function(String)? onUploadedImageSelected,
   }){
     return NewQuestionPageState(
       question: question ?? this.question,

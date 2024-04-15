@@ -34,14 +34,14 @@ class NewQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchProfile(Store<AppState> store, FetchProfileForNewQuestionnaireAction action, NextDispatcher next) async{
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    next(SetProfileForNewQuestionnaireAction(store.state.newQuestionnairePageState, profile));
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    next(SetProfileForNewQuestionnaireAction(store.state.newQuestionnairePageState, profile!));
   }
 
   void deleteQuestionnaire(Store<AppState> store, DeleteQuestionnaireAction action, NextDispatcher next) async{
     if(action.pageState.questionnaire != null) {
-      await QuestionnairesDao.delete(action.pageState.questionnaire.documentId);
-      await QuestionnairesDao.delete(action.pageState.questionnaire.documentId);
+      await QuestionnairesDao.delete(action.pageState.questionnaire!.documentId!);
+      await QuestionnairesDao.delete(action.pageState.questionnaire!.documentId!);
       store.dispatch(FetchQuestionnairesAction(store.state.questionnairesPageState));
     }
   }
@@ -53,13 +53,13 @@ class NewQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
     questionnaire.message = action.pageState.message;
     questionnaire.isComplete = false;
 
-    if(action.jobDocumentId != null && action.jobDocumentId.isNotEmpty) {
-      Job job = await JobDao.getJobById(action.jobDocumentId);
-      Questionnaire questionnaireAlreadyExists = job.proposal.questionnaires.where((it) => it.documentId == questionnaire.documentId).first;
+    if(action.jobDocumentId != null && action.jobDocumentId!.isNotEmpty) {
+      Job? job = await JobDao.getJobById(action.jobDocumentId);
+      Questionnaire? questionnaireAlreadyExists = job?.proposal?.questionnaires?.where((it) => it.documentId == questionnaire.documentId).first;
       if(questionnaireAlreadyExists == null) {
-        job.proposal.questionnaires.add(questionnaire);
+        job!.proposal!.questionnaires!.add(questionnaire);
       } else {
-        job.proposal.questionnaires[job.proposal.questionnaires.indexWhere((it) => it.documentId == questionnaireAlreadyExists.documentId)] = questionnaire;
+        job!.proposal!.questionnaires![job.proposal!.questionnaires!.indexWhere((it) => it.documentId == questionnaireAlreadyExists.documentId)] = questionnaire;
       }
       await JobDao.update(job);
       store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId));
@@ -67,13 +67,13 @@ class NewQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
       questionnaire = await QuestionnairesDao.insertOrUpdate(questionnaire);
     }
 
-    if(action.pageState.isNew) {
+    if(action.pageState.isNew ?? true) {
       questionnaire = await QuestionnairesDao.insertOrUpdate(questionnaire);
     }
 
     store.dispatch(FetchQuestionnairesAction(store.state.questionnairesPageState));
 
-    if(action.pageState.isNew) {
+    if(action.pageState.isNew ?? true) {
       EventSender().sendEvent(eventName: EventNames.QUESTIONNAIRE_CREATED);
     }
   }

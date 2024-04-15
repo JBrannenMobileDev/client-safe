@@ -8,17 +8,17 @@ import '../../models/Question.dart';
 import 'NewQuestionnaireActions.dart';
 
 class NewQuestionnairePageState{
-  final String questionnaireName;
-  final Questionnaire questionnaire;
-  final String message;
-  final Profile profile;
-  final bool isNew;
-  final String newFromName;
-  final Function(String, List<Question>, bool isNew) onQuestionnaireSaved;
-  final Function() onDeleteSelected;
-  final Function(String) onNameChanged;
-  final Function(String) onMessageChanged;
-  final Function(Question) onQuestionSaved;
+  final String? questionnaireName;
+  final Questionnaire? questionnaire;
+  final String? message;
+  final Profile? profile;
+  final bool? isNew;
+  final String? newFromName;
+  final Function(String?, List<Question>, bool isNew)? onQuestionnaireSaved;
+  final Function()? onDeleteSelected;
+  final Function(String)? onNameChanged;
+  final Function(String)? onMessageChanged;
+  final Function(Question)? onQuestionSaved;
 
   NewQuestionnairePageState({
     @required this.questionnaire,
@@ -35,17 +35,17 @@ class NewQuestionnairePageState{
   });
 
   NewQuestionnairePageState copyWith({
-    String questionnaireName,
-    Questionnaire questionnaire,
-    Profile profile,
-    bool isNew,
-    String newFromName,
-    String message,
-    Function(String, List<Question>, bool isNew) onQuestionnaireSaved,
-    Function(String) onNameChanged,
-    Function() onDeleteSelected,
-    Function(String) onMessageChanged,
-    Function(Question) onQuestionSaved,
+    String? questionnaireName,
+    Questionnaire? questionnaire,
+    Profile? profile,
+    bool? isNew,
+    String? newFromName,
+    String? message,
+    Function(String?, List<Question>, bool isNew)? onQuestionnaireSaved,
+    Function(String)? onNameChanged,
+    Function()? onDeleteSelected,
+    Function(String)? onMessageChanged,
+    Function(Question)? onQuestionSaved,
   }){
     return NewQuestionnairePageState(
       questionnaire: questionnaire?? this.questionnaire,

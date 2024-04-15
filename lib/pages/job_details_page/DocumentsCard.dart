@@ -87,7 +87,7 @@ class DocumentsCard extends StatelessWidget {
             UserOptionsUtil.showContractOptionsSheet(context, pageState!.job!, profile!, openContractEditPage);
             break;
           case DocumentItem.DOCUMENT_TYPE_QUESTIONNAIRE:
-            UserOptionsUtil.showQuestionnaireOptionsSheet(context, getSelectedQuestionnaire(pageState.job.proposal.questionnaires, pageState.documents.elementAt(index)), openQuestionnaireEditPage);
+            UserOptionsUtil.showQuestionnaireOptionsSheet(context, getSelectedQuestionnaire(pageState!.job!.proposal!.questionnaires!, pageState!.documents!.elementAt(index)), openQuestionnaireEditPage);
         }
       },
       child: SizedBox(
@@ -128,11 +128,11 @@ class DocumentsCard extends StatelessWidget {
   }
 
   void openQuestionnaireEditPage(BuildContext context, Questionnaire questionnaire) {
-    NavigationUtil.onQuestionnaireSelected(context, questionnaire, questionnaire.title, false, pageState.job.documentId, _ackQuestionnaireAlert);
+    NavigationUtil.onQuestionnaireSelected(context, questionnaire, questionnaire.title!, false, pageState!.job!.documentId, _ackQuestionnaireAlert);
   }
 
   void openContractEditPage(BuildContext context) {
-    NavigationUtil.onContractSelected(context, pageState!.job!.proposal!.contract, pageState!.job!.proposal!.contract!.contractName, false, pageState!.job!.documentId, _ackContractAlert);
+    NavigationUtil.onContractSelected(context, pageState!.job!.proposal!.contract!, pageState!.job!.proposal!.contract!.contractName!, false, pageState!.job!.documentId, _ackContractAlert);
   }
 
   Future<void> _ackContractAlert(BuildContext context) {
@@ -199,7 +199,7 @@ class DocumentsCard extends StatelessWidget {
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteQuestionnaireSelected(questionnaire);
+                pageState!.onDeleteQuestionnaireSelected!(questionnaire);
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
@@ -218,7 +218,7 @@ class DocumentsCard extends StatelessWidget {
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteQuestionnaireSelected(questionnaire);
+                pageState!.onDeleteQuestionnaireSelected!(questionnaire);
                 Navigator.of(context).pop(true);
               },
               child: const Text('Yes'),
@@ -230,8 +230,8 @@ class DocumentsCard extends StatelessWidget {
   }
 
   Questionnaire getSelectedQuestionnaire(List<Questionnaire> questionnaires, DocumentItem documentItem) {
-    QuestionnaireDocument questionnaireDocument = documentItem;
-    return questionnaireDocument.questionnaire;
+    QuestionnaireDocument questionnaireDocument = documentItem as QuestionnaireDocument;
+    return questionnaireDocument.questionnaire!;
   }
 
 }

@@ -15,7 +15,7 @@ import '../job_details_page/JobDetailsActions.dart';
 import 'QuestionnairesActions.dart';
 
 class QuestionnairesPageMiddleware extends MiddlewareClass<AppState> {
-  StreamSubscription subscription;
+  StreamSubscription? subscription;
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next){
@@ -34,8 +34,8 @@ class QuestionnairesPageMiddleware extends MiddlewareClass<AppState> {
     Questionnaire questionnaire = action.questionnaire;
     questionnaire.jobDocumentId = action.jobDocumentId;
     questionnaire.documentId = Uuid().generateV4();
-    Job job = await JobDao.getJobById(action.jobDocumentId);
-    job.proposal.questionnaires.add(questionnaire);
+    Job? job = await JobDao.getJobById(action.jobDocumentId);
+    job!.proposal!.questionnaires!.add(questionnaire);
     try{
       await JobDao.update(job);
     } catch(e) {
@@ -50,12 +50,12 @@ class QuestionnairesPageMiddleware extends MiddlewareClass<AppState> {
       subscription = questionnaireSubscription.listen((snapshots) async {
         List<Questionnaire> questionnaires = [];
         for(RecordSnapshot record in snapshots) {
-          questionnaires.add(Questionnaire.fromMap(record.value));
+          questionnaires.add(Questionnaire.fromMap(record.value as Map<String,dynamic>));
         }
 
         store.dispatch(SetQuestionnairesAction(store.state.questionnairesPageState, questionnaires));
       });
 
-      store.dispatch(SetActiveJobsToQuestionnairesAction(store.state.questionnairesPageState, store.state.dashboardPageState.activeJobs));
+      store.dispatch(SetActiveJobsToQuestionnairesAction(store.state.questionnairesPageState, store.state.dashboardPageState!.activeJobs!));
   }
 }

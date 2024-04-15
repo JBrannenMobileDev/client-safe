@@ -8,15 +8,15 @@ import '../../widgets/TextDandyLight.dart';
 import 'QuestionnairesPageState.dart';
 
 class QuestionnaireListWidget extends StatelessWidget {
-  final Questionnaire questionnaire;
-  final QuestionnairesPageState pageState;
-  final Function onQuestionnaireSelected;
-  final Color backgroundColor;
-  final Color textColor;
-  final bool addToJobNew;
-  final String jobDocumentId;
+  final Questionnaire? questionnaire;
+  final QuestionnairesPageState? pageState;
+  final Function? onQuestionnaireSelected;
+  final Color? backgroundColor;
+  final Color? textColor;
+  final bool? addToJobNew;
+  final String? jobDocumentId;
 
-  QuestionnaireListWidget(this.questionnaire, this.pageState, this.onQuestionnaireSelected, this.backgroundColor, this.textColor, this.addToJobNew, this.jobDocumentId, {Key key}) : super(key: key);
+  QuestionnaireListWidget(this.questionnaire, this.pageState, this.onQuestionnaireSelected, this.backgroundColor, this.textColor, this.addToJobNew, this.jobDocumentId, {Key? key}) : super(key: key);
 
   void showSendBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -36,17 +36,17 @@ class QuestionnaireListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
         style: Styles.getButtonStyle(
-          color: backgroundColor.withOpacity(0.5),
+          color: backgroundColor!.withOpacity(0.5),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
           ),
         ),
         onPressed: () {
-          if(addToJobNew) {
-            pageState.onSaveToJobSelected(questionnaire, jobDocumentId);
+          if(addToJobNew ?? false) {
+            pageState!.onSaveToJobSelected!(questionnaire!, jobDocumentId!);
             Navigator.of(context).pop();
           } else {
-            onQuestionnaireSelected(pageState, context, questionnaire);
+            onQuestionnaireSelected!(pageState, context, questionnaire);
           }
         },
         child: Stack(
@@ -64,17 +64,17 @@ class QuestionnaireListWidget extends StatelessWidget {
                     child: Image.asset('assets/images/icons/questionnaire_thin.png', color: Color(ColorConstants.getBlueDark())),
                   ),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width - (addToJobNew ? 100 : 164),
+                    width: MediaQuery.of(context).size.width - (addToJobNew ?? false ? 100 : 164),
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      text: questionnaire.title,
+                      text: questionnaire!.title,
                       textAlign: TextAlign.start,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       color: textColor,
                     ),
                   ),
-                  !addToJobNew ? GestureDetector(
+                  !(addToJobNew ?? false) ? GestureDetector(
                     onTap: () {
                       showSendBottomSheet(context);
                     },

@@ -6,12 +6,12 @@ import '../../models/Questionnaire.dart';
 import 'QuestionnairesActions.dart';
 
 class QuestionnairesPageState{
-  final List<Questionnaire> questionnaires;
-  final List<Job> activeJobs;
-  final String shareMessage;
-  final Function(Questionnaire, String) onSaveToJobSelected;
-  final Function() unsubscribe;
-  final Function(String) onShareMessageChanged;
+  final List<Questionnaire>? questionnaires;
+  final List<Job>? activeJobs;
+  final String? shareMessage;
+  final Function(Questionnaire, String?)? onSaveToJobSelected;
+  final Function()? unsubscribe;
+  final Function(String)? onShareMessageChanged;
 
   QuestionnairesPageState({
     @required this.questionnaires,
@@ -23,12 +23,12 @@ class QuestionnairesPageState{
   });
 
   QuestionnairesPageState copyWith({
-    List<Questionnaire> questionnaires,
-    List<Job> activeJobs,
-    String shareMessage,
-    Function(Questionnaire, String) onSaveToJobSelected,
-    Function() unsubscribe,
-    Function(String) onShareMessageChanged,
+    List<Questionnaire>? questionnaires,
+    List<Job>? activeJobs,
+    String? shareMessage,
+    Function(Questionnaire, String?)? onSaveToJobSelected,
+    Function()? unsubscribe,
+    Function(String)? onShareMessageChanged,
   }){
     return QuestionnairesPageState(
       questionnaires: questionnaires?? this.questionnaires,

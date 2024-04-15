@@ -158,9 +158,9 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void deleteQuestionnaireFromJob(Store<AppState> store, DeleteQuestionnaireFromJobAction action, NextDispatcher next) async{
-    if(action.questionnaire.jobDocumentId != null && action.questionnaire.jobDocumentId.isNotEmpty) {
-      action.pageState.job.proposal.questionnaires.removeWhere((questionnaire) => questionnaire.documentId == action.questionnaire.documentId);
-      JobDao.update(action.pageState.job);
+    if(action.questionnaire.jobDocumentId != null && action.questionnaire.jobDocumentId!.isNotEmpty) {
+      action.pageState.job!.proposal!.questionnaires!.removeWhere((questionnaire) => questionnaire.documentId == action.questionnaire.documentId);
+      JobDao.update(action.pageState.job!);
       store.dispatch(LoadJobsAction(store.state.dashboardPageState));
       store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, action.pageState.job));
       store.dispatch(SetJobAction(store.state.jobDetailsPageState, action.pageState.job));
@@ -581,7 +581,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   void setJobInfoWithId(Store<AppState> store, NextDispatcher next, SetJobInfoWithJobDocumentId action) async{
     Job? job = await JobDao.getJobById(action.jobDocumentId);
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
-    store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, action.pageState.job));
+    store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, action.pageState!.job));
     store.dispatch(SetJobAction(store.state.jobDetailsPageState, job));
     Client? client = await ClientDao.getClientById(job!.clientDocumentId!);
     store.dispatch(SetClientAction(store.state.jobDetailsPageState, client));

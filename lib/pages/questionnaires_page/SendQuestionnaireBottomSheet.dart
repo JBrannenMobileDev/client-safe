@@ -15,9 +15,9 @@ import 'JobSelectionListItem.dart';
 
 
 class SendQuestionnaireBottomSheet extends StatefulWidget {
-  final Questionnaire questionnaire;
+  final Questionnaire? questionnaire;
 
-  const SendQuestionnaireBottomSheet(this.questionnaire, {Key key}) : super(key: key);
+  const SendQuestionnaireBottomSheet(this.questionnaire, {Key? key}) : super(key: key);
 
 
   @override
@@ -30,7 +30,7 @@ class _SendQuestionnaireBottomSheetState extends State<SendQuestionnaireBottomSh
   static const String INITIAL_STATE = 'initialState';
   static const String SHARE_VIA_CLIENT_PORTAL_STATE = 'clientPortalState';
   static const String SHARE_DIRECTLY_STATE = 'shareDirectlyState';
-  String viewState;
+  String? viewState;
 
   final searchTextController = TextEditingController();
   final ScrollController _controller = ScrollController();
@@ -38,7 +38,7 @@ class _SendQuestionnaireBottomSheetState extends State<SendQuestionnaireBottomSh
   final FocusNode choiceFocus = FocusNode();
   String newChoice = '';
 
-  final Questionnaire questionnaire;
+  final Questionnaire? questionnaire;
 
   _SendQuestionnaireBottomSheetState(this.questionnaire);
 
@@ -53,7 +53,7 @@ class _SendQuestionnaireBottomSheetState extends State<SendQuestionnaireBottomSh
     converter: (Store<AppState> store) => QuestionnairesPageState.fromStore(store),
     builder: (BuildContext context, QuestionnairesPageState pageState) =>
         Container(
-          height: getSheetHeight(viewState),
+          height: getSheetHeight(viewState!),
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
               borderRadius: const BorderRadius.vertical(top: Radius.circular(16.0)),
@@ -64,7 +64,7 @@ class _SendQuestionnaireBottomSheetState extends State<SendQuestionnaireBottomSh
     );
 
   Widget buildViewForState(QuestionnairesPageState pageState) {
-    Widget result;
+    Widget result = const SizedBox();
     switch(viewState) {
       case INITIAL_STATE:
         result = buildInitialView();
@@ -165,9 +165,9 @@ class _SendQuestionnaireBottomSheetState extends State<SendQuestionnaireBottomSh
                   shrinkWrap: true,
                   controller: _controller,
                   physics: const ClampingScrollPhysics(),
-                  itemCount: pageState.activeJobs.length,
+                  itemCount: pageState.activeJobs?.length ?? 0,
                   itemBuilder: (context, index) {
-                    return JobSelectionListItem(index, questionnaire);
+                    return JobSelectionListItem(index, questionnaire!);
                   },
                 ),
               ],
@@ -187,6 +187,6 @@ class _SendQuestionnaireBottomSheetState extends State<SendQuestionnaireBottomSh
   }
 
   Widget buildShareDirect(QuestionnairesPageState pageState) {
-    return SendQuestionnaireOptionsBottomSheet(questionnaire);
+    return SendQuestionnaireOptionsBottomSheet(questionnaire!);
   }
 }

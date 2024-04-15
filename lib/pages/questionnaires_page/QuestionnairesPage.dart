@@ -86,14 +86,14 @@ class _QuestionnairesPageState extends State<QuestionnairesPage> with TickerProv
                             SliverList(
                               delegate: SliverChildListDelegate(
                                 <Widget>[
-                                  pageState.questionnaires.isNotEmpty ? ListView.builder(
+                                  pageState.questionnaires!.isNotEmpty ? ListView.builder(
                                     reverse: false,
                                     padding: const EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 64.0),
                                     shrinkWrap: true,
                                     controller: _scrollController,
                                     physics: const ClampingScrollPhysics(),
                                     key: _listKey,
-                                    itemCount: pageState.questionnaires.length,
+                                    itemCount: pageState.questionnaires!.length,
                                     itemBuilder: _buildItem,
                                   ) :
                                   Padding(
@@ -111,7 +111,7 @@ class _QuestionnairesPageState extends State<QuestionnairesPage> with TickerProv
                           ],
                         ),
                       ),
-                      pageState.questionnaires.isEmpty ? Container(
+                      pageState.questionnaires!.isEmpty ? Container(
                         margin: const EdgeInsets.only(bottom: 48),
                         alignment: Alignment.bottomCenter,
                         child: GestureDetector(
@@ -139,7 +139,7 @@ class _QuestionnairesPageState extends State<QuestionnairesPage> with TickerProv
                   ),
                 ),
                 onWillPop: () async {
-                  pageState.unsubscribe();
+                  pageState.unsubscribe!();
                   return true;
                 }),
       );
@@ -150,17 +150,17 @@ class _QuestionnairesPageState extends State<QuestionnairesPage> with TickerProv
       builder: (BuildContext context, QuestionnairesPageState pageState) =>
           Container(
             margin: const EdgeInsets.only(top: 0.0, bottom: 8.0),
-            child: QuestionnaireListWidget(pageState.questionnaires.elementAt(index), pageState, onOptionSelected, Color(ColorConstants.getBlueLight()), Color(ColorConstants.getPrimaryBlack()), addToJobNew, jobDocumentId),
+            child: QuestionnaireListWidget(pageState.questionnaires!.elementAt(index), pageState, onOptionSelected, Color(ColorConstants.getBlueLight()), Color(ColorConstants.getPrimaryBlack()), addToJobNew, jobDocumentId),
           ),
     );
   }
 
   onOptionSelected(QuestionnairesPageState pageState, BuildContext context, Questionnaire questionnaire) {
     if(jobDocumentId != null) {
-      pageState.onSaveToJobSelected(questionnaire, jobDocumentId);
+      pageState.onSaveToJobSelected!(questionnaire, jobDocumentId);
       Navigator.of(context).pop();
     } else {
-      NavigationUtil.onQuestionnaireSelected(context, questionnaire, questionnaire.title, false, jobDocumentId, null);
+      NavigationUtil.onQuestionnaireSelected(context, questionnaire, questionnaire.title!, false, jobDocumentId, null);
     }
   }
 }

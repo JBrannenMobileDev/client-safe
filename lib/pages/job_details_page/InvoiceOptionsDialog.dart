@@ -7,16 +7,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../models/Job.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class InvoiceOptionsDialog extends StatefulWidget {
   final Function onSendInvoiceSelected;
+  final Job? job;
 
-  InvoiceOptionsDialog(this.onSendInvoiceSelected);
+  InvoiceOptionsDialog(this.onSendInvoiceSelected, this.job);
 
   @override
   _InvoiceOptionsDialogState createState() {
-    return _InvoiceOptionsDialogState(onSendInvoiceSelected);
+    return _InvoiceOptionsDialogState(onSendInvoiceSelected, job);
   }
 }
 
@@ -24,8 +26,9 @@ class _InvoiceOptionsDialogState extends State<InvoiceOptionsDialog>
     with AutomaticKeepAliveClientMixin {
   final jobTitleTextController = TextEditingController();
   final Function onSendInvoiceSelected;
+  final Job? job;
 
-  _InvoiceOptionsDialogState(this.onSendInvoiceSelected);
+  _InvoiceOptionsDialogState(this.onSendInvoiceSelected, this.job);
 
   @override
   Widget build(BuildContext context) {

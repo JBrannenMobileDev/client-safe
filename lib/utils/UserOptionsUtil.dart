@@ -395,11 +395,11 @@ class UserOptionsUtil {
     );
   }
 
-  static void showInvoiceOptionsDialog(BuildContext context, Function onSendInvoiceSelected) {
+  static void showInvoiceOptionsDialog(BuildContext context, Function onSendInvoiceSelected, {Job? job}) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return InvoiceOptionsDialog(onSendInvoiceSelected);
+        return InvoiceOptionsDialog(onSendInvoiceSelected, job);
       },
     );
   }
@@ -564,7 +564,7 @@ class UserOptionsUtil {
         backgroundColor: Colors.transparent,
         barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
         builder: (context) {
-          return QuestionnaireOptionsBottomSheet(questionnaire.isComplete, openQuestionnaireEditPage, questionnaire);
+          return QuestionnaireOptionsBottomSheet(questionnaire.isComplete!, openQuestionnaireEditPage, questionnaire);
         });
   }
 }

@@ -6,8 +6,8 @@ import 'NewQuestionnairePageState.dart';
 
 class SetQuestionnaireAction{
   final NewQuestionnairePageState pageState;
-  final Questionnaire questionnaire;
-  final String jobDocumentId;
+  final Questionnaire? questionnaire;
+  final String? jobDocumentId;
   SetQuestionnaireAction(this.pageState, this.questionnaire, this.jobDocumentId);
 }
 
@@ -20,7 +20,7 @@ class ClearNewQuestionnaireState {
 
 class SaveQuestionnaireAction{
   final NewQuestionnairePageState pageState;
-  final String jobDocumentId;
+  final String? jobDocumentId;
   final List<Question> questions;
   final bool isNew;
   SaveQuestionnaireAction(this.pageState, this.jobDocumentId, this.questions, this.isNew);
