@@ -18,7 +18,7 @@ SelectAPhotoPageState _setLoadingState(SelectAPhotoPageState previousState, SetL
 }
 
 SelectAPhotoPageState _setNewImage(SelectAPhotoPageState previousState, AddNewMobileImageToStateAction action){
-  previousState.uploadImages.add(action.url);
+  previousState.uploadImages?.add(action.url);
   return previousState.copyWith(
     uploadImages: previousState.uploadImages,
   );

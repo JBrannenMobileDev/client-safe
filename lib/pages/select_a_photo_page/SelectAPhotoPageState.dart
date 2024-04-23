@@ -5,20 +5,20 @@ import '../../AppState.dart';
 import 'SelectAPhotoActions.dart';
 
 class SelectAPhotoPageState{
-  final List<String> uploadImages;
-  final bool isLoading;
-  final Function(XFile, XFile) onImageUploaded;
+  final List<String>? uploadImages;
+  final bool? isLoading;
+  final Function(XFile, XFile)? onImageUploaded;
 
   SelectAPhotoPageState({
-    @required this.uploadImages,
-    @required this.onImageUploaded,
-    @required this.isLoading,
+    required this.uploadImages,
+    required this.onImageUploaded,
+    required this.isLoading,
   });
 
   SelectAPhotoPageState copyWith({
-    List<String> uploadImages,
-    bool isLoading,
-    Function(XFile, XFile) onImageUploaded,
+    List<String>? uploadImages,
+    bool? isLoading,
+    Function(XFile, XFile)? onImageUploaded,
   }){
     return SelectAPhotoPageState(
       uploadImages: uploadImages ?? this.uploadImages,

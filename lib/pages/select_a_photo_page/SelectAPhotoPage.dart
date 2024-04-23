@@ -29,9 +29,9 @@ class SelectAPhotoPage extends StatefulWidget {
   static const String PROPOSALS = "Proposals";
   static const String PETS = "Pets";
 
-  final Function(String) onImageSelected;
+  final Function(String)? onImageSelected;
 
-  const SelectAPhotoPage({Key key, this.onImageSelected}) : super(key: key);
+  const SelectAPhotoPage({Key? key, this.onImageSelected}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -40,7 +40,7 @@ class SelectAPhotoPage extends StatefulWidget {
 }
 
 class _SelectAPhotoPageState extends State<SelectAPhotoPage> with TickerProviderStateMixin {
-  final Function(String) onImageSelected;
+  final Function(String)? onImageSelected;
 
   _SelectAPhotoPageState(this.onImageSelected);
 
@@ -104,14 +104,14 @@ class _SelectAPhotoPageState extends State<SelectAPhotoPage> with TickerProvider
                      GridView.builder(
                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
                        itemBuilder: (_, index) => _buildItem(context, index, pageState),
-                       itemCount: pageState.uploadImages.length,
+                       itemCount: pageState.uploadImages?.length ?? 0,
                        shrinkWrap: true,
                        physics: const ScrollPhysics(),
                      ),
                    ],
                  ),
                ),
-               pageState.isLoading ? Center(
+               (pageState.isLoading ?? false) ? Center(
                  child: Container(
                    width: 54,
                    height: 54,
@@ -130,13 +130,15 @@ class _SelectAPhotoPageState extends State<SelectAPhotoPage> with TickerProvider
   Widget _buildItem(BuildContext context, int index, SelectAPhotoPageState pageState) {
     return GestureDetector(
       onTap: () {
-        onImageSelected(pageState.uploadImages.elementAt(index));
+        if(pageState.uploadImages != null) {
+          onImageSelected!(pageState.uploadImages!.elementAt(index));
+        }
         Navigator.of(context).pop();
       },
       child: Container(
         padding: const EdgeInsets.only(left:0.5, right: 0.5, top: 1),
         child: DandyLightNetworkImage(
-          pageState.uploadImages.elementAt(index),
+          pageState.uploadImages?.elementAt(index) ?? '',
           resizeWidth: 350,
           borderRadius: 0,
         )
@@ -146,15 +148,17 @@ class _SelectAPhotoPageState extends State<SelectAPhotoPage> with TickerProvider
 
   Future getDeviceImage(SelectAPhotoPageState pageState) async {
     try {
-      XFile localImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-      XFile localWebImage = XFile((await cropImageForWeb(localImage.path)).path);
-      XFile localMobileImage = XFile((await cropImageForMobile(localImage.path)).path);
+      XFile? localImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+      XFile? localWebImage = XFile((await cropImageForWeb(localImage!.path))!.path);
+      XFile? localMobileImage = XFile((await cropImageForMobile(localImage.path))!.path);
 
-      if(localWebImage != null && localMobileImage != null && localImage != null) {
-        pageState.onImageUploaded(localWebImage, localMobileImage);
-      } else {
-        DandyToastUtil.showErrorToast('Image not loaded');
-      }
+      pageState.onImageUploaded!(localWebImage, localMobileImage);
+
+      // if(localWebImage != null && localMobileImage != null && localImage != null) {
+      //   pageState.onImageUploaded(localWebImage, localMobileImage);
+      // } else {
+      //   DandyToastUtil.showErrorToast('Image not loaded');
+      // }
     } catch (ex) {
       if (kDebugMode) {
         print(ex.toString());
@@ -163,7 +167,7 @@ class _SelectAPhotoPageState extends State<SelectAPhotoPage> with TickerProvider
     }
   }
 
-  Future<CroppedFile> cropImageForWeb(String path) async {
+  Future<CroppedFile?> cropImageForWeb(String path) async {
     return await ImageCropper().cropImage(
       sourcePath: path,
       maxWidth: 1920,
@@ -186,7 +190,7 @@ class _SelectAPhotoPageState extends State<SelectAPhotoPage> with TickerProvider
     );
   }
 
-  Future<CroppedFile> cropImageForMobile(String path) async {
+  Future<CroppedFile?> cropImageForMobile(String path) async {
     return await ImageCropper().cropImage(
       sourcePath: path,
       maxWidth: 1080,
