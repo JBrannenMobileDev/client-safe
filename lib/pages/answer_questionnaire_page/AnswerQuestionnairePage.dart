@@ -13,22 +13,24 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
+import '../../models/Profile.dart';
 import '../../models/Question.dart';
-import '../../utils/DeviceType.dart';
 import '../../utils/InputDoneView.dart';
 import '../../utils/Shadows.dart';
 import '../../widgets/TextDandyLight.dart';
+import 'AnswerQuestionnaireActions.dart';
 import 'AnswerQuestionnairePageState.dart';
 
 class AnswerQuestionnairePage extends StatefulWidget {
   final Questionnaire questionnaire;
+  final Profile profile;
   final bool isPreview;
   final bool isWebsite;
-  const AnswerQuestionnairePage({required Key key,required this.questionnaire,required this.isPreview,required this.isWebsite}) : super(key: key);
+  const AnswerQuestionnairePage({Key? key,required this.questionnaire,required this.isPreview,required this.isWebsite, required this.profile}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _AnswerQuestionnairePageState(questionnaire, questionnaire.questions!.length, isPreview, isWebsite);
+    return _AnswerQuestionnairePageState(questionnaire, questionnaire.questions!.length, isPreview, isWebsite, profile);
   }
 }
 
@@ -38,11 +40,13 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   bool isKeyboardVisible = false;
   OverlayEntry? overlayEntry;
   final Questionnaire questionnaire;
+  final Profile profile;
   TextEditingController titleTextController = TextEditingController();
   final messageController = TextEditingController();
   final FocusNode _messageFocusNode = FocusNode();
   final bool isPreview;
   final bool isWebsite;
+  AnswerQuestionnairePageState? pageStateGlobal;
 
   final int pageCount;
   int currentPageIndex = 0;
@@ -52,10 +56,22 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   setCurrentPage(int page) {
     setState(() {
       currentPageIndex = page;
+      Question question = pageStateGlobal!.questionnaire != null ? pageStateGlobal!.questionnaire!.questions!.elementAt(currentPageIndex) : questionnaire.questions!.elementAt(currentPageIndex);
+      switch(question.type) {
+        case Question.TYPE_SHORT_FORM_RESPONSE:
+          if(question.isAnswered()) {
+            print(question.shortAnswer);
+            shortFormTextController.text = question.shortAnswer ?? '';
+          }
+          break;
+        default: {
+          shortFormTextController.text = '';
+        }
+      }
     });
   }
 
-  _AnswerQuestionnairePageState(this.questionnaire, this.pageCount, this.isPreview, this.isWebsite);
+  _AnswerQuestionnairePageState(this.questionnaire, this.pageCount, this.isPreview, this.isWebsite, this.profile);
 
   @override
   void initState() {
@@ -86,9 +102,12 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
         onInit: (store) {
           titleTextController.text = questionnaire.title ?? '';
           messageController.text = questionnaire.message ?? '';
+          store.dispatch(FetchProfileForAnswerAction(store.state.answerQuestionnairePageState!, questionnaire));
         },
         onDidChange: (previous, current) {
-
+          setState(() {
+            pageStateGlobal = current;
+          });
         },
         converter: (Store<AppState> store) => AnswerQuestionnairePageState.fromStore(store),
         builder: (BuildContext context, AnswerQuestionnairePageState pageState) => Scaffold(
@@ -96,10 +115,14 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
               appBar: AppBar(
                 scrolledUnderElevation: 4,
                 iconTheme: IconThemeData(
-                  color: Color(ColorConstants.getPrimaryWhite()), //change your color here
+                  color: Color(ColorConstants.getPrimaryBlack()), //change your color here
                 ),
                 backgroundColor: Colors.transparent,
                 elevation: 0.0,
+                title: TextDandyLight(
+                  type: TextDandyLight.LARGE_TEXT,
+                  text: questionnaire.title,
+                ),
                 leading: IconButton(
                   onPressed: (){
                     Navigator.pop(context);
@@ -114,8 +137,8 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: [
-                    questionLayout(pageState),
-                    navigationButtons(pageState),
+                    questionLayout(pageState.questionnaire ?? questionnaire, pageState.profile ?? profile, pageState.onShortFormAnswerChanged!),
+                    isKeyboardVisible ? const SizedBox() : navigationButtons(pageState.profile ?? profile, pageState.questionnaire ?? questionnaire),
                   ],
                 ),
               ),
@@ -170,26 +193,26 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
     }
   }
 
-  Widget questionLayout(AnswerQuestionnairePageState pageState) {
+  Widget questionLayout(Questionnaire localQuestionnaire, Profile profile, Function(String, Question) onShortFormAnswerChanged) {
     return PageView.builder(
       controller: controller,
-      itemCount: pageState.questionnaire!.questions?.length,
+      itemCount: localQuestionnaire.questions?.length,
       onPageChanged: setCurrentPage,
       itemBuilder: (BuildContext context, int index){
-        Question question = pageState.questionnaire!.questions!.elementAt(index);
+        Question question = localQuestionnaire.questions!.elementAt(index);
         return Container(
           alignment: Alignment.topCenter,
           child: SingleChildScrollView(
             child: Column(
               children: [
-                questionnaire.questions!.elementAt(index).showImage! ? Stack(
+                localQuestionnaire.questions!.elementAt(index).mobileImageUrl != null && localQuestionnaire.questions!.elementAt(index).webImageUrl != null && (localQuestionnaire.questions!.elementAt(index).showImage ?? false) ? Stack(
                   alignment: Alignment.topCenter,
                   children: [
                     ClipRRect(
                       child: CachedNetworkImage(
                         fadeOutDuration: const Duration(milliseconds: 0),
                         fadeInDuration: const Duration(milliseconds: 200),
-                        imageUrl: questionnaire.questions!.elementAt(index).mobileImageUrl!,
+                        imageUrl: localQuestionnaire.questions!.elementAt(index).mobileImageUrl ?? '',
                         fit: BoxFit.fitWidth,
                         placeholder: (context, url) => Container(
                             height: 116,
@@ -217,8 +240,8 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                               ])),
                     ),
                   ],
-                ) : const SizedBox(),
-                getAnswerWidget(index+1, question, pageState)
+                ) : const SizedBox(height: 264),
+                getAnswerWidget(index+1, question, profile, onShortFormAnswerChanged)
               ],
             ),
           ),
@@ -227,7 +250,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
     );
   }
 
-  Widget navigationButtons(AnswerQuestionnairePageState pageState) {
+  Widget navigationButtons(Profile localProfile, Questionnaire localQuestionnaire) {
     return Container(
       height: MediaQuery.of(context).size.height,
       alignment: Alignment.bottomCenter,
@@ -256,7 +279,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                 padding: const EdgeInsets.only(left: 32, right: 32),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(topLeft: Radius.circular(16), bottomLeft: Radius.circular(16)),
-                  color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.buttonColor!),
+                  color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
                 ),
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
@@ -273,7 +296,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                   alignment: Alignment.center,
                   height: 64,
                   decoration: BoxDecoration(
-                    color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.buttonColor!).withOpacity(0.5),
+                    color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!).withOpacity(0.5),
                   ),
                   child: TextDandyLight(
                     type: TextDandyLight.LARGE_TEXT,
@@ -286,15 +309,16 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
             ),
             GestureDetector(
               onTap: () {
-                if(isNextEnabled(pageState)) {
+                if(isNextEnabled(localQuestionnaire.questions!.elementAt(currentPageIndex))) {
                   setState(() {
                     if(currentPageIndex < pageCount-1) {
                       currentPageIndex = currentPageIndex + 1;
+                      shortFormTextController.text = '';
                     }
                   });
                   controller.animateToPage(currentPageIndex, duration: const Duration(milliseconds: 250), curve: Curves.ease);
                 } else {
-                  DandyToastUtil.showToast('This question is required *', ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.buttonColor!));
+                  DandyToastUtil.showToast('This question is required *', ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!));
                 }
               },
               child: Container(
@@ -308,11 +332,11 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                   padding: const EdgeInsets.only(left: 32, right: 32),
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.only(topRight: Radius.circular(16), bottomRight: Radius.circular(16)),
-                    color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.buttonColor!),
+                    color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
                   ),
                   child: TextDandyLight(
                     type: TextDandyLight.LARGE_TEXT,
-                    text: 'Next',
+                    text: currentPageIndex == pageCount-1 ? 'Submit' : 'Next',
                     textAlign: TextAlign.center,
                     color: Color(ColorConstants.getPrimaryWhite()),
                   ),
@@ -324,9 +348,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
       ),
     );
   }
-
-  bool isNextEnabled(AnswerQuestionnairePageState pageState) {
-    Question question = pageState.questionnaire!.questions!.elementAt(currentPageIndex);
+  bool isNextEnabled(Question question) {
     bool isEnabled = false;
     if(isPreview) {
       isEnabled = !question.isRequired! || question.isRequired! && shortFormTextController.text.isNotEmpty;
@@ -336,11 +358,11 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
     return isEnabled;
   }
 
-  Widget getAnswerWidget(int questionNumber, Question question, AnswerQuestionnairePageState pageState) {
+  Widget getAnswerWidget(int questionNumber, Question question, Profile profile, Function(String, Question) onShortFormAnswerChanged) {
     Widget result = const SizedBox();
     switch(question.type) {
       case Question.TYPE_SHORT_FORM_RESPONSE:
-        result = buildShortFormResponseAnswerWidget(questionNumber, question, pageState);
+        result = buildShortFormResponseAnswerWidget(questionNumber, question, profile, onShortFormAnswerChanged);
         break;
     }
     return result;
@@ -349,7 +371,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   Widget buildQuestionWidget(int questionNumber, Question question) {
     return Container(
       alignment: Alignment.topLeft,
-      margin: const EdgeInsets.only(left: 32, top: 24),
+      margin: const EdgeInsets.only(left: 32, top: 24, right: 32),
       child: TextDandyLight(
         type: TextDandyLight.LARGE_TEXT,
         text: '$questionNumber. ${question.question} ${question.isRequired! ? '*' : ''}',
@@ -359,7 +381,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
 
   TextEditingController shortFormTextController = TextEditingController();
   final FocusNode shortFormFocusNode = FocusNode();
-  Widget buildShortFormResponseAnswerWidget(int questionNumber, Question question, AnswerQuestionnairePageState pageState) {
+  Widget buildShortFormResponseAnswerWidget(int questionNumber, Question question, Profile localProfile, Function(String, Question) onShortFormAnswerChanged) {
     return isWebsite ? Container(
 
     ) : Container(
@@ -377,9 +399,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
               maxLines: 1,
               controller: shortFormTextController,
               onChanged: (text) {
-                if(!isPreview) {
-                  pageState.onShortFormAnswerChanged!(text, question);
-                }
+                onShortFormAnswerChanged(text, question);
               },
               onFieldSubmitted: (term) {
                 shortFormFocusNode.unfocus();
@@ -391,7 +411,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                   fontFamily: TextDandyLight.getFontFamily(),
                   fontSize: TextDandyLight.getFontSize(TextDandyLight.LARGE_TEXT),
                   fontWeight: TextDandyLight.getFontWeight(),
-                  color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.buttonColor!).withOpacity(0.5),
+                  color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!).withOpacity(0.5),
                   fontStyle: FontStyle.italic,
                 ),
               ),
@@ -401,7 +421,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                   fontFamily: TextDandyLight.getFontFamily(),
                   fontSize: TextDandyLight.getFontSize(TextDandyLight.LARGE_TEXT),
                   fontWeight: FontWeight.w500,
-                  color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.buttonColor!)),
+                  color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!)),
               textAlignVertical: TextAlignVertical.center,
             ),
           ),
@@ -409,7 +429,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
             height: 2,
             width: MediaQuery.of(context).size.width,
             margin: const EdgeInsets.only(left: 32, right: 32, top: 8),
-            color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.buttonColor!),
+            color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
           )
         ],
       ),

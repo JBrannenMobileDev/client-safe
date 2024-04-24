@@ -13,7 +13,7 @@ class DandyLightNetworkImage extends StatelessWidget {
   final Color color;
   final Color errorIconColor;
   final double borderRadius;
-  final BorderRadiusGeometry borderRadiusOnly;
+  final BorderRadiusGeometry? borderRadiusOnly;
   final int resizeWidth;
   final double errorIconSize;
   final BoxFit fit;

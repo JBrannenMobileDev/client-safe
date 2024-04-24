@@ -42,7 +42,7 @@ class SelectAPhotoPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _resizeMobileImage(Store<AppState> store, ResizeAndSaveUploadedImageAction action, NextDispatcher next) async {
-    store.dispatch(SetLoadingStateAction(store.state.selectAPhotoPageState, true));
+    store.dispatch(SetLoadingStateAction(store.state.selectAPhotoPageState!, true));
     final Directory appDocumentDirectory = await getApplicationDocumentsDirectory();
     final String uniqueFileName = Uuid().generateV4();
     final cmdLarge = img.Command()
@@ -52,8 +52,8 @@ class SelectAPhotoPageMiddleware extends MiddlewareClass<AppState> {
     await cmdLarge.execute();
     XFile resizedImage = XFile(appDocumentDirectory.path + '/$uniqueFileName' + 'question.jpg');
     save(url) {
-      store.dispatch(SetLoadingStateAction(store.state.selectAPhotoPageState, false));
-      store.dispatch(AddNewMobileImageToStateAction(store.state.selectAPhotoPageState, url));
+      store.dispatch(SetLoadingStateAction(store.state.selectAPhotoPageState!, false));
+      store.dispatch(AddNewMobileImageToStateAction(store.state.selectAPhotoPageState!, url));
     }
     await FileStorage.saveQuestionMobileImageFile(
         resizedImage.path,
@@ -62,7 +62,7 @@ class SelectAPhotoPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void saveImageUrl(String url, Store<AppState> store) {
-    store.dispatch(AddNewMobileImageToStateAction(store.state.selectAPhotoPageState, url));
+    store.dispatch(AddNewMobileImageToStateAction(store.state.selectAPhotoPageState!, url));
   }
 
   void _loadPosesToReview(Store<AppState> store) async {
@@ -76,7 +76,7 @@ class SelectAPhotoPageMiddleware extends MiddlewareClass<AppState> {
         mobileImages.add(url);
       }
     }
-    store.dispatch(SetLoadingStateAction(store.state.selectAPhotoPageState, false));
-    store.dispatch(SetUploadsToState(store.state.selectAPhotoPageState, mobileImages));
+    store.dispatch(SetLoadingStateAction(store.state.selectAPhotoPageState!, false));
+    store.dispatch(SetUploadsToState(store.state.selectAPhotoPageState!, mobileImages));
   }
 }

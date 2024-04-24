@@ -7,8 +7,7 @@ import 'AnswerQuestionnairePageState.dart';
 class SetQuestionnaireAction{
   final AnswerQuestionnairePageState pageState;
   final Questionnaire questionnaire;
-  final String jobDocumentId;
-  SetQuestionnaireAction(this.pageState, this.questionnaire, this.jobDocumentId);
+  SetQuestionnaireAction(this.pageState, this.questionnaire);
 }
 
 class ClearAnswerState {
@@ -20,7 +19,8 @@ class ClearAnswerState {
 
 class FetchProfileForAnswerAction {
   final AnswerQuestionnairePageState pageState;
-  FetchProfileForAnswerAction(this.pageState);
+  final Questionnaire questionnaire;
+  FetchProfileForAnswerAction(this.pageState, this.questionnaire);
 }
 
 class SetProfileForAnswerAction {

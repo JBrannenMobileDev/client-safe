@@ -96,11 +96,11 @@ class AppState {
   final ContractsPageState? contractsPageState;
   final ContractEditPageState? contractEditPageState;
   final EditBrandingPageState? editBrandingPageState;
-  final QuestionnairesPageState questionnairesPageState;
-  final NewQuestionnairePageState newQuestionnairePageState;
-  final NewQuestionPageState newQuestionPageState;
-  final SelectAPhotoPageState selectAPhotoPageState;
-  final AnswerQuestionnairePageState answerQuestionnairePageState;
+  final QuestionnairesPageState? questionnairesPageState;
+  final NewQuestionnairePageState? newQuestionnairePageState;
+  final NewQuestionPageState? newQuestionPageState;
+  final SelectAPhotoPageState? selectAPhotoPageState;
+  final AnswerQuestionnairePageState? answerQuestionnairePageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -253,11 +253,11 @@ class AppState {
     ContractsPageState? contractsPageState,
     ContractEditPageState? contractEditPageState,
     EditBrandingPageState? editBrandingPageState,
-    QuestionnairesPageState questionnairesPageState,
-    NewQuestionnairePageState newQuestionnairePageState,
-    NewQuestionPageState newQuestionPageState,
-    SelectAPhotoPageState selectAPhotoPageState,
-    AnswerQuestionnairePageState answerQuestionnairePageState,
+    QuestionnairesPageState? questionnairesPageState,
+    NewQuestionnairePageState? newQuestionnairePageState,
+    NewQuestionPageState? newQuestionPageState,
+    SelectAPhotoPageState? selectAPhotoPageState,
+    AnswerQuestionnairePageState? answerQuestionnairePageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,

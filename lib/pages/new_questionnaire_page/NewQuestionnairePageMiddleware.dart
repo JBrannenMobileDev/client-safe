@@ -35,14 +35,14 @@ class NewQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
 
   void fetchProfile(Store<AppState> store, FetchProfileForNewQuestionnaireAction action, NextDispatcher next) async{
     Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    next(SetProfileForNewQuestionnaireAction(store.state.newQuestionnairePageState, profile!));
+    next(SetProfileForNewQuestionnaireAction(store.state.newQuestionnairePageState!, profile!));
   }
 
   void deleteQuestionnaire(Store<AppState> store, DeleteQuestionnaireAction action, NextDispatcher next) async{
     if(action.pageState.questionnaire != null) {
       await QuestionnairesDao.delete(action.pageState.questionnaire!.documentId!);
       await QuestionnairesDao.delete(action.pageState.questionnaire!.documentId!);
-      store.dispatch(FetchQuestionnairesAction(store.state.questionnairesPageState));
+      store.dispatch(FetchQuestionnairesAction(store.state.questionnairesPageState!));
     }
   }
 
@@ -71,7 +71,7 @@ class NewQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
       questionnaire = await QuestionnairesDao.insertOrUpdate(questionnaire);
     }
 
-    store.dispatch(FetchQuestionnairesAction(store.state.questionnairesPageState));
+    store.dispatch(FetchQuestionnairesAction(store.state.questionnairesPageState!));
 
     if(action.pageState.isNew ?? true) {
       EventSender().sendEvent(eventName: EventNames.QUESTIONNAIRE_CREATED);

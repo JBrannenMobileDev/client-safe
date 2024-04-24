@@ -17,7 +17,7 @@ class QuestionnaireDocument implements DocumentItem {
       margin: const EdgeInsets.only(right: 18.0, top: 0.0),
       height: 42.0,
       width: 42.0,
-      child: Image.asset('assets/images/icons/questionnaire_solid.png', color: Color(ColorConstants.getPeachDark())),
+      child: Image.asset('assets/images/icons/questionnaire_thin.png', color: Color(ColorConstants.getPeachDark())),
     );
   }
 

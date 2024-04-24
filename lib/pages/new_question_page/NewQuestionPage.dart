@@ -96,9 +96,9 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
   Widget build(BuildContext context) =>
       StoreConnector<AppState, NewQuestionPageState>(
         onInit: (store) {
-          store.dispatch(ClearNewQuestionState(store.state.newQuestionPageState));
+          store.dispatch(ClearNewQuestionState(store.state.newQuestionPageState!));
           if(question != null) {
-            store.dispatch(SetQuestionAction(store.state.newQuestionPageState, question!));
+            store.dispatch(SetQuestionAction(store.state.newQuestionPageState!, question!));
 
             if(question!.question != null && question!.question!.isNotEmpty) {
               questionTextController.text = question!.question!;
@@ -157,6 +157,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
             },
             child: Scaffold(
               appBar: AppBar(
+                surfaceTintColor: Color(ColorConstants.getPrimaryWhite()),
                 scrolledUnderElevation: 4,
                 iconTheme: IconThemeData(
                   color: Color(ColorConstants.getPrimaryBlack()), //change your color here
@@ -1223,7 +1224,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                       text: '$number.  ',
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width - 86,
+                      width: MediaQuery.of(context).size.width - 87,
                       child: TextFormField(
                         cursorColor: Color(ColorConstants.getBlueDark()),
                         focusNode: questionFocusNode,

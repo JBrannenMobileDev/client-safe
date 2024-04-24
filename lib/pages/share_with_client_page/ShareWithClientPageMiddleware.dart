@@ -4,7 +4,6 @@ import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:redux/redux.dart';
-import 'package:sembast/sembast.dart';
 import '../../models/Job.dart';
 import '../../models/Proposal.dart';
 import '../job_details_page/JobDetailsActions.dart';
@@ -42,10 +41,12 @@ class ShareWithClientPageMiddleware extends MiddlewareClass<AppState> {
 
   void saveQuestionnairesCheckedState(Store<AppState> store, SetQuestionnairesCheckBox action, NextDispatcher next) async {
     store.dispatch(UpdateQuestionnairesCheckInProgressStateAction(store.state.shareWithClientPageState, true));
-    Job job = await JobDao.getJobById(action.pageState.job.documentId);
-    job.proposal.includeQuestionnaires = action.checked;
-    await JobDao.update(job);
-    next(SetQuestionnairesCheckBox(store.state.shareWithClientPageState, action.checked));
+    Job? job = await JobDao.getJobById(action.pageState!.job!.documentId);
+    job?.proposal?.includeQuestionnaires = action.checked;
+    if(job != null) {
+      await JobDao.update(job);
+      next(SetQuestionnairesCheckBox(store.state.shareWithClientPageState, action.checked));
+    }
   }
 
   void savePosesCheckedState(Store<AppState> store, SetPosesCheckBox action, NextDispatcher next) async {

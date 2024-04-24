@@ -4,19 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import '../../widgets/TextDandyLight.dart';
+import '../models/Profile.dart';
 import '../models/Questionnaire.dart';
 
 class QuestionnaireOptionsBottomSheet extends StatefulWidget {
   final bool isComplete;
   final Function openQuestionnaireEditPage;
   final Questionnaire questionnaire;
+  final Profile profile;
 
-  QuestionnaireOptionsBottomSheet(this.isComplete, this.openQuestionnaireEditPage, this.questionnaire);
+  QuestionnaireOptionsBottomSheet(this.isComplete, this.openQuestionnaireEditPage, this.questionnaire, this.profile);
 
 
   @override
   State<StatefulWidget> createState() {
-    return _QuestionnaireOptionsBottomSheetPageState(isComplete, openQuestionnaireEditPage, questionnaire);
+    return _QuestionnaireOptionsBottomSheetPageState(isComplete, openQuestionnaireEditPage, questionnaire, profile);
   }
 }
 
@@ -24,14 +26,16 @@ class _QuestionnaireOptionsBottomSheetPageState extends State<QuestionnaireOptio
   final bool isComplete;
   final Function openQuestionnaireEditPage;
   final Questionnaire questionnaire;
+  final Profile profile;
 
-  _QuestionnaireOptionsBottomSheetPageState(this.isComplete, this.openQuestionnaireEditPage, this.questionnaire);
+  _QuestionnaireOptionsBottomSheetPageState(this.isComplete, this.openQuestionnaireEditPage, this.questionnaire, this.profile);
 
 
   @override
   Widget build(BuildContext context) =>
       Container(
         height: 264.0,
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(topRight: Radius.circular(16), topLeft: Radius.circular(16)),
           color: Color(ColorConstants.getPrimaryWhite()),
@@ -92,7 +96,7 @@ class _QuestionnaireOptionsBottomSheetPageState extends State<QuestionnaireOptio
                 GestureDetector(
                   onTap: () {
                     Navigator.of(context).pop();
-                    NavigationUtil.onInAppPreviewQuestionnaireSelected(context, questionnaire);
+                    NavigationUtil.onInAppPreviewQuestionnaireSelected(context, questionnaire, profile);
                   },
                   child: Container(
                     alignment: Alignment.center,

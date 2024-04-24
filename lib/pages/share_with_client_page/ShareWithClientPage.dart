@@ -477,9 +477,9 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                                     value: questionnairesChecked,
                                     activeColor: Color(ColorConstants.getPeachDark()),
                                     onChanged: (selected) {
-                                      pageState.onQuestionnairesCheckBoxSelected(selected);
+                                      pageState.onQuestionnairesCheckBoxSelected!(selected ?? false);
                                       setState(() {
-                                        questionnairesChecked = selected;
+                                        questionnairesChecked = selected ?? false;
                                       });
                                     },
                                     controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
@@ -530,7 +530,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                       child: GestureDetector(
                         onTap: () {
                           if(pageState.profile!.isProfileComplete() && pageState.profile!.hasSetupBrand! && pageState.profile!.paymentOptionsSelected()) {
-                            if(pageState.updateContractCheckInProgress || pageState.updateInvoiceCheckInProgress! || pageState.updatePosesCheckInProgress! || pageState.updateQuestionnairesCheckInProgress!) {
+                            if((pageState.updateContractCheckInProgress ?? false) || pageState.updateInvoiceCheckInProgress! || pageState.updatePosesCheckInProgress! || pageState.updateQuestionnairesCheckInProgress!) {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -616,10 +616,10 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
                           String emailTitle = pageState.profile!.businessName != null && pageState.profile!.businessName!.isNotEmpty ? '${pageState.profile!.businessName} - Session details' : pageState.profile!.firstName != null && pageState.profile!.firstName!.isNotEmpty ? '${pageState.profile!.firstName} - Session details' : 'Session details';
                           UserOptionsUtil.showShareClientPortalOptionsSheet(context, pageState.job!.client!,  emailTitle, profile!, job!);
                           EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED, properties: {
-                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_INVOICE : pageState.invoiceSelected,
-                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_CONTRACT : pageState.contractSelected,
-                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_POSES : pageState.posesSelected,
-                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_QUESTIONNAIRES : pageState.questionnairesSelected,
+                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_INVOICE : pageState.invoiceSelected ?? false,
+                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_CONTRACT : pageState.contractSelected ?? false,
+                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_POSES : pageState.posesSelected ?? false,
+                            EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_QUESTIONNAIRES : pageState.questionnairesSelected ?? false,
                             EventNames.SHARE_WITH_CLIENT_SHARE_SELECTED_PARAM_LINK : 'https://dandylight.com/clientPortal/${profile!.uid}+${job!.documentId}',
                           });
                         },

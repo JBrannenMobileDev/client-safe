@@ -45,10 +45,10 @@ class AnswerQuestionnairePageState{
 
   factory AnswerQuestionnairePageState.fromStore(Store<AppState> store) {
     return AnswerQuestionnairePageState(
-      questionnaire: store.state.newQuestionnairePageState.questionnaire,
-      profile: store.state.newQuestionnairePageState.profile,
-      isNew: store.state.newQuestionnairePageState.isNew,
-      onShortFormAnswerChanged: (answer, question) => store.dispatch(SaveShortFormAnswerAction(store.state.answerQuestionnairePageState, answer, question)),
+      questionnaire: store.state.answerQuestionnairePageState!.questionnaire,
+      profile: store.state.answerQuestionnairePageState!.profile,
+      isNew: store.state.answerQuestionnairePageState!.isNew,
+      onShortFormAnswerChanged: (answer, question) => store.dispatch(SaveShortFormAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
     );
   }
 

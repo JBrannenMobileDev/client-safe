@@ -35,9 +35,9 @@ class SelectAPhotoPageState{
 
   factory SelectAPhotoPageState.fromStore(Store<AppState> store) {
     return SelectAPhotoPageState(
-      uploadImages: store.state.selectAPhotoPageState.uploadImages,
-      isLoading: store.state.selectAPhotoPageState.isLoading,
-      onImageUploaded: (webImage, mobileImage) => store.dispatch(ResizeAndSaveUploadedImageAction(store.state.selectAPhotoPageState, webImage, mobileImage)),
+      uploadImages: store.state.selectAPhotoPageState!.uploadImages,
+      isLoading: store.state.selectAPhotoPageState!.isLoading,
+      onImageUploaded: (webImage, mobileImage) => store.dispatch(ResizeAndSaveUploadedImageAction(store.state.selectAPhotoPageState!, webImage, mobileImage)),
     );
   }
 

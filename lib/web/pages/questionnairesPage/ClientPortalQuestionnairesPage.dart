@@ -36,14 +36,14 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                     margin: const EdgeInsets.only(top: 32, bottom: 48),
                     child: TextDandyLight(
                       type: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextDandyLight.EXTRA_LARGE_TEXT : TextDandyLight.LARGE_TEXT,
-                      fontFamily: pageState.profile.selectedFontTheme.mainFont,
+                      fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
                       text: 'Questionnaires',
                     ),
                   ),
                   SizedBox(
                     width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 1440 : MediaQuery.of(context).size.width,
                     child: GridView.builder(
-                      itemCount: pageState.proposal.questionnaires.length,
+                      itemCount: pageState.proposal!.questionnaires!.length,
                       itemBuilder: (context, index) => buildItem(index, pageState),
                       physics: const NeverScrollableScrollPhysics(), // to disable GridView's scrolling
                       shrinkWrap: true,
@@ -68,9 +68,9 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
   Widget buildItem(int index, ClientPortalPageState pageState) {
     return GestureDetector(
       onTap: () {
-        NavigationUtil.onAnswerQuestionnaireSelected(context, false, pageState.proposal.questionnaires.elementAt(index), DeviceType.getDeviceTypeByContext(context) == Type.Website);
+        NavigationUtil.onAnswerQuestionnaireSelected(context, false, pageState.proposal!.questionnaires!.elementAt(index), DeviceType.getDeviceTypeByContext(context) == Type.Website, pageState.profile!);
       },
-      child: pageState.proposal.questionnaires.elementAt(index).hasImage() ? SizedBox(
+      child: pageState.proposal!.questionnaires!.elementAt(index).hasImage() ? SizedBox(
         height: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : 2.25),
         child: Stack(
           alignment: Alignment.topRight,
@@ -88,13 +88,13 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  pageState.proposal.questionnaires.elementAt(index).hasImage() ? ClipRRect(
+                  pageState.proposal!.questionnaires!.elementAt(index).hasImage() ? ClipRRect(
                     borderRadius: const BorderRadius.only(topRight: Radius.circular(16), topLeft: Radius.circular(16)), // Image border
                     child: SizedBox(
                       width: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 2.25 : 1),
                       height: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 6 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 3.5 : 1.5),
                       child: Image.network(
-                        pageState.proposal.questionnaires.elementAt(index).getDisplayImageUrl(),
+                        pageState.proposal!.questionnaires!.elementAt(index).getDisplayImageUrl(),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -110,7 +110,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                           child: TextDandyLight(
                             textAlign: TextAlign.start,
                             type: TextDandyLight.LARGE_TEXT,
-                            text: pageState.proposal.questionnaires.elementAt(index).title,
+                            text: pageState.proposal!.questionnaires!.elementAt(index).title,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -121,7 +121,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                           child: TextDandyLight(
                             textAlign: TextAlign.start,
                             type: TextDandyLight.MEDIUM_TEXT,
-                            text: '${pageState.proposal.questionnaires.elementAt(index).questions.length} questions (~${pageState.proposal.questionnaires.elementAt(index).getLengthInMinutes()}min)',
+                            text: '${pageState.proposal!.questionnaires!.elementAt(index).questions!.length} questions (~${pageState.proposal!.questionnaires!.elementAt(index).getLengthInMinutes()}min)',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -138,7 +138,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(32),
-                  color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
+                  color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.buttonColor!)
               ),
               child: Icon(Icons.check, color: Color(ColorConstants.getPrimaryWhite()),),
             )
@@ -181,7 +181,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                             child: TextDandyLight(
                               textAlign: TextAlign.start,
                               type: TextDandyLight.LARGE_TEXT,
-                              text: pageState.proposal.questionnaires.elementAt(index).title,
+                              text: pageState.proposal!.questionnaires!.elementAt(index).title,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -192,7 +192,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                             child: TextDandyLight(
                               textAlign: TextAlign.start,
                               type: TextDandyLight.MEDIUM_TEXT,
-                              text: '${pageState.proposal.questionnaires.elementAt(index).questions.length} questions (~${pageState.proposal.questionnaires.elementAt(index).getLengthInMinutes()}min)',
+                              text: '${pageState.proposal!.questionnaires!.elementAt(index).questions!.length} questions (~${pageState.proposal!.questionnaires!.elementAt(index).getLengthInMinutes()}min)',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -210,7 +210,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(32),
-                  color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
+                  color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.buttonColor!)
               ),
               child: Icon(Icons.check, color: Color(ColorConstants.getPrimaryWhite()),),
             )

@@ -98,17 +98,17 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
   Widget build(BuildContext context) =>
       StoreConnector<AppState, NewQuestionnairePageState>(
         onInit: (store) {
-          store.dispatch(ClearNewQuestionnaireState(store.state.newQuestionnairePageState, isNew!, title!));
+          store.dispatch(ClearNewQuestionnaireState(store.state.newQuestionnairePageState!, isNew!, title!));
           if(questionnaire != null) {
-            store.dispatch(SetQuestionnaireAction(store.state.newQuestionnairePageState, questionnaire, jobDocumentId));
+            store.dispatch(SetQuestionnaireAction(store.state.newQuestionnairePageState!, questionnaire, jobDocumentId));
             questions = List.of(questionnaire?.questions ?? []);
           } else {
             Questionnaire questionnaire = Questionnaire();
             questionnaire.questions = [];
-            store.dispatch(SetQuestionnaireAction(store.state.newQuestionnairePageState, questionnaire, jobDocumentId));
+            store.dispatch(SetQuestionnaireAction(store.state.newQuestionnairePageState!, questionnaire, jobDocumentId));
             questions = [];
           }
-          store.dispatch(FetchProfileForNewQuestionnaireAction(store.state.newQuestionnairePageState));
+          store.dispatch(FetchProfileForNewQuestionnaireAction(store.state.newQuestionnairePageState!));
 
           if(questionnaire != null) {
             titleTextController.text = questionnaire!.title!;
@@ -177,6 +177,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
             child: Scaffold(
               appBar: AppBar(
                 scrolledUnderElevation: 4,
+                surfaceTintColor: Color(ColorConstants.getPrimaryWhite()),
                 iconTheme: IconThemeData(
                   color: Color(ColorConstants.getPrimaryBlack()), //change your color here
                 ),
@@ -362,7 +363,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                           alignment: Alignment.bottomCenter,
                           child: GestureDetector(
                             onTap: () {
-                              NavigationUtil.onAnswerQuestionnaireSelected(context, true, questionnaire!, false);
+                              NavigationUtil.onAnswerQuestionnaireSelected(context, true, questionnaire!, false, pageState.profile!);
                             },
                             child: Container(
                               alignment: Alignment.center,

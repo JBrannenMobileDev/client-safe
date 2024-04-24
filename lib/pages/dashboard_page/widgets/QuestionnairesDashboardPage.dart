@@ -115,7 +115,7 @@ class _QuestionnairesDashboardPageState extends State<QuestionnairesDashboardPag
                                 return TextButton(
                                   style: Styles.getButtonStyle(),
                                   onPressed: () async {
-                                    UserOptionsUtil.showQuestionnaireOptionsSheet(context, getListBasedOnSelectorIndex(selectorIndex, pageState).elementAt(index), openQuestionnaireEditPage);
+                                    UserOptionsUtil.showQuestionnaireOptionsSheet(context, getListBasedOnSelectorIndex(selectorIndex, pageState).elementAt(index), openQuestionnaireEditPage, pageState.profile!);
                                   },
                                   child: SizedBox(
                                     height: 54.0,

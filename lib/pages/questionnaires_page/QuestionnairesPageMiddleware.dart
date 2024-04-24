@@ -53,9 +53,9 @@ class QuestionnairesPageMiddleware extends MiddlewareClass<AppState> {
           questionnaires.add(Questionnaire.fromMap(record.value as Map<String,dynamic>));
         }
 
-        store.dispatch(SetQuestionnairesAction(store.state.questionnairesPageState, questionnaires));
+        store.dispatch(SetQuestionnairesAction(store.state.questionnairesPageState!, questionnaires));
       });
 
-      store.dispatch(SetActiveJobsToQuestionnairesAction(store.state.questionnairesPageState, store.state.dashboardPageState!.activeJobs!));
+      store.dispatch(SetActiveJobsToQuestionnairesAction(store.state.questionnairesPageState!, store.state.dashboardPageState!.activeJobs!));
   }
 }

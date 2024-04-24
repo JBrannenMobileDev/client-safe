@@ -69,8 +69,8 @@ class NavigationUtil {
   static onInAppPreviewContractSelected(BuildContext context, String jsonTerms) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => PreviewContractPage(jsonTerms: jsonTerms)));
   }
-  static onInAppPreviewQuestionnaireSelected(BuildContext context, Questionnaire questionnaire) {
-    // Navigator.of(context).push(MaterialPageRoute(builder: (context) => null));
+  static onInAppPreviewQuestionnaireSelected(BuildContext context, Questionnaire questionnaire, Profile profile) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => AnswerQuestionnairePage(questionnaire: questionnaire, isPreview: true, isWebsite: false, profile: profile)));
   }
   static onJobTapped(BuildContext context, bool comingFromOnBoarding) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobDetailsPage(comingFromOnBoarding: comingFromOnBoarding,)));
@@ -194,8 +194,8 @@ class NavigationUtil {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => SelectAPhotoPage(onImageSelected: onImageSelected)));
   }
 
-  static void onAnswerQuestionnaireSelected(BuildContext context, bool isPreview, Questionnaire questionnaire, bool isWebsite) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => AnswerQuestionnairePage(questionnaire: questionnaire, isPreview: isPreview, isWebsite: isWebsite)));
+  static void onAnswerQuestionnaireSelected(BuildContext context, bool isPreview, Questionnaire questionnaire, bool isWebsite, Profile profile) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => AnswerQuestionnairePage(questionnaire: questionnaire, isPreview: isPreview, isWebsite: isWebsite, profile: profile)));
   }
 }
 

@@ -232,7 +232,7 @@ class _SignContractPageState extends State<ProposalPage> {
                     ),
                   ) : Container(),
                 ),
-                DeviceType.getDeviceTypeByContext(context) != Type.Website && _menuButtonsSmallScreen(pageState) != null ? _menuButtonsSmallScreen(pageState)! : SizedBox()
+                DeviceType.getDeviceTypeByContext(context) != Type.Website ? _menuButtonsSmallScreen(pageState) : const SizedBox()
               ],
             ),
           ),
@@ -375,7 +375,7 @@ class _SignContractPageState extends State<ProposalPage> {
           },
         ),
       ) : SizedBox(),
-      pageState.proposal.includeQuestionnaires && pageState.proposal?.questionnaires != null ? GestureDetector(
+      (pageState.proposal!.includeQuestionnaires ?? false) && pageState.proposal?.questionnaires != null ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = QUESTIONNAIRE;
@@ -500,12 +500,12 @@ class _SignContractPageState extends State<ProposalPage> {
       ));
     }
 
-    if(pageState.proposal.questionnaires != null && pageState.proposal.questionnaires.isNotEmpty && pageState.proposal.includeQuestionnaires) {
+    if(pageState.proposal!.questionnaires != null && pageState.proposal!.questionnaires!.isNotEmpty && (pageState.proposal!.includeQuestionnaires ?? false)) {
       result.add(GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = QUESTIONNAIRE;
-            _controller.jumpTo(0);
+            _controller!.jumpTo(0);
           });
           EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_QUESTIONNAIRE_SELECTED);
         },
@@ -544,7 +544,7 @@ class _SignContractPageState extends State<ProposalPage> {
   }
 
   Widget _menuButtonsSmallScreen(ClientPortalPageState pageState) {
-    if((pageState.proposal.contract != null && pageState.proposal.includeContract) || (pageState.invoice != null && pageState.proposal.includeInvoice) || (pageState.job.poses != null && pageState.job.poses.isNotEmpty && pageState.proposal.includePoses) || (pageState.proposal.questionnaires != null && pageState.proposal.questionnaires.isNotEmpty && pageState.proposal.includeQuestionnaires)) {
+    if((pageState.proposal!.contract != null && pageState.proposal!.includeContract!) || (pageState.invoice != null && pageState.proposal!.includeInvoice!) || (pageState.job!.poses != null && pageState.job!.poses!.isNotEmpty && pageState.proposal!.includePoses!) || (pageState.proposal!.questionnaires != null && pageState.proposal!.questionnaires!.isNotEmpty && (pageState.proposal!.includeQuestionnaires ?? false))) {
       List<Widget> buttons = buildButtonList(pageState);
       return UnconstrainedBox(
         child: Container(
@@ -564,7 +564,7 @@ class _SignContractPageState extends State<ProposalPage> {
         ),
       );
     } else {
-      return null;
+      return const SizedBox();
     }
   }
 

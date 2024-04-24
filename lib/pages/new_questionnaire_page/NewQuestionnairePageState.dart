@@ -78,17 +78,17 @@ class NewQuestionnairePageState{
 
   factory NewQuestionnairePageState.fromStore(Store<AppState> store) {
     return NewQuestionnairePageState(
-      questionnaire: store.state.newQuestionnairePageState.questionnaire,
-      questionnaireName: store.state.newQuestionnairePageState.questionnaireName,
-      profile: store.state.newQuestionnairePageState.profile,
-      isNew: store.state.newQuestionnairePageState.isNew,
-      newFromName: store.state.newQuestionnairePageState.newFromName,
-      message: store.state.newQuestionnairePageState.message,
-      onQuestionnaireSaved: (jobDocumentId, questions, isNew) => store.dispatch(SaveQuestionnaireAction(store.state.newQuestionnairePageState, jobDocumentId, questions, isNew)),
-      onNameChanged: (name) => store.dispatch(SetQuestionnaireNameAction(store.state.newQuestionnairePageState, name)),
-      onDeleteSelected: () => store.dispatch(DeleteQuestionnaireAction(store.state.newQuestionnairePageState)),
-      onMessageChanged: (message) => store.dispatch(SetMessageToClientAction(store.state.newQuestionnairePageState, message)),
-      onQuestionSaved: (question) => store.dispatch(OnAddOrUpdateQuestionSelected(store.state.newQuestionnairePageState, question)),
+      questionnaire: store.state.newQuestionnairePageState!.questionnaire,
+      questionnaireName: store.state.newQuestionnairePageState!.questionnaireName,
+      profile: store.state.newQuestionnairePageState!.profile,
+      isNew: store.state.newQuestionnairePageState!.isNew,
+      newFromName: store.state.newQuestionnairePageState!.newFromName,
+      message: store.state.newQuestionnairePageState!.message,
+      onQuestionnaireSaved: (jobDocumentId, questions, isNew) => store.dispatch(SaveQuestionnaireAction(store.state.newQuestionnairePageState!, jobDocumentId, questions, isNew)),
+      onNameChanged: (name) => store.dispatch(SetQuestionnaireNameAction(store.state.newQuestionnairePageState!, name)),
+      onDeleteSelected: () => store.dispatch(DeleteQuestionnaireAction(store.state.newQuestionnairePageState!)),
+      onMessageChanged: (message) => store.dispatch(SetMessageToClientAction(store.state.newQuestionnairePageState!, message)),
+      onQuestionSaved: (question) => store.dispatch(OnAddOrUpdateQuestionSelected(store.state.newQuestionnairePageState!, question)),
     );
   }
 

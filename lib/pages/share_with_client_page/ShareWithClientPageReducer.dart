@@ -125,10 +125,10 @@ ShareWithClientPageState _setPosesChecked(ShareWithClientPageState previousState
 }
 
 ShareWithClientPageState _setQuestionnairesChecked(ShareWithClientPageState previousState, SetQuestionnairesCheckBox action){
-  action.pageState.job.proposal.includeQuestionnaires = action.checked;
+  action.pageState?.job?.proposal?.includeQuestionnaires = action.checked;
   return previousState.copyWith(
     questionnairesSelected: action.checked,
-    job: action.pageState.job,
+    job: action.pageState!.job,
     areChangesSaved: false,
     updateQuestionnairesCheckInProgress: false,
   );

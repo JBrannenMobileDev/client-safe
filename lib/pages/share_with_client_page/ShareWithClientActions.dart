@@ -38,8 +38,8 @@ class SetPosesCheckBox{
 }
 
 class SetQuestionnairesCheckBox {
-  final ShareWithClientPageState pageState;
-  final bool checked;
+  final ShareWithClientPageState? pageState;
+  final bool? checked;
   SetQuestionnairesCheckBox(this.pageState, this.checked);
 }
 
@@ -67,8 +67,8 @@ class UpdatePosesCheckInProgressStateAction {
 }
 
 class UpdateQuestionnairesCheckInProgressStateAction {
-  final ShareWithClientPageState pageState;
-  final bool inProgress;
+  final ShareWithClientPageState? pageState;
+  final bool? inProgress;
   UpdateQuestionnairesCheckInProgressStateAction(this.pageState, this.inProgress);
 }
 

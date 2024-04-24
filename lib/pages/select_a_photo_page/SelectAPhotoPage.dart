@@ -47,8 +47,8 @@ class _SelectAPhotoPageState extends State<SelectAPhotoPage> with TickerProvider
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, SelectAPhotoPageState>(
     onInit: (store) {
-      store.dispatch(ClearSelectAPoseStateAction(store.state.selectAPhotoPageState));
-      store.dispatch(LoadUploadedPhotosAction(store.state.selectAPhotoPageState));
+      store.dispatch(ClearSelectAPoseStateAction(store.state.selectAPhotoPageState!));
+      store.dispatch(LoadUploadedPhotosAction(store.state.selectAPhotoPageState!));
     },
     converter: (Store<AppState> store) => SelectAPhotoPageState.fromStore(store),
     builder: (BuildContext context, SelectAPhotoPageState pageState) =>

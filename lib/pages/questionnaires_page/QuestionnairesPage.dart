@@ -41,7 +41,7 @@ class _QuestionnairesPageState extends State<QuestionnairesPage> with TickerProv
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, QuestionnairesPageState>(
         onInit: (store) {
-          store.dispatch(FetchQuestionnairesAction(store.state.questionnairesPageState));
+          store.dispatch(FetchQuestionnairesAction(store.state.questionnairesPageState!));
         },
         converter: (Store<AppState> store) => QuestionnairesPageState.fromStore(store),
         builder: (BuildContext context, QuestionnairesPageState pageState) =>

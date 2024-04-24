@@ -50,15 +50,15 @@ class JobUtil {
   }
 
   static getJobsWithSignedContracts(List<Job> jobs) {
-    return jobs.where((job) => job.proposal != null && job.proposal!.contract != null && job.proposal!.contract!.signedByClient!).toList();
+    return jobs.where((job) => job.proposal != null && job.proposal?.contract != null && (job.proposal?.contract?.signedByClient ?? false)).toList();
   }
 
   static getJobsWithUnsignedContracts(List<Job> jobs) {
-    return jobs.where((job) => job.proposal != null && job.proposal!.contract != null && !job.proposal!.contract!.signedByClient!).toList();
+    return jobs.where((job) => job.proposal != null && job.proposal?.contract != null && !(job.proposal?.contract?.signedByClient ?? false)).toList();
   }
 
   static getJobsWithQuestionnaires(List<Job> jobs) {
-    return jobs.where((job) => job.proposal != null && job.proposal.questionnaires != null && job.proposal.questionnaires.isNotEmpty).toList();
+    return jobs.where((job) => job.proposal != null && job.proposal?.questionnaires != null && job.proposal!.questionnaires!.isNotEmpty).toList();
   }
 }
 

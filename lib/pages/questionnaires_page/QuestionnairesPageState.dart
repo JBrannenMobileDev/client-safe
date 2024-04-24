@@ -51,12 +51,12 @@ class QuestionnairesPageState{
 
   factory QuestionnairesPageState.fromStore(Store<AppState> store) {
     return QuestionnairesPageState(
-      questionnaires: store.state.questionnairesPageState.questionnaires,
-      activeJobs: store.state.questionnairesPageState.activeJobs,
-      shareMessage: store.state.questionnairesPageState.shareMessage,
-      onSaveToJobSelected: (questionnaire, jobDocumentId) => store.dispatch(SaveQuestionnaireToJobAction(store.state.questionnairesPageState, questionnaire, jobDocumentId)),
-      unsubscribe: () => store.dispatch(CancelSubscriptionsAction(store.state.questionnairesPageState)),
-      onShareMessageChanged: (message) => store.dispatch(UpdateShareMessageAction(store.state.questionnairesPageState, message)),
+      questionnaires: store.state.questionnairesPageState!.questionnaires,
+      activeJobs: store.state.questionnairesPageState!.activeJobs,
+      shareMessage: store.state.questionnairesPageState!.shareMessage,
+      onSaveToJobSelected: (questionnaire, jobDocumentId) => store.dispatch(SaveQuestionnaireToJobAction(store.state.questionnairesPageState!, questionnaire, jobDocumentId)),
+      unsubscribe: () => store.dispatch(CancelSubscriptionsAction(store.state.questionnairesPageState!)),
+      onShareMessageChanged: (message) => store.dispatch(UpdateShareMessageAction(store.state.questionnairesPageState!, message)),
     );
   }
 
