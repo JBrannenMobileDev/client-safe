@@ -60,12 +60,21 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
       switch(question.type) {
         case Question.TYPE_SHORT_FORM_RESPONSE:
           if(question.isAnswered()) {
-            print(question.shortAnswer);
             shortFormTextController.text = question.shortAnswer ?? '';
+          } else {
+            shortFormTextController.text = '';
+          }
+          break;
+        case Question.TYPE_LONG_FORM_RESPONSE:
+          if(question.isAnswered()) {
+            longFormTextController.text = question.longAnswer ?? '';
+          } else {
+            longFormTextController.text = '';
           }
           break;
         default: {
           shortFormTextController.text = '';
+          longFormTextController.text = '';
         }
       }
     });
@@ -115,13 +124,14 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
               appBar: AppBar(
                 scrolledUnderElevation: 4,
                 iconTheme: IconThemeData(
-                  color: Color(ColorConstants.getPrimaryBlack()), //change your color here
+                  color: pageState.questionnaire!.questions!.elementAt(currentPageIndex).hasImage() ? Color(ColorConstants.getPrimaryWhite()) : Color(ColorConstants.getPrimaryBlack()), //change your color here
                 ),
                 backgroundColor: Colors.transparent,
                 elevation: 0.0,
                 title: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
                   text: questionnaire.title,
+                  color: pageState.questionnaire!.questions!.elementAt(currentPageIndex).hasImage() ? Color(ColorConstants.getPrimaryWhite()) : Color(ColorConstants.getPrimaryBlack()),
                 ),
                 leading: IconButton(
                   onPressed: (){
@@ -137,7 +147,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: [
-                    questionLayout(pageState.questionnaire ?? questionnaire, pageState.profile ?? profile, pageState.onShortFormAnswerChanged!),
+                    questionLayout(pageState.questionnaire ?? questionnaire, pageState.profile ?? profile, pageState.onShortFormAnswerChanged!, pageState.onLongFormAnswerChanged!),
                     isKeyboardVisible ? const SizedBox() : navigationButtons(pageState.profile ?? profile, pageState.questionnaire ?? questionnaire),
                   ],
                 ),
@@ -193,7 +203,12 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
     }
   }
 
-  Widget questionLayout(Questionnaire localQuestionnaire, Profile profile, Function(String, Question) onShortFormAnswerChanged) {
+  Widget questionLayout(
+      Questionnaire localQuestionnaire,
+      Profile profile,
+      Function(String, Question) onShortFormAnswerChanged,
+      Function(String, Question) onLongFormAnswerChanged,
+  ) {
     return PageView.builder(
       controller: controller,
       itemCount: localQuestionnaire.questions?.length,
@@ -240,8 +255,8 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                               ])),
                     ),
                   ],
-                ) : const SizedBox(height: 264),
-                getAnswerWidget(index+1, question, profile, onShortFormAnswerChanged)
+                ) : const SizedBox(height: 96),
+                getAnswerWidget(index+1, question, profile, onShortFormAnswerChanged, onLongFormAnswerChanged)
               ],
             ),
           ),
@@ -349,20 +364,23 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
     );
   }
   bool isNextEnabled(Question question) {
-    bool isEnabled = false;
-    if(isPreview) {
-      isEnabled = !question.isRequired! || question.isRequired! && shortFormTextController.text.isNotEmpty;
-    } else {
-      isEnabled = !question.isRequired! || question.isRequired! && question.isAnswered();
-    }
-    return isEnabled;
+    return !question.isRequired! || question.isRequired! && question.isAnswered();
   }
 
-  Widget getAnswerWidget(int questionNumber, Question question, Profile profile, Function(String, Question) onShortFormAnswerChanged) {
+  Widget getAnswerWidget(
+      int questionNumber,
+      Question question,
+      Profile profile,
+      Function(String, Question) onShortFormAnswerChanged,
+      Function(String, Question) onLongFormAnswerChanged,
+  ) {
     Widget result = const SizedBox();
     switch(question.type) {
       case Question.TYPE_SHORT_FORM_RESPONSE:
         result = buildShortFormResponseAnswerWidget(questionNumber, question, profile, onShortFormAnswerChanged);
+        break;
+      case Question.TYPE_LONG_FORM_RESPONSE:
+        result = buildLongFormResponseAnswerWidget(questionNumber, question, profile, onLongFormAnswerChanged);
         break;
     }
     return result;
@@ -431,6 +449,66 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
             margin: const EdgeInsets.only(left: 32, right: 32, top: 8),
             color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
           )
+        ],
+      ),
+    );
+  }
+
+  TextEditingController longFormTextController = TextEditingController();
+  final FocusNode longFormFocusNode = FocusNode();
+  Widget buildLongFormResponseAnswerWidget(int questionNumber, Question question, Profile localProfile, Function(String, Question) onLongFormAnswerChanged) {
+    return isWebsite ? Container(
+
+    ) : Container(
+      alignment: Alignment.topLeft,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          buildQuestionWidget(questionNumber, question),
+          Container(
+            margin: const EdgeInsets.only(left: 32, right: 32, top: 32),
+            padding: const EdgeInsets.only(left: 16, right: 16),
+            height: 432,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+                width: 1,
+              )
+            ),
+            child: TextFormField(
+              cursorColor: Color(ColorConstants.getBlueDark()),
+              focusNode: longFormFocusNode,
+              textInputAction: TextInputAction.done,
+              controller: longFormTextController,
+              maxLines: 1000,
+              onChanged: (text) {
+                onLongFormAnswerChanged(text, question);
+              },
+              onFieldSubmitted: (term) {
+                longFormFocusNode.unfocus();
+              },
+              decoration: InputDecoration.collapsed(
+                hintText: 'Type your answer here...',
+                fillColor: Color(ColorConstants.getPrimaryWhite()),
+                hintStyle: TextStyle(
+                  fontFamily: TextDandyLight.getFontFamily(),
+                  fontSize: TextDandyLight.getFontSize(TextDandyLight.LARGE_TEXT),
+                  fontWeight: TextDandyLight.getFontWeight(),
+                  color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!).withOpacity(0.5),
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+              keyboardType: TextInputType.multiline,
+              textCapitalization: TextCapitalization.sentences,
+              style: TextStyle(
+                  fontFamily: TextDandyLight.getFontFamily(),
+                  fontSize: TextDandyLight.getFontSize(TextDandyLight.LARGE_TEXT),
+                  fontWeight: FontWeight.w500,
+                  color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!)),
+              textAlignVertical: TextAlignVertical.center,
+            ),
+          ),
         ],
       ),
     );

@@ -36,3 +36,10 @@ class SaveShortFormAnswerAction {
   SaveShortFormAnswerAction(this.pageState, this.answer, this.question);
 }
 
+class SaveLongFormAnswerAction {
+  final AnswerQuestionnairePageState pageState;
+  final String answer;
+  final Question question;
+  SaveLongFormAnswerAction(this.pageState, this.answer, this.question);
+}
+

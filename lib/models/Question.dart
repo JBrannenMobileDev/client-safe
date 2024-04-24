@@ -279,11 +279,18 @@ class Question {
     return const SizedBox();
   }
 
+  bool hasImage() {
+    return (showImage ?? false) && ((mobileImageUrl != null && mobileImageUrl!.isNotEmpty) || (webImageUrl != null && webImageUrl!.isNotEmpty));
+  }
+
   bool isAnswered() {
     bool isAnswered = false;
     switch(type) {
       case TYPE_SHORT_FORM_RESPONSE:
         isAnswered = shortAnswer != null && shortAnswer!.isNotEmpty;
+        break;
+      case TYPE_LONG_FORM_RESPONSE:
+        isAnswered = longAnswer != null && longAnswer!.isNotEmpty;
         break;
     }
     return isAnswered;

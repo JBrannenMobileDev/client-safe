@@ -360,6 +360,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, LoadUploadedPhotosAction>(SelectAPhotoPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, ResizeAndSaveUploadedImageAction>(SelectAPhotoPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveShortFormAnswerAction>(AnswerQuestionnairePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveLongFormAnswerAction>(AnswerQuestionnairePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchProfileForAnswerAction>(AnswerQuestionnairePageMiddleware()));
   return middlewareList;
 }

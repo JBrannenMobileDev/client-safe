@@ -15,11 +15,15 @@ class AnswerQuestionnairePageState{
   //Short form
   final Function(String, Question)? onShortFormAnswerChanged;
 
+  //Long form
+  final Function(String, Question)? onLongFormAnswerChanged;
+
   AnswerQuestionnairePageState({
     @required this.questionnaire,
     @required this.profile,
     @required this.isNew,
     @required this.onShortFormAnswerChanged,
+    @required this.onLongFormAnswerChanged,
   });
 
   AnswerQuestionnairePageState copyWith({
@@ -27,12 +31,14 @@ class AnswerQuestionnairePageState{
     Profile? profile,
     bool? isNew,
     Function(String, Question)? onShortFormAnswerChanged,
+    Function(String, Question)? onLongFormAnswerChanged,
   }){
     return AnswerQuestionnairePageState(
       questionnaire: questionnaire?? this.questionnaire,
       profile: profile ?? this.profile,
       isNew: isNew ?? this.isNew,
       onShortFormAnswerChanged: onShortFormAnswerChanged ?? this.onShortFormAnswerChanged,
+      onLongFormAnswerChanged: onLongFormAnswerChanged ?? this.onLongFormAnswerChanged,
     );
   }
 
@@ -41,6 +47,7 @@ class AnswerQuestionnairePageState{
     profile: null,
     isNew: false,
     onShortFormAnswerChanged: null,
+    onLongFormAnswerChanged: null,
   );
 
   factory AnswerQuestionnairePageState.fromStore(Store<AppState> store) {
@@ -49,6 +56,7 @@ class AnswerQuestionnairePageState{
       profile: store.state.answerQuestionnairePageState!.profile,
       isNew: store.state.answerQuestionnairePageState!.isNew,
       onShortFormAnswerChanged: (answer, question) => store.dispatch(SaveShortFormAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
+      onLongFormAnswerChanged: (answer, question) => store.dispatch(SaveLongFormAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
     );
   }
 
@@ -57,6 +65,7 @@ class AnswerQuestionnairePageState{
       questionnaire.hashCode ^
       profile.hashCode^
       isNew.hashCode ^
+      onLongFormAnswerChanged.hashCode ^
       onShortFormAnswerChanged.hashCode;
 
   @override
@@ -66,5 +75,6 @@ class AnswerQuestionnairePageState{
               questionnaire == other.questionnaire &&
               profile == other.profile &&
               isNew == other.isNew &&
+              onLongFormAnswerChanged == other.onLongFormAnswerChanged &&
               onShortFormAnswerChanged == other.onShortFormAnswerChanged;
 }

@@ -612,7 +612,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                       text: '$number.  ',
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width - 86,
+                      width: MediaQuery.of(context).size.width - 87,
                       child: TextFormField(
                         cursorColor: Color(ColorConstants.getBlueDark()),
                         focusNode: questionFocusNode,
@@ -676,7 +676,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                       text: '$number.  ',
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width - 86,
+                      width: MediaQuery.of(context).size.width - 87,
                       child: TextFormField(
                         cursorColor: Color(ColorConstants.getBlueDark()),
                         focusNode: questionFocusNode,
@@ -825,7 +825,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                       text: '$number.  ',
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width - 86,
+                      width: MediaQuery.of(context).size.width - 87,
                       child: TextFormField(
                         cursorColor: Color(ColorConstants.getBlueDark()),
                         focusNode: questionFocusNode,
@@ -958,7 +958,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                       text: '$number.  ',
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width - 86,
+                      width: MediaQuery.of(context).size.width - 87,
                       child: TextFormField(
                         cursorColor: Color(ColorConstants.getBlueDark()),
                         focusNode: questionFocusNode,
@@ -1034,7 +1034,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                       text: '$number.  ',
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width - 86,
+                      width: MediaQuery.of(context).size.width - 87,
                       child: TextFormField(
                         cursorColor: Color(ColorConstants.getBlueDark()),
                         focusNode: questionFocusNode,
@@ -1289,7 +1289,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                           text: '$number.  ',
                       ),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width - 86,
+                        width: MediaQuery.of(context).size.width - 87,
                         child: TextFormField(
                           cursorColor: Color(ColorConstants.getBlueDark()),
                           focusNode: questionFocusNode,
