@@ -22,6 +22,22 @@ class Questionnaire {
   DateTime? dateCompleted;
   DateTime? dateCreated;
 
+  static Questionnaire from(Questionnaire old) {
+    return Questionnaire(
+      id: old.id,
+      documentId: old.documentId,
+      jobDocumentId: old.jobDocumentId,
+      title: old.title,
+      message: old.message,
+      questions: old.questions,
+      isComplete: old.isComplete,
+      isReviewed: old.isReviewed,
+      showInNotComplete: old.showInNotComplete,
+      dateCompleted: old.dateCompleted,
+      dateCreated: old.dateCreated
+    );
+  }
+
   String getMainImageUrl() {
     return questions!.isNotEmpty ? questions!.first.webImageUrl! : '';
   }

@@ -18,12 +18,24 @@ class AnswerQuestionnairePageState{
   //Long form
   final Function(String, Question)? onLongFormAnswerChanged;
 
+  //Contact info
+  final Function(String, Question)? onFirstNameAnswerChanged;
+  final Function(String, Question)? onLastNameAnswerChanged;
+  final Function(String, Question)? onPhoneNumberAnswerChanged;
+  final Function(String, Question)? onEmailAnswerChanged;
+  final Function(String, Question)? onInstagramNameAnswerChanged;
+
   AnswerQuestionnairePageState({
     @required this.questionnaire,
     @required this.profile,
     @required this.isNew,
     @required this.onShortFormAnswerChanged,
     @required this.onLongFormAnswerChanged,
+    @required this.onFirstNameAnswerChanged,
+    @required this.onLastNameAnswerChanged,
+    @required this.onPhoneNumberAnswerChanged,
+    @required this.onEmailAnswerChanged,
+    @required this.onInstagramNameAnswerChanged,
   });
 
   AnswerQuestionnairePageState copyWith({
@@ -32,6 +44,11 @@ class AnswerQuestionnairePageState{
     bool? isNew,
     Function(String, Question)? onShortFormAnswerChanged,
     Function(String, Question)? onLongFormAnswerChanged,
+    Function(String, Question)? onFirstNameAnswerChanged,
+    Function(String, Question)? onLastNameAnswerChanged,
+    Function(String, Question)? onPhoneNumberAnswerChanged,
+    Function(String, Question)? onEmailAnswerChanged,
+    Function(String, Question)? onInstagramNameAnswerChanged,
   }){
     return AnswerQuestionnairePageState(
       questionnaire: questionnaire?? this.questionnaire,
@@ -39,6 +56,11 @@ class AnswerQuestionnairePageState{
       isNew: isNew ?? this.isNew,
       onShortFormAnswerChanged: onShortFormAnswerChanged ?? this.onShortFormAnswerChanged,
       onLongFormAnswerChanged: onLongFormAnswerChanged ?? this.onLongFormAnswerChanged,
+      onFirstNameAnswerChanged: onFirstNameAnswerChanged ?? this.onFirstNameAnswerChanged,
+      onLastNameAnswerChanged: onLastNameAnswerChanged ?? this.onLastNameAnswerChanged,
+      onPhoneNumberAnswerChanged: onPhoneNumberAnswerChanged ?? this.onPhoneNumberAnswerChanged,
+      onEmailAnswerChanged: onEmailAnswerChanged ?? this.onEmailAnswerChanged,
+      onInstagramNameAnswerChanged: onInstagramNameAnswerChanged ?? this.onInstagramNameAnswerChanged,
     );
   }
 
@@ -48,6 +70,11 @@ class AnswerQuestionnairePageState{
     isNew: false,
     onShortFormAnswerChanged: null,
     onLongFormAnswerChanged: null,
+    onFirstNameAnswerChanged: null,
+    onLastNameAnswerChanged: null,
+    onPhoneNumberAnswerChanged: null,
+    onEmailAnswerChanged: null,
+    onInstagramNameAnswerChanged: null,
   );
 
   factory AnswerQuestionnairePageState.fromStore(Store<AppState> store) {
@@ -57,6 +84,11 @@ class AnswerQuestionnairePageState{
       isNew: store.state.answerQuestionnairePageState!.isNew,
       onShortFormAnswerChanged: (answer, question) => store.dispatch(SaveShortFormAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
       onLongFormAnswerChanged: (answer, question) => store.dispatch(SaveLongFormAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
+      onFirstNameAnswerChanged: (answer, question) => store.dispatch(SaveFirstNameAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
+      onLastNameAnswerChanged: (answer, question) => store.dispatch(SaveLastNameAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
+      onPhoneNumberAnswerChanged: (answer, question) => store.dispatch(SavePhoneNumberAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
+      onEmailAnswerChanged: (answer, question) => store.dispatch(SaveEmailAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
+      onInstagramNameAnswerChanged: (answer, question) => store.dispatch(SaveInstagramNameAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
     );
   }
 
@@ -66,6 +98,11 @@ class AnswerQuestionnairePageState{
       profile.hashCode^
       isNew.hashCode ^
       onLongFormAnswerChanged.hashCode ^
+      onFirstNameAnswerChanged.hashCode ^
+      onLastNameAnswerChanged.hashCode ^
+      onPhoneNumberAnswerChanged.hashCode ^
+      onEmailAnswerChanged.hashCode ^
+      onInstagramNameAnswerChanged.hashCode ^
       onShortFormAnswerChanged.hashCode;
 
   @override
@@ -76,5 +113,10 @@ class AnswerQuestionnairePageState{
               profile == other.profile &&
               isNew == other.isNew &&
               onLongFormAnswerChanged == other.onLongFormAnswerChanged &&
+              onFirstNameAnswerChanged == other.onFirstNameAnswerChanged &&
+              onLastNameAnswerChanged == other.onLastNameAnswerChanged &&
+              onPhoneNumberAnswerChanged == other.onPhoneNumberAnswerChanged &&
+              onEmailAnswerChanged == other.onEmailAnswerChanged &&
+              onInstagramNameAnswerChanged == other.onInstagramNameAnswerChanged &&
               onShortFormAnswerChanged == other.onShortFormAnswerChanged;
 }

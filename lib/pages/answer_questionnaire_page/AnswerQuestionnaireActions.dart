@@ -12,9 +12,7 @@ class SetQuestionnaireAction{
 
 class ClearAnswerState {
   final AnswerQuestionnairePageState pageState;
-  final bool isNew;
-  final String questionnaireName;
-  ClearAnswerState(this.pageState, this.isNew, this.questionnaireName);
+  ClearAnswerState(this.pageState);
 }
 
 class FetchProfileForAnswerAction {
@@ -41,5 +39,40 @@ class SaveLongFormAnswerAction {
   final String answer;
   final Question question;
   SaveLongFormAnswerAction(this.pageState, this.answer, this.question);
+}
+
+class SaveFirstNameAnswerAction {
+  final AnswerQuestionnairePageState pageState;
+  final String answer;
+  final Question question;
+  SaveFirstNameAnswerAction(this.pageState, this.answer, this.question);
+}
+
+class SaveLastNameAnswerAction {
+  final AnswerQuestionnairePageState pageState;
+  final String answer;
+  final Question question;
+  SaveLastNameAnswerAction(this.pageState, this.answer, this.question);
+}
+
+class SavePhoneNumberAnswerAction {
+  final AnswerQuestionnairePageState pageState;
+  final String answer;
+  final Question question;
+  SavePhoneNumberAnswerAction(this.pageState, this.answer, this.question);
+}
+
+class SaveEmailAnswerAction {
+  final AnswerQuestionnairePageState pageState;
+  final String answer;
+  final Question question;
+  SaveEmailAnswerAction(this.pageState, this.answer, this.question);
+}
+
+class SaveInstagramNameAnswerAction {
+  final AnswerQuestionnairePageState pageState;
+  final String answer;
+  final Question question;
+  SaveInstagramNameAnswerAction(this.pageState, this.answer, this.question);
 }
 

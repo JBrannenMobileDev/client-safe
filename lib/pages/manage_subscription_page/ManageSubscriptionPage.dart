@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:dandylight/models/DiscountCodes.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPageState.dart';
+import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 
 import 'package:dandylight/AppState.dart';
@@ -17,6 +18,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../utils/AdminCheckUtil.dart';
 import '../../utils/DeviceType.dart';
+import '../../utils/analytics/EventNames.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'EnterDiscountCodeBottomSheet.dart';
 import 'ManageSubscriptionPageActions.dart';
@@ -394,6 +396,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                               } else {
                                                 launchUrl(Uri.parse('https://play.google.com/store/account/subscriptions?sku=pro.monthly.testsku&package=com.dandylight.mobile'));
                                               }
+                                              EventSender().sendEvent(eventName: EventNames.BT_CANCEL_SUBSCRIPTION);
                                               break;
                                             case ManageSubscriptionPage.FREE_TRIAL:
                                             case ManageSubscriptionPage.SUBSCRIPTION_EXPIRED:

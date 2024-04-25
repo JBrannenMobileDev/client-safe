@@ -6,7 +6,12 @@ import 'AnswerQuestionnairePageState.dart';
 final answerQuestionnaireReducer = combineReducers<AnswerQuestionnairePageState>([
   TypedReducer<AnswerQuestionnairePageState, SetQuestionnaireAction>(_setQuestionnaire),
   TypedReducer<AnswerQuestionnairePageState, SetProfileForAnswerAction>(_setProfile),
+  TypedReducer<AnswerQuestionnairePageState, ClearAnswerState>(_clearState),
 ]);
+
+AnswerQuestionnairePageState _clearState(AnswerQuestionnairePageState previousState, ClearAnswerState action){
+  return AnswerQuestionnairePageState.initial();
+}
 
 AnswerQuestionnairePageState _setQuestionnaire(AnswerQuestionnairePageState previousState, SetQuestionnaireAction action){
   return previousState.copyWith(

@@ -21,6 +21,21 @@ class AnswerQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveLongFormAnswerAction) {
       saveLongFormAnswer(store, action, next);
     }
+    if(action is SaveFirstNameAnswerAction) {
+      saveFirstNameAnswer(store, action, next);
+    }
+    if(action is SaveLastNameAnswerAction) {
+      saveLastNameAnswer(store, action, next);
+    }
+    if(action is SavePhoneNumberAnswerAction) {
+      savePhoneNumberAnswer(store, action, next);
+    }
+    if(action is SaveEmailAnswerAction) {
+      saveEmailAnswer(store, action, next);
+    }
+    if(action is SaveInstagramNameAnswerAction) {
+      saveInstagramNameAnswer(store, action, next);
+    }
   }
   void saveShortFormAnswer(Store<AppState> store, SaveShortFormAnswerAction action, NextDispatcher next) async{
     Question question = action.question;
@@ -54,9 +69,91 @@ class AnswerQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetQuestionnaireAction(action.pageState, questionnaire));
   }
 
+  void saveFirstNameAnswer(Store<AppState> store, SaveFirstNameAnswerAction action, NextDispatcher next) async{
+    Question question = action.question;
+    question.firstName = action.answer;
+    List<Question> questions = action.pageState.questionnaire!.questions ?? [];
+
+    for (final (index, loopQuestion) in questions.indexed) {
+      if(question.id == loopQuestion.id) {
+        questions[index] = question;
+      }
+    }
+
+    Questionnaire questionnaire = action.pageState.questionnaire!;
+    questionnaire.questions = questions;
+    store.dispatch(SetQuestionnaireAction(action.pageState, questionnaire));
+  }
+
+  void saveLastNameAnswer(Store<AppState> store, SaveLastNameAnswerAction action, NextDispatcher next) async{
+    Question question = action.question;
+    question.lastName = action.answer;
+    List<Question> questions = action.pageState.questionnaire!.questions ?? [];
+
+    for (final (index, loopQuestion) in questions.indexed) {
+      if(question.id == loopQuestion.id) {
+        questions[index] = question;
+      }
+    }
+
+    Questionnaire questionnaire = action.pageState.questionnaire!;
+    questionnaire.questions = questions;
+    store.dispatch(SetQuestionnaireAction(action.pageState, questionnaire));
+  }
+
+  void savePhoneNumberAnswer(Store<AppState> store, SavePhoneNumberAnswerAction action, NextDispatcher next) async{
+    Question question = action.question;
+    question.phone = action.answer;
+    List<Question> questions = action.pageState.questionnaire!.questions ?? [];
+
+    for (final (index, loopQuestion) in questions.indexed) {
+      if(question.id == loopQuestion.id) {
+        questions[index] = question;
+      }
+    }
+
+    Questionnaire questionnaire = action.pageState.questionnaire!;
+    questionnaire.questions = questions;
+    store.dispatch(SetQuestionnaireAction(action.pageState, questionnaire));
+  }
+
+  void saveEmailAnswer(Store<AppState> store, SaveEmailAnswerAction action, NextDispatcher next) async{
+    Question question = action.question;
+    question.email = action.answer;
+    List<Question> questions = action.pageState.questionnaire!.questions ?? [];
+
+    for (final (index, loopQuestion) in questions.indexed) {
+      if(question.id == loopQuestion.id) {
+        questions[index] = question;
+      }
+    }
+
+    Questionnaire questionnaire = action.pageState.questionnaire!;
+    questionnaire.questions = questions;
+    store.dispatch(SetQuestionnaireAction(action.pageState, questionnaire));
+  }
+
+  void saveInstagramNameAnswer(Store<AppState> store, SaveInstagramNameAnswerAction action, NextDispatcher next) async{
+    Question question = action.question;
+    question.instagramName = action.answer;
+    List<Question> questions = action.pageState.questionnaire!.questions ?? [];
+
+    for (final (index, loopQuestion) in questions.indexed) {
+      if(question.id == loopQuestion.id) {
+        questions[index] = question;
+      }
+    }
+
+    Questionnaire questionnaire = action.pageState.questionnaire!;
+    questionnaire.questions = questions;
+    store.dispatch(SetQuestionnaireAction(action.pageState, questionnaire));
+  }
+
   void fetchProfile(Store<AppState> store, FetchProfileForAnswerAction action, NextDispatcher next) async{
     Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    store.dispatch(SetQuestionnaireAction(store.state.answerQuestionnairePageState!, action.questionnaire));
+    Questionnaire questionnaire = action.questionnaire;
+    await store.dispatch(ClearAnswerState(store.state.answerQuestionnairePageState!));
+    store.dispatch(SetQuestionnaireAction(store.state.answerQuestionnairePageState!, questionnaire));
     store.dispatch(SetProfileForAnswerAction(store.state.answerQuestionnairePageState!, profile!));
   }
 }

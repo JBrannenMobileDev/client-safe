@@ -280,7 +280,7 @@ class Question {
   }
 
   bool hasImage() {
-    return (showImage ?? false) && ((mobileImageUrl != null && mobileImageUrl!.isNotEmpty) || (webImageUrl != null && webImageUrl!.isNotEmpty));
+    return (showImage ?? false) && ((mobileImageUrl != null && mobileImageUrl!.isNotEmpty) && (webImageUrl != null && webImageUrl!.isNotEmpty));
   }
 
   bool isAnswered() {
@@ -292,7 +292,22 @@ class Question {
       case TYPE_LONG_FORM_RESPONSE:
         isAnswered = longAnswer != null && longAnswer!.isNotEmpty;
         break;
+      case TYPE_CONTACT_INFO:
+        isAnswered = isContactItemAnswered(firstName, includeFirstName)
+          && isContactItemAnswered(lastName, includeLastName)
+          && isContactItemAnswered(phone, includePhone)
+          && isContactItemAnswered(email, includeEmail)
+          && isContactItemAnswered(instagramName, includeInstagramName);
+        break;
     }
     return isAnswered;
+  }
+
+  bool isContactItemAnswered(String? answer, bool? isIncluded) {
+    if(isIncluded ?? false) {
+      return answer != null && answer.isNotEmpty;
+    } else {
+      return true;
+    }
   }
 }

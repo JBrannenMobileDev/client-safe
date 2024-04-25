@@ -676,7 +676,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                       text: '$number.  ',
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width - 87,
+                      width: MediaQuery.of(context).size.width - 97,
                       child: TextFormField(
                         cursorColor: Color(ColorConstants.getBlueDark()),
                         focusNode: questionFocusNode,

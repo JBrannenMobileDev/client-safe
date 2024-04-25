@@ -53,6 +53,17 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   final PageController controller = PageController(initialPage: 0);
   late StreamSubscription<bool> keyboardSubscription;
 
+  TextEditingController firstNameTextController = TextEditingController();
+  TextEditingController lastNameTextController = TextEditingController();
+  TextEditingController phoneNumberTextController = TextEditingController();
+  TextEditingController emailTextController = TextEditingController();
+  TextEditingController instagramNameTextController = TextEditingController();
+  FocusNode? firstNameFocusNode = FocusNode();
+  FocusNode? lastNameFocusNode = FocusNode();
+  FocusNode? phoneNumberFocusNode = FocusNode();
+  FocusNode? emailFocusNode = FocusNode();
+  FocusNode? instagramNameFocusNode = FocusNode();
+
   setCurrentPage(int page) {
     setState(() {
       currentPageIndex = page;
@@ -70,6 +81,21 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
             longFormTextController.text = question.longAnswer ?? '';
           } else {
             longFormTextController.text = '';
+          }
+          break;
+        case Question.TYPE_CONTACT_INFO:
+          if(question.isAnswered()) {
+            firstNameTextController.text = question.firstName ?? '';
+            lastNameTextController.text = question.lastName ?? '';
+            phoneNumberTextController.text = question.phone ?? '';
+            emailTextController.text = question.email ?? '';
+            instagramNameTextController.text = question.instagramName ?? '';
+          } else {
+            firstNameTextController.text = '';
+            lastNameTextController.text = '';
+            phoneNumberTextController.text = '';
+            emailTextController.text = '';
+            instagramNameTextController.text = '';
           }
           break;
         default: {
@@ -91,8 +117,10 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
       setState(() {
         if(visible) {
           isKeyboardVisible = true;
+          showOverlay(context);
         } else {
           isKeyboardVisible = false;
+          removeOverlay();
         }
       });
     });
@@ -116,6 +144,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
         onDidChange: (previous, current) {
           setState(() {
             pageStateGlobal = current;
+            setCurrentPage(0);
           });
         },
         converter: (Store<AppState> store) => AnswerQuestionnairePageState.fromStore(store),
@@ -126,7 +155,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                 iconTheme: IconThemeData(
                   color: pageState.questionnaire!.questions!.elementAt(currentPageIndex).hasImage() ? Color(ColorConstants.getPrimaryWhite()) : Color(ColorConstants.getPrimaryBlack()), //change your color here
                 ),
-                backgroundColor: Colors.transparent,
+                backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                 elevation: 0.0,
                 title: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
@@ -147,7 +176,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: [
-                    questionLayout(pageState.questionnaire ?? questionnaire, pageState.profile ?? profile, pageState.onShortFormAnswerChanged!, pageState.onLongFormAnswerChanged!),
+                    questionLayout(pageState.questionnaire!, pageState.profile ?? profile, pageState),
                     isKeyboardVisible ? const SizedBox() : navigationButtons(pageState.profile ?? profile, pageState.questionnaire ?? questionnaire),
                   ],
                 ),
@@ -206,13 +235,13 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   Widget questionLayout(
       Questionnaire localQuestionnaire,
       Profile profile,
-      Function(String, Question) onShortFormAnswerChanged,
-      Function(String, Question) onLongFormAnswerChanged,
+      AnswerQuestionnairePageState pageState,
   ) {
     return PageView.builder(
       controller: controller,
       itemCount: localQuestionnaire.questions?.length,
       onPageChanged: setCurrentPage,
+      physics: isNextEnabled(pageState.questionnaire!.questions!.elementAt(currentPageIndex == 0 ? currentPageIndex : currentPageIndex - 1)) ? const ScrollPhysics() : const NeverScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, int index){
         Question question = localQuestionnaire.questions!.elementAt(index);
         return Container(
@@ -256,7 +285,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                     ),
                   ],
                 ) : const SizedBox(height: 96),
-                getAnswerWidget(index+1, question, profile, onShortFormAnswerChanged, onLongFormAnswerChanged)
+                getAnswerWidget(index+1, question, profile, pageState)
               ],
             ),
           ),
@@ -364,23 +393,25 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
     );
   }
   bool isNextEnabled(Question question) {
-    return !question.isRequired! || question.isRequired! && question.isAnswered();
+    return !question.isRequired! || (question.isRequired! && question.isAnswered());
   }
 
   Widget getAnswerWidget(
       int questionNumber,
       Question question,
       Profile profile,
-      Function(String, Question) onShortFormAnswerChanged,
-      Function(String, Question) onLongFormAnswerChanged,
+      AnswerQuestionnairePageState pageState,
   ) {
     Widget result = const SizedBox();
     switch(question.type) {
       case Question.TYPE_SHORT_FORM_RESPONSE:
-        result = buildShortFormResponseAnswerWidget(questionNumber, question, profile, onShortFormAnswerChanged);
+        result = buildShortFormResponseAnswerWidget(questionNumber, question, profile, pageState.onShortFormAnswerChanged!);
         break;
       case Question.TYPE_LONG_FORM_RESPONSE:
-        result = buildLongFormResponseAnswerWidget(questionNumber, question, profile, onLongFormAnswerChanged);
+        result = buildLongFormResponseAnswerWidget(questionNumber, question, profile, pageState.onLongFormAnswerChanged!);
+        break;
+      case Question.TYPE_CONTACT_INFO:
+        result = buildContactInfoResponseAnswerWidget(questionNumber, question, profile, pageState);
         break;
     }
     return result;
@@ -411,7 +442,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
           Container(
             margin: const EdgeInsets.only(left: 32, right: 32, top: 32),
             child: TextFormField(
-              cursorColor: Color(ColorConstants.getBlueDark()),
+              cursorColor: Color(ColorConstants.getPrimaryBlack()),
               focusNode: shortFormFocusNode,
               textInputAction: TextInputAction.done,
               maxLines: 1,
@@ -477,7 +508,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
               )
             ),
             child: TextFormField(
-              cursorColor: Color(ColorConstants.getBlueDark()),
+              cursorColor: Color(ColorConstants.getPrimaryBlack()),
               focusNode: longFormFocusNode,
               textInputAction: TextInputAction.done,
               controller: longFormTextController,
@@ -511,6 +542,100 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
           ),
         ],
       ),
+    );
+  }
+
+  Widget buildContactInfoResponseAnswerWidget(
+      int questionNumber,
+      Question question,
+      Profile localProfile,
+      AnswerQuestionnairePageState pageState,
+  ) {
+    firstNameFocusNode = (question.includeFirstName ?? false) ? FocusNode() : null;
+    lastNameFocusNode = (question.includeLastName ?? false) ? FocusNode() : null;
+    phoneNumberFocusNode = (question.includePhone ?? false) ? FocusNode() : null;
+    emailFocusNode = (question.includeEmail ?? false) ? FocusNode() : null;
+    instagramNameFocusNode = (question.includeInstagramName ?? false) ? FocusNode() : null;
+
+    return isWebsite ? Container(
+
+    ) : Container(
+      alignment: Alignment.topLeft,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          buildQuestionWidget(questionNumber, question),
+          (question.includeFirstName ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'First name', TextInputType.text, firstNameFocusNode!, lastNameFocusNode, firstNameTextController, pageState.onFirstNameAnswerChanged!) : const SizedBox(),
+          (question.includeLastName ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'Last name', TextInputType.text, lastNameFocusNode!, phoneNumberFocusNode, lastNameTextController, pageState.onLastNameAnswerChanged!) : const SizedBox(),
+          (question.includePhone ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'Phone number', TextInputType.number, phoneNumberFocusNode!, emailFocusNode, phoneNumberTextController, pageState.onPhoneNumberAnswerChanged!) : const SizedBox(),
+          (question.includeEmail ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'Email', TextInputType.emailAddress, emailFocusNode!, instagramNameFocusNode, emailTextController, pageState.onEmailAnswerChanged!) : const SizedBox(),
+          (question.includeInstagramName ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'Instagram name', TextInputType.text, instagramNameFocusNode!, null, instagramNameTextController, pageState.onInstagramNameAnswerChanged!) : const SizedBox(),
+          const SizedBox(height: 264)
+        ],
+      ),
+    );
+  }
+
+  Widget singleLineInputField(
+      int questionNumber,
+      Question question,
+      Profile localProfile,
+      String questionLabel,
+      TextInputType inputType,
+      FocusNode contactItemFocusNode,
+      FocusNode? nextFocus,
+      TextEditingController contactItemTextController,
+      Function(String, Question) onAnswerInputChanged,
+  ) {
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.centerLeft,
+          margin: const EdgeInsets.only(left: 32, top: 32),
+          child: TextDandyLight(
+              text: questionLabel,
+              type: TextDandyLight.MEDIUM_TEXT
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(left: 32, right: 32, top: 0),
+          child: TextFormField(
+            cursorColor: Color(ColorConstants.getPrimaryBlack()),
+            textInputAction: TextInputAction.next,
+            maxLines: 1,
+            controller: contactItemTextController,
+            onChanged: (text) {
+              onAnswerInputChanged(text, question);
+            },
+            onEditingComplete: () => FocusScope.of(context).nextFocus(),
+            decoration: InputDecoration.collapsed(
+              hintText: 'Type your answer here...',
+              fillColor: Color(ColorConstants.getPrimaryWhite()),
+              hintStyle: TextStyle(
+                fontFamily: TextDandyLight.getFontFamily(),
+                fontSize: TextDandyLight.getFontSize(TextDandyLight.LARGE_TEXT),
+                fontWeight: TextDandyLight.getFontWeight(),
+                color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!).withOpacity(0.5),
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+            keyboardType: inputType,
+            textCapitalization: TextCapitalization.sentences,
+            style: TextStyle(
+                fontFamily: TextDandyLight.getFontFamily(),
+                fontSize: TextDandyLight.getFontSize(TextDandyLight.LARGE_TEXT),
+                fontWeight: FontWeight.w500,
+                color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!)),
+            textAlignVertical: TextAlignVertical.center,
+          ),
+        ),
+        Container(
+          height: 2,
+          width: MediaQuery.of(context).size.width,
+          margin: const EdgeInsets.only(left: 32, right: 32, top: 8),
+          color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+        )
+      ],
     );
   }
 }

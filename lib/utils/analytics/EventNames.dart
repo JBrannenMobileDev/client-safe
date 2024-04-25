@@ -37,6 +37,7 @@ class EventNames {
   static const String BT_REVIEW_APP = "bt_review_app";
   static const String BT_ENJOYING_DANDY_LIGHT_NO = "bt_enjoying_dandy_light_no";
   static const String BT_ENJOYING_DANDY_LIGHT_YES = "bt_enjoying_dandy_light_yes";
+  static const String BT_CANCEL_SUBSCRIPTION = "bt_cancel_subscription";
 
   static const String BT_STAGE_COMPLETE = "bt_stage_complete";
   static const String STAGE_COMPLETE_PARAM_STAGE = "stage_complete_param_stage";
