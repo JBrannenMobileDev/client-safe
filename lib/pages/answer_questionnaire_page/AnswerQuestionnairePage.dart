@@ -146,7 +146,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                 iconTheme: IconThemeData(
                   color: (pageState.questionnaire?.questions?.elementAt(currentPageIndex).hasImage() ?? false) ? Color(ColorConstants.getPrimaryWhite()) : Color(ColorConstants.getPrimaryBlack()), //change your color here
                 ),
-                backgroundColor: Color(ColorConstants.getPrimaryWhite()),
+                backgroundColor: (pageState.questionnaire?.questions?.elementAt(currentPageIndex).hasImage() ?? false) ? Colors.transparent : Color(ColorConstants.getPrimaryWhite()),
                 elevation: 0.0,
                 title: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
@@ -406,6 +406,9 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
         break;
       case Question.TYPE_NUMBER:
         result = buildNumberResponseAnswerWidget(questionNumber, question, profile, pageState.onNumberAnswerChanged!);
+        break;
+      case Question.TYPE_YES_NO:
+        result = buildYesNoResponseAnswerWidget(questionNumber, question, profile, pageState.onYesNoAnswerChanged!);
         break;
     }
     return result;
@@ -703,6 +706,71 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
           color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
         )
       ],
+    );
+  }
+
+  Widget buildYesNoResponseAnswerWidget(int questionNumber, Question question, Profile localProfile, Function(bool, Question) onYesNoAnswerChanged) {
+    return isWebsite ? Container(
+
+    ) : Container(
+      alignment: Alignment.topLeft,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          buildQuestionWidget(questionNumber, question),
+          Container(
+            margin: const EdgeInsets.only(bottom: 16, top: 32),
+            alignment: Alignment.center,
+            height: 64,
+            width: 224,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                    width: 2,
+                    color: Color(ColorConstants.getBlueDark())
+                ),
+                color: Color(ColorConstants.getBlueDark())
+            ),
+            child: Row(
+              children: [
+                const SizedBox(width: 16),
+                Image.asset('assets/images/icons/checkbox.png', color: Color(ColorConstants.getBlueLight()), height: 26, width: 26),
+                const SizedBox(width: 16),
+                TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: 'Yes',
+                  color: Color(ColorConstants.getPrimaryWhite()),
+                ),
+                const SizedBox(width: 100),
+                Icon(Icons.check, color: Color(ColorConstants.getPrimaryWhite()),)
+              ],
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(bottom: 32),
+            alignment: Alignment.center,
+            height: 64,
+            width: 224,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                  width: 2,
+                  color: Color(ColorConstants.getBlueDark())
+              ),
+            ),
+            child: CheckboxListTile(
+              title: Text("title text"),
+              value: (question.yesSelected ?? false) ? false : (question.yesSelected == null ? false : true),
+              onChanged: (newValue) {
+                setState(() {
+                  onYesNoAnswerChanged(newValue ?? false, question);
+                });
+              },
+              controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+            ),
+          )
+        ],
+      ),
     );
   }
 }

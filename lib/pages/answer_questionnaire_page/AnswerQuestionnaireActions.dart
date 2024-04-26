@@ -83,3 +83,10 @@ class SaveNumberAnswerAction {
   SaveNumberAnswerAction(this.pageState, this.answer, this.question);
 }
 
+class SaveYesNoAnswerAction {
+  final AnswerQuestionnairePageState pageState;
+  final bool answer;
+  final Question question;
+  SaveYesNoAnswerAction(this.pageState, this.answer, this.question);
+}
+

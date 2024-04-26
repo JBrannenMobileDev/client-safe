@@ -39,6 +39,25 @@ class AnswerQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveNumberAnswerAction) {
       saveNumberAnswer(store, action, next);
     }
+    if(action is SaveYesNoAnswerAction) {
+      saveYesNoAnswer(store, action, next);
+    }
+  }
+
+  void saveYesNoAnswer(Store<AppState> store, SaveYesNoAnswerAction action, NextDispatcher next) async{
+    Question question = action.question;
+    question.yesSelected = action.answer;
+    List<Question> questions = action.pageState.questionnaire!.questions ?? [];
+
+    for (final (index, loopQuestion) in questions.indexed) {
+      if(question.id == loopQuestion.id) {
+        questions[index] = question;
+      }
+    }
+
+    Questionnaire questionnaire = action.pageState.questionnaire!;
+    questionnaire.questions = questions;
+    store.dispatch(SetQuestionnaireAction(action.pageState, questionnaire));
   }
 
   void saveNumberAnswer(Store<AppState> store, SaveNumberAnswerAction action, NextDispatcher next) async{

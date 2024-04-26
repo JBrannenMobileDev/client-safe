@@ -302,6 +302,9 @@ class Question {
       case TYPE_NUMBER:
         isAnswered = number != null;
         break;
+      case TYPE_YES_NO:
+        isAnswered = yesSelected != null;
+        break;
     }
     return isAnswered;
   }

@@ -28,6 +28,9 @@ class AnswerQuestionnairePageState{
   //Number
   final Function(String, Question)? onNumberAnswerChanged;
 
+  //Yes No
+  final Function(bool, Question)? onYesNoAnswerChanged;
+
   AnswerQuestionnairePageState({
     @required this.questionnaire,
     @required this.profile,
@@ -40,6 +43,7 @@ class AnswerQuestionnairePageState{
     @required this.onEmailAnswerChanged,
     @required this.onInstagramNameAnswerChanged,
     @required this.onNumberAnswerChanged,
+    @required this.onYesNoAnswerChanged,
   });
 
   AnswerQuestionnairePageState copyWith({
@@ -54,6 +58,7 @@ class AnswerQuestionnairePageState{
     Function(String, Question)? onEmailAnswerChanged,
     Function(String, Question)? onInstagramNameAnswerChanged,
     Function(String, Question)? onNumberAnswerChanged,
+    Function(bool, Question)? onYesNoAnswerChanged,
   }){
     return AnswerQuestionnairePageState(
       questionnaire: questionnaire?? this.questionnaire,
@@ -67,6 +72,7 @@ class AnswerQuestionnairePageState{
       onEmailAnswerChanged: onEmailAnswerChanged ?? this.onEmailAnswerChanged,
       onInstagramNameAnswerChanged: onInstagramNameAnswerChanged ?? this.onInstagramNameAnswerChanged,
       onNumberAnswerChanged: onNumberAnswerChanged ?? this.onNumberAnswerChanged,
+      onYesNoAnswerChanged:onYesNoAnswerChanged ?? this.onYesNoAnswerChanged,
     );
   }
 
@@ -82,6 +88,7 @@ class AnswerQuestionnairePageState{
     onEmailAnswerChanged: null,
     onInstagramNameAnswerChanged: null,
     onNumberAnswerChanged: null,
+    onYesNoAnswerChanged: null,
   );
 
   factory AnswerQuestionnairePageState.fromStore(Store<AppState> store) {
@@ -97,6 +104,7 @@ class AnswerQuestionnairePageState{
       onEmailAnswerChanged: (answer, question) => store.dispatch(SaveEmailAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
       onInstagramNameAnswerChanged: (answer, question) => store.dispatch(SaveInstagramNameAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
       onNumberAnswerChanged: (answer, question) => store.dispatch(SaveNumberAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
+      onYesNoAnswerChanged: (answer, question) => store.dispatch(SaveYesNoAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
     );
   }
 
@@ -112,6 +120,7 @@ class AnswerQuestionnairePageState{
       onEmailAnswerChanged.hashCode ^
       onInstagramNameAnswerChanged.hashCode ^
       onNumberAnswerChanged.hashCode ^
+      onYesNoAnswerChanged.hashCode ^
       onShortFormAnswerChanged.hashCode;
 
   @override
@@ -128,5 +137,6 @@ class AnswerQuestionnairePageState{
               onEmailAnswerChanged == other.onEmailAnswerChanged &&
               onInstagramNameAnswerChanged == other.onInstagramNameAnswerChanged &&
               onNumberAnswerChanged == other.onNumberAnswerChanged &&
+              onYesNoAnswerChanged == other.onYesNoAnswerChanged &&
               onShortFormAnswerChanged == other.onShortFormAnswerChanged;
 }
