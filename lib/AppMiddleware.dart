@@ -367,5 +367,6 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SavePhoneNumberAnswerAction>(AnswerQuestionnairePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveEmailAnswerAction>(AnswerQuestionnairePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveInstagramNameAnswerAction>(AnswerQuestionnairePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveNumberAnswerAction>(AnswerQuestionnairePageMiddleware()));
   return middlewareList;
 }

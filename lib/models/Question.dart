@@ -299,6 +299,9 @@ class Question {
           && isContactItemAnswered(email, includeEmail)
           && isContactItemAnswered(instagramName, includeInstagramName);
         break;
+      case TYPE_NUMBER:
+        isAnswered = number != null;
+        break;
     }
     return isAnswered;
   }

@@ -76,3 +76,10 @@ class SaveInstagramNameAnswerAction {
   SaveInstagramNameAnswerAction(this.pageState, this.answer, this.question);
 }
 
+class SaveNumberAnswerAction {
+  final AnswerQuestionnairePageState pageState;
+  final String answer;
+  final Question question;
+  SaveNumberAnswerAction(this.pageState, this.answer, this.question);
+}
+

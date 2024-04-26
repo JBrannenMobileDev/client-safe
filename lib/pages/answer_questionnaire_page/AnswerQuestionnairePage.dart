@@ -53,17 +53,6 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   final PageController controller = PageController(initialPage: 0);
   late StreamSubscription<bool> keyboardSubscription;
 
-  TextEditingController firstNameTextController = TextEditingController();
-  TextEditingController lastNameTextController = TextEditingController();
-  TextEditingController phoneNumberTextController = TextEditingController();
-  TextEditingController emailTextController = TextEditingController();
-  TextEditingController instagramNameTextController = TextEditingController();
-  FocusNode? firstNameFocusNode = FocusNode();
-  FocusNode? lastNameFocusNode = FocusNode();
-  FocusNode? phoneNumberFocusNode = FocusNode();
-  FocusNode? emailFocusNode = FocusNode();
-  FocusNode? instagramNameFocusNode = FocusNode();
-
   setCurrentPage(int page) {
     setState(() {
       currentPageIndex = page;
@@ -98,10 +87,13 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
             instagramNameTextController.text = '';
           }
           break;
-        default: {
-          shortFormTextController.text = '';
-          longFormTextController.text = '';
-        }
+        case Question.TYPE_NUMBER:
+          if(question.isAnswered()) {
+            numberTextController.text = question.number.toString() ?? '';
+          } else {
+            numberTextController.text = '';
+          }
+          break;
       }
     });
   }
@@ -144,7 +136,6 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
         onDidChange: (previous, current) {
           setState(() {
             pageStateGlobal = current;
-            setCurrentPage(0);
           });
         },
         converter: (Store<AppState> store) => AnswerQuestionnairePageState.fromStore(store),
@@ -153,14 +144,14 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
               appBar: AppBar(
                 scrolledUnderElevation: 4,
                 iconTheme: IconThemeData(
-                  color: pageState.questionnaire!.questions!.elementAt(currentPageIndex).hasImage() ? Color(ColorConstants.getPrimaryWhite()) : Color(ColorConstants.getPrimaryBlack()), //change your color here
+                  color: (pageState.questionnaire?.questions?.elementAt(currentPageIndex).hasImage() ?? false) ? Color(ColorConstants.getPrimaryWhite()) : Color(ColorConstants.getPrimaryBlack()), //change your color here
                 ),
                 backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                 elevation: 0.0,
                 title: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
                   text: questionnaire.title,
-                  color: pageState.questionnaire!.questions!.elementAt(currentPageIndex).hasImage() ? Color(ColorConstants.getPrimaryWhite()) : Color(ColorConstants.getPrimaryBlack()),
+                  color: (pageState.questionnaire?.questions?.elementAt(currentPageIndex).hasImage() ?? false) ? Color(ColorConstants.getPrimaryWhite()) : Color(ColorConstants.getPrimaryBlack()),
                 ),
                 leading: IconButton(
                   onPressed: (){
@@ -413,6 +404,9 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
       case Question.TYPE_CONTACT_INFO:
         result = buildContactInfoResponseAnswerWidget(questionNumber, question, profile, pageState);
         break;
+      case Question.TYPE_NUMBER:
+        result = buildNumberResponseAnswerWidget(questionNumber, question, profile, pageState.onNumberAnswerChanged!);
+        break;
     }
     return result;
   }
@@ -485,6 +479,68 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
     );
   }
 
+  TextEditingController numberTextController = TextEditingController();
+  final FocusNode numberFocusNode = FocusNode();
+  Widget buildNumberResponseAnswerWidget(int questionNumber, Question question, Profile localProfile, Function(String, Question) onShortFormAnswerChanged) {
+    return isWebsite ? Container(
+
+    ) : Container(
+      alignment: Alignment.topLeft,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          buildQuestionWidget(questionNumber, question),
+          Container(
+            alignment: Alignment.center,
+            height: 84,
+            width: 216,
+            margin: const EdgeInsets.only(top: 32),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+                  width: 2,
+                )
+            ),
+            child: TextFormField(
+              cursorColor: Color(ColorConstants.getPrimaryBlack()),
+              focusNode: numberFocusNode,
+              textInputAction: TextInputAction.done,
+              maxLines: 1,
+              controller: numberTextController,
+              onChanged: (text) {
+                onShortFormAnswerChanged(text, question);
+              },
+              onFieldSubmitted: (term) {
+                numberFocusNode.unfocus();
+              },
+              decoration: InputDecoration.collapsed(
+                hintText: 'Enter a number',
+                fillColor: Color(ColorConstants.getPrimaryWhite()),
+                hintStyle: TextStyle(
+                  fontFamily: TextDandyLight.getFontFamily(),
+                  fontSize: TextDandyLight.getFontSize(TextDandyLight.LARGE_TEXT),
+                  fontWeight: TextDandyLight.getFontWeight(),
+                  color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!).withOpacity(0.5),
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+              keyboardType: TextInputType.number,
+              textCapitalization: TextCapitalization.sentences,
+              style: TextStyle(
+                  fontFamily: TextDandyLight.getFontFamily(),
+                  fontSize: TextDandyLight.getFontSize(TextDandyLight.LARGE_TEXT),
+                  fontWeight: FontWeight.w500,
+                  color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!)),
+              textAlignVertical: TextAlignVertical.center,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   TextEditingController longFormTextController = TextEditingController();
   final FocusNode longFormFocusNode = FocusNode();
   Widget buildLongFormResponseAnswerWidget(int questionNumber, Question question, Profile localProfile, Function(String, Question) onLongFormAnswerChanged) {
@@ -544,6 +600,17 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
       ),
     );
   }
+
+  TextEditingController firstNameTextController = TextEditingController();
+  TextEditingController lastNameTextController = TextEditingController();
+  TextEditingController phoneNumberTextController = TextEditingController();
+  TextEditingController emailTextController = TextEditingController();
+  TextEditingController instagramNameTextController = TextEditingController();
+  FocusNode? firstNameFocusNode = FocusNode();
+  FocusNode? lastNameFocusNode = FocusNode();
+  FocusNode? phoneNumberFocusNode = FocusNode();
+  FocusNode? emailFocusNode = FocusNode();
+  FocusNode? instagramNameFocusNode = FocusNode();
 
   Widget buildContactInfoResponseAnswerWidget(
       int questionNumber,

@@ -36,7 +36,27 @@ class AnswerQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveInstagramNameAnswerAction) {
       saveInstagramNameAnswer(store, action, next);
     }
+    if(action is SaveNumberAnswerAction) {
+      saveNumberAnswer(store, action, next);
+    }
   }
+
+  void saveNumberAnswer(Store<AppState> store, SaveNumberAnswerAction action, NextDispatcher next) async{
+    Question question = action.question;
+    question.number = int.parse(action.answer);
+    List<Question> questions = action.pageState.questionnaire!.questions ?? [];
+
+    for (final (index, loopQuestion) in questions.indexed) {
+      if(question.id == loopQuestion.id) {
+        questions[index] = question;
+      }
+    }
+
+    Questionnaire questionnaire = action.pageState.questionnaire!;
+    questionnaire.questions = questions;
+    store.dispatch(SetQuestionnaireAction(action.pageState, questionnaire));
+  }
+
   void saveShortFormAnswer(Store<AppState> store, SaveShortFormAnswerAction action, NextDispatcher next) async{
     Question question = action.question;
     question.shortAnswer = action.answer;
