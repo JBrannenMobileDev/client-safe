@@ -95,7 +95,7 @@ class Question {
   int? number;
 
   //Yes/No
-  bool? yesSelected;
+  bool yesSelected;
 
 
   Question({
@@ -154,7 +154,7 @@ class Question {
 
     this.number,
 
-    this.yesSelected,
+    this.yesSelected = true,
   });
 
   Map<String, dynamic> toMap() {

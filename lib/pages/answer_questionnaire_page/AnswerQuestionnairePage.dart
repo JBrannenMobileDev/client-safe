@@ -167,7 +167,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: [
-                    questionLayout(pageState.questionnaire!, pageState.profile ?? profile, pageState),
+                    pageState.questionnaire != null ? questionLayout(pageState.questionnaire!, pageState.profile ?? profile, pageState) : const SizedBox(),
                     isKeyboardVisible ? const SizedBox() : navigationButtons(pageState.profile ?? profile, pageState.questionnaire ?? questionnaire),
                   ],
                 ),
@@ -719,31 +719,41 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
         children: [
           buildQuestionWidget(questionNumber, question),
           Container(
-            margin: const EdgeInsets.only(bottom: 16, top: 32),
+            margin: const EdgeInsets.only(bottom: 32, top: 32),
             alignment: Alignment.center,
             height: 64,
             width: 224,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                    width: 2,
-                    color: Color(ColorConstants.getBlueDark())
-                ),
-                color: Color(ColorConstants.getBlueDark())
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                width: 2,
+                color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+              ),
+              color: question.yesSelected ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!).withOpacity(0.5) : Color(ColorConstants.getPrimaryWhite()),
             ),
-            child: Row(
-              children: [
-                const SizedBox(width: 16),
-                Image.asset('assets/images/icons/checkbox.png', color: Color(ColorConstants.getBlueLight()), height: 26, width: 26),
-                const SizedBox(width: 16),
-                TextDandyLight(
-                  type: TextDandyLight.MEDIUM_TEXT,
-                  text: 'Yes',
-                  color: Color(ColorConstants.getPrimaryWhite()),
-                ),
-                const SizedBox(width: 100),
-                Icon(Icons.check, color: Color(ColorConstants.getPrimaryWhite()),)
-              ],
+            child: CheckboxListTile(
+              activeColor: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+              checkColor: Color(ColorConstants.getPrimaryWhite()),
+              fillColor: MaterialStateProperty.resolveWith((states) {
+                // If the button is pressed, return green, otherwise blue
+                if (states.contains(MaterialState.selected)) {
+                  return ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!);
+                }
+                return Color(ColorConstants.getPrimaryWhite());
+              }),
+              title: TextDandyLight(
+                type: TextDandyLight.LARGE_TEXT,
+                text: 'Yes',
+                isBold: question.yesSelected,
+                color: question.yesSelected ? Color(ColorConstants.getPrimaryWhite()) : ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+              ),
+              value: question.yesSelected,
+              onChanged: (newValue) {
+                setState(() {
+                  onYesNoAnswerChanged(newValue ?? false, question);
+                });
+              },
+              controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
             ),
           ),
           Container(
@@ -755,15 +765,29 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
                   width: 2,
-                  color: Color(ColorConstants.getBlueDark())
+                  color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
               ),
+              color: !question.yesSelected ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!).withOpacity(0.5) : Color(ColorConstants.getPrimaryWhite()),
             ),
             child: CheckboxListTile(
-              title: Text("title text"),
-              value: (question.yesSelected ?? false) ? false : (question.yesSelected == null ? false : true),
+              checkColor: Color(ColorConstants.getPrimaryWhite()),
+              fillColor: MaterialStateProperty.resolveWith((states) {
+                // If the button is pressed, return green, otherwise blue
+                if (states.contains(MaterialState.selected)) {
+                  return ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!);
+                }
+                return Color(ColorConstants.getPrimaryWhite());
+              }),
+              title: TextDandyLight(
+                type: TextDandyLight.LARGE_TEXT,
+                isBold: !question.yesSelected,
+                text: 'No',
+                color: question.yesSelected ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!) : Color(ColorConstants.getPrimaryWhite()),
+              ),
+              value: question.yesSelected ? false : true,
               onChanged: (newValue) {
                 setState(() {
-                  onYesNoAnswerChanged(newValue ?? false, question);
+                  onYesNoAnswerChanged(!(newValue ?? false), question);
                 });
               },
               controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
