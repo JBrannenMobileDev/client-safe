@@ -371,5 +371,6 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveYesNoAnswerAction>(AnswerQuestionnairePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveCheckBoxSelectionAction>(AnswerQuestionnairePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveRatingSelectionAction>(AnswerQuestionnairePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveDateSelectionAction>(AnswerQuestionnairePageMiddleware()));
   return middlewareList;
 }

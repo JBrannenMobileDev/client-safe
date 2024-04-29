@@ -94,6 +94,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
             numberTextController.text = '';
           }
           break;
+          //TODO finish the other cases.
       }
     });
   }
@@ -415,6 +416,14 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
         break;
       case Question.TYPE_RATING:
         result = buildRatingResponseAnswerWidget(questionNumber, question, profile, pageState.onRatingSelected!);
+        break;
+      case Question.TYPE_DATE:
+        result = buildDateResponseAnswerWidget(
+          questionNumber,
+          question,
+          profile,
+          pageState.onDateChanged!,
+        );
         break;
     }
     return result;
@@ -969,6 +978,173 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                 ),
               ),
             ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  TextEditingController monthTextController = TextEditingController();
+  TextEditingController dayTextController = TextEditingController();
+  TextEditingController yearTextController = TextEditingController();
+  FocusNode? monthFocusNode = FocusNode();
+  FocusNode? dayFocusNode = FocusNode();
+  FocusNode? yearFocusNode = FocusNode();
+  Widget buildDateResponseAnswerWidget(
+      int questionNumber,
+      Question question,
+      Profile localProfile,
+      Function(DateTime?, Question) onDateChanged,
+  ) {
+    return isWebsite ? Container(
+
+    ) : Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        buildQuestionWidget(questionNumber, question),
+        GestureDetector(
+          onTap: () async {
+            onDateChanged((await showDatePicker(
+              context: context,
+              initialDate: DateTime.now(), // Refer step 1
+              firstDate: DateTime(2024),
+              lastDate: DateTime((DateTime.now().year + 10)),
+              builder: (context, child) {
+                return Theme(
+                  data: Theme.of(context).copyWith(
+                    colorScheme: ColorScheme.light(
+                      primary: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+                      onPrimary: Color(ColorConstants.getPrimaryWhite()),
+                      onSurface: Color(ColorConstants.getPrimaryBlack()),
+                    ),
+                    textButtonTheme: TextButtonThemeData(
+                      style: TextButton.styleFrom(
+                        textStyle: TextStyle(
+                          color: Color(ColorConstants.getPrimaryBlack())
+                        ),
+                      ),
+                    ),
+                  ),
+                  child: child!,
+                );
+              },
+            )), question);
+          },
+          child: Container(
+            margin: const EdgeInsets.only(top: 32),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 64,
+                      alignment: Alignment.center,
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'Month',
+                        color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      alignment: Alignment.center,
+                      width: 64,
+                      child: TextDandyLight(
+                        type: TextDandyLight.EXTRA_LARGE_TEXT,
+                        text: question.month != null ? question.month.toString() : 'MM',
+                        color: question.month != null ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!) : Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Container(
+                      height: 1,
+                      width: 64,
+                      color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
+                    )
+                  ],
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 26, left: 8, right: 8),
+                  child: TextDandyLight(
+                    type: TextDandyLight.EXTRA_LARGE_TEXT,
+                    text: '/',
+                    color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 64,
+                      alignment: Alignment.center,
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'Day',
+                        color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      alignment: Alignment.center,
+                      width: 64,
+                      child: TextDandyLight(
+                        type: TextDandyLight.EXTRA_LARGE_TEXT,
+                        text: question.day != null ? question.day.toString() : 'DD',
+                        color: question.day != null ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!) : Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Container(
+                      height: 1,
+                      width: 64,
+                      color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
+                    )
+                  ],
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 26, left: 8, right: 8),
+                  child: TextDandyLight(
+                    type: TextDandyLight.EXTRA_LARGE_TEXT,
+                    text: '/',
+                    color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 96,
+                      alignment: Alignment.center,
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'Year',
+                        color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      alignment: Alignment.center,
+                      width: 96,
+                      child: TextDandyLight(
+                        type: TextDandyLight.EXTRA_LARGE_TEXT,
+                        text: question.year != null ? question.year.toString() : 'YYYY',
+                        color: question.year != null ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!) : Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Container(
+                      height: 1,
+                      width: 96,
+                      color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ],

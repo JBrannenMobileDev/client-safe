@@ -48,6 +48,27 @@ class AnswerQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveRatingSelectionAction) {
       saveRatingSelectionAnswer(store, action, next);
     }
+    if(action is SaveDateSelectionAction) {
+      saveDateSelectionAnswer(store, action, next);
+    }
+  }
+
+  void saveDateSelectionAnswer(Store<AppState> store, SaveDateSelectionAction action, NextDispatcher next) async{
+    Question question = action.question;
+    question.month = action.date?.month ?? DateTime.now().month;
+    question.day = action.date?.day ?? DateTime.now().day;
+    question.year = action.date?.year ?? DateTime.now().year;
+    List<Question> questions = action.pageState.questionnaire!.questions ?? [];
+
+    for (final (index, loopQuestion) in questions.indexed) {
+      if(question.id == loopQuestion.id) {
+        questions[index] = question;
+      }
+    }
+
+    Questionnaire questionnaire = action.pageState.questionnaire!;
+    questionnaire.questions = questions;
+    store.dispatch(SetQuestionnaireAction(action.pageState, questionnaire));
   }
 
   void saveRatingSelectionAnswer(Store<AppState> store, SaveRatingSelectionAction action, NextDispatcher next) async{

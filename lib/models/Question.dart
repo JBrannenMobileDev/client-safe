@@ -311,6 +311,9 @@ class Question {
       case TYPE_RATING:
         isAnswered = (ratingAnswer ?? 0) > 0;
         break;
+      case TYPE_DATE:
+        isAnswered = (month != null && month! > 0) && (day != null && day! > 0) && (year != null && year! > 0);
+        break;
     }
     return isAnswered;
   }

@@ -105,3 +105,10 @@ class SaveRatingSelectionAction {
   SaveRatingSelectionAction(this.pageState, this.selectedRating, this.question);
 }
 
+class SaveDateSelectionAction {
+  final AnswerQuestionnairePageState pageState;
+  final DateTime? date;
+  final Question question;
+  SaveDateSelectionAction(this.pageState, this.date, this.question);
+}
+

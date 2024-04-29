@@ -37,6 +37,9 @@ class AnswerQuestionnairePageState{
   //Rating
   final Function(int, Question)? onRatingSelected;
 
+  //Date
+  final Function(DateTime?, Question)? onDateChanged;
+
   AnswerQuestionnairePageState({
     @required this.questionnaire,
     @required this.profile,
@@ -52,6 +55,7 @@ class AnswerQuestionnairePageState{
     @required this.onYesNoAnswerChanged,
     @required this.onCheckboxItemSelected,
     @required this.onRatingSelected,
+    @required this.onDateChanged,
   });
 
   AnswerQuestionnairePageState copyWith({
@@ -69,6 +73,7 @@ class AnswerQuestionnairePageState{
     Function(bool, Question)? onYesNoAnswerChanged,
     Function(int index, bool, Question)? onCheckboxItemSelected,
     Function(int, Question)? onRatingSelected,
+    Function(DateTime?, Question)? onDateChanged,
   }){
     return AnswerQuestionnairePageState(
       questionnaire: questionnaire?? this.questionnaire,
@@ -85,6 +90,7 @@ class AnswerQuestionnairePageState{
       onYesNoAnswerChanged: onYesNoAnswerChanged ?? this.onYesNoAnswerChanged,
       onCheckboxItemSelected: onCheckboxItemSelected ?? this.onCheckboxItemSelected,
       onRatingSelected: onRatingSelected ?? this.onRatingSelected,
+      onDateChanged: onDateChanged ?? this.onDateChanged,
     );
   }
 
@@ -103,6 +109,7 @@ class AnswerQuestionnairePageState{
     onYesNoAnswerChanged: null,
     onCheckboxItemSelected: null,
     onRatingSelected: null,
+    onDateChanged: null,
   );
 
   factory AnswerQuestionnairePageState.fromStore(Store<AppState> store) {
@@ -121,6 +128,7 @@ class AnswerQuestionnairePageState{
       onYesNoAnswerChanged: (answer, question) => store.dispatch(SaveYesNoAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
       onCheckboxItemSelected: (selectedIndex, answer, question) => store.dispatch(SaveCheckBoxSelectionAction(store.state.answerQuestionnairePageState!, selectedIndex, answer, question)),
       onRatingSelected: (selectedRating, question) => store.dispatch(SaveRatingSelectionAction(store.state.answerQuestionnairePageState!, selectedRating, question)),
+      onDateChanged: (date, question) => store.dispatch(SaveDateSelectionAction(store.state.answerQuestionnairePageState!, date, question)),
     );
   }
 
@@ -139,6 +147,7 @@ class AnswerQuestionnairePageState{
       onYesNoAnswerChanged.hashCode ^
       onCheckboxItemSelected.hashCode ^
       onRatingSelected.hashCode ^
+      onDateChanged.hashCode ^
       onShortFormAnswerChanged.hashCode;
 
   @override
@@ -158,5 +167,6 @@ class AnswerQuestionnairePageState{
               onYesNoAnswerChanged == other.onYesNoAnswerChanged &&
               onCheckboxItemSelected == other.onCheckboxItemSelected &&
               onRatingSelected == other.onRatingSelected &&
+              onDateChanged == other.onDateChanged &&
               onShortFormAnswerChanged == other.onShortFormAnswerChanged;
 }
