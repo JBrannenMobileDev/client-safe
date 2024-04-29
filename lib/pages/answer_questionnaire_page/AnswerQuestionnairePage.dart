@@ -410,6 +410,12 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
       case Question.TYPE_YES_NO:
         result = buildYesNoResponseAnswerWidget(questionNumber, question, profile, pageState.onYesNoAnswerChanged!);
         break;
+      case Question.TYPE_CHECK_BOXES:
+        result = buildCheckBoxesResponseAnswerWidget(questionNumber, question, profile, pageState.onCheckboxItemSelected!);
+        break;
+      case Question.TYPE_RATING:
+        result = buildRatingResponseAnswerWidget(questionNumber, question, profile, pageState.onRatingSelected!);
+        break;
     }
     return result;
   }
@@ -795,6 +801,177 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
           )
         ],
       ),
+    );
+  }
+
+  Widget buildCheckBoxesResponseAnswerWidget(int questionNumber, Question question, Profile localProfile, Function(int index, bool, Question) onCheckboxItemSelected) {
+    return isWebsite ? Container(
+
+    ) : Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        buildQuestionWidget(questionNumber, question),
+        Container(
+          alignment: Alignment.topLeft,
+          child: question.choicesCheckBoxes != null ? ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: question.choicesCheckBoxes?.length ?? 0,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 16, left: 24, right: 24),
+                  alignment: Alignment.center,
+                  height: 64,
+                  width: 224,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      width: 2,
+                      color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+                    ),
+                    color: question.hasItemChecked(question.choicesCheckBoxes?.elementAt(index)) ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!).withOpacity(0.5) : Color(ColorConstants.getPrimaryWhite()),
+                  ),
+                  child: CheckboxListTile(
+                    checkColor: Color(ColorConstants.getPrimaryWhite()),
+                    fillColor: MaterialStateProperty.resolveWith((states) {
+                      // If the button is pressed, return green, otherwise blue
+                      if (states.contains(MaterialState.selected)) {
+                        return ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!);
+                      }
+                      return Color(ColorConstants.getPrimaryWhite());
+                    }),
+                    title: TextDandyLight(
+                      type: TextDandyLight.LARGE_TEXT,
+                      isBold: question.hasItemChecked(question.choicesCheckBoxes?.elementAt(index)),
+                      text: question.choicesCheckBoxes?.elementAt(index),
+                      color: !question.hasItemChecked(question.choicesCheckBoxes?.elementAt(index)) ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!) : Color(ColorConstants.getPrimaryWhite()),
+                    ),
+                    value: question.hasItemChecked(question.choicesCheckBoxes?.elementAt(index)) ? true : false,
+                    onChanged: (newValue) {
+                      setState(() {
+                        onCheckboxItemSelected(index, !(newValue ?? false), question);
+                      });
+                    },
+                    controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                  ),
+                );
+              }
+          ) : const SizedBox(),
+        )
+      ],
+    );
+  }
+
+  Widget buildRatingResponseAnswerWidget(int questionNumber, Question question, Profile localProfile, Function(int rating, Question) onRatingSelected) {
+    return isWebsite ? Container(
+
+    ) : Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        buildQuestionWidget(questionNumber, question),
+        Container(
+          margin: const EdgeInsets.only(top: 48),
+          alignment: Alignment.center,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  onRatingSelected(1, question);
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(right: 4),
+                  child: Column(
+                    children: [
+                      Icon((question.ratingAnswer ?? 0) >= 1 ? Icons.star : Icons.star_border, color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!), size: 48),
+                      TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: '1',
+                        color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  onRatingSelected(2, question);
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(right: 4),
+                  child: Column(
+                    children: [
+                      Icon((question.ratingAnswer ?? 0) >= 2 ? Icons.star : Icons.star_border, color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!), size: 48),
+                      TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: '2',
+                        color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  onRatingSelected(3, question);
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(right: 4),
+                  child: Column(
+                    children: [
+                      Icon((question.ratingAnswer ?? 0) >= 3 ? Icons.star : Icons.star_border, color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!), size: 48),
+                      TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: '3',
+                        color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  onRatingSelected(4, question);
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(right: 4),
+                  child: Column(
+                    children: [
+                      Icon((question.ratingAnswer ?? 0) >= 4 ? Icons.star : Icons.star_border, color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!), size: 48),
+                      TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: '4',
+                        color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  onRatingSelected(5, question);
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(right: 4),
+                  child: Column(
+                    children: [
+                      Icon(question.ratingAnswer == 5 ? Icons.star : Icons.star_border, color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!), size: 48),
+                      TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: '5',
+                        color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

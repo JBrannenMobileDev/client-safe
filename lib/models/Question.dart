@@ -271,7 +271,7 @@ class Question {
 
       number: map['number'],
 
-      yesSelected: map['yesSelected'],
+      yesSelected: map['yesSelected'] ?? true,
     );
   }
 
@@ -303,7 +303,13 @@ class Question {
         isAnswered = number != null;
         break;
       case TYPE_YES_NO:
-        isAnswered = yesSelected != null;
+        isAnswered = true;
+        break;
+      case TYPE_CHECK_BOXES:
+        isAnswered = answersCheckBoxes?.isNotEmpty ?? false;
+        break;
+      case TYPE_RATING:
+        isAnswered = (ratingAnswer ?? 0) > 0;
         break;
     }
     return isAnswered;
@@ -314,6 +320,14 @@ class Question {
       return answer != null && answer.isNotEmpty;
     } else {
       return true;
+    }
+  }
+
+  bool hasItemChecked(String? item) {
+    if(item != null) {
+      return answersCheckBoxes?.contains(item) ?? false;
+    } else {
+      return false;
     }
   }
 }

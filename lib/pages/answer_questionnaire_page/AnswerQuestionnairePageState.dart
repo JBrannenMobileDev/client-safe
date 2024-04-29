@@ -31,6 +31,12 @@ class AnswerQuestionnairePageState{
   //Yes No
   final Function(bool, Question)? onYesNoAnswerChanged;
 
+  //Checkboxes
+  final Function(int, bool, Question)? onCheckboxItemSelected;
+
+  //Rating
+  final Function(int, Question)? onRatingSelected;
+
   AnswerQuestionnairePageState({
     @required this.questionnaire,
     @required this.profile,
@@ -44,6 +50,8 @@ class AnswerQuestionnairePageState{
     @required this.onInstagramNameAnswerChanged,
     @required this.onNumberAnswerChanged,
     @required this.onYesNoAnswerChanged,
+    @required this.onCheckboxItemSelected,
+    @required this.onRatingSelected,
   });
 
   AnswerQuestionnairePageState copyWith({
@@ -59,6 +67,8 @@ class AnswerQuestionnairePageState{
     Function(String, Question)? onInstagramNameAnswerChanged,
     Function(String, Question)? onNumberAnswerChanged,
     Function(bool, Question)? onYesNoAnswerChanged,
+    Function(int index, bool, Question)? onCheckboxItemSelected,
+    Function(int, Question)? onRatingSelected,
   }){
     return AnswerQuestionnairePageState(
       questionnaire: questionnaire?? this.questionnaire,
@@ -72,7 +82,9 @@ class AnswerQuestionnairePageState{
       onEmailAnswerChanged: onEmailAnswerChanged ?? this.onEmailAnswerChanged,
       onInstagramNameAnswerChanged: onInstagramNameAnswerChanged ?? this.onInstagramNameAnswerChanged,
       onNumberAnswerChanged: onNumberAnswerChanged ?? this.onNumberAnswerChanged,
-      onYesNoAnswerChanged:onYesNoAnswerChanged ?? this.onYesNoAnswerChanged,
+      onYesNoAnswerChanged: onYesNoAnswerChanged ?? this.onYesNoAnswerChanged,
+      onCheckboxItemSelected: onCheckboxItemSelected ?? this.onCheckboxItemSelected,
+      onRatingSelected: onRatingSelected ?? this.onRatingSelected,
     );
   }
 
@@ -89,6 +101,8 @@ class AnswerQuestionnairePageState{
     onInstagramNameAnswerChanged: null,
     onNumberAnswerChanged: null,
     onYesNoAnswerChanged: null,
+    onCheckboxItemSelected: null,
+    onRatingSelected: null,
   );
 
   factory AnswerQuestionnairePageState.fromStore(Store<AppState> store) {
@@ -105,6 +119,8 @@ class AnswerQuestionnairePageState{
       onInstagramNameAnswerChanged: (answer, question) => store.dispatch(SaveInstagramNameAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
       onNumberAnswerChanged: (answer, question) => store.dispatch(SaveNumberAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
       onYesNoAnswerChanged: (answer, question) => store.dispatch(SaveYesNoAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
+      onCheckboxItemSelected: (selectedIndex, answer, question) => store.dispatch(SaveCheckBoxSelectionAction(store.state.answerQuestionnairePageState!, selectedIndex, answer, question)),
+      onRatingSelected: (selectedRating, question) => store.dispatch(SaveRatingSelectionAction(store.state.answerQuestionnairePageState!, selectedRating, question)),
     );
   }
 
@@ -121,6 +137,8 @@ class AnswerQuestionnairePageState{
       onInstagramNameAnswerChanged.hashCode ^
       onNumberAnswerChanged.hashCode ^
       onYesNoAnswerChanged.hashCode ^
+      onCheckboxItemSelected.hashCode ^
+      onRatingSelected.hashCode ^
       onShortFormAnswerChanged.hashCode;
 
   @override
@@ -138,5 +156,7 @@ class AnswerQuestionnairePageState{
               onInstagramNameAnswerChanged == other.onInstagramNameAnswerChanged &&
               onNumberAnswerChanged == other.onNumberAnswerChanged &&
               onYesNoAnswerChanged == other.onYesNoAnswerChanged &&
+              onCheckboxItemSelected == other.onCheckboxItemSelected &&
+              onRatingSelected == other.onRatingSelected &&
               onShortFormAnswerChanged == other.onShortFormAnswerChanged;
 }

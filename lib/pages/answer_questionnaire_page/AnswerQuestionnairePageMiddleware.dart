@@ -42,6 +42,53 @@ class AnswerQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveYesNoAnswerAction) {
       saveYesNoAnswer(store, action, next);
     }
+    if(action is SaveCheckBoxSelectionAction) {
+      saveCheckBoxSelectionAnswer(store, action, next);
+    }
+    if(action is SaveRatingSelectionAction) {
+      saveRatingSelectionAnswer(store, action, next);
+    }
+  }
+
+  void saveRatingSelectionAnswer(Store<AppState> store, SaveRatingSelectionAction action, NextDispatcher next) async{
+    Question question = action.question;
+    question.ratingAnswer = action.selectedRating;
+    List<Question> questions = action.pageState.questionnaire!.questions ?? [];
+
+    for (final (index, loopQuestion) in questions.indexed) {
+      if(question.id == loopQuestion.id) {
+        questions[index] = question;
+      }
+    }
+
+    Questionnaire questionnaire = action.pageState.questionnaire!;
+    questionnaire.questions = questions;
+    store.dispatch(SetQuestionnaireAction(action.pageState, questionnaire));
+  }
+
+  void saveCheckBoxSelectionAnswer(Store<AppState> store, SaveCheckBoxSelectionAction action, NextDispatcher next) async{
+    Question question = action.question;
+    List selectedCheckBoxes = action.question.answersCheckBoxes ?? [];
+
+    if(selectedCheckBoxes.contains(question.choicesCheckBoxes?.elementAt(action.selectedIndex))) {
+      selectedCheckBoxes.removeWhere((item) => item == question.choicesCheckBoxes?.elementAt(action.selectedIndex));
+    } else {
+      selectedCheckBoxes.add(question.choicesCheckBoxes?.elementAt(action.selectedIndex));
+    }
+
+    question.answersCheckBoxes =selectedCheckBoxes;
+
+    List<Question> questions = action.pageState.questionnaire!.questions ?? [];
+
+    for (final (index, loopQuestion) in questions.indexed) {
+      if(question.id == loopQuestion.id) {
+        questions[index] = question;
+      }
+    }
+
+    Questionnaire questionnaire = action.pageState.questionnaire!;
+    questionnaire.questions = questions;
+    store.dispatch(SetQuestionnaireAction(action.pageState, questionnaire));
   }
 
   void saveYesNoAnswer(Store<AppState> store, SaveYesNoAnswerAction action, NextDispatcher next) async{

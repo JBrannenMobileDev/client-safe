@@ -90,3 +90,18 @@ class SaveYesNoAnswerAction {
   SaveYesNoAnswerAction(this.pageState, this.answer, this.question);
 }
 
+class SaveCheckBoxSelectionAction {
+  final AnswerQuestionnairePageState pageState;
+  final int selectedIndex;
+  final bool answer;
+  final Question question;
+  SaveCheckBoxSelectionAction(this.pageState, this.selectedIndex, this.answer, this.question);
+}
+
+class SaveRatingSelectionAction {
+  final AnswerQuestionnairePageState pageState;
+  final int selectedRating;
+  final Question question;
+  SaveRatingSelectionAction(this.pageState, this.selectedRating, this.question);
+}
+
