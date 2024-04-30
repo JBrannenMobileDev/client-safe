@@ -48,9 +48,15 @@ ShareWithClientPageState _setInvoiceInProgressState(ShareWithClientPageState pre
 
 ShareWithClientPageState _setAllJobs(ShareWithClientPageState previousState, SetAllJobsAction action){
   List<Job> jobsWithShareMessage = action.jobs!.where((job) => job.proposal!.shareMessage!.isNotEmpty).toList();
+  List<String> shareMessages = [];
+  for(Job job in jobsWithShareMessage) {
+    String message = job.proposal!.shareMessage ?? '';
+    shareMessages.add(message.replaceFirst(job.documentId!, action.pageState!.job!.documentId!));
+  }
   return previousState.copyWith(
     jobs: action.jobs,
     jobsWithShareMessage: jobsWithShareMessage,
+    previousShareMessages: shareMessages,
   );
 }
 

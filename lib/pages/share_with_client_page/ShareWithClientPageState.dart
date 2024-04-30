@@ -22,6 +22,7 @@ class ShareWithClientPageState{
   final bool? updatePosesCheckInProgress;
   final bool? updateQuestionnairesCheckInProgress;
   final List<Job>? jobs;
+  final List<String>? previousShareMessages;
   final List<Job>? jobsWithShareMessage;
   final Function(String)? onMessageChanged;
   final Function(String)? onShareMessageChanged;
@@ -54,6 +55,7 @@ class ShareWithClientPageState{
     @required this.updatePosesCheckInProgress,
     @required this.clientShareMessage,
     @required this.onShareMessageChanged,
+    @required this.previousShareMessages,
     @required this.jobsWithShareMessage,
     @required this.updateQuestionnairesCheckInProgress,
     @required this.onQuestionnairesCheckBoxSelected,
@@ -72,6 +74,7 @@ class ShareWithClientPageState{
     String? clientShareMessage,
     Job? job,
     List<Job>? jobs,
+    List<String>? previousShareMessages,
     List<Job>? jobsWithShareMessage,
     bool? updateContractCheckInProgress,
     bool? updateInvoiceCheckInProgress,
@@ -107,6 +110,7 @@ class ShareWithClientPageState{
       updatePosesCheckInProgress: updatePosesCheckInProgress ?? this.updatePosesCheckInProgress,
       onShareMessageChanged: onShareMessageChanged ?? this.onShareMessageChanged,
       clientShareMessage: clientShareMessage ?? this.clientShareMessage,
+      previousShareMessages: previousShareMessages ?? this.previousShareMessages,
       jobsWithShareMessage: jobsWithShareMessage ?? this.jobsWithShareMessage,
       updateQuestionnairesCheckInProgress: updateQuestionnairesCheckInProgress ?? this.updateQuestionnairesCheckInProgress,
       onQuestionnairesCheckBoxSelected: onQuestionnairesCheckBoxSelected ?? this.onQuestionnairesCheckBoxSelected,
@@ -138,6 +142,7 @@ class ShareWithClientPageState{
     onQuestionnairesCheckBoxSelected: null,
     clientShareMessage: '',
     onShareMessageChanged: null,
+    previousShareMessages: [],
     jobsWithShareMessage: [],
   );
 
@@ -156,6 +161,7 @@ class ShareWithClientPageState{
       updateInvoiceCheckInProgress: store.state.shareWithClientPageState!.updateInvoiceCheckInProgress,
       updatePosesCheckInProgress: store.state.shareWithClientPageState!.updatePosesCheckInProgress,
       clientShareMessage: store.state.shareWithClientPageState!.clientShareMessage,
+      previousShareMessages: store.state.shareWithClientPageState!.previousShareMessages,
       jobsWithShareMessage: store.state.shareWithClientPageState!.jobsWithShareMessage,
       questionnairesSelected: store.state.shareWithClientPageState!.questionnairesSelected,
       updateQuestionnairesCheckInProgress: store.state.shareWithClientPageState!.updateQuestionnairesCheckInProgress,
@@ -190,6 +196,7 @@ class ShareWithClientPageState{
       areChangesSaved.hashCode ^
       jobs.hashCode ^
       clientShareMessage.hashCode ^
+      previousShareMessages.hashCode^
       jobsWithShareMessage.hashCode^
       onShareMessageChanged.hashCode ^
       updateQuestionnairesCheckInProgress.hashCode ^
@@ -215,6 +222,7 @@ class ShareWithClientPageState{
               updateInvoiceCheckInProgress == other.updateInvoiceCheckInProgress &&
               updatePosesCheckInProgress == other.updatePosesCheckInProgress &&
               saveProposal == other.saveProposal &&
+              previousShareMessages == other.previousShareMessages &&
               jobsWithShareMessage == other.jobsWithShareMessage &&
               areChangesSaved == other.areChangesSaved &&
               jobs == other.jobs &&

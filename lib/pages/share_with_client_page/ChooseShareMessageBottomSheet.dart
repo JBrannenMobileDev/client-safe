@@ -57,10 +57,10 @@ class _ChooseShareMessageBottomSheetPageState extends State<ChooseShareMessageBo
                    ),
                    SingleChildScrollView(
                      child: SizedBox(
-                       height: MediaQuery.of(context).size.height-116,
+                       height: MediaQuery.of(context).size.height-118,
                        child: ListView.builder(
                            padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 200.0),
-                           itemCount: pageState.jobsWithShareMessage!.length,
+                           itemCount: pageState.previousShareMessages!.length,
                            controller: _controller,
                            physics: const AlwaysScrollableScrollPhysics(),
                            key: _listKey,
@@ -95,8 +95,8 @@ class _ChooseShareMessageBottomSheetPageState extends State<ChooseShareMessageBo
         builder: (BuildContext context, ShareWithClientPageState pageState) =>
             GestureDetector(
               onTap: () {
-                setSelectedMessage(pageState.jobsWithShareMessage!.elementAt(index).proposal!.shareMessage!);
-                pageState.onShareMessageChanged!(pageState.jobsWithShareMessage!.elementAt(index).proposal!.shareMessage!);
+                setSelectedMessage(pageState.previousShareMessages!.elementAt(index));
+                pageState.onShareMessageChanged!(pageState.previousShareMessages!.elementAt(index));
                 Navigator.of(context).pop();
               },
               child: Column(
@@ -121,7 +121,7 @@ class _ChooseShareMessageBottomSheetPageState extends State<ChooseShareMessageBo
                         borderRadius: const BorderRadius.all(Radius.circular(32.0))),
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      text: pageState.jobsWithShareMessage!.elementAt(index).proposal!.shareMessage,
+                      text: pageState.previousShareMessages!.elementAt(index),
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.fade,
                       maxLines: 9,

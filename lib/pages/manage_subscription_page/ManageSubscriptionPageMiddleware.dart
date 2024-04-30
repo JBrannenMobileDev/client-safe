@@ -90,7 +90,7 @@ class ManageSubscriptionPageMiddleware extends MiddlewareClass<AppState> {
     }
 
     if(subscriptionState!.entitlements.all['standard'] != null || subscriptionState.entitlements.all['standard_1699'] != null) {
-      if(subscriptionState.entitlements.all['standard']!.isActive || subscriptionState.entitlements.all["standard_1699"]!.isActive) {
+      if(subscriptionState.entitlements.all['standard']!.isActive || (subscriptionState.entitlements.all["standard_1699"]?.isActive ?? false)) {
         store.dispatch(SetManageSubscriptionUiState(store.state.manageSubscriptionPageState, ManageSubscriptionPage.SUBSCRIBED));
         EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.SUBSCRIBED);
       } else {
