@@ -63,21 +63,21 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
       Question question = pageStateGlobal!.questionnaire != null ? pageStateGlobal!.questionnaire!.questions!.elementAt(currentPageIndex) : questionnaire.questions!.elementAt(currentPageIndex);
       switch(question.type) {
         case Question.TYPE_SHORT_FORM_RESPONSE:
-          if(question.isAnswered()) {
+          if(shouldShowAnswers(question.isAnswered(), questionnaire)) {
             shortFormTextController.text = question.shortAnswer ?? '';
           } else {
             shortFormTextController.text = '';
           }
           break;
         case Question.TYPE_LONG_FORM_RESPONSE:
-          if(question.isAnswered()) {
+          if(shouldShowAnswers(question.isAnswered(), questionnaire)) {
             longFormTextController.text = question.longAnswer ?? '';
           } else {
             longFormTextController.text = '';
           }
           break;
         case Question.TYPE_CONTACT_INFO:
-          if(question.isAnswered()) {
+          if(shouldShowAnswers(question.isAnswered(), questionnaire)) {
             firstNameTextController.text = question.firstName ?? '';
             lastNameTextController.text = question.lastName ?? '';
             phoneNumberTextController.text = question.phone ?? '';
@@ -92,13 +92,40 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
           }
           break;
         case Question.TYPE_NUMBER:
-          if(question.isAnswered()) {
-            numberTextController.text = question.number.toString() ?? '';
+          if(shouldShowAnswers(question.isAnswered(), questionnaire)) {
+            numberTextController.text = question.number.toString();
           } else {
             numberTextController.text = '';
           }
           break;
-          //TODO finish the other cases.
+        case Question.TYPE_ADDRESS:
+          if(shouldShowAnswers(question.isAnswered(), questionnaire)) {
+            addressTextController.text = question.address ?? '';
+            addressLine2TextController.text = question.addressLine2 ?? '';
+            cityTownTextController.text = question.cityTown ?? '';
+            stateRegionTextController.text = question.stateRegionProvince ?? '';
+            zipTextController.text = question.zipPostCode ?? '';
+            countryTextController.text = question.country ?? '';
+          } else {
+            addressTextController.text = '';
+            addressLine2TextController.text = '';
+            cityTownTextController.text = '';
+            stateRegionTextController.text = '';
+            zipTextController.text = '';
+            countryTextController.text = '';
+          }
+          break;
+        case Question.TYPE_DATE:
+          if(shouldShowAnswers(question.isAnswered(), questionnaire)) {
+            monthTextController.text = question.month.toString();
+            dayTextController.text = question.day.toString();
+            yearTextController.text = question.year.toString();
+          } else {
+            monthTextController.text = '';
+            dayTextController.text = '';
+            yearTextController.text = '';
+          }
+          break;
       }
     });
   }
@@ -464,6 +491,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
           Container(
             margin: const EdgeInsets.only(left: 32, right: 32, top: 32),
             child: TextFormField(
+              enabled: !(questionnaire.isComplete ?? false),
               cursorColor: Color(ColorConstants.getPrimaryBlack()),
               focusNode: shortFormFocusNode,
               textInputAction: TextInputAction.done,
@@ -531,6 +559,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                 )
             ),
             child: TextFormField(
+              enabled: !(questionnaire.isComplete ?? false),
               cursorColor: Color(ColorConstants.getPrimaryBlack()),
               focusNode: numberFocusNode,
               textInputAction: TextInputAction.done,
@@ -592,6 +621,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
               )
             ),
             child: TextFormField(
+              enabled: !(questionnaire.isComplete ?? false),
               cursorColor: Color(ColorConstants.getPrimaryBlack()),
               focusNode: longFormFocusNode,
               textInputAction: TextInputAction.done,
@@ -742,6 +772,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
         Container(
           margin: const EdgeInsets.only(left: 32, right: 32, top: 0),
           child: TextFormField(
+            enabled: !(questionnaire.isComplete ?? false),
             cursorColor: Color(ColorConstants.getPrimaryBlack()),
             textInputAction: TextInputAction.next,
             maxLines: 1,
@@ -804,6 +835,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
               color: question.yesSelected ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!).withOpacity(0.5) : Color(ColorConstants.getPrimaryWhite()),
             ),
             child: CheckboxListTile(
+              enabled: !(questionnaire.isComplete ?? false),
               activeColor: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
               checkColor: Color(ColorConstants.getPrimaryWhite()),
               fillColor: MaterialStateProperty.resolveWith((states) {
@@ -842,6 +874,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
               color: !question.yesSelected ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!).withOpacity(0.5) : Color(ColorConstants.getPrimaryWhite()),
             ),
             child: CheckboxListTile(
+              enabled: !(questionnaire.isComplete ?? false),
               checkColor: Color(ColorConstants.getPrimaryWhite()),
               fillColor: MaterialStateProperty.resolveWith((states) {
                 // If the button is pressed, return green, otherwise blue
@@ -899,6 +932,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                     color: question.hasItemChecked(question.choicesCheckBoxes?.elementAt(index)) ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!).withOpacity(0.5) : Color(ColorConstants.getPrimaryWhite()),
                   ),
                   child: CheckboxListTile(
+                    enabled: !(questionnaire.isComplete ?? false),
                     checkColor: Color(ColorConstants.getPrimaryWhite()),
                     fillColor: MaterialStateProperty.resolveWith((states) {
                       // If the button is pressed, return green, otherwise blue
@@ -946,7 +980,9 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
             children: [
               GestureDetector(
                 onTap: () {
-                  onRatingSelected(1, question);
+                  if(!(questionnaire.isComplete ?? false)) {
+                    onRatingSelected(1, question);
+                  }
                 },
                 child: Container(
                   margin: const EdgeInsets.only(right: 4),
@@ -964,7 +1000,9 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
               ),
               GestureDetector(
                 onTap: () {
-                  onRatingSelected(2, question);
+                  if(!(questionnaire.isComplete ?? false)) {
+                    onRatingSelected(2, question);
+                  }
                 },
                 child: Container(
                   margin: const EdgeInsets.only(right: 4),
@@ -982,7 +1020,9 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
               ),
               GestureDetector(
                 onTap: () {
-                  onRatingSelected(3, question);
+                  if(!(questionnaire.isComplete ?? false)) {
+                    onRatingSelected(3, question);
+                  }
                 },
                 child: Container(
                   margin: const EdgeInsets.only(right: 4),
@@ -1000,7 +1040,9 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
               ),
               GestureDetector(
                 onTap: () {
-                  onRatingSelected(4, question);
+                  if(!(questionnaire.isComplete ?? false)) {
+                    onRatingSelected(4, question);
+                  }
                 },
                 child: Container(
                   margin: const EdgeInsets.only(right: 4),
@@ -1018,7 +1060,9 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
               ),
               GestureDetector(
                 onTap: () {
-                  onRatingSelected(5, question);
+                  if(!(questionnaire.isComplete ?? false)) {
+                    onRatingSelected(5, question);
+                  }
                 },
                 child: Container(
                   margin: const EdgeInsets.only(right: 4),
@@ -1062,31 +1106,33 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
         buildQuestionWidget(questionNumber, question),
         GestureDetector(
           onTap: () async {
-            onDateChanged((await showDatePicker(
-              context: context,
-              initialDate: DateTime.now(), // Refer step 1
-              firstDate: DateTime(2024),
-              lastDate: DateTime((DateTime.now().year + 10)),
-              builder: (context, child) {
-                return Theme(
-                  data: Theme.of(context).copyWith(
-                    colorScheme: ColorScheme.light(
-                      primary: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
-                      onPrimary: Color(ColorConstants.getPrimaryWhite()),
-                      onSurface: Color(ColorConstants.getPrimaryBlack()),
-                    ),
-                    textButtonTheme: TextButtonThemeData(
-                      style: TextButton.styleFrom(
-                        textStyle: TextStyle(
-                          color: Color(ColorConstants.getPrimaryBlack())
+            if(!(questionnaire.isComplete ?? false)) {
+              onDateChanged((await showDatePicker(
+                context: context,
+                initialDate: DateTime.now(), // Refer step 1
+                firstDate: DateTime(2024),
+                lastDate: DateTime((DateTime.now().year + 10)),
+                builder: (context, child) {
+                  return Theme(
+                    data: Theme.of(context).copyWith(
+                      colorScheme: ColorScheme.light(
+                        primary: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+                        onPrimary: Color(ColorConstants.getPrimaryWhite()),
+                        onSurface: Color(ColorConstants.getPrimaryBlack()),
+                      ),
+                      textButtonTheme: TextButtonThemeData(
+                        style: TextButton.styleFrom(
+                          textStyle: TextStyle(
+                              color: Color(ColorConstants.getPrimaryBlack())
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  child: child!,
-                );
-              },
-            )), question);
+                    child: child!,
+                  );
+                },
+              )), question);
+            }
           },
           child: Container(
             margin: const EdgeInsets.only(top: 32),
@@ -1206,5 +1252,15 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
         ),
       ],
     );
+  }
+
+  bool shouldShowAnswers(bool answered, Questionnaire questionnaire) {
+    bool result = false;
+    if(questionnaire.isComplete ?? false) {
+      result = true;
+    } else {
+      result = !isPreview;
+    }
+    return result;
   }
 }

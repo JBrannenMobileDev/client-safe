@@ -77,6 +77,8 @@ class AnswerQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
+  //TODO figure out how to update answers with cloud function. maybe send a json of the questionnaire object??
+
   void markAsComplete(Store<AppState> store, SubmitQuestionnaireAction action, NextDispatcher next) async{
     if(!(action.pageState.isPreview ?? true) && action.pageState.questionnaire != null && action.pageState.userId != null && action.pageState.jobId != null && action.pageState.questionnaire!.documentId != null) {
       ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
