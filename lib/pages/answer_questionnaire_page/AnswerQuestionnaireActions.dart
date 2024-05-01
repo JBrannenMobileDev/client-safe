@@ -24,7 +24,8 @@ class FetchProfileForAnswerAction {
   final bool isPreview;
   final String? userId;
   final String? jobId;
-  FetchProfileForAnswerAction(this.pageState, this.questionnaire, this.isPreview, this.userId, this.jobId);
+  final Profile profile;
+  FetchProfileForAnswerAction(this.pageState, this.questionnaire, this.isPreview, this.userId, this.jobId, this.profile);
 }
 
 class SetProfileForAnswerAction {

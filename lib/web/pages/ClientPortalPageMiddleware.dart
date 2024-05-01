@@ -73,7 +73,7 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
     } else {
       job = await repository.fetchJob(action.userId!, action.jobId!);
       job = populateContractWithJobData(job, profile);
-      if(job.invoice!.salesTaxRate! > 0 && job.invoice!.salesTaxAmount == 0) {
+      if(job.invoice != null && (job.invoice!.salesTaxRate ?? 0) > 0 && job.invoice!.salesTaxAmount == 0) {
         job.invoice!.salesTaxAmount = (job.invoice!.subtotal! * job.invoice!.salesTaxRate!)/100;
       }
     }

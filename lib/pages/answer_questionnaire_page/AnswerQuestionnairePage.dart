@@ -15,6 +15,7 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 import '../../models/Profile.dart';
 import '../../models/Question.dart';
+import '../../utils/DeviceType.dart';
 import '../../utils/InputDoneView.dart';
 import '../../utils/Shadows.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -163,7 +164,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
         onInit: (store) {
           titleTextController.text = questionnaire.title ?? '';
           messageController.text = questionnaire.message ?? '';
-          store.dispatch(FetchProfileForAnswerAction(store.state.answerQuestionnairePageState!, questionnaire, isPreview, userId, jobId));
+          store.dispatch(FetchProfileForAnswerAction(store.state.answerQuestionnairePageState!, questionnaire, isPreview, userId, jobId, profile));
         },
         onDidChange: (previous, current) {
           setState(() {
@@ -199,7 +200,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: [
-                    pageState.questionnaire != null ? questionLayout(pageState.questionnaire!, pageState.profile ?? profile, pageState) : const SizedBox(),
+                    questionLayout(pageState.questionnaire ?? questionnaire, pageState.profile ?? profile, pageState),
                     isKeyboardVisible ? const SizedBox() : navigationButtons(pageState.profile ?? profile, pageState.questionnaire ?? questionnaire),
                   ],
                 ),
@@ -319,6 +320,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
 
   Widget navigationButtons(Profile localProfile, Questionnaire localQuestionnaire) {
     return Container(
+      width: getPageWidth(context),
       height: MediaQuery.of(context).size.height,
       alignment: Alignment.bottomCenter,
       child: Container(
@@ -469,7 +471,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   Widget buildQuestionWidget(int questionNumber, Question question) {
     return Container(
       alignment: Alignment.topLeft,
-      margin: const EdgeInsets.only(left: 32, top: 24, right: 32),
+      margin: const EdgeInsets.only(left: 32, top: 32, right: 32),
       child: TextDandyLight(
         type: TextDandyLight.LARGE_TEXT,
         text: '$questionNumber. ${question.question} ${question.isRequired! ? '*' : ''}',
@@ -480,9 +482,8 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   TextEditingController shortFormTextController = TextEditingController();
   final FocusNode shortFormFocusNode = FocusNode();
   Widget buildShortFormResponseAnswerWidget(int questionNumber, Question question, Profile localProfile, Function(String, Question) onShortFormAnswerChanged) {
-    return isWebsite ? Container(
-
-    ) : Container(
+    return Container(
+      width: getPageWidth(context),
       alignment: Alignment.topLeft,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -538,9 +539,8 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   TextEditingController numberTextController = TextEditingController();
   final FocusNode numberFocusNode = FocusNode();
   Widget buildNumberResponseAnswerWidget(int questionNumber, Question question, Profile localProfile, Function(String, Question) onShortFormAnswerChanged) {
-    return isWebsite ? Container(
-
-    ) : Container(
+    return Container(
+      width: getPageWidth(context),
       alignment: Alignment.topLeft,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -601,9 +601,8 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   TextEditingController longFormTextController = TextEditingController();
   final FocusNode longFormFocusNode = FocusNode();
   Widget buildLongFormResponseAnswerWidget(int questionNumber, Question question, Profile localProfile, Function(String, Question) onLongFormAnswerChanged) {
-    return isWebsite ? Container(
-
-    ) : Container(
+    return Container(
+      width: getPageWidth(context),
       alignment: Alignment.topLeft,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -682,9 +681,8 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
     emailFocusNode = (question.includeEmail ?? false) ? FocusNode() : null;
     instagramNameFocusNode = (question.includeInstagramName ?? false) ? FocusNode() : null;
 
-    return isWebsite ? Container(
-
-    ) : Container(
+    return Container(
+      width: getPageWidth(context),
       alignment: Alignment.topLeft,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -699,6 +697,16 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
         ],
       ),
     );
+  }
+
+  double getPageWidth(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    if(DeviceType.getDeviceTypeByContext(context) == Type.Website) {
+      return 1080;
+    } else if(DeviceType.getDeviceTypeByContext(context) == Type.Tablet) {
+      return 840;
+    }
+    return width;
   }
 
   TextEditingController addressTextController = TextEditingController();
@@ -727,9 +735,8 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
     zipFocusNode = (question.zipPostCodeRequired ?? false) ? FocusNode() : null;
     countryFocusNode = (question.countryRequired ?? false) ? FocusNode() : null;
 
-    return isWebsite ? Container(
-
-    ) : Container(
+    return Container(
+      width: getPageWidth(context),
       alignment: Alignment.topLeft,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -813,9 +820,8 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   }
 
   Widget buildYesNoResponseAnswerWidget(int questionNumber, Question question, Profile localProfile, Function(bool, Question) onYesNoAnswerChanged) {
-    return isWebsite ? Container(
-
-    ) : Container(
+    return Container(
+      width: getPageWidth(context),
       alignment: Alignment.topLeft,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -904,184 +910,186 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   }
 
   Widget buildCheckBoxesResponseAnswerWidget(int questionNumber, Question question, Profile localProfile, Function(int index, bool, Question) onCheckboxItemSelected) {
-    return isWebsite ? Container(
-
-    ) : Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        buildQuestionWidget(questionNumber, question),
-        Container(
-          alignment: Alignment.topLeft,
-          child: question.choicesCheckBoxes != null ? ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: question.choicesCheckBoxes?.length ?? 0,
-              itemBuilder: (context, index) {
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 16, left: 24, right: 24),
-                  alignment: Alignment.center,
-                  height: 64,
-                  width: 224,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      width: 2,
-                      color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+    return SizedBox(
+      width: getPageWidth(context),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          buildQuestionWidget(questionNumber, question),
+          Container(
+            alignment: Alignment.topLeft,
+            child: question.choicesCheckBoxes != null ? ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: question.choicesCheckBoxes?.length ?? 0,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 16, left: 24, right: 24),
+                    alignment: Alignment.center,
+                    height: 64,
+                    width: 224,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        width: 2,
+                        color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+                      ),
+                      color: question.hasItemChecked(question.choicesCheckBoxes?.elementAt(index)) ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!).withOpacity(0.5) : Color(ColorConstants.getPrimaryWhite()),
                     ),
-                    color: question.hasItemChecked(question.choicesCheckBoxes?.elementAt(index)) ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!).withOpacity(0.5) : Color(ColorConstants.getPrimaryWhite()),
-                  ),
-                  child: CheckboxListTile(
-                    enabled: !(questionnaire.isComplete ?? false),
-                    checkColor: Color(ColorConstants.getPrimaryWhite()),
-                    fillColor: MaterialStateProperty.resolveWith((states) {
-                      // If the button is pressed, return green, otherwise blue
-                      if (states.contains(MaterialState.selected)) {
-                        return ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!);
-                      }
-                      return Color(ColorConstants.getPrimaryWhite());
-                    }),
-                    title: TextDandyLight(
-                      type: TextDandyLight.LARGE_TEXT,
-                      isBold: question.hasItemChecked(question.choicesCheckBoxes?.elementAt(index)),
-                      text: question.choicesCheckBoxes?.elementAt(index),
-                      color: !question.hasItemChecked(question.choicesCheckBoxes?.elementAt(index)) ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!) : Color(ColorConstants.getPrimaryWhite()),
+                    child: CheckboxListTile(
+                      enabled: !(questionnaire.isComplete ?? false),
+                      checkColor: Color(ColorConstants.getPrimaryWhite()),
+                      fillColor: MaterialStateProperty.resolveWith((states) {
+                        // If the button is pressed, return green, otherwise blue
+                        if (states.contains(MaterialState.selected)) {
+                          return ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!);
+                        }
+                        return Color(ColorConstants.getPrimaryWhite());
+                      }),
+                      title: TextDandyLight(
+                        type: TextDandyLight.LARGE_TEXT,
+                        isBold: question.hasItemChecked(question.choicesCheckBoxes?.elementAt(index)),
+                        text: question.choicesCheckBoxes?.elementAt(index),
+                        color: !question.hasItemChecked(question.choicesCheckBoxes?.elementAt(index)) ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!) : Color(ColorConstants.getPrimaryWhite()),
+                      ),
+                      value: question.hasItemChecked(question.choicesCheckBoxes?.elementAt(index)) ? true : false,
+                      onChanged: (newValue) {
+                        setState(() {
+                          onCheckboxItemSelected(index, !(newValue ?? false), question);
+                        });
+                      },
+                      controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
                     ),
-                    value: question.hasItemChecked(question.choicesCheckBoxes?.elementAt(index)) ? true : false,
-                    onChanged: (newValue) {
-                      setState(() {
-                        onCheckboxItemSelected(index, !(newValue ?? false), question);
-                      });
-                    },
-                    controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-                  ),
-                );
-              }
-          ) : const SizedBox(),
-        )
-      ],
+                  );
+                }
+            ) : const SizedBox(),
+          )
+        ],
+      ),
     );
   }
 
   Widget buildRatingResponseAnswerWidget(int questionNumber, Question question, Profile localProfile, Function(int rating, Question) onRatingSelected) {
-    return isWebsite ? Container(
-
-    ) : Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        buildQuestionWidget(questionNumber, question),
-        Container(
-          margin: const EdgeInsets.only(top: 48),
-          alignment: Alignment.center,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  if(!(questionnaire.isComplete ?? false)) {
-                    onRatingSelected(1, question);
-                  }
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(right: 4),
-                  child: Column(
-                    children: [
-                      Icon((question.ratingAnswer ?? 0) >= 1 ? Icons.star : Icons.star_border, color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!), size: 48),
-                      TextDandyLight(
-                        type: TextDandyLight.MEDIUM_TEXT,
-                        text: '1',
-                        color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
-                      )
-                    ],
+    return SizedBox(
+      width: getPageWidth(context),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          buildQuestionWidget(questionNumber, question),
+          Container(
+            margin: const EdgeInsets.only(top: 48),
+            alignment: Alignment.center,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    if(!(questionnaire.isComplete ?? false)) {
+                      onRatingSelected(1, question);
+                    }
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 4),
+                    child: Column(
+                      children: [
+                        Icon((question.ratingAnswer ?? 0) >= 1 ? Icons.star : Icons.star_border, color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!), size: 48),
+                        TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: '1',
+                          color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  if(!(questionnaire.isComplete ?? false)) {
-                    onRatingSelected(2, question);
-                  }
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(right: 4),
-                  child: Column(
-                    children: [
-                      Icon((question.ratingAnswer ?? 0) >= 2 ? Icons.star : Icons.star_border, color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!), size: 48),
-                      TextDandyLight(
-                        type: TextDandyLight.MEDIUM_TEXT,
-                        text: '2',
-                        color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
-                      )
-                    ],
+                GestureDetector(
+                  onTap: () {
+                    if(!(questionnaire.isComplete ?? false)) {
+                      onRatingSelected(2, question);
+                    }
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 4),
+                    child: Column(
+                      children: [
+                        Icon((question.ratingAnswer ?? 0) >= 2 ? Icons.star : Icons.star_border, color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!), size: 48),
+                        TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: '2',
+                          color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  if(!(questionnaire.isComplete ?? false)) {
-                    onRatingSelected(3, question);
-                  }
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(right: 4),
-                  child: Column(
-                    children: [
-                      Icon((question.ratingAnswer ?? 0) >= 3 ? Icons.star : Icons.star_border, color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!), size: 48),
-                      TextDandyLight(
-                        type: TextDandyLight.MEDIUM_TEXT,
-                        text: '3',
-                        color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
-                      )
-                    ],
+                GestureDetector(
+                  onTap: () {
+                    if(!(questionnaire.isComplete ?? false)) {
+                      onRatingSelected(3, question);
+                    }
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 4),
+                    child: Column(
+                      children: [
+                        Icon((question.ratingAnswer ?? 0) >= 3 ? Icons.star : Icons.star_border, color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!), size: 48),
+                        TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: '3',
+                          color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  if(!(questionnaire.isComplete ?? false)) {
-                    onRatingSelected(4, question);
-                  }
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(right: 4),
-                  child: Column(
-                    children: [
-                      Icon((question.ratingAnswer ?? 0) >= 4 ? Icons.star : Icons.star_border, color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!), size: 48),
-                      TextDandyLight(
-                        type: TextDandyLight.MEDIUM_TEXT,
-                        text: '4',
-                        color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
-                      )
-                    ],
+                GestureDetector(
+                  onTap: () {
+                    if(!(questionnaire.isComplete ?? false)) {
+                      onRatingSelected(4, question);
+                    }
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 4),
+                    child: Column(
+                      children: [
+                        Icon((question.ratingAnswer ?? 0) >= 4 ? Icons.star : Icons.star_border, color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!), size: 48),
+                        TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: '4',
+                          color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  if(!(questionnaire.isComplete ?? false)) {
-                    onRatingSelected(5, question);
-                  }
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(right: 4),
-                  child: Column(
-                    children: [
-                      Icon(question.ratingAnswer == 5 ? Icons.star : Icons.star_border, color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!), size: 48),
-                      TextDandyLight(
-                        type: TextDandyLight.MEDIUM_TEXT,
-                        text: '5',
-                        color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
-                      )
-                    ],
+                GestureDetector(
+                  onTap: () {
+                    if(!(questionnaire.isComplete ?? false)) {
+                      onRatingSelected(5, question);
+                    }
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 4),
+                    child: Column(
+                      children: [
+                        Icon(question.ratingAnswer == 5 ? Icons.star : Icons.star_border, color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!), size: 48),
+                        TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: '5',
+                          color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -1097,160 +1105,161 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
       Profile localProfile,
       Function(DateTime?, Question) onDateChanged,
   ) {
-    return isWebsite ? Container(
-
-    ) : Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        buildQuestionWidget(questionNumber, question),
-        GestureDetector(
-          onTap: () async {
-            if(!(questionnaire.isComplete ?? false)) {
-              onDateChanged((await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(), // Refer step 1
-                firstDate: DateTime(2024),
-                lastDate: DateTime((DateTime.now().year + 10)),
-                builder: (context, child) {
-                  return Theme(
-                    data: Theme.of(context).copyWith(
-                      colorScheme: ColorScheme.light(
-                        primary: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
-                        onPrimary: Color(ColorConstants.getPrimaryWhite()),
-                        onSurface: Color(ColorConstants.getPrimaryBlack()),
-                      ),
-                      textButtonTheme: TextButtonThemeData(
-                        style: TextButton.styleFrom(
-                          textStyle: TextStyle(
-                              color: Color(ColorConstants.getPrimaryBlack())
+    return SizedBox(
+      width: getPageWidth(context),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          buildQuestionWidget(questionNumber, question),
+          GestureDetector(
+            onTap: () async {
+              if(!(questionnaire.isComplete ?? false)) {
+                onDateChanged((await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(), // Refer step 1
+                  firstDate: DateTime(2024),
+                  lastDate: DateTime((DateTime.now().year + 10)),
+                  builder: (context, child) {
+                    return Theme(
+                      data: Theme.of(context).copyWith(
+                        colorScheme: ColorScheme.light(
+                          primary: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+                          onPrimary: Color(ColorConstants.getPrimaryWhite()),
+                          onSurface: Color(ColorConstants.getPrimaryBlack()),
+                        ),
+                        textButtonTheme: TextButtonThemeData(
+                          style: TextButton.styleFrom(
+                            textStyle: TextStyle(
+                                color: Color(ColorConstants.getPrimaryBlack())
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    child: child!,
-                  );
-                },
-              )), question);
-            }
-          },
-          child: Container(
-            margin: const EdgeInsets.only(top: 32),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 64,
-                      alignment: Alignment.center,
-                      child: TextDandyLight(
-                        type: TextDandyLight.MEDIUM_TEXT,
-                        text: 'Month',
+                      child: child!,
+                    );
+                  },
+                )), question);
+              }
+            },
+            child: Container(
+              margin: const EdgeInsets.only(top: 32),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 64,
+                        alignment: Alignment.center,
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: 'Month',
+                          color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Container(
+                        alignment: Alignment.center,
+                        width: 64,
+                        child: TextDandyLight(
+                          type: TextDandyLight.EXTRA_LARGE_TEXT,
+                          text: question.month != null ? question.month.toString() : 'MM',
+                          color: question.month != null ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!) : Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Container(
+                        height: 1,
+                        width: 64,
                         color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Container(
-                      alignment: Alignment.center,
-                      width: 64,
-                      child: TextDandyLight(
-                        type: TextDandyLight.EXTRA_LARGE_TEXT,
-                        text: question.month != null ? question.month.toString() : 'MM',
-                        color: question.month != null ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!) : Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Container(
-                      height: 1,
-                      width: 64,
-                      color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
-                    )
-                  ],
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 26, left: 8, right: 8),
-                  child: TextDandyLight(
-                    type: TextDandyLight.EXTRA_LARGE_TEXT,
-                    text: '/',
-                    color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
+                      )
+                    ],
                   ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 64,
-                      alignment: Alignment.center,
-                      child: TextDandyLight(
-                        type: TextDandyLight.MEDIUM_TEXT,
-                        text: 'Day',
-                        color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Container(
-                      alignment: Alignment.center,
-                      width: 64,
-                      child: TextDandyLight(
-                        type: TextDandyLight.EXTRA_LARGE_TEXT,
-                        text: question.day != null ? question.day.toString() : 'DD',
-                        color: question.day != null ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!) : Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Container(
-                      height: 1,
-                      width: 64,
+                  Container(
+                    margin: const EdgeInsets.only(top: 26, left: 8, right: 8),
+                    child: TextDandyLight(
+                      type: TextDandyLight.EXTRA_LARGE_TEXT,
+                      text: '/',
                       color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
-                    )
-                  ],
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 26, left: 8, right: 8),
-                  child: TextDandyLight(
-                    type: TextDandyLight.EXTRA_LARGE_TEXT,
-                    text: '/',
-                    color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
+                    ),
                   ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 96,
-                      alignment: Alignment.center,
-                      child: TextDandyLight(
-                        type: TextDandyLight.MEDIUM_TEXT,
-                        text: 'Year',
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 64,
+                        alignment: Alignment.center,
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: 'Day',
+                          color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Container(
+                        alignment: Alignment.center,
+                        width: 64,
+                        child: TextDandyLight(
+                          type: TextDandyLight.EXTRA_LARGE_TEXT,
+                          text: question.day != null ? question.day.toString() : 'DD',
+                          color: question.day != null ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!) : Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Container(
+                        height: 1,
+                        width: 64,
                         color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Container(
-                      alignment: Alignment.center,
-                      width: 96,
-                      child: TextDandyLight(
-                        type: TextDandyLight.EXTRA_LARGE_TEXT,
-                        text: question.year != null ? question.year.toString() : 'YYYY',
-                        color: question.year != null ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!) : Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Container(
-                      height: 1,
-                      width: 96,
+                      )
+                    ],
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 26, left: 8, right: 8),
+                    child: TextDandyLight(
+                      type: TextDandyLight.EXTRA_LARGE_TEXT,
+                      text: '/',
                       color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
-                    )
-                  ],
-                ),
-              ],
+                    ),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 96,
+                        alignment: Alignment.center,
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: 'Year',
+                          color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Container(
+                        alignment: Alignment.center,
+                        width: 96,
+                        child: TextDandyLight(
+                          type: TextDandyLight.EXTRA_LARGE_TEXT,
+                          text: question.year != null ? question.year.toString() : 'YYYY',
+                          color: question.year != null ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!) : Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Container(
+                        height: 1,
+                        width: 96,
+                        color: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.25),
+                      )
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

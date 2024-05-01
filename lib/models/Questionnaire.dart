@@ -1,4 +1,6 @@
 
+import 'package:intl/intl.dart';
+
 import 'Question.dart';
 
 /// Questionnaires can be saved in 3 different places in this app.
@@ -56,7 +58,7 @@ class Questionnaire {
     return '';
   }
 
-  double getLengthInMinutes() {
+  String getLengthInMinutes() {
     double result = 0;
     for(Question question in questions!) {
       switch(question.type) {
@@ -98,7 +100,8 @@ class Questionnaire {
       }
     }
     if(result < 1) result = 1;
-    return result;
+    var formatter = NumberFormat('##0.#');
+    return formatter.format(result);
   }
 
   Questionnaire({

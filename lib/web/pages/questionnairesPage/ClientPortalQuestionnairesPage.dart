@@ -109,9 +109,10 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                           alignment: Alignment.centerLeft,
                           child: TextDandyLight(
                             textAlign: TextAlign.start,
-                            type: TextDandyLight.LARGE_TEXT,
+                            type: TextDandyLight.MEDIUM_TEXT,
                             text: pageState.proposal!.questionnaires!.elementAt(index).title,
                             maxLines: 1,
+                            isBold: true,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -132,7 +133,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                 ],
               ),
             ),
-            Container(
+            pageState.proposal!.questionnaires!.elementAt(index).isComplete ?? false ? Container(
               height: 48,
               width: 48,
               padding: const EdgeInsets.all(4),
@@ -141,7 +142,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                   color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.buttonColor!)
               ),
               child: Icon(Icons.check, color: Color(ColorConstants.getPrimaryWhite()),),
-            )
+            ) : const SizedBox()
           ],
         ),
       ) : SizedBox(

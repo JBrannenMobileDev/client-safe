@@ -386,10 +386,9 @@ class AnswerQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchProfile(Store<AppState> store, FetchProfileForAnswerAction action, NextDispatcher next) async{
-    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     Questionnaire questionnaire = action.questionnaire;
     await store.dispatch(ClearAnswerState(store.state.answerQuestionnairePageState!, action.isPreview, action.userId, action.jobId));
     store.dispatch(SetQuestionnaireAction(store.state.answerQuestionnairePageState!, questionnaire));
-    store.dispatch(SetProfileForAnswerAction(store.state.answerQuestionnairePageState!, profile!));
+    store.dispatch(SetProfileForAnswerAction(store.state.answerQuestionnairePageState!, action.profile));
   }
 }
