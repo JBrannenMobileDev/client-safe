@@ -96,7 +96,7 @@ class _QuestionnaireOptionsBottomSheetPageState extends State<QuestionnaireOptio
                 GestureDetector(
                   onTap: () {
                     Navigator.of(context).pop();
-                    NavigationUtil.onInAppPreviewQuestionnaireSelected(context, questionnaire, profile);
+                    NavigationUtil.onAnswerQuestionnaireSelected(context, questionnaire, profile, '', '', true, false);
                   },
                   child: Container(
                     alignment: Alignment.center,

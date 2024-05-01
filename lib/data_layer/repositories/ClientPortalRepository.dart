@@ -28,4 +28,8 @@ class ClientPortalRepository {
   Future<int> updateInvoiceAsDepositPaid(String userId, String jobId, String invoiceId, bool isPaid, double unpaidAmount) async {
     return await functions.updateInvoiceAsDepositPaid(userId, jobId, invoiceId, isPaid, unpaidAmount);
   }
+
+  Future<int> updateQuestionnaireAsComplete(String userId, String jobId, String questionnaireId) async {
+    return await functions.updateQuestionnaireAsComplete(userId, jobId, questionnaireId);
+  }
 }

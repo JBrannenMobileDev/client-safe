@@ -10,7 +10,12 @@ final answerQuestionnaireReducer = combineReducers<AnswerQuestionnairePageState>
 ]);
 
 AnswerQuestionnairePageState _clearState(AnswerQuestionnairePageState previousState, ClearAnswerState action){
-  return AnswerQuestionnairePageState.initial();
+  AnswerQuestionnairePageState newState = AnswerQuestionnairePageState.initial();
+  return newState.copyWith(
+    isPreview: action.isPreview,
+    userId: action.userId,
+    jobId: action.jobId,
+  );
 }
 
 AnswerQuestionnairePageState _setQuestionnaire(AnswerQuestionnairePageState previousState, SetQuestionnaireAction action){

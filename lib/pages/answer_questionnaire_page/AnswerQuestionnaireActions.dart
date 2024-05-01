@@ -12,13 +12,19 @@ class SetQuestionnaireAction{
 
 class ClearAnswerState {
   final AnswerQuestionnairePageState pageState;
-  ClearAnswerState(this.pageState);
+  final bool isPreview;
+  final String? userId;
+  final String? jobId;
+  ClearAnswerState(this.pageState, this.isPreview, this.userId, this.jobId);
 }
 
 class FetchProfileForAnswerAction {
   final AnswerQuestionnairePageState pageState;
   final Questionnaire questionnaire;
-  FetchProfileForAnswerAction(this.pageState, this.questionnaire);
+  final bool isPreview;
+  final String? userId;
+  final String? jobId;
+  FetchProfileForAnswerAction(this.pageState, this.questionnaire, this.isPreview, this.userId, this.jobId);
 }
 
 class SetProfileForAnswerAction {
@@ -152,5 +158,10 @@ class SaveCountryAnswerAction {
   final String answer;
   final Question question;
   SaveCountryAnswerAction(this.pageState, this.answer, this.question);
+}
+
+class SubmitQuestionnaireAction {
+  final AnswerQuestionnairePageState pageState;
+  SubmitQuestionnaireAction(this.pageState);
 }
 

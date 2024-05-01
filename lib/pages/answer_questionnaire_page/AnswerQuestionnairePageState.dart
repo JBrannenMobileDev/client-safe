@@ -10,7 +10,10 @@ import 'AnswerQuestionnaireActions.dart';
 class AnswerQuestionnairePageState{
   final Questionnaire? questionnaire;
   final Profile? profile;
-  final bool? isNew;
+  final bool? isPreview;
+  final Function? onSubmitSelected;
+  final String? userId;
+  final String? jobId;
 
   //Short form
   final Function(String, Question)? onShortFormAnswerChanged;
@@ -51,7 +54,7 @@ class AnswerQuestionnairePageState{
   AnswerQuestionnairePageState({
     @required this.questionnaire,
     @required this.profile,
-    @required this.isNew,
+    @required this.isPreview,
     @required this.onShortFormAnswerChanged,
     @required this.onLongFormAnswerChanged,
     @required this.onFirstNameAnswerChanged,
@@ -70,12 +73,17 @@ class AnswerQuestionnairePageState{
     @required this.onStateRegionAnswerChanged,
     @required this.onZipAnswerChanged,
     @required this.onCountryAnswerChanged,
+    @required this.onSubmitSelected,
+    @required this.userId,
+    @required this.jobId,
   });
 
   AnswerQuestionnairePageState copyWith({
     Questionnaire? questionnaire,
     Profile? profile,
-    bool? isNew,
+    bool? isPreview,
+    String? userId,
+    String? jobId,
     Function(String, Question)? onShortFormAnswerChanged,
     Function(String, Question)? onLongFormAnswerChanged,
     Function(String, Question)? onFirstNameAnswerChanged,
@@ -93,12 +101,13 @@ class AnswerQuestionnairePageState{
     Function(String, Question)? onCityTownAnswerChanged,
     Function(String, Question)? onStateRegionAnswerChanged,
     Function(String, Question)? onZipAnswerChanged,
-    Function(String, Question)? onCountryAnswerChanged
+    Function(String, Question)? onCountryAnswerChanged,
+    Function()? onSubmitSelected,
   }){
     return AnswerQuestionnairePageState(
       questionnaire: questionnaire?? this.questionnaire,
       profile: profile ?? this.profile,
-      isNew: isNew ?? this.isNew,
+      isPreview: isPreview ?? this.isPreview,
       onShortFormAnswerChanged: onShortFormAnswerChanged ?? this.onShortFormAnswerChanged,
       onLongFormAnswerChanged: onLongFormAnswerChanged ?? this.onLongFormAnswerChanged,
       onFirstNameAnswerChanged: onFirstNameAnswerChanged ?? this.onFirstNameAnswerChanged,
@@ -117,13 +126,16 @@ class AnswerQuestionnairePageState{
       onStateRegionAnswerChanged: onStateRegionAnswerChanged ?? this.onStateRegionAnswerChanged,
       onZipAnswerChanged: onZipAnswerChanged ?? this.onZipAnswerChanged,
       onCountryAnswerChanged: onCountryAnswerChanged ?? this.onCountryAnswerChanged,
+      onSubmitSelected: onSubmitSelected ?? this.onSubmitSelected,
+      userId: userId ?? this.userId,
+      jobId: jobId ?? this.jobId,
     );
   }
 
   factory AnswerQuestionnairePageState.initial() => AnswerQuestionnairePageState(
     questionnaire: null,
     profile: null,
-    isNew: false,
+    isPreview: false,
     onShortFormAnswerChanged: null,
     onLongFormAnswerChanged: null,
     onFirstNameAnswerChanged: null,
@@ -142,13 +154,18 @@ class AnswerQuestionnairePageState{
     onStateRegionAnswerChanged: null,
     onZipAnswerChanged: null,
     onCountryAnswerChanged: null,
+    onSubmitSelected: null,
+    userId: '',
+    jobId: '',
   );
 
   factory AnswerQuestionnairePageState.fromStore(Store<AppState> store) {
     return AnswerQuestionnairePageState(
       questionnaire: store.state.answerQuestionnairePageState!.questionnaire,
       profile: store.state.answerQuestionnairePageState!.profile,
-      isNew: store.state.answerQuestionnairePageState!.isNew,
+      isPreview: store.state.answerQuestionnairePageState!.isPreview,
+      userId: store.state.answerQuestionnairePageState!.userId,
+      jobId: store.state.answerQuestionnairePageState!.jobId,
       onShortFormAnswerChanged: (answer, question) => store.dispatch(SaveShortFormAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
       onLongFormAnswerChanged: (answer, question) => store.dispatch(SaveLongFormAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
       onFirstNameAnswerChanged: (answer, question) => store.dispatch(SaveFirstNameAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
@@ -167,6 +184,7 @@ class AnswerQuestionnairePageState{
       onStateRegionAnswerChanged: (answer, question) => store.dispatch(SaveStateRegionAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
       onZipAnswerChanged: (answer, question) => store.dispatch(SaveZipAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
       onCountryAnswerChanged: (answer, question) => store.dispatch(SaveCountryAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
+      onSubmitSelected: () => store.dispatch(SubmitQuestionnaireAction(store.state.answerQuestionnairePageState!)),
     );
   }
 
@@ -174,7 +192,7 @@ class AnswerQuestionnairePageState{
   int get hashCode =>
       questionnaire.hashCode ^
       profile.hashCode^
-      isNew.hashCode ^
+      isPreview.hashCode ^
       onLongFormAnswerChanged.hashCode ^
       onFirstNameAnswerChanged.hashCode ^
       onLastNameAnswerChanged.hashCode ^
@@ -192,6 +210,9 @@ class AnswerQuestionnairePageState{
       onStateRegionAnswerChanged.hashCode ^
       onZipAnswerChanged.hashCode ^
       onCountryAnswerChanged.hashCode ^
+      onSubmitSelected.hashCode ^
+      userId.hashCode ^
+      jobId.hashCode ^
       onShortFormAnswerChanged.hashCode;
 
   @override
@@ -200,7 +221,7 @@ class AnswerQuestionnairePageState{
           other is AnswerQuestionnairePageState &&
               questionnaire == other.questionnaire &&
               profile == other.profile &&
-              isNew == other.isNew &&
+              isPreview == other.isPreview &&
               onLongFormAnswerChanged == other.onLongFormAnswerChanged &&
               onFirstNameAnswerChanged == other.onFirstNameAnswerChanged &&
               onLastNameAnswerChanged == other.onLastNameAnswerChanged &&
@@ -218,5 +239,8 @@ class AnswerQuestionnairePageState{
               onStateRegionAnswerChanged == other.onCityTownAnswerChanged &&
               onZipAnswerChanged == other.onZipAnswerChanged &&
               onCountryAnswerChanged == other.onCountryAnswerChanged &&
+              onSubmitSelected == other.onSubmitSelected &&
+              userId == other.userId &&
+              jobId == other.jobId &&
               onShortFormAnswerChanged == other.onShortFormAnswerChanged;
 }

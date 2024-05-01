@@ -1,10 +1,13 @@
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
+import 'package:http/http.dart' as http;
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/Questionnaire.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:redux/redux.dart';
+import '../../data_layer/api_clients/DandylightFunctionsClient.dart';
+import '../../data_layer/repositories/ClientPortalRepository.dart';
 import '../../models/Question.dart';
 import 'AnswerQuestionnaireActions.dart';
 
@@ -68,6 +71,16 @@ class AnswerQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is SaveCountryAnswerAction) {
       saveCountryAnswer(store, action, next);
+    }
+    if(action is SubmitQuestionnaireAction) {
+      markAsComplete(store, action, next);
+    }
+  }
+
+  void markAsComplete(Store<AppState> store, SubmitQuestionnaireAction action, NextDispatcher next) async{
+    if(!(action.pageState.isPreview ?? true) && action.pageState.questionnaire != null && action.pageState.userId != null && action.pageState.jobId != null && action.pageState.questionnaire!.documentId != null) {
+      ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
+      repository.updateQuestionnaireAsComplete(action.pageState.userId!, action.pageState.jobId!, action.pageState.questionnaire!.documentId!);
     }
   }
 
@@ -373,7 +386,7 @@ class AnswerQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
   void fetchProfile(Store<AppState> store, FetchProfileForAnswerAction action, NextDispatcher next) async{
     Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     Questionnaire questionnaire = action.questionnaire;
-    await store.dispatch(ClearAnswerState(store.state.answerQuestionnairePageState!));
+    await store.dispatch(ClearAnswerState(store.state.answerQuestionnairePageState!, action.isPreview, action.userId, action.jobId));
     store.dispatch(SetQuestionnaireAction(store.state.answerQuestionnairePageState!, questionnaire));
     store.dispatch(SetProfileForAnswerAction(store.state.answerQuestionnairePageState!, profile!));
   }

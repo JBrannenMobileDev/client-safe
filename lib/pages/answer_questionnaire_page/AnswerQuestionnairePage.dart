@@ -26,11 +26,13 @@ class AnswerQuestionnairePage extends StatefulWidget {
   final Profile profile;
   final bool isPreview;
   final bool isWebsite;
-  const AnswerQuestionnairePage({Key? key,required this.questionnaire,required this.isPreview,required this.isWebsite, required this.profile}) : super(key: key);
+  final String? userId;
+  final String? jobId;
+  const AnswerQuestionnairePage({Key? key,required this.questionnaire,required this.isPreview, required this.profile, this.userId, this.jobId, required this.isWebsite}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _AnswerQuestionnairePageState(questionnaire, questionnaire.questions!.length, isPreview, isWebsite, profile);
+    return _AnswerQuestionnairePageState(questionnaire, questionnaire.questions!.length, isPreview, profile, userId, jobId, isWebsite);
   }
 }
 
@@ -46,6 +48,8 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   final FocusNode _messageFocusNode = FocusNode();
   final bool isPreview;
   final bool isWebsite;
+  final String? userId;
+  final String? jobId;
   AnswerQuestionnairePageState? pageStateGlobal;
 
   final int pageCount;
@@ -99,7 +103,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
     });
   }
 
-  _AnswerQuestionnairePageState(this.questionnaire, this.pageCount, this.isPreview, this.isWebsite, this.profile);
+  _AnswerQuestionnairePageState(this.questionnaire, this.pageCount, this.isPreview, this.profile, this.userId, this.jobId, this.isWebsite);
 
   @override
   void initState() {
@@ -132,7 +136,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
         onInit: (store) {
           titleTextController.text = questionnaire.title ?? '';
           messageController.text = questionnaire.message ?? '';
-          store.dispatch(FetchProfileForAnswerAction(store.state.answerQuestionnairePageState!, questionnaire));
+          store.dispatch(FetchProfileForAnswerAction(store.state.answerQuestionnairePageState!, questionnaire, isPreview, userId, jobId));
         },
         onDidChange: (previous, current) {
           setState(() {
@@ -350,6 +354,9 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                     if(currentPageIndex < pageCount-1) {
                       currentPageIndex = currentPageIndex + 1;
                       shortFormTextController.text = '';
+                    } else if(currentPageIndex == pageCount-1) {
+                      pageStateGlobal?.onSubmitSelected!();
+                      Navigator.of(context).pop();
                     }
                   });
                   controller.animateToPage(currentPageIndex, duration: const Duration(milliseconds: 250), curve: Curves.ease);
@@ -385,7 +392,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
     );
   }
   bool isNextEnabled(Question question) {
-    return !question.isRequired! || (question.isRequired! && question.isAnswered());
+    return isPreview || !question.isRequired! || (question.isRequired! && question.isAnswered());
   }
 
   Widget getAnswerWidget(

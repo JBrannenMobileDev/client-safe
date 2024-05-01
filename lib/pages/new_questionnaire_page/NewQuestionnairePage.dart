@@ -5,6 +5,7 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Question.dart';
 import 'package:dandylight/models/Questionnaire.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -363,7 +364,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                           alignment: Alignment.bottomCenter,
                           child: GestureDetector(
                             onTap: () {
-                              NavigationUtil.onAnswerQuestionnaireSelected(context, true, questionnaire!, false, pageState.profile!);
+                              NavigationUtil.onAnswerQuestionnaireSelected(context, questionnaire!, pageState.profile!, '', '', true, false);
                             },
                             child: Container(
                               alignment: Alignment.center,
