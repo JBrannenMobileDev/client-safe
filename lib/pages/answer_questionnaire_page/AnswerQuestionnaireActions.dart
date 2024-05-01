@@ -112,3 +112,45 @@ class SaveDateSelectionAction {
   SaveDateSelectionAction(this.pageState, this.date, this.question);
 }
 
+class SaveAddressAnswerAction {
+  final AnswerQuestionnairePageState pageState;
+  final String answer;
+  final Question question;
+  SaveAddressAnswerAction(this.pageState, this.answer, this.question);
+}
+
+class SaveAddressLine2AnswerAction {
+  final AnswerQuestionnairePageState pageState;
+  final String answer;
+  final Question question;
+  SaveAddressLine2AnswerAction(this.pageState, this.answer, this.question);
+}
+
+class SaveCityTownAnswerAction {
+  final AnswerQuestionnairePageState pageState;
+  final String answer;
+  final Question question;
+  SaveCityTownAnswerAction(this.pageState, this.answer, this.question);
+}
+
+class SaveStateRegionAnswerAction {
+  final AnswerQuestionnairePageState pageState;
+  final String answer;
+  final Question question;
+  SaveStateRegionAnswerAction(this.pageState, this.answer, this.question);
+}
+
+class SaveZipAnswerAction {
+  final AnswerQuestionnairePageState pageState;
+  final String answer;
+  final Question question;
+  SaveZipAnswerAction(this.pageState, this.answer, this.question);
+}
+
+class SaveCountryAnswerAction {
+  final AnswerQuestionnairePageState pageState;
+  final String answer;
+  final Question question;
+  SaveCountryAnswerAction(this.pageState, this.answer, this.question);
+}
+

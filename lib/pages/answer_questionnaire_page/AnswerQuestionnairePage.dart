@@ -405,6 +405,9 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
       case Question.TYPE_CONTACT_INFO:
         result = buildContactInfoResponseAnswerWidget(questionNumber, question, profile, pageState);
         break;
+      case Question.TYPE_ADDRESS:
+        result = buildAddressResponseAnswerWidget(questionNumber, question, profile, pageState);
+        break;
       case Question.TYPE_NUMBER:
         result = buildNumberResponseAnswerWidget(questionNumber, question, profile, pageState.onNumberAnswerChanged!);
         break;
@@ -655,6 +658,53 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
           (question.includePhone ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'Phone number', TextInputType.number, phoneNumberFocusNode!, emailFocusNode, phoneNumberTextController, pageState.onPhoneNumberAnswerChanged!) : const SizedBox(),
           (question.includeEmail ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'Email', TextInputType.emailAddress, emailFocusNode!, instagramNameFocusNode, emailTextController, pageState.onEmailAnswerChanged!) : const SizedBox(),
           (question.includeInstagramName ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'Instagram name', TextInputType.text, instagramNameFocusNode!, null, instagramNameTextController, pageState.onInstagramNameAnswerChanged!) : const SizedBox(),
+          const SizedBox(height: 264)
+        ],
+      ),
+    );
+  }
+
+  TextEditingController addressTextController = TextEditingController();
+  TextEditingController addressLine2TextController = TextEditingController();
+  TextEditingController cityTownTextController = TextEditingController();
+  TextEditingController stateRegionTextController = TextEditingController();
+  TextEditingController zipTextController = TextEditingController();
+  TextEditingController countryTextController = TextEditingController();
+  FocusNode? addressFocusNode = FocusNode();
+  FocusNode? addressLine2FocusNode = FocusNode();
+  FocusNode? cityTownFocusNode = FocusNode();
+  FocusNode? stateRegionFocusNode = FocusNode();
+  FocusNode? zipFocusNode = FocusNode();
+  FocusNode? countryFocusNode = FocusNode();
+
+  Widget buildAddressResponseAnswerWidget(
+      int questionNumber,
+      Question question,
+      Profile localProfile,
+      AnswerQuestionnairePageState pageState,
+      ) {
+    addressFocusNode = (question.addressRequired ?? false) ? FocusNode() : null;
+    addressLine2FocusNode = (question.addressRequired ?? false) ? FocusNode() : null;
+    cityTownFocusNode = (question.cityTownRequired ?? false) ? FocusNode() : null;
+    stateRegionFocusNode = (question.stateRegionProvinceRequired ?? false) ? FocusNode() : null;
+    zipFocusNode = (question.zipPostCodeRequired ?? false) ? FocusNode() : null;
+    countryFocusNode = (question.countryRequired ?? false) ? FocusNode() : null;
+
+    return isWebsite ? Container(
+
+    ) : Container(
+      alignment: Alignment.topLeft,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          buildQuestionWidget(questionNumber, question),
+          (question.addressRequired ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'Address *', TextInputType.streetAddress, addressFocusNode!, addressLine2FocusNode, addressTextController, pageState.onAddressAnswerChanged!) : const SizedBox(),
+          (question.addressRequired ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'Address line 2', TextInputType.streetAddress, addressLine2FocusNode!, cityTownFocusNode, addressLine2TextController, pageState.onAddressLine2AnswerChanged!) : const SizedBox(),
+          (question.cityTownRequired ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'City/Town *', TextInputType.text, cityTownFocusNode!, stateRegionFocusNode, cityTownTextController, pageState.onCityTownAnswerChanged!) : const SizedBox(),
+          (question.stateRegionProvinceRequired ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'State/Region/Province *', TextInputType.text, stateRegionFocusNode!, zipFocusNode, stateRegionTextController, pageState.onStateRegionAnswerChanged!) : const SizedBox(),
+          (question.zipPostCodeRequired ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'ZIP/Post code *', TextInputType.number, zipFocusNode!, null, zipTextController, pageState.onZipAnswerChanged!) : const SizedBox(),
+          (question.countryRequired ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'Country *', TextInputType.text, countryFocusNode!, null, countryTextController, pageState.onCountryAnswerChanged!) : const SizedBox(),
+
           const SizedBox(height: 264)
         ],
       ),

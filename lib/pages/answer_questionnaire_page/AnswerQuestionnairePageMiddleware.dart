@@ -51,6 +51,120 @@ class AnswerQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveDateSelectionAction) {
       saveDateSelectionAnswer(store, action, next);
     }
+    if(action is SaveAddressAnswerAction) {
+      saveAddressAnswer(store, action, next);
+    }
+    if(action is SaveAddressLine2AnswerAction) {
+      saveAddressLine2Answer(store, action, next);
+    }
+    if(action is SaveCityTownAnswerAction) {
+      saveCityTownAnswer(store, action, next);
+    }
+    if(action is SaveStateRegionAnswerAction) {
+      saveStateRegionAnswer(store, action, next);
+    }
+    if(action is SaveZipAnswerAction) {
+      saveZipAnswer(store, action, next);
+    }
+    if(action is SaveCountryAnswerAction) {
+      saveCountryAnswer(store, action, next);
+    }
+  }
+
+  void saveAddressAnswer(Store<AppState> store, SaveAddressAnswerAction action, NextDispatcher next) async{
+    Question question = action.question;
+    question.address = action.answer;
+    List<Question> questions = action.pageState.questionnaire!.questions ?? [];
+
+    for (final (index, loopQuestion) in questions.indexed) {
+      if(question.id == loopQuestion.id) {
+        questions[index] = question;
+      }
+    }
+
+    Questionnaire questionnaire = action.pageState.questionnaire!;
+    questionnaire.questions = questions;
+    store.dispatch(SetQuestionnaireAction(action.pageState, questionnaire));
+  }
+
+  void saveAddressLine2Answer(Store<AppState> store, SaveAddressLine2AnswerAction action, NextDispatcher next) async{
+    Question question = action.question;
+    question.addressLine2 = action.answer;
+    List<Question> questions = action.pageState.questionnaire!.questions ?? [];
+
+    for (final (index, loopQuestion) in questions.indexed) {
+      if(question.id == loopQuestion.id) {
+        questions[index] = question;
+      }
+    }
+
+    Questionnaire questionnaire = action.pageState.questionnaire!;
+    questionnaire.questions = questions;
+    store.dispatch(SetQuestionnaireAction(action.pageState, questionnaire));
+  }
+
+  void saveCityTownAnswer(Store<AppState> store, SaveCityTownAnswerAction action, NextDispatcher next) async{
+    Question question = action.question;
+    question.cityTown = action.answer;
+    List<Question> questions = action.pageState.questionnaire!.questions ?? [];
+
+    for (final (index, loopQuestion) in questions.indexed) {
+      if(question.id == loopQuestion.id) {
+        questions[index] = question;
+      }
+    }
+
+    Questionnaire questionnaire = action.pageState.questionnaire!;
+    questionnaire.questions = questions;
+    store.dispatch(SetQuestionnaireAction(action.pageState, questionnaire));
+  }
+
+  void saveStateRegionAnswer(Store<AppState> store, SaveStateRegionAnswerAction action, NextDispatcher next) async{
+    Question question = action.question;
+    question.stateRegionProvince = action.answer;
+    List<Question> questions = action.pageState.questionnaire!.questions ?? [];
+
+    for (final (index, loopQuestion) in questions.indexed) {
+      if(question.id == loopQuestion.id) {
+        questions[index] = question;
+      }
+    }
+
+    Questionnaire questionnaire = action.pageState.questionnaire!;
+    questionnaire.questions = questions;
+    store.dispatch(SetQuestionnaireAction(action.pageState, questionnaire));
+  }
+
+  void saveZipAnswer(Store<AppState> store, SaveZipAnswerAction action, NextDispatcher next) async{
+    Question question = action.question;
+    question.zipPostCode = action.answer;
+    List<Question> questions = action.pageState.questionnaire!.questions ?? [];
+
+    for (final (index, loopQuestion) in questions.indexed) {
+      if(question.id == loopQuestion.id) {
+        questions[index] = question;
+      }
+    }
+
+    Questionnaire questionnaire = action.pageState.questionnaire!;
+    questionnaire.questions = questions;
+    store.dispatch(SetQuestionnaireAction(action.pageState, questionnaire));
+  }
+
+  void saveCountryAnswer(Store<AppState> store, SaveCountryAnswerAction action, NextDispatcher next) async{
+    Question question = action.question;
+    question.country = action.answer;
+    List<Question> questions = action.pageState.questionnaire!.questions ?? [];
+
+    for (final (index, loopQuestion) in questions.indexed) {
+      if(question.id == loopQuestion.id) {
+        questions[index] = question;
+      }
+    }
+
+    Questionnaire questionnaire = action.pageState.questionnaire!;
+    questionnaire.questions = questions;
+    store.dispatch(SetQuestionnaireAction(action.pageState, questionnaire));
   }
 
   void saveDateSelectionAnswer(Store<AppState> store, SaveDateSelectionAction action, NextDispatcher next) async{

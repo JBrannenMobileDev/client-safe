@@ -25,6 +25,14 @@ class AnswerQuestionnairePageState{
   final Function(String, Question)? onEmailAnswerChanged;
   final Function(String, Question)? onInstagramNameAnswerChanged;
 
+  //Address
+  final Function(String, Question)? onAddressAnswerChanged;
+  final Function(String, Question)? onAddressLine2AnswerChanged;
+  final Function(String, Question)? onCityTownAnswerChanged;
+  final Function(String, Question)? onStateRegionAnswerChanged;
+  final Function(String, Question)? onZipAnswerChanged;
+  final Function(String, Question)? onCountryAnswerChanged;
+
   //Number
   final Function(String, Question)? onNumberAnswerChanged;
 
@@ -56,6 +64,12 @@ class AnswerQuestionnairePageState{
     @required this.onCheckboxItemSelected,
     @required this.onRatingSelected,
     @required this.onDateChanged,
+    @required this.onAddressAnswerChanged,
+    @required this.onAddressLine2AnswerChanged,
+    @required this.onCityTownAnswerChanged,
+    @required this.onStateRegionAnswerChanged,
+    @required this.onZipAnswerChanged,
+    @required this.onCountryAnswerChanged,
   });
 
   AnswerQuestionnairePageState copyWith({
@@ -74,6 +88,12 @@ class AnswerQuestionnairePageState{
     Function(int index, bool, Question)? onCheckboxItemSelected,
     Function(int, Question)? onRatingSelected,
     Function(DateTime?, Question)? onDateChanged,
+    Function(String, Question)? onAddressAnswerChanged,
+    Function(String, Question)? onAddressLine2AnswerChanged,
+    Function(String, Question)? onCityTownAnswerChanged,
+    Function(String, Question)? onStateRegionAnswerChanged,
+    Function(String, Question)? onZipAnswerChanged,
+    Function(String, Question)? onCountryAnswerChanged
   }){
     return AnswerQuestionnairePageState(
       questionnaire: questionnaire?? this.questionnaire,
@@ -91,6 +111,12 @@ class AnswerQuestionnairePageState{
       onCheckboxItemSelected: onCheckboxItemSelected ?? this.onCheckboxItemSelected,
       onRatingSelected: onRatingSelected ?? this.onRatingSelected,
       onDateChanged: onDateChanged ?? this.onDateChanged,
+      onAddressAnswerChanged: onAddressAnswerChanged ?? this.onAddressAnswerChanged,
+      onAddressLine2AnswerChanged: onAddressLine2AnswerChanged ?? this.onAddressLine2AnswerChanged,
+      onCityTownAnswerChanged: onCityTownAnswerChanged ?? this.onCityTownAnswerChanged,
+      onStateRegionAnswerChanged: onStateRegionAnswerChanged ?? this.onStateRegionAnswerChanged,
+      onZipAnswerChanged: onZipAnswerChanged ?? this.onZipAnswerChanged,
+      onCountryAnswerChanged: onCountryAnswerChanged ?? this.onCountryAnswerChanged,
     );
   }
 
@@ -110,6 +136,12 @@ class AnswerQuestionnairePageState{
     onCheckboxItemSelected: null,
     onRatingSelected: null,
     onDateChanged: null,
+    onAddressAnswerChanged: null,
+    onAddressLine2AnswerChanged: null,
+    onCityTownAnswerChanged: null,
+    onStateRegionAnswerChanged: null,
+    onZipAnswerChanged: null,
+    onCountryAnswerChanged: null,
   );
 
   factory AnswerQuestionnairePageState.fromStore(Store<AppState> store) {
@@ -129,6 +161,12 @@ class AnswerQuestionnairePageState{
       onCheckboxItemSelected: (selectedIndex, answer, question) => store.dispatch(SaveCheckBoxSelectionAction(store.state.answerQuestionnairePageState!, selectedIndex, answer, question)),
       onRatingSelected: (selectedRating, question) => store.dispatch(SaveRatingSelectionAction(store.state.answerQuestionnairePageState!, selectedRating, question)),
       onDateChanged: (date, question) => store.dispatch(SaveDateSelectionAction(store.state.answerQuestionnairePageState!, date, question)),
+      onAddressAnswerChanged: (answer, question) => store.dispatch(SaveAddressAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
+      onAddressLine2AnswerChanged: (answer, question) => store.dispatch(SaveAddressLine2AnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
+      onCityTownAnswerChanged: (answer, question) => store.dispatch(SaveCityTownAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
+      onStateRegionAnswerChanged: (answer, question) => store.dispatch(SaveStateRegionAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
+      onZipAnswerChanged: (answer, question) => store.dispatch(SaveZipAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
+      onCountryAnswerChanged: (answer, question) => store.dispatch(SaveCountryAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
     );
   }
 
@@ -148,6 +186,12 @@ class AnswerQuestionnairePageState{
       onCheckboxItemSelected.hashCode ^
       onRatingSelected.hashCode ^
       onDateChanged.hashCode ^
+      onAddressAnswerChanged.hashCode ^
+      onAddressLine2AnswerChanged.hashCode ^
+      onCityTownAnswerChanged.hashCode ^
+      onStateRegionAnswerChanged.hashCode ^
+      onZipAnswerChanged.hashCode ^
+      onCountryAnswerChanged.hashCode ^
       onShortFormAnswerChanged.hashCode;
 
   @override
@@ -168,5 +212,11 @@ class AnswerQuestionnairePageState{
               onCheckboxItemSelected == other.onCheckboxItemSelected &&
               onRatingSelected == other.onRatingSelected &&
               onDateChanged == other.onDateChanged &&
+              onAddressAnswerChanged == other.onAddressAnswerChanged &&
+              onAddressLine2AnswerChanged == other.onAddressLine2AnswerChanged &&
+              onCityTownAnswerChanged == other.onCityTownAnswerChanged &&
+              onStateRegionAnswerChanged == other.onCityTownAnswerChanged &&
+              onZipAnswerChanged == other.onZipAnswerChanged &&
+              onCountryAnswerChanged == other.onCountryAnswerChanged &&
               onShortFormAnswerChanged == other.onShortFormAnswerChanged;
 }

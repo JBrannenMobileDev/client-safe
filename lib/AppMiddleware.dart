@@ -372,5 +372,11 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveCheckBoxSelectionAction>(AnswerQuestionnairePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveRatingSelectionAction>(AnswerQuestionnairePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveDateSelectionAction>(AnswerQuestionnairePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveAddressAnswerAction>(AnswerQuestionnairePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveAddressLine2AnswerAction>(AnswerQuestionnairePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveCityTownAnswerAction>(AnswerQuestionnairePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveStateRegionAnswerAction>(AnswerQuestionnairePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveZipAnswerAction>(AnswerQuestionnairePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveCountryAnswerAction>(AnswerQuestionnairePageMiddleware()));
   return middlewareList;
 }

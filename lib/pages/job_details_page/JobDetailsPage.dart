@@ -333,6 +333,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                     ),
                     SpeedDialChild(
                       child: const Icon(Icons.add),
+                      shape: const CircleBorder(),
                       backgroundColor: Color(ColorConstants.getBlueLight()),
                       labelWidget: Container(
                         alignment: Alignment.center,

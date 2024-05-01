@@ -299,6 +299,13 @@ class Question {
           && isContactItemAnswered(email, includeEmail)
           && isContactItemAnswered(instagramName, includeInstagramName);
         break;
+      case TYPE_ADDRESS:
+        isAnswered = isAddressItemAnswered(address, addressRequired)
+            && isAddressItemAnswered(cityTown, cityTownRequired)
+            && isAddressItemAnswered(stateRegionProvince, stateRegionProvinceRequired)
+            && isAddressItemAnswered(zipPostCode, zipPostCodeRequired)
+            && isAddressItemAnswered(country, countryRequired);
+        break;
       case TYPE_NUMBER:
         isAnswered = number != null;
         break;
@@ -319,6 +326,14 @@ class Question {
   }
 
   bool isContactItemAnswered(String? answer, bool? isIncluded) {
+    if(isIncluded ?? false) {
+      return answer != null && answer.isNotEmpty;
+    } else {
+      return true;
+    }
+  }
+
+  bool isAddressItemAnswered(String? answer, bool? isIncluded) {
     if(isIncluded ?? false) {
       return answer != null && answer.isNotEmpty;
     } else {
