@@ -49,7 +49,7 @@ class _LeadSourceSelection extends State<LeadSourceSelection>
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(bottom: 16.0),
+              margin: EdgeInsets.only(bottom: 14.0),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: "How did " +

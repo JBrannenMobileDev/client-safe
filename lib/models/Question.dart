@@ -280,7 +280,7 @@ class Question {
   }
 
   bool hasImage() {
-    return (showImage ?? false) && ((mobileImageUrl != null && mobileImageUrl!.isNotEmpty) && (webImageUrl != null && webImageUrl!.isNotEmpty));
+    return (showImage ?? false) && (mobileImageUrl != null && mobileImageUrl!.isNotEmpty);
   }
 
   bool isAnswered() {

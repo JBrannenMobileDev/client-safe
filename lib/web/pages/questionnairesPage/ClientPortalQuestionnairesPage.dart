@@ -122,7 +122,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                           child: TextDandyLight(
                             textAlign: TextAlign.start,
                             type: TextDandyLight.MEDIUM_TEXT,
-                            text: '${pageState.proposal!.questionnaires!.elementAt(index).questions!.length} questions (~${pageState.proposal!.questionnaires!.elementAt(index).getLengthInMinutes()}min)',
+                            text: '(${pageState.proposal!.questionnaires!.elementAt(index).getLengthInMinutes()}min)',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -157,7 +157,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
               margin: const EdgeInsets.all(16),
               width: getPageWidth(context),
               child: Container(
-                height: 100,
+                height: 132,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   color: Color(ColorConstants.getPrimaryGreyLight()),
@@ -183,7 +183,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                               textAlign: TextAlign.start,
                               type: TextDandyLight.LARGE_TEXT,
                               text: pageState.proposal!.questionnaires!.elementAt(index).title,
-                              maxLines: 1,
+                              maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -193,7 +193,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                             child: TextDandyLight(
                               textAlign: TextAlign.start,
                               type: TextDandyLight.MEDIUM_TEXT,
-                              text: '${pageState.proposal!.questionnaires!.elementAt(index).questions!.length} questions (~${pageState.proposal!.questionnaires!.elementAt(index).getLengthInMinutes()}min)',
+                              text: '(${pageState.proposal!.questionnaires!.elementAt(index).getLengthInMinutes()}min)',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -205,7 +205,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                 ),
               ),
             ),
-            Container(
+            pageState.proposal!.questionnaires!.elementAt(index).isComplete ?? false ? Container(
               height: 42,
               width: 42,
               padding: const EdgeInsets.all(4),
@@ -214,7 +214,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                   color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.buttonColor!)
               ),
               child: Icon(Icons.check, color: Color(ColorConstants.getPrimaryWhite()),),
-            )
+            ) : const SizedBox()
           ],
         ),
       ),

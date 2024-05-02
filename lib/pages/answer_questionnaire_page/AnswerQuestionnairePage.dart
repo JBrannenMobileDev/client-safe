@@ -5,7 +5,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Questionnaire.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -94,7 +93,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
           break;
         case Question.TYPE_NUMBER:
           if(shouldShowAnswers(question.isAnswered(), questionnaire)) {
-            numberTextController.text = question.number.toString();
+            numberTextController.text = question.number?.toString() ?? '';
           } else {
             numberTextController.text = '';
           }
@@ -177,14 +176,14 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
               appBar: AppBar(
                 scrolledUnderElevation: 4,
                 iconTheme: IconThemeData(
-                  color: (pageState.questionnaire?.questions?.elementAt(currentPageIndex).hasImage() ?? false) ? Color(ColorConstants.getPrimaryWhite()) : Color(ColorConstants.getPrimaryBlack()), //change your color here
+                  color: (pageState.questionnaire?.questions?.elementAt(currentPageIndex).hasImage() ?? false) && !(DeviceType.getDeviceTypeByContext(context) == Type.Website) ? Color(ColorConstants.getPrimaryWhite()) : Color(ColorConstants.getPrimaryBlack()), //change your color here
                 ),
-                backgroundColor: (pageState.questionnaire?.questions?.elementAt(currentPageIndex).hasImage() ?? false) ? Colors.transparent : Color(ColorConstants.getPrimaryWhite()),
+                backgroundColor: (pageState.questionnaire?.questions?.elementAt(currentPageIndex).hasImage() ?? false) && !(DeviceType.getDeviceTypeByContext(context) == Type.Website) ? Colors.transparent : Color(ColorConstants.getPrimaryWhite()),
                 elevation: 0.0,
                 title: TextDandyLight(
-                  type: TextDandyLight.LARGE_TEXT,
+                  type: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextDandyLight.EXTRA_LARGE_TEXT : TextDandyLight.LARGE_TEXT,
                   text: questionnaire.title,
-                  color: (pageState.questionnaire?.questions?.elementAt(currentPageIndex).hasImage() ?? false) ? Color(ColorConstants.getPrimaryWhite()) : Color(ColorConstants.getPrimaryBlack()),
+                  color: (pageState.questionnaire?.questions?.elementAt(currentPageIndex).hasImage() ?? false) && !(DeviceType.getDeviceTypeByContext(context) == Type.Website) ? Color(ColorConstants.getPrimaryWhite()) : Color(ColorConstants.getPrimaryBlack()),
                 ),
                 leading: IconButton(
                   onPressed: (){
@@ -192,7 +191,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                   },
                   icon:const Icon(Icons.close),
                   //replace with our own icon data.
-                )
+                ),
               ),
               backgroundColor: Color(ColorConstants.getPrimaryWhite()),
               body: SizedBox(
@@ -265,15 +264,16 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
       controller: controller,
       itemCount: localQuestionnaire.questions?.length,
       onPageChanged: setCurrentPage,
-      physics: isNextEnabled(pageState.questionnaire!.questions!.elementAt(currentPageIndex == 0 ? currentPageIndex : currentPageIndex - 1)) ? const ScrollPhysics() : const NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, int index){
         Question question = localQuestionnaire.questions!.elementAt(index);
         return Container(
+          margin: DeviceType.getDeviceTypeByContext(context) == Type.Website ? EdgeInsets.only(top: 96, left: 132, right: 132) : EdgeInsets.only(top: 0),
           alignment: Alignment.topCenter,
-          child: SingleChildScrollView(
+          child: DeviceType.getDeviceTypeByContext(context) != Type.Website ? SingleChildScrollView(
             child: Column(
               children: [
-                localQuestionnaire.questions!.elementAt(index).mobileImageUrl != null && localQuestionnaire.questions!.elementAt(index).webImageUrl != null && (localQuestionnaire.questions!.elementAt(index).showImage ?? false) ? Stack(
+                localQuestionnaire.questions!.elementAt(index).mobileImageUrl != null && (localQuestionnaire.questions!.elementAt(index).showImage ?? false) ? Stack(
                   alignment: Alignment.topCenter,
                   children: [
                     ClipRRect(
@@ -312,6 +312,31 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                 getAnswerWidget(index+1, question, profile, pageState)
               ],
             ),
+          ) : Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              localQuestionnaire.questions!.elementAt(index).mobileImageUrl != null && (localQuestionnaire.questions!.elementAt(index).showImage ?? false) ? Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 32),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16)
+                    ),
+                    width: MediaQuery.of(context).size.width/2 - 132,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16), // Image border
+                      child: Image.network(
+                        localQuestionnaire.questions!.elementAt(index).mobileImageUrl ?? '',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ],
+              ) : const SizedBox(height: 96),
+              getAnswerWidget(index+1, question, profile, pageState)
+            ],
           ),
         );
       }
@@ -390,7 +415,15 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                   });
                   controller.animateToPage(currentPageIndex, duration: const Duration(milliseconds: 250), curve: Curves.ease);
                 } else {
-                  DandyToastUtil.showToast('This question is required *', ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!));
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: TextDandyLight(
+                      textAlign: TextAlign.center,
+                        type: TextDandyLight.LARGE_TEXT,
+                        text: 'This question is required *',
+                        color: Color(ColorConstants.getPrimaryWhite()),
+                    ),
+                    backgroundColor: Color(ColorConstants.error_red),
+                  ));
                 }
               },
               child: Container(
@@ -550,7 +583,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
             alignment: Alignment.center,
             height: 84,
             width: 216,
-            margin: const EdgeInsets.only(top: 32),
+            margin: const EdgeInsets.only(top: 64),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
@@ -610,7 +643,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
           buildQuestionWidget(questionNumber, question),
           Container(
             margin: const EdgeInsets.only(left: 32, right: 32, top: 32),
-            padding: const EdgeInsets.only(left: 16, right: 16),
+            padding: const EdgeInsets.only(left: 16, right: 16, top: 4),
             height: 432,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
@@ -702,7 +735,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   double getPageWidth(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     if(DeviceType.getDeviceTypeByContext(context) == Type.Website) {
-      return 1080;
+      return MediaQuery.of(context).size.width/2 - 132;
     } else if(DeviceType.getDeviceTypeByContext(context) == Type.Tablet) {
       return 840;
     }
@@ -735,22 +768,24 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
     zipFocusNode = (question.zipPostCodeRequired ?? false) ? FocusNode() : null;
     countryFocusNode = (question.countryRequired ?? false) ? FocusNode() : null;
 
-    return Container(
-      width: getPageWidth(context),
-      alignment: Alignment.topLeft,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          buildQuestionWidget(questionNumber, question),
-          (question.addressRequired ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'Address *', TextInputType.streetAddress, addressFocusNode!, addressLine2FocusNode, addressTextController, pageState.onAddressAnswerChanged!) : const SizedBox(),
-          (question.addressRequired ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'Address line 2', TextInputType.streetAddress, addressLine2FocusNode!, cityTownFocusNode, addressLine2TextController, pageState.onAddressLine2AnswerChanged!) : const SizedBox(),
-          (question.cityTownRequired ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'City/Town *', TextInputType.text, cityTownFocusNode!, stateRegionFocusNode, cityTownTextController, pageState.onCityTownAnswerChanged!) : const SizedBox(),
-          (question.stateRegionProvinceRequired ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'State/Region/Province *', TextInputType.text, stateRegionFocusNode!, zipFocusNode, stateRegionTextController, pageState.onStateRegionAnswerChanged!) : const SizedBox(),
-          (question.zipPostCodeRequired ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'ZIP/Post code *', TextInputType.number, zipFocusNode!, null, zipTextController, pageState.onZipAnswerChanged!) : const SizedBox(),
-          (question.countryRequired ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'Country *', TextInputType.text, countryFocusNode!, null, countryTextController, pageState.onCountryAnswerChanged!) : const SizedBox(),
+    return SingleChildScrollView(
+      child: Container(
+        width: getPageWidth(context),
+        alignment: Alignment.topLeft,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            buildQuestionWidget(questionNumber, question),
+            (question.addressRequired ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'Address *', TextInputType.streetAddress, addressFocusNode!, addressLine2FocusNode, addressTextController, pageState.onAddressAnswerChanged!) : const SizedBox(),
+            (question.addressRequired ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'Address line 2', TextInputType.streetAddress, addressLine2FocusNode!, cityTownFocusNode, addressLine2TextController, pageState.onAddressLine2AnswerChanged!) : const SizedBox(),
+            (question.cityTownRequired ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'City/Town *', TextInputType.text, cityTownFocusNode!, stateRegionFocusNode, cityTownTextController, pageState.onCityTownAnswerChanged!) : const SizedBox(),
+            (question.stateRegionProvinceRequired ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'State/Region/Province *', TextInputType.text, stateRegionFocusNode!, zipFocusNode, stateRegionTextController, pageState.onStateRegionAnswerChanged!) : const SizedBox(),
+            (question.zipPostCodeRequired ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'ZIP/Post code *', TextInputType.number, zipFocusNode!, null, zipTextController, pageState.onZipAnswerChanged!) : const SizedBox(),
+            (question.countryRequired ?? false) ? singleLineInputField(questionNumber, question, localProfile, 'Country *', TextInputType.text, countryFocusNode!, null, countryTextController, pageState.onCountryAnswerChanged!) : const SizedBox(),
 
-          const SizedBox(height: 264)
-        ],
+            const SizedBox(height: 264)
+          ],
+        ),
       ),
     );
   }
@@ -910,62 +945,65 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   }
 
   Widget buildCheckBoxesResponseAnswerWidget(int questionNumber, Question question, Profile localProfile, Function(int index, bool, Question) onCheckboxItemSelected) {
-    return SizedBox(
-      width: getPageWidth(context),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          buildQuestionWidget(questionNumber, question),
-          Container(
-            alignment: Alignment.topLeft,
-            child: question.choicesCheckBoxes != null ? ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: question.choicesCheckBoxes?.length ?? 0,
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: const EdgeInsets.only(bottom: 16, left: 24, right: 24),
-                    alignment: Alignment.center,
-                    height: 64,
-                    width: 224,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        width: 2,
-                        color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+    return SingleChildScrollView(
+      child: SizedBox(
+        width: getPageWidth(context),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            buildQuestionWidget(questionNumber, question),
+            Container(
+              alignment: Alignment.topLeft,
+              child: question.choicesCheckBoxes != null ? ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: question.choicesCheckBoxes?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 16, left: 24, right: 24),
+                      alignment: Alignment.center,
+                      height: 64,
+                      width: 224,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          width: 2,
+                          color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+                        ),
+                        color: question.hasItemChecked(question.choicesCheckBoxes?.elementAt(index)) ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!).withOpacity(0.5) : Color(ColorConstants.getPrimaryWhite()),
                       ),
-                      color: question.hasItemChecked(question.choicesCheckBoxes?.elementAt(index)) ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!).withOpacity(0.5) : Color(ColorConstants.getPrimaryWhite()),
-                    ),
-                    child: CheckboxListTile(
-                      enabled: !(questionnaire.isComplete ?? false),
-                      checkColor: Color(ColorConstants.getPrimaryWhite()),
-                      fillColor: MaterialStateProperty.resolveWith((states) {
-                        // If the button is pressed, return green, otherwise blue
-                        if (states.contains(MaterialState.selected)) {
-                          return ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!);
-                        }
-                        return Color(ColorConstants.getPrimaryWhite());
-                      }),
-                      title: TextDandyLight(
-                        type: TextDandyLight.LARGE_TEXT,
-                        isBold: question.hasItemChecked(question.choicesCheckBoxes?.elementAt(index)),
-                        text: question.choicesCheckBoxes?.elementAt(index),
-                        color: !question.hasItemChecked(question.choicesCheckBoxes?.elementAt(index)) ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!) : Color(ColorConstants.getPrimaryWhite()),
+                      child: CheckboxListTile(
+                        enabled: !(questionnaire.isComplete ?? false),
+                        checkColor: Color(ColorConstants.getPrimaryWhite()),
+                        fillColor: MaterialStateProperty.resolveWith((states) {
+                          // If the button is pressed, return green, otherwise blue
+                          if (states.contains(MaterialState.selected)) {
+                            return ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!);
+                          }
+                          return Color(ColorConstants.getPrimaryWhite());
+                        }),
+                        title: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                          isBold: question.hasItemChecked(question.choicesCheckBoxes?.elementAt(index)),
+                          text: question.choicesCheckBoxes?.elementAt(index),
+                          color: !question.hasItemChecked(question.choicesCheckBoxes?.elementAt(index)) ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!) : Color(ColorConstants.getPrimaryWhite()),
+                        ),
+                        value: question.hasItemChecked(question.choicesCheckBoxes?.elementAt(index)) ? true : false,
+                        onChanged: (newValue) {
+                          setState(() {
+                            onCheckboxItemSelected(index, !(newValue ?? false), question);
+                          });
+                        },
+                        controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
                       ),
-                      value: question.hasItemChecked(question.choicesCheckBoxes?.elementAt(index)) ? true : false,
-                      onChanged: (newValue) {
-                        setState(() {
-                          onCheckboxItemSelected(index, !(newValue ?? false), question);
-                        });
-                      },
-                      controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-                    ),
-                  );
-                }
-            ) : const SizedBox(),
-          )
-        ],
+                    );
+                  }
+              ) : const SizedBox(),
+            ),
+            const SizedBox(height: 132)
+          ],
+        ),
       ),
     );
   }

@@ -218,15 +218,22 @@ class AnswerQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
 
   void saveCheckBoxSelectionAnswer(Store<AppState> store, SaveCheckBoxSelectionAction action, NextDispatcher next) async{
     Question question = action.question;
-    List selectedCheckBoxes = action.question.answersCheckBoxes ?? [];
+    List selectedCheckBoxes = [];
 
-    if(selectedCheckBoxes.contains(question.choicesCheckBoxes?.elementAt(action.selectedIndex))) {
-      selectedCheckBoxes.removeWhere((item) => item == question.choicesCheckBoxes?.elementAt(action.selectedIndex));
+    if(action.question.multipleSelection ?? true) {
+      selectedCheckBoxes = action.question.answersCheckBoxes ?? [];
+
+      if(selectedCheckBoxes.contains(question.choicesCheckBoxes?.elementAt(action.selectedIndex))) {
+        selectedCheckBoxes.removeWhere((item) => item == question.choicesCheckBoxes?.elementAt(action.selectedIndex));
+      } else {
+        selectedCheckBoxes.add(question.choicesCheckBoxes?.elementAt(action.selectedIndex));
+      }
     } else {
       selectedCheckBoxes.add(question.choicesCheckBoxes?.elementAt(action.selectedIndex));
     }
 
-    question.answersCheckBoxes =selectedCheckBoxes;
+
+    question.answersCheckBoxes = selectedCheckBoxes;
 
     List<Question> questions = action.pageState.questionnaire!.questions ?? [];
 

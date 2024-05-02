@@ -99,9 +99,11 @@ class Questionnaire {
           break;
       }
     }
+    var formatter = NumberFormat('##0');
     if(result < 1) result = 1;
-    var formatter = NumberFormat('##0.#');
-    return formatter.format(result);
+    var resultLow = formatter.format(result);
+    var resultHigh = formatter.format(result + 3);
+    return '$resultLow-$resultHigh';
   }
 
   Questionnaire({
