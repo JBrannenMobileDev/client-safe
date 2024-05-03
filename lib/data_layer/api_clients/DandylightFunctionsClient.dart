@@ -2,9 +2,8 @@ import 'dart:convert';
 
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/Profile.dart';
+import 'package:dandylight/models/Questionnaire.dart';
 import 'package:http/http.dart' as http;
-import 'package:meta/meta.dart';
-
 class DandylightFunctionsApi {
   final _baseUrl = 'https://us-central1-clientsafe-21962.cloudfunctions.net';
 
@@ -73,12 +72,20 @@ class DandylightFunctionsApi {
     return response.statusCode;
   }
 
-  Future<int> updateQuestionnaireAsComplete(String userId, String jobId, String questionnaireId) async {
-    final url = '$_baseUrl/updateQuestionnaireAsComplete/?userId=$userId&jobId=$jobId&questionnaireId=$questionnaireId';
-    final response = await httpClient!.put(Uri.parse(url));
+  Future<int> updateQuestionnaireAsComplete(String userId, String jobId, Questionnaire questionnaire) async {
+    final url = '$_baseUrl/updateQuestionnaireAsComplete/?userId=$userId&jobId=$jobId';
+    final response = await httpClient!.post(
+        Uri.parse(url),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(questionnaire)
+    );
 
     if (response.statusCode != 200) {
-      throw new Exception('error getting quotes');
+      throw Exception('error getting quotes - Status = ${response.statusCode}\n${jsonEncode(questionnaire)}');
+    } else {
+      print('Update questionnaire response - ${response.statusCode}\n${jsonEncode(questionnaire)}');
     }
 
     return response.statusCode;

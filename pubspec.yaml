@@ -91,6 +91,7 @@ dependencies:
   open_store: 0.5.0
   to_csv: 2.2.1
   in_app_notification: 1.1.2
+  json_annotation: ^4.9.0
   modal_bottom_sheet:
     git:
       url: https://github.com/CoolDude53/modal_bottom_sheet.git
@@ -107,6 +108,8 @@ flutter_icons:
   adaptive_icon_foreground: "assets/images/app_icon_adaptive_android.png"
 
 dev_dependencies:
+  build_runner: ^2.4.9
+  json_serializable: ^6.8.0
   flutter_test:
     sdk: flutter
 

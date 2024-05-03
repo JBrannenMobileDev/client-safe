@@ -75,6 +75,9 @@ class AnswerQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
     if(action is SubmitQuestionnaireAction) {
       markAsComplete(store, action, next);
     }
+    if(action is SaveQuestionnaireProgressAction) {
+      saveProgress(store, action, next);
+    }
   }
 
   //TODO figure out how to update answers with cloud function. maybe send a json of the questionnaire object??
@@ -82,8 +85,17 @@ class AnswerQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
   void markAsComplete(Store<AppState> store, SubmitQuestionnaireAction action, NextDispatcher next) async{
     if(!(action.pageState.isPreview ?? true) && action.pageState.questionnaire != null && action.pageState.userId != null && action.pageState.jobId != null && action.pageState.questionnaire!.documentId != null) {
       ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
-      repository.updateQuestionnaireAsComplete(action.pageState.userId!, action.pageState.jobId!, action.pageState.questionnaire!.documentId!);
+      repository.updateQuestionnaireAsComplete(action.pageState.userId!, action.pageState.jobId!, action.pageState.questionnaire!);
     }
+  }
+
+  void saveProgress(Store<AppState> store, SaveQuestionnaireProgressAction action, NextDispatcher next) async{
+    if(!(action.pageState.isPreview ?? true) && action.pageState.questionnaire != null && action.pageState.userId != null && action.pageState.jobId != null && action.pageState.questionnaire != null) {
+      ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
+      repository.updateQuestionnaireAsComplete(action.pageState.userId!, action.pageState.jobId!, action.pageState.questionnaire!);
+    }
+    ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
+    repository.updateQuestionnaireAsComplete(action.pageState.userId!, action.pageState.jobId!, action.pageState.questionnaire!);
   }
 
   void saveAddressAnswer(Store<AppState> store, SaveAddressAnswerAction action, NextDispatcher next) async{

@@ -166,3 +166,8 @@ class SubmitQuestionnaireAction {
   SubmitQuestionnaireAction(this.pageState);
 }
 
+class SaveQuestionnaireProgressAction {
+  final AnswerQuestionnairePageState pageState;
+  SaveQuestionnaireProgressAction(this.pageState);
+}
+

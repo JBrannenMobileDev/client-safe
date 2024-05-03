@@ -1,8 +1,8 @@
 
 import 'package:intl/intl.dart';
-
+import 'package:json_annotation/json_annotation.dart';
 import 'Question.dart';
-
+part 'Questionnaire.g.dart';
 /// Questionnaires can be saved in 3 different places in this app.
 /// 1. QuestionnaireDao - In our local database. These are just the templates. They
 ///    will not be connected to any jobs or have any answers
@@ -10,6 +10,8 @@ import 'Question.dart';
 ///    job and can potentially contain answers.
 /// 3. In the user Profile object. These are questionnaires that were sent directly
 ///    without connecting them to a job/user. These may also include answers.
+
+@JsonSerializable(explicitToJson: true)
 class Questionnaire {
 
   int? id;
@@ -39,6 +41,9 @@ class Questionnaire {
       dateCreated: old.dateCreated
     );
   }
+
+  factory Questionnaire.fromJson(Map<String, dynamic> json) => _$QuestionnaireFromJson(json);
+  Map<String, dynamic> toJson() => _$QuestionnaireToJson(this);
 
   String getMainImageUrl() {
     return questions!.isNotEmpty ? questions!.first.webImageUrl! : '';

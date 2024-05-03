@@ -1,4 +1,5 @@
 import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/models/Questionnaire.dart';
 
 import '../../models/Profile.dart';
 import '../api_clients/DandylightFunctionsClient.dart';
@@ -29,7 +30,7 @@ class ClientPortalRepository {
     return await functions.updateInvoiceAsDepositPaid(userId, jobId, invoiceId, isPaid, unpaidAmount);
   }
 
-  Future<int> updateQuestionnaireAsComplete(String userId, String jobId, String questionnaireId) async {
-    return await functions.updateQuestionnaireAsComplete(userId, jobId, questionnaireId);
+  Future<int> updateQuestionnaireAsComplete(String userId, String jobId, Questionnaire questionnaire) async {
+    return await functions.updateQuestionnaireAsComplete(userId, jobId, questionnaire);
   }
 }

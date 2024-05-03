@@ -403,6 +403,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
             ),
             GestureDetector(
               onTap: () {
+                pageStateGlobal!.saveProgress!();
                 if(isNextEnabled(localQuestionnaire.questions!.elementAt(currentPageIndex))) {
                   setState(() {
                     if(currentPageIndex < pageCount-1) {

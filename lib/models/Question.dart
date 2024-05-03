@@ -1,11 +1,10 @@
 
 import 'package:dandylight/utils/UUID.dart';
-import 'package:dandylight/widgets/TextDandyLight.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:image_picker/image_picker.dart';
+part 'Question.g.dart';
 
-import '../utils/DeviceType.dart';
-
+@JsonSerializable(explicitToJson: true)
 class Question {
   static const String TYPE_CONTACT_INFO = 'Contact info';
   static const String TYPE_SHORT_FORM_RESPONSE = 'Short response';
@@ -16,6 +15,9 @@ class Question {
   static const String TYPE_NUMBER = 'Number';
   static const String TYPE_YES_NO = 'Yes/No';
   static const String TYPE_CHECK_BOXES = 'Checkboxes';
+
+  factory Question.fromJson(Map<String, dynamic> json) => _$QuestionFromJson(json);
+  Map<String, dynamic> toJson() => _$QuestionToJson(this);
 
   static List<String> allTypes() {
     return [
@@ -38,8 +40,6 @@ class Question {
   String? mobileImageUrl;
   bool? showImage;
   bool? isRequired;
-  XFile? webImage;
-  XFile? mobileImage;
 
   //CheckBoxes
   List<dynamic>? choicesCheckBoxes;
@@ -100,14 +100,12 @@ class Question {
 
   Question({
     this.id,
-    this.type = TYPE_SHORT_FORM_RESPONSE,
+    this.type = 'Short response',
     this.question,
     this.webImageUrl,
     this.mobileImageUrl,
     this.showImage = true,
     this.isRequired = true,
-    this.mobileImage,
-    this.webImage,
 
     this.multipleSelection = true,
     this.choicesCheckBoxes,

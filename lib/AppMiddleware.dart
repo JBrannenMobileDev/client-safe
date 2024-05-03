@@ -379,5 +379,6 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveZipAnswerAction>(AnswerQuestionnairePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveCountryAnswerAction>(AnswerQuestionnairePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SubmitQuestionnaireAction>(AnswerQuestionnairePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveQuestionnaireProgressAction>(AnswerQuestionnairePageMiddleware()));
   return middlewareList;
 }

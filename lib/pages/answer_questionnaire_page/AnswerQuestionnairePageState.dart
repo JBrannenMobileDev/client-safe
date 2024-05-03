@@ -14,6 +14,7 @@ class AnswerQuestionnairePageState{
   final Function? onSubmitSelected;
   final String? userId;
   final String? jobId;
+  final Function()? saveProgress;
 
   //Short form
   final Function(String, Question)? onShortFormAnswerChanged;
@@ -76,6 +77,7 @@ class AnswerQuestionnairePageState{
     @required this.onSubmitSelected,
     @required this.userId,
     @required this.jobId,
+    @required this.saveProgress,
   });
 
   AnswerQuestionnairePageState copyWith({
@@ -103,6 +105,7 @@ class AnswerQuestionnairePageState{
     Function(String, Question)? onZipAnswerChanged,
     Function(String, Question)? onCountryAnswerChanged,
     Function()? onSubmitSelected,
+    Function()? saveProgress,
   }){
     return AnswerQuestionnairePageState(
       questionnaire: questionnaire?? this.questionnaire,
@@ -129,6 +132,7 @@ class AnswerQuestionnairePageState{
       onSubmitSelected: onSubmitSelected ?? this.onSubmitSelected,
       userId: userId ?? this.userId,
       jobId: jobId ?? this.jobId,
+      saveProgress: saveProgress ?? this.saveProgress,
     );
   }
 
@@ -157,6 +161,7 @@ class AnswerQuestionnairePageState{
     onSubmitSelected: null,
     userId: '',
     jobId: '',
+    saveProgress: null,
   );
 
   factory AnswerQuestionnairePageState.fromStore(Store<AppState> store) {
@@ -185,6 +190,7 @@ class AnswerQuestionnairePageState{
       onZipAnswerChanged: (answer, question) => store.dispatch(SaveZipAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
       onCountryAnswerChanged: (answer, question) => store.dispatch(SaveCountryAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
       onSubmitSelected: () => store.dispatch(SubmitQuestionnaireAction(store.state.answerQuestionnairePageState!)),
+      saveProgress: () => store.dispatch(SaveQuestionnaireProgressAction(store.state.answerQuestionnairePageState!)),
     );
   }
 
@@ -213,6 +219,7 @@ class AnswerQuestionnairePageState{
       onSubmitSelected.hashCode ^
       userId.hashCode ^
       jobId.hashCode ^
+      saveProgress.hashCode ^
       onShortFormAnswerChanged.hashCode;
 
   @override
@@ -242,5 +249,6 @@ class AnswerQuestionnairePageState{
               onSubmitSelected == other.onSubmitSelected &&
               userId == other.userId &&
               jobId == other.jobId &&
+              saveProgress == other.saveProgress &&
               onShortFormAnswerChanged == other.onShortFormAnswerChanged;
 }
