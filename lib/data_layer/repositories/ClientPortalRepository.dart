@@ -14,6 +14,10 @@ class ClientPortalRepository {
     return await functions.fetchJob(userId, jobId);
   }
 
+  Future<Questionnaire> fetchQuestionnaire(String userId, String questionnaireId) async {
+    return await functions.fetchQuestionnaire(userId, questionnaireId);
+  }
+
   Future<Profile> fetchProfile(String userId, String? jobId) async {
     return await functions.fetchProfile(userId, jobId);
   }
@@ -32,5 +36,8 @@ class ClientPortalRepository {
 
   Future<int> updateQuestionnaire(String userId, String jobId, Questionnaire questionnaire) async {
     return await functions.updateQuestionnaire(userId, jobId, questionnaire);
+  }
+  Future<int> updateQuestionnaireDirectSend(String userId, Questionnaire questionnaire) async {
+    return await functions.updateQuestionnaireDirectSend(userId, questionnaire);
   }
 }

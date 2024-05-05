@@ -148,13 +148,13 @@ class _QuestionnairesDashboardPageState extends State<QuestionnairesDashboardPag
                                                     child: TextDandyLight(
                                                       type: TextDandyLight.MEDIUM_TEXT,
                                                       overflow: TextOverflow.ellipsis,
-                                                      text: getListBasedOnSelectorIndex(selectorIndex, pageState).elementAt(index).title,
+                                                      text: (getListBasedOnSelectorIndex(selectorIndex, pageState).elementAt(index).clientName ?? ''),
                                                       color: selectorIndex == 1 ? (getListBasedOnSelectorIndex(selectorIndex, pageState).elementAt(index).isReviewed ?? false) ? Color(ColorConstants.getPrimaryGreyMedium()) : Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBlack()),
                                                     ),
                                                   ),
                                                   TextDandyLight(
                                                     type: TextDandyLight.SMALL_TEXT,
-                                                    text: selectorIndex == 1 ? 'Completed: ${TextFormatterUtil.formatDateStandard((getListBasedOnSelectorIndex(selectorIndex, pageState).elementAt(index).dateCompleted) ?? DateTime.now())}' : 'Created: ${TextFormatterUtil.formatDateStandard((getListBasedOnSelectorIndex(selectorIndex, pageState).elementAt(index).dateCreated) ?? DateTime.now())}',
+                                                    text: (getListBasedOnSelectorIndex(selectorIndex, pageState).elementAt(index).title ?? ''),
                                                     color: selectorIndex == 1 ? (getListBasedOnSelectorIndex(selectorIndex, pageState).elementAt(index).isReviewed ?? false) ? Color(ColorConstants.getPrimaryGreyMedium()) : Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBlack()),
                                                   )
                                                 ],

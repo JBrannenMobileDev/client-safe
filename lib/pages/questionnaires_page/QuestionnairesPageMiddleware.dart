@@ -44,17 +44,17 @@ class QuestionnairesPageMiddleware extends MiddlewareClass<AppState> {
 
     Questionnaire questionnaireWithId = await QuestionnairesDao.insert(questionnaire);
     //Figure out how to send from here.
-    String questionnaireLink = 'https://DandyLight.com/questionnaire/${UidUtil().getUid()}+${questionnaireWithId.documentId}';
+    String questionnaireLink = 'Questionnaire link:\nhttps://DandyLight.com/questionnaire/${UidUtil().getUid()}+${questionnaireWithId.documentId}';
     Share.share('${action.message}\n\n\n$questionnaireLink');
+    print(questionnaireLink);
   }
-
-  //TODO this is not working yet??
 
   void saveQuestionnaireToJob(Store<AppState> store, SaveQuestionnaireToJobAction action) async {
     Questionnaire questionnaire = action.questionnaire;
     questionnaire.jobDocumentId = action.jobDocumentId;
     questionnaire.documentId = Uuid().generateV4();
     Job? job = await JobDao.getJobById(action.jobDocumentId);
+    questionnaire.clientName = job?.clientName ?? '';
     job!.proposal!.questionnaires!.add(questionnaire);
     try{
       await JobDao.update(job);

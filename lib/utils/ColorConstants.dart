@@ -128,7 +128,11 @@ class ColorConstants{
     return color == 'ffffff';
   }
 
-  static Color hexToColor(String code) {
-    return new Color(int.parse(code, radix: 16) + 0xFF000000);
+  static Color hexToColor(String? code) {
+    if(code != null) {
+      return new Color(int.parse(code, radix: 16) + 0xFF000000);
+    } else {
+      return Color(ColorConstants.getBlueDark());
+    }
   }
 }

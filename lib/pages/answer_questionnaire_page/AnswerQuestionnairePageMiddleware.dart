@@ -1,6 +1,7 @@
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/QuestionnairesDao.dart';
 import 'package:http/http.dart' as http;
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/Questionnaire.dart';
@@ -81,20 +82,27 @@ class AnswerQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void markAsComplete(Store<AppState> store, SubmitQuestionnaireAction action, NextDispatcher next) async{
-    if(!(action.pageState.isPreview ?? true) && action.pageState.questionnaire != null && action.pageState.userId != null && action.pageState.jobId != null && action.pageState.questionnaire!.documentId != null) {
-      ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
+    ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
+    if((action.pageState.isDirectSend ?? false) && action.pageState.userId != null && action.pageState.questionnaire != null) {
       Questionnaire? local = action.pageState.questionnaire;
       if(local != null) {
         local.isComplete = true;
-        local.dateCompleted = DateTime.now();
+        repository.updateQuestionnaireDirectSend(action.pageState.userId!, local);
+      }
+    } else if(!(action.pageState.isPreview ?? true) && action.pageState.questionnaire != null && action.pageState.userId != null && action.pageState.jobId != null && action.pageState.questionnaire!.documentId != null) {
+      Questionnaire? local = action.pageState.questionnaire;
+      if(local != null) {
+        local.isComplete = true;
         repository.updateQuestionnaire(action.pageState.userId!, action.pageState.jobId!, local);
       }
     }
   }
 
   void saveProgress(Store<AppState> store, SaveQuestionnaireProgressAction action, NextDispatcher next) async{
-    if(!(action.pageState.isPreview ?? true) && action.pageState.questionnaire != null && action.pageState.userId != null && action.pageState.jobId != null && action.pageState.questionnaire != null) {
-      ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
+    ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
+    if((action.pageState.isDirectSend ?? false) && action.pageState.userId != null && action.pageState.questionnaire != null) {
+      repository.updateQuestionnaireDirectSend(action.pageState.userId!, action.pageState.questionnaire!);
+    } else if(!(action.pageState.isPreview ?? true) && action.pageState.questionnaire != null && action.pageState.userId != null && action.pageState.jobId != null && action.pageState.questionnaire != null) {
       repository.updateQuestionnaire(action.pageState.userId!, action.pageState.jobId!, action.pageState.questionnaire!);
     }
   }
@@ -406,9 +414,19 @@ class AnswerQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchProfile(Store<AppState> store, FetchProfileForAnswerAction action, NextDispatcher next) async{
-    Questionnaire questionnaire = action.questionnaire;
-    await store.dispatch(ClearAnswerState(store.state.answerQuestionnairePageState!, action.isPreview, action.userId, action.jobId));
-    store.dispatch(SetQuestionnaireAction(store.state.answerQuestionnairePageState!, questionnaire));
-    store.dispatch(SetProfileForAnswerAction(store.state.answerQuestionnairePageState!, action.profile));
+    Questionnaire? questionnaire = action.questionnaire;
+    Profile? profile = action.profile;
+    bool isDirectSend = false;
+    if(questionnaire == null && profile == null) {
+      ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
+      if(action.userId != null && action.userId!.isNotEmpty && action.questionnaireId != null && action.questionnaireId!.isNotEmpty) {
+        isDirectSend = true;
+        questionnaire = await repository.fetchQuestionnaire(action.userId!, action.questionnaireId!);
+        profile = await repository.fetchProfile(action.userId!, null);
+      }
+    }
+    await store.dispatch(ClearAnswerState(store.state.answerQuestionnairePageState!, action.isPreview, action.userId, action.jobId, isDirectSend));
+    if(questionnaire != null) store.dispatch(SetQuestionnaireAction(store.state.answerQuestionnairePageState!, questionnaire));
+    if(profile != null) store.dispatch(SetProfileForAnswerAction(store.state.answerQuestionnairePageState!, profile));
   }
 }

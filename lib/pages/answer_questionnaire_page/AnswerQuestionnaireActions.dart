@@ -15,17 +15,19 @@ class ClearAnswerState {
   final bool isPreview;
   final String? userId;
   final String? jobId;
-  ClearAnswerState(this.pageState, this.isPreview, this.userId, this.jobId);
+  final bool isDirectSend;
+  ClearAnswerState(this.pageState, this.isPreview, this.userId, this.jobId, this.isDirectSend);
 }
 
 class FetchProfileForAnswerAction {
   final AnswerQuestionnairePageState pageState;
-  final Questionnaire questionnaire;
+  final Questionnaire? questionnaire;
   final bool isPreview;
   final String? userId;
   final String? jobId;
-  final Profile profile;
-  FetchProfileForAnswerAction(this.pageState, this.questionnaire, this.isPreview, this.userId, this.jobId, this.profile);
+  final String? questionnaireId;
+  final Profile? profile;
+  FetchProfileForAnswerAction(this.pageState, this.questionnaire, this.isPreview, this.userId, this.jobId, this.profile, this.questionnaireId);
 }
 
 class SetProfileForAnswerAction {

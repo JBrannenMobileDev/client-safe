@@ -5,4 +5,5 @@ class RouteNames {
   static const String DELETE_ACCOUNT_INFO = 'deleteAccountInfo';
   static const String BLOG = 'blog';
   static const String LANDING_PAGE = '/';
+  static const String QUESTIONNAIRE = 'questionnaire';
 }

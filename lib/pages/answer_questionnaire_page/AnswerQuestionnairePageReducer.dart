@@ -15,6 +15,7 @@ AnswerQuestionnairePageState _clearState(AnswerQuestionnairePageState previousSt
     isPreview: action.isPreview,
     userId: action.userId,
     jobId: action.jobId,
+    isDirectSend: action.isDirectSend,
   );
 }
 

@@ -182,7 +182,7 @@ class _SendQuestionnaireBottomSheetState extends State<SendQuestionnaireBottomSh
     double result = 264;
     if(viewState == INITIAL_STATE) result = 264;
     if(viewState == SHARE_VIA_CLIENT_PORTAL_STATE) result = 550;
-    if(viewState == SHARE_DIRECTLY_STATE) result = 550;
+    if(viewState == SHARE_DIRECTLY_STATE) result = 764;
     return result;
   }
 

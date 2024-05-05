@@ -62,7 +62,7 @@ class QuestionnairesPageState{
       onSaveToJobSelected: (questionnaire, jobDocumentId) => store.dispatch(SaveQuestionnaireToJobAction(store.state.questionnairesPageState!, questionnaire, jobDocumentId)),
       unsubscribe: () => store.dispatch(CancelSubscriptionsAction(store.state.questionnairesPageState!)),
       onShareMessageChanged: (message) => store.dispatch(UpdateShareMessageAction(store.state.questionnairesPageState!, message)),
-      createNewJoblessQuestionnaire: (name, message, questionnaire) => CreateNewJoblessQuestionnaireAction(store.state.questionnairesPageState!, name, message, questionnaire),
+      createNewJoblessQuestionnaire: (name, message, questionnaire) => store.dispatch(CreateNewJoblessQuestionnaireAction(store.state.questionnairesPageState!, name, message, questionnaire)),
     );
   }
 

@@ -66,21 +66,6 @@ class _ShareClientPortalOptionsBottomSheetPageState extends State<SendQuestionna
     }
   }
 
-  void _showChooseMessageSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      isDismissible: true,
-      enableDrag: true,
-      backgroundColor: Colors.transparent,
-      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
-      builder: (context) {
-        return ChooseShareMessageBottomSheet(_setSelectedMessage);
-        return const SizedBox();
-      },
-    );
-  }
-
   void _setSelectedMessage(String message) {
     setState(() {
       messageController.value = messageController.value.copyWith(text: message);
@@ -115,122 +100,125 @@ class _ShareClientPortalOptionsBottomSheetPageState extends State<SendQuestionna
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, QuestionnairesPageState>(
     onInit: (store) {
-      // String clientMessage = '[Your message goes here]\n\nAccess your client portal here: \nhttps://dandylight.com/questionnaire/${profile.uid}+${questionnaire.documentId}';
-      // messageController.value = messageController.value.copyWith(text: job.proposal.shareMessage != null && job.proposal.shareMessage.isNotEmpty ? job.proposal.shareMessage : clientMessage);
-      // if(job.proposal.shareMessage == null || job.proposal.shareMessage.isEmpty) {
-      //   store.dispatch(SetClientShareMessageAction(store.state.shareWithClientPageState, clientMessage));
-      // } else {
-      //   store.dispatch(SetClientShareMessageAction(store.state.shareWithClientPageState, job.proposal.shareMessage));
-      // }
+
     },
   converter: (Store<AppState> store) => QuestionnairesPageState.fromStore(store),
   builder: (BuildContext context, QuestionnairesPageState pageState) =>
   Container(
-        height: 516.0,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.only(topRight: Radius.circular(16), topLeft: Radius.circular(16)),
           color: Color(ColorConstants.getPrimaryWhite()),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width,
-              margin: const EdgeInsets.only(top: 16, bottom: 32),
-              child: TextDandyLight(
-                type: TextDandyLight.LARGE_TEXT,
-                text: 'Send questionnaire',
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 4, left: 48, right: 48),
-              child: TextDandyLight(
-                type: TextDandyLight.MEDIUM_TEXT,
-                text: 'To:',
-              ),
-            ),
-            Container(
-              height: 48,
-              margin: const EdgeInsets.only(left: 16, right: 16, bottom: 32),
-              padding: const EdgeInsets.only(top: 0),
-              decoration: BoxDecoration(
-                  color: Color(ColorConstants.getPrimaryWhite()),
-                  borderRadius: BorderRadius.circular(24)
-              ),
-              child: Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(left: 20.0, right: 20.0),
-                    child: ShareWithClientTextField(
-                      nameController,
-                      'Name',
-                      TextInputType.multiline,
-                      264.0,
-                      pageState.onShareMessageChanged,
-                      'noError',
-                      TextInputAction.newline,
-                      _nameFocusNode,
-                      onAction,
-                      TextCapitalization.sentences,
-                      null,
-                      true,
-                      true,
-                      true,
-                    ),
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width,
+                  margin: const EdgeInsets.only(top: 16, bottom: 32),
+                  child: TextDandyLight(
+                    type: TextDandyLight.LARGE_TEXT,
+                    text: 'Send questionnaire',
                   ),
-                ],
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 4, left: 48, right: 48),
-              child: TextDandyLight(
-                type: TextDandyLight.MEDIUM_TEXT,
-                text: 'SMS/Email message:',
-              ),
-            ),
-            Container(
-              height: 216,
-              margin: const EdgeInsets.only(left: 16, right: 16, bottom: 32),
-              padding: const EdgeInsets.only(top: 0),
-              decoration: BoxDecoration(
-                  color: Color(ColorConstants.getPrimaryWhite()),
-                  borderRadius: BorderRadius.circular(24)
-              ),
-              child: Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(left: 20.0, right: 20.0),
-                    child: ShareWithClientTextField(
-                      messageController,
-                      '',
-                      TextInputType.multiline,
-                      264.0,
-                      pageState.onShareMessageChanged,
-                      'noError',
-                      TextInputAction.newline,
-                      _messageFocusNode,
-                      onAction,
-                      TextCapitalization.sentences,
-                      null,
-                      true,
-                      true,
-                      true,
-                    ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(bottom: 4, left: 48, right: 48),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'To:',
                   ),
-                ],
-              ),
+                ),
+                Container(
+                  height: 48,
+                  margin: const EdgeInsets.only(left: 16, right: 16, bottom: 32),
+                  padding: const EdgeInsets.only(top: 0),
+                  decoration: BoxDecoration(
+                      color: Color(ColorConstants.getPrimaryWhite()),
+                      borderRadius: BorderRadius.circular(24)
+                  ),
+                  child: Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+                        child: ShareWithClientTextField(
+                          nameController,
+                          'Name',
+                          TextInputType.name,
+                          264.0,
+                          pageState.onShareMessageChanged,
+                          'noError',
+                          TextInputAction.next,
+                          _nameFocusNode,
+                          onAction,
+                          TextCapitalization.words,
+                          null,
+                          true,
+                          true,
+                          true,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(bottom: 4, left: 48, right: 48),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'SMS/Email message:',
+                  ),
+                ),
+                Container(
+                  height: 216,
+                  margin: const EdgeInsets.only(left: 16, right: 16, bottom: 32),
+                  padding: const EdgeInsets.only(top: 0),
+                  decoration: BoxDecoration(
+                      color: Color(ColorConstants.getPrimaryWhite()),
+                      borderRadius: BorderRadius.circular(24)
+                  ),
+                  child: Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+                        child: ShareWithClientTextField(
+                          messageController,
+                          '',
+                          TextInputType.multiline,
+                          264.0,
+                          pageState.onShareMessageChanged,
+                          'noError',
+                          TextInputAction.newline,
+                          _messageFocusNode,
+                          onAction,
+                          TextCapitalization.sentences,
+                          null,
+                          true,
+                          true,
+                          true,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
             GestureDetector(
               onTap: () {
-                pageState.createNewJoblessQuestionnaire!(nameController.text, messageController.text, questionnaire!);
-                Navigator.of(context).pop();
+                if(nameController.text.isNotEmpty) {
+                  pageState.createNewJoblessQuestionnaire!(nameController.text, messageController.text, questionnaire!);
+                  Navigator.of(context).pop();
+                } else {
+                  DandyToastUtil.showErrorToast('Please enter a name.');
+                }
               },
               child: Container(
-                alignment: Alignment.center,
+                alignment: Alignment.bottomCenter,
                 width: MediaQuery.of(context).size.width,
+                margin: const EdgeInsets.only(bottom: 32),
                 child: Container(
                   height: 54,
                   width: 196,

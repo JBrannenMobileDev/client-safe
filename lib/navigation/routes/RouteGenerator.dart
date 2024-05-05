@@ -1,4 +1,5 @@
 import 'package:dandylight/navigation/routes/RouteNames.dart';
+import 'package:dandylight/pages/answer_questionnaire_page/AnswerQuestionnairePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -34,6 +35,26 @@ class RouteGenerator {
       EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_PREVIEW_VIEWED);
       return _GeneratePageRoute(
           widget: ProposalPage(userId: uid, jobId: null, isBrandingPreview: true),
+          routeName: settings.name!
+      );
+    }
+
+    /**
+     * Questionnaire (Direct send)
+     */
+    if(uri.pathSegments.length == 2 && uri.pathSegments.first == RouteNames.QUESTIONNAIRE) {
+      var id = uri.pathSegments[1];
+      var params = id.split('+');
+      return _GeneratePageRoute(
+          widget: AnswerQuestionnairePage(
+              userId: params[0],
+              jobId: null,
+              questionnaireId: params[1],
+              questionnaire: null,
+              isPreview: false,
+              isWebsite: true,
+              profile: null
+          ),
           routeName: settings.name!
       );
     }

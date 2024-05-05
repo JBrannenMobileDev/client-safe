@@ -93,7 +93,6 @@ class Profile{
   DateTime? responsesLastChangeDate;
   DateTime? discountCodesLastChangedTime;
   DateTime? questionnairesLastChangedTime;
-  List<Questionnaire>? directSendQuestionnaires;
 
   Profile({
     this.id,
@@ -186,7 +185,6 @@ class Profile{
     this.requestReviewDate,
     this.updateLastSeenDate,
     this.questionnairesLastChangedTime,
-    this.directSendQuestionnaires,
   });
 
   Profile copyWith({
@@ -280,7 +278,6 @@ class Profile{
     DateTime? poseLibraryGroupLastChangeDate,
     DateTime? discountCodesLastChangedTime,
     DateTime? questionnairesLastChangedTime,
-    List<Questionnaire>? directSendQuestionnaires,
   }){
     return Profile(
       id: id ?? this.id,
@@ -373,7 +370,6 @@ class Profile{
       requestReviewDate: requestReviewDate ?? this.requestReviewDate,
       updateLastSeenDate: updateLastSeenDate ?? this.updateLastSeenDate,
       questionnairesLastChangedTime: questionnairesLastChangedTime ?? this.questionnairesLastChangedTime,
-      directSendQuestionnaires: directSendQuestionnaires ?? this.directSendQuestionnaires,
     );
   }
 
@@ -469,7 +465,6 @@ class Profile{
       'otherMessage' : otherMessage,
       'wireMessage' : wireMessage,
       'cashMessage' : cashMessage,
-      'directSendQuestionnaires' : convertQuestionnairesToMap(directSendQuestionnaires),
     };
   }
 
@@ -562,7 +557,6 @@ class Profile{
       requestReviewDate: map['requestReviewDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['requestReviewDate']) : null,
       updateLastSeenDate: map['updateLastSeenDate'] != null ? DateTime.fromMillisecondsSinceEpoch(map['updateLastSeenDate']) : null,
       questionnairesLastChangedTime: map['questionnairesLastChangedTime'] != null ? DateTime.fromMillisecondsSinceEpoch(map['questionnairesLastChangedTime']) : null,
-      directSendQuestionnaires: map['questionnaires'] != null ? convertMapsToQuestionnaires(map['questionnaires']) : [],
     );
   }
 

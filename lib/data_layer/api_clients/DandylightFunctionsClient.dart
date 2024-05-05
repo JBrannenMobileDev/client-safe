@@ -27,6 +27,21 @@ class DandylightFunctionsApi {
     return Job.fromMap(json);
   }
 
+  Future<Questionnaire> fetchQuestionnaire(String userId, String questionnaireId) async {
+    final url = '$_baseUrl/getQuestionnaire/?userId=$userId&questionnaireId=$questionnaireId';
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json'
+    };
+    final response = await httpClient!.get(Uri.parse(url), headers: requestHeaders);
+
+    if (response.statusCode != 200) {
+      throw new Exception('error getting quotes');
+    }
+
+    final json = jsonDecode(response.body);
+    return Questionnaire.fromMap(json);
+  }
+
   Future<Profile> fetchProfile(String userId, String? jobId) async {
     final url = '$_baseUrl/getProfile/?userId=$userId&jobId=$jobId';
     final response = await httpClient!.get(Uri.parse(url));
@@ -80,6 +95,25 @@ class DandylightFunctionsApi {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(questionnaire)
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('error getting quotes - Status = ${response.statusCode}\n${jsonEncode(questionnaire)}');
+    } else {
+      print('Update questionnaire response - ${response.statusCode}\n${jsonEncode(questionnaire)}');
+    }
+
+    return response.statusCode;
+  }
+
+  Future<int> updateQuestionnaireDirectSend(String userId, Questionnaire questionnaire) async {
+    final url = '$_baseUrl/updateQuestionnaireDirectSend/?userId=$userId';
+    final response = await httpClient!.put(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(questionnaire)
     );
 
     if (response.statusCode != 200) {

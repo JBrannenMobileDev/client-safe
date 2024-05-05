@@ -11,6 +11,7 @@ class AnswerQuestionnairePageState{
   final Questionnaire? questionnaire;
   final Profile? profile;
   final bool? isPreview;
+  final bool? isDirectSend;
   final Function? onSubmitSelected;
   final String? userId;
   final String? jobId;
@@ -78,6 +79,7 @@ class AnswerQuestionnairePageState{
     @required this.userId,
     @required this.jobId,
     @required this.saveProgress,
+    @required this.isDirectSend,
   });
 
   AnswerQuestionnairePageState copyWith({
@@ -86,6 +88,7 @@ class AnswerQuestionnairePageState{
     bool? isPreview,
     String? userId,
     String? jobId,
+    bool? isDirectSend,
     Function(String, Question)? onShortFormAnswerChanged,
     Function(String, Question)? onLongFormAnswerChanged,
     Function(String, Question)? onFirstNameAnswerChanged,
@@ -111,6 +114,7 @@ class AnswerQuestionnairePageState{
       questionnaire: questionnaire?? this.questionnaire,
       profile: profile ?? this.profile,
       isPreview: isPreview ?? this.isPreview,
+      isDirectSend: isDirectSend ?? this.isDirectSend,
       onShortFormAnswerChanged: onShortFormAnswerChanged ?? this.onShortFormAnswerChanged,
       onLongFormAnswerChanged: onLongFormAnswerChanged ?? this.onLongFormAnswerChanged,
       onFirstNameAnswerChanged: onFirstNameAnswerChanged ?? this.onFirstNameAnswerChanged,
@@ -162,6 +166,7 @@ class AnswerQuestionnairePageState{
     userId: '',
     jobId: '',
     saveProgress: null,
+    isDirectSend: false,
   );
 
   factory AnswerQuestionnairePageState.fromStore(Store<AppState> store) {
@@ -171,6 +176,7 @@ class AnswerQuestionnairePageState{
       isPreview: store.state.answerQuestionnairePageState!.isPreview,
       userId: store.state.answerQuestionnairePageState!.userId,
       jobId: store.state.answerQuestionnairePageState!.jobId,
+      isDirectSend: store.state.answerQuestionnairePageState!.isDirectSend,
       onShortFormAnswerChanged: (answer, question) => store.dispatch(SaveShortFormAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
       onLongFormAnswerChanged: (answer, question) => store.dispatch(SaveLongFormAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
       onFirstNameAnswerChanged: (answer, question) => store.dispatch(SaveFirstNameAnswerAction(store.state.answerQuestionnairePageState!, answer, question)),
@@ -220,6 +226,7 @@ class AnswerQuestionnairePageState{
       userId.hashCode ^
       jobId.hashCode ^
       saveProgress.hashCode ^
+      isDirectSend.hashCode ^
       onShortFormAnswerChanged.hashCode;
 
   @override
@@ -250,5 +257,6 @@ class AnswerQuestionnairePageState{
               userId == other.userId &&
               jobId == other.jobId &&
               saveProgress == other.saveProgress &&
+              isDirectSend == other.isDirectSend &&
               onShortFormAnswerChanged == other.onShortFormAnswerChanged;
 }

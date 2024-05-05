@@ -7,6 +7,7 @@ import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobTypeDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/MileageExpenseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/QuestionnairesDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/RecurringExpenseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/SingleExpenseDao.dart';
 import 'package:dandylight/models/AppSettings.dart';
@@ -395,11 +396,11 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _loadAllQuestionnaires(Store<AppState> store) async {
-    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    List<Questionnaire> profileQuestionnaires = profile?.directSendQuestionnaires ?? [];
-    List<Questionnaire> allQuestionnaires = profileQuestionnaires;
-    List<Questionnaire> notCompleteQuestionnaires = profileQuestionnaires.where((questionnaire) => !questionnaire.isComplete!).toList();
-    List<Questionnaire> completeQuestionnaire = profileQuestionnaires.where((questionnaire) => questionnaire.isComplete!).toList();
+    List<Questionnaire> directSendQuestionnaires = (await QuestionnairesDao.getAll());
+    directSendQuestionnaires.retainWhere((questionnaire) => !(questionnaire.isTemplate ?? false));
+    List<Questionnaire> allQuestionnaires = directSendQuestionnaires;
+    List<Questionnaire> notCompleteQuestionnaires = directSendQuestionnaires.where((questionnaire) => !questionnaire.isComplete!).toList();
+    List<Questionnaire> completeQuestionnaire = directSendQuestionnaires.where((questionnaire) => questionnaire.isComplete!).toList();
 
     List<Job>? activeJobs = JobUtil.getActiveJobs(await JobDao.getAllJobs());
     List<Job> activeJobsWithQuestionnaires = JobUtil.getJobsWithQuestionnaires(activeJobs);

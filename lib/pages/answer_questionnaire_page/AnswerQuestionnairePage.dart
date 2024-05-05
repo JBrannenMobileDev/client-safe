@@ -9,6 +9,7 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
@@ -22,17 +23,18 @@ import 'AnswerQuestionnaireActions.dart';
 import 'AnswerQuestionnairePageState.dart';
 
 class AnswerQuestionnairePage extends StatefulWidget {
-  final Questionnaire questionnaire;
-  final Profile profile;
+  final Questionnaire? questionnaire;
+  final Profile? profile;
   final bool isPreview;
   final bool isWebsite;
   final String? userId;
   final String? jobId;
-  const AnswerQuestionnairePage({Key? key,required this.questionnaire,required this.isPreview, required this.profile, this.userId, this.jobId, required this.isWebsite}) : super(key: key);
+  final String? questionnaireId;
+  const AnswerQuestionnairePage({Key? key,required this.questionnaire,required this.isPreview, required this.profile, this.userId, this.jobId, required this.isWebsite, this.questionnaireId}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _AnswerQuestionnairePageState(questionnaire, questionnaire.questions!.length, isPreview, profile, userId, jobId, isWebsite);
+    return _AnswerQuestionnairePageState(questionnaire, questionnaire?.questions?.length ?? 0, isPreview, profile, userId, jobId, isWebsite, questionnaireId);
   }
 }
 
@@ -41,8 +43,8 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   final TextEditingController controllerTitle = TextEditingController();
   bool isKeyboardVisible = false;
   OverlayEntry? overlayEntry;
-  final Questionnaire questionnaire;
-  final Profile profile;
+  final Questionnaire? initialQuestionnaire;
+  final Profile? initialProfile;
   TextEditingController titleTextController = TextEditingController();
   final messageController = TextEditingController();
   final FocusNode _messageFocusNode = FocusNode();
@@ -50,9 +52,11 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   final bool isWebsite;
   final String? userId;
   final String? jobId;
+  final String? questionnaireId;
   AnswerQuestionnairePageState? pageStateGlobal;
+  bool submitted = false;
 
-  final int pageCount;
+  int pageCount;
   int currentPageIndex = 0;
   final PageController controller = PageController(initialPage: 0);
   late StreamSubscription<bool> keyboardSubscription;
@@ -60,25 +64,25 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   setCurrentPage(int page) {
     setState(() {
       currentPageIndex = page;
-      Question? question = pageStateGlobal!.questionnaire != null ? pageStateGlobal!.questionnaire!.questions?.elementAt(currentPageIndex) : questionnaire.questions?.elementAt(currentPageIndex);
+      Question? question = pageStateGlobal!.questionnaire?.questions?.elementAt(currentPageIndex);
       if(question != null) {
         switch(question.type) {
           case Question.TYPE_SHORT_FORM_RESPONSE:
-            if(shouldShowAnswers(question.isAnswered(), questionnaire)) {
+            if(shouldShowAnswers(question.isAnswered(), pageStateGlobal!.questionnaire)) {
               shortFormTextController.text = question.shortAnswer ?? '';
             } else {
               shortFormTextController.text = '';
             }
             break;
           case Question.TYPE_LONG_FORM_RESPONSE:
-            if(shouldShowAnswers(question.isAnswered(), questionnaire)) {
+            if(shouldShowAnswers(question.isAnswered(), pageStateGlobal!.questionnaire)) {
               longFormTextController.text = question.longAnswer ?? '';
             } else {
               longFormTextController.text = '';
             }
             break;
           case Question.TYPE_CONTACT_INFO:
-            if(shouldShowAnswers(question.isAnswered(), questionnaire)) {
+            if(shouldShowAnswers(question.isAnswered(), pageStateGlobal!.questionnaire)) {
               firstNameTextController.text = question.firstName ?? '';
               lastNameTextController.text = question.lastName ?? '';
               phoneNumberTextController.text = question.phone ?? '';
@@ -93,14 +97,14 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
             }
             break;
           case Question.TYPE_NUMBER:
-            if(shouldShowAnswers(question.isAnswered(), questionnaire)) {
+            if(shouldShowAnswers(question.isAnswered(), pageStateGlobal!.questionnaire)) {
               numberTextController.text = question.number?.toString() ?? '';
             } else {
               numberTextController.text = '';
             }
             break;
           case Question.TYPE_ADDRESS:
-            if(shouldShowAnswers(question.isAnswered(), questionnaire)) {
+            if(shouldShowAnswers(question.isAnswered(), pageStateGlobal!.questionnaire)) {
               addressTextController.text = question.address ?? '';
               addressLine2TextController.text = question.addressLine2 ?? '';
               cityTownTextController.text = question.cityTown ?? '';
@@ -117,7 +121,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
             }
             break;
           case Question.TYPE_DATE:
-            if(shouldShowAnswers(question.isAnswered(), questionnaire)) {
+            if(shouldShowAnswers(question.isAnswered(), pageStateGlobal!.questionnaire)) {
               monthTextController.text = question.month.toString();
               dayTextController.text = question.day.toString();
               yearTextController.text = question.year.toString();
@@ -132,7 +136,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
     });
   }
 
-  _AnswerQuestionnairePageState(this.questionnaire, this.pageCount, this.isPreview, this.profile, this.userId, this.jobId, this.isWebsite);
+  _AnswerQuestionnairePageState(this.initialQuestionnaire, this.pageCount, this.isPreview, this.initialProfile, this.userId, this.jobId, this.isWebsite, this.questionnaireId);
 
   @override
   void initState() {
@@ -163,27 +167,27 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   Widget build(BuildContext context) =>
       StoreConnector<AppState, AnswerQuestionnairePageState>(
         onInit: (store) {
-          titleTextController.text = questionnaire.title ?? '';
-          messageController.text = questionnaire.message ?? '';
-          Question? local = questionnaire.questions?.elementAt(0);
+          titleTextController.text = initialQuestionnaire?.title ?? '';
+          messageController.text = initialQuestionnaire?.message ?? '';
+          Question? local = initialQuestionnaire?.questions?.elementAt(0);
           if(local != null) {
             switch(local.type) {
               case Question.TYPE_SHORT_FORM_RESPONSE:
-                if(shouldShowAnswers(local.isAnswered(), questionnaire)) {
+                if(shouldShowAnswers(local.isAnswered(), initialQuestionnaire)) {
                   shortFormTextController.text = local.shortAnswer ?? '';
                 } else {
                   shortFormTextController.text = '';
                 }
                 break;
               case Question.TYPE_LONG_FORM_RESPONSE:
-                if(shouldShowAnswers(local.isAnswered(), questionnaire)) {
+                if(shouldShowAnswers(local.isAnswered(), initialQuestionnaire)) {
                   longFormTextController.text = local.longAnswer ?? '';
                 } else {
                   longFormTextController.text = '';
                 }
                 break;
               case Question.TYPE_CONTACT_INFO:
-                if(shouldShowAnswers(local.isAnswered(), questionnaire)) {
+                if(shouldShowAnswers(local.isAnswered(), initialQuestionnaire)) {
                   firstNameTextController.text = local.firstName ?? '';
                   lastNameTextController.text = local.lastName ?? '';
                   phoneNumberTextController.text = local.phone ?? '';
@@ -198,14 +202,14 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                 }
                 break;
               case Question.TYPE_NUMBER:
-                if(shouldShowAnswers(local.isAnswered(), questionnaire)) {
+                if(shouldShowAnswers(local.isAnswered(), initialQuestionnaire)) {
                   numberTextController.text = local.number?.toString() ?? '';
                 } else {
                   numberTextController.text = '';
                 }
                 break;
               case Question.TYPE_ADDRESS:
-                if(shouldShowAnswers(local.isAnswered(), questionnaire)) {
+                if(shouldShowAnswers(local.isAnswered(), initialQuestionnaire)) {
                   addressTextController.text = local.address ?? '';
                   addressLine2TextController.text = local.addressLine2 ?? '';
                   cityTownTextController.text = local.cityTown ?? '';
@@ -222,7 +226,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                 }
                 break;
               case Question.TYPE_DATE:
-                if(shouldShowAnswers(local.isAnswered(), questionnaire)) {
+                if(shouldShowAnswers(local.isAnswered(), initialQuestionnaire)) {
                   monthTextController.text = local.month.toString();
                   dayTextController.text = local.day.toString();
                   yearTextController.text = local.year.toString();
@@ -234,12 +238,88 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                 break;
             }
           }
-          store.dispatch(FetchProfileForAnswerAction(store.state.answerQuestionnairePageState!, questionnaire, isPreview, userId, jobId, profile));
+          store.dispatch(FetchProfileForAnswerAction(store.state.answerQuestionnairePageState!, initialQuestionnaire, isPreview, userId, jobId, initialProfile, questionnaireId));
           },
         onDidChange: (previous, current) {
           setState(() {
             pageStateGlobal = current;
           });
+          if(initialQuestionnaire == null && current.questionnaire != null && previous?.questionnaire == null) {
+            setState(() {
+              pageCount = current.questionnaire?.questions?.length ?? 0;
+            });
+            titleTextController.text = current.questionnaire?.title ?? '';
+            messageController.text = current.questionnaire?.message ?? '';
+            Question? local = current.questionnaire?.questions?.elementAt(0);
+            if(local != null) {
+              switch(local.type) {
+                case Question.TYPE_SHORT_FORM_RESPONSE:
+                  if(shouldShowAnswers(local.isAnswered(), current.questionnaire)) {
+                    shortFormTextController.text = local.shortAnswer ?? '';
+                  } else {
+                    shortFormTextController.text = '';
+                  }
+                  break;
+                case Question.TYPE_LONG_FORM_RESPONSE:
+                  if(shouldShowAnswers(local.isAnswered(), current.questionnaire)) {
+                    longFormTextController.text = local.longAnswer ?? '';
+                  } else {
+                    longFormTextController.text = '';
+                  }
+                  break;
+                case Question.TYPE_CONTACT_INFO:
+                  if(shouldShowAnswers(local.isAnswered(), current.questionnaire)) {
+                    firstNameTextController.text = local.firstName ?? '';
+                    lastNameTextController.text = local.lastName ?? '';
+                    phoneNumberTextController.text = local.phone ?? '';
+                    emailTextController.text = local.email ?? '';
+                    instagramNameTextController.text = local.instagramName ?? '';
+                  } else {
+                    firstNameTextController.text = '';
+                    lastNameTextController.text = '';
+                    phoneNumberTextController.text = '';
+                    emailTextController.text = '';
+                    instagramNameTextController.text = '';
+                  }
+                  break;
+                case Question.TYPE_NUMBER:
+                  if(shouldShowAnswers(local.isAnswered(), current.questionnaire)) {
+                    numberTextController.text = local.number?.toString() ?? '';
+                  } else {
+                    numberTextController.text = '';
+                  }
+                  break;
+                case Question.TYPE_ADDRESS:
+                  if(shouldShowAnswers(local.isAnswered(), current.questionnaire)) {
+                    addressTextController.text = local.address ?? '';
+                    addressLine2TextController.text = local.addressLine2 ?? '';
+                    cityTownTextController.text = local.cityTown ?? '';
+                    stateRegionTextController.text = local.stateRegionProvince ?? '';
+                    zipTextController.text = local.zipPostCode ?? '';
+                    countryTextController.text = local.country ?? '';
+                  } else {
+                    addressTextController.text = '';
+                    addressLine2TextController.text = '';
+                    cityTownTextController.text = '';
+                    stateRegionTextController.text = '';
+                    zipTextController.text = '';
+                    countryTextController.text = '';
+                  }
+                  break;
+                case Question.TYPE_DATE:
+                  if(shouldShowAnswers(local.isAnswered(), current.questionnaire)) {
+                    monthTextController.text = local.month.toString();
+                    dayTextController.text = local.day.toString();
+                    yearTextController.text = local.year.toString();
+                  } else {
+                    monthTextController.text = '';
+                    dayTextController.text = '';
+                    yearTextController.text = '';
+                  }
+                  break;
+              }
+            }
+          }
         },
         converter: (Store<AppState> store) => AnswerQuestionnairePageState.fromStore(store),
         builder: (BuildContext context, AnswerQuestionnairePageState pageState) => Scaffold(
@@ -253,26 +333,52 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                 elevation: 0.0,
                 title: TextDandyLight(
                   type: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextDandyLight.EXTRA_LARGE_TEXT : TextDandyLight.LARGE_TEXT,
-                  text: questionnaire.title,
+                  text: submitted ? '' : pageState.questionnaire?.title,
                   color: (pageState.questionnaire?.questions?.elementAt(currentPageIndex).hasImage() ?? false) && !(DeviceType.getDeviceTypeByContext(context) == Type.Website) ? Color(ColorConstants.getPrimaryWhite()) : Color(ColorConstants.getPrimaryBlack()),
                 ),
-                leading: IconButton(
+                leading: !(pageState.isDirectSend ?? false) ? IconButton(
                   onPressed: (){
                     Navigator.pop(context);
                   },
                   icon:const Icon(Icons.close),
                   //replace with our own icon data.
-                ),
+                ) : const SizedBox(),
               ),
               backgroundColor: Color(ColorConstants.getPrimaryWhite()),
-              body: SizedBox(
+              body: submitted ? Container(
+                alignment: Alignment.center,
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: TextDandyLight(
+                  textAlign: TextAlign.center,
+                  type: TextDandyLight.EXTRA_LARGE_TEXT,
+                  text: 'Submitted!\nThank you ${pageState.questionnaire?.clientName ?? ''}',
+                  color: Color(ColorConstants.getPrimaryBlack()),
+                ),
+              ) : pageState.questionnaire != null && pageState.profile != null ? SizedBox(
                 height: MediaQuery.of(context).size.height,
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: [
-                    questionLayout(pageState.questionnaire ?? questionnaire, pageState.profile ?? profile, pageState),
-                    isKeyboardVisible ? const SizedBox() : navigationButtons(pageState.profile ?? profile, pageState.questionnaire ?? questionnaire),
+                    questionLayout(pageState.questionnaire, pageState.profile, pageState),
+                    isKeyboardVisible ? const SizedBox() : navigationButtons(pageState.profile, pageState.questionnaire),
                   ],
+                ),
+              ) : Container(
+                alignment: Alignment.center,
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Container(
+                  height: 56.0,
+                  width: 56.0,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  child: LoadingAnimationWidget.fourRotatingDots(
+                    color: Color(ColorConstants.getPeachDark()),
+                    size: 32,
+                  ),
                 ),
               ),
             ),
@@ -281,15 +387,15 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   void onAction(){
     _messageFocusNode.unfocus();
   }
-
+  // /questionnaire/ICUeVNh1gAcElqBowOL24lPC1Sm1+a7ee9c00-99e3-1faf-b2ac-41d011e80686
   void showSuccessAnimation(){
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return Padding(
-          padding: const EdgeInsets.all(96.0),
+          padding: EdgeInsets.all(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 216.0 : 96),
           child: FlareActor(
-            "assets/animations/success_check.flr",
+            "animations/success_check.flr",
             alignment: Alignment.center,
             fit: BoxFit.contain,
             animation: "show_check",
@@ -301,8 +407,13 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   }
 
   void onFlareCompleted(String unused) {
-    Navigator.of(context).pop(true);
-    Navigator.of(context).pop(true);
+    setState(() {
+      submitted = true;
+    });
+    Navigator.of(context).pop();
+    if(!(pageStateGlobal?.isDirectSend ?? false)) {
+      Navigator.of(context).pop();
+    }
   }
 
   showOverlay(BuildContext context) {
@@ -327,31 +438,31 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   }
 
   Widget questionLayout(
-      Questionnaire localQuestionnaire,
-      Profile profile,
+      Questionnaire? localQuestionnaire,
+      Profile? profile,
       AnswerQuestionnairePageState pageState,
   ) {
     return PageView.builder(
       controller: controller,
-      itemCount: localQuestionnaire.questions?.length,
+      itemCount: pageCount,
       onPageChanged: setCurrentPage,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, int index){
-        Question question = localQuestionnaire.questions!.elementAt(index);
+        Question? question = localQuestionnaire?.questions?.elementAt(index);
         return Container(
           margin: DeviceType.getDeviceTypeByContext(context) == Type.Website ? EdgeInsets.only(top: 96, left: 132, right: 132) : EdgeInsets.only(top: 0),
           alignment: Alignment.topCenter,
           child: DeviceType.getDeviceTypeByContext(context) != Type.Website ? SingleChildScrollView(
             child: Column(
               children: [
-                localQuestionnaire.questions!.elementAt(index).mobileImageUrl != null && (localQuestionnaire.questions!.elementAt(index).showImage ?? false) ? Stack(
+                localQuestionnaire?.questions!.elementAt(index).mobileImageUrl != null && (localQuestionnaire?.questions?.elementAt(index).showImage ?? false) ? Stack(
                   alignment: Alignment.topCenter,
                   children: [
                     ClipRRect(
                       child: CachedNetworkImage(
                         fadeOutDuration: const Duration(milliseconds: 0),
                         fadeInDuration: const Duration(milliseconds: 200),
-                        imageUrl: localQuestionnaire.questions!.elementAt(index).mobileImageUrl ?? '',
+                        imageUrl: localQuestionnaire?.questions?.elementAt(index).mobileImageUrl ?? '',
                         fit: BoxFit.fitWidth,
                         placeholder: (context, url) => Container(
                             height: 116,
@@ -387,7 +498,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              localQuestionnaire.questions!.elementAt(index).mobileImageUrl != null && (localQuestionnaire.questions!.elementAt(index).showImage ?? false) ? Stack(
+              localQuestionnaire?.questions?.elementAt(index).mobileImageUrl != null && (localQuestionnaire?.questions?.elementAt(index).showImage ?? false) ? Stack(
                 alignment: Alignment.topCenter,
                 children: [
                   Container(
@@ -399,7 +510,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(16), // Image border
                       child: Image.network(
-                        localQuestionnaire.questions!.elementAt(index).mobileImageUrl ?? '',
+                        localQuestionnaire?.questions?.elementAt(index).mobileImageUrl ?? '',
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -414,7 +525,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
     );
   }
 
-  Widget navigationButtons(Profile localProfile, Questionnaire localQuestionnaire) {
+  Widget navigationButtons(Profile? localProfile, Questionnaire? localQuestionnaire) {
     return Container(
       width: getPageWidth(context),
       height: MediaQuery.of(context).size.height,
@@ -444,7 +555,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                 padding: const EdgeInsets.only(left: 32, right: 32),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(topLeft: Radius.circular(16), bottomLeft: Radius.circular(16)),
-                  color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+                  color: ColorConstants.hexToColor(localProfile?.selectedColorTheme?.buttonColor),
                 ),
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
@@ -461,7 +572,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                   alignment: Alignment.center,
                   height: 64,
                   decoration: BoxDecoration(
-                    color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!).withOpacity(0.5),
+                    color: ColorConstants.hexToColor(localProfile?.selectedColorTheme?.buttonColor).withOpacity(0.5),
                   ),
                   child: TextDandyLight(
                     type: TextDandyLight.LARGE_TEXT,
@@ -475,14 +586,14 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
             GestureDetector(
               onTap: () {
                 pageStateGlobal!.saveProgress!();
-                if(isNextEnabled(localQuestionnaire.questions!.elementAt(currentPageIndex))) {
+                if(isNextEnabled(localQuestionnaire?.questions?.elementAt(currentPageIndex))) {
                   setState(() {
                     if(currentPageIndex < pageCount-1) {
                       currentPageIndex = currentPageIndex + 1;
                       shortFormTextController.text = '';
                     } else if(currentPageIndex == pageCount-1) {
                       pageStateGlobal?.onSubmitSelected!();
-                      Navigator.of(context).pop();
+                      showSuccessAnimation();
                     }
                   });
                   controller.animateToPage(currentPageIndex, duration: const Duration(milliseconds: 250), curve: Curves.ease);
@@ -509,7 +620,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                   padding: const EdgeInsets.only(left: 32, right: 32),
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.only(topRight: Radius.circular(16), bottomRight: Radius.circular(16)),
-                    color: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
+                    color: ColorConstants.hexToColor(localProfile?.selectedColorTheme?.buttonColor),
                   ),
                   child: TextDandyLight(
                     type: TextDandyLight.LARGE_TEXT,
@@ -525,50 +636,52 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
       ),
     );
   }
-  bool isNextEnabled(Question question) {
-    return isPreview || !question.isRequired! || (question.isRequired! && question.isAnswered());
+  bool isNextEnabled(Question? question) {
+    return isPreview || !(question?.isRequired ?? false) || ((question?.isRequired ?? false) && (question?.isAnswered() ?? false));
   }
 
   Widget getAnswerWidget(
       int questionNumber,
-      Question question,
-      Profile profile,
+      Question? question,
+      Profile? profile,
       AnswerQuestionnairePageState pageState,
   ) {
     Widget result = const SizedBox();
-    switch(question.type) {
-      case Question.TYPE_SHORT_FORM_RESPONSE:
-        result = buildShortFormResponseAnswerWidget(questionNumber, question, profile, pageState.onShortFormAnswerChanged!);
-        break;
-      case Question.TYPE_LONG_FORM_RESPONSE:
-        result = buildLongFormResponseAnswerWidget(questionNumber, question, profile, pageState.onLongFormAnswerChanged!);
-        break;
-      case Question.TYPE_CONTACT_INFO:
-        result = buildContactInfoResponseAnswerWidget(questionNumber, question, profile, pageState);
-        break;
-      case Question.TYPE_ADDRESS:
-        result = buildAddressResponseAnswerWidget(questionNumber, question, profile, pageState);
-        break;
-      case Question.TYPE_NUMBER:
-        result = buildNumberResponseAnswerWidget(questionNumber, question, profile, pageState.onNumberAnswerChanged!);
-        break;
-      case Question.TYPE_YES_NO:
-        result = buildYesNoResponseAnswerWidget(questionNumber, question, profile, pageState.onYesNoAnswerChanged!);
-        break;
-      case Question.TYPE_CHECK_BOXES:
-        result = buildCheckBoxesResponseAnswerWidget(questionNumber, question, profile, pageState.onCheckboxItemSelected!);
-        break;
-      case Question.TYPE_RATING:
-        result = buildRatingResponseAnswerWidget(questionNumber, question, profile, pageState.onRatingSelected!);
-        break;
-      case Question.TYPE_DATE:
-        result = buildDateResponseAnswerWidget(
-          questionNumber,
-          question,
-          profile,
-          pageState.onDateChanged!,
-        );
-        break;
+    if(question != null && profile != null) {
+      switch(question.type) {
+        case Question.TYPE_SHORT_FORM_RESPONSE:
+          result = buildShortFormResponseAnswerWidget(questionNumber, question, profile, pageState.onShortFormAnswerChanged!);
+          break;
+        case Question.TYPE_LONG_FORM_RESPONSE:
+          result = buildLongFormResponseAnswerWidget(questionNumber, question, profile, pageState.onLongFormAnswerChanged!);
+          break;
+        case Question.TYPE_CONTACT_INFO:
+          result = buildContactInfoResponseAnswerWidget(questionNumber, question, profile, pageState);
+          break;
+        case Question.TYPE_ADDRESS:
+          result = buildAddressResponseAnswerWidget(questionNumber, question, profile, pageState);
+          break;
+        case Question.TYPE_NUMBER:
+          result = buildNumberResponseAnswerWidget(questionNumber, question, profile, pageState.onNumberAnswerChanged!);
+          break;
+        case Question.TYPE_YES_NO:
+          result = buildYesNoResponseAnswerWidget(questionNumber, question, profile, pageState.onYesNoAnswerChanged!);
+          break;
+        case Question.TYPE_CHECK_BOXES:
+          result = buildCheckBoxesResponseAnswerWidget(questionNumber, question, profile, pageState.onCheckboxItemSelected!);
+          break;
+        case Question.TYPE_RATING:
+          result = buildRatingResponseAnswerWidget(questionNumber, question, profile, pageState.onRatingSelected!);
+          break;
+        case Question.TYPE_DATE:
+          result = buildDateResponseAnswerWidget(
+            questionNumber,
+            question,
+            profile,
+            pageState.onDateChanged!,
+          );
+          break;
+      }
     }
     return result;
   }
@@ -597,7 +710,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
           Container(
             margin: const EdgeInsets.only(left: 32, right: 32, top: 32),
             child: TextFormField(
-              enabled: !(questionnaire.isComplete ?? false),
+              enabled: !(pageStateGlobal?.questionnaire?.isComplete ?? false),
               cursorColor: Color(ColorConstants.getPrimaryBlack()),
               focusNode: shortFormFocusNode,
               textInputAction: TextInputAction.done,
@@ -664,7 +777,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                 )
             ),
             child: TextFormField(
-              enabled: !(questionnaire.isComplete ?? false),
+              enabled: !(pageStateGlobal?.questionnaire?.isComplete ?? false),
               cursorColor: Color(ColorConstants.getPrimaryBlack()),
               focusNode: numberFocusNode,
               textInputAction: TextInputAction.done,
@@ -725,7 +838,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
               )
             ),
             child: TextFormField(
-              enabled: !(questionnaire.isComplete ?? false),
+              enabled: !(pageStateGlobal?.questionnaire?.isComplete ?? false),
               cursorColor: Color(ColorConstants.getPrimaryBlack()),
               focusNode: longFormFocusNode,
               textInputAction: TextInputAction.done,
@@ -886,7 +999,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
         Container(
           margin: const EdgeInsets.only(left: 32, right: 32, top: 0),
           child: TextFormField(
-            enabled: !(questionnaire.isComplete ?? false),
+            enabled: !(pageStateGlobal?.questionnaire?.isComplete ?? false),
             cursorColor: Color(ColorConstants.getPrimaryBlack()),
             textInputAction: TextInputAction.next,
             maxLines: 1,
@@ -948,7 +1061,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
               color: question.yesSelected ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!).withOpacity(0.5) : Color(ColorConstants.getPrimaryWhite()),
             ),
             child: CheckboxListTile(
-              enabled: !(questionnaire.isComplete ?? false),
+              enabled: !(pageStateGlobal?.questionnaire?.isComplete ?? false),
               activeColor: ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!),
               checkColor: Color(ColorConstants.getPrimaryWhite()),
               fillColor: MaterialStateProperty.resolveWith((states) {
@@ -987,7 +1100,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
               color: !question.yesSelected ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!).withOpacity(0.5) : Color(ColorConstants.getPrimaryWhite()),
             ),
             child: CheckboxListTile(
-              enabled: !(questionnaire.isComplete ?? false),
+              enabled: !(pageStateGlobal?.questionnaire?.isComplete ?? false),
               checkColor: Color(ColorConstants.getPrimaryWhite()),
               fillColor: MaterialStateProperty.resolveWith((states) {
                 // If the button is pressed, return green, otherwise blue
@@ -1046,7 +1159,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                         color: question.hasItemChecked(question.choicesCheckBoxes?.elementAt(index)) ? ColorConstants.hexToColor(localProfile.selectedColorTheme!.buttonColor!).withOpacity(0.5) : Color(ColorConstants.getPrimaryWhite()),
                       ),
                       child: CheckboxListTile(
-                        enabled: !(questionnaire.isComplete ?? false),
+                        enabled: !(pageStateGlobal?.questionnaire?.isComplete ?? false),
                         checkColor: Color(ColorConstants.getPrimaryWhite()),
                         fillColor: MaterialStateProperty.resolveWith((states) {
                           // If the button is pressed, return green, otherwise blue
@@ -1097,7 +1210,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
               children: [
                 GestureDetector(
                   onTap: () {
-                    if(!(questionnaire.isComplete ?? false)) {
+                    if(!(pageStateGlobal?.questionnaire?.isComplete ?? false)) {
                       onRatingSelected(1, question);
                     }
                   },
@@ -1117,7 +1230,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                 ),
                 GestureDetector(
                   onTap: () {
-                    if(!(questionnaire.isComplete ?? false)) {
+                    if(!(pageStateGlobal?.questionnaire?.isComplete ?? false)) {
                       onRatingSelected(2, question);
                     }
                   },
@@ -1137,7 +1250,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                 ),
                 GestureDetector(
                   onTap: () {
-                    if(!(questionnaire.isComplete ?? false)) {
+                    if(!(pageStateGlobal?.questionnaire?.isComplete ?? false)) {
                       onRatingSelected(3, question);
                     }
                   },
@@ -1157,7 +1270,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                 ),
                 GestureDetector(
                   onTap: () {
-                    if(!(questionnaire.isComplete ?? false)) {
+                    if(!(pageStateGlobal?.questionnaire?.isComplete ?? false)) {
                       onRatingSelected(4, question);
                     }
                   },
@@ -1177,7 +1290,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                 ),
                 GestureDetector(
                   onTap: () {
-                    if(!(questionnaire.isComplete ?? false)) {
+                    if(!(pageStateGlobal?.questionnaire?.isComplete ?? false)) {
                       onRatingSelected(5, question);
                     }
                   },
@@ -1224,7 +1337,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
           buildQuestionWidget(questionNumber, question),
           GestureDetector(
             onTap: () async {
-              if(!(questionnaire.isComplete ?? false)) {
+              if(!(pageStateGlobal?.questionnaire?.isComplete ?? false)) {
                 onDateChanged((await showDatePicker(
                   context: context,
                   initialDate: DateTime.now(), // Refer step 1
@@ -1373,9 +1486,9 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
     );
   }
 
-  bool shouldShowAnswers(bool answered, Questionnaire questionnaire) {
+  bool shouldShowAnswers(bool answered, Questionnaire? questionnaire) {
     bool result = false;
-    if(questionnaire.isComplete ?? false) {
+    if(questionnaire?.isComplete ?? false) {
       result = true;
     } else {
       result = !isPreview;
