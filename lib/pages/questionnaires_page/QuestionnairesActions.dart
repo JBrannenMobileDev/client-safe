@@ -39,3 +39,11 @@ class UpdateShareMessageAction {
   UpdateShareMessageAction(this.pageState, this.shareMessage);
 }
 
+class CreateNewJoblessQuestionnaireAction {
+  final QuestionnairesPageState pageState;
+  final String name;
+  final String message;
+  final Questionnaire questionnaire;
+  CreateNewJoblessQuestionnaireAction(this.pageState, this.name, this.message, this.questionnaire);
+}
+

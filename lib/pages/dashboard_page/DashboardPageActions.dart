@@ -209,3 +209,14 @@ class LaunchDrivingDirectionsAction {
   final LocationDandy? location;
   LaunchDrivingDirectionsAction(this.pageState, this.location);
 }
+
+class MarkContractsAsReviewed {
+  final DashboardPageState? pageState;
+  MarkContractsAsReviewed(this.pageState);
+}
+
+class MarkQuestionnaireAsReviewed {
+  final DashboardPageState? pageState;
+  final Questionnaire questionnaire;
+  MarkQuestionnaireAsReviewed(this.pageState, this.questionnaire);
+}

@@ -12,6 +12,7 @@ class QuestionnairesPageState{
   final Function(Questionnaire, String?)? onSaveToJobSelected;
   final Function()? unsubscribe;
   final Function(String)? onShareMessageChanged;
+  final Function(String, String, Questionnaire)? createNewJoblessQuestionnaire;
 
   QuestionnairesPageState({
     @required this.questionnaires,
@@ -20,6 +21,7 @@ class QuestionnairesPageState{
     @required this.activeJobs,
     @required this.shareMessage,
     @required this.onShareMessageChanged,
+    @required this.createNewJoblessQuestionnaire,
   });
 
   QuestionnairesPageState copyWith({
@@ -29,6 +31,7 @@ class QuestionnairesPageState{
     Function(Questionnaire, String?)? onSaveToJobSelected,
     Function()? unsubscribe,
     Function(String)? onShareMessageChanged,
+    Function(String, String, Questionnaire)? createNewJoblessQuestionnaire,
   }){
     return QuestionnairesPageState(
       questionnaires: questionnaires?? this.questionnaires,
@@ -37,6 +40,7 @@ class QuestionnairesPageState{
       activeJobs: activeJobs ?? this.activeJobs,
       shareMessage: shareMessage ?? this.shareMessage,
       onShareMessageChanged: onShareMessageChanged ?? this.onShareMessageChanged,
+      createNewJoblessQuestionnaire: createNewJoblessQuestionnaire ?? this.createNewJoblessQuestionnaire,
     );
   }
 
@@ -47,6 +51,7 @@ class QuestionnairesPageState{
     activeJobs: [],
     shareMessage: '',
     onShareMessageChanged: null,
+    createNewJoblessQuestionnaire: null,
   );
 
   factory QuestionnairesPageState.fromStore(Store<AppState> store) {
@@ -57,6 +62,7 @@ class QuestionnairesPageState{
       onSaveToJobSelected: (questionnaire, jobDocumentId) => store.dispatch(SaveQuestionnaireToJobAction(store.state.questionnairesPageState!, questionnaire, jobDocumentId)),
       unsubscribe: () => store.dispatch(CancelSubscriptionsAction(store.state.questionnairesPageState!)),
       onShareMessageChanged: (message) => store.dispatch(UpdateShareMessageAction(store.state.questionnairesPageState!, message)),
+      createNewJoblessQuestionnaire: (name, message, questionnaire) => CreateNewJoblessQuestionnaireAction(store.state.questionnairesPageState!, name, message, questionnaire),
     );
   }
 
@@ -67,6 +73,7 @@ class QuestionnairesPageState{
       activeJobs.hashCode ^
       shareMessage.hashCode ^
       onShareMessageChanged.hashCode ^
+      createNewJoblessQuestionnaire.hashCode ^
       onSaveToJobSelected.hashCode;
 
   @override
@@ -78,5 +85,6 @@ class QuestionnairesPageState{
               activeJobs == other.activeJobs &&
               shareMessage == other.shareMessage &&
               onShareMessageChanged == other.onShareMessageChanged &&
+              createNewJoblessQuestionnaire == other.createNewJoblessQuestionnaire &&
               onSaveToJobSelected == other.onSaveToJobSelected;
 }

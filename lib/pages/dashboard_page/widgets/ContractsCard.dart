@@ -5,6 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import '../../../AppState.dart';
+import '../../../models/Contract.dart';
+import '../../../models/Job.dart';
 import '../../../utils/DeviceType.dart';
 import '../../../utils/NavigationUtil.dart';
 import '../../../utils/analytics/EventNames.dart';
@@ -82,6 +84,7 @@ class ContractsCard extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         NavigationUtil.onDashboardContractsSelected(context, pageState, true);
+                        pageState.markContractsAsReviewed!();
                         EventSender().sendEvent(eventName: EventNames.NAV_TO_SIGNED_CONTRACTS);
                       },
                       child: Container(
@@ -93,17 +96,26 @@ class ContractsCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            TextDandyLight(
-                              type: TextDandyLight.MEDIUM_TEXT,
-                              text: pageState.activeJobsWithSignedContract != null ? pageState.activeJobsWithSignedContract?.length.toString() : '0',
-                              textAlign: TextAlign.center,
-                              color: Color(ColorConstants.getPrimaryBlack()),
+                            Container(
+                              height: 24,
+                              width: 24,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: areResultsNew(pageState.activeJobsWithSignedContract ?? []) ? const Color(ColorConstants.error_red) : Color(ColorConstants.getPrimaryWhite()),
+                              ),
+                              child: TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: pageState.activeJobsWithSignedContract != null ? pageState.activeJobsWithSignedContract?.length.toString() : '0',
+                                textAlign: TextAlign.center,
+                                color: Color(areResultsNew(pageState.activeJobsWithSignedContract ?? []) ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
+                              ),
                             ),
                             TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
                               text: 'Signed',
                               textAlign: TextAlign.center,
-                              color: Color(ColorConstants.getPrimaryBlack()),
+                              color: areResultsNew(pageState.activeJobsWithSignedContract ?? []) ? const Color(ColorConstants.error_red) : Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ],
                         ),
@@ -116,5 +128,13 @@ class ContractsCard extends StatelessWidget {
       ),
     ),
   );
+
+  bool areResultsNew(List<Job> jobs) {
+    bool result = false;
+    for(Job job in jobs) {
+      if(!(job.proposal?.contract?.isReviewed ?? false)) result = true;
+    }
+    return result;
+  }
 }
 

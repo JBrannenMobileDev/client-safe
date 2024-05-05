@@ -75,6 +75,8 @@ class DashboardPageState {
   final Function(bool, DateTime)? updateCanShowPMF;
   final Function(bool, DateTime)? updateCanShowRequestReview;
   final Function(AppSettings)? markUpdateAsSeen;
+  final Function()? markContractsAsReviewed;
+  final Function(Questionnaire)? markQuestionnaireAsReviewed;
 
   DashboardPageState({
     this.jobsProfitTotal,
@@ -132,6 +134,8 @@ class DashboardPageState {
     this.notCompleteQuestionnaires,
     this.completedQuestionnaires,
     this.allQuestionnaires,
+    this.markContractsAsReviewed,
+    this.markQuestionnaireAsReviewed,
   });
 
   DashboardPageState copyWith({
@@ -190,6 +194,8 @@ class DashboardPageState {
     List<Questionnaire>? notCompleteQuestionnaires,
     List<Questionnaire>? completedQuestionnaires,
     List<Questionnaire>? allQuestionnaires,
+    Function()? markContractsAsReviewed,
+    Function(Questionnaire)? markQuestionnaireAsReviewed,
   }){
     return DashboardPageState(
       jobsProfitTotal: jobsProfitTotal ?? this.jobsProfitTotal,
@@ -247,6 +253,8 @@ class DashboardPageState {
       completedQuestionnaires: completedQuestionnaires ?? this.completedQuestionnaires,
       notCompleteQuestionnaires: notCompleteQuestionnaires ?? this.notCompleteQuestionnaires,
       allQuestionnaires: allQuestionnaires ?? this.allQuestionnaires,
+      markContractsAsReviewed: markContractsAsReviewed ?? this.markContractsAsReviewed,
+      markQuestionnaireAsReviewed: markQuestionnaireAsReviewed ?? this.markQuestionnaireAsReviewed,
     );
   }
 
@@ -321,6 +329,8 @@ class DashboardPageState {
         store.dispatch(SetShouldShowUpdateAction(store.state.dashboardPageState, false, appSettings));
         store.dispatch(SetUpdateSeenTimestampAction(store.state.dashboardPageState, DateTime.now()));
       },
+      markContractsAsReviewed: () => store.dispatch(MarkContractsAsReviewed(store.state.dashboardPageState)),
+      markQuestionnaireAsReviewed: (questionnaire) => store.dispatch(MarkQuestionnaireAsReviewed(store.state.dashboardPageState, questionnaire)),
     );
   }
 
@@ -379,6 +389,8 @@ class DashboardPageState {
     completedQuestionnaires: [],
     notCompleteQuestionnaires: [],
     allQuestionnaires: [],
+    markContractsAsReviewed: null,
+    markQuestionnaireAsReviewed: null,
   );
 
   @override
@@ -436,6 +448,8 @@ class DashboardPageState {
       completedQuestionnaires.hashCode ^
       notCompleteQuestionnaires.hashCode ^
       allQuestionnaires.hashCode ^
+      markContractsAsReviewed.hashCode ^
+      markQuestionnaireAsReviewed.hashCode ^
       isMinimized.hashCode;
 
   @override
@@ -495,5 +509,7 @@ class DashboardPageState {
               completedQuestionnaires == other.completedQuestionnaires &&
               notCompleteQuestionnaires == other.notCompleteQuestionnaires &&
               allQuestionnaires == other.allQuestionnaires &&
+              markContractsAsReviewed == other.markContractsAsReviewed &&
+              markQuestionnaireAsReviewed == other.markQuestionnaireAsReviewed &&
               isMinimized == other.isMinimized;
 }

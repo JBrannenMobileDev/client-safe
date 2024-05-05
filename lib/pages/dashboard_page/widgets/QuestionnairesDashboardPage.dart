@@ -115,7 +115,7 @@ class _QuestionnairesDashboardPageState extends State<QuestionnairesDashboardPag
                                 return TextButton(
                                   style: Styles.getButtonStyle(),
                                   onPressed: () async {
-                                    UserOptionsUtil.showQuestionnaireOptionsSheet(context, getListBasedOnSelectorIndex(selectorIndex, pageState).elementAt(index), openQuestionnaireEditPage, pageState.profile!);
+                                    UserOptionsUtil.showQuestionnaireOptionsSheet(context, getListBasedOnSelectorIndex(selectorIndex, pageState).elementAt(index), openQuestionnaireEditPage, pageState.profile!, pageState.markQuestionnaireAsReviewed!);
                                   },
                                   child: SizedBox(
                                     height: 54.0,
@@ -131,7 +131,10 @@ class _QuestionnairesDashboardPageState extends State<QuestionnairesDashboardPag
                                               margin: const EdgeInsets.only(right: 12.0),
                                               height: 42.0,
                                               width: 42.0,
-                                              child: Image.asset('assets/images/collection_icons/questionaire_icon_white.png', color: Color(ColorConstants.getPeachDark())),
+                                              child: Image.asset(
+                                                  'assets/images/collection_icons/questionaire_icon_white.png',
+                                                  color: selectorIndex == 1 ? (getListBasedOnSelectorIndex(selectorIndex, pageState).elementAt(index).isReviewed ?? false) ? Color(ColorConstants.getPrimaryGreyMedium()) : Color(ColorConstants.getPeachDark()) : Color(ColorConstants.getPeachDark()),
+                                              ),
                                             ),
                                             Container(
                                               alignment: Alignment.center,
@@ -140,17 +143,19 @@ class _QuestionnairesDashboardPageState extends State<QuestionnairesDashboardPag
                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  Container(
+                                                  SizedBox(
                                                     width: MediaQuery.of(context).size.width-164,
                                                     child: TextDandyLight(
                                                       type: TextDandyLight.MEDIUM_TEXT,
                                                       overflow: TextOverflow.ellipsis,
                                                       text: getListBasedOnSelectorIndex(selectorIndex, pageState).elementAt(index).title,
+                                                      color: selectorIndex == 1 ? (getListBasedOnSelectorIndex(selectorIndex, pageState).elementAt(index).isReviewed ?? false) ? Color(ColorConstants.getPrimaryGreyMedium()) : Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBlack()),
                                                     ),
                                                   ),
                                                   TextDandyLight(
                                                     type: TextDandyLight.SMALL_TEXT,
-                                                    text: 'Created: ${TextFormatterUtil.formatDateStandard((getListBasedOnSelectorIndex(selectorIndex, pageState).elementAt(index).dateCreated) ?? DateTime.now())}',
+                                                    text: selectorIndex == 1 ? 'Completed: ${TextFormatterUtil.formatDateStandard((getListBasedOnSelectorIndex(selectorIndex, pageState).elementAt(index).dateCompleted) ?? DateTime.now())}' : 'Created: ${TextFormatterUtil.formatDateStandard((getListBasedOnSelectorIndex(selectorIndex, pageState).elementAt(index).dateCreated) ?? DateTime.now())}',
+                                                    color: selectorIndex == 1 ? (getListBasedOnSelectorIndex(selectorIndex, pageState).elementAt(index).isReviewed ?? false) ? Color(ColorConstants.getPrimaryGreyMedium()) : Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBlack()),
                                                   )
                                                 ],
                                               ),

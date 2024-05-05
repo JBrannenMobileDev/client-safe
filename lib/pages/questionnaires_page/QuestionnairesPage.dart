@@ -66,7 +66,7 @@ class _QuestionnairesPageState extends State<QuestionnairesPage> with TickerProv
                               centerTitle: true,
                               title: TextDandyLight(
                                 type: TextDandyLight.LARGE_TEXT,
-                                text: jobDocumentId != null ? 'Select A Questionnaire' : "Questionnaires",
+                                text: jobDocumentId != null ? 'Select A Questionnaire' : "Questionnaire Templates",
                                 color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                               actions: <Widget>[

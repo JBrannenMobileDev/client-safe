@@ -1,8 +1,11 @@
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
 import '../../widgets/TextDandyLight.dart';
 import '../models/Profile.dart';
 import '../models/Questionnaire.dart';
@@ -12,13 +15,14 @@ class QuestionnaireOptionsBottomSheet extends StatefulWidget {
   final Function openQuestionnaireEditPage;
   final Questionnaire questionnaire;
   final Profile profile;
+  final Function(Questionnaire)? markQuestionnaireAsReviewed;
 
-  QuestionnaireOptionsBottomSheet(this.isComplete, this.openQuestionnaireEditPage, this.questionnaire, this.profile);
+  QuestionnaireOptionsBottomSheet(this.isComplete, this.openQuestionnaireEditPage, this.questionnaire, this.profile, this.markQuestionnaireAsReviewed);
 
 
   @override
   State<StatefulWidget> createState() {
-    return _QuestionnaireOptionsBottomSheetPageState(isComplete, openQuestionnaireEditPage, questionnaire, profile);
+    return _QuestionnaireOptionsBottomSheetPageState(isComplete, openQuestionnaireEditPage, questionnaire, profile, markQuestionnaireAsReviewed);
   }
 }
 
@@ -27,8 +31,9 @@ class _QuestionnaireOptionsBottomSheetPageState extends State<QuestionnaireOptio
   final Function openQuestionnaireEditPage;
   final Questionnaire questionnaire;
   final Profile profile;
+  final Function(Questionnaire)? markQuestionnaireAsReviewed;
 
-  _QuestionnaireOptionsBottomSheetPageState(this.isComplete, this.openQuestionnaireEditPage, this.questionnaire, this.profile);
+  _QuestionnaireOptionsBottomSheetPageState(this.isComplete, this.openQuestionnaireEditPage, this.questionnaire, this.profile, this.markQuestionnaireAsReviewed);
 
 
   @override
@@ -53,7 +58,10 @@ class _QuestionnaireOptionsBottomSheetPageState extends State<QuestionnaireOptio
             isComplete ? GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
-                openQuestionnaireEditPage(context, questionnaire);
+                if(markQuestionnaireAsReviewed != null) {
+                  markQuestionnaireAsReviewed!(questionnaire);
+                }
+                NavigationUtil.onAnswerQuestionnaireSelected(context, questionnaire, profile, '', '', true, false);
               },
               child: Container(
                 margin: EdgeInsets.only(bottom: 16),
@@ -73,9 +81,54 @@ class _QuestionnaireOptionsBottomSheetPageState extends State<QuestionnaireOptio
             ) : Column(
               children: [
                 GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    openQuestionnaireEditPage(context, questionnaire);
+                  onTap: () async {
+                    if(questionnaire.isInProgress()) {
+                      await showDialog(
+                      context: context,
+                      builder: (_) => Device.get().isIos ?
+                      CupertinoAlertDialog(
+                        title: new Text('Questionnaire in progress!'),
+                        content: new Text('This questionnaire is already partially answered. Do you still want to make changes?'),
+                        actions: <Widget>[
+                          TextButton(
+                            style: Styles.getButtonStyle(),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              Navigator.of(context).pop();
+                              openQuestionnaireEditPage(context, questionnaire);
+                            },
+                            child: new Text('Yes'),
+                          ),
+                          TextButton(
+                            style: Styles.getButtonStyle(),
+                            onPressed: () => Navigator.of(context).pop(false),
+                            child: new Text('No'),
+                          ),
+                        ],
+                      ) : AlertDialog(
+                        title: new Text('Questionnaire in progress!'),
+                        content: new Text('This questionnaire is already partially answered. Do you still want to make changes?'),
+                        actions: <Widget>[
+                          TextButton(
+                            style: Styles.getButtonStyle(),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              Navigator.of(context).pop();
+                              openQuestionnaireEditPage(context, questionnaire);
+                            },
+                            child: new Text('Yes'),
+                          ),
+                          TextButton(
+                            style: Styles.getButtonStyle(),
+                            onPressed: () => Navigator.of(context).pop(false),
+                            child: new Text('No'),
+                          ),
+                        ],
+                      ));
+                    } else {
+                      Navigator.of(context).pop();
+                      openQuestionnaireEditPage(context, questionnaire);
+                    }
                   },
                   child: Container(
                     margin: EdgeInsets.only(bottom: 16),
@@ -96,7 +149,7 @@ class _QuestionnaireOptionsBottomSheetPageState extends State<QuestionnaireOptio
                 GestureDetector(
                   onTap: () {
                     Navigator.of(context).pop();
-                    NavigationUtil.onAnswerQuestionnaireSelected(context, questionnaire, profile, '', '', true, false);
+                    NavigationUtil.onAnswerQuestionnaireSelected(context, questionnaire, profile, '', questionnaire.jobDocumentId, true, false);
                   },
                   child: Container(
                     alignment: Alignment.center,

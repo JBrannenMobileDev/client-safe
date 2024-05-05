@@ -16,6 +16,7 @@ import '../../utils/DandyToastUtil.dart';
 import '../../utils/InputDoneView.dart';
 import '../../utils/intentLauncher/IntentLauncherUtil.dart';
 import '../../widgets/TextDandyLight.dart';
+import '../share_with_client_page/ChooseShareMessageBottomSheet.dart';
 import '../share_with_client_page/ShareWithClientTextField.dart';
 import 'QuestionnairesPageState.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -38,7 +39,9 @@ class _ShareClientPortalOptionsBottomSheetPageState extends State<SendQuestionna
   OverlayEntry? overlayEntry;
   bool isKeyboardVisible = false;
   final messageController = TextEditingController();
+  final nameController = TextEditingController();
   final FocusNode _messageFocusNode = FocusNode();
+  final FocusNode _nameFocusNode = FocusNode();
   late StreamSubscription<bool> keyboardSubscription;
 
   _ShareClientPortalOptionsBottomSheetPageState(this.questionnaire);
@@ -72,7 +75,7 @@ class _ShareClientPortalOptionsBottomSheetPageState extends State<SendQuestionna
       backgroundColor: Colors.transparent,
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
-        // return ChooseShareMessageBottomSheet(_setSelectedMessage);
+        return ChooseShareMessageBottomSheet(_setSelectedMessage);
         return const SizedBox();
       },
     );
@@ -137,7 +140,7 @@ class _ShareClientPortalOptionsBottomSheetPageState extends State<SendQuestionna
               margin: const EdgeInsets.only(top: 16, bottom: 32),
               child: TextDandyLight(
                 type: TextDandyLight.LARGE_TEXT,
-                text: 'Share questionnaire',
+                text: 'Send questionnaire',
               ),
             ),
             Container(
@@ -161,14 +164,14 @@ class _ShareClientPortalOptionsBottomSheetPageState extends State<SendQuestionna
                   Container(
                     margin: const EdgeInsets.only(left: 20.0, right: 20.0),
                     child: ShareWithClientTextField(
-                      messageController,
+                      nameController,
                       'Name',
                       TextInputType.multiline,
                       264.0,
                       pageState.onShareMessageChanged,
                       'noError',
                       TextInputAction.newline,
-                      _messageFocusNode,
+                      _nameFocusNode,
                       onAction,
                       TextCapitalization.sentences,
                       null,
@@ -217,49 +220,20 @@ class _ShareClientPortalOptionsBottomSheetPageState extends State<SendQuestionna
                       true,
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      _showChooseMessageSheet(context);
-                    },
-                    child: !isKeyboardVisible ? Container(
-                      margin: const EdgeInsets.only(left: 20.0, right: 20.0),
-                      alignment: Alignment.center,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16)),
-                        color: Color(ColorConstants.getPeachDark()),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            height: 24,
-                            width: 24,
-                            child: Image.asset('assets/images/icons/previous.png', color: Color(ColorConstants.getPrimaryWhite())),
-                          ),
-                          TextDandyLight(
-                            type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'Load from previous',
-                            textAlign: TextAlign.center,
-                            color: Color(ColorConstants.getPrimaryWhite()),
-                          )
-                        ],
-                      ) ,
-                    ) : const SizedBox(),
-                  ),
                 ],
               ),
             ),
             GestureDetector(
               onTap: () {
-                Share.share(pageState.shareMessage!);
+                pageState.createNewJoblessQuestionnaire!(nameController.text, messageController.text, questionnaire!);
+                Navigator.of(context).pop();
               },
               child: Container(
                 alignment: Alignment.center,
                 width: MediaQuery.of(context).size.width,
                 child: Container(
-                  height: 48,
-                  width: 164,
+                  height: 54,
+                  width: 196,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(26),
@@ -267,7 +241,7 @@ class _ShareClientPortalOptionsBottomSheetPageState extends State<SendQuestionna
                   ),
                   child: TextDandyLight(
                     type: TextDandyLight.LARGE_TEXT,
-                    text: 'SHARE',
+                    text: 'Save & Send',
                     color: Color(ColorConstants.getPrimaryWhite()),
                   ),
                 ),

@@ -8,6 +8,7 @@ class Contract {
   String? jsonTerms;
   bool? signedByClient = false;
   bool? signedByPhotographer = false;
+  bool? isReviewed = false;
   DateTime? clientSignedDate;
   DateTime? photographerSignedDate;
   DateTime? firstSharedDate;
@@ -26,6 +27,7 @@ class Contract {
     this.clientSignedDate,
     this.photographerSignedDate,
     this.firstSharedDate,
+    this.isReviewed,
   });
 
   Map<String, dynamic> toMap() {
@@ -36,6 +38,7 @@ class Contract {
       'jsonTerms' : jsonTerms,
       'signedByClient' : signedByClient,
       'signedByPhotographer' : signedByPhotographer,
+      'isReviewed' : isReviewed,
       'photographerSignature' : photographerSignature,
       'clientSignature' : clientSignature,
       'clientSignedDate' : clientSignedDate?.millisecondsSinceEpoch ?? null,
@@ -52,6 +55,7 @@ class Contract {
       jsonTerms: map['jsonTerms'],
       signedByClient: map['signedByClient'],
       signedByPhotographer: map['signedByPhotographer'],
+      isReviewed: map['isReviewed'],
       photographerSignature: map['photographerSignature'],
       clientSignature: map['clientSignature'],
       photographerSignedDate: map['photographerSignedDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['photographerSignedDate']) : null,

@@ -12,6 +12,7 @@ Questionnaire _$QuestionnaireFromJson(Map<String, dynamic> json) =>
       documentId: json['documentId'] as String?,
       title: json['title'] as String?,
       message: json['message'] as String?,
+      clientName: json['clientName'] as String?,
       questions: (json['questions'] as List<dynamic>?)
           ?.map((e) => Question.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -21,7 +22,7 @@ Questionnaire _$QuestionnaireFromJson(Map<String, dynamic> json) =>
           : DateTime.parse(json['dateCompleted'] as String),
       jobDocumentId: json['jobDocumentId'] as String?,
       isReviewed: json['isReviewed'] as bool?,
-      showInNotComplete: json['showInNotComplete'] as bool?,
+      isTemplate: json['isTemplate'] as bool?,
       dateCreated: json['dateCreated'] == null
           ? null
           : DateTime.parse(json['dateCreated'] as String),
@@ -34,10 +35,11 @@ Map<String, dynamic> _$QuestionnaireToJson(Questionnaire instance) =>
       'jobDocumentId': instance.jobDocumentId,
       'title': instance.title,
       'message': instance.message,
+      'clientName' : instance.clientName,
       'questions': instance.questions?.map((e) => e.toJson()).toList(),
       'isComplete': instance.isComplete,
       'isReviewed': instance.isReviewed,
-      'showInNotComplete': instance.showInNotComplete,
+      'isTemplate' : instance.isTemplate,
       'dateCompleted': instance.dateCompleted?.toIso8601String(),
       'dateCreated': instance.dateCreated?.toIso8601String(),
     };

@@ -11,16 +11,21 @@ import '../../widgets/TextDandyLight.dart';
 
 
 class TypeSelectionBottomSheet extends StatefulWidget {
-  const TypeSelectionBottomSheet({Key? key}) : super(key: key);
+  final Function? setContactInfoQuestion;
+
+  TypeSelectionBottomSheet({Key? key, this.setContactInfoQuestion}) : super(key: key);
 
 
   @override
   State<StatefulWidget> createState() {
-    return _TypeSelectionBottomSheetState();
+    return _TypeSelectionBottomSheetState(setContactInfoQuestion);
   }
 }
 
 class _TypeSelectionBottomSheetState extends State<TypeSelectionBottomSheet> with TickerProviderStateMixin {
+  final Function? setContactInfoQuestion;
+
+  _TypeSelectionBottomSheetState(this.setContactInfoQuestion);
 
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, NewQuestionPageState>(
@@ -38,6 +43,9 @@ class _TypeSelectionBottomSheetState extends State<TypeSelectionBottomSheet> wit
                itemBuilder: (BuildContext context, int index) {
                  return GestureDetector(
                    onTap: () {
+                     if(Question.allTypes().elementAt(index) == Question.TYPE_CONTACT_INFO) {
+                       setContactInfoQuestion!();
+                     }
                      pageState.onTypeChanged!(Question.allTypes().elementAt(index));
                      Navigator.of(context).pop();
                    },

@@ -555,7 +555,7 @@ class UserOptionsUtil {
         });
   }
 
-  static void showQuestionnaireOptionsSheet(BuildContext context, Questionnaire questionnaire, Function openQuestionnaireEditPage, Profile profile) {
+  static void showQuestionnaireOptionsSheet(BuildContext context, Questionnaire questionnaire, Function openQuestionnaireEditPage, Profile profile, Function(Questionnaire)? markQuestionnaireAsReviewed) {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -564,7 +564,7 @@ class UserOptionsUtil {
         backgroundColor: Colors.transparent,
         barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
         builder: (context) {
-          return QuestionnaireOptionsBottomSheet(questionnaire.isComplete!, openQuestionnaireEditPage, questionnaire, profile);
+          return QuestionnaireOptionsBottomSheet(questionnaire.isComplete!, openQuestionnaireEditPage, questionnaire, profile, markQuestionnaireAsReviewed);
         });
   }
 }

@@ -72,9 +72,9 @@ class DandylightFunctionsApi {
     return response.statusCode;
   }
 
-  Future<int> updateQuestionnaireAsComplete(String userId, String jobId, Questionnaire questionnaire) async {
-    final url = '$_baseUrl/updateQuestionnaireAsComplete/?userId=$userId&jobId=$jobId';
-    final response = await httpClient!.post(
+  Future<int> updateQuestionnaire(String userId, String jobId, Questionnaire questionnaire) async {
+    final url = '$_baseUrl/updateQuestionnaire/?userId=$userId&jobId=$jobId';
+    final response = await httpClient!.put(
         Uri.parse(url),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',

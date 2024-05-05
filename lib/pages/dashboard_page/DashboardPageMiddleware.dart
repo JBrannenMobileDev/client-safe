@@ -100,11 +100,53 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SetUpdateSeenTimestampAction) {
       _setUpdateLastSeenTime(store, action);
     }
-  }  //TODO check tax export logic
+    if(action is MarkContractsAsReviewed) {
+      _updateContractsAsReviewed(store, action);
+    }
+    if(action is MarkQuestionnaireAsReviewed) {
+      _updateQuestionnaireAsReviewed(store, action);
+    }
+  }
+
+  Future<void> _updateQuestionnaireAsReviewed(Store<AppState> store, MarkQuestionnaireAsReviewed action) async {
+    Questionnaire questionnaire = action.questionnaire;
+    if(questionnaire.jobDocumentId != null && questionnaire.jobDocumentId!.isNotEmpty) {
+      Job? job = await JobDao.getJobById(questionnaire.jobDocumentId);
+      if(job != null) {
+        List<Questionnaire> questionnaires = job.proposal?.questionnaires ?? [];
+        for(Questionnaire questionnaireToUpdate in questionnaires) {
+          if(questionnaireToUpdate.documentId == questionnaire.documentId) {
+            questionnaireToUpdate.isReviewed = true;
+          }
+        }
+        if(job.proposal != null) {
+          job.proposal!.questionnaires = questionnaires;
+          await JobDao.update(job);
+          List<Job>? allJobs = await JobDao.getAllJobs();
+          store.dispatch(SetJobsDataAction(store.state.jobsPageState!, allJobs));
+        }
+      }
+    } else {
+      //This is a jobless questionnaire
+    }
+  }
+
+  Future<void> _updateContractsAsReviewed(Store<AppState> store, MarkContractsAsReviewed action) async {
+    List<Job> jobsWithContracts = action.pageState?.allJobsWithSignedContract ?? [];
+    for(Job job in jobsWithContracts) {
+      if(!(job.proposal?.contract?.isReviewed ?? false)){
+        job.proposal?.contract?.isReviewed = true;
+        await JobDao.update(job);
+      }
+    }
+
+    List<Job>? allJobs = await JobDao.getAllJobs();
+    store.dispatch(SetJobsDataAction(store.state.jobsPageState!, allJobs));
+  }
 
   Future<void> _checkAndCreateMileageTrips(Store<AppState> store, LoadJobsAction action, NextDispatcher next) async {
     Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    List<Job> jobsThatNeedMileageTripAdded = (await JobDao.getAllJobs())!.where((job) => job.isMissingMileageTrip()).toList();
+    List<Job> jobsThatNeedMileageTripAdded = (await JobDao.getAllJobs()).where((job) => job.isMissingMileageTrip()).toList();
 
     for(Job job in jobsThatNeedMileageTripAdded) {
       if(profile!.latDefaultHome != 0 && profile.lngDefaultHome != 0){
@@ -356,19 +398,19 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     List<Questionnaire> profileQuestionnaires = profile?.directSendQuestionnaires ?? [];
     List<Questionnaire> allQuestionnaires = profileQuestionnaires;
-    List<Questionnaire> notCompleteQuestionnaires = profileQuestionnaires.where((questionnaire) => questionnaire.showInNotComplete! && !questionnaire.isComplete!).toList();
-    List<Questionnaire> completeQuestionnaireNotReviewed = profileQuestionnaires.where((questionnaire) => !questionnaire.isReviewed! && questionnaire.isComplete!).toList();
+    List<Questionnaire> notCompleteQuestionnaires = profileQuestionnaires.where((questionnaire) => !questionnaire.isComplete!).toList();
+    List<Questionnaire> completeQuestionnaire = profileQuestionnaires.where((questionnaire) => questionnaire.isComplete!).toList();
 
     List<Job>? activeJobs = JobUtil.getActiveJobs(await JobDao.getAllJobs());
     List<Job> activeJobsWithQuestionnaires = JobUtil.getJobsWithQuestionnaires(activeJobs);
 
     for(Job job in activeJobsWithQuestionnaires) {
       for(Questionnaire questionnaire in job.proposal!.questionnaires!) {
-        if(questionnaire.showInNotComplete! && !questionnaire.isComplete!) {
+        if(!questionnaire.isComplete!) {
           notCompleteQuestionnaires.add(questionnaire);
         }
-        if(!questionnaire.isReviewed! && questionnaire.isComplete!) {
-          completeQuestionnaireNotReviewed.add(questionnaire);
+        if(questionnaire.isComplete!) {
+          completeQuestionnaire.add(questionnaire);
         }
       }
       allQuestionnaires.addAll(job.proposal!.questionnaires!);
@@ -376,9 +418,9 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
 
     allQuestionnaires = allQuestionnaires.reversed.toList();
     notCompleteQuestionnaires = notCompleteQuestionnaires.reversed.toList();
-    completeQuestionnaireNotReviewed = completeQuestionnaireNotReviewed.reversed.toList();
+    completeQuestionnaire = completeQuestionnaire.reversed.toList();
 
-    store.dispatch(SetQuestionnairesToDashboardAction(store.state.dashboardPageState!, notCompleteQuestionnaires, completeQuestionnaireNotReviewed, allQuestionnaires));
+    store.dispatch(SetQuestionnairesToDashboardAction(store.state.dashboardPageState!, notCompleteQuestionnaires, completeQuestionnaire, allQuestionnaires));
   }
 
   Future<void> _loadAllJobs(Store<AppState> store) async {
@@ -386,7 +428,6 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
 
     List<Job>? allJobs = await JobDao.getAllJobs();
-    allJobs = await JobDao.getAllJobs();
 
     List<JobType>? allJobTypes = await JobTypeDao.getAll();
     List<SingleExpense> singleExpenses = await SingleExpenseDao.getAll();

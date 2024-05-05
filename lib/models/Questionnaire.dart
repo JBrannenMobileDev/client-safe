@@ -18,11 +18,12 @@ class Questionnaire {
   String? documentId;
   String? jobDocumentId;
   String? title;
+  String? clientName;
   String? message;
   List<Question>? questions;
   bool? isComplete;
   bool? isReviewed;
-  bool? showInNotComplete;
+  bool? isTemplate;
   DateTime? dateCompleted;
   DateTime? dateCreated;
 
@@ -33,17 +34,26 @@ class Questionnaire {
       jobDocumentId: old.jobDocumentId,
       title: old.title,
       message: old.message,
+      clientName: old.clientName,
       questions: old.questions,
       isComplete: old.isComplete,
       isReviewed: old.isReviewed,
-      showInNotComplete: old.showInNotComplete,
       dateCompleted: old.dateCompleted,
-      dateCreated: old.dateCreated
+      dateCreated: old.dateCreated,
+      isTemplate: old.isTemplate,
     );
   }
 
   factory Questionnaire.fromJson(Map<String, dynamic> json) => _$QuestionnaireFromJson(json);
   Map<String, dynamic> toJson() => _$QuestionnaireToJson(this);
+
+  bool isInProgress() {
+    bool result = false;
+    for(Question q in questions ?? []) {
+      if(q.type != Question.TYPE_YES_NO && q.isAnswered()) result = true;
+    }
+    return result;
+  }
 
   String getMainImageUrl() {
     return questions!.isNotEmpty ? questions!.first.webImageUrl! : '';
@@ -121,8 +131,9 @@ class Questionnaire {
     this.dateCompleted,
     this.jobDocumentId,
     this.isReviewed,
-    this.showInNotComplete,
     this.dateCreated,
+    this.isTemplate,
+    this.clientName,
   });
 
   Map<String, dynamic> toMap() {
@@ -132,12 +143,13 @@ class Questionnaire {
       'jobDocumentId' : jobDocumentId,
       'title' : title,
       'message' : message,
+      'clientName' : clientName,
       'questions' : convertQuestionsToMap(questions!),
       'isComplete' : isComplete,
       'dateCompleted' : dateCompleted?.toString() ?? "",
       'dateCreated' : dateCreated?.toString() ?? "",
       'isReviewed' : isReviewed,
-      'showInNotComplete' : showInNotComplete,
+      'isTemplate' : isTemplate,
     };
   }
 
@@ -148,10 +160,11 @@ class Questionnaire {
       jobDocumentId: map['jobDocumentId'],
       title: map['title'],
       message: map['message'],
-      questions: convertMapsToQuestions(map['questions']) ?? [],
+      clientName: map['clientName'],
+      questions: convertMapsToQuestions(map['questions']),
       isComplete: map['isComplete'] ?? false,
       isReviewed: map['isReviewed'] ?? false,
-      showInNotComplete: map['showInNotComplete'] ?? true,
+      isTemplate: map['isTemplate'] ?? true,
       dateCompleted: map['dateCompleted'] != "" && map['dateCompleted'] != null ? DateTime.parse(map['dateCompleted']) : null,
       dateCreated: map['dateCreated'] != "" && map['dateCreated'] != null ? DateTime.parse(map['dateCreated']) : null,
     );

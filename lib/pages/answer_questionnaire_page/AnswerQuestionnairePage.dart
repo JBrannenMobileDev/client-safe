@@ -60,72 +60,74 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   setCurrentPage(int page) {
     setState(() {
       currentPageIndex = page;
-      Question question = pageStateGlobal!.questionnaire != null ? pageStateGlobal!.questionnaire!.questions!.elementAt(currentPageIndex) : questionnaire.questions!.elementAt(currentPageIndex);
-      switch(question.type) {
-        case Question.TYPE_SHORT_FORM_RESPONSE:
-          if(shouldShowAnswers(question.isAnswered(), questionnaire)) {
-            shortFormTextController.text = question.shortAnswer ?? '';
-          } else {
-            shortFormTextController.text = '';
-          }
-          break;
-        case Question.TYPE_LONG_FORM_RESPONSE:
-          if(shouldShowAnswers(question.isAnswered(), questionnaire)) {
-            longFormTextController.text = question.longAnswer ?? '';
-          } else {
-            longFormTextController.text = '';
-          }
-          break;
-        case Question.TYPE_CONTACT_INFO:
-          if(shouldShowAnswers(question.isAnswered(), questionnaire)) {
-            firstNameTextController.text = question.firstName ?? '';
-            lastNameTextController.text = question.lastName ?? '';
-            phoneNumberTextController.text = question.phone ?? '';
-            emailTextController.text = question.email ?? '';
-            instagramNameTextController.text = question.instagramName ?? '';
-          } else {
-            firstNameTextController.text = '';
-            lastNameTextController.text = '';
-            phoneNumberTextController.text = '';
-            emailTextController.text = '';
-            instagramNameTextController.text = '';
-          }
-          break;
-        case Question.TYPE_NUMBER:
-          if(shouldShowAnswers(question.isAnswered(), questionnaire)) {
-            numberTextController.text = question.number?.toString() ?? '';
-          } else {
-            numberTextController.text = '';
-          }
-          break;
-        case Question.TYPE_ADDRESS:
-          if(shouldShowAnswers(question.isAnswered(), questionnaire)) {
-            addressTextController.text = question.address ?? '';
-            addressLine2TextController.text = question.addressLine2 ?? '';
-            cityTownTextController.text = question.cityTown ?? '';
-            stateRegionTextController.text = question.stateRegionProvince ?? '';
-            zipTextController.text = question.zipPostCode ?? '';
-            countryTextController.text = question.country ?? '';
-          } else {
-            addressTextController.text = '';
-            addressLine2TextController.text = '';
-            cityTownTextController.text = '';
-            stateRegionTextController.text = '';
-            zipTextController.text = '';
-            countryTextController.text = '';
-          }
-          break;
-        case Question.TYPE_DATE:
-          if(shouldShowAnswers(question.isAnswered(), questionnaire)) {
-            monthTextController.text = question.month.toString();
-            dayTextController.text = question.day.toString();
-            yearTextController.text = question.year.toString();
-          } else {
-            monthTextController.text = '';
-            dayTextController.text = '';
-            yearTextController.text = '';
-          }
-          break;
+      Question? question = pageStateGlobal!.questionnaire != null ? pageStateGlobal!.questionnaire!.questions?.elementAt(currentPageIndex) : questionnaire.questions?.elementAt(currentPageIndex);
+      if(question != null) {
+        switch(question.type) {
+          case Question.TYPE_SHORT_FORM_RESPONSE:
+            if(shouldShowAnswers(question.isAnswered(), questionnaire)) {
+              shortFormTextController.text = question.shortAnswer ?? '';
+            } else {
+              shortFormTextController.text = '';
+            }
+            break;
+          case Question.TYPE_LONG_FORM_RESPONSE:
+            if(shouldShowAnswers(question.isAnswered(), questionnaire)) {
+              longFormTextController.text = question.longAnswer ?? '';
+            } else {
+              longFormTextController.text = '';
+            }
+            break;
+          case Question.TYPE_CONTACT_INFO:
+            if(shouldShowAnswers(question.isAnswered(), questionnaire)) {
+              firstNameTextController.text = question.firstName ?? '';
+              lastNameTextController.text = question.lastName ?? '';
+              phoneNumberTextController.text = question.phone ?? '';
+              emailTextController.text = question.email ?? '';
+              instagramNameTextController.text = question.instagramName ?? '';
+            } else {
+              firstNameTextController.text = '';
+              lastNameTextController.text = '';
+              phoneNumberTextController.text = '';
+              emailTextController.text = '';
+              instagramNameTextController.text = '';
+            }
+            break;
+          case Question.TYPE_NUMBER:
+            if(shouldShowAnswers(question.isAnswered(), questionnaire)) {
+              numberTextController.text = question.number?.toString() ?? '';
+            } else {
+              numberTextController.text = '';
+            }
+            break;
+          case Question.TYPE_ADDRESS:
+            if(shouldShowAnswers(question.isAnswered(), questionnaire)) {
+              addressTextController.text = question.address ?? '';
+              addressLine2TextController.text = question.addressLine2 ?? '';
+              cityTownTextController.text = question.cityTown ?? '';
+              stateRegionTextController.text = question.stateRegionProvince ?? '';
+              zipTextController.text = question.zipPostCode ?? '';
+              countryTextController.text = question.country ?? '';
+            } else {
+              addressTextController.text = '';
+              addressLine2TextController.text = '';
+              cityTownTextController.text = '';
+              stateRegionTextController.text = '';
+              zipTextController.text = '';
+              countryTextController.text = '';
+            }
+            break;
+          case Question.TYPE_DATE:
+            if(shouldShowAnswers(question.isAnswered(), questionnaire)) {
+              monthTextController.text = question.month.toString();
+              dayTextController.text = question.day.toString();
+              yearTextController.text = question.year.toString();
+            } else {
+              monthTextController.text = '';
+              dayTextController.text = '';
+              yearTextController.text = '';
+            }
+            break;
+        }
       }
     });
   }
@@ -163,8 +165,77 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
         onInit: (store) {
           titleTextController.text = questionnaire.title ?? '';
           messageController.text = questionnaire.message ?? '';
+          Question? local = questionnaire.questions?.elementAt(0);
+          if(local != null) {
+            switch(local.type) {
+              case Question.TYPE_SHORT_FORM_RESPONSE:
+                if(shouldShowAnswers(local.isAnswered(), questionnaire)) {
+                  shortFormTextController.text = local.shortAnswer ?? '';
+                } else {
+                  shortFormTextController.text = '';
+                }
+                break;
+              case Question.TYPE_LONG_FORM_RESPONSE:
+                if(shouldShowAnswers(local.isAnswered(), questionnaire)) {
+                  longFormTextController.text = local.longAnswer ?? '';
+                } else {
+                  longFormTextController.text = '';
+                }
+                break;
+              case Question.TYPE_CONTACT_INFO:
+                if(shouldShowAnswers(local.isAnswered(), questionnaire)) {
+                  firstNameTextController.text = local.firstName ?? '';
+                  lastNameTextController.text = local.lastName ?? '';
+                  phoneNumberTextController.text = local.phone ?? '';
+                  emailTextController.text = local.email ?? '';
+                  instagramNameTextController.text = local.instagramName ?? '';
+                } else {
+                  firstNameTextController.text = '';
+                  lastNameTextController.text = '';
+                  phoneNumberTextController.text = '';
+                  emailTextController.text = '';
+                  instagramNameTextController.text = '';
+                }
+                break;
+              case Question.TYPE_NUMBER:
+                if(shouldShowAnswers(local.isAnswered(), questionnaire)) {
+                  numberTextController.text = local.number?.toString() ?? '';
+                } else {
+                  numberTextController.text = '';
+                }
+                break;
+              case Question.TYPE_ADDRESS:
+                if(shouldShowAnswers(local.isAnswered(), questionnaire)) {
+                  addressTextController.text = local.address ?? '';
+                  addressLine2TextController.text = local.addressLine2 ?? '';
+                  cityTownTextController.text = local.cityTown ?? '';
+                  stateRegionTextController.text = local.stateRegionProvince ?? '';
+                  zipTextController.text = local.zipPostCode ?? '';
+                  countryTextController.text = local.country ?? '';
+                } else {
+                  addressTextController.text = '';
+                  addressLine2TextController.text = '';
+                  cityTownTextController.text = '';
+                  stateRegionTextController.text = '';
+                  zipTextController.text = '';
+                  countryTextController.text = '';
+                }
+                break;
+              case Question.TYPE_DATE:
+                if(shouldShowAnswers(local.isAnswered(), questionnaire)) {
+                  monthTextController.text = local.month.toString();
+                  dayTextController.text = local.day.toString();
+                  yearTextController.text = local.year.toString();
+                } else {
+                  monthTextController.text = '';
+                  dayTextController.text = '';
+                  yearTextController.text = '';
+                }
+                break;
+            }
+          }
           store.dispatch(FetchProfileForAnswerAction(store.state.answerQuestionnairePageState!, questionnaire, isPreview, userId, jobId, profile));
-        },
+          },
         onDidChange: (previous, current) {
           setState(() {
             pageStateGlobal = current;
@@ -1309,6 +1380,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
     } else {
       result = !isPreview;
     }
+    print("Should show answers = $result");
     return result;
   }
 }

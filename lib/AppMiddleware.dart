@@ -147,6 +147,8 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, CheckForPMFSurveyAction>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateCanShowPMFSurveyAction>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LaunchDrivingDirectionsAction>(DashboardPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, MarkContractsAsReviewed>(DashboardPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, MarkQuestionnaireAsReviewed>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateProfileWithShowcaseSeen>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, GetDeviceContactsAction>(NewContactPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchJobsAction>(JobsPageMiddleware()));
@@ -354,6 +356,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, FetchQuestionnairesAction>(QuestionnairesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveQuestionnaireToJobAction>(QuestionnairesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, CancelSubscriptionsAction>(QuestionnairesPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, CreateNewJoblessQuestionnaireAction>(QuestionnairesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveQuestionnaireAction>(NewQuestionnairePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteQuestionnaireAction>(NewQuestionnairePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchProfileForNewQuestionnaireAction>(NewQuestionnairePageMiddleware()));

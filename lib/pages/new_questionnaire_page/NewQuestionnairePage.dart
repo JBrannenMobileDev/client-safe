@@ -5,6 +5,7 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Question.dart';
 import 'package:dandylight/models/Questionnaire.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
@@ -77,10 +78,8 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
     keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
       setState(() {
         if(visible) {
-          showOverlay(context);
           isKeyboardVisible = true;
         } else {
-          removeOverlay();
           isKeyboardVisible = false;
         }
       });
@@ -231,7 +230,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                             inputTypeError: 'Title is required',
                             onTextInputChanged: (newTitle) => pageState.onNameChanged!(newTitle),
                             onEditingCompleted: null,
-                            keyboardAction: TextInputAction.next,
+                            keyboardAction: TextInputAction.done,
                             focusNode: titleFocusNode,
                             onFocusAction: () {
                               titleFocusNode.unfocus();
@@ -332,7 +331,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ) : const SizedBox(),
-                          GestureDetector(
+                          !isKeyboardVisible ? GestureDetector(
                             onTap: () {
                               NavigationUtil.onNewQuestionSelected(context, null, onQuestionSaved, (questions.length) +1);
                             },
@@ -343,7 +342,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                               margin: const EdgeInsets.only(bottom: 124),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(32),
-                                color: const Color(ColorConstants.grey_medium),
+                                color: Color(ColorConstants.getPeachDark()),
                               ),
                               child: TextDandyLight(
                                 type: TextDandyLight.LARGE_TEXT,
@@ -352,11 +351,11 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                                 color: Color(ColorConstants.getPrimaryWhite()),
                               ),
                             ),
-                          ),
+                          ) : const SizedBox(),
                         ],
                       ),
                     ),
-                    Row(
+                    !isKeyboardVisible ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
@@ -364,7 +363,13 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                           alignment: Alignment.bottomCenter,
                           child: GestureDetector(
                             onTap: () {
-                              NavigationUtil.onAnswerQuestionnaireSelected(context, questionnaire!, pageState.profile!, '', '', true, false);
+                              if(questions.isNotEmpty) {
+                                Questionnaire temp = pageState.questionnaire!;
+                                temp.questions = questions;
+                                NavigationUtil.onAnswerQuestionnaireSelected(context, temp, pageState.profile!, '', '', true, false);
+                              } else {
+                                DandyToastUtil.showErrorToast('Add at least 1 question before previewing the questionnaire.');
+                              }
                             },
                             child: Container(
                               alignment: Alignment.center,
@@ -413,7 +418,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                           ),
                         ),
                       ],
-                    ),
+                    ) : const SizedBox(),
                   ],
                 ),
               ),
@@ -512,27 +517,6 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
         );
       },
     );
-  }
-
-  showOverlay(BuildContext context) {
-    if (overlayEntry != null) return;
-    OverlayState overlayState = Overlay.of(context);
-    overlayEntry = OverlayEntry(builder: (context) {
-      return Positioned(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-          right: 0.0,
-          left: 0.0,
-          child: InputDoneView());
-    });
-
-    overlayState.insert(overlayEntry!);
-  }
-
-  removeOverlay() {
-    if (overlayEntry != null) {
-      overlayEntry!.remove();
-      overlayEntry = null;
-    }
   }
 
   int getIndex(Question questionToFind) {

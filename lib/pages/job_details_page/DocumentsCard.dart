@@ -87,7 +87,7 @@ class DocumentsCard extends StatelessWidget {
             UserOptionsUtil.showContractOptionsSheet(context, pageState!.job!, profile!, openContractEditPage);
             break;
           case DocumentItem.DOCUMENT_TYPE_QUESTIONNAIRE:
-            UserOptionsUtil.showQuestionnaireOptionsSheet(context, getSelectedQuestionnaire(pageState!.job!.proposal!.questionnaires!, pageState!.documents!.elementAt(index)), openQuestionnaireEditPage, profile!);
+            UserOptionsUtil.showQuestionnaireOptionsSheet(context, getSelectedQuestionnaire(pageState!.job!.proposal!.questionnaires!, pageState!.documents!.elementAt(index)), openQuestionnaireEditPage, profile!, null);
         }
       },
       child: SizedBox(

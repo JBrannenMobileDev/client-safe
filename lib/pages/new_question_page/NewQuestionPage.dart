@@ -74,10 +74,8 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
     keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
       setState(() {
         if(visible) {
-          showOverlay(context);
           isKeyboardVisible = true;
         } else {
-          removeOverlay();
           isKeyboardVisible = false;
         }
       });
@@ -102,6 +100,10 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
 
             if(question!.question != null && question!.question!.isNotEmpty) {
               questionTextController.text = question!.question!;
+            } else if(question!.question != null && question!.question!.isEmpty) {
+              if(question!.type == Question.TYPE_CONTACT_INFO) {
+                questionTextController.text = 'Please provide your contact information.';
+              }
             }
           }
         },
@@ -203,7 +205,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                         ],
                       ),
                     ),
-                    Container(
+                    !isKeyboardVisible ? Container(
                       height: MediaQuery.of(context).size.height,
                       alignment: Alignment.bottomCenter,
                       child: GestureDetector(
@@ -229,7 +231,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                           ),
                         ),
                       ),
-                    ),
+                    ) : const SizedBox()
                   ],
                 ),
               ),
@@ -262,27 +264,6 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
   void onFlareCompleted(String unused) {
     Navigator.of(context).pop(true);
     Navigator.of(context).pop(true);
-  }
-
-  showOverlay(BuildContext context) {
-    if (overlayEntry != null) return;
-    OverlayState overlayState = Overlay.of(context);
-    overlayEntry = OverlayEntry(builder: (context) {
-      return Positioned(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-          right: 0.0,
-          left: 0.0,
-          child: InputDoneView());
-    });
-
-    overlayState.insert(overlayEntry!);
-  }
-
-  removeOverlay() {
-    if (overlayEntry != null) {
-      overlayEntry!.remove();
-      overlayEntry = null;
-    }
   }
 
   Widget exampleQuestionView(NewQuestionPageState pageState) {
@@ -500,7 +481,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
     );
   }
 
-  void showTypeSelectionBottomSheet(BuildContext context) {
+  void showTypeSelectionBottomSheet(BuildContext context, Function setContactInfoQuestion) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -509,7 +490,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
       backgroundColor: Colors.transparent,
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
-        return const TypeSelectionBottomSheet();
+        return TypeSelectionBottomSheet(setContactInfoQuestion: setContactInfoQuestion);
       },
     );
   }
@@ -541,7 +522,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
           ),
           GestureDetector(
             onTap: () {
-              showTypeSelectionBottomSheet(context);
+              showTypeSelectionBottomSheet(context, setContactQuestionString);
             },
             child: Container(
               decoration: BoxDecoration(
@@ -581,6 +562,12 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
         ],
       ),
     );
+  }
+
+  void setContactQuestionString() {
+    if(questionTextController.text.isEmpty) {
+      questionTextController.text = 'Please provide your contact information.';
+    }
   }
 
   Widget settingsView() {
