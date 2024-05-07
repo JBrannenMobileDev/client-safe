@@ -346,6 +346,19 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                   icon:const Icon(Icons.close),
                   //replace with our own icon data.
                 ) : const SizedBox(),
+                actions: [
+                  Container(
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.only(right: 24),
+                    height: 64,
+                    child: TextDandyLight(
+                      type: TextDandyLight.LARGE_TEXT,
+                      textAlign: TextAlign.center,
+                      text: '(${(currentPageIndex + 1).toString()} of $pageCount)',
+                      color: Color(ColorConstants.getPrimaryBlack()),
+                    ),
+                  )
+                ],
               ),
               backgroundColor: Color(ColorConstants.getPrimaryWhite()),
               body: submitted ? Container(
@@ -530,7 +543,90 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   }
 
   Widget navigationButtons(Profile? localProfile, Questionnaire? localQuestionnaire) {
-    return Container(
+    return DeviceType.getDeviceTypeByContext(context) != Type.Website ? Container(
+      width: getPageWidth(context),
+      height: MediaQuery.of(context).size.height,
+      alignment: Alignment.bottomCenter,
+      margin: EdgeInsets.only(bottom: 8),
+      child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              if(currentPageIndex > 0) {
+                currentPageIndex = currentPageIndex - 1;
+              }
+            });
+            controller.animateToPage(currentPageIndex, duration: const Duration(milliseconds: 250), curve: Curves.ease);
+          },
+          child: Container(
+            alignment: Alignment.center,
+            height: 54,
+            padding: const EdgeInsets.only(left: 32, right: 32),
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(topRight: Radius.circular(27), bottomRight: Radius.circular(27)),
+              color: ColorConstants.hexToColor(localProfile?.selectedColorTheme?.buttonColor),
+            ),
+            child: TextDandyLight(
+              type: TextDandyLight.LARGE_TEXT,
+              text: 'Back',
+              textAlign: TextAlign.center,
+              color: Color(ColorConstants.getPrimaryWhite()),
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            if(isNextEnabled(localQuestionnaire?.questions?.elementAt(currentPageIndex))) {
+              setState(() {
+                if(currentPageIndex < pageCount-1) {
+                  currentPageIndex = currentPageIndex + 1;
+                  shortFormTextController.text = '';
+                  pageStateGlobal!.saveProgress!();
+                } else if(currentPageIndex == pageCount-1) {
+                  pageStateGlobal?.onSubmitSelected!();
+                  showSuccessAnimation();
+                }
+              });
+              controller.animateToPage(currentPageIndex, duration: const Duration(milliseconds: 250), curve: Curves.ease);
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: TextDandyLight(
+                  textAlign: TextAlign.center,
+                  type: TextDandyLight.LARGE_TEXT,
+                  text: 'This question is required *',
+                  color: Color(ColorConstants.getPrimaryWhite()),
+                ),
+                backgroundColor: Color(ColorConstants.error_red),
+              ));
+            }
+          },
+          child: Container(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(topRight: Radius.circular(16), bottomRight: Radius.circular(16)),
+              color: Colors.white,
+            ),
+            child: Container(
+              alignment: Alignment.center,
+              height: 54,
+              padding: const EdgeInsets.only(left: 32, right: 32),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(27), bottomLeft: Radius.circular(27)),
+                color: ColorConstants.hexToColor(localProfile?.selectedColorTheme?.buttonColor),
+              ),
+              child: TextDandyLight(
+                type: TextDandyLight.LARGE_TEXT,
+                text: currentPageIndex == pageCount-1 ? 'Submit' : 'Next',
+                textAlign: TextAlign.center,
+                color: Color(ColorConstants.getPrimaryWhite()),
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+    ) : Container(
       width: getPageWidth(context),
       height: MediaQuery.of(context).size.height,
       alignment: Alignment.bottomCenter,
