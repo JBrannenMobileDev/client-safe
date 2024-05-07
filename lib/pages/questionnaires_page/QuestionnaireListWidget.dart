@@ -1,5 +1,6 @@
 import 'package:dandylight/pages/questionnaires_page/SendQuestionnaireBottomSheet.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/material.dart';
 
@@ -44,6 +45,7 @@ class QuestionnaireListWidget extends StatelessWidget {
         onPressed: () {
           if(addToJobNew ?? false) {
             pageState!.onSaveToJobSelected!(questionnaire!, jobDocumentId!);
+            DandyToastUtil.showToast('Questionnaire added!', Color(ColorConstants.getPeachDark()));
             Navigator.of(context).pop();
           } else {
             onQuestionnaireSelected!(pageState, context, questionnaire);

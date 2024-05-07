@@ -187,9 +187,9 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                     icon: ImageIcon(ImageUtil.getTrashIconWhite(), color: Color(ColorConstants.getPrimaryBlack()),),
                     tooltip: 'Delete Questionnaire',
                     onPressed: () {
-                      if(jobDocumentId != null && jobDocumentId!.isNotEmpty) {
+                      if(jobDocumentId != null && jobDocumentId!.isNotEmpty && deleteFromJob != null) {
                         deleteFromJob!(context, questionnaire!);
-                      }else {
+                      } else if(jobDocumentId != null && jobDocumentId!.isNotEmpty && deleteFromJob == null){
                         _ackDeleteAlert(context, pageState);
                       }
                     },
@@ -366,7 +366,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                               if(questions.isNotEmpty) {
                                 Questionnaire temp = pageState.questionnaire!;
                                 temp.questions = questions;
-                                NavigationUtil.onAnswerQuestionnaireSelected(context, temp, pageState.profile!, '', '', true, false);
+                                NavigationUtil.onAnswerQuestionnaireSelected(context, temp, pageState.profile!, '', '', true, false, null);
                               } else {
                                 DandyToastUtil.showErrorToast('Add at least 1 question before previewing the questionnaire.');
                               }

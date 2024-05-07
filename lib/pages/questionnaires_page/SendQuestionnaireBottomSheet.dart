@@ -108,7 +108,7 @@ class _SendQuestionnaireBottomSheetState extends State<SendQuestionnaireBottomSh
             ),
             child: TextDandyLight(
               type: TextDandyLight.LARGE_TEXT,
-              text: 'Send via Client Portal',
+              text: 'Send with Client Portal',
               color: Color(ColorConstants.getPrimaryWhite()),
             ),
           ),

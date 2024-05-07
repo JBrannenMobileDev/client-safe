@@ -69,7 +69,7 @@ class NavigationUtil {
   static onInAppPreviewContractSelected(BuildContext context, String jsonTerms) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => PreviewContractPage(jsonTerms: jsonTerms)));
   }
-  static onAnswerQuestionnaireSelected(BuildContext context, Questionnaire questionnaire, Profile profile, String? userId, String? jobId, bool isPreview, bool isWebsite) {
+  static onAnswerQuestionnaireSelected(BuildContext context, Questionnaire questionnaire, Profile profile, String? userId, String? jobId, bool isPreview, bool isWebsite, Function? updateQuestionnaireForPortal) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => AnswerQuestionnairePage(
         questionnaire: questionnaire,
         isPreview: isPreview,
@@ -77,6 +77,7 @@ class NavigationUtil {
         userId: userId,
         jobId: jobId,
         isWebsite: isWebsite,
+        updateQuestionnaireForPortal: updateQuestionnaireForPortal,
     )));
   }
   static onJobTapped(BuildContext context, bool comingFromOnBoarding) {

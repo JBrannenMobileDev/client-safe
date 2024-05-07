@@ -42,7 +42,12 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                   ),
                   SizedBox(
                     width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 1440 : MediaQuery.of(context).size.width,
-                    child: GridView.builder(
+                    child: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? ListView.builder(
+                      itemBuilder: (context, index) => buildItem(index, pageState),
+                      physics: const NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+                      shrinkWrap: true,
+                      itemCount: pageState.proposal!.questionnaires!.length,
+                    ) : GridView.builder(
                       itemCount: pageState.proposal!.questionnaires!.length,
                       itemBuilder: (context, index) => buildItem(index, pageState),
                       physics: const NeverScrollableScrollPhysics(), // to disable GridView's scrolling
@@ -68,7 +73,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
   Widget buildItem(int index, ClientPortalPageState pageState) {
     return GestureDetector(
       onTap: () {
-        NavigationUtil.onAnswerQuestionnaireSelected(context, pageState.proposal!.questionnaires!.elementAt(index), pageState.profile!, pageState.userId, pageState.jobId, false, true);
+        NavigationUtil.onAnswerQuestionnaireSelected(context, pageState.proposal!.questionnaires!.elementAt(index), pageState.profile!, pageState.userId, pageState.jobId, false, true, pageState.updateQuestionnaires);
       },
       child: pageState.proposal!.questionnaires!.elementAt(index).hasImage() ? SizedBox(
         height: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : 2.25),
@@ -82,7 +87,6 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 color: Color(ColorConstants.getPrimaryGreyLight()),
-                boxShadow: ElevationToShadow[2],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,9 +150,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
           ],
         ),
       ) : SizedBox(
-        height: 432,
         width: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 2.25 : 1),
-
         child: Stack(
           alignment: Alignment.topRight,
           children: [
@@ -157,18 +159,17 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
               margin: const EdgeInsets.all(16),
               width: getPageWidth(context),
               child: Container(
-                height: 132,
+                height: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? 96 : 132,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   color: Color(ColorConstants.getPrimaryGreyLight()),
-                  boxShadow: ElevationToShadow[2],
                 ),
                 child: Row(
                   children: [
                     Container(
                       margin: const EdgeInsets.only(left: 16),
-                      height: 54,
-                      width: 54,
+                      height: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? 32 : 54,
+                      width: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? 32 : 54,
                       child: Image.asset('navIcons/questionnaire_solid.png', color: Color(ColorConstants.getPrimaryBlack())),
                     ),
                     Expanded(
@@ -177,7 +178,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            margin: const EdgeInsets.only(left: 4),
+                            margin: const EdgeInsets.only(left: 16),
                             alignment: Alignment.centerLeft,
                             child: TextDandyLight(
                               textAlign: TextAlign.start,
@@ -188,7 +189,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                             ),
                           ),
                           Container(
-                            margin: const EdgeInsets.only(left: 4),
+                            margin: const EdgeInsets.only(left: 16),
                             alignment: Alignment.centerLeft,
                             child: TextDandyLight(
                               textAlign: TextAlign.start,

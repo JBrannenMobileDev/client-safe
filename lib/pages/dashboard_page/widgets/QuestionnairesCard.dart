@@ -56,11 +56,16 @@ class QuestionnairesCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            TextDandyLight(
-                              type: TextDandyLight.MEDIUM_TEXT,
-                              text: pageState.notCompleteQuestionnaires != null ? pageState.notCompleteQuestionnaires!.length.toString() : '0',
-                              textAlign: TextAlign.center,
-                              color: Color(ColorConstants.getPrimaryBlack()),
+                            Container(
+                              height: 32,
+                              width: 32,
+                              alignment: Alignment.center,
+                              child: TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: pageState.notCompleteQuestionnaires != null ? pageState.notCompleteQuestionnaires!.length.toString() : '0',
+                                textAlign: TextAlign.center,
+                                color: Color(ColorConstants.getPrimaryBlack()),
+                              ),
                             ),
                             TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
@@ -94,11 +99,11 @@ class QuestionnairesCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
-                                  height: 24,
-                                  width: 24,
+                                  height: 32,
+                                  width: 32,
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
+                                    borderRadius: BorderRadius.circular(16),
                                     color: areResultsNew(pageState.completedQuestionnaires ?? []) ? const Color(ColorConstants.error_red) : Color(ColorConstants.getPrimaryWhite()),
                                   ),
                                   child: TextDandyLight(

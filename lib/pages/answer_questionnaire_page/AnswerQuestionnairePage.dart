@@ -17,6 +17,7 @@ import '../../models/Profile.dart';
 import '../../models/Question.dart';
 import '../../utils/DeviceType.dart';
 import '../../utils/InputDoneView.dart';
+import '../../utils/PlatformInfo.dart';
 import '../../utils/Shadows.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'AnswerQuestionnaireActions.dart';
@@ -30,11 +31,12 @@ class AnswerQuestionnairePage extends StatefulWidget {
   final String? userId;
   final String? jobId;
   final String? questionnaireId;
-  const AnswerQuestionnairePage({Key? key,required this.questionnaire,required this.isPreview, required this.profile, this.userId, this.jobId, required this.isWebsite, this.questionnaireId}) : super(key: key);
+  final Function? updateQuestionnaireForPortal;
+  const AnswerQuestionnairePage({Key? key,required this.questionnaire,required this.isPreview, required this.profile, this.userId, this.jobId, required this.isWebsite, this.questionnaireId, this.updateQuestionnaireForPortal}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _AnswerQuestionnairePageState(questionnaire, questionnaire?.questions?.length ?? 0, isPreview, profile, userId, jobId, isWebsite, questionnaireId);
+    return _AnswerQuestionnairePageState(questionnaire, questionnaire?.questions?.length ?? 0, isPreview, profile, userId, jobId, isWebsite, questionnaireId, updateQuestionnaireForPortal);
   }
 }
 
@@ -55,6 +57,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   final String? questionnaireId;
   AnswerQuestionnairePageState? pageStateGlobal;
   bool submitted = false;
+  final Function? updateQuestionnaireForPortal;
 
   int pageCount;
   int currentPageIndex = 0;
@@ -136,7 +139,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
     });
   }
 
-  _AnswerQuestionnairePageState(this.initialQuestionnaire, this.pageCount, this.isPreview, this.initialProfile, this.userId, this.jobId, this.isWebsite, this.questionnaireId);
+  _AnswerQuestionnairePageState(this.initialQuestionnaire, this.pageCount, this.isPreview, this.initialProfile, this.userId, this.jobId, this.isWebsite, this.questionnaireId, this.updateQuestionnaireForPortal);
 
   @override
   void initState() {
@@ -395,7 +398,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
         return Padding(
           padding: EdgeInsets.all(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 216.0 : 96),
           child: FlareActor(
-            "animations/success_check.flr",
+            PlatformInfo().isWeb() ? "animations/success_check.flr" : "assets/animations/success_check.flr",
             alignment: Alignment.center,
             fit: BoxFit.contain,
             animation: "show_check",
@@ -407,6 +410,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   }
 
   void onFlareCompleted(String unused) {
+    if(updateQuestionnaireForPortal != null ) updateQuestionnaireForPortal!();
     setState(() {
       submitted = true;
     });
@@ -585,12 +589,12 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
             ),
             GestureDetector(
               onTap: () {
-                pageStateGlobal!.saveProgress!();
                 if(isNextEnabled(localQuestionnaire?.questions?.elementAt(currentPageIndex))) {
                   setState(() {
                     if(currentPageIndex < pageCount-1) {
                       currentPageIndex = currentPageIndex + 1;
                       shortFormTextController.text = '';
+                      pageStateGlobal!.saveProgress!();
                     } else if(currentPageIndex == pageCount-1) {
                       pageStateGlobal?.onSubmitSelected!();
                       showSuccessAnimation();

@@ -87,8 +87,8 @@ class DandylightFunctionsApi {
     return response.statusCode;
   }
 
-  Future<int> updateQuestionnaire(String userId, String jobId, Questionnaire questionnaire) async {
-    final url = '$_baseUrl/updateQuestionnaire/?userId=$userId&jobId=$jobId';
+  Future<int> updateQuestionnaire(String userId, String jobId, Questionnaire questionnaire, bool alreadyComplete) async {
+    final url = '$_baseUrl/updateQuestionnaire/?userId=$userId&jobId=$jobId&alreadyComplete=$alreadyComplete';
     final response = await httpClient!.put(
         Uri.parse(url),
       headers: <String, String>{
@@ -106,8 +106,8 @@ class DandylightFunctionsApi {
     return response.statusCode;
   }
 
-  Future<int> updateQuestionnaireDirectSend(String userId, Questionnaire questionnaire) async {
-    final url = '$_baseUrl/updateQuestionnaireDirectSend/?userId=$userId';
+  Future<int> updateQuestionnaireDirectSend(String userId, Questionnaire questionnaire, bool alreadyComplete) async {
+    final url = '$_baseUrl/updateQuestionnaireDirectSend/?userId=$userId&alreadyComplete=$alreadyComplete';
     final response = await httpClient!.put(
         Uri.parse(url),
         headers: <String, String>{

@@ -34,10 +34,11 @@ class ClientPortalRepository {
     return await functions.updateInvoiceAsDepositPaid(userId, jobId, invoiceId, isPaid, unpaidAmount);
   }
 
-  Future<int> updateQuestionnaire(String userId, String jobId, Questionnaire questionnaire) async {
-    return await functions.updateQuestionnaire(userId, jobId, questionnaire);
+  Future<int> updateQuestionnaire(String userId, String jobId, Questionnaire questionnaire, bool alreadyComplete) async {
+    return await functions.updateQuestionnaire(userId, jobId, questionnaire, alreadyComplete);
   }
-  Future<int> updateQuestionnaireDirectSend(String userId, Questionnaire questionnaire) async {
-    return await functions.updateQuestionnaireDirectSend(userId, questionnaire);
+
+  Future<int> updateQuestionnaireDirectSend(String userId, Questionnaire questionnaire, bool alreadyComplete) async {
+    return await functions.updateQuestionnaireDirectSend(userId, questionnaire, alreadyComplete);
   }
 }

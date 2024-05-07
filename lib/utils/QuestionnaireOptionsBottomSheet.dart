@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../widgets/TextDandyLight.dart';
 import '../models/Profile.dart';
 import '../models/Questionnaire.dart';
+import 'UidUtil.dart';
 
 class QuestionnaireOptionsBottomSheet extends StatefulWidget {
   final bool isComplete;
@@ -39,7 +41,7 @@ class _QuestionnaireOptionsBottomSheetPageState extends State<QuestionnaireOptio
   @override
   Widget build(BuildContext context) =>
       Container(
-        height: 264.0,
+        height: (questionnaire.jobDocumentId == null || (questionnaire.jobDocumentId?.isEmpty ?? true)) && !(questionnaire.isTemplate ?? false) ? 332 : 264.0,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(topRight: Radius.circular(16), topLeft: Radius.circular(16)),
@@ -61,7 +63,7 @@ class _QuestionnaireOptionsBottomSheetPageState extends State<QuestionnaireOptio
                 if(markQuestionnaireAsReviewed != null) {
                   markQuestionnaireAsReviewed!(questionnaire);
                 }
-                NavigationUtil.onAnswerQuestionnaireSelected(context, questionnaire, profile, '', '', true, false);
+                NavigationUtil.onAnswerQuestionnaireSelected(context, questionnaire, profile, '', '', true, false, null);
               },
               child: Container(
                 margin: EdgeInsets.only(bottom: 16),
@@ -149,7 +151,7 @@ class _QuestionnaireOptionsBottomSheetPageState extends State<QuestionnaireOptio
                 GestureDetector(
                   onTap: () {
                     Navigator.of(context).pop();
-                    NavigationUtil.onAnswerQuestionnaireSelected(context, questionnaire, profile, '', questionnaire.jobDocumentId, true, false);
+                    NavigationUtil.onAnswerQuestionnaireSelected(context, questionnaire, profile, '', questionnaire.jobDocumentId, true, false, null);
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -166,6 +168,28 @@ class _QuestionnaireOptionsBottomSheetPageState extends State<QuestionnaireOptio
                     ),
                   ),
                 ),
+                (questionnaire.jobDocumentId == null || (questionnaire.jobDocumentId?.isEmpty ?? true)) && !(questionnaire.isTemplate ?? false) ? GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    String questionnaireLink = 'Questionnaire link:\nhttps://DandyLight.com/questionnaire/${UidUtil().getUid()}+${questionnaire.documentId}';
+                    Share.share('[Your message goes here]\n\n\n$questionnaireLink');
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: 264,
+                    height: 54,
+                    margin: EdgeInsets.only(top: 16),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(27),
+                        color: Color(ColorConstants.getPeachDark())
+                    ),
+                    child: TextDandyLight(
+                      type: TextDandyLight.LARGE_TEXT,
+                      text: 'Resend',
+                      color: Color(ColorConstants.getPrimaryWhite()),
+                    ),
+                  ),
+                ) : SizedBox(),
               ],
             )
           ],

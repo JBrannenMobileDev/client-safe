@@ -24,6 +24,7 @@ class ClientPortalPageState{
   final Function()? onDownloadContractSelected;
   final Function()? onDownloadInvoiceSelected;
   final Function()? resetErrorMsg;
+  final Function()? updateQuestionnaires;
 
   ClientPortalPageState({
     @required this.proposal,
@@ -42,6 +43,7 @@ class ClientPortalPageState{
     @required this.resetErrorMsg,
     @required this.isBrandingPreview,
     @required this.isLoadingInitial,
+    @required this.updateQuestionnaires,
   });
 
   ClientPortalPageState copyWith({
@@ -61,6 +63,7 @@ class ClientPortalPageState{
     Function()? onDownloadContractSelected,
     Function()? onDownloadInvoiceSelected,
     Function()? resetErrorMsg,
+    Function()? updateQuestionnaires,
   }){
     return ClientPortalPageState(
       proposal: proposal?? this.proposal,
@@ -79,6 +82,7 @@ class ClientPortalPageState{
       resetErrorMsg: resetErrorMsg ?? this.resetErrorMsg,
       isBrandingPreview: isBrandingPreview ?? this.isBrandingPreview,
       isLoadingInitial: isLoadingInitial ?? this.isLoadingInitial,
+      updateQuestionnaires: updateQuestionnaires ?? this.updateQuestionnaires,
     );
   }
 
@@ -99,6 +103,7 @@ class ClientPortalPageState{
     resetErrorMsg: null,
     isBrandingPreview: false,
     isLoadingInitial: true,
+    updateQuestionnaires: null,
   );
 
   factory ClientPortalPageState.fromStore(Store<AppState> store) {
@@ -121,7 +126,8 @@ class ClientPortalPageState{
       onMarkAsPaidDepositSelected: (isPaid) => store.dispatch(UpdateProposalInvoiceDepositPaidAction(store.state.clientPortalPageState, isPaid)),
       onDownloadInvoiceSelected: () => store.dispatch(GenerateInvoiceForClientAction(store.state.clientPortalPageState)),
       onDownloadContractSelected: () => store.dispatch(GenerateContractForClientAction(store.state.clientPortalPageState)),
-      resetErrorMsg: () => store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, ''))
+      resetErrorMsg: () => store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, '')),
+      updateQuestionnaires: () => store.dispatch(FetchProposalDataAction(store.state.clientPortalPageState, store.state.clientPortalPageState!.userId, store.state.clientPortalPageState!.jobId, false)),
     );
   }
 
@@ -142,6 +148,7 @@ class ClientPortalPageState{
       isLoading.hashCode ^
       isBrandingPreview.hashCode ^
       isLoadingInitial.hashCode ^
+      updateQuestionnaires.hashCode ^
       onMarkAsPaidDepositSelected.hashCode;
 
   @override
@@ -163,5 +170,6 @@ class ClientPortalPageState{
               onDownloadInvoiceSelected == other.onDownloadInvoiceSelected &&
               onDownloadContractSelected == other.onDownloadContractSelected &&
               isLoadingInitial == other.isLoadingInitial &&
+              updateQuestionnaires == other.updateQuestionnaires &&
               onMarkAsPaidDepositSelected == other.onMarkAsPaidDepositSelected;
 }

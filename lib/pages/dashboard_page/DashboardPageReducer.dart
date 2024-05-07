@@ -44,9 +44,9 @@ final dashboardPageReducer = combineReducers<DashboardPageState>([
 
 DashboardPageState setQuestionnaires(DashboardPageState previousState, SetQuestionnairesToDashboardAction action) {
   return previousState.copyWith(
-    completedQuestionnaires: action.complete,
-    notCompleteQuestionnaires: action.notComplete,
-    allQuestionnaires: action.allQuestionnaires,
+    completedQuestionnaires: action.complete.reversed.toList(),
+    notCompleteQuestionnaires: action.notComplete.reversed.toList(),
+    allQuestionnaires: action.allQuestionnaires.reversed.toList(),
   );
 }
 

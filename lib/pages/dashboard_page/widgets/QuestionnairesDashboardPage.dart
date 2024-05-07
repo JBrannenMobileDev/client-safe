@@ -77,6 +77,7 @@ class _QuestionnairesDashboardPageState extends State<QuestionnairesDashboardPag
                         backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                         pinned: true,
                         centerTitle: true,
+                        surfaceTintColor: Color(ColorConstants.getPrimaryWhite()),
                         title: TextDandyLight(
                           type: TextDandyLight.LARGE_TEXT,
                           text: "Questionnaires",
@@ -205,53 +206,7 @@ class _QuestionnairesDashboardPageState extends State<QuestionnairesDashboardPag
   }
 
   void openQuestionnaireEditPage(BuildContext context, Questionnaire questionnaire) {
-    NavigationUtil.onQuestionnaireSelected(context, questionnaire, questionnaire.title ?? '', false, questionnaire.jobDocumentId, _ackQuestionnaireAlert);
+    NavigationUtil.onQuestionnaireSelected(context, questionnaire, questionnaire.title ?? '', false, questionnaire.jobDocumentId, null);
   }
 
-  Future<void> _ackQuestionnaireAlert(BuildContext context, Questionnaire questionnaire) {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return Device.get().isIos ?
-        CupertinoAlertDialog(
-          title: const Text('Are you sure?'),
-          content: const Text('This questionnaire will be permanently removed from this job.'),
-          actions: <Widget>[
-            TextButton(
-              style: Styles.getButtonStyle(),
-              onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('No'),
-            ),
-            TextButton(
-              style: Styles.getButtonStyle(),
-              onPressed: () {
-                // pageState.onDeleteContractSelected(pageState.job.proposal.contract);
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              },
-              child: const Text('Yes'),
-            ),
-          ],
-        ) : AlertDialog(
-          title: const Text('Are you sure?'),
-          content: const Text('This questionnaire will be permanently removed from this job.'),
-          actions: <Widget>[
-            TextButton(
-              style: Styles.getButtonStyle(),
-              onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('No'),
-            ),
-            TextButton(
-              style: Styles.getButtonStyle(),
-              onPressed: () {
-                // pageState.onDeleteContractSelected(pageState.job.proposal.contract);
-                Navigator.of(context).pop(true);
-              },
-              child: const Text('Yes'),
-            ),
-          ],
-        );
-      },
-    );
-  }
 }

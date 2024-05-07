@@ -262,7 +262,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                             if(document.getDocumentType() == DocumentItem.DOCUMENT_TYPE_INVOICE) containsInvoice = true;
                           }
                           if(!containsInvoice) {
-                            UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected);
+                            UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected, job: pageState.job);
                           }else{
                             UserOptionsUtil.showInvoiceOptionsDialog(context, onSendInvoiceSelected, job: pageState.job);
                           }

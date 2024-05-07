@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../models/Contract.dart';
+import '../../utils/DandyToastUtil.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class ContractListWidget extends StatelessWidget {
@@ -28,6 +29,7 @@ class ContractListWidget extends StatelessWidget {
         ),
         onPressed: () {
           onContractSelected(pageState, context, contract);
+          DandyToastUtil.showToast('Contract added!', Color(ColorConstants.getPeachDark()));
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

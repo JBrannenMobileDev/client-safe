@@ -7,6 +7,7 @@ import 'package:dandylight/models/Question.dart';
 import 'package:dandylight/pages/new_question_page/AddCheckboxOptionBottomSheet.dart';
 import 'package:dandylight/pages/new_questionnaire_page/NewQuestionListWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -210,8 +211,12 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
                       alignment: Alignment.bottomCenter,
                       child: GestureDetector(
                         onTap: () {
-                          onQuestionSaved!(pageState.question!);
-                          showSuccessAnimation();
+                          if(questionTextController.text.isNotEmpty) {
+                            onQuestionSaved!(pageState.question!);
+                            Navigator.of(context).pop();
+                          } else {
+                            DandyToastUtil.showErrorToast('A question is required');
+                          }
                         },
                         child: Container(
                           alignment: Alignment.center,
@@ -241,29 +246,6 @@ class _NewQuestionPageState extends State<NewQuestionPage> with TickerProviderSt
 
   void onAction(){
     _messageFocusNode.unfocus();
-  }
-
-  void showSuccessAnimation(){
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Padding(
-          padding: const EdgeInsets.all(96.0),
-          child: FlareActor(
-            "assets/animations/success_check.flr",
-            alignment: Alignment.center,
-            fit: BoxFit.contain,
-            animation: "show_check",
-            callback: onFlareCompleted,
-          ),
-        );
-      },
-    );
-  }
-
-  void onFlareCompleted(String unused) {
-    Navigator.of(context).pop(true);
-    Navigator.of(context).pop(true);
   }
 
   Widget exampleQuestionView(NewQuestionPageState pageState) {

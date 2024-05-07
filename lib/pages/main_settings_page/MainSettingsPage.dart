@@ -96,6 +96,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                       ),
                       backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
                       pinned: true,
+                      surfaceTintColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
                       centerTitle: true,
                       elevation: 0.0,
                       title: TextDandyLight(

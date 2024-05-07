@@ -14,6 +14,7 @@ import '../../data_layer/repositories/FileStorage.dart';
 import '../../models/Job.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../dashboard_page/DashboardPageActions.dart';
 import '../job_details_page/JobDetailsActions.dart';
 import '../questionnaires_page/QuestionnairesActions.dart';
 import 'NewQuestionnaireActions.dart';
@@ -39,11 +40,19 @@ class NewQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void deleteQuestionnaire(Store<AppState> store, DeleteQuestionnaireAction action, NextDispatcher next) async{
-    if(action.pageState.questionnaire != null) {
+    if(action.pageState.questionnaire?.jobDocumentId != null && (action.pageState.questionnaire?.jobDocumentId?.isNotEmpty ?? false)) {
+      Job? job = await JobDao.getJobById(action.pageState.questionnaire!.jobDocumentId);
+      job?.proposal?.questionnaires?.removeWhere((item) => item.documentId == action.pageState.questionnaire!.documentId);
+      if(job != null) {
+        await JobDao.update(job);
+        store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId));
+      }
+    } else if(action.pageState.questionnaire != null) {
       await QuestionnairesDao.delete(action.pageState.questionnaire!.documentId!);
       await QuestionnairesDao.delete(action.pageState.questionnaire!.documentId!);
-      store.dispatch(FetchQuestionnairesAction(store.state.questionnairesPageState!));
     }
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    store.dispatch(FetchQuestionnairesAction(store.state.questionnairesPageState!));
   }
 
   void saveQuestionnaire(Store<AppState> store, SaveQuestionnaireAction action, NextDispatcher next) async{
@@ -64,10 +73,6 @@ class NewQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
       await JobDao.update(job);
       store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId));
     } else {
-      questionnaire = await QuestionnairesDao.insertOrUpdate(questionnaire);
-    }
-
-    if(action.pageState.isNew ?? true) {
       questionnaire = await QuestionnairesDao.insertOrUpdate(questionnaire);
     }
 

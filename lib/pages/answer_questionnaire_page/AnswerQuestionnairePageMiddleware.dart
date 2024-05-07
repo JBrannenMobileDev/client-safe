@@ -87,13 +87,15 @@ class AnswerQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
       Questionnaire? local = action.pageState.questionnaire;
       if(local != null) {
         local.isComplete = true;
-        repository.updateQuestionnaireDirectSend(action.pageState.userId!, local);
+        local.dateCompleted = DateTime.now();
+        repository.updateQuestionnaireDirectSend(action.pageState.userId!, local, false);
       }
     } else if(!(action.pageState.isPreview ?? true) && action.pageState.questionnaire != null && action.pageState.userId != null && action.pageState.jobId != null && action.pageState.questionnaire!.documentId != null) {
       Questionnaire? local = action.pageState.questionnaire;
       if(local != null) {
         local.isComplete = true;
-        repository.updateQuestionnaire(action.pageState.userId!, action.pageState.jobId!, local);
+        local.dateCompleted = DateTime.now();
+        repository.updateQuestionnaire(action.pageState.userId!, action.pageState.jobId!, local, false);
       }
     }
   }
@@ -101,9 +103,9 @@ class AnswerQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
   void saveProgress(Store<AppState> store, SaveQuestionnaireProgressAction action, NextDispatcher next) async{
     ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
     if((action.pageState.isDirectSend ?? false) && action.pageState.userId != null && action.pageState.questionnaire != null) {
-      repository.updateQuestionnaireDirectSend(action.pageState.userId!, action.pageState.questionnaire!);
+      repository.updateQuestionnaireDirectSend(action.pageState.userId!, action.pageState.questionnaire!, action.pageState.questionnaire?.isComplete ?? false);
     } else if(!(action.pageState.isPreview ?? true) && action.pageState.questionnaire != null && action.pageState.userId != null && action.pageState.jobId != null && action.pageState.questionnaire != null) {
-      repository.updateQuestionnaire(action.pageState.userId!, action.pageState.jobId!, action.pageState.questionnaire!);
+      repository.updateQuestionnaire(action.pageState.userId!, action.pageState.jobId!, action.pageState.questionnaire!, action.pageState.questionnaire?.isComplete ?? false);
     }
   }
 
