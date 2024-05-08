@@ -34,7 +34,7 @@ class NewQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
       fetchProfile(store, action, next);
     }
     if(action is SaveQuestionnaireTemplate) {
-      saveQuestionnaireTemplate(store, action, next);
+      // saveQuestionnaireTemplate(store, action, next);
     }
   }
 
@@ -92,13 +92,13 @@ class NewQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
    * NOT FOR USERS TO USE!
    * PLEASE KEEP COMMENTED OUT.
    */
-  void saveQuestionnaireTemplate(Store<AppState> store, SaveQuestionnaireTemplate action, NextDispatcher next) async{
-    Questionnaire questionnaire = action.pageState.questionnaire ?? Questionnaire();
-    questionnaire.questions = action.questions;
-    questionnaire.title = action.pageState.questionnaireName;
-    questionnaire.message = action.pageState.message;
-    questionnaire.isComplete = false;
-    questionnaire.isTemplate = true;
-    await QuestionnaireTemplateDao.insertOrUpdate(questionnaire);
-  }
+  // void saveQuestionnaireTemplate(Store<AppState> store, SaveQuestionnaireTemplate action, NextDispatcher next) async{
+  //   Questionnaire questionnaire = action.pageState.questionnaire ?? Questionnaire();
+  //   questionnaire.questions = action.questions;
+  //   questionnaire.title = action.pageState.questionnaireName;
+  //   questionnaire.message = action.pageState.message;
+  //   questionnaire.isComplete = false;
+  //   questionnaire.isTemplate = true;
+  //   await QuestionnaireTemplateDao.insertOrUpdate(questionnaire);
+  // }
 }

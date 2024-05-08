@@ -10,6 +10,7 @@ import 'package:dandylight/data_layer/local_db/daos/AppSettingsDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ContractTemplateDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/QuestionnaireTemplateDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/QuestionnairesDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ResponseDao.dart';
 import 'package:dandylight/data_layer/repositories/FileStorage.dart';
@@ -346,6 +347,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         }
       }
       await ContractTemplateDao.syncAllFromFireStore();
+      await QuestionnaireTemplateDao.syncAllFromFireStore();
       Profile newProfile = Profile(
         uid: user!.uid,
         referralUid: Uuid().v1().substring(0, 8),
@@ -555,6 +557,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
 
       await PoseLibraryGroupDao.syncAllFromFireStore();
       await ContractTemplateDao.syncAllFromFireStore();
+      await QuestionnaireTemplateDao.syncAllFromFireStore();
       await AppSettingsDao.syncAllFromFireStore();
       List<PoseLibraryGroup> libraryGroups = (await PoseLibraryGroupDao.getAllSortedMostFrequent());
       List<Pose> posesToAdd = [];
@@ -580,6 +583,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         });
         await PoseLibraryGroupDao.syncAllFromFireStore();
         await ContractTemplateDao.syncAllFromFireStore();
+        await QuestionnaireTemplateDao.syncAllFromFireStore();
         await AppSettingsDao.syncAllFromFireStore();
         EventSender().sendEvent(eventName: EventNames.USER_SIGNED_IN_CHECK, properties: {
           EventNames.SIGN_IN_CHECKED_PARAM_USER_UID : user.uid,
@@ -656,6 +660,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           UidUtil().setUid(user.uid);
 
           await ContractTemplateDao.syncAllFromFireStore();
+          await QuestionnaireTemplateDao.syncAllFromFireStore();
           if(profile.selectedColorTheme == null) {
             profile.selectedColorTheme = ColorTheme(
               themeName: 'default',
@@ -709,83 +714,12 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           }
 
           await QuestionnairesDao.syncAllFromFireStore();
-          List<Questionnaire> questionnaires = await QuestionnairesDao.getAll();
-          if(questionnaires == null || questionnaires.isEmpty) {
-            questionnaires.add(
-              Questionnaire(
-                title: "General Photography Questionnaire",
-                message: 'Hey there! Before our awesome photography adventure, how about we break the ice a bit? Dive into this fun questionnaire so I can make sure our session is tailored to your vibes!',
-                isComplete: false,
-                questions: [
-                  Question(
-                    question: 'Please provide your contact information so that we can easily communicate.',
-                    type: Question.TYPE_CONTACT_INFO,
-                    webImageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2Fbanner_mobile.jpg?alt=media&token=4cf655ab-29bf-4260-99e2-b9a78aa5212b',
-                    showImage: true,
-                    includeFirstName: true,
-                    includeLastName: true,
-                    includeEmail: true,
-                    includePhone: true,
-                    includeInstagramName: false,
-                  ),
-                  Question(
-                    type: Question.TYPE_SHORT_FORM_RESPONSE,
-                    question: 'Where do you prefer the photoshoot to be? Have a specific location in mind that you\'d like me to take into account?',
-                    shortHint: 'Answer here'
-                  ),
-                  Question(
-                      type: Question.TYPE_SHORT_FORM_RESPONSE,
-                      question: 'Where do you prefer the photoshoot to be? Have a specific location in mind that you\'d like me to take into account?',
-                      shortHint: 'Answer here'
-                  ),
-                  Question(
-                    type: Question.TYPE_NUMBER,
-                    question: 'How many people will be in the photoshoot?'
-                  ),
-                  Question(
-                      type: Question.TYPE_SHORT_FORM_RESPONSE,
-                      question: 'If there are any children joining, what are the names and ages of all children?',
-                      shortHint: 'E.g. Charlotte(7), Jonathan(5)'
-                  ),
-                  Question(
-                    type: Question.TYPE_CHECK_BOXES,
-                    question: 'What style pictures would you like?',
-                    choicesCheckBoxes: [
-                      'Posed',
-                      'Natural/unposed',
-                      'Creative compositions',
-                      'other'
-                    ],
-                    includeOtherCheckBoxes: true,
-                  ),
-                  Question(
-                      type: Question.TYPE_LONG_FORM_RESPONSE,
-                      question: 'What vision do you have for this photoshoot?',
-                      shortHint: 'Answer here'
-                  ),
-                  Question(
-                      type: Question.TYPE_SHORT_FORM_RESPONSE,
-                      question: 'Are these photos for a special occasion?',
-                      shortHint: 'Describe occasion'
-                  ),
-                  Question(
-                      type: Question.TYPE_LONG_FORM_RESPONSE,
-                      question: 'Is there anything else i should know before the session?',
-                      shortHint: 'Answer here'
-                  ),
-                  Question(
-                      type: Question.TYPE_LONG_FORM_RESPONSE,
-                      question: 'Do you have any questions for me?',
-                      shortHint: 'Answer here'
-                  ),
-                ]
-              )
-            );
+          List<Questionnaire>? questionnaireTemplates = await QuestionnaireTemplateDao.getAll();
+          int questionnairesCount = (await QuestionnairesDao.getAll()).where((item) => item.isTemplate == true).length;
 
-            if(questionnaires != null && questionnaires.isNotEmpty) {
-              for(Questionnaire questionnaire in questionnaires) {
-                QuestionnairesDao.insert(questionnaire);
-              }
+          if(questionnaireTemplates != null && questionnaireTemplates.isNotEmpty && questionnairesCount == 0) {
+            for(Questionnaire questionnaire in questionnaireTemplates) {
+              QuestionnairesDao.insert(questionnaire);
             }
           }
 
@@ -802,7 +736,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           await AppSettingsDao.syncAllFromFireStore();
           EventSender().sendEvent(eventName: EventNames.USER_SIGNED_IN_CHECK, properties: {
             EventNames.SIGN_IN_CHECKED_PARAM_USER_UID : user.uid,
-            EventNames.SIGN_IN_CHECKED_PARAM_PROFILE_UID : profile?.uid ?? "profile = null",
+            EventNames.SIGN_IN_CHECKED_PARAM_PROFILE_UID : profile.uid ?? "profile = null",
           });
           await ProfileDao.update(profile);
         } else {
