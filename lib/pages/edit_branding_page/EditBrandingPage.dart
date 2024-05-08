@@ -114,6 +114,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                     child: CustomScrollView(
                       slivers: <Widget>[
                         SliverAppBar(
+                            surfaceTintColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
                             iconTheme: IconThemeData(
                               color: Color(ColorConstants.getPrimaryBlack()), //change your color here
                             ),
