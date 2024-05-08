@@ -189,7 +189,7 @@ class _NewQuestionnairePageState extends State<NewQuestionnairePage> with Ticker
                     onPressed: () {
                       if(jobDocumentId != null && jobDocumentId!.isNotEmpty && deleteFromJob != null) {
                         deleteFromJob!(context, questionnaire!);
-                      } else if(jobDocumentId != null && jobDocumentId!.isNotEmpty && deleteFromJob == null){
+                      } else {
                         _ackDeleteAlert(context, pageState);
                       }
                     },

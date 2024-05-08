@@ -10,6 +10,7 @@ import 'package:dandylight/models/Questionnaire.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:redux/redux.dart';
 
+import '../../data_layer/local_db/daos/QuestionnaireTemplateDao.dart';
 import '../../data_layer/repositories/FileStorage.dart';
 import '../../models/Job.dart';
 import '../../utils/analytics/EventNames.dart';
@@ -31,6 +32,9 @@ class NewQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is FetchProfileForNewQuestionnaireAction) {
       fetchProfile(store, action, next);
+    }
+    if(action is SaveQuestionnaireTemplate) {
+      saveQuestionnaireTemplate(store, action, next);
     }
   }
 
@@ -88,22 +92,13 @@ class NewQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
    * NOT FOR USERS TO USE!
    * PLEASE KEEP COMMENTED OUT.
    */
-  // void saveContract(Store<AppState> store, SaveContractAction action, NextDispatcher next) async{
-  //   Contract contract = null;
-  //   if(action.pageState.contract == null) {
-  //     contract = Contract(
-  //       contractName: action.pageState.contractName,
-  //       terms: action.quillContract.toPlainText(),
-  //       jsonTerms: jsonEncode(action.quillContract.toDelta().toJson()),
-  //       signedByPhotographer: true,
-  //
-  //     );
-  //   } else {
-  //     contract = action.pageState.contract;
-  //     contract.contractName = action.pageState.contractName;
-  //     contract.terms = action.quillContract.toPlainText();
-  //     contract.jsonTerms = jsonEncode(action.quillContract.toDelta().toJson());
-  //   }
-  //   await ContractTemplateDao.insertOrUpdate(contract);
-  // }
+  void saveQuestionnaireTemplate(Store<AppState> store, SaveQuestionnaireTemplate action, NextDispatcher next) async{
+    Questionnaire questionnaire = action.pageState.questionnaire ?? Questionnaire();
+    questionnaire.questions = action.questions;
+    questionnaire.title = action.pageState.questionnaireName;
+    questionnaire.message = action.pageState.message;
+    questionnaire.isComplete = false;
+    questionnaire.isTemplate = true;
+    await QuestionnaireTemplateDao.insertOrUpdate(questionnaire);
+  }
 }

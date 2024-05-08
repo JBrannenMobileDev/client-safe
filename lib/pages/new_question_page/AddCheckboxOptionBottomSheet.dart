@@ -30,7 +30,7 @@ class _AddCheckboxOptionBottomSheetState extends State<AddCheckboxOptionBottomSh
     converter: (Store<AppState> store) => NewQuestionPageState.fromStore(store),
     builder: (BuildContext context, NewQuestionPageState pageState) =>
          Container(
-           height: 264,
+           height: 496,
            width: MediaQuery.of(context).size.width,
            decoration: BoxDecoration(
                borderRadius: const BorderRadius.vertical(top: Radius.circular(16.0)),
@@ -58,7 +58,7 @@ class _AddCheckboxOptionBottomSheetState extends State<AddCheckboxOptionBottomSh
                            fontFamily: TextDandyLight.getFontFamily(),
                            fontWeight: TextDandyLight.getFontWeight(),
                            color: Color(ColorConstants.getPrimaryBlack())),
-                       textInputAction: TextInputAction.go,
+                       textInputAction: TextInputAction.done,
                        maxLines: 1,
                        autofocus: true,
                        cursorColor: Color(ColorConstants.getBlueDark()),
@@ -95,11 +95,13 @@ class _AddCheckboxOptionBottomSheetState extends State<AddCheckboxOptionBottomSh
                        ),
                        keyboardType: TextInputType.text,
                        textCapitalization: TextCapitalization.sentences,
+                       onSubmitted: (text) {
+                         onChoiceAdded(pageState);
+                       },
                      )),
                  GestureDetector(
                    onTap: () {
-                     pageState.onCheckBoxChoiceAdded!(choiceTextController.text);
-                     Navigator.of(context).pop();
+                     onChoiceAdded(pageState);
                    },
                    child: Container(
                      margin: const EdgeInsets.only(bottom: 16, top: 32),
@@ -121,4 +123,9 @@ class _AddCheckboxOptionBottomSheetState extends State<AddCheckboxOptionBottomSh
              ),
          ),
     );
+
+  void onChoiceAdded(NewQuestionPageState pageState) {
+    pageState.onCheckBoxChoiceAdded!(choiceTextController.text);
+    Navigator.of(context).pop();
+  }
 }

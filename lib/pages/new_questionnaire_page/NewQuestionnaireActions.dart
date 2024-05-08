@@ -60,3 +60,9 @@ class SetProfileForNewQuestionnaireAction {
   SetProfileForNewQuestionnaireAction(this.pageState, this.profile);
 }
 
+class SaveQuestionnaireTemplate {
+  final NewQuestionnairePageState pageState;
+  final List<Question> questions;
+  SaveQuestionnaireTemplate(this.pageState, this.questions);
+}
+
