@@ -42,18 +42,13 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                   ),
                   SizedBox(
                     width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 1440 : MediaQuery.of(context).size.width,
-                    child: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? ListView.builder(
-                      itemBuilder: (context, index) => buildItem(index, pageState),
-                      physics: const NeverScrollableScrollPhysics(), // to disable GridView's scrolling
-                      shrinkWrap: true,
-                      itemCount: pageState.proposal!.questionnaires!.length,
-                    ) : GridView.builder(
+                    child: GridView.builder(
                       itemCount: pageState.proposal!.questionnaires!.length,
                       itemBuilder: (context, index) => buildItem(index, pageState),
                       physics: const NeverScrollableScrollPhysics(), // to disable GridView's scrolling
                       shrinkWrap: true,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 2 : 1,
+                        crossAxisCount: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 2 : 2,
                       ),
                     ),
                   ),
@@ -82,7 +77,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
           children: [
             Container(
               alignment: Alignment.topCenter,
-              margin: const EdgeInsets.all(16),
+              margin: const EdgeInsets.all(8),
               width: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 2.25 : 1),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
@@ -96,7 +91,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                     borderRadius: const BorderRadius.only(topRight: Radius.circular(16), topLeft: Radius.circular(16)), // Image border
                     child: SizedBox(
                       width: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 2.25 : 1),
-                      height: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 6 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 3.5 : 1.5),
+                      height: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 6 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 3.5 : 3.5),
                       child: Image.network(
                         pageState.proposal!.questionnaires!.elementAt(index).getDisplayImageUrl(),
                         fit: BoxFit.cover,
@@ -113,7 +108,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                           alignment: Alignment.centerLeft,
                           child: TextDandyLight(
                             textAlign: TextAlign.start,
-                            type: TextDandyLight.MEDIUM_TEXT,
+                            type: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? TextDandyLight.SMALL_TEXT : TextDandyLight.MEDIUM_TEXT,
                             text: pageState.proposal!.questionnaires!.elementAt(index).title,
                             maxLines: 1,
                             isBold: true,
@@ -125,7 +120,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                           alignment: Alignment.centerLeft,
                           child: TextDandyLight(
                             textAlign: TextAlign.start,
-                            type: TextDandyLight.MEDIUM_TEXT,
+                            type: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? TextDandyLight.SMALL_TEXT : TextDandyLight.MEDIUM_TEXT,
                             text: '(${pageState.proposal!.questionnaires!.elementAt(index).getLengthInMinutes()}min)',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,

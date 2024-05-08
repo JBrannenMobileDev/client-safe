@@ -391,7 +391,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           if(pageState.navigateToHome!) {
             _onStartAnimationForGoingToHomePage(pageState);
           }
-          if(pageState.shouldShowOnBoardingFlow!) {
+          if(true) {
             _onStartAnimationForGoingToOnBoardingPage(pageState);
           }
           if(pageState.createAccountErrorMessage!.isNotEmpty){

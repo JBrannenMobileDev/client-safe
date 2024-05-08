@@ -355,7 +355,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                       type: TextDandyLight.LARGE_TEXT,
                       textAlign: TextAlign.center,
                       text: '(${(currentPageIndex + 1).toString()} of $pageCount)',
-                      color: Color(ColorConstants.getPrimaryBlack()),
+                      color: (pageState.questionnaire?.questions?.elementAt(currentPageIndex).hasImage() ?? false) && !(DeviceType.getDeviceTypeByContext(context) == Type.Website) ? Color(ColorConstants.getPrimaryWhite()) : Color(ColorConstants.getPrimaryBlack()),
                     ),
                   )
                 ],
@@ -605,7 +605,6 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
           child: Container(
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(topRight: Radius.circular(16), bottomRight: Radius.circular(16)),
-              color: Colors.white,
             ),
             child: Container(
               alignment: Alignment.center,

@@ -5,6 +5,7 @@ import 'package:dandylight/data_layer/repositories/ClientPortalRepository.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/Proposal.dart';
+import 'package:dandylight/models/Question.dart';
 import 'package:dandylight/models/Questionnaire.dart';
 import 'package:dandylight/utils/PdfUtil.dart';
 import 'package:pdf/widgets.dart';
@@ -226,7 +227,209 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
           jsonTerms: jsonContract,
       ),
       questionnaires: [
-        Questionnaire()
+        Questionnaire(
+          isComplete: false,
+          isTemplate: false,
+          isReviewed: false,
+          title: "Engagement Session",
+          questions: [
+            Question(
+              id: '1',
+              addressRequired: true,
+              cityTownRequired: true,
+              countryRequired: true,
+              includeFirstName: true,
+              includeLastName: true,
+              includeEmail: true,
+              includePhone: true,
+              includeInstagramName: true,
+              mobileImageUrl: "https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FICUeVNh1gAcElqBowOL24lPC1Sm1%2Fquestions%2F66a6cbef-1fa7-4b67-957f-d3b5211387b9questionMobileImage.jpg?alt=media&token=b0731a71-ea4f-4c52-b093-0f3d6638ea04",
+              showImage: true,
+              stateRegionProvinceRequired: true,
+              type: "Contact info",
+              zipPostCodeRequired: true,
+              question: 'Please provide your contact information.'
+            ),
+            Question(
+              id: '2',
+              choicesCheckBoxes: [
+                'Text/sms',
+                'Email'
+              ],
+              isRequired: true,
+              multipleSelection: false,
+              question: 'What form of communication do you prefer?',
+              showImage: false,
+              type: 'Checkboxes'
+            ),
+            Question(
+              id: '3',
+              type: 'Long response',
+              isRequired: true,
+              showImage: false,
+              question: 'How did you and your partner meet?',
+            ),
+            Question(
+              id: '4',
+              type: 'Long response',
+              isRequired: true,
+              showImage: false,
+              question: 'Do you have a special connection to any particular locations or settings for the session?',
+            ),
+            Question(
+              id: '5',
+              type: "Yes/No",
+              isRequired: true,
+              showImage: false,
+              question: 'Do you plan on having multiple outfits?',
+              yesSelected: true,
+            ),
+            Question(
+              id: '6',
+              type: 'Long response',
+              isRequired: true,
+              showImage: false,
+              question: 'Tell us the story of your proposal, please include the location and all the details.',
+            ),
+            Question(
+              id: '7',
+              type: 'Long response',
+              isRequired: true,
+              showImage: false,
+              question: 'What things do you love most about your partner?',
+            ),
+            Question(
+              id: '8',
+              type: 'Long response',
+              isRequired: true,
+              showImage: false,
+              question: 'What things does your partner live most about you? (For your partner to answer)',
+            ),
+            Question(
+                id: '9',
+                choicesCheckBoxes: [
+                  'Rustic',
+                  'Woods/Forest',
+                  'Beach',
+                  'River/Natural spring',
+                  'Open fields',
+                  'Metro/Downtown area',
+                  'Coffee shop',
+                  'Lifestyle/In home',
+                  'Fair/Carnival',
+                  'Destination/Out of state',
+                  'Other/None of the above'
+                ],
+                isRequired: true,
+                multipleSelection: true,
+                question: 'Please select all locations that sound appealing for your session:',
+                showImage: false,
+                type: 'Checkboxes'
+            ),
+            Question(
+              id: '10',
+              type: 'Long response',
+              isRequired: true,
+              showImage: false,
+              question: 'Do you have a theme in mind? If you have a Pinterest board with ideas, please share the link for the board.',
+            ),
+            Question(
+              id: '11',
+              type: 'Long response',
+              isRequired: true,
+              showImage: false,
+              question: 'Please share anything else you think we should know.',
+            ),
+          ]
+        ),
+        Questionnaire(
+          isComplete: false,
+          isTemplate: false,
+          isReviewed: false,
+          title: "Feedback",
+          questions: [
+            Question(
+              id: '1',
+              isRequired: true,
+              type: 'Rating',
+              showImage: true,
+              mobileImageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FICUeVNh1gAcElqBowOL24lPC1Sm1%2Fquestions%2F4cd1b78d-e9c0-4ba9-8baa-98499b17d193questionMobileImage.jpg?alt=media&token=a39ef146-7459-4e48-9f6e-15796391da1e',
+              question: 'How satisfied are you with the overall experience of working with me?'
+            ),
+            Question(
+                id: '2',
+                isRequired: true,
+                type: 'Rating',
+                showImage: false,
+                question: 'How would you rate the communication with me before, during and after the session?'
+            ),
+            Question(
+                id: '3',
+                isRequired: true,
+                type: 'Rating',
+                showImage: false,
+                question: 'How would you rate my professionalism during the shoot?'
+            ),
+            Question(
+                id: '4',
+                isRequired: true,
+                type: 'Rating',
+                showImage: false,
+                question: 'How satisfied are you with the quality of the final images?'
+            ),
+            Question(
+                id: '5',
+                isRequired: true,
+                type: 'Rating',
+                showImage: false,
+                question: 'How would you rate the communication with me before, during and after the session?'
+            ),
+            Question(
+                id: '6',
+                choicesCheckBoxes: [
+                  'Meet',
+                  'Exceeded!',
+                  'Did not meet'
+                ],
+                isRequired: true,
+                multipleSelection: false,
+                question: 'Did the final images meet or exceed your expectations?',
+                showImage: false,
+                type: 'Checkboxes'
+            ),
+            Question(
+              id: '7',
+              type: "Yes/No",
+              isRequired: true,
+              showImage: false,
+              question: 'Did I effectively capture the style or mood you were looking for in the photos?',
+              yesSelected: true,
+            ),
+            Question(
+              id: '8',
+              type: "Yes/No",
+              isRequired: true,
+              showImage: false,
+              question: 'Do you feel the pricing for the session was fair and reasonable?',
+              yesSelected: true,
+            ),
+            Question(
+              id: '9',
+              type: "Yes/No",
+              isRequired: true,
+              showImage: false,
+              question: 'Would you consider hiring me again for future photography needs based on the value received?',
+              yesSelected: true,
+            ),
+            Question(
+              id: '10',
+              type: 'Long response',
+              isRequired: true,
+              showImage: false,
+              question: 'Is there anything I could do to improve my service?',
+            )
+          ]
+        ),
       ],
     );
   }
