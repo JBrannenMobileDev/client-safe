@@ -7,7 +7,7 @@ description: Photography business management.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 2.1.8+66
+version: 2.2.1+68
 
 environment:
   sdk: ">=3.0.0 <3.10.0"
@@ -176,6 +176,7 @@ flutter:
     - assets/images/icons/questionnaire_thin.png
     - assets/images/icons/questionnaire_solid.png
     - assets/images/icons/zoom.png
+    - assets/images/icons/checkbox_empty.png
 
     - assets/images/backgrounds/image_background.png
 

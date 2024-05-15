@@ -10,6 +10,8 @@ import 'package:redux/redux.dart';
 import '../../data_layer/api_clients/DandylightFunctionsClient.dart';
 import '../../data_layer/repositories/ClientPortalRepository.dart';
 import '../../models/Question.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import 'AnswerQuestionnaireActions.dart';
 
 class AnswerQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
@@ -88,14 +90,24 @@ class AnswerQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
       if(local != null) {
         local.isComplete = true;
         local.dateCompleted = DateTime.now();
-        repository.updateQuestionnaireDirectSend(action.pageState.userId!, local, false);
+        int responseCode = await repository.updateQuestionnaireDirectSend(action.pageState.userId!, local, false);
+        if(responseCode == 200) {
+          EventSender().sendEvent(eventName: EventNames.QUESTIONNAIRE_COMPLETED);
+        } else {
+          //TODO show user error message
+        }
       }
     } else if(!(action.pageState.isPreview ?? true) && action.pageState.questionnaire != null && action.pageState.userId != null && action.pageState.jobId != null && action.pageState.questionnaire!.documentId != null) {
       Questionnaire? local = action.pageState.questionnaire;
       if(local != null) {
         local.isComplete = true;
         local.dateCompleted = DateTime.now();
-        repository.updateQuestionnaire(action.pageState.userId!, action.pageState.jobId!, local, false);
+        int responseCode = await repository.updateQuestionnaire(action.pageState.userId!, action.pageState.jobId!, local, false);
+        if(responseCode == 200) {
+          EventSender().sendEvent(eventName: EventNames.QUESTIONNAIRE_COMPLETED);
+        } else {
+          //TODO show user error message
+        }
       }
     }
   }
@@ -427,7 +439,7 @@ class AnswerQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
         profile = await repository.fetchProfile(action.userId!, null);
       }
     }
-    await store.dispatch(ClearAnswerState(store.state.answerQuestionnairePageState!, action.isPreview, action.userId, action.jobId, isDirectSend));
+    await store.dispatch(ClearAnswerState(store.state.answerQuestionnairePageState!, action.isPreview, action.userId, action.jobId, isDirectSend, action.isAdmin));
     if(questionnaire != null) store.dispatch(SetQuestionnaireAction(store.state.answerQuestionnairePageState!, questionnaire));
     if(profile != null) store.dispatch(SetProfileForAnswerAction(store.state.answerQuestionnairePageState!, profile));
   }

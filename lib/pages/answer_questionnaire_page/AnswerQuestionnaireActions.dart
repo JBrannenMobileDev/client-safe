@@ -16,7 +16,8 @@ class ClearAnswerState {
   final String? userId;
   final String? jobId;
   final bool isDirectSend;
-  ClearAnswerState(this.pageState, this.isPreview, this.userId, this.jobId, this.isDirectSend);
+  final bool? isAdmin;
+  ClearAnswerState(this.pageState, this.isPreview, this.userId, this.jobId, this.isDirectSend, this.isAdmin);
 }
 
 class FetchProfileForAnswerAction {
@@ -27,7 +28,8 @@ class FetchProfileForAnswerAction {
   final String? jobId;
   final String? questionnaireId;
   final Profile? profile;
-  FetchProfileForAnswerAction(this.pageState, this.questionnaire, this.isPreview, this.userId, this.jobId, this.profile, this.questionnaireId);
+  final bool? isAdmin;
+  FetchProfileForAnswerAction(this.pageState, this.questionnaire, this.isPreview, this.userId, this.jobId, this.profile, this.questionnaireId, this.isAdmin);
 }
 
 class SetProfileForAnswerAction {

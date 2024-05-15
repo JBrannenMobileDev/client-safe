@@ -126,12 +126,14 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
           List<Job>? allJobs = await JobDao.getAllJobs();
           store.dispatch(SetJobsDataAction(store.state.jobsPageState!, allJobs));
           store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+          EventSender().sendEvent(eventName: EventNames.QUESTIONNAIRE_REVIEWED);
         }
       }
     } else if(questionnaire.jobDocumentId != null){
       Questionnaire questionnaire = action.questionnaire;
       questionnaire.isReviewed = true;
       QuestionnairesDao.update(questionnaire);
+      EventSender().sendEvent(eventName: EventNames.QUESTIONNAIRE_REVIEWED);
     }
   }
 

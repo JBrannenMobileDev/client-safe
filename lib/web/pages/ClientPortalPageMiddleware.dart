@@ -378,13 +378,6 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
                 question: 'How satisfied are you with the quality of the final images?'
             ),
             Question(
-                id: '5',
-                isRequired: true,
-                type: 'Rating',
-                showImage: false,
-                question: 'How would you rate the communication with me before, during and after the session?'
-            ),
-            Question(
                 id: '6',
                 choicesCheckBoxes: [
                   'Meet',

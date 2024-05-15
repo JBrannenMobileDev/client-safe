@@ -119,8 +119,8 @@ class NavigationUtil {
   static onBookACallSelected(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => BookAZoomCallPage()));
   }
-  static onShareWIthClientSelected(BuildContext context, Job job) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ShareWithClientPage(job: job)));
+  static onShareWIthClientSelected(BuildContext context, Job job, {bool isPreview = false}) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ShareWithClientPage(job: job, isPreview: isPreview)));
   }
   static onEditBrandingSelected(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditBrandingPage()));
@@ -158,8 +158,8 @@ class NavigationUtil {
   static onNotificationsSelected(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReminderNotificationsPage()));
   }
-  static onJobPosesSelected(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobPosesPage()));
+  static onJobPosesSelected(BuildContext context, bool comingFromOnboarding) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobPosesPage(comingFromOnboarding)));
   }
   static onUploadPoseSelected(BuildContext context, Profile profile) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => UploadPosePage(profile)));

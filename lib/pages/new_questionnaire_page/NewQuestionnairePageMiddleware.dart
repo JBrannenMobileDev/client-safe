@@ -68,23 +68,25 @@ class NewQuestionnairePageMiddleware extends MiddlewareClass<AppState> {
 
     if(action.jobDocumentId != null && action.jobDocumentId!.isNotEmpty) {
       Job? job = await JobDao.getJobById(action.jobDocumentId);
-      Questionnaire? questionnaireAlreadyExists = job?.proposal?.questionnaires?.where((it) => it.documentId == questionnaire.documentId).first;
-      if(questionnaireAlreadyExists == null) {
-        job!.proposal!.questionnaires!.add(questionnaire);
+      List<Questionnaire>? questionnaires = job?.proposal?.questionnaires?.where((it) => it.documentId == questionnaire.documentId).toList();
+      if((questionnaires?.length ?? 0) == 0) {
+        questionnaire = await QuestionnairesDao.insertOrUpdate(questionnaire);
+        EventSender().sendEvent(eventName: EventNames.QUESTIONNAIRE_CREATED, properties: {
+          EventNames.QUESTIONNAIRE_CREATED_FROM_PARAM : questionnaire.title ?? '',
+        });
       } else {
+        Questionnaire questionnaireAlreadyExists = questionnaires!.first;
         job!.proposal!.questionnaires![job.proposal!.questionnaires!.indexWhere((it) => it.documentId == questionnaireAlreadyExists.documentId)] = questionnaire;
+        await JobDao.update(job);
+        store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId));
       }
-      await JobDao.update(job);
-      store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId));
     } else {
       questionnaire = await QuestionnairesDao.insertOrUpdate(questionnaire);
+      EventSender().sendEvent(eventName: EventNames.QUESTIONNAIRE_CREATED, properties: {
+        EventNames.QUESTIONNAIRE_CREATED_FROM_PARAM : questionnaire.title ?? '',
+      });
     }
-
     store.dispatch(FetchQuestionnairesAction(store.state.questionnairesPageState!));
-
-    if(action.pageState.isNew ?? true) {
-      EventSender().sendEvent(eventName: EventNames.QUESTIONNAIRE_CREATED);
-    }
   }
 
   /**

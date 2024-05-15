@@ -323,6 +323,10 @@ class EventNames {
   static const String QUESTIONNAIRE_CREATED = "questionnaire_created";
   static const String QUESTIONNAIRE_CREATED_FROM_PARAM = "questionnaire_created_from_param";
   static const String QUESTIONNAIRE_ADDED_TO_JOB = "questionnaire_added_to_job";
+  static const String QUESTIONNAIRE_ADDED_TO_JOB_PARAM = "questionnaire_added_to_job_param";
+  static const String QUESTIONNAIRE_REVIEWED = "questionnaire_reviewed";
+  static const String QUESTIONNAIRE_COMPLETED = "questionnaire_completed";
+
 
   //Push notifications
   static const String NOTIFICATION_CONTRACT_APP_LAUNCH = "notifications_contract_app_launch";

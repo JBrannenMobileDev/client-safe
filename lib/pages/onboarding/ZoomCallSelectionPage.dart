@@ -40,11 +40,18 @@ class _ZoomCallSelectionPage extends State<ZoomCallSelectionPage> {
                         padding: const EdgeInsets.only(top: 16),
                         margin: const EdgeInsets.only(left: 32.0, right: 32.0, top: 32.0, bottom: 0.0),
                         alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                            borderRadius: BorderRadius.circular(24.0)),
+
                         child: Column(
                           children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 24, right: 24),
+                              child: TextDandyLight(
+                                type: TextDandyLight.EXTRA_LARGE_TEXT,
+                                text: '3 MONTHS FREE',
+                                textAlign: TextAlign.center,
+                                isBold: true,
+                              ),
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(left: 24, right: 24),
                               child: TextDandyLight(
@@ -55,39 +62,39 @@ class _ZoomCallSelectionPage extends State<ZoomCallSelectionPage> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 24, right: 24, top: 16),
+                              padding: const EdgeInsets.only(left: 24, right: 24, top: 32),
                               child: TextDandyLight(
                                 type: TextDandyLight.MEDIUM_TEXT,
                                 text: 'We value your feedback! Participate in a brief survey to share your insights, helping us enhance your experience and tailor our services to your preferences.',
                                 textAlign: TextAlign.start,
                               ),
                             ),
-                            const SizedBox(height: 8),
-                            GestureDetector(
-                              onTap: () {
-                                IntentLauncherUtil.launchURLInternalBrowser('https://y9so063tn9w.typeform.com/to/mOovSXbb');
-                                setState(() {
-                                  hasClickedBook = true;
-                                });
-                              },
-                              child: Container(
-                                margin: const EdgeInsets.only(top: 16.0),
-                                alignment: Alignment.center,
-                                height: 54.0,
-                                decoration: BoxDecoration(
-                                    color: Color(ColorConstants.getPeachDark()),
-                                    borderRadius: const BorderRadius.only(bottomRight: Radius.circular(24), bottomLeft: Radius.circular(24))),
-                                child: TextDandyLight(
-                                  text: 'Take Survey',
-                                  type: TextDandyLight.LARGE_TEXT,
-                                  color: Color(ColorConstants.getPrimaryWhite()),
-                                ),
-                              ),
-                            ),
                           ],
-                        )
+                        ),
                     ),
                   ],
+                ),
+                GestureDetector(
+                  onTap: () {
+                    IntentLauncherUtil.launchURLInternalBrowser('https://y9so063tn9w.typeform.com/to/mOovSXbb');
+                    setState(() {
+                      hasClickedBook = true;
+                    });
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 108, left: 64, right: 64),
+                    alignment: Alignment.center,
+                    height: 72.0,
+                    decoration: BoxDecoration(
+                      color: Color(ColorConstants.getPeachDark()),
+                      borderRadius: BorderRadius.circular(37),
+                    ),
+                    child: TextDandyLight(
+                      text: 'Take Survey',
+                      type: TextDandyLight.EXTRA_LARGE_TEXT,
+                      color: Color(ColorConstants.getPrimaryWhite()),
+                    ),
+                  ),
                 ),
                 GestureDetector(
                   onTap: () {
@@ -95,18 +102,17 @@ class _ZoomCallSelectionPage extends State<ZoomCallSelectionPage> {
                   },
                   child: Container(
                     padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                    margin: const EdgeInsets.only(left: 64.0, right: 64.0, top: 0.0, bottom: 32.0),
+                    margin: const EdgeInsets.only(left: 84.0, right: 84.0, top: 0.0, bottom: 32.0),
                     alignment: Alignment.center,
                     height: 54.0,
                     decoration: BoxDecoration(
-                        color: Color(ColorConstants.getPrimaryBlack()),
+                        color: Color(ColorConstants.getPrimaryBackgroundGrey()),
                         borderRadius: BorderRadius.circular(36.0),
-                        boxShadow: ElevationToShadow[4],
                     ),
                     child: TextDandyLight(
                       text: hasClickedBook ? 'Continue' : 'No thank you',
                       type: TextDandyLight.LARGE_TEXT,
-                      color: Color(ColorConstants.getPrimaryWhite()),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                 ),

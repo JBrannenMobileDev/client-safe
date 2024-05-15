@@ -7,6 +7,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import '../../models/Questionnaire.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'QuestionnaireListWidget.dart';
 import 'QuestionnairesActions.dart';
@@ -159,6 +161,9 @@ class _QuestionnairesPageState extends State<QuestionnairesPage> with TickerProv
     if(jobDocumentId != null) {
       pageState.onSaveToJobSelected!(questionnaire, jobDocumentId);
       Navigator.of(context).pop();
+      EventSender().sendEvent(eventName: EventNames.QUESTIONNAIRE_ADDED_TO_JOB, properties: {
+        EventNames.QUESTIONNAIRE_ADDED_TO_JOB_PARAM : questionnaire.title ?? '',
+      });
     } else {
       NavigationUtil.onQuestionnaireSelected(context, questionnaire, questionnaire.title!, false, jobDocumentId, null);
     }

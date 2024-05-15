@@ -33,11 +33,12 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 class ShareWithClientPage extends StatefulWidget {
   final Job? job;
-  ShareWithClientPage({this.job});
+  final bool isPreview;
+  ShareWithClientPage({this.job, required this.isPreview});
 
   @override
   State<StatefulWidget> createState() {
-    return _ShareWithClientPageState(job);
+    return _ShareWithClientPageState(job, isPreview);
   }
 }
 
@@ -49,6 +50,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
   OverlayEntry? overlayEntry;
   bool isKeyboardVisible = false;
   bool initialSetupState = false;
+  bool isPreview;
   _isThisPageShowing(BuildContext context) => pageContext != null && ModalRoute.of(pageContext!)?.isCurrent == true;
   BuildContext? pageContext;
   bool contractChecked = false;
@@ -91,7 +93,7 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
     super.dispose();
   }
 
-  _ShareWithClientPageState(this.job);
+  _ShareWithClientPageState(this.job, this.isPreview);
 
   void handleClick(String value) {
     switch (value) {
@@ -202,18 +204,20 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
           });
         },
         onDidChange: (previous, current) {
-          if(initialSetupState) {
-            setState(() {
-              initialSetupState = false;
-            });
-            _showSetupSheet(context);
-          } else {
-            if(previous!.profile != null && current.profile != null) {
-              bool shouldShowCurrent = !current.profile!.isProfileComplete() || !current.profile!.hasSetupBrand! || !current.profile!.paymentOptionsSelected();
-              bool shouldShowPrevious = !previous.profile!.isProfileComplete() || !previous.profile!.hasSetupBrand! || !previous.profile!.paymentOptionsSelected();
-              if(shouldShowCurrent && !shouldShowPrevious) {
-                if(_isThisPageShowing(context)) {
-                  _showSetupSheet(context);
+          if(!isPreview) {
+            if(initialSetupState) {
+              setState(() {
+                initialSetupState = false;
+              });
+              _showSetupSheet(context);
+            } else {
+              if(previous!.profile != null && current.profile != null) {
+                bool shouldShowCurrent = !current.profile!.isProfileComplete() || !current.profile!.hasSetupBrand! || !current.profile!.paymentOptionsSelected();
+                bool shouldShowPrevious = !previous.profile!.isProfileComplete() || !previous.profile!.hasSetupBrand! || !previous.profile!.paymentOptionsSelected();
+                if(shouldShowCurrent && !shouldShowPrevious) {
+                  if(_isThisPageShowing(context)) {
+                    _showSetupSheet(context);
+                  }
                 }
               }
             }

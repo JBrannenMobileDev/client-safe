@@ -10,16 +10,17 @@ import '../../widgets/TextDandyLight.dart';
 
 class PosesCard extends StatelessWidget {
 
-  const PosesCard({Key? key, this.pageState}) : super(key: key);
+  const PosesCard({Key? key, this.pageState, required this.comingFromOnboarding}) : super(key: key);
   
   final JobDetailsPageState? pageState;
+  final bool comingFromOnboarding;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         if(pageState!.job!.poses!.isNotEmpty) {
-          NavigationUtil.onJobPosesSelected(context);
+          NavigationUtil.onJobPosesSelected(context, comingFromOnboarding);
           EventSender().sendEvent(eventName: EventNames.NAV_TO_JOB_POSES_FROM_JOB_DETAILS);
         } else {
           NavigationUtil.onPosesSelected(context, pageState!.job, true, false);

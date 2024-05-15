@@ -31,12 +31,13 @@ class AnswerQuestionnairePage extends StatefulWidget {
   final String? userId;
   final String? jobId;
   final String? questionnaireId;
+  final bool? isAdmin;
   final Function? updateQuestionnaireForPortal;
-  const AnswerQuestionnairePage({Key? key,required this.questionnaire,required this.isPreview, required this.profile, this.userId, this.jobId, required this.isWebsite, this.questionnaireId, this.updateQuestionnaireForPortal}) : super(key: key);
+  const AnswerQuestionnairePage({Key? key,required this.questionnaire,required this.isPreview, required this.profile, this.userId, this.jobId, required this.isWebsite, this.questionnaireId, this.updateQuestionnaireForPortal, this.isAdmin}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _AnswerQuestionnairePageState(questionnaire, questionnaire?.questions?.length ?? 0, isPreview, profile, userId, jobId, isWebsite, questionnaireId, updateQuestionnaireForPortal);
+    return _AnswerQuestionnairePageState(questionnaire, questionnaire?.questions?.length ?? 0, isPreview, profile, userId, jobId, isWebsite, questionnaireId, updateQuestionnaireForPortal, isAdmin);
   }
 }
 
@@ -55,6 +56,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
   final String? userId;
   final String? jobId;
   final String? questionnaireId;
+  final bool? isAdmin;
   AnswerQuestionnairePageState? pageStateGlobal;
   bool submitted = false;
   final Function? updateQuestionnaireForPortal;
@@ -139,7 +141,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
     });
   }
 
-  _AnswerQuestionnairePageState(this.initialQuestionnaire, this.pageCount, this.isPreview, this.initialProfile, this.userId, this.jobId, this.isWebsite, this.questionnaireId, this.updateQuestionnaireForPortal);
+  _AnswerQuestionnairePageState(this.initialQuestionnaire, this.pageCount, this.isPreview, this.initialProfile, this.userId, this.jobId, this.isWebsite, this.questionnaireId, this.updateQuestionnaireForPortal, this.isAdmin);
 
   @override
   void initState() {
@@ -241,7 +243,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
                 break;
             }
           }
-          store.dispatch(FetchProfileForAnswerAction(store.state.answerQuestionnairePageState!, initialQuestionnaire, isPreview, userId, jobId, initialProfile, questionnaireId));
+          store.dispatch(FetchProfileForAnswerAction(store.state.answerQuestionnairePageState!, initialQuestionnaire, isPreview, userId, jobId, initialProfile, questionnaireId, isAdmin));
           },
         onDidChange: (previous, current) {
           setState(() {

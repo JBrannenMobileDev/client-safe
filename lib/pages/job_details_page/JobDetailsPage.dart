@@ -381,7 +381,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         ),
                       ) : GestureDetector(
                         onTap: () {
-                          NavigationUtil.onShareWIthClientSelected(context, pageState.job!);
+                          NavigationUtil.onShareWIthClientSelected(context, pageState.job!, isPreview: comingFromOnBoarding ?? false);
                           EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_FROM_JOB);
                         },
                         child: Container(
@@ -492,7 +492,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                             delegate: SliverChildListDelegate(<Widget>[
                               Padding(
                                 padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
-                                child: PosesCard(pageState: pageState),
+                                child: PosesCard(pageState: pageState, comingFromOnboarding: comingFromOnBoarding ?? false),
                               ),
                               Padding(
                                 padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),

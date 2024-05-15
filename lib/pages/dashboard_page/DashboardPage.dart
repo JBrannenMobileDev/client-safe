@@ -8,6 +8,7 @@ import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/GoToJobPosesBottomSheet.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/ContractsCard.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/GettingStartedProgress.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/JobTypeBreakdownPieChart.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/ProfileAndJobsCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/LeadSourcesPieChart.dart';
@@ -45,6 +46,7 @@ import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'AppUpdateBottomSheet.dart';
+import 'GettingStartedBottomSheet.dart';
 import 'RequestAppReviewBottomSheet.dart';
 import 'RequestPMFSurveyBottomSheet.dart';
 
@@ -699,6 +701,10 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                       ),
                       pageState.areJobsLoaded! ? SliverList(
                           delegate: SliverChildListDelegate(<Widget>[
+                            SlideTransition(
+                                position: offsetAnimationUp,
+                                child: const GettingStartedProgress()
+                            ),
                             SlideTransition(
                               position: offsetAnimationUp,
                               child: Showcase(

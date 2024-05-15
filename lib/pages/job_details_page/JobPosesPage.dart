@@ -14,6 +14,9 @@ import 'JobDetailsPageState.dart';
 import 'JobPoseListWidget.dart';
 
 class JobPosesPage extends StatelessWidget{
+  final bool comingFromOnboarding;
+
+  JobPosesPage(this.comingFromOnboarding);
 
   Widget _buildItem(BuildContext context, int index) {
     return StoreConnector<AppState, JobDetailsPageState>(
@@ -99,7 +102,7 @@ class JobPosesPage extends StatelessWidget{
                 alignment: Alignment.bottomCenter,
                 child: GestureDetector(
                   onTap: () {
-                    NavigationUtil.onShareWIthClientSelected(context, pageState.job!);
+                    NavigationUtil.onShareWIthClientSelected(context, pageState.job!, isPreview: comingFromOnboarding);
                     EventSender().sendEvent(eventName: EventNames.SHARE_WITH_CLIENT_FROM_JOB_POSES_PAGE);                  },
                   child: Container(
                     margin: EdgeInsets.only(bottom: 36),

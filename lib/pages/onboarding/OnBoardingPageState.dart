@@ -12,9 +12,9 @@ class OnBoardingPageState{
   static const String HAVING_EVERYTHING_IN_ONE_PLACE = "To have everything in one place";
   static const String LOOK_PROFESSIONAL = "To look professional to clients";
   static const String CLIENT_GALLERIES = "Client galleries";
-  static const String CONTRACTS = "Contracts";
-  static const String INVOICES = "Invoices";
-  static const String QUESTIONNAIRES = "Questionnaires";
+  static const String CONTRACTS = "Branded Contracts";
+  static const String INVOICES = "Branded Invoices";
+  static const String QUESTIONNAIRES = "Branded Questionnaires";
   static const String CLIENT_GUIDES = "Client guides";
   static const String SUN_TRACKER = "Sun tracker";
   static const String TRACKING_MILES_FOR_TAXES = "To track miles for taxes";
@@ -24,7 +24,7 @@ class OnBoardingPageState{
   static const String MORE_THAN_15 = "More than 10";
   static const String APP_WALKTHROUGH = "App walkthrough (15min)";
   static const String FIRST_TIME_SETUP = "First time setup (15min)";
-  static const String NEW_USER_SURVEY = "New user survey (3-5 min)\nGet 3 months FREE";
+  static const String NEW_USER_SURVEY = "New user survey (3-5 min)";
 
   static const String HAS_JOB_YES = "has_job_yes";
   static const String HAS_JOB_NO = "has_job_no";

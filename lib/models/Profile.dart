@@ -1,5 +1,6 @@
 import 'ColorTheme.dart';
 import 'FontTheme.dart';
+import 'Progress.dart';
 import 'Questionnaire.dart';
 
 class Profile{
@@ -71,6 +72,7 @@ class Profile{
   bool? isFreeForLife = false;
   bool? onBoardingComplete = false;
   bool? isSubscribed = false;
+  Progress progress;
   DateTime? accountCreatedDate;
   DateTime? lastSignIn;
   DateTime? clientsLastChangeDate;
@@ -185,6 +187,7 @@ class Profile{
     this.requestReviewDate,
     this.updateLastSeenDate,
     this.questionnairesLastChangedTime,
+    required this.progress,
   });
 
   Profile copyWith({
@@ -278,6 +281,7 @@ class Profile{
     DateTime? poseLibraryGroupLastChangeDate,
     DateTime? discountCodesLastChangedTime,
     DateTime? questionnairesLastChangedTime,
+    Progress? progress,
   }){
     return Profile(
       id: id ?? this.id,
@@ -370,6 +374,7 @@ class Profile{
       requestReviewDate: requestReviewDate ?? this.requestReviewDate,
       updateLastSeenDate: updateLastSeenDate ?? this.updateLastSeenDate,
       questionnairesLastChangedTime: questionnairesLastChangedTime ?? this.questionnairesLastChangedTime,
+      progress: progress ?? this.progress,
     );
   }
 
@@ -465,6 +470,7 @@ class Profile{
       'otherMessage' : otherMessage,
       'wireMessage' : wireMessage,
       'cashMessage' : cashMessage,
+      'progress' : progress.toMap(),
     };
   }
 
@@ -492,6 +498,7 @@ class Profile{
       lastName: map['lastName'],
       email: map['email'],
       phone: map['phone'],
+      progress: map['progress'] != null ? Progress.fromMap(map['progress']) : Progress(),
       previewJsonContract: map['previewJsonContract'],
       businessName: map['businessName'],
       latDefaultHome: map['latDefaultHome']?.toDouble(),
@@ -558,24 +565,6 @@ class Profile{
       updateLastSeenDate: map['updateLastSeenDate'] != null ? DateTime.fromMillisecondsSinceEpoch(map['updateLastSeenDate']) : null,
       questionnairesLastChangedTime: map['questionnairesLastChangedTime'] != null ? DateTime.fromMillisecondsSinceEpoch(map['questionnairesLastChangedTime']) : null,
     );
-  }
-
-  List<Map<String, dynamic>> convertQuestionnairesToMap(List<Questionnaire>? questionnaires){
-    List<Map<String, dynamic>> listOfMaps = [];
-    if(questionnaires != null) {
-      for(Questionnaire questionnaire in questionnaires){
-        listOfMaps.add(questionnaire.toMap());
-      }
-    }
-    return listOfMaps;
-  }
-
-  static List<Questionnaire> convertMapsToQuestionnaires(List listOfMaps){
-    List<Questionnaire> listOfQuestionnaires = [];
-    for(Map map in listOfMaps){
-      listOfQuestionnaires.add(Questionnaire.fromMap(map as Map<String,dynamic>));
-    }
-    return listOfQuestionnaires;
   }
 
   bool hasDefaultHome() {

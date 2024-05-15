@@ -54,10 +54,7 @@ class _WhyInstallPage extends State<WhyInstallPage> {
                     checkboxItem(OnBoardingPageState.BOOKING_AND_AVAILABILITY, pageState.onFeatureSelected!, pageState.selectedReasons!.contains(OnBoardingPageState.BOOKING_AND_AVAILABILITY)),
                     checkboxItem(OnBoardingPageState.CLIENT_GALLERIES, pageState.onFeatureSelected!, pageState.selectedReasons!.contains(OnBoardingPageState.CLIENT_GALLERIES)),
                     checkboxItem(OnBoardingPageState.TRACKING_MY_JOBS, pageState.onFeatureSelected!, pageState.selectedReasons!.contains(OnBoardingPageState.TRACKING_MY_JOBS)),
-                    checkboxItem(OnBoardingPageState.SUN_TRACKER, pageState.onFeatureSelected!, pageState.selectedReasons!.contains(OnBoardingPageState.SUN_TRACKER)),
                     checkboxItem(OnBoardingPageState.TRACK_INCOME_AND_EXPENSES, pageState.onFeatureSelected!, pageState.selectedReasons!.contains(OnBoardingPageState.TRACK_INCOME_AND_EXPENSES)),
-                    checkboxItem(OnBoardingPageState.CLIENT_GUIDES, pageState.onFeatureSelected!, pageState.selectedReasons!.contains(OnBoardingPageState.CLIENT_GUIDES)),
-                    checkboxItem(OnBoardingPageState.TRACKING_MILES_FOR_TAXES, pageState.onFeatureSelected!, pageState.selectedReasons!.contains(OnBoardingPageState.TRACKING_MILES_FOR_TAXES)),
                     checkboxItem(OnBoardingPageState.OTHER, pageState.onFeatureSelected!, pageState.selectedReasons!.contains(OnBoardingPageState.OTHER)),
                     pageState.selectedReasons!.contains(OnBoardingPageState.OTHER) ? Container(
                       margin: const EdgeInsets.only(bottom: 116, left: 24, right: 24),
@@ -116,7 +113,7 @@ class _WhyInstallPage extends State<WhyInstallPage> {
       padding: const EdgeInsets.only(left: 16.0, right: 16.0),
       margin: const EdgeInsets.only(left: 24.0, right: 24.0, top: 8.0, bottom: 0.0),
       alignment: Alignment.center,
-      height: 54.0,
+      height: 64.0,
       decoration: BoxDecoration(
           color: Color(isSelected ? ColorConstants.getPeachLight() : ColorConstants.getPrimaryBackgroundGrey()),
           borderRadius: BorderRadius.circular(36.0)),

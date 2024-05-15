@@ -6,4 +6,5 @@ class RouteNames {
   static const String BLOG = 'blog';
   static const String LANDING_PAGE = '/';
   static const String QUESTIONNAIRE = 'questionnaire';
+  static const String NEW_USER_SURVEY = 'newUserSurvey';
 }

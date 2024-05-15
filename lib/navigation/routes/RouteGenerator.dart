@@ -60,6 +60,27 @@ class RouteGenerator {
     }
 
     /**
+     * Questionnaire (Direct send)
+     */
+    if(uri.pathSegments.length == 2 && uri.pathSegments.first == RouteNames.NEW_USER_SURVEY) {
+      var id = uri.pathSegments[1];
+      var params = id.split('+');
+      return _GeneratePageRoute(
+          widget: AnswerQuestionnairePage(
+              userId: params[0],
+              jobId: null,
+              questionnaireId: null,
+              questionnaire: null,
+              isPreview: false,
+              isWebsite: true,
+              profile: null,
+              isAdmin: true,
+          ),
+          routeName: settings.name!
+      );
+    }
+
+    /**
      * PoseInfo
      */
     if(uri.pathSegments.length == 1 && uri.pathSegments.first == RouteNames.POSE_INFO) {

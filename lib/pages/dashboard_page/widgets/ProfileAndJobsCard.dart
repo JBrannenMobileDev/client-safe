@@ -22,7 +22,7 @@ class ProfileAndJobsCard extends StatelessWidget {
   Widget build(BuildContext context) => StoreConnector<AppState, DashboardPageState>(
     converter: (Store<AppState> store) => DashboardPageState.fromStore(store),
     builder: (BuildContext context, DashboardPageState pageState) =>  Container(
-      margin: const EdgeInsets.only(bottom: 32, top: 32),
+      margin: const EdgeInsets.only(bottom: 16, top: 16),
       child: Stack(
         alignment: Alignment.center,
         children: [

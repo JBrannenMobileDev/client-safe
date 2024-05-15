@@ -55,6 +55,7 @@ import '../../models/LineItem.dart';
 import '../../models/LocationDandy.dart';
 import '../../models/Pose.dart';
 import '../../models/PriceProfile.dart';
+import '../../models/Progress.dart';
 import '../../models/Proposal.dart';
 import '../../models/Response.dart';
 import '../../utils/AppleSignInAvailable.dart';
@@ -239,7 +240,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         UidUtil().setUid(authResult.user!.uid);
         EventSender().setUserIdentity(authResult.user!.uid);
         if(profile == null) {
-          Profile fireStoreProfile = await UserCollection().getUser(authResult.user!.uid) ?? Profile();
+          Profile fireStoreProfile = await UserCollection().getUser(authResult.user!.uid) ?? Profile(progress: Progress());
           if (fireStoreProfile.clientsLastChangeDate != null)
             fireStoreProfile.clientsLastChangeDate = DateTime(1970);
           if (fireStoreProfile.invoicesLastChangeDate != null)
@@ -351,6 +352,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       Profile newProfile = Profile(
         uid: user!.uid,
         referralUid: Uuid().v1().substring(0, 8),
+        progress: Progress(),
         firstName: firstName,
         lastName: lastName,
         businessName: store.state.loginPageState!.businessName,

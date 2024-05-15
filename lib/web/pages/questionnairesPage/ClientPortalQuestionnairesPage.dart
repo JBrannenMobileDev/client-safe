@@ -72,12 +72,14 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
       },
       child: pageState.proposal!.questionnaires!.elementAt(index).hasImage() ? SizedBox(
         height: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : 2.25),
+        width: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : 2.25),
         child: Stack(
-          alignment: Alignment.topRight,
+          alignment: Alignment.topCenter,
           children: [
             Container(
               alignment: Alignment.topCenter,
               margin: const EdgeInsets.all(8),
+              height: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 5 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 2.25 : 1),
               width: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 2.25 : 1),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
@@ -91,7 +93,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                     borderRadius: const BorderRadius.only(topRight: Radius.circular(16), topLeft: Radius.circular(16)), // Image border
                     child: SizedBox(
                       width: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 2.25 : 1),
-                      height: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 6 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 3.5 : 3.5),
+                      height: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 6.5 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 3.5 : 3.5),
                       child: Image.network(
                         pageState.proposal!.questionnaires!.elementAt(index).getDisplayImageUrl(),
                         fit: BoxFit.cover,
@@ -145,16 +147,16 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
           ],
         ),
       ) : SizedBox(
-        width: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 2.25 : 1),
+        height: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : 2.25),
         child: Stack(
-          alignment: Alignment.topRight,
+          alignment: Alignment.topCenter,
           children: [
             Container(
               alignment: Alignment.topCenter,
-              margin: const EdgeInsets.all(16),
-              width: getPageWidth(context),
+              margin: const EdgeInsets.all(8),
+              width: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 2.25 : 1),
               child: Container(
-                height: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? 96 : 132,
+                height: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? 64 : 96,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   color: Color(ColorConstants.getPrimaryGreyLight()),
@@ -173,22 +175,23 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            margin: const EdgeInsets.only(left: 16),
+                            margin: const EdgeInsets.only(left: 12),
                             alignment: Alignment.centerLeft,
                             child: TextDandyLight(
                               textAlign: TextAlign.start,
-                              type: TextDandyLight.LARGE_TEXT,
+                              type: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? TextDandyLight.SMALL_TEXT : TextDandyLight.MEDIUM_TEXT,
                               text: pageState.proposal!.questionnaires!.elementAt(index).title,
                               maxLines: 2,
+                              isBold: true,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           Container(
-                            margin: const EdgeInsets.only(left: 16),
+                            margin: const EdgeInsets.only(left: 12),
                             alignment: Alignment.centerLeft,
                             child: TextDandyLight(
                               textAlign: TextAlign.start,
-                              type: TextDandyLight.MEDIUM_TEXT,
+                              type: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? TextDandyLight.SMALL_TEXT : TextDandyLight.MEDIUM_TEXT,
                               text: '(${pageState.proposal!.questionnaires!.elementAt(index).getLengthInMinutes()}min)',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,

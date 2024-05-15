@@ -34,6 +34,7 @@ class _LeadSourceSelectionPage extends State<LeadSourceSelectionPage> {
     LeadSource.TYPE_EMAIL,
     LeadSource.TYPE_DANDYLIGHT_BLOG,
     LeadSource.TYPE_PINTEREST,
+    LeadSource.TYPE_REDDIT,
     LeadSource.TYPE_OTHER,
   ];
 
