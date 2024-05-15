@@ -50,267 +50,39 @@ class _GettingStartedBottomSheetState extends State<GettingStartedBottomSheet> w
                     child: ListView(
                       shrinkWrap: true,
                       children: [
-                        Container(
-                          margin: const EdgeInsets.only(top: 32),
-                          alignment: Alignment.centerLeft,
-                          child: TextDandyLight(
-                            type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'Step 1 - Looking professional',
-                            textAlign: TextAlign.start,
-                            isBold: true,
-                            color: Color(ColorConstants.getPeachDark()),
-                          ),
+                        buildProgressCategory('Step 1 - Look professional'),
+                        buildProgressItem(
+                            'Preview Client Portal',
+                            'The Client Portal, tailor-made for each job, serves as a branded website where all job details and documents are securely shared.',
+                            pageState.profile?.progress.previewClientPortal ?? false
                         ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 16),
-                          height: 84,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Image.asset('assets/images/icons/checkbox_empty.png', color: Color(ColorConstants.getPrimaryGreyMedium()), height: 32),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    TextDandyLight(
-                                      type: TextDandyLight.MEDIUM_TEXT,
-                                      text: 'Preview Client Portal',
-                                      textAlign: TextAlign.start,
-                                      isBold: true,
-                                    ),
-                                    TextDandyLight(
-                                      type: TextDandyLight.SMALL_TEXT,
-                                      text: 'The Client Portal is a branded website that is made specific for each job. This will be a place to share all job details and documents.',
-                                      maxLines: 3,
-                                      textAlign: TextAlign.start,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                child: Icon(
-                                  Icons.chevron_right,
-                                  color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                ),
-                              )
-                            ],
-                          ),
+                        buildProgressItem(
+                            'Setup your brand',
+                            'Your brand will be used to style your client portal along with any documents you add to your job.',
+                            pageState.profile?.progress.setupBrand ?? false
                         ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 8),
-                          height: 84,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Image.asset('assets/images/icons/checkbox_empty.png', color: Color(ColorConstants.getPrimaryGreyMedium()), height: 32),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    TextDandyLight(
-                                      type: TextDandyLight.MEDIUM_TEXT,
-                                      text: 'Setup your brand',
-                                      textAlign: TextAlign.start,
-                                      isBold: true,
-                                    ),
-                                    TextDandyLight(
-                                      type: TextDandyLight.SMALL_TEXT,
-                                      text: 'Your brand will be used to style your client portal along with any documents you add to your job.',
-                                      maxLines: 3,
-                                      textAlign: TextAlign.start,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                child: Icon(
-                                  Icons.chevron_right,
-                                  color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                ),
-                              )
-                            ],
-                          ),
+                        buildProgressCategory('Step 2 - Create your first job'),
+                        buildProgressItem(
+                            'Create a job type',
+                            'A job type will be used to help organize your jobs. Also, each job type can be setup with unique reminders.',
+                            pageState.profile?.progress.setupBrand ?? false
                         ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 32),
-                          alignment: Alignment.centerLeft,
-                          child: TextDandyLight(
-                            type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'Step 2 - Create your first job',
-                            textAlign: TextAlign.start,
-                            isBold: true,
-                            color: Color(ColorConstants.getPeachDark()),
-                          ),
+                        buildProgressItem(
+                            'Create a price package',
+                            'A pricing package streamlines your workflow by establishing predefined prices, deposits, and sales tax rates, which can then be readily applied to future jobs, saving you valuable time.',
+                            pageState.profile?.progress.setupBrand ?? false
                         ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 16),
-                          height: 84,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Image.asset('assets/images/icons/checkbox_empty.png', color: Color(ColorConstants.getPrimaryGreyMedium()), height: 32),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    TextDandyLight(
-                                      type: TextDandyLight.MEDIUM_TEXT,
-                                      text: 'Create a Job Type',
-                                      textAlign: TextAlign.start,
-                                      isBold: true,
-                                    ),
-                                    TextDandyLight(
-                                      type: TextDandyLight.SMALL_TEXT,
-                                      text: 'The Client Portal is a branded website that is made specific for each job. This will be a place to share all job details and documents.',
-                                      maxLines: 3,
-                                      textAlign: TextAlign.start,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                child: Icon(
-                                  Icons.chevron_right,
-                                  color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                ),
-                              )
-                            ],
-                          ),
+                        buildProgressItem(
+                            'Add a client',
+                            'Adding a client is crucial for tracking work history efficiently and simplifying communication and sharing of details and poses. Additionally, you can monitor the origin of your client (Lead source) for valuable insights.',
+                            pageState.profile?.progress.setupBrand ?? false
                         ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 8),
-                          height: 84,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Image.asset('assets/images/icons/checkbox_empty.png', color: Color(ColorConstants.getPrimaryGreyMedium()), height: 32),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    TextDandyLight(
-                                      type: TextDandyLight.MEDIUM_TEXT,
-                                      text: 'Create a Price Package',
-                                      textAlign: TextAlign.start,
-                                      isBold: true,
-                                    ),
-                                    TextDandyLight(
-                                      type: TextDandyLight.SMALL_TEXT,
-                                      text: 'Your brand will be used to style your client portal along with any documents you add to your job.',
-                                      maxLines: 3,
-                                      textAlign: TextAlign.start,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                child: Icon(
-                                  Icons.chevron_right,
-                                  color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                ),
-                              )
-                            ],
-                          ),
+                        buildProgressItem(
+                            'Create a job',
+                            'After a job is created, you can include poses, invoices, contracts, and questionnaires. These can all be managed directly from the "Job Details" page, granting you access to the Client Portal tailored for this particular job.',
+                            pageState.profile?.progress.setupBrand ?? false
                         ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 8),
-                          height: 84,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Image.asset('assets/images/icons/checkbox_empty.png', color: Color(ColorConstants.getPrimaryGreyMedium()), height: 32),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    TextDandyLight(
-                                      type: TextDandyLight.MEDIUM_TEXT,
-                                      text: 'Add a client',
-                                      textAlign: TextAlign.start,
-                                      isBold: true,
-                                    ),
-                                    TextDandyLight(
-                                      type: TextDandyLight.SMALL_TEXT,
-                                      text: 'Your brand will be used to style your client portal along with any documents you add to your job.',
-                                      maxLines: 3,
-                                      textAlign: TextAlign.start,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                child: Icon(
-                                  Icons.chevron_right,
-                                  color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 8),
-                          height: 84,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Image.asset('assets/images/icons/checkbox_empty.png', color: Color(ColorConstants.getPrimaryGreyMedium()), height: 32),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    TextDandyLight(
-                                      type: TextDandyLight.MEDIUM_TEXT,
-                                      text: 'Create a job',
-                                      textAlign: TextAlign.start,
-                                      isBold: true,
-                                    ),
-                                    TextDandyLight(
-                                      type: TextDandyLight.SMALL_TEXT,
-                                      text: 'Your brand will be used to style your client portal along with any documents you add to your job.',
-                                      maxLines: 3,
-                                      textAlign: TextAlign.start,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                child: Icon(
-                                  Icons.chevron_right,
-                                  color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 32),
-                          alignment: Alignment.centerLeft,
-                          child: TextDandyLight(
-                            type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'Step 3 - Create your first job',
-                            textAlign: TextAlign.start,
-                            isBold: true,
-                            color: Color(ColorConstants.getPeachDark()),
-                          ),
-                        ),
+                        buildProgressCategory('Step 3 - Create your first job'),
                         const SizedBox(height: 124)
                       ],
                     ),
@@ -319,4 +91,68 @@ class _GettingStartedBottomSheetState extends State<GettingStartedBottomSheet> w
              ),
          ),
     );
+
+  Widget buildProgressCategory(String title) {
+    return Container(
+      margin: const EdgeInsets.only(top: 32, bottom: 8),
+      alignment: Alignment.centerLeft,
+      child: TextDandyLight(
+        type: TextDandyLight.MEDIUM_TEXT,
+        text: title,
+        textAlign: TextAlign.start,
+        isBold: true,
+        color: Color(ColorConstants.getPeachDark()),
+      ),
+    );
+  }
+
+  Widget buildProgressItem(String title, String description, bool complete) {
+    return Container(
+      margin: const EdgeInsets.only(top: 12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Image.asset(complete ? 'assets/images/icons/checkbox.png' : 'assets/images/icons/checkbox_empty.png', color: Color(complete ? ColorConstants.getBlueDark() : ColorConstants.getPrimaryGreyMedium()), height: 32),
+                    const SizedBox(width: 8),
+                    TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: title,
+                      textAlign: TextAlign.start,
+                      isBold: !complete,
+                      color: Color(complete ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
+                    )
+                  ],
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 4),
+                  child: TextDandyLight(
+                    type: TextDandyLight.SMALL_TEXT,
+                    text: description,
+                    maxLines: 5,
+                    textAlign: TextAlign.start,
+                    color: Color(complete ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            width: 24,
+            alignment: Alignment.center,
+            child: Icon(
+              Icons.chevron_right,
+              color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }
