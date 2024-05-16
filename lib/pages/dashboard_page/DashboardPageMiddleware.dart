@@ -119,6 +119,9 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       case Progress.PREVIEW_CLIENT_PORTAL:
         profile?.progress.previewClientPortal = true;
         break;
+      case Progress.SHARED_WITH_FRIEND:
+        profile?.progress.sharedWithFriend = true;
+        break;
     }
     if(profile != null) {
       ProfileDao.update(profile);

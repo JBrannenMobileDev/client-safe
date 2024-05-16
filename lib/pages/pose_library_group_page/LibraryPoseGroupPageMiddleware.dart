@@ -21,6 +21,7 @@ import '../../models/Profile.dart';
 import '../../utils/AdminCheckUtil.dart';
 import '../../utils/JobUtil.dart';
 import '../../utils/UidUtil.dart';
+import '../dashboard_page/DashboardPageActions.dart';
 import '../job_details_page/JobDetailsActions.dart';
 import '../poses_page/PosesActions.dart' as posesActions;
 import 'LibraryPoseGroupActions.dart';
@@ -89,6 +90,13 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     PoseLibraryGroupDao.update(store.state.libraryPoseGroupPageState!.poseGroup!);
     JobDao.update(action.selectedJob!);
     store.dispatch(FetchJobPosesAction(store.state.jobDetailsPageState));
+
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(profile != null && !profile.progress.addClient) {
+      profile.progress.addClient = true;
+      await ProfileDao.update(profile);
+      store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    }
   }
 
   void _saveSelectedPoseToMyPoseGroup(Store<AppState> store, SaveSelectedPoseToMyPosesAction action) async {

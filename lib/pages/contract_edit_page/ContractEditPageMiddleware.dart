@@ -13,6 +13,7 @@ import '../../models/Job.dart';
 import '../../models/JobStage.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../dashboard_page/DashboardPageActions.dart';
 import '../job_details_page/JobDetailsActions.dart';
 import 'ContractEditActions.dart';
 
@@ -44,6 +45,7 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void saveContract(Store<AppState> store, SaveContractAction action, NextDispatcher next) async{
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     Contract? contract;
     if(action.jobDocumentId != null && action.jobDocumentId!.isNotEmpty) {
       Job? job = await JobDao.getJobById(action.jobDocumentId);
@@ -57,6 +59,12 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
       contract.photographerSignedDate = DateTime.now();
       job.proposal!.contract = contract;
       await JobDao.update(job);
+
+      if(profile != null && !profile.progress.addContractToJob) {
+        profile.progress.addContractToJob = true;
+        await ProfileDao.update(profile);
+        store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+      }
 
       List<JobStage> completedStages = job.completedStages!;
       bool isContractSignedChecked = false;
@@ -103,6 +111,12 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
         EventSender().sendEvent(eventName: EventNames.CONTRACT_CREATED, properties: {
           EventNames.CONTRACT_CREATED_FROM_PARAM : action.pageState!.newFromName!,
         });
+
+        if(profile != null && !profile.progress.createContract) {
+          profile.progress.createContract = true;
+          await ProfileDao.update(profile);
+          store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+        }
       }
     }
   }

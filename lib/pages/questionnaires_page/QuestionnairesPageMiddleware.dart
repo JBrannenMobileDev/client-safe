@@ -8,7 +8,9 @@ import 'package:dandylight/utils/UidUtil.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 import 'package:share_plus/share_plus.dart';
+import '../../data_layer/local_db/daos/ProfileDao.dart';
 import '../../models/Job.dart';
+import '../../models/Profile.dart';
 import '../../utils/UUID.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
@@ -63,6 +65,13 @@ class QuestionnairesPageMiddleware extends MiddlewareClass<AppState> {
     }
     EventSender().sendEvent(eventName: EventNames.QUESTIONNAIRE_ADDED_TO_JOB);
     store.dispatch(SetJobInfo(store.state.jobDetailsPageState, action.jobDocumentId));
+
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(profile != null && !profile.progress.addQuestionnaireToJob) {
+      profile.progress.addQuestionnaireToJob = true;
+      await ProfileDao.update(profile);
+      store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    }
   }
 
   void fetchQuestionnaires(Store<AppState> store, NextDispatcher next) async{

@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_store/open_store.dart';
 import 'package:redux/redux.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../AppState.dart';
@@ -175,10 +176,16 @@ class _GettingStartedBottomSheetState extends State<GettingStartedBottomSheet> w
                             pageState.profile?.progress.createRecurringExpense ?? false
                         ),
                         buildProgressCategory('Step 5 - Share with a friend', false),
-                        buildProgressItem(
-                            'Share Dandylight with a friend',
-                            'Hey ${pageState.profile?.firstName}! 👋 Loving Dandylight? We\'d greatly appreciate it if you could spread the word to your photographer friends who might find it useful too! Sharing is caring, and it helps us grow and support more photographers like you. Thanks a bunch! 📸✨',
-                            pageState.profile?.progress.sharedWithFriend ?? false
+                        GestureDetector(
+                          onTap: () {
+                            Share.share('Checkout DandyLight:\n\nhttps://dandylight.com');
+                            pageState.updateProgressItemComplete!(Progress.SHARED_WITH_FRIEND);
+                          },
+                          child: buildProgressItem(
+                              'Share Dandylight with a friend',
+                              'Hey ${pageState.profile?.firstName}! 👋 Loving Dandylight? We\'d greatly appreciate it if you could spread the word to your photographer friends who might find it useful too! Sharing is caring, and it helps us grow and support more photographers like you. Thanks a bunch! 📸✨',
+                              pageState.profile?.progress.sharedWithFriend ?? false
+                          ),
                         ),
                         const SizedBox(height: 124)
                       ],

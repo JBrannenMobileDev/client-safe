@@ -415,6 +415,13 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       location: action.location,
     );
     await JobDao.insertOrUpdate(jobToSave);
+
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(profile != null && !profile.progress.addLocationToJob) {
+      profile.progress.addLocationToJob = true;
+      await ProfileDao.update(profile);
+    }
+
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(SetNewSelectedLocation(store.state.jobDetailsPageState, action.location));

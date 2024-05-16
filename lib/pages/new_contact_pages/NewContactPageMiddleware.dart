@@ -12,7 +12,10 @@ import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 
+import '../../data_layer/local_db/daos/ProfileDao.dart';
 import '../../models/Job.dart';
+import '../../models/Profile.dart';
+import '../../utils/UidUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../new_job_page/NewJobPageActions.dart';
@@ -85,6 +88,13 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
       for (var job in jobsWithMatchingClient) {
         await JobDao.update(job);
       }
+    }
+
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(profile != null && !profile.progress.addClient) {
+      profile.progress.addClient = true;
+      await ProfileDao.update(profile);
+      store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     }
   }
 

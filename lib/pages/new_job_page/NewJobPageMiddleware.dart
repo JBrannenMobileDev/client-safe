@@ -231,6 +231,11 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
 
     EventSender().sendEvent(eventName: EventNames.CREATED_JOB, properties: _buildEventProperties(jobToSave));
 
+    if(profile != null && !profile.progress.addClient) {
+      profile.progress.addClient = true;
+      await ProfileDao.update(profile);
+    }
+
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, store.state.newJobPageState!.selectedClient));
     store.dispatch(calendar.FetchAllCalendarJobsAction(store.state.calendarPageState!));

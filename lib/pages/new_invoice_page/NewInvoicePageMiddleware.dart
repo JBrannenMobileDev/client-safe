@@ -108,6 +108,12 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
 
     EventSender().sendEvent(eventName: EventNames.CREATED_INVOICE);
 
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(profile != null && !profile.progress.addInvoiceToJob) {
+      profile.progress.addInvoiceToJob = true;
+      await ProfileDao.update(profile);
+    }
+
     store.dispatch(LoadAllInvoicesAction(store.state.incomeAndExpensesPageState));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(SetNewInvoice(store.state.jobDetailsPageState, (await JobDao.getJobById(pageState.selectedJob!.documentId))!.invoice!));

@@ -65,7 +65,7 @@ class NewJobTypePageMiddleware extends MiddlewareClass<AppState> {
     JobType jobTypeWithDocumentId = await JobTypeDao.getByName(newJobType.title!);
     store.dispatch(UpdateWithNewJobTypeAction(store.state.newJobPageState, jobTypeWithDocumentId));
 
-    if(profile != null) {
+    if(profile != null && profile.progress.createJobType) {
       profile.progress.createJobType = true;
       await ProfileDao.update(profile);
       store.dispatch(LoadJobsAction(store.state.dashboardPageState));

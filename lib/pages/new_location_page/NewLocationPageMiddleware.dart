@@ -18,9 +18,13 @@ import 'package:sembast/sembast.dart';
 
 
 import '../../credentials.dart';
+import '../../data_layer/local_db/daos/ProfileDao.dart';
 import '../../data_layer/repositories/FileStorage.dart';
+import '../../models/Profile.dart';
+import '../../utils/UidUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../dashboard_page/DashboardPageActions.dart';
 
 class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -97,6 +101,13 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(jobs.FetchAllAction(store.state.newJobPageState));
     store.dispatch(LoadNewMileageLocationsAction(store.state.newMileageExpensePageState!));
     GlobalKeyUtil.instance.navigatorKey.currentState!.pop();
+
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(profile != null && !profile.progress.createLocation) {
+      profile.progress.createLocation = true;
+      await ProfileDao.update(profile);
+      store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    }
   }
 
   void _deleteLocation(Store<AppState> store, DeleteLocation action, NextDispatcher next) async{

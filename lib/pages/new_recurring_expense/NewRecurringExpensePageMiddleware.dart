@@ -6,8 +6,12 @@ import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpenseAction
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:redux/redux.dart';
 
+import '../../data_layer/local_db/daos/ProfileDao.dart';
+import '../../models/Profile.dart';
+import '../../utils/UidUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../dashboard_page/DashboardPageActions.dart';
 
 class NewRecurringExpensePageMiddleware extends MiddlewareClass<AppState> {
 
@@ -42,6 +46,13 @@ class NewRecurringExpensePageMiddleware extends MiddlewareClass<AppState> {
 
     store.dispatch(ClearRecurringExpenseStateAction(store.state.newRecurringExpensePageState));
     store.dispatch(FetchRecurringExpenses(store.state.incomeAndExpensesPageState));
+
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(profile != null && !profile.progress.createLocation) {
+      profile.progress.createLocation = true;
+      await ProfileDao.update(profile);
+      store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    }
   }
 
   void _deleteSingleExpense(Store<AppState> store, DeleteRecurringExpenseAction action, NextDispatcher next) async{

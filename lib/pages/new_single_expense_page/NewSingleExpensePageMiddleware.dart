@@ -7,8 +7,12 @@ import 'package:dandylight/pages/new_single_expense_page/NewSingleExpenseActions
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:redux/redux.dart';
 
+import '../../data_layer/local_db/daos/ProfileDao.dart';
+import '../../models/Profile.dart';
+import '../../utils/UidUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../dashboard_page/DashboardPageActions.dart';
 
 class NewSingleExpensePageMiddleware extends MiddlewareClass<AppState> {
 
@@ -41,6 +45,13 @@ class NewSingleExpensePageMiddleware extends MiddlewareClass<AppState> {
 
     store.dispatch(ClearSingleEpenseStateAction(store.state.newSingleExpensePageState));
     store.dispatch(FetchSingleExpenses(store.state.incomeAndExpensesPageState));
+
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(profile != null && !profile.progress.createSingleExpense) {
+      profile.progress.createSingleExpense = true;
+      await ProfileDao.update(profile);
+      store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    }
   }
 
   void _deleteSingleExpense(Store<AppState> store, DeleteSingleExpenseAction action, NextDispatcher next) async{
