@@ -1,6 +1,7 @@
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -99,20 +100,35 @@ class _GettingStartedBottomSheetState extends State<GettingStartedBottomSheet> w
                               pageState.profile?.progress.createJobType ?? false
                           ),
                         ),
-                        buildProgressItem(
-                            'Create a price package',
-                            'A pricing package streamlines your workflow by establishing predefined prices, deposits, and sales tax rates, which can then be readily applied to future jobs, saving you valuable time.',
-                            pageState.profile?.progress.createPricePackage ?? false
+                        GestureDetector(
+                          onTap: () {
+                            UserOptionsUtil.showNewPriceProfileDialog(context);
+                          },
+                          child: buildProgressItem(
+                              'Create a price package',
+                              'A pricing package streamlines your workflow by establishing predefined prices, deposits, and sales tax rates, which can then be readily applied to future jobs, saving you valuable time.',
+                              pageState.profile?.progress.createPricePackage ?? false
+                          ),
                         ),
-                        buildProgressItem(
-                            'Add a client',
-                            'Adding a client is crucial for tracking work history efficiently, simplifying communication and sharing of details and poses. Additionally, you can monitor the origin of your client (Lead source) for valuable insights.',
-                            pageState.profile?.progress.addClient ?? false
+                        GestureDetector(
+                          onTap: () {
+                            UserOptionsUtil.showNewContactDialog(context, false);
+                          },
+                          child: buildProgressItem(
+                              'Add a client',
+                              'Adding a client is crucial for tracking work history efficiently, simplifying communication and sharing of details and poses. Additionally, you can monitor the origin of your client (Lead source) for valuable insights.',
+                              pageState.profile?.progress.addClient ?? false
+                          )
                         ),
-                        buildProgressItem(
-                            'Create a job',
-                            'After a job is created, you can include poses, invoices, contracts, and questionnaires. These can all be managed directly from the "Job Details" page, granting you access to the Client Portal tailored for this particular job.',
-                            pageState.profile?.progress.createJob ?? false
+                        GestureDetector(
+                          onTap: () {
+                            UserOptionsUtil.showNewJobDialog(context, false);
+                          },
+                          child: buildProgressItem(
+                              'Create a job',
+                              'After a job is created, you can include poses, invoices, contracts, and questionnaires. These can all be managed directly from the "Job Details" page, granting you access to the Client Portal tailored for this particular job.',
+                              pageState.profile?.progress.createJob ?? false
+                          ),
                         ),
                         buildProgressCategory(
                             'Step 3 - Adding to a job',
@@ -125,10 +141,15 @@ class _GettingStartedBottomSheetState extends State<GettingStartedBottomSheet> w
                             (pageState.profile?.progress.addContractToJob ?? false) &&
                             (pageState.profile?.progress.createSingleExpense ?? false)
                         ),
-                        buildProgressItem(
-                            'Add poses to a job',
-                            'Adding poses to a job enables you to share pose ideas with your client prior to the session. This is a great way to prepare your clients ahead of time.',
-                            pageState.profile?.progress.addPosesToJob ?? false
+                        GestureDetector(
+                          onTap: () {
+                            NavigationUtil.onPosesSelected(context, null, false, false, true);
+                          },
+                          child: buildProgressItem(
+                              'Add poses to a job',
+                              'Adding poses to a job enables you to share pose ideas with your client prior to the session. This is a great way to prepare your clients ahead of time.',
+                              pageState.profile?.progress.addPosesToJob ?? false
+                          ),
                         ),
                         buildProgressItem(
                             'Add an invoice to a job',

@@ -65,6 +65,7 @@ import '../pages/map_location_selection_widget/MapLocationSelectionWidget.dart';
 import '../pages/new_job_page/widgets/SelectNewJobLocationDialog.dart';
 import '../pages/new_job_page/widgets/SelectNewJobLocationOptionsDialog.dart';
 import '../pages/new_job_types_page/NewJobTypePage.dart';
+import '../pages/poses_page/widgets/AddPoseToJobTip.dart';
 import 'AdminCheckUtil.dart';
 import 'ColorConstants.dart';
 import 'ContractOptionsBottomSheet.dart';
@@ -79,6 +80,16 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return NewContactPage(comingFromNewJob: comingFromNewJob);
+      },
+    );
+  }
+
+  static void showAddPoseToJobTip(BuildContext context){
+    showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (BuildContext context) {
+        return AddPoseToJobTip();
       },
     );
   }

@@ -32,12 +32,13 @@ class PosesPage extends StatefulWidget {
   final Job? job;
   final bool? comingFromDetails;
   final bool? goToSubmittedPoses;
+  final bool? comingFromGettingStarted;
 
-  PosesPage(this.job, this.comingFromDetails, this.goToSubmittedPoses);
+  PosesPage(this.job, this.comingFromDetails, this.goToSubmittedPoses, this.comingFromGettingStarted);
 
   @override
   State<StatefulWidget> createState() {
-    return _PosesPageState(job, comingFromDetails, goToSubmittedPoses);
+    return _PosesPageState(job, comingFromDetails, goToSubmittedPoses, comingFromGettingStarted);
   }
 }
 
@@ -49,8 +50,9 @@ class _PosesPageState extends State<PosesPage> {
   Job? job;
   bool? comingFromDetails;
   bool? goToSubmittedPoses;
+  bool? comingFromGettingStarted;
 
-  _PosesPageState(this.job, this.comingFromDetails, this.goToSubmittedPoses);
+  _PosesPageState(this.job, this.comingFromDetails, this.goToSubmittedPoses, this.comingFromGettingStarted);
 
   @override
   void initState() {
@@ -86,6 +88,11 @@ class _PosesPageState extends State<PosesPage> {
     return StoreConnector<AppState, PosesPageState>(
       onInit: (store) async {
         store.dispatch(FetchPoseGroupsAction(store.state.posesPageState!));
+      },
+      onInitialBuild: (current) {
+        if(comingFromGettingStarted ?? false) {
+          UserOptionsUtil.showAddPoseToJobTip(context);
+        }
       },
       converter: (Store<AppState> store) => PosesPageState.fromStore(store),
       builder: (BuildContext context, PosesPageState pageState) =>

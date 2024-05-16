@@ -164,8 +164,8 @@ class NavigationUtil {
   static onUploadPoseSelected(BuildContext context, Profile profile) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => UploadPosePage(profile)));
   }
-  static onPosesSelected(BuildContext context, Job? job, bool comingFromJobDetails, bool goToSubmittedPoses) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => PosesPage(job, comingFromJobDetails, goToSubmittedPoses)));
+  static onPosesSelected(BuildContext context, Job? job, bool comingFromJobDetails, bool goToSubmittedPoses, bool comingFromGettingStarted) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => PosesPage(job, comingFromJobDetails, goToSubmittedPoses, comingFromGettingStarted)));
   }
   static onSearchPosesSelected(BuildContext context, Job? job, bool comingFromJobDetails) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => PosesSearchPage(job, comingFromJobDetails)));
