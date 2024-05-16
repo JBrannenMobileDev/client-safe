@@ -1,4 +1,5 @@
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,6 +18,7 @@ import '../../navigation/routes/RouteNames.dart';
 import '../../utils/NavigationUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../contracts_page/ContractsPage.dart';
 import 'DashboardPageState.dart';
 
 
@@ -138,8 +140,7 @@ class _GettingStartedBottomSheetState extends State<GettingStartedBottomSheet> w
                             (pageState.profile?.progress.createLocation ?? false) &&
                             (pageState.profile?.progress.addLocationToJob ?? false) &&
                             (pageState.profile?.progress.createContract ?? false) &&
-                            (pageState.profile?.progress.addContractToJob ?? false) &&
-                            (pageState.profile?.progress.createSingleExpense ?? false)
+                            (pageState.profile?.progress.addContractToJob ?? false)
                         ),
                         GestureDetector(
                           onTap: () {
@@ -151,50 +152,112 @@ class _GettingStartedBottomSheetState extends State<GettingStartedBottomSheet> w
                               pageState.profile?.progress.addPosesToJob ?? false
                           ),
                         ),
-                        buildProgressItem(
-                            'Add an invoice to a job',
-                            'Including an invoice with your job expedites payment and enhances clarity by placing it within the Client Portal, ensuring accurate and efficient sharing of payment details.',
-                            pageState.profile?.progress.addInvoiceToJob ?? false
+                        GestureDetector(
+                          onTap: () {
+                            String? documentId = pageState.allJobs?.elementAt(0).documentId;
+                            if(documentId != null) {
+                              NavigationUtil.onJobSelected(context, documentId);
+                            } else {
+                              DandyToastUtil.showErrorToast('Please create a job first before adding an invoice.');
+                            }
+                          },
+                          child: buildProgressItem(
+                              'Add an invoice to a job',
+                              'Including an invoice with your job expedites payment and enhances clarity by placing it within the Client Portal, ensuring accurate and efficient sharing of payment details.',
+                              pageState.profile?.progress.addInvoiceToJob ?? false
+                          ),
                         ),
-                        buildProgressItem(
-                            'Add a questionnaire to a job',
-                            'Client questionnaires benefit photographers by providing insights into client preferences, streamlining planning, enhancing communication, enabling personalization, saving time, and fostering stronger client relationships.',
-                            pageState.profile?.progress.addQuestionnaireToJob ?? false
+                        GestureDetector(
+                          onTap: () {
+                            String? documentId = pageState.allJobs?.elementAt(0).documentId;
+                            if(documentId != null) {
+                              NavigationUtil.onJobSelected(context, documentId);
+                            } else {
+                              DandyToastUtil.showErrorToast('Please create a job first before adding an invoice.');
+                            }
+                          },
+                          child: buildProgressItem(
+                              'Add a questionnaire to a job',
+                              'Client questionnaires benefit photographers by providing insights into client preferences, streamlining planning, enhancing communication, enabling personalization, saving time, and fostering stronger client relationships.',
+                              pageState.profile?.progress.addQuestionnaireToJob ?? false
+                          ),
                         ),
-                        buildProgressItem(
-                            'Create a location',
-                            'Dandylight\'s locations offer a convenient solution for saving time when utilizing frequently visited spots. It provides access to driving directions and automatically tracks mileage driven.',
-                            pageState.profile?.progress.createLocation ?? false
+                        GestureDetector(
+                          onTap: () {
+                            UserOptionsUtil.showNewLocationDialog(context);
+                          },
+                          child: buildProgressItem(
+                              'Create a location',
+                              'Dandylight\'s locations offer a convenient solution for saving time when utilizing frequently visited spots. It provides access to driving directions and automatically tracks mileage driven.',
+                              pageState.profile?.progress.createLocation ?? false
+                          ),
                         ),
-                        buildProgressItem(
-                            'Add a location to a job',
-                            'Once a location is added to a job, its details will be accessible to your client through the Client Portal.',
-                            pageState.profile?.progress.addLocationToJob ?? false
+                        GestureDetector(
+                          onTap: () {
+                            String? documentId = pageState.allJobs?.elementAt(0).documentId;
+                            if(documentId != null) {
+                              NavigationUtil.onJobSelected(context, documentId);
+                            } else {
+                              DandyToastUtil.showErrorToast('Please create a job first before adding an invoice.');
+                            }
+                          },
+                          child: buildProgressItem(
+                              'Add a location to a job',
+                              'Once a location is added to a job, its details will be accessible to your client through the Client Portal.',
+                              pageState.profile?.progress.addLocationToJob ?? false
+                          ),
                         ),
-                        buildProgressItem(
-                            'Create a contract',
-                            'Client contracts are vital for photographers as they provide legal protection, clarify expectations, ensure payment security, define copyright and usage rights, and enhance professionalism, ultimately contributing to successful client interactions and minimizing disputes.',
-                            pageState.profile?.progress.createContract ?? false
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) => ContractsPage()),
+                            );
+                          },
+                          child: buildProgressItem(
+                              'Create a contract',
+                              'Client contracts are vital for photographers as they provide legal protection, clarify expectations, ensure payment security, define copyright and usage rights, and enhance professionalism, ultimately contributing to successful client interactions and minimizing disputes.',
+                              pageState.profile?.progress.createContract ?? false
+                          ),
                         ),
-                        buildProgressItem(
-                            'Add a contract to a job',
-                            'Once a contract is added to a job, e-signing will be available to your client through the Client Portal.',
-                            pageState.profile?.progress.addContractToJob ?? false
+                        GestureDetector(
+                          onTap: () {
+                            String? documentId = pageState.allJobs?.elementAt(0).documentId;
+                            if(documentId != null) {
+                              NavigationUtil.onJobSelected(context, documentId);
+                            } else {
+                              DandyToastUtil.showErrorToast('Please create a job first before adding an invoice.');
+                            }
+                          },
+                          child: buildProgressItem(
+                              'Add a contract to a job',
+                              'Once a contract is added to a job, e-signing will be available to your client through the Client Portal.',
+                              pageState.profile?.progress.addContractToJob ?? false
+                          ),
                         ),
                         buildProgressCategory(
                             'Step 4 - Manage expenses',
                             (pageState.profile?.progress.createSingleExpense ?? false) &&
                             (pageState.profile?.progress.createRecurringExpense ?? false)
                         ),
-                        buildProgressItem(
-                            'Create a single expense',
-                            'Single expenses are great for any time you have a one-off business expense.',
-                            pageState.profile?.progress.createSingleExpense ?? false
+                        GestureDetector(
+                          onTap: () {
+                            UserOptionsUtil.showNewSingleExpenseDialog(context);
+                          },
+                          child: buildProgressItem(
+                              'Create a single expense',
+                              'Single expenses are great for any time you have a one-off business expense.',
+                              pageState.profile?.progress.createSingleExpense ?? false
+                          ),
                         ),
-                        buildProgressItem(
-                            'Create a recurring expense',
-                            'Recurring expenses are perfect for those monthly business bills you have setup on auto-pay.',
-                            pageState.profile?.progress.createRecurringExpense ?? false
+                        GestureDetector(
+                          onTap: () {
+                            UserOptionsUtil.showNewRecurringExpenseDialog(context);
+                          },
+                          child: buildProgressItem(
+                              'Create a recurring expense',
+                              'Recurring expenses are perfect for those monthly business bills you have setup on auto-pay.',
+                              pageState.profile?.progress.createRecurringExpense ?? false
+                          ),
                         ),
                         buildProgressCategory('Step 5 - Share with a friend', false),
                         GestureDetector(

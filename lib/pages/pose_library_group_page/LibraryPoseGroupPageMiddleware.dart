@@ -92,8 +92,8 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(FetchJobPosesAction(store.state.jobDetailsPageState));
 
     Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    if(profile != null && !profile.progress.addClient) {
-      profile.progress.addClient = true;
+    if(profile != null && !profile.progress.addPosesToJob) {
+      profile.progress.addPosesToJob = true;
       await ProfileDao.update(profile);
       store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     }

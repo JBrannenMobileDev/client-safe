@@ -104,6 +104,9 @@ class Progress {
       'addPosesToJob' : addPosesToJob,
       'createLocation' : createLocation,
       'sharedWithFriend' : sharedWithFriend,
+      'addLocationToJob' : addLocationToJob,
+      'createSingleExpense' : createSingleExpense,
+      'createRecurringExpense' : createRecurringExpense,
     };
   }
 
@@ -124,6 +127,9 @@ class Progress {
       addPosesToJob: map['addPosesToJob'] ?? false,
       createLocation: map['createLocation'] ?? false,
       sharedWithFriend: map['sharedWithFriend'] ?? false,
+      addLocationToJob: map['addLocationToJob'] ?? false,
+      createSingleExpense: map['createSingleExpense'] ?? false,
+      createRecurringExpense: map['createRecurringExpense'] ?? false,
     );
   }
 }

@@ -347,6 +347,31 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                           padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Location',
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        UserOptionsUtil.showLocationSelectionDialog(context);
+                      },
+                    ),
+                    SpeedDialChild(
+                      child: const Icon(Icons.add),
+                      shape: const CircleBorder(),
+                      backgroundColor: Color(ColorConstants.getBlueLight()),
+                      labelWidget: Container(
+                        alignment: Alignment.center,
+                        height: 42.0,
+                        decoration: BoxDecoration(
+                          boxShadow: ElevationToShadow[4],
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                          borderRadius: BorderRadius.circular(21.0),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
                             text: 'Reminder',
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),

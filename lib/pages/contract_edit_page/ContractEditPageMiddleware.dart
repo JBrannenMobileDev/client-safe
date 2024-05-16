@@ -45,7 +45,6 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void saveContract(Store<AppState> store, SaveContractAction action, NextDispatcher next) async{
-    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     Contract? contract;
     if(action.jobDocumentId != null && action.jobDocumentId!.isNotEmpty) {
       Job? job = await JobDao.getJobById(action.jobDocumentId);
@@ -60,6 +59,7 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
       job.proposal!.contract = contract;
       await JobDao.update(job);
 
+      Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
       if(profile != null && !profile.progress.addContractToJob) {
         profile.progress.addContractToJob = true;
         await ProfileDao.update(profile);
@@ -112,6 +112,7 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
           EventNames.CONTRACT_CREATED_FROM_PARAM : action.pageState!.newFromName!,
         });
 
+        Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
         if(profile != null && !profile.progress.createContract) {
           profile.progress.createContract = true;
           await ProfileDao.update(profile);

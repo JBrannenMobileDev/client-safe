@@ -12,6 +12,7 @@ import '../../models/Job.dart';
 import '../../models/Profile.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../dashboard_page/DashboardPageActions.dart';
 import '../job_details_page/JobDetailsActions.dart';
 import 'ContractsActions.dart';
 
@@ -40,6 +41,12 @@ class ContractsPageMiddleware extends MiddlewareClass<AppState> {
     await JobDao.update(job);
     EventSender().sendEvent(eventName: EventNames.CONTRACT_ADDED_TO_JOB);
     store.dispatch(SetJobInfoWithJobDocumentId(store.state.jobDetailsPageState!, job.documentId!));
+
+    if(!profile.progress.addContractToJob) {
+      profile.progress.addContractToJob = true;
+      await ProfileDao.update(profile);
+      store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    }
   }
 
   void fetchContracts(Store<AppState> store, NextDispatcher next) async{

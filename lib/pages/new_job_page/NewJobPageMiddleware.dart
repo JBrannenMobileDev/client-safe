@@ -181,7 +181,6 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
 
   void _saveNewJob(Store<AppState> store, SaveNewJobAction action, NextDispatcher next) async {
     Client resultClient = store.state.newJobPageState!.selectedClient!;
-    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
 
     String jobTitle = '';
     if(store.state.newJobPageState!.selectedJobType != null) {
@@ -231,8 +230,9 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
 
     EventSender().sendEvent(eventName: EventNames.CREATED_JOB, properties: _buildEventProperties(jobToSave));
 
-    if(profile != null && !profile.progress.addClient) {
-      profile.progress.addClient = true;
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(profile != null && !profile.progress.createJob) {
+      profile.progress.createJob = true;
       await ProfileDao.update(profile);
     }
 
