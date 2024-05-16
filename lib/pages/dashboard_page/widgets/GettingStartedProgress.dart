@@ -40,43 +40,56 @@ class GettingStartedProgress extends StatelessWidget {
         },
         child: Container(
           margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
-          padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 2),
+          padding: const EdgeInsets.only(left: 16, right: 8, top: 8, bottom: 8),
           height: 76.0,
           decoration: BoxDecoration(
               color: Color(ColorConstants.getBlueDark()),
               borderRadius: const BorderRadius.all(Radius.circular(12.0))),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Stack(
+            alignment: Alignment.centerRight,
             children: [
-              TextDandyLight(
-                type: TextDandyLight.LARGE_TEXT,
-                text: 'Getting Started Progress',
-                color: Color(ColorConstants.getPrimaryWhite()),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextDandyLight(
+                    type: TextDandyLight.LARGE_TEXT,
+                    text: 'Getting Started Progress',
+                    color: Color(ColorConstants.getPrimaryWhite()),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 2),
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: LinearProgressIndicator(
+                              minHeight: 8,
+                              value: pageState.profile?.progress.getProgressValue(),
+                              borderRadius: BorderRadius.circular(8),
+                              color: Color(ColorConstants.getPrimaryWhite()),
+                              backgroundColor: Color(ColorConstants.getPrimaryGreyMedium()),
+                            )
+                        ),
+                        Container(
+                          width: 48,
+                          margin: const EdgeInsets.only(left: 16, right: 26),
+                          child: TextDandyLight(
+                            type: TextDandyLight.LARGE_TEXT,
+                            text: '${pageState.profile?.progress.getProgressString()}%',
+                            isBold: true,
+                            color: Color(ColorConstants.getPrimaryWhite()),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
               ),
               Container(
-                margin: const EdgeInsets.only(top: 2),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: LinearProgressIndicator(
-                        minHeight: 8,
-                        value: pageState.profile?.progress.getProgressValue(),
-                        borderRadius: BorderRadius.circular(8),
-                        color: Color(ColorConstants.getPrimaryWhite()),
-                        backgroundColor: Color(ColorConstants.getPrimaryGreyMedium()),
-                      )
-                    ),
-                    Container(
-                      width: 48,
-                      margin: const EdgeInsets.only(left: 16),
-                      child: TextDandyLight(
-                        type: TextDandyLight.LARGE_TEXT,
-                        text: '${pageState.profile?.progress.getProgressString()}%',
-                        isBold: true,
-                        color: Color(ColorConstants.getPrimaryWhite()),
-                      ),
-                    )
-                  ],
+                width: 24,
+                alignment: Alignment.center,
+                child: Icon(
+                  Icons.chevron_right,
+                  color: Color(ColorConstants.getPrimaryBackgroundGrey()),
                 ),
               )
             ],

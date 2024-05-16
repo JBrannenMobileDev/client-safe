@@ -129,6 +129,7 @@ class EditBrandingPageMiddleware extends MiddlewareClass<AppState> {
     profile.selectedFontTheme = fontTheme;
     profile.logoCharacter = action.pageState!.logoCharacter;
     profile.hasSetupBrand = true;
+    profile.progress.setupBrand = true;
     EventSender().setUserProfileData(EventNames.IS_BRANDING_SETUP_COMPLETE, true);
 
     await ProfileDao.update(profile);

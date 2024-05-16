@@ -149,6 +149,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, LaunchDrivingDirectionsAction>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, MarkContractsAsReviewed>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, MarkQuestionnaireAsReviewed>(DashboardPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, UpdateProgressItemCompleteAction>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateProfileWithShowcaseSeen>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, GetDeviceContactsAction>(NewContactPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchJobsAction>(JobsPageMiddleware()));

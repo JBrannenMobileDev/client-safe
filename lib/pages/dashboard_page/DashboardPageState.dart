@@ -77,6 +77,7 @@ class DashboardPageState {
   final Function(AppSettings)? markUpdateAsSeen;
   final Function()? markContractsAsReviewed;
   final Function(Questionnaire)? markQuestionnaireAsReviewed;
+  final Function(String)? updateProgressItemComplete;
 
   DashboardPageState({
     this.jobsProfitTotal,
@@ -136,6 +137,7 @@ class DashboardPageState {
     this.allQuestionnaires,
     this.markContractsAsReviewed,
     this.markQuestionnaireAsReviewed,
+    this.updateProgressItemComplete,
   });
 
   DashboardPageState copyWith({
@@ -196,6 +198,7 @@ class DashboardPageState {
     List<Questionnaire>? allQuestionnaires,
     Function()? markContractsAsReviewed,
     Function(Questionnaire)? markQuestionnaireAsReviewed,
+    Function(String)? updateProgressItemComplete,
   }){
     return DashboardPageState(
       jobsProfitTotal: jobsProfitTotal ?? this.jobsProfitTotal,
@@ -255,6 +258,7 @@ class DashboardPageState {
       allQuestionnaires: allQuestionnaires ?? this.allQuestionnaires,
       markContractsAsReviewed: markContractsAsReviewed ?? this.markContractsAsReviewed,
       markQuestionnaireAsReviewed: markQuestionnaireAsReviewed ?? this.markQuestionnaireAsReviewed,
+      updateProgressItemComplete: updateProgressItemComplete ?? this.updateProgressItemComplete,
     );
   }
 
@@ -331,6 +335,7 @@ class DashboardPageState {
       },
       markContractsAsReviewed: () => store.dispatch(MarkContractsAsReviewed(store.state.dashboardPageState)),
       markQuestionnaireAsReviewed: (questionnaire) => store.dispatch(MarkQuestionnaireAsReviewed(store.state.dashboardPageState, questionnaire)),
+      updateProgressItemComplete: (itemType) => store.dispatch(UpdateProgressItemCompleteAction(store.state.dashboardPageState, itemType)),
     );
   }
 
@@ -391,6 +396,7 @@ class DashboardPageState {
     allQuestionnaires: [],
     markContractsAsReviewed: null,
     markQuestionnaireAsReviewed: null,
+    updateProgressItemComplete: null,
   );
 
   @override
@@ -449,6 +455,7 @@ class DashboardPageState {
       notCompleteQuestionnaires.hashCode ^
       allQuestionnaires.hashCode ^
       markContractsAsReviewed.hashCode ^
+      updateProgressItemComplete.hashCode ^
       markQuestionnaireAsReviewed.hashCode ^
       isMinimized.hashCode;
 
@@ -511,5 +518,6 @@ class DashboardPageState {
               allQuestionnaires == other.allQuestionnaires &&
               markContractsAsReviewed == other.markContractsAsReviewed &&
               markQuestionnaireAsReviewed == other.markQuestionnaireAsReviewed &&
+              updateProgressItemComplete == other.updateProgressItemComplete &&
               isMinimized == other.isMinimized;
 }

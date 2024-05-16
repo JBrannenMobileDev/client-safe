@@ -38,6 +38,7 @@ import '../../data_layer/local_db/daos/IncomeAndExpenseDao.dart';
 import '../../data_layer/local_db/daos/PoseSubmittedGroupDao.dart';
 import '../../models/Charge.dart';
 import '../../models/Pose.dart';
+import '../../models/Progress.dart';
 import '../../models/Questionnaire.dart';
 import '../../models/SingleExpense.dart';
 import '../../utils/JobUtil.dart';
@@ -106,6 +107,22 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is MarkQuestionnaireAsReviewed) {
       _updateQuestionnaireAsReviewed(store, action);
+    }
+    if(action is UpdateProgressItemCompleteAction) {
+      _updateProgressItemComplete(store, action);
+    }
+  }
+
+  Future<void> _updateProgressItemComplete(Store<AppState> store, UpdateProgressItemCompleteAction action) async {
+    Profile? profile = action.pageState?.profile;
+    switch(action.itemType) {
+      case Progress.PREVIEW_CLIENT_PORTAL:
+        profile?.progress.previewClientPortal = true;
+        break;
+    }
+    if(profile != null) {
+      ProfileDao.update(profile);
+      store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
     }
   }
 

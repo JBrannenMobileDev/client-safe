@@ -220,3 +220,9 @@ class MarkQuestionnaireAsReviewed {
   final Questionnaire questionnaire;
   MarkQuestionnaireAsReviewed(this.pageState, this.questionnaire);
 }
+
+class UpdateProgressItemCompleteAction {
+  final DashboardPageState? pageState;
+  final String itemType;
+  UpdateProgressItemCompleteAction(this.pageState, this.itemType);
+}

@@ -1,15 +1,19 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobTypeDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ReminderDao.dart';
 import 'package:dandylight/models/JobType.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/job_types/JobTypesActions.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 import 'package:redux/redux.dart';
 
 import '../../models/JobStage.dart';
+import '../../models/Profile.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../dashboard_page/DashboardPageActions.dart';
 import '../new_job_page/NewJobPageActions.dart';
 import 'NewJobTypeActions.dart';
 
@@ -34,6 +38,7 @@ class NewJobTypePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void saveNewJobType(Store<AppState> store, SaveNewJobTypeAction action, NextDispatcher next) async{
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     List<JobStage>? stages = store.state.newJobTypePageState!.selectedJobStages;
 
     stages!.insert(0, JobStage(id: 1, stage: JobStage.STAGE_1_INQUIRY_RECEIVED, imageLocation: JobStage.getImageLocation(JobStage.STAGE_1_INQUIRY_RECEIVED)));
@@ -59,6 +64,12 @@ class NewJobTypePageMiddleware extends MiddlewareClass<AppState> {
 
     JobType jobTypeWithDocumentId = await JobTypeDao.getByName(newJobType.title!);
     store.dispatch(UpdateWithNewJobTypeAction(store.state.newJobPageState, jobTypeWithDocumentId));
+
+    if(profile != null) {
+      profile.progress.createJobType = true;
+      await ProfileDao.update(profile);
+      store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    }
   }
 
   void _deleteJobType(Store<AppState> store, DeleteJobTypeAction action, NextDispatcher next) async{

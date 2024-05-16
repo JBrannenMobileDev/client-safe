@@ -249,7 +249,7 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
               DandyLightTextField(
                 controller: flatRateTextController,
                 hintText: "\$",
-                inputType: TextInputType.number,
+                inputType: const TextInputType.numberWithOptions(signed: true),
                 focusNode: flatRateInputFocusNode,
                 height: 66.0,
                 onTextInputChanged: (input) {
