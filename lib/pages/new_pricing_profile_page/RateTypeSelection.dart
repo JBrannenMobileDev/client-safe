@@ -34,7 +34,6 @@ class RateTypeSelection extends StatefulWidget {
 
 class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliveClientMixin {
   final GlobalKey<ScaffoldState>? scaffoldKey;
-  OverlayEntry? overlayEntry;
   final FocusNode flatRateInputFocusNode = new FocusNode();
   var flatRateTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '.', thousandSeparator: ',');
   final FocusNode depositInputFocusNode = new FocusNode();
@@ -42,31 +41,8 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
   final FocusNode taxPercentFocusNode = new FocusNode();
   var taxPercentController = MoneyMaskedTextController(rightSymbol: '\%', decimalSeparator: '.', thousandSeparator: ',');
   int selectorIndex = 0;
-  late StreamSubscription<bool> keyboardSubscription;
 
   _RateTypeSelection(this.scaffoldKey);
-
-  @override
-  void initState() {
-    super.initState();
-
-    var keyboardVisibilityController = KeyboardVisibilityController();
-    keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
-      setState(() {
-        if(visible) {
-          showOverlay(context);
-        } else {
-          removeOverlay();
-        }
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    keyboardSubscription.cancel();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,32 +52,6 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
         flatRateTextController.updateValue(appState.state.pricingProfilePageState!.flatRate!);
         depositTextController.updateValue(appState.state.pricingProfilePageState!.deposit!);
         taxPercentController.updateValue(appState.state.pricingProfilePageState!.taxPercent!);
-        flatRateInputFocusNode.addListener(() {
-
-          bool hasFocus = flatRateInputFocusNode.hasFocus;
-          if (hasFocus)
-            showOverlay(context);
-          else
-            removeOverlay();
-        });
-
-        depositInputFocusNode.addListener(() {
-
-          bool hasFocus = depositInputFocusNode.hasFocus;
-          if (hasFocus)
-            showOverlay(context);
-          else
-            removeOverlay();
-        });
-
-        taxPercentFocusNode.addListener(() {
-
-          bool hasFocus = taxPercentFocusNode.hasFocus;
-          if (hasFocus)
-            showOverlay(context);
-          else
-            removeOverlay();
-        });
       },
       converter: (store) => NewPricingProfilePageState.fromStore(store),
       builder: (BuildContext context, NewPricingProfilePageState pageState) =>
@@ -126,7 +76,7 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                       child: CostTextField(
                         flatRateTextController,
                         "\$ 0.0",
-                        TextInputType.number,
+                        const TextInputType.numberWithOptions(signed: true),
                         66.0,
                         pageState.onFlatRateTextChanged,
                         null,
@@ -145,7 +95,7 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                     child: CostTextField(
                         depositTextController,
                         "\$ 0.0",
-                        TextInputType.number,
+                        const TextInputType.numberWithOptions(signed: true),
                         66.0,
                         pageState.onDepositTextChanged,
                         null,
@@ -198,7 +148,7 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                         CostTextField(
                             taxPercentController,
                             "0.0\%",
-                            TextInputType.number,
+                            const TextInputType.numberWithOptions(signed: true),
                             66.0,
                             pageState.onTaxPercentChanged,
                             null,
@@ -247,27 +197,6 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
 
   void vibrate() async {
     HapticFeedback.mediumImpact();
-  }
-
-  showOverlay(BuildContext context) {
-    if (overlayEntry != null) return;
-    OverlayState overlayState = Overlay.of(context);
-    overlayEntry = OverlayEntry(builder: (context) {
-      return Positioned(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-          right: 0.0,
-          left: 0.0,
-          child: InputDoneView());
-    });
-
-    overlayState.insert(overlayEntry!);
-  }
-
-  removeOverlay() {
-    if (overlayEntry != null) {
-      overlayEntry!.remove();
-      overlayEntry = null;
-    }
   }
 
   @override

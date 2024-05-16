@@ -31,27 +31,6 @@ class _PricingProfileSelectionFormState
 
   final FocusNode flatRateInputFocusNode = new FocusNode();
   var flatRateTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '.', thousandSeparator: ',', precision: 2);
-  OverlayEntry? overlayEntry;
-  late StreamSubscription<bool> keyboardSubscription;
-
-  @override
-  void initState() {
-    super.initState();
-    var keyboardVisibilityController = KeyboardVisibilityController();
-    keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
-      if(visible) {
-        showOverlay(context);
-      }else {
-        removeOverlay();
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    keyboardSubscription.cancel();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +101,7 @@ class _PricingProfileSelectionFormState
                     child: DandyLightTextField(
                       controller: flatRateTextController,
                       hintText: "\$",
-                      inputType: TextInputType.number,
+                      inputType: const TextInputType.numberWithOptions(signed: true),
                       focusNode: flatRateInputFocusNode,
                       height: 60.0,
                       onTextInputChanged: pageState.onOneTimePriceChanged!,
@@ -160,7 +139,7 @@ class _PricingProfileSelectionFormState
               DandyLightTextField(
                 controller: flatRateTextController,
                 hintText: "\$ 0",
-                inputType: TextInputType.number,
+                inputType: const TextInputType.numberWithOptions(signed: true),
                 focusNode: flatRateInputFocusNode,
                 height: 66.0,
                 onTextInputChanged: pageState.onOneTimePriceChanged!,
@@ -191,26 +170,6 @@ class _PricingProfileSelectionFormState
 
   onProfileSelected(PriceProfile priceProfile, var pageState, BuildContext context) {
     pageState.onPriceProfileSelected(priceProfile);
-  }
-
-  showOverlay(BuildContext context) {
-    if (overlayEntry != null) return;
-    OverlayState overlayState = Overlay.of(context);
-    overlayEntry = OverlayEntry(builder: (context) {
-      return Positioned(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-          right: 0.0,
-          left: 0.0,
-          child: InputDoneView());
-    });
-
-    overlayState.insert(overlayEntry!);
-  }
-
-  removeOverlay() {
-    if (overlayEntry != null) {
-      overlayEntry!.remove();
-    }
   }
 
   @override
