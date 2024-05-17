@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../AppState.dart';
+import '../../utils/NavigationUtil.dart';
 import '../../utils/Shadows.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
@@ -98,7 +99,9 @@ class _ZoomCallSelectionPage extends State<ZoomCallSelectionPage> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    pageState.setPagerIndex!(4);
+                    pageState.setOnboardingComplete!();
+                    NavigationUtil.onSuccessfulLogin(context);
+                    EventSender().sendEvent(eventName: EventNames.ON_BOARDING_COMPLETE);
                   },
                   child: Container(
                     padding: const EdgeInsets.only(left: 16.0, right: 16.0),

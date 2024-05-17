@@ -226,3 +226,8 @@ class UpdateProgressItemCompleteAction {
   final String itemType;
   UpdateProgressItemCompleteAction(this.pageState, this.itemType);
 }
+
+class UpdateProgressNoShow {
+  final DashboardPageState? pageState;
+  UpdateProgressNoShow(this.pageState);
+}

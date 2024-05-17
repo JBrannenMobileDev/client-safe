@@ -18,9 +18,12 @@ import '../../data_layer/repositories/FileStorage.dart';
 import '../../models/Pose.dart';
 import '../../models/PoseGroup.dart';
 import '../../models/Profile.dart';
+import '../../models/Progress.dart';
 import '../../utils/AdminCheckUtil.dart';
 import '../../utils/JobUtil.dart';
 import '../../utils/UidUtil.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../dashboard_page/DashboardPageActions.dart';
 import '../job_details_page/JobDetailsActions.dart';
 import '../poses_page/PosesActions.dart' as posesActions;
@@ -96,6 +99,9 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
       profile.progress.addPosesToJob = true;
       await ProfileDao.update(profile);
       store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+      EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
+        EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.ADD_POSES_TO_JOB,
+      });
     }
   }
 

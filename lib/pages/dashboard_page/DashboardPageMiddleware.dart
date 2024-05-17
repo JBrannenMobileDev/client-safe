@@ -111,16 +111,46 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     if(action is UpdateProgressItemCompleteAction) {
       _updateProgressItemComplete(store, action);
     }
+    if(action is UpdateProgressNoShow) {
+      _updateProgressNoShow(store, action);
+    }
+  }
+
+  Future<void> _updateProgressNoShow(Store<AppState> store, UpdateProgressNoShow action) async {
+    Profile? profile = action.pageState?.profile;
+    if(profile != null) {
+      profile.progress.canShow = false;
+      ProfileDao.update(profile);
+      store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
+    }
   }
 
   Future<void> _updateProgressItemComplete(Store<AppState> store, UpdateProgressItemCompleteAction action) async {
     Profile? profile = action.pageState?.profile;
     switch(action.itemType) {
       case Progress.PREVIEW_CLIENT_PORTAL:
-        profile?.progress.previewClientPortal = true;
+        if(!(profile?.progress.previewClientPortal ?? false)) {
+          profile?.progress.previewClientPortal = true;
+          EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
+            EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.PREVIEW_CLIENT_PORTAL,
+          });
+        }
         break;
       case Progress.SHARED_WITH_FRIEND:
-        profile?.progress.sharedWithFriend = true;
+        if(!(profile?.progress.sharedWithFriend ?? false)) {
+          profile?.progress.sharedWithFriend = true;
+          EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
+            EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.SHARED_WITH_FRIEND,
+          });
+        }
+        break;
+      case Progress.PREVIEW_SAMPLE_JOB:
+        if(!(profile?.progress.previewSampleJob ?? false)) {
+          profile?.progress.previewSampleJob = true;
+          EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
+            EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.PREVIEW_SAMPLE_JOB,
+          });
+        }
         break;
     }
     if(profile != null) {

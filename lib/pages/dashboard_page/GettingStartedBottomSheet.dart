@@ -62,7 +62,9 @@ class _GettingStartedBottomSheetState extends State<GettingStartedBottomSheet> w
                       children: [
                         buildProgressCategory(
                             'Step 1 - Look professional',
-                            (pageState.profile?.progress.setupBrand ?? false) && (pageState.profile?.progress.previewClientPortal ?? false)
+                            (pageState.profile?.progress.setupBrand ?? false) &&
+                            (pageState.profile?.progress.previewClientPortal ?? false) &&
+                            (pageState.profile?.progress.previewSampleJob ?? false)
                         ),
                         GestureDetector(
                           onTap: () async {
@@ -70,9 +72,25 @@ class _GettingStartedBottomSheetState extends State<GettingStartedBottomSheet> w
                             pageState.updateProgressItemComplete!(Progress.PREVIEW_CLIENT_PORTAL);
                           },
                           child: buildProgressItem(
-                              'Preview Client Portal',
+                              'Preview the client portal',
                               'The Client Portal, tailor-made for each job, serves as a branded website where all job details and documents are securely shared.',
                               pageState.profile?.progress.previewClientPortal ?? false
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            String? documentId = pageState.allJobs?.elementAt(0).documentId;
+                            if(documentId != null) {
+                              NavigationUtil.onJobSelected(context, documentId);
+                            } else {
+                              DandyToastUtil.showErrorToast('A sample job does not exist to preview.');
+                            }
+                            pageState.updateProgressItemComplete!(Progress.PREVIEW_SAMPLE_JOB);
+                          },
+                          child: buildProgressItem(
+                              'Preview a sample job',
+                              'The job details page holds all the info for a specific job. It\'s also where you add poses and share job details and documents with your client.',
+                              pageState.profile?.progress.previewSampleJob ?? false
                           ),
                         ),
                         GestureDetector(
@@ -133,7 +151,7 @@ class _GettingStartedBottomSheetState extends State<GettingStartedBottomSheet> w
                           ),
                         ),
                         buildProgressCategory(
-                            'Step 3 - Adding to a job',
+                            'Step 3 - Enhance your job',
                             (pageState.profile?.progress.addPosesToJob ?? false) &&
                             (pageState.profile?.progress.addInvoiceToJob ?? false) &&
                             (pageState.profile?.progress.addQuestionnaireToJob ?? false) &&
@@ -156,7 +174,7 @@ class _GettingStartedBottomSheetState extends State<GettingStartedBottomSheet> w
                           onTap: () {
                             String? documentId = pageState.allJobs?.elementAt(0).documentId;
                             if(documentId != null) {
-                              NavigationUtil.onJobSelected(context, documentId);
+                              NavigationUtil.onJobSelectedFromProgress(context, documentId);
                             } else {
                               DandyToastUtil.showErrorToast('Please create a job first before adding an invoice.');
                             }
@@ -171,9 +189,9 @@ class _GettingStartedBottomSheetState extends State<GettingStartedBottomSheet> w
                           onTap: () {
                             String? documentId = pageState.allJobs?.elementAt(0).documentId;
                             if(documentId != null) {
-                              NavigationUtil.onJobSelected(context, documentId);
+                              NavigationUtil.onJobSelectedFromProgress(context, documentId);
                             } else {
-                              DandyToastUtil.showErrorToast('Please create a job first before adding an invoice.');
+                              DandyToastUtil.showErrorToast('Please create a job first before adding a questionnaire.');
                             }
                           },
                           child: buildProgressItem(
@@ -196,9 +214,9 @@ class _GettingStartedBottomSheetState extends State<GettingStartedBottomSheet> w
                           onTap: () {
                             String? documentId = pageState.allJobs?.elementAt(0).documentId;
                             if(documentId != null) {
-                              NavigationUtil.onJobSelected(context, documentId);
+                              NavigationUtil.onJobSelectedFromProgress(context, documentId);
                             } else {
-                              DandyToastUtil.showErrorToast('Please create a job first before adding an invoice.');
+                              DandyToastUtil.showErrorToast('Please create a job first before adding a location.');
                             }
                           },
                           child: buildProgressItem(
@@ -223,9 +241,9 @@ class _GettingStartedBottomSheetState extends State<GettingStartedBottomSheet> w
                           onTap: () {
                             String? documentId = pageState.allJobs?.elementAt(0).documentId;
                             if(documentId != null) {
-                              NavigationUtil.onJobSelected(context, documentId);
+                              NavigationUtil.onJobSelectedFromProgress(context, documentId);
                             } else {
-                              DandyToastUtil.showErrorToast('Please create a job first before adding an invoice.');
+                              DandyToastUtil.showErrorToast('Please create a job first before adding a contract.');
                             }
                           },
                           child: buildProgressItem(

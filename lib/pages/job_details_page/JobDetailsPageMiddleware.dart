@@ -42,6 +42,7 @@ import '../../models/Invoice.dart';
 import '../../models/JobReminder.dart';
 import '../../models/Pose.dart';
 import '../../models/Profile.dart';
+import '../../models/Progress.dart';
 import '../../models/Proposal.dart';
 import '../../models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
 import '../../utils/CalendarSyncUtil.dart';
@@ -420,6 +421,9 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(profile != null && !profile.progress.addLocationToJob) {
       profile.progress.addLocationToJob = true;
       await ProfileDao.update(profile);
+      EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
+        EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.ADD_LOCATION_TO_JOB,
+      });
     }
 
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));

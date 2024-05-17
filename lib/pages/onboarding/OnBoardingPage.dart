@@ -76,7 +76,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> with TickerProviderStat
                         LeadSourceSelectionPage(),
                         WhyInstallPage(),
                         ZoomCallSelectionPage(),
-                        DoYouHaveAJobPage(),
                       ],
                       onPageChanged: (index) {
                         setState(() {
@@ -96,7 +95,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> with TickerProviderStat
                       width: 250,
                       child: AnimatedSmoothIndicator(
                         activeIndex: pageState.pagerIndex!,
-                        count: 5,
+                        count: 4,
                         effect: ExpandingDotsEffect(
                             expansionFactor: 2,
                             dotWidth: 15.0,
@@ -105,27 +104,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> with TickerProviderStat
                             dotColor: Color(ColorConstants.getPrimaryBackgroundGrey())),
                       ),
                     ),
-                    pageState.pagerIndex == 3 ? Container(
-                      padding: const EdgeInsets.only(top: 45, right: 16, left: 16, bottom: 16),
-                      alignment: Alignment.topRight,
-                      height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.width,
-                      child: GestureDetector(
-                        onTap: () {
-                          pageState.setPagerIndex!(4);
-                        },
-                        child: Container(
-                          alignment: Alignment.centerRight,
-                          height: 64,
-                          width: 124,
-                          child: TextDandyLight(
-                              type: TextDandyLight.MEDIUM_TEXT,
-                              text: "SKIP",
-                              color: Color(ColorConstants.getPrimaryBlack())
-                          ),
-                        ),
-                      ),
-                    ) : const SizedBox(),
                   ],
                 ),
               ),

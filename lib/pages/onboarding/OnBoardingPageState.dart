@@ -45,6 +45,7 @@ class OnBoardingPageState{
   final Function(String)? onOtherChanged;
   final Function(String)? onJobCountSelected;
   final Function(String)? onZoomOptionSelected;
+  final Function()? setOnboardingComplete;
 
   OnBoardingPageState({
     @required this.onFeatureSelected,
@@ -63,6 +64,7 @@ class OnBoardingPageState{
     @required this.onJobCountSelected,
     @required this.selectedZoomOption,
     @required this.onZoomOptionSelected,
+    @required this.setOnboardingComplete,
   });
 
   OnBoardingPageState copyWith({
@@ -82,6 +84,7 @@ class OnBoardingPageState{
     Function(String)? onOtherChanged,
     Function(String)? onJobCountSelected,
     Function(String)? onZoomOptionSelected,
+    Function()? setOnboardingComplete,
   }){
     return OnBoardingPageState(
       onFeatureSelected: onFeatureSelected?? this.onFeatureSelected,
@@ -100,6 +103,7 @@ class OnBoardingPageState{
       onJobCountSelected: onJobCountSelected ?? this.onJobCountSelected,
       selectedZoomOption: selectedZoomOption ?? this.selectedZoomOption,
       onZoomOptionSelected: onZoomOptionSelected ?? this.onZoomOptionSelected,
+      setOnboardingComplete: setOnboardingComplete ?? this.setOnboardingComplete,
     );
   }
 
@@ -120,6 +124,7 @@ class OnBoardingPageState{
     onJobCountSelected: null,
     selectedZoomOption: '',
     onZoomOptionSelected: null,
+    setOnboardingComplete: null,
   );
 
   factory OnBoardingPageState.fromStore(Store<AppState> store) {
@@ -140,6 +145,7 @@ class OnBoardingPageState{
       onOtherChanged: (otherMessage) => store.dispatch(SetOtherDescriptionAction(store.state.onBoardingPageState, otherMessage)),
       onJobCountSelected: (jobCount) => store.dispatch(SetSelectedJobCountAction(store.state.onBoardingPageState, jobCount)),
       onZoomOptionSelected: (zoomOption) => store.dispatch(SetSelectedZoomOptionAction(store.state.onBoardingPageState, zoomOption)),
+      setOnboardingComplete: () => store.dispatch(SetOnBoardingFinishedAction(store.state.onBoardingPageState)),
     );
   }
 
@@ -160,6 +166,7 @@ class OnBoardingPageState{
       selectedJobCount.hashCode ^
       selectedZoomOption.hashCode ^
       onZoomOptionSelected.hashCode ^
+      setOnboardingComplete.hashCode ^
       selectedReasons.hashCode;
 
   @override
@@ -181,5 +188,6 @@ class OnBoardingPageState{
               onJobCountSelected == other.onJobCountSelected &&
               selectedZoomOption == other.selectedZoomOption &&
               onZoomOptionSelected == other.onZoomOptionSelected &&
+              setOnboardingComplete == other.setOnboardingComplete &&
               selectedReasons == other.selectedReasons;
 }

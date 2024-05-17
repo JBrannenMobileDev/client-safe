@@ -21,6 +21,7 @@ import '../../credentials.dart';
 import '../../data_layer/local_db/daos/ProfileDao.dart';
 import '../../data_layer/repositories/FileStorage.dart';
 import '../../models/Profile.dart';
+import '../../models/Progress.dart';
 import '../../utils/UidUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
@@ -107,6 +108,9 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
       profile.progress.createLocation = true;
       await ProfileDao.update(profile);
       store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+      EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
+        EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.CREATE_LOCATION,
+      });
     }
   }
 

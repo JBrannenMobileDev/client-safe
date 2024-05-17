@@ -12,6 +12,7 @@ import 'package:dandylight/utils/UidUtil.dart';
 import 'package:redux/redux.dart';
 
 import '../../data_layer/local_db/daos/ProfileDao.dart';
+import '../../models/Progress.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../dashboard_page/DashboardPageActions.dart';
@@ -85,6 +86,9 @@ class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
       profile.progress.createPricePackage = true;
       await ProfileDao.update(profile);
       store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+      EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
+        EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.CREATE_PRICE_PACKAGE,
+      });
     }
   }
 

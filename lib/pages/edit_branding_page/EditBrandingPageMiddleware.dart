@@ -18,6 +18,7 @@ import 'package:redux/redux.dart';
 
 import '../../data_layer/local_db/daos/ContractTemplateDao.dart';
 import '../../data_layer/repositories/FileStorage.dart';
+import '../../models/Progress.dart';
 import '../../utils/UUID.dart';
 import '../dashboard_page/DashboardPageActions.dart';
 import 'package:image/image.dart' as img;
@@ -123,6 +124,13 @@ class EditBrandingPageMiddleware extends MiddlewareClass<AppState> {
     );
 
     Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+
+    if(!(profile?.progress.setupBrand ?? false)) {
+      EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
+        EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.SETUP_BRAND,
+      });
+    }
+
     profile!.logoSelected = action.pageState!.logoImageSelected;
     profile.bannerImageSelected = action.pageState!.bannerImageSelected;
     profile.selectedColorTheme = colorTheme;

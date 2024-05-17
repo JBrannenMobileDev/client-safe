@@ -42,3 +42,8 @@ class SetSelectedZoomOptionAction {
   SetSelectedZoomOptionAction(this.pageState, this.zoomOption);
 }
 
+class SetOnBoardingFinishedAction {
+  final OnBoardingPageState? pageState;
+  SetOnBoardingFinishedAction(this.pageState);
+}
+

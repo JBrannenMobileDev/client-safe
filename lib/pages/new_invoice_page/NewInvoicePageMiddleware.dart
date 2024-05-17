@@ -23,6 +23,7 @@ import 'package:sembast/sembast.dart';
 
 import '../../data_layer/local_db/daos/ProfileDao.dart';
 import '../../models/Profile.dart';
+import '../../models/Progress.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 
@@ -112,6 +113,9 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     if(profile != null && !profile.progress.addInvoiceToJob) {
       profile.progress.addInvoiceToJob = true;
       await ProfileDao.update(profile);
+      EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
+        EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.ADD_INVOICE_TO_JOB,
+      });
     }
 
     store.dispatch(LoadAllInvoicesAction(store.state.incomeAndExpensesPageState));

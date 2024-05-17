@@ -9,6 +9,7 @@ import 'package:redux/redux.dart';
 
 import '../../data_layer/local_db/daos/ProfileDao.dart';
 import '../../models/Profile.dart';
+import '../../models/Progress.dart';
 import '../../utils/UidUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
@@ -51,6 +52,9 @@ class NewSingleExpensePageMiddleware extends MiddlewareClass<AppState> {
       profile.progress.createSingleExpense = true;
       await ProfileDao.update(profile);
       store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+      EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
+        EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.CREATE_SINGLE_EXPENSE,
+      });
     }
   }
 

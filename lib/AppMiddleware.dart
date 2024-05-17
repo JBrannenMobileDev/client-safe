@@ -150,6 +150,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, MarkContractsAsReviewed>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, MarkQuestionnaireAsReviewed>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateProgressItemCompleteAction>(DashboardPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, UpdateProgressNoShow>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateProfileWithShowcaseSeen>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, GetDeviceContactsAction>(NewContactPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchJobsAction>(JobsPageMiddleware()));
@@ -328,6 +329,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, ValidateCodeAction>(ManageSubscriptionPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, AssignDiscountCodeToUser>(ManageSubscriptionPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetJobForDetailsPage>(OnBoardingPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SetOnBoardingFinishedAction>(OnBoardingPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SubmitUploadedPoseAction>(UploadPosePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetInstagramNameAction>(UploadPosePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, ResizeImageAction>(UploadPosePageMiddleware()));

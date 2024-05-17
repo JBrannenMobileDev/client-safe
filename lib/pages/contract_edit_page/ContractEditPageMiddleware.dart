@@ -11,6 +11,7 @@ import 'package:redux/redux.dart';
 import '../../models/Contract.dart';
 import '../../models/Job.dart';
 import '../../models/JobStage.dart';
+import '../../models/Progress.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../dashboard_page/DashboardPageActions.dart';
@@ -64,6 +65,9 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
         profile.progress.addContractToJob = true;
         await ProfileDao.update(profile);
         store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+        EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
+          EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.ADD_CONTRACT_TO_JOB,
+        });
       }
 
       List<JobStage> completedStages = job.completedStages!;
@@ -117,6 +121,9 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
           profile.progress.createContract = true;
           await ProfileDao.update(profile);
           store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+          EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
+            EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.CREATE_CONTRACT,
+          });
         }
       }
     }

@@ -30,6 +30,7 @@ import '../../data_layer/local_db/daos/ProfileDao.dart';
 import '../../data_layer/repositories/FileStorage.dart';
 import '../../models/JobStage.dart';
 import '../../models/Profile.dart';
+import '../../models/Progress.dart';
 import '../../models/Proposal.dart';
 import '../../models/ReminderDandyLight.dart';
 import '../../utils/CalendarSyncUtil.dart';
@@ -234,6 +235,9 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     if(profile != null && !profile.progress.createJob) {
       profile.progress.createJob = true;
       await ProfileDao.update(profile);
+      EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
+        EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.CREATE_JOB,
+      });
     }
 
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));

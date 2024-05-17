@@ -110,6 +110,9 @@ class NavigationUtil {
   static onJobSelected(BuildContext context, String documentId) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobDetailsPage(jobDocumentId: documentId,)));
   }
+  static onJobSelectedFromProgress(BuildContext context, String documentId) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobDetailsPage(jobDocumentId: documentId, comingFromProgress: true)));
+  }
   static onPaymentRequestInfoSelected(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => PaymentRequestInfoPage()));
   }

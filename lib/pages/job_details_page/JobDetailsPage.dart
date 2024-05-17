@@ -44,14 +44,15 @@ import 'PosesCard.dart';
 import 'SunsetWeatherCard.dart';
 
 class JobDetailsPage extends StatefulWidget {
-  const JobDetailsPage({Key? key, this.destination, this.comingFromOnBoarding = false, this.jobDocumentId}) : super(key: key);
+  const JobDetailsPage({Key? key, this.destination, this.comingFromOnBoarding = false, this.jobDocumentId, this.comingFromProgress = false}) : super(key: key);
   final JobDetailsPage? destination;
   final bool? comingFromOnBoarding;
   final String? jobDocumentId;
+  final bool? comingFromProgress;
 
   @override
   State<StatefulWidget> createState() {
-    return _JobDetailsPageState(comingFromOnBoarding, jobDocumentId);
+    return _JobDetailsPageState(comingFromOnBoarding, jobDocumentId, comingFromProgress);
   }
 }
 
@@ -61,12 +62,13 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
   ScrollController _stagesScrollController = ScrollController(keepScrollOffset: true);
   double scrollPosition = -2;
   bool? comingFromOnBoarding;
-  _JobDetailsPageState(this.comingFromOnBoarding, this.jobDocumentId);
+  _JobDetailsPageState(this.comingFromOnBoarding, this.jobDocumentId, this.comingFromProgress);
   bool sliverCollapsed = false;
   bool isFabExpanded = false;
   bool dialVisible = true;
   JobDetailsPageState? pageStateLocal;
   String? jobDocumentId;
+  bool? comingFromProgress;
 
   Future<void> _ackAlert(BuildContext context, JobDetailsPageState pageState) {
     return showDialog<void>(
@@ -153,6 +155,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                   // this is ignored if animatedIcon is non null
                    child: getFabIcon(),
                   visible: dialVisible,
+                  isOpenOnStart: comingFromProgress ?? false,
                   // If true user is forced to close dial manually
                   // by tapping main button and overlay is not rendered.
                   closeManually: false,
@@ -256,6 +259,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         ),
                       ),
                       onTap: () {
+                        comingFromProgress = false;
                         if(pageState.job!.priceProfile != null) {
                           bool containsInvoice = false;
                           for(DocumentItem document in pageState.documents!){
@@ -293,6 +297,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         ),
                       ),
                       onTap: () async {
+                        comingFromProgress = false;
                         NavigationUtil.onAddQuestionnaireToJobSelected(context, pageState.job!.documentId!);
                       },
                     ),
@@ -318,6 +323,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         ),
                       ),
                       onTap: () {
+                        comingFromProgress = false;
                         bool containsContract = false;
                         for(DocumentItem document in pageState.documents!){
                           if(document.getDocumentType() == DocumentItem.DOCUMENT_TYPE_CONTRACT) containsContract = true;
@@ -353,6 +359,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         ),
                       ),
                       onTap: () {
+                        comingFromProgress = false;
                         UserOptionsUtil.showLocationSelectionDialog(context);
                       },
                     ),
@@ -378,6 +385,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         ),
                       ),
                       onTap: () {
+                        comingFromProgress = false;
                         UserOptionsUtil.showNewJobReminderDialog(context, pageState.job!);
                       },
                     ),
@@ -555,7 +563,6 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         EventSender().sendEvent(eventName: EventNames.ON_BOARDING_COMPLETE, properties: {
                           EventNames.ON_BOARDING_COMPLETED_BY_PARAM : 'View sample job complete',
                         });
-                        await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context);
                         NavigationUtil.onSuccessfulLogin(context);
                       },
                       child: Container(

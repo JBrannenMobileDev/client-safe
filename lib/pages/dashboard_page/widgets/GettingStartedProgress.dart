@@ -36,6 +36,7 @@ class GettingStartedProgress extends StatelessWidget {
   builder: (BuildContext context, DashboardPageState pageState) =>
       GestureDetector(
         onTap: () {
+          EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_OPENED);
           _showGettingStartedBottomSheet(context, pageState);
         },
         child: Container(
@@ -70,7 +71,7 @@ class GettingStartedProgress extends StatelessWidget {
                             )
                         ),
                         Container(
-                          width: 48,
+                          width: 54,
                           margin: const EdgeInsets.only(left: 16, right: 26),
                           child: TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,

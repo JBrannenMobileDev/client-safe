@@ -559,7 +559,6 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
 
       await PoseLibraryGroupDao.syncAllFromFireStore();
       await ContractTemplateDao.syncAllFromFireStore();
-      await QuestionnaireTemplateDao.syncAllFromFireStore();
       await AppSettingsDao.syncAllFromFireStore();
       List<PoseLibraryGroup> libraryGroups = (await PoseLibraryGroupDao.getAllSortedMostFrequent());
       List<Pose> posesToAdd = [];
@@ -571,6 +570,16 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         });
       });
       _saveSelectedPoseToJob(store, (await JobDao.getAllJobs())!.first, posesToAdd);
+
+      await QuestionnairesDao.syncAllFromFireStore();
+      List<Questionnaire>? questionnaireTemplates = await QuestionnaireTemplateDao.getAll();
+      int questionnairesCount = (await QuestionnairesDao.getAll()).where((item) => item.isTemplate == true).length;
+
+      if(questionnaireTemplates != null && questionnaireTemplates.isNotEmpty && questionnairesCount == 0) {
+        for(Questionnaire questionnaire in questionnaireTemplates) {
+          QuestionnairesDao.insert(questionnaire);
+        }
+      }
 
       if(signInType == EMAIL) {
         await store.dispatch(SetShowAccountCreatedDialogAction(store.state.loginPageState, true, user));

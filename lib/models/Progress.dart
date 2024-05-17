@@ -1,5 +1,6 @@
 class Progress {
   static const String PREVIEW_CLIENT_PORTAL = 'Preview Client Portal';
+  static const String PREVIEW_SAMPLE_JOB = "Preview Sample Job";
   static const String SETUP_BRAND = 'Setup Brand';
   static const String CREATE_JOB_TYPE = 'Create Job Type';
   static const String CREATE_PRICE_PACKAGE = 'Create Price Package';
@@ -15,11 +16,10 @@ class Progress {
   static const String SHARED_WITH_FRIEND = 'Shared With Friend';
   static const String ADD_LOCATION_TO_JOB = 'Add Location to Job';
   static const String CREATE_RECURRING_EXPENSE = 'Create Recurring Expense';
-  static const String CREATE_PRICE_OACKAGE = 'Create Price Package';
-  
+
   int? id;
-  double progress;
   bool previewClientPortal;
+  bool previewSampleJob;
   bool setupBrand;
   bool createJobType;
   bool createPricePackage;
@@ -35,11 +35,11 @@ class Progress {
   bool addLocationToJob;
   bool createSingleExpense;
   bool createRecurringExpense;
-  bool canShow = true;
+  bool canShow;
 
   Progress({
-    this.progress = 0.0,
     this.previewClientPortal = false,
+    this.previewSampleJob = false,
     this.setupBrand = false,
     this.createJobType = false,
     this.createPricePackage = false,
@@ -56,26 +56,32 @@ class Progress {
     this.createSingleExpense = false,
     this.createRecurringExpense = false,
     this.id,
+    this.canShow = true,
 });
+
+  bool isComplete() {
+    return getProgressValue() == 100;
+  }
 
   double getProgressValue() {
     double progress = 0.0;
-    if(previewClientPortal) progress = progress + 6.25;
-    if(setupBrand) progress = progress + 6.25;
-    if(createJobType) progress = progress + 6.25;
-    if(createPricePackage) progress = progress + 6.25;
-    if(addClient) progress = progress + 6.25;
-    if(createJob) progress = progress + 6.25;
-    if(createContract) progress = progress + 6.25;
-    if(addContractToJob) progress = progress + 6.25;
-    if(addInvoiceToJob) progress = progress + 6.25;
-    if(addQuestionnaireToJob) progress = progress + 6.25;
-    if(addPosesToJob) progress = progress + 6.25;
-    if(createLocation) progress = progress + 6.25;
-    if(sharedWithFriend) progress = progress + 6.25;
-    if(addLocationToJob) progress = progress + 6.25;
-    if(createSingleExpense) progress = progress + 6.25;
-    if(createRecurringExpense) progress = progress + 6.25;
+    if(previewClientPortal) progress = progress + 5.88;
+    if(previewSampleJob) progress = progress + 5.88;
+    if(setupBrand) progress = progress + 5.88;
+    if(createJobType) progress = progress + 5.88;
+    if(createPricePackage) progress = progress + 5.88;
+    if(addClient) progress = progress + 5.88;
+    if(createJob) progress = progress + 5.88;
+    if(createContract) progress = progress + 5.88;
+    if(addContractToJob) progress = progress + 5.88;
+    if(addInvoiceToJob) progress = progress + 5.88;
+    if(addQuestionnaireToJob) progress = progress + 5.88;
+    if(addPosesToJob) progress = progress + 5.88;
+    if(createLocation) progress = progress + 5.88;
+    if(sharedWithFriend) progress = progress + 5.88;
+    if(addLocationToJob) progress = progress + 5.88;
+    if(createSingleExpense) progress = progress + 5.88;
+    if(createRecurringExpense) progress = progress + 5.88;
     if(progress > 98) progress = 100;
     return progress/100;
   }
@@ -90,8 +96,8 @@ class Progress {
   Map<String, dynamic> toMap() {
     return {
       'id' : id,
-      'progress' : progress,
       'previewClientPortal' : previewClientPortal,
+      'previewSampleJob' : previewSampleJob,
       'setupBrand' : setupBrand,
       'createJobType' : createJobType,
       'createPricePackage' : createPricePackage,
@@ -107,14 +113,15 @@ class Progress {
       'addLocationToJob' : addLocationToJob,
       'createSingleExpense' : createSingleExpense,
       'createRecurringExpense' : createRecurringExpense,
+      'canShow' : canShow,
     };
   }
 
   static Progress fromMap(Map<String, dynamic> map) {
     return Progress(
       id: map['id'],
-      progress: map['progress'],
       previewClientPortal: map['previewClientPortal'] ?? false,
+      previewSampleJob: map['previewSampleJob'] ?? false,
       setupBrand: map['setupBrand'] ?? false,
       createJobType: map['createJobType'] ?? false,
       createPricePackage: map['createPricePackage'] ?? false,
@@ -130,6 +137,7 @@ class Progress {
       addLocationToJob: map['addLocationToJob'] ?? false,
       createSingleExpense: map['createSingleExpense'] ?? false,
       createRecurringExpense: map['createRecurringExpense'] ?? false,
+      canShow: map['canShow'] ?? true,
     );
   }
 }

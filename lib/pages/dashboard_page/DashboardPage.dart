@@ -44,9 +44,9 @@ import '../../utils/NotificationHelper.dart';
 import '../../utils/PushNotificationsManager.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'AppUpdateBottomSheet.dart';
-import 'GettingStartedBottomSheet.dart';
 import 'RequestAppReviewBottomSheet.dart';
 import 'RequestPMFSurveyBottomSheet.dart';
 
@@ -703,7 +703,68 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                           delegate: SliverChildListDelegate(<Widget>[
                             SlideTransition(
                                 position: offsetAnimationUp,
-                                child: const GettingStartedProgress()
+                                child: (pageState.profile?.progress.isComplete() ?? false) || !(pageState.profile?.progress.canShow ?? true) ? const SizedBox() : Dismissible(
+                                  confirmDismiss: (DismissDirection direction) async {
+                                    return await showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: TextDandyLight(
+                                              type: TextDandyLight.LARGE_TEXT,
+                                              text: 'Remove Progress Bar'
+                                          ),
+                                          content: TextDandyLight(
+                                              type: TextDandyLight.MEDIUM_TEXT,
+                                              text: 'Are you sure you want to permanently remove the Getting Started Checklist"?'
+                                          ),
+                                          actions: <Widget>[
+                                            GestureDetector(
+                                              onTap: () {
+                                                pageState.updateProgressNoShow!();
+                                                Navigator.of(context).pop(true);
+                                              },
+                                              child: Container(
+                                                  width: 96,
+                                                  height: 48,
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(24),
+                                                      color: Color(ColorConstants.getLightGreyWeb())
+                                                  ),
+                                                  child: TextDandyLight(
+                                                    type: TextDandyLight.LARGE_TEXT,
+                                                    text: 'Yes',
+                                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                                  )
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.of(context).pop(false);
+                                              },
+                                              child: Container(
+                                                  width: 96,
+                                                  height: 48,
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(24),
+                                                      color: Color(ColorConstants.getBlueDark())
+                                                  ),
+                                                  child: TextDandyLight(
+                                                    type: TextDandyLight.LARGE_TEXT,
+                                                    text: 'No',
+                                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                                  )
+                                              ),
+                                            )
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  key: Key("dismissKey"),
+                                  child: const GettingStartedProgress(),
+                                ),
                             ),
                             SlideTransition(
                               position: offsetAnimationUp,

@@ -11,6 +11,7 @@ import 'package:redux/redux.dart';
 
 import '../../models/JobStage.dart';
 import '../../models/Profile.dart';
+import '../../models/Progress.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../dashboard_page/DashboardPageActions.dart';
@@ -69,6 +70,9 @@ class NewJobTypePageMiddleware extends MiddlewareClass<AppState> {
       profile.progress.createJobType = true;
       await ProfileDao.update(profile);
       store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+      EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
+        EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.CREATE_JOB_TYPE,
+      });
     }
   }
 

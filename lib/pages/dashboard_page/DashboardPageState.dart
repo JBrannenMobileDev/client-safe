@@ -78,6 +78,7 @@ class DashboardPageState {
   final Function()? markContractsAsReviewed;
   final Function(Questionnaire)? markQuestionnaireAsReviewed;
   final Function(String)? updateProgressItemComplete;
+  final Function()? updateProgressNoShow;
 
   DashboardPageState({
     this.jobsProfitTotal,
@@ -138,6 +139,7 @@ class DashboardPageState {
     this.markContractsAsReviewed,
     this.markQuestionnaireAsReviewed,
     this.updateProgressItemComplete,
+    this.updateProgressNoShow,
   });
 
   DashboardPageState copyWith({
@@ -199,6 +201,7 @@ class DashboardPageState {
     Function()? markContractsAsReviewed,
     Function(Questionnaire)? markQuestionnaireAsReviewed,
     Function(String)? updateProgressItemComplete,
+    Function()? updateProgressNoShow,
   }){
     return DashboardPageState(
       jobsProfitTotal: jobsProfitTotal ?? this.jobsProfitTotal,
@@ -259,6 +262,7 @@ class DashboardPageState {
       markContractsAsReviewed: markContractsAsReviewed ?? this.markContractsAsReviewed,
       markQuestionnaireAsReviewed: markQuestionnaireAsReviewed ?? this.markQuestionnaireAsReviewed,
       updateProgressItemComplete: updateProgressItemComplete ?? this.updateProgressItemComplete,
+      updateProgressNoShow: updateProgressNoShow ?? this.updateProgressNoShow,
     );
   }
 
@@ -336,6 +340,7 @@ class DashboardPageState {
       markContractsAsReviewed: () => store.dispatch(MarkContractsAsReviewed(store.state.dashboardPageState)),
       markQuestionnaireAsReviewed: (questionnaire) => store.dispatch(MarkQuestionnaireAsReviewed(store.state.dashboardPageState, questionnaire)),
       updateProgressItemComplete: (itemType) => store.dispatch(UpdateProgressItemCompleteAction(store.state.dashboardPageState, itemType)),
+      updateProgressNoShow: () => store.dispatch(UpdateProgressNoShow(store.state.dashboardPageState)),
     );
   }
 
@@ -397,6 +402,7 @@ class DashboardPageState {
     markContractsAsReviewed: null,
     markQuestionnaireAsReviewed: null,
     updateProgressItemComplete: null,
+    updateProgressNoShow: null,
   );
 
   @override
@@ -444,6 +450,7 @@ class DashboardPageState {
       shouldShowPMFRequest.hashCode ^
       unseenFeaturedPoses.hashCode ^
       updateCanShowPMF.hashCode ^
+      updateProgressNoShow.hashCode ^
       updateCanShowRequestReview.hashCode ^
       markUpdateAsSeen.hashCode ^
       appSettings.hashCode ^
@@ -500,6 +507,7 @@ class DashboardPageState {
               appSettings == other.appSettings &&
               goToPosesJob == other.goToPosesJob &&
               goToSeen == other.goToSeen &&
+              updateProgressNoShow == other.updateProgressNoShow &&
               onGoToSeen == other.onGoToSeen &&
               drivingDirectionsSelected == other.drivingDirectionsSelected &&
               areJobsLoaded == other.areJobsLoaded &&
