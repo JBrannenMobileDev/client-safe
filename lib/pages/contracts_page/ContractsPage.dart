@@ -114,7 +114,7 @@ class _ContractsPageState extends State<ContractsPage> with TickerProviderStateM
                                 _showGetStartedBottomSheet(context);
                               },
                               child: Container(
-                                margin: EdgeInsets.only(right: 26.0),
+                                margin: const EdgeInsets.only(right: 26.0),
                                 height: 24.0,
                                 width: 24.0,
                                 child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getBlueDark()),),
@@ -125,18 +125,18 @@ class _ContractsPageState extends State<ContractsPage> with TickerProviderStateM
                         SliverList(
                           delegate: SliverChildListDelegate(
                             <Widget>[
-                              pageState.contracts!.length > 0 ? ListView.builder(
+                              pageState.contracts!.isNotEmpty ? ListView.builder(
                                 reverse: false,
-                                padding: EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 64.0),
+                                padding: const EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 64.0),
                                 shrinkWrap: true,
                                 controller: _scrollController,
-                                physics: ClampingScrollPhysics(),
+                                physics: const ClampingScrollPhysics(),
                                 key: _listKey,
                                 itemCount: pageState.contracts!.length,
                                 itemBuilder: _buildItem,
                               ) :
                               Padding(
-                                padding: EdgeInsets.only(left: 64.0, top: 32.0, right: 64.0),
+                                padding: const EdgeInsets.only(left: 64.0, top: 32.0, right: 64.0),
                                 child: TextDandyLight(
                                   type: TextDandyLight.SMALL_TEXT,
                                   text: "You have not created any contracts yet.",
@@ -150,9 +150,8 @@ class _ContractsPageState extends State<ContractsPage> with TickerProviderStateM
                       ],
                     ),
                   ),
-                  pageState.contracts!.length == 0 ? Container(
-                    margin: EdgeInsets.only(bottom: 48),
-                    alignment: Alignment.bottomCenter,
+                  pageState.contracts!.isEmpty ? Container(
+                    alignment: Alignment.center,
                     child: GestureDetector(
                       onTap: () {
                         _showGetStartedBottomSheet(context);
@@ -173,7 +172,7 @@ class _ContractsPageState extends State<ContractsPage> with TickerProviderStateM
                         ),
                       ),
                     ),
-                  ) : SizedBox(),
+                  ) : const SizedBox(),
                 ],
               ),
             ),
@@ -184,7 +183,7 @@ class _ContractsPageState extends State<ContractsPage> with TickerProviderStateM
       converter: (store) => ContractsPageState.fromStore(store),
       builder: (BuildContext context, ContractsPageState pageState) =>
           Container(
-            margin: EdgeInsets.only(top: 0.0, bottom: 8.0),
+            margin: const EdgeInsets.only(top: 0.0, bottom: 8.0),
             child: ContractListWidget(pageState.contracts!.elementAt(index), pageState, onOptionSelected, Color(ColorConstants.getBlueLight()), Color(ColorConstants.getPrimaryBlack())),
           ),
     );

@@ -38,7 +38,9 @@ class JobStage {
 
   static getIndexOfStageInStages(JobStage completedStage, List<JobStage> stages) {
     for(int i=0 ; i <= stages.length; i++) {
-      if(stages.elementAt(i).stage == completedStage.stage) return i;
+      if(stages.elementAt(i).stage == completedStage.stage) {
+        return i;
+      }
     }
     return 0;
   }

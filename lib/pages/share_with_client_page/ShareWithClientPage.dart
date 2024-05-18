@@ -182,9 +182,9 @@ class _ShareWithClientPageState extends State<ShareWithClientPage> with TickerPr
             store.dispatch(SetClientMessageAction(store.state.shareWithClientPageState, job!.proposal!.detailsMessage));
           } else {
             String messageToSet = '';
-            List<Job> jobs = (await JobDao.getAllJobs())!.where((job) => job.proposal != null && job.proposal!.detailsMessage != null && job.proposal!.detailsMessage!.isNotEmpty).toList();
+            List<Job> jobs = (await JobDao.getAllJobs()).where((job) => job.proposal != null && job.proposal!.detailsMessage != null && job.proposal!.detailsMessage!.isNotEmpty).toList();
             jobs = jobs.reversed.toList();
-            if(jobs.elementAt(0).proposal!.detailsMessage != null) {
+            if(jobs.isNotEmpty && jobs.elementAt(0).proposal!.detailsMessage != null) {
               messageToSet = jobs.elementAt(0).proposal!.detailsMessage!;
             } else {
               messageToSet = clientMessage;

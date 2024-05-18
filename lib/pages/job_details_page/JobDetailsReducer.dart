@@ -398,7 +398,6 @@ JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobAction 
       ));
     }
   }
-  action.job!.completedStages!.sort((a, b) => a.compareTo(b));
   LocationDandy? newLocation = action.job!.location != null ? action.job!.location : null;
   return previousState.copyWith(
     job: action.job,

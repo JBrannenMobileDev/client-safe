@@ -452,7 +452,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       DateTime now = DateTime.now();
       ReminderDandyLight chargeCameraReminder = ReminderDandyLight(description: 'Charge Camera', when: WhenSelectionWidget.BEFORE, daysWeeksMonths: WhenSelectionWidget.DAYS, amount: 1, time: DateTime(now.year, now.month, now.day, 8, 30));
       ReminderDandyLight cleanCameraReminder = ReminderDandyLight(description: 'Clean Lenses', when: WhenSelectionWidget.BEFORE, daysWeeksMonths: WhenSelectionWidget.DAYS, amount: 1, time: DateTime(now.year, now.month, now.day, 8, 30));
-      ReminderDandyLight oneWeekCheckInReminder = ReminderDandyLight(description: '1 Week Check-in', when: WhenSelectionWidget.BEFORE, daysWeeksMonths: WhenSelectionWidget.DAYS, amount: 1, time: DateTime(now.year, now.month, now.day, 8, 30));
+      ReminderDandyLight oneWeekCheckInReminder = ReminderDandyLight(description: '1 Week Check-in', when: WhenSelectionWidget.BEFORE, daysWeeksMonths: WhenSelectionWidget.WEEKS, amount: 1, time: DateTime(now.year, now.month, now.day, 8, 30));
       await ReminderDao.insertOrUpdate(chargeCameraReminder);
       await ReminderDao.insertOrUpdate(cleanCameraReminder);
       await ReminderDao.insertOrUpdate(oneWeekCheckInReminder);
@@ -528,29 +528,6 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         client: client,
         depositAmount: 0,
         location: (await LocationDao.getAllSortedMostFrequent())!.first,
-        invoice: Invoice(
-          clientName: 'Example Client',
-          jobName: client.firstName! + ' - Example Job',
-          unpaidAmount: 350.0,
-          createdDate: DateTime.now(),
-          dueDate: DateTime.now().add(Duration(days: 7)),
-          depositDueDate: DateTime.now(),
-          depositPaid: false,
-          invoicePaid: false,
-          priceProfile: (await PriceProfileDao.getAllSortedByName()).first,
-          discount: 0,
-          depositAmount: 50,
-          total: 350,
-          lineItems: [LineItem(
-              itemName: (await PriceProfileDao.getAllSortedByName()).first.profileName,
-              itemPrice: (await PriceProfileDao.getAllSortedByName()).first.flatRate,
-              itemQuantity: 1
-          )],
-          sentDate: DateTime.now(),
-          salesTaxAmount: 0,
-          salesTaxRate: 0.0,
-          subtotal: 350.0,
-        ),
         proposal: Proposal(
           detailsMessage: "(Example client portal message)\n\nHi ${client.firstName},\nI wanted to thank you again for choosing our photography services. We're excited to work with you to capture your special moments.\n\nTo make things official, kindly review and sign the contract. It outlines our agreement's essential details.\n\nIf you have any questions, please don't hesitate to ask.\n\nBest regards,\n\n${newProfile.firstName ?? 'First name'} ${newProfile.lastName ?? 'Last name'}\n${newProfile.businessName ?? 'Business name'}",
         )

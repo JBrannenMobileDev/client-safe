@@ -54,19 +54,19 @@ EditBrandingPageState _setUploadProgress(EditBrandingPageState previousState, Se
 
 EditBrandingPageState _setLogoLetter(EditBrandingPageState previousState, SetLogoLetterAction action){
   bool showPublishButton = showPublishChangesButton(
-    action.pageState!.currentIconColor!,
-    action.pageState!.currentIconTextColor!,
-    action.pageState!.currentButtonColor!,
-    action.pageState!.currentButtonTextColor!,
-    action.pageState!.currentBannerColor!,
-    action.pageState!.currentIconFont!,
-    action.pageState!.currentFont!,
-    action.pageState!.profile!,
-    action.pageState!.profile!.logoSelected!, action.pageState!.logoImageSelected!,
-    action.pageState!.profile!.bannerImageSelected!, action.pageState!.bannerImageSelected!,
-    action.pageState!.profile!.logoCharacter ?? 'M', action.logoLetter!,
-    action.pageState!.resizedLogoImage!, action.pageState!.resizedLogoImage!,
-    action.pageState!.bannerImage!, action.pageState!.bannerImage!,
+    action.pageState!.currentIconColor,
+    action.pageState!.currentIconTextColor,
+    action.pageState!.currentButtonColor,
+    action.pageState!.currentButtonTextColor,
+    action.pageState!.currentBannerColor,
+    action.pageState!.currentIconFont,
+    action.pageState!.currentFont,
+    action.pageState!.profile,
+    action.pageState!.profile!.logoSelected, action.pageState!.logoImageSelected,
+    action.pageState!.profile!.bannerImageSelected, action.pageState!.bannerImageSelected,
+    action.pageState!.profile!.logoCharacter ?? 'M', action.logoLetter,
+    action.pageState!.resizedLogoImage, action.pageState!.resizedLogoImage,
+    action.pageState!.bannerImage, action.pageState!.bannerImage,
   );
   return previousState.copyWith(
     logoCharacter: action.logoLetter,

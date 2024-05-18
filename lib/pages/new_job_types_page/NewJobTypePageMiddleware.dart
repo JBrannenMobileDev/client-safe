@@ -39,11 +39,10 @@ class NewJobTypePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void saveNewJobType(Store<AppState> store, SaveNewJobTypeAction action, NextDispatcher next) async{
-    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     List<JobStage>? stages = store.state.newJobTypePageState!.selectedJobStages;
 
     stages!.insert(0, JobStage(id: 1, stage: JobStage.STAGE_1_INQUIRY_RECEIVED, imageLocation: JobStage.getImageLocation(JobStage.STAGE_1_INQUIRY_RECEIVED)));
-    stages!.add(JobStage(id: 14, stage: JobStage.STAGE_14_JOB_COMPLETE, imageLocation: JobStage.getImageLocation(JobStage.STAGE_14_JOB_COMPLETE)));
+    stages.add(JobStage(id: 14, stage: JobStage.STAGE_14_JOB_COMPLETE, imageLocation: JobStage.getImageLocation(JobStage.STAGE_14_JOB_COMPLETE)));
     JobType newJobType = JobType(
       id: store.state.newJobTypePageState!.id,
       documentId: store.state.newJobTypePageState!.documentId,
@@ -66,7 +65,8 @@ class NewJobTypePageMiddleware extends MiddlewareClass<AppState> {
     JobType jobTypeWithDocumentId = await JobTypeDao.getByName(newJobType.title!);
     store.dispatch(UpdateWithNewJobTypeAction(store.state.newJobPageState, jobTypeWithDocumentId));
 
-    if(profile != null && profile.progress.createJobType) {
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(profile != null && !profile.progress.createJobType) {
       profile.progress.createJobType = true;
       await ProfileDao.update(profile);
       store.dispatch(LoadJobsAction(store.state.dashboardPageState));
