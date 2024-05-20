@@ -18,6 +18,7 @@ class Proposal {
   String? detailsMessage = '';
   String? shareMessage = '';
   Contract? contract;
+  List<Contract>? contracts;
   List<Questionnaire>? questionnaires;
   Feedback? feedback;
   bool? contractSeenByClient = false;
@@ -46,6 +47,7 @@ class Proposal {
       this.includeContract,
       this.shareMessage,
       this.includeQuestionnaires,
+      this.contracts,
   });
 
   Map<String, dynamic> toMap() {
@@ -64,6 +66,7 @@ class Proposal {
       'includeInvoice' : includeInvoice,
       'includeContract' : includeContract,
       'includeQuestionnaires' : includeQuestionnaires,
+      'contracts' : convertContractsToMap(contracts),
     };
   }
 
@@ -78,6 +81,7 @@ class Proposal {
       questionnaireSeenByClient: map['questionnaireSeenByClient'] != null ? map['questionnaireSeenByClient'] : false,
       feedbackSeenByClient: map['feedbackSeenByClient'] != null ? map['feedbackSeenByClient'] : false,
       questionnaires: map['questionnaires'] != null ? convertMapsToQuestionnaires(map['questionnaires']) : [],
+      contracts: map['contracts'] != null ? convertMapsToContracts(map['contracts']) : [],
       feedback: map['feedback'] != null ? Feedback.fromMap(map['feedback']) : null,
       includePoses: map['includePoses'] != null ? map['includePoses'] : false,
       includeInvoice: map['includeInvoice'] != null ? map['includeInvoice'] : false,
@@ -102,5 +106,23 @@ class Proposal {
       listOfQuestionnaires.add(Questionnaire.fromMap(map as Map<String,dynamic>));
     }
     return listOfQuestionnaires;
+  }
+
+  List<Map<String, dynamic>> convertContractsToMap(List<Contract>? contracts){
+    List<Map<String, dynamic>> listOfMaps = [];
+    if(contracts != null) {
+      for(Contract contract in contracts){
+        listOfMaps.add(contract.toMap());
+      }
+    }
+    return listOfMaps;
+  }
+
+  static List<Contract> convertMapsToContracts(List listOfMaps){
+    List<Contract> listOfContracts = [];
+    for(Map map in listOfMaps){
+      listOfContracts.add(Contract.fromMap(map as Map<String,dynamic>));
+    }
+    return listOfContracts;
   }
 }

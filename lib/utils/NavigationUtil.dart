@@ -155,9 +155,6 @@ class NavigationUtil {
   static onJobHistorySelected(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobHistoryListPage()));
   }
-  static onReminderNotificationItemSelected(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobDetailsPage(comingFromOnBoarding: false)));
-  }
   static onNotificationsSelected(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReminderNotificationsPage()));
   }

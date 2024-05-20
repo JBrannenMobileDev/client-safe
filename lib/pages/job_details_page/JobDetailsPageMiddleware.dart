@@ -64,7 +64,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       deleteJob(store, next, action);
     }
     if(action is SetJobInfo){
-      fetchClientForJob(store, next, action);
+      setJobInfo(store, next, action);
     }
     if(action is SetJobInfoWithJobDocumentId){
       setJobInfoWithId(store, next, action);
@@ -550,7 +550,9 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     IntentLauncherUtil.launchURL(instagramUrl);
   }
 
-  void fetchClientForJob(Store<AppState> store, NextDispatcher next, SetJobInfo action) async{
+  //TODO this is the method to keep i think. update all other places to use this initialization method.
+  //TODO also this is where we need to handle old jobs that have a contract.
+  void setJobInfo(Store<AppState> store, NextDispatcher next, SetJobInfo action) async{
     store.dispatch(ClearPreviousStateAction(store.state.jobDetailsPageState));
     Job? job = await JobDao.getJobById(action.jobDocumentId);
     if(job != null) {
