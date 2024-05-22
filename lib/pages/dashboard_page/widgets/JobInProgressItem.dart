@@ -21,7 +21,7 @@ class JobInProgressItem extends StatelessWidget{
       style: Styles.getButtonStyle(),
       onPressed: () {
         pageState!.onJobClicked!(job!.documentId!);
-        NavigationUtil.onJobTapped(context, false);
+        NavigationUtil.onJobTapped(context, false, job!.documentId!);
       },
       child: Padding(
       padding: const EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 18.0),

@@ -49,44 +49,48 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
     Contract? contract;
     if(action.jobDocumentId != null && action.jobDocumentId!.isNotEmpty) {
       Job? job = await JobDao.getJobById(action.jobDocumentId);
-      Contract? contract = job!.proposal!.contract!;
-      contract.jsonTerms = jsonEncode(action.quillContract!.toDelta().toJson());
-      contract.terms = action.quillContract!.toPlainText();
-      contract.contractName = action.pageState!.contractName;
-      contract.signedByClient = false;
-      contract.clientSignedDate = null;
-      contract.clientSignature = "";
-      contract.photographerSignedDate = DateTime.now();
-      job.proposal!.contract = contract;
-      await JobDao.update(job);
+      if(job != null && (job.proposal?.contracts?.isNotEmpty ?? false)){
+        Contract? contract = job.proposal!.contracts!.where((item) => item.documentId == action.pageState!.contract!.documentId).first;
+        contract.jsonTerms = jsonEncode(action.quillContract!.toDelta().toJson());
+        contract.terms = action.quillContract!.toPlainText();
+        contract.contractName = action.pageState!.contractName;
+        contract.signedByClient = false;
+        contract.clientSignedDate = null;
+        contract.clientSignature = "";
+        contract.photographerSignedDate = DateTime.now();
+        final index = job.proposal!.contracts!.indexWhere((item) => item.documentId == contract.documentId);
+        job.proposal!.contracts![index] = contract;
 
-      Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-      if(profile != null && !profile.progress.addContractToJob) {
-        profile.progress.addContractToJob = true;
-        await ProfileDao.update(profile);
-        store.dispatch(LoadJobsAction(store.state.dashboardPageState));
-        EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
-          EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.ADD_CONTRACT_TO_JOB,
-        });
-      }
+        await JobDao.update(job);
 
-      List<JobStage> completedStages = job.completedStages!;
-      bool isContractSignedChecked = false;
-      completedStages.forEach((stage) {
-        if(stage.stage == JobStage.STAGE_4_PROPOSAL_SIGNED) isContractSignedChecked = true;
-      });
-
-      if(isContractSignedChecked) {
-        List<JobStage>? stages = job.type!.stages;
-        int index = -1;
-        for(int i = 0; i < stages!.length; i++) {
-          if(stages.elementAt(i).stage == JobStage.STAGE_4_PROPOSAL_SIGNED) {
-            index = i;
-          }
+        Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+        if(profile != null && !profile.progress.addContractToJob) {
+          profile.progress.addContractToJob = true;
+          await ProfileDao.update(profile);
+          store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+          EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
+            EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.ADD_CONTRACT_TO_JOB,
+          });
         }
-        store.dispatch(UndoStageAction(store.state.jobDetailsPageState!, job, index));
+
+        List<JobStage> completedStages = job.completedStages!;
+        bool isContractSignedChecked = false;
+        completedStages.forEach((stage) {
+          if(stage.stage == JobStage.STAGE_4_PROPOSAL_SIGNED) isContractSignedChecked = true;
+        });
+
+        if(isContractSignedChecked) {
+          List<JobStage>? stages = job.type!.stages;
+          int index = -1;
+          for(int i = 0; i < stages!.length; i++) {
+            if(stages.elementAt(i).stage == JobStage.STAGE_4_PROPOSAL_SIGNED) {
+              index = i;
+            }
+          }
+          store.dispatch(UndoStageAction(store.state.jobDetailsPageState!, job, index));
+        }
+        store.dispatch(SetJobInfo(store.state.jobDetailsPageState!, job.documentId!));
       }
-      store.dispatch(SetJobInfo(store.state.jobDetailsPageState!, job.documentId!));
     } else {
       if(action.pageState!.contract == null) {
         contract = Contract(

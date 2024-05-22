@@ -352,7 +352,7 @@ class _NewJobPageState extends State<NewJobPage>{
     } else {
       Navigator.of(context).pop(true);
       Navigator.of(context).pop(true);
-      NavigationUtil.onJobTapped(context, false);
+      NavigationUtil.onJobTapped(context, false, "");
     }
   }
 

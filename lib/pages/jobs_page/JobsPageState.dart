@@ -14,7 +14,6 @@ class JobsPageState {
   final List<Job>? activeJobs;
   final List<Job>? jobsCompleted;
   final Function(String)? onFilterChanged;
-  final Function(Job)? onJobClicked;
 
   JobsPageState({
     @required this.filterType,
@@ -23,7 +22,6 @@ class JobsPageState {
     @required this.activeJobs,
     @required this.jobsCompleted,
     @required this.onFilterChanged,
-    @required this.onJobClicked,
   });
 
   JobsPageState copyWith({
@@ -33,7 +31,6 @@ class JobsPageState {
     List<Job>? activeJobs,
     List<Job>? jobsCompleted,
     Function(String)? onFilterChanged,
-    Function(Job)? onJobClicked,
   }){
     return JobsPageState(
       filterType: filterType?? this.filterType,
@@ -42,7 +39,6 @@ class JobsPageState {
       activeJobs: activeJobs?? this.activeJobs,
       jobsCompleted: jobsCompleted?? this.jobsCompleted,
       onFilterChanged: onFilterChanged?? this.onFilterChanged,
-      onJobClicked: onJobClicked?? this.onJobClicked,
     );
   }
 
@@ -53,7 +49,6 @@ class JobsPageState {
     activeJobs: [],
     jobsCompleted: [],
     onFilterChanged: null,
-    onJobClicked: null,
   );
 
   factory JobsPageState.fromStore(Store<AppState> store) {
@@ -64,7 +59,6 @@ class JobsPageState {
       activeJobs: store.state.jobsPageState!.activeJobs,
       jobsCompleted: store.state.jobsPageState!.jobsCompleted,
       onFilterChanged: (filterType) => store.dispatch(FilterChangedAction(store.state.jobsPageState, filterType)),
-      onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId)),
     );
   }
 
@@ -75,8 +69,7 @@ class JobsPageState {
       leads.hashCode ^
       activeJobs.hashCode ^
       jobsCompleted.hashCode ^
-      onFilterChanged.hashCode ^
-      onJobClicked.hashCode;
+      onFilterChanged.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -87,6 +80,5 @@ class JobsPageState {
               leads == other.leads &&
               activeJobs == other.activeJobs &&
               jobsCompleted == other.jobsCompleted &&
-              onFilterChanged == other.onFilterChanged &&
-              onJobClicked == other.onJobClicked;
+              onFilterChanged == other.onFilterChanged;
 }

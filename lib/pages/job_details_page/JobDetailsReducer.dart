@@ -9,6 +9,7 @@ import 'package:device_calendar/device_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 
+import '../../models/Contract.dart';
 import '../../models/Questionnaire.dart';
 import '../../models/rest_models/AccuWeatherModels/forecastFiveDay/DailyForecasts.dart';
 import 'document_items/ContractDocument.dart';
@@ -389,6 +390,14 @@ JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobAction 
         contractName: action.job!.proposal!.contract!.contractName!,
         isSigned: action.job!.proposal!.contract!.signedByClient!
     ));
+  } else if(action.job!.proposal != null && action.job!.proposal!.contracts != null && action.job!.proposal!.contracts!.isNotEmpty) {
+    for(Contract contract in action.job!.proposal!.contracts!) {
+      documents.add(ContractDocument(
+          contractName: contract.contractName!,
+          isSigned: contract.signedByClient ?? false,
+          isVoid: contract.isVoid ?? false,
+      ));
+    }
   }
   if(action.job!.proposal!.questionnaires != null && action.job!.proposal!.questionnaires!.isNotEmpty) {
     for(Questionnaire questionnaire in action.job!.proposal!.questionnaires!) {

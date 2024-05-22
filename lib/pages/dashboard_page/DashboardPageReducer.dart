@@ -170,10 +170,10 @@ DashboardPageState _setJobs(DashboardPageState previousState, SetJobToStateActio
       allUserStages: activeStages,
       jobsThisWeek: jobsThisWeek,
       areJobsLoaded: true,
-      activeJobsWithUnsignedContract: JobUtil.getJobsWithUnsignedContracts(activeJobs),
-      activeJobsWithSignedContract: JobUtil.getJobsWithSignedContracts(activeJobs),
-      allJobsWithUnsignedContract: JobUtil.getJobsWithUnsignedContracts(action.allJobs!),
-      allJobsWithSignedContract: JobUtil.getJobsWithSignedContracts(action.allJobs!),
+      activeUnsignedContract: JobUtil.getJobsWithUnsignedContracts(activeJobs),
+      activeSignedContract: JobUtil.getJobsWithSignedContracts(activeJobs),
+      allUnsignedContract: JobUtil.getJobsWithUnsignedContracts(action.allJobs!),
+      allSignedContract: JobUtil.getJobsWithSignedContracts(action.allJobs!),
   );
 }
 

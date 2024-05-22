@@ -56,7 +56,6 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
         day.month,
         day.day,
         pageState.jobs,
-        pageState.onJobClicked,
       );
     });
   }
@@ -100,7 +99,6 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
                 pageState.selectedDate != null ? pageState.selectedDate!.month : DateTime.now().month,
                 pageState.selectedDate != null ? pageState.selectedDate!.day : DateTime.now().day,
                 pageState.jobs,
-                pageState.onJobClicked,
               ),
             ),
           ],

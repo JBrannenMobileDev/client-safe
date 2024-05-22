@@ -13,14 +13,13 @@ class CalendarUtil {
       int? selectedMonth,
       int? selectedDay,
       List<Job>? allJobs,
-      Function(Job)? onJobClicked
   ) {
     List<JobCalendarItem> calendarListItems = [];
     List<JobCalendarItem> fromJobs = _getJobListForSelectedDate(selectedDate, eventList!, selectedYear!, selectedMonth!, selectedDay!, allJobs!)
-        .map((job) => JobCalendarItem(job: job, paddingRight: 24.0, paddingLeft: 24.0, onJobClicked: onJobClicked,))
+        .map((job) => JobCalendarItem(job: job, paddingRight: 24.0, paddingLeft: 24.0))
         .toList();
     List<JobCalendarItem> fromDeviceEvents = _getEventListForSelectedDate(selectedDate, eventList, selectedYear, selectedMonth, selectedDay)
-        .map((event) => JobCalendarItem(eventDandyLight: event, paddingRight: 24.0, paddingLeft: 24.0, onJobClicked: null,))
+        .map((event) => JobCalendarItem(eventDandyLight: event, paddingRight: 24.0, paddingLeft: 24.0))
         .toList();
     calendarListItems.addAll(fromJobs);
     calendarListItems.addAll(fromDeviceEvents);

@@ -118,7 +118,7 @@ class _DoYouHaveAJobPage extends State<DoYouHaveAJobPage> {
                             break;
                           case OnBoardingPageState.HAS_JOB_NO:
                             pageState.onViewSampleJobSelected!();
-                            NavigationUtil.onJobTapped(context, true);
+                            NavigationUtil.onJobTapped(context, true, "");
                             break;
                         }
                       },

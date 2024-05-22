@@ -66,7 +66,7 @@ class ContractsCard extends StatelessWidget {
                               alignment: Alignment.center,
                               child: TextDandyLight(
                                 type: TextDandyLight.MEDIUM_TEXT,
-                                text: pageState.activeJobsWithUnsignedContract != null ? pageState.activeJobsWithUnsignedContract?.length.toString() : '0',
+                                text: pageState.activeUnsignedContract != null ? pageState.activeUnsignedContract?.length.toString() : '0',
                                 textAlign: TextAlign.center,
                                 color: Color(ColorConstants.getPrimaryBlack()),
                               ),
@@ -107,20 +107,20 @@ class ContractsCard extends StatelessWidget {
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(16),
-                                color: areResultsNew(pageState.activeJobsWithSignedContract ?? []) ? const Color(ColorConstants.error_red) : Color(ColorConstants.getPrimaryWhite()),
+                                color: areResultsNew(pageState.activeSignedContract ?? []) ? const Color(ColorConstants.error_red) : Color(ColorConstants.getPrimaryWhite()),
                               ),
                               child: TextDandyLight(
                                 type: TextDandyLight.MEDIUM_TEXT,
-                                text: pageState.activeJobsWithSignedContract != null ? pageState.activeJobsWithSignedContract?.length.toString() : '0',
+                                text: pageState.activeSignedContract != null ? pageState.activeSignedContract?.length.toString() : '0',
                                 textAlign: TextAlign.center,
-                                color: Color(areResultsNew(pageState.activeJobsWithSignedContract ?? []) ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
+                                color: Color(areResultsNew(pageState.activeSignedContract ?? []) ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
                               ),
                             ),
                             TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
                               text: 'Signed',
                               textAlign: TextAlign.center,
-                              color: areResultsNew(pageState.activeJobsWithSignedContract ?? []) ? const Color(ColorConstants.error_red) : Color(ColorConstants.getPrimaryBlack()),
+                              color: areResultsNew(pageState.activeSignedContract ?? []) ? const Color(ColorConstants.error_red) : Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ],
                         ),
@@ -138,6 +138,9 @@ class ContractsCard extends StatelessWidget {
     bool result = false;
     for(Job job in jobs) {
       if(!(job.proposal?.contract?.isReviewed ?? false)) result = true;
+      for(Contract contract in job.proposal?.contracts ?? []) {
+        if(!(contract.isReviewed ?? false)) result = true;
+      }
     }
     return result;
   }

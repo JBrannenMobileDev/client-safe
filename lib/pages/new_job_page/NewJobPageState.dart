@@ -71,7 +71,6 @@ class NewJobPageState {
   final Function(JobType)? onJobTypeSelected;
   final Function(DateTime)? onStartTimeSelected;
   final Function(DateTime)? onEndTimeSelected;
-  final Function(Job)? onJobClicked;
   final Function(DateTime)? onMonthChanged;
   final Function()? onSunsetWeatherSelected;
   final Function(String)? onOneTimePriceChanged;
@@ -117,7 +116,6 @@ class NewJobPageState {
     @required this.onJobTypeSelected,
     @required this.currentJobStage,
     @required this.onStartTimeSelected,
-    @required this.onJobClicked,
     @required this.jobTypes,
     @required this.onMonthChanged,
     @required this.deviceEvents,
@@ -188,7 +186,6 @@ class NewJobPageState {
     Function(DateTime)? onDateSelected,
     Function(JobType)? onJobTypeSelected,
     Function(DateTime)? onStartTimeSelected,
-    Function(Job)? onJobClicked,
     Function(DateTime)? onMonthChanged,
     Function(String)? onClientFirstNameTextChanged,
     Function()? onSunsetWeatherSelected,
@@ -238,7 +235,6 @@ class NewJobPageState {
       onJobTypeSelected: onJobTypeSelected?? this.onJobTypeSelected,
       onStartTimeSelected: onStartTimeSelected?? this.onStartTimeSelected,
       jobs: jobs ?? this.jobs,
-      onJobClicked: onJobClicked ?? this.onJobClicked,
       comingFromClientDetails: comingFromClientDetails ?? this.comingFromClientDetails,
       documentId: documentId ?? this.documentId,
       jobTypes: jobTypes ?? this.jobTypes,
@@ -307,7 +303,6 @@ class NewJobPageState {
         onDateSelected: null,
         onJobTypeSelected: null,
         onStartTimeSelected: null,
-        onJobClicked: null,
         comingFromClientDetails: false,
         onMonthChanged: null,
         onClientFirstNameTextChanged: null,
@@ -381,7 +376,6 @@ class NewJobPageState {
       onJobTypeSelected: (jobType) => store.dispatch(SetSelectedJobTypeAction(store.state.newJobPageState, jobType)),
       onStartTimeSelected: (time) => store.dispatch(SetSelectedStartTimeAction(store.state.newJobPageState, time)),
       onEndTimeSelected: (time) => store.dispatch(SetSelectedEndTimeAction(store.state.newJobPageState, time)),
-      onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId)),
       onMonthChanged: (month) => store.dispatch(FetchNewJobDeviceEvents(store.state.newJobPageState, month)),
       onClientFirstNameTextChanged: (firstName) => store.dispatch(SetClientFirstNameAction(store.state.newJobPageState, firstName)),
       onSunsetWeatherSelected: () => store.dispatch(sunsetPageActions.LoadInitialLocationAndDateComingFromNewJobAction(store.state.sunsetWeatherPageState, store.state.newJobPageState!.selectedLocation, store.state.newJobPageState!.selectedDate)),
@@ -431,7 +425,6 @@ class NewJobPageState {
       eventList.hashCode ^
       jobs.hashCode ^
       onStartTimeSelected.hashCode ^
-      onJobClicked.hashCode ^
       jobTypes.hashCode ^
       clientFirstName.hashCode ^
       onClientFirstNameTextChanged.hashCode ^
@@ -491,7 +484,6 @@ class NewJobPageState {
           eventList == other.eventList &&
           jobs == other.jobs &&
           onStartTimeSelected == other.onStartTimeSelected &&
-          onJobClicked == other.onJobClicked &&
           jobTypes == other.jobTypes &&
           onSunsetWeatherSelected == other.onSunsetWeatherSelected &&
           initialTimeSelectorTime == other.initialTimeSelectorTime &&

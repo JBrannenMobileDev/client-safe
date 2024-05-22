@@ -59,7 +59,6 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
         pageState.selectedDate!.month,
         pageState.selectedDate!.day,
         pageState.jobs!,
-        pageState.onJobClicked!,
       );
     });
   }
@@ -111,7 +110,6 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                             pageState.selectedDate!.month,
                             pageState.selectedDate!.day,
                             pageState.jobs!,
-                            pageState.onJobClicked!,
                         ),
                     ),
                   ],

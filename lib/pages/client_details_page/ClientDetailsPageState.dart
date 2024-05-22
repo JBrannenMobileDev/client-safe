@@ -26,7 +26,6 @@ class ClientDetailsPageState {
   final Function()? onMessageClientClicked;
   final Function()? onEmailClientClicked;
   final Function(Client)? onStartNewJobClicked;
-  final Function(Job)? onJobSelected;
   final Function()? onInstagramSelected;
   final Function(String)? onCustomLeadSourceTextChanged;
   final Function(String)? onLeadSourceSelected;
@@ -45,7 +44,6 @@ class ClientDetailsPageState {
     @required this.onMessageClientClicked,
     @required this.onEmailClientClicked,
     @required this.onStartNewJobClicked,
-    @required this.onJobSelected,
     @required this.onInstagramSelected,
     @required this.onCustomLeadSourceTextChanged,
     @required this.onLeadSourceSelected,
@@ -74,7 +72,6 @@ class ClientDetailsPageState {
     Function()? onMessageClientClicked,
     Function()? onEmailClientClicked,
     Function(Client)? onStartNewJobClicked,
-    Function(Job)? onJobSelected,
     Function()? onInstagramSelected,
     Function(String)? onCustomLeadSourceTextChanged,
     Function(String)? onLeadSourceSelected,
@@ -96,7 +93,6 @@ class ClientDetailsPageState {
       onMessageClientClicked: onMessageClientClicked?? this.onMessageClientClicked,
       onEmailClientClicked: onEmailClientClicked?? this.onEmailClientClicked,
       onStartNewJobClicked: onStartNewJobClicked?? this.onStartNewJobClicked,
-      onJobSelected: onJobSelected?? this.onJobSelected,
       onInstagramSelected: onInstagramSelected?? this.onInstagramSelected,
       onCustomLeadSourceTextChanged: onCustomLeadSourceTextChanged ?? this.onCustomLeadSourceTextChanged,
       onLeadSourceSelected: onLeadSourceSelected ?? this.onLeadSourceSelected,
@@ -123,7 +119,6 @@ class ClientDetailsPageState {
     onMessageClientClicked: null,
     onEmailClientClicked: null,
     onStartNewJobClicked: null,
-    onJobSelected: null,
     onInstagramSelected: null,
     onCustomLeadSourceTextChanged: null,
     onLeadSourceSelected: null,
@@ -156,7 +151,6 @@ class ClientDetailsPageState {
       onMessageClientClicked: () => store.dispatch(null),
       onEmailClientClicked: () => store.dispatch(null),
       onStartNewJobClicked: (client) => store.dispatch(InitializeNewContactPageAction(store.state.newJobPageState!, client)),
-      onJobSelected: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState!, job.documentId!)),
       onInstagramSelected: () => store.dispatch(InstagramSelectedAction(store.state.clientDetailsPageState)),
       onCustomLeadSourceTextChanged: (customLead) => store.dispatch(UpdateTempCustomLeadNameAction(store.state.clientDetailsPageState, customLead)),
       onLeadSourceSelected: (leadSource) => store.dispatch(SetTempLeadSourceAction(store.state.clientDetailsPageState, leadSource)),
@@ -190,8 +184,7 @@ class ClientDetailsPageState {
     onImportantDateAdded.hashCode ^
     onSaveImportantDatesSelected.hashCode ^
     items.hashCode ^
-    showNoSavedResponsesError.hashCode ^
-    onJobSelected.hashCode;
+    showNoSavedResponsesError.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -213,6 +206,5 @@ class ClientDetailsPageState {
           onImportantDateAdded == other.onImportantDateAdded &&
           onSaveImportantDatesSelected == other.onSaveImportantDatesSelected &&
           items == other.items &&
-          showNoSavedResponsesError == other.showNoSavedResponsesError &&
-          onJobSelected == other.onJobSelected;
+          showNoSavedResponsesError == other.showNoSavedResponsesError;
 }

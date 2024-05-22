@@ -76,8 +76,7 @@ class NotificationHelper {
               profile!.showNewMileageExpensePage = true;
               ProfileDao.update(profile);
             } else {
-              // Job job = await JobDao.getJobById(notificationResponse.payload);
-              NavigationUtil.onJobTapped(context, false);
+
             }
             break;
           case NotificationResponseType.selectedNotificationAction:

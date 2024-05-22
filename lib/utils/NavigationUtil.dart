@@ -80,8 +80,8 @@ class NavigationUtil {
         updateQuestionnaireForPortal: updateQuestionnaireForPortal,
     )));
   }
-  static onJobTapped(BuildContext context, bool comingFromOnBoarding) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobDetailsPage(comingFromOnBoarding: comingFromOnBoarding,)));
+  static onJobTapped(BuildContext context, bool comingFromOnBoarding, String jobDocumentId) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobDetailsPage(jobDocumentId: jobDocumentId, comingFromOnBoarding: comingFromOnBoarding)));
   }
   static onCalendarSelected(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => CalendarPage()));

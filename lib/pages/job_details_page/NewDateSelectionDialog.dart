@@ -51,7 +51,6 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
         pageState.job!.selectedDate!.month,
         pageState.job!.selectedDate!.day,
         pageState.jobs,
-        pageState.onJobClicked,
       );
     });
   }
@@ -94,7 +93,6 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
                   pageState.selectedDate != null ? pageState.selectedDate!.month : DateTime.now().month,
                   pageState.selectedDate != null ? pageState.selectedDate!.day : DateTime.now().day,
                   pageState.jobs,
-                  pageState.onJobClicked,
                 ),
               ),
               Padding(

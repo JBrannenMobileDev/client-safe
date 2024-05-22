@@ -7,15 +7,16 @@ import '../../../widgets/TextDandyLight.dart';
 class ContractDocument implements DocumentItem {
   final String? contractName;
   final bool isSigned;
-  ContractDocument({this.contractName, this.isSigned = false});
+  final bool isVoid;
+  ContractDocument({this.contractName, this.isSigned = false, this.isVoid = false});
 
   @override
   Widget buildIconItem(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(right: 18.0, top: 0.0),
+      margin: const EdgeInsets.only(right: 18.0, top: 0.0),
       height: 42.0,
       width: 42.0,
-      child: Image.asset(isSigned ? 'assets/images/icons/contract_signed.png' : 'assets/images/icons/contract.png', color: Color(ColorConstants.getPeachDark()),),
+      child: Image.asset(chooseIcon(isSigned, isVoid), color: Color(ColorConstants.getPeachDark()),),
     );
   }
 
@@ -31,12 +32,17 @@ class ContractDocument implements DocumentItem {
           textAlign: TextAlign.start,
           color: Color(ColorConstants.getPrimaryBlack()),
         ),
-        isSigned ? TextDandyLight(
+        isVoid ? TextDandyLight(
+          type: TextDandyLight.MEDIUM_TEXT,
+          text: '(CONTRACT IS VOID)',
+          textAlign: TextAlign.start,
+          color: Color(ColorConstants.getPeachDark()),
+        ) : isSigned ? TextDandyLight(
           type: TextDandyLight.MEDIUM_TEXT,
           text: '(Signed)',
           textAlign: TextAlign.start,
           color: Color(ColorConstants.getPeachDark()),
-        ) : SizedBox()
+        ) : const SizedBox()
       ],
     );
   }
@@ -44,5 +50,14 @@ class ContractDocument implements DocumentItem {
   @override
   String getDocumentType() {
     return DocumentItem.DOCUMENT_TYPE_CONTRACT;
+  }
+
+  String chooseIcon(bool isSigned, bool isVoid) {
+    if(isVoid) return 'assets/images/icons/void_contract.png';
+    if(isSigned) {
+      return 'assets/images/icons/contract_signed.png';
+    } else {
+      return 'assets/images/icons/contract.png';
+    }
   }
 }

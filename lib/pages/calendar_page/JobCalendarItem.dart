@@ -16,8 +16,7 @@ class JobCalendarItem extends StatelessWidget{
   final EventDandyLight? eventDandyLight;
   final double? paddingLeft;
   final double? paddingRight;
-  final Function(Job)? onJobClicked;
-  JobCalendarItem({this.job, this.eventDandyLight, this.paddingLeft, this.paddingRight, this.onJobClicked});
+  JobCalendarItem({this.job, this.eventDandyLight, this.paddingLeft, this.paddingRight});
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +24,7 @@ class JobCalendarItem extends StatelessWidget{
       style: Styles.getButtonStyle(),
       onPressed: () {
         if(job != null) {
-          onJobClicked!(job!);
-          NavigationUtil.onJobTapped(context, false);
+          NavigationUtil.onJobTapped(context, false, job!.documentId!);
         }
       },
       child: Padding(

@@ -61,7 +61,7 @@ class ContractListPage extends StatelessWidget{
                       controller: _controller,
                       physics: const ClampingScrollPhysics(),
                       key: _listKey,
-                      itemCount: signed! ? pageState.allJobsWithSignedContract!.length : pageState.allJobsWithUnsignedContract!.length,
+                      itemCount: signed! ? pageState.allSignedContracts!.length : pageState.allUnsignedContracts!.length,
                       itemBuilder: _buildItem,
                     ),
                   ],
@@ -76,7 +76,7 @@ class ContractListPage extends StatelessWidget{
 
 
   Widget _buildItem(BuildContext context, int index) {
-    return ContractsItem(job: signed! ? pageState!.allJobsWithSignedContract!.elementAt(index) : pageState!.allJobsWithUnsignedContract!.elementAt(index), pageState: pageState!, signed: signed!);
+    return ContractsItem(job: signed! ? pageState!.allSignedContracts!.elementAt(index) : pageState!.allUnsignedContracts!.elementAt(index), pageState: pageState!, signed: signed!);
   }
 
 }

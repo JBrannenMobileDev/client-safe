@@ -9,6 +9,7 @@ class Contract {
   bool? signedByClient = false;
   bool? signedByPhotographer = false;
   bool? isReviewed = false;
+  bool? isVoid = false;
   DateTime? clientSignedDate;
   DateTime? photographerSignedDate;
   DateTime? firstSharedDate;
@@ -28,6 +29,7 @@ class Contract {
     this.photographerSignedDate,
     this.firstSharedDate,
     this.isReviewed,
+    this.isVoid,
   });
 
   Map<String, dynamic> toMap() {
@@ -39,6 +41,7 @@ class Contract {
       'signedByClient' : signedByClient,
       'signedByPhotographer' : signedByPhotographer,
       'isReviewed' : isReviewed,
+      'isVoid' : isVoid,
       'photographerSignature' : photographerSignature,
       'clientSignature' : clientSignature,
       'clientSignedDate' : clientSignedDate?.millisecondsSinceEpoch ?? null,
@@ -56,6 +59,7 @@ class Contract {
       signedByClient: map['signedByClient'],
       signedByPhotographer: map['signedByPhotographer'],
       isReviewed: map['isReviewed'],
+      isVoid: map['isVoid'],
       photographerSignature: map['photographerSignature'],
       clientSignature: map['clientSignature'],
       photographerSignedDate: map['photographerSignedDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['photographerSignedDate']) : null,

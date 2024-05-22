@@ -12,6 +12,7 @@ import 'package:dandylight/data_layer/local_db/daos/RecurringExpenseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/SingleExpenseDao.dart';
 import 'package:dandylight/models/AppSettings.dart';
 import 'package:dandylight/models/Client.dart';
+import 'package:dandylight/models/Contract.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/models/JobType.dart';
@@ -188,12 +189,13 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _updateContractsAsReviewed(Store<AppState> store, MarkContractsAsReviewed action) async {
-    List<Job> jobsWithContracts = action.pageState?.allJobsWithSignedContract ?? [];
-    for(Job job in jobsWithContracts) {
-      if(!(job.proposal?.contract?.isReviewed ?? false)){
-        job.proposal?.contract?.isReviewed = true;
-        await JobDao.update(job);
+    List<Contract> allSignedContracts = action.pageState?.allSignedContracts ?? [];
+    for(Contract contract in allSignedContracts) {
+      if(!(contract.isReviewed ?? false)){
+        contract.isReviewed = true;
       }
+      //TODO find job that has this contract. update contract in list in job. Then save job on next line.
+      await JobDao.update(job);
     }
 
     List<Job>? allJobs = await JobDao.getAllJobs();

@@ -77,7 +77,6 @@ class JobDetailsPageState {
   final Function(DateTime)? onNewEndTimeSelected;
   final Function()? onSaveSelectedDate;
   final Function(Client)? onClientClicked;
-  final Function(Job)? onJobClicked;
   final Function(LocationDandy)? onLocationSaveSelected;
   final Function(String)? onJobTitleTextChanged;
   final Function()? onNameChangeSaved;
@@ -133,7 +132,6 @@ class JobDetailsPageState {
     @required this.onNewTimeSelected,
     @required this.onSaveSelectedDate,
     @required this.onClientClicked,
-    @required this.onJobClicked,
     @required this.onLocationSaveSelected,
     @required this.onJobTitleTextChanged,
     @required this.onNameChangeSaved,
@@ -232,7 +230,6 @@ class JobDetailsPageState {
     Function(DateTime)? onNewTimeSelected,
     Function()? onSaveSelectedDate,
     Function(Client)? onClientClicked,
-    Function(Job)? onJobClicked,
     Function(LocationDandy)? onLocationSaveSelected,
     Function(String)? onJobTitleTextChanged,
     Function()? onNameChangeSaved,
@@ -295,7 +292,6 @@ class JobDetailsPageState {
       onNewTimeSelected: onNewTimeSelected ?? this.onNewTimeSelected,
       onSaveSelectedDate: onSaveSelectedDate ?? this.onSaveSelectedDate,
       onClientClicked: onClientClicked ?? this.onClientClicked,
-      onJobClicked: onJobClicked ?? this.onJobClicked,
       onLocationSaveSelected: onLocationSaveSelected ?? this.onLocationSaveSelected,
       onJobTitleTextChanged: onJobTitleTextChanged ?? this.onJobTitleTextChanged,
       onNameChangeSaved: onNameChangeSaved ?? this.onNameChangeSaved,
@@ -397,7 +393,6 @@ class JobDetailsPageState {
         onNewEndTimeSelected: (newTime) => store.dispatch(UpdateJobEndTimeAction(store.state.jobDetailsPageState, newTime)),
         onSaveSelectedDate: () => store.dispatch(UpdateJobDateAction(store.state.jobDetailsPageState)),
         onClientClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
-        onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId)),
         onLocationSelected: (location) => store.dispatch(SetNewSelectedLocation(store.state.jobDetailsPageState, location)),
         onLocationSaveSelected: (location) => store.dispatch(UpdateNewLocationAction(store.state.jobDetailsPageState, location)),
         onJobTitleTextChanged: (newText) => store.dispatch(UpdateJobNameAction(store.state.jobDetailsPageState, newText)),
@@ -468,7 +463,6 @@ class JobDetailsPageState {
     onNewTimeSelected: null,
     onSaveSelectedDate: null,
     onClientClicked: null,
-    onJobClicked: null,
     onLocationSelected: null,
     onJobTitleTextChanged: null,
     onNameChangeSaved: null,
@@ -565,7 +559,6 @@ class JobDetailsPageState {
       onNewTimeSelected.hashCode ^
       onSaveSelectedDate.hashCode ^
       onClientClicked.hashCode ^
-      onJobClicked.hashCode ^
       onJobTitleTextChanged.hashCode ^
       onJobTypeSelected.hashCode ^
       onJobTypeSaveSelected.hashCode ^
@@ -639,7 +632,6 @@ class JobDetailsPageState {
               onNewTimeSelected == other.onNewTimeSelected &&
               onSaveSelectedDate == other.onSaveSelectedDate &&
               onClientClicked == other.onClientClicked &&
-              onJobClicked == other.onJobClicked &&
               onJobTitleTextChanged == other.onJobTitleTextChanged &&
               onJobTypeSelected == other.onJobTypeSelected &&
               onJobTypeSaveSelected == other.onJobTypeSaveSelected &&

@@ -24,8 +24,9 @@ class NewJobCalendarItem extends StatelessWidget{
     return TextButton(
       style: Styles.getButtonStyle(),
       onPressed: () {
-        pageState!.onJobClicked!(job!);
-        NavigationUtil.onJobTapped(context, false);
+        if(job!.documentId != null && job!.documentId!.isNotEmpty) {
+          NavigationUtil.onJobTapped(context, false, job!.documentId!);
+        }
       },
       child: Padding(
         padding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 18.0),

@@ -89,8 +89,9 @@ class ReminderNotificationsPage extends StatelessWidget{
                                   EventSender().sendEvent(eventName: EventNames.BT_VIEW_FEATURED_POSES_FROM_NOTIFICATIONS);
                                   NavigationUtil.onPosesSelected(context, null, false, true, false);
                                 } else {
-                                  EventSender().sendEvent(eventName: EventNames.BT_VIEW_FEATURED_POSES_FROM_NOTIFICATIONS);
-                                  NavigationUtil.onJobTapped(context, false);
+                                  if(pageState.reminders!.elementAt(index).jobDocumentId != null) {
+                                    NavigationUtil.onJobTapped(context, false, pageState.reminders!.elementAt(index).jobDocumentId!);
+                                  }
                                 }
                                 pageState.onReminderSelected!(pageState.reminders!.elementAt(index));
                               },

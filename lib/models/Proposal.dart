@@ -17,8 +17,9 @@ class Proposal {
   int? id;
   String? detailsMessage = '';
   String? shareMessage = '';
-  Contract? contract;
-  List<Contract>? contracts;
+  //TODO Do not use this in the app anywhere except in the LoginPageMiddleware
+  // Contract? contract; //Commented out only to see where i need to change code.
+  List<Contract>? contracts = [];
   List<Questionnaire>? questionnaires;
   Feedback? feedback;
   bool? contractSeenByClient = false;

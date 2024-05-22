@@ -38,6 +38,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:redux/redux.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:uuid/uuid.dart';
+import 'package:uuid/v4.dart';
 
 import '../../data_layer/local_db/SembastDb.dart';
 import '../../data_layer/local_db/daos/ClientDao.dart';
@@ -708,6 +709,18 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           if(questionnaireTemplates != null && questionnaireTemplates.isNotEmpty && questionnairesCount == 0) {
             for(Questionnaire questionnaire in questionnaireTemplates) {
               QuestionnairesDao.insert(questionnaire);
+            }
+          }
+
+          await JobDao.syncAllFromFireStore();
+          List<Job> allJobs = await JobDao.getAllJobs();
+          for(Job job in allJobs) {
+            if(job.proposal?.contract != null) {
+              job.proposal?.contracts ??= [];
+              job.proposal?.contract!.documentId = const UuidV4().generate();
+              job.proposal?.contracts?.add(job.proposal!.contract!);
+              job.proposal?.contract = null;
+              await JobDao.update(job);
             }
           }
 

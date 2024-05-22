@@ -88,7 +88,7 @@ class _GoToJobPosesBottomSheetState extends State<GoToJobPosesBottomSheet> with 
                        onTap: () {
                          pageState.onJobClicked!(job.documentId!);
                          Navigator.of(context).pop();
-                         NavigationUtil.onJobTapped(context, false);
+                         NavigationUtil.onJobTapped(context, false, job.documentId!);
                          EventSender().sendEvent(eventName: EventNames.NAV_TO_JOB_POSES_FROM_BOTTOM_SHEET);
                        },
                        child: Container(

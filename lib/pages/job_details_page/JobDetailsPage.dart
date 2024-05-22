@@ -44,10 +44,10 @@ import 'PosesCard.dart';
 import 'SunsetWeatherCard.dart';
 
 class JobDetailsPage extends StatefulWidget {
-  const JobDetailsPage({Key? key, this.destination, this.comingFromOnBoarding = false, this.jobDocumentId, this.comingFromProgress = false}) : super(key: key);
+  const JobDetailsPage({Key? key, this.destination, this.comingFromOnBoarding = false, required this.jobDocumentId, this.comingFromProgress = false}) : super(key: key);
   final JobDetailsPage? destination;
   final bool? comingFromOnBoarding;
-  final String? jobDocumentId;
+  final String jobDocumentId;
   final bool? comingFromProgress;
 
   @override
@@ -67,7 +67,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
   bool isFabExpanded = false;
   bool dialVisible = true;
   JobDetailsPageState? pageStateLocal;
-  String? jobDocumentId;
+  String jobDocumentId;
   bool? comingFromProgress;
 
   Future<void> _ackAlert(BuildContext context, JobDetailsPageState pageState) {
@@ -122,7 +122,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
         converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
         onInit: (appState) => {
             // appState.dispatch(ClearPreviousStateAction(appState.state.jobDetailsPageState)),
-          if(jobDocumentId != null) {
+          if(jobDocumentId.isNotEmpty) {
             appState.dispatch(SetJobInfo(appState.state.jobDetailsPageState, jobDocumentId)),
           }
         },

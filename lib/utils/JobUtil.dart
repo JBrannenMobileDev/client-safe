@@ -2,6 +2,8 @@ import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 
+import '../models/Contract.dart';
+
 class JobUtil {
   static List<Job> getJobsInProgress(List<Job> jobs) {
     DateTime now = DateTime.now();
@@ -54,7 +56,12 @@ class JobUtil {
   }
 
   static getJobsWithUnsignedContracts(List<Job> jobs) {
-    return jobs.where((job) => job.proposal != null && job.proposal?.contract != null && !(job.proposal?.contract?.signedByClient ?? false)).toList();
+    List<Job> jobsWithUnsignedContractsOldJobsSingleContract = jobs.where((job) => job.proposal != null && job.proposal?.contract != null && !(job.proposal?.contract?.signedByClient ?? false)).toList();
+    List<Contract> contracts = [];
+    for(Job job in jobsWithUnsignedContracts) {
+
+    }
+    return contracts;
   }
 
   static getJobsWithQuestionnaires(List<Job> jobs) {

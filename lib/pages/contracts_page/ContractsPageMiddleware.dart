@@ -6,6 +6,7 @@ import 'package:dandylight/models/Contract.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
+import 'package:uuid/v4.dart';
 
 import '../../data_layer/local_db/daos/ContractTemplateDao.dart';
 import '../../models/Job.dart';
@@ -37,19 +38,23 @@ class ContractsPageMiddleware extends MiddlewareClass<AppState> {
     contract.photographerSignature = '${profile!.firstName} ${profile.lastName}';
     contract.signedByClient = false;
     contract.clientSignature = '';
+    contract.documentId = const UuidV4().generate();
     Job job = (await JobDao.getJobById(action.jobDocumentId!))!;
-    job.proposal!.contract = contract;
-    await JobDao.update(job);
-    EventSender().sendEvent(eventName: EventNames.CONTRACT_ADDED_TO_JOB);
-    store.dispatch(SetJobInfoWithJobDocumentId(store.state.jobDetailsPageState!, job.documentId!));
+    if(job.proposal != null) {
+      if(job.proposal!.contracts == null) job.proposal!.contracts = [];
+      job.proposal!.contracts!.add(contract);
+      await JobDao.update(job);
+      EventSender().sendEvent(eventName: EventNames.CONTRACT_ADDED_TO_JOB);
+      store.dispatch(SetJobInfo(store.state.jobDetailsPageState!, job.documentId!));
 
-    if(!profile.progress.addContractToJob) {
-      profile.progress.addContractToJob = true;
-      await ProfileDao.update(profile);
-      store.dispatch(LoadJobsAction(store.state.dashboardPageState));
-      EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
-        EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.ADD_CONTRACT_TO_JOB,
-      });
+      if(!profile.progress.addContractToJob) {
+        profile.progress.addContractToJob = true;
+        await ProfileDao.update(profile);
+        store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+        EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
+          EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.ADD_CONTRACT_TO_JOB,
+        });
+      }
     }
   }
 

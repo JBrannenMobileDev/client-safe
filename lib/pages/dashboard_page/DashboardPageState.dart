@@ -10,6 +10,7 @@ import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
 import '../../models/AppSettings.dart';
+import '../../models/Contract.dart';
 import '../../models/JobReminder.dart';
 import '../../models/JobStage.dart';
 import '../../models/LocationDandy.dart';
@@ -42,10 +43,10 @@ class DashboardPageState {
   final List<Job>? allJobs;
   final List<Job>? activeJobs;
   final List<Job>? jobsThisWeek;
-  final List<Job>? activeJobsWithUnsignedContract;
-  final List<Job>? activeJobsWithSignedContract;
-  final List<Job>? allJobsWithUnsignedContract;
-  final List<Job>? allJobsWithSignedContract;
+  final List<Contract>? activeUnsignedContract;
+  final List<Contract>? activeSignedContract;
+  final List<Contract>? allUnsignedContracts;
+  final List<Contract>? allSignedContracts;
   final List<PieChartSectionData>? jobTypeBreakdownData;
   final List<PieChartSectionData>? leadSourcesData;
   final int? unseenNotificationCount;
@@ -129,10 +130,10 @@ class DashboardPageState {
     this.shouldShowAppUpdate,
     this.markUpdateAsSeen,
     this.appSettings,
-    this.activeJobsWithSignedContract,
-    this.activeJobsWithUnsignedContract,
-    this.allJobsWithSignedContract,
-    this.allJobsWithUnsignedContract,
+    this.activeSignedContract,
+    this.activeUnsignedContract,
+    this.allSignedContracts,
+    this.allUnsignedContracts,
     this.notCompleteQuestionnaires,
     this.completedQuestionnaires,
     this.allQuestionnaires,
@@ -163,10 +164,10 @@ class DashboardPageState {
     List<Job>? jobsThisWeek,
     List<JobStage>? allUserStages,
     List<Pose>? unseenFeaturedPoses,
-    List<Job>? activeJobsWithUnsignedContract,
-    List<Job>? activeJobsWithSignedContract,
-    List<Job>? allJobsWithUnsignedContract,
-    List<Job>? allJobsWithSignedContract,
+    List<Contract>? activeUnsignedContract,
+    List<Contract>? activeSignedContract,
+    List<Contract>? allUnsignedContract,
+    List<Contract>? allSignedContract,
     int? unseenNotificationCount,
     List<LineChartMonthData>? lineChartMonthData,
     Function()? onAddClicked,
@@ -252,10 +253,10 @@ class DashboardPageState {
       shouldShowAppUpdate : shouldShowAppUpdate ?? this.shouldShowAppUpdate,
       markUpdateAsSeen: markUpdateAsSeen ?? this.markUpdateAsSeen,
       appSettings: appSettings ?? this.appSettings,
-      activeJobsWithSignedContract: activeJobsWithSignedContract ?? this.activeJobsWithSignedContract,
-      activeJobsWithUnsignedContract: activeJobsWithUnsignedContract ?? this.activeJobsWithUnsignedContract,
-      allJobsWithSignedContract: allJobsWithSignedContract ?? this.allJobsWithSignedContract,
-      allJobsWithUnsignedContract: allJobsWithUnsignedContract ?? this.allJobsWithUnsignedContract,
+      activeSignedContract: activeSignedContract ?? this.activeSignedContract,
+      activeUnsignedContract: activeUnsignedContract ?? this.activeUnsignedContract,
+      allSignedContracts: allSignedContract ?? this.allSignedContracts,
+      allUnsignedContracts: allUnsignedContract ?? this.allUnsignedContracts,
       completedQuestionnaires: completedQuestionnaires ?? this.completedQuestionnaires,
       notCompleteQuestionnaires: notCompleteQuestionnaires ?? this.notCompleteQuestionnaires,
       allQuestionnaires: allQuestionnaires ?? this.allQuestionnaires,
@@ -302,17 +303,15 @@ class DashboardPageState {
       shouldShowRequestReview: store.state.dashboardPageState!.shouldShowRequestReview,
       shouldShowAppUpdate: store.state.dashboardPageState!.shouldShowAppUpdate,
       appSettings: store.state.dashboardPageState!.appSettings,
-      activeJobsWithSignedContract: store.state.dashboardPageState!.activeJobsWithSignedContract,
-      activeJobsWithUnsignedContract: store.state.dashboardPageState!.activeJobsWithUnsignedContract,
-      allJobsWithSignedContract: store.state.dashboardPageState!.allJobsWithSignedContract,
-      allJobsWithUnsignedContract: store.state.dashboardPageState!.allJobsWithUnsignedContract,
+      activeSignedContract: store.state.dashboardPageState!.activeSignedContract,
+      activeUnsignedContract: store.state.dashboardPageState!.activeUnsignedContract,
+      allSignedContracts: store.state.dashboardPageState!.allSignedContracts,
+      allUnsignedContracts: store.state.dashboardPageState!.allUnsignedContracts,
       completedQuestionnaires: store.state.dashboardPageState!.completedQuestionnaires,
       notCompleteQuestionnaires: store.state.dashboardPageState!.notCompleteQuestionnaires,
       allQuestionnaires: store.state.dashboardPageState!.allQuestionnaires,
       onLeadClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
       onJobClicked: (job) {
-        store.dispatch(SetJobInfo(store.state.jobDetailsPageState!, job));
-        store.dispatch(FetchJobPosesAction(store.state.jobDetailsPageState!));
         store.dispatch(SetGoToPosesJob(store.state.dashboardPageState, null));
       },
       onViewAllHideSelected: () => store.dispatch(UpdateShowHideState(store.state.dashboardPageState)),
@@ -320,7 +319,6 @@ class DashboardPageState {
       onReminderSelected:  (reminder) {
         if(reminder.payload != JobReminder.POSE_FEATURED_ID) {
           store.dispatch(SetNotificationToSeen(store.state.dashboardPageState, reminder));
-          store.dispatch(SetJobInfoWithJobDocumentId(store.state.jobDetailsPageState!, reminder.jobDocumentId!));
         } else {
           store.dispatch(SetUnseenFeaturedPosesAsSeenAction(store.state.dashboardPageState));
         }
@@ -377,10 +375,10 @@ class DashboardPageState {
     unconvertedLeadCount: 0,
     jobTypePieChartRowData: [],
     leadSourcePieChartRowData: [],
-    activeJobsWithUnsignedContract: [],
-    activeJobsWithSignedContract: [],
-    allJobsWithUnsignedContract: [],
-    allJobsWithSignedContract: [],
+    activeUnsignedContract: [],
+    activeSignedContract: [],
+    allUnsignedContracts: [],
+    allSignedContracts: [],
     profile: null,
     subscriptionState: null,
     markAllAsSeen: null,
@@ -454,10 +452,10 @@ class DashboardPageState {
       updateCanShowRequestReview.hashCode ^
       markUpdateAsSeen.hashCode ^
       appSettings.hashCode ^
-      activeJobsWithUnsignedContract.hashCode ^
-      activeJobsWithUnsignedContract.hashCode ^
-      allJobsWithUnsignedContract.hashCode ^
-      allJobsWithSignedContract.hashCode ^
+      activeUnsignedContract.hashCode ^
+      activeUnsignedContract.hashCode ^
+      allUnsignedContracts.hashCode ^
+      allSignedContracts.hashCode ^
       completedQuestionnaires.hashCode ^
       notCompleteQuestionnaires.hashCode ^
       allQuestionnaires.hashCode ^
@@ -517,10 +515,10 @@ class DashboardPageState {
               updateCanShowPMF == other.updateCanShowPMF &&
               updateCanShowRequestReview == other.updateCanShowRequestReview &&
               markUpdateAsSeen == other.markUpdateAsSeen &&
-              activeJobsWithUnsignedContract == other.activeJobsWithUnsignedContract &&
-              activeJobsWithSignedContract == other.activeJobsWithSignedContract &&
-              allJobsWithSignedContract == other.allJobsWithSignedContract &&
-              allJobsWithUnsignedContract == other.allJobsWithUnsignedContract &&
+              activeUnsignedContract == other.activeUnsignedContract &&
+              activeSignedContract == other.activeSignedContract &&
+              allSignedContracts == other.allSignedContracts &&
+              allUnsignedContracts == other.allUnsignedContracts &&
               completedQuestionnaires == other.completedQuestionnaires &&
               notCompleteQuestionnaires == other.notCompleteQuestionnaires &&
               allQuestionnaires == other.allQuestionnaires &&
