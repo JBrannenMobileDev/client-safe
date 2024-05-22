@@ -1,0 +1,1701 @@
+Subject: [PATCH] progress on multiple contracts...
+---
+Index: .flutter-plugins-dependencies
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.flutter-plugins-dependencies b/.flutter-plugins-dependencies
+--- a/.flutter-plugins-dependencies	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/.flutter-plugins-dependencies	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -1,1 +1,1 @@
+-{"info":"This is a generated file; do not edit or check into version control.","plugins":{"ios":[{"name":"cloud_firestore","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/cloud_firestore-4.15.9/","native_build":true,"dependencies":["firebase_core"]},{"name":"contacts_service","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/contacts_service-0.6.3/","native_build":true,"dependencies":[]},{"name":"device_calendar","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/device_calendar-4.3.2/","native_build":true,"dependencies":[]},{"name":"device_info_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/device_info_plus-9.1.2/","native_build":true,"dependencies":[]},{"name":"file_picker","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/file_picker-8.0.0+1/","native_build":true,"dependencies":[]},{"name":"file_saver","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/file_saver-0.2.12/","native_build":true,"dependencies":[]},{"name":"firebase_analytics","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_analytics-10.8.10/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_auth","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_auth-4.17.9/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_core","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_core-2.27.1/","native_build":true,"dependencies":[]},{"name":"firebase_crashlytics","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_crashlytics-3.4.19/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_messaging","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_messaging-14.7.20/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_storage","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_storage-11.6.10/","native_build":true,"dependencies":["firebase_core"]},{"name":"flutter_app_badger","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_app_badger-1.5.0/","native_build":true,"dependencies":[]},{"name":"flutter_keyboard_visibility","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility-6.0.0/","native_build":true,"dependencies":[]},{"name":"flutter_local_notifications","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_local_notifications-17.0.0/","native_build":true,"dependencies":[]},{"name":"flutter_native_timezone","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_native_timezone-2.0.0/","native_build":true,"dependencies":[]},{"name":"flutter_share","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_share-2.0.0/","native_build":true,"dependencies":[]},{"name":"fluttertoast","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/fluttertoast-8.2.4/","native_build":true,"dependencies":[]},{"name":"geolocator_apple","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/geolocator_apple-2.3.7/","native_build":true,"dependencies":[]},{"name":"google_maps_flutter_ios","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/google_maps_flutter_ios-2.5.0/","native_build":true,"dependencies":[]},{"name":"google_sign_in_ios","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/google_sign_in_ios-5.7.4/","shared_darwin_source":true,"native_build":true,"dependencies":[]},{"name":"image_cropper","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/image_cropper-4.0.1/","native_build":true,"dependencies":[]},{"name":"image_picker_ios","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/image_picker_ios-0.8.9+2/","native_build":true,"dependencies":[]},{"name":"in_app_review","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/in_app_review-2.0.9/","native_build":true,"dependencies":[]},{"name":"irondash_engine_context","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/irondash_engine_context-0.5.2/","native_build":true,"dependencies":[]},{"name":"mixpanel_flutter","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/mixpanel_flutter-2.2.0/","native_build":true,"dependencies":[]},{"name":"package_info","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/package_info-2.0.2/","native_build":true,"dependencies":[]},{"name":"package_info_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/package_info_plus-6.0.0/","native_build":true,"dependencies":[]},{"name":"path_provider_foundation","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/path_provider_foundation-2.3.2/","shared_darwin_source":true,"native_build":true,"dependencies":[]},{"name":"permission_handler_apple","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/permission_handler_apple-9.4.2/","native_build":true,"dependencies":[]},{"name":"purchases_flutter","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/purchases_flutter-6.24.0/","native_build":true,"dependencies":[]},{"name":"share_extend","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/share_extend-2.0.0/","native_build":true,"dependencies":[]},{"name":"share_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/share_plus-7.2.2/","native_build":true,"dependencies":[]},{"name":"shared_preferences_foundation","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/shared_preferences_foundation-2.3.5/","shared_darwin_source":true,"native_build":true,"dependencies":[]},{"name":"sign_in_with_apple","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/sign_in_with_apple-6.0.0/","native_build":true,"dependencies":[]},{"name":"sqflite","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/sqflite-2.3.2/","shared_darwin_source":true,"native_build":true,"dependencies":[]},{"name":"super_native_extensions","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/super_native_extensions-0.8.5/","native_build":true,"dependencies":["irondash_engine_context","device_info_plus"]},{"name":"url_launcher_ios","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/url_launcher_ios-6.2.5/","native_build":true,"dependencies":[]}],"android":[{"name":"android_intent_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/android_intent_plus-5.0.1/","native_build":true,"dependencies":[]},{"name":"cloud_firestore","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/cloud_firestore-4.15.9/","native_build":true,"dependencies":["firebase_core"]},{"name":"contacts_service","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/contacts_service-0.6.3/","native_build":true,"dependencies":[]},{"name":"device_calendar","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/device_calendar-4.3.2/","native_build":true,"dependencies":[]},{"name":"device_info_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/device_info_plus-9.1.2/","native_build":true,"dependencies":[]},{"name":"file_picker","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/file_picker-8.0.0+1/","native_build":true,"dependencies":["flutter_plugin_android_lifecycle"]},{"name":"file_saver","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/file_saver-0.2.12/","native_build":true,"dependencies":[]},{"name":"firebase_analytics","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_analytics-10.8.10/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_auth","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_auth-4.17.9/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_core","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_core-2.27.1/","native_build":true,"dependencies":[]},{"name":"firebase_crashlytics","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_crashlytics-3.4.19/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_messaging","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_messaging-14.7.20/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_storage","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_storage-11.6.10/","native_build":true,"dependencies":["firebase_core"]},{"name":"flutter_app_badger","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_app_badger-1.5.0/","native_build":true,"dependencies":[]},{"name":"flutter_keyboard_visibility","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility-6.0.0/","native_build":true,"dependencies":[]},{"name":"flutter_local_notifications","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_local_notifications-17.0.0/","native_build":true,"dependencies":[]},{"name":"flutter_native_timezone","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_native_timezone-2.0.0/","native_build":true,"dependencies":[]},{"name":"flutter_plugin_android_lifecycle","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.17/","native_build":true,"dependencies":[]},{"name":"flutter_share","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_share-2.0.0/","native_build":true,"dependencies":[]},{"name":"fluttertoast","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/fluttertoast-8.2.4/","native_build":true,"dependencies":[]},{"name":"geolocator_android","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/geolocator_android-4.5.4/","native_build":true,"dependencies":[]},{"name":"google_api_headers","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/google_api_headers-1.0.0/","native_build":true,"dependencies":["package_info"]},{"name":"google_maps_flutter_android","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/google_maps_flutter_android-2.7.0/","native_build":true,"dependencies":["flutter_plugin_android_lifecycle"]},{"name":"google_sign_in_android","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/google_sign_in_android-6.1.22/","native_build":true,"dependencies":[]},{"name":"image_cropper","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/image_cropper-4.0.1/","native_build":true,"dependencies":[]},{"name":"image_picker_android","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/image_picker_android-0.8.9+3/","native_build":true,"dependencies":["flutter_plugin_android_lifecycle"]},{"name":"in_app_review","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/in_app_review-2.0.9/","native_build":true,"dependencies":[]},{"name":"irondash_engine_context","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/irondash_engine_context-0.5.2/","native_build":true,"dependencies":[]},{"name":"mixpanel_flutter","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/mixpanel_flutter-2.2.0/","native_build":true,"dependencies":[]},{"name":"package_info","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/package_info-2.0.2/","native_build":true,"dependencies":[]},{"name":"package_info_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/package_info_plus-6.0.0/","native_build":true,"dependencies":[]},{"name":"path_provider_android","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/path_provider_android-2.2.2/","native_build":true,"dependencies":[]},{"name":"permission_handler_android","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/permission_handler_android-12.0.5/","native_build":true,"dependencies":[]},{"name":"purchases_flutter","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/purchases_flutter-6.24.0/","native_build":true,"dependencies":[]},{"name":"share_extend","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/share_extend-2.0.0/","native_build":true,"dependencies":[]},{"name":"share_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/share_plus-7.2.2/","native_build":true,"dependencies":[]},{"name":"shared_preferences_android","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/shared_preferences_android-2.2.1/","native_build":true,"dependencies":[]},{"name":"sign_in_with_apple","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/sign_in_with_apple-6.0.0/","native_build":true,"dependencies":[]},{"name":"sqflite","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/sqflite-2.3.2/","native_build":true,"dependencies":[]},{"name":"super_native_extensions","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/super_native_extensions-0.8.5/","native_build":true,"dependencies":["irondash_engine_context","device_info_plus"]},{"name":"url_launcher_android","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.0/","native_build":true,"dependencies":[]}],"macos":[{"name":"cloud_firestore","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/cloud_firestore-4.15.9/","native_build":true,"dependencies":["firebase_core"]},{"name":"device_info_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/device_info_plus-9.1.2/","native_build":true,"dependencies":[]},{"name":"file_saver","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/file_saver-0.2.12/","native_build":true,"dependencies":[]},{"name":"file_selector_macos","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/file_selector_macos-0.9.3+3/","native_build":true,"dependencies":[]},{"name":"firebase_analytics","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_analytics-10.8.10/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_auth","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_auth-4.17.9/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_core","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_core-2.27.1/","native_build":true,"dependencies":[]},{"name":"firebase_crashlytics","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_crashlytics-3.4.19/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_messaging","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_messaging-14.7.20/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_storage","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_storage-11.6.10/","native_build":true,"dependencies":["firebase_core"]},{"name":"flutter_app_badger","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_app_badger-1.5.0/","native_build":true,"dependencies":[]},{"name":"flutter_keyboard_visibility_macos","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility_macos-1.0.0/","native_build":false,"dependencies":[]},{"name":"flutter_local_notifications","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_local_notifications-17.0.0/","native_build":true,"dependencies":[]},{"name":"flutter_native_timezone","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_native_timezone-2.0.0/","native_build":true,"dependencies":[]},{"name":"geolocator_apple","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/geolocator_apple-2.3.7/","native_build":true,"dependencies":[]},{"name":"google_sign_in_ios","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/google_sign_in_ios-5.7.4/","shared_darwin_source":true,"native_build":true,"dependencies":[]},{"name":"image_picker_macos","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/image_picker_macos-0.2.1+1/","native_build":false,"dependencies":["file_selector_macos"]},{"name":"in_app_review","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/in_app_review-2.0.9/","native_build":true,"dependencies":[]},{"name":"irondash_engine_context","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/irondash_engine_context-0.5.2/","native_build":true,"dependencies":[]},{"name":"package_info","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/package_info-2.0.2/","native_build":true,"dependencies":[]},{"name":"package_info_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/package_info_plus-6.0.0/","native_build":true,"dependencies":[]},{"name":"path_provider_foundation","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/path_provider_foundation-2.3.2/","shared_darwin_source":true,"native_build":true,"dependencies":[]},{"name":"purchases_flutter","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/purchases_flutter-6.24.0/","native_build":true,"dependencies":[]},{"name":"share_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/share_plus-7.2.2/","native_build":true,"dependencies":[]},{"name":"shared_preferences_foundation","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/shared_preferences_foundation-2.3.5/","shared_darwin_source":true,"native_build":true,"dependencies":[]},{"name":"sign_in_with_apple","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/sign_in_with_apple-6.0.0/","native_build":true,"dependencies":[]},{"name":"sqflite","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/sqflite-2.3.2/","shared_darwin_source":true,"native_build":true,"dependencies":[]},{"name":"super_native_extensions","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/super_native_extensions-0.8.5/","native_build":true,"dependencies":["irondash_engine_context","device_info_plus"]},{"name":"url_launcher_macos","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/url_launcher_macos-3.1.0/","native_build":true,"dependencies":[]}],"linux":[{"name":"device_info_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/device_info_plus-9.1.2/","native_build":false,"dependencies":[]},{"name":"file_saver","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/file_saver-0.2.12/","native_build":true,"dependencies":["path_provider_linux"]},{"name":"file_selector_linux","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/file_selector_linux-0.9.2+1/","native_build":true,"dependencies":[]},{"name":"flutter_keyboard_visibility_linux","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility_linux-1.0.0/","native_build":false,"dependencies":[]},{"name":"image_picker_linux","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/image_picker_linux-0.2.1+1/","native_build":false,"dependencies":["file_selector_linux"]},{"name":"irondash_engine_context","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/irondash_engine_context-0.5.2/","native_build":true,"dependencies":[]},{"name":"package_info_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/package_info_plus-6.0.0/","native_build":false,"dependencies":[]},{"name":"path_provider_linux","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/path_provider_linux-2.2.1/","native_build":false,"dependencies":[]},{"name":"share_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/share_plus-7.2.2/","native_build":false,"dependencies":["url_launcher_linux"]},{"name":"shared_preferences_linux","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/shared_preferences_linux-2.3.2/","native_build":false,"dependencies":["path_provider_linux"]},{"name":"super_native_extensions","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/super_native_extensions-0.8.5/","native_build":true,"dependencies":["irondash_engine_context","device_info_plus"]},{"name":"url_launcher_linux","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/url_launcher_linux-3.1.1/","native_build":true,"dependencies":[]}],"windows":[{"name":"cloud_firestore","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/cloud_firestore-4.15.9/","native_build":true,"dependencies":["firebase_core"]},{"name":"device_info_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/device_info_plus-9.1.2/","native_build":false,"dependencies":[]},{"name":"file_saver","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/file_saver-0.2.12/","native_build":true,"dependencies":["path_provider_windows"]},{"name":"file_selector_windows","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/file_selector_windows-0.9.3+1/","native_build":true,"dependencies":[]},{"name":"firebase_auth","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_auth-4.17.9/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_core","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_core-2.27.1/","native_build":true,"dependencies":[]},{"name":"firebase_storage","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_storage-11.6.10/","native_build":true,"dependencies":["firebase_core"]},{"name":"flutter_keyboard_visibility_windows","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility_windows-1.0.0/","native_build":false,"dependencies":[]},{"name":"geolocator_windows","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/geolocator_windows-0.2.3/","native_build":true,"dependencies":[]},{"name":"image_picker_windows","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/image_picker_windows-0.2.1+1/","native_build":false,"dependencies":["file_selector_windows"]},{"name":"irondash_engine_context","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/irondash_engine_context-0.5.2/","native_build":true,"dependencies":[]},{"name":"package_info_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/package_info_plus-6.0.0/","native_build":false,"dependencies":[]},{"name":"path_provider_windows","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/path_provider_windows-2.2.1/","native_build":false,"dependencies":[]},{"name":"permission_handler_windows","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/permission_handler_windows-0.2.1/","native_build":true,"dependencies":[]},{"name":"share_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/share_plus-7.2.2/","native_build":true,"dependencies":["url_launcher_windows"]},{"name":"shared_preferences_windows","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/shared_preferences_windows-2.3.2/","native_build":false,"dependencies":["path_provider_windows"]},{"name":"super_native_extensions","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/super_native_extensions-0.8.5/","native_build":true,"dependencies":["irondash_engine_context","device_info_plus"]},{"name":"url_launcher_windows","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/url_launcher_windows-3.1.1/","native_build":true,"dependencies":[]}],"web":[{"name":"cloud_firestore_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/cloud_firestore_web-3.10.9/","dependencies":["firebase_core_web"]},{"name":"device_info_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/device_info_plus-9.1.2/","dependencies":[]},{"name":"file_picker","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/file_picker-8.0.0+1/","dependencies":[]},{"name":"file_saver","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/file_saver-0.2.12/","dependencies":[]},{"name":"firebase_analytics_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_analytics_web-0.5.5+22/","dependencies":["firebase_core_web"]},{"name":"firebase_auth_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_auth_web-5.10.0/","dependencies":["firebase_core_web"]},{"name":"firebase_core_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_core_web-2.12.0/","dependencies":[]},{"name":"firebase_messaging_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_messaging_web-3.7.0/","dependencies":["firebase_core_web"]},{"name":"firebase_storage_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_storage_web-3.8.0/","dependencies":["firebase_core_web"]},{"name":"flutter_keyboard_visibility_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility_web-2.0.0/","dependencies":[]},{"name":"flutter_native_timezone","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_native_timezone-2.0.0/","dependencies":[]},{"name":"fluttertoast","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/fluttertoast-8.2.4/","dependencies":[]},{"name":"geolocator_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/geolocator_web-3.0.0/","dependencies":[]},{"name":"google_maps_flutter_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/google_maps_flutter_web-0.5.6+2/","dependencies":[]},{"name":"google_sign_in_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/google_sign_in_web-0.12.4/","dependencies":[]},{"name":"image_cropper_for_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/image_cropper_for_web-2.0.0/","dependencies":[]},{"name":"image_picker_for_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/image_picker_for_web-3.0.3/","dependencies":[]},{"name":"mixpanel_flutter","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/mixpanel_flutter-2.2.0/","dependencies":[]},{"name":"package_info_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/package_info_plus-6.0.0/","dependencies":[]},{"name":"permission_handler_html","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/permission_handler_html-0.1.1/","dependencies":[]},{"name":"share_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/share_plus-7.2.2/","dependencies":["url_launcher_web"]},{"name":"shared_preferences_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/shared_preferences_web-2.3.0/","dependencies":[]},{"name":"sign_in_with_apple_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/sign_in_with_apple_web-2.0.0/","dependencies":[]},{"name":"super_native_extensions","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/super_native_extensions-0.8.5/","dependencies":["device_info_plus"]},{"name":"url_launcher_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/url_launcher_web-2.3.0/","dependencies":[]}]},"dependencyGraph":[{"name":"android_intent_plus","dependencies":[]},{"name":"cloud_firestore","dependencies":["cloud_firestore_web","firebase_core"]},{"name":"cloud_firestore_web","dependencies":["firebase_core","firebase_core_web"]},{"name":"contacts_service","dependencies":[]},{"name":"device_calendar","dependencies":[]},{"name":"device_info_plus","dependencies":[]},{"name":"file_picker","dependencies":["flutter_plugin_android_lifecycle"]},{"name":"file_saver","dependencies":["path_provider","path_provider_windows","path_provider_linux"]},{"name":"file_selector_linux","dependencies":[]},{"name":"file_selector_macos","dependencies":[]},{"name":"file_selector_windows","dependencies":[]},{"name":"firebase_analytics","dependencies":["firebase_analytics_web","firebase_core"]},{"name":"firebase_analytics_web","dependencies":["firebase_core","firebase_core_web"]},{"name":"firebase_auth","dependencies":["firebase_auth_web","firebase_core"]},{"name":"firebase_auth_web","dependencies":["firebase_core","firebase_core_web"]},{"name":"firebase_core","dependencies":["firebase_core_web"]},{"name":"firebase_core_web","dependencies":[]},{"name":"firebase_crashlytics","dependencies":["firebase_core"]},{"name":"firebase_messaging","dependencies":["firebase_core","firebase_messaging_web"]},{"name":"firebase_messaging_web","dependencies":["firebase_core","firebase_core_web"]},{"name":"firebase_storage","dependencies":["firebase_core","firebase_storage_web"]},{"name":"firebase_storage_web","dependencies":["firebase_core","firebase_core_web"]},{"name":"flutter_app_badger","dependencies":[]},{"name":"flutter_keyboard_visibility","dependencies":["flutter_keyboard_visibility_linux","flutter_keyboard_visibility_macos","flutter_keyboard_visibility_web","flutter_keyboard_visibility_windows"]},{"name":"flutter_keyboard_visibility_linux","dependencies":[]},{"name":"flutter_keyboard_visibility_macos","dependencies":[]},{"name":"flutter_keyboard_visibility_web","dependencies":[]},{"name":"flutter_keyboard_visibility_windows","dependencies":[]},{"name":"flutter_local_notifications","dependencies":[]},{"name":"flutter_native_timezone","dependencies":[]},{"name":"flutter_plugin_android_lifecycle","dependencies":[]},{"name":"flutter_share","dependencies":[]},{"name":"fluttertoast","dependencies":[]},{"name":"geolocator","dependencies":["geolocator_android","geolocator_apple","geolocator_web","geolocator_windows"]},{"name":"geolocator_android","dependencies":[]},{"name":"geolocator_apple","dependencies":[]},{"name":"geolocator_web","dependencies":[]},{"name":"geolocator_windows","dependencies":[]},{"name":"google_api_headers","dependencies":["package_info"]},{"name":"google_maps_flutter","dependencies":["google_maps_flutter_android","google_maps_flutter_ios","google_maps_flutter_web"]},{"name":"google_maps_flutter_android","dependencies":["flutter_plugin_android_lifecycle"]},{"name":"google_maps_flutter_ios","dependencies":[]},{"name":"google_maps_flutter_web","dependencies":[]},{"name":"google_sign_in","dependencies":["google_sign_in_android","google_sign_in_ios","google_sign_in_web"]},{"name":"google_sign_in_android","dependencies":[]},{"name":"google_sign_in_ios","dependencies":[]},{"name":"google_sign_in_web","dependencies":[]},{"name":"image_cropper","dependencies":["image_cropper_for_web"]},{"name":"image_cropper_for_web","dependencies":[]},{"name":"image_picker","dependencies":["image_picker_android","image_picker_for_web","image_picker_ios","image_picker_linux","image_picker_macos","image_picker_windows"]},{"name":"image_picker_android","dependencies":["flutter_plugin_android_lifecycle"]},{"name":"image_picker_for_web","dependencies":[]},{"name":"image_picker_ios","dependencies":[]},{"name":"image_picker_linux","dependencies":["file_selector_linux"]},{"name":"image_picker_macos","dependencies":["file_selector_macos"]},{"name":"image_picker_windows","dependencies":["file_selector_windows"]},{"name":"in_app_review","dependencies":[]},{"name":"irondash_engine_context","dependencies":[]},{"name":"mixpanel_flutter","dependencies":[]},{"name":"package_info","dependencies":[]},{"name":"package_info_plus","dependencies":[]},{"name":"path_provider","dependencies":["path_provider_android","path_provider_foundation","path_provider_linux","path_provider_windows"]},{"name":"path_provider_android","dependencies":[]},{"name":"path_provider_foundation","dependencies":[]},{"name":"path_provider_linux","dependencies":[]},{"name":"path_provider_windows","dependencies":[]},{"name":"permission_handler","dependencies":["permission_handler_android","permission_handler_apple","permission_handler_html","permission_handler_windows"]},{"name":"permission_handler_android","dependencies":[]},{"name":"permission_handler_apple","dependencies":[]},{"name":"permission_handler_html","dependencies":[]},{"name":"permission_handler_windows","dependencies":[]},{"name":"purchases_flutter","dependencies":[]},{"name":"share_extend","dependencies":[]},{"name":"share_plus","dependencies":["url_launcher_web","url_launcher_windows","url_launcher_linux"]},{"name":"shared_preferences","dependencies":["shared_preferences_android","shared_preferences_foundation","shared_preferences_linux","shared_preferences_web","shared_preferences_windows"]},{"name":"shared_preferences_android","dependencies":[]},{"name":"shared_preferences_foundation","dependencies":[]},{"name":"shared_preferences_linux","dependencies":["path_provider_linux"]},{"name":"shared_preferences_web","dependencies":[]},{"name":"shared_preferences_windows","dependencies":["path_provider_windows"]},{"name":"sign_in_with_apple","dependencies":["sign_in_with_apple_web"]},{"name":"sign_in_with_apple_web","dependencies":[]},{"name":"sqflite","dependencies":[]},{"name":"super_native_extensions","dependencies":["irondash_engine_context","device_info_plus"]},{"name":"url_launcher","dependencies":["url_launcher_android","url_launcher_ios","url_launcher_linux","url_launcher_macos","url_launcher_web","url_launcher_windows"]},{"name":"url_launcher_android","dependencies":[]},{"name":"url_launcher_ios","dependencies":[]},{"name":"url_launcher_linux","dependencies":[]},{"name":"url_launcher_macos","dependencies":[]},{"name":"url_launcher_web","dependencies":[]},{"name":"url_launcher_windows","dependencies":[]}],"date_created":"2024-05-19 20:27:58.181629","version":"3.19.4"}
+\ No newline at end of file
++{"info":"This is a generated file; do not edit or check into version control.","plugins":{"ios":[{"name":"cloud_firestore","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/cloud_firestore-4.15.9/","native_build":true,"dependencies":["firebase_core"]},{"name":"contacts_service","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/contacts_service-0.6.3/","native_build":true,"dependencies":[]},{"name":"device_calendar","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/device_calendar-4.3.2/","native_build":true,"dependencies":[]},{"name":"device_info_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/device_info_plus-9.1.2/","native_build":true,"dependencies":[]},{"name":"file_picker","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/file_picker-8.0.0+1/","native_build":true,"dependencies":[]},{"name":"file_saver","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/file_saver-0.2.12/","native_build":true,"dependencies":[]},{"name":"firebase_analytics","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_analytics-10.8.10/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_auth","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_auth-4.17.9/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_core","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_core-2.27.1/","native_build":true,"dependencies":[]},{"name":"firebase_crashlytics","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_crashlytics-3.4.19/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_messaging","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_messaging-14.7.20/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_storage","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_storage-11.6.10/","native_build":true,"dependencies":["firebase_core"]},{"name":"flutter_app_badger","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_app_badger-1.5.0/","native_build":true,"dependencies":[]},{"name":"flutter_keyboard_visibility","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility-6.0.0/","native_build":true,"dependencies":[]},{"name":"flutter_local_notifications","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_local_notifications-17.0.0/","native_build":true,"dependencies":[]},{"name":"flutter_native_timezone","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_native_timezone-2.0.0/","native_build":true,"dependencies":[]},{"name":"flutter_share","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_share-2.0.0/","native_build":true,"dependencies":[]},{"name":"fluttertoast","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/fluttertoast-8.2.4/","native_build":true,"dependencies":[]},{"name":"geolocator_apple","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/geolocator_apple-2.3.7/","native_build":true,"dependencies":[]},{"name":"google_maps_flutter_ios","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/google_maps_flutter_ios-2.5.0/","native_build":true,"dependencies":[]},{"name":"google_sign_in_ios","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/google_sign_in_ios-5.7.4/","shared_darwin_source":true,"native_build":true,"dependencies":[]},{"name":"image_cropper","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/image_cropper-4.0.1/","native_build":true,"dependencies":[]},{"name":"image_picker_ios","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/image_picker_ios-0.8.9+2/","native_build":true,"dependencies":[]},{"name":"in_app_review","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/in_app_review-2.0.9/","native_build":true,"dependencies":[]},{"name":"irondash_engine_context","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/irondash_engine_context-0.5.2/","native_build":true,"dependencies":[]},{"name":"mixpanel_flutter","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/mixpanel_flutter-2.2.0/","native_build":true,"dependencies":[]},{"name":"package_info","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/package_info-2.0.2/","native_build":true,"dependencies":[]},{"name":"package_info_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/package_info_plus-6.0.0/","native_build":true,"dependencies":[]},{"name":"path_provider_foundation","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/path_provider_foundation-2.3.2/","shared_darwin_source":true,"native_build":true,"dependencies":[]},{"name":"permission_handler_apple","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/permission_handler_apple-9.4.2/","native_build":true,"dependencies":[]},{"name":"purchases_flutter","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/purchases_flutter-6.24.0/","native_build":true,"dependencies":[]},{"name":"share_extend","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/share_extend-2.0.0/","native_build":true,"dependencies":[]},{"name":"share_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/share_plus-7.2.2/","native_build":true,"dependencies":[]},{"name":"shared_preferences_foundation","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/shared_preferences_foundation-2.3.5/","shared_darwin_source":true,"native_build":true,"dependencies":[]},{"name":"sign_in_with_apple","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/sign_in_with_apple-6.0.0/","native_build":true,"dependencies":[]},{"name":"sqflite","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/sqflite-2.3.2/","shared_darwin_source":true,"native_build":true,"dependencies":[]},{"name":"super_native_extensions","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/super_native_extensions-0.8.5/","native_build":true,"dependencies":["irondash_engine_context","device_info_plus"]},{"name":"url_launcher_ios","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/url_launcher_ios-6.2.5/","native_build":true,"dependencies":[]}],"android":[{"name":"android_intent_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/android_intent_plus-5.0.1/","native_build":true,"dependencies":[]},{"name":"cloud_firestore","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/cloud_firestore-4.15.9/","native_build":true,"dependencies":["firebase_core"]},{"name":"contacts_service","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/contacts_service-0.6.3/","native_build":true,"dependencies":[]},{"name":"device_calendar","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/device_calendar-4.3.2/","native_build":true,"dependencies":[]},{"name":"device_info_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/device_info_plus-9.1.2/","native_build":true,"dependencies":[]},{"name":"file_picker","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/file_picker-8.0.0+1/","native_build":true,"dependencies":["flutter_plugin_android_lifecycle"]},{"name":"file_saver","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/file_saver-0.2.12/","native_build":true,"dependencies":[]},{"name":"firebase_analytics","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_analytics-10.8.10/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_auth","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_auth-4.17.9/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_core","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_core-2.27.1/","native_build":true,"dependencies":[]},{"name":"firebase_crashlytics","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_crashlytics-3.4.19/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_messaging","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_messaging-14.7.20/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_storage","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_storage-11.6.10/","native_build":true,"dependencies":["firebase_core"]},{"name":"flutter_app_badger","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_app_badger-1.5.0/","native_build":true,"dependencies":[]},{"name":"flutter_keyboard_visibility","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility-6.0.0/","native_build":true,"dependencies":[]},{"name":"flutter_local_notifications","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_local_notifications-17.0.0/","native_build":true,"dependencies":[]},{"name":"flutter_native_timezone","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_native_timezone-2.0.0/","native_build":true,"dependencies":[]},{"name":"flutter_plugin_android_lifecycle","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.17/","native_build":true,"dependencies":[]},{"name":"flutter_share","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_share-2.0.0/","native_build":true,"dependencies":[]},{"name":"fluttertoast","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/fluttertoast-8.2.4/","native_build":true,"dependencies":[]},{"name":"geolocator_android","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/geolocator_android-4.5.4/","native_build":true,"dependencies":[]},{"name":"google_api_headers","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/google_api_headers-1.0.0/","native_build":true,"dependencies":["package_info"]},{"name":"google_maps_flutter_android","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/google_maps_flutter_android-2.7.0/","native_build":true,"dependencies":["flutter_plugin_android_lifecycle"]},{"name":"google_sign_in_android","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/google_sign_in_android-6.1.22/","native_build":true,"dependencies":[]},{"name":"image_cropper","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/image_cropper-4.0.1/","native_build":true,"dependencies":[]},{"name":"image_picker_android","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/image_picker_android-0.8.9+3/","native_build":true,"dependencies":["flutter_plugin_android_lifecycle"]},{"name":"in_app_review","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/in_app_review-2.0.9/","native_build":true,"dependencies":[]},{"name":"irondash_engine_context","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/irondash_engine_context-0.5.2/","native_build":true,"dependencies":[]},{"name":"mixpanel_flutter","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/mixpanel_flutter-2.2.0/","native_build":true,"dependencies":[]},{"name":"package_info","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/package_info-2.0.2/","native_build":true,"dependencies":[]},{"name":"package_info_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/package_info_plus-6.0.0/","native_build":true,"dependencies":[]},{"name":"path_provider_android","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/path_provider_android-2.2.2/","native_build":true,"dependencies":[]},{"name":"permission_handler_android","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/permission_handler_android-12.0.5/","native_build":true,"dependencies":[]},{"name":"purchases_flutter","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/purchases_flutter-6.24.0/","native_build":true,"dependencies":[]},{"name":"share_extend","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/share_extend-2.0.0/","native_build":true,"dependencies":[]},{"name":"share_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/share_plus-7.2.2/","native_build":true,"dependencies":[]},{"name":"shared_preferences_android","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/shared_preferences_android-2.2.1/","native_build":true,"dependencies":[]},{"name":"sign_in_with_apple","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/sign_in_with_apple-6.0.0/","native_build":true,"dependencies":[]},{"name":"sqflite","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/sqflite-2.3.2/","native_build":true,"dependencies":[]},{"name":"super_native_extensions","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/super_native_extensions-0.8.5/","native_build":true,"dependencies":["irondash_engine_context","device_info_plus"]},{"name":"url_launcher_android","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.0/","native_build":true,"dependencies":[]}],"macos":[{"name":"cloud_firestore","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/cloud_firestore-4.15.9/","native_build":true,"dependencies":["firebase_core"]},{"name":"device_info_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/device_info_plus-9.1.2/","native_build":true,"dependencies":[]},{"name":"file_saver","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/file_saver-0.2.12/","native_build":true,"dependencies":[]},{"name":"file_selector_macos","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/file_selector_macos-0.9.3+3/","native_build":true,"dependencies":[]},{"name":"firebase_analytics","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_analytics-10.8.10/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_auth","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_auth-4.17.9/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_core","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_core-2.27.1/","native_build":true,"dependencies":[]},{"name":"firebase_crashlytics","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_crashlytics-3.4.19/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_messaging","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_messaging-14.7.20/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_storage","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_storage-11.6.10/","native_build":true,"dependencies":["firebase_core"]},{"name":"flutter_app_badger","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_app_badger-1.5.0/","native_build":true,"dependencies":[]},{"name":"flutter_keyboard_visibility_macos","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility_macos-1.0.0/","native_build":false,"dependencies":[]},{"name":"flutter_local_notifications","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_local_notifications-17.0.0/","native_build":true,"dependencies":[]},{"name":"flutter_native_timezone","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_native_timezone-2.0.0/","native_build":true,"dependencies":[]},{"name":"geolocator_apple","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/geolocator_apple-2.3.7/","native_build":true,"dependencies":[]},{"name":"google_sign_in_ios","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/google_sign_in_ios-5.7.4/","shared_darwin_source":true,"native_build":true,"dependencies":[]},{"name":"image_picker_macos","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/image_picker_macos-0.2.1+1/","native_build":false,"dependencies":["file_selector_macos"]},{"name":"in_app_review","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/in_app_review-2.0.9/","native_build":true,"dependencies":[]},{"name":"irondash_engine_context","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/irondash_engine_context-0.5.2/","native_build":true,"dependencies":[]},{"name":"package_info","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/package_info-2.0.2/","native_build":true,"dependencies":[]},{"name":"package_info_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/package_info_plus-6.0.0/","native_build":true,"dependencies":[]},{"name":"path_provider_foundation","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/path_provider_foundation-2.3.2/","shared_darwin_source":true,"native_build":true,"dependencies":[]},{"name":"purchases_flutter","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/purchases_flutter-6.24.0/","native_build":true,"dependencies":[]},{"name":"share_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/share_plus-7.2.2/","native_build":true,"dependencies":[]},{"name":"shared_preferences_foundation","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/shared_preferences_foundation-2.3.5/","shared_darwin_source":true,"native_build":true,"dependencies":[]},{"name":"sign_in_with_apple","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/sign_in_with_apple-6.0.0/","native_build":true,"dependencies":[]},{"name":"sqflite","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/sqflite-2.3.2/","shared_darwin_source":true,"native_build":true,"dependencies":[]},{"name":"super_native_extensions","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/super_native_extensions-0.8.5/","native_build":true,"dependencies":["irondash_engine_context","device_info_plus"]},{"name":"url_launcher_macos","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/url_launcher_macos-3.1.0/","native_build":true,"dependencies":[]}],"linux":[{"name":"device_info_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/device_info_plus-9.1.2/","native_build":false,"dependencies":[]},{"name":"file_saver","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/file_saver-0.2.12/","native_build":true,"dependencies":["path_provider_linux"]},{"name":"file_selector_linux","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/file_selector_linux-0.9.2+1/","native_build":true,"dependencies":[]},{"name":"flutter_keyboard_visibility_linux","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility_linux-1.0.0/","native_build":false,"dependencies":[]},{"name":"image_picker_linux","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/image_picker_linux-0.2.1+1/","native_build":false,"dependencies":["file_selector_linux"]},{"name":"irondash_engine_context","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/irondash_engine_context-0.5.2/","native_build":true,"dependencies":[]},{"name":"package_info_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/package_info_plus-6.0.0/","native_build":false,"dependencies":[]},{"name":"path_provider_linux","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/path_provider_linux-2.2.1/","native_build":false,"dependencies":[]},{"name":"share_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/share_plus-7.2.2/","native_build":false,"dependencies":["url_launcher_linux"]},{"name":"shared_preferences_linux","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/shared_preferences_linux-2.3.2/","native_build":false,"dependencies":["path_provider_linux"]},{"name":"super_native_extensions","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/super_native_extensions-0.8.5/","native_build":true,"dependencies":["irondash_engine_context","device_info_plus"]},{"name":"url_launcher_linux","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/url_launcher_linux-3.1.1/","native_build":true,"dependencies":[]}],"windows":[{"name":"cloud_firestore","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/cloud_firestore-4.15.9/","native_build":true,"dependencies":["firebase_core"]},{"name":"device_info_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/device_info_plus-9.1.2/","native_build":false,"dependencies":[]},{"name":"file_saver","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/file_saver-0.2.12/","native_build":true,"dependencies":["path_provider_windows"]},{"name":"file_selector_windows","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/file_selector_windows-0.9.3+1/","native_build":true,"dependencies":[]},{"name":"firebase_auth","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_auth-4.17.9/","native_build":true,"dependencies":["firebase_core"]},{"name":"firebase_core","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_core-2.27.1/","native_build":true,"dependencies":[]},{"name":"firebase_storage","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_storage-11.6.10/","native_build":true,"dependencies":["firebase_core"]},{"name":"flutter_keyboard_visibility_windows","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility_windows-1.0.0/","native_build":false,"dependencies":[]},{"name":"geolocator_windows","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/geolocator_windows-0.2.3/","native_build":true,"dependencies":[]},{"name":"image_picker_windows","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/image_picker_windows-0.2.1+1/","native_build":false,"dependencies":["file_selector_windows"]},{"name":"irondash_engine_context","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/irondash_engine_context-0.5.2/","native_build":true,"dependencies":[]},{"name":"package_info_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/package_info_plus-6.0.0/","native_build":false,"dependencies":[]},{"name":"path_provider_windows","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/path_provider_windows-2.2.1/","native_build":false,"dependencies":[]},{"name":"permission_handler_windows","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/permission_handler_windows-0.2.1/","native_build":true,"dependencies":[]},{"name":"share_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/share_plus-7.2.2/","native_build":true,"dependencies":["url_launcher_windows"]},{"name":"shared_preferences_windows","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/shared_preferences_windows-2.3.2/","native_build":false,"dependencies":["path_provider_windows"]},{"name":"super_native_extensions","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/super_native_extensions-0.8.5/","native_build":true,"dependencies":["irondash_engine_context","device_info_plus"]},{"name":"url_launcher_windows","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/url_launcher_windows-3.1.1/","native_build":true,"dependencies":[]}],"web":[{"name":"cloud_firestore_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/cloud_firestore_web-3.10.9/","dependencies":["firebase_core_web"]},{"name":"device_info_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/device_info_plus-9.1.2/","dependencies":[]},{"name":"file_picker","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/file_picker-8.0.0+1/","dependencies":[]},{"name":"file_saver","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/file_saver-0.2.12/","dependencies":[]},{"name":"firebase_analytics_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_analytics_web-0.5.5+22/","dependencies":["firebase_core_web"]},{"name":"firebase_auth_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_auth_web-5.10.0/","dependencies":["firebase_core_web"]},{"name":"firebase_core_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_core_web-2.12.0/","dependencies":[]},{"name":"firebase_messaging_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_messaging_web-3.7.0/","dependencies":["firebase_core_web"]},{"name":"firebase_storage_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/firebase_storage_web-3.8.0/","dependencies":["firebase_core_web"]},{"name":"flutter_keyboard_visibility_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility_web-2.0.0/","dependencies":[]},{"name":"flutter_native_timezone","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/flutter_native_timezone-2.0.0/","dependencies":[]},{"name":"fluttertoast","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/fluttertoast-8.2.4/","dependencies":[]},{"name":"geolocator_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/geolocator_web-3.0.0/","dependencies":[]},{"name":"google_maps_flutter_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/google_maps_flutter_web-0.5.6+2/","dependencies":[]},{"name":"google_sign_in_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/google_sign_in_web-0.12.4/","dependencies":[]},{"name":"image_cropper_for_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/image_cropper_for_web-2.0.0/","dependencies":[]},{"name":"image_picker_for_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/image_picker_for_web-3.0.3/","dependencies":[]},{"name":"mixpanel_flutter","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/mixpanel_flutter-2.2.0/","dependencies":[]},{"name":"package_info_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/package_info_plus-6.0.0/","dependencies":[]},{"name":"permission_handler_html","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/permission_handler_html-0.1.1/","dependencies":[]},{"name":"share_plus","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/share_plus-7.2.2/","dependencies":["url_launcher_web"]},{"name":"shared_preferences_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/shared_preferences_web-2.3.0/","dependencies":[]},{"name":"sign_in_with_apple_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/sign_in_with_apple_web-2.0.0/","dependencies":[]},{"name":"super_native_extensions","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/super_native_extensions-0.8.5/","dependencies":["device_info_plus"]},{"name":"url_launcher_web","path":"/Users/jonathanbrannen/.pub-cache/hosted/pub.dev/url_launcher_web-2.3.0/","dependencies":[]}]},"dependencyGraph":[{"name":"android_intent_plus","dependencies":[]},{"name":"cloud_firestore","dependencies":["cloud_firestore_web","firebase_core"]},{"name":"cloud_firestore_web","dependencies":["firebase_core","firebase_core_web"]},{"name":"contacts_service","dependencies":[]},{"name":"device_calendar","dependencies":[]},{"name":"device_info_plus","dependencies":[]},{"name":"file_picker","dependencies":["flutter_plugin_android_lifecycle"]},{"name":"file_saver","dependencies":["path_provider","path_provider_windows","path_provider_linux"]},{"name":"file_selector_linux","dependencies":[]},{"name":"file_selector_macos","dependencies":[]},{"name":"file_selector_windows","dependencies":[]},{"name":"firebase_analytics","dependencies":["firebase_analytics_web","firebase_core"]},{"name":"firebase_analytics_web","dependencies":["firebase_core","firebase_core_web"]},{"name":"firebase_auth","dependencies":["firebase_auth_web","firebase_core"]},{"name":"firebase_auth_web","dependencies":["firebase_core","firebase_core_web"]},{"name":"firebase_core","dependencies":["firebase_core_web"]},{"name":"firebase_core_web","dependencies":[]},{"name":"firebase_crashlytics","dependencies":["firebase_core"]},{"name":"firebase_messaging","dependencies":["firebase_core","firebase_messaging_web"]},{"name":"firebase_messaging_web","dependencies":["firebase_core","firebase_core_web"]},{"name":"firebase_storage","dependencies":["firebase_core","firebase_storage_web"]},{"name":"firebase_storage_web","dependencies":["firebase_core","firebase_core_web"]},{"name":"flutter_app_badger","dependencies":[]},{"name":"flutter_keyboard_visibility","dependencies":["flutter_keyboard_visibility_linux","flutter_keyboard_visibility_macos","flutter_keyboard_visibility_web","flutter_keyboard_visibility_windows"]},{"name":"flutter_keyboard_visibility_linux","dependencies":[]},{"name":"flutter_keyboard_visibility_macos","dependencies":[]},{"name":"flutter_keyboard_visibility_web","dependencies":[]},{"name":"flutter_keyboard_visibility_windows","dependencies":[]},{"name":"flutter_local_notifications","dependencies":[]},{"name":"flutter_native_timezone","dependencies":[]},{"name":"flutter_plugin_android_lifecycle","dependencies":[]},{"name":"flutter_share","dependencies":[]},{"name":"fluttertoast","dependencies":[]},{"name":"geolocator","dependencies":["geolocator_android","geolocator_apple","geolocator_web","geolocator_windows"]},{"name":"geolocator_android","dependencies":[]},{"name":"geolocator_apple","dependencies":[]},{"name":"geolocator_web","dependencies":[]},{"name":"geolocator_windows","dependencies":[]},{"name":"google_api_headers","dependencies":["package_info"]},{"name":"google_maps_flutter","dependencies":["google_maps_flutter_android","google_maps_flutter_ios","google_maps_flutter_web"]},{"name":"google_maps_flutter_android","dependencies":["flutter_plugin_android_lifecycle"]},{"name":"google_maps_flutter_ios","dependencies":[]},{"name":"google_maps_flutter_web","dependencies":[]},{"name":"google_sign_in","dependencies":["google_sign_in_android","google_sign_in_ios","google_sign_in_web"]},{"name":"google_sign_in_android","dependencies":[]},{"name":"google_sign_in_ios","dependencies":[]},{"name":"google_sign_in_web","dependencies":[]},{"name":"image_cropper","dependencies":["image_cropper_for_web"]},{"name":"image_cropper_for_web","dependencies":[]},{"name":"image_picker","dependencies":["image_picker_android","image_picker_for_web","image_picker_ios","image_picker_linux","image_picker_macos","image_picker_windows"]},{"name":"image_picker_android","dependencies":["flutter_plugin_android_lifecycle"]},{"name":"image_picker_for_web","dependencies":[]},{"name":"image_picker_ios","dependencies":[]},{"name":"image_picker_linux","dependencies":["file_selector_linux"]},{"name":"image_picker_macos","dependencies":["file_selector_macos"]},{"name":"image_picker_windows","dependencies":["file_selector_windows"]},{"name":"in_app_review","dependencies":[]},{"name":"irondash_engine_context","dependencies":[]},{"name":"mixpanel_flutter","dependencies":[]},{"name":"package_info","dependencies":[]},{"name":"package_info_plus","dependencies":[]},{"name":"path_provider","dependencies":["path_provider_android","path_provider_foundation","path_provider_linux","path_provider_windows"]},{"name":"path_provider_android","dependencies":[]},{"name":"path_provider_foundation","dependencies":[]},{"name":"path_provider_linux","dependencies":[]},{"name":"path_provider_windows","dependencies":[]},{"name":"permission_handler","dependencies":["permission_handler_android","permission_handler_apple","permission_handler_html","permission_handler_windows"]},{"name":"permission_handler_android","dependencies":[]},{"name":"permission_handler_apple","dependencies":[]},{"name":"permission_handler_html","dependencies":[]},{"name":"permission_handler_windows","dependencies":[]},{"name":"purchases_flutter","dependencies":[]},{"name":"share_extend","dependencies":[]},{"name":"share_plus","dependencies":["url_launcher_web","url_launcher_windows","url_launcher_linux"]},{"name":"shared_preferences","dependencies":["shared_preferences_android","shared_preferences_foundation","shared_preferences_linux","shared_preferences_web","shared_preferences_windows"]},{"name":"shared_preferences_android","dependencies":[]},{"name":"shared_preferences_foundation","dependencies":[]},{"name":"shared_preferences_linux","dependencies":["path_provider_linux"]},{"name":"shared_preferences_web","dependencies":[]},{"name":"shared_preferences_windows","dependencies":["path_provider_windows"]},{"name":"sign_in_with_apple","dependencies":["sign_in_with_apple_web"]},{"name":"sign_in_with_apple_web","dependencies":[]},{"name":"sqflite","dependencies":[]},{"name":"super_native_extensions","dependencies":["irondash_engine_context","device_info_plus"]},{"name":"url_launcher","dependencies":["url_launcher_android","url_launcher_ios","url_launcher_linux","url_launcher_macos","url_launcher_web","url_launcher_windows"]},{"name":"url_launcher_android","dependencies":[]},{"name":"url_launcher_ios","dependencies":[]},{"name":"url_launcher_linux","dependencies":[]},{"name":"url_launcher_macos","dependencies":[]},{"name":"url_launcher_web","dependencies":[]},{"name":"url_launcher_windows","dependencies":[]}],"date_created":"2024-05-21 22:46:51.658932","version":"3.19.4"}
+\ No newline at end of file
+Index: lib/AppMiddleware.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/AppMiddleware.dart b/lib/AppMiddleware.dart
+--- a/lib/AppMiddleware.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/AppMiddleware.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -163,7 +163,6 @@
+   middlewareList.add(TypedMiddleware<AppState, DeleteJobAction>(JobDetailsPageMiddleware()));
+   middlewareList.add(TypedMiddleware<AppState, SetJobInfo>(JobDetailsPageMiddleware()));
+   middlewareList.add(TypedMiddleware<AppState, SetOnBoardingCompleteAction>(JobDetailsPageMiddleware()));
+-  middlewareList.add(TypedMiddleware<AppState, SetJobInfoWithJobDocumentId>(JobDetailsPageMiddleware()));
+   middlewareList.add(TypedMiddleware<AppState, JobInstagramSelectedAction>(JobDetailsPageMiddleware()));
+   middlewareList.add(TypedMiddleware<AppState, FetchTimeOfSunsetJobAction>(JobDetailsPageMiddleware()));
+   middlewareList.add(TypedMiddleware<AppState, DrivingDirectionsJobSelected>(JobDetailsPageMiddleware()));
+Index: lib/models/Contract.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/models/Contract.dart b/lib/models/Contract.dart
+--- a/lib/models/Contract.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/models/Contract.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -9,6 +9,7 @@
+   bool? signedByClient = false;
+   bool? signedByPhotographer = false;
+   bool? isReviewed = false;
++  bool? isVoid = false;
+   DateTime? clientSignedDate;
+   DateTime? photographerSignedDate;
+   DateTime? firstSharedDate;
+@@ -28,6 +29,7 @@
+     this.photographerSignedDate,
+     this.firstSharedDate,
+     this.isReviewed,
++    this.isVoid,
+   });
+ 
+   Map<String, dynamic> toMap() {
+@@ -39,6 +41,7 @@
+       'signedByClient' : signedByClient,
+       'signedByPhotographer' : signedByPhotographer,
+       'isReviewed' : isReviewed,
++      'isVoid' : isVoid,
+       'photographerSignature' : photographerSignature,
+       'clientSignature' : clientSignature,
+       'clientSignedDate' : clientSignedDate?.millisecondsSinceEpoch ?? null,
+@@ -56,6 +59,7 @@
+       signedByClient: map['signedByClient'],
+       signedByPhotographer: map['signedByPhotographer'],
+       isReviewed: map['isReviewed'],
++      isVoid: map['isVoid'],
+       photographerSignature: map['photographerSignature'],
+       clientSignature: map['clientSignature'],
+       photographerSignedDate: map['photographerSignedDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['photographerSignedDate']) : null,
+Index: lib/models/Proposal.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/models/Proposal.dart b/lib/models/Proposal.dart
+--- a/lib/models/Proposal.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/models/Proposal.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -17,8 +17,9 @@
+   int? id;
+   String? detailsMessage = '';
+   String? shareMessage = '';
+-  Contract? contract;
+-  List<Contract>? contracts;
++  //TODO Do not use this in the app anywhere except in the LoginPageMiddleware
++  // Contract? contract; //Commented out only to see where i need to change code.
++  List<Contract>? contracts = [];
+   List<Questionnaire>? questionnaires;
+   Feedback? feedback;
+   bool? contractSeenByClient = false;
+Index: lib/pages/IncomeAndExpenses/IncomeInsights.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/IncomeAndExpenses/IncomeInsights.dart b/lib/pages/IncomeAndExpenses/IncomeInsights.dart
+--- a/lib/pages/IncomeAndExpenses/IncomeInsights.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/IncomeAndExpenses/IncomeInsights.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -1,7 +1,5 @@
+ 
+ import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
+-import 'package:dandylight/pages/IncomeAndExpenses/UnpaidInvoiceItem.dart';
+-import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
+ import 'package:dandylight/utils/ColorConstants.dart';
+ import 'package:dandylight/utils/DeviceType.dart';
+ import 'package:flutter/material.dart';
+Index: lib/pages/IncomeAndExpenses/UnpaidInvoiceItem.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/IncomeAndExpenses/UnpaidInvoiceItem.dart b/lib/pages/IncomeAndExpenses/UnpaidInvoiceItem.dart
+deleted file mode 100644
+--- a/lib/pages/IncomeAndExpenses/UnpaidInvoiceItem.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ /dev/null	(revision 7d4be87017272266c09758569991892dd6f212ab)
+@@ -1,116 +0,0 @@
+-import 'package:dandylight/models/Job.dart';
+-import 'package:dandylight/models/JobStage.dart';
+-import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
+-import 'package:dandylight/utils/ColorConstants.dart';
+-import 'package:dandylight/utils/NavigationUtil.dart';
+-import 'package:flutter/material.dart';
+-import 'package:flutter/widgets.dart';
+-import 'package:intl/intl.dart';
+-
+-import '../../utils/styles/Styles.dart';
+-import '../../widgets/TextDandyLight.dart';
+-
+-class UnpaidInvoiceItem extends StatelessWidget{
+-  final Job? job;
+-  final DashboardPageState? pageState;
+-  UnpaidInvoiceItem({this.job, this.pageState});
+-
+-  @override
+-  Widget build(BuildContext context) {
+-    return TextButton(
+-      style: Styles.getButtonStyle(),
+-      onPressed: () {
+-        pageState!.onJobClicked!(job!.documentId!);
+-        NavigationUtil.onJobTapped(context, false);
+-      },
+-      child: Padding(
+-      padding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 18.0),
+-      child: Stack(
+-          alignment: Alignment.centerRight,
+-          children: <Widget>[
+-            Row(
+-              crossAxisAlignment: CrossAxisAlignment.start,
+-              children: <Widget>[
+-                Container(
+-                  alignment: Alignment.topRight,
+-                  margin: EdgeInsets.only(right: 18.0, top: 4.0),
+-                  height: 38.0,
+-                  width: 38.0,
+-                  child: job!.stage!.getStageImage(Color(ColorConstants.getPeachDark())),
+-                ),
+-                Flexible(
+-                  child: Column(
+-                    crossAxisAlignment: CrossAxisAlignment.start,
+-                    children: <Widget>[
+-                      Row(
+-
+-                        children: <Widget>[
+-                          Padding(
+-                            padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
+-                            child: TextDandyLight(
+-                              type: TextDandyLight.MEDIUM_TEXT,
+-                              text: job!.jobTitle,
+-                              textAlign: TextAlign.start,
+-                              color: Color(ColorConstants.getPrimaryBlack()),
+-                            ),
+-                          ),
+-                          job!.selectedDate != null && job!.selectedTime != null && job!.location != null && job!.priceProfile != null
+-                              ? SizedBox() : Container(
+-                            margin: EdgeInsets.only(left: 8.0),
+-                            height: 20.0,
+-                            width: 20.0,
+-                            child: Image(
+-                              image: AssetImage('assets/images/alert.png'),
+-                            ),
+-                          ),
+-                        ],
+-                      ),
+-                      TextDandyLight(
+-                        type: TextDandyLight.MEDIUM_TEXT,
+-                        text: 'Stage: ' + job!.stage!.stage!,
+-                        textAlign: TextAlign.start,
+-                        color: Color(ColorConstants.getPrimaryBlack()),
+-                      ),
+-                      TextDandyLight(
+-                        type: TextDandyLight.SMALL_TEXT,
+-                        text: _getSubtext(job!),
+-                        textAlign: TextAlign.start,
+-                        color: job!.selectedDate != null && job!.selectedTime != null && job!.location != null && job!.priceProfile != null
+-                            ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPeachDark()),
+-                      ),
+-                    ],
+-                  ),
+-                ),
+-              ],
+-            ),
+-            Container(
+-              child: Icon(
+-                Icons.chevron_right,
+-                color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+-              ),
+-            )
+-          ],
+-        ),
+-      ),
+-    );
+-  }
+-
+-  String _getSubtext(Job job) {
+-    if(job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null){
+-      return DateFormat('EEE, MMM d').format(job.selectedDate!) + ' · ' + DateFormat('h:mm a').format(job.selectedTime!);
+-    }
+-    if(job.selectedDate == null){
+-      return 'Date not selected!';
+-    }
+-    if(job.selectedTime == null){
+-      return 'Time not selected!';
+-    }
+-    if(job.location == null){
+-      return 'Location not selected!';
+-    }
+-    if(job.priceProfile == null){
+-      return 'Price package not selected!';
+-    }
+-    return '';
+-  }
+-}
+\ No newline at end of file
+Index: lib/pages/calendar_page/CalendarPage.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/calendar_page/CalendarPage.dart b/lib/pages/calendar_page/CalendarPage.dart
+--- a/lib/pages/calendar_page/CalendarPage.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/calendar_page/CalendarPage.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -59,7 +59,6 @@
+         pageState.selectedDate!.month,
+         pageState.selectedDate!.day,
+         pageState.jobs!,
+-        pageState.onJobClicked!,
+       );
+     });
+   }
+@@ -111,7 +110,6 @@
+                             pageState.selectedDate!.month,
+                             pageState.selectedDate!.day,
+                             pageState.jobs!,
+-                            pageState.onJobClicked!,
+                         ),
+                     ),
+                   ],
+Index: lib/pages/calendar_page/JobCalendarItem.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/calendar_page/JobCalendarItem.dart b/lib/pages/calendar_page/JobCalendarItem.dart
+--- a/lib/pages/calendar_page/JobCalendarItem.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/calendar_page/JobCalendarItem.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -16,8 +16,7 @@
+   final EventDandyLight? eventDandyLight;
+   final double? paddingLeft;
+   final double? paddingRight;
+-  final Function(Job)? onJobClicked;
+-  JobCalendarItem({this.job, this.eventDandyLight, this.paddingLeft, this.paddingRight, this.onJobClicked});
++  JobCalendarItem({this.job, this.eventDandyLight, this.paddingLeft, this.paddingRight});
+ 
+   @override
+   Widget build(BuildContext context) {
+@@ -25,8 +24,7 @@
+       style: Styles.getButtonStyle(),
+       onPressed: () {
+         if(job != null) {
+-          onJobClicked!(job!);
+-          NavigationUtil.onJobTapped(context, false);
++          NavigationUtil.onJobTapped(context, false, job!.documentId!);
+         }
+       },
+       child: Padding(
+Index: lib/pages/client_details_page/ClientDetailsPageState.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/client_details_page/ClientDetailsPageState.dart b/lib/pages/client_details_page/ClientDetailsPageState.dart
+--- a/lib/pages/client_details_page/ClientDetailsPageState.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/client_details_page/ClientDetailsPageState.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -26,7 +26,6 @@
+   final Function()? onMessageClientClicked;
+   final Function()? onEmailClientClicked;
+   final Function(Client)? onStartNewJobClicked;
+-  final Function(Job)? onJobSelected;
+   final Function()? onInstagramSelected;
+   final Function(String)? onCustomLeadSourceTextChanged;
+   final Function(String)? onLeadSourceSelected;
+@@ -45,7 +44,6 @@
+     @required this.onMessageClientClicked,
+     @required this.onEmailClientClicked,
+     @required this.onStartNewJobClicked,
+-    @required this.onJobSelected,
+     @required this.onInstagramSelected,
+     @required this.onCustomLeadSourceTextChanged,
+     @required this.onLeadSourceSelected,
+@@ -74,7 +72,6 @@
+     Function()? onMessageClientClicked,
+     Function()? onEmailClientClicked,
+     Function(Client)? onStartNewJobClicked,
+-    Function(Job)? onJobSelected,
+     Function()? onInstagramSelected,
+     Function(String)? onCustomLeadSourceTextChanged,
+     Function(String)? onLeadSourceSelected,
+@@ -96,7 +93,6 @@
+       onMessageClientClicked: onMessageClientClicked?? this.onMessageClientClicked,
+       onEmailClientClicked: onEmailClientClicked?? this.onEmailClientClicked,
+       onStartNewJobClicked: onStartNewJobClicked?? this.onStartNewJobClicked,
+-      onJobSelected: onJobSelected?? this.onJobSelected,
+       onInstagramSelected: onInstagramSelected?? this.onInstagramSelected,
+       onCustomLeadSourceTextChanged: onCustomLeadSourceTextChanged ?? this.onCustomLeadSourceTextChanged,
+       onLeadSourceSelected: onLeadSourceSelected ?? this.onLeadSourceSelected,
+@@ -123,7 +119,6 @@
+     onMessageClientClicked: null,
+     onEmailClientClicked: null,
+     onStartNewJobClicked: null,
+-    onJobSelected: null,
+     onInstagramSelected: null,
+     onCustomLeadSourceTextChanged: null,
+     onLeadSourceSelected: null,
+@@ -156,7 +151,6 @@
+       onMessageClientClicked: () => store.dispatch(null),
+       onEmailClientClicked: () => store.dispatch(null),
+       onStartNewJobClicked: (client) => store.dispatch(InitializeNewContactPageAction(store.state.newJobPageState!, client)),
+-      onJobSelected: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState!, job.documentId!)),
+       onInstagramSelected: () => store.dispatch(InstagramSelectedAction(store.state.clientDetailsPageState)),
+       onCustomLeadSourceTextChanged: (customLead) => store.dispatch(UpdateTempCustomLeadNameAction(store.state.clientDetailsPageState, customLead)),
+       onLeadSourceSelected: (leadSource) => store.dispatch(SetTempLeadSourceAction(store.state.clientDetailsPageState, leadSource)),
+@@ -190,8 +184,7 @@
+     onImportantDateAdded.hashCode ^
+     onSaveImportantDatesSelected.hashCode ^
+     items.hashCode ^
+-    showNoSavedResponsesError.hashCode ^
+-    onJobSelected.hashCode;
++    showNoSavedResponsesError.hashCode;
+ 
+   @override
+   bool operator ==(Object other) =>
+@@ -213,6 +206,5 @@
+           onImportantDateAdded == other.onImportantDateAdded &&
+           onSaveImportantDatesSelected == other.onSaveImportantDatesSelected &&
+           items == other.items &&
+-          showNoSavedResponsesError == other.showNoSavedResponsesError &&
+-          onJobSelected == other.onJobSelected;
++          showNoSavedResponsesError == other.showNoSavedResponsesError;
+ }
+Index: lib/pages/client_details_page/JobHistoryItem.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/client_details_page/JobHistoryItem.dart b/lib/pages/client_details_page/JobHistoryItem.dart
+--- a/lib/pages/client_details_page/JobHistoryItem.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/client_details_page/JobHistoryItem.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -20,8 +20,9 @@
+     return TextButton(
+       style: Styles.getButtonStyle(),
+       onPressed: () {
+-        pageState!.onJobSelected!(job!);
+-        NavigationUtil.onJobTapped(context, false);
++        if(job != null) {
++          NavigationUtil.onJobTapped(context, false, job!.documentId!);
++        }
+       },
+       child: Padding(
+       padding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 18.0),
+Index: lib/pages/contract_edit_page/ContractEditPageMiddleware.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/contract_edit_page/ContractEditPageMiddleware.dart b/lib/pages/contract_edit_page/ContractEditPageMiddleware.dart
+--- a/lib/pages/contract_edit_page/ContractEditPageMiddleware.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/contract_edit_page/ContractEditPageMiddleware.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -49,44 +49,48 @@
+     Contract? contract;
+     if(action.jobDocumentId != null && action.jobDocumentId!.isNotEmpty) {
+       Job? job = await JobDao.getJobById(action.jobDocumentId);
+-      Contract? contract = job!.proposal!.contract!;
+-      contract.jsonTerms = jsonEncode(action.quillContract!.toDelta().toJson());
+-      contract.terms = action.quillContract!.toPlainText();
+-      contract.contractName = action.pageState!.contractName;
+-      contract.signedByClient = false;
+-      contract.clientSignedDate = null;
+-      contract.clientSignature = "";
+-      contract.photographerSignedDate = DateTime.now();
+-      job.proposal!.contract = contract;
+-      await JobDao.update(job);
++      if(job != null && (job.proposal?.contracts?.isNotEmpty ?? false)){
++        Contract? contract = job.proposal!.contracts!.where((item) => item.documentId == action.pageState!.contract!.documentId).first;
++        contract.jsonTerms = jsonEncode(action.quillContract!.toDelta().toJson());
++        contract.terms = action.quillContract!.toPlainText();
++        contract.contractName = action.pageState!.contractName;
++        contract.signedByClient = false;
++        contract.clientSignedDate = null;
++        contract.clientSignature = "";
++        contract.photographerSignedDate = DateTime.now();
++        final index = job.proposal!.contracts!.indexWhere((item) => item.documentId == contract.documentId);
++        job.proposal!.contracts![index] = contract;
++
++        await JobDao.update(job);
+ 
+-      Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+-      if(profile != null && !profile.progress.addContractToJob) {
+-        profile.progress.addContractToJob = true;
+-        await ProfileDao.update(profile);
+-        store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+-        EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
+-          EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.ADD_CONTRACT_TO_JOB,
+-        });
+-      }
++        Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
++        if(profile != null && !profile.progress.addContractToJob) {
++          profile.progress.addContractToJob = true;
++          await ProfileDao.update(profile);
++          store.dispatch(LoadJobsAction(store.state.dashboardPageState));
++          EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
++            EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.ADD_CONTRACT_TO_JOB,
++          });
++        }
+ 
+-      List<JobStage> completedStages = job.completedStages!;
+-      bool isContractSignedChecked = false;
+-      completedStages.forEach((stage) {
+-        if(stage.stage == JobStage.STAGE_4_PROPOSAL_SIGNED) isContractSignedChecked = true;
+-      });
++        List<JobStage> completedStages = job.completedStages!;
++        bool isContractSignedChecked = false;
++        completedStages.forEach((stage) {
++          if(stage.stage == JobStage.STAGE_4_PROPOSAL_SIGNED) isContractSignedChecked = true;
++        });
+ 
+-      if(isContractSignedChecked) {
+-        List<JobStage>? stages = job.type!.stages;
+-        int index = -1;
+-        for(int i = 0; i < stages!.length; i++) {
+-          if(stages.elementAt(i).stage == JobStage.STAGE_4_PROPOSAL_SIGNED) {
+-            index = i;
+-          }
+-        }
+-        store.dispatch(UndoStageAction(store.state.jobDetailsPageState!, job, index));
+-      }
+-      store.dispatch(SetJobInfo(store.state.jobDetailsPageState!, job.documentId!));
++        if(isContractSignedChecked) {
++          List<JobStage>? stages = job.type!.stages;
++          int index = -1;
++          for(int i = 0; i < stages!.length; i++) {
++            if(stages.elementAt(i).stage == JobStage.STAGE_4_PROPOSAL_SIGNED) {
++              index = i;
++            }
++          }
++          store.dispatch(UndoStageAction(store.state.jobDetailsPageState!, job, index));
++        }
++        store.dispatch(SetJobInfo(store.state.jobDetailsPageState!, job.documentId!));
++      }
+     } else {
+       if(action.pageState!.contract == null) {
+         contract = Contract(
+Index: lib/pages/contracts_page/ContractsPageMiddleware.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/contracts_page/ContractsPageMiddleware.dart b/lib/pages/contracts_page/ContractsPageMiddleware.dart
+--- a/lib/pages/contracts_page/ContractsPageMiddleware.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/contracts_page/ContractsPageMiddleware.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -6,6 +6,7 @@
+ import 'package:dandylight/utils/UidUtil.dart';
+ import 'package:redux/redux.dart';
+ import 'package:sembast/sembast.dart';
++import 'package:uuid/v4.dart';
+ 
+ import '../../data_layer/local_db/daos/ContractTemplateDao.dart';
+ import '../../models/Job.dart';
+@@ -37,19 +38,23 @@
+     contract.photographerSignature = '${profile!.firstName} ${profile.lastName}';
+     contract.signedByClient = false;
+     contract.clientSignature = '';
++    contract.documentId = const UuidV4().generate();
+     Job job = (await JobDao.getJobById(action.jobDocumentId!))!;
+-    job.proposal!.contract = contract;
+-    await JobDao.update(job);
+-    EventSender().sendEvent(eventName: EventNames.CONTRACT_ADDED_TO_JOB);
+-    store.dispatch(SetJobInfoWithJobDocumentId(store.state.jobDetailsPageState!, job.documentId!));
++    if(job.proposal != null) {
++      if(job.proposal!.contracts == null) job.proposal!.contracts = [];
++      job.proposal!.contracts!.add(contract);
++      await JobDao.update(job);
++      EventSender().sendEvent(eventName: EventNames.CONTRACT_ADDED_TO_JOB);
++      store.dispatch(SetJobInfo(store.state.jobDetailsPageState!, job.documentId!));
+ 
+-    if(!profile.progress.addContractToJob) {
+-      profile.progress.addContractToJob = true;
+-      await ProfileDao.update(profile);
+-      store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+-      EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
+-        EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.ADD_CONTRACT_TO_JOB,
+-      });
++      if(!profile.progress.addContractToJob) {
++        profile.progress.addContractToJob = true;
++        await ProfileDao.update(profile);
++        store.dispatch(LoadJobsAction(store.state.dashboardPageState));
++        EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
++          EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.ADD_CONTRACT_TO_JOB,
++        });
++      }
+     }
+   }
+ 
+Index: lib/pages/dashboard_page/DashboardPageMiddleware.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/dashboard_page/DashboardPageMiddleware.dart b/lib/pages/dashboard_page/DashboardPageMiddleware.dart
+--- a/lib/pages/dashboard_page/DashboardPageMiddleware.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/dashboard_page/DashboardPageMiddleware.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -12,6 +12,7 @@
+ import 'package:dandylight/data_layer/local_db/daos/SingleExpenseDao.dart';
+ import 'package:dandylight/models/AppSettings.dart';
+ import 'package:dandylight/models/Client.dart';
++import 'package:dandylight/models/Contract.dart';
+ import 'package:dandylight/models/Job.dart';
+ import 'package:dandylight/models/JobReminder.dart';
+ import 'package:dandylight/models/JobType.dart';
+@@ -188,12 +189,13 @@
+   }
+ 
+   Future<void> _updateContractsAsReviewed(Store<AppState> store, MarkContractsAsReviewed action) async {
+-    List<Job> jobsWithContracts = action.pageState?.allJobsWithSignedContract ?? [];
+-    for(Job job in jobsWithContracts) {
+-      if(!(job.proposal?.contract?.isReviewed ?? false)){
+-        job.proposal?.contract?.isReviewed = true;
+-        await JobDao.update(job);
+-      }
++    List<Contract> allSignedContracts = action.pageState?.allSignedContracts ?? [];
++    for(Contract contract in allSignedContracts) {
++      if(!(contract.isReviewed ?? false)){
++        contract.isReviewed = true;
++      }
++      //TODO find job that has this contract. update contract in list in job. Then save job on next line.
++      await JobDao.update(job);
+     }
+ 
+     List<Job>? allJobs = await JobDao.getAllJobs();
+Index: lib/pages/dashboard_page/DashboardPageReducer.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/dashboard_page/DashboardPageReducer.dart b/lib/pages/dashboard_page/DashboardPageReducer.dart
+--- a/lib/pages/dashboard_page/DashboardPageReducer.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/dashboard_page/DashboardPageReducer.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -170,10 +170,10 @@
+       allUserStages: activeStages,
+       jobsThisWeek: jobsThisWeek,
+       areJobsLoaded: true,
+-      activeJobsWithUnsignedContract: JobUtil.getJobsWithUnsignedContracts(activeJobs),
+-      activeJobsWithSignedContract: JobUtil.getJobsWithSignedContracts(activeJobs),
+-      allJobsWithUnsignedContract: JobUtil.getJobsWithUnsignedContracts(action.allJobs!),
+-      allJobsWithSignedContract: JobUtil.getJobsWithSignedContracts(action.allJobs!),
++      activeUnsignedContract: JobUtil.getJobsWithUnsignedContracts(activeJobs),
++      activeSignedContract: JobUtil.getJobsWithSignedContracts(activeJobs),
++      allUnsignedContract: JobUtil.getJobsWithUnsignedContracts(action.allJobs!),
++      allSignedContract: JobUtil.getJobsWithSignedContracts(action.allJobs!),
+   );
+ }
+ 
+Index: lib/pages/dashboard_page/DashboardPageState.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/dashboard_page/DashboardPageState.dart b/lib/pages/dashboard_page/DashboardPageState.dart
+--- a/lib/pages/dashboard_page/DashboardPageState.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/dashboard_page/DashboardPageState.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -10,6 +10,7 @@
+ import 'package:redux/redux.dart';
+ import '../../AppState.dart';
+ import '../../models/AppSettings.dart';
++import '../../models/Contract.dart';
+ import '../../models/JobReminder.dart';
+ import '../../models/JobStage.dart';
+ import '../../models/LocationDandy.dart';
+@@ -42,10 +43,10 @@
+   final List<Job>? allJobs;
+   final List<Job>? activeJobs;
+   final List<Job>? jobsThisWeek;
+-  final List<Job>? activeJobsWithUnsignedContract;
+-  final List<Job>? activeJobsWithSignedContract;
+-  final List<Job>? allJobsWithUnsignedContract;
+-  final List<Job>? allJobsWithSignedContract;
++  final List<Contract>? activeUnsignedContract;
++  final List<Contract>? activeSignedContract;
++  final List<Contract>? allUnsignedContracts;
++  final List<Contract>? allSignedContracts;
+   final List<PieChartSectionData>? jobTypeBreakdownData;
+   final List<PieChartSectionData>? leadSourcesData;
+   final int? unseenNotificationCount;
+@@ -129,10 +130,10 @@
+     this.shouldShowAppUpdate,
+     this.markUpdateAsSeen,
+     this.appSettings,
+-    this.activeJobsWithSignedContract,
+-    this.activeJobsWithUnsignedContract,
+-    this.allJobsWithSignedContract,
+-    this.allJobsWithUnsignedContract,
++    this.activeSignedContract,
++    this.activeUnsignedContract,
++    this.allSignedContracts,
++    this.allUnsignedContracts,
+     this.notCompleteQuestionnaires,
+     this.completedQuestionnaires,
+     this.allQuestionnaires,
+@@ -163,10 +164,10 @@
+     List<Job>? jobsThisWeek,
+     List<JobStage>? allUserStages,
+     List<Pose>? unseenFeaturedPoses,
+-    List<Job>? activeJobsWithUnsignedContract,
+-    List<Job>? activeJobsWithSignedContract,
+-    List<Job>? allJobsWithUnsignedContract,
+-    List<Job>? allJobsWithSignedContract,
++    List<Contract>? activeUnsignedContract,
++    List<Contract>? activeSignedContract,
++    List<Contract>? allUnsignedContract,
++    List<Contract>? allSignedContract,
+     int? unseenNotificationCount,
+     List<LineChartMonthData>? lineChartMonthData,
+     Function()? onAddClicked,
+@@ -252,10 +253,10 @@
+       shouldShowAppUpdate : shouldShowAppUpdate ?? this.shouldShowAppUpdate,
+       markUpdateAsSeen: markUpdateAsSeen ?? this.markUpdateAsSeen,
+       appSettings: appSettings ?? this.appSettings,
+-      activeJobsWithSignedContract: activeJobsWithSignedContract ?? this.activeJobsWithSignedContract,
+-      activeJobsWithUnsignedContract: activeJobsWithUnsignedContract ?? this.activeJobsWithUnsignedContract,
+-      allJobsWithSignedContract: allJobsWithSignedContract ?? this.allJobsWithSignedContract,
+-      allJobsWithUnsignedContract: allJobsWithUnsignedContract ?? this.allJobsWithUnsignedContract,
++      activeSignedContract: activeSignedContract ?? this.activeSignedContract,
++      activeUnsignedContract: activeUnsignedContract ?? this.activeUnsignedContract,
++      allSignedContracts: allSignedContract ?? this.allSignedContracts,
++      allUnsignedContracts: allUnsignedContract ?? this.allUnsignedContracts,
+       completedQuestionnaires: completedQuestionnaires ?? this.completedQuestionnaires,
+       notCompleteQuestionnaires: notCompleteQuestionnaires ?? this.notCompleteQuestionnaires,
+       allQuestionnaires: allQuestionnaires ?? this.allQuestionnaires,
+@@ -302,17 +303,15 @@
+       shouldShowRequestReview: store.state.dashboardPageState!.shouldShowRequestReview,
+       shouldShowAppUpdate: store.state.dashboardPageState!.shouldShowAppUpdate,
+       appSettings: store.state.dashboardPageState!.appSettings,
+-      activeJobsWithSignedContract: store.state.dashboardPageState!.activeJobsWithSignedContract,
+-      activeJobsWithUnsignedContract: store.state.dashboardPageState!.activeJobsWithUnsignedContract,
+-      allJobsWithSignedContract: store.state.dashboardPageState!.allJobsWithSignedContract,
+-      allJobsWithUnsignedContract: store.state.dashboardPageState!.allJobsWithUnsignedContract,
++      activeSignedContract: store.state.dashboardPageState!.activeSignedContract,
++      activeUnsignedContract: store.state.dashboardPageState!.activeUnsignedContract,
++      allSignedContracts: store.state.dashboardPageState!.allSignedContracts,
++      allUnsignedContracts: store.state.dashboardPageState!.allUnsignedContracts,
+       completedQuestionnaires: store.state.dashboardPageState!.completedQuestionnaires,
+       notCompleteQuestionnaires: store.state.dashboardPageState!.notCompleteQuestionnaires,
+       allQuestionnaires: store.state.dashboardPageState!.allQuestionnaires,
+       onLeadClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
+       onJobClicked: (job) {
+-        store.dispatch(SetJobInfo(store.state.jobDetailsPageState!, job));
+-        store.dispatch(FetchJobPosesAction(store.state.jobDetailsPageState!));
+         store.dispatch(SetGoToPosesJob(store.state.dashboardPageState, null));
+       },
+       onViewAllHideSelected: () => store.dispatch(UpdateShowHideState(store.state.dashboardPageState)),
+@@ -320,7 +319,6 @@
+       onReminderSelected:  (reminder) {
+         if(reminder.payload != JobReminder.POSE_FEATURED_ID) {
+           store.dispatch(SetNotificationToSeen(store.state.dashboardPageState, reminder));
+-          store.dispatch(SetJobInfoWithJobDocumentId(store.state.jobDetailsPageState!, reminder.jobDocumentId!));
+         } else {
+           store.dispatch(SetUnseenFeaturedPosesAsSeenAction(store.state.dashboardPageState));
+         }
+@@ -377,10 +375,10 @@
+     unconvertedLeadCount: 0,
+     jobTypePieChartRowData: [],
+     leadSourcePieChartRowData: [],
+-    activeJobsWithUnsignedContract: [],
+-    activeJobsWithSignedContract: [],
+-    allJobsWithUnsignedContract: [],
+-    allJobsWithSignedContract: [],
++    activeUnsignedContract: [],
++    activeSignedContract: [],
++    allUnsignedContracts: [],
++    allSignedContracts: [],
+     profile: null,
+     subscriptionState: null,
+     markAllAsSeen: null,
+@@ -454,10 +452,10 @@
+       updateCanShowRequestReview.hashCode ^
+       markUpdateAsSeen.hashCode ^
+       appSettings.hashCode ^
+-      activeJobsWithUnsignedContract.hashCode ^
+-      activeJobsWithUnsignedContract.hashCode ^
+-      allJobsWithUnsignedContract.hashCode ^
+-      allJobsWithSignedContract.hashCode ^
++      activeUnsignedContract.hashCode ^
++      activeUnsignedContract.hashCode ^
++      allUnsignedContracts.hashCode ^
++      allSignedContracts.hashCode ^
+       completedQuestionnaires.hashCode ^
+       notCompleteQuestionnaires.hashCode ^
+       allQuestionnaires.hashCode ^
+@@ -517,10 +515,10 @@
+               updateCanShowPMF == other.updateCanShowPMF &&
+               updateCanShowRequestReview == other.updateCanShowRequestReview &&
+               markUpdateAsSeen == other.markUpdateAsSeen &&
+-              activeJobsWithUnsignedContract == other.activeJobsWithUnsignedContract &&
+-              activeJobsWithSignedContract == other.activeJobsWithSignedContract &&
+-              allJobsWithSignedContract == other.allJobsWithSignedContract &&
+-              allJobsWithUnsignedContract == other.allJobsWithUnsignedContract &&
++              activeUnsignedContract == other.activeUnsignedContract &&
++              activeSignedContract == other.activeSignedContract &&
++              allSignedContracts == other.allSignedContracts &&
++              allUnsignedContracts == other.allUnsignedContracts &&
+               completedQuestionnaires == other.completedQuestionnaires &&
+               notCompleteQuestionnaires == other.notCompleteQuestionnaires &&
+               allQuestionnaires == other.allQuestionnaires &&
+Index: lib/pages/dashboard_page/GoToJobPosesBottomSheet.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/dashboard_page/GoToJobPosesBottomSheet.dart b/lib/pages/dashboard_page/GoToJobPosesBottomSheet.dart
+--- a/lib/pages/dashboard_page/GoToJobPosesBottomSheet.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/dashboard_page/GoToJobPosesBottomSheet.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -88,7 +88,7 @@
+                        onTap: () {
+                          pageState.onJobClicked!(job.documentId!);
+                          Navigator.of(context).pop();
+-                         NavigationUtil.onJobTapped(context, false);
++                         NavigationUtil.onJobTapped(context, false, job.documentId!);
+                          EventSender().sendEvent(eventName: EventNames.NAV_TO_JOB_POSES_FROM_BOTTOM_SHEET);
+                        },
+                        child: Container(
+Index: lib/pages/dashboard_page/widgets/ContractListPage.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/dashboard_page/widgets/ContractListPage.dart b/lib/pages/dashboard_page/widgets/ContractListPage.dart
+--- a/lib/pages/dashboard_page/widgets/ContractListPage.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/dashboard_page/widgets/ContractListPage.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -61,7 +61,7 @@
+                       controller: _controller,
+                       physics: const ClampingScrollPhysics(),
+                       key: _listKey,
+-                      itemCount: signed! ? pageState.allJobsWithSignedContract!.length : pageState.allJobsWithUnsignedContract!.length,
++                      itemCount: signed! ? pageState.allSignedContracts!.length : pageState.allUnsignedContracts!.length,
+                       itemBuilder: _buildItem,
+                     ),
+                   ],
+@@ -76,7 +76,7 @@
+ 
+ 
+   Widget _buildItem(BuildContext context, int index) {
+-    return ContractsItem(job: signed! ? pageState!.allJobsWithSignedContract!.elementAt(index) : pageState!.allJobsWithUnsignedContract!.elementAt(index), pageState: pageState!, signed: signed!);
++    return ContractsItem(job: signed! ? pageState!.allSignedContracts!.elementAt(index) : pageState!.allUnsignedContracts!.elementAt(index), pageState: pageState!, signed: signed!);
+   }
+ 
+ }
+\ No newline at end of file
+Index: lib/pages/dashboard_page/widgets/ContractsCard.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/dashboard_page/widgets/ContractsCard.dart b/lib/pages/dashboard_page/widgets/ContractsCard.dart
+--- a/lib/pages/dashboard_page/widgets/ContractsCard.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/dashboard_page/widgets/ContractsCard.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -66,7 +66,7 @@
+                               alignment: Alignment.center,
+                               child: TextDandyLight(
+                                 type: TextDandyLight.MEDIUM_TEXT,
+-                                text: pageState.activeJobsWithUnsignedContract != null ? pageState.activeJobsWithUnsignedContract?.length.toString() : '0',
++                                text: pageState.activeUnsignedContract != null ? pageState.activeUnsignedContract?.length.toString() : '0',
+                                 textAlign: TextAlign.center,
+                                 color: Color(ColorConstants.getPrimaryBlack()),
+                               ),
+@@ -107,20 +107,20 @@
+                               alignment: Alignment.center,
+                               decoration: BoxDecoration(
+                                 borderRadius: BorderRadius.circular(16),
+-                                color: areResultsNew(pageState.activeJobsWithSignedContract ?? []) ? const Color(ColorConstants.error_red) : Color(ColorConstants.getPrimaryWhite()),
++                                color: areResultsNew(pageState.activeSignedContract ?? []) ? const Color(ColorConstants.error_red) : Color(ColorConstants.getPrimaryWhite()),
+                               ),
+                               child: TextDandyLight(
+                                 type: TextDandyLight.MEDIUM_TEXT,
+-                                text: pageState.activeJobsWithSignedContract != null ? pageState.activeJobsWithSignedContract?.length.toString() : '0',
++                                text: pageState.activeSignedContract != null ? pageState.activeSignedContract?.length.toString() : '0',
+                                 textAlign: TextAlign.center,
+-                                color: Color(areResultsNew(pageState.activeJobsWithSignedContract ?? []) ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
++                                color: Color(areResultsNew(pageState.activeSignedContract ?? []) ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
+                               ),
+                             ),
+                             TextDandyLight(
+                               type: TextDandyLight.SMALL_TEXT,
+                               text: 'Signed',
+                               textAlign: TextAlign.center,
+-                              color: areResultsNew(pageState.activeJobsWithSignedContract ?? []) ? const Color(ColorConstants.error_red) : Color(ColorConstants.getPrimaryBlack()),
++                              color: areResultsNew(pageState.activeSignedContract ?? []) ? const Color(ColorConstants.error_red) : Color(ColorConstants.getPrimaryBlack()),
+                             ),
+                           ],
+                         ),
+@@ -138,6 +138,9 @@
+     bool result = false;
+     for(Job job in jobs) {
+       if(!(job.proposal?.contract?.isReviewed ?? false)) result = true;
++      for(Contract contract in job.proposal?.contracts ?? []) {
++        if(!(contract.isReviewed ?? false)) result = true;
++      }
+     }
+     return result;
+   }
+Index: lib/pages/dashboard_page/widgets/JobInProgressItem.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/dashboard_page/widgets/JobInProgressItem.dart b/lib/pages/dashboard_page/widgets/JobInProgressItem.dart
+--- a/lib/pages/dashboard_page/widgets/JobInProgressItem.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/dashboard_page/widgets/JobInProgressItem.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -21,7 +21,7 @@
+       style: Styles.getButtonStyle(),
+       onPressed: () {
+         pageState!.onJobClicked!(job!.documentId!);
+-        NavigationUtil.onJobTapped(context, false);
++        NavigationUtil.onJobTapped(context, false, job!.documentId!);
+       },
+       child: Padding(
+       padding: const EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 18.0),
+Index: lib/pages/dashboard_page/widgets/ReminderNotificationsPage.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/dashboard_page/widgets/ReminderNotificationsPage.dart b/lib/pages/dashboard_page/widgets/ReminderNotificationsPage.dart
+--- a/lib/pages/dashboard_page/widgets/ReminderNotificationsPage.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/dashboard_page/widgets/ReminderNotificationsPage.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -89,8 +89,9 @@
+                                   EventSender().sendEvent(eventName: EventNames.BT_VIEW_FEATURED_POSES_FROM_NOTIFICATIONS);
+                                   NavigationUtil.onPosesSelected(context, null, false, true, false);
+                                 } else {
+-                                  EventSender().sendEvent(eventName: EventNames.BT_VIEW_FEATURED_POSES_FROM_NOTIFICATIONS);
+-                                  NavigationUtil.onJobTapped(context, false);
++                                  if(pageState.reminders!.elementAt(index).jobDocumentId != null) {
++                                    NavigationUtil.onJobTapped(context, false, pageState.reminders!.elementAt(index).jobDocumentId!);
++                                  }
+                                 }
+                                 pageState.onReminderSelected!(pageState.reminders!.elementAt(index));
+                               },
+Index: lib/pages/job_details_page/JobDetailsActions.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/job_details_page/JobDetailsActions.dart b/lib/pages/job_details_page/JobDetailsActions.dart
+--- a/lib/pages/job_details_page/JobDetailsActions.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/job_details_page/JobDetailsActions.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -64,12 +64,6 @@
+   SetShouldTrackAction(this.pageState, this.enabled);
+ }
+ 
+-class SetJobInfoWithJobDocumentId{
+-  final JobDetailsPageState? pageState;
+-  final String? jobDocumentId;
+-  SetJobInfoWithJobDocumentId(this.pageState, this.jobDocumentId);
+-}
+-
+ class FetchJobDetailsDeviceEvents{
+   final JobDetailsPageState? calendarPageState;
+   final DateTime? month;
+Index: lib/pages/job_details_page/JobDetailsCalendarItem.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/job_details_page/JobDetailsCalendarItem.dart b/lib/pages/job_details_page/JobDetailsCalendarItem.dart
+--- a/lib/pages/job_details_page/JobDetailsCalendarItem.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/job_details_page/JobDetailsCalendarItem.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -22,8 +22,9 @@
+     return TextButton(
+       style: Styles.getButtonStyle(),
+       onPressed: () {
+-        pageState!.onJobClicked!(job!);
+-        NavigationUtil.onJobTapped(context, false);
++        if(job!.documentId != null && job!.documentId!.isNotEmpty) {
++          NavigationUtil.onJobTapped(context, false, job!.documentId!);
++        }
+       },
+       child: Padding(
+         padding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 18.0),
+Index: lib/pages/job_details_page/JobDetailsPage.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/job_details_page/JobDetailsPage.dart b/lib/pages/job_details_page/JobDetailsPage.dart
+--- a/lib/pages/job_details_page/JobDetailsPage.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/job_details_page/JobDetailsPage.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -44,10 +44,10 @@
+ import 'SunsetWeatherCard.dart';
+ 
+ class JobDetailsPage extends StatefulWidget {
+-  const JobDetailsPage({Key? key, this.destination, this.comingFromOnBoarding = false, this.jobDocumentId, this.comingFromProgress = false}) : super(key: key);
++  const JobDetailsPage({Key? key, this.destination, this.comingFromOnBoarding = false, required this.jobDocumentId, this.comingFromProgress = false}) : super(key: key);
+   final JobDetailsPage? destination;
+   final bool? comingFromOnBoarding;
+-  final String? jobDocumentId;
++  final String jobDocumentId;
+   final bool? comingFromProgress;
+ 
+   @override
+@@ -67,7 +67,7 @@
+   bool isFabExpanded = false;
+   bool dialVisible = true;
+   JobDetailsPageState? pageStateLocal;
+-  String? jobDocumentId;
++  String jobDocumentId;
+   bool? comingFromProgress;
+ 
+   Future<void> _ackAlert(BuildContext context, JobDetailsPageState pageState) {
+@@ -122,7 +122,7 @@
+         converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
+         onInit: (appState) => {
+             // appState.dispatch(ClearPreviousStateAction(appState.state.jobDetailsPageState)),
+-          if(jobDocumentId != null) {
++          if(jobDocumentId.isNotEmpty) {
+             appState.dispatch(SetJobInfo(appState.state.jobDetailsPageState, jobDocumentId)),
+           }
+         },
+Index: lib/pages/job_details_page/JobDetailsPageMiddleware.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/job_details_page/JobDetailsPageMiddleware.dart b/lib/pages/job_details_page/JobDetailsPageMiddleware.dart
+--- a/lib/pages/job_details_page/JobDetailsPageMiddleware.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/job_details_page/JobDetailsPageMiddleware.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -66,9 +66,6 @@
+     if(action is SetJobInfo){
+       setJobInfo(store, next, action);
+     }
+-    if(action is SetJobInfoWithJobDocumentId){
+-      setJobInfoWithId(store, next, action);
+-    }
+     if(action is JobInstagramSelectedAction){
+       _launchInstagramProfile(store.state.jobDetailsPageState!.client!.instagramProfileUrl!);
+     }
+@@ -550,8 +547,6 @@
+     IntentLauncherUtil.launchURL(instagramUrl);
+   }
+ 
+-  //TODO this is the method to keep i think. update all other places to use this initialization method.
+-  //TODO also this is where we need to handle old jobs that have a contract.
+   void setJobInfo(Store<AppState> store, NextDispatcher next, SetJobInfo action) async{
+     store.dispatch(ClearPreviousStateAction(store.state.jobDetailsPageState));
+     Job? job = await JobDao.getJobById(action.jobDocumentId);
+@@ -591,16 +586,6 @@
+     store.dispatch(SetProfileToDetailsStateAction(store.state.jobDetailsPageState, profile));
+   }
+ 
+-  void setJobInfoWithId(Store<AppState> store, NextDispatcher next, SetJobInfoWithJobDocumentId action) async{
+-    Job? job = await JobDao.getJobById(action.jobDocumentId);
+-    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+-    store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, action.pageState!.job));
+-    store.dispatch(SetJobAction(store.state.jobDetailsPageState, job));
+-    Client? client = await ClientDao.getClientById(job!.clientDocumentId!);
+-    store.dispatch(SetClientAction(store.state.jobDetailsPageState, client));
+-    _fetchDeviceEventsForMonth(store, null, next);
+-  }
+-
+   void deleteJob(Store<AppState> store, NextDispatcher next, DeleteJobAction action)async{
+     await JobDao.delete(store.state.jobDetailsPageState!.job!);
+     Job? job = await JobDao.getJobById(action.pageState!.job!.documentId);
+Index: lib/pages/job_details_page/JobDetailsPageState.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/job_details_page/JobDetailsPageState.dart b/lib/pages/job_details_page/JobDetailsPageState.dart
+--- a/lib/pages/job_details_page/JobDetailsPageState.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/job_details_page/JobDetailsPageState.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -77,7 +77,6 @@
+   final Function(DateTime)? onNewEndTimeSelected;
+   final Function()? onSaveSelectedDate;
+   final Function(Client)? onClientClicked;
+-  final Function(Job)? onJobClicked;
+   final Function(LocationDandy)? onLocationSaveSelected;
+   final Function(String)? onJobTitleTextChanged;
+   final Function()? onNameChangeSaved;
+@@ -133,7 +132,6 @@
+     @required this.onNewTimeSelected,
+     @required this.onSaveSelectedDate,
+     @required this.onClientClicked,
+-    @required this.onJobClicked,
+     @required this.onLocationSaveSelected,
+     @required this.onJobTitleTextChanged,
+     @required this.onNameChangeSaved,
+@@ -232,7 +230,6 @@
+     Function(DateTime)? onNewTimeSelected,
+     Function()? onSaveSelectedDate,
+     Function(Client)? onClientClicked,
+-    Function(Job)? onJobClicked,
+     Function(LocationDandy)? onLocationSaveSelected,
+     Function(String)? onJobTitleTextChanged,
+     Function()? onNameChangeSaved,
+@@ -295,7 +292,6 @@
+       onNewTimeSelected: onNewTimeSelected ?? this.onNewTimeSelected,
+       onSaveSelectedDate: onSaveSelectedDate ?? this.onSaveSelectedDate,
+       onClientClicked: onClientClicked ?? this.onClientClicked,
+-      onJobClicked: onJobClicked ?? this.onJobClicked,
+       onLocationSaveSelected: onLocationSaveSelected ?? this.onLocationSaveSelected,
+       onJobTitleTextChanged: onJobTitleTextChanged ?? this.onJobTitleTextChanged,
+       onNameChangeSaved: onNameChangeSaved ?? this.onNameChangeSaved,
+@@ -397,7 +393,6 @@
+         onNewEndTimeSelected: (newTime) => store.dispatch(UpdateJobEndTimeAction(store.state.jobDetailsPageState, newTime)),
+         onSaveSelectedDate: () => store.dispatch(UpdateJobDateAction(store.state.jobDetailsPageState)),
+         onClientClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
+-        onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId)),
+         onLocationSelected: (location) => store.dispatch(SetNewSelectedLocation(store.state.jobDetailsPageState, location)),
+         onLocationSaveSelected: (location) => store.dispatch(UpdateNewLocationAction(store.state.jobDetailsPageState, location)),
+         onJobTitleTextChanged: (newText) => store.dispatch(UpdateJobNameAction(store.state.jobDetailsPageState, newText)),
+@@ -468,7 +463,6 @@
+     onNewTimeSelected: null,
+     onSaveSelectedDate: null,
+     onClientClicked: null,
+-    onJobClicked: null,
+     onLocationSelected: null,
+     onJobTitleTextChanged: null,
+     onNameChangeSaved: null,
+@@ -565,7 +559,6 @@
+       onNewTimeSelected.hashCode ^
+       onSaveSelectedDate.hashCode ^
+       onClientClicked.hashCode ^
+-      onJobClicked.hashCode ^
+       onJobTitleTextChanged.hashCode ^
+       onJobTypeSelected.hashCode ^
+       onJobTypeSaveSelected.hashCode ^
+@@ -639,7 +632,6 @@
+               onNewTimeSelected == other.onNewTimeSelected &&
+               onSaveSelectedDate == other.onSaveSelectedDate &&
+               onClientClicked == other.onClientClicked &&
+-              onJobClicked == other.onJobClicked &&
+               onJobTitleTextChanged == other.onJobTitleTextChanged &&
+               onJobTypeSelected == other.onJobTypeSelected &&
+               onJobTypeSaveSelected == other.onJobTypeSaveSelected &&
+Index: lib/pages/job_details_page/JobDetailsReducer.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/job_details_page/JobDetailsReducer.dart b/lib/pages/job_details_page/JobDetailsReducer.dart
+--- a/lib/pages/job_details_page/JobDetailsReducer.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/job_details_page/JobDetailsReducer.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -9,6 +9,7 @@
+ import 'package:intl/intl.dart';
+ import 'package:redux/redux.dart';
+ 
++import '../../models/Contract.dart';
+ import '../../models/Questionnaire.dart';
+ import '../../models/rest_models/AccuWeatherModels/forecastFiveDay/DailyForecasts.dart';
+ import 'document_items/ContractDocument.dart';
+@@ -389,6 +390,14 @@
+         contractName: action.job!.proposal!.contract!.contractName!,
+         isSigned: action.job!.proposal!.contract!.signedByClient!
+     ));
++  } else if(action.job!.proposal != null && action.job!.proposal!.contracts != null && action.job!.proposal!.contracts!.isNotEmpty) {
++    for(Contract contract in action.job!.proposal!.contracts!) {
++      documents.add(ContractDocument(
++          contractName: contract.contractName!,
++          isSigned: contract.signedByClient ?? false,
++          isVoid: contract.isVoid ?? false,
++      ));
++    }
+   }
+   if(action.job!.proposal!.questionnaires != null && action.job!.proposal!.questionnaires!.isNotEmpty) {
+     for(Questionnaire questionnaire in action.job!.proposal!.questionnaires!) {
+Index: lib/pages/job_details_page/NewDateSelectionDialog.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/job_details_page/NewDateSelectionDialog.dart b/lib/pages/job_details_page/NewDateSelectionDialog.dart
+--- a/lib/pages/job_details_page/NewDateSelectionDialog.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/job_details_page/NewDateSelectionDialog.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -51,7 +51,6 @@
+         pageState.job!.selectedDate!.month,
+         pageState.job!.selectedDate!.day,
+         pageState.jobs,
+-        pageState.onJobClicked,
+       );
+     });
+   }
+@@ -94,7 +93,6 @@
+                   pageState.selectedDate != null ? pageState.selectedDate!.month : DateTime.now().month,
+                   pageState.selectedDate != null ? pageState.selectedDate!.day : DateTime.now().day,
+                   pageState.jobs,
+-                  pageState.onJobClicked,
+                 ),
+               ),
+               Padding(
+Index: lib/pages/job_details_page/document_items/ContractDocument.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/job_details_page/document_items/ContractDocument.dart b/lib/pages/job_details_page/document_items/ContractDocument.dart
+--- a/lib/pages/job_details_page/document_items/ContractDocument.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/job_details_page/document_items/ContractDocument.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -7,15 +7,16 @@
+ class ContractDocument implements DocumentItem {
+   final String? contractName;
+   final bool isSigned;
+-  ContractDocument({this.contractName, this.isSigned = false});
++  final bool isVoid;
++  ContractDocument({this.contractName, this.isSigned = false, this.isVoid = false});
+ 
+   @override
+   Widget buildIconItem(BuildContext context) {
+     return Container(
+-      margin: EdgeInsets.only(right: 18.0, top: 0.0),
++      margin: const EdgeInsets.only(right: 18.0, top: 0.0),
+       height: 42.0,
+       width: 42.0,
+-      child: Image.asset(isSigned ? 'assets/images/icons/contract_signed.png' : 'assets/images/icons/contract.png', color: Color(ColorConstants.getPeachDark()),),
++      child: Image.asset(chooseIcon(isSigned, isVoid), color: Color(ColorConstants.getPeachDark()),),
+     );
+   }
+ 
+@@ -31,12 +32,17 @@
+           textAlign: TextAlign.start,
+           color: Color(ColorConstants.getPrimaryBlack()),
+         ),
+-        isSigned ? TextDandyLight(
++        isVoid ? TextDandyLight(
++          type: TextDandyLight.MEDIUM_TEXT,
++          text: '(CONTRACT IS VOID)',
++          textAlign: TextAlign.start,
++          color: Color(ColorConstants.getPeachDark()),
++        ) : isSigned ? TextDandyLight(
+           type: TextDandyLight.MEDIUM_TEXT,
+           text: '(Signed)',
+           textAlign: TextAlign.start,
+           color: Color(ColorConstants.getPeachDark()),
+-        ) : SizedBox()
++        ) : const SizedBox()
+       ],
+     );
+   }
+@@ -45,4 +51,13 @@
+   String getDocumentType() {
+     return DocumentItem.DOCUMENT_TYPE_CONTRACT;
+   }
++
++  String chooseIcon(bool isSigned, bool isVoid) {
++    if(isVoid) return 'assets/images/icons/void_contract.png';
++    if(isSigned) {
++      return 'assets/images/icons/contract_signed.png';
++    } else {
++      return 'assets/images/icons/contract.png';
++    }
++  }
+ }
+\ No newline at end of file
+Index: lib/pages/jobs_page/JobsPageState.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/jobs_page/JobsPageState.dart b/lib/pages/jobs_page/JobsPageState.dart
+--- a/lib/pages/jobs_page/JobsPageState.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/jobs_page/JobsPageState.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -14,7 +14,6 @@
+   final List<Job>? activeJobs;
+   final List<Job>? jobsCompleted;
+   final Function(String)? onFilterChanged;
+-  final Function(Job)? onJobClicked;
+ 
+   JobsPageState({
+     @required this.filterType,
+@@ -23,7 +22,6 @@
+     @required this.activeJobs,
+     @required this.jobsCompleted,
+     @required this.onFilterChanged,
+-    @required this.onJobClicked,
+   });
+ 
+   JobsPageState copyWith({
+@@ -33,7 +31,6 @@
+     List<Job>? activeJobs,
+     List<Job>? jobsCompleted,
+     Function(String)? onFilterChanged,
+-    Function(Job)? onJobClicked,
+   }){
+     return JobsPageState(
+       filterType: filterType?? this.filterType,
+@@ -42,7 +39,6 @@
+       activeJobs: activeJobs?? this.activeJobs,
+       jobsCompleted: jobsCompleted?? this.jobsCompleted,
+       onFilterChanged: onFilterChanged?? this.onFilterChanged,
+-      onJobClicked: onJobClicked?? this.onJobClicked,
+     );
+   }
+ 
+@@ -53,7 +49,6 @@
+     activeJobs: [],
+     jobsCompleted: [],
+     onFilterChanged: null,
+-    onJobClicked: null,
+   );
+ 
+   factory JobsPageState.fromStore(Store<AppState> store) {
+@@ -64,7 +59,6 @@
+       activeJobs: store.state.jobsPageState!.activeJobs,
+       jobsCompleted: store.state.jobsPageState!.jobsCompleted,
+       onFilterChanged: (filterType) => store.dispatch(FilterChangedAction(store.state.jobsPageState, filterType)),
+-      onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId)),
+     );
+   }
+ 
+@@ -75,8 +69,7 @@
+       leads.hashCode ^
+       activeJobs.hashCode ^
+       jobsCompleted.hashCode ^
+-      onFilterChanged.hashCode ^
+-      onJobClicked.hashCode;
++      onFilterChanged.hashCode;
+ 
+   @override
+   bool operator ==(Object other) =>
+@@ -87,6 +80,5 @@
+               leads == other.leads &&
+               activeJobs == other.activeJobs &&
+               jobsCompleted == other.jobsCompleted &&
+-              onFilterChanged == other.onFilterChanged &&
+-              onJobClicked == other.onJobClicked;
++              onFilterChanged == other.onFilterChanged;
+ }
+Index: lib/pages/jobs_page/widgets/JobCompletedItem.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/jobs_page/widgets/JobCompletedItem.dart b/lib/pages/jobs_page/widgets/JobCompletedItem.dart
+--- a/lib/pages/jobs_page/widgets/JobCompletedItem.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/jobs_page/widgets/JobCompletedItem.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -19,8 +19,9 @@
+     return TextButton(
+       style: Styles.getButtonStyle(),
+       onPressed: () {
+-        pageState!.onJobClicked!(job!);
+-        NavigationUtil.onJobTapped(context, false);
++        if(job!.documentId != null && job!.documentId!.isNotEmpty) {
++          NavigationUtil.onJobTapped(context, false, job!.documentId!);
++        }
+       },
+       child: Padding(
+         padding: EdgeInsets.fromLTRB(24.0, 0.0, 0.0, 16.0),
+Index: lib/pages/jobs_page/widgets/JobsPageActiveJobsItem.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/jobs_page/widgets/JobsPageActiveJobsItem.dart b/lib/pages/jobs_page/widgets/JobsPageActiveJobsItem.dart
+--- a/lib/pages/jobs_page/widgets/JobsPageActiveJobsItem.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/jobs_page/widgets/JobsPageActiveJobsItem.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -20,8 +20,9 @@
+     return TextButton(
+       style: Styles.getButtonStyle(),
+       onPressed: () {
+-        pageState!.onJobClicked!(job!);
+-        NavigationUtil.onJobTapped(context, false);
++        if(job!.documentId != null && job!.documentId!.isNotEmpty) {
++          NavigationUtil.onJobTapped(context, false, job!.documentId!);
++        }
+       },
+       child: Padding(
+       padding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 18.0),
+Index: lib/pages/login_page/LoginPageMiddleware.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/login_page/LoginPageMiddleware.dart b/lib/pages/login_page/LoginPageMiddleware.dart
+--- a/lib/pages/login_page/LoginPageMiddleware.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/login_page/LoginPageMiddleware.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -38,6 +38,7 @@
+ import 'package:redux/redux.dart';
+ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+ import 'package:uuid/uuid.dart';
++import 'package:uuid/v4.dart';
+ 
+ import '../../data_layer/local_db/SembastDb.dart';
+ import '../../data_layer/local_db/daos/ClientDao.dart';
+@@ -711,6 +712,18 @@
+             }
+           }
+ 
++          await JobDao.syncAllFromFireStore();
++          List<Job> allJobs = await JobDao.getAllJobs();
++          for(Job job in allJobs) {
++            if(job.proposal?.contract != null) {
++              job.proposal?.contracts ??= [];
++              job.proposal?.contract!.documentId = const UuidV4().generate();
++              job.proposal?.contracts?.add(job.proposal!.contract!);
++              job.proposal?.contract = null;
++              await JobDao.update(job);
++            }
++          }
++
+           store.dispatch(SetIsUserVerifiedAction(store.state.loginPageState, user.emailVerified));
+           store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
+           store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
+Index: lib/pages/new_job_page/DateForm.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/new_job_page/DateForm.dart b/lib/pages/new_job_page/DateForm.dart
+--- a/lib/pages/new_job_page/DateForm.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/new_job_page/DateForm.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -56,7 +56,6 @@
+         day.month,
+         day.day,
+         pageState.jobs,
+-        pageState.onJobClicked,
+       );
+     });
+   }
+@@ -100,7 +99,6 @@
+                 pageState.selectedDate != null ? pageState.selectedDate!.month : DateTime.now().month,
+                 pageState.selectedDate != null ? pageState.selectedDate!.day : DateTime.now().day,
+                 pageState.jobs,
+-                pageState.onJobClicked,
+               ),
+             ),
+           ],
+Index: lib/pages/new_job_page/NewJobPage.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/new_job_page/NewJobPage.dart b/lib/pages/new_job_page/NewJobPage.dart
+--- a/lib/pages/new_job_page/NewJobPage.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/new_job_page/NewJobPage.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -352,7 +352,7 @@
+     } else {
+       Navigator.of(context).pop(true);
+       Navigator.of(context).pop(true);
+-      NavigationUtil.onJobTapped(context, false);
++      NavigationUtil.onJobTapped(context, false, "");
+     }
+   }
+ 
+Index: lib/pages/new_job_page/NewJobPageState.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/new_job_page/NewJobPageState.dart b/lib/pages/new_job_page/NewJobPageState.dart
+--- a/lib/pages/new_job_page/NewJobPageState.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/new_job_page/NewJobPageState.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -71,7 +71,6 @@
+   final Function(JobType)? onJobTypeSelected;
+   final Function(DateTime)? onStartTimeSelected;
+   final Function(DateTime)? onEndTimeSelected;
+-  final Function(Job)? onJobClicked;
+   final Function(DateTime)? onMonthChanged;
+   final Function()? onSunsetWeatherSelected;
+   final Function(String)? onOneTimePriceChanged;
+@@ -117,7 +116,6 @@
+     @required this.onJobTypeSelected,
+     @required this.currentJobStage,
+     @required this.onStartTimeSelected,
+-    @required this.onJobClicked,
+     @required this.jobTypes,
+     @required this.onMonthChanged,
+     @required this.deviceEvents,
+@@ -188,7 +186,6 @@
+     Function(DateTime)? onDateSelected,
+     Function(JobType)? onJobTypeSelected,
+     Function(DateTime)? onStartTimeSelected,
+-    Function(Job)? onJobClicked,
+     Function(DateTime)? onMonthChanged,
+     Function(String)? onClientFirstNameTextChanged,
+     Function()? onSunsetWeatherSelected,
+@@ -238,7 +235,6 @@
+       onJobTypeSelected: onJobTypeSelected?? this.onJobTypeSelected,
+       onStartTimeSelected: onStartTimeSelected?? this.onStartTimeSelected,
+       jobs: jobs ?? this.jobs,
+-      onJobClicked: onJobClicked ?? this.onJobClicked,
+       comingFromClientDetails: comingFromClientDetails ?? this.comingFromClientDetails,
+       documentId: documentId ?? this.documentId,
+       jobTypes: jobTypes ?? this.jobTypes,
+@@ -307,7 +303,6 @@
+         onDateSelected: null,
+         onJobTypeSelected: null,
+         onStartTimeSelected: null,
+-        onJobClicked: null,
+         comingFromClientDetails: false,
+         onMonthChanged: null,
+         onClientFirstNameTextChanged: null,
+@@ -381,7 +376,6 @@
+       onJobTypeSelected: (jobType) => store.dispatch(SetSelectedJobTypeAction(store.state.newJobPageState, jobType)),
+       onStartTimeSelected: (time) => store.dispatch(SetSelectedStartTimeAction(store.state.newJobPageState, time)),
+       onEndTimeSelected: (time) => store.dispatch(SetSelectedEndTimeAction(store.state.newJobPageState, time)),
+-      onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job.documentId)),
+       onMonthChanged: (month) => store.dispatch(FetchNewJobDeviceEvents(store.state.newJobPageState, month)),
+       onClientFirstNameTextChanged: (firstName) => store.dispatch(SetClientFirstNameAction(store.state.newJobPageState, firstName)),
+       onSunsetWeatherSelected: () => store.dispatch(sunsetPageActions.LoadInitialLocationAndDateComingFromNewJobAction(store.state.sunsetWeatherPageState, store.state.newJobPageState!.selectedLocation, store.state.newJobPageState!.selectedDate)),
+@@ -431,7 +425,6 @@
+       eventList.hashCode ^
+       jobs.hashCode ^
+       onStartTimeSelected.hashCode ^
+-      onJobClicked.hashCode ^
+       jobTypes.hashCode ^
+       clientFirstName.hashCode ^
+       onClientFirstNameTextChanged.hashCode ^
+@@ -491,7 +484,6 @@
+           eventList == other.eventList &&
+           jobs == other.jobs &&
+           onStartTimeSelected == other.onStartTimeSelected &&
+-          onJobClicked == other.onJobClicked &&
+           jobTypes == other.jobTypes &&
+           onSunsetWeatherSelected == other.onSunsetWeatherSelected &&
+           initialTimeSelectorTime == other.initialTimeSelectorTime &&
+Index: lib/pages/new_job_page/widgets/NewJobCalendarItem.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/new_job_page/widgets/NewJobCalendarItem.dart b/lib/pages/new_job_page/widgets/NewJobCalendarItem.dart
+--- a/lib/pages/new_job_page/widgets/NewJobCalendarItem.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/new_job_page/widgets/NewJobCalendarItem.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -24,8 +24,9 @@
+     return TextButton(
+       style: Styles.getButtonStyle(),
+       onPressed: () {
+-        pageState!.onJobClicked!(job!);
+-        NavigationUtil.onJobTapped(context, false);
++        if(job!.documentId != null && job!.documentId!.isNotEmpty) {
++          NavigationUtil.onJobTapped(context, false, job!.documentId!);
++        }
+       },
+       child: Padding(
+         padding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 18.0),
+Index: lib/pages/onboarding/DoYouHaveAJobPage.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/onboarding/DoYouHaveAJobPage.dart b/lib/pages/onboarding/DoYouHaveAJobPage.dart
+--- a/lib/pages/onboarding/DoYouHaveAJobPage.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/pages/onboarding/DoYouHaveAJobPage.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -118,7 +118,7 @@
+                             break;
+                           case OnBoardingPageState.HAS_JOB_NO:
+                             pageState.onViewSampleJobSelected!();
+-                            NavigationUtil.onJobTapped(context, true);
++                            NavigationUtil.onJobTapped(context, true, "");
+                             break;
+                         }
+                       },
+Index: lib/utils/CalendarUtil.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/utils/CalendarUtil.dart b/lib/utils/CalendarUtil.dart
+--- a/lib/utils/CalendarUtil.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/utils/CalendarUtil.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -13,14 +13,13 @@
+       int? selectedMonth,
+       int? selectedDay,
+       List<Job>? allJobs,
+-      Function(Job)? onJobClicked
+   ) {
+     List<JobCalendarItem> calendarListItems = [];
+     List<JobCalendarItem> fromJobs = _getJobListForSelectedDate(selectedDate, eventList!, selectedYear!, selectedMonth!, selectedDay!, allJobs!)
+-        .map((job) => JobCalendarItem(job: job, paddingRight: 24.0, paddingLeft: 24.0, onJobClicked: onJobClicked,))
++        .map((job) => JobCalendarItem(job: job, paddingRight: 24.0, paddingLeft: 24.0))
+         .toList();
+     List<JobCalendarItem> fromDeviceEvents = _getEventListForSelectedDate(selectedDate, eventList, selectedYear, selectedMonth, selectedDay)
+-        .map((event) => JobCalendarItem(eventDandyLight: event, paddingRight: 24.0, paddingLeft: 24.0, onJobClicked: null,))
++        .map((event) => JobCalendarItem(eventDandyLight: event, paddingRight: 24.0, paddingLeft: 24.0))
+         .toList();
+     calendarListItems.addAll(fromJobs);
+     calendarListItems.addAll(fromDeviceEvents);
+Index: lib/utils/JobUtil.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/utils/JobUtil.dart b/lib/utils/JobUtil.dart
+--- a/lib/utils/JobUtil.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/utils/JobUtil.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -2,6 +2,8 @@
+ import 'package:dandylight/models/JobStage.dart';
+ import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
+ 
++import '../models/Contract.dart';
++
+ class JobUtil {
+   static List<Job> getJobsInProgress(List<Job> jobs) {
+     DateTime now = DateTime.now();
+@@ -54,7 +56,12 @@
+   }
+ 
+   static getJobsWithUnsignedContracts(List<Job> jobs) {
+-    return jobs.where((job) => job.proposal != null && job.proposal?.contract != null && !(job.proposal?.contract?.signedByClient ?? false)).toList();
++    List<Job> jobsWithUnsignedContractsOldJobsSingleContract = jobs.where((job) => job.proposal != null && job.proposal?.contract != null && !(job.proposal?.contract?.signedByClient ?? false)).toList();
++    List<Contract> contracts = [];
++    for(Job job in jobsWithUnsignedContracts) {
++
++    }
++    return contracts;
+   }
+ 
+   static getJobsWithQuestionnaires(List<Job> jobs) {
+Index: lib/utils/NavigationUtil.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/utils/NavigationUtil.dart b/lib/utils/NavigationUtil.dart
+--- a/lib/utils/NavigationUtil.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/utils/NavigationUtil.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -80,8 +80,8 @@
+         updateQuestionnaireForPortal: updateQuestionnaireForPortal,
+     )));
+   }
+-  static onJobTapped(BuildContext context, bool comingFromOnBoarding) {
+-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobDetailsPage(comingFromOnBoarding: comingFromOnBoarding,)));
++  static onJobTapped(BuildContext context, bool comingFromOnBoarding, String jobDocumentId) {
++    Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobDetailsPage(jobDocumentId: jobDocumentId, comingFromOnBoarding: comingFromOnBoarding)));
+   }
+   static onCalendarSelected(BuildContext context) {
+     Navigator.of(context).push(MaterialPageRoute(builder: (context) => CalendarPage()));
+Index: lib/utils/NotificationHelper.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/utils/NotificationHelper.dart b/lib/utils/NotificationHelper.dart
+--- a/lib/utils/NotificationHelper.dart	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/lib/utils/NotificationHelper.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -76,8 +76,7 @@
+               profile!.showNewMileageExpensePage = true;
+               ProfileDao.update(profile);
+             } else {
+-              // Job job = await JobDao.getJobById(notificationResponse.payload);
+-              NavigationUtil.onJobTapped(context, false);
++
+             }
+             break;
+           case NotificationResponseType.selectedNotificationAction:
+Index: pubspec.yaml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pubspec.yaml b/pubspec.yaml
+--- a/pubspec.yaml	(revision 7d4be87017272266c09758569991892dd6f212ab)
++++ b/pubspec.yaml	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
+@@ -177,6 +177,7 @@
+     - assets/images/icons/questionnaire_solid.png
+     - assets/images/icons/zoom.png
+     - assets/images/icons/checkbox_empty.png
++    - assets/images/icons/void_contract.png
+ 
+     - assets/images/backgrounds/image_background.png
+ 
+diff --git a/assets/images/icons/void_contract.png b/assets/images/icons/void_contract.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..2a423824de9e6f4f675891a8b1616fc4105e4359
+GIT binary patch
+literal 7055
+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
+
