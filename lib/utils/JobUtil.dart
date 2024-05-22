@@ -1,3 +1,4 @@
+import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
@@ -51,21 +52,44 @@ class JobUtil {
     return result;
   }
 
-  static getJobsWithSignedContracts(List<Job> jobs) {
-    return jobs.where((job) => job.proposal != null && job.proposal?.contract != null && (job.proposal?.contract?.signedByClient ?? false)).toList();
+  static List<Contract> getJobsWithSignedContracts(List<Job> jobs) {
+    List<Contract> signedContracts = [];
+    for(Job loopJob in jobs) {
+      for(Contract loopContract in loopJob.proposal?.contracts ?? []) {
+        if(loopContract.signedByClient ?? false) {
+          signedContracts.add(loopContract);
+        }
+      }
+    }
+    return signedContracts;
   }
 
-  static getJobsWithUnsignedContracts(List<Job> jobs) {
-    List<Job> jobsWithUnsignedContractsOldJobsSingleContract = jobs.where((job) => job.proposal != null && job.proposal?.contract != null && !(job.proposal?.contract?.signedByClient ?? false)).toList();
-    List<Contract> contracts = [];
-    for(Job job in jobsWithUnsignedContracts) {
-
+  static List<Contract> getJobsWithUnsignedContracts(List<Job> jobs) {
+    List<Contract> unsignedContracts = [];
+    for(Job loopJob in jobs) {
+      for(Contract loopContract in loopJob.proposal?.contracts ?? []) {
+        if(!(loopContract.signedByClient ?? false)) {
+          unsignedContracts.add(loopContract);
+        }
+      }
     }
-    return contracts;
+    return unsignedContracts;
   }
 
   static getJobsWithQuestionnaires(List<Job> jobs) {
     return jobs.where((job) => job.proposal != null && job.proposal?.questionnaires != null && job.proposal!.questionnaires!.isNotEmpty).toList();
+  }
+
+  static Future<Job?> getJob(Contract contract) async {
+    List<Job> allJobs = await JobDao.getAllJobs();
+    for(Job loopJob in allJobs) {
+      for(Contract loopContract in loopJob.proposal!.contracts ?? []) {
+        if(loopContract.documentId == contract.documentId) {
+          return loopJob;
+        }
+      }
+    }
+    return null;
   }
 }
 

@@ -193,9 +193,13 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     for(Contract contract in allSignedContracts) {
       if(!(contract.isReviewed ?? false)){
         contract.isReviewed = true;
+        Job? jobForContract = await JobUtil.getJob(contract);
+        if(jobForContract != null) {
+          int indexOfContract = jobForContract.proposal!.contracts!.indexWhere((item) => item.documentId == contract.documentId);
+          jobForContract.proposal!.contracts![indexOfContract] = contract;
+          await JobDao.update(jobForContract);
+        }
       }
-      //TODO find job that has this contract. update contract in list in job. Then save job on next line.
-      await JobDao.update(job);
     }
 
     List<Job>? allJobs = await JobDao.getAllJobs();
