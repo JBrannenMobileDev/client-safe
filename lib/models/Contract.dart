@@ -6,6 +6,8 @@ class Contract {
   String? clientSignature;
   String? terms;//do not use. remove this field when you have a chance..   Might be never!
   String? jsonTerms;
+  String? clientName;
+  String? jobDocumentId;
   bool? signedByClient = false;
   bool? signedByPhotographer = false;
   bool? isReviewed = false;
@@ -30,6 +32,8 @@ class Contract {
     this.firstSharedDate,
     this.isReviewed,
     this.isVoid,
+    this.clientName,
+    this.jobDocumentId,
   });
 
   Map<String, dynamic> toMap() {
@@ -44,6 +48,8 @@ class Contract {
       'isVoid' : isVoid,
       'photographerSignature' : photographerSignature,
       'clientSignature' : clientSignature,
+      'clientName' : clientName,
+      'jobDocumentId' : jobDocumentId,
       'clientSignedDate' : clientSignedDate?.millisecondsSinceEpoch ?? null,
       'photographerSignedDate' : photographerSignedDate?.millisecondsSinceEpoch ?? null,
       'firstSharedDate' : firstSharedDate?.millisecondsSinceEpoch ?? null,
@@ -62,6 +68,8 @@ class Contract {
       isVoid: map['isVoid'],
       photographerSignature: map['photographerSignature'],
       clientSignature: map['clientSignature'],
+      clientName: map['clientName'],
+      jobDocumentId: map['jobDocumentId'],
       photographerSignedDate: map['photographerSignedDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['photographerSignedDate']) : null,
       clientSignedDate: map['clientSignedDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['clientSignedDate']) : null,
       firstSharedDate: map['firstSharedDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['firstSharedDate']) : null,

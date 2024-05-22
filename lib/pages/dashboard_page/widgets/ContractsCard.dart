@@ -134,13 +134,10 @@ class ContractsCard extends StatelessWidget {
     ),
   );
 
-  bool areResultsNew(List<Job> jobs) {
+  bool areResultsNew(List<Contract> contracts) {
     bool result = false;
-    for(Job job in jobs) {
-      if(!(job.proposal?.contract?.isReviewed ?? false)) result = true;
-      for(Contract contract in job.proposal?.contracts ?? []) {
-        if(!(contract.isReviewed ?? false)) result = true;
-      }
+    for(Contract contract in contracts) {
+      if(!(contract.isReviewed ?? false)) result = true;
     }
     return result;
   }

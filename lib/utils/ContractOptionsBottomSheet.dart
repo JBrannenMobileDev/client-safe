@@ -6,27 +6,30 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../widgets/TextDandyLight.dart';
+import '../models/Contract.dart';
 import 'DandyToastUtil.dart';
 import 'intentLauncher/IntentLauncherUtil.dart';
 
 class ContractOptionsBottomSheet extends StatefulWidget {
+  final Contract contract;
   final String jsonTerms;
   final Function openContractEditPage;
 
-  ContractOptionsBottomSheet(this.jsonTerms, this.openContractEditPage);
+  ContractOptionsBottomSheet(this.jsonTerms, this.openContractEditPage, this.contract);
 
 
   @override
   State<StatefulWidget> createState() {
-    return _ContractOptionsBottomSheetPageState(jsonTerms, openContractEditPage);
+    return _ContractOptionsBottomSheetPageState(jsonTerms, openContractEditPage, contract);
   }
 }
 
 class _ContractOptionsBottomSheetPageState extends State<ContractOptionsBottomSheet> with TickerProviderStateMixin, WidgetsBindingObserver {
   final String jsonTerms;
   final Function openContractEditPage;
+  final Contract contract;
 
-  _ContractOptionsBottomSheetPageState(this.jsonTerms, this.openContractEditPage);
+  _ContractOptionsBottomSheetPageState(this.jsonTerms, this.openContractEditPage, this.contract);
 
 
   @override
@@ -54,7 +57,7 @@ class _ContractOptionsBottomSheetPageState extends State<ContractOptionsBottomSh
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).pop();
-                      openContractEditPage(context);
+                      openContractEditPage(context, contract);
                     },
                     child: Container(
                       margin: EdgeInsets.only(bottom: 16),

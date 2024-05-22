@@ -385,17 +385,13 @@ JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobAction 
       depositPaid: action.job!.invoice!.depositPaid!,
     ));
   }
-  if(action.job!.proposal != null && action.job!.proposal!.contract != null) {
-    documents.add(ContractDocument(
-        contractName: action.job!.proposal!.contract!.contractName!,
-        isSigned: action.job!.proposal!.contract!.signedByClient!
-    ));
-  } else if(action.job!.proposal != null && action.job!.proposal!.contracts != null && action.job!.proposal!.contracts!.isNotEmpty) {
+  if(action.job!.proposal != null && action.job!.proposal!.contracts != null && action.job!.proposal!.contracts!.isNotEmpty) {
     for(Contract contract in action.job!.proposal!.contracts!) {
       documents.add(ContractDocument(
           contractName: contract.contractName!,
           isSigned: contract.signedByClient ?? false,
           isVoid: contract.isVoid ?? false,
+          contract: contract,
       ));
     }
   }

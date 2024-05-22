@@ -1,6 +1,7 @@
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/models/Questionnaire.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
+import 'package:dandylight/pages/job_details_page/document_items/ContractDocument.dart';
 import 'package:dandylight/pages/job_details_page/document_items/DocumentItem.dart';
 import 'package:dandylight/pages/job_details_page/document_items/QuestionnaireDocument.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 
+import '../../models/Contract.dart';
 import '../../models/Profile.dart';
 import '../../widgets/TextDandyLight.dart';
 
@@ -84,7 +86,7 @@ class DocumentsCard extends StatelessWidget {
             // UserOptionsUtil.showViewInvoiceDialog(context, pageState!.invoice, await JobDao.getJobById(pageState!.invoice!.jobDocumentId), onSendInvoiceSelected);
             break;
           case DocumentItem.DOCUMENT_TYPE_CONTRACT:
-            UserOptionsUtil.showContractOptionsSheet(context, pageState!.job!, profile!, openContractEditPage);
+            UserOptionsUtil.showContractOptionsSheet(context, (item as ContractDocument).contract, profile!, openContractEditPage, pageState!.job!);
             break;
           case DocumentItem.DOCUMENT_TYPE_QUESTIONNAIRE:
             UserOptionsUtil.showQuestionnaireOptionsSheet(context, getSelectedQuestionnaire(pageState!.job!.proposal!.questionnaires!, pageState!.documents!.elementAt(index)), openQuestionnaireEditPage, profile!, null);
@@ -131,11 +133,11 @@ class DocumentsCard extends StatelessWidget {
     NavigationUtil.onQuestionnaireSelected(context, questionnaire, questionnaire.title!, false, pageState!.job!.documentId, _ackQuestionnaireAlert);
   }
 
-  void openContractEditPage(BuildContext context) {
-    NavigationUtil.onContractSelected(context, pageState!.job!.proposal!.contract!, pageState!.job!.proposal!.contract!.contractName!, false, pageState!.job!.documentId, _ackContractAlert);
+  void openContractEditPage(BuildContext context, Contract contract) {
+    NavigationUtil.onContractSelected(context, contract, contract.contractName!, false, pageState!.job!.documentId, _ackContractAlert);
   }
 
-  Future<void> _ackContractAlert(BuildContext context) {
+  Future<void> _ackContractAlert(BuildContext context, Contract contract) {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -152,7 +154,7 @@ class DocumentsCard extends StatelessWidget {
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState!.onDeleteContractSelected!(pageState!.job!.proposal!.contract!);
+                pageState!.onDeleteContractSelected!(contract);
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
@@ -171,7 +173,7 @@ class DocumentsCard extends StatelessWidget {
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState!.onDeleteContractSelected!(pageState!.job!.proposal!.contract!);
+                pageState!.onDeleteContractSelected!(contract);
                 Navigator.of(context).pop(true);
               },
               child: const Text('Yes'),

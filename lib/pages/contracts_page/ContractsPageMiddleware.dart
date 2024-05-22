@@ -39,21 +39,26 @@ class ContractsPageMiddleware extends MiddlewareClass<AppState> {
     contract.signedByClient = false;
     contract.clientSignature = '';
     contract.documentId = const UuidV4().generate();
-    Job job = (await JobDao.getJobById(action.jobDocumentId!))!;
-    if(job.proposal != null) {
-      if(job.proposal!.contracts == null) job.proposal!.contracts = [];
-      job.proposal!.contracts!.add(contract);
-      await JobDao.update(job);
-      EventSender().sendEvent(eventName: EventNames.CONTRACT_ADDED_TO_JOB);
-      store.dispatch(SetJobInfo(store.state.jobDetailsPageState!, job.documentId!));
+    contract.jobDocumentId = action.jobDocumentId;
+    Job? job = (await JobDao.getJobById(action.jobDocumentId!));
 
-      if(!profile.progress.addContractToJob) {
-        profile.progress.addContractToJob = true;
-        await ProfileDao.update(profile);
-        store.dispatch(LoadJobsAction(store.state.dashboardPageState));
-        EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
-          EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.ADD_CONTRACT_TO_JOB,
-        });
+    if(job != null) {
+      contract.clientName = job.clientName;
+      if(job.proposal != null) {
+        if(job.proposal!.contracts == null) job.proposal!.contracts = [];
+        job.proposal!.contracts!.add(contract);
+        await JobDao.update(job);
+        EventSender().sendEvent(eventName: EventNames.CONTRACT_ADDED_TO_JOB);
+        store.dispatch(SetJobInfo(store.state.jobDetailsPageState!, job.documentId!));
+
+        if(!profile.progress.addContractToJob) {
+          profile.progress.addContractToJob = true;
+          await ProfileDao.update(profile);
+          store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+          EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
+            EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.ADD_CONTRACT_TO_JOB,
+          });
+        }
       }
     }
   }

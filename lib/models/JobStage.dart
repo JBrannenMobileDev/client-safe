@@ -77,7 +77,7 @@ class JobStage {
     );
   }
 
-  Image getContractImage(bool signed, Color color) {
+  static Image getContractImage(bool signed, Color color) {
     if(signed) {
       return Image.asset('assets/images/icons/contract_signed.png', color: color);
     } else {

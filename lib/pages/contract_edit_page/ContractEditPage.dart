@@ -30,7 +30,7 @@ class ContractEditPage extends StatefulWidget {
   final String? contractName;
   final bool? isNew;
   final String? jobDocumentId;
-  final Function(BuildContext)? deleteFromJob;
+  final Function(BuildContext, Contract)? deleteFromJob;
 
   ContractEditPage({this.contract, this.contractName, this.isNew, this.jobDocumentId, this.deleteFromJob});
 
@@ -51,7 +51,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
   final String? contractName;
   final bool? isNew;
   final String? jobDocumentId;
-  final Function(BuildContext)? deleteFromJob;
+  final Function(BuildContext, Contract)? deleteFromJob;
   bool hasUnsavedChanges = true;
   OverlayEntry? overlayEntry;
   bool isKeyboardVisible = false;
@@ -237,8 +237,8 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                     icon: ImageIcon(ImageUtil.getTrashIconWhite(), color: Color(ColorConstants.getPeachDark()),),
                     tooltip: 'Delete Job',
                     onPressed: () {
-                      if(jobDocumentId != null && jobDocumentId!.isNotEmpty) {
-                        deleteFromJob!(context);
+                      if(jobDocumentId != null && jobDocumentId!.isNotEmpty && contract != null) {
+                        deleteFromJob!(context, contract!);
                       }else {
                         _ackDeleteAlert(context, pageState);
                       }

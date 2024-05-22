@@ -2,13 +2,15 @@ import 'package:dandylight/pages/job_details_page/document_items/DocumentItem.da
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 
+import '../../../models/Contract.dart';
 import '../../../widgets/TextDandyLight.dart';
 
 class ContractDocument implements DocumentItem {
   final String? contractName;
   final bool isSigned;
   final bool isVoid;
-  ContractDocument({this.contractName, this.isSigned = false, this.isVoid = false});
+  final Contract contract;
+  ContractDocument({this.contractName, this.isSigned = false, this.isVoid = false, required this.contract});
 
   @override
   Widget buildIconItem(BuildContext context) {

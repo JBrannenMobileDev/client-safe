@@ -389,7 +389,7 @@ class OnDeleteInvoiceSelectedAction{
 
 class OnDeleteContractSelectedAction{
   final JobDetailsPageState? pageState;
-  final Contract? contract;
+  final Contract contract;
   OnDeleteContractSelectedAction(this.pageState, this.contract);
 }
 

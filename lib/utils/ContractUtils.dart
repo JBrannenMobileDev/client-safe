@@ -3,20 +3,19 @@ import 'dart:convert';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:intl/intl.dart';
 
+import '../models/Contract.dart';
 import '../models/Job.dart';
 import '../models/Profile.dart';
 import 'TextFormatterUtil.dart';
 
 class ContractUtils {
 
-  static String populate(Job job, Profile profile) {
+  static String populate(Contract contract, Profile profile, Job job) {
     String populatedJsonTerms = '';
-    if(job.proposal!.contract != null) {
-      String contractJson = job.proposal!.contract!.jsonTerms!;
-      quill.Document document = quill.Document.fromJson(jsonDecode(contractJson));
-      document = replaceDataItems(document, profile, job);
-      populatedJsonTerms = jsonEncode(document.toDelta().toJson());
-    }
+    String contractJson = contract.jsonTerms!;
+    quill.Document document = quill.Document.fromJson(jsonDecode(contractJson));
+    document = replaceDataItems(document, profile, job);
+    populatedJsonTerms = jsonEncode(document.toDelta().toJson());
     return populatedJsonTerms;
   }
 

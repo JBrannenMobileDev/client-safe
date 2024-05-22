@@ -131,7 +131,7 @@ class NavigationUtil {
   static onAddQuestionnaireToJobSelected(BuildContext context, String jobDocumentId) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => QuestionnairesPage(jobDocumentId: jobDocumentId, addToJobNew: true)));
   }
-  static onContractSelected(BuildContext context, Contract contract, String contractName, bool isNew, String? jobDocumentId, Function(BuildContext)? onDeleteFromJob) {
+  static onContractSelected(BuildContext context, Contract contract, String contractName, bool isNew, String? jobDocumentId, Function(BuildContext, Contract)? onDeleteFromJob) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ContractEditPage(contract: contract, contractName: contractName, isNew: isNew, jobDocumentId: jobDocumentId, deleteFromJob: onDeleteFromJob)));
   }
   static onQuestionnaireSelected(BuildContext context, Questionnaire? questionnaire, String title, bool isNew, String? jobDocumentId, Function(BuildContext, Questionnaire)? onDeleteFromJob) {

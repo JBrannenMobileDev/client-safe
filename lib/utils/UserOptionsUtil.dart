@@ -53,6 +53,7 @@ import 'package:share_plus/share_plus.dart';
 
 import '../data_layer/local_db/daos/ProfileDao.dart';
 import '../models/Client.dart';
+import '../models/Contract.dart';
 import '../models/JobReminder.dart';
 import '../models/JobType.dart';
 import '../models/LocationDandy.dart';
@@ -552,8 +553,8 @@ class UserOptionsUtil {
         });
   }
 
-  static void showContractOptionsSheet(BuildContext context, Job job, Profile profile, Function openContractEditPage) {
-    String populatedJsonTerms = ContractUtils.populate(job, profile);
+  static void showContractOptionsSheet(BuildContext context, Contract contract, Profile profile, Function openContractEditPage, Job job) {
+    String populatedJsonTerms = ContractUtils.populate(contract, profile, job);
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -562,7 +563,7 @@ class UserOptionsUtil {
         backgroundColor: Colors.transparent,
         barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
         builder: (context) {
-          return ContractOptionsBottomSheet(populatedJsonTerms, openContractEditPage);
+          return ContractOptionsBottomSheet(populatedJsonTerms, openContractEditPage, contract);
         });
   }
 

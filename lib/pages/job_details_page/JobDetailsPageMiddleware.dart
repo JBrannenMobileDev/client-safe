@@ -338,12 +338,14 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     completedJobStages.remove(JobStage(stage: JobStage.STAGE_3_PROPOSAL_SENT));
     Job jobToSave = store.state.jobDetailsPageState!.job!;
     jobToSave.completedStages = completedJobStages;
-    jobToSave.proposal!.contract = null;
+    if(jobToSave.proposal?.contracts != null) {
+      jobToSave.proposal!.contracts!.removeWhere((item) => item.documentId == action.contract.documentId);
 
-    await JobDao.insertOrUpdate(jobToSave);
-    await JobDao.insertOrUpdate(jobToSave);
-    store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
-    store.dispatch(DeleteDocumentFromLocalStateAction(store.state.jobDetailsPageState, DocumentItem.DOCUMENT_TYPE_CONTRACT));
+      await JobDao.insertOrUpdate(jobToSave);
+      await JobDao.insertOrUpdate(jobToSave);
+      store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
+      store.dispatch(DeleteDocumentFromLocalStateAction(store.state.jobDetailsPageState, DocumentItem.DOCUMENT_TYPE_CONTRACT));
+    }
   }
 
   void _updateJobAddOnCost(Store<AppState> store, SaveAddOnCostAction action, NextDispatcher next) async{

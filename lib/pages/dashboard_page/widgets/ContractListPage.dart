@@ -76,7 +76,7 @@ class ContractListPage extends StatelessWidget{
 
 
   Widget _buildItem(BuildContext context, int index) {
-    return ContractsItem(job: signed! ? pageState!.allSignedContracts!.elementAt(index) : pageState!.allUnsignedContracts!.elementAt(index), pageState: pageState!, signed: signed!);
+    return ContractsItem(contract: signed! ? pageState!.allSignedContracts!.elementAt(index) : pageState!.allUnsignedContracts!.elementAt(index), pageState: pageState!);
   }
 
 }
