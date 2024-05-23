@@ -1,6 +1,7 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
+import 'package:dandylight/models/Contract.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:redux/redux.dart';
@@ -92,8 +93,8 @@ class ShareWithClientPageMiddleware extends MiddlewareClass<AppState> {
     Proposal proposal = job!.proposal!;
     proposal.detailsMessage = action.pageState!.clientMessage;
 
-    if(proposal.contract != null && proposal.contract!.firstSharedDate == null){
-      proposal.contract!.firstSharedDate = DateTime.now();
+    for(Contract contract in proposal.contracts!) {
+      contract.firstSharedDate ??= DateTime.now();
     }
 
     job.proposal = proposal;

@@ -2,6 +2,7 @@ import 'package:dandylight/models/Proposal.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
+import '../../models/Contract.dart';
 import '../../models/Invoice.dart';
 import '../../models/Job.dart';
 import '../../models/Profile.dart';
@@ -18,10 +19,10 @@ class ClientPortalPageState{
   final bool? isLoading;
   final bool? isLoadingInitial;
   final bool? isBrandingPreview;
-  final Function(String)? onClientSignatureSaved;
+  final Function(String, Contract)? onClientSignatureSaved;
   final Function(bool)? onMarkAsPaidSelected;
   final Function(bool)? onMarkAsPaidDepositSelected;
-  final Function()? onDownloadContractSelected;
+  final Function(Contract)? onDownloadContractSelected;
   final Function()? onDownloadInvoiceSelected;
   final Function()? resetErrorMsg;
   final Function()? updateQuestionnaires;
@@ -57,10 +58,10 @@ class ClientPortalPageState{
     bool? isLoading,
     bool? isBrandingPreview,
     bool? isLoadingInitial,
-    Function(String)? onClientSignatureSaved,
+    Function(String, Contract)? onClientSignatureSaved,
     Function(bool)? onMarkAsPaidSelected,
     Function(bool)? onMarkAsPaidDepositSelected,
-    Function()? onDownloadContractSelected,
+    Function(Contract)? onDownloadContractSelected,
     Function()? onDownloadInvoiceSelected,
     Function()? resetErrorMsg,
     Function()? updateQuestionnaires,
@@ -118,14 +119,14 @@ class ClientPortalPageState{
       isLoading: store.state.clientPortalPageState!.isLoading,
       isBrandingPreview: store.state.clientPortalPageState!.isBrandingPreview,
       isLoadingInitial: store.state.clientPortalPageState!.isLoadingInitial,
-      onClientSignatureSaved: (signature) {
+      onClientSignatureSaved: (signature, contract) {
         store.dispatch(SetLoadingStateAction(store.state.clientPortalPageState, true));
-        store.dispatch(SaveClientSignatureAction(store.state.clientPortalPageState, signature));
+        store.dispatch(SaveClientSignatureAction(store.state.clientPortalPageState, signature, contract));
       },
       onMarkAsPaidSelected: (isPaid) => store.dispatch(UpdateProposalInvoicePaidAction(store.state.clientPortalPageState, isPaid)),
       onMarkAsPaidDepositSelected: (isPaid) => store.dispatch(UpdateProposalInvoiceDepositPaidAction(store.state.clientPortalPageState, isPaid)),
       onDownloadInvoiceSelected: () => store.dispatch(GenerateInvoiceForClientAction(store.state.clientPortalPageState)),
-      onDownloadContractSelected: () => store.dispatch(GenerateContractForClientAction(store.state.clientPortalPageState)),
+      onDownloadContractSelected: (contract) => store.dispatch(GenerateContractForClientAction(store.state.clientPortalPageState, contract)),
       resetErrorMsg: () => store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, '')),
       updateQuestionnaires: () => store.dispatch(FetchProposalDataAction(store.state.clientPortalPageState, store.state.clientPortalPageState!.userId, store.state.clientPortalPageState!.jobId, false)),
     );

@@ -14,23 +14,21 @@ class ContractUtils {
     String populatedJsonTerms = '';
     String contractJson = contract.jsonTerms!;
     quill.Document document = quill.Document.fromJson(jsonDecode(contractJson));
-    document = replaceDataItems(document, profile, job);
+    document = replaceDataItems(document, profile, job, contract);
     populatedJsonTerms = jsonEncode(document.toDelta().toJson());
     return populatedJsonTerms;
   }
 
-  static String populateForPdf(Job job, Profile profile) {
+  static String populateForPdf(Job job, Profile profile, Contract contract) {
     String populatedJsonTerms = '';
-    if(job.proposal!.contract != null) {
-      String contractJson = job.proposal!.contract!.jsonTerms!;
-      quill.Document document = quill.Document.fromJson(jsonDecode(contractJson));
-      document = replaceDataItems(document, profile, job);
-      populatedJsonTerms = document.toPlainText();
-    }
+    String contractJson = contract.jsonTerms!;
+    quill.Document document = quill.Document.fromJson(jsonDecode(contractJson));
+    document = replaceDataItems(document, profile, job, contract);
+    populatedJsonTerms = document.toPlainText();
     return populatedJsonTerms;
   }
 
-  static quill.Document replaceDataItems(quill.Document document, Profile profile, Job job) {
+  static quill.Document replaceDataItems(quill.Document document, Profile profile, Job job, Contract contract) {
     replaceAll(document, Job.DETAIL_BUSINESS_NAME, profile.businessName != null ? profile.businessName! : 'Photographer');
     replaceAll(document, Job.DETAIL_PHOTOGRAPHER_NAME, (profile.firstName != null ? profile.firstName : 'Photographer')! + (profile.lastName != null ? ' ' + profile.lastName! : ''));
     replaceAll(document, Job.DETAIL_CLIENT_NAME, job.clientName != null ? job.clientName! : 'Client');
@@ -42,7 +40,7 @@ class ContractUtils {
     replaceAll(document, Job.DETAIL_TOTAL_DUE_DATE, job.invoice != null && job.invoice!.dueDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(job.invoice!.dueDate!) : 'TBD');
     replaceAll(document, Job.DETAIL_RETAINER_PRICE, job.invoice != null && job.invoice!.depositAmount != null ? TextFormatterUtil.formatDecimalCurrency(job.invoice!.depositAmount!) : job.invoice == null && job.priceProfile != null && job.priceProfile!.deposit != null ? TextFormatterUtil.formatDecimalCurrency(job.priceProfile!.deposit!) : 'TBD');
     replaceAll(document, Job.DETAIL_TOTAL, job.invoice != null && job.invoice!.total != null ? TextFormatterUtil.formatDecimalCurrency(job.invoice!.total!) : job.invoice == null && job.priceProfile != null ? TextFormatterUtil.formatDecimalCurrency(job.priceProfile!.flatRate!) : 'N/A');
-    replaceAll(document, Job.DETAIL_EFFECTIVE_DATE, job.proposal!.contract != null && job.proposal!.contract!.firstSharedDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(job.proposal!.contract!.firstSharedDate!) : DateFormat('EEE, MMMM dd, yyyy').format(DateTime.now()));
+    replaceAll(document, Job.DETAIL_EFFECTIVE_DATE, contract.firstSharedDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(contract.firstSharedDate!) : DateFormat('EEE, MMMM dd, yyyy').format(DateTime.now()));
     replaceAll(document, Job.DETAIL_START_TIME, job.selectedTime != null ? DateFormat('h:mm a').format(job.selectedTime!) : 'TBD');
     replaceAll(document, Job.DETAIL_END_TIME, job.selectedEndTime != null ? DateFormat('h:mm a').format(job.selectedEndTime!) : 'TBD');
     replaceAll(document, Job.DETAIL_PHOTOGRAPHER_EMAIL, profile.email != null && profile.email!.isNotEmpty ? profile.email! : 'Photographer email: N/A');

@@ -821,7 +821,7 @@ class PdfUtil {
               ));
         },
         build: (Context context) {
-          List<String> paragraphs = ContractUtils.populateForPdf(job, profile).split('\n\n');
+          List<String> paragraphs = ContractUtils.populateForPdf(job, profile, contract).split('\n\n');
           List<Widget> termsParagraphs = [];
           termsParagraphs.add(
             Header(
@@ -969,7 +969,7 @@ class PdfUtil {
                         Container(
                           margin: const EdgeInsets.only(top: 0, bottom: 4),
                           child: Text(
-                            DateFormat('EEE, MMMM dd, yyyy').format(proposal.contract!.clientSignedDate ?? DateTime.now()),
+                            DateFormat('EEE, MMMM dd, yyyy').format(contract.clientSignedDate ?? DateTime.now()),
                             textScaleFactor: .85,
                           ),
                         )
@@ -1006,7 +1006,7 @@ class PdfUtil {
                     ),
                     Container(
                       child: Text(
-                          proposal.contract!.signedByClient! ? contract.clientSignature! : '',
+                          contract.signedByClient! ? contract.clientSignature! : '',
                           textScaleFactor: .85,
                           style: TextStyle(
                             font: signatureFont,

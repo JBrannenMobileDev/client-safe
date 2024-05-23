@@ -74,7 +74,7 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
       profile.logoCharacter = profile.previewLogoCharacter;
     } else {
       job = await repository.fetchJob(action.userId!, action.jobId!);
-      job = populateContractWithJobData(job, profile);
+      job = populateContractsWithJobData(job, profile);
       if(job.invoice != null && (job.invoice!.salesTaxRate ?? 0) > 0 && job.invoice!.salesTaxAmount == 0) {
         job.invoice!.salesTaxAmount = (job.invoice!.subtotal! * job.invoice!.salesTaxRate!)/100;
       }
@@ -88,7 +88,7 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _generateContract(Store<AppState> store, GenerateContractForClientAction action, NextDispatcher next) async{
-    Document pdf = await PdfUtil.generateContract(action.pageState!.proposal!.contract!, action.pageState!.proposal!, action.pageState!.profile!, action.pageState!.job!);
+    Document pdf = await PdfUtil.generateContract(action.contract, action.pageState!.proposal!, action.pageState!.profile!, action.pageState!.job!);
     IntentLauncherUtil.downloadWeb(await pdf.save(), downloadName: action.pageState!.job!.client!.firstName! + '_' + action.pageState!.job!.client!.lastName! + '_contract.pdf');
   }
 
@@ -104,19 +104,26 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
 
   void _saveClientSignature(Store<AppState> store, SaveClientSignatureAction action, NextDispatcher next) async{
     Proposal proposal = action.pageState!.proposal!;
+    Contract contractToSave = action.contract;
 
     if(action.signature == null || action.signature!.isEmpty) {
       store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "Please sign the contract before saving your signature."));
       store.dispatch(SetLoadingStateAction(store.state.clientPortalPageState, false));
     } else {
       ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
-      int errorCode = await repository.saveClientSignature(action.pageState!.userId!, action.pageState!.jobId!, action.signature!);
+      int errorCode = await repository.saveClientSignature(action.pageState!.userId!, action.pageState!.jobId!, action.signature!, contractToSave.documentId);
       if(errorCode != 200) {
         store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "There was an error saving your signature. Please try again."));
       } else {
-        proposal.contract!.clientSignature = action.signature;
-        proposal.contract!.signedByClient = true;
-        proposal.contract!.clientSignedDate = DateTime.now();
+        contractToSave.clientSignature = action.signature;
+        contractToSave.signedByClient = true;
+        contractToSave.clientSignedDate = DateTime.now();
+
+        if(action.pageState!.job!.proposal!.contracts == null) action.pageState!.job!.proposal!.contracts = [];
+
+        int indexToUpdate = proposal.contracts!.indexWhere((item) => item.documentId == contractToSave.documentId);
+        proposal.contracts![indexToUpdate] = contractToSave;
+
         action.pageState!.job!.proposal = proposal;
         store.dispatch(SetJobAction(store.state.clientPortalPageState, action.pageState!.job));
         store.dispatch(SetProposalAction(store.state.clientPortalPageState, proposal));
@@ -464,10 +471,12 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
     );
   }
 
-  Job populateContractWithJobData(Job job, Profile profile) {
-    if(job.proposal!.contract != null) {
-      String populatedJsonTerms = ContractUtils.populate(job, profile);
-      job.proposal!.contract!.jsonTerms = populatedJsonTerms;
+  Job populateContractsWithJobData(Job job, Profile profile) {
+    if(job.proposal!.contracts != null) {
+      for(Contract contract in job.proposal!.contracts!) {
+        String populatedJsonTerms = ContractUtils.populate(contract, profile, job);
+        contract.jsonTerms = populatedJsonTerms;
+      }
     }
     return job;
   }

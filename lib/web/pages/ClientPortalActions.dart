@@ -1,6 +1,7 @@
 
 import 'package:dandylight/models/Proposal.dart';
 
+import '../../models/Contract.dart';
 import '../../models/Invoice.dart';
 import '../../models/Job.dart';
 import '../../models/Profile.dart';
@@ -23,7 +24,8 @@ class SetBrandingPreviewStateAction{
 class SaveClientSignatureAction{
   final ClientPortalPageState? pageState;
   final String? signature;
-  SaveClientSignatureAction(this.pageState, this.signature);
+  final Contract contract;
+  SaveClientSignatureAction(this.pageState, this.signature, this.contract);
 }
 
 class SetProposalAction {
@@ -87,5 +89,6 @@ class GenerateInvoiceForClientAction {
 
 class GenerateContractForClientAction {
   final ClientPortalPageState? pageState;
-  GenerateContractForClientAction(this.pageState);
+  final Contract contract;
+  GenerateContractForClientAction(this.pageState, this.contract);
 }
