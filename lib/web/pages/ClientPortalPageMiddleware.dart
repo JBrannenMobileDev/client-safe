@@ -111,7 +111,7 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(SetLoadingStateAction(store.state.clientPortalPageState, false));
     } else {
       ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
-      int errorCode = await repository.saveClientSignature(action.pageState!.userId!, action.pageState!.jobId!, action.signature!, contractToSave.documentId);
+      int errorCode = await repository.saveClientSignature(action.pageState!.userId!, action.pageState!.jobId!, action.signature!, contractToSave.documentId!);
       if(errorCode != 200) {
         store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "There was an error saving your signature. Please try again."));
       } else {

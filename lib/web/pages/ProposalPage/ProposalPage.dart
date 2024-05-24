@@ -16,6 +16,7 @@ import '../../../utils/analytics/EventNames.dart';
 import '../../../utils/analytics/EventSender.dart';
 import '../../../widgets/DandyLightNetworkImage.dart';
 import '../ClientPortalPageState.dart';
+import '../contractPage/ContractsPageWeb.dart';
 import '../detailsPage/DetailsPage.dart';
 import '../invoicePage/InvoicePage.dart';
 import '../questionnairesPage/ClientPortalQuestionnairesPage.dart';
@@ -77,14 +78,14 @@ class _SignContractPageState extends State<ProposalPage> {
               width: 56.0,
               decoration: BoxDecoration(
                 color: Colors.transparent,
-                borderRadius: new BorderRadius.circular(16.0),
+                borderRadius: BorderRadius.circular(16.0),
               ),
               child: LoadingAnimationWidget.fourRotatingDots(
                 color: Color(ColorConstants.getPeachDark()),
                 size: 32,
               ),
             ),
-          ) : Container(
+          ) : SizedBox(
             height: MediaQuery.of(context).size.height,
             child: Stack(
               alignment: Alignment.bottomCenter,
@@ -94,23 +95,23 @@ class _SignContractPageState extends State<ProposalPage> {
                   child: pageState.profile != null && pageState.proposal != null ? Container(
                     width: double.infinity,
                     alignment: Alignment.center,
-                    child: Container(
+                    child: SizedBox(
                       width: double.infinity,
                       child: Stack(
                         alignment: Alignment.topCenter,
                         children: [
-                          DeviceType.getDeviceTypeByContext(context) == Type.Website ? Container(
+                          DeviceType.getDeviceTypeByContext(context) == Type.Website ? SizedBox(
                             width: double.infinity,
                             child: Stack(
                               alignment: Alignment.centerLeft,
                               children: [
                                 pageState.profile!.bannerWebUrl != null && pageState.profile!.bannerMobileUrl != null && pageState.profile!.bannerImageSelected == true ? Container(
                                   height: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MediaQuery.of(context).size.height/2 : 300,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     color: Colors.transparent,
                                   ),
                                   child: DandyLightNetworkImage(
-                                    DeviceType.getDeviceTypeByContext(context)! == Type.Website ? pageState.profile!.bannerWebUrl ?? '' : pageState.profile!.bannerMobileUrl ?? '',
+                                    DeviceType.getDeviceTypeByContext(context) == Type.Website ? pageState.profile!.bannerWebUrl ?? '' : pageState.profile!.bannerMobileUrl ?? '',
                                     borderRadius: 0,
                                     resizeWidth: 2160,
                                     color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.bannerColor!),
@@ -133,7 +134,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                       color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
                                     ),
                                     child: ClipRRect(
-                                      borderRadius: new BorderRadius.circular(75.0),
+                                      borderRadius: BorderRadius.circular(75.0),
                                       child: Container(
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
@@ -148,7 +149,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                       ),
                                     ),
                                   ),
-                                ) : SizedBox(),
+                                ) : const SizedBox(),
                                 DeviceType.getDeviceTypeByContext(context) == Type.Website && pageState.profile?.logoSelected == false ? Padding(
                                   padding: EdgeInsets.only(left: calculateLogoMargin(MediaQuery.of(context).size.width), bottom: 124),
                                   child: Container(
@@ -167,9 +168,9 @@ class _SignContractPageState extends State<ProposalPage> {
                                       color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconTextColor!),
                                     ),
                                   ),
-                                ) : SizedBox(),
+                                ) : const SizedBox(),
                                 DeviceType.getDeviceTypeByContext(context) == Type.Website ? Container(
-                                  margin: EdgeInsets.only(bottom: 124),
+                                  margin: const EdgeInsets.only(bottom: 124),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,14 +190,14 @@ class _SignContractPageState extends State<ProposalPage> {
                                         child: TextDandyLight(
                                           type: TextDandyLight.LARGE_TEXT,
                                           fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
-                                          text: pageState.profile!.businessName != null ? pageState.profile!.businessName : 'Your Business Name',
+                                          text: pageState.profile!.businessName ?? 'Your Business Name',
                                           color: ColorConstants.isWhiteString(pageState.profile!.selectedColorTheme!.bannerColor!) && !pageState.profile!.bannerImageSelected! ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
                                           addShadow: pageState.profile!.bannerImageSelected! ? true : false,
                                         ),
                                       )
                                     ],
                                   ),
-                                ) : SizedBox(),
+                                ) : const SizedBox(),
                               ],
                             ),
                           // ) : pageState.profile?.bannerWebUrl != null && pageState.profile?.bannerMobileUrl != null && pageState.profile?.bannerImageSelected == true ? buildSmallIconLayout(pageState) : buildLargeIconLayout(pageState),
@@ -212,18 +213,16 @@ class _SignContractPageState extends State<ProposalPage> {
                             child: DeviceType.getDeviceTypeByContext(context) == Type.Website ? Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Container(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: _menuButtons(pageState),
-                                  ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: _menuButtons(pageState),
                                 ),
-                                _getSelectedPage(selectedPage),
+                                _getSelectedPage(selectedPage, pageState),
                               ],
                             ) : Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                _getSelectedPage(selectedPage),
+                                _getSelectedPage(selectedPage, pageState),
                               ],
                             ),
                           ),
@@ -251,6 +250,17 @@ class _SignContractPageState extends State<ProposalPage> {
           EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_HOME_SELECTED);
         },
         child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          onHover: (event) {
+            setState(() {
+              isHoveredDetails = true;
+            });
+          },
+          onExit: (event) {
+            setState(() {
+              isHoveredDetails = false;
+            });
+          },
           child: Container(
             alignment: Alignment.center,
             height: 64,
@@ -263,20 +273,9 @@ class _SignContractPageState extends State<ProposalPage> {
               color: Colors.black,
             ),
           ),
-          cursor: SystemMouseCursors.click,
-          onHover: (event) {
-            setState(() {
-              isHoveredDetails = true;
-            });
-          },
-          onExit: (event) {
-            setState(() {
-              isHoveredDetails = false;
-            });
-          },
         ),
       ),
-      pageState.proposal?.contract != null ? GestureDetector(
+      pageState.proposal?.contracts != null && pageState.proposal!.contracts!.isNotEmpty ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = CONTRACT;
@@ -285,17 +284,6 @@ class _SignContractPageState extends State<ProposalPage> {
           EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_CONTRACT_SELECTED);
         },
         child: MouseRegion(
-          child: Container(
-            alignment: Alignment.center,
-            height: 64,
-            width: 150,
-            child: TextDandyLight(
-              type: TextDandyLight.MEDIUM_TEXT,
-              fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
-              text: 'Contract',
-              isBold: isHoveredContract || selectedPage == CONTRACT,
-            ),
-          ),
           cursor: SystemMouseCursors.click,
           onHover: (event) {
             setState(() {
@@ -307,8 +295,19 @@ class _SignContractPageState extends State<ProposalPage> {
               isHoveredContract = false;
             });
           },
+          child: Container(
+            alignment: Alignment.center,
+            height: 64,
+            width: 150,
+            child: TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+              fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
+              text: 'Contract',
+              isBold: isHoveredContract || selectedPage == CONTRACT,
+            ),
+          ),
         ),
-      ) : SizedBox(),
+      ) : const SizedBox(),
       pageState.invoice != null ? GestureDetector(
         onTap: () {
           setState(() {
@@ -318,17 +317,6 @@ class _SignContractPageState extends State<ProposalPage> {
           EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_INVOICE_SELECTED);
         },
         child: MouseRegion(
-          child: Container(
-            alignment: Alignment.center,
-            height: 64,
-            width: 150,
-            child: TextDandyLight(
-              type: TextDandyLight.MEDIUM_TEXT,
-              fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
-              text: 'Invoice',
-              isBold: isHoveredInvoice || selectedPage == INVOICE,
-            ),
-          ),
           cursor: SystemMouseCursors.click,
           onHover: (event) {
             setState(() {
@@ -340,8 +328,19 @@ class _SignContractPageState extends State<ProposalPage> {
               isHoveredInvoice = false;
             });
           },
+          child: Container(
+            alignment: Alignment.center,
+            height: 64,
+            width: 150,
+            child: TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+              fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
+              text: 'Invoice',
+              isBold: isHoveredInvoice || selectedPage == INVOICE,
+            ),
+          ),
         ),
-      ) : SizedBox(),
+      ) : const SizedBox(),
       pageState.proposal!.includePoses! && pageState.job!.poses!.isNotEmpty ? GestureDetector(
         onTap: () {
           setState(() {
@@ -351,17 +350,6 @@ class _SignContractPageState extends State<ProposalPage> {
           EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_POSES_SELECTED);
         },
         child: MouseRegion(
-          child: Container(
-            alignment: Alignment.center,
-            height: 64,
-            width: 150,
-            child: TextDandyLight(
-              type: TextDandyLight.MEDIUM_TEXT,
-              fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
-              text: 'Poses',
-              isBold: isHoveredPoses || selectedPage == POSES,
-            ),
-          ),
           cursor: SystemMouseCursors.click,
           onHover: (event) {
             setState(() {
@@ -373,8 +361,19 @@ class _SignContractPageState extends State<ProposalPage> {
               isHoveredPoses = false;
             });
           },
+          child: Container(
+            alignment: Alignment.center,
+            height: 64,
+            width: 150,
+            child: TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+              fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
+              text: 'Poses',
+              isBold: isHoveredPoses || selectedPage == POSES,
+            ),
+          ),
         ),
-      ) : SizedBox(),
+      ) : const SizedBox(),
       (pageState.proposal!.includeQuestionnaires ?? false) && pageState.proposal?.questionnaires != null ? GestureDetector(
         onTap: () {
           setState(() {
@@ -383,17 +382,6 @@ class _SignContractPageState extends State<ProposalPage> {
           });
         },
         child: MouseRegion(
-          child: Container(
-            alignment: Alignment.center,
-            height: 64,
-            width: 150,
-            child: TextDandyLight(
-              type: TextDandyLight.MEDIUM_TEXT,
-              fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
-              text: 'Questionnaire',
-              isBold: isHoveredQuestionnaire || selectedPage == QUESTIONNAIRE,
-            ),
-          ),
           cursor: SystemMouseCursors.click,
           onHover: (event) {
             setState(() {
@@ -405,15 +393,6 @@ class _SignContractPageState extends State<ProposalPage> {
               isHoveredQuestionnaire = false;
             });
           },
-        ),
-      ) : SizedBox(),
-      pageState.proposal?.feedback != null ? GestureDetector(
-        onTap: () {
-          setState(() {
-            selectedPage = FEEDBACK;
-          });
-        },
-        child: MouseRegion(
           child: Container(
             alignment: Alignment.center,
             height: 64,
@@ -421,10 +400,19 @@ class _SignContractPageState extends State<ProposalPage> {
             child: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
               fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
-              text: 'Feedback',
-              isBold: isHoveredFeedback || selectedPage == FEEDBACK,
+              text: 'Questionnaire',
+              isBold: isHoveredQuestionnaire || selectedPage == QUESTIONNAIRE,
             ),
           ),
+        ),
+      ) : const SizedBox(),
+      pageState.proposal?.feedback != null ? GestureDetector(
+        onTap: () {
+          setState(() {
+            selectedPage = FEEDBACK;
+          });
+        },
+        child: MouseRegion(
           cursor: SystemMouseCursors.click,
           onHover: (event) {
             setState(() {
@@ -436,8 +424,19 @@ class _SignContractPageState extends State<ProposalPage> {
               isHoveredFeedback = false;
             });
           },
+          child: Container(
+            alignment: Alignment.center,
+            height: 64,
+            width: 150,
+            child: TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+              fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
+              text: 'Feedback',
+              isBold: isHoveredFeedback || selectedPage == FEEDBACK,
+            ),
+          ),
         ),
-      ) : SizedBox(),
+      ) : const SizedBox(),
     ];
   }
 
@@ -451,7 +450,7 @@ class _SignContractPageState extends State<ProposalPage> {
         EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_HOME_SELECTED);
       },
       child: Container(
-        margin: EdgeInsets.only(left: 16, right: 16),
+        margin: const EdgeInsets.only(left: 16, right: 16),
         height: 26,
         width: 26,
         child: Image.asset(
@@ -460,7 +459,7 @@ class _SignContractPageState extends State<ProposalPage> {
       ),
     )];
 
-    if(pageState.proposal!.contract != null && pageState.proposal!.includeContract!) {
+    if(pageState.proposal?.contracts != null && pageState.proposal!.contracts!.isNotEmpty && pageState.proposal!.includeContract!) {
       result.add(GestureDetector(
         onTap: () {
           setState(() {
@@ -470,7 +469,7 @@ class _SignContractPageState extends State<ProposalPage> {
           EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_CONTRACT_SELECTED);
         },
         child: Container(
-          margin: EdgeInsets.only(left: 16, right: 16),
+          margin: const EdgeInsets.only(left: 16, right: 16),
           height: 26,
           width: 26,
           child: Image.asset(
@@ -490,7 +489,7 @@ class _SignContractPageState extends State<ProposalPage> {
           EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_INVOICE_SELECTED);
         },
         child: Container(
-          margin: EdgeInsets.only(left: 16, right: 16),
+          margin: const EdgeInsets.only(left: 16, right: 16),
           height: 26,
           width: 26,
           child: Image.asset(
@@ -510,7 +509,7 @@ class _SignContractPageState extends State<ProposalPage> {
           EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_QUESTIONNAIRE_SELECTED);
         },
         child: Container(
-          margin: EdgeInsets.only(left: 16, right: 16),
+          margin: const EdgeInsets.only(left: 16, right: 16),
           height: 26,
           width: 26,
           child: Image.asset(
@@ -520,7 +519,7 @@ class _SignContractPageState extends State<ProposalPage> {
       ));
     }
 
-    if(pageState.job!.poses != null && pageState.job!.poses!.length > 0 && pageState.proposal!.includePoses!) {
+    if(pageState.job!.poses != null && pageState.job!.poses!.isNotEmpty && pageState.proposal!.includePoses!) {
       result.add(GestureDetector(
         onTap: () {
           setState(() {
@@ -530,7 +529,7 @@ class _SignContractPageState extends State<ProposalPage> {
           EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_POSES_SELECTED);
         },
         child: Container(
-          margin: EdgeInsets.only(left: 16, right: 16),
+          margin: const EdgeInsets.only(left: 16, right: 16),
           height: 26,
           width: 26,
           child: Image.asset(
@@ -544,16 +543,16 @@ class _SignContractPageState extends State<ProposalPage> {
   }
 
   Widget _menuButtonsSmallScreen(ClientPortalPageState pageState) {
-    if((pageState.proposal!.contract != null && pageState.proposal!.includeContract!) || (pageState.invoice != null && pageState.proposal!.includeInvoice!) || (pageState.job!.poses != null && pageState.job!.poses!.isNotEmpty && pageState.proposal!.includePoses!) || (pageState.proposal!.questionnaires != null && pageState.proposal!.questionnaires!.isNotEmpty && (pageState.proposal!.includeQuestionnaires ?? false))) {
+    if((pageState.proposal?.contracts != null && pageState.proposal!.contracts!.isNotEmpty && pageState.proposal!.includeContract!) || (pageState.invoice != null && pageState.proposal!.includeInvoice!) || (pageState.job!.poses != null && pageState.job!.poses!.isNotEmpty && pageState.proposal!.includePoses!) || (pageState.proposal!.questionnaires != null && pageState.proposal!.questionnaires!.isNotEmpty && (pageState.proposal!.includeQuestionnaires ?? false))) {
       List<Widget> buttons = buildButtonList(pageState);
       return UnconstrainedBox(
         child: Container(
           alignment: Alignment.center,
           height: 54,
-          margin: EdgeInsets.only(left: 8, right: 8),
-          padding: EdgeInsets.only(left: 16, right: 16),
+          margin: const EdgeInsets.only(left: 8, right: 8),
+          padding: const EdgeInsets.only(left: 16, right: 16),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+            borderRadius: const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
             color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.buttonColor!),
             boxShadow: ElevationToShadow[4],
           ),
@@ -568,14 +567,19 @@ class _SignContractPageState extends State<ProposalPage> {
     }
   }
 
-  _getSelectedPage(String selectedPage) {
+  _getSelectedPage(String selectedPage, ClientPortalPageState pageState) {
     Widget result = DetailsPage();
+    bool hasOldContract = pageState.proposal!.contract != null;
     switch(selectedPage) {
       case DETAILS:
         result = DetailsPage();
         break;
       case CONTRACT:
-        result = ContractPage(scrollController: _controller);
+        if(hasOldContract) {
+          result = ContractPage(scrollController: _controller, contract: pageState.proposal!.contract);
+        } else {
+          result = (pageState.proposal!.contracts?.length ?? 0) > 1 ? ContractsPageWeb(scrollController: _controller) : ContractPage(scrollController: _controller, contract: contract);
+        }
         break;
       case INVOICE:
         result = InvoicePage();
@@ -605,7 +609,7 @@ class _SignContractPageState extends State<ProposalPage> {
     return Stack(
       alignment: Alignment.center,
       children: [
-        pageState.profile?.bannerWebUrl != null && pageState.profile?.bannerMobileUrl != null && pageState.profile?.bannerImageSelected == true ? Container(
+        pageState.profile?.bannerWebUrl != null && pageState.profile?.bannerMobileUrl != null && pageState.profile?.bannerImageSelected == true ? SizedBox(
           height: 300,
           child: DandyLightNetworkImage(
             DeviceType.getDeviceTypeByContext(context) == Type.Website ? pageState.profile!.bannerWebUrl ?? '' : pageState.profile!.bannerMobileUrl ?? '',
@@ -622,7 +626,7 @@ class _SignContractPageState extends State<ProposalPage> {
           height: 300,
           width: double.infinity,
           alignment: Alignment.topLeft,
-          padding: EdgeInsets.only(top: 16, left: 16),
+          padding: const EdgeInsets.only(top: 16, left: 16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -637,7 +641,7 @@ class _SignContractPageState extends State<ProposalPage> {
                   color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
                 ),
                 child: ClipRRect(
-                  borderRadius: new BorderRadius.circular(21.0),
+                  borderRadius: BorderRadius.circular(21.0),
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
@@ -678,10 +682,10 @@ class _SignContractPageState extends State<ProposalPage> {
                 ],
               ),
               Container(
-                margin: EdgeInsets.only(left: 8),
+                margin: const EdgeInsets.only(left: 8),
                 child: TextDandyLight(
                   type: TextDandyLight.MEDIUM_TEXT,
-                  text: pageState.profile!.businessName != null ? pageState.profile!.businessName : 'Your Business Name',
+                  text: pageState.profile!.businessName ?? 'Your Business Name',
                   fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
                   textAlign: TextAlign.center,
                   color: ColorConstants.isWhiteString(pageState.profile!.selectedColorTheme!.bannerColor!) && !pageState.profile!.bannerImageSelected! ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
@@ -709,10 +713,10 @@ class _SignContractPageState extends State<ProposalPage> {
   Widget buildLargeIconLayout(ClientPortalPageState pageState) {
     return Stack(
       children: [
-        pageState.profile?.bannerWebUrl != null && pageState.profile?.bannerMobileUrl != null && pageState.profile?.bannerImageSelected == true ? Container(
+        pageState.profile?.bannerWebUrl != null && pageState.profile?.bannerMobileUrl != null && pageState.profile?.bannerImageSelected == true ? SizedBox(
           height: 300,
           child: DandyLightNetworkImage(
-            DeviceType.getDeviceTypeByContext(context)! == Type.Website ? pageState.profile!.bannerWebUrl ?? '' : pageState.profile!.bannerMobileUrl ?? '',
+            DeviceType.getDeviceTypeByContext(context) == Type.Website ? pageState.profile!.bannerWebUrl ?? '' : pageState.profile!.bannerMobileUrl ?? '',
             borderRadius: 0,
             color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.bannerColor!),
           ),
@@ -739,7 +743,7 @@ class _SignContractPageState extends State<ProposalPage> {
                   color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
                 ),
                 child: ClipRRect(
-                  borderRadius: new BorderRadius.circular(66.0),
+                  borderRadius: BorderRadius.circular(66.0),
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
@@ -792,15 +796,13 @@ class _SignContractPageState extends State<ProposalPage> {
                   addShadow: pageState.profile!.bannerImageSelected! ? true : false,
                 ),
               ),
-              Container(
-                child: TextDandyLight(
-                  type: TextDandyLight.LARGE_TEXT,
-                  text: pageState.profile!.businessName != null ? pageState.profile!.businessName : 'Your Business Name',
-                  fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
-                  textAlign: TextAlign.center,
-                  color: ColorConstants.isWhiteString(pageState.profile!.selectedColorTheme!.bannerColor!) && !pageState.profile!.bannerImageSelected! ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
-                  addShadow: pageState.profile!.bannerImageSelected! ? true : false,
-                ),
+              TextDandyLight(
+                type: TextDandyLight.LARGE_TEXT,
+                text: pageState.profile!.businessName ?? 'Your Business Name',
+                fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
+                textAlign: TextAlign.center,
+                color: ColorConstants.isWhiteString(pageState.profile!.selectedColorTheme!.bannerColor!) && !pageState.profile!.bannerImageSelected! ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),
+                addShadow: pageState.profile!.bannerImageSelected! ? true : false,
               ),
             ],
           ),
@@ -811,17 +813,17 @@ class _SignContractPageState extends State<ProposalPage> {
 
   EdgeInsets getMargin(String iconFont) {
     if(iconFont == FontTheme.SIGNATURE1) {
-      return EdgeInsets.only(bottom: 16, left: 10);
+      return const EdgeInsets.only(bottom: 16, left: 10);
     }
 
     if(iconFont == FontTheme.SIGNATURE2) {
-      return EdgeInsets.only(bottom: 6, left: 4);
+      return const EdgeInsets.only(bottom: 6, left: 4);
     }
 
     if(iconFont == FontTheme.SIGNATURE3) {
-      return EdgeInsets.only(top: 4);
+      return const EdgeInsets.only(top: 4);
     }
 
-    return EdgeInsets.all(0);
+    return const EdgeInsets.all(0);
   }
 }

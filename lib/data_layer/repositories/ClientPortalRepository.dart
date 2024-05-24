@@ -22,8 +22,8 @@ class ClientPortalRepository {
     return await functions.fetchProfile(userId, jobId);
   }
 
-  Future<int> saveClientSignature(String userId, String jobId, String clientSignature) async {
-    return await functions.saveClientSignature(userId, jobId, clientSignature);
+  Future<int> saveClientSignature(String userId, String jobId, String clientSignature, String contractDocumentId) async {
+    return await functions.saveClientSignature(userId, jobId, clientSignature, contractDocumentId);
   }
 
   Future<int> updateInvoiceAsPaid(String userId, String jobId, String invoiceId, bool isPaid, double balancePaidAmount, double unpaidAmount) async {

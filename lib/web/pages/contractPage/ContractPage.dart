@@ -11,6 +11,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+import '../../../models/Contract.dart';
 import '../../../utils/analytics/EventNames.dart';
 import '../../../utils/analytics/EventSender.dart';
 import '../ClientPortalPageState.dart';
@@ -18,12 +19,13 @@ import 'package:redux/redux.dart';
 
 class ContractPage extends StatefulWidget {
   final ScrollController? scrollController;
+  final Contract contract;
 
-  ContractPage({this.scrollController});
+  ContractPage({this.scrollController, required this.contract});
 
   @override
   State<StatefulWidget> createState() {
-    return _ContractPageState(scrollController!);
+    return _ContractPageState(scrollController!, contract);
   }
 }
 
@@ -32,11 +34,12 @@ class _ContractPageState extends State<ContractPage> {
   final FocusNode? contractFocusNode = FocusNode();
   QuillController? _controller;
   final ScrollController? scrollController;
+  final Contract contract;
   bool isHoveredSubmit = false;
   bool isHoveredDownloadPDF = false;
   bool isHoveredScrollDown = false;
 
-  _ContractPageState(this.scrollController);
+  _ContractPageState(this.scrollController, this.contract);
 
   void _scrollDown() {
     scrollController!.animateTo(
@@ -50,12 +53,12 @@ class _ContractPageState extends State<ContractPage> {
   Widget build(BuildContext context) =>
       StoreConnector<AppState, ClientPortalPageState>(
         onInit: (current) {
-          if(current.state.clientPortalPageState!.proposal!.contract!.clientSignature != null && current.state.clientPortalPageState!.proposal!.contract!.clientSignature!.length > 0) {
-            _clientSignatureController!.text = current.state.clientPortalPageState!.proposal!.contract!.clientSignature!;
+          if(contract.clientSignature != null && contract.clientSignature!.isNotEmpty) {
+            _clientSignatureController!.text = contract.clientSignature!;
           }
 
-          _controller = current.state.clientPortalPageState!.proposal!.contract!.jsonTerms != null ? QuillController(
-              document: Document.fromJson(jsonDecode(current.state.clientPortalPageState!.proposal!.contract!.jsonTerms!)),
+          _controller = contract.jsonTerms != null ? QuillController(
+              document: Document.fromJson(jsonDecode(contract.jsonTerms!)),
               selection: const TextSelection.collapsed(offset: 0)
           ) : QuillController.basic();
         },
@@ -103,7 +106,7 @@ class _ContractPageState extends State<ContractPage> {
                               },
                               child: GestureDetector(
                                 onTap: () {
-                                  pageState.onDownloadContractSelected!();
+                                  pageState.onDownloadContractSelected!(contract);
                                   EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_CONTRACT_PDF_DOWNLOADED);
                                 },
                                 child: Container(
@@ -227,18 +230,18 @@ class _ContractPageState extends State<ContractPage> {
                     width: double.infinity,
                     alignment: Alignment.center,
                     child: MouseRegion(
-                      cursor: pageState.proposal!.contract!.signedByClient!
+                      cursor: contract.signedByClient!
                           ? SystemMouseCursors.basic
                           : SystemMouseCursors.click,
                       onHover: (event) {
-                        if (!pageState.proposal!.contract!.signedByClient!) {
+                        if (!contract.signedByClient!) {
                           setState(() {
                             isHoveredSubmit = true;
                           });
                         }
                       },
                       onExit: (event) {
-                        if (!pageState.proposal!.contract!.signedByClient!) {
+                        if (!contract.signedByClient!) {
                           setState(() {
                             isHoveredSubmit = false;
                           });
@@ -246,8 +249,8 @@ class _ContractPageState extends State<ContractPage> {
                       },
                       child: GestureDetector(
                         onTap: () {
-                          if (!pageState.proposal!.contract!.signedByClient!) {
-                            pageState.onClientSignatureSaved!(_clientSignatureController!.text);
+                          if (!contract.signedByClient!) {
+                            pageState.onClientSignatureSaved!(_clientSignatureController!.text, contract);
                           }
                         },
                         child: Container(
@@ -259,7 +262,7 @@ class _ContractPageState extends State<ContractPage> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(24),
                               color: Color(
-                                  pageState.proposal!.contract!.signedByClient!
+                                  contract.signedByClient!
                                       ? ColorConstants
                                       .getPrimaryBackgroundGrey()
                                       : ColorConstants.getPeachDark())),
@@ -269,7 +272,7 @@ class _ContractPageState extends State<ContractPage> {
                             size: 26,
                           ) : TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
-                            text: pageState.proposal!.contract!.signedByClient!
+                            text: contract.signedByClient!
                                 ? 'Signature Saved'
                                 : 'Save Signature',
                             color: Color(ColorConstants.getPrimaryWhite()),
@@ -310,7 +313,7 @@ class _ContractPageState extends State<ContractPage> {
                     type: TextDandyLight.MEDIUM_TEXT,
                     text:
                     DateFormat('EEE, MMMM dd, yyyy').format(
-                        pageState.proposal!.contract!.photographerSignedDate != null ? pageState.proposal!.contract!.photographerSignedDate! : DateTime.now()),
+                        contract.photographerSignedDate != null ? contract.photographerSignedDate! : DateTime.now()),
                   ),
                 )
               ],
@@ -391,8 +394,8 @@ class _ContractPageState extends State<ContractPage> {
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: DateFormat('EEE, MMMM dd, yyyy').format(
-                        pageState.proposal!.contract!.clientSignedDate != null
-                            ? pageState.proposal!.contract!.clientSignedDate!
+                        contract.clientSignedDate != null
+                            ? contract.clientSignedDate!
                             : DateTime.now()),
                   ),
                 )
@@ -430,7 +433,7 @@ class _ContractPageState extends State<ContractPage> {
               ),
             ),
             TextField(
-              enabled: !pageState.proposal!.contract!.signedByClient!,
+              enabled: !contract.signedByClient!,
               controller: _clientSignatureController,
               cursorColor: Color(ColorConstants.getPrimaryBlack()),
               textCapitalization: TextCapitalization.words,

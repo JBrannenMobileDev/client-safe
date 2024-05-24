@@ -54,8 +54,8 @@ class DandylightFunctionsApi {
     return Profile.fromMap(json);
   }
 
-  Future<int> saveClientSignature(String userId, String jobId, String clientSignature) async {
-    final url = '$_baseUrl/saveClientSignature/?userId=$userId&jobId=$jobId&clientSignature=$clientSignature';
+  Future<int> saveClientSignature(String userId, String jobId, String clientSignature, String contractDocumentId) async {
+    final url = '$_baseUrl/saveClientSignature/?userId=$userId&jobId=$jobId&clientSignature=$clientSignature&contractId=$contractDocumentId';
     final response = await httpClient!.put(Uri.parse(url));
 
     if (response.statusCode != 200) {

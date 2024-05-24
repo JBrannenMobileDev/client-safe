@@ -1,7 +1,5 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
-import 'package:dandylight/utils/Shadows.dart';
-import 'package:dandylight/web/pages/posesPage/StackedGrid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../../../utils/ColorConstants.dart';
@@ -74,7 +72,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
         height: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : 2.25),
         width: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : 2.25),
         child: Stack(
-          alignment: Alignment.topCenter,
+          alignment: Alignment.topRight,
           children: [
             Container(
               alignment: Alignment.topCenter,
