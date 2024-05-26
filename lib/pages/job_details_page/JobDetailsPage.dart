@@ -324,17 +324,9 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                       ),
                       onTap: () {
                         comingFromProgress = false;
-                        bool containsContract = false;
-                        for(DocumentItem document in pageState.documents!){
-                          if(document.getDocumentType() == DocumentItem.DOCUMENT_TYPE_CONTRACT) containsContract = true;
-                        }
-                        if(!containsContract) {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => ContractsPage(jobDocumentId: pageState.job!.documentId)),
-                          );
-                        }else{
-                          UserOptionsUtil.showContractOptionsDialog(context);
-                        }
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => ContractsPage(jobDocumentId: pageState.job!.documentId)),
+                        );
                       },
                     ),
                     SpeedDialChild(

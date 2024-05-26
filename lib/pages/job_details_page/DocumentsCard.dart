@@ -86,7 +86,7 @@ class DocumentsCard extends StatelessWidget {
             // UserOptionsUtil.showViewInvoiceDialog(context, pageState!.invoice, await JobDao.getJobById(pageState!.invoice!.jobDocumentId), onSendInvoiceSelected);
             break;
           case DocumentItem.DOCUMENT_TYPE_CONTRACT:
-            UserOptionsUtil.showContractOptionsSheet(context, (item as ContractDocument).contract, profile!, openContractEditPage, pageState!.job!);
+            UserOptionsUtil.showContractOptionsSheet(context, (item as ContractDocument).contract, profile!, openContractEditPage, pageState!.job!, pageState!.markContractAsVoid!);
             break;
           case DocumentItem.DOCUMENT_TYPE_QUESTIONNAIRE:
             UserOptionsUtil.showQuestionnaireOptionsSheet(context, getSelectedQuestionnaire(pageState!.job!.proposal!.questionnaires!, pageState!.documents!.elementAt(index)), openQuestionnaireEditPage, profile!, null);

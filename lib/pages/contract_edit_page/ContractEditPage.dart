@@ -28,11 +28,11 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 class ContractEditPage extends StatefulWidget {
   final Contract? contract;
   final String? contractName;
-  final bool? isNew;
+  final bool isNew;
   final String? jobDocumentId;
   final Function(BuildContext, Contract)? deleteFromJob;
 
-  ContractEditPage({this.contract, this.contractName, this.isNew, this.jobDocumentId, this.deleteFromJob});
+  ContractEditPage({this.contract, this.contractName, required this.isNew, this.jobDocumentId, this.deleteFromJob});
 
   @override
   State<StatefulWidget> createState() {
@@ -49,7 +49,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
   final TextEditingController controllerTitle = TextEditingController();
   final Contract? contract;
   final String? contractName;
-  final bool? isNew;
+  final bool isNew;
   final String? jobDocumentId;
   final Function(BuildContext, Contract)? deleteFromJob;
   bool hasUnsavedChanges = true;
@@ -233,17 +233,21 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                 ),
                 backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                 actions: <Widget>[
-                  !isNew! ? IconButton(
+                  !isNew && jobDocumentId == null ? IconButton(
                     icon: ImageIcon(ImageUtil.getTrashIconWhite(), color: Color(ColorConstants.getPeachDark()),),
                     tooltip: 'Delete Job',
                     onPressed: () {
-                      if(jobDocumentId != null && jobDocumentId!.isNotEmpty && contract != null) {
-                        deleteFromJob!(context, contract!);
-                      }else {
-                        _ackDeleteAlert(context, pageState);
-                      }
+                      _ackDeleteAlert(context, pageState);
                     },
-                  ) : SizedBox(),
+                  ) : (!isNew && jobDocumentId != null) ? TextButton(
+                      onPressed: () {
+
+                      },
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'Mark as VOID',
+                      )
+                  ) : const SizedBox(),
                 ],
                 centerTitle: true,
                 elevation: 0.0,

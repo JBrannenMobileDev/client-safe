@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../../../utils/ColorConstants.dart';
 import '../../../utils/DeviceType.dart';
+import '../../../utils/Shadows.dart';
 import '../../../widgets/TextDandyLight.dart';
 import '../ClientPortalPageState.dart';
 import 'package:redux/redux.dart';
@@ -72,11 +73,11 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
         height: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : 2.25),
         width: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : 2.25),
         child: Stack(
-          alignment: Alignment.topRight,
+          alignment: Alignment.topCenter,
           children: [
             Container(
               alignment: Alignment.topCenter,
-              margin: const EdgeInsets.all(8),
+              margin: EdgeInsets.only(left: 8, top: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? 16 : 26, right: 8, bottom: 8),
               height: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 5 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 2.25 : 1),
               width: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 2.25 : 1),
               decoration: BoxDecoration(
@@ -121,7 +122,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                           child: TextDandyLight(
                             textAlign: TextAlign.start,
                             type: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? TextDandyLight.SMALL_TEXT : TextDandyLight.MEDIUM_TEXT,
-                            text: '(${pageState.proposal!.questionnaires!.elementAt(index).getLengthInMinutes()}min)',
+                            text: pageState.proposal!.questionnaires!.elementAt(index).isComplete ?? false ? '(Completed)' : '(${pageState.proposal!.questionnaires!.elementAt(index).getLengthInMinutes()}min)',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -132,16 +133,17 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                 ],
               ),
             ),
-            pageState.proposal!.questionnaires!.elementAt(index).isComplete ?? false ? Container(
-              height: 48,
-              width: 48,
+            Container(
+              height: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? 36 : 54,
+              width: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? 36 : 54,
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(32),
-                  color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.buttonColor!)
+                  boxShadow: ElevationToShadow[1],
+                  color: pageState.proposal!.questionnaires!.elementAt(index).isComplete ?? false ? ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.buttonColor!) : Color(ColorConstants.getPrimaryGreyMedium())
               ),
-              child: Icon(Icons.check, color: Color(ColorConstants.getPrimaryWhite()),),
-            ) : const SizedBox()
+              child: Icon(Icons.check, color: Color(ColorConstants.getPrimaryWhite()), size: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? 22 : 32),
+            )
           ],
         ),
       ) : SizedBox(
@@ -151,10 +153,10 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
           children: [
             Container(
               alignment: Alignment.topCenter,
-              margin: const EdgeInsets.all(8),
+              margin: EdgeInsets.only(left: 8, top: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? 16 : 26, right: 8, bottom: 8),
               width: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 2.25 : 1),
               child: Container(
-                height: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? 64 : 96,
+                height: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? 108 : 108,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   color: Color(ColorConstants.getPrimaryGreyLight()),
@@ -190,7 +192,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                             child: TextDandyLight(
                               textAlign: TextAlign.start,
                               type: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? TextDandyLight.SMALL_TEXT : TextDandyLight.MEDIUM_TEXT,
-                              text: '(${pageState.proposal!.questionnaires!.elementAt(index).getLengthInMinutes()}min)',
+                              text: pageState.proposal!.questionnaires!.elementAt(index).isComplete ?? false ? '(Completed)' : '(${pageState.proposal!.questionnaires!.elementAt(index).getLengthInMinutes()}min)',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -202,16 +204,17 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                 ),
               ),
             ),
-            pageState.proposal!.questionnaires!.elementAt(index).isComplete ?? false ? Container(
-              height: 42,
-              width: 42,
+            Container(
+              height: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? 36 : 54,
+              width: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? 36 : 54,
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(32),
-                  color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.buttonColor!)
+                  borderRadius: BorderRadius.circular(36),
+                  boxShadow: ElevationToShadow[1],
+                  color: pageState.proposal!.questionnaires!.elementAt(index).isComplete ?? false ? ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.buttonColor!) : Color(ColorConstants.getPrimaryGreyMedium())
               ),
-              child: Icon(Icons.check, color: Color(ColorConstants.getPrimaryWhite()),),
-            ) : const SizedBox()
+              child: Icon(Icons.check, color: Color(ColorConstants.getPrimaryWhite()), size: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? 22 : 32),
+            )
           ],
         ),
       ),

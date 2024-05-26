@@ -36,7 +36,7 @@ class ContractDocument implements DocumentItem {
         ),
         isVoid ? TextDandyLight(
           type: TextDandyLight.MEDIUM_TEXT,
-          text: '(CONTRACT IS VOID)',
+          text: '(Contract is void)',
           textAlign: TextAlign.start,
           color: Color(ColorConstants.getPeachDark()),
         ) : isSigned ? TextDandyLight(

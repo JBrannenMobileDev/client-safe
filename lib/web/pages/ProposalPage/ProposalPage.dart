@@ -576,9 +576,9 @@ class _SignContractPageState extends State<ProposalPage> {
         break;
       case CONTRACT:
         if(hasOldContract) {
-          result = ContractPage(scrollController: _controller, contract: pageState.proposal!.contract);
+          result = ContractPage(scrollController: _controller, contract: pageState.proposal!.contract!);
         } else {
-          result = (pageState.proposal!.contracts?.length ?? 0) > 1 ? ContractsPageWeb(scrollController: _controller) : ContractPage(scrollController: _controller, contract: contract);
+          result = (pageState.proposal!.contracts?.length ?? 0) > 1 ? ContractsPageWeb(scrollController: _controller) : (pageState.proposal!.contracts?.length ?? 0) == 1 ? ContractPage(scrollController: _controller, contract: pageState.proposal!.contracts!.elementAt(0)) : const SizedBox();
         }
         break;
       case INVOICE:

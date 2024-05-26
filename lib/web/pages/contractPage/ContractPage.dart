@@ -64,7 +64,15 @@ class _ContractPageState extends State<ContractPage> {
         },
         onDidChange: (previous, current) {
           if (previous!.errorMsg!.isEmpty && current.errorMsg!.isNotEmpty) {
-            // DandyToastUtil.showErrorToast(current.errorMsg);  dont need to show an error message for now.
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: TextDandyLight(
+                textAlign: TextAlign.center,
+                type: TextDandyLight.LARGE_TEXT,
+                text: current.errorMsg ?? '',
+                color: Color(ColorConstants.getPrimaryWhite()),
+              ),
+              backgroundColor: const Color(ColorConstants.error_red),
+            ));
             current.resetErrorMsg!();
           }
         },

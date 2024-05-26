@@ -553,7 +553,7 @@ class UserOptionsUtil {
         });
   }
 
-  static void showContractOptionsSheet(BuildContext context, Contract contract, Profile profile, Function openContractEditPage, Job job) {
+  static void showContractOptionsSheet(BuildContext context, Contract contract, Profile profile, Function openContractEditPage, Job job, Function(Contract)? markContractAsVoid) {
     String populatedJsonTerms = ContractUtils.populate(contract, profile, job);
     showModalBottomSheet(
         context: context,
@@ -563,7 +563,7 @@ class UserOptionsUtil {
         backgroundColor: Colors.transparent,
         barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
         builder: (context) {
-          return ContractOptionsBottomSheet(populatedJsonTerms, openContractEditPage, contract);
+          return ContractOptionsBottomSheet(populatedJsonTerms, openContractEditPage, contract, markContractAsVoid);
         });
   }
 

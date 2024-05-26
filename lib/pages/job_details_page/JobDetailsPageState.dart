@@ -102,6 +102,7 @@ class JobDetailsPageState {
   final Function(bool)? setMileageAutoTrack;
   final Function(LatLng)? onStartLocationChanged;
   final Function(Questionnaire)? onDeleteQuestionnaireSelected;
+  final Function(Contract)? markContractAsVoid;
 
 
   JobDetailsPageState({
@@ -181,6 +182,7 @@ class JobDetailsPageState {
     @required this.mileageTrip,
     @required this.onStartLocationChanged,
     @required this.onDeleteQuestionnaireSelected,
+    @required this.markContractAsVoid,
   });
 
   JobDetailsPageState copyWith({
@@ -260,6 +262,7 @@ class JobDetailsPageState {
     Function(LocationDandy)? onDrivingDirectionsSelected,
     Function(LatLng)? onStartLocationChanged,
     Function(Questionnaire)? onDeleteQuestionnaireSelected,
+    Function(Contract)? markContractAsVoid,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
@@ -338,6 +341,7 @@ class JobDetailsPageState {
       mileageTrip: mileageTrip ?? this.mileageTrip,
       onStartLocationChanged: onStartLocationChanged ?? this.onStartLocationChanged,
       onDeleteQuestionnaireSelected: onDeleteQuestionnaireSelected ?? this.onDeleteQuestionnaireSelected,
+      markContractAsVoid: markContractAsVoid ?? this.markContractAsVoid,
     );
   }
 
@@ -424,6 +428,7 @@ class JobDetailsPageState {
         setMileageAutoTrack: (enabled) => store.dispatch(SetShouldTrackAction(store.state.jobDetailsPageState, enabled)),
         onStartLocationChanged: (latLng) => store.dispatch(SaveJobDetailsHomeLocationAction(store.state.jobDetailsPageState, latLng)),
         onDeleteQuestionnaireSelected: (questionnaire) => store.dispatch(DeleteQuestionnaireFromJobAction(store.state.jobDetailsPageState!, questionnaire)),
+        markContractAsVoid: (contract) => store.dispatch(MarkContractAsVoidAction(store.state.jobDetailsPageState!, contract)),
     );
   }
 
@@ -504,6 +509,7 @@ class JobDetailsPageState {
     onDrivingDirectionsSelected: null,
     onStartLocationChanged: null,
     onDeleteQuestionnaireSelected: null,
+    markContractAsVoid: null,
   );
 
   @override
@@ -577,6 +583,7 @@ class JobDetailsPageState {
       onSunsetWeatherSelected.hashCode ^
       onStartLocationChanged.hashCode ^
       onDeleteQuestionnaireSelected.hashCode ^
+      markContractAsVoid.hashCode ^
       reminders.hashCode;
 
   @override
@@ -650,5 +657,6 @@ class JobDetailsPageState {
               chanceOfRain == other.chanceOfRain &&
               cloudCoverage == other.cloudCoverage &&
               onDeleteQuestionnaireSelected == other.onDeleteQuestionnaireSelected &&
+              markContractAsVoid == other.markContractAsVoid &&
               onClearUnsavedDeposit == other.onClearUnsavedDeposit;
 }

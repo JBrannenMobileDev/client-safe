@@ -4,6 +4,8 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/FontTheme.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DeviceType.dart';
+import 'package:dandylight/utils/Shadows.dart';
+import 'package:dandylight/web/pages/contractPage/ContractPageFullPage.dart';
 import 'package:dandylight/widgets/TextDandyLight.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -80,7 +82,7 @@ class _ContractsPageWebState extends State<ContractsPageWeb> {
   Widget buildItem(int index, ClientPortalPageState pageState) {
     return GestureDetector(
       onTap: () {
-
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ContractFullPage(contract: pageState.proposal!.contracts!.elementAt(index))));
       },
       child: SizedBox(
         height: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : 2.25),
@@ -89,10 +91,10 @@ class _ContractsPageWebState extends State<ContractsPageWeb> {
           children: [
             Container(
               alignment: Alignment.topCenter,
-              margin: const EdgeInsets.all(8),
+              margin: const EdgeInsets.only(left: 8, top: 16, right: 8, bottom: 8),
               width: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 2.25 : 1),
               child: Container(
-                height: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? 64 : 96,
+                height: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? 108 : 108,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   color: Color(ColorConstants.getPrimaryGreyLight()),
@@ -140,16 +142,40 @@ class _ContractsPageWebState extends State<ContractsPageWeb> {
                 ),
               ),
             ),
-            pageState.proposal!.contracts!.elementAt(index).signedByClient ?? false ? Container(
-              height: 42,
-              width: 42,
+            (pageState.proposal!.contracts!.elementAt(index).isVoid ?? false) ? Container(
+              alignment: Alignment.centerLeft,
+              margin: EdgeInsets.only(left: 0),
+              height: 142,
+              width: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : DeviceType.getDeviceTypeByContext(context) == Type.Tablet ? 2.25 : 1),              padding: const EdgeInsets.all(4),
+              child: Icon(Icons.close, color: Color(ColorConstants.error_red), size: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? 72 : 84),
+            ) : const SizedBox(),
+            !(pageState.proposal!.contracts!.elementAt(index).isVoid ?? false) ? Container(
+              height: 36,
+              width: 36,
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(32),
-                  color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.buttonColor!)
+                  color: pageState.proposal!.contracts!.elementAt(index).signedByClient ?? false ? ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.buttonColor!) : Color(ColorConstants.getPrimaryGreyMedium()),
+                boxShadow: ElevationToShadow[1]
               ),
-              child: Icon(Icons.check, color: Color(ColorConstants.getPrimaryWhite()),),
-            ) : const SizedBox()
+              child: Icon(Icons.check, color: Color(ColorConstants.getPrimaryWhite()), size: 22,),
+            ) : Container(
+              alignment: Alignment.center,
+              height: 36,
+              width: 164,
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(32),
+                  color: Color(ColorConstants.error_red),
+                  boxShadow: ElevationToShadow[1]
+              ),
+              child: TextDandyLight(
+                textAlign: TextAlign.start,
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: 'MARKED AS VOID',
+                color: Color(ColorConstants.getPrimaryWhite()),
+              )
+            )
           ],
         ),
       ),

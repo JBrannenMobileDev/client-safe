@@ -263,6 +263,12 @@ class DeleteQuestionnaireFromJobAction {
   DeleteQuestionnaireFromJobAction(this.pageState, this.questionnaire);
 }
 
+class MarkContractAsVoidAction {
+  final JobDetailsPageState pageState;
+  final Contract contract;
+  MarkContractAsVoidAction(this.pageState, this.contract);
+}
+
 class SetEventMapAction{
   final JobDetailsPageState? pageState;
   final List<Job>? upcomingJobs;

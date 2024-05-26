@@ -106,8 +106,17 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
     Proposal proposal = action.pageState!.proposal!;
     Contract contractToSave = action.contract;
 
-    if(action.signature == null || action.signature!.isEmpty) {
-      store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "Please sign the contract before saving your signature."));
+    ClientPortalRepository? repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
+    Job job = await repository.fetchJob(action.pageState!.userId!, action.pageState!.jobId!);
+
+    Contract mostUpToDateVersion = job.proposal!.contracts!.firstWhere((item) => item.documentId == contractToSave.documentId);
+
+    if(action.signature == null || action.signature!.isEmpty || (mostUpToDateVersion.isVoid ?? false)) {
+      if((mostUpToDateVersion.isVoid ?? false)) {
+        store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "This contract is marked as VOID. You cannot sign this contract."));
+      } else {
+        store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "Please sign the contract before saving your signature."));
+      }
       store.dispatch(SetLoadingStateAction(store.state.clientPortalPageState, false));
     } else {
       ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
@@ -472,6 +481,22 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
   }
 
   Job populateContractsWithJobData(Job job, Profile profile) {
+    if(job.proposal!.contract != null && (job.proposal!.contracts == null || job.proposal!.contracts!.isEmpty)) {
+      if(job.proposal!.contracts == null) job.proposal!.contracts = [];
+      job.proposal!.contracts!.add(job.proposal!.contract!);
+    }
+
+    List<Contract> contractsToShowUser = [];
+    for(Contract contract in job.proposal!.contracts!) {
+      if((contract.isVoid ?? false) && !(contract.signedByClient ?? false)) {
+        //Do not show to photographer client
+      } else {
+        contractsToShowUser.add(contract);
+      }
+    }
+
+    job.proposal!.contracts = contractsToShowUser;
+
     if(job.proposal!.contracts != null) {
       for(Contract contract in job.proposal!.contracts!) {
         String populatedJsonTerms = ContractUtils.populate(contract, profile, job);

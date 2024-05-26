@@ -38,6 +38,7 @@ import '../../data_layer/local_db/daos/JobReminderDao.dart';
 import '../../data_layer/local_db/daos/ProfileDao.dart';
 import '../../data_layer/repositories/FileStorage.dart';
 import '../../data_layer/repositories/WeatherRepository.dart';
+import '../../models/Contract.dart';
 import '../../models/Invoice.dart';
 import '../../models/JobReminder.dart';
 import '../../models/Pose.dart';
@@ -153,6 +154,9 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is DeleteQuestionnaireFromJobAction) {
       deleteQuestionnaireFromJob(store, action, next);
     }
+    if(action is MarkContractAsVoidAction) {
+      markContractAsVoid(store, action, next);
+    }
   }
 
   void deleteQuestionnaireFromJob(Store<AppState> store, DeleteQuestionnaireFromJobAction action, NextDispatcher next) async{
@@ -163,6 +167,19 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, action.pageState.job));
       store.dispatch(SetJobAction(store.state.jobDetailsPageState, action.pageState.job));
     }
+  }
+
+  void markContractAsVoid(Store<AppState> store, MarkContractAsVoidAction action, NextDispatcher next) async{
+    Contract contract = action.contract;
+    contract.isVoid = true;
+
+    int indexToUpdate = action.pageState.job!.proposal!.contracts!.indexWhere((item) => item.documentId == contract.documentId);
+    action.pageState.job!.proposal!.contracts![indexToUpdate] = contract; //TODO make sure this works also add a check in client portal client signing to check for if the contract is void.
+
+    JobDao.update(action.pageState.job!);
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, action.pageState.job));
+    store.dispatch(SetJobAction(store.state.jobDetailsPageState, action.pageState.job));
   }
 
   void saveHomeLocation(Store<AppState> store, SaveJobDetailsHomeLocationAction action, NextDispatcher next) async{
