@@ -239,14 +239,6 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                     onPressed: () {
                       _ackDeleteAlert(context, pageState);
                     },
-                  ) : (!isNew && jobDocumentId != null) ? TextButton(
-                      onPressed: () {
-
-                      },
-                      child: TextDandyLight(
-                        type: TextDandyLight.MEDIUM_TEXT,
-                        text: 'Mark as VOID',
-                      )
                   ) : const SizedBox(),
                 ],
                 centerTitle: true,
@@ -356,7 +348,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                         ),
                         child: TextDandyLight(
                           type: TextDandyLight.LARGE_TEXT,
-                          text: jobDocumentId != null ? 'Save Changes' : 'Save Contract',
+                          text: jobDocumentId != null ? 'Save New Version' : 'Save Contract',
                           textAlign: TextAlign.center,
                           color: Color(ColorConstants.getPrimaryWhite()),
                         ),

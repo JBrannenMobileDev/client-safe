@@ -7,6 +7,7 @@ import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:redux/redux.dart';
+import 'package:uuid/v4.dart';
 
 import '../../models/Contract.dart';
 import '../../models/Job.dart';
@@ -50,7 +51,7 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
     if(action.jobDocumentId != null && action.jobDocumentId!.isNotEmpty) {
       Job? job = await JobDao.getJobById(action.jobDocumentId);
       if(job != null && (job.proposal?.contracts?.isNotEmpty ?? false)){
-        Contract? contract = job.proposal!.contracts!.where((item) => item.documentId == action.pageState!.contract!.documentId).first;
+        Contract? contract = Contract.fromMap((job.proposal!.contracts!.where((item) => item.documentId == action.pageState!.contract!.documentId).first).toMap());
         contract.jsonTerms = jsonEncode(action.quillContract!.toDelta().toJson());
         contract.terms = action.quillContract!.toPlainText();
         contract.contractName = action.pageState!.contractName;
@@ -58,8 +59,11 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
         contract.clientSignedDate = null;
         contract.clientSignature = "";
         contract.photographerSignedDate = DateTime.now();
+        contract.documentId = const UuidV4().generate();
+        contract.isVoid = false;
         final index = job.proposal!.contracts!.indexWhere((item) => item.documentId == contract.documentId);
-        job.proposal!.contracts![index] = contract;
+        job.proposal!.contracts!.elementAt(index).isVoid = true;
+        job.proposal!.contracts!.add(contract);
 
         await JobDao.update(job);
 
@@ -67,11 +71,11 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
         if(profile != null && !profile.progress.addContractToJob) {
           profile.progress.addContractToJob = true;
           await ProfileDao.update(profile);
-          store.dispatch(LoadJobsAction(store.state.dashboardPageState));
           EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
             EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.ADD_CONTRACT_TO_JOB,
           });
         }
+        store.dispatch(LoadJobsAction(store.state.dashboardPageState));
 
         List<JobStage> completedStages = job.completedStages!;
         bool isContractSignedChecked = false;
