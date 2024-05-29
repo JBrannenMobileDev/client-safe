@@ -233,9 +233,9 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                 ),
                 backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                 actions: <Widget>[
-                  !isNew && jobDocumentId == null ? IconButton(
+                  !isNew && (!(contract?.isVoid ?? false) || !(contract?.signedByClient ?? false)) ? IconButton(
                     icon: ImageIcon(ImageUtil.getTrashIconWhite(), color: Color(ColorConstants.getPeachDark()),),
-                    tooltip: 'Delete Job',
+                    tooltip: 'Delete Contract',
                     onPressed: () {
                       _ackDeleteAlert(context, pageState);
                     },
