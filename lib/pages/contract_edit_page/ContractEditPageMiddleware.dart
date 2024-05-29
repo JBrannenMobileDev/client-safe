@@ -45,7 +45,7 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
       await ContractDao.delete(action.pageState!.contract!.documentId);
     }
   }
-//TODO make sure editing a signed contract works right. Also add model release template
+
   void saveContract(Store<AppState> store, SaveContractAction action, NextDispatcher next) async{
     Contract? contract;
     if(action.jobDocumentId != null && action.jobDocumentId!.isNotEmpty) {

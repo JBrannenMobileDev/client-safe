@@ -57,7 +57,12 @@ class _ContractsPageWebState extends State<ContractsPageWeb> {
                     ),
                     SizedBox(
                       width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 1440 : MediaQuery.of(context).size.width,
-                      child: GridView.builder(
+                      child: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? ListView.builder(
+                        shrinkWrap: true,
+                          itemCount: pageState.proposal!.contracts!.length,
+                          itemBuilder: (context, index) {
+                            return buildItemPhone(index, pageState);
+                          }) : GridView.builder(
                         itemCount: pageState.proposal!.contracts!.length,
                         itemBuilder: (context, index) => buildItem(index, pageState),
                         physics: const NeverScrollableScrollPhysics(), // to disable GridView's scrolling
@@ -77,6 +82,77 @@ class _ContractsPageWebState extends State<ContractsPageWeb> {
     double width = MediaQuery.of(context).size.width;
     if(width >= 1440) return 1440;
     return width;
+  }
+
+  Widget buildItemPhone(int index, ClientPortalPageState pageState) {
+    return GestureDetector(
+        onTap: () {
+          if(!(pageState.proposal!.contracts!.elementAt(index).isVoid ?? false)) {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ContractFullPage(contract: pageState.proposal!.contracts!.elementAt(index))));
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              showCloseIcon: true,
+              duration: const Duration(seconds: 6),
+              content: TextDandyLight(
+                textAlign: TextAlign.center,
+                type: TextDandyLight.LARGE_TEXT,
+                text: 'This contract is not valid. (Contract is marked as VOID)',
+                color: Color(ColorConstants.getPrimaryWhite()),
+              ),
+              backgroundColor: const Color(ColorConstants.error_red),
+            ));
+          }
+        },
+        child: Container(
+          height: 64,
+          width: MediaQuery.of(context).size.width,
+          margin: EdgeInsets.only(bottom: 8),
+          decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: Color(ColorConstants.getPrimaryGreyLight()),
+          ),
+          child: Row(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(left: 16),
+                height: 64,
+                child: Icon(Icons.check_box_outline_blank, color: (pageState.proposal!.contracts!.elementAt(index).isVoid ?? false) ? Color(ColorConstants.getPrimaryGreyMedium()) : ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.buttonColor!)),
+              ),
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(left: 12, right: 12),
+                      alignment: Alignment.centerLeft,
+                      child: TextDandyLight(
+                        textAlign: TextAlign.start,
+                        type: TextDandyLight.SMALL_TEXT,
+                        text: pageState.proposal!.contracts!.elementAt(index).contractName,
+                        color: (pageState.proposal!.contracts!.elementAt(index).isVoid ?? false) ? Color(ColorConstants.getPrimaryBlack()).withOpacity(0.4) : Color(ColorConstants.getPrimaryBlack()),
+                        maxLines: 1,
+                        isBold: true,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(left: 12, right: 12),
+                      alignment: Alignment.centerLeft,
+                      child: TextDandyLight(
+                        textAlign: TextAlign.start,
+                        type: TextDandyLight.SMALL_TEXT,
+                        text: (pageState.proposal!.contracts!.elementAt(index).isVoid ?? false) ? '(Marked as VOID)' : (pageState.proposal!.contracts!.elementAt(index).signedByClient ?? false) ? 'Signed' : 'Unsigned',
+                        color: (pageState.proposal!.contracts!.elementAt(index).isVoid ?? false) ? Color(ColorConstants.getPrimaryBlack()).withOpacity(0.4) : Color(ColorConstants.getPrimaryBlack()),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    )
+                  ],
+                ),
+            ],
+          )
+        )
+    );
   }
 
   Widget buildItem(int index, ClientPortalPageState pageState) {
@@ -113,37 +189,7 @@ class _ContractsPageWebState extends State<ContractsPageWeb> {
                   borderRadius: BorderRadius.circular(16),
                   color: Color(ColorConstants.getPrimaryGreyLight()),
                 ),
-                child: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(left: 8, right: 8),
-                      alignment: Alignment.center,
-                      child: TextDandyLight(
-                        textAlign: TextAlign.center,
-                        type: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? TextDandyLight.SMALL_TEXT : TextDandyLight.MEDIUM_TEXT,
-                        text: pageState.proposal!.contracts!.elementAt(index).contractName,
-                        color: (pageState.proposal!.contracts!.elementAt(index).isVoid ?? false) ? Color(ColorConstants.getPrimaryBlack()).withOpacity(0.4) : Color(ColorConstants.getPrimaryBlack()),
-                        maxLines: 2,
-                        isBold: true,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 8, right: 8),
-                      alignment: Alignment.center,
-                      child: TextDandyLight(
-                        textAlign: TextAlign.center,
-                        type: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? TextDandyLight.SMALL_TEXT : TextDandyLight.MEDIUM_TEXT,
-                        text: (pageState.proposal!.contracts!.elementAt(index).isVoid ?? false) ? '(Marked as VOID)' : (pageState.proposal!.contracts!.elementAt(index).signedByClient ?? false) ? 'Signed' : 'Unsigned',
-                        color: (pageState.proposal!.contracts!.elementAt(index).isVoid ?? false) ? Color(ColorConstants.getPrimaryBlack()).withOpacity(0.4) : Color(ColorConstants.getPrimaryBlack()),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    )
-                  ],
-                ) : Row(
+                child: Row(
                   children: [
                     Container(
                       margin: const EdgeInsets.only(left: 16),
