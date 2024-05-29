@@ -184,7 +184,7 @@ class _ContractsPageState extends State<ContractsPage> with TickerProviderStateM
       builder: (BuildContext context, ContractsPageState pageState) =>
           Container(
             margin: const EdgeInsets.only(top: 0.0, bottom: 8.0),
-            child: ContractListWidget(pageState.contracts!.elementAt(index), pageState, onOptionSelected, Color(ColorConstants.getBlueLight()), Color(ColorConstants.getPrimaryBlack())),
+            child: ContractListWidget(pageState.contracts!.elementAt(index), pageState, onOptionSelected, Color(ColorConstants.getBlueLight()), Color(ColorConstants.getPrimaryBlack()), jobDocumentId),
           ),
     );
   }
@@ -194,7 +194,7 @@ class _ContractsPageState extends State<ContractsPage> with TickerProviderStateM
       pageState.onSaveToJobSelected!(contract, jobDocumentId!);
       Navigator.of(context).pop();
     } else {
-      NavigationUtil.onContractSelected(context, contract, contract.contractName!, false, jobDocumentId!, null);
+      NavigationUtil.onContractSelected(context, contract, contract.contractName!, false, jobDocumentId, null);
     }
   }
 

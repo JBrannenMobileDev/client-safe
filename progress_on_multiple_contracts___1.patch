@@ -1,0 +1,93 @@
+Subject: [PATCH] progress on multiple contracts...
+---
+Index: lib/pages/dashboard_page/DashboardPageMiddleware.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/pages/dashboard_page/DashboardPageMiddleware.dart b/lib/pages/dashboard_page/DashboardPageMiddleware.dart
+--- a/lib/pages/dashboard_page/DashboardPageMiddleware.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
++++ b/lib/pages/dashboard_page/DashboardPageMiddleware.dart	(revision f583c038f070f79bbbf1ff05d07a692da0cfd1a2)
+@@ -193,9 +193,13 @@
+     for(Contract contract in allSignedContracts) {
+       if(!(contract.isReviewed ?? false)){
+         contract.isReviewed = true;
++        Job? jobForContract = await JobUtil.getJob(contract);
++        if(jobForContract != null) {
++          int indexOfContract = jobForContract.proposal!.contracts!.indexWhere((item) => item.documentId == contract.documentId);
++          jobForContract.proposal!.contracts![indexOfContract] = contract;
++          await JobDao.update(jobForContract);
++        }
+       }
+-      //TODO find job that has this contract. update contract in list in job. Then save job on next line.
+-      await JobDao.update(job);
+     }
+ 
+     List<Job>? allJobs = await JobDao.getAllJobs();
+Index: lib/utils/JobUtil.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/utils/JobUtil.dart b/lib/utils/JobUtil.dart
+--- a/lib/utils/JobUtil.dart	(revision fc32276991e79b9927dddf4a287128b9fd8b9802)
++++ b/lib/utils/JobUtil.dart	(revision f583c038f070f79bbbf1ff05d07a692da0cfd1a2)
+@@ -1,3 +1,4 @@
++import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
+ import 'package:dandylight/models/Job.dart';
+ import 'package:dandylight/models/JobStage.dart';
+ import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
+@@ -51,22 +52,45 @@
+     return result;
+   }
+ 
+-  static getJobsWithSignedContracts(List<Job> jobs) {
+-    return jobs.where((job) => job.proposal != null && job.proposal?.contract != null && (job.proposal?.contract?.signedByClient ?? false)).toList();
++  static List<Contract> getJobsWithSignedContracts(List<Job> jobs) {
++    List<Contract> signedContracts = [];
++    for(Job loopJob in jobs) {
++      for(Contract loopContract in loopJob.proposal?.contracts ?? []) {
++        if(loopContract.signedByClient ?? false) {
++          signedContracts.add(loopContract);
++        }
++      }
++    }
++    return signedContracts;
+   }
+-
+-  static getJobsWithUnsignedContracts(List<Job> jobs) {
+-    List<Job> jobsWithUnsignedContractsOldJobsSingleContract = jobs.where((job) => job.proposal != null && job.proposal?.contract != null && !(job.proposal?.contract?.signedByClient ?? false)).toList();
+-    List<Contract> contracts = [];
+-    for(Job job in jobsWithUnsignedContracts) {
+ 
++  static List<Contract> getJobsWithUnsignedContracts(List<Job> jobs) {
++    List<Contract> unsignedContracts = [];
++    for(Job loopJob in jobs) {
++      for(Contract loopContract in loopJob.proposal?.contracts ?? []) {
++        if(!(loopContract.signedByClient ?? false)) {
++          unsignedContracts.add(loopContract);
++        }
++      }
+     }
+-    return contracts;
++    return unsignedContracts;
+   }
+ 
+   static getJobsWithQuestionnaires(List<Job> jobs) {
+     return jobs.where((job) => job.proposal != null && job.proposal?.questionnaires != null && job.proposal!.questionnaires!.isNotEmpty).toList();
+   }
++
++  static Future<Job?> getJob(Contract contract) async {
++    List<Job> allJobs = await JobDao.getAllJobs();
++    for(Job loopJob in allJobs) {
++      for(Contract loopContract in loopJob.proposal!.contracts ?? []) {
++        if(loopContract.documentId == contract.documentId) {
++          return loopJob;
++        }
++      }
++    }
++    return null;
++  }
+ }
+ 
+ 

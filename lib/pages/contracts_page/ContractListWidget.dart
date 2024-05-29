@@ -15,8 +15,9 @@ class ContractListWidget extends StatelessWidget {
   final Function onContractSelected;
   final Color backgroundColor;
   final Color textColor;
+  final String? jobDocumentId;
 
-  ContractListWidget(this.contract, this.pageState, this.onContractSelected, this.backgroundColor, this.textColor);
+  ContractListWidget(this.contract, this.pageState, this.onContractSelected, this.backgroundColor, this.textColor, this.jobDocumentId);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,9 @@ class ContractListWidget extends StatelessWidget {
         ),
         onPressed: () {
           onContractSelected(pageState, context, contract);
-          DandyToastUtil.showToast('Contract added!', Color(ColorConstants.getPeachDark()));
+          if(jobDocumentId != null) {
+            DandyToastUtil.showToast('Contract added!', Color(ColorConstants.getPeachDark()));
+          }
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
