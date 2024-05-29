@@ -15,13 +15,14 @@ class ContractOptionsBottomSheet extends StatefulWidget {
   final String jsonTerms;
   final Function openContractEditPage;
   final Function(Contract)? markContractAsVoid;
+  final String photographerName;
 
-  ContractOptionsBottomSheet(this.jsonTerms, this.openContractEditPage, this.contract, this.markContractAsVoid);
+  ContractOptionsBottomSheet(this.jsonTerms, this.openContractEditPage, this.contract, this.markContractAsVoid, this.photographerName);
 
 
   @override
   State<StatefulWidget> createState() {
-    return _ContractOptionsBottomSheetPageState(jsonTerms, openContractEditPage, contract, markContractAsVoid);
+    return _ContractOptionsBottomSheetPageState(jsonTerms, openContractEditPage, contract, markContractAsVoid, photographerName);
   }
 }
 
@@ -30,8 +31,9 @@ class _ContractOptionsBottomSheetPageState extends State<ContractOptionsBottomSh
   final Function openContractEditPage;
   final Contract contract;
   final Function(Contract)? markContractAsVoid;
+  final String photographerName;
 
-  _ContractOptionsBottomSheetPageState(this.jsonTerms, this.openContractEditPage, this.contract, this.markContractAsVoid);
+  _ContractOptionsBottomSheetPageState(this.jsonTerms, this.openContractEditPage, this.contract, this.markContractAsVoid, this.photographerName);
 
 
   @override
@@ -103,7 +105,7 @@ class _ContractOptionsBottomSheetPageState extends State<ContractOptionsBottomSh
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).pop();
-                      NavigationUtil.onInAppPreviewContractSelected(context, jsonTerms);
+                      NavigationUtil.onInAppPreviewContractSelected(context, contract, photographerName);
                     },
                     child: Container(
                       alignment: Alignment.center,

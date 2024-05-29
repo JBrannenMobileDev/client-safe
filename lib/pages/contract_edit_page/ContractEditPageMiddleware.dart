@@ -59,11 +59,17 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
         contract.clientSignedDate = null;
         contract.clientSignature = "";
         contract.photographerSignedDate = DateTime.now();
-        contract.documentId = const UuidV4().generate();
         contract.isVoid = false;
+        contract.firstSharedDate = DateTime.now();
         final index = job.proposal!.contracts!.indexWhere((item) => item.documentId == contract.documentId);
-        job.proposal!.contracts!.elementAt(index).isVoid = true;
-        job.proposal!.contracts!.add(contract);
+
+        if(contract.signedByClient ?? false) {
+          contract.documentId = const UuidV4().generate();
+          job.proposal!.contracts!.elementAt(index).isVoid = true;
+          job.proposal!.contracts!.add(contract);
+        } else {
+          job.proposal!.contracts![index] = contract;
+        }
 
         await JobDao.update(job);
 

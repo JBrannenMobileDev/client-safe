@@ -65,7 +65,9 @@ class _ContractFullPageState extends State<ContractFullPage> {
           backgroundColor: Color(ColorConstants.getPrimaryWhite()),
           body: SingleChildScrollView(
             controller: scrollController,
-            child: ContractPage(scrollController: scrollController, contract: contract),
+            child: Center(
+              child: ContractPage(scrollController: scrollController, contract: contract),
+            ),
           )
         ),
       );

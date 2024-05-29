@@ -6,17 +6,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:intl/intl.dart';
+import '../../models/Contract.dart';
 import '../../models/FontTheme.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class PreviewContractPage extends StatefulWidget {
-  final String? jsonTerms;
-
-  PreviewContractPage({this.jsonTerms});
+  final Contract contract;
+  final String photographerName;
+  PreviewContractPage({required this.contract, required this.photographerName});
 
   @override
   State<StatefulWidget> createState() {
-    return _PreviewContractPageState(jsonTerms);
+    return _PreviewContractPageState(contract, photographerName);
   }
 }
 
@@ -28,17 +29,22 @@ class _PreviewContractPageState extends State<PreviewContractPage> with TickerPr
   final FocusNode contractFocusNode = FocusNode();
   final TextEditingController controllerTitle = TextEditingController();
   OverlayEntry? overlayEntry;
-  final String? jsonTerms;
+  final Contract contract;
+  final String photographerName;
 
-  _PreviewContractPageState(this.jsonTerms);
+  _PreviewContractPageState(this.contract, this.photographerName);
 
 
   @override
   void initState() {
-    _controller = jsonTerms != null ? QuillController(
-        document: Document.fromJson(jsonDecode(jsonTerms!)),
+    _controller = contract.jsonTerms != null ? QuillController(
+        document: Document.fromJson(jsonDecode(contract.jsonTerms!)),
         selection: const TextSelection.collapsed(offset: 0)
     ) : QuillController.basic();
+    if(contract.signedByClient ?? false) {
+      _clientSignatureController.text = contract.clientSignature ?? '';
+      _photogSigController.text = contract.photographerSignature ?? '';
+    }
     super.initState();
   }
 
@@ -157,7 +163,7 @@ class _PreviewContractPageState extends State<PreviewContractPage> with TickerPr
                   margin: EdgeInsets.only(top: 0, bottom: 8),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
-                    text: 'Firstname Lastname',
+                    text: (contract.signedByClient ?? false) ? photographerName : 'Firstname Lastname',
                   ),
                 )
               ],
@@ -234,7 +240,7 @@ class _PreviewContractPageState extends State<PreviewContractPage> with TickerPr
                   margin: EdgeInsets.only(top: 0, bottom: 8),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
-                    text: 'Client Name',
+                    text: (contract.signedByClient ?? false) ? contract.clientName : 'Client Name',
                   ),
                 )
               ],

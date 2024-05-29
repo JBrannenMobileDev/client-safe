@@ -65,6 +65,8 @@ class _ContractPageState extends State<ContractPage> {
         onDidChange: (previous, current) {
           if (previous!.errorMsg!.isEmpty && current.errorMsg!.isNotEmpty) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              showCloseIcon: true,
+              duration: const Duration(seconds: 6),
               content: TextDandyLight(
                 textAlign: TextAlign.center,
                 type: TextDandyLight.LARGE_TEXT,

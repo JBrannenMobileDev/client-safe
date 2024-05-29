@@ -40,6 +40,7 @@ class ContractsPageMiddleware extends MiddlewareClass<AppState> {
     contract.clientSignature = '';
     contract.documentId = const UuidV4().generate();
     contract.jobDocumentId = action.jobDocumentId;
+    contract.firstSharedDate = DateTime.now();
     Job? job = (await JobDao.getJobById(action.jobDocumentId!));
 
     if(job != null) {

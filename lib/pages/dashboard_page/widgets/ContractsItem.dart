@@ -13,14 +13,15 @@ import '../../../utils/styles/Styles.dart';
 class ContractsItem extends StatelessWidget{
   final Contract contract;
   final DashboardPageState? pageState;
-  const ContractsItem({Key? key, required this.contract, this.pageState}) : super(key: key);
+  final String photographerName;
+  const ContractsItem({Key? key, required this.contract, this.pageState, required this.photographerName}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
       style: Styles.getButtonStyle(),
       onPressed: () {
-        NavigationUtil.onInAppPreviewContractSelected(context, contract.jsonTerms!);
+        NavigationUtil.onInAppPreviewContractSelected(context, contract, pageState?.profile?.getFullName() ?? '');
       },
       child: Padding(
       padding: const EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 18.0),

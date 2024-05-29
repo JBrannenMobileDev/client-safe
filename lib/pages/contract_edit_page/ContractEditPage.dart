@@ -104,13 +104,13 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
       builder: (BuildContext context) {
         return Device.get().isIos ?
         CupertinoAlertDialog(
-          title: new Text('Are you sure?'),
-          content: new Text('This contract is already signed by your client. Changing this contract will remove the client signature and you will have to request the client to sign this contract again.'),
+          title: const Text('Are you sure?'),
+          content: const Text('This contract is already signed by your client. \n\nSaving these changes means the previous version will be marked as VOID. \n\nThe new updated contract will be shown to your client in their client portal.'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () => Navigator.of(context).pop(false),
-              child: new Text('No'),
+              child: const Text('No'),
             ),
             TextButton(
               style: Styles.getButtonStyle(),
@@ -119,17 +119,17 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                 Navigator.of(context).pop(true);
                 showSuccessAnimation();
               },
-              child: new Text('Yes'),
+              child: const Text('Yes'),
             ),
           ],
         ) : AlertDialog(
-          title: new Text('Are you sure?'),
-          content: new Text('This contract is already signed by your client. Changing this contract will remove the client signature and you will have to request the client to sign this contract again.'),
+          title: const Text('Are you sure?'),
+          content: const Text('This contract is already signed by your client. Changing this contract will remove the client signature and you will have to request the client to sign this contract again.'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () => Navigator.of(context).pop(false),
-              child: new Text('No'),
+              child: const Text('No'),
             ),
             TextButton(
               style: Styles.getButtonStyle(),
@@ -138,7 +138,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                 Navigator.of(context).pop(true);
                 showSuccessAnimation();
               },
-              child: new Text('Yes'),
+              child: const Text('Yes'),
             ),
           ],
         );
@@ -184,8 +184,8 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                     context: context,
                     builder: (_) => Device.get().isIos ?
                     CupertinoAlertDialog(
-                      title: new Text('Exit without saving changes?'),
-                      content: new Text('If you continue any changes made will not be saved.'),
+                      title: const Text('Exit without saving changes?'),
+                      content: const Text('If you continue any changes made will not be saved.'),
                       actions: <Widget>[
                         TextButton(
                           style: Styles.getButtonStyle(),
@@ -193,17 +193,17 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                             willLeave = true;
                             Navigator.of(context).pop();
                           },
-                          child: new Text('Yes'),
+                          child: const Text('Yes'),
                         ),
                         TextButton(
                           style: Styles.getButtonStyle(),
                           onPressed: () => Navigator.of(context).pop(false),
-                          child: new Text('No'),
+                          child: const Text('No'),
                         ),
                       ],
                     ) : AlertDialog(
-                      title: new Text('Exit without saving changes?'),
-                      content: new Text('If you continue any changes made will not be saved.'),
+                      title: const Text('Exit without saving changes?'),
+                      content: const Text('If you continue any changes made will not be saved.'),
                       actions: <Widget>[
                         TextButton(
                           style: Styles.getButtonStyle(),
@@ -211,12 +211,12 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                             willLeave = true;
                             Navigator.of(context).pop();
                           },
-                          child: new Text('Yes'),
+                          child: const Text('Yes'),
                         ),
                         TextButton(
                           style: Styles.getButtonStyle(),
                           onPressed: () => Navigator.of(context).pop(false),
-                          child: new Text('No'),
+                          child: const Text('No'),
                         ),
                       ],
                     ));
@@ -458,13 +458,13 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
       builder: (BuildContext context) {
         return Device.get().isIos ?
         CupertinoAlertDialog(
-          title: new Text('Are you sure?'),
-          content: new Text('All data for this job will be permanently deleted!'),
+          title: const Text('Are you sure?'),
+          content: const Text('All data for this job will be permanently deleted!'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () => Navigator.of(context).pop(false),
-              child: new Text('No'),
+              child: const Text('No'),
             ),
             TextButton(
               style: Styles.getButtonStyle(),
@@ -477,17 +477,17 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
-              child: new Text('Yes'),
+              child: const Text('Yes'),
             ),
           ],
         ) : AlertDialog(
-          title: new Text('Are you sure?'),
-          content: new Text('All data for this job will be permanently deleted!'),
+          title: const Text('Are you sure?'),
+          content: const Text('All data for this job will be permanently deleted!'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () => Navigator.of(context).pop(false),
-              child: new Text('No'),
+              child: const Text('No'),
             ),
             TextButton(
               style: Styles.getButtonStyle(),
@@ -500,7 +500,7 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
-              child: new Text('Yes'),
+              child: const Text('Yes'),
             ),
           ],
         );

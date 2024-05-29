@@ -76,7 +76,11 @@ class ContractListPage extends StatelessWidget{
 
 
   Widget _buildItem(BuildContext context, int index) {
-    return ContractsItem(contract: signed! ? pageState!.allSignedContracts!.elementAt(index) : pageState!.allUnsignedContracts!.elementAt(index), pageState: pageState!);
+    if((pageState!.allSignedContracts?.length ?? 0) > index) {
+      return ContractsItem(contract: signed! ? pageState!.allSignedContracts!.elementAt(index) : pageState!.allUnsignedContracts!.elementAt(index), pageState: pageState!, photographerName: pageState?.profile?.getFullName() ?? '',);
+    } else {
+      return const SizedBox();
+    }
   }
 
 }

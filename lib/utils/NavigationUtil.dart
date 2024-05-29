@@ -66,8 +66,8 @@ class NavigationUtil {
   static onReviewPosesSelected(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReviewPosesPage()));
   }
-  static onInAppPreviewContractSelected(BuildContext context, String jsonTerms) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => PreviewContractPage(jsonTerms: jsonTerms)));
+  static onInAppPreviewContractSelected(BuildContext context, Contract contract, String photographerName) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => PreviewContractPage(contract: contract, photographerName: photographerName)));
   }
   static onAnswerQuestionnaireSelected(BuildContext context, Questionnaire questionnaire, Profile profile, String? userId, String? jobId, bool isPreview, bool isWebsite, Function? updateQuestionnaireForPortal) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => AnswerQuestionnairePage(

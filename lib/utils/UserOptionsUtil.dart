@@ -563,7 +563,7 @@ class UserOptionsUtil {
         backgroundColor: Colors.transparent,
         barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
         builder: (context) {
-          return ContractOptionsBottomSheet(populatedJsonTerms, openContractEditPage, contract, markContractAsVoid);
+          return ContractOptionsBottomSheet(populatedJsonTerms, openContractEditPage, contract, markContractAsVoid, profile.getFullName());
         });
   }
 

@@ -604,4 +604,8 @@ class Profile{
   bool isProfileComplete() {
     return businessName!.isNotEmpty && (email!.isNotEmpty || phone!.isNotEmpty) && firstName!.isNotEmpty;
   }
+
+  String getFullName() {
+    return '${firstName ?? ''} ${lastName ?? ''}';
+  }
 }

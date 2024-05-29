@@ -115,30 +115,39 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
       if((mostUpToDateVersion.isVoid ?? false)) {
         store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "This contract is marked as VOID. You cannot sign this contract."));
       } else {
-        store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "Please sign the contract before saving your signature."));
+        if(mostUpToDateVersion.firstSharedDate != null && contractToSave.firstSharedDate != null && mostUpToDateVersion.firstSharedDate != contractToSave.firstSharedDate) {
+          store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "Changes were made to this contract. Please refresh this page and review the contract again before signing."));
+        } else {
+          store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "Please sign the contract before saving your signature."));
+        }
       }
       store.dispatch(SetLoadingStateAction(store.state.clientPortalPageState, false));
     } else {
-      ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
-      int errorCode = await repository.saveClientSignature(action.pageState!.userId!, action.pageState!.jobId!, action.signature!, contractToSave.documentId!);
-      if(errorCode != 200) {
-        store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "There was an error saving your signature. Please try again."));
+      if(action.signature != null && action.signature!.isNotEmpty && mostUpToDateVersion.firstSharedDate != null && contractToSave.firstSharedDate != null && mostUpToDateVersion.firstSharedDate != contractToSave.firstSharedDate) {
+        store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "Changes were made to this contract. Please refresh this page and review the contract again before signing."));
+        store.dispatch(SetLoadingStateAction(store.state.clientPortalPageState, false));
       } else {
-        contractToSave.clientSignature = action.signature;
-        contractToSave.signedByClient = true;
-        contractToSave.clientSignedDate = DateTime.now();
+        ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
+        int errorCode = await repository.saveClientSignature(action.pageState!.userId!, action.pageState!.jobId!, action.signature!, contractToSave.documentId!);
+        if(errorCode != 200) {
+          store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "There was an error saving your signature. Please try again."));
+        } else {
+          contractToSave.clientSignature = action.signature;
+          contractToSave.signedByClient = true;
+          contractToSave.clientSignedDate = DateTime.now();
 
-        if(action.pageState!.job!.proposal!.contracts == null) action.pageState!.job!.proposal!.contracts = [];
+          if(action.pageState!.job!.proposal!.contracts == null) action.pageState!.job!.proposal!.contracts = [];
 
-        int indexToUpdate = proposal.contracts!.indexWhere((item) => item.documentId == contractToSave.documentId);
-        proposal.contracts![indexToUpdate] = contractToSave;
+          int indexToUpdate = proposal.contracts!.indexWhere((item) => item.documentId == contractToSave.documentId);
+          proposal.contracts![indexToUpdate] = contractToSave;
 
-        action.pageState!.job!.proposal = proposal;
-        store.dispatch(SetJobAction(store.state.clientPortalPageState, action.pageState!.job));
-        store.dispatch(SetProposalAction(store.state.clientPortalPageState, proposal));
-        EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_CONTRACT_SIGNED);
+          action.pageState!.job!.proposal = proposal;
+          store.dispatch(SetJobAction(store.state.clientPortalPageState, action.pageState!.job));
+          store.dispatch(SetProposalAction(store.state.clientPortalPageState, proposal));
+          EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_CONTRACT_SIGNED);
+        }
+        store.dispatch(SetLoadingStateAction(store.state.clientPortalPageState, false));
       }
-      store.dispatch(SetLoadingStateAction(store.state.clientPortalPageState, false));
     }
   }
 
