@@ -276,6 +276,10 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
       NavigationUtil.onContractNotificationSelected(context, jobDocumentId);
       EventSender().sendEvent(eventName: EventNames.NOTIFICATION_CONTRACT_APP_LAUNCH);
     }
+    if (message.data['click_action'] == 'new_poses') {
+      NavigationUtil.onPosesSelected(context, null, false, false, false);
+      EventSender().sendEvent(eventName: EventNames.NOTIFICATION_INVOICE_APP_LAUNCH);
+    }
   }
 
   @override

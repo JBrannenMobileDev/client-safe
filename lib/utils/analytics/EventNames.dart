@@ -331,6 +331,7 @@ class EventNames {
   //Push notifications
   static const String NOTIFICATION_CONTRACT_APP_LAUNCH = "notifications_contract_app_launch";
   static const String NOTIFICATION_INVOICE_APP_LAUNCH = "notifications_invoice_app_launch";
+  static const String NOTIFICATION_NEW_POSES_APP_LAUNCH = "notifications_new_poses_app_launch";
 
   //Getting started checklist
   static const String GETTING_STARTED_CHECKLIST_OPENED = "getting_started_checklist_opened";

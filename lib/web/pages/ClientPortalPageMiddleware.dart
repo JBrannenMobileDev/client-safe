@@ -104,49 +104,73 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
 
   void _saveClientSignature(Store<AppState> store, SaveClientSignatureAction action, NextDispatcher next) async{
     Proposal proposal = action.pageState!.proposal!;
-    Contract contractToSave = action.contract;
 
-    ClientPortalRepository? repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
-    Job job = await repository.fetchJob(action.pageState!.userId!, action.pageState!.jobId!);
 
-    Contract mostUpToDateVersion = job.proposal!.contracts!.firstWhere((item) => item.documentId == contractToSave.documentId);
-
-    if(action.signature == null || action.signature!.isEmpty || (mostUpToDateVersion.isVoid ?? false)) {
-      if((mostUpToDateVersion.isVoid ?? false)) {
-        store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "This contract is marked as VOID. You cannot sign this contract."));
-      } else {
-        if(mostUpToDateVersion.firstSharedDate != null && contractToSave.firstSharedDate != null && mostUpToDateVersion.firstSharedDate != contractToSave.firstSharedDate) {
-          store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "Changes were made to this contract. Please refresh this page and review the contract again before signing."));
-        } else {
-          store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "Please sign the contract before saving your signature."));
-        }
-      }
-      store.dispatch(SetLoadingStateAction(store.state.clientPortalPageState, false));
-    } else {
-      if(action.signature != null && action.signature!.isNotEmpty && mostUpToDateVersion.firstSharedDate != null && contractToSave.firstSharedDate != null && mostUpToDateVersion.firstSharedDate != contractToSave.firstSharedDate) {
-        store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "Changes were made to this contract. Please refresh this page and review the contract again before signing."));
+    if(proposal.contract != null) {
+      if(action.signature == null || action.signature!.isEmpty) {
+        store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "Please sign the contract before saving your signature."));
         store.dispatch(SetLoadingStateAction(store.state.clientPortalPageState, false));
       } else {
         ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
-        int errorCode = await repository.saveClientSignature(action.pageState!.userId!, action.pageState!.jobId!, action.signature!, contractToSave.documentId!);
+        int errorCode = await repository.saveClientSignature(action.pageState!.userId!, action.pageState!.jobId!, action.signature!, null);
         if(errorCode != 200) {
           store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "There was an error saving your signature. Please try again."));
         } else {
-          contractToSave.clientSignature = action.signature;
-          contractToSave.signedByClient = true;
-          contractToSave.clientSignedDate = DateTime.now();
-
-          if(action.pageState!.job!.proposal!.contracts == null) action.pageState!.job!.proposal!.contracts = [];
-
-          int indexToUpdate = proposal.contracts!.indexWhere((item) => item.documentId == contractToSave.documentId);
-          proposal.contracts![indexToUpdate] = contractToSave;
-
+          proposal.contract!.clientSignature = action.signature;
+          proposal.contract!.signedByClient = true;
+          proposal.contract!.clientSignedDate = DateTime.now();
           action.pageState!.job!.proposal = proposal;
           store.dispatch(SetJobAction(store.state.clientPortalPageState, action.pageState!.job));
           store.dispatch(SetProposalAction(store.state.clientPortalPageState, proposal));
           EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_CONTRACT_SIGNED);
         }
         store.dispatch(SetLoadingStateAction(store.state.clientPortalPageState, false));
+      }
+    } else {
+      Contract contractToSave = action.contract;
+
+      ClientPortalRepository? repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
+      Job job = await repository.fetchJob(action.pageState!.userId!, action.pageState!.jobId!);
+
+      Contract mostUpToDateVersion = job.proposal!.contracts!.firstWhere((item) => item.documentId == contractToSave.documentId);
+
+      if(action.signature == null || action.signature!.isEmpty || (mostUpToDateVersion.isVoid ?? false)) {
+        if((mostUpToDateVersion.isVoid ?? false)) {
+          store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "This contract is marked as VOID. You cannot sign this contract."));
+        } else {
+          if(mostUpToDateVersion.firstSharedDate != null && contractToSave.firstSharedDate != null && mostUpToDateVersion.firstSharedDate != contractToSave.firstSharedDate) {
+            store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "Changes were made to this contract. Please refresh this page and review the contract again before signing."));
+          } else {
+            store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "Please sign the contract before saving your signature."));
+          }
+        }
+        store.dispatch(SetLoadingStateAction(store.state.clientPortalPageState, false));
+      } else {
+        if(action.signature != null && action.signature!.isNotEmpty && mostUpToDateVersion.firstSharedDate != null && contractToSave.firstSharedDate != null && mostUpToDateVersion.firstSharedDate != contractToSave.firstSharedDate) {
+          store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "Changes were made to this contract. Please refresh this page and review the contract again before signing."));
+          store.dispatch(SetLoadingStateAction(store.state.clientPortalPageState, false));
+        } else {
+          ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
+          int errorCode = await repository.saveClientSignature(action.pageState!.userId!, action.pageState!.jobId!, action.signature!, contractToSave.documentId!);
+          if(errorCode != 200) {
+            store.dispatch(SetErrorStateAction(store.state.clientPortalPageState, "There was an error saving your signature. Please try again."));
+          } else {
+            contractToSave.clientSignature = action.signature;
+            contractToSave.signedByClient = true;
+            contractToSave.clientSignedDate = DateTime.now();
+
+            if(action.pageState!.job!.proposal!.contracts == null) action.pageState!.job!.proposal!.contracts = [];
+
+            int indexToUpdate = proposal.contracts!.indexWhere((item) => item.documentId == contractToSave.documentId);
+            proposal.contracts![indexToUpdate] = contractToSave;
+
+            action.pageState!.job!.proposal = proposal;
+            store.dispatch(SetJobAction(store.state.clientPortalPageState, action.pageState!.job));
+            store.dispatch(SetProposalAction(store.state.clientPortalPageState, proposal));
+            EventSender().sendEvent(eventName: EventNames.CLIENT_PORTAL_CONTRACT_SIGNED);
+          }
+          store.dispatch(SetLoadingStateAction(store.state.clientPortalPageState, false));
+        }
       }
     }
   }

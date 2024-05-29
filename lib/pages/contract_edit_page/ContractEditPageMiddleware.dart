@@ -45,7 +45,7 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
       await ContractDao.delete(action.pageState!.contract!.documentId);
     }
   }
-
+//TODO make sure editing a signed contract works right. Also add model release template
   void saveContract(Store<AppState> store, SaveContractAction action, NextDispatcher next) async{
     Contract? contract;
     if(action.jobDocumentId != null && action.jobDocumentId!.isNotEmpty) {
@@ -55,7 +55,6 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
         contract.jsonTerms = jsonEncode(action.quillContract!.toDelta().toJson());
         contract.terms = action.quillContract!.toPlainText();
         contract.contractName = action.pageState!.contractName;
-        contract.signedByClient = false;
         contract.clientSignedDate = null;
         contract.clientSignature = "";
         contract.photographerSignedDate = DateTime.now();
@@ -64,10 +63,12 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
         final index = job.proposal!.contracts!.indexWhere((item) => item.documentId == contract.documentId);
 
         if(contract.signedByClient ?? false) {
+          contract.signedByClient = false;
           contract.documentId = const UuidV4().generate();
           job.proposal!.contracts!.elementAt(index).isVoid = true;
           job.proposal!.contracts!.add(contract);
         } else {
+          contract.signedByClient = false;
           job.proposal!.contracts![index] = contract;
         }
 

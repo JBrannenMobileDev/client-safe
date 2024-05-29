@@ -2,11 +2,13 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/models/Pose.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:super_banners/super_banners.dart';
 
 import '../../../models/Job.dart';
 import '../../../utils/ColorConstants.dart';
@@ -48,16 +50,37 @@ class PoseLibraryGroupListWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Container(
-                      height: 108.0,
-                      width: 108.0,
-                      margin: EdgeInsets.only(right: 16.0),
-                      child: DandyLightNetworkImage(
-                        pageState.libraryGroups!.elementAt(index!).poses!.first.imageUrl ?? '',
-                        borderRadius: 16,
-                        resizeWidth: 350,
-                        errorIconSize: 24,
-                      ),
+                    Stack(
+                      alignment: Alignment.bottomRight,
+                      children: [
+                        Container(
+                          height: 108.0,
+                          width: 108.0,
+                          margin: EdgeInsets.only(right: 16.0),
+                          child: DandyLightNetworkImage(
+                            pageState.libraryGroups!.elementAt(index!).poses!.first.imageUrl ?? '',
+                            borderRadius: 16,
+                            resizeWidth: 350,
+                            errorIconSize: 24,
+                          ),
+                        ),
+                        containsNewPoses(pageState.libraryGroups!.elementAt(index!).poses ?? []) ? Container(
+                          margin: EdgeInsets.only(right: 16),
+                          alignment: Alignment.bottomRight,
+                          child: CornerBanner(
+                            bannerPosition: CornerBannerPosition.bottomRight,
+                            bannerColor: Color(ColorConstants.getPeachDark()),
+                            child: Text(
+                              "NEW",
+                              style: TextStyle(
+                                fontFamily: TextDandyLight.getFontFamily(),
+                                fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
+                                color: Color(ColorConstants.getPrimaryWhite()),
+                              ),
+                            ),
+                          ),
+                        ) : const SizedBox()
+                      ],
                     ),
                     Padding(
                       padding: EdgeInsets.only(bottom: 2.0),
@@ -85,5 +108,12 @@ class PoseLibraryGroupListWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  bool containsNewPoses(List<Pose> poses) {
+    for(Pose pose in poses) {
+      if(pose.isNewPose()) return true;
+    }
+    return false;
   }
 }

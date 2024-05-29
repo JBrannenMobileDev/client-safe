@@ -22,7 +22,7 @@ class ClientPortalRepository {
     return await functions.fetchProfile(userId, jobId);
   }
 
-  Future<int> saveClientSignature(String userId, String jobId, String clientSignature, String contractDocumentId) async {
+  Future<int> saveClientSignature(String userId, String jobId, String clientSignature, String? contractDocumentId) async {
     return await functions.saveClientSignature(userId, jobId, clientSignature, contractDocumentId);
   }
 
