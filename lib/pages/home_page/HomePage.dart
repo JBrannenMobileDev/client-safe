@@ -114,19 +114,14 @@ class _HomeState extends State<HomePage> {
   void onTabTapped(int index) {
     switch(index) {
       case 0:
-        EventSender().sendEvent(eventName: EventNames.NAV_TO_CONTACTS);
         break;
       case 1:
-        EventSender().sendEvent(eventName: EventNames.NAV_TO_INCOME);
         break;
       case 2:
-        EventSender().sendEvent(eventName: EventNames.NAV_TO_DASHBOARD);
         break;
       case 3:
-        EventSender().sendEvent(eventName: EventNames.NAV_TO_JOBS);
         break;
       case 4:
-        EventSender().sendEvent(eventName: EventNames.NAV_TO_COLLECTIONS);
         break;
     }
 

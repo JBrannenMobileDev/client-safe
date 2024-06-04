@@ -69,7 +69,6 @@ class _IncomeAndExpenseSettingsPageState extends State<IncomeAndExpenseSettingsP
                                   style: Styles.getButtonStyle(),
                                   onPressed: () {
                                     NavigationUtil.onPaymentRequestInfoSelected(context);
-                                    EventSender().sendEvent(eventName: EventNames.NAV_TO_PAYMENT_LINK_INFO);
                                   },
                                   child: SizedBox(
                                     height: 48.0,

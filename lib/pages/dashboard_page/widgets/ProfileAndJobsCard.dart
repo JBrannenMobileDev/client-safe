@@ -38,7 +38,6 @@ class ProfileAndJobsCard extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     NavigationUtil.onStageStatsSelected(context, pageState, 'Jobs This Week', null, false);
-                    EventSender().sendEvent(eventName: EventNames.NAV_TO_JOBS_THIS_WEEK);
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -72,7 +71,6 @@ class ProfileAndJobsCard extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     NavigationUtil.onStageStatsSelected(context, pageState, 'Active Jobs', null, true);
-                    EventSender().sendEvent(eventName: EventNames.NAV_TO_ACTIVE_JOBS);
                   },
                   child: Container(
                     decoration: BoxDecoration(

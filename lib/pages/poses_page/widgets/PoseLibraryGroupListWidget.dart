@@ -37,7 +37,6 @@ class PoseLibraryGroupListWidget extends StatelessWidget {
           Navigator.of(context).push(
             new MaterialPageRoute(builder: (context) => LibraryPoseGroupPage(pageState.libraryGroups!.elementAt(index!), job, comingFromDetails)),
           );
-          EventSender().sendEvent(eventName: EventNames.NAV_TO_POSE_LIBRARY_GROUP);
         },
         child: Padding(
           padding: EdgeInsets.only(left: 16.0, right: 16.0),

@@ -614,7 +614,6 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                   MaterialPageRoute(
                                       builder: (context) => SunsetWeatherPage()),
                                 );
-                                EventSender().sendEvent(eventName: EventNames.NAV_TO_SUNSET_WEATHER);
                               },
                               child: Container(
                                 padding: const EdgeInsets.only(left: 16.0),
@@ -632,7 +631,6 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                             child: GestureDetector(
                                 onTap: () {
                                   NavigationUtil.onNotificationsSelected(context);
-                                  EventSender().sendEvent(eventName: EventNames.NAV_TO_NOTIFICATIONS);
                                 },
                                 child: Stack(
                                   alignment: Alignment.center,
@@ -674,7 +672,6 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                             child: GestureDetector(
                               onTap: () {
                                 NavigationUtil.onCalendarSelected(context);
-                                EventSender().sendEvent(eventName: EventNames.NAV_TO_CALENDAR);
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(right: 16.0),
@@ -690,7 +687,6 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                             child: GestureDetector(
                               onTap: () {
                                 NavigationUtil.onMainSettingsSelected(context);
-                                EventSender().sendEvent(eventName: EventNames.NAV_TO_SETTINGS_MAIN);
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(right: 16.0),

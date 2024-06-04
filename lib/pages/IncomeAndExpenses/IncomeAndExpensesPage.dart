@@ -123,7 +123,6 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                           GestureDetector(
                             onTap: () {
                               NavigationUtil.onIncomeAndExpenseSettingsSelected(context);
-                              EventSender().sendEvent(eventName: EventNames.NAV_TO_SETTINGS_INCOME_EXPENSE);
                             },
                             child: Container(
                               margin: const EdgeInsets.only(right: 16.0),
@@ -155,8 +154,6 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                           selectedIndex = filterTypeIndex!;
                                         });
                                         pageState.onFilterChanged!(filterTypeIndex == 0 ? IncomeAndExpensesPage.FILTER_TYPE_INCOME : IncomeAndExpensesPage.FILTER_TYPE_EXPENSES);
-                                        if(filterTypeIndex == 0) EventSender().sendEvent(eventName: EventNames.NAV_TO_INCOME);
-                                        if(filterTypeIndex == 1) EventSender().sendEvent(eventName: EventNames.NAV_TO_EXPENSES);
                                       },
                                       groupValue: selectedIndex,
                                     ),

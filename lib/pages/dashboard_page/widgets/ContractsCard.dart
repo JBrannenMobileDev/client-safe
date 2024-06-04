@@ -49,7 +49,6 @@ class ContractsCard extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         NavigationUtil.onDashboardContractsSelected(context, pageState, false);
-                        EventSender().sendEvent(eventName: EventNames.NAV_TO_UNSIGNED_CONTRACTS);
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -90,7 +89,6 @@ class ContractsCard extends StatelessWidget {
                       onTap: () {
                         NavigationUtil.onDashboardContractsSelected(context, pageState, true);
                         pageState.markContractsAsReviewed!();
-                        EventSender().sendEvent(eventName: EventNames.NAV_TO_SIGNED_CONTRACTS);
                       },
                       child: Container(
                         decoration: BoxDecoration(

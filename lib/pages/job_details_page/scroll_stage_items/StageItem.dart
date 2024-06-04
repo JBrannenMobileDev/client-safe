@@ -419,7 +419,7 @@ class _StageItemState extends State<StageItem>
                                 EventSender().sendEvent(eventName: EventNames.BT_STAGE_ACTION, properties: {EventNames.ACTIVE_STAGE_PARAM_NAME : JobStage.STAGE_2_FOLLOWUP_SENT});
                                 break;
                               case JobStage.STAGE_3_PROPOSAL_SENT:
-                                if(pageState.job!.proposal!.contracts == null && pageState.job!.proposal!.contracts!.isNotEmpty) {
+                                if(pageState.job?.proposal?.contracts?.isEmpty ?? false) {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(builder: (context) => ContractsPage(jobDocumentId: pageState.job!.documentId!)),
                                   );

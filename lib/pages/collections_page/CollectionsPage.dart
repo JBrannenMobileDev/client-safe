@@ -112,14 +112,11 @@ class _CollectionsPageState extends State<CollectionsPage> {
   void onCollectionSelected(int index){
     switch(index){
       case 0:
-        EventSender().sendEvent(eventName: EventNames.NAV_TO_CONTRACTS);
         Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => ContractsPage()),
         );
         break;
-      case 1:
-        EventSender().sendEvent(eventName: EventNames.NAV_TO_COLLECTION_POSES);
-        Navigator.of(context).push(
+      case 1:Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => PosesPage(null, false, false, false)),
         );
         break;
@@ -127,45 +124,37 @@ class _CollectionsPageState extends State<CollectionsPage> {
         Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => const QuestionnairesPage(addToJobNew: false)),
         );
-        EventSender().sendEvent(eventName: EventNames.NAV_TO_QUESTIONNAIRES);
         break;
       case 3:
-        EventSender().sendEvent(eventName: EventNames.NAV_TO_COLLECTION_JOB_TYPES);
         Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => JobTypesPage()),
         );
         break;
       case 4:
-        EventSender().sendEvent(eventName: EventNames.NAV_TO_COLLECTION_PRICE_PACKAGES);
         Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => PricingProfilesPage()),
         );
         break;
       case 5:
-        EventSender().sendEvent(eventName: EventNames.NAV_TO_COLLECTION_LOCATIONS);
         Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => LocationsPage()),
         );
         break;
       case 6:
-        EventSender().sendEvent(eventName: EventNames.NAV_TO_COLLECTION_RESPONSES);
         Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => ResponsesPage()),
         );
         break;
       case 7:
-        EventSender().sendEvent(eventName: EventNames.NAV_TO_COLLECTION_REMINDERS);
         Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => RemindersPage()),
         );
         break;
       case 8:
         DandyToastUtil.showToast("Coming 2024! \nThis feature is not ready yet.", Color(ColorConstants.getPrimaryGreyMedium()));
-        EventSender().sendEvent(eventName: EventNames.NAV_TO_AUTOMATED_BOOKING);
         break;
       case 9:
         DandyToastUtil.showToast("Coming 2024! \nThis feature is not ready yet.", Color(ColorConstants.getPrimaryGreyMedium()));
-        EventSender().sendEvent(eventName: EventNames.NAV_TO_CLIENT_GUIDES);
         break;
     }
   }

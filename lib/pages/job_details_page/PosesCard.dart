@@ -21,10 +21,8 @@ class PosesCard extends StatelessWidget {
       onTap: () {
         if(pageState!.job!.poses!.isNotEmpty) {
           NavigationUtil.onJobPosesSelected(context, comingFromOnboarding);
-          EventSender().sendEvent(eventName: EventNames.NAV_TO_JOB_POSES_FROM_JOB_DETAILS);
         } else {
           NavigationUtil.onPosesSelected(context, pageState!.job, true, false, false);
-          EventSender().sendEvent(eventName: EventNames.NAV_TO_POSES_ADD_POSE_TO_JOB);
         }
       },
       child: Container(

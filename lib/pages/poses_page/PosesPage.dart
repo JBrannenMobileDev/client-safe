@@ -159,7 +159,6 @@ class _PosesPageState extends State<PosesPage> {
                     GestureDetector(
                       onTap: () {
                         NavigationUtil.onSearchPosesSelected(context, job, comingFromDetails!);
-                        EventSender().sendEvent(eventName: EventNames.NAV_TO_POSE_LIBRARY_SEARCH);
                       },
                       child: Container(
                         margin: EdgeInsets.only(right: 26.0),
@@ -193,15 +192,6 @@ class _PosesPageState extends State<PosesPage> {
                                   setState(() {
                                     selectedIndex = filterTypeIndex!;
                                   });
-                                  if (filterTypeIndex == 0) EventSender()
-                                      .sendEvent(
-                                      eventName: EventNames.NAV_TO_MY_POSES);
-                                  if (filterTypeIndex == 1) EventSender()
-                                      .sendEvent(eventName: EventNames
-                                      .NAV_TO_POSE_LIBRARY);
-                                  if (filterTypeIndex == 2) EventSender()
-                                      .sendEvent(eventName: EventNames
-                                      .NAV_TO_SUBMITTED_POSES);
                                 },
                                 groupValue: selectedIndex,
                               ),
