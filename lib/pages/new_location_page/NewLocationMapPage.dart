@@ -77,14 +77,13 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
                   compassEnabled: false,
                   onCameraIdle: () async{
                     final GoogleMapController controller = await _controller.future;
-                    double screenWidth = MediaQuery.of(context).size.width * MediaQuery.of(context).devicePixelRatio;
-                    double screenHeight = MediaQuery.of(context).size.height * MediaQuery.of(context).devicePixelRatio;
+                    LatLng latLng = await controller.getLatLng(
+                        ScreenCoordinate(
+                          x: (MediaQuery.of(context).size.width/2).round(),
+                          y: (MediaQuery.of(context).size.height/2).round(),
+                        )
+                    );
 
-                    double middleX = screenWidth / 2;
-                    double middleY = screenHeight / 2;
-
-                    ScreenCoordinate screenCoordinate = ScreenCoordinate(x: middleX.round(), y: middleY.round());
-                    LatLng latLng = await controller.getLatLng(screenCoordinate);
                     setState(() {
                       latLngLocal = latLng;
                     });

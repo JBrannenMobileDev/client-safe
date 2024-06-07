@@ -236,15 +236,6 @@ class UserOptionsUtil {
     );
   }
 
-  static void showNewJobSelectFromMapDialog(BuildContext context, Function(LatLng) onLocationSaved, double lat, double lng, Function(LocationDandy) saveSelectedLocation){
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return MapLocationSelectionWidget(onLocationSaved, lat, lng, saveSelectedLocation);
-      },
-    );
-  }
-
   static void showDeviceContactsDialog(BuildContext context){
     showDialog(
       context: context,
