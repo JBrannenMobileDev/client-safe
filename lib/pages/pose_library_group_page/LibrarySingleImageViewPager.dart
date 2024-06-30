@@ -85,7 +85,7 @@ class _LibrarySingleImageViewPagerState extends State<LibrarySingleImageViewPage
                     alignment: Alignment.bottomRight,
                     children: [
                       ClipRRect(
-                          borderRadius: new BorderRadius.circular(16.0),
+                          // borderRadius: new BorderRadius.circular(16.0),
                           child: CachedNetworkImage(
                             fadeOutDuration: Duration(milliseconds: 0),
                             fadeInDuration: Duration(milliseconds: 200),
@@ -104,7 +104,7 @@ class _LibrarySingleImageViewPagerState extends State<LibrarySingleImageViewPage
                         height: 116.0,
                         decoration: BoxDecoration(
                             color: Color(ColorConstants.getPrimaryWhite()),
-                            borderRadius: new BorderRadius.circular(16.0),
+                            // borderRadius: new BorderRadius.circular(16.0),
                             gradient: LinearGradient(
                                 begin: FractionalOffset.center,
                                 end: FractionalOffset.bottomCenter,

@@ -278,7 +278,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                                 ),
                                                 TextDandyLight(
                                                   type: TextDandyLight.MEDIUM_TEXT,
-                                                  amount: pageState.annualPrice!/12,
+                                                  amount: pageState.monthlyPrice!,
                                                   color: Color(pageState.radioValue == 0 ? ColorConstants.getPrimaryColor() : ColorConstants.getBlueDark()),
                                                   isCurrency: true,
                                                 ),

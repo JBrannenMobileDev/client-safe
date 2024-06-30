@@ -34,8 +34,8 @@ ManageSubscriptionPageState _setShowAppliedDiscount(ManageSubscriptionPageState 
 
 ManageSubscriptionPageState _setDiscountType(ManageSubscriptionPageState previousState, SetDiscountTypeAction action){
   Offering? offering;
-  double monthlyPrice = 99.99;
-  double annualPrice = 9.99;
+  double monthlyPrice = 9.99;
+  double annualPrice = 99.99;
 
   switch(action.discountType) {
     case DiscountCodes.A_LITTLE_STORY_30:
