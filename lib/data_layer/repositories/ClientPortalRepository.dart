@@ -3,7 +3,6 @@ import 'package:dandylight/models/Questionnaire.dart';
 
 import '../../models/Profile.dart';
 import '../api_clients/DandylightFunctionsClient.dart';
-import 'package:meta/meta.dart';
 
 class ClientPortalRepository {
   final DandylightFunctionsApi functions;

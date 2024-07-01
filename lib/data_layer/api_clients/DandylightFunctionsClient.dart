@@ -4,6 +4,8 @@ import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/Questionnaire.dart';
 import 'package:http/http.dart' as http;
+
+import '../../models/PendingEmail.dart';
 class DandylightFunctionsApi {
   final _baseUrl = 'https://us-central1-clientsafe-21962.cloudfunctions.net';
 
@@ -121,6 +123,44 @@ class DandylightFunctionsApi {
       throw Exception('error getting quotes - Status = ${response.statusCode}\n${jsonEncode(questionnaire)}');
     } else {
       print('Update questionnaire response - ${response.statusCode}\n${jsonEncode(questionnaire)}');
+    }
+
+    return response.statusCode;
+  }
+
+  Future<int> sendEmailToUserNow(PendingEmail pendingEmail) async {
+    final url = '$_baseUrl/sendEmailToUser';
+    final response = await httpClient!.put(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(pendingEmail)
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('error getting quotes - Status = ${response.statusCode}\n${jsonEncode(pendingEmail)}');
+    } else {
+      print('Update questionnaire response success - ${response.statusCode}\n${jsonEncode(pendingEmail)}');
+    }
+
+    return response.statusCode;
+  }
+
+  Future<int> sendEmailToUserScheduled(PendingEmail pendingEmail) async {
+    final url = '$_baseUrl/sendEmailToUserScheduled';
+    final response = await httpClient!.put(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(pendingEmail)
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('error getting quotes - Status = ${response.statusCode}\n${jsonEncode(pendingEmail)}');
+    } else {
+      print('Update questionnaire response success - ${response.statusCode}\n${jsonEncode(pendingEmail)}');
     }
 
     return response.statusCode;

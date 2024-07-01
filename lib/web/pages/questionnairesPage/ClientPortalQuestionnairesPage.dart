@@ -110,7 +110,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                           child: TextDandyLight(
                             textAlign: TextAlign.start,
                             type: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? TextDandyLight.SMALL_TEXT : TextDandyLight.MEDIUM_TEXT,
-                            text: pageState.proposal!.questionnaires!.elementAt(index).title,
+                            text: pageState.proposal!.questionnaires!.elementAt(index).title ?? "",
                             maxLines: 1,
                             isBold: true,
                             overflow: TextOverflow.ellipsis,
@@ -180,7 +180,7 @@ class _ClientPortalQuestionnairesPageState extends State<ClientPortalQuestionnai
                             child: TextDandyLight(
                               textAlign: TextAlign.start,
                               type: DeviceType.getDeviceTypeByContext(context) == Type.Phone ? TextDandyLight.SMALL_TEXT : TextDandyLight.MEDIUM_TEXT,
-                              text: pageState.proposal!.questionnaires!.elementAt(index).title,
+                              text: pageState.proposal!.questionnaires!.elementAt(index).title ?? '',
                               maxLines: 2,
                               isBold: true,
                               overflow: TextOverflow.ellipsis,

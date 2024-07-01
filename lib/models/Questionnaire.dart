@@ -75,6 +75,9 @@ class Questionnaire {
 
   String getLengthInMinutes() {
     double result = 0;
+    if(questions == null) {
+      return '';
+    }
     for(Question question in questions!) {
       switch(question.type) {
         case Question.TYPE_NUMBER:
@@ -106,10 +109,12 @@ class Questionnaire {
           result = result + 0.10;
           break;
         case Question.TYPE_CHECK_BOXES:
-          if(question.choicesCheckBoxes!.length <= 10) {
-            result = result + 0.35;
-          } else {
-            result = result + 0.60;
+          if(question.choicesCheckBoxes != null) {
+            if(question.choicesCheckBoxes!.length <= 10) {
+              result = result + 0.35;
+            } else {
+              result = result + 0.60;
+            }
           }
           break;
       }
@@ -117,7 +122,7 @@ class Questionnaire {
     var formatter = NumberFormat('##0');
     if(result < 1) result = 1;
     var resultLow = formatter.format(result);
-    var resultHigh = formatter.format(result + 3);
+    var resultHigh = formatter.format(result + (questions!.length > 12 ? 5 : 3));
     return '$resultLow-$resultHigh';
   }
 

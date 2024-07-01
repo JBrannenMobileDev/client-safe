@@ -793,7 +793,7 @@ class _AnswerQuestionnairePageState extends State<AnswerQuestionnairePage> with 
       margin: const EdgeInsets.only(left: 32, top: 32, right: 32),
       child: TextDandyLight(
         type: TextDandyLight.LARGE_TEXT,
-        text: '$questionNumber. ${question.question} ${question.isRequired! ? '*' : ''}',
+        text: question.question != null ? '$questionNumber. ${question.question} ${question.isRequired! ? '*' : ''}' : '$questionNumber. ${question.isRequired! ? '*' : ''}',
       ),
     );
   }
