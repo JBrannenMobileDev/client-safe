@@ -210,36 +210,38 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     List<Job> jobsThatNeedMileageTripAdded = (await JobDao.getAllJobs()).where((job) => job.isMissingMileageTrip()).toList();
 
-    for(Job job in jobsThatNeedMileageTripAdded) {
-      if(profile!.latDefaultHome != 0 && profile.lngDefaultHome != 0){
-        LatLng start = LatLng(profile.latDefaultHome!, profile.lngDefaultHome!);
-        LatLng end = LatLng(job.location!.latitude!, job.location!.longitude!);
-        double milesDriven = await GoogleApiClient(httpClient: http.Client()).getTravelDistance(start, end);
-        MileageExpense newMileageTrip = MileageExpense(
-          jobDocumentId: job.documentId,
-          totalMiles: milesDriven * 2,
-          isRoundTrip: true,
-          startLat: start.latitude,
-          startLng: start.longitude,
-          endLat: end.latitude,
-          endLng: end.longitude,
-          deductionRate: NumberConstants.TAX_MILEAGE_DEDUCTION_RATE,
-          charge: Charge(
-            chargeDate: job.selectedDate,
-            chargeAmount: (milesDriven * 2 * NumberConstants.TAX_MILEAGE_DEDUCTION_RATE),
-            isPaid: true,
-          ),
-        );
-        newMileageTrip = await MileageExpenseDao.insert(newMileageTrip);
-        job.hasAddedMileageTrip = true;
-        await JobDao.update(job);
-        EventSender().sendEvent(eventName: EventNames.CREATED_MILEAGE_TRIP, properties: {
-          EventNames.TRIP_PARAM_LAT_START : newMileageTrip.startLat!,
-          EventNames.TRIP_PARAM_LON_START : newMileageTrip.startLng!,
-          EventNames.TRIP_PARAM_LAT_END : newMileageTrip.endLat!,
-          EventNames.TRIP_PARAM_LON_END : newMileageTrip.endLng!,
-          EventNames.TRIP_PARAM_DIST_MILES : newMileageTrip.totalMiles!,
-        });
+    if(profile!.latDefaultHome != null && profile.lngDefaultHome != null) {
+      for(Job job in jobsThatNeedMileageTripAdded) {
+        if(profile.latDefaultHome  != 0 && profile.lngDefaultHome != 0){
+          LatLng start = LatLng(profile.latDefaultHome!, profile.lngDefaultHome!);
+          LatLng end = LatLng(job.location!.latitude!, job.location!.longitude!);
+          double milesDriven = await GoogleApiClient(httpClient: http.Client()).getTravelDistance(start, end);
+          MileageExpense newMileageTrip = MileageExpense(
+            jobDocumentId: job.documentId,
+            totalMiles: milesDriven * 2,
+            isRoundTrip: true,
+            startLat: start.latitude,
+            startLng: start.longitude,
+            endLat: end.latitude,
+            endLng: end.longitude,
+            deductionRate: NumberConstants.TAX_MILEAGE_DEDUCTION_RATE,
+            charge: Charge(
+              chargeDate: job.selectedDate,
+              chargeAmount: (milesDriven * 2 * NumberConstants.TAX_MILEAGE_DEDUCTION_RATE),
+              isPaid: true,
+            ),
+          );
+          newMileageTrip = await MileageExpenseDao.insert(newMileageTrip);
+          job.hasAddedMileageTrip = true;
+          await JobDao.update(job);
+          EventSender().sendEvent(eventName: EventNames.CREATED_MILEAGE_TRIP, properties: {
+            EventNames.TRIP_PARAM_LAT_START : newMileageTrip.startLat!,
+            EventNames.TRIP_PARAM_LON_START : newMileageTrip.startLng!,
+            EventNames.TRIP_PARAM_LAT_END : newMileageTrip.endLat!,
+            EventNames.TRIP_PARAM_LON_END : newMileageTrip.endLng!,
+            EventNames.TRIP_PARAM_DIST_MILES : newMileageTrip.totalMiles!,
+          });
+        }
       }
     }
   }

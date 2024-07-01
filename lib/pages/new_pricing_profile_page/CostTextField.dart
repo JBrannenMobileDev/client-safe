@@ -50,7 +50,9 @@ class CostTextField extends StatelessWidget {
                   HapticFeedback.heavyImpact();
                 },
                 onFieldSubmitted: (term){
-                  onFocusAction!();
+                  if(onFocusAction != null) {
+                    onFocusAction!();
+                  }
                 },
                 decoration: InputDecoration(
                   alignLabelWithHint: true,

@@ -275,7 +275,7 @@ class _SignContractPageState extends State<ProposalPage> {
           ),
         ),
       ),
-      pageState.proposal?.contracts != null && pageState.proposal!.contracts!.isNotEmpty ? GestureDetector(
+      pageState.proposal?.contracts != null && pageState.proposal!.contracts!.isNotEmpty && pageState.proposal!.includeContract! ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = CONTRACT;
@@ -459,7 +459,7 @@ class _SignContractPageState extends State<ProposalPage> {
       ),
     )];
 
-    if(pageState.proposal?.contracts != null && pageState.proposal!.contracts!.isNotEmpty && pageState.proposal!.includeContract!) {
+    if(pageState.proposal?.contracts != null && pageState.proposal!.contracts!.isNotEmpty && pageState.proposal!.includeContract! ) {
       result.add(GestureDetector(
         onTap: () {
           setState(() {

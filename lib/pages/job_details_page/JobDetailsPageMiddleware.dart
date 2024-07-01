@@ -316,7 +316,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void updateInvoiceToSent(Store<AppState> store, InvoiceSentAction action, NextDispatcher next) async {
     if(action.invoice != null) {
-      Job? job = await JobDao.getJobById(action.pageState!.job!.documentId);
+      Job? job = await JobDao.getJobById(action.invoice!.jobDocumentId);
       List<JobStage> completedStages = job!.completedStages!;
       if(!Job.containsStage(completedStages, JobStage.STAGE_8_PAYMENT_REQUESTED)) {
         completedStages.add(JobStage(stage: JobStage.STAGE_8_PAYMENT_REQUESTED));

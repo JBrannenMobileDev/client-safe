@@ -296,7 +296,7 @@ class _RequestAppReviewBottomSheetState extends State<RequestAppReviewBottomShee
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Checkbox(
-                value: !pageState.profile!.canShowAppReview!,
+                value: !(pageState.profile?.canShowAppReview ?? false),
                 onChanged: (checked) {
                   pageState.updateCanShowRequestReview!(!checked!, DateTime.now());
                 },

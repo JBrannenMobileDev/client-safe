@@ -64,8 +64,8 @@ class Element {
   String status;
 
   factory Element.fromJson(Map<String, dynamic> json) => Element(
-    distance: Distance.fromJson(json["distance"]),
-    duration: Distance.fromJson(json["duration"]),
+    distance: Distance.fromJson(json["distance"] ?? Distance(text: '', value: 0)) ,
+    duration: Distance.fromJson(json["duration"] ?? Duration()),
     status: json["status"],
   );
 

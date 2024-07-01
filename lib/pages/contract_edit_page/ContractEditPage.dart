@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/contract_edit_page/InsertJobDetailBottomSheet.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -470,9 +471,17 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
               style: Styles.getButtonStyle(),
               onPressed: () {
                 if(jobDocumentId != null) {
-                  pageState.deleteFromJob!();
+                  if(pageState.deleteFromJob != null) {
+                    pageState.deleteFromJob!();
+                  } else {
+                    DandyToastUtil.showErrorToast('Failed to delete. Please Try again.');
+                  }
                 } else {
-                  pageState.onDeleteSelected!();
+                  if(pageState.onDeleteSelected != null) {
+                    pageState.onDeleteSelected!();
+                  } else {
+                    DandyToastUtil.showErrorToast('Failed to delete. Please Try again.');
+                  }
                 }
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
