@@ -2,6 +2,7 @@ import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/MileageExpense.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
+import 'package:http/http.dart' as http;
 import 'package:dandylight/pages/IncomeAndExpenses/AddTipDialog.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/RequestPaymentLinksDialog.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/ViewInvoiceDialog.dart';
@@ -51,7 +52,9 @@ import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../data_layer/api_clients/DandylightFunctionsClient.dart';
 import '../data_layer/local_db/daos/ProfileDao.dart';
+import '../data_layer/repositories/PendingEmailsRepository.dart';
 import '../models/Client.dart';
 import '../models/Contract.dart';
 import '../models/JobReminder.dart';
@@ -187,6 +190,7 @@ class UserOptionsUtil {
       );
     } else {
       EventSender().sendEvent(eventName: EventNames.JOB_LIMIT_REACHED);
+      PendingEmailsRepository(functions: DandylightFunctionsApi(httpClient: http.Client())).sendTrialLimitReachedEmail();
       NavigationUtil.onShowSubscribeNowPage(context);
     }
   }

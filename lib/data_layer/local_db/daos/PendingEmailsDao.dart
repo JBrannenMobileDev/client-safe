@@ -9,7 +9,7 @@ import 'package:uuid/uuid.dart';
 import '../../../models/PendingEmail.dart';
 import '../../firebase/collections/PendingEmailCollection.dart';
 
-class PendingEmailTemplateDao extends Equatable{
+class PendingEmailDao extends Equatable{
   static const String PENDING_EMAILS_STORE_NAME = 'pendingEmails';
   // A Store with int keys and Map<String, dynamic> values.
   // This Store acts like a persistent map, values of which are Client objects converted to Map
@@ -44,6 +44,38 @@ class PendingEmailTemplateDao extends Equatable{
     }else{
       return await insert(pendingEmail);
     }
+  }
+
+  static Future<PendingEmail?> getPreviousStageEmailByUid(String uid) async {
+    List<PendingEmail>? all = await getAll();
+    if(all != null) {
+      for(PendingEmail email in all) {
+        if(email.uid == uid && isTypePreviousStage(email.type)) {
+          return email;
+        }
+      }
+    }
+    return null;
+  }
+
+  static bool isTypePreviousStage(String type) {
+    if(
+      type == PendingEmail.TYPE_VIEW_CLIENT_PORTAL ||
+      type == PendingEmail.TYPE_VIEW_EXAMPLE_JOB ||
+      type == PendingEmail.TYPE_SETUP_YOU_BRAND ||
+      type == PendingEmail.TYPE_CREATE_PRICE_PACKAGE ||
+      type == PendingEmail.TYPE_ADD_FIRST_CLIENT ||
+      type == PendingEmail.TYPE_CREATE_FIRST_JOB ||
+      type == PendingEmail.TYPE_CREATE_CONTRACT ||
+      type == PendingEmail.TYPE_ADD_CONTRACT_TO_JOB ||
+      type == PendingEmail.TYPE_ADD_INVOICE_TO_JOB ||
+      type == PendingEmail.TYPE_ADD_QUESTIONNAIRE_TO_JOB ||
+      type == PendingEmail.TYPE_ADD_POSES_TO_JOB ||
+      type == PendingEmail.TYPE_ADD_LOCATION_TO_JOB
+    ) {
+      return true;
+    }
+    return false;
   }
 
   static Future<PendingEmail?> getById(String pendingEmailDocumentId) async{

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dandylight/AppState.dart';
+import 'package:http/http.dart' as http;
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
@@ -38,6 +39,8 @@ import 'package:redux/redux.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 import 'package:showcaseview/showcaseview.dart';
 
+import '../../data_layer/api_clients/DandylightFunctionsClient.dart';
+import '../../data_layer/repositories/PendingEmailsRepository.dart';
 import '../../models/Job.dart';
 import '../../models/Profile.dart';
 import '../../utils/NotificationHelper.dart';
@@ -355,6 +358,8 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
               }
             }
           }
+
+          PendingEmailsRepository(functions: DandylightFunctionsApi(httpClient: http.Client())).sendNextStageEmail();
         },
         onDidChange: (previous, current) async {
           if(!hasSeenAPpUpdate && !previous!.shouldShowAppUpdate! && current.shouldShowAppUpdate!) {

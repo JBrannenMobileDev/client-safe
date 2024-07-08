@@ -14,8 +14,10 @@ import 'package:dandylight/data_layer/local_db/daos/QuestionnaireTemplateDao.dar
 import 'package:dandylight/data_layer/local_db/daos/QuestionnairesDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ResponseDao.dart';
 import 'package:dandylight/data_layer/repositories/FileStorage.dart';
+import 'package:dandylight/data_layer/repositories/PendingEmailsRepository.dart';
 import 'package:dandylight/models/FontTheme.dart';
 import 'package:dandylight/models/Invoice.dart';
+import 'package:http/http.dart' as http;
 import 'package:dandylight/models/PoseLibraryGroup.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/Question.dart';
@@ -40,6 +42,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:uuid/uuid.dart';
 import 'package:uuid/v4.dart';
 
+import '../../data_layer/api_clients/DandylightFunctionsClient.dart';
 import '../../data_layer/local_db/SembastDb.dart';
 import '../../data_layer/local_db/daos/ClientDao.dart';
 import '../../data_layer/local_db/daos/JobDao.dart';
@@ -332,6 +335,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           });
           break;
       }
+      PendingEmailsRepository(functions: DandylightFunctionsApi(httpClient: http.Client())).sendAccountCreatedEmails();
       EventSender().setUserIdentity(user.uid);
       EventSender().setUserProfileData(EventNames.FIRST_NAME, firstName);
       EventSender().setUserProfileData(EventNames.LAST_NAME, lastName);

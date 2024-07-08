@@ -129,26 +129,7 @@ class DandylightFunctionsApi {
   }
 
   Future<int> sendEmailToUserNow(PendingEmail pendingEmail) async {
-    final url = '$_baseUrl/sendEmailToUser';
-    final response = await httpClient!.put(
-        Uri.parse(url),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(pendingEmail)
-    );
-
-    if (response.statusCode != 200) {
-      throw Exception('error getting quotes - Status = ${response.statusCode}\n${jsonEncode(pendingEmail)}');
-    } else {
-      print('Update questionnaire response success - ${response.statusCode}\n${jsonEncode(pendingEmail)}');
-    }
-
-    return response.statusCode;
-  }
-
-  Future<int> sendEmailToUserScheduled(PendingEmail pendingEmail) async {
-    final url = '$_baseUrl/sendEmailToUserScheduled';
+    final url = '$_baseUrl/sendEmailNow';
     final response = await httpClient!.put(
         Uri.parse(url),
         headers: <String, String>{
