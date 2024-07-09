@@ -18,9 +18,6 @@ class PendingEmail{
   static const String TYPE_ADD_POSES_TO_JOB = 'add_poses_to_job';
   static const String TYPE_ADD_LOCATION_TO_JOB = 'add_location_to_job';
   static const String TYPE_TRIAL_LIMIT_REACHED = 'trial_limit_reached';
-  static const String TYPE_GETTING_STARTED_COMPLETE = 'getting_started_complete';
-  static const String TYPE_WHERE_HAVE_YOU_GONE = 'where_have_you_gone';
-  static const String TYPE_1_MONTH_SINCE_TRIAL_LIMIT = '1_month_since_trial_limit';
 
   int? id;
   String? documentId;

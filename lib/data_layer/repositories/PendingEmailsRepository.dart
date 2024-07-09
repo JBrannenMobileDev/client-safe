@@ -76,7 +76,7 @@ class PendingEmailsRepository {
 
     if(sendToEmail.isNotEmpty) {
       DateTime sendDate2 = DateTime.now();
-      sendDate2.add(const Duration(days: 1));
+      sendDate2.add(const Duration(days: 2));
       PendingEmail pendingEmail2 = PendingEmail(
           sendDate: sendDate2,
           type: PendingEmail.TYPE_ACCOUNT_CREATED_2,
@@ -89,7 +89,7 @@ class PendingEmailsRepository {
 
     if(sendToEmail.isNotEmpty) {
       DateTime sendDate3 = DateTime.now();
-      sendDate3.add(const Duration(days: 2));
+      sendDate3.add(const Duration(days: 5));
       PendingEmail pendingEmail3 = PendingEmail(
           sendDate: sendDate3,
           type: PendingEmail.TYPE_ACCOUNT_CREATED_3,
