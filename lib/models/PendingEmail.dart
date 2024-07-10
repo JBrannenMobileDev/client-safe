@@ -5,6 +5,7 @@ class PendingEmail{
   static const String TYPE_ACCOUNT_CREATED_1 = 'account_created_1';
   static const String TYPE_ACCOUNT_CREATED_2 = 'account_created_2';
   static const String TYPE_ACCOUNT_CREATED_3 = 'account_created_3';
+  static const String TYPE_ACCOUNT_CREATED_4 = "account_created_4"; //Ask if user needs any help. Look at Sprout email for example
   static const String TYPE_VIEW_CLIENT_PORTAL = 'view_client_portal';
   static const String TYPE_VIEW_EXAMPLE_JOB = 'view_example_job';
   static const String TYPE_SETUP_YOU_BRAND = 'setup_your_brand';

@@ -99,6 +99,19 @@ class PendingEmailsRepository {
       );
       _sendEmailToUserScheduled(pendingEmail3);
     }
+
+    if(sendToEmail.isNotEmpty) {
+      DateTime sendDate4 = DateTime.now();
+      sendDate4.add(const Duration(days: 7));
+      PendingEmail pendingEmail3 = PendingEmail(
+        sendDate: sendDate4,
+        type: PendingEmail.TYPE_ACCOUNT_CREATED_4,
+        toAddress: sendToEmail,
+        uid: uid,
+        photographerName: profile?.firstName ?? '',
+      );
+      _sendEmailToUserScheduled(pendingEmail3);
+    }
   }
 
   Future _sendEmailToUserNow(PendingEmail pendingEmail) async {
@@ -106,6 +119,6 @@ class PendingEmailsRepository {
   }
 
   Future _sendEmailToUserScheduled(PendingEmail pendingEmail) async {
-    return await PendingEmailDao.insert(pendingEmail);
+    return await PendingEmailDao.insertOrUpdate(pendingEmail);
   }
 }
