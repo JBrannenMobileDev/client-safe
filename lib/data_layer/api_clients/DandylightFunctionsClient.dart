@@ -138,7 +138,7 @@ class DandylightFunctionsApi {
         body: jsonEncode(pendingEmail)
     );
 
-    if (response.statusCode != 200) {
+    if (response.statusCode != 200 || response.statusCode != 202) {
       throw Exception('error getting quotes - Status = ${response.statusCode}\n${jsonEncode(pendingEmail)}');
     } else {
       print('Update questionnaire response success - ${response.statusCode}\n${jsonEncode(pendingEmail)}');

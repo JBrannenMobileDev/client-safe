@@ -1,11 +1,14 @@
 
 import 'package:dandylight/models/Progress.dart';
+import 'package:json_annotation/json_annotation.dart';
+part 'PendingEmail.g.dart';
 
+@JsonSerializable(explicitToJson: true)
 class PendingEmail{
   static const String TYPE_ACCOUNT_CREATED_1 = 'account_created_1';
   static const String TYPE_ACCOUNT_CREATED_2 = 'account_created_2';
   static const String TYPE_ACCOUNT_CREATED_3 = 'account_created_3';
-  static const String TYPE_ACCOUNT_CREATED_4 = "account_created_4"; //Ask if user needs any help. Look at Sprout email for example
+  static const String TYPE_ACCOUNT_CREATED_4 = "account_created_4";
   static const String TYPE_VIEW_CLIENT_PORTAL = 'view_client_portal';
   static const String TYPE_VIEW_EXAMPLE_JOB = 'view_example_job';
   static const String TYPE_SETUP_YOU_BRAND = 'setup_your_brand';
@@ -38,6 +41,9 @@ class PendingEmail{
     required this.photographerName,
   });
 
+  factory PendingEmail.fromJson(Map<String, dynamic> json) => _$PendingEmailFromJson(json);
+  Map<String, dynamic> toJson() => _$PendingEmailToJson(this);
+
   Map<String, dynamic> toMap() {
     return {
       'id' : id,
@@ -64,6 +70,17 @@ class PendingEmail{
 
   static String? getNextUncompletedType(Progress progress) {
     if(!progress.previewClientPortal) return PendingEmail.TYPE_VIEW_CLIENT_PORTAL;
+    if(!progress.previewSampleJob) return PendingEmail.TYPE_VIEW_EXAMPLE_JOB;
+    if(!progress.setupBrand) return PendingEmail.TYPE_SETUP_YOU_BRAND;
+    if(!progress.createPricePackage) return PendingEmail.TYPE_CREATE_PRICE_PACKAGE;
+    if(!progress.addClient) return PendingEmail.TYPE_ADD_FIRST_CLIENT;
+    if(!progress.createJob) return PendingEmail.TYPE_CREATE_FIRST_JOB;
+    if(!progress.createContract) return PendingEmail.TYPE_CREATE_CONTRACT;
+    if(!progress.addContractToJob) return PendingEmail.TYPE_ADD_CONTRACT_TO_JOB;
+    if(!progress.addInvoiceToJob) return PendingEmail.TYPE_ADD_INVOICE_TO_JOB;
+    if(!progress.addQuestionnaireToJob) return PendingEmail.TYPE_ADD_QUESTIONNAIRE_TO_JOB;
+    if(!progress.addPosesToJob) return PendingEmail.TYPE_ADD_POSES_TO_JOB;
+    if(!progress.addLocationToJob) return PendingEmail.TYPE_ADD_LOCATION_TO_JOB;
     return null;
   }
 }
