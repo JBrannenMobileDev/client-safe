@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:dandylight/models/DiscountCodes.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPageState.dart';
+import 'package:dandylight/pages/manage_subscription_page/UnsubscribeBottomSheet.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 
@@ -16,12 +17,16 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../data_layer/api_clients/DandylightFunctionsClient.dart';
+import '../../data_layer/repositories/PendingEmailsRepository.dart';
 import '../../utils/AdminCheckUtil.dart';
 import '../../utils/DeviceType.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'EnterDiscountCodeBottomSheet.dart';
 import 'ManageSubscriptionPageActions.dart';
+import 'package:http/http.dart' as http;
+
 
 class ManageSubscriptionPage extends StatefulWidget {
   static const String SUBSCRIPTION_EXPIRED = "subscription_expired";
@@ -391,12 +396,9 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                         if(!pageState.isLoading! && !profile!.isFreeForLife!) {
                                           switch(pageState.uiState) {
                                             case ManageSubscriptionPage.SUBSCRIBED:
-                                              if(Device.get().isIos) {
-                                                launchUrl(Uri.parse("https://apps.apple.com/account/subscriptions"));
-                                              } else {
-                                                launchUrl(Uri.parse('https://play.google.com/store/account/subscriptions?sku=pro.monthly.testsku&package=com.dandylight.mobile'));
-                                              }
+                                              _showUnsubscribeBottomSheet(context);
                                               EventSender().sendEvent(eventName: EventNames.BT_CANCEL_SUBSCRIPTION);
+                                              PendingEmailsRepository(functions: DandylightFunctionsApi(httpClient: http.Client())).sendTrialLimitReachedEmail();
                                               break;
                                             case ManageSubscriptionPage.FREE_TRIAL:
                                             case ManageSubscriptionPage.SUBSCRIPTION_EXPIRED:
@@ -767,6 +769,20 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
         return EnterDiscountCodeBottomSheet();
+      },
+    );
+  }
+
+  void _showUnsubscribeBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return UnsubscribeBottomSheet();
       },
     );
   }

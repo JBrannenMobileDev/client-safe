@@ -6,10 +6,13 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import '../../../AppState.dart';
+import '../../../data_layer/api_clients/DandylightFunctionsClient.dart';
+import '../../../data_layer/repositories/PendingEmailsRepository.dart';
 import '../../../utils/analytics/EventNames.dart';
 import '../../../utils/analytics/EventSender.dart';
 import '../../../widgets/TextDandyLight.dart';
 import '../GettingStartedBottomSheet.dart';
+import 'package:http/http.dart' as http;
 
 class GettingStartedProgress extends StatelessWidget {
   const GettingStartedProgress({Key? key, this.pageState}) : super(key: key);
@@ -33,6 +36,9 @@ class GettingStartedProgress extends StatelessWidget {
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, DashboardPageState>(
   converter: (Store<AppState> store) => DashboardPageState.fromStore(store),
+  onDidChange: (previoius, current) {
+    PendingEmailsRepository(functions: DandylightFunctionsApi(httpClient: http.Client())).sendNextStageEmail();
+  },
   builder: (BuildContext context, DashboardPageState pageState) =>
       GestureDetector(
         onTap: () {

@@ -21,8 +21,7 @@ import '../data_layer/local_db/daos/JobDao.dart';
 
 class NotificationHelper {
   static final NotificationHelper _singleton = NotificationHelper._SingletonConstructor();
-  static final int START_FIRST_JOB_ID = 63;
-  static final int ONE_WEEK_LEFT_ID = 62;
+  static const int NEXT_TASK_ID = 63;
 
   Function(NotificationResponse notificationResponse)? notificationTapBackground;
 
@@ -101,12 +100,7 @@ class NotificationHelper {
       bool isGranted = (await UserPermissionsUtil.getPermissionStatus(Permission.notification)).isGranted;
       if(isGranted) {
         List<JobReminder> pendingReminders = await JobReminderDao.getPendingJobReminders();
-        List<Job>? allJobs = await JobDao.getAllJobs();
         clearAll();
-
-        if(allJobs!.length == 1 && allJobs.elementAt(0).clientName == "Example Client") {
-          scheduleStartFirstJobReminder();
-        }
 
         for(int index = 0;index < pendingReminders.length; index++) {
           if(index < 62) {
@@ -178,20 +172,76 @@ class NotificationHelper {
     }
   }
 
-  void scheduleStartFirstJobReminder() async {
-    DateTime profileCreatedDate = (await ProfileDao.getMatchingProfile(UidUtil().getUid()))!.accountCreatedDate!;
-    profileCreatedDate = profileCreatedDate.add(Duration(days: 3));
-
-    if(DateTime.now().isBefore(profileCreatedDate)) {
-      DateTime triggerDateTime = DateTime(profileCreatedDate.year, profileCreatedDate.month, profileCreatedDate.day, 9);
+  void scheduleNextTaskNotification(String emailType, DateTime sendDate) async {
+    if(DateTime.now().isBefore(sendDate)) {
       scheduleNotification(
-        START_FIRST_JOB_ID,
-        "Start your first job!",
-        "Have you booked a job recently? Track it in DandyLight to save time by staying organized! Don't forget to add poses to your job to make the shoot a breeze.",
-        "first_job_reminder",
-        triggerDateTime,
+        NEXT_TASK_ID,
+        getNextTaskTitle(emailType),
+        getNextTaskBody(emailType),
+        "next_task_reminder",
+        sendDate,
       );
     }
+  }
+
+  String getNextTaskTitle(String emailType) {
+    switch(emailType) {
+      case 'view_client_portal':
+        return 'You\'re doing great! Keep going and complete your next step.';
+      case 'view_example_job':
+        return 'Keep up the good work! Your next task awaits.';
+      case 'setup_your_brand':
+        return 'You\'re making excellent progress! Keep it up."';
+      case 'create_price_package':
+        return 'Stay motivated! Complete your next task now.';
+      case 'add_first_client':
+        return 'You\'re on a roll! Continue with your next step.';
+      case 'create_first_job':
+        return 'Keep the momentum! Your next step is just a click away.';
+      case 'create_contract':
+        return 'Take your business to the next level: Complete your next step.';
+      case 'add_contract_to_job':
+        return 'Almost there! Finish your next step to stay on track.';
+      case 'add_invoice_to_job':
+        return 'Great job so far! Just a few more steps to go.';
+      case 'add_questionnaire_to_job':
+        return 'You\'re making excellent progress! Keep it up.';
+      case 'add_poses_to_job':
+        return 'You\'re doing great! Keep going and complete your next step.';
+      case 'add_location_to_job':
+        return 'Keep up the good work! Your next task awaits.';
+    }
+    return 'Next Task!';
+  }
+
+  String getNextTaskBody(String emailType) {
+    switch(emailType) {
+      case 'view_client_portal':
+        return 'View your client portal to complete your next step.';
+      case 'view_example_job':
+        return 'View an example job to complete your next step.';
+      case 'setup_your_brand':
+        return 'Setup your brand to complete your next step.';
+      case 'create_price_package':
+        return 'Create a price package to complete your next step.';
+      case 'add_first_client':
+        return 'Add your first client to complete your next step.';
+      case 'create_first_job':
+        return 'Create your first job to complete your next step.';
+      case 'create_contract':
+        return 'Create a contract to complete your next step.';
+      case 'add_contract_to_job':
+        return 'Add a contract to a job to complete your next step.';
+      case 'add_invoice_to_job':
+        return 'Add an invoice to a job to complete your next step.';
+      case 'add_questionnaire_to_job':
+        return 'Add a questionnaire to a job to complete your next step.';
+      case 'add_poses_to_job':
+        return 'Add poses to a job to complete your next step.';
+      case 'add_location_to_job':
+        return 'Add a location to a job to complete your next step.';
+    }
+    return 'Tap this notification to complete your next step.';
   }
 }
 

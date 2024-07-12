@@ -171,6 +171,8 @@ class EventNames {
   static const String USER_SUBSCRIBED = "user_subscribed";
   static const String SUBSCRIPTION_PARAM_NAME = "subscription_param_name";
   static const String JOB_LIMIT_REACHED = "job_limit_reached";
+  static const String SUBSCRIPTION_CANCELED = "subscription_canceled";
+  static const String SUBSCRIPTION_CANCELED_PARAM = "subscription_canceled_param";
 
   //Login flow
   static const String FIRST_NAME_ENTERED = "first_name_entered";

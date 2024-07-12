@@ -283,6 +283,10 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
       NavigationUtil.onPosesSelected(context, null, false, false, false);
       EventSender().sendEvent(eventName: EventNames.NOTIFICATION_INVOICE_APP_LAUNCH);
     }
+    if (message.data['click_action'] == 'next_task_reminder') {
+      NavigationUtil.onPosesSelected(context, null, false, false, false);
+      EventSender().sendEvent(eventName: EventNames.NOTIFICATION_INVOICE_APP_LAUNCH);
+    }
   }
 
   @override
@@ -358,7 +362,6 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
               }
             }
           }
-
           PendingEmailsRepository(functions: DandylightFunctionsApi(httpClient: http.Client())).sendNextStageEmail();
         },
         onDidChange: (previous, current) async {

@@ -50,7 +50,7 @@ class PendingEmailDao extends Equatable{
     List<PendingEmail>? all = await getAll();
     if(all != null) {
       for(PendingEmail email in all) {
-        if(email.uid == uid && isTypePreviousStage(email.type)) {
+        if(email.uid == uid && isTypePreviousStage(email.emailType)) {
           return email;
         }
       }

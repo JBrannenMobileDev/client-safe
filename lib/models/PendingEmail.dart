@@ -26,7 +26,7 @@ class PendingEmail{
   int? id;
   String? documentId;
   DateTime sendDate;
-  String type;
+  String emailType;
   String toAddress;
   String photographerName;
   String uid;
@@ -35,7 +35,7 @@ class PendingEmail{
     this.id,
     this.documentId,
     required this.sendDate,
-    required this.type,
+    required this.emailType,
     required this.toAddress,
     required this.uid,
     required this.photographerName,
@@ -49,7 +49,7 @@ class PendingEmail{
       'id' : id,
       'documentId' : documentId,
       'sendDate' : sendDate.millisecondsSinceEpoch,
-      'emailType' : type,
+      'emailType' : emailType,
       'toAddress' : toAddress,
       'uid' : uid,
       'photographerName' : photographerName
@@ -61,7 +61,7 @@ class PendingEmail{
       id: map['id'],
       documentId: map['documentId'],
       sendDate: DateTime.fromMillisecondsSinceEpoch(map['sendDate']),
-      type: map['emailType'],
+      emailType: map['emailType'],
       toAddress: map['toAddress'],
       uid: map['uid'],
       photographerName: map['photographerName']

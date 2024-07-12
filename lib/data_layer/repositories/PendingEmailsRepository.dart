@@ -1,6 +1,7 @@
 import 'package:dandylight/data_layer/local_db/daos/PendingEmailsDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/PendingEmail.dart';
+import 'package:dandylight/utils/NotificationHelper.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import '../../models/Profile.dart';
 import '../api_clients/DandylightFunctionsClient.dart';
@@ -18,7 +19,7 @@ class PendingEmailsRepository {
     if(sendToEmail.isNotEmpty) {
       PendingEmail pendingEmail = PendingEmail(
         sendDate: DateTime.now(),
-        type: PendingEmail.TYPE_TRIAL_LIMIT_REACHED,
+        emailType: PendingEmail.TYPE_TRIAL_LIMIT_REACHED,
         toAddress: sendToEmail,
         uid: uid,
         photographerName: profile?.firstName ?? '',
@@ -35,26 +36,28 @@ class PendingEmailsRepository {
     if(profile?.progress.canShow == true) {
       if(previousEmail != null && profile != null) {
         String? nextType = PendingEmail.getNextUncompletedType(profile.progress);
-        if(nextType != null && nextType != previousEmail.type) {
+        if(nextType != null && nextType != previousEmail.emailType) {
           DateTime newSendDate = DateTime.now();
-          newSendDate.add(const Duration(days: 3));
+          newSendDate = newSendDate.add(const Duration(days: 3));
           previousEmail.sendDate = newSendDate;
-          previousEmail.type = nextType;
-          PendingEmailDao.update(previousEmail);
+          previousEmail.emailType = nextType;
+          _sendEmailToUserScheduled(previousEmail);
+          NotificationHelper().scheduleNextTaskNotification(nextType, newSendDate);
         }
       } else if(previousEmail == null && profile != null && profile.email != null) {
         String? nextType = PendingEmail.getNextUncompletedType(profile.progress);
         if(nextType != null) {
           DateTime sendDate = DateTime.now();
-          sendDate.add(const Duration(days: 3));
+          sendDate = sendDate.add(const Duration(days: 3));
           PendingEmail pendingEmail = PendingEmail(
             sendDate: sendDate,
-            type: nextType,
+            emailType: nextType,
             toAddress: profile.email!,
             uid: uid,
             photographerName: profile.firstName ?? '',
           );
           _sendEmailToUserScheduled(pendingEmail);
+          NotificationHelper().scheduleNextTaskNotification(nextType, sendDate);
         }
       }
     }
@@ -68,7 +71,7 @@ class PendingEmailsRepository {
     if(sendToEmail.isNotEmpty) {
       PendingEmail pendingEmail1 = PendingEmail(
           sendDate: DateTime.now(),
-          type: PendingEmail.TYPE_ACCOUNT_CREATED_1,
+          emailType: PendingEmail.TYPE_ACCOUNT_CREATED_1,
           toAddress: sendToEmail,
           uid: uid,
           photographerName: profile?.firstName ?? '',
@@ -81,7 +84,7 @@ class PendingEmailsRepository {
       sendDate2.add(const Duration(days: 2));
       PendingEmail pendingEmail2 = PendingEmail(
           sendDate: sendDate2,
-          type: PendingEmail.TYPE_ACCOUNT_CREATED_2,
+          emailType: PendingEmail.TYPE_ACCOUNT_CREATED_2,
           toAddress: sendToEmail,
           uid: uid,
           photographerName: profile?.firstName ?? '',
@@ -94,7 +97,7 @@ class PendingEmailsRepository {
       sendDate3.add(const Duration(days: 5));
       PendingEmail pendingEmail3 = PendingEmail(
           sendDate: sendDate3,
-          type: PendingEmail.TYPE_ACCOUNT_CREATED_3,
+          emailType: PendingEmail.TYPE_ACCOUNT_CREATED_3,
           toAddress: sendToEmail,
           uid: uid,
           photographerName: profile?.firstName ?? '',
@@ -107,7 +110,7 @@ class PendingEmailsRepository {
       sendDate4.add(const Duration(days: 14));
       PendingEmail pendingEmail3 = PendingEmail(
         sendDate: sendDate4,
-        type: PendingEmail.TYPE_ACCOUNT_CREATED_4,
+        emailType: PendingEmail.TYPE_ACCOUNT_CREATED_4,
         toAddress: sendToEmail,
         uid: uid,
         photographerName: profile?.firstName ?? '',
