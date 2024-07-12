@@ -28,6 +28,23 @@ class PendingEmailsRepository {
     }
   }
 
+  void sendVerificationHelpEmail() async {
+    String uid = UidUtil().getUid();
+    Profile? profile = await ProfileDao.getMatchingProfile(uid);
+    String sendToEmail = profile?.email ?? '';
+
+    if(sendToEmail.isNotEmpty) {
+      PendingEmail pendingEmail = PendingEmail(
+        sendDate: DateTime.now(),
+        emailType: PendingEmail.TYPE_EMAIL_VERIFICATION_HELP,
+        toAddress: sendToEmail,
+        uid: uid,
+        photographerName: profile?.firstName ?? '',
+      );
+      _sendEmailToUserNow(pendingEmail);
+    }
+  }
+
   void sendNextStageEmail() async {
     String uid = UidUtil().getUid();
     Profile? profile = await ProfileDao.getMatchingProfile(uid);

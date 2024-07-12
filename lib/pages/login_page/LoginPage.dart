@@ -5,6 +5,7 @@ import 'package:dandylight/utils/analytics/EventNames.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:dandylight/widgets/bouncing_loading_animation/LoginLoadingWidget.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/common_widgets/LoginTextField.dart';
@@ -23,6 +24,8 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../data_layer/api_clients/DandylightFunctionsClient.dart';
+import '../../data_layer/repositories/PendingEmailsRepository.dart';
 import '../../utils/DeviceType.dart';
 import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -742,6 +745,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               onTap: () {
                                 pageState.onResendEmailVerificationSelected!();
                                 EventSender().sendEvent(eventName: EventNames.BT_RESEND_VERIFICATION_EMAIL);
+                                PendingEmailsRepository(functions: DandylightFunctionsApi(httpClient: http.Client())).sendVerificationHelpEmail();
                               },
                               child: Container(
                                 height: 32.0,
