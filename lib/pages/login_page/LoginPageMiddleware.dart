@@ -335,7 +335,6 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           });
           break;
       }
-      PendingEmailsRepository(functions: DandylightFunctionsApi(httpClient: http.Client())).sendAccountCreatedEmails();
       EventSender().setUserIdentity(user.uid);
       EventSender().setUserProfileData(EventNames.FIRST_NAME, firstName);
       EventSender().setUserProfileData(EventNames.LAST_NAME, lastName);
@@ -406,6 +405,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         previewJsonContract: (await ContractTemplateDao.getAll())!.first.jsonTerms,
       );
       await ProfileDao.insertOrUpdate(newProfile);
+      PendingEmailsRepository(functions: DandylightFunctionsApi(httpClient: http.Client())).sendAccountCreatedEmails();
 
       //Creating responses
       List<Response> defaultResponses = [];
