@@ -39,7 +39,8 @@ class _PreviewContractPageState extends State<PreviewContractPage> with TickerPr
   void initState() {
     _controller = contract.jsonTerms != null ? QuillController(
         document: Document.fromJson(jsonDecode(contract.jsonTerms!)),
-        selection: const TextSelection.collapsed(offset: 0)
+        selection: const TextSelection.collapsed(offset: 0),
+        readOnly: true
     ) : QuillController.basic();
     if(contract.signedByClient ?? false) {
       _clientSignatureController.text = contract.clientSignature ?? '';
@@ -113,7 +114,6 @@ class _PreviewContractPageState extends State<PreviewContractPage> with TickerPr
         scrollable: true,
         padding: const EdgeInsets.all(0),
         autoFocus: false,
-        readOnly: true,
         expands: false,
         showCursor: false,
         placeholder: "Past contract terms here",

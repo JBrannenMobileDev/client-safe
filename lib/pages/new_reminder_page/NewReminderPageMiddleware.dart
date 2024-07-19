@@ -3,12 +3,11 @@ import 'package:dandylight/data_layer/local_db/daos/ReminderDao.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderActions.dart';
 import 'package:dandylight/pages/reminders_page/RemindersActions.dart' as collectionReminders;
-import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:redux/redux.dart';
 
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
-import '../new_job_types_page/NewJobTypeActions.dart';
+import '../new_session_type_page/NewSessionTypeActions.dart';
 
 class NewReminderPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -43,7 +42,7 @@ class NewReminderPageMiddleware extends MiddlewareClass<AppState> {
 
     store.dispatch(ClearNewReminderStateAction(store.state.newReminderPageState));
     store.dispatch(collectionReminders.FetchRemindersAction(store.state.remindersPageState!));
-    store.dispatch(LoadPricesPackagesAndRemindersAction(store.state.newJobTypePageState));
+    store.dispatch(LoadPricesPackagesAndRemindersAction(store.state.newSessionTypePageState));
   }
 
   void _deleteReminder(Store<AppState> store, DeleteReminderAction action, NextDispatcher next) async{

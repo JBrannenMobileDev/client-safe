@@ -120,7 +120,6 @@ class BarChartState extends State<BarChartWidget> {
     return BarChartData(
       barTouchData: BarTouchData(
         touchTooltipData: BarTouchTooltipData(
-            tooltipBgColor: Color(ColorConstants.getBlueDark()),
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
               String weekDay;
               switch (group.x.toInt()) {

@@ -23,8 +23,8 @@ import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSe
 import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPageMiddleware.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageMiddleware.dart';
-import 'package:dandylight/pages/job_types/JobTypesActions.dart';
-import 'package:dandylight/pages/job_types/JobTypesPageMiddleware.dart';
+import 'package:dandylight/pages/job_types/SessionTypesActions.dart';
+import 'package:dandylight/pages/job_types/SessionTypesPageMiddleware.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageMiddleware.dart';
 import 'package:dandylight/pages/locations_page/LocationsActions.dart';
@@ -45,8 +45,8 @@ import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart' as newJobP
 import 'package:dandylight/pages/new_job_page/NewJobPageMiddleware.dart';
 import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageActions.dart';
 import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageMiddleware.dart';
-import 'package:dandylight/pages/new_job_types_page/NewJobTypeActions.dart';
-import 'package:dandylight/pages/new_job_types_page/NewJobTypePageMiddleware.dart';
+import 'package:dandylight/pages/new_session_type_page/NewSessionTypeActions.dart';
+import 'package:dandylight/pages/new_session_type_page/NewSessionTypePageMiddleware.dart';
 import 'package:dandylight/pages/new_location_page/NewLocationActions.dart' as prefix2;
 import 'package:dandylight/pages/new_location_page/NewLocationPageMiddleware.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageMiddleware.dart';
@@ -114,7 +114,6 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveImportantDatesAction>(ClientDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.FetchAllAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SavePricingProfileAction>(NewPricingProfilePageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, UpdateTaxPercentAction>(NewPricingProfilePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateIncludeSalesTaxAction>(NewPricingProfilePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, InitializeProfileSettings>(NewPricingProfilePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchPricingProfilesAction>(PricingProfilesPageMiddleware()));
@@ -270,10 +269,10 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveNewJobReminderAction>(NewJobReminderPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.FetchNewJobDeviceEvents>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.SetLastKnowInitialPosition>(NewJobPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, SaveNewJobTypeAction>(NewJobTypePageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, DeleteJobTypeAction>(NewJobTypePageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, LoadPricesPackagesAndRemindersAction>(NewJobTypePageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, FetchJobTypesAction>(JobTypesPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveNewJobTypeAction>(NewSessionTypePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, DeleteJobTypeAction>(NewSessionTypePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, LoadPricesPackagesAndRemindersAction>(NewSessionTypePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchJobTypesAction>(SessionTypesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchPoseGroupsAction>(PosesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SavePoseToMyPosesAction>(PosesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveImageToJobAction>(PosesPageMiddleware()));

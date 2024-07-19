@@ -59,7 +59,8 @@ class _ContractPageState extends State<ContractPage> {
 
           _controller = contract.jsonTerms != null ? QuillController(
               document: Document.fromJson(jsonDecode(contract.jsonTerms!)),
-              selection: const TextSelection.collapsed(offset: 0)
+              selection: const TextSelection.collapsed(offset: 0),
+              readOnly: true
           ) : QuillController.basic();
         },
         onDidChange: (previous, current) {
@@ -479,7 +480,6 @@ class _ContractPageState extends State<ContractPage> {
         padding: EdgeInsets.all(0),
         showCursor: false,
         autoFocus: true,
-        readOnly: true,
         expands: false,
       ),
     );

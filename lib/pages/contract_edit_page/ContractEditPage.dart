@@ -68,7 +68,8 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
 
     _controller = contract != null ? quill.QuillController(
       document: quill.Document.fromJson(jsonDecode(contract!.jsonTerms!)),
-        selection: TextSelection.collapsed(offset: 0)
+        selection: TextSelection.collapsed(offset: 0),
+        readOnly: false,
     ) : quill.QuillController.basic();
 
     var keyboardVisibilityController = KeyboardVisibilityController();
@@ -423,7 +424,6 @@ class _ContractEditPageState extends State<ContractEditPage> with TickerProvider
         controller: _controller!,
         scrollable: true,
         autoFocus: true,
-        readOnly: false,
         expands: false,
         placeholder: "Paste contract terms here",
       )

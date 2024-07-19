@@ -25,7 +25,7 @@ class StartAJobButton extends StatelessWidget {
         height: 64.0,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            color: Color(ColorConstants.getBlueDark()),
+            color: Color(ColorConstants.getPrimaryGreyDark()),
             borderRadius: const BorderRadius.all(Radius.circular(12.0))),
         child: TextDandyLight(
           type: TextDandyLight.LARGE_TEXT,

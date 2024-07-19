@@ -24,7 +24,7 @@ class StageStatsHomeCard extends StatelessWidget {
       margin: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
       padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
       decoration: BoxDecoration(
-          color: Color(ColorConstants.getPrimaryWhite()),
+          color: Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
           borderRadius: const BorderRadius.all(Radius.circular(12.0))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -33,9 +33,9 @@ class StageStatsHomeCard extends StatelessWidget {
             padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
             child: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
-              text: 'Active Stages',
+              text: 'Active Job Stages',
               textAlign: TextAlign.start,
-              color: Color(ColorConstants.getPrimaryBlack()),
+              color: Color(ColorConstants.getPrimaryGreyDark()),
             ),
           ),
           pageState!.allUserStages!.isNotEmpty ? ListView.builder(

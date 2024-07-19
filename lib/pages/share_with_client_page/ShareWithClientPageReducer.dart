@@ -51,7 +51,9 @@ ShareWithClientPageState _setAllJobs(ShareWithClientPageState previousState, Set
   List<String> shareMessages = [];
   for(Job job in jobsWithShareMessage) {
     String message = job.proposal!.shareMessage ?? '';
-    shareMessages.add(message.replaceFirst(job.documentId!, action.pageState!.job!.documentId!));
+    if(action.pageState?.job != null) {
+      shareMessages.add(message.replaceFirst(job.documentId!, action.pageState!.job!.documentId!));
+    }
   }
   return previousState.copyWith(
     jobs: action.jobs,

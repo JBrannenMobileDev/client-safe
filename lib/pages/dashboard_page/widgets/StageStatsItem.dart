@@ -17,7 +17,7 @@ class StageStatsItem extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 48.0,
+        height: 42.0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -26,12 +26,12 @@ class StageStatsItem extends StatelessWidget{
                 Container(
                   alignment: Alignment.topRight,
                   margin: const EdgeInsets.only(right: 18.0, left: 16.0),
-                  height: 28.0,
-                  width: 28.0,
-                  child: ImageUtil.getJobStageImageFromStage(stage!, true),
+                  height: 24.0,
+                  width: 24.0,
+                  child: Image.asset(ImageUtil.getJobStageImageLocationFromStage(stage!, true), color: Color(ColorConstants.getPrimaryGreyDark())),
                 ),
                 TextDandyLight(
-                  type: TextDandyLight.MEDIUM_TEXT,
+                  type: TextDandyLight.SMALL_TEXT,
                   text: JobStage.getStageText(stage!),
                   textAlign: TextAlign.start,
                   color: Color(ColorConstants.getPrimaryBlack()),
@@ -43,7 +43,7 @@ class StageStatsItem extends StatelessWidget{
                 Padding(
                   padding: const EdgeInsets.only(right: 16.0),
                   child: TextDandyLight(
-                    type: TextDandyLight.MEDIUM_TEXT,
+                    type: TextDandyLight.SMALL_TEXT,
                     text: jobs!.length.toString(),
                     textAlign: TextAlign.start,
                     color: Color(ColorConstants.getPrimaryBlack()),

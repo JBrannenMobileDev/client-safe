@@ -156,15 +156,17 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                       ],
                     ),
                   ),
-                  pageState.showPublishButton! ? Container(
+                  Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
                     alignment: Alignment.bottomCenter,
                     padding: EdgeInsets.only(bottom: 96),
                     child: GestureDetector(
                       onTap: () {
-                        pageState.onPublishChangesSelected!();
-                        showSuccessAnimation();
+                        if(pageState.showPublishButton!) {
+                          pageState.onPublishChangesSelected!();
+                          showSuccessAnimation();
+                        }
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -173,7 +175,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                         margin: EdgeInsets.only(left: 32, right: 32),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(32),
-                          color: Color(ColorConstants.getPeachDark()),
+                          color: pageState.showPublishButton! ? Color(ColorConstants.getPeachDark()) : Color(ColorConstants.getPrimaryGreyMedium()),
                           boxShadow: ElevationToShadow[4],
                         ),
                         child: TextDandyLight(
@@ -184,7 +186,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                         ),
                       ),
                     ),
-                  ) : SizedBox(),
+                  ),
                   Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
@@ -277,7 +279,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
 
   void onFlareCompleted(String unused) {
     Navigator.of(context).pop(true);
-    Navigator.of(context).pop(true);
+    // Navigator.of(context).pop(true);
   }
 
   void _launchBrandingPreviewURL(String uid) async {

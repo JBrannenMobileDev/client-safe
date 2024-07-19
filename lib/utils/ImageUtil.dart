@@ -90,7 +90,7 @@ class ImageUtil{
     String iconName = '';
     switch(fileLocation){
       case 'assets/images/icons/job_type.png':
-        iconName = 'Job Types';
+        iconName = 'Session Types';
         break;
       case 'assets/images/collection_icons/poses_icon_white.png':
         iconName = 'Poses';
@@ -198,6 +198,58 @@ class ImageUtil{
       imageLocation,
       color: Color(isCurrentStage ? ColorConstants.getPeachDark() : ColorConstants.getBlueLight()),
     );
+  }
+
+  static String getJobStageImageLocationFromStage(JobStage stage, bool isCurrentStage) {
+    String imageLocation = '';
+    switch(stage.stage){
+      case JobStage.STAGE_1_INQUIRY_RECEIVED:
+        imageLocation = jobStageIcons[0];
+        break;
+      case JobStage.STAGE_2_FOLLOWUP_SENT:
+        imageLocation = jobStageIcons[1];
+        break;
+      case JobStage.STAGE_3_PROPOSAL_SENT:
+        imageLocation = jobStageIcons[2];
+        break;
+      case JobStage.STAGE_4_PROPOSAL_SIGNED:
+        imageLocation = jobStageIcons[3];
+        break;
+      case JobStage.STAGE_5_DEPOSIT_RECEIVED:
+        imageLocation = jobStageIcons[4];
+        break;
+      case JobStage.STAGE_6_PLANNING_COMPLETE:
+        imageLocation = jobStageIcons[5];
+        break;
+      case JobStage.STAGE_7_SESSION_COMPLETE:
+        imageLocation = jobStageIcons[6];
+        break;
+      case JobStage.STAGE_8_PAYMENT_REQUESTED:
+        imageLocation = jobStageIcons[7];
+        break;
+      case JobStage.STAGE_9_PAYMENT_RECEIVED:
+        imageLocation = jobStageIcons[8];
+        break;
+      case JobStage.STAGE_10_EDITING_COMPLETE:
+        imageLocation = jobStageIcons[9];
+        break;
+      case JobStage.STAGE_11_GALLERY_SENT:
+        imageLocation = jobStageIcons[10];
+        break;
+      case JobStage.STAGE_12_FEEDBACK_REQUESTED:
+        imageLocation = jobStageIcons[11];
+        break;
+      case JobStage.STAGE_13_FEEDBACK_RECEIVED:
+        imageLocation = jobStageIcons[12];
+        break;
+      case JobStage.STAGE_14_JOB_COMPLETE:
+        imageLocation = jobStageIcons[13];
+        break;
+      default:
+        imageLocation = stage.imageLocation!;
+        break;
+    }
+    return imageLocation;
   }
 
   static const String DANDYLIGHT_LOGO_ICON = "dandy_light_logo_icon.png";

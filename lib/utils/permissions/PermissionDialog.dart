@@ -138,6 +138,8 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
                                     setState(() {
                                       isPermanentlyDenied = true;
                                     });
+                                  } else if(!fullAccessStatus.isGranted) {
+                                    isGranted = (await UserPermissionsUtil.requestPermission(permission: permission, callOnGranted: callOnGranted)).isGranted;
                                   }
                                 }
                               } else {

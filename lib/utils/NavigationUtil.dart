@@ -39,6 +39,7 @@ import '../models/JobStage.dart';
 import '../models/LocationDandy.dart';
 import '../models/Question.dart';
 import '../models/Report.dart';
+import '../models/SessionType.dart';
 import '../pages/contract_edit_page/ContractEditPage.dart';
 import '../pages/dashboard_page/DashboardPageState.dart';
 import '../pages/dashboard_page/widgets/ContractListPage.dart';
@@ -48,6 +49,7 @@ import '../pages/edit_branding_page/EditBrandingPage.dart';
 import '../pages/new_question_page/NewQuestionPage.dart';
 import '../pages/new_questionnaire_page/NewQuestionnairePage.dart';
 import '../pages/main_settings_page/BookAZoomCallPage.dart';
+import '../pages/new_session_type_page/NewSessionTypePage.dart';
 import '../pages/poses_page/PosesPage.dart';
 import '../pages/questionnaires_page/QuestionnairesPage.dart';
 import '../pages/share_with_client_page/ShareWithClientPage.dart';
@@ -200,6 +202,10 @@ class NavigationUtil {
 
   static void onSelectAPhotoSelected(BuildContext context, Function(String) onImageSelected) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => SelectAPhotoPage(onImageSelected: onImageSelected)));
+  }
+
+  static void showNewSessionTypePage(BuildContext context, SessionType? sessionType) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewSessionTypePage(sessionType)));
   }
 }
 

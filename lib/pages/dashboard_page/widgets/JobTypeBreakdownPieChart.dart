@@ -21,7 +21,7 @@ class JobTypeBreakdownPieChart extends StatelessWidget{
           builder: (BuildContext context, DashboardPageState pageState) => Container(
             margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
             decoration: BoxDecoration(
-                color: Color(ColorConstants.getPrimaryWhite()),
+                color: Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
                 borderRadius: const BorderRadius.all(Radius.circular(12.0))),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -32,7 +32,7 @@ class JobTypeBreakdownPieChart extends StatelessWidget{
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: 'Job Type Breakdown - ${DateTime.now().year}',
                     textAlign: TextAlign.start,
-                    color: Color(ColorConstants.getPrimaryBlack()),
+                    color: Color(ColorConstants.getPrimaryGreyDark()),
                   ),
                 ),
                 pageState.jobTypeBreakdownData!.isNotEmpty ? PieChartWidget(chartType: PieChartWidget.JOB_TYPE_BREAKDOWN,) :

@@ -33,18 +33,14 @@ class _HomeState extends State<HomePage> {
     return Scaffold(
       body: _children[_currentIndex],
       backgroundColor: Color(ColorConstants.getBlueLight()),
-      bottomNavigationBar: new Theme(
+      bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
           canvasColor: Color(ColorConstants.getBlueLight()),
           primaryColor: Color(ColorConstants.getPrimaryBlack()),
           textTheme: Theme
               .of(context)
               .textTheme
-              .copyWith(
-                caption: new TextStyle(
-                    color: Color(ColorConstants.primary_button_negative_grey)
-                )
-          ),
+              .copyWith(),
       ),
         child:  Container(
             color: Color(ColorConstants.getBlueLight()),

@@ -1,12 +1,12 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobTypeDao.dart';
-import 'package:dandylight/pages/job_types/JobTypesActions.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
 import '../../models/JobType.dart';
+import 'SessionTypesActions.dart';
 
-class JobTypesPageMiddleware extends MiddlewareClass<AppState> {
+class SessionTypesPageMiddleware extends MiddlewareClass<AppState> {
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next){

@@ -20,9 +20,12 @@ class UserPermissionsUtil {
 
     bool isPermanentlyDenied = await permission!.status.isPermanentlyDenied;
     bool isGranted = await permission.status.isGranted;
+    print('isGranted = $isGranted');
 
     if(profile != null) {
-      if(!isGranted || !profile.calendarEnabled! ) {
+      bool isProfilePermissionEnabled = isProfilePermissionGranted(permission, profile);
+      if(!isGranted || !isProfilePermissionEnabled ) {
+        print('Showing permission dialog 1');
         bool isGranted = await showDialog(
           context: context!,
           builder: (BuildContext context) {
@@ -40,6 +43,7 @@ class UserPermissionsUtil {
       }
     } else {
       if(!isGranted) {
+        print('Showing permission dialog 2');
         bool isGranted = await showDialog(
           context: context!,
           builder: (BuildContext context) {
@@ -98,5 +102,20 @@ class UserPermissionsUtil {
 
   static Future<PermissionStatus> getPermissionStatus(Permission permission) async {
     return await permission.status;
+  }
+
+  static bool isProfilePermissionGranted(Permission permission, Profile profile) {
+    bool granted = true;
+    switch(permission) {
+      case Permission.calendarFullAccess:
+        granted = profile.calendarEnabled ?? false;
+        print('Is calendar permission enabled on profile = $granted');
+        break;
+      case Permission.notification:
+        granted = profile.pushNotificationsEnabled ?? false;
+        print('Is calendar permission enabled on profile = $granted');
+        break;
+    }
+    return granted;
   }
 }

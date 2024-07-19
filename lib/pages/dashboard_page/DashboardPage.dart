@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/RecentActivityCard.dart';
 import 'package:http/http.dart' as http;
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
@@ -8,12 +9,9 @@ import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/GoToJobPosesBottomSheet.dart';
-import 'package:dandylight/pages/dashboard_page/widgets/ContractsCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/GettingStartedProgress.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/JobTypeBreakdownPieChart.dart';
-import 'package:dandylight/pages/dashboard_page/widgets/ProfileAndJobsCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/LeadSourcesPieChart.dart';
-import 'package:dandylight/pages/dashboard_page/widgets/QuestionnairesCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/RestorePurchasesBottomSheet.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/StageStatsHomeCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/MonthlyProfitLineChart.dart';
@@ -34,6 +32,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
@@ -47,7 +46,7 @@ import '../../utils/NotificationHelper.dart';
 import '../../utils/PushNotificationsManager.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
-import '../../utils/styles/Styles.dart';
+import '../../widgets/DandyLightNetworkImage.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'AppUpdateBottomSheet.dart';
 import 'RequestAppReviewBottomSheet.dart';
@@ -67,7 +66,7 @@ class DashboardPage extends StatelessWidget {
         // log('onComplete: $index, $key');
       },
       blurValue: 2,
-      builder: Builder(builder: (context) => HolderPage(comingFromLogin: comingFromLogin)),
+      builder: (context) => HolderPage(comingFromLogin: comingFromLogin),
     );
   }
 }
@@ -220,7 +219,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
       backgroundColor: Colors.transparent,
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
-        return RequestAppReviewBottomSheet();
+        return const RequestAppReviewBottomSheet();
       },
     );
   }
@@ -234,7 +233,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
       backgroundColor: Colors.transparent,
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
-        return RequestPMFSurveyBottomSheet();
+        return const RequestPMFSurveyBottomSheet();
       },
     );
   }
@@ -248,7 +247,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
       backgroundColor: Colors.transparent,
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
-        return AppUpdateBottomSheet();
+        return const AppUpdateBottomSheet();
       },
     ).whenComplete( () {
       pageState.markUpdateAsSeen!(pageState.appSettings!);
@@ -397,7 +396,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
         converter: (Store<AppState> store) => DashboardPageState.fromStore(store),
         builder: (BuildContext context, DashboardPageState pageState) {
           return Scaffold(
-            backgroundColor: Color(ColorConstants.getBlueLight()),
+            backgroundColor: Color(ColorConstants.getPrimaryWhite()),
             floatingActionButton:  Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -521,23 +520,6 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
               child: Stack(
                 alignment: Alignment.topCenter,
                 children: <Widget>[
-                  // Container(
-                  //   height: 264,
-                  //   width: MediaQuery.of(context).size.width,
-                  //   child: ClipRRect(
-                  //     borderRadius: new BorderRadius.only(
-                  //       topRight: Radius.circular(16),
-                  //       topLeft: Radius.circular(16),
-                  //       bottomRight: Radius.circular(16),
-                  //       bottomLeft: Radius.circular(16)
-                  //     ),
-                  //     child: DandyLightNetworkImage(
-                  //       pageState.profile.bannerMobileUrl,
-                  //       color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.bannerColor),
-                  //       borderRadius: 0,
-                  //     ),
-                  //   ),
-                  // ),
                   Container(
                     alignment: Alignment.bottomRight,
                     height: MediaQuery.of(context).size.height,
@@ -559,24 +541,216 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                       ),
                     ),
                   ),
-                  // Container(
-                  //   decoration: BoxDecoration(
-                  //     color: Color(ColorConstants.getBlueLight()),
-                  //   ),
-                  // ),
                   CustomScrollView(
                     physics: const ClampingScrollPhysics(),
                     controller: _scrollController,
                     slivers: <Widget>[
                       SliverAppBar(
+                        scrolledUnderElevation: 0,
                         iconTheme: IconThemeData(
                           color: Color(ColorConstants.getPrimaryWhite()),
                         ),
-                        backgroundColor: Colors.transparent,
-                        elevation: 0.0,
+                        backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                         pinned: false,
                         floating: false,
-                        forceElevated: false,
+                        forceElevated: true,
+                        elevation: 2,
+                        expandedHeight: 224.0,
+                        collapsedHeight: 64.0,
+                        flexibleSpace: FlexibleSpaceBar(
+                          background: GestureDetector(
+                            onTap: () {
+                              NavigationUtil.onEditBrandingSelected(context);
+                              EventSender().sendEvent(eventName: EventNames.BRANDING_EDIT_FROM_DASHBOARD);
+                            },
+                            child: Container(
+                            height: 224,
+                            width: MediaQuery.of(context).size.width,
+                            child: Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: const BorderRadius.only(
+                                    bottomLeft: Radius.circular(0),
+                                    bottomRight: Radius.circular(0)
+                                  ),
+                                  child: (pageState.profile?.bannerImageSelected ?? false) && (pageState.profile?.bannerMobileUrl?.isNotEmpty ?? false) ? DandyLightNetworkImage(
+                                    (pageState.profile?.bannerMobileUrl ?? '') ,
+                                    color: ColorConstants.hexToColor(pageState.profile?.selectedColorTheme!.bannerColor),
+                                    borderRadius: 0,
+                                    resizeWidth: 1080,
+                                  ) : Image.asset('assets/images/backgrounds/dashboard_banner_default.png', fit: BoxFit.cover, width: MediaQuery.of(context).size.width),
+                                ),
+                                Container(
+                                  height: 164.0,
+                                  decoration: BoxDecoration(
+                                      color: Color(ColorConstants.getPrimaryWhite()),
+                                      gradient: LinearGradient(
+                                          begin: FractionalOffset.center,
+                                          end: FractionalOffset.bottomCenter,
+                                          colors: [
+                                            Color(ColorConstants.getPrimaryBlack()).withOpacity(0.15),
+                                            Colors.transparent
+                                          ],
+                                          stops: const [
+                                            0.0,
+                                            1.0
+                                          ])),
+                                ),
+                                Container(
+                                  height: 308,
+                                  alignment: Alignment.bottomCenter,
+                                  child: Container(
+                                    height: 26.0,
+                                    decoration: BoxDecoration(
+                                        color: Color(ColorConstants.getPrimaryWhite()),
+                                        gradient: LinearGradient(
+                                            begin: FractionalOffset.center,
+                                            end: FractionalOffset.bottomCenter,
+                                            colors: [
+                                              Colors.transparent,
+                                              Color(ColorConstants.getPrimaryBlack()).withOpacity(0.35),
+                                            ],
+                                            stops: const [
+                                              0.0,
+                                              1.0
+                                            ])),
+                                  ),
+                                ),
+                                pageState.profile?.hasSetupBrand ?? false ? Container(
+                                  alignment: Alignment.bottomLeft,
+                                  margin: const EdgeInsets.only(top: 64),
+                                  height: 308,
+                                  child: Container(
+                                    margin: const EdgeInsets.only(left: 8, bottom: 8),
+                                    child: Row(
+                                      children: [
+                                        Stack(
+                                          alignment: Alignment.center,
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                boxShadow: ElevationToShadow[2],
+                                                shape: BoxShape.circle,
+                                                color: Color(ColorConstants.getPrimaryWhite()),
+                                              ),
+                                              width: 48,
+                                              height: 48,
+                                            ),
+                                            pageState.profile!.logoSelected! ? Container(
+                                                child: pageState.profile!.logoUrl != null && pageState.profile!.logoUrl!.isNotEmpty && pageState.profile!.hasSetupBrand! ? ClipRRect(
+                                                  borderRadius: BorderRadius.circular(82.0),
+                                                  child: Container(
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
+                                                      ),
+                                                      width: 48,
+                                                      height: 48,
+                                                      child: DandyLightNetworkImage(
+                                                        pageState.profile!.logoUrl ?? '',
+                                                        color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
+                                                      )
+                                                  ),
+                                                ) : Stack(
+                                                  alignment: Alignment.center,
+                                                  children: [
+                                                    Container(
+                                                      alignment: Alignment.center,
+                                                      height: 48,
+                                                      width: 48,
+                                                      decoration: BoxDecoration(
+                                                          shape: BoxShape.circle,
+                                                          color: Color(ColorConstants.getPeachDark())),
+                                                    ),
+                                                    Container(
+                                                      child: LoadingAnimationWidget.fourRotatingDots(
+                                                        color: Color(ColorConstants.getPrimaryWhite()),
+                                                        size: 32,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ) : Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  Container(
+                                                    alignment: Alignment.center,
+                                                    height: 48,
+                                                    width: 48,
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: pageState.profile!.logoSelected!
+                                                            ? Color(ColorConstants.getPrimaryGreyMedium())
+                                                            : ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!)),
+                                                  ),
+                                                  TextDandyLight(
+                                                    type: TextDandyLight.EXTRA_LARGE_TEXT,
+                                                    fontFamily: pageState.profile!.selectedFontTheme!.iconFont!,
+                                                    textAlign: TextAlign.center,
+                                                    text: pageState.profile!.logoCharacter!.substring(0, 1),
+                                                    color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconTextColor!),
+                                                  )
+                                                ],
+                                              ),
+                                          ],
+                                        ),
+                                        Container(
+                                          margin: const EdgeInsets.only(left: 8),
+                                          child: TextDandyLight(
+                                            type: TextDandyLight.SMALL_TEXT,
+                                            text: pageState.profile?.businessName ?? '',
+                                            fontFamily: pageState.profile?.selectedFontTheme?.mainFont!,
+                                            color: Color(ColorConstants.getPrimaryWhite()),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ) : Stack(
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 84),
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Stack(
+                                        alignment: Alignment.center,
+                                        children: [
+                                          Container(
+                                            alignment: Alignment.center,
+                                            height: 108,
+                                            width: 108,
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Color(ColorConstants.getPrimaryWhite())),
+                                          ),
+                                          Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                margin: const EdgeInsets.only(bottom: 4),
+                                                alignment: Alignment.center,
+                                                height: 24.0,
+                                                width: 24.0,
+                                                child: Image.asset('assets/images/icons/file_upload.png', color: Color(ColorConstants.getPeachDark()),),
+                                              ),
+                                              TextDandyLight(
+                                                type: TextDandyLight.MEDIUM_TEXT,
+                                                textAlign: TextAlign.center,
+                                                text: 'Upload\nLogo',
+                                                color: Color(ColorConstants.getPeachDark()),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          ),
+                        ),
                         title: Stack(
                           alignment: Alignment.center,
                           children: [
@@ -620,7 +794,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                               onTap: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                      builder: (context) => SunsetWeatherPage()),
+                                      builder: (context) => const SunsetWeatherPage()),
                                 );
                               },
                               child: Container(
@@ -710,86 +884,94 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                       pageState.areJobsLoaded! ? SliverList(
                           delegate: SliverChildListDelegate(<Widget>[
                             SlideTransition(
-                                position: offsetAnimationUp,
-                                child: (pageState.profile?.progress.isComplete() ?? false) || !(pageState.profile?.progress.canShow ?? true) ? const SizedBox() : Dismissible(
-                                  confirmDismiss: (DismissDirection direction) async {
-                                    return await showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: TextDandyLight(
-                                              type: TextDandyLight.LARGE_TEXT,
-                                              text: 'Remove Progress Bar'
-                                          ),
-                                          content: TextDandyLight(
-                                              type: TextDandyLight.MEDIUM_TEXT,
-                                              text: 'Are you sure you want to permanently remove the Getting Started Checklist"?'
-                                          ),
-                                          actions: <Widget>[
-                                            GestureDetector(
-                                              onTap: () {
-                                                pageState.updateProgressNoShow!();
-                                                Navigator.of(context).pop(true);
-                                              },
-                                              child: Container(
-                                                  width: 96,
-                                                  height: 48,
-                                                  alignment: Alignment.center,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(24),
-                                                      color: Color(ColorConstants.getLightGreyWeb())
-                                                  ),
-                                                  child: TextDandyLight(
-                                                    type: TextDandyLight.LARGE_TEXT,
-                                                    text: 'Yes',
-                                                    color: Color(ColorConstants.getPrimaryWhite()),
-                                                  )
-                                              ),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                Navigator.of(context).pop(false);
-                                              },
-                                              child: Container(
-                                                  width: 96,
-                                                  height: 48,
-                                                  alignment: Alignment.center,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(24),
-                                                      color: Color(ColorConstants.getBlueDark())
-                                                  ),
-                                                  child: TextDandyLight(
-                                                    type: TextDandyLight.LARGE_TEXT,
-                                                    text: 'No',
-                                                    color: Color(ColorConstants.getPrimaryWhite()),
-                                                  )
-                                              ),
-                                            )
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  },
-                                  key: Key("dismissKey"),
-                                  child: const GettingStartedProgress(),
-                                ),
-                            ),
-                            SlideTransition(
                               position: offsetAnimationUp,
-                              child: Showcase(
-                                  key: _three,
-                                  targetPadding: const EdgeInsets.only(right: 0, left: 0, bottom: 0, top: 0),
-                                  targetShapeBorder: const CircleBorder(),
-                                  description: 'Setup your Brand and view your upcoming jobs here! \nWhen sharing items with your clients, \nyour brand will be used to style your Client Portal.',
-                                  descTextStyle: TextStyle(
-                                    fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
-                                    fontFamily: TextDandyLight.getFontFamily(),
-                                    fontWeight: TextDandyLight.getFontWeight(),
-                                    color: Color(ColorConstants.getPrimaryBlack()),
-                                  ),
-                                  child: const ProfileAndJobsCard()
+                              child: (pageState.profile?.progress.isComplete() ?? false) || !(pageState.profile?.progress.canShow ?? true) ? const SizedBox() : Dismissible(
+                                confirmDismiss: (DismissDirection direction) async {
+                                  return await showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: TextDandyLight(
+                                            type: TextDandyLight.LARGE_TEXT,
+                                            text: 'Remove Progress Bar'
+                                        ),
+                                        content: TextDandyLight(
+                                            type: TextDandyLight.MEDIUM_TEXT,
+                                            text: 'Are you sure you want to permanently remove the Getting Started Checklist"?'
+                                        ),
+                                        actions: <Widget>[
+                                          GestureDetector(
+                                            onTap: () {
+                                              pageState.updateProgressNoShow!();
+                                              Navigator.of(context).pop(true);
+                                            },
+                                            child: Container(
+                                                width: 96,
+                                                height: 48,
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(24),
+                                                    color: Color(ColorConstants.getLightGreyWeb())
+                                                ),
+                                                child: TextDandyLight(
+                                                  type: TextDandyLight.LARGE_TEXT,
+                                                  text: 'Yes',
+                                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                                )
+                                            ),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              Navigator.of(context).pop(false);
+                                            },
+                                            child: Container(
+                                                width: 96,
+                                                height: 48,
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(24),
+                                                    color: Color(ColorConstants.getBlueDark())
+                                                ),
+                                                child: TextDandyLight(
+                                                  type: TextDandyLight.LARGE_TEXT,
+                                                  text: 'No',
+                                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                                )
+                                            ),
+                                          )
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                key: Key("dismissKey"),
+                                child: const GettingStartedProgress(),
                               ),
                             ),
+                            const SizedBox(height: 16),
+                            // Container(
+                            //   margin: const EdgeInsets.only(left: 16),
+                            //   height: 32,
+                            //   child: TextDandyLight(
+                            //     type: TextDandyLight.SMALL_TEXT,
+                            //     text: 'Recent Activity',
+                            //   ),
+                            // ),
+                            const SizedBox(
+                              height: 0,
+                            ),
+                            SlideTransition(
+                                position: offsetAnimationUp,
+                                child: const RecentActivityCard()
+                            ),
+                            // Container(
+                            //   margin: const EdgeInsets.only(left: 16, top: 8),
+                            //   height: 32,
+                            //   child: TextDandyLight(
+                            //     type: TextDandyLight.SMALL_TEXT,
+                            //     text: 'My Jobs',
+                            //   ),
+                            // ),
                             SlideTransition(
                               position: offsetAnimationUp,
                               child: pageState.activeJobs == null || pageState.activeJobs!.isEmpty ? StartAJobButton(pageState: pageState) : const SizedBox(),
@@ -798,26 +980,17 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                 position: offsetAnimationUp,
                                 child: StageStatsHomeCard(pageState: pageState)
                             ),
-                            SlideTransition(
-                                position: offsetAnimationUp,
-                                child: const ContractsCard()
-                            ),
-                            SlideTransition(
-                                position: offsetAnimationUp,
-                                child: const QuestionnairesCard()
-                            ),
-                            SlideTransition(
-                                position: offsetAnimationUp,
-                                child:  Padding(
-                                  padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
-                                  child: TextDandyLight(
-                                    type: TextDandyLight.LARGE_TEXT,
-                                    text: 'Business Insights - ${DateTime.now().year}',
-                                    textAlign: TextAlign.center,
-                                    color: Color(ColorConstants.getPrimaryWhite()),
-                                  ),
-                                )
-                            ),
+                            // SlideTransition(
+                            //     position: offsetAnimationUp,
+                            //     child:  Container(
+                            //         margin: const EdgeInsets.only(left: 16, top: 16),
+                            //         height: 32,
+                            //         child: TextDandyLight(
+                            //           type: TextDandyLight.SMALL_TEXT,
+                            //           text: 'Business Insights - ${DateTime.now().year}',
+                            //         ),
+                            //     )
+                            // ),
                             SlideTransition(
                                 position: offsetAnimationUp,
                                 child: MonthlyProfitLineChart(pageState: pageState)
@@ -859,7 +1032,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
             width: (MediaQuery.of(context).size.width / 2) - (25) - (DeviceType.getDeviceType() == Type.Tablet ? 150 : 0),
             height: 132.0,
             decoration: BoxDecoration(
-                color: Color(ColorConstants.getPrimaryWhite()),
+                color: Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
                 borderRadius: const BorderRadius.all(Radius.circular(12.0))),
             child: Stack(
               alignment: Alignment.topCenter,
@@ -870,7 +1043,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                     type: TextDandyLight.SMALL_TEXT,
                     text: 'Lead\n Conversion Rate',
                     textAlign: TextAlign.center,
-                    color: Color(ColorConstants.getPrimaryBlack()),
+                    color: Color(ColorConstants.getPrimaryGreyDark()),
                   ),
                 ),
                 Padding(
@@ -897,7 +1070,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
               width: (MediaQuery.of(context).size.width / 2) - (25) - (DeviceType.getDeviceType() == Type.Tablet ? 150 : 0),
               height: 132.0,
               decoration: BoxDecoration(
-                  color: Color(ColorConstants.getPrimaryWhite()),
+                  color: Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
                   borderRadius: const BorderRadius.all(Radius.circular(12.0))),
               child: Stack(
                 alignment: Alignment.topCenter,
@@ -908,7 +1081,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                       type: TextDandyLight.SMALL_TEXT,
                       text: 'Leads\nUnconverted',
                       textAlign: TextAlign.center,
-                      color: Color(ColorConstants.getPrimaryBlack()),
+                      color: Color(ColorConstants.getPrimaryGreyDark()),
                     ),
                   ),
                   Padding(

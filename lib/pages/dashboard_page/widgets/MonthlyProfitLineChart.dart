@@ -15,7 +15,7 @@ class MonthlyProfitLineChart extends StatelessWidget{
     return Container(
             margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
             decoration: BoxDecoration(
-                color: Color(ColorConstants.getPrimaryWhite()),
+                color: Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
                 borderRadius: const BorderRadius.all(Radius.circular(12.0))),
             child: Column(
               children: [
@@ -25,7 +25,7 @@ class MonthlyProfitLineChart extends StatelessWidget{
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: 'Monthly Net Profit',
                     textAlign: TextAlign.start,
-                    color: Color(ColorConstants.getPrimaryBlack()),
+                    color: Color(ColorConstants.getPrimaryGreyDark()),
                   ),
                 ),
                 BarChartWidget(monthsData: pageState!.lineChartMonthData),

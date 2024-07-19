@@ -1,4 +1,4 @@
-import 'package:dandylight/pages/new_job_types_page/NewJobTypePageState.dart';
+import 'package:dandylight/pages/new_session_type_page/NewSessionTypePageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -23,10 +23,10 @@ class _CustomJobStageBottomSheetState extends State<CustomJobStageBottomSheet> w
 
   @override
   Widget build(BuildContext context) =>
-      StoreConnector<AppState, NewJobTypePageState>(
+      StoreConnector<AppState, NewSessionTypePageState>(
         converter: (Store<AppState> store) =>
-            NewJobTypePageState.fromStore(store),
-        builder: (BuildContext context, NewJobTypePageState pageState) =>
+            NewSessionTypePageState.fromStore(store),
+        builder: (BuildContext context, NewSessionTypePageState pageState) =>
             Container(
               height: 284,
               width: MediaQuery

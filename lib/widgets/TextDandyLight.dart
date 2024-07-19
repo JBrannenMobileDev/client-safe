@@ -1,6 +1,5 @@
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/extensions.dart';
 import 'package:intl/intl.dart';
 
 import '../models/FontTheme.dart';

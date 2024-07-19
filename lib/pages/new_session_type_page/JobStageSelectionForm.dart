@@ -7,7 +7,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../models/JobStage.dart';
 import '../../widgets/TextDandyLight.dart';
-import 'NewJobTypePageState.dart';
+import 'NewSessionTypePageState.dart';
 import 'NewJobTypeStagesListWidget.dart';
 
 class JobStageSelectionForm extends StatefulWidget {
@@ -34,44 +34,50 @@ class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with Aut
   Widget build(BuildContext context) {
     super.build(context);
 
-    return StoreConnector<AppState, NewJobTypePageState>(
+    return StoreConnector<AppState, NewSessionTypePageState>(
       onInit: (store) {
-        stages = store.state.newJobTypePageState!.selectedJobStages!;
+        stages = store.state.newSessionTypePageState!.selectedJobStages!;
       },
       onDidChange: (previous, current) {
         setState(() {
           stages = current.selectedJobStages!;
         });
       },
-      converter: (store) => NewJobTypePageState.fromStore(store),
-      builder: (BuildContext context, NewJobTypePageState pageState) =>
+      converter: (store) => NewSessionTypePageState.fromStore(store),
+      builder: (BuildContext context, NewSessionTypePageState pageState) =>
           Container(
             margin: EdgeInsets.only(left: 8.0, right: 8.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(top: 6.0, bottom: 8.0, left: 16.0, right: 16.0),
+                  padding: EdgeInsets.only(top: 0.0, bottom: 8.0, left: 16.0, right: 16.0),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
-                    text: 'Please select stages for this job type that you would like to track.',
+                    text: 'Please reorder, add, or remove stages to fit your workflow.',
                     textAlign: TextAlign.start,
                     color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
-                Padding(
+                Container(
+                  alignment: Alignment.center,
+                  height: 84,
                   padding: EdgeInsets.only(bottom: 8.0, left: 16.0, right: 16.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: Color(ColorConstants.getPrimaryGreyDark()).withOpacity(0.5)
+                  ),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
-                    text: '• Long press to reorder\n• Swipe left to remove stage',
-                    textAlign: TextAlign.start,
-                    color: Color(ColorConstants.getPeachDark()),
+                    text: 'TIPS\n- Long press to reorder\n- Swipe left to remove stage',
+                    textAlign: TextAlign.center,
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                 ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: 65.0,
-                    maxHeight: 440.0,
+                    maxHeight: 589.0,
                   ),
                   child: ReorderableListView.builder(
                     reverse: false,
@@ -100,9 +106,9 @@ class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with Aut
                         },
                         child: Padding(
                             padding: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 4.0),
-                            child: StoreConnector<AppState, NewJobTypePageState>(
-                              converter: (store) => NewJobTypePageState.fromStore(store),
-                              builder: (BuildContext context, NewJobTypePageState pageState) =>
+                            child: StoreConnector<AppState, NewSessionTypePageState>(
+                              converter: (store) => NewSessionTypePageState.fromStore(store),
+                              builder: (BuildContext context, NewSessionTypePageState pageState) =>
                                   NewJobTypeStagesListWidget(index),
                             )
                         ),

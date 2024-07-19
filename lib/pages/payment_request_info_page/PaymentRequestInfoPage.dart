@@ -1,8 +1,6 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/main_settings_page/DeleteAccountPage.dart';
 import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
@@ -10,7 +8,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import '../../widgets/TextDandyLight.dart';
-import '../new_job_types_page/DandyLightTextField.dart';
+import '../new_session_type_page/DandyLightTextField.dart';
 import 'DandyLightSettingsTextField.dart';
 import 'PaymentRequestInfoPageActions.dart';
 

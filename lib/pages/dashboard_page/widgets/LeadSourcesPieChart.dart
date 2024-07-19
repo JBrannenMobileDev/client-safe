@@ -20,7 +20,7 @@ class LeadSourcesPieChart extends StatelessWidget{
           builder: (BuildContext context, DashboardPageState pageState) => Container(
             margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 124.0),
             decoration: BoxDecoration(
-                color: Color(ColorConstants.getPrimaryWhite()),
+                color: Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
                 borderRadius: const BorderRadius.all(Radius.circular(12.0))),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -31,7 +31,7 @@ class LeadSourcesPieChart extends StatelessWidget{
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: 'Lead Sources - ${DateTime.now().year}',
                     textAlign: TextAlign.start,
-                    color: Color(ColorConstants.getPrimaryBlack()),
+                    color: Color(ColorConstants.getPrimaryGreyDark()),
                   ),
                 ),
                 pageState.leadSourcesData!.isNotEmpty ? PieChartWidget(chartType: PieChartWidget.LEAD_SOURCES,) :

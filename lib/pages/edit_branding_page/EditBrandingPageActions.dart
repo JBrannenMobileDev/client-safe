@@ -113,6 +113,12 @@ class SaveBrandingAction {
   SaveBrandingAction(this.pageState);
 }
 
+class SetShowPublishButtonAction {
+  final EditBrandingPageState? pageState;
+  final bool show;
+  SetShowPublishButtonAction(this.pageState, this.show);
+}
+
 class SetResizedLogoImageAction {
   final EditBrandingPageState? pageState;
   final XFile? resizedLogoImage;

@@ -38,19 +38,15 @@ import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePage.da
 import 'package:dandylight/pages/responses_page/widgets/NewResponseCategoryPage.dart';
 import 'package:dandylight/pages/sunset_weather_page/ChooseFromMyLocations.dart';
 import 'package:dandylight/pages/sunset_weather_page/SelectLocationDialog.dart';
-import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/analytics/EventNames.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
-import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
-import 'package:dandylight/widgets/TextDandyLight.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../data_layer/api_clients/DandylightFunctionsClient.dart';
 import '../data_layer/local_db/daos/ProfileDao.dart';
@@ -59,16 +55,13 @@ import '../models/Client.dart';
 import '../models/Contract.dart';
 import '../models/JobReminder.dart';
 import '../models/JobType.dart';
-import '../models/LocationDandy.dart';
 import '../models/Profile.dart';
 import '../models/Questionnaire.dart';
 import '../pages/calendar_selection_page/CalendarSelectionPage.dart';
 import '../pages/job_details_page/ContractOptionsDialog.dart';
 import '../pages/login_page/ShowResetPasswordSentDialog.dart';
-import '../pages/map_location_selection_widget/MapLocationSelectionWidget.dart';
 import '../pages/new_job_page/widgets/SelectNewJobLocationDialog.dart';
-import '../pages/new_job_page/widgets/SelectNewJobLocationOptionsDialog.dart';
-import '../pages/new_job_types_page/NewJobTypePage.dart';
+import '../pages/new_session_type_page/NewSessionTypePage.dart';
 import '../pages/poses_page/widgets/AddPoseToJobTip.dart';
 import 'AdminCheckUtil.dart';
 import 'ColorConstants.dart';
@@ -156,7 +149,7 @@ class UserOptionsUtil {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return NewJobTypePage(jobType);
+        return NewSessionTypePage(null);
       },
     );
   }

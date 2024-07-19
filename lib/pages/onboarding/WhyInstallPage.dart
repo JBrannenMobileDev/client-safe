@@ -1,4 +1,4 @@
-import 'package:dandylight/pages/new_job_types_page/DandyLightTextField.dart';
+import 'package:dandylight/pages/new_session_type_page/DandyLightTextField.dart';
 import 'package:dandylight/pages/onboarding/OnBoardingPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';

@@ -48,9 +48,9 @@ class GettingStartedProgress extends StatelessWidget {
         child: Container(
           margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
           padding: const EdgeInsets.only(left: 16, right: 8, top: 8, bottom: 8),
-          height: 76.0,
+          height: 64.0,
           decoration: BoxDecoration(
-              color: Color(ColorConstants.getBlueDark()),
+              color: Color(ColorConstants.getPrimaryGreyDark()),
               borderRadius: const BorderRadius.all(Radius.circular(12.0))),
           child: Stack(
             alignment: Alignment.centerRight,
@@ -59,8 +59,9 @@ class GettingStartedProgress extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextDandyLight(
-                    type: TextDandyLight.LARGE_TEXT,
+                    type: TextDandyLight.MEDIUM_TEXT,
                     text: 'Getting Started Progress',
+                    isBold: true,
                     color: Color(ColorConstants.getPrimaryWhite()),
                   ),
                   Container(
@@ -80,7 +81,7 @@ class GettingStartedProgress extends StatelessWidget {
                           width: 54,
                           margin: const EdgeInsets.only(left: 16, right: 26),
                           child: TextDandyLight(
-                            type: TextDandyLight.LARGE_TEXT,
+                            type: TextDandyLight.MEDIUM_TEXT,
                             text: '${pageState.profile?.progress.getProgressString()}%',
                             isBold: true,
                             color: Color(ColorConstants.getPrimaryWhite()),

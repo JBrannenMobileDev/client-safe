@@ -1,6 +1,5 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/collections_page/CollectionsPageState.dart';
-import 'package:dandylight/pages/job_types/JobTypesPage.dart';
 import 'package:dandylight/pages/locations_page/LocationsPage.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPage.dart';
 import 'package:dandylight/pages/questionnaires_page/QuestionnairesPage.dart';
@@ -12,10 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../../utils/DeviceType.dart';
-import '../../utils/analytics/EventNames.dart';
-import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
 import '../contracts_page/ContractsPage.dart';
+import '../job_types/SessionTypesPage.dart';
 import '../poses_page/PosesPage.dart';
 import '../responses_page/ResponsesPage.dart';
 
@@ -127,7 +125,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
         break;
       case 3:
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => JobTypesPage()),
+          MaterialPageRoute(builder: (context) => SessionTypesPage()),
         );
         break;
       case 4:

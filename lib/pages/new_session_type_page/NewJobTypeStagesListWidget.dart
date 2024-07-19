@@ -1,7 +1,7 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
-import 'package:dandylight/pages/new_job_types_page/NewJobTypePageState.dart';
+import 'package:dandylight/pages/new_session_type_page/NewSessionTypePageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
@@ -30,9 +30,9 @@ class NewJobTypeStagesListWidget extends StatelessWidget {
       return Color(ColorConstants.getPeachDark());
     }
 
-    return StoreConnector<AppState, NewJobTypePageState>(
-      converter: (store) => NewJobTypePageState.fromStore(store),
-      builder: (BuildContext context, NewJobTypePageState pageState) =>
+    return StoreConnector<AppState, NewSessionTypePageState>(
+      converter: (store) => NewSessionTypePageState.fromStore(store),
+      builder: (BuildContext context, NewSessionTypePageState pageState) =>
           Row(
           children: <Widget>[
             Container(

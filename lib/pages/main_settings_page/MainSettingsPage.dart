@@ -844,7 +844,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                               ),
                                               TextDandyLight(
                                                 type: TextDandyLight.MEDIUM_TEXT,
-                                                text: 'Generate 3 Months Free Discount Code',
+                                                text: 'Generate 3 Months Free',
                                                 textAlign: TextAlign.center,
                                                 color: Color(ColorConstants.getPrimaryBlack()),
                                               ),

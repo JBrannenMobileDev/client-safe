@@ -21,7 +21,14 @@ final editBrandingReducer = combineReducers<EditBrandingPageState>([
   TypedReducer<EditBrandingPageState, SetLogoLetterAction>(_setLogoLetter),
   TypedReducer<EditBrandingPageState, SetImageUploadProgressStateAction>(_setUploadProgress),
   TypedReducer<EditBrandingPageState, InitializeBranding>(_initialize),
+  TypedReducer<EditBrandingPageState, SetShowPublishButtonAction>(_setShowPublishButton),
 ]);
+
+EditBrandingPageState _setShowPublishButton(EditBrandingPageState previousState, SetShowPublishButtonAction action){
+  return previousState.copyWith(
+    showPublishButton: action.show,
+  );
+}
 
 EditBrandingPageState _initialize(EditBrandingPageState previousState, InitializeBranding action){
   EditBrandingPageState localState = EditBrandingPageState.initial();

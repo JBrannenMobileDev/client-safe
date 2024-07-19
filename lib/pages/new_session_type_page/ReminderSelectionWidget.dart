@@ -1,8 +1,8 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/common_widgets/ClientSafeButton.dart';
 import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageActions.dart';
-import 'package:dandylight/pages/new_job_types_page/NewJobTypePageState.dart';
-import 'package:dandylight/pages/new_job_types_page/ReminderSelectionListWidget.dart';
+import 'package:dandylight/pages/new_session_type_page/NewSessionTypePageState.dart';
+import 'package:dandylight/pages/new_session_type_page/ReminderSelectionListWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
@@ -39,12 +39,12 @@ class _ReminderSelectionPageState extends State<ReminderSelectionWidget> with Au
       return Color(ColorConstants.getPeachDark());
     }
 
-    return StoreConnector<AppState, NewJobTypePageState>(
+    return StoreConnector<AppState, NewSessionTypePageState>(
       onInit: (store) {
         store.dispatch(FetchAllRemindersAction(store.state.newJobReminderPageState));
       },
-      converter: (store) => NewJobTypePageState.fromStore(store),
-      builder: (BuildContext context, NewJobTypePageState pageState) =>
+      converter: (store) => NewSessionTypePageState.fromStore(store),
+      builder: (BuildContext context, NewSessionTypePageState pageState) =>
           Container(
             margin: EdgeInsets.only(left: 16.0, right: 8.0),
             child: Column(
@@ -141,9 +141,9 @@ class _ReminderSelectionPageState extends State<ReminderSelectionWidget> with Au
 }
 
 Widget _buildItem(BuildContext context, int index) {
-  return StoreConnector<AppState, NewJobTypePageState>(
-    converter: (store) => NewJobTypePageState.fromStore(store),
-    builder: (BuildContext context, NewJobTypePageState pageState) =>
+  return StoreConnector<AppState, NewSessionTypePageState>(
+    converter: (store) => NewSessionTypePageState.fromStore(store),
+    builder: (BuildContext context, NewSessionTypePageState pageState) =>
         ReminderSelectionListWidget(pageState, index),
   );
 }

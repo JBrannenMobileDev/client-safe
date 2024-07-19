@@ -30,9 +30,6 @@ class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
     if(action is UpdateIncludeSalesTaxAction) {
       updateIncludeSalesTaxState(store, action, next);
     }
-    if(action is UpdateTaxPercentAction) {
-      updateTaxPercent(store, action, next);
-    }
     if(action is InitializeProfileSettings) {
       initData(store, action, next);
     }
@@ -42,14 +39,6 @@ class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
     Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     next(UpdateIncludeSalesTaxAction(store.state.pricingProfilePageState, profile!.usesSalesTax));
     next(UpdateTaxPercentAction(store.state.pricingProfilePageState, profile.salesTaxRate.toString()));
-  }
-
-  void updateTaxPercent(Store<AppState> store, UpdateTaxPercentAction action, NextDispatcher next) async{
-    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    String result = action.taxPercent!.replaceAll('%', '').replaceAll(',', '');
-    profile!.salesTaxRate = double.parse(result);
-    ProfileDao.update(profile);
-    next(action);
   }
 
   void updateIncludeSalesTaxState(Store<AppState> store, UpdateIncludeSalesTaxAction action, NextDispatcher next) async{

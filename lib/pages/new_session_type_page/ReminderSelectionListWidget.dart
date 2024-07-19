@@ -1,4 +1,4 @@
-import 'package:dandylight/pages/new_job_types_page/NewJobTypePageState.dart';
+import 'package:dandylight/pages/new_session_type_page/NewSessionTypePageState.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -7,7 +7,7 @@ import '../../utils/ColorConstants.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class ReminderSelectionListWidget extends StatelessWidget {
-  final NewJobTypePageState pageState;
+  final NewSessionTypePageState pageState;
   final int index;
 
   ReminderSelectionListWidget(this.pageState, this.index);

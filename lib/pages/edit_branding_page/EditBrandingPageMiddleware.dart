@@ -108,6 +108,7 @@ class EditBrandingPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _saveBranding(Store<AppState> store, SaveBrandingAction action, NextDispatcher next) async {
+    store.dispatch(SetShowPublishButtonAction(store.state.editBrandingPageState, false));
     ColorTheme colorTheme = ColorTheme(
       themeName: 'default',
       iconColor: ColorConstants.getHex(action.pageState!.currentIconColor!),

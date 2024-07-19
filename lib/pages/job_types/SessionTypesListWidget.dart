@@ -9,7 +9,7 @@ import '../../models/PriceProfile.dart';
 import '../../utils/ColorConstants.dart';
 import '../../widgets/TextDandyLight.dart';
 
-class JobTypesListWidget extends StatelessWidget {
+class SessionTypesListWidget extends StatelessWidget {
   final JobType jobType;
   final pageState;
   final Function onJobTypeSelected;
@@ -17,7 +17,7 @@ class JobTypesListWidget extends StatelessWidget {
   final Color textColor;
   final int index;
 
-  JobTypesListWidget(this.jobType, this.pageState, this.onJobTypeSelected, this.backgroundColor, this.textColor, this.index);
+  SessionTypesListWidget(this.jobType, this.pageState, this.onJobTypeSelected, this.backgroundColor, this.textColor, this.index);
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class JobTypesListWidget extends StatelessWidget {
                         margin: EdgeInsets.only(right: 16.0, left: 16.0),
                         height: 36.0,
                         width: 36.0,
-                        child: Image.asset('assets/images/icons/job_type.png', color: Color(ColorConstants.getPrimaryBlack()),),
+                        child: Image.asset('assets/images/icons/job_type.png', color: Color(ColorConstants.getBlueDark()),),
                       ),
                       Container(
                         child: TextDandyLight(

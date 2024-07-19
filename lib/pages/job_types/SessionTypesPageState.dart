@@ -3,33 +3,33 @@ import 'package:redux/redux.dart';
 import '../../AppState.dart';
 import '../../models/JobType.dart';
 
-class JobTypesPageState{
+class SessionTypesPageState{
 
   final List<JobType>? jobTypes;
   final Function(JobType)? onJobTypeSelected;
 
-  JobTypesPageState({
+  SessionTypesPageState({
     @required this.jobTypes,
     @required this.onJobTypeSelected,
   });
 
-  JobTypesPageState copyWith({
+  SessionTypesPageState copyWith({
     List<JobType>? jobTypes,
     Function(JobType)? onJobTypeSelected,
   }){
-    return JobTypesPageState(
+    return SessionTypesPageState(
       jobTypes: jobTypes ?? this.jobTypes,
       onJobTypeSelected: onJobTypeSelected?? this.onJobTypeSelected,
     );
   }
 
-  factory JobTypesPageState.initial() => JobTypesPageState(
+  factory SessionTypesPageState.initial() => SessionTypesPageState(
     jobTypes: [],
     onJobTypeSelected: null,
   );
 
-  factory JobTypesPageState.fromStore(Store<AppState> store) {
-    return JobTypesPageState(
+  factory SessionTypesPageState.fromStore(Store<AppState> store) {
+    return SessionTypesPageState(
       jobTypes: store.state.jobTypesPageState!.jobTypes,
       onJobTypeSelected: (jobType) => null
       // onJobTypeSelected: (jobType) => store.dispatch(LoadExistingJobTypesData(store.state.newJobTypePageState, jobType)),
@@ -44,7 +44,7 @@ class JobTypesPageState{
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is JobTypesPageState &&
+          other is SessionTypesPageState &&
               jobTypes == other.jobTypes &&
               onJobTypeSelected == other.onJobTypeSelected;
 }
