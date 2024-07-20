@@ -381,8 +381,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void _updateSessionType(Store<AppState> store, SaveUpdatedSessionTypeAction action, NextDispatcher next) async{
     Job jobToSave = store.state.jobDetailsPageState!.job!.copyWith(
-      type: store.state.jobDetailsPageState!.sessionType,
-      stage: store.state.jobDetailsPageState!.sessionType!.stages!.elementAt(1),
+      sessionType: store.state.jobDetailsPageState!.sessionType,
+      stage: store.state.jobDetailsPageState!.sessionType!.stages.elementAt(1),
       completedStages: [JobStage(id: 1, stage: JobStage.STAGE_1_INQUIRY_RECEIVED)],
       jobTitle: store.state.jobDetailsPageState!.client!.firstName! + ' - ' + store.state.jobDetailsPageState!.sessionType!.title!,
     );
@@ -540,6 +540,9 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
         job.proposal = Proposal();
         await JobDao.update(job);
       }
+
+      job.sessionType ??= SessionType.from(job.type, job.priceProfile);
+
       await store.dispatch(SetJobAction(store.state.jobDetailsPageState, job));
 
       Client? client = await ClientDao.getClientById(job.clientDocumentId!);
@@ -629,7 +632,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     action.job!.completedStages = completedJobStages;
     JobStage? highestCompletedState;
     for(JobStage completedStage in completedJobStages){
-      if(highestCompletedState == null) highestCompletedState = completedStage;
+      highestCompletedState ??= completedStage;
       if(getIndexOfStageInStages(completedStage, action.job!.sessionType!.stages!) > getIndexOfStageInStages(highestCompletedState, action.job!.sessionType!.stages!)) highestCompletedState = completedStage;
     }
     if(highestCompletedState != null){

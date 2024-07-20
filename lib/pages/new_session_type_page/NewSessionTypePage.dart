@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_session_type_page/ChooseStagesBottomSheet.dart';
@@ -19,7 +20,6 @@ import '../../utils/flutter_masked_text.dart';
 import '../../widgets/TextDandyLight.dart';
 import '../../widgets/TextFieldSimple.dart';
 import 'ChooseRemindersBottomSheet.dart';
-import 'CustomJobStageBottomSheet.dart';
 import 'NewSessionTypeActions.dart';
 
 class NewSessionTypePage extends StatefulWidget {
@@ -93,11 +93,16 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
         }else {
           store.dispatch(LoadExistingSessionTypeData(store.state.newSessionTypePageState, sessionType));
         }
-        // totalCostTextController.updateValue(store.state.pricingProfilePageState!.flatRate!);
-        // depositTextController.updateValue(store.state.pricingProfilePageState!.deposit!);
-        // taxPercentController.updateValue(store.state.pricingProfilePageState!.taxPercent!);
+        if(sessionType != null) {
+          nameController.text = sessionType?.title ?? '';
+          minController.text = sessionType?.durationMinutes.toString() ?? '';
+          hoursController.text = sessionType?.durationHours.toString() ?? '';
+          totalCostTextController.updateValue(sessionType?.totalCost ?? 0);
+          depositTextController.updateValue(sessionType?.deposit ?? 0);
+          taxPercentController.updateValue(sessionType?.salesTaxPercent ?? 0);
+        }
 
-        store.dispatch(LoadPricesPackagesAndRemindersAction(store.state.newSessionTypePageState));
+        store.dispatch(LoadAllRemindersAction(store.state.newSessionTypePageState));
       },
       converter: (store) => NewSessionTypePageState.fromStore(store),
       builder: (BuildContext context, NewSessionTypePageState pageState) =>
@@ -144,7 +149,7 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                         surfaceTintColor: Colors.transparent,
                         title: TextDandyLight(
                           type: TextDandyLight.LARGE_TEXT,
-                          text: pageState.shouldClear! ? "New Session Type" : "Edit Session Type",
+                          text: sessionType == null ? "New Session Type" : "Edit Session Type",
                           color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                         systemOverlayStyle: SystemUiOverlayStyle.dark,
@@ -155,7 +160,7 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                           } ,
                         ) ,
                         actions: [
-                          GestureDetector(
+                          sessionType != null ? GestureDetector(
                             onTap: () {
                               _ackAlert(context, pageState);
                             },
@@ -165,16 +170,7 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                               child: Image.asset(
                                 'assets/images/icons/trash_can.png', color: Color(ColorConstants.getPeachDark()),),
                             ),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.save, size: 32),
-                            tooltip: 'Save',
-                            color: Color(ColorConstants.getBlueDark()),
-                            onPressed: () {
-                              showSuccessAnimation();
-                              pageState.onSavePressed!();
-                            },
-                          ),
+                          ) : const SizedBox(),
                         ],
                       ),
                       SliverList(
@@ -434,7 +430,7 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                                         margin: const EdgeInsets.only(left: 16),
                                         child: TextDandyLight(
                                           type: TextDandyLight.SMALL_TEXT,
-                                          text: (pageState.selectedReminders?.isEmpty ?? true) ? 'Select Reminders' : '${pageState.selectedReminders?.length ?? 0} reminders selected',
+                                          text: !(pageState.remindersComplete ?? false) ? 'Select Reminders' : '${pageState.selectedReminders?.length ?? 0} reminders selected',
                                           color: Color(ColorConstants.getPrimaryBlack()),
                                         ),
                                       ),
@@ -461,13 +457,14 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                     onTap: () {
                       if(pageState.saveButtonEnabled ?? false) {
                         pageState.onSavePressed!();
+                        showSuccessAnimation();
                       } else {
                         setState(() {
                           if(nameController.text.isEmpty) nameError = true;
                           if(hoursController.text.isEmpty && minController.text.isEmpty) durationError = true;
                           if(totalCostTextController.text.isEmpty) priceError = true;
                           if(!(pageState.stagesComplete ?? false)) stagesError = true;
-                          if(pageState.selectedReminders?.isEmpty ?? true) remindersError = true;
+                          if(!(pageState.remindersComplete ?? false)) remindersError = true;
                         });
                       }
                     },
@@ -513,7 +510,7 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteJobTypeSelected!();
+                pageState.onDeleteSessionTypeSelected!();
                 Navigator.of(context).pop(true);
               },
               child: const Text('Yes'),
@@ -531,7 +528,7 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
-                pageState.onDeleteJobTypeSelected!();
+                pageState.onDeleteSessionTypeSelected!();
                 Navigator.of(context).pop(true);
               },
               child: const Text('Yes'),

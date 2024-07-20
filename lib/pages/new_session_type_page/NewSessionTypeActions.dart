@@ -12,9 +12,9 @@ class LoadExistingSessionTypeData{
   LoadExistingSessionTypeData(this.pageState, this.sessionType);
 }
 
-class LoadPricesPackagesAndRemindersAction {
+class LoadAllRemindersAction {
   final NewSessionTypePageState? pageState;
-  LoadPricesPackagesAndRemindersAction(this.pageState);
+  LoadAllRemindersAction(this.pageState);
 }
 
 class SetAllAction {
@@ -120,6 +120,12 @@ class SetStageSelectionCompleteAction {
   final NewSessionTypePageState? pageState;
   final bool? complete;
   SetStageSelectionCompleteAction(this.pageState, this.complete);
+}
+
+class SetRemindersSelectionCompleteAction {
+  final NewSessionTypePageState? pageState;
+  final bool? complete;
+  SetRemindersSelectionCompleteAction(this.pageState, this.complete);
 }
 
 

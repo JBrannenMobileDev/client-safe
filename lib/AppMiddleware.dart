@@ -23,8 +23,6 @@ import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSe
 import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPageMiddleware.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageMiddleware.dart';
-import 'package:dandylight/pages/job_types/SessionTypesActions.dart';
-import 'package:dandylight/pages/job_types/SessionTypesPageMiddleware.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageMiddleware.dart';
 import 'package:dandylight/pages/locations_page/LocationsActions.dart';
@@ -83,6 +81,8 @@ import 'package:dandylight/pages/review_poses_page/ReviewPosesActions.dart';
 import 'package:dandylight/pages/review_poses_page/ReviewPosesPageMiddleware.dart';
 import 'package:dandylight/pages/select_a_photo_page/SelectAPhotoActions.dart';
 import 'package:dandylight/pages/select_a_photo_page/SelectAPhotoPageMiddleware.dart';
+import 'package:dandylight/pages/session_types/SessionTypesActions.dart';
+import 'package:dandylight/pages/session_types/SessionTypesPageMiddleware.dart';
 import 'package:dandylight/pages/share_with_client_page/ShareWithClientActions.dart';
 import 'package:dandylight/pages/share_with_client_page/ShareWithClientPageMiddleware.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageActions.dart';
@@ -258,8 +258,8 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.SetLastKnowInitialPosition>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveNewSessionTypeAction>(NewSessionTypePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteSessionTypeAction>(NewSessionTypePageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, LoadPricesPackagesAndRemindersAction>(NewSessionTypePageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, FetchJobTypesAction>(SessionTypesPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, LoadAllRemindersAction>(NewSessionTypePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchSessionTypesAction>(SessionTypesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchPoseGroupsAction>(PosesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SavePoseToMyPosesAction>(PosesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveImageToJobAction>(PosesPageMiddleware()));

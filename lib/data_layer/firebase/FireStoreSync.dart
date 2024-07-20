@@ -16,6 +16,7 @@ import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/QuestionnairesDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/RecurringExpenseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ReminderDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/SessionTypeDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/SingleExpenseDao.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Contract.dart';
@@ -32,6 +33,7 @@ import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/models/Response.dart';
+import 'package:dandylight/models/SessionType.dart';
 import 'package:dandylight/models/SingleExpense.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:collection/collection.dart';
@@ -66,14 +68,13 @@ class FireStoreSync {
             await _syncPoseGroups(userLocalDb, userFireStoreDb);
             await _syncResponses(userLocalDb, userFireStoreDb);
             await _syncQuestionnaires(userLocalDb, userFireStoreDb);
+            await _syncSessionType(userLocalDb, userFireStoreDb);
         }
         setupFireStoreListeners();
         automateJobStages();
         try{
             await PoseSubmittedGroupDao.syncAllFromFireStore();
-        } catch(e) {
-
-        }
+        } catch(e) {}
     }
 
     Profile getMatchingProfile(List<Profile> profiles, String uid) {
@@ -315,6 +316,19 @@ class FireStoreSync {
                 }
             }
         });
+
+        SessionTypeDao.getSessionTypeStreamFromFireStore()
+            .listen((snapshots) async {
+            for(DocumentChange snapshot in snapshots.docChanges) {
+                SessionType sessionType = SessionType.fromMap(snapshot.doc.data() as Map<String,dynamic>);
+                SessionType? sessionTypeFromLocal = await SessionTypeDao.getSessionTypeById(sessionType.documentId!);
+                if(sessionTypeFromLocal != null) {
+                    SessionTypeDao.updateLocalOnly(sessionType);
+                }else {
+                    SessionTypeDao.insertLocalOnly(sessionType);
+                }
+            }
+        });
     }
 
     Future<void> _syncClients(Profile userLocalDb, Profile userFireStoreDb) async {
@@ -519,7 +533,7 @@ class FireStoreSync {
         if((userLocalDb.responsesLastChangeDate != userFireStoreDb.responsesLastChangeDate) || (userLocalDb.responsesLastChangeDate == null && userFireStoreDb.responsesLastChangeDate != null)) {
             if(userLocalDb.responsesLastChangeDate != null && userFireStoreDb.responsesLastChangeDate != null){
                 if(userLocalDb.responsesLastChangeDate!.millisecondsSinceEpoch < userFireStoreDb.responsesLastChangeDate!.millisecondsSinceEpoch) {
-                    await ProfileDao.syncAllFromFireStore();
+                    await ResponseDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.
                 }
@@ -531,7 +545,19 @@ class FireStoreSync {
         if((userLocalDb.questionnairesLastChangedTime != userFireStoreDb.questionnairesLastChangedTime) || (userLocalDb.questionnairesLastChangedTime == null && userFireStoreDb.questionnairesLastChangedTime != null)) {
             if(userLocalDb.questionnairesLastChangedTime != null && userFireStoreDb.questionnairesLastChangedTime != null){
                 if(userLocalDb.questionnairesLastChangedTime!.millisecondsSinceEpoch < userFireStoreDb.questionnairesLastChangedTime!.millisecondsSinceEpoch) {
-                    await ProfileDao.syncAllFromFireStore();
+                    await QuestionnairesDao.syncAllFromFireStore();
+                } else {
+                    //do nothing localFirebase cache has not synced up to cloud yet.
+                }
+            }
+        }
+    }
+
+    Future<void> _syncSessionType(Profile userLocalDb, Profile userFireStoreDb) async {
+        if((userLocalDb.sessionTypesLastChangedTime != userFireStoreDb.sessionTypesLastChangedTime) || (userLocalDb.sessionTypesLastChangedTime == null && userFireStoreDb.sessionTypesLastChangedTime != null)) {
+            if(userLocalDb.sessionTypesLastChangedTime != null && userFireStoreDb.sessionTypesLastChangedTime != null){
+                if(userLocalDb.sessionTypesLastChangedTime!.millisecondsSinceEpoch < userFireStoreDb.sessionTypesLastChangedTime!.millisecondsSinceEpoch) {
+                    await SessionTypeDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.
                 }
@@ -545,8 +571,8 @@ class FireStoreSync {
 
   void checkForJobComplete() async {
     List<Job>? allJobs = await JobDao.getAllJobs();
-    for(Job job in allJobs!) {
-        if(job.selectedTime != null && containsStage(job.sessionType!.stages!, JobStage.STAGE_7_SESSION_COMPLETE)) {
+    for(Job job in allJobs) {
+        if(job.selectedTime != null && containsStage(job.sessionType?.stages ?? [], JobStage.STAGE_7_SESSION_COMPLETE)) {
             if(!containsStage(job.completedStages!, JobStage.STAGE_7_SESSION_COMPLETE)) {
                 DateTime now = DateTime.now();
                 DateTime selectedDateAndTime = DateTime(job.selectedDate!.year, job.selectedDate!.month, job.selectedDate!.day, job.selectedTime!.hour, job.selectedTime!.minute);

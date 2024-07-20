@@ -23,23 +23,64 @@ final newSessionTypePageReducer = combineReducers<NewSessionTypePageState>([
   TypedReducer<NewSessionTypePageState, UpdateMinutesAction>(_updateMinutes),
   TypedReducer<NewSessionTypePageState, UpdateHoursAction>(_updateHours),
   TypedReducer<NewSessionTypePageState, SetStageSelectionCompleteAction>(_setStageSelectionComplete),
+  TypedReducer<NewSessionTypePageState, SetRemindersSelectionCompleteAction>(_setRemindersSelectionComplete),
 ]);
 
 NewSessionTypePageState _setStageSelectionComplete(NewSessionTypePageState previousState, SetStageSelectionCompleteAction action) {
   return previousState.copyWith(
     stagesComplete: action.complete,
+    saveButtonEnabled: canEnableSaveButton(
+      previousState.title,
+      previousState.hours,
+      previousState.minutes,
+      previousState.totalCost,
+      action.complete,
+      previousState.remindersComplete,
+    ),
+  );
+}
+
+NewSessionTypePageState _setRemindersSelectionComplete(NewSessionTypePageState previousState, SetRemindersSelectionCompleteAction action) {
+  return previousState.copyWith(
+    remindersComplete: action.complete,
+    saveButtonEnabled: canEnableSaveButton(
+      previousState.title,
+      previousState.hours,
+      previousState.minutes,
+      previousState.totalCost,
+      previousState.stagesComplete,
+      action.complete,
+    ),
   );
 }
 
 NewSessionTypePageState _updateMinutes(NewSessionTypePageState previousState, UpdateMinutesAction action) {
+  int minutes = int.parse(action.minutes?.replaceAll(RegExp(r"\D"), "") ?? '0');
   return previousState.copyWith(
-    minutes: int.parse(action.minutes?.replaceAll(RegExp(r"\D"), "") ?? '0'),
+    minutes: minutes,
+    saveButtonEnabled: canEnableSaveButton(
+        previousState.title,
+        previousState.hours,
+        minutes,
+        previousState.totalCost,
+        previousState.stagesComplete,
+        previousState.remindersComplete,
+    ),
   );
 }
 
 NewSessionTypePageState _updateHours(NewSessionTypePageState previousState, UpdateHoursAction action) {
+  int hours = int.parse(action.hours?.replaceAll(RegExp(r"\D"), "") ?? '0');
   return previousState.copyWith(
-    hours: int.parse(action.hours?.replaceAll(RegExp(r"\D"), "") ?? '0'),
+    hours: hours,
+    saveButtonEnabled: canEnableSaveButton(
+        previousState.title,
+        hours,
+        previousState.minutes,
+        previousState.totalCost,
+        previousState.stagesComplete,
+        previousState.remindersComplete
+    )
   );
 }
 
@@ -73,9 +114,20 @@ NewSessionTypePageState _updateTotalCost(NewSessionTypePageState previousState, 
   resultCost = resultCost.replaceAll(' ', '');
   double doubleCost = resultCost.isNotEmpty ? double.parse(resultCost) : 0.0;
   double taxAmount = (doubleCost * action.pageState!.taxPercent!)/100;
+
+  print('doubleCost = $doubleCost');
+  print('taxAmount = $taxAmount');
   return previousState.copyWith(
     totalCost: doubleCost,
     taxAmount: taxAmount,
+    saveButtonEnabled: canEnableSaveButton(
+        previousState.title,
+        previousState.hours,
+        previousState.minutes,
+        doubleCost,
+        previousState.stagesComplete,
+        previousState.remindersComplete
+    )
   );
 }
 
@@ -111,6 +163,14 @@ NewSessionTypePageState _setCheckAllRemindersChecked(NewSessionTypePageState pre
   return previousState.copyWith(
     checkAllReminders: action.isChecked,
     selectedReminders: selectedRemindersNew,
+    saveButtonEnabled: canEnableSaveButton(
+        previousState.title,
+        previousState.hours,
+        previousState.minutes,
+        previousState.totalCost,
+        previousState.stagesComplete,
+        previousState.remindersComplete,
+    )
   );
 }
 
@@ -129,28 +189,48 @@ NewSessionTypePageState _setStageList(NewSessionTypePageState previousState, Del
 }
 
 NewSessionTypePageState _setSelectedReminder(NewSessionTypePageState previousState, UpdateSelectedReminderListAction action) {
+  List<ReminderDandyLight> selectedReminders = previousState.selectedReminders ?? [];
   if(action.isChecked!) {
-    previousState.selectedReminders!.add(previousState.allDandyLightReminders!.elementAt(action.reminderStageIndex!));
+    selectedReminders.add(previousState.allDandyLightReminders!.elementAt(action.reminderStageIndex!));
   } else {
-    previousState.selectedReminders!.removeWhere((reminder) => reminder.documentId == previousState.allDandyLightReminders!.elementAt(action.reminderStageIndex!).documentId);
+    selectedReminders.removeWhere((reminder) => reminder.documentId == previousState.allDandyLightReminders!.elementAt(action.reminderStageIndex!).documentId);
   }
 
   return previousState.copyWith(
     selectedReminders: previousState.selectedReminders,
+    saveButtonEnabled: canEnableSaveButton(
+        previousState.title,
+        previousState.hours,
+        previousState.minutes,
+        previousState.totalCost,
+        previousState.stagesComplete,
+        previousState.remindersComplete,
+    )
   );
 }
 
 NewSessionTypePageState _loadExistingJobType(NewSessionTypePageState previousState, LoadExistingSessionTypeData action){
-  List<JobStage> stages = action.sessionType!.stages;
+  List<JobStage> stages = [];
+  stages.addAll(action.sessionType!.stages);
   stages.removeAt(0);
   stages.removeLast();
-  return previousState.copyWith(
+  var emptyState = NewSessionTypePageState.initial();
+
+  double taxAmount = 0;
+  if(action.sessionType!.totalCost != 0 && action.sessionType?.salesTaxPercent != 0) {
+    taxAmount = (action.sessionType!.totalCost! * (action.sessionType?.salesTaxPercent ?? 0)) / 100;
+  }
+
+  return emptyState.copyWith(
     id: action.sessionType!.id,
     documentId: action.sessionType!.documentId,
     title: action.sessionType!.title,
     selectedJobStages: stages,
     selectedReminders: action.sessionType!.reminders,
-    shouldClear: false,
+    stagesComplete: true,
+    remindersComplete: true,
+    taxAmount: taxAmount,
+    taxPercent: action.sessionType!.salesTaxPercent,
   );
 }
 
@@ -162,4 +242,20 @@ NewSessionTypePageState _updateTitle(NewSessionTypePageState previousState, Upda
   return previousState.copyWith(
     title: action.title,
   );
+}
+
+bool canEnableSaveButton(
+  String? title,
+  int? hours,
+  int? minutes,
+  double? price,
+  bool? stagesComplete,
+  bool? remindersComplete,
+) {
+  bool titleError = title?.isEmpty ?? true;
+  bool durationError = (hours != null && hours > 0) && (minutes != null && minutes > 0);
+  bool priceError = price != null && price <= 0;
+  bool stagesError = !(stagesComplete ?? true);
+  bool remindersError = !(remindersComplete ?? true);
+  return !titleError && !durationError && !priceError && !stagesError && !remindersError;
 }

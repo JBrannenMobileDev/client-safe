@@ -55,6 +55,7 @@ import '../models/JobReminder.dart';
 import '../models/JobType.dart';
 import '../models/Profile.dart';
 import '../models/Questionnaire.dart';
+import '../models/SessionType.dart';
 import '../pages/calendar_selection_page/CalendarSelectionPage.dart';
 import '../pages/job_details_page/ContractOptionsDialog.dart';
 import '../pages/login_page/ShowResetPasswordSentDialog.dart';
@@ -134,7 +135,7 @@ class UserOptionsUtil {
     );
   }
 
-  static void showNewJobTypePage(BuildContext context, JobType? jobType){
+  static void showNewJobTypePage(BuildContext context, SessionType? sessionType){
     showDialog(
       context: context,
       builder: (BuildContext context) {

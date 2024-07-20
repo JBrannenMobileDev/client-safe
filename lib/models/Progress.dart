@@ -2,7 +2,7 @@ class Progress {
   static const String PREVIEW_CLIENT_PORTAL = 'Preview Client Portal';
   static const String PREVIEW_SAMPLE_JOB = "Preview Sample Job";
   static const String SETUP_BRAND = 'Setup Brand';
-  static const String CREATE_JOB_TYPE = 'Create Sessions Type';
+  static const String CREATE_SESSION_TYPE = 'Create Sessions Type';
   static const String ADD_CLIENT = 'Add Client';
   static const String CREATE_JOB = 'Create Job';
   static const String CREATE_CONTRACT = 'Create Contract';
@@ -20,7 +20,7 @@ class Progress {
   bool previewClientPortal;
   bool previewSampleJob;
   bool setupBrand;
-  bool createJobType;
+  bool createSessionType;
   bool addClient;
   bool createJob;
   bool createContract;
@@ -39,7 +39,7 @@ class Progress {
     this.previewClientPortal = false,
     this.previewSampleJob = false,
     this.setupBrand = false,
-    this.createJobType = false,
+    this.createSessionType = false,
     this.addClient = false,
     this.createJob = false,
     this.createContract = false,
@@ -65,7 +65,7 @@ class Progress {
     if(previewClientPortal) progress = progress + 5.88;
     if(previewSampleJob) progress = progress + 5.88;
     if(setupBrand) progress = progress + 5.88;
-    if(createJobType) progress = progress + 5.88;
+    if(createSessionType) progress = progress + 5.88;
     if(addClient) progress = progress + 5.88;
     if(createJob) progress = progress + 5.88;
     if(createContract) progress = progress + 5.88;
@@ -95,7 +95,7 @@ class Progress {
       'previewClientPortal' : previewClientPortal,
       'previewSampleJob' : previewSampleJob,
       'setupBrand' : setupBrand,
-      'createJobType' : createJobType,
+      'createSessionType' : createSessionType,
       'addClient' : addClient,
       'createJob' : createJob,
       'createContract' : createContract,
@@ -118,7 +118,7 @@ class Progress {
       previewClientPortal: map['previewClientPortal'] ?? false,
       previewSampleJob: map['previewSampleJob'] ?? false,
       setupBrand: map['setupBrand'] ?? false,
-      createJobType: map['createJobType'] ?? false,
+      createSessionType: map['createSessionType'] ?? false,
       addClient: map['addClient'] ?? false,
       createJob: map['createJob'] ?? false,
       createContract: map['createContract'] ?? false,

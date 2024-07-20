@@ -1,6 +1,9 @@
 import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 
+import 'JobType.dart';
+import 'PriceProfile.dart';
+
 class SessionType {
   int? id;
   String? documentId;
@@ -17,6 +20,20 @@ class SessionType {
   double getTotalPlusTax() {
     double taxAmount = salesTaxPercent > 0 ? (totalCost * (salesTaxPercent/100)) : 0.0;
     return totalCost + taxAmount;
+  }
+
+  static SessionType from(JobType? jobType, PriceProfile? priceProfile) {
+    return SessionType(
+      title: jobType?.title ?? '',
+      totalCost: priceProfile?.flatRate ?? 0.0,
+      durationMinutes: 0,
+      durationHours: 0,
+      createdDate: jobType?.createdDate ?? DateTime.now(),
+      stages: jobType?.stages ?? [],
+      reminders: jobType?.reminders ?? [],
+      deposit: priceProfile?.deposit ?? 0,
+      salesTaxPercent: priceProfile?.salesTaxPercent ?? 0,
+    );
   }
 
   SessionType({

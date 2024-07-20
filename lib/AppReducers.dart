@@ -38,10 +38,10 @@ import 'package:dandylight/pages/pose_library_group_page/LibraryPoseGroupPageRed
 import 'package:dandylight/pages/poses_page/PosesPageReducer.dart';
 import 'package:dandylight/pages/questionnaires_page/QuestionnairesPageReducer.dart';
 import 'package:dandylight/pages/reminders_page/RemindersPageReducer.dart';
-import 'package:dandylight/pages/job_types/SessionTypesPageReducer.dart';
 import 'package:dandylight/pages/responses_page/ResponsesPageReducer.dart';
 import 'package:dandylight/pages/review_poses_page/ReviewPosesPageReducer.dart';
 import 'package:dandylight/pages/select_a_photo_page/SelectAPhotoPageReducer.dart';
+import 'package:dandylight/pages/session_types/SessionTypesPageReducer.dart';
 import 'package:dandylight/pages/share_with_client_page/ShareWithClientPageReducer.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageReducer.dart';
 import 'package:dandylight/pages/upload_pose_page/UploadPosePageReducer.dart';
@@ -72,7 +72,7 @@ AppState appReducers(AppState state, dynamic action) =>
         remindersPageState: remindersReducer(state.remindersPageState!, action),
         newReminderPageState: newReminderPageReducer(state.newReminderPageState!, action),
         newJobReminderPageState: newJobReminderPageReducer(state.newJobReminderPageState!, action),
-        jobTypesPageState: sessionTypesPageReducer(state.jobTypesPageState!, action),
+        sessionTypesPageState: sessionTypesPageReducer(state.sessionTypesPageState!, action),
         newSessionTypePageState: newSessionTypePageReducer(state.newSessionTypePageState!, action),
         posesPageState: posesReducer(state.posesPageState!, action),
         newPoseGroupPageState: newPoseGroupReducer(state.newPoseGroupPageState!, action),

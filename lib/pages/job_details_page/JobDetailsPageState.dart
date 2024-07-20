@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/EventDandyLight.dart';
 import 'package:dandylight/models/Invoice.dart';
@@ -57,7 +55,6 @@ class JobDetailsPageState {
   final String? sunset;
   final String? eveningBlueHour;
   final Profile? profile;
-  final Function(String)? onSaveUpdatedPriceProfileSelected;
   final Function(SessionType)? onSessionTypeSelected;
   final Function(Job, int)? onStageCompleted;
   final Function(Job, int)? onStageUndo;
@@ -132,7 +129,6 @@ class JobDetailsPageState {
     @required this.onNameChangeSaved,
     @required this.onSessionTypeSelected,
     @required this.onSessionTypeSaveSelected,
-    @required this.onSaveUpdatedPriceProfileSelected,
     @required this.unsavedAddOnCostAmount,
     @required this.onAddToDeposit,
     @required this.onSaveAddOnCost,
@@ -206,7 +202,6 @@ class JobDetailsPageState {
     List<String>? poseFilePaths,
     Profile? profile,
     MileageExpense? mileageTrip,
-    Function(String)? onSaveUpdatedPriceProfileSelected,
     Function(SessionType)? onSessionTypeSelected,
     Function(Job, int)? onStageCompleted,
     Function(Job, int)? onStageUndo,
@@ -289,7 +284,6 @@ class JobDetailsPageState {
       onSessionTypeSelected: onSessionTypeSelected ?? this.onSessionTypeSelected,
       onSessionTypeSaveSelected: onSessionTypeSaveSelected ?? this.onSessionTypeSaveSelected,
       unsavedTipAmount: unsavedTipAmount ?? this.unsavedTipAmount,
-      onSaveUpdatedPriceProfileSelected: onSaveUpdatedPriceProfileSelected ?? this.onSaveUpdatedPriceProfileSelected,
       unsavedAddOnCostAmount: unsavedAddOnCostAmount ?? this.unsavedAddOnCostAmount,
       onAddToDeposit: onAddToDeposit ?? this.onAddToDeposit,
       onSaveAddOnCost:  onSaveAddOnCost ?? this.onSaveAddOnCost,
@@ -399,6 +393,7 @@ class JobDetailsPageState {
         onNotesTextChanged: (notes) {
           store.dispatch(SaveJobNotesAction(store.state.jobDetailsPageState, notes));
         },
+        onSessionTypeSelected: (sessionType) => store.dispatch(UpdateSelectedSessionTypeAction(store.state.jobDetailsPageState, sessionType)),
         setOnBoardingComplete: () => store.dispatch(SetOnBoardingCompleteAction(store.state.jobDetailsPageState)),
         onSunsetWeatherSelected: () => store.dispatch(LoadInitialLocationAndDateComingFromNewJobAction(store.state.sunsetWeatherPageState!, store.state.jobDetailsPageState!.job!.location!, store.state.jobDetailsPageState!.job!.selectedDate!)),
         onDrivingDirectionsSelected: (location) => store.dispatch(DrivingDirectionsJobSelected(store.state.jobDetailsPageState, location)),
@@ -451,7 +446,6 @@ class JobDetailsPageState {
     documentPath: '',
     onSessionTypeSelected: null,
     onSessionTypeSaveSelected: null,
-    onSaveUpdatedPriceProfileSelected: null,
     unsavedAddOnCostAmount: 0,
     onAddToDeposit: null,
     onSaveAddOnCost: null,
@@ -542,7 +536,6 @@ class JobDetailsPageState {
       onJobTitleTextChanged.hashCode ^
       onSessionTypeSelected.hashCode ^
       onSessionTypeSaveSelected.hashCode ^
-      onSaveUpdatedPriceProfileSelected.hashCode ^
       onClearUnsavedDeposit.hashCode ^
       onNewEndTimeSelected.hashCode ^
       onDeletePoseSelected.hashCode ^
@@ -614,7 +607,6 @@ class JobDetailsPageState {
               onSessionTypeSelected == other.onSessionTypeSelected &&
               onSessionTypeSaveSelected == other.onSessionTypeSaveSelected &&
               onStartLocationChanged == other.onStartLocationChanged &&
-              onSaveUpdatedPriceProfileSelected == other.onSaveUpdatedPriceProfileSelected &&
               onNewEndTimeSelected == other.onNewEndTimeSelected &&
               onDeletePoseSelected == other.onDeletePoseSelected &&
               onNotesTextChanged == other.onNotesTextChanged &&

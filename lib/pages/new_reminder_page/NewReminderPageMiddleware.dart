@@ -42,7 +42,7 @@ class NewReminderPageMiddleware extends MiddlewareClass<AppState> {
 
     store.dispatch(ClearNewReminderStateAction(store.state.newReminderPageState));
     store.dispatch(collectionReminders.FetchRemindersAction(store.state.remindersPageState!));
-    store.dispatch(LoadPricesPackagesAndRemindersAction(store.state.newSessionTypePageState));
+    store.dispatch(LoadAllRemindersAction(store.state.newSessionTypePageState));
   }
 
   void _deleteReminder(Store<AppState> store, DeleteReminderAction action, NextDispatcher next) async{

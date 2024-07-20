@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/dandylightTextField.dart';
+import 'package:dandylight/pages/new_pricing_profile_page/DandyLightTextFieldOld.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/InputDoneView.dart';
 import 'package:flutter/cupertino.dart';
@@ -100,7 +100,7 @@ class _SelectSalesTaxRateDialog extends State<SelectSalesTaxRateDialog> with Aut
                     ),
                     Container(
                           padding: EdgeInsets.only(left: 24.0, right: 24.0),
-                          child: DandyLightTextField(
+                          child: DandyLightTextFieldOld(
                             controller: taxRateTextController,
                             hintText: "\%",
                             inputType: TextInputType.numberWithOptions(decimal: true),

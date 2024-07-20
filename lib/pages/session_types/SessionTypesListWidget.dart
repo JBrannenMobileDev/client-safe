@@ -2,22 +2,20 @@ import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
 
-import '../../models/JobType.dart';
-import '../../models/PriceProfile.dart';
+import '../../models/SessionType.dart';
 import '../../utils/ColorConstants.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class SessionTypesListWidget extends StatelessWidget {
-  final JobType jobType;
+  final SessionType sessionType;
   final pageState;
-  final Function onJobTypeSelected;
+  final Function onSessionTypeSelected;
   final Color backgroundColor;
   final Color textColor;
   final int index;
 
-  SessionTypesListWidget(this.jobType, this.pageState, this.onJobTypeSelected, this.backgroundColor, this.textColor, this.index);
+  SessionTypesListWidget(this.sessionType, this.pageState, this.onSessionTypeSelected, this.backgroundColor, this.textColor, this.index);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +27,7 @@ class SessionTypesListWidget extends StatelessWidget {
           ),
         ),
         onPressed: () {
-          onJobTypeSelected(jobType, pageState, context);
+          onSessionTypeSelected(sessionType, pageState, context);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,12 +47,12 @@ class SessionTypesListWidget extends StatelessWidget {
                         margin: EdgeInsets.only(right: 16.0, left: 16.0),
                         height: 36.0,
                         width: 36.0,
-                        child: Image.asset('assets/images/icons/job_type.png', color: Color(ColorConstants.getBlueDark()),),
+                        child: Image.asset('assets/images/icons/job_type.png', color: Color(ColorConstants.getPrimaryGreyDark()),),
                       ),
                       Container(
                         child: TextDandyLight(
                           type: TextDandyLight.MEDIUM_TEXT,
-                          text: jobType.title,
+                          text: sessionType.title,
                           textAlign: TextAlign.start,
                           color: textColor,
                         ),

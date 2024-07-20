@@ -1,5 +1,5 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/dandylightTextField.dart';
+import 'package:dandylight/pages/new_pricing_profile_page/dandylightTextFieldOld.dart';
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
@@ -44,7 +44,7 @@ class _NewRecurringExpenseName extends State<NewRecurringExpenseName> with Autom
                 color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ),
-            DandyLightTextField(
+            DandyLightTextFieldOld(
                 controller: profileNameTextController,
                 hintText: "Recurring expense name",
                 inputType: TextInputType.text,

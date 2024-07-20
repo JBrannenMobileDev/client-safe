@@ -1,5 +1,5 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/dandylightTextField.dart';
+import 'package:dandylight/pages/new_pricing_profile_page/dandylightTextFieldOld.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
@@ -44,7 +44,7 @@ class _NewSingleExpenseName extends State<NewSingleExpenseName> with AutomaticKe
                 color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ),
-            DandyLightTextField(
+            DandyLightTextFieldOld(
                 controller: profileNameTextController,
                 hintText: "Single expense name",
                 inputType: TextInputType.text,

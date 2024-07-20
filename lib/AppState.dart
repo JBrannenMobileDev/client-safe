@@ -37,9 +37,9 @@ import 'package:dandylight/pages/poses_page/PosesPageState.dart';
 import 'package:dandylight/pages/questionnaires_page/QuestionnairesPageState.dart';
 import 'package:dandylight/pages/reminders_page/RemindersPageState.dart';
 import 'package:dandylight/pages/responses_page/ResponsesPageState.dart';
-import 'package:dandylight/pages/job_types/SessionTypesPageState.dart';
 import 'package:dandylight/pages/review_poses_page/ReviewPosesPageState.dart';
 import 'package:dandylight/pages/select_a_photo_page/SelectAPhotoPageState.dart';
+import 'package:dandylight/pages/session_types/SessionTypesPageState.dart';
 import 'package:dandylight/pages/share_with_client_page/ShareWithClientPageState.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:dandylight/pages/upload_pose_page/UploadPosePageState.dart';
@@ -73,7 +73,7 @@ class AppState {
   final RemindersPageState? remindersPageState;
   final NewReminderPageState? newReminderPageState;
   final NewJobReminderPageState? newJobReminderPageState;
-  final SessionTypesPageState? jobTypesPageState;
+  final SessionTypesPageState? sessionTypesPageState;
   final NewSessionTypePageState? newSessionTypePageState;
   final PosesPageState? posesPageState;
   final NewPoseGroupPageState? newPoseGroupPageState;
@@ -122,7 +122,7 @@ class AppState {
     @required this.remindersPageState,
     @required this.newReminderPageState,
     @required this.newJobReminderPageState,
-    @required this.jobTypesPageState,
+    @required this.sessionTypesPageState,
     @required this.newSessionTypePageState,
     @required this.posesPageState,
     @required this.newPoseGroupPageState,
@@ -173,7 +173,7 @@ class AppState {
       remindersPageState: RemindersPageState.initial(),
       newReminderPageState: NewReminderPageState.initial(),
       newJobReminderPageState: NewJobReminderPageState.initial(),
-      jobTypesPageState: SessionTypesPageState.initial(),
+      sessionTypesPageState: SessionTypesPageState.initial(),
       newSessionTypePageState: NewSessionTypePageState.initial(),
       posesPageState: PosesPageState.initial(),
       newPoseGroupPageState: NewPoseGroupPageState.initial(),
@@ -273,7 +273,7 @@ class AppState {
       remindersPageState: remindersPageState ?? this.remindersPageState,
       newReminderPageState: newReminderPageState ?? this.newReminderPageState,
       newJobReminderPageState: newJobReminderPageState ?? this.newJobReminderPageState,
-      jobTypesPageState: jobStagesPageState ?? this.jobTypesPageState,
+      sessionTypesPageState: jobStagesPageState ?? this.sessionTypesPageState,
       newSessionTypePageState: newJobTypePageState ?? this.newSessionTypePageState,
       posesPageState: posesPageState ?? this.posesPageState,
       newPoseGroupPageState: newPoseGroupPageState ?? this.newPoseGroupPageState,
@@ -324,7 +324,7 @@ class AppState {
     remindersPageState.hashCode ^
     newReminderPageState.hashCode ^
     newJobReminderPageState.hashCode ^
-    jobTypesPageState.hashCode ^
+    sessionTypesPageState.hashCode ^
     newSessionTypePageState.hashCode ^
     posesPageState.hashCode ^
     newPoseGroupPageState.hashCode ^
@@ -375,7 +375,7 @@ class AppState {
               remindersPageState == other.remindersPageState &&
               newReminderPageState == other.newReminderPageState &&
               newJobReminderPageState == other.newJobReminderPageState &&
-              jobTypesPageState == other.jobTypesPageState &&
+              sessionTypesPageState == other.sessionTypesPageState &&
               newSessionTypePageState == other.newSessionTypePageState &&
               posesPageState == other.posesPageState &&
               newPoseGroupPageState == other.newPoseGroupPageState &&

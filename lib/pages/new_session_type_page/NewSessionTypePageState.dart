@@ -15,7 +15,6 @@ class NewSessionTypePageState {
   final int? id;
   final String? documentId;
   final bool? saveButtonEnabled;
-  final bool? shouldClear;
   final String? title;
   final String? newStageName;
   final bool? checkAllTypes;
@@ -27,12 +26,13 @@ class NewSessionTypePageState {
   final int? minutes;
   final int? hours;
   final bool? stagesComplete;
+  final bool? remindersComplete;
   final List<ReminderDandyLight>? selectedReminders;
   final List<ReminderDandyLight>? allDandyLightReminders;
   final List<JobStage>? selectedJobStages;
   final Function()? onSavePressed;
   final Function()? onCancelPressed;
-  final Function()? onDeleteJobTypeSelected;
+  final Function()? onDeleteSessionTypeSelected;
   final Function(String)? onTitleChanged;
   final Function(String)? onCustomStageNameChanged;
   final Function(int, bool)? onReminderSelected;
@@ -46,18 +46,18 @@ class NewSessionTypePageState {
   final Function(String)? onMinutesChanged;
   final Function(String)? onHoursChanged;
   final Function(bool)? onJobStagesComplete;
+  final Function(bool)? onRemindersComplete;
 
   NewSessionTypePageState({
     @required this.id,
     @required this.documentId,
     @required this.saveButtonEnabled,
-    @required this.shouldClear,
     @required this.title,
     @required this.selectedReminders,
     @required this.selectedJobStages,
     @required this.onSavePressed,
     @required this.onCancelPressed,
-    @required this.onDeleteJobTypeSelected,
+    @required this.onDeleteSessionTypeSelected,
     @required this.onTitleChanged,
     @required this.onReminderSelected,
     @required this.onJobStageDeleted,
@@ -82,13 +82,14 @@ class NewSessionTypePageState {
     @required this.onHoursChanged,
     @required this.stagesComplete,
     @required this.onJobStagesComplete,
+    @required this.remindersComplete,
+    @required this.onRemindersComplete,
 });
 
   NewSessionTypePageState copyWith({
     int? id,
     String? documentId,
     bool? saveButtonEnabled,
-    bool? shouldClear,
     String? title,
     String? newStageName,
     List<ReminderDandyLight>? selectedReminders,
@@ -101,9 +102,10 @@ class NewSessionTypePageState {
     int? minutes,
     int? hours,
     bool? stagesComplete,
+    bool? remindersComplete,
     Function()? onSavePressed,
     Function()? onCancelPressed,
-    Function()? onDeleteJobTypeSelected,
+    Function()? onDeleteSessionTypeSelected,
     Function(String)? onTitleChanged,
     Function(int, bool)? onReminderSelected,
     Function(int)? onJobStageDeleted,
@@ -119,16 +121,16 @@ class NewSessionTypePageState {
     Function(String)? onMinutesChanged,
     Function(String)? onHoursChanged,
     Function(bool)? onJobStagesComplete,
+    Function(bool)? onRemindersComplete,
   }){
     return NewSessionTypePageState(
       id: id?? this.id,
       documentId: documentId ?? this.documentId,
       saveButtonEnabled: saveButtonEnabled?? this.saveButtonEnabled,
-      shouldClear: shouldClear?? this.shouldClear,
       title: title ?? this.title,
       onSavePressed: onSavePressed?? this.onSavePressed,
       onCancelPressed: onCancelPressed?? this.onCancelPressed,
-      onDeleteJobTypeSelected: onDeleteJobTypeSelected ?? this.onDeleteJobTypeSelected,
+      onDeleteSessionTypeSelected: onDeleteSessionTypeSelected ?? this.onDeleteSessionTypeSelected,
       onTitleChanged: onTitleChanged ?? this.onTitleChanged,
       onReminderSelected: onReminderSelected ?? this.onReminderSelected,
       onJobStageDeleted: onJobStageDeleted ?? this.onJobStageDeleted,
@@ -155,6 +157,8 @@ class NewSessionTypePageState {
       onHoursChanged: onHoursChanged ?? this.onHoursChanged,
       stagesComplete: stagesComplete ?? this.stagesComplete,
       onJobStagesComplete: onJobStagesComplete ?? this.onJobStagesComplete,
+      remindersComplete: remindersComplete ?? this.remindersComplete,
+      onRemindersComplete: onRemindersComplete ?? this.onRemindersComplete,
     );
   }
 
@@ -162,11 +166,10 @@ class NewSessionTypePageState {
         id: null,
         documentId: '',
         saveButtonEnabled: false,
-        shouldClear: true,
         title: '',
         onSavePressed: null,
         onCancelPressed: null,
-        onDeleteJobTypeSelected: null,
+        onDeleteSessionTypeSelected: null,
         onTitleChanged: null,
         onReminderSelected: null,
         onJobStageDeleted: null,
@@ -193,13 +196,14 @@ class NewSessionTypePageState {
         onHoursChanged: null,
         stagesComplete: false,
         onJobStagesComplete: null,
+        remindersComplete: false,
+        onRemindersComplete: null,
       );
 
   factory NewSessionTypePageState.fromStore(Store<AppState> store) {
     return NewSessionTypePageState(
       id: store.state.newSessionTypePageState!.id,
       saveButtonEnabled: store.state.newSessionTypePageState!.saveButtonEnabled,
-      shouldClear: store.state.newSessionTypePageState!.shouldClear,
       title: store.state.newSessionTypePageState!.title,
       documentId: store.state.newSessionTypePageState!.documentId,
       selectedReminders: store.state.newSessionTypePageState!.selectedReminders,
@@ -215,9 +219,10 @@ class NewSessionTypePageState {
       minutes: store.state.newSessionTypePageState!.minutes,
       hours: store.state.newSessionTypePageState!.hours,
       stagesComplete: store.state.newSessionTypePageState!.stagesComplete,
+      remindersComplete: store.state.newSessionTypePageState!.remindersComplete,
       onSavePressed: () => store.dispatch(SaveNewSessionTypeAction(store.state.newSessionTypePageState)),
       onCancelPressed: () => store.dispatch(ClearNewSessionTypeStateAction(store.state.newSessionTypePageState)),
-      onDeleteJobTypeSelected: () => store.dispatch(DeleteSessionTypeAction(store.state.newSessionTypePageState)),
+      onDeleteSessionTypeSelected: () => store.dispatch(DeleteSessionTypeAction(store.state.newSessionTypePageState)),
       onTitleChanged: (newTitle) => store.dispatch(UpdateJobSessionTypeNameAction(store.state.newSessionTypePageState, newTitle)),
       onReminderSelected: (index, isChecked) => store.dispatch(UpdateSelectedReminderListAction(store.state.newSessionTypePageState, index, isChecked)),
       onJobStageDeleted: (index) => store.dispatch(DeleteJobStageAction(store.state.newSessionTypePageState, index)),
@@ -231,6 +236,7 @@ class NewSessionTypePageState {
       onMinutesChanged: (minutes) => store.dispatch(UpdateMinutesAction(store.state.newSessionTypePageState, minutes)),
       onHoursChanged: (hours) => store.dispatch(UpdateHoursAction(store.state.newSessionTypePageState, hours)),
       onJobStagesComplete: (complete) => store.dispatch(SetStageSelectionCompleteAction(store.state.newSessionTypePageState, complete)),
+      onRemindersComplete: (complete) => store.dispatch(SetRemindersSelectionCompleteAction(store.state.newSessionTypePageState, complete)),
     );
   }
 
@@ -240,12 +246,12 @@ class NewSessionTypePageState {
       documentId.hashCode ^
       saveButtonEnabled.hashCode ^
       title.hashCode ^
-      shouldClear.hashCode ^
       onTotalCostChanged.hashCode ^
       onDepositChanged.hashCode ^
       onTaxPercentChanged.hashCode ^
       onSavePressed.hashCode ^
-      onDeleteJobTypeSelected.hashCode ^
+      remindersComplete.hashCode ^
+      onDeleteSessionTypeSelected.hashCode ^
       onTitleChanged.hashCode ^
       stagesComplete.hashCode ^
       onReminderSelected.hashCode ^
@@ -269,6 +275,7 @@ class NewSessionTypePageState {
       hours.hashCode ^
       onMinutesChanged.hashCode ^
       onHoursChanged.hashCode ^
+      onRemindersComplete.hashCode ^
       onCancelPressed.hashCode;
 
   @override
@@ -281,14 +288,14 @@ class NewSessionTypePageState {
           onDepositChanged == other.onDepositChanged &&
           onTaxPercentChanged == other.onTaxPercentChanged &&
           saveButtonEnabled == other.saveButtonEnabled &&
-          shouldClear == other.shouldClear &&
           onJobStagesReordered == other.onJobStagesReordered &&
           title == other.title &&
           newStageName == other.newStageName &&
           onSavePressed == other.onSavePressed &&
           saveNewStage == other.saveNewStage &&
-          onDeleteJobTypeSelected == other.onDeleteJobTypeSelected &&
+          onDeleteSessionTypeSelected == other.onDeleteSessionTypeSelected &&
           onTitleChanged == other.onTitleChanged &&
+          remindersComplete == other.remindersComplete &&
           onJobStagesComplete == other.onJobStagesComplete &&
           onCustomStageNameChanged == other.onCustomStageNameChanged &&
           onReminderSelected == other.onReminderSelected &&
@@ -308,5 +315,6 @@ class NewSessionTypePageState {
           hours == other.hours &&
           onMinutesChanged == other.onMinutesChanged &&
           onHoursChanged == other.onHoursChanged &&
+          onRemindersComplete == other.onRemindersComplete &&
           onCancelPressed == other.onCancelPressed;
 }

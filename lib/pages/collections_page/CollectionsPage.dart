@@ -12,9 +12,9 @@ import 'package:flutter_redux/flutter_redux.dart';
 import '../../utils/DeviceType.dart';
 import '../../widgets/TextDandyLight.dart';
 import '../contracts_page/ContractsPage.dart';
-import '../job_types/SessionTypesPage.dart';
 import '../poses_page/PosesPage.dart';
 import '../responses_page/ResponsesPage.dart';
+import '../session_types/SessionTypesPage.dart';
 
 class CollectionsPage extends StatefulWidget {
   const CollectionsPage({Key? key}) : super(key: key);
@@ -59,7 +59,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                     child: GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 10,
+                        itemCount: 9,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: DeviceType.getDeviceType() == Type.Tablet ? 4 : 2,
                             childAspectRatio: (DeviceType.getDeviceType() == Type.Tablet ? 150 : 112) / (DeviceType.getDeviceType() == Type.Tablet ? 150 : 124),
@@ -79,7 +79,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                                     color: getCircleColor(index),
                                     shape: BoxShape.circle,
                                   ),
-                                  child: Image.asset(collectionIcons.elementAt(index), color: Color(index > 7 ? ColorConstants.getBlueLight() : ColorConstants.getPrimaryWhite()),),
+                                  child: Image.asset(collectionIcons.elementAt(index), color: Color(index > 6 ? ColorConstants.getBlueLight() : ColorConstants.getPrimaryWhite()),),
                                 ),
                                 Center(
                                   child: Container(
@@ -88,7 +88,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                                       type: TextDandyLight.MEDIUM_TEXT,
                                       text: ImageUtil.getCollectionIconName(collectionIcons.elementAt(index)),
                                       textAlign: TextAlign.center,
-                                      color: Color(index > 7 ? ColorConstants.getBlueLight() : ColorConstants.getPrimaryBlack()),
+                                      color: Color(index > 6 ? ColorConstants.getBlueLight() : ColorConstants.getPrimaryBlack()),
                                     ),
                                   ),
                                 ),

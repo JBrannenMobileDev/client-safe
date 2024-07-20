@@ -105,18 +105,18 @@ class _GettingStartedBottomSheetState extends State<GettingStartedBottomSheet> w
                         ),
                         buildProgressCategory(
                             'Step 2 - Create your first job',
-                            (pageState.profile?.progress.createJobType ?? false) &&
+                            (pageState.profile?.progress.createSessionType ?? false) &&
                             (pageState.profile?.progress.addClient ?? false) &&
                             (pageState.profile?.progress.createJob ?? false)
                         ),
                         GestureDetector(
                           onTap: () {
-                            UserOptionsUtil.showNewJobTypePage(context, null);
+                            NavigationUtil.showNewSessionTypePage(context, null);
                           },
                           child: buildProgressItem(
                               'Create a session type',
                               'A session type will be used to setup the booking page and they help simplify creating new jobs.',
-                              pageState.profile?.progress.createJobType ?? false
+                              pageState.profile?.progress.createSessionType ?? false
                           ),
                         ),
                         GestureDetector(

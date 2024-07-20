@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,6 +21,7 @@ class JobStageSelectionForm extends StatefulWidget {
 
 class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with AutomaticKeepAliveClientMixin{
   List<JobStage> stages = [];
+  double keyMultiplier = 1;
 
   void reorderData(int oldIndex, int newIndex){
     setState(() {
@@ -36,6 +39,7 @@ class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with Aut
 
     return StoreConnector<AppState, NewSessionTypePageState>(
       onInit: (store) {
+        keyMultiplier = Random().nextDouble() * 13;
         stages = store.state.newSessionTypePageState!.selectedJobStages!;
       },
       onDidChange: (previous, current) {
@@ -88,7 +92,7 @@ class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with Aut
                     itemCount: pageState.selectedJobStages!.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Dismissible(
-                        key: Key(stages.elementAt(index).id.toString()),
+                        key: Key((index * keyMultiplier).toString()),
                         direction: DismissDirection.endToStart,
                         background: Container(
                           color: Color(ColorConstants.getPeachDark()),

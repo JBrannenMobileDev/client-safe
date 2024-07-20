@@ -633,8 +633,8 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                                 shape: BoxShape.circle,
                                                 color: Color(ColorConstants.getPrimaryWhite()),
                                               ),
-                                              width: 48,
-                                              height: 48,
+                                              width: 42,
+                                              height: 42,
                                             ),
                                             pageState.profile!.logoSelected! ? Container(
                                                 child: pageState.profile!.logoUrl != null && pageState.profile!.logoUrl!.isNotEmpty && pageState.profile!.hasSetupBrand! ? ClipRRect(
@@ -656,8 +656,8 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                                   children: [
                                                     Container(
                                                       alignment: Alignment.center,
-                                                      height: 48,
-                                                      width: 48,
+                                                      height: 42,
+                                                      width: 42,
                                                       decoration: BoxDecoration(
                                                           shape: BoxShape.circle,
                                                           color: Color(ColorConstants.getPeachDark())),
@@ -675,8 +675,8 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                                 children: [
                                                   Container(
                                                     alignment: Alignment.center,
-                                                    height: 48,
-                                                    width: 48,
+                                                    height: 42,
+                                                    width: 42,
                                                     decoration: BoxDecoration(
                                                         shape: BoxShape.circle,
                                                         color: pageState.profile!.logoSelected!
@@ -695,9 +695,9 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                           ],
                                         ),
                                         Container(
-                                          margin: const EdgeInsets.only(left: 8),
+                                          margin: const EdgeInsets.only(left: 8, bottom: 2),
                                           child: TextDandyLight(
-                                            type: TextDandyLight.SMALL_TEXT,
+                                            type: TextDandyLight.MEDIUM_TEXT,
                                             text: pageState.profile?.businessName ?? '',
                                             fontFamily: pageState.profile?.selectedFontTheme?.mainFont!,
                                             color: Color(ColorConstants.getPrimaryWhite()),

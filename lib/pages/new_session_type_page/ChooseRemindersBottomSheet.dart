@@ -90,6 +90,7 @@ class _ChooseRemindersBottomSheetState extends State<ChooseRemindersBottomSheet>
                   ),
                   GestureDetector(
                     onTap: () {
+                      pageState.onRemindersComplete!(true);
                       Navigator.of(context).pop();
                     },
                     child: Container(
