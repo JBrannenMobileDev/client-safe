@@ -15,6 +15,7 @@ import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 
 import '../../models/Profile.dart';
+import '../../models/SessionType.dart';
 import '../sunset_weather_page/SunsetWeatherPageActions.dart' as sunsetPageActions;
 
 @immutable
@@ -31,7 +32,7 @@ class NewJobPageState {
   final bool? isFinishedFetchingClients;
   final bool? isSelectedClientNew;
   final bool? isSelectedPriceProfileNew;
-  final bool? isSelectedJobTypeNew;
+  final bool? isSelectedSessionTypeNew;
   final String? errorState;
   final Client? selectedClient;
   final String? clientFirstName;
@@ -48,7 +49,7 @@ class NewJobPageState {
   final DateTime? sunsetDateTime;
   final DateTime? initialTimeSelectorTime;
   final JobStage? currentJobStage;
-  final JobType? selectedJobType;
+  final SessionType? selectedSessionType;
   final List<Client>? allClients;
   final List<Client>? filteredClients;
   final List<PriceProfile>? pricingProfiles;
@@ -57,7 +58,7 @@ class NewJobPageState {
   final List<EventDandyLight>? eventList;
   final List<Event>? deviceEvents;
   final List<Job>? jobs;
-  final List<JobType>? jobTypes;
+  final List<SessionType>? sessionTypes;
   final Function()? onSavePressed;
   final Function()? onCancelPressed;
   final Function()? onNextPressed;
@@ -68,7 +69,7 @@ class NewJobPageState {
   final Function(PriceProfile)? onPriceProfileSelected;
   final Function(LocationDandy)? onLocationSelected;
   final Function(DateTime)? onDateSelected;
-  final Function(JobType)? onJobTypeSelected;
+  final Function(SessionType)? onSessionTypeSelected;
   final Function(DateTime)? onStartTimeSelected;
   final Function(DateTime)? onEndTimeSelected;
   final Function(DateTime)? onMonthChanged;
@@ -96,7 +97,7 @@ class NewJobPageState {
     @required this.selectedDate,
     @required this.selectedStartTime,
     @required this.sunsetDateTime,
-    @required this.selectedJobType,
+    @required this.selectedSessionType,
     @required this.onSavePressed,
     @required this.onCancelPressed,
     @required this.onNextPressed,
@@ -113,10 +114,10 @@ class NewJobPageState {
     @required this.jobs,
     @required this.onLocationSelected,
     @required this.onDateSelected,
-    @required this.onJobTypeSelected,
+    @required this.onSessionTypeSelected,
     @required this.currentJobStage,
     @required this.onStartTimeSelected,
-    @required this.jobTypes,
+    @required this.sessionTypes,
     @required this.onMonthChanged,
     @required this.deviceEvents,
     @required this.clientFirstName,
@@ -135,7 +136,7 @@ class NewJobPageState {
     @required this.isSelectedClientNew,
     @required this.onCalendarEnabled,
     @required this.isSelectedPriceProfileNew,
-    @required this.isSelectedJobTypeNew,
+    @required this.isSelectedSessionTypeNew,
     @required this.profile,
     @required this.onSkipSelected,
   });
@@ -151,7 +152,7 @@ class NewJobPageState {
     bool? isFinishedFetchingClients,
     bool? isSelectedClientNew,
     bool? isSelectedPriceProfileNew,
-    bool? isSelectedJobTypeNew,
+    bool? isSelectedSessionTypeNew,
     String? errorState,
     Client? selectedClient,
     String? clientFirstName,
@@ -169,12 +170,12 @@ class NewJobPageState {
     DateTime? selectedEndTime,
     DateTime? sunsetDateTime,
     DateTime? initialTimeSelectorTime,
-    JobType? jobType,
-    JobType? selectedJobType,
+    SessionType? sessionType,
+    SessionType? selectedSessionType,
     List<EventDandyLight>? eventList,
     List<Event>? deviceEvents,
     List<Job>? jobs,
-    List<JobType>? jobTypes,
+    List<SessionType>? sessionTypes,
     Function()? onSavePressed,
     Function()? onCancelPressed,
     Function()? onNextPressed,
@@ -184,7 +185,7 @@ class NewJobPageState {
     Function(PriceProfile)? onPriceProfileSelected,
     Function(LocationDandy)? onLocationSelected,
     Function(DateTime)? onDateSelected,
-    Function(JobType)? onJobTypeSelected,
+    Function(SessionType)? onSessionTypeSelected,
     Function(DateTime)? onStartTimeSelected,
     Function(DateTime)? onMonthChanged,
     Function(String)? onClientFirstNameTextChanged,
@@ -220,7 +221,7 @@ class NewJobPageState {
       selectedDate: selectedDate?? this.selectedDate,
       selectedStartTime: selectedStartTime?? this.selectedStartTime,
       sunsetDateTime: sunsetDateTime?? this.sunsetDateTime,
-      selectedJobType: selectedJobType?? this.selectedJobType,
+      selectedSessionType: selectedSessionType?? this.selectedSessionType,
       currentJobStage: currentJobStage?? this.currentJobStage,
       eventList: eventList?? this.eventList,
       onSavePressed: onSavePressed?? this.onSavePressed,
@@ -232,12 +233,12 @@ class NewJobPageState {
       onPriceProfileSelected: onPriceProfileSelected?? this.onPriceProfileSelected,
       onLocationSelected: onLocationSelected?? this.onLocationSelected,
       onDateSelected: onDateSelected?? this.onDateSelected,
-      onJobTypeSelected: onJobTypeSelected?? this.onJobTypeSelected,
+      onSessionTypeSelected: onSessionTypeSelected?? this.onSessionTypeSelected,
       onStartTimeSelected: onStartTimeSelected?? this.onStartTimeSelected,
       jobs: jobs ?? this.jobs,
       comingFromClientDetails: comingFromClientDetails ?? this.comingFromClientDetails,
       documentId: documentId ?? this.documentId,
-      jobTypes: jobTypes ?? this.jobTypes,
+      sessionTypes: sessionTypes ?? this.sessionTypes,
       onMonthChanged: onMonthChanged ?? this.onMonthChanged,
       deviceEvents: deviceEvents ?? this.deviceEvents,
       imageFiles: imageFiles ?? this.imageFiles,
@@ -254,7 +255,7 @@ class NewJobPageState {
       isSelectedClientNew: isSelectedClientNew ?? this.isSelectedClientNew,
       onCalendarEnabled: onCalendarEnabled ?? this.onCalendarEnabled,
       isSelectedPriceProfileNew: isSelectedPriceProfileNew ?? this.isSelectedPriceProfileNew,
-      isSelectedJobTypeNew: isSelectedJobTypeNew ?? this.isSelectedJobTypeNew,
+      isSelectedSessionTypeNew: isSelectedSessionTypeNew ?? this.isSelectedSessionTypeNew,
       profile: profile ?? this.profile,
       onSkipSelected: onSkipSelected ?? this.onSkipSelected,
     );
@@ -287,11 +288,11 @@ class NewJobPageState {
         selectedStartTime: null,
         selectedEndTime: null,
         sunsetDateTime: null,
-        selectedJobType: null,
+        selectedSessionType: null,
         profile: null,
         eventList: [],
         jobs: [],
-        jobTypes: [],
+        sessionTypes: [],
         onSavePressed: null,
         onCancelPressed: null,
         onNextPressed: null,
@@ -301,7 +302,7 @@ class NewJobPageState {
         onPriceProfileSelected: null,
         onLocationSelected: null,
         onDateSelected: null,
-        onJobTypeSelected: null,
+        onSessionTypeSelected: null,
         onStartTimeSelected: null,
         comingFromClientDetails: false,
         onMonthChanged: null,
@@ -319,7 +320,7 @@ class NewJobPageState {
         isSelectedClientNew: false,
         isSelectedPriceProfileNew: false,
         onCalendarEnabled: null,
-        isSelectedJobTypeNew: false,
+        isSelectedSessionTypeNew: false,
         onSkipSelected: null,
       );
   }
@@ -346,12 +347,12 @@ class NewJobPageState {
       selectedDate: store.state.newJobPageState!.selectedDate,
       selectedStartTime: store.state.newJobPageState!.selectedStartTime,
       sunsetDateTime: store.state.newJobPageState!.sunsetDateTime,
-      selectedJobType: store.state.newJobPageState!.selectedJobType,
+      selectedSessionType: store.state.newJobPageState!.selectedSessionType,
       currentJobStage: store.state.newJobPageState!.currentJobStage,
       eventList: store.state.newJobPageState!.eventList,
       jobs: store.state.newJobPageState!.jobs,
       comingFromClientDetails: store.state.newJobPageState!.comingFromClientDetails,
-      jobTypes: store.state.newJobPageState!.jobTypes,
+      sessionTypes: store.state.newJobPageState!.sessionTypes,
       clientFirstName: store.state.newJobPageState!.clientFirstName,
       imageFiles: store.state.newJobPageState!.imageFiles,
       oneTimePrice: store.state.newJobPageState!.oneTimePrice,
@@ -362,7 +363,7 @@ class NewJobPageState {
       lon: store.state.newJobPageState!.lon,
       profile: store.state.newJobPageState!.profile,
       isSelectedClientNew: store.state.newJobPageState!.isSelectedClientNew,
-      isSelectedJobTypeNew: store.state.newJobPageState!.isSelectedJobTypeNew,
+      isSelectedSessionTypeNew: store.state.newJobPageState!.isSelectedSessionTypeNew,
       isSelectedPriceProfileNew: store.state.newJobPageState!.isSelectedPriceProfileNew,
       onSavePressed: () => store.dispatch(SaveNewJobAction(store.state.newJobPageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newJobPageState)),
@@ -373,7 +374,7 @@ class NewJobPageState {
       onPriceProfileSelected: (priceProfile) => store.dispatch(SetSelectedPriceProfile(store.state.newJobPageState, priceProfile)),
       onLocationSelected: (location) => store.dispatch(SetSelectedLocation(store.state.newJobPageState, location)),
       onDateSelected: (selectedDate) => store.dispatch(SetSelectedDateAction(store.state.newJobPageState, selectedDate)),
-      onJobTypeSelected: (jobType) => store.dispatch(SetSelectedJobTypeAction(store.state.newJobPageState, jobType)),
+      onSessionTypeSelected: (sessionType) => store.dispatch(SetSelectedSessionTypeAction(store.state.newJobPageState, sessionType)),
       onStartTimeSelected: (time) => store.dispatch(SetSelectedStartTimeAction(store.state.newJobPageState, time)),
       onEndTimeSelected: (time) => store.dispatch(SetSelectedEndTimeAction(store.state.newJobPageState, time)),
       onMonthChanged: (month) => store.dispatch(FetchNewJobDeviceEvents(store.state.newJobPageState, month)),
@@ -402,7 +403,7 @@ class NewJobPageState {
       allClients.hashCode ^
       deviceEvents.hashCode ^
       profile.hashCode ^
-      isSelectedJobTypeNew.hashCode ^
+      isSelectedSessionTypeNew.hashCode ^
       selectedPriceProfile.hashCode ^
       selectedLocation.hashCode ^
       filteredClients.hashCode ^
@@ -412,7 +413,7 @@ class NewJobPageState {
       selectedDate.hashCode ^
       selectedStartTime.hashCode ^
       sunsetDateTime.hashCode ^
-      selectedJobType.hashCode ^
+      selectedSessionType.hashCode ^
       currentJobStage.hashCode ^
       onSavePressed.hashCode ^
       onCancelPressed.hashCode ^
@@ -425,7 +426,7 @@ class NewJobPageState {
       eventList.hashCode ^
       jobs.hashCode ^
       onStartTimeSelected.hashCode ^
-      jobTypes.hashCode ^
+      sessionTypes.hashCode ^
       clientFirstName.hashCode ^
       onClientFirstNameTextChanged.hashCode ^
       onSunsetWeatherSelected.hashCode ^
@@ -463,14 +464,14 @@ class NewJobPageState {
           selectedPriceProfile == other.selectedPriceProfile &&
           selectedLocation == other.selectedLocation &&
           pricingProfiles == other.pricingProfiles &&
-          isSelectedJobTypeNew == other.isSelectedJobTypeNew &&
+          isSelectedSessionTypeNew == other.isSelectedSessionTypeNew &&
           locations == other.locations &&
           selectedDate == other.selectedDate &&
           isSelectedPriceProfileNew == other.isSelectedPriceProfileNew &&
           selectedStartTime == other.selectedStartTime &&
           sunsetDateTime == other.sunsetDateTime &&
           deviceEvents == other.deviceEvents &&
-          selectedJobType == other.selectedJobType &&
+          selectedSessionType == other.selectedSessionType &&
           onSkipSelected == other.onSkipSelected &&
           currentJobStage == other.currentJobStage &&
           onSavePressed == other.onSavePressed &&
@@ -484,7 +485,7 @@ class NewJobPageState {
           eventList == other.eventList &&
           jobs == other.jobs &&
           onStartTimeSelected == other.onStartTimeSelected &&
-          jobTypes == other.jobTypes &&
+          sessionTypes == other.sessionTypes &&
           onSunsetWeatherSelected == other.onSunsetWeatherSelected &&
           initialTimeSelectorTime == other.initialTimeSelectorTime &&
           onOneTimePriceChanged == other.onOneTimePriceChanged &&

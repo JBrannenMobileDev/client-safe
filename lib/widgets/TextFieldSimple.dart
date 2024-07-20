@@ -14,7 +14,7 @@ class TextFieldSimple extends StatelessWidget {
   final String? labelText;
   final TextInputType? inputType;
   final double? height;
-  final String? inputTypeError;
+  final bool? hasError;
   final Function(String)? onTextInputChanged;
   final Function()? onEditingCompleted;
   final TextInputAction? keyboardAction;
@@ -30,7 +30,7 @@ class TextFieldSimple extends StatelessWidget {
       this.inputType,
       this.height,
       this.onTextInputChanged,
-      this.inputTypeError,
+      this.hasError,
       this.keyboardAction,
       this.focusNode,
       this.onFocusAction,
@@ -44,8 +44,8 @@ class TextFieldSimple extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Container(
-          margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
-          height: 56,
+          margin: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+          height: 48,
           child: TextFormField(
             cursorColor: Color(ColorConstants.getPrimaryBlack()),
             enabled: enabled,
@@ -63,41 +63,25 @@ class TextFieldSimple extends StatelessWidget {
             },
             decoration: InputDecoration(
               alignLabelWithHint: true,
-              labelText: labelText,
-              labelStyle: TextStyle(
-                fontFamily: TextDandyLight.getFontFamily(),
-                fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
-                fontWeight: TextDandyLight.getFontWeight(),
-                color: Color(ColorConstants.getPrimaryGreyDark()), //<-- SEE HERE
-              ),
               hintText: hintText,
-              fillColor: Color(ColorConstants.getPrimaryWhite()),
+              filled: true,
+              contentPadding: const EdgeInsets.only(
+                  left: 16.0,
+                  bottom: 0.0,
+                  top: 24.0),
+              fillColor: Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(28.0),
+                borderRadius: BorderRadius.circular(8.0),
                 borderSide: BorderSide(
-                  color: Color(ColorConstants.getBlueDark()),
+                  color: Color(ColorConstants.getPrimaryGreyDark()),
                   width: 1.0,
                 ),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(28.0),
+                borderRadius: BorderRadius.circular(8.0),
                 borderSide: BorderSide(
-                  color: Color(ColorConstants.getPrimaryGreyDark()),
-                  width: 1.0,
-                ),
-              ),
-              disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(28.0),
-                borderSide: BorderSide(
-                  color: Color(ColorConstants.getPrimaryGreyDark()),
-                  width: 1.0,
-                ),
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(28.0),
-                borderSide: BorderSide(
-                  color: Color(ColorConstants.getPrimaryGreyDark()),
-                  width: 1.0,
+                  color: (hasError ?? false) ? const Color(ColorConstants.error_red) : Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
+                  width: (hasError ?? false) ? 2.0 : 0,
                 ),
               ),
             ),
@@ -108,9 +92,9 @@ class TextFieldSimple extends StatelessWidget {
             onTapOutside: (event) {
               FocusScope.of(context).unfocus();
             },
-            style: new TextStyle(
+            style: TextStyle(
                 fontFamily: TextDandyLight.getFontFamily(),
-                fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+                fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
                 fontWeight: TextDandyLight.getFontWeight(),
                 color: Color(ColorConstants.getPrimaryBlack())),
           )

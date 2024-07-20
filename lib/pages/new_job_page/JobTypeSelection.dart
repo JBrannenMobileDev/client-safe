@@ -43,12 +43,12 @@ class _JobTypeSelection extends State<JobTypeSelection>
                     color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
-                pageState.jobTypes!.length > 0 ? Container(
+                pageState.sessionTypes!.length > 0 ? Container(
                   height: 411.0,
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: AlwaysScrollableScrollPhysics(),
-                    itemCount: pageState.jobTypes!.length,
+                    itemCount: pageState.sessionTypes!.length,
                     itemBuilder: _buildItem,
                   ),
                 ) : Container(
@@ -76,13 +76,13 @@ class _JobTypeSelection extends State<JobTypeSelection>
               shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(25.0),
               ),
-              color: pageState.selectedJobType != null &&
-                  pageState.selectedJobType!.documentId == pageState.jobTypes!.elementAt(index).documentId ? Color(
+              color: pageState.selectedSessionType != null &&
+                  pageState.selectedSessionType!.documentId == pageState.sessionTypes!.elementAt(index).documentId ? Color(
                   ColorConstants.getPrimaryBackgroundGrey()) : Colors.transparent,
             ),
             onPressed: () {
-              pageState.onJobTypeSelected!(
-                  pageState.jobTypes!.elementAt(index));
+              pageState.onSessionTypeSelected!(
+                  pageState.sessionTypes!.elementAt(index));
             },
             child: Row(
               children: <Widget>[
@@ -103,7 +103,7 @@ class _JobTypeSelection extends State<JobTypeSelection>
                         children: <Widget>[
                           TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
-                            text: pageState.jobTypes!.elementAt(index).title,
+                            text: pageState.sessionTypes!.elementAt(index).title,
                             textAlign: TextAlign.start,
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),

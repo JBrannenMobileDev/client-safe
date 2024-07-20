@@ -142,7 +142,7 @@ DashboardPageState _setJobs(DashboardPageState previousState, SetJobToStateActio
 
   List<JobStage> allStagesFromAllJobs = [];
   for(Job job in activeJobs) {
-    allStagesFromAllJobs.addAll(job.type!.stages!);
+    allStagesFromAllJobs.addAll(job.sessionType!.stages!);
   }
 
   DateTime now = DateTime.now();
@@ -486,7 +486,7 @@ List<PieChartSectionData> buildJobTypeData(List<Job> jobsWithPaymentReceived, Li
   List<PieChartSectionData> result = [];
 
   for(Job job in jobsThisYearPaid) {
-    groupedList.putIfAbsent(job.type!.title!, () => <Job>[]).add(job);
+    groupedList.putIfAbsent(job.sessionType!.title!, () => <Job>[]).add(job);
   }
 
   int index = 0;
@@ -525,7 +525,7 @@ List<JobTypePieChartRowData> buildJobTypeRowData(List<Job> jobsWithPaymentReceiv
   List<JobTypePieChartRowData> jobTypePieChartRowItems = [];
 
   for(Job job in jobsThisYearPaid) {
-    groupedList.putIfAbsent(job.type!.title!, () => <Job>[]).add(job);
+    groupedList.putIfAbsent(job.sessionType!.title!, () => <Job>[]).add(job);
   }
 
   int index = 0;
@@ -536,7 +536,7 @@ List<JobTypePieChartRowData> buildJobTypeRowData(List<Job> jobsWithPaymentReceiv
       int totalIncome = 0;
 
       for(Job groupJob in jobsForType) {
-        totalIncome = totalIncome + (groupJob.invoice != null ? groupJob.invoice!.total!.toInt() : groupJob.priceProfile != null ? groupJob.getJobCost().toInt() : 0);
+        totalIncome = totalIncome + (groupJob.invoice != null ? groupJob.invoice!.total!.toInt() : groupJob.sessionType != null ? groupJob.getJobCost().toInt() : 0);
       }
 
       jobTypePieChartRowItems.add(JobTypePieChartRowData(

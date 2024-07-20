@@ -2,8 +2,7 @@ class Progress {
   static const String PREVIEW_CLIENT_PORTAL = 'Preview Client Portal';
   static const String PREVIEW_SAMPLE_JOB = "Preview Sample Job";
   static const String SETUP_BRAND = 'Setup Brand';
-  static const String CREATE_JOB_TYPE = 'Create Job Type';
-  static const String CREATE_PRICE_PACKAGE = 'Create Price Package';
+  static const String CREATE_JOB_TYPE = 'Create Sessions Type';
   static const String ADD_CLIENT = 'Add Client';
   static const String CREATE_JOB = 'Create Job';
   static const String CREATE_CONTRACT = 'Create Contract';
@@ -22,7 +21,6 @@ class Progress {
   bool previewSampleJob;
   bool setupBrand;
   bool createJobType;
-  bool createPricePackage;
   bool addClient;
   bool createJob;
   bool createContract;
@@ -42,7 +40,6 @@ class Progress {
     this.previewSampleJob = false,
     this.setupBrand = false,
     this.createJobType = false,
-    this.createPricePackage = false,
     this.addClient = false,
     this.createJob = false,
     this.createContract = false,
@@ -69,7 +66,6 @@ class Progress {
     if(previewSampleJob) progress = progress + 5.88;
     if(setupBrand) progress = progress + 5.88;
     if(createJobType) progress = progress + 5.88;
-    if(createPricePackage) progress = progress + 5.88;
     if(addClient) progress = progress + 5.88;
     if(createJob) progress = progress + 5.88;
     if(createContract) progress = progress + 5.88;
@@ -100,7 +96,6 @@ class Progress {
       'previewSampleJob' : previewSampleJob,
       'setupBrand' : setupBrand,
       'createJobType' : createJobType,
-      'createPricePackage' : createPricePackage,
       'addClient' : addClient,
       'createJob' : createJob,
       'createContract' : createContract,
@@ -124,7 +119,6 @@ class Progress {
       previewSampleJob: map['previewSampleJob'] ?? false,
       setupBrand: map['setupBrand'] ?? false,
       createJobType: map['createJobType'] ?? false,
-      createPricePackage: map['createPricePackage'] ?? false,
       addClient: map['addClient'] ?? false,
       createJob: map['createJob'] ?? false,
       createContract: map['createContract'] ?? false,

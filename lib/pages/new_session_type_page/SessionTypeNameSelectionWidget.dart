@@ -1,13 +1,8 @@
-import 'package:dandylight/models/JobType.dart';
 import 'package:dandylight/widgets/TextFieldSimple.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../AppState.dart';
-import '../../models/SessionType.dart';
-import '../../utils/ColorConstants.dart';
-import '../../widgets/TextDandyLight.dart';
-import '../new_pricing_profile_page/DandyLightTextField.dart';
 import 'NewSessionTypePageState.dart';
 
 class SessionTypeNameSelectionWidget extends StatefulWidget{

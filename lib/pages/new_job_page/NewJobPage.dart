@@ -24,7 +24,6 @@ import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../utils/permissions/UserPermissionsUtil.dart';
 import '../../widgets/TextDandyLight.dart';
-import 'PricingProfileSelectionForm.dart';
 
 class NewJobPage extends StatefulWidget {
   final bool? comingFromOnBoarding;
@@ -39,7 +38,7 @@ class NewJobPage extends StatefulWidget {
 }
 
 class _NewJobPageState extends State<NewJobPage>{
-  final int pageCount = 5;
+  final int pageCount = 4;
   final bool? comingFromOnBoarding;
   final int? initialIndex;
 
@@ -94,7 +93,7 @@ class _NewJobPageState extends State<NewJobPage>{
             controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 150), curve: Curves.ease);
           });
         }
-        if(!previous.isSelectedJobTypeNew! && current.isSelectedJobTypeNew!) {
+        if(!previous.isSelectedSessionTypeNew! && current.isSelectedSessionTypeNew!) {
           setState(() {
             currentPageIndex = 2;
             controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 150), curve: Curves.ease);
@@ -194,9 +193,7 @@ class _NewJobPageState extends State<NewJobPage>{
                             ) : (pageState.pageViewIndex == 1 || pageState.pageViewIndex == 2 || pageState.pageViewIndex == 3) ? GestureDetector(
                               onTap: () async {
                                 if(pageState.pageViewIndex == 1) UserOptionsUtil.showNewJobTypePage(context, null);
-                                if(pageState.pageViewIndex == 2) UserOptionsUtil.showNewPriceProfileDialog(context);
-
-                                if(pageState.pageViewIndex == 3) {
+                                if(pageState.pageViewIndex == 2) {
                                   bool isGranted = (await UserPermissionsUtil.showPermissionRequest(permission: Permission.locationWhenInUse, context: context));
                                   if(isGranted) NavigationUtil.onSelectMapLocation(context, null, pageState.lat!, pageState.lon!, pageState.onLocationSearchResultSelected);
                                 }
@@ -226,7 +223,6 @@ class _NewJobPageState extends State<NewJobPage>{
                         children: <Widget>[
                           ClientSelectionForm(),
                           JobTypeSelection(),
-                          PricingProfileSelectionForm(),
                           LocationSelectionForm(),
                           DateForm(),
                           TimeSelectionForm(),
@@ -297,7 +293,7 @@ class _NewJobPageState extends State<NewJobPage>{
           canProgress = pageState.selectedClient != null;
           break;
         case 1:
-          canProgress = pageState.selectedJobType != null;
+          canProgress = pageState.selectedSessionType != null;
           break;
         case 2:
           canProgress = true;

@@ -95,6 +95,7 @@ class Profile{
   DateTime? responsesLastChangeDate;
   DateTime? discountCodesLastChangedTime;
   DateTime? questionnairesLastChangedTime;
+  DateTime? sessionTypesLastChangedTime;
 
   Profile({
     this.id,
@@ -187,6 +188,7 @@ class Profile{
     this.requestReviewDate,
     this.updateLastSeenDate,
     this.questionnairesLastChangedTime,
+    this.sessionTypesLastChangedTime,
     required this.progress,
   });
 
@@ -281,6 +283,7 @@ class Profile{
     DateTime? poseLibraryGroupLastChangeDate,
     DateTime? discountCodesLastChangedTime,
     DateTime? questionnairesLastChangedTime,
+    DateTime? sessionTypesLastChangedTime,
     Progress? progress,
   }){
     return Profile(
@@ -374,6 +377,7 @@ class Profile{
       requestReviewDate: requestReviewDate ?? this.requestReviewDate,
       updateLastSeenDate: updateLastSeenDate ?? this.updateLastSeenDate,
       questionnairesLastChangedTime: questionnairesLastChangedTime ?? this.questionnairesLastChangedTime,
+      sessionTypesLastChangedTime: sessionTypesLastChangedTime ?? this.sessionTypesLastChangedTime,
       progress: progress ?? this.progress,
     );
   }
@@ -458,6 +462,7 @@ class Profile{
       'requestPMFSurveyDate' : requestPMFSurveyDate?.millisecondsSinceEpoch ?? null,
       'updateLastSeenDate' : updateLastSeenDate?.millisecondsSinceEpoch ?? null,
       'questionnairesLastChangedTime' : questionnairesLastChangedTime?.millisecondsSinceEpoch ?? null,
+      'sessionTypesLastChangedTime' : sessionTypesLastChangedTime?.millisecondsSinceEpoch ?? null,
       'accountCreatedDate' : accountCreatedDate?.millisecondsSinceEpoch ?? DateTime(2023, 2, 1).millisecondsSinceEpoch,
       'salesTaxRate' : salesTaxRate,
       'hasSeenIncomeInfo' : hasSeenIncomeInfo,
@@ -564,6 +569,7 @@ class Profile{
       requestReviewDate: map['requestReviewDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['requestReviewDate']) : null,
       updateLastSeenDate: map['updateLastSeenDate'] != null ? DateTime.fromMillisecondsSinceEpoch(map['updateLastSeenDate']) : null,
       questionnairesLastChangedTime: map['questionnairesLastChangedTime'] != null ? DateTime.fromMillisecondsSinceEpoch(map['questionnairesLastChangedTime']) : null,
+      sessionTypesLastChangedTime: map['sessionTypesLastChangedTime'] != null ? DateTime.fromMillisecondsSinceEpoch(map['sessionTypesLastChangedTime']) : null,
     );
   }
 

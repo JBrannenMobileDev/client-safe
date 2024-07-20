@@ -7,6 +7,7 @@ import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobTypeDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PriceProfileDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/SessionTypeDao.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
@@ -14,6 +15,7 @@ import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/models/JobType.dart';
 import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/PriceProfile.dart';
+import 'package:dandylight/models/SessionType.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
@@ -70,7 +72,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     if(action is UpdateWithNewPricePackageAction){
       fetchPriceProfilesAndSetSelected(store, action, next);
     }
-    if(action is UpdateWithNewJobTypeAction){
+    if(action is UpdateWithNewSessionTypeAction){
       fetchJobTypeAndSetSelected(store, action, next);
     }
     if(action is UpdateProfileToOnBoardingCompleteAction) {
@@ -85,9 +87,9 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     await ProfileDao.update(profile);
   }
 
-  void fetchJobTypeAndSetSelected(Store<AppState> store, UpdateWithNewJobTypeAction action, NextDispatcher next) async {
-    List<JobType>? jobTypes = await JobTypeDao.getAll();
-    store.dispatch(SetJobTypeAndSelectedAction(store.state.newJobPageState, action.jobType, jobTypes));
+  void fetchJobTypeAndSetSelected(Store<AppState> store, UpdateWithNewSessionTypeAction action, NextDispatcher next) async {
+    List<SessionType>? sessionTypes = await SessionTypeDao.getAll();
+    store.dispatch(SetJobTypeAndSelectedAction(store.state.newJobPageState, action.sessionType, sessionTypes));
   }
 
   void fetchPriceProfilesAndSetSelected(Store<AppState> store, UpdateWithNewPricePackageAction action, NextDispatcher next) async {
@@ -127,7 +129,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     List<Client> allClients = await ClientDao.getAllSortedByFirstName();
     List<LocationDandy>? allLocations = await LocationDao.getAllSortedMostFrequent();
     List<Job>? upcomingJobs = await JobDao.getAllJobs();
-    List<JobType>? jobTypes = await JobTypeDao.getAll();
+    List<SessionType>? sessionTypes = await SessionTypeDao.getAll();
     List<File?>? imageFiles = [];
 
     for(LocationDandy location in allLocations!) {
@@ -139,7 +141,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     }
 
 
-    store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, allLocations, upcomingJobs, imageFiles, jobTypes));
+    store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, allLocations, upcomingJobs, imageFiles, sessionTypes));
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String path = appDocDir.path;
     store.dispatch(SetDocumentPathAction(store.state.newJobPageState, path));
@@ -149,7 +151,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       for(RecordSnapshot clientSnapshot in snapshots) {
         priceProfilesToUpdate.add(PriceProfile.fromMap(clientSnapshot.value! as Map<String,dynamic>));
       }
-      store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, priceProfilesToUpdate, allLocations, upcomingJobs, imageFiles, jobTypes));
+      store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, priceProfilesToUpdate, allLocations, upcomingJobs, imageFiles, sessionTypes));
     });
 
     (await LocationDao.getLocationsStream()).listen((locationSnapshots) async {
@@ -168,7 +170,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
         }
       }
 
-      store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, locations, upcomingJobs, imageFiles, jobTypes));
+      store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, locations, upcomingJobs, imageFiles, sessionTypes));
     });
 
     (await JobDao.getJobsStream()).listen((jobSnapshots) async {
@@ -176,7 +178,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       for(RecordSnapshot clientSnapshot in jobSnapshots) {
         jobs.add(Job.fromMap(clientSnapshot.value! as Map<String,dynamic>));
       }
-      store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, allLocations, jobs, imageFiles, jobTypes));
+      store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, allLocations, jobs, imageFiles, sessionTypes));
     });
   }
 
@@ -184,8 +186,8 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     Client resultClient = store.state.newJobPageState!.selectedClient!;
 
     String jobTitle = '';
-    if(store.state.newJobPageState!.selectedJobType != null) {
-      jobTitle = resultClient.firstName! + ' - ' + store.state.newJobPageState!.selectedJobType!.title!;
+    if(store.state.newJobPageState!.selectedSessionType != null) {
+      jobTitle = resultClient.firstName! + ' - ' + store.state.newJobPageState!.selectedSessionType!.title!;
     } else {
       jobTitle = resultClient.firstName! + ' - Job';
     }
@@ -207,19 +209,10 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       selectedDate: resultSelectedDate,
       selectedTime: store.state.newJobPageState!.selectedStartTime,
       selectedEndTime: store.state.newJobPageState!.selectedEndTime,
-      type: store.state.newJobPageState!.selectedJobType,
-      stage: JobStage.getNextStage(JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED), store.state.newJobPageState!.selectedJobType!.stages!),
+      sessionType: store.state.newJobPageState!.selectedSessionType,
+      stage: JobStage.getNextStage(JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED), store.state.newJobPageState!.selectedSessionType!.stages),
       completedStages: [JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED)],
       location: store.state.newJobPageState!.selectedLocation,
-      priceProfile: store.state.newJobPageState!.selectedPriceProfile != null && store.state.newJobPageState!.oneTimePrice!.isEmpty ? store.state.newJobPageState!.selectedPriceProfile
-          : store.state.newJobPageState!.oneTimePrice!.isNotEmpty ? PriceProfile(
-          rateType: Invoice.RATE_TYPE_FLAT_RATE,
-          profileName: TextFormatterUtil.formatDecimalCurrencyFromString(store.state.newJobPageState!.oneTimePrice!),
-          flatRate: double.parse(store.state.newJobPageState!.oneTimePrice!),
-          icon: 'assets/images/icons/income_received.png',
-          deposit: 0.0,
-          salesTaxPercent: 0.0,
-      ) : null,
       createdDate: DateTime.now(),
       depositAmount: store.state.newJobPageState!.selectedPriceProfile != null ? store.state.newJobPageState!.selectedPriceProfile!.deposit?.toInt() : 0,
       proposal: Proposal(),
@@ -266,7 +259,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       }
     }
 
-    for (ReminderDandyLight reminder in store.state.newJobPageState!.selectedJobType!.reminders!) {
+    for (ReminderDandyLight reminder in store.state.newJobPageState!.selectedSessionType!.reminders) {
       jobReminders.add(JobReminder(
         jobDocumentId: thisJob!.documentId,
         reminder: reminder,
@@ -289,13 +282,12 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
 
   Map<String, Object> _buildEventProperties(Job jobToSave) {
     Map<String, Object> result = Map();
-    if(jobToSave.type != null) result.putIfAbsent(EventNames.JOB_PARAM_TYPE, () => jobToSave.type!.title!);
+    if(jobToSave.sessionType != null) result.putIfAbsent(EventNames.JOB_PARAM_TYPE, () => jobToSave.sessionType!.title!);
     if(jobToSave.selectedDate != null) result.putIfAbsent(EventNames.JOB_PARAM_JOB_DATE, () => jobToSave.selectedDate!.toUtc().toString());
     if(jobToSave.selectedTime != null) result.putIfAbsent(EventNames.JOB_PARAM_START_TIME, () => jobToSave.selectedTime!.toUtc().toString());
     if(jobToSave.selectedEndTime != null) result.putIfAbsent(EventNames.JOB_PARAM_END_TIME, () => jobToSave.selectedEndTime!.toUtc().toString());
-    if(jobToSave.priceProfile != null) result.putIfAbsent(EventNames.JOB_PARAM_PRICE_PACKAGE, () => jobToSave.priceProfile!.profileName!);
     if(jobToSave.location != null) result.putIfAbsent(EventNames.JOB_PARAM_TYPE, () => jobToSave.location!.locationName!);
-    if(jobToSave.type != null) result.putIfAbsent(EventNames.JOB_PARAM_TYPE, () => jobToSave.type!.title!);
+    if(jobToSave.sessionType != null) result.putIfAbsent(EventNames.JOB_PARAM_TYPE, () => jobToSave.sessionType!.title!);
     return result;
   }
 }

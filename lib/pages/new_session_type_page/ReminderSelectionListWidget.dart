@@ -21,7 +21,7 @@ class ReminderSelectionListWidget extends StatelessWidget {
         MaterialState.focused,
       };
       if (states.any(interactiveStates.contains)) {
-        return Color(ColorConstants.getPrimaryBlack());
+        return Color(ColorConstants.getPeachDark());
       }
       return Color(ColorConstants.getPeachDark());
     }
@@ -42,8 +42,8 @@ class ReminderSelectionListWidget extends StatelessWidget {
                     Container(
                       alignment: Alignment.center,
                       margin: EdgeInsets.only(right: 16.0),
-                      height: 38.0,
-                      width: 38.0,
+                      height: 32.0,
+                      width: 32.0,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: Image.asset('assets/images/icons/reminder_icon_blue_light.png').image,
@@ -59,7 +59,7 @@ class ReminderSelectionListWidget extends StatelessWidget {
                         Container(
                           width: MediaQuery.of(context).size.width - 181,
                           child: TextDandyLight(
-                            type: TextDandyLight.MEDIUM_TEXT,
+                            type: TextDandyLight.SMALL_TEXT,
                             text: pageState.allDandyLightReminders!.elementAt(index).description,
                             textAlign: TextAlign.start,
                             maxLines: 1,
@@ -84,7 +84,7 @@ class ReminderSelectionListWidget extends StatelessWidget {
                   margin: EdgeInsets.only(left: 8.0, right: 0.0, top: 2.0, bottom: 2.0),
                   child: Checkbox(
                     checkColor: Color(ColorConstants.getPrimaryWhite()),
-                    fillColor: MaterialStateProperty.resolveWith(getColor),
+                    activeColor: Color(ColorConstants.getPeachDark()),
                     value: pageState.selectedReminders!.contains(pageState.allDandyLightReminders!.elementAt(index)),
                     onChanged: (bool? isChecked) {
                       pageState.onReminderSelected!(index, isChecked!);

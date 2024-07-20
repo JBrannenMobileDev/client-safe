@@ -10,6 +10,7 @@ import 'package:device_calendar/device_calendar.dart';
 
 import '../../models/JobType.dart';
 import '../../models/Profile.dart';
+import '../../models/SessionType.dart';
 
 class UpdateErrorStateAction{
   final NewJobPageState? pageState;
@@ -105,10 +106,10 @@ class SetNewJobDeviceEventsAction {
   SetNewJobDeviceEventsAction(this.pageState, this.deviceEvents);
 }
 
-class SetSelectedJobTypeAction{
+class SetSelectedSessionTypeAction{
   final NewJobPageState? pageState;
-  final JobType? jobType;
-  SetSelectedJobTypeAction(this.pageState, this.jobType);
+  final SessionType? sessionType;
+  SetSelectedSessionTypeAction(this.pageState, this.sessionType);
 }
 
 class SetSelectedPriceProfile{
@@ -172,8 +173,8 @@ class SetAllToStateAction{
   final List<LocationDandy>? allLocations;
   final List<Job>? upcomingJobs;
   final List<File?>? imageFiles;
-  final List<JobType>? jobTypes;
-  SetAllToStateAction(this.pageState, this.allClients, this.allPriceProfiles, this.allLocations, this.upcomingJobs, this.imageFiles, this.jobTypes);
+  final List<SessionType>? sessionTypes;
+  SetAllToStateAction(this.pageState, this.allClients, this.allPriceProfiles, this.allLocations, this.upcomingJobs, this.imageFiles, this.sessionTypes);
 }
 
 class ClientSelectedAction{
@@ -213,16 +214,16 @@ class SetPriceProfilesAndSelectedAction{
   SetPriceProfilesAndSelectedAction(this.pageState, this.priceProfile, this.priceProfiles);
 }
 
-class UpdateWithNewJobTypeAction{
+class UpdateWithNewSessionTypeAction{
   final NewJobPageState? pageState;
-  final JobType? jobType;
-  UpdateWithNewJobTypeAction(this.pageState, this.jobType);
+  final SessionType? sessionType;
+  UpdateWithNewSessionTypeAction(this.pageState, this.sessionType);
 }
 
 class SetJobTypeAndSelectedAction{
   final NewJobPageState? pageState;
-  final JobType? jobType;
-  final List<JobType>? jobTypes;
-  SetJobTypeAndSelectedAction(this.pageState, this.jobType, this.jobTypes);
+  final SessionType? sessionType;
+  final List<SessionType>? sessionTypes;
+  SetJobTypeAndSelectedAction(this.pageState, this.sessionType, this.sessionTypes);
 }
 

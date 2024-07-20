@@ -24,7 +24,6 @@ import 'package:dandylight/pages/new_session_type_page/NewSessionTypePageState.d
 import 'package:dandylight/pages/new_location_page/NewLocationPageState.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageState.dart';
 import 'package:dandylight/pages/new_pose_group_page/NewPoseGroupPageState.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
 import 'package:dandylight/pages/new_question_page/NewQuestionPageState.dart';
 import 'package:dandylight/pages/new_questionnaire_page/NewQuestionnairePageState.dart';
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageState.dart';
@@ -35,7 +34,6 @@ import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPag
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
 import 'package:dandylight/pages/pose_library_group_page/LibraryPoseGroupPageState.dart';
 import 'package:dandylight/pages/poses_page/PosesPageState.dart';
-import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageState.dart';
 import 'package:dandylight/pages/questionnaires_page/QuestionnairesPageState.dart';
 import 'package:dandylight/pages/reminders_page/RemindersPageState.dart';
 import 'package:dandylight/pages/responses_page/ResponsesPageState.dart';
@@ -54,8 +52,6 @@ import 'pages/clients_page/ClientsPageState.dart';
 class AppState {
   final NewLocationPageState? newLocationPageState;
   final LocationsPageState? locationsPageState;
-  final NewPricingProfilePageState? pricingProfilePageState;
-  final PricingProfilesPageState? pricingProfilesPageState;
   final NewJobPageState? newJobPageState;
   final NewContactPageState? newContactPageState;
   final DashboardPageState? dashboardPageState;
@@ -105,8 +101,6 @@ class AppState {
   AppState({
     @required this.newLocationPageState,
     @required this.locationsPageState,
-    @required this.pricingProfilePageState,
-    @required this.pricingProfilesPageState,
     @required this.newContactPageState,
     @required this.dashboardPageState,
     @required this.clientsPageState,
@@ -158,8 +152,6 @@ class AppState {
     return AppState(
       newLocationPageState: NewLocationPageState.initial(),
       locationsPageState: LocationsPageState.initial(),
-      pricingProfilePageState: NewPricingProfilePageState.initial(),
-      pricingProfilesPageState: PricingProfilesPageState.initial(),
       newContactPageState: NewContactPageState.initial(),
       dashboardPageState: DashboardPageState.initial(),
       clientsPageState: ClientsPageState.initial(),
@@ -211,8 +203,6 @@ class AppState {
   AppState copyWith({
     NewLocationPageState? newLocationPageState,
     LocationsPageState? locationsPageState,
-    NewPricingProfilePageState? pricingProfilePageState,
-    PricingProfilesPageState? pricingProfilesPageState,
     NewContactPageState? newContactPageState,
     DashboardPageState? dashboardPageState,
     ClientsPageState? clientsPageState,
@@ -262,8 +252,6 @@ class AppState {
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
       locationsPageState: locationsPageState ?? this.locationsPageState,
-      pricingProfilePageState: pricingProfilePageState ?? this.pricingProfilePageState,
-      pricingProfilesPageState: pricingProfilesPageState ?? this.pricingProfilesPageState,
       newContactPageState: newContactPageState ?? this.newContactPageState,
       dashboardPageState: dashboardPageState ?? this.dashboardPageState,
       clientsPageState: clientsPageState ?? this.clientsPageState,
@@ -316,8 +304,6 @@ class AppState {
   int get hashCode =>
   newLocationPageState.hashCode ^
     locationsPageState.hashCode ^
-    pricingProfilePageState.hashCode ^
-    pricingProfilesPageState.hashCode ^
     newContactPageState.hashCode ^
     dashboardPageState.hashCode ^
     clientsPageState.hashCode ^
@@ -369,8 +355,6 @@ class AppState {
           other is AppState &&
               newLocationPageState == other.newLocationPageState &&
               locationsPageState == other.locationsPageState &&
-              pricingProfilePageState == other.pricingProfilePageState &&
-              pricingProfilesPageState == other.pricingProfilesPageState &&
               newContactPageState == other.newContactPageState &&
               dashboardPageState == other.dashboardPageState &&
               clientsPageState == other.clientsPageState &&

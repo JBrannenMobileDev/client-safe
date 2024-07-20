@@ -29,9 +29,7 @@ final jobDetailsReducer = combineReducers<JobDetailsPageState>([
   TypedReducer<JobDetailsPageState, SetNewSelectedLocation>(_setSelectedLocation),
   TypedReducer<JobDetailsPageState, SetLocationsAction>(_setLocations),
   TypedReducer<JobDetailsPageState, UpdateJobNameAction>(_updateJobTitle),
-  TypedReducer<JobDetailsPageState, UpdateSelectedJobTypeAction>(_updateJobType),
-  TypedReducer<JobDetailsPageState, SetPricingProfiles>(_setPriceProfiles),
-  TypedReducer<JobDetailsPageState, UpdateSelectedPricePackageAction>(_setSelectedPriceProfiles),
+  TypedReducer<JobDetailsPageState, UpdateSelectedSessionTypeAction>(_updateSessionType),
   TypedReducer<JobDetailsPageState, AddToAddOnCostAction>(_saveAddOnCost),
   TypedReducer<JobDetailsPageState, ClearUnsavedDepositAction>(_clearUnsavedDeposit),
   TypedReducer<JobDetailsPageState, AddToTipAction>(_addToUnsavedTip),
@@ -41,7 +39,7 @@ final jobDetailsReducer = combineReducers<JobDetailsPageState>([
   TypedReducer<JobDetailsPageState, SetRemindersAction>(_setReminders),
   TypedReducer<JobDetailsPageState, SetDeviceEventsAction>(_setDeviceEvents),
   TypedReducer<JobDetailsPageState, SetJobDetailsSelectedDateAction>(_setSelectedDate),
-  TypedReducer<JobDetailsPageState, SetAllJobTypesAction>(_setJobTypes),
+  TypedReducer<JobDetailsPageState, SetAllSessionTypesAction>(_setJobTypes),
   TypedReducer<JobDetailsPageState, DeleteDocumentFromLocalStateAction>(_deleteDocument),
   TypedReducer<JobDetailsPageState, ClearPreviousStateAction>(_clearState),
   TypedReducer<JobDetailsPageState, SaveJobNotesAction>(_setNotes),
@@ -240,9 +238,9 @@ JobDetailsPageState _deleteDocument(JobDetailsPageState previousState, DeleteDoc
 }
 
 
-JobDetailsPageState _setJobTypes(JobDetailsPageState previousState, SetAllJobTypesAction action) {
+JobDetailsPageState _setJobTypes(JobDetailsPageState previousState, SetAllSessionTypesAction action) {
   return previousState.copyWith(
-    jobTypes: action.jobTypes,
+    sessionTypes: action.sessionTypes,
   );
 }
 
@@ -317,20 +315,12 @@ JobDetailsPageState _addToUnsavedTip(JobDetailsPageState previousState, AddToTip
   return previousState.copyWith(unsavedTipAmount: newAmount);
 }
 
-JobDetailsPageState _setSelectedPriceProfiles(JobDetailsPageState previousState, UpdateSelectedPricePackageAction action) {
-  return previousState.copyWith(selectedPriceProfile: action.selectedPriceProfile);
-}
-
-JobDetailsPageState _setPriceProfiles(JobDetailsPageState previousState, SetPricingProfiles action) {
-  return previousState.copyWith(priceProfiles: action.priceProfiles);
-}
-
 JobDetailsPageState _updateJobTitle(JobDetailsPageState previousState, UpdateJobNameAction action) {
   return previousState.copyWith(jobTitleText: action.jobName);
 }
 
-JobDetailsPageState _updateJobType(JobDetailsPageState previousState, UpdateSelectedJobTypeAction action) {
-  return previousState.copyWith(jobType: action.jobType);
+JobDetailsPageState _updateSessionType(JobDetailsPageState previousState, UpdateSelectedSessionTypeAction action) {
+  return previousState.copyWith(sessionType: action.sessionType);
 }
 
 JobDetailsPageState _setSelectedLocation(JobDetailsPageState previousState, SetNewSelectedLocation action) {
@@ -410,7 +400,7 @@ JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobAction 
     documents: documents,
     invoice: action.job!.invoice,
     selectedDate: action.job!.selectedDate,
-    jobType: action.job!.type,
+    sessionType: action.job!.sessionType,
     notes: action.job!.notes,
     mileageTrip: null,
   );

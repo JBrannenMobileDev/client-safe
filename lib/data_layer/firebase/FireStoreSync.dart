@@ -546,7 +546,7 @@ class FireStoreSync {
   void checkForJobComplete() async {
     List<Job>? allJobs = await JobDao.getAllJobs();
     for(Job job in allJobs!) {
-        if(job.selectedTime != null && containsStage(job.type!.stages!, JobStage.STAGE_7_SESSION_COMPLETE)) {
+        if(job.selectedTime != null && containsStage(job.sessionType!.stages!, JobStage.STAGE_7_SESSION_COMPLETE)) {
             if(!containsStage(job.completedStages!, JobStage.STAGE_7_SESSION_COMPLETE)) {
                 DateTime now = DateTime.now();
                 DateTime selectedDateAndTime = DateTime(job.selectedDate!.year, job.selectedDate!.month, job.selectedDate!.day, job.selectedTime!.hour, job.selectedTime!.minute);
@@ -567,11 +567,11 @@ class FireStoreSync {
 
   void updateJobToSessionCompleted(Job job) async {
       List<JobStage> completedJobStages = job.completedStages!.toList();
-      JobStage? stageToComplete = job.type!.stages!.firstWhereOrNull((stage) => stage.stage == JobStage.STAGE_7_SESSION_COMPLETE);
+      JobStage? stageToComplete = job.sessionType!.stages!.firstWhereOrNull((stage) => stage.stage == JobStage.STAGE_7_SESSION_COMPLETE);
       int? stageIndex;
 
-      for(int index = 0; index < job.type!.stages!.length; index++) {
-          if(job.type!.stages!.elementAt(index).stage == JobStage.STAGE_7_SESSION_COMPLETE) {
+      for(int index = 0; index < job.sessionType!.stages!.length; index++) {
+          if(job.sessionType!.stages!.elementAt(index).stage == JobStage.STAGE_7_SESSION_COMPLETE) {
               stageIndex = index;
           }
       }
@@ -589,14 +589,14 @@ class FireStoreSync {
   }
 
     JobStage _getNextUncompletedStage(int stageIndex, List<JobStage> completedStages, Job job) {
-        if(job.type!.stages!.elementAt(stageIndex).stage != JobStage.STAGE_14_JOB_COMPLETE) {
-            JobStage nextStage = job.type!.stages!.elementAt(stageIndex++);
+        if(job.sessionType!.stages!.elementAt(stageIndex).stage != JobStage.STAGE_14_JOB_COMPLETE) {
+            JobStage nextStage = job.sessionType!.stages!.elementAt(stageIndex++);
             while(_completedStagesContainsNextStage(completedStages, nextStage)){
-                nextStage = JobStage.getNextStage(nextStage, job.type!.stages!);
+                nextStage = JobStage.getNextStage(nextStage, job.sessionType!.stages!);
             }
             return nextStage;
         }
-        return job.type!.stages!.elementAt(stageIndex);
+        return job.sessionType!.stages!.elementAt(stageIndex);
     }
 
     bool _completedStagesContainsNextStage(List<JobStage> completedStages, JobStage nextStage) {

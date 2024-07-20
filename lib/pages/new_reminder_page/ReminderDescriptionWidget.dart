@@ -5,8 +5,7 @@ import '../../AppState.dart';
 import '../../models/ReminderDandyLight.dart';
 import '../../utils/ColorConstants.dart';
 import '../../widgets/TextDandyLight.dart';
-import '../new_pricing_profile_page/DandyLightTextField.dart';
-import 'NewReminderActions.dart';
+import '../new_pricing_profile_page/DandyLightTextFieldOld.dart';
 import 'NewReminderPageState.dart';
 
 class ReminderDescriptionWidget extends StatefulWidget{
@@ -53,7 +52,7 @@ class _ReminderDescriptionWidgetState extends State<ReminderDescriptionWidget> {
                           color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
-                      DandyLightTextField(
+                      DandyLightTextFieldOld(
                         controller: descriptionTextController,
                         hintText: 'Reminder',
                         inputType: TextInputType.text,

@@ -21,7 +21,7 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, SetSelectedLocation>(_setSelectedLocation),
   TypedReducer<NewJobPageState, SetSelectedOneTimeLocation>(_setSelectedOneTimeLocation),
   TypedReducer<NewJobPageState, SetSelectedDateAction>(_setSelectedDate),
-  TypedReducer<NewJobPageState, SetSelectedJobTypeAction>(_setJobType),
+  TypedReducer<NewJobPageState, SetSelectedSessionTypeAction>(_setJobType),
   TypedReducer<NewJobPageState, SetSunsetTimeAction>(_setSunsetTime),
   TypedReducer<NewJobPageState, SetSelectedStartTimeAction>(_setSelectedStartTime),
   TypedReducer<NewJobPageState, SetSelectedEndTimeAction>(_setSelectedEndTime),
@@ -47,9 +47,9 @@ NewJobPageState setProfile(NewJobPageState previousState, SetProfileToNewJobActi
 
 NewJobPageState setJobTypeAndSelected(NewJobPageState previousState, SetJobTypeAndSelectedAction action){
   return previousState.copyWith(
-    jobTypes: action.jobTypes,
-    selectedJobType: action.jobType,
-    isSelectedJobTypeNew: true,
+    sessionTypes: action.sessionTypes,
+    selectedSessionType: action.sessionType,
+    isSelectedSessionTypeNew: true,
     pageViewIndex: 2,
   );
 }
@@ -159,10 +159,10 @@ NewJobPageState _setSunsetTime(NewJobPageState previousState, SetSunsetTimeActio
   );
 }
 
-NewJobPageState _setJobType(NewJobPageState previousState, SetSelectedJobTypeAction action) {
+NewJobPageState _setJobType(NewJobPageState previousState, SetSelectedSessionTypeAction action) {
   return previousState.copyWith(
-      jobType: action.jobType,
-      selectedJobType: action.jobType);
+      sessionType: action.sessionType,
+      selectedSessionType: action.sessionType);
 }
 
 NewJobPageState _setSelectedPriceProfile(NewJobPageState previousState, SetSelectedPriceProfile action) {
@@ -229,7 +229,7 @@ NewJobPageState _setAll(NewJobPageState previousState, SetAllToStateAction actio
     locations: action.allLocations,
     isFinishedFetchingClients: true,
     jobs: action.upcomingJobs,
-    jobTypes: action.jobTypes,
+    sessionTypes: action.sessionTypes,
     imageFiles: action.imageFiles,
     filteredClients: action.allClients,
   );

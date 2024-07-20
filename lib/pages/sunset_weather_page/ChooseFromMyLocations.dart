@@ -127,9 +127,7 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                         icon: const Icon(Icons.add),
                         color: const Color(ColorConstants.white),
                         tooltip: 'Add',
-                        onPressed: () {
-                          UserOptionsUtil.showNewPriceProfileDialog(context);
-                        },
+                        onPressed: () {},
                       ),
                       TextDandyLight(
                         type: TextDandyLight.LARGE_TEXT,

@@ -1,26 +1,27 @@
 import 'package:dandylight/pages/new_session_type_page/NewSessionTypePageState.dart';
+import 'package:dandylight/pages/new_session_type_page/ReminderSelectionWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import '../../../AppState.dart';
+import '../../utils/UserOptionsUtil.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'CustomJobStageBottomSheet.dart';
 import 'DandyLightTextField.dart';
 import 'JobStageSelectionForm.dart';
 
 
-class ChooseStagesBottomSheet extends StatefulWidget {
+class ChooseRemindersBottomSheet extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _ChooseStagesBottomSheetState();
+    return _ChooseRemindersBottomSheetState();
   }
 }
 
-class _ChooseStagesBottomSheetState extends State<ChooseStagesBottomSheet> with TickerProviderStateMixin {
+class _ChooseRemindersBottomSheetState extends State<ChooseRemindersBottomSheet> with TickerProviderStateMixin {
   final descriptionTextController = TextEditingController();
 
   void _showCustomStageBottomSheet(BuildContext context) {
@@ -67,7 +68,7 @@ class _ChooseStagesBottomSheetState extends State<ChooseStagesBottomSheet> with 
                               margin: const EdgeInsets.only(bottom: 16, left: 12, right: 12, top: 16),
                               child: TextDandyLight(
                                 type: TextDandyLight.LARGE_TEXT,
-                                text: 'Setup Your Stages',
+                                text: 'Select Your Reminder',
                               ),
                             ),
                             Container(
@@ -77,25 +78,19 @@ class _ChooseStagesBottomSheetState extends State<ChooseStagesBottomSheet> with 
                                 tooltip: 'Add',
                                 color: Color(ColorConstants.getBlueDark()),
                                 onPressed: () {
-                                  _showCustomStageBottomSheet(context);
+                                  UserOptionsUtil.showNewReminderDialog(context, null);
                                 },
                               ),
                             ),
                           ],
                         ),
                       ),
-                      JobStageSelectionForm(),
+                      ReminderSelectionWidget(),
                     ],
                   ),
                   GestureDetector(
                     onTap: () {
-                      if(pageState.selectedJobStages?.isNotEmpty ?? false) {
-                        pageState.onJobStagesComplete!(true);
-                        Navigator.of(context).pop();
-                      } else {
-                        pageState.onJobStagesComplete!(false);
-                        DandyToastUtil.showErrorToast('You must have at least 1 stage');
-                      }
+                      Navigator.of(context).pop();
                     },
                     child: Container(
                       margin: const EdgeInsets.only(bottom: 32),

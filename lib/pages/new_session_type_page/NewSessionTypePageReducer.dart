@@ -7,8 +7,8 @@ import 'NewSessionTypeActions.dart';
 import 'NewSessionTypePageState.dart';
 
 final newSessionTypePageReducer = combineReducers<NewSessionTypePageState>([
-  TypedReducer<NewSessionTypePageState, ClearNewJobTypeStateAction>(_clearState),
-  TypedReducer<NewSessionTypePageState, UpdateJobTypeTitleAction>(_updateTitle),
+  TypedReducer<NewSessionTypePageState, ClearNewSessionTypeStateAction>(_clearState),
+  TypedReducer<NewSessionTypePageState, UpdateJobSessionTypeNameAction>(_updateTitle),
   TypedReducer<NewSessionTypePageState, LoadExistingSessionTypeData>(_loadExistingJobType),
   TypedReducer<NewSessionTypePageState, UpdateSelectedReminderListAction>(_setSelectedReminder),
   TypedReducer<NewSessionTypePageState, DeleteJobStageAction>(_setStageList),
@@ -22,7 +22,14 @@ final newSessionTypePageReducer = combineReducers<NewSessionTypePageState>([
   TypedReducer<NewSessionTypePageState, UpdateTotalCostTextAction>(_updateTotalCost),
   TypedReducer<NewSessionTypePageState, UpdateMinutesAction>(_updateMinutes),
   TypedReducer<NewSessionTypePageState, UpdateHoursAction>(_updateHours),
+  TypedReducer<NewSessionTypePageState, SetStageSelectionCompleteAction>(_setStageSelectionComplete),
 ]);
+
+NewSessionTypePageState _setStageSelectionComplete(NewSessionTypePageState previousState, SetStageSelectionCompleteAction action) {
+  return previousState.copyWith(
+    stagesComplete: action.complete,
+  );
+}
 
 NewSessionTypePageState _updateMinutes(NewSessionTypePageState previousState, UpdateMinutesAction action) {
   return previousState.copyWith(
@@ -147,11 +154,11 @@ NewSessionTypePageState _loadExistingJobType(NewSessionTypePageState previousSta
   );
 }
 
-NewSessionTypePageState _clearState(NewSessionTypePageState previousState, ClearNewJobTypeStateAction action){
+NewSessionTypePageState _clearState(NewSessionTypePageState previousState, ClearNewSessionTypeStateAction action){
   return NewSessionTypePageState.initial();
 }
 
-NewSessionTypePageState _updateTitle(NewSessionTypePageState previousState, UpdateJobTypeTitleAction action){
+NewSessionTypePageState _updateTitle(NewSessionTypePageState previousState, UpdateJobSessionTypeNameAction action){
   return previousState.copyWith(
     title: action.title,
   );

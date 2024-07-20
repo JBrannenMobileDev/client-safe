@@ -5,7 +5,7 @@ class SessionType {
   int? id;
   String? documentId;
   String title;
-  int totalCost;
+  double totalCost;
   int durationMinutes;
   int durationHours;
   DateTime createdDate;
@@ -13,6 +13,11 @@ class SessionType {
   List<ReminderDandyLight> reminders;
   double deposit;
   double salesTaxPercent;
+
+  double getTotalPlusTax() {
+    double taxAmount = salesTaxPercent > 0 ? (totalCost * (salesTaxPercent/100)) : 0.0;
+    return totalCost + taxAmount;
+  }
 
   SessionType({
     this.id,
@@ -32,7 +37,7 @@ class SessionType {
     int? id,
     String? documentId,
     required String title,
-    required int flatRate,
+    required double totalCost,
     required DateTime createdDate,
     required List<JobStage> stages,
     required List<ReminderDandyLight> reminders,
@@ -46,7 +51,7 @@ class SessionType {
       id: id?? this.id,
       documentId: documentId ?? this.documentId,
       title: title,
-      totalCost: flatRate,
+      totalCost: totalCost,
       createdDate: createdDate,
       stages: stages,
       reminders: reminders,

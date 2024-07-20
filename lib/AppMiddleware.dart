@@ -53,9 +53,6 @@ import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageMiddle
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpenseActions.dart' as mileageActions;
 import 'package:dandylight/pages/new_pose_group_page/NewPoseGroupActions.dart';
 import 'package:dandylight/pages/new_pose_group_page/NewPoseGroupPageMiddleware.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfileActions.dart' as prefix0;
-import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageMiddleware.dart';
 import 'package:dandylight/pages/new_question_page/NewQuestionActions.dart';
 import 'package:dandylight/pages/new_question_page/NewQuestionPageMiddleware.dart';
 import 'package:dandylight/pages/new_questionnaire_page/NewQuestionnaireActions.dart';
@@ -76,9 +73,6 @@ import 'package:dandylight/pages/pose_library_group_page/LibraryPoseGroupActions
 import 'package:dandylight/pages/pose_library_group_page/LibraryPoseGroupPageMiddleware.dart';
 import 'package:dandylight/pages/poses_page/PosesActions.dart';
 import 'package:dandylight/pages/poses_page/PosesPageMiddleware.dart';
-import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesActions.dart';
-import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesActions.dart' as prefix1;
-import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageMiddleware.dart';
 import 'package:dandylight/pages/questionnaires_page/QuestionnairesActions.dart';
 import 'package:dandylight/pages/questionnaires_page/QuestionnairesPageMiddleware.dart';
 import 'package:dandylight/pages/reminders_page/RemindersActions.dart' as collectionReminders;
@@ -113,12 +107,6 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, FetchClientDetailsResponsesAction>(ClientDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveImportantDatesAction>(ClientDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.FetchAllAction>(NewJobPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, SavePricingProfileAction>(NewPricingProfilePageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, UpdateIncludeSalesTaxAction>(NewPricingProfilePageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, InitializeProfileSettings>(NewPricingProfilePageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, FetchPricingProfilesAction>(PricingProfilesPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, prefix0.DeletePriceProfileAction>(NewPricingProfilePageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, prefix1.DeletePriceProfileAction>(PricingProfilesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchLocationsAction>(LocationsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, prefix2.SaveLocationAction>(NewLocationPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, prefix2.FetchGoogleLocationsAction>(NewLocationPageMiddleware()));
@@ -128,7 +116,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, ShareLocationSelected>(LocationsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.FetchTimeOfSunsetAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.UpdateWithNewPricePackageAction>(NewJobPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, newJobPageActions.UpdateWithNewJobTypeAction>(NewJobPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, newJobPageActions.UpdateWithNewSessionTypeAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.UpdateProfileToOnBoardingCompleteAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.SaveNewJobAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadJobsAction>(DashboardPageMiddleware()));
@@ -173,10 +161,9 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, FetchJobDetailsLocationsAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateNewLocationAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveJobNameChangeAction>(JobDetailsPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, SaveUpdatedJobTypeAction>(JobDetailsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveUpdatedSessionTypeAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveTipChangeAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchJobDetailsPricePackagesAction>(JobDetailsPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, SaveUpdatedPricePackageAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchAllInvoiceJobsAction>(NewInvoicePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveAddOnCostAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveNewLineItemAction>(NewInvoicePageMiddleware()));
@@ -258,7 +245,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, DeleteReminderAction>(NewReminderPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteReminderFromJobAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchJobDetailsDeviceEvents>(JobDetailsPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, FetchAllJobTypesAction>(JobDetailsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchAllSessionTypesAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchJobPosesAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteJobPoseAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveJobNotesAction>(JobDetailsPageMiddleware()));
@@ -269,8 +256,8 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveNewJobReminderAction>(NewJobReminderPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.FetchNewJobDeviceEvents>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.SetLastKnowInitialPosition>(NewJobPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, SaveNewJobTypeAction>(NewSessionTypePageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, DeleteJobTypeAction>(NewSessionTypePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveNewSessionTypeAction>(NewSessionTypePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, DeleteSessionTypeAction>(NewSessionTypePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadPricesPackagesAndRemindersAction>(NewSessionTypePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchJobTypesAction>(SessionTypesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchPoseGroupsAction>(PosesPageMiddleware()));

@@ -53,7 +53,7 @@ class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with Aut
                 Padding(
                   padding: EdgeInsets.only(top: 0.0, bottom: 8.0, left: 16.0, right: 16.0),
                   child: TextDandyLight(
-                    type: TextDandyLight.MEDIUM_TEXT,
+                    type: TextDandyLight.SMALL_TEXT,
                     text: 'Please reorder, add, or remove stages to fit your workflow.',
                     textAlign: TextAlign.start,
                     color: Color(ColorConstants.getPrimaryBlack()),
@@ -61,6 +61,7 @@ class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with Aut
                 ),
                 Container(
                   alignment: Alignment.center,
+                  width: 232,
                   height: 84,
                   padding: EdgeInsets.only(bottom: 8.0, left: 16.0, right: 16.0),
                   decoration: BoxDecoration(
@@ -68,8 +69,8 @@ class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with Aut
                     color: Color(ColorConstants.getPrimaryGreyDark()).withOpacity(0.5)
                   ),
                   child: TextDandyLight(
-                    type: TextDandyLight.MEDIUM_TEXT,
-                    text: 'TIPS\n- Long press to reorder\n- Swipe left to remove stage',
+                    type: TextDandyLight.SMALL_TEXT,
+                    text: 'HOW-TO\n- Long press to reorder\n- Swipe left to remove stage',
                     textAlign: TextAlign.center,
                     color: Color(ColorConstants.getPrimaryBlack()),
                   ),
@@ -81,7 +82,7 @@ class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with Aut
                   ),
                   child: ReorderableListView.builder(
                     reverse: false,
-                    padding: new EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 64.0),
+                    padding: new EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 128.0),
                     shrinkWrap: true,
                     physics: ClampingScrollPhysics(),
                     itemCount: pageState.selectedJobStages!.length,

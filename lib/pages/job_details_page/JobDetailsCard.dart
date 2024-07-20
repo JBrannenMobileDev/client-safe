@@ -8,7 +8,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 
 import '../../AppState.dart';
-import '../../utils/StringUtils.dart';
 import '../../utils/UserOptionsUtil.dart';
 import '../../utils/VibrateUtil.dart';
 import '../../utils/styles/Styles.dart';
@@ -97,42 +96,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                         padding: const EdgeInsets.only(left: 16.0),
                         child: TextDandyLight(
                           type: TextDandyLight.MEDIUM_TEXT,
-                          text: "Type:  ${pageState.job?.type?.title}",
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          color: Color(ColorConstants.getPrimaryBlack()),
-                        ),
-                      ),
-                      Container(
-                        height: 36,
-                        margin: const EdgeInsets.only(right: 16),
-                        alignment: Alignment.centerRight,
-                        child: Icon(
-                          Icons.chevron_right,
-                          color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    UserOptionsUtil.showPricePackageChangeDialog(context);
-                  },
-                  behavior: HitTestBehavior.opaque,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        height: 36,
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: TextDandyLight(
-                          type: TextDandyLight.MEDIUM_TEXT,
-                          text: pageState.job?.priceProfile == null ? 'Price package not selected' :
-                          'Package:  ${pageState.job?.priceProfile?.profileName}',
+                          text: "Type:  ${pageState.job?.sessionType?.title}",
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,

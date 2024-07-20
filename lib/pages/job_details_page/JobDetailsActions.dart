@@ -12,7 +12,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../models/Contract.dart';
 import '../../models/JobReminder.dart';
-import '../../models/JobType.dart';
+import '../../models/SessionType.dart';
 import '../../models/Profile.dart';
 import '../../models/Questionnaire.dart';
 import '../../models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
@@ -105,9 +105,9 @@ class FetchJobRemindersAction{
   FetchJobRemindersAction(this.pageState);
 }
 
-class FetchAllJobTypesAction{
+class FetchAllSessionTypesAction{
   final JobDetailsPageState? pageState;
-  FetchAllJobTypesAction(this.pageState);
+  FetchAllSessionTypesAction(this.pageState);
 }
 
 class SetProfileToDetailsStateAction {
@@ -128,10 +128,10 @@ class SetProfileToStateAction {
   SetProfileToStateAction(this.pageState, this.profile);
 }
 
-class SetAllJobTypesAction{
+class SetAllSessionTypesAction{
   final JobDetailsPageState? pageState;
-  final List<JobType>? jobTypes;
-  SetAllJobTypesAction(this.pageState, this.jobTypes);
+  final List<SessionType>? sessionTypes;
+  SetAllSessionTypesAction(this.pageState, this.sessionTypes);
 }
 
 class SetPoseFilePathsAction {
@@ -315,38 +315,20 @@ class SaveJobNameChangeAction{
   SaveJobNameChangeAction(this.pageState);
 }
 
-class UpdateSelectedJobTypeAction{
+class UpdateSelectedSessionTypeAction{
   final JobDetailsPageState? pageState;
-  final JobType? jobType;
-  UpdateSelectedJobTypeAction(this.pageState, this.jobType);
+  final SessionType? sessionType;
+  UpdateSelectedSessionTypeAction(this.pageState, this.sessionType);
 }
 
-class SaveUpdatedJobTypeAction{
+class SaveUpdatedSessionTypeAction{
   final JobDetailsPageState? pageState;
-  SaveUpdatedJobTypeAction(this.pageState);
+  SaveUpdatedSessionTypeAction(this.pageState);
 }
 
 class FetchJobDetailsPricePackagesAction{
   final JobDetailsPageState? pageState;
   FetchJobDetailsPricePackagesAction(this.pageState);
-}
-
-class UpdateSelectedPricePackageAction{
-  final JobDetailsPageState? pageState;
-  final PriceProfile? selectedPriceProfile;
-  UpdateSelectedPricePackageAction(this.pageState, this.selectedPriceProfile);
-}
-
-class SaveUpdatedPricePackageAction{
-  final JobDetailsPageState? pageState;
-  final String? oneTimePrice;
-  SaveUpdatedPricePackageAction(this.pageState, this.oneTimePrice);
-}
-
-class SetPricingProfiles{
-  final JobDetailsPageState? pageState;
-  final List<PriceProfile>? priceProfiles;
-  SetPricingProfiles(this.pageState, this.priceProfiles);
 }
 
 class AddToAddOnCostAction{

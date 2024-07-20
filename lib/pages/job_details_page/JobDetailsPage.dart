@@ -260,7 +260,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                       ),
                       onTap: () {
                         comingFromProgress = false;
-                        if(pageState.job!.priceProfile != null) {
+                        if(pageState.job!.sessionType != null) {
                           bool containsInvoice = false;
                           for(DocumentItem document in pageState.documents!){
                             if(document.getDocumentType() == DocumentItem.DOCUMENT_TYPE_INVOICE) containsInvoice = true;
@@ -500,7 +500,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                                           scrollDirection: Axis.horizontal,
                                           physics: const NeverScrollableScrollPhysics(),
                                           padding: const EdgeInsets.all(16.0),
-                                          itemCount: pageState.job!.type!.stages!.length,
+                                          itemCount: pageState.job!.sessionType!.stages!.length,
                                           itemBuilder: _buildItem,
                                         ),
                                       ),
@@ -585,7 +585,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
     pageStateLocal!.onInvoiceSent!(pageStateLocal!.invoice!);
     pageStateLocal!.onStageCompleted!(pageStateLocal!.job!, 7);
     pageStateLocal!.removeExpandedIndex!(7);
-    pageStateLocal!.setNewIndexForStageAnimation!((JobStage.getIndexOfCurrentStage(pageStateLocal!.job!.stage!.stage!, pageStateLocal!.job!.type!.stages!)));
+    pageStateLocal!.setNewIndexForStageAnimation!((JobStage.getIndexOfCurrentStage(pageStateLocal!.job!.stage!.stage!, pageStateLocal!.job!.sessionType!.stages!)));
     VibrateUtil.vibrateHeavy();
   }
 
@@ -599,9 +599,9 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
 
   double _getScrollToOffset(JobDetailsPageState pageState) {
     if(pageState.job != null) {
-      int stageIndex = JobStage.getIndexOfCurrentStage(pageState.job!.stage!.stage!, pageState.job!.type!.stages!);
+      int stageIndex = JobStage.getIndexOfCurrentStage(pageState.job!.stage!.stage!, pageState.job!.sessionType!.stages!);
 
-      return (stageIndex * 200.0) - ((stageIndex == pageState.job!.type!.stages!.length - 1) ? 150 : (stageIndex == pageState.job!.type!.stages!.length ) ? 360 : 0);
+      return (stageIndex * 200.0) - ((stageIndex == pageState.job!.sessionType!.stages!.length - 1) ? 150 : (stageIndex == pageState.job!.sessionType!.stages!.length ) ? 360 : 0);
     }
     return 0.0;
   }

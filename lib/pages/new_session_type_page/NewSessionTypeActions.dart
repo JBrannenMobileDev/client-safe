@@ -23,25 +23,25 @@ class SetAllAction {
   SetAllAction(this.pageState, this.allReminders);
 }
 
-class SaveNewJobTypeAction{
+class SaveNewSessionTypeAction{
   final NewSessionTypePageState? pageState;
-  SaveNewJobTypeAction(this.pageState);
+  SaveNewSessionTypeAction(this.pageState);
 }
 
-class DeleteJobTypeAction{
+class DeleteSessionTypeAction{
   final NewSessionTypePageState? pageState;
-  DeleteJobTypeAction(this.pageState);
+  DeleteSessionTypeAction(this.pageState);
 }
 
-class ClearNewJobTypeStateAction{
+class ClearNewSessionTypeStateAction{
   final NewSessionTypePageState? pageState;
-  ClearNewJobTypeStateAction(this.pageState);
+  ClearNewSessionTypeStateAction(this.pageState);
 }
 
-class UpdateJobTypeTitleAction{
+class UpdateJobSessionTypeNameAction{
   final NewSessionTypePageState? pageState;
   final String? title;
-  UpdateJobTypeTitleAction(this.pageState, this.title);
+  UpdateJobSessionTypeNameAction(this.pageState, this.title);
 }
 
 class UpdateSelectedReminderListAction{
@@ -114,6 +114,12 @@ class UpdateHoursAction {
   final NewSessionTypePageState? pageState;
   final String? hours;
   UpdateHoursAction(this.pageState, this.hours);
+}
+
+class SetStageSelectionCompleteAction {
+  final NewSessionTypePageState? pageState;
+  final bool? complete;
+  SetStageSelectionCompleteAction(this.pageState, this.complete);
 }
 
 

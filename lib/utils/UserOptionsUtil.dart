@@ -11,7 +11,6 @@ import 'package:dandylight/pages/job_details_page/JobTypeChangeDialog.dart.dart'
 import 'package:dandylight/pages/job_details_page/LocationSelectionDialog.dart';
 import 'package:dandylight/pages/job_details_page/NameChangeDialog.dart';
 import 'package:dandylight/pages/job_details_page/NewDateSelectionDialog.dart';
-import 'package:dandylight/pages/job_details_page/PricePackageChangeDialog.dart.dart';
 import 'package:dandylight/pages/job_details_page/ReminderViewDialog.dart';
 import 'package:dandylight/pages/job_details_page/TipChangeDialog.dart';
 import 'package:dandylight/pages/job_details_page/InvoiceOptionsDialog.dart';
@@ -31,7 +30,6 @@ import 'package:dandylight/pages/new_mileage_expense/ChooseFromMyLocationsMileag
 import 'package:dandylight/pages/new_mileage_expense/LocationOptionsMileageExpenseDialog.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePage.dart';
 import 'package:dandylight/pages/new_pose_group_page/NewPoseGroupPage.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePage.dart';
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePage.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPage.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePage.dart';
@@ -123,15 +121,6 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return LocationOptionsMileageExpenseDialog(onLocationSaved, lat!, lng!);
-      },
-    );
-  }
-
-  static void showNewPriceProfileDialog(BuildContext context){
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return NewPricingProfilePage();
       },
     );
   }
@@ -328,15 +317,6 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return JobTypeChangeDialog();
-      },
-    );
-  }
-
-  static void showPricePackageChangeDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return PricePackageChangeDialog();
       },
     );
   }

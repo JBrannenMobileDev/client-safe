@@ -18,27 +18,15 @@ class NewJobTypeStagesListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    Color getColor(Set<MaterialState> states) {
-      const Set<MaterialState> interactiveStates = <MaterialState>{
-        MaterialState.pressed,
-        MaterialState.hovered,
-        MaterialState.focused,
-      };
-      if (states.any(interactiveStates.contains)) {
-        return Color(ColorConstants.getPrimaryBlack());
-      }
-      return Color(ColorConstants.getPeachDark());
-    }
-
     return StoreConnector<AppState, NewSessionTypePageState>(
       converter: (store) => NewSessionTypePageState.fromStore(store),
       builder: (BuildContext context, NewSessionTypePageState pageState) =>
           Row(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 2.0, bottom: 2.0),
-              height: 38.0,
-              width: 38.0,
+              margin: EdgeInsets.only(right: 16.0, top: 2.0, bottom: 2.0),
+              height: 26.0,
+              width: 26.0,
               child: Image.asset(
                 pageState.selectedJobStages!.elementAt(index).imageLocation!,
                 color: Color(ColorConstants.getPeachDark()),
@@ -47,15 +35,15 @@ class NewJobTypeStagesListWidget extends StatelessWidget {
             Expanded(
               child: Container(
                 height: 64.0,
-                margin: EdgeInsets.only(right: 32.0),
+                margin: EdgeInsets.only(right: 16.0),
                 child: Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       TextDandyLight(
-                        type: TextDandyLight.MEDIUM_TEXT,
-                        text: pageState.selectedJobStages!.elementAt(index).id! <= 14 ? JobStage.getStageText(pageState.selectedJobStages!.elementAt(index)) : pageState.selectedJobStages!.elementAt(index).stage,
+                        type: TextDandyLight.SMALL_TEXT,
+                        text: pageState.selectedJobStages!.elementAt(index).id! <= 14 ? '${index + 1}. ${JobStage.getStageText(pageState.selectedJobStages!.elementAt(index))}' : '${index + 1}. ${pageState.selectedJobStages!.elementAt(index).stage}',
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
@@ -65,7 +53,7 @@ class NewJobTypeStagesListWidget extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 8.0, right: 8.0, top: 2.0, bottom: 2.0),
+              margin: EdgeInsets.only(left: 8.0, right: 0.0, top: 2.0, bottom: 2.0),
               child: Container(
                 height: 26,
                 child: Image.asset('assets/images/icons/reorder.png', color: Color(ColorConstants.getPrimaryGreyMedium()),),

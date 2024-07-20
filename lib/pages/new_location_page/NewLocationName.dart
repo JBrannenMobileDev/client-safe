@@ -1,7 +1,6 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_location_page/NewLocationPageState.dart';
 import 'package:dandylight/pages/new_location_page/NewLocationTextField.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +50,7 @@ class _NewLocationName extends State<NewLocationName> with AutomaticKeepAliveCli
                 TextInputType.text,
                 64.0,
                 pageState.onLocationNameChanged!,
-                NewPricingProfilePageState.ERROR_PROFILE_NAME_MISSING,
+                'Name missing',
                 TextInputAction.done,
                 null,
                 null,

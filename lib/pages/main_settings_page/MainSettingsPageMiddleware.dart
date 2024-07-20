@@ -225,95 +225,95 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _generateAccountData(Store<AppState> store, PopulateAccountWithData action, NextDispatcher next) async {
-    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    List<String> names = ['Amanda', 'Jessica', 'Sara', 'Shawna', 'Justine', 'Tony', 'Ashley', 'Meagan', 'Debbie',
-      'Connie', 'Carissa', 'Christina', 'Albert', 'Samantha', 'Linda', 'Lisa', 'Sandy', 'Fiona'];
-    List<String> priceProfileNames = ['Wedding Standard', 'Wedding Gold', '1 Hour', '2 Hour', 'Large Family'];
-    List<double> prices = [2500, 3500, 450, 600, 500];
-    List<String> jobTypeNames = ['Wedding', 'Family', 'Engagement', 'Portrait', 'Newborn'];
-    List<JobType>? jobTypes = [];
-    List<Client>? clients = [];
-    List<Job> jobs = [];
-    List<PriceProfile> priceProfiles = [];
-    List<String> leadSources = Client.getLeadSources();
-    List<DateTime> months = [
-      DateTime(2023, 5, Random().nextInt(28)),
-      DateTime(2023, 6, Random().nextInt(28)),
-      DateTime(2023, 7, Random().nextInt(28)),
-      DateTime(2023, 8, Random().nextInt(28)),
-      DateTime(2023, 9, Random().nextInt(28)),
-      DateTime(2023, 10, Random().nextInt(28)),
-    ];
-
-    names.forEach((name) async {
-      int randomLeadSource = Random().nextInt(leadSources.length);
-      int randomMonth = Random().nextInt(months.length);
-      Client client = Client(
-          firstName: name,
-          lastName: 'Brannen',
-          email: 'support@dandylight.com',
-          phone: '8888888888',
-          leadSource: leadSources.elementAt(randomLeadSource),
-          createdDate: months.elementAt(randomMonth)
-      );
-      clients?.add(client);
-      await ClientDao.insert(client);
-    });
-    clients = await ClientDao.getAll();
-
-    for(int i = 0; i < 5; i++) {
-      PriceProfile profile = PriceProfile(
-        profileName: priceProfileNames.elementAt(i),
-        flatRate: prices.elementAt(i),
-        icon: 'assets/images/icons/income_received.png',
-        includeSalesTax: false,
-        salesTaxPercent: 0,
-        deposit: 0,
-      );
-      await PriceProfileDao.insert(profile);
-      priceProfiles.add(profile);
-    };
-    priceProfiles = await PriceProfileDao.getAllSortedByName();
-
-    for(int i = 0; i < 5; i++) {
-      JobType jobType = JobType(
-        title: jobTypeNames.elementAt(Random().nextInt(jobTypeNames.length)),
-        createdDate: DateTime.now(),
-        stages: JobStage.AllStages(),
-        reminders: [],
-      );
-      await JobTypeDao.insert(jobType);
-      jobTypes.add(jobType);
-    };
-    jobTypes = await JobTypeDao.getAll();
-
-    for(int index = 0; index < 52; index++) {
-      JobType jobType = jobTypes!.elementAt(Random().nextInt(jobTypes.length));
-      Client? resultClient = clients?.elementAt(Random().nextInt(clients.length));
-      PriceProfile priceProfile = priceProfiles.elementAt(Random().nextInt(priceProfiles.length));
-      int randomMonth = Random().nextInt(months.length);
-      Job jobToSave = Job(
-          clientDocumentId: resultClient!.documentId,
-          client: resultClient,
-          clientName: resultClient.getClientFullName(),
-          jobTitle: resultClient.firstName! + ' - ' + jobType.title!,
-          selectedDate: months.elementAt(Random().nextInt(months.length)),
-          selectedTime: null,
-          selectedEndTime: null,
-          paymentReceivedDate: months.elementAt(randomMonth),
-          type: jobType,
-          stage: JobStage.getNextStage(JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED), jobType.stages!),
-          completedStages: [JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED), JobStage(stage: JobStage.STAGE_9_PAYMENT_RECEIVED), JobStage(stage:  JobStage.STAGE_14_JOB_COMPLETE)],
-          location: null,
-          priceProfile: priceProfile,
-          createdDate: months.elementAt(randomMonth),
-          depositAmount: 0,
-          proposal: Proposal(
-              detailsMessage: "(Example client portal message)\n\nHi ${resultClient.firstName},\nI wanted to thank you again for choosing our photography services. We're excited to work with you to capture your special moments.\n\nTo make things official, kindly review and sign the contract. It outlines our agreement's essential details.\n\nIf you have any questions, please don't hesitate to ask.\n\nBest regards,\n\n${profile!.firstName} ${profile.lastName ?? ''}\n${profile.businessName ?? ''}"
-          )
-      );
-      await JobDao.insert(jobToSave);
-      jobs.add(jobToSave);
-    };
+    // Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    // List<String> names = ['Amanda', 'Jessica', 'Sara', 'Shawna', 'Justine', 'Tony', 'Ashley', 'Meagan', 'Debbie',
+    //   'Connie', 'Carissa', 'Christina', 'Albert', 'Samantha', 'Linda', 'Lisa', 'Sandy', 'Fiona'];
+    // List<String> priceProfileNames = ['Wedding Standard', 'Wedding Gold', '1 Hour', '2 Hour', 'Large Family'];
+    // List<double> prices = [2500, 3500, 450, 600, 500];
+    // List<String> jobTypeNames = ['Wedding', 'Family', 'Engagement', 'Portrait', 'Newborn'];
+    // List<JobType>? jobTypes = [];
+    // List<Client>? clients = [];
+    // List<Job> jobs = [];
+    // List<PriceProfile> priceProfiles = [];
+    // List<String> leadSources = Client.getLeadSources();
+    // List<DateTime> months = [
+    //   DateTime(2023, 5, Random().nextInt(28)),
+    //   DateTime(2023, 6, Random().nextInt(28)),
+    //   DateTime(2023, 7, Random().nextInt(28)),
+    //   DateTime(2023, 8, Random().nextInt(28)),
+    //   DateTime(2023, 9, Random().nextInt(28)),
+    //   DateTime(2023, 10, Random().nextInt(28)),
+    // ];
+    //
+    // names.forEach((name) async {
+    //   int randomLeadSource = Random().nextInt(leadSources.length);
+    //   int randomMonth = Random().nextInt(months.length);
+    //   Client client = Client(
+    //       firstName: name,
+    //       lastName: 'Brannen',
+    //       email: 'support@dandylight.com',
+    //       phone: '8888888888',
+    //       leadSource: leadSources.elementAt(randomLeadSource),
+    //       createdDate: months.elementAt(randomMonth)
+    //   );
+    //   clients?.add(client);
+    //   await ClientDao.insert(client);
+    // });
+    // clients = await ClientDao.getAll();
+    //
+    // for(int i = 0; i < 5; i++) {
+    //   PriceProfile profile = PriceProfile(
+    //     profileName: priceProfileNames.elementAt(i),
+    //     flatRate: prices.elementAt(i),
+    //     icon: 'assets/images/icons/income_received.png',
+    //     includeSalesTax: false,
+    //     salesTaxPercent: 0,
+    //     deposit: 0,
+    //   );
+    //   await PriceProfileDao.insert(profile);
+    //   priceProfiles.add(profile);
+    // };
+    // priceProfiles = await PriceProfileDao.getAllSortedByName();
+    //
+    // for(int i = 0; i < 5; i++) {
+    //   JobType jobType = JobType(
+    //     title: jobTypeNames.elementAt(Random().nextInt(jobTypeNames.length)),
+    //     createdDate: DateTime.now(),
+    //     stages: JobStage.AllStages(),
+    //     reminders: [],
+    //   );
+    //   await JobTypeDao.insert(jobType);
+    //   jobTypes.add(jobType);
+    // };
+    // jobTypes = await JobTypeDao.getAll();
+    //
+    // for(int index = 0; index < 52; index++) {
+    //   SessionType session = jobTypes!.elementAt(Random().nextInt(jobTypes.length));
+    //   Client? resultClient = clients?.elementAt(Random().nextInt(clients.length));
+    //   PriceProfile priceProfile = priceProfiles.elementAt(Random().nextInt(priceProfiles.length));
+    //   int randomMonth = Random().nextInt(months.length);
+    //   Job jobToSave = Job(
+    //       clientDocumentId: resultClient!.documentId,
+    //       client: resultClient,
+    //       clientName: resultClient.getClientFullName(),
+    //       jobTitle: resultClient.firstName! + ' - ' + jobType.title!,
+    //       selectedDate: months.elementAt(Random().nextInt(months.length)),
+    //       selectedTime: null,
+    //       selectedEndTime: null,
+    //       paymentReceivedDate: months.elementAt(randomMonth),
+    //       sessionType: jobType,
+    //       stage: JobStage.getNextStage(JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED), jobType.stages!),
+    //       completedStages: [JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED), JobStage(stage: JobStage.STAGE_9_PAYMENT_RECEIVED), JobStage(stage:  JobStage.STAGE_14_JOB_COMPLETE)],
+    //       location: null,
+    //       sessionType: priceProfile,
+    //       createdDate: months.elementAt(randomMonth),
+    //       depositAmount: 0,
+    //       proposal: Proposal(
+    //           detailsMessage: "(Example client portal message)\n\nHi ${resultClient.firstName},\nI wanted to thank you again for choosing our photography services. We're excited to work with you to capture your special moments.\n\nTo make things official, kindly review and sign the contract. It outlines our agreement's essential details.\n\nIf you have any questions, please don't hesitate to ask.\n\nBest regards,\n\n${profile!.firstName} ${profile.lastName ?? ''}\n${profile.businessName ?? ''}"
+    //       )
+    //   );
+    //   await JobDao.insert(jobToSave);
+    //   jobs.add(jobToSave);
+    // };
   }
 }

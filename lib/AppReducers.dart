@@ -26,7 +26,6 @@ import 'package:dandylight/pages/new_session_type_page/NewSessionTypePageReducer
 import 'package:dandylight/pages/new_location_page/NewLocationPageReducer.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageReducer.dart';
 import 'package:dandylight/pages/new_pose_group_page/NewPoseGroupPageReducer.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageReducer.dart';
 import 'package:dandylight/pages/new_question_page/NewQuestionPageReducer.dart';
 import 'package:dandylight/pages/new_questionnaire_page/NewQuestionnairePageReducer.dart';
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageReducer.dart';
@@ -37,7 +36,6 @@ import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPag
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageReducer.dart';
 import 'package:dandylight/pages/pose_library_group_page/LibraryPoseGroupPageReducer.dart';
 import 'package:dandylight/pages/poses_page/PosesPageReducer.dart';
-import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageReducer.dart';
 import 'package:dandylight/pages/questionnaires_page/QuestionnairesPageReducer.dart';
 import 'package:dandylight/pages/reminders_page/RemindersPageReducer.dart';
 import 'package:dandylight/pages/job_types/SessionTypesPageReducer.dart';
@@ -53,8 +51,6 @@ AppState appReducers(AppState state, dynamic action) =>
     AppState(
         newLocationPageState: locationReducer(state.newLocationPageState!, action),
         locationsPageState: locationsReducer(state.locationsPageState!, action),
-        pricingProfilePageState: newPricingProfilePageReducer(state.pricingProfilePageState!, action),
-        pricingProfilesPageState: pricingProfilesReducer(state.pricingProfilesPageState!, action),
         newJobPageState: newJobPageReducer(state.newJobPageState!, action),
         newContactPageState: newContactPageReducer(state.newContactPageState!, action),
         dashboardPageState: dashboardPageReducer(state.dashboardPageState!, action),

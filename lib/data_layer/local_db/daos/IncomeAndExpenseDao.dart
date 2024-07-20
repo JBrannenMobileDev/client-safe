@@ -6,14 +6,10 @@ import 'package:intl/intl.dart';
 
 import '../../../models/Job.dart';
 import '../../../models/JobStage.dart';
-import '../../../models/JobType.dart';
 import '../../../models/RecurringExpense.dart';
 import '../../../models/SingleExpense.dart';
-import '../../../pages/dashboard_page/JobTypePieChartRowData.dart';
 import '../../../pages/dashboard_page/widgets/LineChartMonthData.dart';
-import '../../../utils/ColorConstants.dart';
 import '../../../utils/DateTimeUtil.dart';
-import 'JobTypeDao.dart';
 import 'RecurringExpenseDao.dart';
 
 class IncomeAndExpenseDao {
@@ -127,8 +123,8 @@ class IncomeAndExpenseDao {
     List<Job> jobsWithInvoiceAndInvoicePaid = _filterJobsWithInvoiceAndInvoicePaid(jobs);
 
     for(Job job in jobsWithoutInvoiceThatAreComplete) {
-      if(job.invoice == null && JobUtil.containsJobStage(JobStage.STAGE_14_JOB_COMPLETE, job.completedStages!) && job.priceProfile != null) {
-        result = result + (job.priceProfile?.flatRate ?? 0.0);
+      if(job.invoice == null && JobUtil.containsJobStage(JobStage.STAGE_14_JOB_COMPLETE, job.completedStages!) && job.sessionType != null) {
+        result = result + (job.sessionType?.getTotalPlusTax() ?? 0.0);
       }
     }
 
@@ -137,15 +133,15 @@ class IncomeAndExpenseDao {
           !JobUtil.containsJobStage(JobStage.STAGE_14_JOB_COMPLETE, job.completedStages!) &&
           !JobUtil.containsJobStage(JobStage.STAGE_9_PAYMENT_RECEIVED, job.completedStages!) &&
           JobUtil.containsJobStage(JobStage.STAGE_5_DEPOSIT_RECEIVED, job.completedStages!) &&
-          job.priceProfile != null
+          job.sessionType != null
       ) {
-        result = result + (job.priceProfile?.deposit ?? 0.0);
+        result = result + (job.sessionType?.deposit ?? 0.0);
       }
     }
 
     for(Job job in jobsWithoutInvoiceThatAreNotCompleteButHavePaymentReceivedStageChecked) {
       if(job.invoice == null && !JobUtil.containsJobStage(JobStage.STAGE_14_JOB_COMPLETE, job.completedStages!) && JobUtil.containsJobStage(JobStage.STAGE_9_PAYMENT_RECEIVED, job.completedStages!)) {
-        result = result + (job.priceProfile?.flatRate ?? 0.0);
+        result = result + (job.sessionType?.getTotalPlusTax() ?? 0.0);
       }
     }
 

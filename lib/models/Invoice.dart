@@ -1,6 +1,8 @@
 import 'package:dandylight/models/LineItem.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 
+import 'SessionType.dart';
+
 class Invoice {
   static const String RATE_TYPE_FLAT_RATE = "Flat rate";
   static const String RATE_TYPE_HOURLY = "Hourly";
@@ -23,7 +25,7 @@ class Invoice {
   DateTime? invoicePaidDate;
   bool? depositPaid;
   bool? invoicePaid;
-  PriceProfile? priceProfile;
+  SessionType? sessionType;
   double? discount;
   double? subtotal;
   double? total;
@@ -46,7 +48,7 @@ class Invoice {
     this.sentDate,
     this.depositPaid,
     this.invoicePaid,
-    this.priceProfile,
+    this.sessionType,
     this.discount,
     this.total,
     this.unpaidAmount,
@@ -75,7 +77,7 @@ class Invoice {
       'dueDate' : dueDate?.millisecondsSinceEpoch ?? null,
       'depositPaid': depositPaid,
       'invoicePaid': invoicePaid,
-      'priceProfile': priceProfile!.toMap(),
+      'sessionType': sessionType!.toMap(),
       'discount': discount,
       'total': total,
       'subtotal' : subtotal,
@@ -107,7 +109,7 @@ class Invoice {
       invoicePaidDate: map['invoicePaidDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['invoicePaidDate']) : null,
       depositPaid: map['depositPaid'],
       invoicePaid: map['invoicePaid'],
-      priceProfile: PriceProfile.fromMap(map['priceProfile']),
+      sessionType: SessionType.fromMap(map['sessionType']),
       discount: map['discount']?.toDouble(),
       total: map['total']?.toDouble(),
       subtotal: map['subtotal']?.toDouble(),

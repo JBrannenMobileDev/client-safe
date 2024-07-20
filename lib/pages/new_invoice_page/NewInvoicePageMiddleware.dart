@@ -67,7 +67,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
       completedStages!.add(JobStage(stage: JobStage.STAGE_8_PAYMENT_REQUESTED));
     }
     job.completedStages = completedStages;
-    job.stage = Job.getNextUncompletedStage(job!.completedStages!, job.type!.stages!, job);
+    job.stage = Job.getNextUncompletedStage(job!.completedStages!, job.sessionType!.stages!, job);
     await JobDao.update(job);
     await JobDao.update(job);
 
@@ -96,7 +96,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
           depositDueDate: pageState.depositDueDate,
           depositPaid: false,
           invoicePaid: invoicePaid,
-          priceProfile: pageState.selectedJob!.priceProfile,
+          sessionType: pageState.selectedJob!.sessionType,
           discount: pageState.discountValue,
           depositAmount: pageState.depositValue,
           total: pageState.total,
@@ -134,12 +134,12 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
       JobStage? highestCompletedState;
       for(JobStage completedStage in completedJobStages){
         highestCompletedState ??= completedStage;
-        if(getIndexOfStageInStages(completedStage, selectedJob.type!.stages!) > getIndexOfStageInStages(highestCompletedState, selectedJob.type!.stages!)) highestCompletedState = completedStage;
+        if(getIndexOfStageInStages(completedStage, selectedJob.sessionType!.stages!) > getIndexOfStageInStages(highestCompletedState, selectedJob.sessionType!.stages!)) highestCompletedState = completedStage;
       }
       if(highestCompletedState != null){
-        selectedJob.stage = JobStage.getNextStage(highestCompletedState, selectedJob.type!.stages!);
+        selectedJob.stage = JobStage.getNextStage(highestCompletedState, selectedJob.sessionType!.stages!);
       }else{
-        selectedJob.stage = JobStage.getStageFromIndex(1, selectedJob.type!.stages!);
+        selectedJob.stage = JobStage.getStageFromIndex(1, selectedJob.sessionType!.stages!);
       }
       await JobDao.insertOrUpdate(selectedJob.copyWith());
       store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, selectedJob.copyWith()));
@@ -155,9 +155,9 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   JobStage _getNextUncompletedStage(JobStage currentStage, List<JobStage> completedStages, Job job) {
-    JobStage nextStage = JobStage.getNextStage(currentStage, job.type!.stages!);
+    JobStage nextStage = JobStage.getNextStage(currentStage, job.sessionType!.stages!);
     while(_completedStagesContainsNextStage(completedStages, nextStage)){
-      nextStage = JobStage.getNextStage(nextStage, job.type!.stages!);
+      nextStage = JobStage.getNextStage(nextStage, job.sessionType!.stages!);
     }
     return nextStage;
   }

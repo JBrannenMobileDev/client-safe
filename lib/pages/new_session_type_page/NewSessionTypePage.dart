@@ -18,6 +18,7 @@ import '../../utils/TextFormatterUtil.dart';
 import '../../utils/flutter_masked_text.dart';
 import '../../widgets/TextDandyLight.dart';
 import '../../widgets/TextFieldSimple.dart';
+import 'ChooseRemindersBottomSheet.dart';
 import 'CustomJobStageBottomSheet.dart';
 import 'NewSessionTypeActions.dart';
 
@@ -47,6 +48,11 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
   final depositInputFocusNode = FocusNode();
   final taxPercentFocusNode = FocusNode();
   final SessionType? sessionType;
+  bool nameError = false;
+  bool durationError = false;
+  bool priceError = false;
+  bool stagesError = false;
+  bool remindersError = false;
 
   _NewSessionTypePageState(this.sessionType);
 
@@ -64,12 +70,26 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
     );
   }
 
+  void _showChooseRemindersBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return ChooseRemindersBottomSheet();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, NewSessionTypePageState>(
       onInit: (store) {
         if(sessionType == null) {
-          store.dispatch(ClearNewJobTypeStateAction(store.state.newSessionTypePageState));
+          store.dispatch(ClearNewSessionTypeStateAction(store.state.newSessionTypePageState));
         }else {
           store.dispatch(LoadExistingSessionTypeData(store.state.newSessionTypePageState, sessionType));
         }
@@ -163,9 +183,9 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                             Container(
                               margin: const EdgeInsets.only(left: 8, top: 16),
                               child: TextDandyLight(
-                                type: TextDandyLight.SMALL_TEXT,
-                                text: 'Session Name',
-                                color: Color(ColorConstants.getPrimaryBlack()),
+                                type: TextDandyLight.EXTRA_SMALL_TEXT,
+                                text: 'SESSION NAME*',
+                                color: Color(ColorConstants.getPrimaryGreyDark()),
                               ),
                             ),
                             TextFieldSimple(
@@ -173,6 +193,7 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                               hintText: 'Name',
                               inputType: TextInputType.text,
                               focusNode: nameFocusNode,
+                              hasError: nameError,
                               onFocusAction: (){
                                 FocusScope.of(context).requestFocus(hourFocusNode);
                               },
@@ -182,92 +203,115 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                               capitalization: TextCapitalization.words,
                             ),
                             Container(
-                              margin: const EdgeInsets.only(left: 8, top: 24),
+                              margin: const EdgeInsets.only(left: 8, top: 16),
                               child: TextDandyLight(
-                                type: TextDandyLight.SMALL_TEXT,
-                                text: 'Session Duration',
-                                color: Color(ColorConstants.getPrimaryBlack()),
+                                type: TextDandyLight.EXTRA_SMALL_TEXT,
+                                text: 'SESSION DURATION*',
+                                color: Color(ColorConstants.getPrimaryGreyDark()),
                               ),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Container(
+                                SizedBox(
                                   width: (MediaQuery.of(context).size.width-36)/2,
                                   child: TextFieldSimple(
                                     controller: hoursController,
-                                    hintText: '0',
+                                    hintText: 'Hours',
+                                    hasError: durationError,
                                     inputType: TextInputType.number,
                                     focusNode: hourFocusNode,
                                     onFocusAction: (){
                                       FocusScope.of(context).requestFocus(minFocusNode);
                                     },
-                                    labelText: 'Hours',
                                     onTextInputChanged: pageState.onHoursChanged!,
                                     keyboardAction: TextInputAction.next,
                                   ),
                                 ),
-                                Container(
+                                SizedBox(
                                   width: (MediaQuery.of(context).size.width-36)/2,
                                   child: TextFieldSimple(
                                     controller: minController,
-                                    hintText: '0',
+                                    hintText: 'Minutes',
                                     inputType: TextInputType.number,
+                                    hasError: durationError,
                                     focusNode: minFocusNode,
                                     onFocusAction: null,
-                                    labelText: 'Minutes',
                                     onTextInputChanged: pageState.onMinutesChanged!,
                                     keyboardAction: TextInputAction.done,
                                   ),
                                 ),
                               ],
                             ),
-                            Container(
-                              margin: const EdgeInsets.only(left: 8, top: 24),
-                              child: TextDandyLight(
-                                type: TextDandyLight.SMALL_TEXT,
-                                text: 'Session Cost',
-                                color: Color(ColorConstants.getPrimaryBlack()),
-                              ),
-                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Container(
+                                  width: (MediaQuery.of(context).size.width-48)/2,
+                                  margin: const EdgeInsets.only(left: 8, top: 16),
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.EXTRA_SMALL_TEXT,
+                                    text: 'SESSION PRICE*',
+                                    color: Color(ColorConstants.getPrimaryGreyDark()),
+                                  ),
+                                ),
+                                Container(
+                                  width: (MediaQuery.of(context).size.width-48)/2,
+                                  margin: const EdgeInsets.only(left: 8, top: 24),
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.EXTRA_SMALL_TEXT,
+                                    text: 'DEPOSIT PRICE',
+                                    color: Color(ColorConstants.getPrimaryGreyDark()),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
                                   width: (MediaQuery.of(context).size.width-36)/2,
                                   child: TextFieldSimple(
                                     controller: totalCostTextController,
                                     inputType: TextInputType.number,
+                                    hasError: priceError,
                                     focusNode: totalCostInputFocusNode,
                                     onFocusAction: (){
                                       FocusScope.of(context).requestFocus(minFocusNode);
                                     },
-                                    labelText: 'Total Cost',
                                     onTextInputChanged: pageState.onTotalCostChanged!,
                                     keyboardAction: TextInputAction.next,
                                   ),
                                 ),
-                                Container(
+                                SizedBox(
                                   width: (MediaQuery.of(context).size.width-36)/2,
                                   child: TextFieldSimple(
                                     controller: depositTextController,
                                     inputType: TextInputType.number,
                                     focusNode: depositInputFocusNode,
                                     onFocusAction: null,
-                                    labelText: 'Deposit',
                                     onTextInputChanged: pageState.onDepositChanged!,
                                     keyboardAction: TextInputAction.done,
                                   ),
                                 ),
                               ],
                             ),
+                            Container(
+                              margin: const EdgeInsets.only(left: 8, top: 16),
+                              child: TextDandyLight(
+                                type: TextDandyLight.EXTRA_SMALL_TEXT,
+                                text: 'SALES TAX %',
+                                color: Color(ColorConstants.getPrimaryGreyDark()),
+                              ),
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Container(
+                                SizedBox(
                                   width: (MediaQuery.of(context).size.width-36)/2,
                                   child: TextFieldSimple(
                                     controller: taxPercentController,
@@ -296,11 +340,11 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                               ],
                             ),
                             Container(
-                              margin: const EdgeInsets.only(left: 8, top: 24),
+                              margin: const EdgeInsets.only(left: 8, top: 16),
                               child: TextDandyLight(
-                                type: TextDandyLight.SMALL_TEXT,
-                                text: 'Job Stages',
-                                color: Color(ColorConstants.getPrimaryBlack()),
+                                type: TextDandyLight.EXTRA_SMALL_TEXT,
+                                text: 'JOB STAGES*',
+                                color: Color(ColorConstants.getPrimaryGreyDark()),
                               ),
                             ),
                             Container(
@@ -320,22 +364,41 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                                 alignment: Alignment.center,
                                 height: 54,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(27),
-                                  color: Color(ColorConstants.getPeachDark()),
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                      color: stagesError ? Color(ColorConstants.error_red) : Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
+                                      width: stagesError ? 2 : 0
+                                  ),
+                                  color: Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
                                 ),
-                                child: TextDandyLight(
-                                  type: TextDandyLight.LARGE_TEXT,
-                                  text: (pageState.selectedJobStages?.isEmpty ?? true) ? 'Choose Stages' : '${pageState.selectedJobStages?.length ?? 0} Stages',
-                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.only(left: 16),
+                                      child: TextDandyLight(
+                                        type: TextDandyLight.SMALL_TEXT,
+                                        text: !(pageState.stagesComplete ?? false) ? 'Select Stages' : '${pageState.selectedJobStages?.length ?? 0} stages selected',
+                                        color: Color(ColorConstants.getPrimaryBlack()),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(right: 8.0),
+                                      child: Icon(
+                                        Icons.chevron_right,
+                                        color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
                             Container(
-                              margin: const EdgeInsets.only(left: 8, top: 24),
+                              margin: const EdgeInsets.only(left: 8, top: 16),
                               child: TextDandyLight(
-                                type: TextDandyLight.SMALL_TEXT,
-                                text: 'Session Reminders',
-                                color: Color(ColorConstants.getPrimaryBlack()),
+                                type: TextDandyLight.EXTRA_SMALL_TEXT,
+                                text: 'SESSION REMINDERS*',
+                                color: Color(ColorConstants.getPrimaryGreyDark()),
                               ),
                             ),
                             Container(
@@ -346,22 +409,44 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                                 color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
-                            GestureDetector(
-                              onTap: () {
-
-                              },
-                              child: Container(
-                                margin: const EdgeInsets.only(top: 8),
-                                alignment: Alignment.center,
-                                height: 54,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(27),
-                                  color: Color(ColorConstants.getPeachDark()),
-                                ),
-                                child: TextDandyLight(
-                                  type: TextDandyLight.LARGE_TEXT,
-                                  text: 'Choose Reminders',
-                                  color: Color(ColorConstants.getPrimaryWhite()),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width/2,
+                              child: GestureDetector(
+                                onTap: () {
+                                  _showChooseRemindersBottomSheet(context);
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(top: 8),
+                                  alignment: Alignment.center,
+                                  height: 54,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                        color: remindersError ? Color(ColorConstants.error_red) : Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
+                                        width: remindersError ? 2 : 0
+                                    ),
+                                    color: Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        margin: const EdgeInsets.only(left: 16),
+                                        child: TextDandyLight(
+                                          type: TextDandyLight.SMALL_TEXT,
+                                          text: (pageState.selectedReminders?.isEmpty ?? true) ? 'Select Reminders' : '${pageState.selectedReminders?.length ?? 0} reminders selected',
+                                          color: Color(ColorConstants.getPrimaryBlack()),
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: const EdgeInsets.only(right: 8.0),
+                                        child: Icon(
+                                          Icons.chevron_right,
+                                          color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -374,7 +459,17 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      pageState.onSavePressed!();
+                      if(pageState.saveButtonEnabled ?? false) {
+                        pageState.onSavePressed!();
+                      } else {
+                        setState(() {
+                          if(nameController.text.isEmpty) nameError = true;
+                          if(hoursController.text.isEmpty && minController.text.isEmpty) durationError = true;
+                          if(totalCostTextController.text.isEmpty) priceError = true;
+                          if(!(pageState.stagesComplete ?? false)) stagesError = true;
+                          if(pageState.selectedReminders?.isEmpty ?? true) remindersError = true;
+                        });
+                      }
                     },
                     child: Container(
                       margin: const EdgeInsets.only(bottom: 32),

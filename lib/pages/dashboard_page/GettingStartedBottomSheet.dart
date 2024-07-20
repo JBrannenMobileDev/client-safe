@@ -106,7 +106,6 @@ class _GettingStartedBottomSheetState extends State<GettingStartedBottomSheet> w
                         buildProgressCategory(
                             'Step 2 - Create your first job',
                             (pageState.profile?.progress.createJobType ?? false) &&
-                            (pageState.profile?.progress.createPricePackage ?? false) &&
                             (pageState.profile?.progress.addClient ?? false) &&
                             (pageState.profile?.progress.createJob ?? false)
                         ),
@@ -115,19 +114,9 @@ class _GettingStartedBottomSheetState extends State<GettingStartedBottomSheet> w
                             UserOptionsUtil.showNewJobTypePage(context, null);
                           },
                           child: buildProgressItem(
-                              'Create a job type',
-                              'A job type will be used to help organize your jobs. Also, each job type can be setup with unique reminders.',
+                              'Create a session type',
+                              'A session type will be used to setup the booking page and they help simplify creating new jobs.',
                               pageState.profile?.progress.createJobType ?? false
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            UserOptionsUtil.showNewPriceProfileDialog(context);
-                          },
-                          child: buildProgressItem(
-                              'Create a price package',
-                              'A pricing package streamlines your workflow by establishing predefined prices, deposits, and sales tax rates, which can then be readily applied to future jobs, saving you valuable time.',
-                              pageState.profile?.progress.createPricePackage ?? false
                           ),
                         ),
                         GestureDetector(

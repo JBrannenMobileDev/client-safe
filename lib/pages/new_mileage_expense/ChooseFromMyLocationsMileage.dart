@@ -133,9 +133,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                             icon: const Icon(Icons.add),
                             color: const Color(ColorConstants.white),
                             tooltip: 'Add',
-                            onPressed: () {
-                              UserOptionsUtil.showNewPriceProfileDialog(context);
-                            },
+                            onPressed: () {},
                           ),
                           TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,

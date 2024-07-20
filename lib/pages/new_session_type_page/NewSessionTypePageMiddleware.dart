@@ -2,8 +2,10 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobTypeDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ReminderDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/SessionTypeDao.dart';
 import 'package:dandylight/models/JobType.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
+import 'package:dandylight/models/SessionType.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:redux/redux.dart';
@@ -22,10 +24,10 @@ class NewSessionTypePageMiddleware extends MiddlewareClass<AppState> {
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next){
-    if(action is SaveNewJobTypeAction){
-      saveNewJobType(store, action, next);
+    if(action is SaveNewSessionTypeAction){
+      saveNewSessionType(store, action, next);
     }
-    if(action is DeleteJobTypeAction){
+    if(action is DeleteSessionTypeAction){
       _deleteJobType(store, action, next);
     }
     if(action is LoadPricesPackagesAndRemindersAction) {
@@ -38,32 +40,38 @@ class NewSessionTypePageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetAllAction(store.state.newSessionTypePageState, allReminders));
   }
 
-  void saveNewJobType(Store<AppState> store, SaveNewJobTypeAction action, NextDispatcher next) async{
+  void saveNewSessionType(Store<AppState> store, SaveNewSessionTypeAction action, NextDispatcher next) async{
     List<JobStage>? stages = store.state.newSessionTypePageState!.selectedJobStages;
 
     stages!.insert(0, JobStage(id: 1, stage: JobStage.STAGE_1_INQUIRY_RECEIVED, imageLocation: JobStage.getImageLocation(JobStage.STAGE_1_INQUIRY_RECEIVED)));
     stages.add(JobStage(id: 14, stage: JobStage.STAGE_14_JOB_COMPLETE, imageLocation: JobStage.getImageLocation(JobStage.STAGE_14_JOB_COMPLETE)));
-    JobType newJobType = JobType(
+
+    SessionType newSessionType = SessionType(
       id: store.state.newSessionTypePageState!.id,
       documentId: store.state.newSessionTypePageState!.documentId,
-      title: store.state.newSessionTypePageState!.title,
+      title: store.state.newSessionTypePageState!.title ?? 'No title',
       createdDate: DateTime.now(),
       stages: stages,
-      reminders: store.state.newSessionTypePageState!.selectedReminders,
+      reminders: store.state.newSessionTypePageState?.selectedReminders ?? [],
+      durationMinutes: store.state.newSessionTypePageState?.minutes ?? 0,
+      durationHours: store.state.newSessionTypePageState?.hours ?? 0,
+      totalCost: store.state.newSessionTypePageState?.totalCost ?? 0.0,
+      deposit: store.state.newSessionTypePageState?.deposit ?? 0.0,
+      salesTaxPercent: store.state.newSessionTypePageState?.taxPercent ?? 0.0,
     );
 
-    await JobTypeDao.insertOrUpdate(newJobType);
+    await SessionTypeDao.insertOrUpdate(newSessionType);
 
     EventSender().sendEvent(eventName: EventNames.CREATED_JOB_TYPE, properties: {
-      EventNames.JOB_TYPE_PARAM_NAME : newJobType.title!,
-      EventNames.JOB_TYPE_PARAM_REMINDER_NAMES : newJobType.reminders!.map((reminder) => reminder.description).toList(),
-      EventNames.JOB_TYPE_PARAM_STAGE_NAMES : newJobType.stages!.map((stage) => stage.stage).toList(),
+      EventNames.JOB_TYPE_PARAM_NAME : newSessionType.title,
+      EventNames.JOB_TYPE_PARAM_REMINDER_NAMES : newSessionType.reminders.map((reminder) => reminder.description).toList(),
+      EventNames.JOB_TYPE_PARAM_STAGE_NAMES : newSessionType.stages.map((stage) => stage.stage).toList(),
     });
 
     store.dispatch(FetchJobTypesAction(store.state.jobTypesPageState));
 
-    JobType jobTypeWithDocumentId = await JobTypeDao.getByName(newJobType.title!);
-    store.dispatch(UpdateWithNewJobTypeAction(store.state.newJobPageState, jobTypeWithDocumentId));
+    SessionType sessionTypeWithDocumentId = await SessionTypeDao.getByName(newSessionType.title);
+    store.dispatch(UpdateWithNewSessionTypeAction(store.state.newJobPageState, sessionTypeWithDocumentId));
 
     Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     if(profile != null && !profile.progress.createJobType) {
@@ -76,7 +84,7 @@ class NewSessionTypePageMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
-  void _deleteJobType(Store<AppState> store, DeleteJobTypeAction action, NextDispatcher next) async{
+  void _deleteJobType(Store<AppState> store, DeleteSessionTypeAction action, NextDispatcher next) async{
     await JobTypeDao.delete(store.state.newSessionTypePageState!.documentId!);
     JobType? jobType = await JobTypeDao.getJobTypeById(action.pageState!.documentId!);
     if(jobType != null) {

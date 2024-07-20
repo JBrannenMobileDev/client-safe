@@ -91,7 +91,7 @@ class ContractEditPageMiddleware extends MiddlewareClass<AppState> {
         });
 
         if(isContractSignedChecked) {
-          List<JobStage>? stages = job.type!.stages;
+          List<JobStage>? stages = job.sessionType!.stages;
           int index = -1;
           for(int i = 0; i < stages!.length; i++) {
             if(stages.elementAt(i).stage == JobStage.STAGE_4_PROPOSAL_SIGNED) {

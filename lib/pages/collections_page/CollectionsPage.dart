@@ -1,7 +1,6 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/collections_page/CollectionsPageState.dart';
 import 'package:dandylight/pages/locations_page/LocationsPage.dart';
-import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPage.dart';
 import 'package:dandylight/pages/questionnaires_page/QuestionnairesPage.dart';
 import 'package:dandylight/pages/reminders_page/RemindersPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -130,28 +129,23 @@ class _CollectionsPageState extends State<CollectionsPage> {
         break;
       case 4:
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => PricingProfilesPage()),
+          MaterialPageRoute(builder: (context) => LocationsPage()),
         );
         break;
       case 5:
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => LocationsPage()),
+          MaterialPageRoute(builder: (context) => ResponsesPage()),
         );
         break;
       case 6:
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => ResponsesPage()),
-        );
-        break;
-      case 7:
-        Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => RemindersPage()),
         );
         break;
-      case 8:
+      case 7:
         DandyToastUtil.showToast("Coming 2024! \nThis feature is not ready yet.", Color(ColorConstants.getPrimaryGreyMedium()));
         break;
-      case 9:
+      case 8:
         DandyToastUtil.showToast("Coming 2024! \nThis feature is not ready yet.", Color(ColorConstants.getPrimaryGreyMedium()));
         break;
     }
@@ -182,13 +176,10 @@ class _CollectionsPageState extends State<CollectionsPage> {
         color = Color(ColorConstants.getBlueLight());
         break;
       case 7:
-        color = Color(ColorConstants.getPeachLight());
-        break;
-      case 8:
         // color = Color(ColorConstants.getPeachDark());
         color = Color(ColorConstants.getBlueLight()).withOpacity(0.5);
         break;
-      case 9:
+      case 8:
         // color = Color(ColorConstants.getBlueLight());
         color = Color(ColorConstants.getBlueLight()).withOpacity(0.5);
         break;

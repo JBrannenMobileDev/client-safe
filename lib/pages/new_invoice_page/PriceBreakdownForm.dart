@@ -58,14 +58,13 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
   Widget build(BuildContext context) {
     super.build(context);
 
-    if(flatRateTextController.text.length == 0) flatRateTextController = TextEditingController(text: '\$');
+    if(flatRateTextController.text.isEmpty) flatRateTextController = TextEditingController(text: '\$');
 
     return StoreConnector<AppState, NewInvoicePageState>(
       onInit: (appState) {
 
-        if (appState.state.newInvoicePageState!.selectedJob?.priceProfile != null) {
-          flatRateTextController = TextEditingController(text: '\$' + appState.state.newInvoicePageState!.selectedJob!.priceProfile!
-              .flatRate!.toInt().toString());
+        if (appState.state.newInvoicePageState!.selectedJob?.sessionType != null) {
+          flatRateTextController = TextEditingController(text: '\$${appState.state.newInvoicePageState!.selectedJob!.sessionType!.totalCost.toInt()}');
         }
 
         flatRateInputFocusNode.addListener(() {
@@ -78,7 +77,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
         );
       },
       onDidChange: (prev, pageState) {
-        flatRateTextController.text = pageState.flatRateText!.length == 0 ? '\$' : '\$' + double.parse(pageState.flatRateText!.replaceFirst(r'$', '')).toInt().toString();
+        flatRateTextController.text = pageState.flatRateText!.isEmpty ? '\$' : '\$${double.parse(pageState.flatRateText!.replaceFirst(r'$', '')).toInt()}';
         flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
       },
       converter: (store) => NewInvoicePageState.fromStore(store),
@@ -112,7 +111,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
                   DiscountRowWidget(pageState),
                   SalesTaxRowWidget(),
                   GrayDividerWidget(),
-                  (pageState.selectedJob?.priceProfile?.deposit ?? 0) > 0 ? DepositRowWidget() : SizedBox(),
+                  (pageState.selectedJob?.sessionType?.deposit ?? 0) > 0 ? DepositRowWidget() : SizedBox(),
                   BalanceDueWidget(pageState),
                 ],
               )

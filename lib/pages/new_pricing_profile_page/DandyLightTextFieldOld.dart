@@ -8,7 +8,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../widgets/TextDandyLight.dart';
 
-class DandyLightTextField extends StatelessWidget {
+class DandyLightTextFieldOld extends StatelessWidget {
   final TextEditingController? controller;
   final String? hintText;
   final String? labelText;
@@ -24,7 +24,7 @@ class DandyLightTextField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatter;
   final bool? enabled;
 
-  DandyLightTextField({
+  DandyLightTextFieldOld({
       this.controller,
       this.hintText,
       this.inputType,

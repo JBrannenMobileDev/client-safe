@@ -73,8 +73,8 @@ class PendingEmail{
     if(!progress.previewClientPortal) return PendingEmail.TYPE_VIEW_CLIENT_PORTAL;
     if(!progress.previewSampleJob) return PendingEmail.TYPE_VIEW_EXAMPLE_JOB;
     if(!progress.setupBrand) return PendingEmail.TYPE_SETUP_YOU_BRAND;
-    if(!progress.createPricePackage) return PendingEmail.TYPE_CREATE_PRICE_PACKAGE;
     if(!progress.addClient) return PendingEmail.TYPE_ADD_FIRST_CLIENT;
+    //TODO Create first session type
     if(!progress.createJob) return PendingEmail.TYPE_CREATE_FIRST_JOB;
     if(!progress.createContract) return PendingEmail.TYPE_CREATE_CONTRACT;
     if(!progress.addContractToJob) return PendingEmail.TYPE_ADD_CONTRACT_TO_JOB;

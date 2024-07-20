@@ -53,7 +53,7 @@ class _ReminderSelectionPageState extends State<ReminderSelectionWidget> with Au
                 Container(
                   margin: EdgeInsets.only(bottom: 0.0, left: 8.0),
                   child: TextDandyLight(
-                    type: TextDandyLight.MEDIUM_TEXT,
+                    type: TextDandyLight.SMALL_TEXT,
                     text: "Select what reminders you want for this job type. You may also add your own.",
                     textAlign: TextAlign.start,
                     color: Color(ColorConstants.getPrimaryBlack()),
@@ -65,7 +65,7 @@ class _ReminderSelectionPageState extends State<ReminderSelectionWidget> with Au
                     Padding(
                       padding: EdgeInsets.only(left: 8.0, right: 8.0),
                       child: TextDandyLight(
-                        type: TextDandyLight.MEDIUM_TEXT,
+                        type: TextDandyLight.SMALL_TEXT,
                         text: 'Check All',
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
@@ -75,7 +75,7 @@ class _ReminderSelectionPageState extends State<ReminderSelectionWidget> with Au
                       margin: EdgeInsets.only(right: 8.0),
                       child: Checkbox(
                         checkColor: Color(ColorConstants.getPrimaryWhite()),
-                        fillColor: MaterialStateProperty.resolveWith(getColor),
+                        activeColor: Color(ColorConstants.getPeachDark()),
                         value: pageState.checkAllReminders,
                         onChanged: (bool? isChecked) {
                           pageState.checkAllRemindersChecked!(isChecked!);

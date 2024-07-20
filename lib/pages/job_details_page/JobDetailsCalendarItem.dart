@@ -57,7 +57,7 @@ class JobDetailsCalendarItem extends StatelessWidget{
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
-                          job!.selectedDate != null && job!.selectedTime != null && job!.location != null && job!.priceProfile != null
+                          job!.selectedDate != null && job!.selectedTime != null && job!.location != null && job!.sessionType != null
                               ? SizedBox() : Container(
                             margin: EdgeInsets.only(left: 8.0),
                             height: 20.0,
@@ -78,7 +78,7 @@ class JobDetailsCalendarItem extends StatelessWidget{
                         type: TextDandyLight.SMALL_TEXT,
                         text: _getSubtext(job!),
                         textAlign: TextAlign.start,
-                        color: job!.selectedDate != null && job!.selectedTime != null && job!.location != null && job!.priceProfile != null
+                        color: job!.selectedDate != null && job!.selectedTime != null && job!.location != null && job!.sessionType != null
                             ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPeachDark()),
                       ),
                     ],
@@ -99,7 +99,7 @@ class JobDetailsCalendarItem extends StatelessWidget{
   }
 
   String _getSubtext(Job job) {
-    if(job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null){
+    if(job.selectedDate != null && job.selectedTime != null && job.location != null && job.sessionType != null){
       return DateFormat('EEE, MMM d').format(job.selectedDate!) + ' · ' + DateFormat('h:mm a').format(job.selectedTime!);
     }
     if(job.selectedDate == null){
@@ -111,7 +111,7 @@ class JobDetailsCalendarItem extends StatelessWidget{
     if(job.location == null){
       return 'Location not selected!';
     }
-    if(job.priceProfile == null){
+    if(job.sessionType == null){
       return 'Price package not selected!';
     }
     return '';

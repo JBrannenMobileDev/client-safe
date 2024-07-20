@@ -38,14 +38,14 @@ class ContractUtils {
     replaceAll(document, Job.DETAIL_SESSION_DATE, job.selectedDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(job.selectedDate!) : 'TBD');
     replaceAll(document, Job.DETAIL_RETAINER_DUE_DATE, job.invoice != null && job.invoice!.depositDueDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(job.invoice!.depositDueDate!) : 'TBD');
     replaceAll(document, Job.DETAIL_TOTAL_DUE_DATE, job.invoice != null && job.invoice!.dueDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(job.invoice!.dueDate!) : 'TBD');
-    replaceAll(document, Job.DETAIL_RETAINER_PRICE, job.invoice != null && job.invoice!.depositAmount != null ? TextFormatterUtil.formatDecimalCurrency(job.invoice!.depositAmount!) : job.invoice == null && job.priceProfile != null && job.priceProfile!.deposit != null ? TextFormatterUtil.formatDecimalCurrency(job.priceProfile!.deposit!) : 'TBD');
-    replaceAll(document, Job.DETAIL_TOTAL, job.invoice != null && job.invoice!.total != null ? TextFormatterUtil.formatDecimalCurrency(job.invoice!.total!) : job.invoice == null && job.priceProfile != null ? TextFormatterUtil.formatDecimalCurrency(job.priceProfile!.flatRate!) : 'N/A');
+    replaceAll(document, Job.DETAIL_RETAINER_PRICE, job.invoice != null && job.invoice!.depositAmount != null ? TextFormatterUtil.formatDecimalCurrency(job.invoice!.depositAmount!) : job.invoice == null && job.sessionType != null && job.sessionType!.deposit != null ? TextFormatterUtil.formatDecimalCurrency(job.sessionType!.deposit!) : 'TBD');
+    replaceAll(document, Job.DETAIL_TOTAL, job.invoice != null && job.invoice!.total != null ? TextFormatterUtil.formatDecimalCurrency(job.invoice!.total!) : job.invoice == null && job.sessionType != null ? TextFormatterUtil.formatDecimalCurrency(job.sessionType!.getTotalPlusTax()) : 'N/A');
     replaceAll(document, Job.DETAIL_EFFECTIVE_DATE, contract.firstSharedDate != null ? DateFormat('EEE, MMMM dd, yyyy').format(contract.firstSharedDate!) : DateFormat('EEE, MMMM dd, yyyy').format(DateTime.now()));
     replaceAll(document, Job.DETAIL_START_TIME, job.selectedTime != null ? DateFormat('h:mm a').format(job.selectedTime!) : 'TBD');
     replaceAll(document, Job.DETAIL_END_TIME, job.selectedEndTime != null ? DateFormat('h:mm a').format(job.selectedEndTime!) : 'TBD');
     replaceAll(document, Job.DETAIL_PHOTOGRAPHER_EMAIL, profile.email != null && profile.email!.isNotEmpty ? profile.email! : 'Photographer email: N/A');
     replaceAll(document, Job.DETAIL_PHOTOGRAPHER_PHONE, profile.phone != null && profile.phone!.isNotEmpty ? profile.phone! : 'Photographer phone: N/A');
-    replaceAll(document, Job.DETAIL_REMAINING_BALANCE,  job.invoice != null ? TextFormatterUtil.formatDecimalCurrency(job.invoice!.total! - job.invoice!.depositAmount!) : job.invoice == null ? job.priceProfile != null ? TextFormatterUtil.formatDecimalCurrency(job.priceProfile!.flatRate! - job.priceProfile!.deposit!) : 'N/A' : 'N/A');
+    replaceAll(document, Job.DETAIL_REMAINING_BALANCE,  job.invoice != null ? TextFormatterUtil.formatDecimalCurrency(job.invoice!.total! - job.invoice!.depositAmount!) : job.invoice == null ? job.sessionType != null ? TextFormatterUtil.formatDecimalCurrency(job.sessionType!.getTotalPlusTax() - job.sessionType!.deposit!) : 'N/A' : 'N/A');
     return document;
   }
 

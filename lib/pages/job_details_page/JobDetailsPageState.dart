@@ -6,23 +6,20 @@ import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/models/LocationDandy.dart';
-import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/job_details_page/document_items/DocumentItem.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
-import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
 import '../../models/Contract.dart';
-import '../../models/JobType.dart';
 import '../../models/MileageExpense.dart';
-import '../../models/Pose.dart';
 import '../../models/Profile.dart';
 import '../../models/Questionnaire.dart';
+import '../../models/SessionType.dart';
 import '../sunset_weather_page/SunsetWeatherPageActions.dart';
 
 class JobDetailsPageState {
@@ -35,7 +32,7 @@ class JobDetailsPageState {
   final List<EventDandyLight>? eventList;
   final List<Event>? deviceEvents;
   final List<Job>? jobs;
-  final JobType? jobType;
+  final SessionType? sessionType;
   final List<JobReminder>? reminders;
   final String? jobTitleText;
   final double? unsavedAddOnCostAmount;
@@ -45,9 +42,7 @@ class JobDetailsPageState {
   final Function(LocationDandy)? onLocationSelected;
   final List<int>? expandedIndexes;
   final String? documentPath;
-  final PriceProfile? selectedPriceProfile;
-  final List<PriceProfile>? priceProfiles;
-  final List<JobType>? jobTypes;
+  final List<SessionType>? sessionTypes;
   final List<DocumentItem>? documents;
   final List<String>? poseFilePaths;
   final MileageExpense? mileageTrip;
@@ -62,9 +57,8 @@ class JobDetailsPageState {
   final String? sunset;
   final String? eveningBlueHour;
   final Profile? profile;
-  final Function(PriceProfile)? onPriceProfileSelected;
   final Function(String)? onSaveUpdatedPriceProfileSelected;
-  final Function(JobType)? onJobTypeSelected;
+  final Function(SessionType)? onSessionTypeSelected;
   final Function(Job, int)? onStageCompleted;
   final Function(Job, int)? onStageUndo;
   final Function(int)? setNewIndexForStageAnimation;
@@ -80,7 +74,7 @@ class JobDetailsPageState {
   final Function(LocationDandy)? onLocationSaveSelected;
   final Function(String)? onJobTitleTextChanged;
   final Function()? onNameChangeSaved;
-  final Function()? onJobTypeSaveSelected;
+  final Function()? onSessionTypeSaveSelected;
   final Function(int)? onAddToDeposit;
   final Function()? onSaveAddOnCost;
   final Function()? onClearUnsavedDeposit;
@@ -136,11 +130,8 @@ class JobDetailsPageState {
     @required this.onLocationSaveSelected,
     @required this.onJobTitleTextChanged,
     @required this.onNameChangeSaved,
-    @required this.onJobTypeSelected,
-    @required this.onJobTypeSaveSelected,
-    @required this.selectedPriceProfile,
-    @required this.priceProfiles,
-    @required this.onPriceProfileSelected,
+    @required this.onSessionTypeSelected,
+    @required this.onSessionTypeSaveSelected,
     @required this.onSaveUpdatedPriceProfileSelected,
     @required this.unsavedAddOnCostAmount,
     @required this.onAddToDeposit,
@@ -158,8 +149,8 @@ class JobDetailsPageState {
     @required this.onDeleteReminderSelected,
     @required this.onMonthChanged,
     @required this.onNewDateSelected,
-    @required this.jobType,
-    @required this.jobTypes,
+    @required this.sessionType,
+    @required this.sessionTypes,
     @required this.onNewEndTimeSelected,
     @required this.onDeletePoseSelected,
     @required this.onNotesTextChanged,
@@ -199,7 +190,7 @@ class JobDetailsPageState {
     List<EventDandyLight>? eventList,
     List<Event>? deviceEvents,
     List<Job>? jobs,
-    JobType? jobType,
+    SessionType? sessionType,
     String? jobTitleText,
     List<LocationDandy>? locations,
     List<JobReminder>? reminders,
@@ -208,18 +199,15 @@ class JobDetailsPageState {
     List<int>? expandedIndexes,
     String? documentPath,
     Invoice? invoice,
-    List<JobType>? jobTypes,
-    PriceProfile? selectedPriceProfile,
-    List<PriceProfile>? priceProfiles,
+    List<SessionType>? sessionTypes,
     String? eveningGoldenHour,
     String? sunset,
     String? eveningBlueHour,
     List<String>? poseFilePaths,
     Profile? profile,
     MileageExpense? mileageTrip,
-    Function(PriceProfile)? onPriceProfileSelected,
     Function(String)? onSaveUpdatedPriceProfileSelected,
-    Function(JobType)? onJobTypeSelected,
+    Function(SessionType)? onSessionTypeSelected,
     Function(Job, int)? onStageCompleted,
     Function(Job, int)? onStageUndo,
     Function(int)? setNewIndexForStageAnimation,
@@ -235,7 +223,7 @@ class JobDetailsPageState {
     Function(LocationDandy)? onLocationSaveSelected,
     Function(String)? onJobTitleTextChanged,
     Function()? onNameChangeSaved,
-    Function()? onJobTypeSaveSelected,
+    Function()? onSessionTypeSaveSelected,
     Function(bool)? setMileageAutoTrack,
     double? unsavedAddOnCostAmount,
     Function(int)? onAddToDeposit,
@@ -275,7 +263,7 @@ class JobDetailsPageState {
       eventList: eventList ?? this.eventList,
       deviceEvents: deviceEvents ?? this.deviceEvents,
       jobs: jobs ?? this.jobs,
-      jobType: jobType ?? this.jobType,
+      sessionType: sessionType ?? this.sessionType,
       reminders: reminders ?? this.reminders,
       documentPath: documentPath ?? this.documentPath,
       jobTitleText: jobTitleText ?? this.jobTitleText,
@@ -298,12 +286,9 @@ class JobDetailsPageState {
       onLocationSaveSelected: onLocationSaveSelected ?? this.onLocationSaveSelected,
       onJobTitleTextChanged: onJobTitleTextChanged ?? this.onJobTitleTextChanged,
       onNameChangeSaved: onNameChangeSaved ?? this.onNameChangeSaved,
-      onJobTypeSelected: onJobTypeSelected ?? this.onJobTypeSelected,
-      onJobTypeSaveSelected: onJobTypeSaveSelected ?? this.onJobTypeSaveSelected,
-      selectedPriceProfile: selectedPriceProfile ?? this.selectedPriceProfile,
-      priceProfiles: priceProfiles ?? this.priceProfiles,
+      onSessionTypeSelected: onSessionTypeSelected ?? this.onSessionTypeSelected,
+      onSessionTypeSaveSelected: onSessionTypeSaveSelected ?? this.onSessionTypeSaveSelected,
       unsavedTipAmount: unsavedTipAmount ?? this.unsavedTipAmount,
-      onPriceProfileSelected: onPriceProfileSelected ?? this.onPriceProfileSelected,
       onSaveUpdatedPriceProfileSelected: onSaveUpdatedPriceProfileSelected ?? this.onSaveUpdatedPriceProfileSelected,
       unsavedAddOnCostAmount: unsavedAddOnCostAmount ?? this.unsavedAddOnCostAmount,
       onAddToDeposit: onAddToDeposit ?? this.onAddToDeposit,
@@ -318,7 +303,7 @@ class JobDetailsPageState {
       selectedDate: selectedDate ?? this.selectedDate,
       onMonthChanged: onMonthChanged ?? this.onMonthChanged,
       onNewDateSelected: onNewDateSelected ?? this.onNewDateSelected,
-      jobTypes: jobTypes ?? this.jobTypes,
+      sessionTypes: sessionTypes ?? this.sessionTypes,
       onNewEndTimeSelected: onNewEndTimeSelected ?? this.onNewEndTimeSelected,
       onDeletePoseSelected: onDeletePoseSelected ?? this.onDeletePoseSelected,
       onNotesTextChanged: onNotesTextChanged ?? this.onNotesTextChanged,
@@ -360,16 +345,14 @@ class JobDetailsPageState {
         selectedLocation: store.state.jobDetailsPageState!.selectedLocation,
         expandedIndexes: store.state.jobDetailsPageState!.expandedIndexes,
         newStagAnimationIndex: store.state.jobDetailsPageState!.newStagAnimationIndex,
-        selectedPriceProfile: store.state.jobDetailsPageState!.selectedPriceProfile,
-        priceProfiles: store.state.jobDetailsPageState!.priceProfiles,
         unsavedAddOnCostAmount: store.state.jobDetailsPageState!.unsavedAddOnCostAmount,
         unsavedTipAmount: store.state.jobDetailsPageState!.unsavedTipAmount,
         documentPath: store.state.jobDetailsPageState!.documentPath,
         documents: store.state.jobDetailsPageState!.documents,
         invoice: store.state.jobDetailsPageState!.invoice,
         reminders: store.state.jobDetailsPageState!.reminders,
-        jobType: store.state.jobDetailsPageState!.jobType,
-        jobTypes: store.state.jobDetailsPageState!.jobTypes,
+        sessionType: store.state.jobDetailsPageState!.sessionType,
+        sessionTypes: store.state.jobDetailsPageState!.sessionTypes,
         notes: store.state.jobDetailsPageState!.notes,
         weatherIcon: store.state.jobDetailsPageState!.weatherIcon,
         tempLow: store.state.jobDetailsPageState!.tempLow,
@@ -401,13 +384,7 @@ class JobDetailsPageState {
         onLocationSaveSelected: (location) => store.dispatch(UpdateNewLocationAction(store.state.jobDetailsPageState, location)),
         onJobTitleTextChanged: (newText) => store.dispatch(UpdateJobNameAction(store.state.jobDetailsPageState, newText)),
         onNameChangeSaved: () => store.dispatch(SaveJobNameChangeAction(store.state.jobDetailsPageState)),
-        onJobTypeSelected: (jobType) => store.dispatch(UpdateSelectedJobTypeAction(store.state.jobDetailsPageState, jobType)),
-        onJobTypeSaveSelected: () => store.dispatch(SaveUpdatedJobTypeAction(store.state.jobDetailsPageState)),
-        onPriceProfileSelected: (priceProfile) => store.dispatch(UpdateSelectedPricePackageAction(store.state.jobDetailsPageState, priceProfile)),
-        onSaveUpdatedPriceProfileSelected: (oneTimePrice) {
-          store.dispatch(OnDeleteInvoiceSelectedAction(store.state.jobDetailsPageState, store.state.jobDetailsPageState!.invoice));
-          store.dispatch(SaveUpdatedPricePackageAction(store.state.jobDetailsPageState, oneTimePrice));
-        },
+        onSessionTypeSaveSelected: () => store.dispatch(SaveUpdatedSessionTypeAction(store.state.jobDetailsPageState)),
         onAddToDeposit: (amountToAdd) => store.dispatch(AddToAddOnCostAction(store.state.jobDetailsPageState, amountToAdd)),
         onSaveAddOnCost: () => store.dispatch(SaveAddOnCostAction(store.state.jobDetailsPageState)),
         onClearUnsavedDeposit: () => store.dispatch(ClearUnsavedDepositAction(store.state.jobDetailsPageState)),
@@ -450,7 +427,7 @@ class JobDetailsPageState {
     jobTitleText: "",
     onDeleteInvoiceSelected: null,
     documents: [],
-    jobType: null,
+    sessionType: null,
     onLocationSaveSelected: null,
     setNewIndexForStageAnimation: null,
     locations: [],
@@ -472,11 +449,8 @@ class JobDetailsPageState {
     onJobTitleTextChanged: null,
     onNameChangeSaved: null,
     documentPath: '',
-    onJobTypeSelected: null,
-    onJobTypeSaveSelected: null,
-    selectedPriceProfile: null,
-    priceProfiles: [],
-    onPriceProfileSelected: null,
+    onSessionTypeSelected: null,
+    onSessionTypeSaveSelected: null,
     onSaveUpdatedPriceProfileSelected: null,
     unsavedAddOnCostAmount: 0,
     onAddToDeposit: null,
@@ -490,7 +464,7 @@ class JobDetailsPageState {
     onSaveTipChange: null,
     onClearUnsavedTip: null,
     reminders: [],
-    jobTypes: [],
+    sessionTypes: [],
     onNewEndTimeSelected: null,
     onDeletePoseSelected: null,
     onNotesTextChanged: null,
@@ -532,8 +506,8 @@ class JobDetailsPageState {
       tempHigh.hashCode ^
       chanceOfRain.hashCode ^
       cloudCoverage.hashCode ^
-      jobTypes.hashCode ^
-      jobType.hashCode ^
+      sessionTypes.hashCode ^
+      sessionType.hashCode ^
       poseFilePaths.hashCode ^
       onDrivingDirectionsSelected.hashCode ^
       documentPath.hashCode ^
@@ -566,11 +540,8 @@ class JobDetailsPageState {
       onSaveSelectedDate.hashCode ^
       onClientClicked.hashCode ^
       onJobTitleTextChanged.hashCode ^
-      onJobTypeSelected.hashCode ^
-      onJobTypeSaveSelected.hashCode ^
-      priceProfiles.hashCode ^
-      selectedPriceProfile.hashCode ^
-      onPriceProfileSelected.hashCode ^
+      onSessionTypeSelected.hashCode ^
+      onSessionTypeSaveSelected.hashCode ^
       onSaveUpdatedPriceProfileSelected.hashCode ^
       onClearUnsavedDeposit.hashCode ^
       onNewEndTimeSelected.hashCode ^
@@ -599,13 +570,13 @@ class JobDetailsPageState {
               sunset == other.sunset &&
               mileageTrip == other.mileageTrip &&
               eveningBlueHour == other.eveningBlueHour &&
-              jobTypes == other.jobTypes &&
+              sessionTypes == other.sessionTypes &&
               onDeleteContractSelected == other.onDeleteContractSelected &&
               selectedDate == other.selectedDate &&
               deviceEvents == other.deviceEvents &&
               unsavedTipAmount == other.unsavedTipAmount &&
               onAddToTip == other.onAddToTip &&
-              jobType == other.jobType &&
+              sessionType == other.sessionType &&
               onSunsetWeatherSelected == other.onSunsetWeatherSelected &&
               setOnBoardingComplete == other.setOnBoardingComplete &&
               onSaveTipChange == other.onSaveTipChange &&
@@ -640,12 +611,9 @@ class JobDetailsPageState {
               onSaveSelectedDate == other.onSaveSelectedDate &&
               onClientClicked == other.onClientClicked &&
               onJobTitleTextChanged == other.onJobTitleTextChanged &&
-              onJobTypeSelected == other.onJobTypeSelected &&
-              onJobTypeSaveSelected == other.onJobTypeSaveSelected &&
-              selectedPriceProfile == other.selectedPriceProfile &&
-              priceProfiles == other.priceProfiles &&
+              onSessionTypeSelected == other.onSessionTypeSelected &&
+              onSessionTypeSaveSelected == other.onSessionTypeSaveSelected &&
               onStartLocationChanged == other.onStartLocationChanged &&
-              onPriceProfileSelected == other.onPriceProfileSelected &&
               onSaveUpdatedPriceProfileSelected == other.onSaveUpdatedPriceProfileSelected &&
               onNewEndTimeSelected == other.onNewEndTimeSelected &&
               onDeletePoseSelected == other.onDeletePoseSelected &&

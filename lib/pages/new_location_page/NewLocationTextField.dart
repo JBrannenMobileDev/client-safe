@@ -1,7 +1,5 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/new_contact_pages/NewContactPageState.dart';
 import 'package:dandylight/pages/new_location_page/NewLocationPageState.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

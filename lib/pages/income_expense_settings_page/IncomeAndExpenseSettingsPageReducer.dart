@@ -156,7 +156,7 @@ buildIncomeAndExpenseRows(
     List<String> row = [
       DateFormat('MM-dd-yyyy').format(job.paymentReceivedDate!),
       job.jobTitle!,
-      job.invoice != null ? TextFormatterUtil.formatSimpleCurrencyNoNumberSign(job.invoice!.total! + tipAmount!) : TextFormatterUtil.formatSimpleCurrencyNoNumberSign(job.priceProfile!.flatRate! + tipAmount!),
+      job.invoice != null ? TextFormatterUtil.formatSimpleCurrencyNoNumberSign(job.invoice!.total! + tipAmount!) : TextFormatterUtil.formatSimpleCurrencyNoNumberSign(job.sessionType!.getTotalPlusTax() + tipAmount!),
       ' ',
     ];
     rows.add(row);

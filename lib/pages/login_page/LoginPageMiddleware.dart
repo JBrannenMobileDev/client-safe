@@ -17,6 +17,7 @@ import 'package:dandylight/data_layer/repositories/FileStorage.dart';
 import 'package:dandylight/data_layer/repositories/PendingEmailsRepository.dart';
 import 'package:dandylight/models/FontTheme.dart';
 import 'package:dandylight/models/Invoice.dart';
+import 'package:dandylight/models/SessionType.dart';
 import 'package:http/http.dart' as http;
 import 'package:dandylight/models/PoseLibraryGroup.dart';
 import 'package:dandylight/models/Profile.dart';
@@ -50,6 +51,7 @@ import '../../data_layer/local_db/daos/JobTypeDao.dart';
 import '../../data_layer/local_db/daos/PoseLibraryGroupDao.dart';
 import '../../data_layer/local_db/daos/PriceProfileDao.dart';
 import '../../data_layer/local_db/daos/ReminderDao.dart';
+import '../../data_layer/local_db/daos/SessionTypeDao.dart';
 import '../../models/Client.dart';
 import '../../models/ColorTheme.dart';
 import '../../models/Job.dart';
@@ -462,29 +464,21 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       await ReminderDao.insertOrUpdate(cleanCameraReminder);
       await ReminderDao.insertOrUpdate(oneWeekCheckInReminder);
 
-      //Creating price packages
-      PriceProfile priceProfile = PriceProfile(
-        id: null,
-        documentId: '',
-        profileName: 'Standard 1hr (EXAMPLE)',
-        flatRate: 350.00,
-        icon: 'assets/images/icons/income_received.png',
-        includeSalesTax: false,
-        salesTaxPercent: 0.0,
-        deposit: 50.0,
-      );
-      await PriceProfileDao.insertOrUpdate(priceProfile);
-
       //Create job types
-      JobType newJobType = JobType(
+      SessionType newSessionType = SessionType(
         id: null,
         documentId: '',
         title: 'Engagement - Example',
         createdDate: DateTime.now(),
         stages: JobStage.exampleJobStages(),
         reminders: await ReminderDao.getAll(),
+        totalCost: 500,
+        deposit: 150,
+        salesTaxPercent: 6.5,
+        durationHours: 1,
+        durationMinutes: 0,
       );
-      await JobTypeDao.insertOrUpdate(newJobType);
+      await SessionTypeDao.insertOrUpdate(newSessionType);
 
       //Create contacts
       Client client1 = Client(
@@ -525,10 +519,9 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         selectedDate: DateTime.now().add(Duration(days: 3)),
         selectedTime: DateTime(currentTime.year, currentTime.month, currentTime.day, 18, 45),
         selectedEndTime: DateTime(currentTime.year, currentTime.month, currentTime.day, 19, 45),
-        type: (await JobTypeDao.getAll())!.first,
+        sessionType: (await SessionTypeDao.getAll())!.first,
         stage: JobStage.exampleJobStages().elementAt(1),
         completedStages: [JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED)],
-        priceProfile: (await PriceProfileDao.getAllSortedByName()).first,
         createdDate: DateTime.now(),
         client: client,
         depositAmount: 0,

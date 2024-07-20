@@ -7,6 +7,7 @@ import 'package:dandylight/models/PriceProfile.dart';
 import 'JobType.dart';
 import 'Pose.dart';
 import 'Proposal.dart';
+import 'SessionType.dart';
 
 class Job {
   static const String DETAIL_CLIENT_NAME = "[Client Name]";
@@ -82,6 +83,7 @@ class Job {
   DateTime? selectedTime;
   DateTime? selectedEndTime;
   DateTime? createdDate;
+  SessionType? sessionType;
   JobType? type;
   JobStage? stage;
   Client? client;
@@ -106,11 +108,10 @@ class Job {
     this.selectedDate,
     this.selectedTime,
     this.selectedEndTime,
-    this.type,
+    this.sessionType,
     this.stage,
     this.completedStages,
     this.location,
-    this.priceProfile,
     this.invoice,
     this.depositAmount,
     this.createdDate,
@@ -132,13 +133,12 @@ class Job {
     String? deviceEventId,
     String? clientName,
     String? jobTitle,
-    PriceProfile? priceProfile,
     LocationDandy? location,
     String? notes,
     DateTime? selectedDate,
     DateTime? selectedTime,
     DateTime? selectedEndTime,
-    JobType? type,
+    SessionType? type,
     JobStage? stage,
     Invoice? invoice,
     int? depositAmount,
@@ -161,14 +161,13 @@ class Job {
       deviceEventId: deviceEventId ?? this.deviceEventId,
       clientName: clientName ?? this.clientName,
       jobTitle: jobTitle ?? this.jobTitle,
-      priceProfile: priceProfile ?? this.priceProfile,
       location: location ?? this.location,
       notes: notes ?? this.notes,
       selectedDate: selectedDate ?? this.selectedDate,
       selectedTime: selectedTime ?? this.selectedTime,
       selectedEndTime: selectedEndTime ?? this.selectedEndTime,
       paymentReceivedDate: paymentReceivedDate ?? this.paymentReceivedDate,
-      type: type ?? this.type,
+      sessionType: type ?? this.sessionType,
       stage: stage ?? this.stage,
       invoice: invoice ?? this.invoice,
       depositAmount: depositAmount ?? this.depositAmount,
@@ -199,10 +198,9 @@ class Job {
       'selectedEndTime' : selectedEndTime?.toString() ?? "",
       'createdDate' : createdDate?.toString() ?? "",
       'paymentReceivedDate' : paymentReceivedDate?.toString() ?? "",
-      'type' : type?.toMap() ?? null,
+      'type' : sessionType?.toMap() ?? null,
       'stage' : stage?.toMap() ?? null,
       'location' : location?.toMap() ?? null,
-      'priceProfile' : priceProfile?.toMap() ?? null,
       'client' : client?.toMap() ?? null,
       'invoice' : invoice?.toMap() ?? null,
       'completedStages' : convertCompletedStagesToMap(completedStages),
@@ -233,11 +231,10 @@ class Job {
       createdDate: map['createdDate'] != "" && map['createdDate'] != null ? DateTime.parse(map['createdDate']) : null,
       selectedEndTime: map['selectedEndTime'] != null && map['selectedEndTime'] != "" ? DateTime.parse(map['selectedEndTime']) : null,
       paymentReceivedDate: map['paymentReceivedDate'] != null && map['paymentReceivedDate'] != "" ? DateTime.parse(map['paymentReceivedDate']) : null,
-      type: JobType.fromMap(map['type']),
+      sessionType: SessionType.fromMap(map['type']),
       stage: JobStage.fromMap(map['stage']),
       client: map['client'] != null ? Client.fromMap(map['client']) : null,
       location: map['location'] != null ? LocationDandy.fromMap(map['location']) : null,
-      priceProfile: map['priceProfile'] != null ? PriceProfile.fromMap(map['priceProfile']) : null,
       invoice: map['invoice'] != null ? Invoice.fromMap(map['invoice']) : null,
       completedStages: convertMapsToJobStages(map['completedStages']),
       poses: convertMapsToPoses(map['poses']),
@@ -339,7 +336,8 @@ class Job {
   }
 
   double getJobCost() {
-    return (priceProfile != null ? priceProfile!.flatRate : 0)! + (addOnCost ?? 0);
+    double taxAmount = ((sessionType != null ? sessionType!.totalCost : 0) + (addOnCost ?? 0)) * (sessionType?.salesTaxPercent ?? 0.0)/100;
+    return (sessionType != null ? sessionType!.totalCost : 0) + (addOnCost ?? 0) + taxAmount;
   }
 
   static bool containsStage(List<JobStage>? completedStages, String? stageConstant) {
@@ -363,8 +361,8 @@ class Job {
   }
 
   int getStageIndex(String stageToMatch) {
-    for(int i = 0; i < type!.stages!.length; i++) {
-      if(type!.stages!.elementAt(i).stage == stageToMatch) {
+    for(int i = 0; i < sessionType!.stages!.length; i++) {
+      if(sessionType!.stages!.elementAt(i).stage == stageToMatch) {
         return i;
       }
     }
