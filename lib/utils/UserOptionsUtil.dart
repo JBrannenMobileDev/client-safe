@@ -162,22 +162,6 @@ class UserOptionsUtil {
     );
   }
 
-  static void showNewJobDialog(BuildContext context, bool comingFromOnBoarding, {int initialIndex = 0}) async {
-    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    if(profile!.isSubscribed! || profile.jobsCreatedCount! < 5 || profile.isFreeForLife! || AdminCheckUtil.isAdmin(profile)) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return NewJobPage(comingFromOnBoarding, initialIndex: initialIndex);
-        },
-      );
-    } else {
-      EventSender().sendEvent(eventName: EventNames.JOB_LIMIT_REACHED);
-      PendingEmailsRepository(functions: DandylightFunctionsApi(httpClient: http.Client())).sendTrialLimitReachedEmail();
-      NavigationUtil.onShowSubscribeNowPage(context);
-    }
-  }
-
   static void showSelectLocationDialog(BuildContext context){
     showDialog(
       context: context,
@@ -428,72 +412,6 @@ class UserOptionsUtil {
         return NewResponseCategoryPage();
       },
     );
-  }
-
-  static void showDashboardOptionsSheet(BuildContext context) {
-    showModalBottomSheet(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        context: context,
-        builder: (BuildContext context) {
-          return Container(
-            height: 154.0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                ListTile(
-                  leading: Icon(
-                      Icons.person,
-                      color: Color(ColorConstants.getPrimaryBlack())
-                  ),
-                  title: Text(
-                      "Add New Contact",
-                      style: TextStyle(
-                        fontSize: 22.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.getPrimaryBlack()),
-                      ),
-                  ),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return NewContactPage();
-                      },
-                    );
-                  },
-                ),
-                ListTile(
-                  leading: Icon(
-                    Icons.business_center,
-                    color: Color(ColorConstants.getPrimaryBlack()),
-                  ),
-                  title: Text(
-                      "Start New Job",
-                      style: TextStyle(
-                        fontSize: 22.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.getPrimaryBlack()),
-                      ),
-                  ),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return NewJobPage(false);
-                      },
-                    );
-                  },
-                ),
-              ],
-            ),
-          );
-        });
   }
 
   static void showShareOptionsSheet(BuildContext context, Client client, String message, String emailTitle) {

@@ -589,14 +589,6 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
     VibrateUtil.vibrateHeavy();
   }
 
-  void _onAddButtonPressed(BuildContext context) {
-    UserOptionsUtil.showDashboardOptionsSheet(context);
-  }
-
-  bool get _isMinimized {
-    return _scrollController.hasClients && _scrollController.offset > 260.0;
-  }
-
   double _getScrollToOffset(JobDetailsPageState pageState) {
     if(pageState.job != null) {
       int stageIndex = JobStage.getIndexOfCurrentStage(pageState.job!.stage!.stage!, pageState.job!.sessionType!.stages!);

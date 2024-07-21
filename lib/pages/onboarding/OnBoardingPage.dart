@@ -6,10 +6,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-import '../../models/LeadSource.dart';
-import '../../widgets/TextDandyLight.dart';
-import 'DoYouHaveAJobPage.dart';
 import 'LeadSourceSelectionPage.dart';
 import 'OnBoardingPageState.dart';
 import 'WhatTypePage.dart';

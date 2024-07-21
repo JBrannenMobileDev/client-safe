@@ -1,5 +1,6 @@
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -17,7 +18,7 @@ class StartAJobButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        UserOptionsUtil.showNewJobDialog(context, false);
+        NavigationUtil.showNewJobPage(context);
         EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "Start a Job Button On Dashboard"});
       },
       child: Container(

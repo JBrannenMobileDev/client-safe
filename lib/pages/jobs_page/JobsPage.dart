@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../utils/NavigationUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -85,7 +86,7 @@ class _JobsPageState extends State<JobsPage> {
                         actions: <Widget>[
                           GestureDetector(
                             onTap: () {
-                              UserOptionsUtil.showNewJobDialog(context, false);
+                              NavigationUtil.showNewJobPage(context);
                               EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "Jobs Page"});
                             },
                             child: Container(

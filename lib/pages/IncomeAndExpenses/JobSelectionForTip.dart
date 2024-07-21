@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../utils/NavigationUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -180,7 +181,7 @@ class _JobSelectionForTipState extends State<JobSelectionForTip> with AutomaticK
 
   void startNewJobSelected() {
     Navigator.of(context).pop();
-    UserOptionsUtil.showNewJobDialog(context, false, );
+    NavigationUtil.showNewJobPage(context);
     EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "New Tip Page"});
   }
 

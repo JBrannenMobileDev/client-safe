@@ -457,12 +457,12 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                           ),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'Start new job',
+                            text: 'New Booking',
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                         onTap: () {
-                          UserOptionsUtil.showNewJobDialog(context, false);
+                          NavigationUtil.showNewJobPage(context);
                           EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "Dashboard"});
                         },
                       ),

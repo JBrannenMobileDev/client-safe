@@ -34,7 +34,11 @@ import 'package:dandylight/utils/UidUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
 
+
+import '../data_layer/api_clients/DandylightFunctionsClient.dart';
+import '../data_layer/repositories/PendingEmailsRepository.dart';
 import '../models/Job.dart';
 import '../models/JobStage.dart';
 import '../models/LocationDandy.dart';
@@ -54,6 +58,9 @@ import '../pages/new_session_type_page/NewSessionTypePage.dart';
 import '../pages/poses_page/PosesPage.dart';
 import '../pages/questionnaires_page/QuestionnairesPage.dart';
 import '../pages/share_with_client_page/ShareWithClientPage.dart';
+import 'AdminCheckUtil.dart';
+import 'analytics/EventNames.dart';
+import 'analytics/EventSender.dart';
 
 class NavigationUtil {
   static onShowSubscribeNowPage(BuildContext context) async {
@@ -209,8 +216,19 @@ class NavigationUtil {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewSessionTypePage(sessionType)));
   }
 
-  static void showNewJobPage(BuildContext context, SessionType? sessionType) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewJobPage(false)));
+  static void showNewJobPage(BuildContext context) async {
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(profile!.isSubscribed! || profile.jobsCreatedCount! < 5 || profile.isFreeForLife! || AdminCheckUtil.isAdmin(profile)) {
+      if(context.mounted) {
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewJobPage()));
+      }
+    } else {
+      EventSender().sendEvent(eventName: EventNames.JOB_LIMIT_REACHED);
+      PendingEmailsRepository(functions: DandylightFunctionsApi(httpClient: http.Client())).sendTrialLimitReachedEmail();
+      if(context.mounted) {
+        NavigationUtil.onShowSubscribeNowPage(context);
+      }
+    }
   }
 }
 

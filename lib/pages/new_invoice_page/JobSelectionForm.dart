@@ -5,6 +5,7 @@ import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -149,7 +150,7 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
 
   void onAddNewJobPressed() {
     Navigator.of(context).pop();
-    UserOptionsUtil.showNewJobDialog(context, false);
+    NavigationUtil.showNewJobPage(context);
     EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "New Invoice Page"});
   }
 

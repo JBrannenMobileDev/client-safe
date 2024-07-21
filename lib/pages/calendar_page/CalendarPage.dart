@@ -16,6 +16,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 import '../../models/Profile.dart';
 import '../../utils/CalendarUtil.dart';
+import '../../utils/NavigationUtil.dart';
 import '../../utils/permissions/UserPermissionsUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
@@ -150,7 +151,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
             backgroundColor: Color(ColorConstants.getPrimaryColor()),
             onPressed: () {
               pageState.onAddNewJobSelected!();
-              UserOptionsUtil.showNewJobDialog(context, false);
+              NavigationUtil.showNewJobPage(context);
               EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "Calendar Page"});
             }),
       ),

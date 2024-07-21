@@ -131,7 +131,7 @@ class _GettingStartedBottomSheetState extends State<GettingStartedBottomSheet> w
                         ),
                         GestureDetector(
                           onTap: () {
-                            UserOptionsUtil.showNewJobDialog(context, false);
+                            NavigationUtil.showNewJobPage(context);
                           },
                           child: buildProgressItem(
                               'Create a job',

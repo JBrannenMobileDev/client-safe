@@ -10,419 +10,289 @@ import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:dandylight/pages/new_job_page/TimeSelectionForm.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DeviceType.dart';
+import 'package:dandylight/utils/TextFormatterUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../utils/NavigationUtil.dart';
-import '../../utils/analytics/EventNames.dart';
-import '../../utils/analytics/EventSender.dart';
 import '../../utils/permissions/UserPermissionsUtil.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class NewJobPage extends StatefulWidget {
-  final bool? comingFromOnBoarding;
-  final int? initialIndex;
-
-  NewJobPage(this.comingFromOnBoarding, {this.initialIndex = 0});
-
   @override
   _NewJobPageState createState() {
-    return _NewJobPageState(comingFromOnBoarding, initialIndex);
+    return _NewJobPageState();
   }
 }
 
-class _NewJobPageState extends State<NewJobPage>{
-  final int pageCount = 4;
-  final bool? comingFromOnBoarding;
-  final int? initialIndex;
+class _NewJobPageState extends State<NewJobPage> {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  _NewJobPageState(this.comingFromOnBoarding, this.initialIndex);
-
-  final controller = PageController(
-    initialPage: 0,
-  );
-  int currentPageIndex = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    currentPageIndex = 0;
-  }
-
-  NewJobPageState? localState;
+  bool clientError = false;
+  bool sessionTypeError = false;
 
   @override
   Widget build(BuildContext context) {
-    controller.addListener(() {
-      setState(() {
-        currentPageIndex = controller.page!.toInt();
-      });
-    });
     return StoreConnector<AppState, NewJobPageState>(
       onInit: (store) async {
-        store.state.newJobPageState!.shouldClear! ? store.dispatch(ClearStateAction(store.state.newJobPageState)) : null;
-        if((await UserPermissionsUtil.getPermissionStatus(Permission.locationWhenInUse)).isGranted) {
-          store.dispatch(SetLastKnowInitialPosition(store.state.newJobPageState));
+        store.dispatch(ClearStateAction(store.state.newJobPageState));
+        if ((await UserPermissionsUtil.getPermissionStatus(
+                Permission.locationWhenInUse))
+            .isGranted) {
+          store.dispatch(
+              SetLastKnowInitialPosition(store.state.newJobPageState));
         }
       },
-      onInitialBuild: (current) {
-        localState = current;
-        if(initialIndex! > 0) {
-          setState(() {
-            currentPageIndex = initialIndex!;
-            controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 150), curve: Curves.ease);
-          });
-        }
-      },
-      onWillChange: (previous, current) {
-        if(!previous!.isSelectedClientNew! && current.isSelectedClientNew!) {
-          setState(() {
-            currentPageIndex = 1;  //TODO fix page navigation. Going back is broken. Remove all this wonky logic and make it simple.
-            controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 150), curve: Curves.ease);
-          });
-        }
-        if(!previous.isSelectedPriceProfileNew! && current.isSelectedPriceProfileNew!) {
-          setState(() {
-            currentPageIndex = 3;
-            controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 150), curve: Curves.ease);
-          });
-        }
-        if(!previous.isSelectedSessionTypeNew! && current.isSelectedSessionTypeNew!) {
-          setState(() {
-            currentPageIndex = 2;
-            controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 150), curve: Curves.ease);
-          });
-        }
-
-        if(previous.oneTimeLocation == null && current.oneTimeLocation != null) {
-          setState(() {
-            currentPageIndex = 4;
-            controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 150), curve: Curves.ease);
-          });
-        }      },
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) =>
           WillPopScope(
-          onWillPop: () async {
-            final shouldPop = await showDialog<bool>(
-              context: context,
-              builder: (context) => new CupertinoAlertDialog(
-                title: new Text('Are you sure?'),
-                content: new Text('All unsaved information entered will be lost.'),
-                actions: <Widget>[
-                  TextButton(
-                    style: Styles.getButtonStyle(),
-                    onPressed: () => Navigator.of(context).pop(false),
-                    child: new Text('No'),
-                  ),
-                  TextButton(
-                    style: Styles.getButtonStyle(),
-                    onPressed: () {
-                      Navigator.of(context).pop(true);
-                    },
-                    child: new Text('Yes'),
-                  ),
-                ],
-              ),
-            );
-            return shouldPop!;
-          },
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            body: Center(
-              child: Container(
-                width: getDialogWidth(currentPageIndex),
-                padding: EdgeInsets.only(top: 8.0, bottom: 18.0),
-                decoration: new BoxDecoration(
-                    color: Color(ColorConstants.white),
-                    borderRadius: new BorderRadius.all(Radius.circular(16.0))),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Stack(
-                      alignment: Alignment.topCenter,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 16.0),
-                          child: TextDandyLight(
-                            type: TextDandyLight.LARGE_TEXT,
-                            text: pageState.shouldClear! ? "New Job" : pageState.comingFromClientDetails! ? "New Job" : "Edit Job",
-                            textAlign: TextAlign.start,
-                            color: Color(ColorConstants.getPrimaryBlack()),
+        onWillPop: () async {
+          final shouldPop = await showDialog<bool>(
+            context: context,
+            builder: (context) => new CupertinoAlertDialog(
+              title: new Text('Are you sure?'),
+              content:
+                  new Text('All unsaved information entered will be lost.'),
+              actions: <Widget>[
+                TextButton(
+                  style: Styles.getButtonStyle(),
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: new Text('No'),
+                ),
+                TextButton(
+                  style: Styles.getButtonStyle(),
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  child: new Text('Yes'),
+                ),
+              ],
+            ),
+          );
+          return shouldPop!;
+        },
+        child: Scaffold(
+          key: scaffoldKey,
+          backgroundColor: Color(ColorConstants.getPrimaryWhite()),
+          body: Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16),
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                CustomScrollView(
+                  slivers: [
+                    SliverAppBar(
+                      automaticallyImplyLeading: false,
+                      backgroundColor: Color(ColorConstants.getPrimaryWhite()),
+                      pinned: true,
+                      centerTitle: true,
+                      surfaceTintColor: Colors.transparent,
+                      title: TextDandyLight(
+                        type: TextDandyLight.LARGE_TEXT,
+                        text: 'New Booking',
+                        color: Color(ColorConstants.getPrimaryBlack()),
+                      ),
+                      systemOverlayStyle: SystemUiOverlayStyle.dark,
+                      leading: GestureDetector(
+                        child: const Icon(Icons.close, color: Colors.black),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                    SliverList(
+                      delegate: SliverChildListDelegate(
+                        <Widget>[
+                          buildOptionWidget(
+                              'CLIENT*',
+                              'Who is this booking for?',
+                              pageState.selectedClient != null ? (pageState.selectedClient?.firstName ?? 'Client name') : 'Add new contact',
+                              (){},
+                              clientError
                           ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(left: 16.0),
-                              child: IconButton(
-                                icon: const Icon(Icons.close),
-                                tooltip: 'Delete',
-                                color: Color(ColorConstants.getPeachDark()),
-                                onPressed: () {
-                                  pageState.onCancelPressed!();
-                                  Navigator.of(context).pop(true);
-                                },
-                              ),
-                            ),
-                            comingFromOnBoarding! && pageState.pageViewIndex == 0 ? GestureDetector(
-                              onTap: () {
-                                pageState.onSkipSelected!();
-                                EventSender().sendEvent(eventName: EventNames.ON_BOARDING_COMPLETE, properties: {
-                                  EventNames.ON_BOARDING_COMPLETED_BY_PARAM : 'Add first job skipped',
-                                });
-                                NavigationUtil.onSuccessfulLogin(context);
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(right: 16),
-                                child: TextDandyLight(
-                                  type: TextDandyLight.MEDIUM_TEXT,
-                                  text: 'SKIP',
-                                  textAlign: TextAlign.start,
-                                  color: Color(ColorConstants.getPeachDark()),
+                          // Container(
+                          //   alignment: Alignment.center,
+                          //   width: MediaQuery.of(context).size.width,
+                          //   child: TextDandyLight(
+                          //     type: TextDandyLight.SMALL_TEXT,
+                          //     text: 'or',
+                          //     color: Color(ColorConstants.getPrimaryBlack()),
+                          //   ),
+                          // ),
+                          pageState.selectedClient == null ? GestureDetector(
+                            onTap: () {
+
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(top: 8),
+                              alignment: Alignment.center,
+                              height: 54,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                    color: clientError ? const Color(ColorConstants.error_red) : Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
+                                    width: clientError ? 2 : 0
                                 ),
+                                color: Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
                               ),
-                            ) : (pageState.pageViewIndex == 1 || pageState.pageViewIndex == 2 || pageState.pageViewIndex == 3) ? GestureDetector(
-                              onTap: () async {
-                                if(pageState.pageViewIndex == 1) UserOptionsUtil.showNewJobTypePage(context, null);
-                                if(pageState.pageViewIndex == 2) {
-                                  bool isGranted = (await UserPermissionsUtil.showPermissionRequest(permission: Permission.locationWhenInUse, context: context));
-                                  if(isGranted) NavigationUtil.onSelectMapLocation(context, null, pageState.lat!, pageState.lon!, pageState.onLocationSearchResultSelected);
-                                }
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(right: 24.0),
-                                height: 28.0,
-                                width: 28.0,
-                                child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getBlueDark()),),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.only(left: 16),
+                                    child: TextDandyLight(
+                                      type: TextDandyLight.SMALL_TEXT,
+                                      text: 'From Dandylight contacts',
+                                      color: Color(ColorConstants.getPrimaryBlack()),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(right: 8.0),
+                                    child: Icon(
+                                      Icons.chevron_right,
+                                      color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ) : SizedBox(
-                              height: 28.0,
-                              width: 52.0,
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxHeight: getDialogHeight(currentPageIndex),
-                      ),
-                      child: PageView(
-                        physics: NeverScrollableScrollPhysics(),
-                        controller: controller,
-                        pageSnapping: true,
-                        children: <Widget>[
-                          ClientSelectionForm(),
-                          JobTypeSelection(),
-                          LocationSelectionForm(),
-                          DateForm(),
-                          TimeSelectionForm(),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          TextButton(
-                            style: Styles.getButtonStyle(
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                              textColor: Color(ColorConstants.getPrimaryBlack()),
-                              left: 8.0,
-                              top: 8.0,
-                              right: 8.0,
-                              bottom: 8.0,
-                            ),
-                            onPressed: () {
-                              onBackPressed(pageState);
-                            },
-                            child: TextDandyLight(
-                              type: TextDandyLight.MEDIUM_TEXT,
-                              text: pageState.pageViewIndex == 0 ? "Cancel" : "Back",
-                              textAlign: TextAlign.start,
-                              color: Color(ColorConstants.getPrimaryBlack()),
-                            ),
+                          ) : const SizedBox(),
+                          buildOptionWidget(
+                              'SESSION TYPE*',
+                              null,
+                              pageState.selectedSessionType != null ? (pageState.selectedSessionType?.title ?? 'N/A') : 'Select session type',
+                                  (){},
+                              sessionTypeError
                           ),
-                          TextButton(
-                            style: Styles.getButtonStyle(
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                              textColor: Color(ColorConstants.getPrimaryBlack()),
-                              left: 8.0,
-                              top: 8.0,
-                              right: 8.0,
-                              bottom: 8.0,
-                            ),
-                            onPressed: () {
-                              onNextPressed(pageState);
-                            },
-                            child: TextDandyLight(
-                              type: TextDandyLight.MEDIUM_TEXT,
-                              text: pageState.pageViewIndex == pageCount
-                                  ? "Save" : getNextBtText(pageState),
-                              textAlign: TextAlign.start,
-                              color: Color(ColorConstants.getPrimaryBlack()),
-                            ),
+                          buildOptionWidget(
+                              'SESSION LOCATION',
+                              null,
+                              pageState.selectedLocation != null ? (pageState.selectedLocation?.locationName ?? 'N/A') : 'Select a location',
+                                  (){},
+                              false
                           ),
-                        ],
-                      ),
+                          buildOptionWidget(
+                              'SESSION DATE',
+                              null,
+                              pageState.selectedDate != null ? (TextFormatterUtil.formatDateStandard(pageState.selectedDate!)) : 'Select a date',
+                                  (){},
+                              false
+                          ),
+                          buildOptionWidget(
+                              'SESSION START TIME',
+                              null,
+                              pageState.selectedStartTime != null ? (DateFormat('h:mm a').format(pageState.selectedStartTime!)) : 'Select a type',
+                                  (){},
+                              false
+                          ),
+                          // ClientSelectionForm(),
+                          // JobTypeSelection(),
+                          // LocationSelectionForm(),
+                          // DateForm(),
+                          // TimeSelectionForm(),
+                        ]
+                      )
                     ),
                   ],
                 ),
-              ),
+              ],
             ),
+          ),
         ),
       ),
     );
   }
 
-  void onNextPressed(NewJobPageState pageState) async {
-    bool canProgress = false;
-    if (pageState.pageViewIndex != pageCount) {
-      switch (pageState.pageViewIndex) {
-        case 0:
-          canProgress = pageState.selectedClient != null;
-          break;
-        case 1:
-          canProgress = pageState.selectedSessionType != null;
-          break;
-        case 2:
-          canProgress = true;
-          break;
-        case 3:
-          canProgress = true;
-          break;
-        case 4:
-          canProgress = true;
-          break;
-        case 5:
-          canProgress = true;
-          break;
-      }
-
-      if (canProgress) {
-        pageState.onNextPressed!();
-        controller.animateToPage(currentPageIndex + 1,
-            duration: Duration(milliseconds: 150), curve: Curves.ease);
-        FocusScope.of(context).unfocus();
-      }
-    }
-    if (pageState.pageViewIndex == pageCount) {
-      await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context);
-      pageState.onSavePressed!();
-      if(comingFromOnBoarding!) {
-        EventSender().sendEvent(eventName: EventNames.ON_BOARDING_COMPLETE, properties: {
-          EventNames.ON_BOARDING_COMPLETED_BY_PARAM : 'Add first job completed',
-        });
-      }
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Padding(
-            padding: EdgeInsets.all(96.0),
-            child: FlareActor(
-              "assets/animations/success_check.flr",
-              alignment: Alignment.center,
-              fit: BoxFit.contain,
-              animation: "show_check",
-              callback: onFlareCompleted,
+  Widget buildOptionWidget(String title, String? message, String buttonMessage, Function action, bool errorState) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          margin: const EdgeInsets.only(left: 8, top: 24),
+          child: TextDandyLight(
+            type: TextDandyLight.EXTRA_SMALL_TEXT,
+            text: title,
+            color: Color(ColorConstants.getPrimaryGreyDark()),
+          ),
+        ),
+        message != null ? Container(
+          margin: const EdgeInsets.only(left: 8, top: 0),
+          child: TextDandyLight(
+            type: TextDandyLight.SMALL_TEXT,
+            text: message,
+            color: Color(ColorConstants.getPrimaryBlack()),
+          ),
+        ) : const SizedBox(),
+        GestureDetector(
+          onTap: () {
+            action();
+          },
+          child: Container(
+            margin: const EdgeInsets.only(top: 8),
+            alignment: Alignment.center,
+            height: 54,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                  color: errorState ? const Color(ColorConstants.error_red) : Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
+                  width: errorState ? 2 : 0
+              ),
+              color: Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
             ),
-          );
-        },
-      );
-    }
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(left: 16),
+                  child: TextDandyLight(
+                    type: TextDandyLight.SMALL_TEXT,
+                    text: buttonMessage,
+                    color: Color(ColorConstants.getPrimaryBlack()),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(right: 8.0),
+                  child: Icon(
+                    Icons.chevron_right,
+                    color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  void showSuccessAnimation() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.all(96.0),
+          child: FlareActor(
+            "assets/animations/success_check.flr",
+            alignment: Alignment.center,
+            fit: BoxFit.contain,
+            animation: "show_check",
+            callback: onFlareCompleted,
+          ),
+        );
+      },
+    );
   }
 
   void onFlareCompleted(String unused) {
-    if(comingFromOnBoarding!) {
-      NavigationUtil.onSuccessfulLogin(context);
-    } else {
-      Navigator.of(context).pop(true);
-      Navigator.of(context).pop(true);
-      NavigationUtil.onJobTapped(context, false, "");
-    }
-  }
-
-  void onBackPressed(NewJobPageState pageState) {
-    if (pageState.pageViewIndex == 0) {
-      pageState.onCancelPressed!();
-      Navigator.of(context).pop();
-    } else {
-      pageState.onBackPressed!();
-      controller.animateToPage(currentPageIndex - 1,
-          duration: Duration(milliseconds: 150), curve: Curves.ease);
-    }
-  }
-
-  double getDialogHeight(int currentPageIndex) {
-    double height = 380.0;
-    switch(currentPageIndex){
-      case 0:
-        height = 604;
-        break;
-      case 1:
-        height = 450.0;
-        break;
-      case 2:
-        height = 550.0;
-        break;
-      case 3:
-        height = DeviceType.getDeviceTypeByContext(context) == Type.Phone ? 500.0 : MediaQuery.of(context).size.height - 166;
-        break;
-      case 4:
-        height = 550;
-        break;
-      case 5:
-        height = 250.0;
-        break;
-    }
-    return height;
-  }
-
-  double getDialogWidth(int currentPageIndex) {
-    double width = 450.0;
-    switch(currentPageIndex){
-      case 0:
-        width = 450.0;
-        break;
-      case 1:
-        width = 450.0;
-        break;
-      case 2:
-        width = DeviceType.getDeviceTypeByContext(context) == Type.Phone ? 450.0 : MediaQuery.of(context).size.height;
-        break;
-      case 3:
-        width = 450.0;
-        break;
-      case 4:
-        width = 450.0;
-        break;
-    }
-    return width;
-  }
-
-  getNextBtText(NewJobPageState pageState) {
-    String btText = 'Next';
-    switch(pageState.pageViewIndex) {
-      case 2:
-        if(pageState.selectedLocation == null) btText = 'Skip';
-        break;
-      case 3:
-        if(pageState.selectedDate == null) btText = 'Skip';
-        break;
-      case 4:
-        if(pageState.selectedStartTime == null) btText = 'Skip';
-        break;
-    }
-    return btText;
+    Navigator.of(context).pop(true);
+    Navigator.of(context).pop(true);
   }
 }
