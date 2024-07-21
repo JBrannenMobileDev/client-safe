@@ -34,8 +34,8 @@ class JobInProgressItem extends StatelessWidget{
                 Container(
                   alignment: Alignment.topRight,
                   margin: const EdgeInsets.only(right: 18.0, top: 4.0),
-                  height: 38.0,
-                  width: 38.0,
+                  height: 32.0,
+                  width: 32.0,
                   child: job!.stage!.getStageImage(Color(ColorConstants.getPeachDark())),
                 ),
                 Flexible(
@@ -48,28 +48,14 @@ class JobInProgressItem extends StatelessWidget{
                           Padding(
                             padding: const EdgeInsets.only(bottom: 4.0, top: 0.0),
                             child: TextDandyLight(
-                              type: TextDandyLight.MEDIUM_TEXT,
+                              type: TextDandyLight.SMALL_TEXT,
                               text: job!.jobTitle,
                               textAlign: TextAlign.start,
+                              isBold: true,
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
-                          job!.selectedDate != null && job!.selectedTime != null && job!.location != null && job!.sessionType != null
-                              ? const SizedBox() : Container(
-                            margin: const EdgeInsets.only(left: 8.0),
-                            height: 20.0,
-                            width: 20.0,
-                            child: const Image(
-                              image: AssetImage('assets/images/icons/alert_icon_circle.png'),
-                            ),
-                          ),
                         ],
-                      ),
-                      TextDandyLight(
-                        type: TextDandyLight.SMALL_TEXT,
-                        text: 'Stage: ${JobStage.getStageText(job!.stage!)}',
-                        textAlign: TextAlign.start,
-                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                       TextDandyLight(
                         type: TextDandyLight.SMALL_TEXT,

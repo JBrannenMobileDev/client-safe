@@ -7,14 +7,12 @@ import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/SessionTypeDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/MileageExpenseDao.dart';
-import 'package:dandylight/data_layer/local_db/daos/PriceProfileDao.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/models/SessionType.dart';
 import 'package:dandylight/models/LocationDandy.dart';
 import 'package:dandylight/models/MileageExpense.dart';
-import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
@@ -39,7 +37,6 @@ import '../../data_layer/local_db/daos/ProfileDao.dart';
 import '../../data_layer/repositories/FileStorage.dart';
 import '../../data_layer/repositories/WeatherRepository.dart';
 import '../../models/Contract.dart';
-import '../../models/Invoice.dart';
 import '../../models/JobReminder.dart';
 import '../../models/Pose.dart';
 import '../../models/Profile.dart';
@@ -47,8 +44,6 @@ import '../../models/Progress.dart';
 import '../../models/Proposal.dart';
 import '../../models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
 import '../../utils/CalendarSyncUtil.dart';
-import '../../utils/ImageUtil.dart';
-import '../../utils/TextFormatterUtil.dart';
 import '../../utils/UidUtil.dart';
 
 class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
@@ -386,9 +381,14 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       completedStages: [JobStage(id: 1, stage: JobStage.STAGE_1_INQUIRY_RECEIVED)],
       jobTitle: store.state.jobDetailsPageState!.client!.firstName! + ' - ' + store.state.jobDetailsPageState!.sessionType!.title!,
     );
+
+    await InvoiceDao.deleteByInvoice(jobToSave.invoice);
+    jobToSave.invoice = null;
+
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    store.dispatch(DeleteDocumentFromLocalStateAction(store.state.jobDetailsPageState, DocumentItem.DOCUMENT_TYPE_INVOICE));
   }
 
   void _updateJobName(Store<AppState> store, SaveJobNameChangeAction action, NextDispatcher next) async{

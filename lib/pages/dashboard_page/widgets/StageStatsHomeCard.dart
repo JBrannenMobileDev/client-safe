@@ -38,6 +38,57 @@ class StageStatsHomeCard extends StatelessWidget {
               color: Color(ColorConstants.getPrimaryGreyDark()),
             ),
           ),
+          GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () {
+              NavigationUtil.onStageStatsSelected(context, pageState!, 'Active Jobs', null, true);
+            },
+            child: SizedBox(
+              height: 42.0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        alignment: Alignment.topRight,
+                        margin: const EdgeInsets.only(right: 18.0, left: 16.0),
+                        height: 24.0,
+                        width: 24.0,
+                        child: Image.asset('assets/images/icons/job_type.png', color: Color(ColorConstants.getPrimaryGreyDark())),
+                      ),
+                      TextDandyLight(
+                        type: TextDandyLight.SMALL_TEXT,
+                        text: 'All active jobs',
+                        textAlign: TextAlign.start,
+                        color: Color(ColorConstants.getPrimaryBlack()),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 16.0),
+                        child: TextDandyLight(
+                          type: TextDandyLight.SMALL_TEXT,
+                          text: pageState?.activeJobs?.length.toString() ?? '0',
+                          textAlign: TextAlign.start,
+                          color: Color(ColorConstants.getPrimaryBlack()),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(right: 8.0),
+                        child: Icon(
+                          Icons.chevron_right,
+                          color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
           pageState!.allUserStages!.isNotEmpty ? ListView.builder(
             padding: const EdgeInsets.only(bottom: 16.0),
             reverse: false,

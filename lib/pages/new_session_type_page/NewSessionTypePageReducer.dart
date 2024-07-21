@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
+import 'package:dandylight/utils/StringUtils.dart';
 import 'package:redux/redux.dart';
 import 'NewSessionTypeActions.dart';
 import 'NewSessionTypePageState.dart';
@@ -55,7 +56,10 @@ NewSessionTypePageState _setRemindersSelectionComplete(NewSessionTypePageState p
 }
 
 NewSessionTypePageState _updateMinutes(NewSessionTypePageState previousState, UpdateMinutesAction action) {
-  int minutes = int.parse(action.minutes?.replaceAll(RegExp(r"\D"), "") ?? '0');
+  int minutes = 0;
+  if(StringUtils.isNumeric(action.minutes)) {
+    minutes = int.parse(action.minutes ?? '0');
+  }
   return previousState.copyWith(
     minutes: minutes,
     saveButtonEnabled: canEnableSaveButton(
@@ -70,7 +74,10 @@ NewSessionTypePageState _updateMinutes(NewSessionTypePageState previousState, Up
 }
 
 NewSessionTypePageState _updateHours(NewSessionTypePageState previousState, UpdateHoursAction action) {
-  int hours = int.parse(action.hours?.replaceAll(RegExp(r"\D"), "") ?? '0');
+  int hours = 0;
+  if(StringUtils.isNumeric(action.hours)) {
+    hours = int.parse(action.hours ?? '0');
+  }
   return previousState.copyWith(
     hours: hours,
     saveButtonEnabled: canEnableSaveButton(

@@ -8,6 +8,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 
 import '../../AppState.dart';
+import '../../utils/StringUtils.dart';
 import '../../utils/UserOptionsUtil.dart';
 import '../../utils/VibrateUtil.dart';
 import '../../utils/styles/Styles.dart';
@@ -64,7 +65,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
       builder: (BuildContext context, JobDetailsPageState pageState) =>
           Container(
             margin: const EdgeInsets.only(left: 16, top: 26, right: 16, bottom: 0),
-            height: 326,
+            height: 348,
             decoration: BoxDecoration(
               color: Color(ColorConstants.getPrimaryWhite()),
               borderRadius: BorderRadius.circular(12.0),
@@ -149,6 +150,159 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                         ),
                       ),
                     ],
+                  ),
+                ),
+                Container(
+                  height: 36,
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: "Price:  ${TextFormatterUtil.formatCurrency(pageState.sessionType?.totalCost.toInt() ?? 0)}",
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    color: Color(pageState.job?.selectedDate != null ? ColorConstants.getPrimaryBlack() : ColorConstants.error_red),
+                  ),
+                ),
+                  (pageState.sessionType?.deposit ?? 0) > 0 ? Container(
+                    height: 36,
+                    padding: const EdgeInsets.only(left: 16.0),
+                    alignment: Alignment.centerLeft,
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: "Deposit:  ${TextFormatterUtil.formatCurrency(pageState.sessionType?.deposit.toInt() ?? 0)}",
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      color: Color(pageState.job?.selectedDate != null ? ColorConstants.getPrimaryBlack() : ColorConstants.error_red),
+                    ),
+                ) : const SizedBox(),
+                Container(
+                  height: 36,
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: "Duration:  ${StringUtils.formatSessionDuration(pageState.sessionType?.durationHours, pageState.sessionType?.durationMinutes)}",
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    color: Color(pageState.job?.selectedDate != null ? ColorConstants.getPrimaryBlack() : ColorConstants.error_red),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    showModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext builder) {
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 16.0),
+                            child: Stack(
+                              alignment: Alignment.topCenter,
+                              children: <Widget>[
+                                Container(
+                                  margin: const EdgeInsets.only(top: 16.0),
+                                  height: MediaQuery.of(context).copyWith().size.height / 3,
+                                  child: CupertinoDatePicker(
+                                    initialDateTime: pageState.job?.selectedTime,
+                                    onDateTimeChanged: (DateTime time) {
+                                      vibrate();
+                                      newDateTimeHolder = time;
+                                    },
+                                    use24hFormat: false,
+                                    minuteInterval: 1,
+                                    mode: CupertinoDatePickerMode.time,
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: <Widget>[
+                                    TextButton(
+                                      style: Styles.getButtonStyle(),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: 'Cancel',
+                                        textAlign: TextAlign.start,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        color: Color(ColorConstants
+                                            .getPrimaryBlack()),
+                                      ),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Image.asset(
+                                          'assets/images/icons/sunset_icon_peach.png',
+                                          height: 32.0,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.only(left: 8.0),
+                                          child: TextDandyLight(
+                                            type: TextDandyLight.MEDIUM_TEXT,
+                                            text: (pageState.sunsetTime != null
+                                                ? DateFormat('h:mm a').format(pageState.sunsetTime!)
+                                                : ''),
+                                            textAlign: TextAlign.start,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                            color: Color(ColorConstants.getPeachDark()),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    TextButton(
+                                      style: Styles.getButtonStyle(),
+                                      onPressed: () {
+                                        pageState!.onNewTimeSelected!(newDateTimeHolder!);
+                                        VibrateUtil.vibrateHeavy();
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: 'Done',
+                                        textAlign: TextAlign.start,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        color: Color(ColorConstants.getPrimaryBlack()),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          );
+                        });
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: 'Start time:  ${pageState.job?.selectedTime != null ? DateFormat('h:mm a').format(pageState.job!.selectedTime!) : 'Not selected'}',
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          color: Color(pageState.job?.selectedTime != null ? ColorConstants.getPrimaryBlack() : ColorConstants.error_red),
+                        ),
+                        Container(
+                          height: 36,
+                          margin: const EdgeInsets.only(right: 16),
+                          alignment: Alignment.centerRight,
+                          child: Icon(
+                            Icons.chevron_right,
+                            color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -276,275 +430,6 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                         ),
                       ],
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16, right: 16, top: 12),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            showModalBottomSheet(
-                                context: context,
-                                builder: (BuildContext builder) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(top: 16.0),
-                                    child: Stack(
-                                      alignment: Alignment.topCenter,
-                                      children: <Widget>[
-                                        Container(
-                                          margin: const EdgeInsets.only(top: 16.0),
-                                          height: MediaQuery.of(context).copyWith().size.height / 3,
-                                          child: CupertinoDatePicker(
-                                            initialDateTime: pageState.job?.selectedTime,
-                                            onDateTimeChanged: (DateTime time) {
-                                              vibrate();
-                                              newDateTimeHolder = time;
-                                            },
-                                            use24hFormat: false,
-                                            minuteInterval: 1,
-                                            mode: CupertinoDatePickerMode.time,
-                                          ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          children: <Widget>[
-                                            TextButton(
-                                              style: Styles.getButtonStyle(),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: TextDandyLight(
-                                                type: TextDandyLight.MEDIUM_TEXT,
-                                                text: 'Cancel',
-                                                textAlign: TextAlign.start,
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 1,
-                                                color: Color(ColorConstants
-                                                    .getPrimaryBlack()),
-                                              ),
-                                            ),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: <Widget>[
-                                                Image.asset(
-                                                  'assets/images/icons/sunset_icon_peach.png',
-                                                  height: 32.0,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                                Container(
-                                                  padding: const EdgeInsets.only(left: 8.0),
-                                                  child: TextDandyLight(
-                                                    type: TextDandyLight.MEDIUM_TEXT,
-                                                    text: (pageState.sunsetTime != null
-                                                        ? DateFormat('h:mm a').format(pageState.sunsetTime!)
-                                                        : ''),
-                                                    textAlign: TextAlign.start,
-                                                    overflow: TextOverflow.ellipsis,
-                                                    maxLines: 1,
-                                                    color: Color(ColorConstants.getPeachDark()),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            TextButton(
-                                              style: Styles.getButtonStyle(),
-                                              onPressed: () {
-                                                pageState!.onNewTimeSelected!(newDateTimeHolder!);
-                                                VibrateUtil.vibrateHeavy();
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: TextDandyLight(
-                                                type: TextDandyLight.MEDIUM_TEXT,
-                                                text: 'Done',
-                                                textAlign: TextAlign.start,
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 1,
-                                                color: Color(ColorConstants.getPrimaryBlack()),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                });
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.only(right: 8),
-                            height: 78,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: Color(ColorConstants.getBlueLight()).withOpacity(0.25)
-                            ),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8),
-                                  child: TextDandyLight(
-                                    type: TextDandyLight.MEDIUM_TEXT,
-                                    text: 'Start',
-                                    textAlign: TextAlign.start,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    color: Color(ColorConstants.getPrimaryBlack()),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      TextDandyLight(
-                                        type: TextDandyLight.LARGE_TEXT,
-                                        text: (pageState.job?.selectedTime != null ? DateFormat('h:mm a').format(pageState.job!.selectedTime!) : 'Not selected'),
-                                        textAlign: TextAlign.start,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                        color: Color(pageState.job?.selectedTime != null ? ColorConstants.getPrimaryBlack() : ColorConstants.error_red),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            showModalBottomSheet(
-                                context: context,
-                                builder: (BuildContext builder) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(top: 16.0),
-                                    child: Stack(
-                                      alignment: Alignment.topCenter,
-                                      children: <Widget>[
-                                        Container(
-                                          margin: const EdgeInsets.only(top: 16.0),
-                                          height: MediaQuery.of(context).copyWith().size.height / 3,
-                                          child: CupertinoDatePicker(
-                                            initialDateTime: pageState.job?.selectedEndTime,
-                                            onDateTimeChanged: (DateTime time) {
-                                              vibrate();
-                                              newDateTimeHolder = time;
-                                            },
-                                            use24hFormat: false,
-                                            minuteInterval: 1,
-                                            mode: CupertinoDatePickerMode.time,
-                                          ),
-
-                                        ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          children: <Widget>[
-                                            TextButton(
-                                              style: Styles.getButtonStyle(),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: TextDandyLight(
-                                                type: TextDandyLight.MEDIUM_TEXT,
-                                                text: 'Cancel',
-                                                textAlign: TextAlign.start,
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 1,
-                                                color: Color(ColorConstants
-                                                    .getPrimaryBlack()),
-                                              ),
-                                            ),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: <Widget>[
-                                                Image.asset(
-                                                  'assets/images/icons/sunset_icon_peach.png',
-                                                  height: 32.0,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                                Container(
-                                                  padding: const EdgeInsets.only(left: 8.0),
-                                                  child: TextDandyLight(
-                                                    type: TextDandyLight.MEDIUM_TEXT,
-                                                    text: (pageState.sunsetTime != null
-                                                        ? DateFormat('h:mm a').format(pageState.sunsetTime!)
-                                                        : ''),
-                                                    textAlign: TextAlign.start,
-                                                    overflow: TextOverflow.ellipsis,
-                                                    maxLines: 1,
-                                                    color: Color(ColorConstants.getPeachDark()),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            TextButton(
-                                              style: Styles.getButtonStyle(),
-                                              onPressed: () {
-                                                pageState.onNewEndTimeSelected!(newDateTimeHolder!);
-                                                VibrateUtil.vibrateHeavy();
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: TextDandyLight(
-                                                type: TextDandyLight.MEDIUM_TEXT,
-                                                text: 'Done',
-                                                textAlign: TextAlign.start,
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 1,
-                                                color: Color(ColorConstants.getPrimaryBlack()),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                });
-                          },
-                          behavior: HitTestBehavior.opaque,
-                          child: Container(
-                            margin: const EdgeInsets.only(left: 8),
-                            height: 78,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: Color(ColorConstants.getBlueLight()).withOpacity(0.25)
-                            ),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8),
-                                  child: TextDandyLight(
-                                    type: TextDandyLight.MEDIUM_TEXT,
-                                    text: 'End',
-                                    textAlign: TextAlign.start,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    color: Color(ColorConstants.getPrimaryBlack()),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      TextDandyLight(
-                                        type: TextDandyLight.LARGE_TEXT,
-                                        text: (pageState.job?.selectedEndTime != null ? DateFormat('h:mm a').format(pageState.job!.selectedEndTime!) : 'Not Selected'),
-                                        textAlign: TextAlign.start,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                        color: Color(pageState.job?.selectedEndTime != null ? ColorConstants.getPrimaryBlack() : ColorConstants.error_red),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
                   ),
                 ),
               ],

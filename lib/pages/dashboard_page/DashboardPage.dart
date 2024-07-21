@@ -49,6 +49,7 @@ import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/DandyLightNetworkImage.dart';
 import '../../widgets/TextDandyLight.dart';
+import '../poses_page/PosesPage.dart';
 import 'AppUpdateBottomSheet.dart';
 import 'RequestAppReviewBottomSheet.dart';
 import 'RequestPMFSurveyBottomSheet.dart';
@@ -994,13 +995,34 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                             // ),
                             SlideTransition(
                                 position: offsetAnimationUp,
-                                child:  Container(
-                                    margin: const EdgeInsets.only(left: 16, top: 16),
-                                    height: 32,
-                                    child: TextDandyLight(
-                                      type: TextDandyLight.SMALL_TEXT,
-                                      text: 'Pose Library',
+                                child:  Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.only(left: 16, top: 16),
+                                      height: 32,
+                                      child: TextDandyLight(
+                                        type: TextDandyLight.SMALL_TEXT,
+                                        text: 'Pose Library',
+                                      ),
                                     ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(builder: (context) => PosesPage(null, false, false, false)),
+                                        );
+                                      },
+                                      child: Container(
+                                        margin: const EdgeInsets.only(left: 16, top: 16, right: 16),
+                                        height: 32,
+                                        child: TextDandyLight(
+                                          type: TextDandyLight.SMALL_TEXT,
+                                          text: 'View all',
+                                          color: Color(ColorConstants.getPeachDark()),
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 )
                             ),
                             SlideTransition(

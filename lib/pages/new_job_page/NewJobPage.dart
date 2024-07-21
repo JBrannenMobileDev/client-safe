@@ -398,15 +398,12 @@ class _NewJobPageState extends State<NewJobPage>{
         width = 450.0;
         break;
       case 2:
-        width = 450.0;
-        break;
-      case 3:
         width = DeviceType.getDeviceTypeByContext(context) == Type.Phone ? 450.0 : MediaQuery.of(context).size.height;
         break;
-      case 4:
+      case 3:
         width = 450.0;
         break;
-      case 5:
+      case 4:
         width = 450.0;
         break;
     }
@@ -417,15 +414,12 @@ class _NewJobPageState extends State<NewJobPage>{
     String btText = 'Next';
     switch(pageState.pageViewIndex) {
       case 2:
-        if(pageState.selectedPriceProfile == null && pageState.oneTimePrice!.isEmpty) btText = 'Skip';
-        break;
-      case 3:
         if(pageState.selectedLocation == null) btText = 'Skip';
         break;
-      case 4:
+      case 3:
         if(pageState.selectedDate == null) btText = 'Skip';
         break;
-      case 5:
+      case 4:
         if(pageState.selectedStartTime == null) btText = 'Skip';
         break;
     }

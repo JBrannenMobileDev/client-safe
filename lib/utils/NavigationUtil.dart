@@ -22,6 +22,7 @@ import 'package:dandylight/pages/main_settings_page/EditAccountPage.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPage.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
 import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidget.dart';
+import 'package:dandylight/pages/new_job_page/NewJobPage.dart';
 import 'package:dandylight/pages/onboarding/OnBoardingPage.dart';
 import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPage.dart';
 import 'package:dandylight/pages/poses_page/PosesSearchPage.dart';
@@ -206,6 +207,10 @@ class NavigationUtil {
 
   static void showNewSessionTypePage(BuildContext context, SessionType? sessionType) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewSessionTypePage(sessionType)));
+  }
+
+  static void showNewJobPage(BuildContext context, SessionType? sessionType) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewJobPage(false)));
   }
 }
 
