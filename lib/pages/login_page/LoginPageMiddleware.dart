@@ -699,6 +699,34 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
             profile.bannerWebUrl = await FileStorage.fetchImagePathForExampleBannerWeb();
           }
 
+          List<JobType> jobTypes = (await JobTypeDao.getAll()) ?? [];
+          List<PriceProfile> priceProfiles = (await PriceProfileDao.getAllSortedByName());
+          if(jobTypes.isNotEmpty) {
+            for(JobType jobType in jobTypes) {
+              SessionTypeDao.insert(
+                SessionType(
+                    title: jobType.title ?? 'NA',
+                    totalCost: 0.0,
+                    createdDate: DateTime.now(),
+                    stages: jobType.stages ?? [],
+                    reminders: jobType.reminders ?? [],
+                    deposit: 0.0,
+                    salesTaxPercent: 0.0,
+                    durationMinutes: 0,
+                    durationHours: 0
+                )
+              );
+              if(jobType.documentId != null) {
+                JobTypeDao.delete(jobType.documentId!);
+              }
+            }
+          }
+          if(priceProfiles.isNotEmpty) {
+            for(PriceProfile profile in priceProfiles) {
+              PriceProfileDao.delete(profile);
+            }
+          }
+
           await QuestionnairesDao.syncAllFromFireStore();
           List<Questionnaire>? questionnaireTemplates = await QuestionnaireTemplateDao.getAll();
           int questionnairesCount = (await QuestionnairesDao.getAll()).where((item) => item.isTemplate == true).length;
@@ -706,6 +734,16 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           if(questionnaireTemplates != null && questionnaireTemplates.isNotEmpty && questionnairesCount == 0) {
             for(Questionnaire questionnaire in questionnaireTemplates) {
               QuestionnairesDao.insert(questionnaire);
+            }
+          }
+
+
+          //TODO remove this code after a few months.
+          List<Job> jobs = await JobDao.getAllJobs();
+          for(Job job in jobs) {
+            if(job.sessionType == null) {
+              job.sessionType = SessionType.from(job.type, job.priceProfile);
+              JobDao.update(job);
             }
           }
 
@@ -718,6 +756,10 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
               job.proposal?.contracts?.add(job.proposal!.contract!);
               job.proposal?.contract = null;
               await JobDao.update(job);
+            }
+            if(job.sessionType == null) {
+              job.sessionType = SessionType.from(job.type, job.priceProfile);
+              JobDao.update(job);
             }
           }
 

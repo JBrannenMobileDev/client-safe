@@ -240,7 +240,7 @@ class Job {
       selectedEndTime: map['selectedEndTime'] != null && map['selectedEndTime'] != "" ? DateTime.parse(map['selectedEndTime']) : null,
       paymentReceivedDate: map['paymentReceivedDate'] != null && map['paymentReceivedDate'] != "" ? DateTime.parse(map['paymentReceivedDate']) : null,
       sessionType: map['sessionType'] != null ? SessionType.fromMap(map['sessionType']) : null,
-      type: JobType.fromMap(map['type']),
+      type: map['type'] != null ? JobType.fromMap(map['type']) : null,
       stage: JobStage.fromMap(map['stage']),
       client: map['client'] != null ? Client.fromMap(map['client']) : null,
       location: map['location'] != null ? LocationDandy.fromMap(map['location']) : null,

@@ -1,14 +1,14 @@
 import '../../models/Job.dart';
 
-class JobTypePieChartRowData {
-  String? jobType;
+class SessionTypePieChartRowData {
+  String? sessionType;
   int? count;
   int? totalIncomeForType;
   List<Job>? jobs;
   int? color;
 
-  JobTypePieChartRowData({
-    this.jobType,
+  SessionTypePieChartRowData({
+    this.sessionType,
     this.count,
     this.totalIncomeForType,
     this.jobs,

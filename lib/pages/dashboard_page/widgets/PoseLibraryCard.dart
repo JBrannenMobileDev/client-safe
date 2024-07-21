@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 import 'package:super_banners/super_banners.dart';
 import '../../../AppState.dart';
@@ -40,77 +41,98 @@ class PoseLibraryCard extends StatelessWidget {
   );
 
   List<Widget> buildGroupItems(DashboardPageState pageState, BuildContext context) {
-    List<Widget> widgets = [];
-    List<PoseLibraryGroup> groups = pageState.poseGroups ?? [];
-    for(int index = 0; index < groups.length; index++) {
-      widgets.add(
-          InkWell(
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => LibraryPoseGroupPage(pageState.poseGroups!.elementAt(index), null, false)),
-              );
-            },
-            child: Padding(
-              padding: EdgeInsets.only(left: 16.0, right: 0.0),
-              child: pageState.poseGroups!.elementAt(index).poses!.length > 0 ? Stack(
-                alignment: Alignment.centerRight,
-                children: [
-                  Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Stack(
-                          alignment: Alignment.bottomRight,
-                          children: [
-                            Container(
-                              height: 108.0,
-                              width: 96.0,
-                              child: DandyLightNetworkImage(
-                                pageState.poseGroups!.elementAt(index).poses!.first.imageUrl ?? '',
-                                borderRadius: 8,
-                                resizeWidth: 350,
-                                errorIconSize: 24,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            containsNewPoses(pageState.poseGroups!.elementAt(index).poses ?? []) ? Container(
-                              margin: EdgeInsets.only(right: 0),
-                              alignment: Alignment.bottomRight,
-                              child: CornerBanner(
-                                bannerPosition: CornerBannerPosition.bottomRight,
-                                bannerColor: Color(ColorConstants.getPeachDark()),
-                                child: Text(
-                                  "NEW",
-                                  style: TextStyle(
-                                    fontFamily: TextDandyLight.getFontFamily(),
-                                    fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
-                                    color: Color(ColorConstants.getPrimaryWhite()),
-                                  ),
+    List<Widget> widgets = List.filled(9, Padding(
+        padding: EdgeInsets.only(left: 16.0, right: 0.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              height: 108.0,
+              width: 96.0,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Color(ColorConstants.getPeachLight())
+              ),
+              child: LoadingAnimationWidget.fourRotatingDots(
+                color: Color(ColorConstants.getPrimaryWhite()),
+                size: 32,
+              ),
+            )
+          ],
+        )));
+
+    if(pageState.poseGroups?.isNotEmpty ?? false) {
+      widgets = [];
+      List<PoseLibraryGroup> groups = pageState.poseGroups ?? [];
+      for(int index = 0; index < groups.length; index++) {
+        widgets.add(
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => LibraryPoseGroupPage(pageState.poseGroups!.elementAt(index), null, false)),
+                );
+              },
+              child: Padding(
+                padding: EdgeInsets.only(left: 16.0, right: 0.0),
+                child: pageState.poseGroups!.elementAt(index).poses!.length > 0 ? Stack(
+                  alignment: Alignment.centerRight,
+                  children: [
+                    Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Stack(
+                            alignment: Alignment.bottomRight,
+                            children: [
+                              Container(
+                                height: 108.0,
+                                width: 96.0,
+                                child: DandyLightNetworkImage(
+                                  pageState.poseGroups!.elementAt(index).poses!.first.imageUrl ?? '',
+                                  borderRadius: 8,
+                                  resizeWidth: 350,
+                                  errorIconSize: 24,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
-                            ) : const SizedBox()
-                          ],
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 2.0),
-                          child: TextDandyLight(
-                            type: TextDandyLight.SMALL_TEXT,
-                            text: pageState.poseGroups!.elementAt(index).groupName,
-                            textAlign: TextAlign.center,
-                            color: Color(ColorConstants.getPrimaryBlack()),
+                              containsNewPoses(pageState.poseGroups!.elementAt(index).poses ?? []) ? Container(
+                                margin: EdgeInsets.only(right: 0),
+                                alignment: Alignment.bottomRight,
+                                child: CornerBanner(
+                                  bannerPosition: CornerBannerPosition.bottomRight,
+                                  bannerColor: Color(ColorConstants.getPeachDark()),
+                                  child: Text(
+                                    "NEW",
+                                    style: TextStyle(
+                                      fontFamily: TextDandyLight.getFontFamily(),
+                                      fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
+                                      color: Color(ColorConstants.getPrimaryWhite()),
+                                    ),
+                                  ),
+                                ),
+                              ) : const SizedBox()
+                            ],
                           ),
-                        ),
-                      ],
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 2.0),
+                            child: TextDandyLight(
+                              type: TextDandyLight.SMALL_TEXT,
+                              text: pageState.poseGroups!.elementAt(index).groupName,
+                              textAlign: TextAlign.center,
+                              color: Color(ColorConstants.getPrimaryBlack()),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ) : SizedBox(),
-            ),
-          )
-      );
-    }
+                  ],
+                ) : SizedBox(),
+              ),
+            )
+        );
+    }}
     return widgets;
   }
 

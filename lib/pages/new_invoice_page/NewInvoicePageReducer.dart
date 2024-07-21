@@ -295,6 +295,7 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
     isDepositChecked: action.selectedJob!.isDepositPaid(),
     flatRateText: selectedJob.sessionType!.totalCost.toString(),
     depositValue: depositAmount,
+    pageViewIndex: 1,
     discountValue: discountAmount,
     discount: discount,
     newDiscountFilter: NewDiscountDialog.SELECTOR_TYPE_FIXED,

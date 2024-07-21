@@ -4,8 +4,8 @@ import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/models/MileageExpense.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
+import 'package:dandylight/models/SessionType.dart';
 import 'package:dandylight/models/SingleExpense.dart';
-import 'package:dandylight/pages/dashboard_page/JobTypePieChartRowData.dart';
 import 'package:dandylight/pages/dashboard_page/LeadSourcePieChartRowData.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/LineChartMonthData.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -17,9 +17,9 @@ import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 
 import '../../models/JobStage.dart';
-import '../../models/JobType.dart';
 import 'DashboardPageActions.dart';
 import 'DashboardPageState.dart';
+import 'SessionTypePieChartRowData.dart';
 
 final dashboardPageReducer = combineReducers<DashboardPageState>([
   TypedReducer<DashboardPageState, InitDashboardPageAction>(_setupDataListeners),
@@ -29,7 +29,7 @@ final dashboardPageReducer = combineReducers<DashboardPageState>([
   TypedReducer<DashboardPageState, UpdateShowHideLeadsState>(_updateShowHideLeadsState),
   TypedReducer<DashboardPageState, SetUnseenReminderCount>(_setUnseenCount),
   TypedReducer<DashboardPageState, SetShowNewMileageExpensePageAction>(_setMileageExpenseEvent),
-  TypedReducer<DashboardPageState, SetJobTypeChartData>(_setJobTypesChartData),
+  TypedReducer<DashboardPageState, SetSessionTypeChartData>(_setJobTypesChartData),
   TypedReducer<DashboardPageState, SetProfileDashboardAction>(_setProfile),
   TypedReducer<DashboardPageState, SetSubscriptionStateAction>(_setSubscriptionState),
   TypedReducer<DashboardPageState, SetGoToPosesJob>(_setGoToJobPoses),
@@ -184,11 +184,11 @@ DashboardPageState _setJobs(DashboardPageState previousState, SetJobToStateActio
   );
 }
 
-DashboardPageState _setJobTypesChartData(DashboardPageState previousState, SetJobTypeChartData action) {
+DashboardPageState _setJobTypesChartData(DashboardPageState previousState, SetSessionTypeChartData action) {
   List<Job> jobsWithPaymentReceived = action.allJobs!.where((job) => job.isPaymentReceived() == true).toList();
 
-  List<PieChartSectionData> jobTypeBreakdownData = buildJobTypeData(jobsWithPaymentReceived, action.allJobTypes!);
-  List<JobTypePieChartRowData> jobTypeRowData = buildJobTypeRowData(jobsWithPaymentReceived, action.allJobTypes!);
+  List<PieChartSectionData> jobTypeBreakdownData = buildSessionTypeData(jobsWithPaymentReceived, action.sessionTypes!);
+  List<SessionTypePieChartRowData> jobTypeRowData = buildSessionTypeRowData(jobsWithPaymentReceived, action.sessionTypes!);
 
   return previousState.copyWith(
     jobTypeBreakdownData: jobTypeBreakdownData,
@@ -487,18 +487,18 @@ DashboardPageState _setClients(DashboardPageState previousState, SetClientsDashb
   );
 }
 
-List<PieChartSectionData> buildJobTypeData(List<Job> jobsWithPaymentReceived, List<JobType> allJobTypes) {
+List<PieChartSectionData> buildSessionTypeData(List<Job> jobsWithPaymentReceived, List<SessionType> allSessionTypes) {
   List<Job> jobsThisYearPaid = jobsWithPaymentReceived.where((job) => job.paymentReceivedDate?.year == DateTime.now().year).toList();
   var groupedList = <String, List<Job>>{};
   List<PieChartSectionData> result = [];
 
   for(Job job in jobsThisYearPaid) {
-    groupedList.putIfAbsent(job.sessionType?.title ?? 'NA', () => <Job>[]).add(job);
+    groupedList.putIfAbsent(job.sessionType?.title ?? job.type?.title ?? 'NA', () => <Job>[]).add(job);
   }
 
   int index = 0;
-  for(JobType jobType in allJobTypes) {
-    List<Job>? jobsForType = groupedList[jobType.title];
+  for(SessionType sessionType in allSessionTypes) {
+    List<Job>? jobsForType = groupedList[sessionType.title];
     if(jobsForType != null) {
       int count = jobsForType.length;
       int totalIncome = 0;
@@ -526,18 +526,18 @@ List<PieChartSectionData> buildJobTypeData(List<Job> jobsWithPaymentReceived, Li
   return result;
 }
 
-List<JobTypePieChartRowData> buildJobTypeRowData(List<Job> jobsWithPaymentReceived, List<JobType> allJobTypes) {
+List<SessionTypePieChartRowData> buildSessionTypeRowData(List<Job> jobsWithPaymentReceived, List<SessionType> allSessionTypes) {
   List<Job> jobsThisYearPaid = jobsWithPaymentReceived.where((job) => ((job.paymentReceivedDate != null ? job.paymentReceivedDate!.year : job.selectedDate!.year) == DateTime.now().year)).toList();
   var groupedList = <String, List<Job>>{};
-  List<JobTypePieChartRowData> jobTypePieChartRowItems = [];
+  List<SessionTypePieChartRowData> jobTypePieChartRowItems = [];
 
   for(Job job in jobsThisYearPaid) {
-    groupedList.putIfAbsent(job.sessionType?.title ?? 'NA', () => <Job>[]).add(job);
+    groupedList.putIfAbsent(job.sessionType?.title ?? job.type?.title ?? 'NA', () => <Job>[]).add(job);
   }
 
   int index = 0;
-  for(JobType jobType in allJobTypes) {
-    List<Job>? jobsForType = groupedList[jobType.title];
+  for(SessionType sessionType in allSessionTypes) {
+    List<Job>? jobsForType = groupedList[sessionType.title];
     if(jobsForType != null) {
       int count = jobsForType.length;
       int totalIncome = 0;
@@ -546,11 +546,11 @@ List<JobTypePieChartRowData> buildJobTypeRowData(List<Job> jobsWithPaymentReceiv
         totalIncome = totalIncome + (groupJob.invoice != null ? groupJob.invoice!.total!.toInt() : groupJob.sessionType != null ? groupJob.getJobCost().toInt() : 0);
       }
 
-      jobTypePieChartRowItems.add(JobTypePieChartRowData(
+      jobTypePieChartRowItems.add(SessionTypePieChartRowData(
         jobs: jobsForType,
         count: count,
         totalIncomeForType: totalIncome,
-        jobType: jobType.title!,
+        sessionType: sessionType.title,
         color: ColorConstants.getPieChartColor(index),
       ));
     }

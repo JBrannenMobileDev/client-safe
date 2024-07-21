@@ -32,7 +32,7 @@ class PieChartState extends State<PieChartWidget> {
     onInit: (store) {
       switch(chartType) {
         case PieChartWidget.JOB_TYPE_BREAKDOWN:
-          chartData = store.state.dashboardPageState!.jobTypeBreakdownData!;
+          chartData = store.state.dashboardPageState!.sessionTypeBreakdownData!;
           break;
         case PieChartWidget.LEAD_SOURCES:
           chartData = store.state.dashboardPageState!.leadSourcesData!;
@@ -42,7 +42,7 @@ class PieChartState extends State<PieChartWidget> {
       onDidChange: (previous, current) {
         switch(chartType) {
           case PieChartWidget.JOB_TYPE_BREAKDOWN:
-            chartData = current.jobTypeBreakdownData!;
+            chartData = current.sessionTypeBreakdownData!;
             break;
           case PieChartWidget.LEAD_SOURCES:
             chartData = current.leadSourcesData!;

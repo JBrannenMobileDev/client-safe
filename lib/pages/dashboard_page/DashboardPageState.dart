@@ -4,7 +4,6 @@ import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/LineChartMonthData.dart';
-import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
@@ -18,8 +17,8 @@ import '../../models/Pose.dart';
 import '../../models/PoseLibraryGroup.dart';
 import '../../models/Profile.dart';
 import '../../models/Questionnaire.dart';
-import 'JobTypePieChartRowData.dart';
 import 'LeadSourcePieChartRowData.dart';
+import 'SessionTypePieChartRowData.dart';
 
 class DashboardPageState {
   final String? jobsProfitTotal;
@@ -39,7 +38,7 @@ class DashboardPageState {
   final List<Action>? actionItems;
   final List<Client>? recentLeads;
   final List<JobStage>? allUserStages;
-  final List<JobTypePieChartRowData>? jobTypePieChartRowData;
+  final List<SessionTypePieChartRowData>? sessionTypePieChartRowData;
   final List<Job>? upcomingJobs;
   final List<Job>? allJobs;
   final List<Job>? activeJobs;
@@ -48,7 +47,7 @@ class DashboardPageState {
   final List<Contract>? activeSignedContract;
   final List<Contract>? allUnsignedContracts;
   final List<Contract>? allSignedContracts;
-  final List<PieChartSectionData>? jobTypeBreakdownData;
+  final List<PieChartSectionData>? sessionTypeBreakdownData;
   final List<PieChartSectionData>? leadSourcesData;
   final int? unseenNotificationCount;
   final List<JobReminder>? reminders;
@@ -110,9 +109,9 @@ class DashboardPageState {
     this.jobsThisWeek,
     this.leadConversionRate,
     this.unconvertedLeadCount,
-    this.jobTypeBreakdownData,
+    this.sessionTypeBreakdownData,
     this.leadSourcesData,
-    this.jobTypePieChartRowData,
+    this.sessionTypePieChartRowData,
     this.leadSourcePieChartRowData,
     this.profile,
     this.hasSeenShowcase,
@@ -190,7 +189,7 @@ class DashboardPageState {
     bool? shouldShowNewMileageExpensePage,
     List<PieChartSectionData>? jobTypeBreakdownData,
     List<PieChartSectionData>? leadSourcesData,
-    List<JobTypePieChartRowData>? jobTypePieChartRowData,
+    List<SessionTypePieChartRowData>? jobTypePieChartRowData,
     List<LeadSourcePieChartRowData>? leadSourcePieChartRowData,
     Profile? profile,
     purchases.CustomerInfo? subscriptionState,
@@ -235,9 +234,9 @@ class DashboardPageState {
       jobsThisWeek: jobsThisWeek ?? this.jobsThisWeek,
       leadConversionRate: leadConversionRate ?? this.leadConversionRate,
       unconvertedLeadCount: unconvertedLeadCount ?? this.unconvertedLeadCount,
-      jobTypeBreakdownData: jobTypeBreakdownData ?? this.jobTypeBreakdownData,
+      sessionTypeBreakdownData: jobTypeBreakdownData ?? this.sessionTypeBreakdownData,
       leadSourcesData: leadSourcesData ?? this.leadSourcesData,
-      jobTypePieChartRowData: jobTypePieChartRowData ?? this.jobTypePieChartRowData,
+      sessionTypePieChartRowData: jobTypePieChartRowData ?? this.sessionTypePieChartRowData,
       leadSourcePieChartRowData: leadSourcePieChartRowData ?? this.leadSourcePieChartRowData,
       profile: profile ?? this.profile,
       hasSeenShowcase: hasSeenShowcase ?? this.hasSeenShowcase,
@@ -293,9 +292,9 @@ class DashboardPageState {
       jobsThisWeek: store.state.dashboardPageState!.jobsThisWeek,
       leadConversionRate: store.state.dashboardPageState!.leadConversionRate,
       unconvertedLeadCount: store.state.dashboardPageState!.unconvertedLeadCount,
-      jobTypeBreakdownData: store.state.dashboardPageState!.jobTypeBreakdownData,
+      sessionTypeBreakdownData: store.state.dashboardPageState!.sessionTypeBreakdownData,
       leadSourcesData: store.state.dashboardPageState!.leadSourcesData,
-      jobTypePieChartRowData: store.state.dashboardPageState!.jobTypePieChartRowData,
+      sessionTypePieChartRowData: store.state.dashboardPageState!.sessionTypePieChartRowData,
       leadSourcePieChartRowData: store.state.dashboardPageState!.leadSourcePieChartRowData,
       profile: store.state.dashboardPageState!.profile,
       hasSeenShowcase: store.state.dashboardPageState!.hasSeenShowcase,
@@ -375,11 +374,11 @@ class DashboardPageState {
     onNotificationViewClosed: null,
     shouldShowAppUpdate: false,
     jobsThisWeek: [],
-    jobTypeBreakdownData: [],
+    sessionTypeBreakdownData: [],
     leadSourcesData: [],
     leadConversionRate: 0,
     unconvertedLeadCount: 0,
-    jobTypePieChartRowData: [],
+    sessionTypePieChartRowData: [],
     leadSourcePieChartRowData: [],
     activeUnsignedContract: [],
     activeSignedContract: [],
@@ -442,10 +441,10 @@ class DashboardPageState {
       subscriptionState.hashCode ^
       leadConversionRate.hashCode ^
       unconvertedLeadCount.hashCode ^
-      jobTypeBreakdownData.hashCode ^
+      sessionTypeBreakdownData.hashCode ^
       poseGroups.hashCode ^
       leadSourcesData.hashCode ^
-      jobTypePieChartRowData.hashCode ^
+      sessionTypePieChartRowData.hashCode ^
       leadSourcePieChartRowData.hashCode ^
       profile.hashCode ^
       goToPosesJob.hashCode ^
@@ -506,9 +505,9 @@ class DashboardPageState {
               markAllAsSeen == other.markAllAsSeen &&
               leadConversionRate == other.leadConversionRate &&
               unconvertedLeadCount == other.unconvertedLeadCount &&
-              jobTypeBreakdownData == other.jobTypeBreakdownData &&
+              sessionTypeBreakdownData == other.sessionTypeBreakdownData &&
               leadSourcesData == other.leadSourcesData &&
-              jobTypePieChartRowData == other.jobTypePieChartRowData &&
+              sessionTypePieChartRowData == other.sessionTypePieChartRowData &&
               leadSourcePieChartRowData == other.leadSourcePieChartRowData &&
               profile == other.profile &&
               appSettings == other.appSettings &&

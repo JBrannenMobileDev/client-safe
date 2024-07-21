@@ -9,18 +9,19 @@ import 'package:dandylight/data_layer/local_db/daos/MileageExpenseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/QuestionnairesDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/RecurringExpenseDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/SessionTypeDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/SingleExpenseDao.dart';
 import 'package:dandylight/models/AppSettings.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Contract.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
-import 'package:dandylight/models/JobType.dart';
 import 'package:dandylight/models/MileageExpense.dart';
 import 'package:dandylight/models/PoseSubmittedGroup.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
+import 'package:dandylight/models/SessionType.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/LineChartMonthData.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
@@ -506,14 +507,14 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
 
     List<Job>? allJobs = await JobDao.getAllJobs();
 
-    List<JobType>? allJobTypes = await JobTypeDao.getAll();
+    List<SessionType>? allSessionTypes = await SessionTypeDao.getAll();
     List<SingleExpense> singleExpenses = await SingleExpenseDao.getAll();
     List<MileageExpense> mileageExpenses = await MileageExpenseDao.getAll();
     List<RecurringExpense> recurringExpenses = await RecurringExpenseDao.getAll();
 
     store.dispatch(SetJobsDataAction(store.state.jobsPageState!, allJobs));
     store.dispatch(SetJobToStateAction(store.state.dashboardPageState, allJobs, singleExpenses, recurringExpenses, mileageExpenses));
-    store.dispatch(SetJobTypeChartData(store.state.dashboardPageState, allJobs, allJobTypes));
+    store.dispatch(SetSessionTypeChartData(store.state.dashboardPageState, allJobs, allSessionTypes));
     List<LineChartMonthData> chartItems = await IncomeAndExpenseDao.getNetProfitChartData();
     store.dispatch(SetIncomeInfoAction(store.state.dashboardPageState, chartItems));
 
@@ -540,14 +541,14 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
 
     await purchases.Purchases.logIn(store.state.dashboardPageState!.profile!.uid!);
 
-    (await JobTypeDao.getJobTypeStream()).listen((jobSnapshots) async {
-      List<JobType> jobTypes = [];
+    (await SessionTypeDao.getSessionTypeStream()).listen((jobSnapshots) async {
+      List<SessionType> sessionTypes = [];
       for(RecordSnapshot clientSnapshot in jobSnapshots) {
-        jobTypes.add(JobType.fromMap(clientSnapshot.value! as Map<String,dynamic>));
+        sessionTypes.add(SessionType.fromMap(clientSnapshot.value! as Map<String,dynamic>));
       }
       allJobs = await JobDao.getAllJobs();
       store.dispatch(SetJobsDataAction(store.state.jobsPageState!, allJobs));
-      store.dispatch(SetJobTypeChartData(store.state.dashboardPageState, allJobs, allJobTypes));
+      store.dispatch(SetSessionTypeChartData(store.state.dashboardPageState, allJobs, sessionTypes));
     });
   }
 

@@ -1,7 +1,6 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_invoice_page/DueDateSelectionPage.dart';
 import 'package:dandylight/pages/new_invoice_page/InputDoneView.dart';
-import 'package:dandylight/pages/new_invoice_page/InvoiceReviewPage.dart';
 import 'package:dandylight/pages/new_invoice_page/JobSelectionForm.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
@@ -169,6 +168,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
 
   void onNextPressed(NewInvoicePageState pageState) {
     bool canProgress = false;
+    print('page index = ${pageState.pageViewIndex}');
     if (pageState.pageViewIndex != pageCount - 1) {
       switch (pageState.pageViewIndex) {
         case 0:

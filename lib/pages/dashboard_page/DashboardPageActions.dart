@@ -14,6 +14,7 @@ import '../../models/PoseLibraryGroup.dart';
 import '../../models/Profile.dart';
 import '../../models/Questionnaire.dart';
 import '../../models/RecurringExpense.dart';
+import '../../models/SessionType.dart';
 import '../../models/SingleExpense.dart';
 
 
@@ -59,11 +60,11 @@ class SetIncomeInfoAction{
   SetIncomeInfoAction(this.pageState, this.netProfitChartData);
 }
 
-class SetJobTypeChartData{
+class SetSessionTypeChartData{
   final DashboardPageState? pageState;
   final List<Job>? allJobs;
-  final List<JobType>? allJobTypes;
-  SetJobTypeChartData(this.pageState, this.allJobs, this.allJobTypes);
+  final List<SessionType>? sessionTypes;
+  SetSessionTypeChartData(this.pageState, this.allJobs, this.sessionTypes);
 }
 
 class SetProfileDashboardAction{

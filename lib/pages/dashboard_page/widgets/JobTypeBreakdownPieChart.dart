@@ -30,12 +30,12 @@ class JobTypeBreakdownPieChart extends StatelessWidget{
                   padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
-                    text: 'Job Type Breakdown - ${DateTime.now().year}',
+                    text: 'Session Type Breakdown - ${DateTime.now().year}',
                     textAlign: TextAlign.start,
                     color: Color(ColorConstants.getPrimaryGreyDark()),
                   ),
                 ),
-                pageState.jobTypeBreakdownData!.isNotEmpty ? PieChartWidget(chartType: PieChartWidget.JOB_TYPE_BREAKDOWN,) :
+                pageState.sessionTypeBreakdownData!.isNotEmpty ? PieChartWidget(chartType: PieChartWidget.JOB_TYPE_BREAKDOWN,) :
                   Column(
                     children: [
                       Container(
@@ -55,14 +55,14 @@ class JobTypeBreakdownPieChart extends StatelessWidget{
                       ),
                     ],
                   ),
-                pageState.jobTypeBreakdownData!.isNotEmpty ? ListView.builder(
+                pageState.sessionTypeBreakdownData!.isNotEmpty ? ListView.builder(
                   reverse: false,
                   padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
                   shrinkWrap: true,
                   controller: null,
                   physics: const ClampingScrollPhysics(),
                   key: _listKey,
-                  itemCount: pageState.jobTypePieChartRowData!.length,
+                  itemCount: pageState.sessionTypePieChartRowData!.length,
                   itemBuilder: (BuildContext context, int index) {
                     return SizedBox(
                       height: 48.0,
@@ -76,14 +76,14 @@ class JobTypeBreakdownPieChart extends StatelessWidget{
                                 width: 18.0,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(9.0),
-                                    color: Color(pageState.jobTypePieChartRowData!.elementAt(index).color!)
+                                    color: Color(pageState.sessionTypePieChartRowData!.elementAt(index).color!)
                                 ),
                               ),
                               Container(
                                 margin: const EdgeInsets.only(left: 8.0),
                                 child: TextDandyLight(
                                   type: TextDandyLight.SMALL_TEXT,
-                                  text: '${pageState.jobTypePieChartRowData!.elementAt(index).jobType} - ${pageState.jobTypePieChartRowData!.elementAt(index).count}',
+                                  text: '${pageState.sessionTypePieChartRowData!.elementAt(index).sessionType} - ${pageState.sessionTypePieChartRowData!.elementAt(index).count}',
                                   textAlign: TextAlign.start,
                                   color: Color(ColorConstants.getPrimaryBlack()),
                                 ),
@@ -94,7 +94,7 @@ class JobTypeBreakdownPieChart extends StatelessWidget{
                             margin: const EdgeInsets.only(left: 8.0),
                             child: TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,
-                              text: TextFormatterUtil.formatSimpleCurrency(pageState.jobTypePieChartRowData!.elementAt(index).totalIncomeForType!),
+                              text: TextFormatterUtil.formatSimpleCurrency(pageState.sessionTypePieChartRowData!.elementAt(index).totalIncomeForType!),
                               textAlign: TextAlign.start,
                               color: Color(ColorConstants.getPrimaryBlack()),
                             ),

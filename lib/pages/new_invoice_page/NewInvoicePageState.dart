@@ -556,7 +556,6 @@ class NewInvoicePageState {
           salesTaxPercent == other.salesTaxPercent &&
           isSalesTaxChecked == other.isSalesTaxChecked &&
           isDepositChecked == other.isDepositChecked &&
-          isSalesTaxChecked == other.isSalesTaxChecked &&
           onSalesTaxRateChanged == other.onSalesTaxRateChanged &&
           onInvoiceSent == other.onInvoiceSent &&
           salesTaxAmount == other.salesTaxAmount &&

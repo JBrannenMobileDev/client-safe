@@ -131,6 +131,25 @@ class InvoiceDao extends Equatable{
     _updateLastChangedTime();
   }
 
+  static Future deleteByJobId(String? jobDocumentId) async {
+    final finder = sembast.Finder(filter: sembast.Filter.equals('jobDocumentId', jobDocumentId));
+    await _invoiceStore.delete(
+      await _db,
+      finder: finder,
+    );
+    List<Job>? jobs = await JobDao.getAllJobs();
+    for(Job job in jobs){
+      if(job.invoice?.jobDocumentId == jobDocumentId){
+        if(job.invoice?.documentId?.isNotEmpty ?? false) {
+          await InvoiceCollection().deleteInvoice(job.invoice!.documentId!);
+        }
+        job.invoice = null;
+        await JobDao.update(job);
+      }
+    }
+    _updateLastChangedTime();
+  }
+
   static Future deleteByInvoice(Invoice? invoice) async {
     if(invoice != null) {
       await deleteById(invoice.documentId);

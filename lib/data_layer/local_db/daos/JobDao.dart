@@ -124,6 +124,7 @@ class JobDao extends Equatable{
     _updateLastChangedTime();
     CalendarSyncUtil.deleteJobEvent(job);
     JobReminderDao.deleteAllWithJobDocumentId(job.documentId);
+    await InvoiceDao.deleteByJobId(job.documentId);
   }
 
    static Future<List<Job>> getAllJobs() async {
