@@ -10,6 +10,7 @@ import '../../models/JobType.dart';
 import '../../models/LocationDandy.dart';
 import '../../models/MileageExpense.dart';
 import '../../models/Pose.dart';
+import '../../models/PoseLibraryGroup.dart';
 import '../../models/Profile.dart';
 import '../../models/Questionnaire.dart';
 import '../../models/RecurringExpense.dart';
@@ -69,6 +70,12 @@ class SetProfileDashboardAction{
   final DashboardPageState? pageState;
   final Profile? profile;
   SetProfileDashboardAction(this.pageState, this.profile);
+}
+
+class SetPoseLibraryGroupsDashboardAction {
+  final DashboardPageState? pageState;
+  final List<PoseLibraryGroup> poseGroups;
+  SetPoseLibraryGroupsDashboardAction(this.pageState, this.poseGroups);
 }
 
 class SetQuestionnairesToDashboardAction {

@@ -36,10 +36,12 @@ import 'package:http/http.dart' as http;
 
 import '../../data_layer/api_clients/GoogleApiClient.dart';
 import '../../data_layer/local_db/daos/IncomeAndExpenseDao.dart';
+import '../../data_layer/local_db/daos/PoseLibraryGroupDao.dart';
 import '../../data_layer/local_db/daos/PoseSubmittedGroupDao.dart';
 import '../../data_layer/repositories/FileStorage.dart';
 import '../../models/Charge.dart';
 import '../../models/Pose.dart';
+import '../../models/PoseLibraryGroup.dart';
 import '../../models/Progress.dart';
 import '../../models/Questionnaire.dart';
 import '../../models/SingleExpense.dart';
@@ -49,6 +51,7 @@ import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../utils/intentLauncher/IntentLauncherUtil.dart';
 import '../new_reminder_page/WhenSelectionWidget.dart';
+import '../poses_page/PosesActions.dart';
 
 class DashboardPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -61,6 +64,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       await _loadJobReminders(store, action, next);
       await _fetchSubscriptionState(store, next);
       await _loadAllQuestionnaires(store);
+      await _loadLibraryPoseGroups(store);
     }
     if(action is SetNotificationToSeen) {
       _setNotificationToSeen(store, action);
@@ -116,6 +120,14 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     if(action is UpdateProgressNoShow) {
       _updateProgressNoShow(store, action);
     }
+  }
+
+  Future<void> _loadLibraryPoseGroups(Store<AppState> store) async {
+    List<PoseLibraryGroup> groups = await PoseLibraryGroupDao.getAllSortedMostFrequent();
+    for(PoseLibraryGroup group in groups) {
+      group.sort();
+    }
+    store.dispatch(SetPoseLibraryGroupsDashboardAction(store.state.dashboardPageState, groups));
   }
 
   Future<void> _updateProgressNoShow(Store<AppState> store, UpdateProgressNoShow action) async {

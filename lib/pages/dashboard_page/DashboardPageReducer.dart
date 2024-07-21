@@ -40,7 +40,14 @@ final dashboardPageReducer = combineReducers<DashboardPageState>([
   TypedReducer<DashboardPageState, SetShouldShowUpdateAction>(setShouldShowUpdate),
   TypedReducer<DashboardPageState, SetQuestionnairesToDashboardAction>(setQuestionnaires),
   TypedReducer<DashboardPageState, SetIncomeInfoAction>(setIncomeInfo),
+  TypedReducer<DashboardPageState, SetPoseLibraryGroupsDashboardAction>(setPoseGroups),
 ]);
+
+DashboardPageState setPoseGroups(DashboardPageState previousState, SetPoseLibraryGroupsDashboardAction action) {
+  return previousState.copyWith(
+    poseGroups: action.poseGroups,
+  );
+}
 
 DashboardPageState setQuestionnaires(DashboardPageState previousState, SetQuestionnairesToDashboardAction action) {
   return previousState.copyWith(

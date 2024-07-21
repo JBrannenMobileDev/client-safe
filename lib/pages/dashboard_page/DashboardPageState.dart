@@ -15,6 +15,7 @@ import '../../models/JobReminder.dart';
 import '../../models/JobStage.dart';
 import '../../models/LocationDandy.dart';
 import '../../models/Pose.dart';
+import '../../models/PoseLibraryGroup.dart';
 import '../../models/Profile.dart';
 import '../../models/Questionnaire.dart';
 import 'JobTypePieChartRowData.dart';
@@ -57,6 +58,7 @@ class DashboardPageState {
   final List<Questionnaire>? notCompleteQuestionnaires;
   final List<Questionnaire>? completedQuestionnaires;
   final List<Questionnaire>? allQuestionnaires;
+  final List<PoseLibraryGroup>? poseGroups;
   final Profile? profile;
   final AppSettings? appSettings;
   final Function()? onAddClicked;
@@ -141,6 +143,7 @@ class DashboardPageState {
     this.markQuestionnaireAsReviewed,
     this.updateProgressItemComplete,
     this.updateProgressNoShow,
+    this.poseGroups,
   });
 
   DashboardPageState copyWith({
@@ -168,6 +171,7 @@ class DashboardPageState {
     List<Contract>? activeSignedContract,
     List<Contract>? allUnsignedContract,
     List<Contract>? allSignedContract,
+    List<PoseLibraryGroup>? poseGroups,
     int? unseenNotificationCount,
     List<LineChartMonthData>? lineChartMonthData,
     Function()? onAddClicked,
@@ -264,6 +268,7 @@ class DashboardPageState {
       markQuestionnaireAsReviewed: markQuestionnaireAsReviewed ?? this.markQuestionnaireAsReviewed,
       updateProgressItemComplete: updateProgressItemComplete ?? this.updateProgressItemComplete,
       updateProgressNoShow: updateProgressNoShow ?? this.updateProgressNoShow,
+      poseGroups: poseGroups ?? this.poseGroups,
     );
   }
 
@@ -310,6 +315,7 @@ class DashboardPageState {
       completedQuestionnaires: store.state.dashboardPageState!.completedQuestionnaires,
       notCompleteQuestionnaires: store.state.dashboardPageState!.notCompleteQuestionnaires,
       allQuestionnaires: store.state.dashboardPageState!.allQuestionnaires,
+      poseGroups: store.state.dashboardPageState!.poseGroups,
       onLeadClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
       onJobClicked: (job) {
         store.dispatch(SetGoToPosesJob(store.state.dashboardPageState, null));
@@ -401,6 +407,7 @@ class DashboardPageState {
     markQuestionnaireAsReviewed: null,
     updateProgressItemComplete: null,
     updateProgressNoShow: null,
+    poseGroups: [],
   );
 
   @override
@@ -436,6 +443,7 @@ class DashboardPageState {
       leadConversionRate.hashCode ^
       unconvertedLeadCount.hashCode ^
       jobTypeBreakdownData.hashCode ^
+      poseGroups.hashCode ^
       leadSourcesData.hashCode ^
       jobTypePieChartRowData.hashCode ^
       leadSourcePieChartRowData.hashCode ^
@@ -481,6 +489,7 @@ class DashboardPageState {
               onLeadClicked == other.onLeadClicked &&
               onJobClicked == other.onJobClicked &&
               onAddClicked == other.onAddClicked &&
+              poseGroups == other.poseGroups &&
               activeJobs == other.activeJobs &&
               hasSeenShowcase == other.hasSeenShowcase &&
               shouldShowAppUpdate == other.shouldShowAppUpdate &&

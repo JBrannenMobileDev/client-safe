@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/PoseLibraryCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/RecentActivityCard.dart';
 import 'package:http/http.dart' as http;
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
@@ -944,7 +945,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                     },
                                   );
                                 },
-                                key: Key("dismissKey"),
+                                key: const Key("dismissKey"),
                                 child: const GettingStartedProgress(),
                               ),
                             ),
@@ -991,6 +992,21 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                             //         ),
                             //     )
                             // ),
+                            SlideTransition(
+                                position: offsetAnimationUp,
+                                child:  Container(
+                                    margin: const EdgeInsets.only(left: 16, top: 16),
+                                    height: 32,
+                                    child: TextDandyLight(
+                                      type: TextDandyLight.SMALL_TEXT,
+                                      text: 'Pose Library',
+                                    ),
+                                )
+                            ),
+                            SlideTransition(
+                                position: offsetAnimationUp,
+                                child: const PoseLibraryCard()
+                            ),
                             SlideTransition(
                                 position: offsetAnimationUp,
                                 child: MonthlyProfitLineChart(pageState: pageState)
