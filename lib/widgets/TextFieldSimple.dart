@@ -11,7 +11,6 @@ import '../../widgets/TextDandyLight.dart';
 class TextFieldSimple extends StatelessWidget {
   final TextEditingController? controller;
   final String? hintText;
-  final String? labelText;
   final TextInputType? inputType;
   final double? height;
   final bool? hasError;
@@ -36,7 +35,6 @@ class TextFieldSimple extends StatelessWidget {
       this.onFocusAction,
       this.capitalization,
       this.inputFormatter,
-      this.labelText,
       this.onEditingCompleted,
       this.enabled,
   });
@@ -44,7 +42,7 @@ class TextFieldSimple extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Container(
-          margin: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+          margin: const EdgeInsets.only(top: 0.0, bottom: 8.0),
           height: 48,
           child: TextFormField(
             cursorColor: Color(ColorConstants.getPrimaryBlack()),
@@ -64,6 +62,11 @@ class TextFieldSimple extends StatelessWidget {
             decoration: InputDecoration(
               alignLabelWithHint: true,
               hintText: hintText,
+              hintStyle: TextStyle(
+                  fontFamily: TextDandyLight.getFontFamily(),
+                  fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
+                  fontWeight: TextDandyLight.getFontWeight(),
+                  color: Color(ColorConstants.getPrimaryGreyDark())),
               filled: true,
               contentPadding: const EdgeInsets.only(
                   left: 16.0,

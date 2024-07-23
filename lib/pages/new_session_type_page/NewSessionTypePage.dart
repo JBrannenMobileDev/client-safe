@@ -193,7 +193,6 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                               onFocusAction: (){
                                 FocusScope.of(context).requestFocus(hourFocusNode);
                               },
-                              labelText: 'Name',
                               onTextInputChanged: pageState.onTitleChanged!,
                               keyboardAction: TextInputAction.next,
                               capitalization: TextCapitalization.words,
@@ -246,7 +245,7 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                               children: [
                                 Container(
                                   width: (MediaQuery.of(context).size.width-48)/2,
-                                  margin: const EdgeInsets.only(left: 8, top: 16),
+                                  margin: const EdgeInsets.only(left: 8, top: 24),
                                   child: TextDandyLight(
                                     type: TextDandyLight.EXTRA_SMALL_TEXT,
                                     text: 'SESSION PRICE*',
@@ -316,7 +315,6 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                                     onFocusAction: (){
                                       FocusScope.of(context).requestFocus(minFocusNode);
                                     },
-                                    labelText: 'Tax %',
                                     onTextInputChanged: pageState.onTaxPercentChanged!,
                                     keyboardAction: TextInputAction.next,
                                   ),
@@ -344,7 +342,7 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                               ),
                             ),
                             Container(
-                              margin: const EdgeInsets.only(left: 8, top: 8),
+                              margin: const EdgeInsets.only(left: 8, top: 0),
                               child: TextDandyLight(
                                 type: TextDandyLight.SMALL_TEXT,
                                 text: 'Please choose the stages you wish to track for this session type.',
@@ -398,7 +396,7 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                               ),
                             ),
                             Container(
-                              margin: const EdgeInsets.only(left: 8, top: 8),
+                              margin: const EdgeInsets.only(left: 8, top: 0),
                               child: TextDandyLight(
                                 type: TextDandyLight.SMALL_TEXT,
                                 text: 'Please choose your personal reminders for this session type.',
@@ -475,7 +473,7 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                       height: 54,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(27),
-                        color: Color(ColorConstants.getBlueDark()),
+                        color: Color(ColorConstants.getPrimaryGreyDark()),
                         boxShadow: ElevationToShadow[4],
                       ),
                       child: TextDandyLight(

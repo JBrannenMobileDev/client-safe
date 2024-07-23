@@ -16,6 +16,7 @@ class PendingEmail{
   static const String TYPE_ADD_FIRST_CLIENT = 'add_first_client';
   static const String TYPE_CREATE_FIRST_JOB = 'create_first_job';
   static const String TYPE_CREATE_CONTRACT = 'create_contract';
+  static const String TYPE_CREATE_SESSION_TYPE = 'create_session_type';
   static const String TYPE_ADD_CONTRACT_TO_JOB = 'add_contract_to_job';
   static const String TYPE_ADD_INVOICE_TO_JOB = 'add_invoice_to_job';
   static const String TYPE_ADD_QUESTIONNAIRE_TO_JOB = 'add_questionnaire_to_job';
@@ -74,7 +75,7 @@ class PendingEmail{
     if(!progress.previewSampleJob) return PendingEmail.TYPE_VIEW_EXAMPLE_JOB;
     if(!progress.setupBrand) return PendingEmail.TYPE_SETUP_YOU_BRAND;
     if(!progress.addClient) return PendingEmail.TYPE_ADD_FIRST_CLIENT;
-    //TODO Create first session type
+    if(!progress.createSessionType) return PendingEmail.TYPE_CREATE_SESSION_TYPE;
     if(!progress.createJob) return PendingEmail.TYPE_CREATE_FIRST_JOB;
     if(!progress.createContract) return PendingEmail.TYPE_CREATE_CONTRACT;
     if(!progress.addContractToJob) return PendingEmail.TYPE_ADD_CONTRACT_TO_JOB;

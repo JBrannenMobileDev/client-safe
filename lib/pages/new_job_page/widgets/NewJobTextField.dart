@@ -41,10 +41,10 @@ class NewJobTextField extends StatelessWidget {
     return StoreConnector<AppState, NewJobPageState>(
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) => Container(
-          margin: EdgeInsets.only(top: 8.0, bottom: 0.0),
           height: height,
           color: Colors.transparent,
           child: TextFormField(
+            autofocus: true,
             focusNode: focusNode,
             textInputAction: keyboardAction,
             maxLines: 24,
@@ -57,7 +57,11 @@ class NewJobTextField extends StatelessWidget {
             },
             cursorColor: Color(ColorConstants.getBlueDark()),
             decoration: InputDecoration(
-              suffixIcon: Icon(Icons.search, color: Color(ColorConstants.getBlueLight()),),
+              contentPadding: const EdgeInsets.only(
+                  left: 16.0,
+                  bottom: 0.0,
+                  top: 24.0),
+              suffixIcon: Icon(Icons.search, color: Color(ColorConstants.getPrimaryGreyDark()).withOpacity(0.5)),
               alignLabelWithHint: true,
               labelText: hintText,
               labelStyle: TextStyle(
@@ -73,30 +77,30 @@ class NewJobTextField extends StatelessWidget {
                   color: Color(ColorConstants.getBlueLight())),
               fillColor: Color(ColorConstants.getPrimaryWhite()),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.0),
+                borderRadius: BorderRadius.circular(16.0),
                 borderSide: BorderSide(
-                  color: Color(ColorConstants.getBlueLight()),
+                  color: Color(ColorConstants.getPrimaryGreyDark()).withOpacity(0.5),
                   width: 1.0,
                 ),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.0),
+                borderRadius: BorderRadius.circular(16.0),
                 borderSide: BorderSide(
-                  color: Color(ColorConstants.getBlueLight()),
+                  color: Color(ColorConstants.getPrimaryGreyDark()).withOpacity(0.5),
                   width: 1.0,
                 ),
               ),
               disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.0),
+                borderRadius: BorderRadius.circular(16.0),
                 borderSide: BorderSide(
-                  color: Color(ColorConstants.getBlueLight()),
+                  color: Color(ColorConstants.getPrimaryGreyDark()).withOpacity(0.5),
                   width: 1.0,
                 ),
               ),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.0),
+                borderRadius: BorderRadius.circular(16.0),
                 borderSide: BorderSide(
-                  color: Color(ColorConstants.getBlueLight()),
+                  color: Color(ColorConstants.getPrimaryGreyDark()).withOpacity(0.5),
                   width: 1.0,
                 ),
               ),

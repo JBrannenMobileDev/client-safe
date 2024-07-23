@@ -38,7 +38,6 @@ class _SessionTypeNameSelectionWidgetState extends State<SessionTypeNameSelectio
                 inputType: TextInputType.text,
                 focusNode: null,
                 onFocusAction: null,
-                labelText: 'Session Type Name',
                 onTextInputChanged: pageState.onTitleChanged!,
                 keyboardAction: TextInputAction.done,
                 capitalization: TextCapitalization.words,

@@ -26,12 +26,12 @@ class NewJobClientListWidget extends StatelessWidget {
             ),
         onPressed: () {
           pageState.onClientSelected!(pageState.filteredClients!.elementAt(clientIndex));
-          FocusManager.instance.primaryFocus?.unfocus();
+          Navigator.of(context).pop();
         },
         child: Row(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(left: 8.0, right: 16.0, top: 2.0, bottom: 2.0),
+              margin: EdgeInsets.only(left: 0.0, right: 16.0, top: 2.0, bottom: 2.0),
               height: 44.0,
               width: 44.0,
               child: Image.asset('assets/images/icons/profile_icon.png', color: pageState.filteredClients!.elementAt(clientIndex).documentId == pageState.selectedClient?.documentId ? Color(ColorConstants.getBlueDark()) : Color(ColorConstants.getPrimaryColor())),

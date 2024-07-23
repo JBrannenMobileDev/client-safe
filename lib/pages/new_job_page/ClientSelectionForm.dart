@@ -51,99 +51,39 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) =>
           Container(
-            margin: const EdgeInsets.only(left: 26.0, right: 26.0),
+            margin: const EdgeInsets.only(left: 0.0, right: 0.0),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Container(
-                  margin: const EdgeInsets.only(top: 8),
-                  child: TextDandyLight(
-                    type: TextDandyLight.LARGE_TEXT,
-                    text: "Who is this job for?",
-                    textAlign: TextAlign.start,
-                    color: Color(ColorConstants.getPrimaryBlack()),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 8, bottom: 8.0),
-                  height: 48.0,
-                  width: 200,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(27),
-                    color: Color(ColorConstants.getBlueDark()),
-                  ),
-                  child: TextButton(
-                    onPressed: () {
-                      UserOptionsUtil.showNewContactDialog(context, true);
-                      EventSender().sendEvent(eventName: EventNames.BT_ADD_NEW_CONTACT, properties: {EventNames.CONTACT_PARAM_COMING_FROM : "New Job Page"});
-                    },
-                    child: TextDandyLight(
-                      type: TextDandyLight.MEDIUM_TEXT,
-                      text: 'Add New Contact',
-                      textAlign: TextAlign.start,
-                      color: Color(ColorConstants.getPrimaryWhite()),
-                    ),
-                  ),
-                ),
-                !searchSelected ? Container(
-                  margin: const EdgeInsets.only(bottom: 8),
-                  child: TextDandyLight(
-                    type: TextDandyLight.MEDIUM_TEXT,
-                    text: 'Or',
-                    textAlign: TextAlign.start,
-                    color: Color(ColorConstants.getPrimaryBlack()),
-                  ),
-                ) : const SizedBox(),
-                !searchSelected ? Container(
-                  margin: const EdgeInsets.only(top: 0, bottom: 8.0),
-                  height: 48.0,
-                  width: 248,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(27),
-                    color: Color(ColorConstants.getBlueDark()),
-                  ),
-                  child: TextButton(
-                    onPressed: () {
-                      setState(() {
-                        searchSelected = true;
-                      });
-                    },
-                    child: TextDandyLight(
-                      type: TextDandyLight.MEDIUM_TEXT,
-                      text: 'Search DandyLight Contacts',
-                      textAlign: TextAlign.start,
-                      color: Color(ColorConstants.getPrimaryWhite()),
-                    ),
-                  ),
-                ) : const SizedBox(),
-                searchSelected ? NewJobTextField(
+                NewJobTextField(
                   controller: firstNameTextController,
                   hintText: 'Client Name',
                   inputType: TextInputType.text,
-                  height: 64.0,
+                  height: 54.0,
                   onTextInputChanged: pageState.onClientFirstNameTextChanged!,
                   keyboardAction: TextInputAction.next,
                   capitalization: TextCapitalization.words,
                   focusNode: _firstNameFocus,
                   onFocusAction: onFirstNameAction,
                   inputTypeError: NewContactPageState.ERROR_FIRST_NAME_MISSING,
-                ) : const SizedBox(),
-                searchSelected ? ConstrainedBox(
-                        constraints: const BoxConstraints(
-                          minHeight: 65.0,
-                          maxHeight: 429.0,
-                        ),
-                        child: ListView.builder(
-                          reverse: false,
-                          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                          padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 64.0),
-                          shrinkWrap: true,
-                          controller: _controller,
-                          physics: const ClampingScrollPhysics(),
-                          itemCount: pageState.filteredClients!.length,
-                          itemBuilder: _buildItem,
-                        ),
-                ) : const SizedBox(),
+                ),
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: 65.0,
+                    maxHeight: MediaQuery.of(context).size.height - 179,
+                  ),
+                  child: ListView.builder(
+                    reverse: false,
+                    keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                    padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 64.0),
+                    shrinkWrap: true,
+                    controller: _controller,
+                    physics: ScrollPhysics(),
+                    itemCount: pageState.filteredClients!.length,
+                    itemBuilder: _buildItem,
+                  ),
+                ),
               ],
             ),
           ),

@@ -57,7 +57,6 @@ class _NameAndGenderState extends State<NameAndGender>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            pageState.deviceContacts!.length > 0 ?
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -140,76 +139,6 @@ class _NameAndGenderState extends State<NameAndGender>
                     itemBuilder: _buildItem,
                   ),
                 ),
-              ],
-            ) : Column(
-              children: <Widget>[
-                InkWell(
-                  onTap: () => {
-                    UserPermissionsUtil.showPermissionRequest(
-                      permission: Permission.contacts,
-                      context: context,
-                      callOnGranted: callOnGranted,
-                    ),
-                    EventSender().sendEvent(eventName: EventNames.BT_IMPORT_DEVICE_CONTACT),
-                  },
-                  child: Container(
-                    height: 54,
-                    margin: EdgeInsets.only(bottom: 8),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(27),
-                      color: Color(ColorConstants.getPeachDark())
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        IconButton(
-                          onPressed: () {
-
-                          },
-                          color: Color(ColorConstants.getPeachDark()),
-                          icon: Device.get().isIos ? Icon(CupertinoIcons.group_solid, color: Color(ColorConstants.getPrimaryWhite()),) : Icon(Icons.people, color: Color(ColorConstants.getPrimaryWhite())),
-                          tooltip: 'Search',
-                        ),
-                        TextDandyLight(
-                          type: TextDandyLight.MEDIUM_TEXT,
-                          text: "Import Device Contact",
-                          textAlign: TextAlign.start,
-                          color: Color(ColorConstants.getPrimaryWhite()),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                NewContactTextField(
-                    firstNameTextController,
-                    "First Name",
-                    TextInputType.text,
-                    66.0,
-                    pageState.onClientFirstNameChanged!,
-                    NewContactPageState.ERROR_FIRST_NAME_MISSING,
-                    TextInputAction.next,
-                    _firstNameFocus,
-                    onFirstNameAction,
-                    TextCapitalization.words,
-                    null,
-                    true,
-                    ColorConstants.getBlueLight(),
-                ),
-                NewContactTextField(
-                    lastNameTextController,
-                    "Last Name",
-                    TextInputType.text,
-                    66.0,
-                    pageState.onClientLastNameChanged!,
-                    NewContactPageState.NO_ERROR,
-                    TextInputAction.done,
-                    _lastNameFocus,
-                    onLastNameAction,
-                    TextCapitalization.words,
-                    null,
-                    true,
-                  ColorConstants.getBlueLight(),
-                )
               ],
             ),
           ],

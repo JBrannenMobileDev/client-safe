@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_job_page/ClientSelectionForm.dart';
 import 'package:dandylight/pages/new_job_page/DateForm.dart';
+import 'package:dandylight/pages/new_job_page/ImportDeviceContactBottomSheet.dart';
 import 'package:dandylight/pages/new_job_page/JobTypeSelection.dart';
 import 'package:dandylight/pages/new_job_page/LocationSelectionForm.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
+import 'package:dandylight/pages/new_job_page/SelectPreviousClientBottomSheet.dart';
 import 'package:dandylight/pages/new_job_page/TimeSelectionForm.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DeviceType.dart';
@@ -22,8 +24,10 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../utils/Shadows.dart';
 import '../../utils/permissions/UserPermissionsUtil.dart';
 import '../../widgets/TextDandyLight.dart';
+import '../../widgets/TextFieldSimple.dart';
 
 class NewJobPage extends StatefulWidget {
   @override
@@ -34,9 +38,21 @@ class NewJobPage extends StatefulWidget {
 
 class _NewJobPageState extends State<NewJobPage> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final phoneController = TextEditingController();
+  final emailController = TextEditingController();
+  final instagramUrlController = TextEditingController();
+  final firstNameFocusNode = FocusNode();
+  final lastNameFocusNode = FocusNode();
+  final phoneFocusNode = FocusNode();
+  final emailFocusNode = FocusNode();
+  final instagramUrlFocusNode = FocusNode();
+
 
   bool clientError = false;
   bool sessionTypeError = false;
+  bool firstNameError = false;
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +112,7 @@ class _NewJobPageState extends State<NewJobPage> {
                       surfaceTintColor: Colors.transparent,
                       title: TextDandyLight(
                         type: TextDandyLight.LARGE_TEXT,
-                        text: 'New Booking',
+                        text: 'New Job',
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                       systemOverlayStyle: SystemUiOverlayStyle.dark,
@@ -110,25 +126,72 @@ class _NewJobPageState extends State<NewJobPage> {
                     SliverList(
                       delegate: SliverChildListDelegate(
                         <Widget>[
-                          buildOptionWidget(
-                              'CLIENT*',
-                              'Who is this booking for?',
-                              pageState.selectedClient != null ? (pageState.selectedClient?.firstName ?? 'Client name') : 'Add new contact',
-                              (){},
-                              clientError
+                          Container(
+                            alignment: Alignment.center,
+                            width: MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.only(left: 8, top: 16),
+                            child: TextDandyLight(
+                              type: TextDandyLight.SMALL_TEXT,
+                              text: 'Who is this booking for?',
+                              color: Color(ColorConstants.getPrimaryBlack()),
+                            ),
                           ),
-                          // Container(
-                          //   alignment: Alignment.center,
-                          //   width: MediaQuery.of(context).size.width,
-                          //   child: TextDandyLight(
-                          //     type: TextDandyLight.SMALL_TEXT,
-                          //     text: 'or',
-                          //     color: Color(ColorConstants.getPrimaryBlack()),
-                          //   ),
-                          // ),
+                          GestureDetector(
+                            onTap: () {
+                              _showSelectClientBottomSheet(context);
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(top: 8, bottom: 0),
+                              alignment: Alignment.center,
+                              height: 54,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                    color: clientError ? const Color(ColorConstants.error_red) : Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
+                                    width: clientError ? 2 : 0
+                                ),
+                                color: Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.only(left: 16),
+                                    child: TextDandyLight(
+                                      type: TextDandyLight.SMALL_TEXT,
+                                      text: pageState.selectedClient != null ? '${pageState.selectedClient?.firstName ?? 'Client name'} ${pageState.selectedClient?.lastName ?? 'Last name'}' : 'Select previous client',
+                                      color: Color(ColorConstants.getPrimaryBlack()),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(right: 8.0),
+                                    child: Icon(
+                                      Icons.chevron_right,
+                                      color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          pageState.selectedClient == null ? Container(
+                            alignment: Alignment.center,
+                            width: MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.only(top: 4),
+                            child: TextDandyLight(
+                              type: TextDandyLight.SMALL_TEXT,
+                              text: 'or',
+                              color: Color(ColorConstants.getPrimaryBlack()),
+                            ),
+                          ) : const SizedBox(),
                           pageState.selectedClient == null ? GestureDetector(
                             onTap: () {
-
+                              _showSelectDeviceContactBottomSheet(context);
+                              UserPermissionsUtil.showPermissionRequest(
+                                permission: Permission.contacts,
+                                context: context,
+                                callOnGranted: (){},
+                              );
                             },
                             child: Container(
                               margin: const EdgeInsets.only(top: 8),
@@ -149,7 +212,7 @@ class _NewJobPageState extends State<NewJobPage> {
                                     margin: const EdgeInsets.only(left: 16),
                                     child: TextDandyLight(
                                       type: TextDandyLight.SMALL_TEXT,
-                                      text: 'From Dandylight contacts',
+                                      text: 'Import device contact',
                                       color: Color(ColorConstants.getPrimaryBlack()),
                                     ),
                                   ),
@@ -164,6 +227,17 @@ class _NewJobPageState extends State<NewJobPage> {
                               ),
                             ),
                           ) : const SizedBox(),
+                          pageState.selectedClient == null ? clientInfoItems(pageState) : const SizedBox(),
+                          Container(
+                            alignment: Alignment.center,
+                            width: MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.only(top: 32, bottom: 8),
+                            child: TextDandyLight(
+                              type: TextDandyLight.SMALL_TEXT,
+                              text: 'Session Details',
+                              color: Color(ColorConstants.getPrimaryBlack()),
+                            ),
+                          ),
                           buildOptionWidget(
                               'SESSION TYPE*',
                               null,
@@ -188,10 +262,11 @@ class _NewJobPageState extends State<NewJobPage> {
                           buildOptionWidget(
                               'SESSION START TIME',
                               null,
-                              pageState.selectedStartTime != null ? (DateFormat('h:mm a').format(pageState.selectedStartTime!)) : 'Select a type',
+                              pageState.selectedStartTime != null ? (DateFormat('h:mm a').format(pageState.selectedStartTime!)) : 'Select a start time',
                                   (){},
                               false
                           ),
+                          const SizedBox(height: 164)
                           // ClientSelectionForm(),
                           // JobTypeSelection(),
                           // LocationSelectionForm(),
@@ -201,6 +276,38 @@ class _NewJobPageState extends State<NewJobPage> {
                       )
                     ),
                   ],
+                ),
+                GestureDetector(
+                  onTap: () {
+                    if(pageState.saveButtonEnabled ?? false) {
+                      pageState.onSavePressed!();
+                      showSuccessAnimation();
+                    } else {
+                      setState(() {
+                        // if(nameController.text.isEmpty) nameError = true;
+                        // if(hoursController.text.isEmpty && minController.text.isEmpty) durationError = true;
+                        // if(totalCostTextController.text.isEmpty) priceError = true;
+                        // if(!(pageState.stagesComplete ?? false)) stagesError = true;
+                        // if(!(pageState.remindersComplete ?? false)) remindersError = true;
+                      });
+                    }
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 32),
+                    alignment: Alignment.center,
+                    width: MediaQuery.of(context).size.width/2,
+                    height: 54,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(27),
+                      color: Color(ColorConstants.getPeachDark()),
+                      boxShadow: ElevationToShadow[4],
+                    ),
+                    child: TextDandyLight(
+                      type: TextDandyLight.LARGE_TEXT,
+                      text: 'Save',
+                      color: Color(ColorConstants.getPrimaryWhite()),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -216,7 +323,7 @@ class _NewJobPageState extends State<NewJobPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          margin: const EdgeInsets.only(left: 8, top: 24),
+          margin: const EdgeInsets.only(left: 8, top: 0),
           child: TextDandyLight(
             type: TextDandyLight.EXTRA_SMALL_TEXT,
             text: title,
@@ -236,7 +343,7 @@ class _NewJobPageState extends State<NewJobPage> {
             action();
           },
           child: Container(
-            margin: const EdgeInsets.only(top: 8),
+            margin: const EdgeInsets.only(top: 8, bottom: 24),
             alignment: Alignment.center,
             height: 54,
             decoration: BoxDecoration(
@@ -273,6 +380,34 @@ class _NewJobPageState extends State<NewJobPage> {
     );
   }
 
+  void _showSelectClientBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return const SelectPreviousClientBottomSheet();
+      },
+    );
+  }
+
+  void _showSelectDeviceContactBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return const ImportDeviceContactBottomSheet();
+      },
+    );
+  }
+
   void showSuccessAnimation() {
     showDialog(
       context: context,
@@ -295,4 +430,125 @@ class _NewJobPageState extends State<NewJobPage> {
     Navigator.of(context).pop(true);
     Navigator.of(context).pop(true);
   }
+
+  Widget clientInfoItems(NewJobPageState pageState) => Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          alignment: Alignment.center,
+          width: MediaQuery.of(context).size.width,
+          margin: const EdgeInsets.only(top: 48),
+          child: TextDandyLight(
+            type: TextDandyLight.SMALL_TEXT,
+            text: 'Client Info',
+            color: Color(ColorConstants.getPrimaryBlack()),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(left: 8, top: 8),
+          child: TextDandyLight(
+            type: TextDandyLight.EXTRA_SMALL_TEXT,
+            text: 'FIRST NAME*',
+            color: Color(ColorConstants.getPrimaryGreyDark()),
+          ),
+        ),
+        TextFieldSimple(
+          controller: firstNameController,
+          hintText: 'First name',
+          inputType: TextInputType.name,
+          focusNode: firstNameFocusNode,
+          hasError: firstNameError,
+          onFocusAction: (){
+            FocusScope.of(context).requestFocus(lastNameFocusNode);
+          },
+          onTextInputChanged: pageState.onClientFirstNameTextChanged!,
+          keyboardAction: TextInputAction.next,
+          capitalization: TextCapitalization.words,
+        ),
+        Container(
+          margin: const EdgeInsets.only(left: 8, top: 8),
+          child: TextDandyLight(
+            type: TextDandyLight.EXTRA_SMALL_TEXT,
+            text: 'LAST NAME',
+            color: Color(ColorConstants.getPrimaryGreyDark()),
+          ),
+        ),
+        TextFieldSimple(
+          controller: lastNameController,
+          hintText: 'Last name',
+          inputType: TextInputType.name,
+          focusNode: lastNameFocusNode,
+          hasError: false,
+          onFocusAction: (){
+            FocusScope.of(context).requestFocus(phoneFocusNode);
+          },
+          onTextInputChanged: pageState.onClientLastNameTextChanged!,
+          keyboardAction: TextInputAction.next,
+          capitalization: TextCapitalization.words,
+        ),
+        Container(
+          margin: const EdgeInsets.only(left: 8, top: 8),
+          child: TextDandyLight(
+            type: TextDandyLight.EXTRA_SMALL_TEXT,
+            text: 'PHONE NUMBER',
+            color: Color(ColorConstants.getPrimaryGreyDark()),
+          ),
+        ),
+        TextFieldSimple(
+          controller: phoneController,
+          hintText: '(888) 888-8888',
+          inputType: TextInputType.phone,
+          focusNode: phoneFocusNode,
+          hasError: false,
+          onFocusAction: (){
+            FocusScope.of(context).requestFocus(emailFocusNode);
+          },
+          onTextInputChanged: pageState.onClientPhoneTextChanged!,
+          keyboardAction: TextInputAction.next,
+          capitalization: TextCapitalization.none,
+        ),
+        Container(
+          margin: const EdgeInsets.only(left: 8, top: 8),
+          child: TextDandyLight(
+            type: TextDandyLight.EXTRA_SMALL_TEXT,
+            text: 'EMAIL ADDRESS',
+            color: Color(ColorConstants.getPrimaryGreyDark()),
+          ),
+        ),
+        TextFieldSimple(
+          controller: emailController,
+          hintText: 'exampleemail@gmail.com',
+          inputType: TextInputType.emailAddress,
+          focusNode: emailFocusNode,
+          hasError: false,
+          onFocusAction: (){
+            FocusScope.of(context).requestFocus(instagramUrlFocusNode);
+          },
+          onTextInputChanged: pageState.onClientEmailTextChanged!,
+          keyboardAction: TextInputAction.next,
+          capitalization: TextCapitalization.none,
+        ),
+        Container(
+          margin: const EdgeInsets.only(left: 8, top: 8),
+          child: TextDandyLight(
+            type: TextDandyLight.EXTRA_SMALL_TEXT,
+            text: 'INSTAGRAM PROFILE URL',
+            color: Color(ColorConstants.getPrimaryGreyDark()),
+          ),
+        ),
+        TextFieldSimple(
+          controller: instagramUrlController,
+          hintText: 'https://instagram.com/profileName...',
+          inputType: TextInputType.url,
+          focusNode: instagramUrlFocusNode,
+          hasError: false,
+          onFocusAction: (){
+            FocusScope.of(context).requestFocus(instagramUrlFocusNode);
+          },
+          onTextInputChanged: pageState.onClientInstagramUrlTextChanged!,
+          keyboardAction: TextInputAction.next,
+          capitalization: TextCapitalization.none,
+        )
+      ],
+    );
 }

@@ -457,7 +457,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                           ),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'New Booking',
+                            text: 'Start new job',
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),

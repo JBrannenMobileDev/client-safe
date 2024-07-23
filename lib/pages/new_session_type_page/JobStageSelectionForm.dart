@@ -82,7 +82,7 @@ class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with Aut
                 ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: 65.0,
-                    maxHeight: 589.0,
+                    maxHeight: MediaQuery.of(context).size.height - 257,
                   ),
                   child: ReorderableListView.builder(
                     reverse: false,

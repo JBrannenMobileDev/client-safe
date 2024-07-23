@@ -227,3 +227,27 @@ class SetJobTypeAndSelectedAction{
   SetJobTypeAndSelectedAction(this.pageState, this.sessionType, this.sessionTypes);
 }
 
+class UpdateClientEmailAction {
+  final NewJobPageState? pageState;
+  final String email;
+  UpdateClientEmailAction(this.pageState, this.email);
+}
+
+class UpdateClientLastNameAction {
+  final NewJobPageState? pageState;
+  final String lastName;
+  UpdateClientLastNameAction(this.pageState, this.lastName);
+}
+
+class UpdateClientPhoneAction {
+  final NewJobPageState? pageState;
+  final String phone;
+  UpdateClientPhoneAction(this.pageState, this.phone);
+}
+
+class UpdateClientInstagramUrlAction {
+  final NewJobPageState? pageState;
+  final String url;
+  UpdateClientInstagramUrlAction(this.pageState, this.url);
+}
+

@@ -65,6 +65,10 @@ class NewJobPageState {
   final Function()? onBackPressed;
   final Function(Client)? onClientSelected;
   final Function(String)? onClientFirstNameTextChanged;
+  final Function(String)? onClientLastNameTextChanged;
+  final Function(String)? onClientPhoneTextChanged;
+  final Function(String)? onClientEmailTextChanged;
+  final Function(String)? onClientInstagramUrlTextChanged;
   final Function()? onClearInputSelected;
   final Function(PriceProfile)? onPriceProfileSelected;
   final Function(LocationDandy)? onLocationSelected;
@@ -139,6 +143,10 @@ class NewJobPageState {
     @required this.isSelectedSessionTypeNew,
     @required this.profile,
     @required this.onSkipSelected,
+    @required this.onClientLastNameTextChanged,
+    @required this.onClientPhoneTextChanged,
+    @required this.onClientEmailTextChanged,
+    @required this.onClientInstagramUrlTextChanged,
   });
 
   NewJobPageState copyWith({
@@ -199,6 +207,10 @@ class NewJobPageState {
     LocationDandy? oneTimeLocation,
     Function(bool)? onCalendarEnabled,
     Function()? onSkipSelected,
+    Function(String)? onClientLastNameTextChanged,
+    Function(String)? onClientPhoneTextChanged,
+    Function(String)? onClientEmailTextChanged,
+    Function(String)? onClientInstagramUrlTextChanged,
   }){
     return NewJobPageState(
       id: id?? this.id,
@@ -258,6 +270,10 @@ class NewJobPageState {
       isSelectedSessionTypeNew: isSelectedSessionTypeNew ?? this.isSelectedSessionTypeNew,
       profile: profile ?? this.profile,
       onSkipSelected: onSkipSelected ?? this.onSkipSelected,
+      onClientEmailTextChanged: onClientEmailTextChanged ?? this.onClientEmailTextChanged,
+      onClientInstagramUrlTextChanged: onClientInstagramUrlTextChanged ?? this.onClientInstagramUrlTextChanged,
+      onClientLastNameTextChanged: onClientLastNameTextChanged ?? this.onClientLastNameTextChanged,
+      onClientPhoneTextChanged: onClientPhoneTextChanged ?? this.onClientPhoneTextChanged,
     );
   }
 
@@ -322,6 +338,10 @@ class NewJobPageState {
         onCalendarEnabled: null,
         isSelectedSessionTypeNew: false,
         onSkipSelected: null,
+        onClientLastNameTextChanged: null,
+        onClientPhoneTextChanged: null,
+        onClientEmailTextChanged: null,
+        onClientInstagramUrlTextChanged: null,
       );
   }
 
@@ -384,6 +404,10 @@ class NewJobPageState {
       onLocationSearchResultSelected: (selectedLocation) => store.dispatch(SetSelectedOneTimeLocation(store.state.newJobPageState, selectedLocation)),
       onCalendarEnabled: (enabled) => store.dispatch(FetchNewJobDeviceEvents(store.state.newJobPageState, DateTime.now())),
       onSkipSelected: () => store.dispatch(UpdateProfileToOnBoardingCompleteAction(store.state.newJobPageState)),
+      onClientEmailTextChanged: (email) => store.dispatch(UpdateClientEmailAction(store.state.newJobPageState, email)),
+      onClientLastNameTextChanged: (lastName) => store.dispatch(UpdateClientLastNameAction(store.state.newJobPageState, lastName)),
+      onClientPhoneTextChanged: (phone) => store.dispatch(UpdateClientPhoneAction(store.state.newJobPageState, phone)),
+      onClientInstagramUrlTextChanged: (url) => store.dispatch(UpdateClientInstagramUrlAction(store.state.newJobPageState, url)),
     );
   }
 
@@ -440,6 +464,10 @@ class NewJobPageState {
       lon.hashCode ^
       oneTimeLocation.hashCode ^
       onSkipSelected.hashCode ^
+      onClientPhoneTextChanged.hashCode ^
+      onClientEmailTextChanged.hashCode ^
+      onClientLastNameTextChanged.hashCode ^
+      onClientInstagramUrlTextChanged.hashCode ^
       imageFiles.hashCode;
 
   @override
@@ -496,5 +524,9 @@ class NewJobPageState {
           lat == other.lat &&
           lon == other.lon &&
           oneTimeLocation == other.oneTimeLocation &&
+          onClientLastNameTextChanged == other.onClientLastNameTextChanged &&
+          onClientPhoneTextChanged == other.onClientPhoneTextChanged &&
+          onClientEmailTextChanged == other.onClientEmailTextChanged &&
+          onClientInstagramUrlTextChanged == other.onClientInstagramUrlTextChanged &&
           imageFiles == other.imageFiles;
 }

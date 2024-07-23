@@ -24,20 +24,18 @@ class RecentActivityCard extends StatelessWidget {
   Widget build(BuildContext context) => StoreConnector<AppState, DashboardPageState>(
     converter: (Store<AppState> store) => DashboardPageState.fromStore(store),
     builder: (BuildContext context, DashboardPageState pageState) =>  Container(
-      height: 72,
-      margin: const EdgeInsets.only(bottom: 16, top: 0),
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        shrinkWrap: true,
+      margin: const EdgeInsets.only(bottom: 16, top: 0, left: 16, right: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GestureDetector(
             onTap: () {
               NavigationUtil.onStageStatsSelected(context, pageState, 'Jobs This Week', null, false);
             },
             child: Container(
-              height: 72,
-              width: 132,
-              margin: const EdgeInsets.only(left: 16),
+              height: 84,
+              padding: const EdgeInsets.only(left: 8, right: 8),
+              width: MediaQuery.of(context).size.width/3 - 16,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 color: Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
@@ -51,7 +49,6 @@ class RecentActivityCard extends StatelessWidget {
                     text: 'Jobs This Week',
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 4),
                   TextDandyLight(
                     type: TextDandyLight.LARGE_TEXT,
                     color: Color(ColorConstants.getPrimaryBlack()),
@@ -98,9 +95,9 @@ class RecentActivityCard extends StatelessWidget {
               alignment: Alignment.topRight,
               children: [
                 Container(
-                  height: 72,
-                  width: 132,
-                  margin: const EdgeInsets.only(left: 8),
+                  height: 84,
+                  padding: const EdgeInsets.only(left: 4, right: 4),
+                  width: MediaQuery.of(context).size.width/3 - 16,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
                     color: Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
@@ -114,7 +111,6 @@ class RecentActivityCard extends StatelessWidget {
                         text: 'Signed Contracts',
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 4),
                       TextDandyLight(
                         type: TextDandyLight.LARGE_TEXT,
                         text: pageState.activeSignedContract != null ? pageState.activeSignedContract?.length.toString() : '0',
@@ -144,9 +140,9 @@ class RecentActivityCard extends StatelessWidget {
               alignment: Alignment.topRight,
               children: [
                 Container(
-                  height: 72,
-                  width: 132,
-                  margin: const EdgeInsets.only(left: 8, right: 64),
+                  height: 84,
+                  padding: const EdgeInsets.only(left: 4, right: 4),
+                  width: MediaQuery.of(context).size.width/3 - 16,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
                     color: Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
@@ -157,10 +153,11 @@ class RecentActivityCard extends StatelessWidget {
                       TextDandyLight(
                         type: TextDandyLight.SMALL_TEXT,
                         color: Color(ColorConstants.getPrimaryGreyDark()),
-                        text: 'Questionnaires',
+                        text: 'Questionnaire Responses',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 4),
                       TextDandyLight(
                         type: TextDandyLight.LARGE_TEXT,
                         color: Color(ColorConstants.getPrimaryBlack()),
@@ -173,7 +170,6 @@ class RecentActivityCard extends StatelessWidget {
                 Container(
                   height: 10,
                   width: 10,
-                  margin: const EdgeInsets.only(right: 64),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
