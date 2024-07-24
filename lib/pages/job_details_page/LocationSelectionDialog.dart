@@ -87,12 +87,12 @@ class _LocationSelectionDialogState
                     ConstrainedBox(
                         constraints: BoxConstraints(
                           minHeight: 65.0,
-                          maxHeight: MediaQuery.of(context).size.height - 119,
+                          maxHeight: MediaQuery.of(context).size.height - 170,
                         ),
                         child: GridView.builder(
                             padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 64.0),
                             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                                maxCrossAxisExtent: 200,
+                                maxCrossAxisExtent: 132,
                                 childAspectRatio: 2 / 2.75,
                                 crossAxisSpacing: 16,
                                 mainAxisSpacing: 16),

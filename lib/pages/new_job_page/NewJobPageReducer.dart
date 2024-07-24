@@ -44,7 +44,21 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, SetDeviceContactsAction>(setDeviceContact),
   TypedReducer<NewJobPageState, SetLeadSourceAction>(setLeadSource),
   TypedReducer<NewJobPageState, SetDeviceClientFirstNameAction>(setDeviceContactFirstName),
+  TypedReducer<NewJobPageState, UpdateClientInstagramUrlAction>(setInstagramUrl),
+  TypedReducer<NewJobPageState, UpdateClientPhoneAction>(setPhone),
 ]);
+
+NewJobPageState setInstagramUrl(NewJobPageState previousState, UpdateClientInstagramUrlAction action){
+  return previousState.copyWith(
+    instagramUrl: action.url,
+  );
+}
+
+NewJobPageState setPhone(NewJobPageState previousState, UpdateClientPhoneAction action){
+  return previousState.copyWith(
+    deviceContactPhone: action.phone,
+  );
+}
 
 NewJobPageState setDeviceContactFirstName(NewJobPageState previousState, SetDeviceClientFirstNameAction action){
   return previousState.copyWith(

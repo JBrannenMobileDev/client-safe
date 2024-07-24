@@ -45,6 +45,7 @@ class NewJobPageState {
   final String? documentPath;
   final String? oneTimePrice;
   final String? leadSource;
+  final String? instagramUrl;
   final Function(String)? onLeadSourceSelected;
   final PriceProfile? selectedPriceProfile;
   final Profile? profile;
@@ -174,6 +175,7 @@ class NewJobPageState {
     @required this.leadSource,
     @required this.onLeadSourceSelected,
     @required this.onDeviceContactFirstNameChanged,
+    @required this.instagramUrl,
   });
 
   NewJobPageState copyWith({
@@ -204,6 +206,7 @@ class NewJobPageState {
     List<LocationDandy>? locations,
     List<File?>? imageFiles,
     Profile? profile,
+    String? instagramUrl,
     DateTime? selectedDate,
     DateTime? selectedStartTime,
     DateTime? selectedEndTime,
@@ -327,6 +330,7 @@ class NewJobPageState {
       leadSource: leadSource ?? this.leadSource,
       onLeadSourceSelected: onLeadSourceSelected ?? this.onLeadSourceSelected,
       onDeviceContactFirstNameChanged: onDeviceContactFirstNameChanged ?? this.onDeviceContactFirstNameChanged,
+      instagramUrl: instagramUrl ?? this.instagramUrl,
     );
   }
 
@@ -408,6 +412,7 @@ class NewJobPageState {
         leadSource: '',
         onLeadSourceSelected: null,
         onDeviceContactFirstNameChanged: null,
+        instagramUrl: '',
       );
   }
 
@@ -460,6 +465,7 @@ class NewJobPageState {
       deviceContactLastName: store.state.newJobPageState!.deviceContactLastName,
       deviceContactPhone: store.state.newJobPageState!.deviceContactPhone,
       leadSource: store.state.newJobPageState!.leadSource,
+      instagramUrl: store.state.newJobPageState!.instagramUrl,
       onSavePressed: () => store.dispatch(SaveNewJobAction(store.state.newJobPageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newJobPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newJobPageState)),
@@ -524,6 +530,7 @@ class NewJobPageState {
       onSavePressed.hashCode ^
       onCancelPressed.hashCode ^
       onNextPressed.hashCode ^
+      instagramUrl.hashCode ^
       onBackPressed.hashCode ^
       onClientSelected.hashCode ^
       onClearInputSelected.hashCode ^
@@ -580,6 +587,7 @@ class NewJobPageState {
           clientSearchText == other.clientSearchText &&
           allClients == other.allClients &&
           profile == other.profile &&
+          instagramUrl == other.instagramUrl &&
           onDeviceContactFirstNameChanged == other.onDeviceContactFirstNameChanged &&
           onContactSearchTextChanged == other.onContactSearchTextChanged &&
           onDeviceContactSelected == other.onDeviceContactSelected &&

@@ -16,6 +16,7 @@ import 'package:dandylight/pages/new_job_page/SelectSessionTypeBottomSheet.dart'
 import 'package:dandylight/pages/new_job_page/SelectStartTimeBottomSheet.dart';
 import 'package:dandylight/pages/new_job_page/TimeSelectionForm.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/DeviceType.dart';
 import 'package:dandylight/utils/TextFormatterUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
@@ -29,6 +30,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../utils/NavigationUtil.dart';
 import '../../utils/Shadows.dart';
 import '../../utils/permissions/UserPermissionsUtil.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -307,7 +309,7 @@ class _NewJobPageState extends State<NewJobPage> {
                 GestureDetector(
                   onTap: () {
                     setState(() {
-                      if(pageState.leadSource?.isEmpty ?? true) {
+                      if((pageState.leadSource?.isEmpty ?? true) && pageState.selectedClient == null) {
                         leadSourceError = true;
                       } else {
                         leadSourceError = false;
@@ -317,7 +319,7 @@ class _NewJobPageState extends State<NewJobPage> {
                       } else {
                         sessionTypeError = false;
                       }
-                      print('SelectedClient = ${pageState.selectedClient}  |  DeviceContactFN = ${pageState.deviceContactFirstName}');
+                      print('SelectedClient = ${pageState.selectedClient != null}  |  DeviceContactFN = ${pageState.deviceContactFirstName}');
                       if(pageState.selectedClient == null && (pageState.deviceContactFirstName?.isEmpty ?? true)) {
                         firstNameError = true;
                         clientError = true;
@@ -326,9 +328,15 @@ class _NewJobPageState extends State<NewJobPage> {
                         clientError = false;
                       }
                     });
+                    print('---------------------\nClientError = $clientError\nFirstNameError = $firstNameError\nLeadSourceError = $leadSourceError\nsessionTypeError = $sessionTypeError');
                     if(!clientError && !firstNameError && !leadSourceError && !sessionTypeError) {
                       pageState.onSavePressed!();
                       showSuccessAnimation();
+                    } else {
+                      if(clientError) DandyToastUtil.showErrorToast('Missing client info');
+                      else if(firstNameError) DandyToastUtil.showErrorToast('Missing client first name');
+                      else if(leadSourceError) DandyToastUtil.showErrorToast('Missing client lead source');
+                      else if(sessionTypeError) DandyToastUtil.showErrorToast('Missing session type');
                     }
                   },
                   child: Container(
@@ -542,6 +550,7 @@ class _NewJobPageState extends State<NewJobPage> {
   void onFlareCompleted(String unused) {
     Navigator.of(context).pop(true);
     Navigator.of(context).pop(true);
+    NavigationUtil.onJobTapped(context, false, "");
   }
 
   Widget clientInfoItems(NewJobPageState pageState) => Column(

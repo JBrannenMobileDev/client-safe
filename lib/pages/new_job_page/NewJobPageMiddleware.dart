@@ -198,62 +198,78 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     bool isPreviousClient = resultClient != null;
     bool isNewClient = action.pageState?.deviceContactFirstName?.isNotEmpty ?? true;
 
-    String jobTitle = '';
-    if(store.state.newJobPageState!.selectedSessionType != null) {
-      jobTitle = resultClient.firstName! + ' - ' + store.state.newJobPageState!.selectedSessionType!.title!;
-    } else {
-      jobTitle = resultClient.firstName! + ' - Job';
+    if(!isPreviousClient && isNewClient) {
+      resultClient = Client(
+        firstName: action.pageState?.deviceContactFirstName,
+        lastName: action.pageState?.deviceContactLastName,
+        email: action.pageState?.deviceContactEmail,
+        phone: action.pageState?.deviceContactPhone,
+        instagramProfileUrl: action.pageState?.instagramUrl,
+        leadSource: action.pageState?.leadSource,
+      );
+      String? clientDocumentId = await ClientDao.insert(resultClient);
+      resultClient.documentId = clientDocumentId;
+      //Client has been created!
     }
 
-    //Update selectedDate to include local timezone offset.
-    DateTime? utc = store.state.newJobPageState!.selectedDate;
-    DateTime? resultSelectedDate;
-    if(utc != null) {
-      resultSelectedDate = DateTime(utc.year, utc.month, utc.day);
-    }
+    print('Client = ${resultClient.toString()}');
+    if(resultClient != null) {
+      String jobTitle = '';
+      if(store.state.newJobPageState!.selectedSessionType != null) {
+        jobTitle = resultClient.firstName! + ' - ' + store.state.newJobPageState!.selectedSessionType!.title;
+      } else {
+        jobTitle = resultClient.firstName! + ' - Job';
+      }
 
-    Job jobToSave = Job(
-      id: store.state.newJobPageState!.id,
-      documentId: store.state.newJobPageState!.documentId,
-      clientDocumentId: resultClient.documentId,
-      client: resultClient,
-      clientName: resultClient.getClientFullName(),
-      jobTitle: jobTitle,
-      selectedDate: resultSelectedDate,
-      selectedTime: store.state.newJobPageState!.selectedStartTime,
-      selectedEndTime: store.state.newJobPageState!.selectedEndTime,
-      sessionType: store.state.newJobPageState!.selectedSessionType,
-      stage: JobStage.getNextStage(JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED), store.state.newJobPageState!.selectedSessionType!.stages),
-      completedStages: [JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED)],
-      location: store.state.newJobPageState!.selectedLocation,
-      createdDate: DateTime.now(),
-      depositAmount: store.state.newJobPageState!.selectedPriceProfile != null ? store.state.newJobPageState!.selectedPriceProfile!.deposit?.toInt() : 0,
-      proposal: Proposal(),
-      shouldTrackMiles: true,
+      //Update selectedDate to include local timezone offset.
+      DateTime? utc = store.state.newJobPageState!.selectedDate;
+      DateTime? resultSelectedDate;
+      if(utc != null) {
+        resultSelectedDate = DateTime(utc.year, utc.month, utc.day);
+      }
+
+      Job jobToSave = Job(
+        id: store.state.newJobPageState!.id,
+        documentId: store.state.newJobPageState!.documentId,
+        clientDocumentId: resultClient.documentId,
+        client: resultClient,
+        clientName: resultClient.getClientFullName(),
+        jobTitle: jobTitle,
+        selectedDate: resultSelectedDate,
+        selectedTime: store.state.newJobPageState!.selectedStartTime,
+        sessionType: store.state.newJobPageState!.selectedSessionType,
+        stage: JobStage.getNextStage(JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED), store.state.newJobPageState!.selectedSessionType!.stages),
+        completedStages: [JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED)],
+        location: store.state.newJobPageState!.selectedLocation,
+        createdDate: DateTime.now(),
+        depositAmount: store.state.newJobPageState!.selectedPriceProfile != null ? store.state.newJobPageState!.selectedPriceProfile!.deposit?.toInt() : 0,
+        proposal: Proposal(),
+        shouldTrackMiles: true,
       );
 
-    await JobDao.insertOrUpdate(jobToSave);
-    _createJobReminders(store, resultClient, jobToSave);
+      await JobDao.insertOrUpdate(jobToSave);
+      _createJobReminders(store, resultClient, jobToSave);
 
-    EventSender().sendEvent(eventName: EventNames.CREATED_JOB, properties: _buildEventProperties(jobToSave));
+      EventSender().sendEvent(eventName: EventNames.CREATED_JOB, properties: _buildEventProperties(jobToSave));
 
-    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    if(profile != null && !profile.progress.createJob) {
-      profile.progress.createJob = true;
-      await ProfileDao.update(profile);
-      EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
-        EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.CREATE_JOB,
-      });
-    }
+      Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+      if(profile != null && !profile.progress.createJob) {
+        profile.progress.createJob = true;
+        await ProfileDao.update(profile);
+        EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
+          EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.CREATE_JOB,
+        });
+      }
 
-    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
-    store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, store.state.newJobPageState!.selectedClient));
-    store.dispatch(calendar.FetchAllCalendarJobsAction(store.state.calendarPageState!));
-    Job? jobWithDocumentId = await JobDao.getJobBycreatedDate(jobToSave.createdDate!);
-    if(jobWithDocumentId != null) {
-      store.dispatch(jobDetails.SetJobInfo(store.state.jobDetailsPageState, jobWithDocumentId.documentId));
-    } else {
-      GlobalKeyUtil.instance.navigatorKey.currentState!.pop();
+      store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+      store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, store.state.newJobPageState!.selectedClient));
+      store.dispatch(calendar.FetchAllCalendarJobsAction(store.state.calendarPageState!));
+      Job? jobWithDocumentId = await JobDao.getJobBycreatedDate(jobToSave.createdDate!);
+      if(jobWithDocumentId != null) {
+        store.dispatch(jobDetails.SetJobInfo(store.state.jobDetailsPageState, jobWithDocumentId.documentId));
+      } else {
+        GlobalKeyUtil.instance.navigatorKey.currentState!.pop();
+      }
     }
   }
 
