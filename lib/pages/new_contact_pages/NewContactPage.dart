@@ -1,15 +1,8 @@
-import 'dart:async';
-
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
-import 'package:dandylight/models/Job.dart';
-import 'package:dandylight/pages/new_contact_pages/LeadSourceSelection.dart';
-import 'package:dandylight/pages/new_contact_pages/NameAndGender.dart';
+import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageActions.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageState.dart';
-import 'package:dandylight/pages/new_contact_pages/PhoneEmailInstagram.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/InputValidatorUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
@@ -21,48 +14,63 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../utils/DandyToastUtil.dart';
+import '../../utils/Shadows.dart';
 import '../../widgets/TextDandyLight.dart';
+import '../../widgets/TextFieldSimple.dart';
+import 'ImportDeviceContactBottomSheet.dart';
+import 'SelectLeadSourceBottomSheet.dart';
 
 class NewContactPage extends StatefulWidget {
-  final bool? comingFromNewJob;
-  NewContactPage({this.comingFromNewJob});
+  final Client? client;
+
+  NewContactPage({this.client});
 
   @override
   _NewContactPageState createState() {
-    return _NewContactPageState(comingFromNewJob);
+    return _NewContactPageState(client);
   }
 }
 
 class _NewContactPageState extends State<NewContactPage> {
-  _NewContactPageState(this.comingFromNewJob);
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final phoneController = TextEditingController();
+  final emailController = TextEditingController();
+  final instagramUrlController = TextEditingController();
+  final firstNameFocusNode = FocusNode();
+  final lastNameFocusNode = FocusNode();
+  final phoneFocusNode = FocusNode();
+  final emailFocusNode = FocusNode();
+  final instagramUrlFocusNode = FocusNode();
+  final Client? client;
 
-  final bool? comingFromNewJob;
-  final int pageCount = 2;
-  final controller = PageController(
-    initialPage: 0,
-  );
-  String? clientDocumentId;
+  _NewContactPageState(this.client);
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  bool clientError = false;
+  bool firstNameError = false;
+  bool leadSourceError = false;
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, NewContactPageState>(
       onInit: (store) async{
-        if(comingFromNewJob!) {
-          store.dispatch(SetIsComingFromNewJobAction(store.state.newContactPageState));
+        store.dispatch(ClearStateAction(store.state.newContactPageState));
+        if(client != null) {
+          store.dispatch(LoadExistingClientData(store.state.newContactPageState, client));
+          firstNameController.text = client?.firstName ?? 'NA';
+          lastNameController.text = client?.lastName ?? 'NA';
+          phoneController.text = client?.phone ?? 'NA';
+          emailController.text = client?.email ?? 'NA';
+          instagramUrlController.text = client?.instagramProfileUrl ?? 'NA';
         }
-        store.state.newContactPageState!.shouldClear! ? store.dispatch(ClearStateAction(store.state.newContactPageState)) : null;
       },
-      onDidChange: (prev, pageState) {
-        if(pageState.client != null) {
-          if (pageState.client!.documentId != null) {
-            clientDocumentId = pageState.client!.documentId;
-          }
-        }
+      onDidChange: (previous, current) {
+        if(current.newContactFirstName != firstNameController.text && current.newContactFirstName != (previous?.newContactFirstName ?? '')) firstNameController.text = current.newContactFirstName ?? '';
+        if(current.newContactLastName != lastNameController.text && current.newContactLastName != (previous?.newContactLastName ?? '')) lastNameController.text = current.newContactLastName ?? '';
+        if(current.newContactPhone != phoneController.text && current.newContactPhone != (previous?.newContactPhone ?? '')) phoneController.text = current.newContactPhone ?? '';
+        if(current.newContactEmail != emailController.text && current.newContactEmail != (previous?.newContactEmail ?? '')) emailController.text = current.newContactEmail ?? '';
       },
       converter: (store) => NewContactPageState.fromStore(store),
       builder: (BuildContext context, NewContactPageState pageState) =>
@@ -92,193 +100,171 @@ class _NewContactPageState extends State<NewContactPage> {
             return shouldPop!;
           },
           child: Scaffold(
-            backgroundColor: Colors.transparent,
-            body: Center(
-              child: Container(
-                width: 375.0,
-                padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
-                decoration: new BoxDecoration(
-                    color: Color(ColorConstants.white),
-                    borderRadius: new BorderRadius.all(Radius.circular(16.0))),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 16.0),
-                      child:
-                      Stack(
+            key: scaffoldKey,
+            backgroundColor: Color(ColorConstants.getPrimaryWhite()),
+            body: Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16),
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+              CustomScrollView(
+              slivers: [
+              SliverAppBar(
+              automaticallyImplyLeading: false,
+                backgroundColor: Color(ColorConstants.getPrimaryWhite()),
+                pinned: true,
+                centerTitle: true,
+                surfaceTintColor: Colors.transparent,
+                title: TextDandyLight(
+                  type: TextDandyLight.LARGE_TEXT,
+                  text: client != null ? 'Edit Contact' : 'New Contact',
+                  color: Color(ColorConstants.getPrimaryBlack()),
+                ),
+                systemOverlayStyle: SystemUiOverlayStyle.dark,
+                leading: GestureDetector(
+                  child: const Icon(Icons.close, color: Colors.black),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  <Widget>[
+                    pageState.client == null ? GestureDetector(
+                      onTap: () {
+                        UserPermissionsUtil.showPermissionRequest(
+                          permission: Permission.contacts,
+                          context: context,
+                          callOnGranted: () {
+                            _showSelectDeviceContactBottomSheet(context);
+                          },
+                        );
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(top: 8),
                         alignment: Alignment.center,
-                        children: <Widget>[
-                          TextDandyLight(
-                            type: TextDandyLight.LARGE_TEXT,
-                            text: pageState.shouldClear! ? "New Contact" : "Edit Contact",
-                            textAlign: TextAlign.start,
-                            color: Color(ColorConstants.getPrimaryBlack()),
+                        height: 54,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                              color: clientError ? const Color(ColorConstants.error_red) : Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
+                              width: clientError ? 2 : 0
                           ),
-                          Container(
-                            margin: EdgeInsets.only(right: 300.0),
-                            child: IconButton(
-                              icon: const Icon(Icons.close),
-                              tooltip: 'Delete',
-                              color: Color(ColorConstants.getPeachDark()),
-                              onPressed: () {
-                                pageState.onCancelPressed!();
-                                Navigator.of(context).pop(true);
-                              },
+                          color: Color(ColorConstants.getPrimaryGreyDark()),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(left: 16),
+                              child: TextDandyLight(
+                                type: TextDandyLight.SMALL_TEXT,
+                                text: 'Import device contact',
+                                color: Color(ColorConstants.getPrimaryWhite()),
+                              ),
                             ),
-                          ),
-                          !pageState.shouldClear! ? Container(
-                            margin: EdgeInsets.only(left: 300.0),
-                            child: IconButton(
-                              icon: const Icon(Icons.save),
-                              tooltip: 'Save',
-                              color: Color(ColorConstants.getPrimaryColor()),
-                              onPressed: () {
-                                showSuccessAnimation();
-                                pageState.onSavePressed!();
-                              },
+                            Container(
+                              margin: const EdgeInsets.only(right: 8.0),
+                              child: Icon(
+                                Icons.chevron_right,
+                                color: Color(ColorConstants.getPrimaryWhite()),
+                              ),
                             ),
-                          ) : SizedBox(),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(
-                      height: pageState.pageViewIndex == 0 && pageState.deviceContacts!.length > 0 ? 350.0 : _getWidgetHeight(pageState.pageViewIndex!),
-                      child: PageView(
-                        physics: NeverScrollableScrollPhysics(),
-                        controller: controller,
-                        pageSnapping: true,
-                        children: <Widget>[
-                          NameAndGender(),
-                          PhoneEmailInstagram(),
-                          LeadSourceSelection(),
-                        ],
+                    ) : const SizedBox(),
+                    pageState.client == null ? Container(
+                      alignment: Alignment.center,
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.only(top: 16),
+                      child: TextDandyLight(
+                        type: TextDandyLight.SMALL_TEXT,
+                        text: 'OR',
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 26.0, right: 26.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          TextButton(
-                            style: Styles.getButtonStyle(
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                              textColor: Color(ColorConstants.getPrimaryBlack()),
-                              left: 8.0,
-                              top: 8.0,
-                              right: 8.0,
-                              bottom: 8.0,
-                            ),
-                            //disabled button color needs to be white
-                            //disabled textColor needs to be Color(ColorConstants.primary_bg_grey),
-                            onPressed: () {
-                              onBackPressed(pageState);
-                            },
-                            child: TextDandyLight(
-                              type: TextDandyLight.MEDIUM_TEXT,
-                              text: pageState.pageViewIndex == 0 ? "Cancel" : "Back",
-                              textAlign: TextAlign.start,
-                              color: Color(ColorConstants.getPrimaryBlack()),
-                            ),
-                          ),
-                          TextButton(
-                            style: Styles.getButtonStyle(
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                              textColor: Color(ColorConstants.getPrimaryBlack()),
-                              left: 8.0,
-                              top: 8.0,
-                              right: 8.0,
-                              bottom: 8.0,
-                            ),
-                            //disabled button color needs to be white
-                            //disabled textColor needs to be Color(ColorConstants.primary_bg_grey),
-                            onPressed: () {
-                              onNextPressed(pageState);
-                            },
-                            child: TextDandyLight(
-                              type: TextDandyLight.MEDIUM_TEXT,
-                              text: pageState.pageViewIndex == pageCount
-                                  ? "Save"
-                                  : "Next",
-                              textAlign: TextAlign.start,
-                              color: Color(ColorConstants.getPrimaryBlack()),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    ) : const SizedBox(),
+                    pageState.client == null ? clientInfoItems(pageState) : const SizedBox(),
                   ],
                 ),
               ),
+              ],
             ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        if((pageState.leadSource?.isEmpty ?? true) && pageState.client == null) {
+                          leadSourceError = true;
+                        } else {
+                          leadSourceError = false;
+                        }
+                        if(pageState.client == null && (pageState.newContactFirstName?.isEmpty ?? true)) {
+                          firstNameError = true;
+                          clientError = true;
+                        } else {
+                          firstNameError = false;
+                          clientError = false;
+                        }
+                      });
+                      if(!clientError && !firstNameError && !leadSourceError) {
+                        pageState.onSavePressed!();
+                        showSuccessAnimation();
+                      } else {
+                        if(clientError) DandyToastUtil.showErrorToast('Missing client info');
+                        else if(firstNameError) DandyToastUtil.showErrorToast('Missing client first name');
+                        else if(leadSourceError) DandyToastUtil.showErrorToast('Missing client lead source');
+                      }
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(bottom: 32),
+                      alignment: Alignment.center,
+                      width: MediaQuery.of(context).size.width/2,
+                      height: 54,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(27),
+                        color: Color(ColorConstants.getPeachDark()),
+                        boxShadow: ElevationToShadow[4],
+                      ),
+                      child: TextDandyLight(
+                        type: TextDandyLight.LARGE_TEXT,
+                        text: 'Save',
+                        color: Color(ColorConstants.getPrimaryWhite()),
+                      ),
+                    ),
+                  )
+            ],
         ),
       ),
+    ),),);
+  }
+
+  void _showSelectDeviceContactBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return const ImportDeviceContactBottomSheet();
+      },
     );
   }
 
-  double _getWidgetHeight(int index) {
-    switch(index) {
-      case 0:
-        return 256.0;
-      case 1:
-        return 256.0;
-      case 2:
-        return 312.0;
-    }
-    return 256.0;
-  }
-
-  void onNextPressed(NewContactPageState pageState) async {
-    bool canProgress = false;
-    if (pageState.pageViewIndex != pageCount) {
-      switch (pageState.pageViewIndex) {
-        case 0:
-          if (pageState.newContactFirstName!.isNotEmpty) {
-            canProgress = true;
-          } else {
-            pageState.onErrorStateChanged!(NewContactPageState.ERROR_FIRST_NAME_MISSING);
-            HapticFeedback.heavyImpact();
-          }
-          break;
-        case 1:
-            if (!InputValidatorUtil.isEmailValid(pageState.newContactEmail!)) {
-              pageState.onErrorStateChanged!(
-                  NewContactPageState.ERROR_EMAIL_NAME_INVALID);
-              HapticFeedback.heavyImpact();
-              break;
-            }
-
-            if (!InputValidatorUtil.isPhoneNumberValid(pageState.newContactPhone!)) {
-              pageState.onErrorStateChanged!(NewContactPageState.ERROR_PHONE_INVALID);
-              HapticFeedback.heavyImpact();
-              break;
-            }
-
-            if (!InputValidatorUtil.isInstagramUrlValid(pageState.newContactInstagramUrl!)) {
-              pageState.onErrorStateChanged!(NewContactPageState.ERROR_INSTAGRAM_URL_INVALID);
-              HapticFeedback.heavyImpact();
-              break;
-            }
-            canProgress = true;
-          break;
-        default:
-          canProgress = true;
-          break;
-      }
-
-      if (canProgress) {
-        pageState.onNextPressed!();
-        controller.animateToPage(pageState.pageViewIndex! + 1,
-            duration: Duration(milliseconds: 150), curve: Curves.ease);
-        FocusScope.of(context).unfocus();
-      }
-    }
-    if (pageState.pageViewIndex == pageCount) {
-      await UserPermissionsUtil.showPermissionRequest(permission: Permission.contacts, context: context);
-      showSuccessAnimation();
-      pageState.onSavePressed!();
-    }
+  void _showLeadSelectionBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return const SelectLeadSourceBottomSheet();
+      },
+    );
   }
 
   void showSuccessAnimation(){
@@ -301,24 +287,199 @@ class _NewContactPageState extends State<NewContactPage> {
 
   void onFlareCompleted(String unused) async{
     Navigator.of(context).pop();
-    List<Job>? jobs = await JobDao.getAllJobs();
-    List<Job> thisClientsJobs = jobs!.where((job) => job.clientDocumentId == clientDocumentId).toList();
-    if(thisClientsJobs.length == 0 && !comingFromNewJob!){
-      Navigator.of(context).pop();
-      UserOptionsUtil.showJobPromptDialog(context);
-    }else {
-      Navigator.of(context).pop();
-    }
+    Navigator.of(context).pop();
+    UserOptionsUtil.showJobPromptDialog(context);
   }
 
-  void onBackPressed(NewContactPageState pageState) {
-    if (pageState.pageViewIndex == 0) {
-      pageState.onCancelPressed!();
-      Navigator.of(context).pop();
+  Widget clientInfoItems(NewContactPageState pageState) => Column(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Container(
+        alignment: Alignment.center,
+        width: MediaQuery.of(context).size.width,
+        margin: const EdgeInsets.only(top: 24),
+        child: TextDandyLight(
+          type: TextDandyLight.SMALL_TEXT,
+          text: 'Contact Info',
+          color: Color(ColorConstants.getPrimaryBlack()),
+        ),
+      ),
+      Container(
+        margin: const EdgeInsets.only(left: 8, top: 8),
+        child: TextDandyLight(
+          type: TextDandyLight.EXTRA_SMALL_TEXT,
+          text: 'FIRST NAME*',
+          color: Color(ColorConstants.getPrimaryGreyDark()),
+        ),
+      ),
+      TextFieldSimple(
+        controller: firstNameController,
+        hintText: 'First name',
+        inputType: TextInputType.name,
+        focusNode: firstNameFocusNode,
+        hasError: firstNameError,
+        onFocusAction: (){
+          FocusScope.of(context).requestFocus(lastNameFocusNode);
+        },
+        onTextInputChanged: pageState.onClientFirstNameChanged!,
+        keyboardAction: TextInputAction.next,
+        capitalization: TextCapitalization.words,
+      ),
+      Container(
+        margin: const EdgeInsets.only(left: 8, top: 8),
+        child: TextDandyLight(
+          type: TextDandyLight.EXTRA_SMALL_TEXT,
+          text: 'LAST NAME',
+          color: Color(ColorConstants.getPrimaryGreyDark()),
+        ),
+      ),
+      TextFieldSimple(
+        controller: lastNameController,
+        hintText: 'Last name',
+        inputType: TextInputType.name,
+        focusNode: lastNameFocusNode,
+        hasError: false,
+        onFocusAction: (){
+          FocusScope.of(context).requestFocus(phoneFocusNode);
+        },
+        onTextInputChanged: pageState.onClientLastNameChanged!,
+        keyboardAction: TextInputAction.next,
+        capitalization: TextCapitalization.words,
+      ),
+      Container(
+        margin: const EdgeInsets.only(left: 8, top: 8),
+        child: TextDandyLight(
+          type: TextDandyLight.EXTRA_SMALL_TEXT,
+          text: 'PHONE NUMBER',
+          color: Color(ColorConstants.getPrimaryGreyDark()),
+        ),
+      ),
+      TextFieldSimple(
+        controller: phoneController,
+        hintText: '(888) 888-8888',
+        inputType: TextInputType.phone,
+        focusNode: phoneFocusNode,
+        hasError: false,
+        onFocusAction: (){
+          FocusScope.of(context).requestFocus(emailFocusNode);
+        },
+        onTextInputChanged: pageState.onPhoneTextChanged!,
+        keyboardAction: TextInputAction.next,
+        capitalization: TextCapitalization.none,
+      ),
+      Container(
+        margin: const EdgeInsets.only(left: 8, top: 8),
+        child: TextDandyLight(
+          type: TextDandyLight.EXTRA_SMALL_TEXT,
+          text: 'EMAIL ADDRESS',
+          color: Color(ColorConstants.getPrimaryGreyDark()),
+        ),
+      ),
+      TextFieldSimple(
+        controller: emailController,
+        hintText: 'exampleemail@gmail.com',
+        inputType: TextInputType.emailAddress,
+        focusNode: emailFocusNode,
+        hasError: false,
+        onFocusAction: (){
+          FocusScope.of(context).requestFocus(instagramUrlFocusNode);
+        },
+        onTextInputChanged: pageState.onEmailTextChanged!,
+        keyboardAction: TextInputAction.next,
+        capitalization: TextCapitalization.none,
+      ),
+      Container(
+        margin: const EdgeInsets.only(left: 8, top: 8),
+        child: TextDandyLight(
+          type: TextDandyLight.EXTRA_SMALL_TEXT,
+          text: 'INSTAGRAM PROFILE URL',
+          color: Color(ColorConstants.getPrimaryGreyDark()),
+        ),
+      ),
+      TextFieldSimple(
+        controller: instagramUrlController,
+        hintText: 'https://instagram.com/profileName...',
+        inputType: TextInputType.url,
+        focusNode: instagramUrlFocusNode,
+        hasError: false,
+        onFocusAction: (){
+          FocusScope.of(context).requestFocus(instagramUrlFocusNode);
+        },
+        onTextInputChanged: pageState.onInstagramUrlChanged!,
+        keyboardAction: TextInputAction.next,
+        capitalization: TextCapitalization.none,
+      ),
+      Container(
+        margin: const EdgeInsets.only(left: 8, top: 8),
+        child: TextDandyLight(
+          type: TextDandyLight.EXTRA_SMALL_TEXT,
+          text: 'LEAD SOURCE*',
+          color: Color(ColorConstants.getPrimaryGreyDark()),
+        ),
+      ),
+      Container(
+        margin: const EdgeInsets.only(left: 8, top: 0),
+        child: TextDandyLight(
+          type: TextDandyLight.SMALL_TEXT,
+          text: 'How did ${(pageState.newContactFirstName?.isNotEmpty ?? false) ? pageState.newContactFirstName : 'this client'} hear about your business?',
+          color: Color(ColorConstants.getPrimaryBlack()),
+        ),
+      ),
+      GestureDetector(
+        onTap: () {
+          _showLeadSelectionBottomSheet(context);
+        },
+        child: Container(
+          margin: const EdgeInsets.only(top: 8, bottom: 16),
+          alignment: Alignment.center,
+          height: 54,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+                color: leadSourceError ? const Color(ColorConstants.error_red) : Color(ColorConstants.getPrimaryGreyDark()),
+                width: leadSourceError ? 2 : 0
+            ),
+            color: Color(ColorConstants.getPrimaryGreyDark()),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(left: 16),
+                child: TextDandyLight(
+                  type: TextDandyLight.SMALL_TEXT,
+                  text: getLeadSourceName(pageState),
+                  color: Color(ColorConstants.getPrimaryWhite()),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(right: 8.0),
+                child: Icon(
+                  Icons.chevron_right,
+                  color: Color(ColorConstants.getPrimaryWhite()),
+                ),
+              ),
+            ],
+          ),
+        ),
+      )
+    ],
+  );
+
+  String getLeadSourceName(NewContactPageState pageState) {
+    String result = '';
+    if(pageState.leadSource?.isNotEmpty ?? false) {
+      if(pageState.leadSource == 'Other') {
+        result = pageState.customLeadSourceName ?? '';
+      } else {
+        result = pageState.leadSource ?? '';
+      }
     } else {
-      pageState.onBackPressed!();
-      controller.animateToPage(pageState.pageViewIndex! - 1,
-          duration: Duration(milliseconds: 150), curve: Curves.ease);
+      result = 'Select a source';
     }
+    return result;
   }
 }
+
+

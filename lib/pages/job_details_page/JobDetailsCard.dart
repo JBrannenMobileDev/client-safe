@@ -162,7 +162,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                     textAlign: TextAlign.start,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
-                    color: Color(pageState.job?.selectedDate != null ? ColorConstants.getPrimaryBlack() : ColorConstants.error_red),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                   (pageState.sessionType?.deposit ?? 0) > 0 ? Container(
@@ -175,7 +175,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
-                      color: Color(pageState.job?.selectedDate != null ? ColorConstants.getPrimaryBlack() : ColorConstants.error_red),
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                 ) : const SizedBox(),
                 Container(
@@ -188,7 +188,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                     textAlign: TextAlign.start,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
-                    color: Color(pageState.job?.selectedDate != null ? ColorConstants.getPrimaryBlack() : ColorConstants.error_red),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                 GestureDetector(
@@ -286,7 +286,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                       children: [
                         TextDandyLight(
                           type: TextDandyLight.MEDIUM_TEXT,
-                          text: 'Start time:  ${pageState.job?.selectedTime != null ? DateFormat('h:mm a').format(pageState.job!.selectedTime!) : 'Not selected'}',
+                          text: 'Start time:  ${(pageState.job?.selectedTime != null) ? DateFormat('h:mm a').format(pageState.job!.selectedTime!) : 'Not selected'}',
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,

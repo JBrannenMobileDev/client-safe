@@ -28,7 +28,6 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveNewContactAction){
       saveClient(store, action, next);
     }
-
     if(action is GetDeviceContactsAction) {
       _loadDeviceContacts(store, action, next);
     }
@@ -48,12 +47,6 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
       email: action.pageState!.newContactEmail,
       phone: action.pageState!.newContactPhone,
       instagramProfileUrl: action.pageState!.newContactInstagramUrl,
-      relationshipStatus: action.pageState!.relationshipStatus,
-      spouseFirstName: action.pageState!.spouseFirstName,
-      spouseLastName: action.pageState!.spouseLastName,
-      numOfChildren: action.pageState!.numberOfChildren,
-      importantDates: action.pageState!.importantDates,
-      notes: action.pageState!.notes,
       leadSource: action.pageState!.leadSource,
       customLeadSourceName: action.pageState!.customLeadSourceName,
       createdDate: action.pageState!.client?.createdDate ?? DateTime.now()
@@ -66,7 +59,7 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
       DeviceContactsDao.addOrUpdateContact(client);
     }
 
-    EventSender().sendEvent(eventName: EventNames.CREATED_CONTACT, properties: _buildEventProperties(client));
+    EventSender().sendEvent(eventName: EventNames.CREATED_CONTACT);
 
     List<Client> clients = await ClientDao.getAllSortedByFirstName();
     for(Client client in clients){
@@ -79,11 +72,10 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(FetchClientData(store.state.clientsPageState));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client));
-    store.dispatch(LoadAndSelectNewContactAction(store.state.newJobPageState!, await ClientDao.getClientByCreatedDate(client.createdDate!)));
 
     //Update any job that has this client
     List<Job>? allJobs = await JobDao.getAllJobs();
-    List<Job> jobsWithMatchingClient = allJobs!.where((job) => job.clientDocumentId == client.documentId).toList();
+    List<Job> jobsWithMatchingClient = allJobs.where((job) => job.clientDocumentId == client.documentId).toList();
 
     if(jobsWithMatchingClient.isNotEmpty) {
       for (var job in jobsWithMatchingClient) {
@@ -100,16 +92,5 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
         EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.ADD_CLIENT,
       });
     }
-  }
-
-  Map<String, Object> _buildEventProperties(Client client) {
-    Map<String, Object> result = Map();
-    if(client.firstName != null && client.firstName!.isNotEmpty) result.putIfAbsent(EventNames.CONTACT_PARAM_FIRSTNAME, () => client.firstName!);
-    if(client.lastName != null && client.lastName!.isNotEmpty) result.putIfAbsent(EventNames.CONTACT_PARAM_LASTNAME, () => client.lastName!);
-    if(client.phone != null && client.phone!.isNotEmpty) result.putIfAbsent(EventNames.CONTACT_PARAM_PHONE, () => client.phone!);
-    if(client.email != null && client.email!.isNotEmpty) result.putIfAbsent(EventNames.CONTACT_PARAM_EMAIL, () => client.email!);
-    if(client.instagramProfileUrl != null && client.instagramProfileUrl!.isNotEmpty) result.putIfAbsent(EventNames.CONTACT_PARAM_INSTAGRAM_URL, () => client.instagramProfileUrl!);
-    if(client.leadSource != null && client.leadSource!.isNotEmpty) result.putIfAbsent(EventNames.CONTACT_PARAM_LEAD_SOURCE, () => client.leadSource!);
-    return result;
   }
 }

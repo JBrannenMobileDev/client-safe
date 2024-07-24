@@ -15,7 +15,6 @@ import 'package:dandylight/pages/job_details_page/ReminderViewDialog.dart';
 import 'package:dandylight/pages/job_details_page/TipChangeDialog.dart';
 import 'package:dandylight/pages/job_details_page/InvoiceOptionsDialog.dart';
 import 'package:dandylight/pages/login_page/ShowAccountCreatedDialog.dart';
-import 'package:dandylight/pages/new_contact_pages/DeviceContactsPage.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPage.dart';
 import 'package:dandylight/pages/new_contact_pages/StartJobPromptDialog.dart';
 import 'package:dandylight/pages/new_invoice_page/NewDiscountDialog.dart';
@@ -62,7 +61,6 @@ import '../pages/login_page/ShowResetPasswordSentDialog.dart';
 import '../pages/new_job_page/widgets/SelectNewJobLocationDialog.dart';
 import '../pages/new_session_type_page/NewSessionTypePage.dart';
 import '../pages/poses_page/widgets/AddPoseToJobTip.dart';
-import 'AdminCheckUtil.dart';
 import 'ColorConstants.dart';
 import 'ContractOptionsBottomSheet.dart';
 import 'ContractUtils.dart';
@@ -71,15 +69,6 @@ import 'ShareClientPortalOptionsBottomSheet.dart';
 import 'ShareOptionsBottomSheet.dart';
 
 class UserOptionsUtil {
-  static void showNewContactDialog(BuildContext context, bool comingFromNewJob){
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return NewContactPage(comingFromNewJob: comingFromNewJob);
-      },
-    );
-  }
-
   static void showAddPoseToJobTip(BuildContext context){
     showDialog(
       barrierDismissible: true,
@@ -203,15 +192,6 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return SelectNewJobLocationDialog();
-      },
-    );
-  }
-
-  static void showDeviceContactsDialog(BuildContext context){
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return DeviceContactsPage();
       },
     );
   }

@@ -7,10 +7,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../AppState.dart';
 import '../../models/Client.dart';
-import '../../utils/ImageUtil.dart';
 import '../../widgets/TextDandyLight.dart';
 import '../new_contact_pages/NewContactPageState.dart';
-import '../new_contact_pages/NewContactTextField.dart';
 import 'ClientDetailsTextField.dart';
 
 class LeadSourceSelectionWidget extends StatefulWidget {

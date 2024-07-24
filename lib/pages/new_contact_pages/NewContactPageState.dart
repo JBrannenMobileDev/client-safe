@@ -42,21 +42,11 @@ class NewContactPageState {
   final Client? client;
   final Function()? onSavePressed;
   final Function()? onCancelPressed;
-  final Function()? onNextPressed;
-  final Function()? onBackPressed;
   final Function(String)? onClientFirstNameChanged;
   final Function(String)? onClientLastNameChanged;
   final Function(String)? onPhoneTextChanged;
   final Function(String)? onEmailTextChanged;
   final Function(String)? onInstagramUrlChanged;
-  final Function(int)? onRelationshipStatusChanged;
-  final Function(String)? onSpouseFirstNameChanged;
-  final Function(String)? onSpouseLastNameChanged;
-  final Function(int)? onNumberOfChildrenChanged;
-  final Function(ImportantDate)? onImportantDateAdded;
-  final Function(int)? onImportantDateRemoved;
-  final Function(String)? onNotesChanged;
-  final Function(String)? onErrorStateChanged;
   final Function(String)? onLeadSourceSelected;
   final Function()? onGetDeviceContactsSelected;
   final Function(Contact)? onDeviceContactSelected;
@@ -90,21 +80,11 @@ class NewContactPageState {
     @required this.client,
     @required this.onSavePressed,
     @required this.onCancelPressed,
-    @required this.onNextPressed,
-    @required this.onBackPressed,
     @required this.onClientFirstNameChanged,
     @required this.onClientLastNameChanged,
     @required this.onPhoneTextChanged,
     @required this.onEmailTextChanged,
     @required this.onInstagramUrlChanged,
-    @required this.onRelationshipStatusChanged,
-    @required this.onSpouseFirstNameChanged,
-    @required this.onSpouseLastNameChanged,
-    @required this.onNumberOfChildrenChanged,
-    @required this.onImportantDateAdded,
-    @required this.onImportantDateRemoved,
-    @required this.onNotesChanged,
-    @required this.onErrorStateChanged,
     @required this.onLeadSourceSelected,
     @required this.onGetDeviceContactsSelected,
     @required this.onDeviceContactSelected,
@@ -143,22 +123,11 @@ class NewContactPageState {
     Client? client,
     Function()? onSavePressed,
     Function()? onCancelPressed,
-    Function()? onNextPressed,
-    Function()? onBackPressed,
     Function(String)? onClientFirstNameChanged,
     Function(String)? onClientLastNameChanged,
     Function(String)? onPhoneTextChanged,
     Function(String)? onEmailTextChanged,
     Function(String)? onInstagramUrlChanged,
-    Function(int)? onRelationshipStatusChanged,
-    Function(String)? onSpouseFirstNameChanged,
-    Function(String)? onSpouseLastNameChanged,
-    Function(int)? onNumberOfChildrenChanged,
-    Function(ImportantDate)? onImportantDateAdded,
-    Function(int)? onImportantDateRemoved,
-    Function(String)? onNotesChanged,
-    Function(String)? onClientIconSelected,
-    Function(String)? onErrorStateChanged,
     Function(String)? onLeadSourceSelected,
     Function()? onGetDeviceContactsSelected,
     Function(Contact)? onDeviceContactSelected,
@@ -192,21 +161,11 @@ class NewContactPageState {
       client: client ?? this.client,
       onSavePressed: onSavePressed?? this.onSavePressed,
       onCancelPressed: onCancelPressed?? this.onCancelPressed,
-      onNextPressed: onNextPressed?? this.onNextPressed,
-      onBackPressed: onBackPressed?? this.onBackPressed,
       onClientFirstNameChanged: onClientFirstNameChanged?? this.onClientFirstNameChanged,
       onClientLastNameChanged: onClientLastNameChanged?? this.onClientLastNameChanged,
       onPhoneTextChanged: onPhoneTextChanged?? this.onPhoneTextChanged,
       onEmailTextChanged: onEmailTextChanged?? this.onEmailTextChanged,
       onInstagramUrlChanged: onInstagramUrlChanged?? this.onInstagramUrlChanged,
-      onSpouseFirstNameChanged: onSpouseFirstNameChanged?? this.onSpouseFirstNameChanged,
-      onSpouseLastNameChanged: onSpouseLastNameChanged?? this.onSpouseLastNameChanged,
-      onNumberOfChildrenChanged: onNumberOfChildrenChanged?? this.onNumberOfChildrenChanged,
-      onImportantDateAdded: onImportantDateAdded?? this.onImportantDateAdded,
-      onImportantDateRemoved: onImportantDateRemoved?? this.onImportantDateRemoved,
-      onNotesChanged: onNotesChanged?? this.onNotesChanged,
-      onRelationshipStatusChanged: onRelationshipStatusChanged?? this.onRelationshipStatusChanged,
-      onErrorStateChanged: onErrorStateChanged?? this.onErrorStateChanged,
       onLeadSourceSelected: onLeadSourceSelected?? this.onLeadSourceSelected,
       onGetDeviceContactsSelected: onGetDeviceContactsSelected?? this.onGetDeviceContactsSelected,
       onDeviceContactSelected: onDeviceContactSelected?? this.onDeviceContactSelected,
@@ -240,26 +199,16 @@ class NewContactPageState {
         selectedDeviceContact: null,
         searchText: '',
         notes: "",
-        leadSource: 'assets/images/icons/email_icon_white.png',
+        leadSource: '',
         errorState: NO_ERROR,
         client: null,
         onSavePressed: null,
         onCancelPressed: null,
-        onNextPressed: null,
-        onBackPressed: null,
-        onRelationshipStatusChanged: null,
         onClientFirstNameChanged: null,
         onClientLastNameChanged: null,
         onPhoneTextChanged: null,
         onEmailTextChanged: null,
         onInstagramUrlChanged: null,
-        onSpouseFirstNameChanged: null,
-        onSpouseLastNameChanged: null,
-        onNumberOfChildrenChanged: null,
-        onImportantDateAdded: null,
-        onImportantDateRemoved: null,
-        onNotesChanged: null,
-        onErrorStateChanged: null,
         onLeadSourceSelected: null,
         onGetDeviceContactsSelected: null,
         onDeviceContactSelected: null,
@@ -298,21 +247,11 @@ class NewContactPageState {
       isComingFromNewJob: store.state.newContactPageState!.isComingFromNewJob,
       onSavePressed: () => store.dispatch(SaveNewContactAction(store.state.newContactPageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newContactPageState)),
-      onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newContactPageState)),
-      onBackPressed: () => store.dispatch(DecrementPageViewIndex(store.state.newContactPageState)),
       onClientFirstNameChanged: (firstName) => store.dispatch(UpdateNewContactFirstNameAction(store.state.newContactPageState, firstName)),
       onClientLastNameChanged: (lastName) => store.dispatch(UpdateNewContactLastNameAction(store.state.newContactPageState, lastName)),
       onPhoneTextChanged: (phoneNum) => store.dispatch(UpdatePhoneNumAction(store.state.newContactPageState, phoneNum)),
       onEmailTextChanged: (email) => store.dispatch(UpdateEmailAction(store.state.newContactPageState, email)),
       onInstagramUrlChanged: (instaUrl) => store.dispatch(UpdateInstagramUrlAction(store.state.newContactPageState, instaUrl)),
-      onSpouseFirstNameChanged: (spouseFirstName) => store.dispatch(UpdateSpouseFirstNameAction(store.state.newContactPageState, spouseFirstName)),
-      onSpouseLastNameChanged: (spouseLastName) => store.dispatch(UpdateSpouseLastNameAction(store.state.newContactPageState, spouseLastName)),
-      onNumberOfChildrenChanged: (numOfChildren) => store.dispatch(UpdateNumOfChildrenAction(store.state.newContactPageState, numOfChildren)),
-      onImportantDateAdded: (importantDate) => store.dispatch(AddImportantDateAction(store.state.newContactPageState, importantDate)),
-      onImportantDateRemoved: (chipIndex) => store.dispatch(RemoveImportantDateAction(store.state.newContactPageState, chipIndex)),
-      onNotesChanged: (notes) => store.dispatch(UpdateNotesAction(store.state.newContactPageState, notes)),
-      onRelationshipStatusChanged: (statusIndex) => store.dispatch(UpdateRelationshipAction(store.state.newContactPageState, statusIndex)),
-      onErrorStateChanged: (errorCode) => store.dispatch(UpdateErrorStateAction(store.state.newContactPageState, errorCode)),
       onLeadSourceSelected: (fileLocation) => store.dispatch(SetLeadSourceAction(store.state.newContactPageState, fileLocation)),
       onGetDeviceContactsSelected: () => store.dispatch(GetDeviceContactsAction(store.state.newContactPageState)),
       onDeviceContactSelected: (contact) => store.dispatch(SetSelectedDeviceContactAction(store.state.newContactPageState, contact)),
@@ -351,21 +290,11 @@ class NewContactPageState {
       errorState.hashCode ^
       onSavePressed.hashCode ^
       onCancelPressed.hashCode ^
-      onNextPressed.hashCode ^
-      onBackPressed.hashCode ^
       onClientFirstNameChanged.hashCode ^
       onClientLastNameChanged.hashCode ^
       onPhoneTextChanged.hashCode ^
       onEmailTextChanged.hashCode ^
       onInstagramUrlChanged.hashCode ^
-      onRelationshipStatusChanged.hashCode ^
-      onSpouseFirstNameChanged.hashCode ^
-      onSpouseLastNameChanged.hashCode ^
-      onNumberOfChildrenChanged.hashCode ^
-      onImportantDateAdded.hashCode ^
-      onImportantDateRemoved.hashCode ^
-      onNotesChanged.hashCode ^
-      onErrorStateChanged.hashCode ^
       onLeadSourceSelected.hashCode ^
       onDeviceContactSelected.hashCode ^
       onCloseSelected.hashCode ^
@@ -404,21 +333,11 @@ class NewContactPageState {
           errorState == other.errorState &&
           onSavePressed == other.onSavePressed &&
           onCancelPressed == other.onCancelPressed &&
-          onNextPressed == other.onNextPressed &&
-          onBackPressed == other.onBackPressed &&
           onClientFirstNameChanged == other.onClientFirstNameChanged &&
           onClientLastNameChanged == other.onClientLastNameChanged &&
           onPhoneTextChanged == other.onPhoneTextChanged &&
           onEmailTextChanged == other.onEmailTextChanged &&
           onInstagramUrlChanged == other.onInstagramUrlChanged &&
-          onRelationshipStatusChanged == other.onRelationshipStatusChanged &&
-          onSpouseFirstNameChanged == other.onSpouseFirstNameChanged &&
-          onSpouseLastNameChanged == other.onSpouseLastNameChanged &&
-          onNumberOfChildrenChanged == other.onNumberOfChildrenChanged &&
-          onImportantDateAdded == other.onImportantDateAdded &&
-          onImportantDateRemoved == other.onImportantDateRemoved &&
-          onNotesChanged == other.onNotesChanged &&
-          onErrorStateChanged == other.onErrorStateChanged &&
           onLeadSourceSelected == other.onLeadSourceSelected &&
           onDeviceContactSelected == other.onDeviceContactSelected &&
           onCloseSelected == other.onCloseSelected &&

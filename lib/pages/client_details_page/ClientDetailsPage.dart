@@ -8,6 +8,7 @@ import 'package:dandylight/pages/client_details_page/NotesWidget.dart';
 import 'package:dandylight/pages/client_details_page/SelectSavedResponseBottomSheet.dart';
 import 'package:dandylight/pages/client_details_page/SendMessageOptionsBottomSheet.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
+import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/intentLauncher/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -58,7 +59,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                     GestureDetector(
                       onTap: () {
                         pageState.onEditClientClicked!(pageState.client!);
-                        UserOptionsUtil.showNewContactDialog(context, false);
+                        NavigationUtil.showNewContactPage(context);
                         EventSender().sendEvent(eventName: EventNames.BT_ADD_NEW_CONTACT, properties: {EventNames.CONTACT_PARAM_COMING_FROM : "Client Details Page - Edit"});
                       },
                       child: Container(

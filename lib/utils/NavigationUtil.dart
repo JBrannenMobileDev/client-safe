@@ -22,6 +22,7 @@ import 'package:dandylight/pages/main_settings_page/EditAccountPage.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPage.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
 import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidget.dart';
+import 'package:dandylight/pages/new_contact_pages/NewContactPage.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPage.dart';
 import 'package:dandylight/pages/onboarding/OnBoardingPage.dart';
 import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPage.dart';
@@ -39,6 +40,7 @@ import 'package:http/http.dart' as http;
 
 import '../data_layer/api_clients/DandylightFunctionsClient.dart';
 import '../data_layer/repositories/PendingEmailsRepository.dart';
+import '../models/Client.dart';
 import '../models/Job.dart';
 import '../models/JobStage.dart';
 import '../models/LocationDandy.dart';
@@ -216,11 +218,11 @@ class NavigationUtil {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewSessionTypePage(sessionType)));
   }
 
-  static void showNewJobPage(BuildContext context) async {
+  static void showNewJobPage(BuildContext context, {Client? client}) async {
     Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     if(profile!.isSubscribed! || profile.jobsCreatedCount! < 5 || profile.isFreeForLife! || AdminCheckUtil.isAdmin(profile)) {
       if(context.mounted) {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewJobPage()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewJobPage(client: client)));
       }
     } else {
       EventSender().sendEvent(eventName: EventNames.JOB_LIMIT_REACHED);
@@ -229,6 +231,10 @@ class NavigationUtil {
         NavigationUtil.onShowSubscribeNowPage(context);
       }
     }
+  }
+
+  static void showNewContactPage(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewContactPage()));
   }
 }
 

@@ -279,11 +279,11 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     Job? thisJob;
     String clientName = jobToSave.clientName!;
     String jobTitle = jobToSave.jobTitle!;
-    DateTime selectedDate = jobToSave.selectedDate!;
+    DateTime? createdDate = jobToSave.createdDate;
 
-    for (Job job in jobs!) {
+    for (Job job in jobs) {
       if (job.clientName == clientName && job.jobTitle == jobTitle &&
-          job.selectedDate == selectedDate) {
+          job.createdDate == createdDate) {
         thisJob = job;
       }
     }

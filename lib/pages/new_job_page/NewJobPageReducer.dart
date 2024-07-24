@@ -35,7 +35,6 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, SetClientFirstNameAction>(_setClientFirstName),
   TypedReducer<NewJobPageState, SetOneTimePriceTextAction>(_setOneTimePrice),
   TypedReducer<NewJobPageState, SetInitialMapLatLng>(_setInitMapLatLng),
-  TypedReducer<NewJobPageState, LoadAndSelectNewContactAction>(_setSelectedClientFromNewContactPage),
   TypedReducer<NewJobPageState, SetPriceProfilesAndSelectedAction>(setPricePackagesAndSelectedPackage),
   TypedReducer<NewJobPageState, SetJobTypeAndSelectedAction>(setJobTypeAndSelected),
   TypedReducer<NewJobPageState, SetProfileToNewJobAction>(setProfile),
@@ -46,7 +45,14 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, SetDeviceClientFirstNameAction>(setDeviceContactFirstName),
   TypedReducer<NewJobPageState, UpdateClientInstagramUrlAction>(setInstagramUrl),
   TypedReducer<NewJobPageState, UpdateClientPhoneAction>(setPhone),
+  TypedReducer<NewJobPageState, LoadNewJobWithClientAction>(loadClient),
 ]);
+
+NewJobPageState loadClient(NewJobPageState previousState, LoadNewJobWithClientAction action){
+  return previousState.copyWith(
+    selectedClient: action.client,
+  );
+}
 
 NewJobPageState setInstagramUrl(NewJobPageState previousState, UpdateClientInstagramUrlAction action){
   return previousState.copyWith(
@@ -135,17 +141,6 @@ NewJobPageState setPricePackagesAndSelectedPackage(NewJobPageState previousState
   );
 }
 
-NewJobPageState _setSelectedClientFromNewContactPage(NewJobPageState previousState, LoadAndSelectNewContactAction action){
-  action.pageState!.allClients!.insert(0, action.selectedClient!);
-  return previousState.copyWith(
-    allClients: action.pageState!.allClients,
-    clientSearchText: '',
-    filteredClients: action.pageState!.allClients,
-    selectedClient: action.selectedClient,
-    isSelectedClientNew: true,
-    pageViewIndex: 1,
-  );
-}
 
 NewJobPageState _setInitMapLatLng(NewJobPageState previousState, SetInitialMapLatLng action){
   return previousState.copyWith(

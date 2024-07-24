@@ -1,23 +1,13 @@
-import 'package:dandylight/models/Job.dart';
-import 'package:dandylight/models/JobStage.dart';
-import 'package:dandylight/pages/client_details_page/ClientDetailsPageState.dart';
-import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPageState.dart';
-import 'package:dandylight/pages/job_details_page/JobDetailsPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:intl/intl.dart';
 
 import '../../AppState.dart';
-import '../../utils/ImageUtil.dart';
 import '../../utils/UserOptionsUtil.dart';
-import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
-import '../new_contact_pages/NewContactPageState.dart';
-import '../new_contact_pages/NewContactTextField.dart';
 
 class RequestPaymentLinksDialog extends StatefulWidget {
 

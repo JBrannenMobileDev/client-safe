@@ -1,11 +1,5 @@
-import 'dart:async';
-
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/new_job_page/ClientSelectionForm.dart';
-import 'package:dandylight/pages/new_job_page/DateForm.dart';
 import 'package:dandylight/pages/new_job_page/ImportDeviceContactBottomSheet.dart';
-import 'package:dandylight/pages/new_job_page/JobTypeSelection.dart';
-import 'package:dandylight/pages/new_job_page/LocationSelectionForm.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:dandylight/pages/new_job_page/SelectDateBottomSheet.dart';
@@ -14,12 +8,9 @@ import 'package:dandylight/pages/new_job_page/SelectLocationBottomSheet.dart';
 import 'package:dandylight/pages/new_job_page/SelectPreviousClientBottomSheet.dart';
 import 'package:dandylight/pages/new_job_page/SelectSessionTypeBottomSheet.dart';
 import 'package:dandylight/pages/new_job_page/SelectStartTimeBottomSheet.dart';
-import 'package:dandylight/pages/new_job_page/TimeSelectionForm.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
-import 'package:dandylight/utils/DeviceType.dart';
 import 'package:dandylight/utils/TextFormatterUtil.dart';
-import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,6 +21,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../models/Client.dart';
 import '../../utils/NavigationUtil.dart';
 import '../../utils/Shadows.dart';
 import '../../utils/permissions/UserPermissionsUtil.dart';
@@ -37,9 +29,13 @@ import '../../widgets/TextDandyLight.dart';
 import '../../widgets/TextFieldSimple.dart';
 
 class NewJobPage extends StatefulWidget {
+  final Client? client;
+
+  NewJobPage({this.client});
+
   @override
   _NewJobPageState createState() {
-    return _NewJobPageState();
+    return _NewJobPageState(client);
   }
 }
 
@@ -55,7 +51,9 @@ class _NewJobPageState extends State<NewJobPage> {
   final phoneFocusNode = FocusNode();
   final emailFocusNode = FocusNode();
   final instagramUrlFocusNode = FocusNode();
+  final Client? client;
 
+  _NewJobPageState(this.client);
 
   bool clientError = false;
   bool sessionTypeError = false;
@@ -67,11 +65,13 @@ class _NewJobPageState extends State<NewJobPage> {
     return StoreConnector<AppState, NewJobPageState>(
       onInit: (store) async {
         store.dispatch(ClearStateAction(store.state.newJobPageState));
-        if ((await UserPermissionsUtil.getPermissionStatus(
-                Permission.locationWhenInUse))
-            .isGranted) {
+        if ((await UserPermissionsUtil.getPermissionStatus(Permission.locationWhenInUse)).isGranted) {
           store.dispatch(
-              SetLastKnowInitialPosition(store.state.newJobPageState));
+              SetLastKnowInitialPosition(store.state.newJobPageState)
+          );
+        }
+        if(client != null) {
+          store.dispatch(LoadNewJobWithClientAction(store.state.newJobPageState, client));
         }
         store.dispatch(FetchAllAction(store.state.newJobPageState));
       },

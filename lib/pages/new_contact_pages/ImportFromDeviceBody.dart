@@ -1,5 +1,4 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/new_contact_pages/NewContactDeviceContactListWidget.dart';
 import 'package:dandylight/pages/new_job_page/widgets/NewJobTextField.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,8 +8,8 @@ import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
-import 'NewJobPageActions.dart';
-import 'NewJobPageState.dart';
+import 'NewContactPageActions.dart';
+import 'NewContactPageState.dart';
 
 class ImportFromDeviceBody extends StatefulWidget {
   @override
@@ -29,12 +28,12 @@ class _ImportFromDeviceBodyState extends State<ImportFromDeviceBody>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return StoreConnector<AppState, NewJobPageState>(
+    return StoreConnector<AppState, NewContactPageState>(
       onInit: (store) {
-        store.dispatch(GetNewJobDeviceContactsAction(store.state.newJobPageState));
+        store.dispatch(GetDeviceContactsAction(store.state.newContactPageState));
       },
-      converter: (store) => NewJobPageState.fromStore(store),
-      builder: (BuildContext context, NewJobPageState pageState) =>
+      converter: (store) => NewContactPageState.fromStore(store),
+      builder: (BuildContext context, NewContactPageState pageState) =>
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
@@ -70,9 +69,9 @@ class _ImportFromDeviceBodyState extends State<ImportFromDeviceBody>
   }
 
   Widget _buildItem(BuildContext context, int index) {
-    return StoreConnector<AppState, NewJobPageState>(
-      converter: (store) => NewJobPageState.fromStore(store),
-      builder: (BuildContext context, NewJobPageState pageState) =>
+    return StoreConnector<AppState, NewContactPageState>(
+      converter: (store) => NewContactPageState.fromStore(store),
+      builder: (BuildContext context, NewContactPageState pageState) =>
           TextButton(
             style: Styles.getButtonStyle(
               shape: RoundedRectangleBorder(

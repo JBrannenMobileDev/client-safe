@@ -1,19 +1,8 @@
 import 'dart:async';
 
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
-import 'package:dandylight/models/Job.dart';
-import 'package:dandylight/pages/new_contact_pages/LeadSourceSelection.dart';
-import 'package:dandylight/pages/new_contact_pages/NameAndGender.dart';
-import 'package:dandylight/pages/new_contact_pages/NewContactPageActions.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageState.dart';
-import 'package:dandylight/pages/new_contact_pages/PhoneEmailInstagram.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/InputValidatorUtil.dart';
-import 'package:dandylight/utils/UserOptionsUtil.dart';
-import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
-import 'package:dandylight/utils/styles/Styles.dart';
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

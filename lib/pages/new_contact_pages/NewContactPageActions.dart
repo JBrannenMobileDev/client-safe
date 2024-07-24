@@ -76,16 +76,6 @@ class SetIsComingFromNewJobAction{
   SetIsComingFromNewJobAction(this.pageState);
 }
 
-class IncrementPageViewIndex{
-  final NewContactPageState? pageState;
-  IncrementPageViewIndex(this.pageState);
-}
-
-class DecrementPageViewIndex{
-  final NewContactPageState? pageState;
-  DecrementPageViewIndex(this.pageState);
-}
-
 class UpdateNewContactFirstNameAction{
   final NewContactPageState? pageState;
   final String? firstName;
@@ -121,41 +111,4 @@ class UpdateRelationshipAction{
   final int? statusIndex;
   UpdateRelationshipAction(this.pageState, this.statusIndex);
 }
-
-class UpdateSpouseFirstNameAction{
-  final NewContactPageState? pageState;
-  final String? firstName;
-  UpdateSpouseFirstNameAction(this.pageState, this.firstName);
-}
-
-class UpdateSpouseLastNameAction{
-  final NewContactPageState? pageState;
-  final String? lastName;
-  UpdateSpouseLastNameAction(this.pageState, this.lastName);
-}
-
-class UpdateNumOfChildrenAction{
-  final NewContactPageState? pageState;
-  final int? childCount;
-  UpdateNumOfChildrenAction(this.pageState, this.childCount);
-}
-
-class AddImportantDateAction{
-  final NewContactPageState? pageState;
-  final ImportantDate? importantDate;
-  AddImportantDateAction(this.pageState, this.importantDate);
-}
-
-class RemoveImportantDateAction{
-  final NewContactPageState? pageState;
-  final int? chipIndex;
-  RemoveImportantDateAction(this.pageState, this.chipIndex);
-}
-
-class UpdateNotesAction{
-  final NewContactPageState? pageState;
-  final String? notes;
-  UpdateNotesAction(this.pageState, this.notes);
-}
-
 

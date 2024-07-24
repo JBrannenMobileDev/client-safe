@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:open_store/open_store.dart';
 import 'package:redux/redux.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -16,8 +15,6 @@ import '../../../widgets/TextDandyLight.dart';
 import '../../models/Progress.dart';
 import '../../navigation/routes/RouteNames.dart';
 import '../../utils/NavigationUtil.dart';
-import '../../utils/analytics/EventNames.dart';
-import '../../utils/analytics/EventSender.dart';
 import '../contracts_page/ContractsPage.dart';
 import 'DashboardPageState.dart';
 
@@ -121,7 +118,7 @@ class _GettingStartedBottomSheetState extends State<GettingStartedBottomSheet> w
                         ),
                         GestureDetector(
                           onTap: () {
-                            UserOptionsUtil.showNewContactDialog(context, false);
+                            NavigationUtil.showNewContactPage(context);
                           },
                           child: buildProgressItem(
                               'Add a client',

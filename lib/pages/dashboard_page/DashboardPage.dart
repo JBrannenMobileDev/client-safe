@@ -486,7 +486,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                           ),
                         ),
                         onTap: () {
-                          UserOptionsUtil.showNewContactDialog(context, false);
+                          NavigationUtil.showNewContactPage(context);
                           EventSender().sendEvent(eventName: EventNames.BT_ADD_NEW_CONTACT, properties: {EventNames.CONTACT_PARAM_COMING_FROM : "Dashboard Page"});
                         },
                       ),

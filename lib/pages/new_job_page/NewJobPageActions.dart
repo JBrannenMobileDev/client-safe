@@ -60,12 +60,6 @@ class SetOneTimePriceTextAction {
   SetOneTimePriceTextAction(this.pageState, this.inputText);
 }
 
-class LoadAndSelectNewContactAction{
-  final NewJobPageState? pageState;
-  final Client? selectedClient;
-  LoadAndSelectNewContactAction(this.pageState, this.selectedClient);
-}
-
 class InitializeNewContactPageAction{
   final NewJobPageState? pageState;
   final Client? client;
@@ -159,6 +153,12 @@ class ClearSearchInputActon{
 class FetchAllAction{
   final NewJobPageState? pageState;
   FetchAllAction(this.pageState);
+}
+
+class LoadNewJobWithClientAction {
+  final NewJobPageState? pageState;
+  final Client? client;
+  LoadNewJobWithClientAction(this.pageState, this.client);
 }
 
 class SetEventListAction {

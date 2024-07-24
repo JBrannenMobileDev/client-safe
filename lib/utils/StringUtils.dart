@@ -40,7 +40,8 @@ class StringUtils {
   }
 
   static String formatSessionDuration(int? hours, int? minutes) {
-    String result = '0 hr  0 min';
+    String result = '';
+
     if((hours ?? 0) > 0) {
       if((hours ?? 0) > 1) {
         result = '${hours.toString()} hrs  ';
@@ -48,7 +49,15 @@ class StringUtils {
         result = '${hours.toString()} hr  ';
       }
     }
-    if((minutes ?? 0) > 0) result = '$result${minutes.toString()} min ';
+
+    if((minutes ?? 0) > 0) {
+      result = '$result${minutes.toString()} min ';
+    }
+
+    if(result.isEmpty) {
+      result = '0 hr  0 min';
+    }
+
     return result;
   }
 }

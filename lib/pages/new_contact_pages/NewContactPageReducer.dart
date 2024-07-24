@@ -8,20 +8,12 @@ import 'NewContactPageState.dart';
 
 final newContactPageReducer = combineReducers<NewContactPageState>([
   TypedReducer<NewContactPageState, ClearStateAction>(_clearState),
-  TypedReducer<NewContactPageState, IncrementPageViewIndex>(_incrementPageViewIndex),
-  TypedReducer<NewContactPageState, DecrementPageViewIndex>(_decrementPageViewIndex),
   TypedReducer<NewContactPageState, UpdateNewContactFirstNameAction>(_updateNewContactFirstName),
   TypedReducer<NewContactPageState, UpdateNewContactLastNameAction>(_updateNewContactLastName),
   TypedReducer<NewContactPageState, UpdatePhoneNumAction>(_updatePhoneNum),
   TypedReducer<NewContactPageState, UpdateEmailAction>(_updateEmail),
   TypedReducer<NewContactPageState, UpdateInstagramUrlAction>(_updateInstaUrl),
   TypedReducer<NewContactPageState, UpdateRelationshipAction>(_updateRelationship),
-  TypedReducer<NewContactPageState, UpdateSpouseFirstNameAction>(_updateSpouseFirstName),
-  TypedReducer<NewContactPageState, UpdateSpouseLastNameAction>(_updateSpouseLastName),
-  TypedReducer<NewContactPageState, UpdateNumOfChildrenAction>(_updateNumOfChildren),
-  TypedReducer<NewContactPageState, AddImportantDateAction>(_addImportantDate),
-  TypedReducer<NewContactPageState, RemoveImportantDateAction>(_removeImportantDate),
-  TypedReducer<NewContactPageState, UpdateNotesAction>(_updateNotes),
   TypedReducer<NewContactPageState, SetLeadSourceAction>(_setLeadSource),
   TypedReducer<NewContactPageState, UpdateErrorStateAction>(_updateErrorState),
   TypedReducer<NewContactPageState, LoadExistingClientData>(_loadClient),
@@ -31,14 +23,8 @@ final newContactPageReducer = combineReducers<NewContactPageState>([
   TypedReducer<NewContactPageState, FilterDeviceContactsAction>(_filterContacts),
   TypedReducer<NewContactPageState, SetSavedClientToState>(_setClient),
   TypedReducer<NewContactPageState, UpdateCustomLeadNameAction>(_setCustomLeadSourceName),
-  TypedReducer<NewContactPageState, SetIsComingFromNewJobAction>(_setIsComingFromNewJob),
 ]);
 
-NewContactPageState _setIsComingFromNewJob(NewContactPageState previousState, SetIsComingFromNewJobAction action){
-  return previousState.copyWith(
-    isComingFromNewJob: true,
-  );
-}
 
 NewContactPageState _setCustomLeadSourceName(NewContactPageState previousState, UpdateCustomLeadNameAction action){
   return previousState.copyWith(
@@ -99,7 +85,6 @@ NewContactPageState _setSelectedDeviceContact(NewContactPageState previousState,
   phone = TextFormatterUtil.formatPhoneNum(phone);
   return previousState.copyWith(
       selectedDeviceContact: action.selectedContact,
-      deviceContacts: [],
       newContactFirstName: action.selectedContact!.givenName,
       newContactLastName: action.selectedContact!.familyName,
       newContactPhone: phone,
@@ -132,65 +117,6 @@ NewContactPageState _setLeadSource(NewContactPageState previousState, SetLeadSou
   return previousState.copyWith(
       leadSource: action.leadSource,
       customLeadSourceName: '',
-  );
-}
-
-NewContactPageState _updateNotes(NewContactPageState previousState, UpdateNotesAction action) {
-  return previousState.copyWith(
-      notes: action.notes
-  );
-}
-
-NewContactPageState _incrementPageViewIndex(NewContactPageState previousState, IncrementPageViewIndex action) {
-  int incrementedIndex = previousState.pageViewIndex!;
-  incrementedIndex++;
-  return previousState.copyWith(
-      pageViewIndex: incrementedIndex
-  );
-}
-
-NewContactPageState _decrementPageViewIndex(NewContactPageState previousState, DecrementPageViewIndex action) {
-  int decrementedIndex = previousState.pageViewIndex!;
-  decrementedIndex--;
-  return previousState.copyWith(
-      pageViewIndex: decrementedIndex
-  );
-}
-
-NewContactPageState _removeImportantDate(NewContactPageState previousState, RemoveImportantDateAction action) {
-  for(ImportantDate date in previousState.importantDates!){
-    if(date.chipIndex == action.chipIndex){
-      previousState.importantDates!.remove(date);
-      break;
-    }
-  }
-  return previousState.copyWith(
-      importantDates: previousState.importantDates
-  );
-}
-
-NewContactPageState _addImportantDate(NewContactPageState previousState, AddImportantDateAction action) {
-  previousState.importantDates!.add(action.importantDate!);
-  return previousState.copyWith(
-      importantDates: previousState.importantDates
-  );
-}
-
-NewContactPageState _updateNumOfChildren(NewContactPageState previousState, UpdateNumOfChildrenAction action) {
-  return previousState.copyWith(
-      numberOfChildren: action.childCount
-  );
-}
-
-NewContactPageState _updateSpouseLastName(NewContactPageState previousState, UpdateSpouseLastNameAction action) {
-  return previousState.copyWith(
-      spouseLastName: action.lastName
-  );
-}
-
-NewContactPageState _updateSpouseFirstName(NewContactPageState previousState, UpdateSpouseFirstNameAction action) {
-  return previousState.copyWith(
-      spouseFirstName: action.firstName
   );
 }
 
