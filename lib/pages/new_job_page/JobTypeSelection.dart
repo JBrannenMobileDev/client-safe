@@ -29,22 +29,13 @@ class _JobTypeSelection extends State<JobTypeSelection>
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) =>
           Container(
-            margin: EdgeInsets.only(left: 26.0, right: 26.0),
+            margin: EdgeInsets.only(left: 0.0, right: 0.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(bottom: 16.0),
-                  child: TextDandyLight(
-                    type: TextDandyLight.MEDIUM_TEXT,
-                    text: 'Select a job type',
-                    textAlign: TextAlign.start,
-                    color: Color(ColorConstants.getPrimaryBlack()),
-                  ),
-                ),
                 pageState.sessionTypes!.length > 0 ? Container(
-                  height: 411.0,
+                  height: (MediaQuery.of(context).size.height*0.7) - 61,
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: AlwaysScrollableScrollPhysics(),
@@ -56,7 +47,7 @@ class _JobTypeSelection extends State<JobTypeSelection>
                   padding: EdgeInsets.only(left: 32.0, right: 32.0),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
-                    text: 'You have not saved any job types. To create a new job type please select the plus icon.\n\n(Example: Wedding, Engagement, Family, etc...)',
+                    text: 'To create a new session type please select the plus icon.',
                     textAlign: TextAlign.center,
                     color: Color(ColorConstants.getPrimaryBlack()),
                   ),
@@ -74,15 +65,15 @@ class _JobTypeSelection extends State<JobTypeSelection>
       TextButton(
             style: Styles.getButtonStyle(
               shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(25.0),
+                borderRadius: new BorderRadius.circular(8.0),
               ),
               color: pageState.selectedSessionType != null &&
                   pageState.selectedSessionType!.documentId == pageState.sessionTypes!.elementAt(index).documentId ? Color(
-                  ColorConstants.getPrimaryBackgroundGrey()) : Colors.transparent,
+                  ColorConstants.getPrimaryGreyDark()).withOpacity(0.5) : Colors.transparent,
             ),
             onPressed: () {
-              pageState.onSessionTypeSelected!(
-                  pageState.sessionTypes!.elementAt(index));
+              pageState.onSessionTypeSelected!(pageState.sessionTypes!.elementAt(index));
+              Navigator.of(context).pop();
             },
             child: Row(
               children: <Widget>[
@@ -94,7 +85,7 @@ class _JobTypeSelection extends State<JobTypeSelection>
                 ),
                 Expanded(
                   child: Container(
-                    height: 64.0,
+                    height: 54.0,
                     margin: EdgeInsets.only(right: 32.0),
                     child: Container(
                       child: Column(

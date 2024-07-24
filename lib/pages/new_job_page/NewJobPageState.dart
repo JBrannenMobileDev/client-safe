@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:contacts_service/contacts_service.dart';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/EventDandyLight.dart';
@@ -36,9 +37,15 @@ class NewJobPageState {
   final String? errorState;
   final Client? selectedClient;
   final String? clientFirstName;
+  final String? deviceContactFirstName;
+  final String? deviceContactLastName;
+  final String? deviceContactPhone;
+  final String? deviceContactEmail;
   final String? clientSearchText;
   final String? documentPath;
   final String? oneTimePrice;
+  final String? leadSource;
+  final Function(String)? onLeadSourceSelected;
   final PriceProfile? selectedPriceProfile;
   final Profile? profile;
   final LocationDandy? selectedLocation;
@@ -59,6 +66,10 @@ class NewJobPageState {
   final List<Event>? deviceEvents;
   final List<Job>? jobs;
   final List<SessionType>? sessionTypes;
+  final List<Contact>? deviceContacts;
+  final List<Contact>? filteredDeviceContacts;
+  final Contact? selectedDeviceContact;
+  final String? deviceSearchText;
   final Function()? onSavePressed;
   final Function()? onCancelPressed;
   final Function()? onNextPressed;
@@ -84,6 +95,9 @@ class NewJobPageState {
   final double? lon;
   final Function(bool)? onCalendarEnabled;
   final Function()? onSkipSelected;
+  final Function(Contact)? onDeviceContactSelected;
+  final Function(String)? onContactSearchTextChanged;
+  final Function(String)? onDeviceContactFirstNameChanged;
 
   NewJobPageState({
     @required this.id,
@@ -147,6 +161,19 @@ class NewJobPageState {
     @required this.onClientPhoneTextChanged,
     @required this.onClientEmailTextChanged,
     @required this.onClientInstagramUrlTextChanged,
+    @required this.filteredDeviceContacts,
+    @required this.selectedDeviceContact,
+    @required this.deviceContacts,
+    @required this.deviceSearchText,
+    @required this.onDeviceContactSelected,
+    @required this.onContactSearchTextChanged,
+    @required this.deviceContactEmail,
+    @required this.deviceContactFirstName,
+    @required this.deviceContactLastName,
+    @required this.deviceContactPhone,
+    @required this.leadSource,
+    @required this.onLeadSourceSelected,
+    @required this.onDeviceContactFirstNameChanged,
   });
 
   NewJobPageState copyWith({
@@ -165,6 +192,10 @@ class NewJobPageState {
     Client? selectedClient,
     String? clientFirstName,
     String? clientSearchText,
+    String? deviceContactFirstName,
+    String? deviceContactLastName,
+    String? deviceContactPhone,
+    String? deviceContactEmail,
     PriceProfile? selectedPriceProfile,
     LocationDandy? selectedLocation,
     List<Client>? allClients,
@@ -184,6 +215,8 @@ class NewJobPageState {
     List<Event>? deviceEvents,
     List<Job>? jobs,
     List<SessionType>? sessionTypes,
+    String? leadSource,
+    Function(String)? onLeadSourceSelected,
     Function()? onSavePressed,
     Function()? onCancelPressed,
     Function()? onNextPressed,
@@ -211,6 +244,13 @@ class NewJobPageState {
     Function(String)? onClientPhoneTextChanged,
     Function(String)? onClientEmailTextChanged,
     Function(String)? onClientInstagramUrlTextChanged,
+    List<Contact>? deviceContacts,
+    List<Contact>? filteredDeviceContacts,
+    Contact? selectedDeviceContact,
+    String? deviceSearchText,
+    Function(Contact)? onDeviceContactSelected,
+    Function(String)? onContactSearchTextChanged,
+    Function(String)? onDeviceContactFirstNameChanged,
   }){
     return NewJobPageState(
       id: id?? this.id,
@@ -274,6 +314,19 @@ class NewJobPageState {
       onClientInstagramUrlTextChanged: onClientInstagramUrlTextChanged ?? this.onClientInstagramUrlTextChanged,
       onClientLastNameTextChanged: onClientLastNameTextChanged ?? this.onClientLastNameTextChanged,
       onClientPhoneTextChanged: onClientPhoneTextChanged ?? this.onClientPhoneTextChanged,
+      filteredDeviceContacts: filteredDeviceContacts ?? this.filteredDeviceContacts,
+      selectedDeviceContact: selectedDeviceContact ?? this.selectedDeviceContact,
+      deviceContacts: deviceContacts ?? this.deviceContacts,
+      deviceSearchText: deviceSearchText ?? this.deviceSearchText,
+      onContactSearchTextChanged: onContactSearchTextChanged ?? this.onContactSearchTextChanged,
+      onDeviceContactSelected: onDeviceContactSelected ?? this.onDeviceContactSelected,
+      deviceContactEmail: deviceContactEmail ?? this.deviceContactEmail,
+      deviceContactFirstName: deviceContactFirstName ?? this.deviceContactFirstName,
+      deviceContactLastName: deviceContactLastName ?? this.deviceContactLastName,
+      deviceContactPhone: deviceContactPhone ?? this.deviceContactPhone,
+      leadSource: leadSource ?? this.leadSource,
+      onLeadSourceSelected: onLeadSourceSelected ?? this.onLeadSourceSelected,
+      onDeviceContactFirstNameChanged: onDeviceContactFirstNameChanged ?? this.onDeviceContactFirstNameChanged,
     );
   }
 
@@ -294,21 +347,21 @@ class NewJobPageState {
         clientSearchText: "",
         selectedPriceProfile: null,
         selectedLocation: null,
-        allClients: [],
-        filteredClients: [],
-        pricingProfiles: [],
-        locations: [],
+        allClients: const [],
+        filteredClients: const [],
+        pricingProfiles: const [],
+        locations: const [],
         currentJobStage: JobStage(stage: JobStage.STAGE_2_FOLLOWUP_SENT),
         selectedDate: null,
-        deviceEvents: [],
+        deviceEvents: const [],
         selectedStartTime: null,
         selectedEndTime: null,
         sunsetDateTime: null,
         selectedSessionType: null,
         profile: null,
-        eventList: [],
-        jobs: [],
-        sessionTypes: [],
+        eventList: const [],
+        jobs: const [],
+        sessionTypes: const [],
         onSavePressed: null,
         onCancelPressed: null,
         onNextPressed: null,
@@ -323,7 +376,7 @@ class NewJobPageState {
         comingFromClientDetails: false,
         onMonthChanged: null,
         onClientFirstNameTextChanged: null,
-        imageFiles: [],
+        imageFiles: const [],
         onSunsetWeatherSelected: null,
         initialTimeSelectorTime: DateTime.now(),
         onOneTimePriceChanged: null,
@@ -342,6 +395,19 @@ class NewJobPageState {
         onClientPhoneTextChanged: null,
         onClientEmailTextChanged: null,
         onClientInstagramUrlTextChanged: null,
+        deviceSearchText: '',
+        deviceContacts: const [],
+        filteredDeviceContacts: const [],
+        selectedDeviceContact: null,
+        onContactSearchTextChanged: null,
+        onDeviceContactSelected: null,
+        deviceContactPhone: '',
+        deviceContactLastName: '',
+        deviceContactFirstName: '',
+        deviceContactEmail: '',
+        leadSource: '',
+        onLeadSourceSelected: null,
+        onDeviceContactFirstNameChanged: null,
       );
   }
 
@@ -385,6 +451,15 @@ class NewJobPageState {
       isSelectedClientNew: store.state.newJobPageState!.isSelectedClientNew,
       isSelectedSessionTypeNew: store.state.newJobPageState!.isSelectedSessionTypeNew,
       isSelectedPriceProfileNew: store.state.newJobPageState!.isSelectedPriceProfileNew,
+      selectedDeviceContact: store.state.newJobPageState!.selectedDeviceContact,
+      deviceContacts: store.state.newJobPageState!.deviceContacts,
+      deviceSearchText: store.state.newJobPageState!.deviceSearchText,
+      filteredDeviceContacts: store.state.newJobPageState!.filteredDeviceContacts,
+      deviceContactEmail: store.state.newJobPageState!.deviceContactEmail,
+      deviceContactFirstName: store.state.newJobPageState!.deviceContactFirstName,
+      deviceContactLastName: store.state.newJobPageState!.deviceContactLastName,
+      deviceContactPhone: store.state.newJobPageState!.deviceContactPhone,
+      leadSource: store.state.newJobPageState!.leadSource,
       onSavePressed: () => store.dispatch(SaveNewJobAction(store.state.newJobPageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newJobPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newJobPageState)),
@@ -408,6 +483,10 @@ class NewJobPageState {
       onClientLastNameTextChanged: (lastName) => store.dispatch(UpdateClientLastNameAction(store.state.newJobPageState, lastName)),
       onClientPhoneTextChanged: (phone) => store.dispatch(UpdateClientPhoneAction(store.state.newJobPageState, phone)),
       onClientInstagramUrlTextChanged: (url) => store.dispatch(UpdateClientInstagramUrlAction(store.state.newJobPageState, url)),
+      onDeviceContactSelected: (deviceContact) => store.dispatch(SetSelectedNewJobDeviceContactAction(store.state.newJobPageState, deviceContact)),
+      onContactSearchTextChanged: (searchText) => store.dispatch(FilterDeviceContactsNewJobAction(store.state.newJobPageState, searchText)),
+      onLeadSourceSelected: (sourceName) => store.dispatch(SetLeadSourceAction(store.state.newJobPageState, sourceName)),
+      onDeviceContactFirstNameChanged: (firstName) => store.dispatch(SetDeviceClientFirstNameAction(store.state.newJobPageState, firstName)),
     );
   }
 
@@ -415,10 +494,13 @@ class NewJobPageState {
   int get hashCode =>
       id.hashCode ^
       documentId.hashCode ^
+      onContactSearchTextChanged.hashCode ^
+      onDeviceContactSelected.hashCode ^
       pageViewIndex.hashCode ^
       documentPath.hashCode ^
       saveButtonEnabled.hashCode ^
       shouldClear.hashCode ^
+      onDeviceContactFirstNameChanged.hashCode ^
       isSelectedClientNew.hashCode ^
       isFinishedFetchingClients.hashCode ^
       errorState.hashCode ^
@@ -449,6 +531,10 @@ class NewJobPageState {
       onDateSelected.hashCode ^
       eventList.hashCode ^
       jobs.hashCode ^
+      deviceContactEmail.hashCode ^
+      deviceContactPhone.hashCode ^
+      deviceContactFirstName.hashCode ^
+      deviceContactLastName.hashCode ^
       onStartTimeSelected.hashCode ^
       sessionTypes.hashCode ^
       clientFirstName.hashCode ^
@@ -468,6 +554,12 @@ class NewJobPageState {
       onClientEmailTextChanged.hashCode ^
       onClientLastNameTextChanged.hashCode ^
       onClientInstagramUrlTextChanged.hashCode ^
+      deviceSearchText.hashCode ^
+      selectedDeviceContact.hashCode ^
+      filteredDeviceContacts.hashCode ^
+      deviceContacts.hashCode ^
+      leadSource.hashCode ^
+      onLeadSourceSelected.hashCode ^
       imageFiles.hashCode;
 
   @override
@@ -488,6 +580,9 @@ class NewJobPageState {
           clientSearchText == other.clientSearchText &&
           allClients == other.allClients &&
           profile == other.profile &&
+          onDeviceContactFirstNameChanged == other.onDeviceContactFirstNameChanged &&
+          onContactSearchTextChanged == other.onContactSearchTextChanged &&
+          onDeviceContactSelected == other.onDeviceContactSelected &&
           filteredClients == other.filteredClients &&
           selectedPriceProfile == other.selectedPriceProfile &&
           selectedLocation == other.selectedLocation &&
@@ -499,6 +594,10 @@ class NewJobPageState {
           selectedStartTime == other.selectedStartTime &&
           sunsetDateTime == other.sunsetDateTime &&
           deviceEvents == other.deviceEvents &&
+          deviceContactFirstName == other.deviceContactFirstName &&
+          deviceContactLastName == other.deviceContactLastName &&
+          deviceContactEmail == other.deviceContactEmail &&
+          deviceContactPhone == other.deviceContactPhone &&
           selectedSessionType == other.selectedSessionType &&
           onSkipSelected == other.onSkipSelected &&
           currentJobStage == other.currentJobStage &&
@@ -528,5 +627,11 @@ class NewJobPageState {
           onClientPhoneTextChanged == other.onClientPhoneTextChanged &&
           onClientEmailTextChanged == other.onClientEmailTextChanged &&
           onClientInstagramUrlTextChanged == other.onClientInstagramUrlTextChanged &&
+          deviceContacts == other.deviceContacts &&
+          selectedDeviceContact == other.selectedDeviceContact &&
+          deviceSearchText == other.deviceSearchText &&
+          filteredDeviceContacts == other.filteredDeviceContacts &&
+          leadSource == other.leadSource &&
+          onLeadSourceSelected == other.onLeadSourceSelected &&
           imageFiles == other.imageFiles;
 }

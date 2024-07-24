@@ -83,15 +83,12 @@ class JobLocationListWidget extends StatelessWidget {
             child: GestureDetector(
               onTap: () async {
                 pageState.onLocationSelected!(pageState.locations!.elementAt(locationIndex));
+                Navigator.of(context).pop();
               },
             ),
           ),
         ],
       ),
     );
-  }
-
-  double _getItemWidthHeight(BuildContext context){
-    return (MediaQuery.of(context).size.width/2) - 3;
   }
 }

@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 
+import '../../utils/TextFormatterUtil.dart';
 import '../../utils/VibrateUtil.dart';
 import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -33,89 +34,99 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
         store.dispatch(FetchTimeOfSunsetAction(store.state.newJobPageState));
       },
       converter: (store) => NewJobPageState.fromStore(store),
-      builder: (BuildContext context, NewJobPageState pageState) => Container(
-        margin: const EdgeInsets.only(left: 26.0, right: 26.0, top: 16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            TextDandyLight(
-              type: TextDandyLight.MEDIUM_TEXT,
-              text: "Select a start time for this job.",
-              textAlign: TextAlign.center,
-              color: Color(ColorConstants.getPrimaryBlack()),
-            ),
-            pageState.sunsetDateTime != null ? Padding(
-              padding: const EdgeInsets.only(top: 64.0, bottom: 24.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: (){
-                      pageState.onSunsetWeatherSelected!();
-                      Navigator.of(context).push(
-                        new MaterialPageRoute(
-                            builder: (context) => const SunsetWeatherPage()),
-                      );
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.all(8),
-                      height: 48,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(48),
-                        color: Color(ColorConstants.getPeachDark())
-                      ),
-                        child: Image.asset(
-                          'assets/images/icons/sunset_icon_peach.png',
-                          height: 36.0,
-                          fit: BoxFit.cover,
-                          color: Color(ColorConstants.getPrimaryWhite()),
+      builder: (BuildContext context, NewJobPageState pageState) => Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Container(
+            height: 455,
+            margin: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                pageState.sunsetDateTime != null ? Padding(
+                  padding: const EdgeInsets.only(top: 0.0, bottom: 0.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: (){
+                          pageState.onSunsetWeatherSelected!();
+                          Navigator.of(context).push(
+                            new MaterialPageRoute(
+                                builder: (context) => const SunsetWeatherPage()),
+                          );
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.all(8),
+                          height: 48,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(48),
+                              color: Color(ColorConstants.getPeachDark())
+                          ),
+                          child: Image.asset(
+                            'assets/images/icons/sunset_icon_peach.png',
+                            height: 36.0,
+                            fit: BoxFit.cover,
+                            color: Color(ColorConstants.getPrimaryWhite()),
+                          ),
                         ),
                       ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(left: 8.0, right: 8.0),
-                    child: TextDandyLight(
-                      type: TextDandyLight.MEDIUM_TEXT,
-                      text: "Sunset is at " +
-                          (pageState.sunsetDateTime != null
+                      Container(
+                        margin: const EdgeInsets.only(left: 8.0, right: 8.0),
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: "SUNSET is at ${pageState.sunsetDateTime != null
                               ? DateFormat('h:mm a').format(pageState.sunsetDateTime!)
-                              : ""),
-                      textAlign: TextAlign.center,
-                      color: Color(ColorConstants.getPeachDark()),
-                    ),
-                  )
-                ],
-              ),
-            ) : const SizedBox(height: 48.0,),
-            TextButton(
-              style: Styles.getButtonStyle(),
-              onPressed: () {
-                showStartTimeSelectionSheet(pageState);
-              },
-              child: Container(
-                alignment: Alignment.center,
-                width: 250,
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                height: 48.0,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(26.0),
-                    color: Color(ColorConstants.getPeachDark())),
-                child:
-                    Container(
-                      child: TextDandyLight(
-                        type: TextDandyLight.LARGE_TEXT,
-                        text: pageState.selectedStartTime != null ? 'Start - ' + DateFormat('h:mm a').format(pageState.selectedStartTime!) : 'Start time',
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.fade,
-                        maxLines: 1,
-                        color: Color(ColorConstants.getPrimaryWhite()),
-                      ),
+                              : "5:55\non ${(TextFormatterUtil.formatDateStandard(pageState.selectedDate!))}"}",
+                          textAlign: TextAlign.center,
+                          color: Color(ColorConstants.getPeachDark()),
+                        ),
+                      )
+                    ],
+                  ),
+                ) : const SizedBox(height: 0.0,),
+                Container(
+                  margin: const EdgeInsets.only(top: 0.0, bottom: 64),
+                  height: 332,
+                  child: CupertinoDatePicker(
+                    initialDateTime: pageState.initialTimeSelectorTime,
+                    onDateTimeChanged: (DateTime time) {
+                      vibrate();
+                      startTime = time;
+                    },
+                    use24hFormat: false,
+                    minuteInterval: 1,
+                    mode: CupertinoDatePickerMode.time,
+                  ),
                 ),
+              ],
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              startTime ??= pageState.initialTimeSelectorTime;
+              pageState.onStartTimeSelected!(startTime!);
+              VibrateUtil.vibrateHeavy();
+              Navigator.of(context).pop();
+            },
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 32),
+              alignment: Alignment.center,
+              height: 48,
+              width: MediaQuery.of(context).size.width / 2,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(27),
+                color: Color(ColorConstants.getPeachDark()),
+              ),
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: 'DONE',
+                color: Color(ColorConstants.getPrimaryWhite()),
               ),
             ),
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

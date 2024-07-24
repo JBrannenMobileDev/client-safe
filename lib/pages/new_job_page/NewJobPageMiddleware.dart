@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:contacts_service/contacts_service.dart';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/ClientDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
@@ -28,6 +29,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
+import '../../data_layer/device_contacts/DeviceContactsDao.dart';
 import '../../data_layer/local_db/daos/ProfileDao.dart';
 import '../../data_layer/repositories/FileStorage.dart';
 import '../../models/JobStage.dart';
@@ -78,6 +80,14 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     if(action is UpdateProfileToOnBoardingCompleteAction) {
       updateProfileWithOnBoardingComplete(store, action, next);
     }
+    if(action is GetNewJobDeviceContactsAction) {
+      _loadDeviceContacts(store, action, next);
+    }
+  }
+
+  void _loadDeviceContacts(Store<AppState> store, action, NextDispatcher next) async{
+    List<Contact> allContacts = await DeviceContactsDao.getNonClientDeviceContacts(await ClientDao.getAllSortedByFirstName());
+    store.dispatch(SetDeviceContactsAction(store.state.newJobPageState, allContacts));
   }
 
   void updateProfileWithOnBoardingComplete(Store<AppState> store, UpdateProfileToOnBoardingCompleteAction action, NextDispatcher next) async {
@@ -140,6 +150,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       }
     }
 
+    print('Session types count = ${sessionTypes?.length}');
 
     store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, allLocations, upcomingJobs, imageFiles, sessionTypes));
     Directory appDocDir = await getApplicationDocumentsDirectory();
@@ -183,7 +194,9 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _saveNewJob(Store<AppState> store, SaveNewJobAction action, NextDispatcher next) async {
-    Client resultClient = store.state.newJobPageState!.selectedClient!;
+    Client? resultClient = store.state.newJobPageState?.selectedClient;
+    bool isPreviousClient = resultClient != null;
+    bool isNewClient = action.pageState?.deviceContactFirstName?.isNotEmpty ?? true;
 
     String jobTitle = '';
     if(store.state.newJobPageState!.selectedSessionType != null) {

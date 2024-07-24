@@ -107,6 +107,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, FetchClientDetailsResponsesAction>(ClientDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveImportantDatesAction>(ClientDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.FetchAllAction>(NewJobPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, newJobPageActions.GetNewJobDeviceContactsAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchLocationsAction>(LocationsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, prefix2.SaveLocationAction>(NewLocationPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, prefix2.FetchGoogleLocationsAction>(NewLocationPageMiddleware()));

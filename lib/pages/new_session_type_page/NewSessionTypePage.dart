@@ -360,10 +360,10 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
                                   border: Border.all(
-                                      color: stagesError ? Color(ColorConstants.error_red) : Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
+                                      color: stagesError ? Color(ColorConstants.error_red) : Color(ColorConstants.getPrimaryGreyDark()),
                                       width: stagesError ? 2 : 0
                                   ),
-                                  color: Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
+                                  color: Color(ColorConstants.getPrimaryGreyDark()),
                                 ),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -373,14 +373,14 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                                       child: TextDandyLight(
                                         type: TextDandyLight.SMALL_TEXT,
                                         text: !(pageState.stagesComplete ?? false) ? 'Select Stages' : '${pageState.selectedJobStages?.length ?? 0} stages selected',
-                                        color: Color(ColorConstants.getPrimaryBlack()),
+                                        color: Color(ColorConstants.getPrimaryWhite()),
                                       ),
                                     ),
                                     Container(
                                       margin: const EdgeInsets.only(right: 8.0),
                                       child: Icon(
                                         Icons.chevron_right,
-                                        color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                        color: Color(ColorConstants.getPrimaryWhite()),
                                       ),
                                     ),
                                   ],
@@ -416,10 +416,10 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
                                     border: Border.all(
-                                        color: remindersError ? Color(ColorConstants.error_red) : Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
+                                        color: remindersError ? Color(ColorConstants.error_red) : Color(ColorConstants.getPrimaryGreyDark()),
                                         width: remindersError ? 2 : 0
                                     ),
-                                    color: Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
+                                    color: Color(ColorConstants.getPrimaryGreyDark()),
                                   ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -429,14 +429,14 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                                         child: TextDandyLight(
                                           type: TextDandyLight.SMALL_TEXT,
                                           text: !(pageState.remindersComplete ?? false) ? 'Select Reminders' : '${pageState.selectedReminders?.length ?? 0} reminders selected',
-                                          color: Color(ColorConstants.getPrimaryBlack()),
+                                          color: Color(ColorConstants.getPrimaryWhite()),
                                         ),
                                       ),
                                       Container(
                                         margin: const EdgeInsets.only(right: 8.0),
                                         child: Icon(
                                           Icons.chevron_right,
-                                          color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                          color: Color(ColorConstants.getPrimaryWhite()),
                                         ),
                                       ),
                                     ],

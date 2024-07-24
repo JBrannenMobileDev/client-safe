@@ -38,15 +38,6 @@ class _LocationSelectionFormState
                     padding: EdgeInsets.only(bottom: 0.0),
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      text: "Select a location for this job.",
-                      textAlign: TextAlign.center,
-                      color: Color(ColorConstants.getPrimaryBlack()),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 0.0),
-                    child: TextDandyLight(
-                      type: TextDandyLight.MEDIUM_TEXT,
                       text: pageState.selectedLocation != null ? pageState.selectedLocation!.locationName : pageState.oneTimeLocation != null ? pageState.oneTimeLocation!.locationName : "",
                       textAlign: TextAlign.start,
                       color: Color(ColorConstants.getBlueDark()),
@@ -60,7 +51,7 @@ class _LocationSelectionFormState
                     child: GridView.builder(
                             padding: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 64.0),
                             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                                maxCrossAxisExtent: 200,
+                                maxCrossAxisExtent: 96,
                                 childAspectRatio: 2 / 2.75,
                                 crossAxisSpacing: 16,
                                 mainAxisSpacing: 16),
@@ -79,19 +70,10 @@ class _LocationSelectionFormState
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(bottom: 16.0, top: 8.0),
-                    child: TextDandyLight(
-                      type: TextDandyLight.MEDIUM_TEXT,
-                      text: "Select a location for this job",
-                      textAlign: TextAlign.center,
-                      color: Color(ColorConstants.getPrimaryBlack()),
-                    ),
-                  ),
-                  Padding(
                     padding: EdgeInsets.only(left: 32.0, right: 32.0, bottom: 32.0, top: 16.0),
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      text: "You don't have any locations saved to your collection. Select the + icon to create a new location.",
+                      text: "Select the + icon to create a new location.",
                       textAlign: TextAlign.center,
                       color: Color(ColorConstants.getPrimaryBlack()),
                     ),

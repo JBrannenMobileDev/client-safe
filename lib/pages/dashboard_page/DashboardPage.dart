@@ -623,7 +623,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                   margin: const EdgeInsets.only(top: 64),
                                   height: 308,
                                   child: Container(
-                                    margin: const EdgeInsets.only(left: 8, bottom: 8),
+                                    margin: const EdgeInsets.only(left: 16, bottom: 16),
                                     child: Row(
                                       children: [
                                         Stack(

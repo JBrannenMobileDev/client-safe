@@ -173,7 +173,7 @@ class RecentActivityCard extends StatelessWidget {
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
-                    color: areQuestionnaireResultsNew(pageState.completedQuestionnaires ?? []) ? const Color(ColorConstants.error_red) : const Color(ColorConstants.error_red),
+                    color: areQuestionnaireResultsNew(pageState.completedQuestionnaires ?? []) ? const Color(ColorConstants.error_red) : Colors.transparent,
                   ),
                 ),
               ],

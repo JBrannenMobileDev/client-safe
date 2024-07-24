@@ -1,6 +1,7 @@
 
 import 'dart:io';
 
+import 'package:contacts_service/contacts_service.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/LocationDandy.dart';
@@ -249,5 +250,40 @@ class UpdateClientInstagramUrlAction {
   final NewJobPageState? pageState;
   final String url;
   UpdateClientInstagramUrlAction(this.pageState, this.url);
+}
+
+class FilterDeviceContactsNewJobAction{
+  final NewJobPageState? pageState;
+  final String? textInput;
+  FilterDeviceContactsNewJobAction(this.pageState, this.textInput);
+}
+
+class SetSelectedNewJobDeviceContactAction{
+  final NewJobPageState? pageState;
+  final Contact? selectedContact;
+  SetSelectedNewJobDeviceContactAction(this.pageState, this.selectedContact);
+}
+
+class GetNewJobDeviceContactsAction{
+  final NewJobPageState? pageState;
+  GetNewJobDeviceContactsAction(this.pageState);
+}
+
+class SetDeviceContactsAction {
+  final NewJobPageState? pageState;
+  final List<Contact> deviceContacts;
+  SetDeviceContactsAction(this.pageState, this.deviceContacts);
+}
+
+class SetLeadSourceAction {
+  final NewJobPageState? pageState;
+  final String? sourceName;
+  SetLeadSourceAction(this.pageState, this.sourceName);
+}
+
+class SetDeviceClientFirstNameAction {
+  final NewJobPageState? pageState;
+  final String? firstName;
+  SetDeviceClientFirstNameAction(this.pageState, this.firstName);
 }
 

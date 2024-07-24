@@ -4,16 +4,13 @@ import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:dandylight/pages/new_job_page/widgets/NewJobClientListWidget.dart';
 import 'package:dandylight/pages/new_job_page/widgets/NewJobTextField.dart';
-import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-import '../../utils/analytics/EventNames.dart';
-import '../../utils/analytics/EventSender.dart';
-import '../../widgets/TextDandyLight.dart';
+import '../../utils/ColorConstants.dart';
 import '../new_contact_pages/NewContactPageState.dart';
 
 class ClientSelectionForm extends StatefulWidget {
@@ -37,7 +34,6 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
     super.build(context);
     return StoreConnector<AppState, NewJobPageState>(
       onInit: (store) {
-        store.dispatch(FetchAllAction(store.state.newJobPageState));
         firstNameTextController.text = store.state.newJobPageState!.clientFirstName!;
       },
       onDidChange: (previous, current) {
@@ -73,15 +69,18 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                     minHeight: 65.0,
                     maxHeight: MediaQuery.of(context).size.height - 179,
                   ),
-                  child: ListView.builder(
+                  child: (pageState.filteredClients?.length ?? 0) > 0 ? ListView.builder(
                     reverse: false,
                     keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                     padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 64.0),
                     shrinkWrap: true,
                     controller: _controller,
-                    physics: ScrollPhysics(),
+                    physics: const ScrollPhysics(),
                     itemCount: pageState.filteredClients!.length,
                     itemBuilder: _buildItem,
+                  ) : Container(
+                    margin: const EdgeInsets.only(top: 164),
+                    child: LoadingAnimationWidget.fourRotatingDots(color: Color(ColorConstants.getPeachDark()), size: 32),
                   ),
                 ),
               ],

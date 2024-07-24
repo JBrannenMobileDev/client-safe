@@ -9,7 +9,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -77,19 +76,11 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
       },
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) => Container(
+        height: 416,
         margin: EdgeInsets.only(left: 8.0, right: 8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(bottom: 4.0),
-              child: TextDandyLight(
-                type: TextDandyLight.MEDIUM_TEXT,
-                text: "Select a date for this job.",
-                textAlign: TextAlign.center,
-                color: Color(ColorConstants.getPrimaryBlack()),
-              ),
-            ),
             _buildTableCalendarWithBuilders(pageState),
             const SizedBox(height: .0),
             Expanded(child: CalendarUtil.buildEventList(

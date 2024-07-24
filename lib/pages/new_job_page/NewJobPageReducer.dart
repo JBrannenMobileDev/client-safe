@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:contacts_service/contacts_service.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/EventDandyLight.dart';
 import 'package:dandylight/models/Job.dart';
@@ -8,6 +9,7 @@ import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:redux/redux.dart';
+import '../../utils/TextFormatterUtil.dart';
 import 'NewJobPageState.dart';
 
 final newJobPageReducer = combineReducers<NewJobPageState>([
@@ -37,7 +39,62 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, SetPriceProfilesAndSelectedAction>(setPricePackagesAndSelectedPackage),
   TypedReducer<NewJobPageState, SetJobTypeAndSelectedAction>(setJobTypeAndSelected),
   TypedReducer<NewJobPageState, SetProfileToNewJobAction>(setProfile),
+  TypedReducer<NewJobPageState, FilterDeviceContactsNewJobAction>(filterContacts),
+  TypedReducer<NewJobPageState, SetSelectedNewJobDeviceContactAction>(setSelectedDeviceContact),
+  TypedReducer<NewJobPageState, SetDeviceContactsAction>(setDeviceContact),
+  TypedReducer<NewJobPageState, SetLeadSourceAction>(setLeadSource),
+  TypedReducer<NewJobPageState, SetDeviceClientFirstNameAction>(setDeviceContactFirstName),
 ]);
+
+NewJobPageState setDeviceContactFirstName(NewJobPageState previousState, SetDeviceClientFirstNameAction action){
+  return previousState.copyWith(
+    deviceContactFirstName: action.firstName,
+  );
+}
+
+NewJobPageState setLeadSource(NewJobPageState previousState, SetLeadSourceAction action){
+  return previousState.copyWith(
+      leadSource: action.sourceName,
+  );
+}
+
+NewJobPageState setDeviceContact(NewJobPageState previousState, SetDeviceContactsAction action){
+  return previousState.copyWith(
+    deviceContacts: action.deviceContacts,
+    filteredDeviceContacts: action.deviceContacts
+  );
+}
+
+NewJobPageState filterContacts(NewJobPageState previousState, FilterDeviceContactsNewJobAction action) {
+  List<Contact>? filteredClients = action.textInput!.isNotEmpty
+      ? previousState.deviceContacts!
+      .where((client) => client
+      .displayName!
+      .toLowerCase()
+      .contains(action.textInput!.toLowerCase()))
+      .toList()
+      : previousState.deviceContacts;
+  if(action.textInput!.isEmpty){
+    filteredClients = previousState.deviceContacts;
+  }
+  return previousState.copyWith(
+    filteredDeviceContacts: filteredClients,
+    deviceSearchText: action.textInput,
+  );
+}
+
+NewJobPageState setSelectedDeviceContact(NewJobPageState previousState, SetSelectedNewJobDeviceContactAction action){
+  String? phone = action.selectedContact!.phones != null && action.selectedContact!.phones!.isNotEmpty ? action.selectedContact!.phones!.toList().elementAt(0).value : '';
+  String? email = action.selectedContact!.emails != null && action.selectedContact!.emails!.isNotEmpty ? action.selectedContact!.emails!.toList().elementAt(0).value : '';
+  phone = TextFormatterUtil.formatPhoneNum(phone);
+  return previousState.copyWith(
+    selectedDeviceContact: action.selectedContact,
+    deviceContactFirstName: action.selectedContact!.givenName,
+    deviceContactLastName: action.selectedContact!.familyName,
+    deviceContactPhone: phone,
+    deviceContactEmail: email,
+  );
+}
 
 NewJobPageState setProfile(NewJobPageState previousState, SetProfileToNewJobAction action){
   return previousState.copyWith(

@@ -27,7 +27,7 @@ class ColorConstants{
   static const int blue_dark = 0xff838F87;
   static const int blue_light = 0xffD4D9D2;//0xffD6D4C5
   static const int light_grey = 0xffe4e1dc;
-  static const int peach_dark = 0xffc6a195;
+  static const int peach_dark = 0xffc9a897;
   static const int peach_medium = 0xffEBD0BC;
 
   // static const int peach_dark = 0xffD19B86;

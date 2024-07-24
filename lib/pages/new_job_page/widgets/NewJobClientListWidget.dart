@@ -20,9 +20,9 @@ class NewJobClientListWidget extends StatelessWidget {
           TextButton(
             style: Styles.getButtonStyle(
               shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(25.0),
+                borderRadius: new BorderRadius.circular(8.0),
               ),
-              color: pageState.filteredClients!.elementAt(clientIndex).documentId == pageState.selectedClient?.documentId ? Color(ColorConstants.getPrimaryBackgroundGrey()) : Colors.transparent,
+              color: pageState.filteredClients!.elementAt(clientIndex).documentId == pageState.selectedClient?.documentId ? Color(ColorConstants.getPrimaryGreyDark()).withOpacity(0.5) : Colors.transparent,
             ),
         onPressed: () {
           pageState.onClientSelected!(pageState.filteredClients!.elementAt(clientIndex));
@@ -34,11 +34,11 @@ class NewJobClientListWidget extends StatelessWidget {
               margin: EdgeInsets.only(left: 0.0, right: 16.0, top: 2.0, bottom: 2.0),
               height: 44.0,
               width: 44.0,
-              child: Image.asset('assets/images/icons/profile_icon.png', color: pageState.filteredClients!.elementAt(clientIndex).documentId == pageState.selectedClient?.documentId ? Color(ColorConstants.getBlueDark()) : Color(ColorConstants.getPrimaryColor())),
+              child: Image.asset('assets/images/icons/profile_icon.png', color: pageState.filteredClients!.elementAt(clientIndex).documentId == pageState.selectedClient?.documentId ? Color(ColorConstants.getPrimaryGreyDark()) : Color(ColorConstants.getPrimaryGreyDark()).withOpacity(0.5)),
             ),
             Expanded(
               child: Container(
-                height: 64.0,
+                height: 54.0,
                 margin: EdgeInsets.only(right: 32.0),
                 child: Container(
                   child: Column(
