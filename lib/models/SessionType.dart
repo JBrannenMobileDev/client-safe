@@ -1,6 +1,7 @@
 import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 
+import '../utils/StringUtils.dart';
 import 'JobType.dart';
 import 'PriceProfile.dart';
 
@@ -139,5 +140,9 @@ class SessionType {
       listOfReminders.add(ReminderDandyLight.fromMap(map as Map<String, dynamic>));
     }
     return listOfReminders;
+  }
+
+  String getDurationString() {
+    return StringUtils.formatSessionDuration(durationHours, durationMinutes);
   }
 }

@@ -5,6 +5,7 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_session_type_page/ChooseStagesBottomSheet.dart';
 import 'package:dandylight/pages/new_session_type_page/NewSessionTypePageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -49,7 +50,6 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
   final taxPercentFocusNode = FocusNode();
   final SessionType? sessionType;
   bool nameError = false;
-  bool durationError = false;
   bool priceError = false;
   bool stagesError = false;
   bool remindersError = false;
@@ -201,7 +201,7 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                               margin: const EdgeInsets.only(left: 8, top: 16),
                               child: TextDandyLight(
                                 type: TextDandyLight.EXTRA_SMALL_TEXT,
-                                text: 'SESSION DURATION*',
+                                text: 'SESSION DURATION',
                                 color: Color(ColorConstants.getPrimaryGreyDark()),
                               ),
                             ),
@@ -214,7 +214,7 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                                   child: TextFieldSimple(
                                     controller: hoursController,
                                     hintText: 'Hours',
-                                    hasError: durationError,
+                                    hasError: false,
                                     inputType: TextInputType.number,
                                     focusNode: hourFocusNode,
                                     onFocusAction: (){
@@ -230,7 +230,7 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                                     controller: minController,
                                     hintText: 'Minutes',
                                     inputType: TextInputType.number,
-                                    hasError: durationError,
+                                    hasError: false,
                                     focusNode: minFocusNode,
                                     onFocusAction: null,
                                     onTextInputChanged: pageState.onMinutesChanged!,
@@ -453,17 +453,43 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      if(pageState.saveButtonEnabled ?? false) {
+                      setState(() {
+                        print('NameError= $nameError\npriceError= $priceError\nstagesError= $stagesError\nremindersError= $remindersError\n');
+                        if(nameController.text.isEmpty) {
+                          nameError = true;
+                        } else {
+                          nameError = false;
+                        }
+                        if(totalCostTextController.text.isEmpty || totalCostTextController.text == '\$ 0.00') {
+                          priceError = true;
+                        } else {
+                          priceError = false;
+                        }
+                        if(!(pageState.stagesComplete ?? false))  {
+                          stagesError = true;
+                        } else {
+                          stagesError = false;
+                        }
+                        if(!(pageState.remindersComplete ?? false)) {
+                          remindersError = true;
+                        } else {
+                          remindersError = false;
+                        }
+                      });
+
+                      if(!nameError && !priceError && !stagesError && !remindersError) {
                         pageState.onSavePressed!();
                         showSuccessAnimation();
                       } else {
-                        setState(() {
-                          if(nameController.text.isEmpty) nameError = true;
-                          if(hoursController.text.isEmpty && minController.text.isEmpty) durationError = true;
-                          if(totalCostTextController.text.isEmpty) priceError = true;
-                          if(!(pageState.stagesComplete ?? false)) stagesError = true;
-                          if(!(pageState.remindersComplete ?? false)) remindersError = true;
-                        });
+                        if(nameError) {
+                          DandyToastUtil.showErrorToast('Missing session name');
+                        } else if(priceError) {
+                          DandyToastUtil.showErrorToast('Missing session price');
+                        } else if(stagesError) {
+                          DandyToastUtil.showErrorToast('Stages not selected');
+                        } else if(remindersError) {
+                          DandyToastUtil.showErrorToast('Reminders not selected');
+                        }
                       }
                     },
                     child: Container(

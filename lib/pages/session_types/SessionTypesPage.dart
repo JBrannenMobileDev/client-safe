@@ -50,6 +50,7 @@ class _SessionTypesPageState extends State<SessionTypesPage> with TickerProvider
                       backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                       pinned: true,
                       centerTitle: true,
+                      surfaceTintColor: Colors.transparent,
                       elevation: 0.0,
                       title: TextDandyLight(
                         type: TextDandyLight.LARGE_TEXT,

@@ -44,18 +44,14 @@ class StringUtils {
 
     if((hours ?? 0) > 0) {
       if((hours ?? 0) > 1) {
-        result = '${hours.toString()} hrs  ';
+        result = '${hours.toString()}hrs  ';
       } else {
-        result = '${hours.toString()} hr  ';
+        result = '${hours.toString()}hr  ';
       }
     }
 
     if((minutes ?? 0) > 0) {
-      result = '$result${minutes.toString()} min ';
-    }
-
-    if(result.isEmpty) {
-      result = '0 hr  0 min';
+      result = '$result${minutes.toString()}min ';
     }
 
     return result;
