@@ -287,3 +287,9 @@ class SetDeviceClientFirstNameAction {
   SetDeviceClientFirstNameAction(this.pageState, this.firstName);
 }
 
+class SetCustomLeadSourceAction {
+  final NewJobPageState? pageState;
+  final String? customName;
+  SetCustomLeadSourceAction(this.pageState, this.customName);
+}
+

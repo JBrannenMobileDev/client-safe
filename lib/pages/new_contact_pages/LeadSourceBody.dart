@@ -125,7 +125,7 @@ class _LeadSourceSelection extends State<LeadSourceBody>
                   if(pageState.customLeadSourceName?.isNotEmpty ?? false) {
                     Navigator.of(context).pop();
                   } else {
-                    DandyToastUtil.showErrorToast('Pleas provide a custom source name.');
+                    DandyToastUtil.showErrorToast('Please provide a custom source name.');
                   }
                 },
                 child: Container(

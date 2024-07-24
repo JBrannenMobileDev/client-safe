@@ -99,6 +99,8 @@ class NewJobPageState {
   final Function(Contact)? onDeviceContactSelected;
   final Function(String)? onContactSearchTextChanged;
   final Function(String)? onDeviceContactFirstNameChanged;
+  final Function(String)? onCustomLeadSourceTextChanged;
+  final String? customLeadSourceName;
 
   NewJobPageState({
     @required this.id,
@@ -176,6 +178,8 @@ class NewJobPageState {
     @required this.onLeadSourceSelected,
     @required this.onDeviceContactFirstNameChanged,
     @required this.instagramUrl,
+    @required this.customLeadSourceName,
+    @required this.onCustomLeadSourceTextChanged,
   });
 
   NewJobPageState copyWith({
@@ -219,6 +223,8 @@ class NewJobPageState {
     List<Job>? jobs,
     List<SessionType>? sessionTypes,
     String? leadSource,
+    String? customLeadSourceName,
+    Function(String)? onCustomLeadSourceTextChanged,
     Function(String)? onLeadSourceSelected,
     Function()? onSavePressed,
     Function()? onCancelPressed,
@@ -331,6 +337,8 @@ class NewJobPageState {
       onLeadSourceSelected: onLeadSourceSelected ?? this.onLeadSourceSelected,
       onDeviceContactFirstNameChanged: onDeviceContactFirstNameChanged ?? this.onDeviceContactFirstNameChanged,
       instagramUrl: instagramUrl ?? this.instagramUrl,
+      customLeadSourceName: customLeadSourceName ?? this.customLeadSourceName,
+      onCustomLeadSourceTextChanged: onCustomLeadSourceTextChanged ?? this.onCustomLeadSourceTextChanged,
     );
   }
 
@@ -413,6 +421,8 @@ class NewJobPageState {
         onLeadSourceSelected: null,
         onDeviceContactFirstNameChanged: null,
         instagramUrl: '',
+        customLeadSourceName: '',
+        onCustomLeadSourceTextChanged: null,
       );
   }
 
@@ -466,6 +476,7 @@ class NewJobPageState {
       deviceContactPhone: store.state.newJobPageState!.deviceContactPhone,
       leadSource: store.state.newJobPageState!.leadSource,
       instagramUrl: store.state.newJobPageState!.instagramUrl,
+      customLeadSourceName: store.state.newJobPageState!.customLeadSourceName,
       onSavePressed: () => store.dispatch(SaveNewJobAction(store.state.newJobPageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newJobPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newJobPageState)),
@@ -493,6 +504,7 @@ class NewJobPageState {
       onContactSearchTextChanged: (searchText) => store.dispatch(FilterDeviceContactsNewJobAction(store.state.newJobPageState, searchText)),
       onLeadSourceSelected: (sourceName) => store.dispatch(SetLeadSourceAction(store.state.newJobPageState, sourceName)),
       onDeviceContactFirstNameChanged: (firstName) => store.dispatch(SetDeviceClientFirstNameAction(store.state.newJobPageState, firstName)),
+      onCustomLeadSourceTextChanged: (customName) => store.dispatch(SetCustomLeadSourceAction(store.state.newJobPageState, customName)),
     );
   }
 
@@ -502,6 +514,8 @@ class NewJobPageState {
       documentId.hashCode ^
       onContactSearchTextChanged.hashCode ^
       onDeviceContactSelected.hashCode ^
+      customLeadSourceName.hashCode ^
+      onCustomLeadSourceTextChanged.hashCode ^
       pageViewIndex.hashCode ^
       documentPath.hashCode ^
       saveButtonEnabled.hashCode ^
@@ -597,6 +611,8 @@ class NewJobPageState {
           pricingProfiles == other.pricingProfiles &&
           isSelectedSessionTypeNew == other.isSelectedSessionTypeNew &&
           locations == other.locations &&
+          customLeadSourceName == other.customLeadSourceName &&
+          onCustomLeadSourceTextChanged == other.onCustomLeadSourceTextChanged &&
           selectedDate == other.selectedDate &&
           isSelectedPriceProfileNew == other.isSelectedPriceProfileNew &&
           selectedStartTime == other.selectedStartTime &&

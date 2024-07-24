@@ -46,7 +46,14 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, UpdateClientInstagramUrlAction>(setInstagramUrl),
   TypedReducer<NewJobPageState, UpdateClientPhoneAction>(setPhone),
   TypedReducer<NewJobPageState, LoadNewJobWithClientAction>(loadClient),
+  TypedReducer<NewJobPageState, SetCustomLeadSourceAction>(setCustomLeadSourceName),
 ]);
+
+NewJobPageState setCustomLeadSourceName(NewJobPageState previousState, SetCustomLeadSourceAction action){
+  return previousState.copyWith(
+    customLeadSourceName: action.customName,
+  );
+}
 
 NewJobPageState loadClient(NewJobPageState previousState, LoadNewJobWithClientAction action){
   return previousState.copyWith(

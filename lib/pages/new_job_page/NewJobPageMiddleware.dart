@@ -206,13 +206,13 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
         phone: action.pageState?.deviceContactPhone,
         instagramProfileUrl: action.pageState?.instagramUrl,
         leadSource: action.pageState?.leadSource,
+        customLeadSourceName: action.pageState?.customLeadSourceName,
       );
       String? clientDocumentId = await ClientDao.insert(resultClient);
       resultClient.documentId = clientDocumentId;
       //Client has been created!
     }
 
-    print('Client = ${resultClient.toString()}');
     if(resultClient != null) {
       String jobTitle = '';
       if(store.state.newJobPageState!.selectedSessionType != null) {

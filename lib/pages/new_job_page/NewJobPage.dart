@@ -711,7 +711,7 @@ class _NewJobPageState extends State<NewJobPage> {
                   margin: const EdgeInsets.only(left: 16),
                   child: TextDandyLight(
                     type: TextDandyLight.SMALL_TEXT,
-                    text: (pageState.leadSource?.isNotEmpty ?? false) ? pageState.leadSource : 'Select a source',
+                    text: getLeadSourceName(pageState),
                     color: Color(ColorConstants.getPrimaryWhite()),
                   ),
                 ),
@@ -728,4 +728,18 @@ class _NewJobPageState extends State<NewJobPage> {
         )
       ],
     );
+
+  String getLeadSourceName(NewJobPageState pageState) {
+    String result = '';
+    if(pageState.leadSource?.isNotEmpty ?? false) {
+      if(pageState.leadSource == 'Other') {
+        result = pageState.customLeadSourceName ?? '';
+      } else {
+        result = pageState.leadSource ?? '';
+      }
+    } else {
+      result = 'Select a source';
+    }
+    return result;
+  }
 }
