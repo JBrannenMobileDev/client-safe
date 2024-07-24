@@ -226,7 +226,7 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
   }
 
   String getMessage(Permission permission) {
-    if(permission == Permission.calendarFullAccess) {
+    if(permission == Permission.calendarFullAccess || permission == Permission.calendarWriteOnly) {
       return "Calendar permission is required to sync your DandyLight calendar with your personal calendars.";
     }
     if(permission == Permission.notification) {

@@ -33,9 +33,9 @@
 	<key>NSCalendarsFullAccessUsageDescription</key>
     <string>Calendar permission will make it easier to schedule jobs. Your phone calendar will be synced with the DandyLight calendar.</string>
     <key>NSCalendarsWriteOnlyAccessUsageDescription</key>
-    <string>We need access to your calendars to provide awesome features.</string>
+    <string>We need access to your calendars to enable syncing with the Dandylight calendar.</string>
     <key>NSCalendarsUsageDescription</key>
-    <string>We need access to your calendars to provide awesome features.</string>
+    <string>We need access to your calendars to enable syncing with the Dandylight calendar.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera will be used to take a picture of this location.</string>
 	<key>NSContactsUsageDescription</key>
@@ -100,5 +100,8 @@
     <true/>
     <key>UIFileSharingEnabled</key>
     <true/>
+    <key>NSCalendarsUsageDescription</key>
+    <string>Access most functions for calendar viewing and editing.</string>
+
 </dict>
 </plist>
