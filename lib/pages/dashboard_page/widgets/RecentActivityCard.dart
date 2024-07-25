@@ -34,7 +34,7 @@ class RecentActivityCard extends StatelessWidget {
             },
             child: Container(
               height: 84,
-              padding: const EdgeInsets.only(left: 8, right: 8),
+              padding: const EdgeInsets.only(left: 12, right: 12),
               width: MediaQuery.of(context).size.width/3 - 16,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),

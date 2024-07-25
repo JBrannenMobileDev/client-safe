@@ -239,3 +239,8 @@ class UpdateProgressNoShow {
   final DashboardPageState? pageState;
   UpdateProgressNoShow(this.pageState);
 }
+
+class UpdateSessionMigrationToReadAction {
+  final DashboardPageState? pageState;
+  UpdateSessionMigrationToReadAction(this.pageState);
+}

@@ -25,6 +25,7 @@ class Profile{
   bool? hasSetupBrand;
   bool? canShowAppReview; //set to false if user clicks do not show again or if they click the request action
   bool? canShowPMFSurvey; //set to false if user clicks do not show again or if they click the request action
+  bool? showSessionMigrationMessage;
   DateTime? requestReviewDate;
   DateTime? requestPMFSurveyDate;
   DateTime? updateLastSeenDate;
@@ -190,6 +191,7 @@ class Profile{
     this.questionnairesLastChangedTime,
     this.sessionTypesLastChangedTime,
     required this.progress,
+    this.showSessionMigrationMessage,
   });
 
   Profile copyWith({
@@ -238,6 +240,7 @@ class Profile{
     bool? wireEnabled,
     bool? canShowAppReview,
     bool? canShowPMFSurvey,
+    bool? showSessionMigrationMessage,
     DateTime? requestReviewDate,
     DateTime? requestPMFSurveyDate,
     DateTime? updateLastSeenDate,
@@ -379,6 +382,7 @@ class Profile{
       questionnairesLastChangedTime: questionnairesLastChangedTime ?? this.questionnairesLastChangedTime,
       sessionTypesLastChangedTime: sessionTypesLastChangedTime ?? this.sessionTypesLastChangedTime,
       progress: progress ?? this.progress,
+      showSessionMigrationMessage: showSessionMigrationMessage ?? this.showSessionMigrationMessage,
     );
   }
 
@@ -426,6 +430,7 @@ class Profile{
       'isSubscribed' : isSubscribed ?? false,
       'logoSelected' : logoSelected ?? false,
       'hasSetupBrand' : hasSetupBrand ?? false,
+      'showSessionMigrationMessage' : showSessionMigrationMessage ?? false,
       'logoUrl' : logoUrl,
       'bannerWebUrl' : bannerWebUrl,
       'bannerMobileUrl' : bannerMobileUrl,
@@ -512,6 +517,7 @@ class Profile{
       calendarEnabled: map['calendarEnabled'] != null ? map['calendarEnabled'] : false,
       canShowAppReview: map['canShowAppReview'] != null ? map['canShowAppReview'] : true,
       canShowPMFSurvey: map['canShowPMFSurvey'] != null ? map['canShowPMFSurvey'] : true,
+      showSessionMigrationMessage: map['showSessionMigrationMessage'] != null ? map['showSessionMigrationMessage'] : false,
       salesTaxRate: map['salesTaxRate']?.toDouble(),
       instagramUrl: map['instagramUrl'],
       bannerImageSelected: map['bannerImageSelected'] != null ? map['bannerImageSelected'] : true,

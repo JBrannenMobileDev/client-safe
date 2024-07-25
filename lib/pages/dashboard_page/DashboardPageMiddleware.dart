@@ -121,6 +121,16 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     if(action is UpdateProgressNoShow) {
       _updateProgressNoShow(store, action);
     }
+    if(action is UpdateSessionMigrationToReadAction) {
+      _updateSessionMigrationToRead(store, action, next);
+    }
+  }
+
+  Future<void> _updateSessionMigrationToRead(Store<AppState> store, UpdateSessionMigrationToReadAction action, NextDispatcher next) async {
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile!.showSessionMigrationMessage = false;
+    await ProfileDao.update(profile);
+    store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
   }
 
   Future<void> _loadLibraryPoseGroups(Store<AppState> store) async {

@@ -111,7 +111,7 @@ class _BottomSheetState extends State<BottomSheet>
                     height: 48,
                     width: MediaQuery.of(context).size.width / 2,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(27),
+                      borderRadius: BorderRadius.circular(8),
                       color: Color(ColorConstants.getPeachDark()),
                     ),
                     child: TextDandyLight(

@@ -143,7 +143,6 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetShowLoadingAnimationAction(store.state.loginPageState, true));
     final firebaseAuth = FirebaseAuth.instance;
     List<AppleIDAuthorizationScopes> scopes = [AppleIDAuthorizationScopes.email, AppleIDAuthorizationScopes.fullName];
-
     try {
       final rawNonce = generateNonce();
       final nonce = sha256ofString(rawNonce);
@@ -151,23 +150,20 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         scopes: scopes,
         nonce: nonce,
       );
-
       final oauthCredential = OAuthProvider("apple.com").credential(
         idToken: appleCredential.identityToken,
         rawNonce: rawNonce,
       );
       final userCredential = await firebaseAuth.signInWithCredential(oauthCredential);
-
       Profile? existingProfile = await UserCollection().getUser(userCredential.user!.uid);
-
       if(existingProfile == null) {
         String firstName = '';
         String lastName = '';
-        String email = userCredential.user!.email!;
+        String email = userCredential.user?.email ?? '';
         final user = userCredential.user;
         final displayName = '${appleCredential.givenName} ${appleCredential.familyName}';
-        firstName = appleCredential.givenName!;
-        lastName = appleCredential.familyName!;
+        firstName = appleCredential.givenName ?? '';
+        lastName = appleCredential.familyName ?? '';
         await user!.updateDisplayName(displayName);
         _createNewUserProfile(store, user, firstName, lastName, email, APPLE);
       } else {
@@ -384,7 +380,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           iconTextColor: ColorConstants.getString(ColorConstants.getWhiteWhite()),
           buttonColor: ColorConstants.getString(ColorConstants.getPeachDark()),
           buttonTextColor: ColorConstants.getString(ColorConstants.getWhiteWhite()),
-          bannerColor: ColorConstants.getString(ColorConstants.getPeachLight()),
+          bannerColor: ColorConstants.getString(ColorConstants.getPrimaryGreyDark()),
         ),
         previewColorTheme: ColorTheme(
           themeName: 'default',
@@ -392,7 +388,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           iconTextColor: ColorConstants.getString(ColorConstants.getWhiteWhite()),
           buttonColor: ColorConstants.getString(ColorConstants.getPeachDark()),
           buttonTextColor: ColorConstants.getString(ColorConstants.getWhiteWhite()),
-          bannerColor: ColorConstants.getString(ColorConstants.getPeachLight()),
+          bannerColor: ColorConstants.getString(ColorConstants.getPrimaryGreyDark()),
         ),
         selectedFontTheme: FontTheme(
             themeName: 'default',
@@ -740,12 +736,15 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
 
           //TODO remove this code after a few months.
           List<Job> jobs = await JobDao.getAllJobs();
+          bool isMigrating = false;
           for(Job job in jobs) {
             if(job.sessionType == null) {
               job.sessionType = SessionType.from(job.type, job.priceProfile);
               JobDao.update(job);
+              isMigrating = true;
             }
           }
+          profile.showSessionMigrationMessage = true;
 
           await JobDao.syncAllFromFireStore();
           List<Job> allJobs = await JobDao.getAllJobs();

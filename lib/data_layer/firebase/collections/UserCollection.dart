@@ -48,9 +48,14 @@ class UserCollection {
         .doc(uid)
         .get()
         .then((userProfile) {
-          Profile profile = Profile.fromMap(userProfile.data() as Map<String, dynamic>);
-          profile.uid = userProfile.id;
-          return profile;
+          var map = userProfile.data();
+          if(map != null) {
+            Profile profile = Profile.fromMap(map);
+            profile.uid = userProfile.id;
+            return profile;
+          } else {
+            return null;
+          }
         })
         .catchError((error) => print(error));
   }

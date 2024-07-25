@@ -81,6 +81,7 @@ class DashboardPageState {
   final Function(Questionnaire)? markQuestionnaireAsReviewed;
   final Function(String)? updateProgressItemComplete;
   final Function()? updateProgressNoShow;
+  final Function()? updateSessionMigrationMessageRead;
 
   DashboardPageState({
     this.jobsProfitTotal,
@@ -143,6 +144,7 @@ class DashboardPageState {
     this.updateProgressItemComplete,
     this.updateProgressNoShow,
     this.poseGroups,
+    this.updateSessionMigrationMessageRead,
   });
 
   DashboardPageState copyWith({
@@ -206,6 +208,7 @@ class DashboardPageState {
     Function(Questionnaire)? markQuestionnaireAsReviewed,
     Function(String)? updateProgressItemComplete,
     Function()? updateProgressNoShow,
+    Function()? updateSessionMigrationMessageRead,
   }){
     return DashboardPageState(
       jobsProfitTotal: jobsProfitTotal ?? this.jobsProfitTotal,
@@ -268,6 +271,7 @@ class DashboardPageState {
       updateProgressItemComplete: updateProgressItemComplete ?? this.updateProgressItemComplete,
       updateProgressNoShow: updateProgressNoShow ?? this.updateProgressNoShow,
       poseGroups: poseGroups ?? this.poseGroups,
+      updateSessionMigrationMessageRead: updateSessionMigrationMessageRead ?? this.updateSessionMigrationMessageRead,
     );
   }
 
@@ -344,6 +348,7 @@ class DashboardPageState {
       markQuestionnaireAsReviewed: (questionnaire) => store.dispatch(MarkQuestionnaireAsReviewed(store.state.dashboardPageState, questionnaire)),
       updateProgressItemComplete: (itemType) => store.dispatch(UpdateProgressItemCompleteAction(store.state.dashboardPageState, itemType)),
       updateProgressNoShow: () => store.dispatch(UpdateProgressNoShow(store.state.dashboardPageState)),
+      updateSessionMigrationMessageRead: () => store.dispatch(UpdateSessionMigrationToReadAction(store.state.dashboardPageState)),
     );
   }
 
@@ -407,6 +412,7 @@ class DashboardPageState {
     updateProgressItemComplete: null,
     updateProgressNoShow: null,
     poseGroups: [],
+    updateSessionMigrationMessageRead: null,
   );
 
   @override
@@ -469,6 +475,7 @@ class DashboardPageState {
       markContractsAsReviewed.hashCode ^
       updateProgressItemComplete.hashCode ^
       markQuestionnaireAsReviewed.hashCode ^
+      updateSessionMigrationMessageRead.hashCode ^
       isMinimized.hashCode;
 
   @override
@@ -533,5 +540,6 @@ class DashboardPageState {
               markContractsAsReviewed == other.markContractsAsReviewed &&
               markQuestionnaireAsReviewed == other.markQuestionnaireAsReviewed &&
               updateProgressItemComplete == other.updateProgressItemComplete &&
+              updateSessionMigrationMessageRead == other.updateSessionMigrationMessageRead &&
               isMinimized == other.isMinimized;
 }

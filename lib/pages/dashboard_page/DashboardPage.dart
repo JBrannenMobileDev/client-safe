@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/pages/dashboard_page/ShowSessionMigrationMessageBottomSheet.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/PoseLibraryCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/RecentActivityCard.dart';
 import 'package:http/http.dart' as http;
@@ -95,6 +96,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
   bool hasSeenPMFRequest = false;
   bool hasSeenRequestReview = false;
   bool hasSeenAPpUpdate = false;
+  bool hasSeenSessionMessage = false;
   bool isTablet = false;
 
   _DashboardPageState(this.comingFromLogin);
@@ -240,6 +242,23 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
     );
   }
 
+  void _showSessionMigrationSheet(BuildContext context, DashboardPageState pageState) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return ShowSessionMigrationMessageBottomSheet();
+        // doneAction: pageState.updateProfileMigrationMessageSeen
+      },
+    ).whenComplete( () {
+      pageState.markUpdateAsSeen!(pageState.appSettings!);
+    });
+  }
+
   void _showAppUpdateBottomSheet(BuildContext context, DashboardPageState pageState) {
     showModalBottomSheet(
       context: context,
@@ -366,7 +385,10 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
           PendingEmailsRepository(functions: DandylightFunctionsApi(httpClient: http.Client())).sendNextStageEmail();
         },
         onDidChange: (previous, current) async {
-          if(!hasSeenAPpUpdate && !previous!.shouldShowAppUpdate! && current.shouldShowAppUpdate!) {
+          if(!hasSeenSessionMessage && (current.profile?.showSessionMigrationMessage ?? false)) {
+            _showSessionMigrationSheet(context, current);
+            hasSeenSessionMessage = true;
+          }else if(!hasSeenAPpUpdate && !previous!.shouldShowAppUpdate! && current.shouldShowAppUpdate!) {
             setState(() {
               hasSeenAPpUpdate = true;
               _showAppUpdateBottomSheet(context, current);
@@ -722,7 +744,8 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                             width: 108,
                                             decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
-                                                color: Color(ColorConstants.getPrimaryWhite())),
+                                                boxShadow: ElevationToShadow[4],
+                                                color: Color(ColorConstants.getPrimaryGreyLight())),
                                           ),
                                           Column(
                                             mainAxisAlignment: MainAxisAlignment.center,
@@ -733,13 +756,13 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                                 alignment: Alignment.center,
                                                 height: 24.0,
                                                 width: 24.0,
-                                                child: Image.asset('assets/images/icons/file_upload.png', color: Color(ColorConstants.getPeachDark()),),
+                                                child: Image.asset('assets/images/icons/file_upload.png', color: Color(ColorConstants.getPrimaryBlack()),),
                                               ),
                                               TextDandyLight(
                                                 type: TextDandyLight.MEDIUM_TEXT,
                                                 textAlign: TextAlign.center,
                                                 text: 'Upload\nLogo',
-                                                color: Color(ColorConstants.getPeachDark()),
+                                                color: Color(ColorConstants.getPrimaryBlack()),
                                               ),
                                             ],
                                           ),
