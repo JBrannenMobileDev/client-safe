@@ -366,7 +366,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
             }
 
             if(restoreMessage != null) {
-              Future.delayed(const Duration(seconds: 2), () {
+              Future.delayed(const Duration(seconds: 1), () {
                 _showRestorePurchasesSheet(context, restoreMessage);
                 store.dispatch(UpdateProfileRestorePurchasesSeen(store.state.dashboardPageState));
               });
