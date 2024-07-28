@@ -107,7 +107,7 @@ class _ClientsPageState extends State<ClientsPage> {
                         actions: <Widget>[
                           GestureDetector(
                             onTap: () {
-                              NavigationUtil.showNewContactPage(context);
+                              NavigationUtil.showNewContactPage(context, null);
                               EventSender().sendEvent(eventName: EventNames.BT_ADD_NEW_CONTACT, properties: {EventNames.CONTACT_PARAM_COMING_FROM : "Contacts Page"});
                             },
                             child: Container(

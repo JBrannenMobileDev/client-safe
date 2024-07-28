@@ -118,7 +118,7 @@ class _GettingStartedBottomSheetState extends State<GettingStartedBottomSheet> w
                         ),
                         GestureDetector(
                           onTap: () {
-                            NavigationUtil.showNewContactPage(context);
+                            NavigationUtil.showNewContactPage(context, null);
                           },
                           child: buildProgressItem(
                               'Add a client',

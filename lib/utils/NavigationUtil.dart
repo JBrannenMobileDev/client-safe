@@ -233,8 +233,8 @@ class NavigationUtil {
     }
   }
 
-  static void showNewContactPage(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewContactPage()));
+  static void showNewContactPage(BuildContext context, Client? client) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewContactPage(client: client)));
   }
 }
 

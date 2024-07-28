@@ -130,16 +130,20 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
                             onPressed: () async {
                               bool isGranted = false;
                               if(permission == Permission.calendarFullAccess) {
+                                print('Step1');
                                 PermissionStatus status = await UserPermissionsUtil.requestPermission(permission: Permission.calendarWriteOnly, callOnGranted: null);
+                                print('Stet2: writeAccess granted = $status');
                                 if(status.isGranted) {
                                   PermissionStatus fullAccessStatus = (await UserPermissionsUtil.requestPermission(permission: Permission.calendarFullAccess, callOnGranted: callOnGranted));
                                   isGranted = fullAccessStatus.isGranted;
+                                  print('Stet2: fullAccess granted = $isGranted');
                                   if(fullAccessStatus.isPermanentlyDenied) {
                                     setState(() {
                                       isPermanentlyDenied = true;
                                     });
-                                  } else if(!fullAccessStatus.isGranted) {
+                                  } else if(!isGranted) {
                                     isGranted = (await UserPermissionsUtil.requestPermission(permission: permission, callOnGranted: callOnGranted)).isGranted;
+                                    print('Stet2: writeAccess granted = $isGranted');
                                   }
                                 }
                               } else {

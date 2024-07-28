@@ -1229,12 +1229,21 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               ),
               !pageState.isCurrentUserCheckComplete! && !pageState.navigateToHome! ? Center(
                 child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                     color: Color(ColorConstants.getBlueLight()),
                     image: const DecorationImage(
                       fit: BoxFit.fitWidth,
                       image: AssetImage("assets/images/backgrounds/flowerBgLaunch.png"),
                     ),
+                  ),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    alignment: Alignment.bottomCenter,
+                    margin: const EdgeInsets.only(bottom: 64),
+                    child: LoadingAnimationWidget.fourRotatingDots(color: Color(ColorConstants.getPrimaryWhite()), size: 32),
                   ),
                 ),
               ) : const SizedBox(),
@@ -1244,13 +1253,20 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 width: MediaQuery.of(context).size.width,
                 color: Color(ColorConstants.getBlueLight()),
                 child: Center(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.fitWidth,
-                        image: AssetImage("assets/images/backgrounds/flowerBgLaunch.png"),
+                  child: Stack(
+                    children: [
+                      Container(
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            fit: BoxFit.fitWidth,
+                            image: AssetImage("assets/images/backgrounds/flowerBgLaunch.png"),
+                          ),
+                        ),
                       ),
-                    ),
+                      Container(
+                        child: LoadingAnimationWidget.fourRotatingDots(color: Color(ColorConstants.getPrimaryWhite()), size: 64),
+                      )
+                    ],
                   ),
                 ),
               ) : const SizedBox()

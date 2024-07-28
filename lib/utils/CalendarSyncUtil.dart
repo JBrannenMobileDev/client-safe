@@ -167,9 +167,9 @@ class CalendarSyncUtil {
   static Future<List<Calendar>> getWritableCalendars() async {
     List<Calendar> writableCalendars = [];
     try{
-      DeviceCalendarPlugin _deviceCalendarPlugin = DeviceCalendarPlugin();
+      DeviceCalendarPlugin deviceCalendarPlugin = DeviceCalendarPlugin();
 
-      final calendarsResult = await _deviceCalendarPlugin.retrieveCalendars();
+      final calendarsResult = await deviceCalendarPlugin.retrieveCalendars();
 
       if(calendarsResult.data != null) {
         List<Calendar> allCalendars = calendarsResult.data!.toList(growable: false);
@@ -180,9 +180,9 @@ class CalendarSyncUtil {
         }
       }
     } on PlatformException catch (err) {
-      print(err);
+      print('Error fetching calendars: $err');
     } catch (e) {
-      print(e);
+      print('Error fetching calendars: $e');
     }
     return writableCalendars;
   }

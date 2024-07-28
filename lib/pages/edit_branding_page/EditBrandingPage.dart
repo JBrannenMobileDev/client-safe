@@ -4,6 +4,7 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DeviceType.dart';
 import 'package:dandylight/utils/UidUtil.dart';
+import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
@@ -160,7 +161,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
                     alignment: Alignment.bottomCenter,
-                    padding: EdgeInsets.only(bottom: 96),
+                    padding: const EdgeInsets.only(bottom: 96),
                     child: GestureDetector(
                       onTap: () {
                         if(pageState.showPublishButton!) {
@@ -172,7 +173,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                         alignment: Alignment.center,
                         height: 54,
                         width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.only(left: 32, right: 32),
+                        margin: const EdgeInsets.only(left: 32, right: 32),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(32),
                           color: pageState.showPublishButton! ? Color(ColorConstants.getPeachDark()) : Color(ColorConstants.getPrimaryGreyMedium()),
@@ -191,7 +192,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
                     alignment: Alignment.bottomCenter,
-                    padding: EdgeInsets.only(bottom: 32),
+                    padding: const EdgeInsets.only(bottom: 32),
                     child: GestureDetector(
                       onTap: () {
                         if(!pageState.uploadInProgress!) {
@@ -238,7 +239,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                         alignment: Alignment.center,
                         height: 54,
                         width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.only(left: 32, right: 32),
+                        margin: const EdgeInsets.only(left: 32, right: 32),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(32),
                           color: Color(ColorConstants.getPeachDark()),
@@ -264,7 +265,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
       context: context,
       builder: (BuildContext context) {
         return Padding(
-          padding: EdgeInsets.all(96.0),
+          padding: const EdgeInsets.all(96.0),
           child: FlareActor(
             "assets/animations/success_check.flr",
             alignment: Alignment.center,

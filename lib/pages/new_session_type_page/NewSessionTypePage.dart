@@ -53,8 +53,36 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
   bool priceError = false;
   bool stagesError = false;
   bool remindersError = false;
+  bool isTyping = false;
 
   _NewSessionTypePageState(this.sessionType);
+
+  @override
+  void initState() {
+    super.initState();
+    nameFocusNode.addListener(() {
+      setIsTyping(nameFocusNode.hasFocus);
+    });
+    hourFocusNode.addListener(() {
+      setIsTyping(hourFocusNode.hasFocus);
+    });
+    minFocusNode.addListener(() {
+      setIsTyping(minFocusNode.hasFocus);
+    });
+    totalCostInputFocusNode.addListener(() {
+      setIsTyping(totalCostInputFocusNode.hasFocus);
+    });
+    depositInputFocusNode.addListener(() {
+      setIsTyping(depositInputFocusNode.hasFocus);
+    });
+    taxPercentFocusNode.addListener(() {
+      setIsTyping(taxPercentFocusNode.hasFocus);
+    });
+  }
+
+  void setIsTyping(bool hasFocus) {
+    isTyping = hasFocus;
+  }
 
   void _showChooseStagesBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -451,7 +479,7 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                       ),
                     ],
                   ),
-                  GestureDetector(
+                  ! isTyping ? GestureDetector(
                     onTap: () {
                       setState(() {
                         print('NameError= $nameError\npriceError= $priceError\nstagesError= $stagesError\nremindersError= $remindersError\n');
@@ -508,7 +536,7 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
                         color: Color(ColorConstants.getPrimaryWhite()),
                       ),
                     ),
-                  ),
+                  ) : const SizedBox(),
                 ],
               ),
             ),

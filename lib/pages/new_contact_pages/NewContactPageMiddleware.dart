@@ -54,11 +54,6 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
 
     await ClientDao.insertOrUpdate(client);
 
-    bool granted = (await UserPermissionsUtil.getPermissionStatus(Permission.contacts)).isGranted;
-    if(granted) {
-      DeviceContactsDao.addOrUpdateContact(client);
-    }
-
     EventSender().sendEvent(eventName: EventNames.CREATED_CONTACT);
 
     List<Client> clients = await ClientDao.getAllSortedByFirstName();

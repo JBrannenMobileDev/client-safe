@@ -33,7 +33,7 @@ class UserPermissionsUtil {
               permission: permission,
               isPermanentlyDenied: isPermanentlyDenied,
               customMessage: customMessage,
-              callOnGranted: callOnGranted,
+              callOnGranted: null,
             );
           },
         );
@@ -43,6 +43,7 @@ class UserPermissionsUtil {
       }
     } else {
       if(!isGranted) {
+        print('Showing permission dialog 2');
         bool isGranted = await showDialog(
           context: context!,
           builder: (BuildContext context) {
@@ -50,7 +51,7 @@ class UserPermissionsUtil {
               permission: permission,
               isPermanentlyDenied: isPermanentlyDenied,
               customMessage: customMessage,
-              callOnGranted: callOnGranted,
+              callOnGranted: null,
             );
           },
         );

@@ -46,7 +46,7 @@ class _StartJobPromptDialogState extends State<StartJobPromptDialog>
                     padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      text: "Would you like to start a job for " + pageState.newContactFirstName! + ' ' + pageState.newContactLastName! + ' now ?',
+                      text: 'Would you like to start a job for ${pageState.newContactFirstName!} now?',
                       textAlign: TextAlign.center,
                       color: Color(ColorConstants.getPrimaryBlack()),
                     ),

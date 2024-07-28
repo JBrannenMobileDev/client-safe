@@ -259,7 +259,9 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                                     TextButton(
                                       style: Styles.getButtonStyle(),
                                       onPressed: () {
-                                        pageState!.onNewTimeSelected!(newDateTimeHolder!);
+                                        if(newDateTimeHolder != null) {
+                                          pageState.onNewTimeSelected!(newDateTimeHolder!);
+                                        }
                                         VibrateUtil.vibrateHeavy();
                                         Navigator.of(context).pop();
                                       },

@@ -77,7 +77,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
         Profile profile = store.state.dashboardPageState!.profile!;
         bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendarFullAccess, context: context, profile: profile);
         if(isGranted) {
-          if(!previousStatus.isGranted || !profile.calendarEnabled!) {
+          if(!previousStatus.isGranted || !profile.calendarEnabled!) { //TODO check if they have any calendars selected yet.
             UserOptionsUtil.showCalendarSelectionDialog(context, store.state.calendarPageState!.onCalendarEnabled);
           } else {
             store.dispatch(FetchDeviceEvents(store.state.calendarPageState!, DateTime.now(), store.state.dashboardPageState!.profile!.calendarEnabled!));

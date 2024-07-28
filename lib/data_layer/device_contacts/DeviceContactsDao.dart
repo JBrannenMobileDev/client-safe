@@ -39,34 +39,6 @@ class DeviceContactsDao {
     return result;
   }
 
-  static void addContact(Client client) async {
-    await ContactsService.addContact(await _contactFromClient(client));
-  }
-
-  static void deleteContact(Client client) async {
-    await ContactsService.deleteContact(await _contactFromClient(client));
-  }
-
-  static void updateContact(Client client) async {
-    await ContactsService.updateContact(await _contactFromClient(client));
-  }
-
-  static void addOrUpdateContact(Client client) async {
-    Iterable<Contact> allContacts = await getDeviceContacts();
-    bool contactAlreadyExists = false;
-    for (Contact contact in allContacts) {
-      Iterable<Item> phoneNumbers = contact.phones!.toList();
-      for(Item phone in phoneNumbers) {
-        if(phone.value == client.phone) contactAlreadyExists = true;
-      }
-    }
-    if (contactAlreadyExists) {
-      updateContact(client);
-    } else {
-      addContact(client);
-    }
-  }
-
   static Future<Contact> _contactFromClient(Client client) async {
     return Contact(
         givenName: client.firstName,

@@ -1,6 +1,5 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:dandylight/models/Client.dart';
-import 'package:dandylight/models/ImportantDate.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageState.dart';
 
 class LoadExistingClientData{

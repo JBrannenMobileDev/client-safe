@@ -543,7 +543,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       }
 
       if(newProfile != null) {
-        if(profile!.logoUrl != newProfile.logoUrl) {
+        if(profile!.logoUrl != newProfile.logoUrl || profile.bannerMobileUrl != newProfile.bannerMobileUrl) {
           store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, newProfile));
         }
       }

@@ -59,7 +59,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                     GestureDetector(
                       onTap: () {
                         pageState.onEditClientClicked!(pageState.client!);
-                        NavigationUtil.showNewContactPage(context);
+                        NavigationUtil.showNewContactPage(context, pageState.client);
                         EventSender().sendEvent(eventName: EventNames.BT_ADD_NEW_CONTACT, properties: {EventNames.CONTACT_PARAM_COMING_FROM : "Client Details Page - Edit"});
                       },
                       child: Container(

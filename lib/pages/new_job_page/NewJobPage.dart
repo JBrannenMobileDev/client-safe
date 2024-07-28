@@ -52,6 +52,7 @@ class _NewJobPageState extends State<NewJobPage> {
   final emailFocusNode = FocusNode();
   final instagramUrlFocusNode = FocusNode();
   final Client? client;
+  bool isTyping = false;
 
   _NewJobPageState(this.client);
 
@@ -59,6 +60,30 @@ class _NewJobPageState extends State<NewJobPage> {
   bool sessionTypeError = false;
   bool firstNameError = false;
   bool leadSourceError = false;
+
+  @override
+  void initState() {
+    super.initState();
+    firstNameFocusNode.addListener(() {
+      setIsTyping(firstNameFocusNode.hasFocus);
+    });
+    lastNameFocusNode.addListener(() {
+      setIsTyping(lastNameFocusNode.hasFocus);
+    });
+    phoneFocusNode.addListener(() {
+      setIsTyping(phoneFocusNode.hasFocus);
+    });
+    emailFocusNode.addListener(() {
+      setIsTyping(emailFocusNode.hasFocus);
+    });
+    instagramUrlFocusNode.addListener(() {
+      setIsTyping(instagramUrlFocusNode.hasFocus);
+    });
+  }
+
+  void setIsTyping(bool hasFocus) {
+    isTyping = hasFocus;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -306,7 +331,7 @@ class _NewJobPageState extends State<NewJobPage> {
                     ),
                   ],
                 ),
-                GestureDetector(
+                !isTyping ? GestureDetector(
                   onTap: () {
                     setState(() {
                       if((pageState.leadSource?.isEmpty ?? true) && pageState.selectedClient == null) {
@@ -355,7 +380,7 @@ class _NewJobPageState extends State<NewJobPage> {
                       color: Color(ColorConstants.getPrimaryWhite()),
                     ),
                   ),
-                ),
+                ) : const SizedBox(),
               ],
             ),
           ),

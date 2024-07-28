@@ -4,25 +4,45 @@ import '../../models/Job.dart';
 import 'package:timezone/timezone.dart';
 
 import '../../models/Profile.dart';
+import '../../models/SessionType.dart';
 import '../../utils/UidUtil.dart';
 import '../local_db/daos/ProfileDao.dart';
 
 class JobToEventMapper {
   static map(Job? job, String? calendarId, String? eventIdSaved) async {
     Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    if(job!.selectedDate == null) return null;
+    if(job!.selectedDate == null || job.selectedTime == null) return null;
     return Event(
       calendarId,
       eventId: eventIdSaved,
-      title: (profile!.businessName!.isNotEmpty ? profile.businessName! + ' - ' : '') + job.jobTitle!,
+      title: (profile!.businessName!.isNotEmpty ? profile.businessName! + ' - ' : 'Dandylight - ') + job.jobTitle!,
       description: job.notes,
-      start: await buildDateTime(job.selectedDate!, job.selectedTime!),
-      end: job.selectedEndTime != null ?  await buildDateTime(job.selectedDate!, job.selectedEndTime!) :  await createEndTZDateTime(job),
+      start: await buildStartDateTime(job.selectedDate!, job.selectedTime!),
+      end: ((job.sessionType?.durationMinutes ?? 0) > 0 || (job.sessionType?.durationHours ?? 0) > 0)  == true ?  await buildEndDateTime(job.selectedDate!, job.selectedTime!, job.sessionType!) :  await createEndTZDateTime(job),
       location: job.location!.locationName
     );
   }
 
-  static buildDateTime(DateTime selectedDate, DateTime selectedTime) async {
+  static buildEndDateTime(DateTime selectedDate, DateTime selectedTime, SessionType sessionType) async {
+
+    Location? currentLocation;
+    String? timezone;
+    try {
+      timezone = await FlutterNativeTimezone.getLocalTimezone();
+    } catch (e) {
+      print('Could not get the local timezone');
+    }
+    currentLocation = getLocation(timezone!);
+
+    DateTime startTime = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, selectedTime.hour, selectedTime.minute);
+    DateTime endTime = startTime.add(Duration(hours: sessionType.durationHours, minutes: sessionType.durationMinutes));
+
+    return TZDateTime.from(
+        endTime,
+        currentLocation);
+  }
+
+  static buildStartDateTime(DateTime selectedDate, DateTime selectedTime) async {
 
     Location? _currentLocation = null;
     String? timezone = null;

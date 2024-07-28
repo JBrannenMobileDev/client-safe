@@ -251,7 +251,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
       backgroundColor: Colors.transparent,
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
-        return ShowSessionMigrationMessageBottomSheet();
+        return const ShowSessionMigrationMessageBottomSheet();
         // doneAction: pageState.updateProfileMigrationMessageSeen
       },
     ).whenComplete( () {
@@ -375,13 +375,11 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
 
           if(profile.deviceTokens != null && profile.calendarEnabled!) {
             bool isCalendarGranted = (await UserPermissionsUtil.getPermissionStatus(Permission.calendarFullAccess)).isGranted;
-            if(!isCalendarGranted) {
-              bool fullAccessGranted = (await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendarFullAccess, context: context));
-              if(fullAccessGranted) {
-                UserOptionsUtil.showCalendarSelectionDialog(context, null);
-              }
+            if(isCalendarGranted && profile.calendarIdsToSync?.isEmpty == true) {
+              UserOptionsUtil.showCalendarSelectionDialog(context, null);
             }
           }
+
           PendingEmailsRepository(functions: DandylightFunctionsApi(httpClient: http.Client())).sendNextStageEmail();
         },
         onDidChange: (previous, current) async {
@@ -508,7 +506,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                           ),
                         ),
                         onTap: () {
-                          NavigationUtil.showNewContactPage(context);
+                          NavigationUtil.showNewContactPage(context, null);
                           EventSender().sendEvent(eventName: EventNames.BT_ADD_NEW_CONTACT, properties: {EventNames.CONTACT_PARAM_COMING_FROM : "Dashboard Page"});
                         },
                       ),
@@ -570,6 +568,10 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                     controller: _scrollController,
                     slivers: <Widget>[
                       SliverAppBar(
+                        systemOverlayStyle: const SystemUiOverlayStyle(
+                          statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
+                          statusBarBrightness: Brightness.dark, // For iOS (dark icons)
+                        ),
                         scrolledUnderElevation: 0,
                         iconTheme: IconThemeData(
                           color: Color(ColorConstants.getPrimaryWhite()),
@@ -904,7 +906,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                               ),
                             ),
                           ),
-                        ], systemOverlayStyle: SystemUiOverlayStyle.dark,
+                        ],
                       ),
                       pageState.areJobsLoaded! ? SliverList(
                           delegate: SliverChildListDelegate(<Widget>[

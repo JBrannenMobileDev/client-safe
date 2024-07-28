@@ -2,6 +2,7 @@ import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/MileageExpense.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
+import 'package:dandylight/pages/edit_branding_page/ShowImageUploadProgressDialog.dart';
 import 'package:http/http.dart' as http;
 import 'package:dandylight/pages/IncomeAndExpenses/AddTipDialog.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/RequestPaymentLinksDialog.dart';
@@ -102,6 +103,15 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return SelectSalesTaxRateDialog();
+      },
+    );
+  }
+
+  static void showImageUploadProgressDialog(BuildContext context){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ShowImageUploadProgressDialog();
       },
     );
   }

@@ -36,6 +36,8 @@
     <string>We need access to your calendars to enable syncing with the Dandylight calendar.</string>
     <key>NSCalendarsUsageDescription</key>
     <string>We need access to your calendars to enable syncing with the Dandylight calendar.</string>
+    <key>NSRemindersFullAccessUsageDescription</key>
+    <string>Reminders full access</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera will be used to take a picture of this location.</string>
 	<key>NSContactsUsageDescription</key>

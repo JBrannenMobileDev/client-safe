@@ -45,6 +45,8 @@ class _NewContactPageState extends State<NewContactPage> {
   final emailFocusNode = FocusNode();
   final instagramUrlFocusNode = FocusNode();
   final Client? client;
+  bool isEdit = false;
+  bool isTyping = false;
 
   _NewContactPageState(this.client);
 
@@ -52,12 +54,38 @@ class _NewContactPageState extends State<NewContactPage> {
   bool firstNameError = false;
   bool leadSourceError = false;
 
+
+  @override
+  void initState() {
+    super.initState();
+    firstNameFocusNode.addListener(() {
+      setIsTyping(firstNameFocusNode.hasFocus);
+    });
+    lastNameFocusNode.addListener(() {
+      setIsTyping(lastNameFocusNode.hasFocus);
+    });
+    phoneFocusNode.addListener(() {
+      setIsTyping(phoneFocusNode.hasFocus);
+    });
+    emailFocusNode.addListener(() {
+      setIsTyping(emailFocusNode.hasFocus);
+    });
+    instagramUrlFocusNode.addListener(() {
+      setIsTyping(instagramUrlFocusNode.hasFocus);
+    });
+  }
+
+  void setIsTyping(bool hasFocus) {
+    isTyping = hasFocus;
+  }
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, NewContactPageState>(
       onInit: (store) async{
         store.dispatch(ClearStateAction(store.state.newContactPageState));
         if(client != null) {
+          isEdit = true;
           store.dispatch(LoadExistingClientData(store.state.newContactPageState, client));
           firstNameController.text = client?.firstName ?? 'NA';
           lastNameController.text = client?.lastName ?? 'NA';
@@ -132,14 +160,15 @@ class _NewContactPageState extends State<NewContactPage> {
                 delegate: SliverChildListDelegate(
                   <Widget>[
                     pageState.client == null ? GestureDetector(
-                      onTap: () {
-                        UserPermissionsUtil.showPermissionRequest(
+                      onTap: () async {
+                        bool isGranted = await UserPermissionsUtil.showPermissionRequest(
                           permission: Permission.contacts,
                           context: context,
-                          callOnGranted: () {
-                            _showSelectDeviceContactBottomSheet(context);
-                          },
+                          callOnGranted: () {},
                         );
+                        if(isGranted) {
+                          _showSelectDeviceContactBottomSheet(context);
+                        }
                       },
                       child: Container(
                         margin: const EdgeInsets.only(top: 8),
@@ -185,13 +214,13 @@ class _NewContactPageState extends State<NewContactPage> {
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ) : const SizedBox(),
-                    pageState.client == null ? clientInfoItems(pageState) : const SizedBox(),
+                    pageState.client == null || isEdit ? clientInfoItems(pageState) : const SizedBox(),
                   ],
                 ),
               ),
               ],
             ),
-                  GestureDetector(
+            !isTyping ? GestureDetector(
                     onTap: () {
                       setState(() {
                         if((pageState.leadSource?.isEmpty ?? true) && pageState.client == null) {
@@ -232,7 +261,7 @@ class _NewContactPageState extends State<NewContactPage> {
                         color: Color(ColorConstants.getPrimaryWhite()),
                       ),
                     ),
-                  )
+                  ) : const SizedBox(),
             ],
         ),
       ),
@@ -404,10 +433,10 @@ class _NewContactPageState extends State<NewContactPage> {
         focusNode: instagramUrlFocusNode,
         hasError: false,
         onFocusAction: (){
-          FocusScope.of(context).requestFocus(instagramUrlFocusNode);
+          FocusScope.of(context).unfocus();
         },
         onTextInputChanged: pageState.onInstagramUrlChanged!,
-        keyboardAction: TextInputAction.next,
+        keyboardAction: TextInputAction.done,
         capitalization: TextCapitalization.none,
       ),
       Container(

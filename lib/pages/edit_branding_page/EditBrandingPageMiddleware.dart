@@ -98,12 +98,12 @@ class EditBrandingPageMiddleware extends MiddlewareClass<AppState> {
 
     await ProfileDao.update(profile);
     if(pageState.logoImageSelected! && pageState.resizedLogoImage != null) {
-      FileStorage.saveProfilePreviewIconImageFile(pageState.resizedLogoImage!.path, profile, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
+      FileStorage.saveProfilePreviewIconImageFile(pageState.resizedLogoImage!.path, profile, (taskSnapshot) => handleIconImageUploadProgress(taskSnapshot, store));
     }
 
     if(pageState.bannerImageSelected! && pageState.bannerWebImage != null && pageState.bannerMobileImage != null) {
       FileStorage.savePreviewBannerWebImageFile(pageState.bannerWebImage!.path, profile, (taskSnapshot) => () => {});
-      FileStorage.savePreviewBannerMobileImageFile(pageState.bannerMobileImage!.path, profile, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
+      FileStorage.savePreviewBannerMobileImageFile(pageState.bannerMobileImage!.path, profile, (taskSnapshot) => handleMobileImageUploadProgress(taskSnapshot, store));
     }
   }
 
@@ -143,11 +143,11 @@ class EditBrandingPageMiddleware extends MiddlewareClass<AppState> {
 
     await ProfileDao.update(profile);
     if(action.pageState!.logoImageSelected! && action.pageState!.resizedLogoImage != null) {
-      FileStorage.saveProfileIconImageFile(action.pageState!.resizedLogoImage!.path, action.pageState!.profile!, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
+      FileStorage.saveProfileIconImageFile(action.pageState!.resizedLogoImage!.path, action.pageState!.profile!, (taskSnapshot) => handleIconImageUploadProgress(taskSnapshot, store));
     }
     if(action.pageState!.bannerImageSelected! && action.pageState!.bannerWebImage != null && action.pageState!.bannerMobileImage != null) {
-      FileStorage.saveBannerWebImageFile(action.pageState!.bannerWebImage!.path, action.pageState!.profile!, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
-      FileStorage.saveBannerMobileImageFile(action.pageState!.bannerMobileImage!.path, action.pageState!.profile!, (taskSnapshot) => handleImageUploadProgress(taskSnapshot, store));
+      FileStorage.saveBannerWebImageFile(action.pageState!.bannerWebImage!.path, action.pageState!.profile!, (taskSnapshot) => handleWebImageUploadProgress(taskSnapshot, store));
+      FileStorage.saveBannerMobileImageFile(action.pageState!.bannerMobileImage!.path, action.pageState!.profile!, (taskSnapshot) => handleMobileImageUploadProgress(taskSnapshot, store));
     }
 
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
@@ -200,11 +200,26 @@ class EditBrandingPageMiddleware extends MiddlewareClass<AppState> {
     savePreview(store.state.editBrandingPageState!, store);
   }
 
-  void handleImageUploadProgress(TaskSnapshot taskSnapshot, Store<AppState> store) {
+  void handleWebImageUploadProgress(TaskSnapshot taskSnapshot, Store<AppState> store) {
+    // store.dispatch(SetImageUploadProgressStateAction(
+    //   store.state.editBrandingPageState,
+    //     (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) < 1.0,
+    //   (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes)
+    // ));
+  }
+
+  void handleMobileImageUploadProgress(TaskSnapshot taskSnapshot, Store<AppState> store) {
     store.dispatch(SetImageUploadProgressStateAction(
-      store.state.editBrandingPageState,
+        store.state.editBrandingPageState,
         (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) < 1.0,
-      (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes)
+        (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes)
+    ));
+  }
+  void handleIconImageUploadProgress(TaskSnapshot taskSnapshot, Store<AppState> store) {
+    store.dispatch(SetImageUploadProgressStateAction(
+        store.state.editBrandingPageState,
+        (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) < 1.0,
+        (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes)
     ));
   }
 }

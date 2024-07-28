@@ -102,11 +102,6 @@ class ClientDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(await ClientDao.getClientById(store.state.clientDetailsPageState!.client!.documentId!) != null) {
       await ClientDao.delete(store.state.clientDetailsPageState!.client!);
     }
-
-    bool isGranted = (await UserPermissionsUtil.getPermissionStatus(Permission.contacts)).isGranted;
-    if(isGranted) {
-      DeviceContactsDao.deleteContact(store.state.clientDetailsPageState!.client!);
-    }
     store.dispatch(FetchClientData(store.state.clientsPageState!));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState!));
     GlobalKeyUtil.instance.navigatorKey.currentState!.pop();
