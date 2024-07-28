@@ -201,7 +201,7 @@ class _SignContractPageState extends State<ProposalPage> {
                               ],
                             ),
                           // ) : pageState.profile?.bannerWebUrl != null && pageState.profile?.bannerMobileUrl != null && pageState.profile?.bannerImageSelected == true ? buildSmallIconLayout(pageState) : buildLargeIconLayout(pageState),
-                          ) : buildLargeIconLayout(pageState),
+                          ) : buildSmallIconLayout(pageState),
                           Container(
                             margin: EdgeInsets.only(top: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MediaQuery.of(context).size.height/2 - 124 : 264, bottom: 124),
                             width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 1440 : MediaQuery.of(context).size.width,
@@ -625,16 +625,16 @@ class _SignContractPageState extends State<ProposalPage> {
         Container(
           height: 300,
           width: double.infinity,
-          alignment: Alignment.topLeft,
-          padding: const EdgeInsets.only(top: 16, left: 16),
+          alignment: Alignment.bottomLeft,
+          padding: const EdgeInsets.only(top: 16, left: 28, bottom: 48),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               pageState.profile?.logoUrl != null  && pageState.profile!.logoSelected! ? Container(
                 alignment: Alignment.center,
-                height: 42,
-                width: 42,
+                height: 36,
+                width: 36,
                 decoration: BoxDecoration(
                   boxShadow: ElevationToShadow[0],
                   shape: BoxShape.circle,
@@ -647,8 +647,8 @@ class _SignContractPageState extends State<ProposalPage> {
                       shape: BoxShape.circle,
                       color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
                     ),
-                    width: 42,
-                    height: 42,
+                    width: 36,
+                    height: 36,
                     child: DandyLightNetworkImage(
                       pageState.profile!.logoUrl ?? '',
                       color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
@@ -660,8 +660,8 @@ class _SignContractPageState extends State<ProposalPage> {
                 children: [
                   Container(
                     alignment: Alignment.center,
-                    height: 42,
-                    width: 42,
+                    height: 36,
+                    width: 36,
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: ColorConstants.hexToColor(pageState.profile!.selectedColorTheme!.iconColor!),
@@ -671,7 +671,7 @@ class _SignContractPageState extends State<ProposalPage> {
                   Container(
                     margin: getMargin(pageState.profile!.selectedFontTheme!.iconFont!),
                     child: TextDandyLight(
-                      type: TextDandyLight.EXTRA_LARGE_TEXT,
+                      type: TextDandyLight.LARGE_TEXT,
                       fontFamily: pageState.profile!.selectedFontTheme!.iconFont,
                       textAlign: TextAlign.center,
                       text: pageState.profile!.logoCharacter,
@@ -684,7 +684,7 @@ class _SignContractPageState extends State<ProposalPage> {
               Container(
                 margin: const EdgeInsets.only(left: 8),
                 child: TextDandyLight(
-                  type: TextDandyLight.MEDIUM_TEXT,
+                  type: TextDandyLight.SMALL_TEXT,
                   text: pageState.profile!.businessName ?? 'Your Business Name',
                   fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
                   textAlign: TextAlign.center,
@@ -697,9 +697,10 @@ class _SignContractPageState extends State<ProposalPage> {
         ),
         Container(
           alignment: Alignment.center,
+          margin: const EdgeInsets.only(bottom: 16),
           child: TextDandyLight(
             type: TextDandyLight.EXTRA_LARGE_TEXT,
-            text: pageState.job!.clientName,
+            text: '${pageState.job!.client?.firstName ?? ''} ${pageState.job!.client?.lastName ?? ''}',
             fontFamily: pageState.profile!.selectedFontTheme!.mainFont,
             textAlign: TextAlign.center,
             color: ColorConstants.isWhiteString(pageState.profile!.selectedColorTheme!.bannerColor!) && !pageState.profile!.bannerImageSelected! ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryWhite()),

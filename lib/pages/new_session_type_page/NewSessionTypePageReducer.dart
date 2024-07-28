@@ -121,9 +121,6 @@ NewSessionTypePageState _updateTotalCost(NewSessionTypePageState previousState, 
   resultCost = resultCost.replaceAll(' ', '');
   double doubleCost = resultCost.isNotEmpty ? double.parse(resultCost) : 0.0;
   double taxAmount = (doubleCost * action.pageState!.taxPercent!)/100;
-
-  print('doubleCost = $doubleCost');
-  print('taxAmount = $taxAmount');
   return previousState.copyWith(
     totalCost: doubleCost,
     taxAmount: taxAmount,

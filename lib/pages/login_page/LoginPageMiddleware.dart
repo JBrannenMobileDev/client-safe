@@ -162,7 +162,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         String email = userCredential.user?.email ?? '';
         final user = userCredential.user;
         final displayName = '${appleCredential.givenName} ${appleCredential.familyName}';
-        firstName = appleCredential.givenName ?? '';
+        firstName = appleCredential.givenName ?? 'Photographer';
         lastName = appleCredential.familyName ?? '';
         await user!.updateDisplayName(displayName);
         _createNewUserProfile(store, user, firstName, lastName, email, APPLE);
@@ -734,17 +734,6 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           }
 
 
-          //TODO remove this code after a few months.
-          List<Job> jobs = await JobDao.getAllJobs();
-          bool isMigrating = false;
-          for(Job job in jobs) {
-            if(job.sessionType == null) {
-              job.sessionType = SessionType.from(job.type, job.priceProfile);
-              JobDao.update(job);
-              isMigrating = true;
-            }
-          }
-          profile.showSessionMigrationMessage = true;
 
           await JobDao.syncAllFromFireStore();
           List<Job> allJobs = await JobDao.getAllJobs();
@@ -756,9 +745,12 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
               job.proposal?.contract = null;
               await JobDao.update(job);
             }
+
+            //TODO remove this code after a few months.
             if(job.sessionType == null) {
               job.sessionType = SessionType.from(job.type, job.priceProfile);
               JobDao.update(job);
+              profile.showSessionMigrationMessage = true;
             }
           }
 

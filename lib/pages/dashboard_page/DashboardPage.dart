@@ -624,7 +624,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                   height: 308,
                                   alignment: Alignment.bottomCenter,
                                   child: Container(
-                                    height: 26.0,
+                                    height: 132.0,
                                     decoration: BoxDecoration(
                                         color: Color(ColorConstants.getPrimaryWhite()),
                                         gradient: LinearGradient(
@@ -632,7 +632,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                             end: FractionalOffset.bottomCenter,
                                             colors: [
                                               Colors.transparent,
-                                              Color(ColorConstants.getPrimaryBlack()).withOpacity(0.35),
+                                              Colors.black.withOpacity(.5),
                                             ],
                                             stops: const [
                                               0.0,

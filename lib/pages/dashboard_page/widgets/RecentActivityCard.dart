@@ -10,10 +10,7 @@ import '../../../AppState.dart';
 import '../../../models/Contract.dart';
 import '../../../models/Job.dart';
 import '../../../models/Questionnaire.dart';
-import '../../../utils/DeviceType.dart';
 import '../../../utils/NavigationUtil.dart';
-import '../../../utils/analytics/EventNames.dart';
-import '../../../utils/analytics/EventSender.dart';
 import '../../../widgets/TextDandyLight.dart';
 
 class RecentActivityCard extends StatelessWidget {
@@ -115,14 +112,14 @@ class RecentActivityCard extends StatelessWidget {
                         type: TextDandyLight.LARGE_TEXT,
                         text: pageState.activeSignedContract != null ? pageState.activeSignedContract?.length.toString() : '0',
                         textAlign: TextAlign.center,
-                        color: Color(areContractResultsNew(pageState.activeSignedContract ?? []) ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       )
                     ],
                   ),
                 ),
                 Container(
-                  height: 10,
-                  width: 10,
+                  height: 8,
+                  width: 8,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
@@ -168,8 +165,8 @@ class RecentActivityCard extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  height: 10,
-                  width: 10,
+                  height: 8,
+                  width: 8,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
