@@ -53,6 +53,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
             CustomScrollView(
               slivers: <Widget>[
                 SliverAppBar(
+                  surfaceTintColor: Colors.transparent,
                   backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                   pinned: true,
                   centerTitle: true,

@@ -21,15 +21,18 @@ class JobStageSelectionForm extends StatefulWidget {
 
 class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with AutomaticKeepAliveClientMixin{
   List<JobStage> stages = [];
-  double keyMultiplier = 1;
 
   void reorderData(int oldIndex, int newIndex){
     setState(() {
-      if(newIndex > oldIndex){
+      if (newIndex > oldIndex) {
         newIndex -= 1;
       }
-      final items = stages.removeAt(oldIndex);
-      stages.insert(newIndex, items);
+      setState(() {
+        JobStage stage = stages[oldIndex];
+
+        stages.removeAt(oldIndex);
+        stages.insert(newIndex, stage);
+      });
     });
   }
 
@@ -39,7 +42,6 @@ class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with Aut
 
     return StoreConnector<AppState, NewSessionTypePageState>(
       onInit: (store) {
-        keyMultiplier = Random().nextDouble() * 13;
         stages = store.state.newSessionTypePageState!.selectedJobStages!;
       },
       onDidChange: (previous, current) {
@@ -89,10 +91,10 @@ class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with Aut
                     padding: new EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 128.0),
                     shrinkWrap: true,
                     physics: ClampingScrollPhysics(),
-                    itemCount: pageState.selectedJobStages!.length,
+                    itemCount: stages.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Dismissible(
-                        key: Key((index * keyMultiplier).toString()),
+                        key: Key(stages.elementAt(index).id.toString()),
                         direction: DismissDirection.endToStart,
                         background: Container(
                           color: Color(ColorConstants.getPeachDark()),
@@ -105,7 +107,6 @@ class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with Aut
                         ),
                         onDismissed: (direction) {
                           setState(() {
-                            // stages.removeAt(index);
                             pageState.onJobStageDeleted!(index);
                           });
                         },

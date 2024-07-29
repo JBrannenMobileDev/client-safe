@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../utils/TextFormatterUtil.dart';
 import '../../utils/UserOptionsUtil.dart';
 import '../../widgets/TextDandyLight.dart';
 
@@ -128,55 +129,57 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
     return StoreConnector<AppState, JobDetailsPageState>(
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) =>
-          TextButton(
-            style: Styles.getButtonStyle(
-              shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(32.0),
-              ),
-              color: pageState.sessionType!.documentId == pageState.sessionTypes!.elementAt(index).documentId ? Color(
-                  ColorConstants.getBlueDark()) : Colors.transparent,
-            ),
-            onPressed: () {
-              pageState.onSessionTypeSelected!(
-                  pageState.sessionTypes!.elementAt(index)
-              );
-            },
-            child: Row(
-              children: <Widget>[
-                pageState.sessionType!.documentId == pageState.sessionTypes!.elementAt(index).documentId ? Container(
-                  margin: EdgeInsets.only(left: 8, right: 16.0),
-                  height: 28.0,
-                  width: 28.0,
-                  child: Image.asset('assets/images/icons/briefcase_icon_white.png'),
-                ) : Container(
-                  margin: EdgeInsets.only(left: 8, right: 16.0),
-                  height: 28.0,
-                  width: 28.0,
-                  child: Image.asset('assets/images/icons/briefcase_icon_peach_dark.png'),
+          Container(
+            margin: const EdgeInsets.only(bottom: 4),
+            child: TextButton(
+              style: Styles.getButtonStyle(
+                shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(8.0),
                 ),
-                Expanded(
-                  child: Container(
-                    height: 54.0,
-                    margin: EdgeInsets.only(right: 32.0),
+                color: pageState.sessionType!.documentId == pageState.sessionTypes!.elementAt(index).documentId ? Color(
+                    ColorConstants.getPrimaryGreyDark()).withOpacity(0.5) : Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
+              ),
+              onPressed: () {
+                pageState.onSessionTypeSelected!(
+                    pageState.sessionTypes!.elementAt(index)
+                );
+              },
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(left: 8, right: 16.0),
+                    height: 28.0,
+                    width: 28.0,
+                    child: Image.asset('assets/images/icons/briefcase_icon_peach_dark.png', color: Color(ColorConstants.getPrimaryBlack())),
+                  ),
+                  Expanded(
                     child: Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          TextDandyLight(
-                            type: TextDandyLight.MEDIUM_TEXT,
-                            text: pageState.sessionTypes!.elementAt(index).title,
-                            textAlign: TextAlign.start,
-                            color: pageState.sessionType!.documentId == pageState.sessionTypes!.elementAt(index).documentId ? Color(
-                                ColorConstants.getPrimaryWhite()) : Color(
-                                ColorConstants.getPeachDark()),
-                          ),
-                        ],
+                      height: 54.0,
+                      margin: EdgeInsets.only(right: 32.0),
+                      child: Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: pageState.sessionTypes!.elementAt(index).title,
+                              textAlign: TextAlign.start,
+                              color: Color(ColorConstants.getPrimaryBlack()),
+                            ),
+                            TextDandyLight(
+                              type: TextDandyLight.EXTRA_SMALL_TEXT,
+                              text: 'Price: ${TextFormatterUtil.formatDecimalDigitsCurrency(pageState.sessionTypes!.elementAt(index).totalCost, 0)}     ${(pageState.sessionTypes!.elementAt(index).deposit > 0) ? 'Deposit: ${TextFormatterUtil.formatDecimalDigitsCurrency(pageState.sessionTypes!.elementAt(index).deposit, 0)}' : ''}',
+                              textAlign: TextAlign.start,
+                              color: Color(ColorConstants.getPrimaryBlack()),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
     );

@@ -96,7 +96,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                 children: <Widget>[
                   Container(
                     decoration: BoxDecoration(
-                      color: Color(selectedIndex == 0 ? ColorConstants.getBlueLight() : ColorConstants.getPeachMedium()),
+                      color: selectedIndex == 0 ?  Color(ColorConstants.getBlueLight()) : Color(ColorConstants.getPeachLight()),
                     ),
                   ),
                   CustomScrollView(
