@@ -176,7 +176,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     profile!.latDefaultHome = action.startLocation!.latitude;
     profile.lngDefaultHome = action.startLocation!.longitude;
     await ProfileDao.insertOrUpdate(profile);
-    store.dispatch(SetProfileToStateAction(store.state.jobDetailsPageState, profile));
+    store.dispatch(SetProfileToDetailsStateAction(store.state.jobDetailsPageState, profile));
   }
 
   Future<GeoData> getAddress(double lat, double lng) async {

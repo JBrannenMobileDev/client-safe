@@ -140,7 +140,7 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
                 child: GestureDetector(
                   onTap: () {
                     if(onMapLocationSaved != null) {
-                      if(pageState.selectedSearchLocation != null) {
+                      if(pageState.selectedSearchLocation != null && saveSelectedLocation != null) {
                         onMapLocationSaved!(LatLng(pageState.selectedSearchLocation!.latitude!, pageState.selectedSearchLocation!.longitude!));
                         saveSelectedLocation!(pageState.selectedSearchLocation!);
                       }else {

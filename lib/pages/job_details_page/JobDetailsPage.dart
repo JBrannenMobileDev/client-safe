@@ -516,34 +516,35 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         SliverList(
                             delegate: SliverChildListDelegate(<Widget>[
                               Padding(
-                                padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
+                                padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 0, right: 0) : const EdgeInsets.only(left: 0, right: 0),
                                 child: PosesCard(pageState: pageState, comingFromOnboarding: comingFromOnBoarding ?? false),
                               ),
                               Padding(
-                                padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
+                                padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 0, right: 0) : const EdgeInsets.only(left: 0, right: 0),
                                 child: const JobDetailsCard(),
                               ),
                               Padding(
-                                padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
+                                padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 0, right: 0) : const EdgeInsets.only(left: 0, right: 0),
                                 child: DocumentsCard(pageState: pageState, onSendInvoiceSelected: onSendInvoiceSelected, profile: pageState.profile),
                               ),
                               Padding(
-                                padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
+                                padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 0, right: 0) : const EdgeInsets.only(left: 0, right: 0),
                                 child: const SunsetWeatherCard(),
                               ),
                               Padding(
-                                padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
+                                padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 0, right: 0) : const EdgeInsets.only(left: 0, right: 0),
                                 child: const LocationCard(),
                               ),
                               Padding(
-                                padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
+                                padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 0, right: 0) : const EdgeInsets.only(left: 0, right: 0),
                                 child: ClientDetailsCard(pageState: pageState),
                               ),
                               Padding(
-                                padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
+                                padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 0, right: 0) : const EdgeInsets.only(left: 0, right: 0),
                                 child: const JobNotesWidget(),
-                              ),Padding(
-                                padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
+                              ),
+                              Padding(
+                                padding: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 0, right: 0) : const EdgeInsets.only(left: 0, right: 0),
                                 child: RemindersCard(pageState: pageState),
                               )
                             ])),

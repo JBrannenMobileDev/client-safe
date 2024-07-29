@@ -102,7 +102,7 @@ class _body extends State<Body> {
                     ),
                     GestureDetector(
                       onTap: () {
-
+                        Navigator.of(context).pop();
                       },
                       child: Container(
                         alignment: Alignment.center,

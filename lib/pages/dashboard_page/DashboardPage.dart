@@ -254,9 +254,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
         return const ShowSessionMigrationMessageBottomSheet();
         // doneAction: pageState.updateProfileMigrationMessageSeen
       },
-    ).whenComplete( () {
-      pageState.markUpdateAsSeen!(pageState.appSettings!);
-    });
+    );
   }
 
   void _showAppUpdateBottomSheet(BuildContext context, DashboardPageState pageState) {
@@ -538,7 +536,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                 ],
             ),
             body: Container(
-              margin: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 150, right: 150) : const EdgeInsets.only(left: 0, right: 0),
+              margin: DeviceType.getDeviceType() == Type.Tablet ? const EdgeInsets.only(left: 0, right: 0) : const EdgeInsets.only(left: 0, right: 0),
               child: Stack(
                 alignment: Alignment.topCenter,
                 children: <Widget>[
@@ -581,7 +579,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                         floating: false,
                         forceElevated: true,
                         elevation: 2,
-                        expandedHeight: 224.0,
+                        expandedHeight: DeviceType.getDeviceType() == Type.Tablet ? 564 : 224.0,
                         collapsedHeight: 64.0,
                         flexibleSpace: FlexibleSpaceBar(
                           background: GestureDetector(
@@ -590,7 +588,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                               EventSender().sendEvent(eventName: EventNames.BRANDING_EDIT_FROM_DASHBOARD);
                             },
                             child: Container(
-                            height: 224,
+                            height: DeviceType.getDeviceType() == Type.Tablet ? 564: 224,
                             width: MediaQuery.of(context).size.width,
                             child: Stack(
                               children: [
@@ -623,7 +621,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                           ])),
                                 ),
                                 Container(
-                                  height: 308,
+                                  height: DeviceType.getDeviceType() == Type.Tablet ? 596 : 308,
                                   alignment: Alignment.bottomCenter,
                                   child: Container(
                                     height: 132.0,
@@ -645,7 +643,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                 pageState.profile?.hasSetupBrand ?? false ? Container(
                                   alignment: Alignment.bottomLeft,
                                   margin: const EdgeInsets.only(top: 64),
-                                  height: 308,
+                                  height: DeviceType.getDeviceType() == Type.Tablet ? 564 : 308,
                                   child: Container(
                                     margin: const EdgeInsets.only(left: 16, bottom: 16),
                                     child: Row(

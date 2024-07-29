@@ -753,6 +753,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
               profile.showSessionMigrationMessage = true;
             }
           }
+          await ProfileDao.update(profile);
 
           store.dispatch(SetIsUserVerifiedAction(store.state.loginPageState, user.emailVerified));
           store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
