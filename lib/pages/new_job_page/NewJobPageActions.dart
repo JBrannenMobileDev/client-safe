@@ -130,16 +130,6 @@ class ClearStateAction{
   ClearStateAction(this.pageState);
 }
 
-class IncrementPageViewIndex{
-  final NewJobPageState? pageState;
-  IncrementPageViewIndex(this.pageState);
-}
-
-class DecrementPageViewIndex{
-  final NewJobPageState? pageState;
-  DecrementPageViewIndex(this.pageState);
-}
-
 class SaveNewJobAction{
   final NewJobPageState? pageState;
   SaveNewJobAction(this.pageState);

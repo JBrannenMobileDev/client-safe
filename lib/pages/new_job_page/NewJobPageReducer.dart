@@ -14,8 +14,6 @@ import 'NewJobPageState.dart';
 
 final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, ClearStateAction>(_clearState),
-  TypedReducer<NewJobPageState, IncrementPageViewIndex>(_incrementPageViewIndex),
-  TypedReducer<NewJobPageState, DecrementPageViewIndex>(_decrementPageViewIndex),
   TypedReducer<NewJobPageState, UpdateErrorStateAction>(_updateErrorState),
   TypedReducer<NewJobPageState, SetAllToStateAction>(_setAll),
   TypedReducer<NewJobPageState, ClientSelectedAction>(_setSelectedClient),
@@ -133,8 +131,6 @@ NewJobPageState setJobTypeAndSelected(NewJobPageState previousState, SetJobTypeA
   return previousState.copyWith(
     sessionTypes: action.sessionTypes,
     selectedSessionType: action.sessionType,
-    isSelectedSessionTypeNew: true,
-    pageViewIndex: 2,
   );
 }
 
@@ -144,7 +140,6 @@ NewJobPageState setPricePackagesAndSelectedPackage(NewJobPageState previousState
     pricingProfiles: action.priceProfiles,
     selectedPriceProfile: action.priceProfile,
     isSelectedPriceProfileNew: true,
-    pageViewIndex: 3,
   );
 }
 
@@ -203,7 +198,6 @@ NewJobPageState _loadWithSelectedClient(NewJobPageState previousState, Initializ
       clientFirstName: action.client != null ? action.client!.firstName : '',
       shouldClear: false,
       comingFromClientDetails: true,
-      pageViewIndex: 1,
   );
 }
 
@@ -270,25 +264,12 @@ NewJobPageState _setSelectedOneTimeLocation(NewJobPageState previousState, SetSe
       oneTimeLocation: action.location,
       selectedLocation: action.location,
       locations: allLocations,
-      pageViewIndex: 4,
 
   );
 }
 
 NewJobPageState _updateErrorState(NewJobPageState previousState, UpdateErrorStateAction action) {
   return previousState.copyWith(errorState: action.errorCode);
-}
-
-NewJobPageState _incrementPageViewIndex(NewJobPageState previousState, IncrementPageViewIndex action) {
-  int incrementedIndex = previousState.pageViewIndex!;
-  incrementedIndex++;
-  return previousState.copyWith(pageViewIndex: incrementedIndex);
-}
-
-NewJobPageState _decrementPageViewIndex(NewJobPageState previousState, DecrementPageViewIndex action) {
-  int decrementedIndex = previousState.pageViewIndex!;
-  decrementedIndex--;
-  return previousState.copyWith(pageViewIndex: decrementedIndex);
 }
 
 NewJobPageState _clearState(NewJobPageState previousState, ClearStateAction action) {

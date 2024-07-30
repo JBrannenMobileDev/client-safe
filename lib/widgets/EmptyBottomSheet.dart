@@ -11,7 +11,7 @@ class EmptyBottomSheet extends StatelessWidget {
       showPlusIcon: false,
       title: 'Dialog Title',
       dialogHeight: MediaQuery.of(context).size.height-64,
-      showDoneButton: false,
+      showActionButton: false,
     );
   }
 }

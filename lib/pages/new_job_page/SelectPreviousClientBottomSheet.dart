@@ -13,7 +13,7 @@ class SelectPreviousClientBottomSheet extends StatelessWidget {
       showPlusIcon: false,
       title: 'Select Client',
       dialogHeight: MediaQuery.of(context).size.height-64,
-      showDoneButton: false,
+      showActionButton: false,
     );
   }
 }

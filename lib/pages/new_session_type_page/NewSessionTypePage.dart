@@ -112,6 +112,14 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
     );
   }
 
+  String getInitialValue(int? value) {
+    if(value != null && value > 0) {
+      return value.toString();
+    } else {
+      return '';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, NewSessionTypePageState>(
@@ -123,8 +131,8 @@ class _NewSessionTypePageState extends State<NewSessionTypePage> {
         }
         if(sessionType != null) {
           nameController.text = sessionType?.title ?? '';
-          minController.text = sessionType?.durationMinutes.toString() ?? '';
-          hoursController.text = sessionType?.durationHours.toString() ?? '';
+          minController.text = getInitialValue(sessionType?.durationMinutes);
+          hoursController.text = getInitialValue(sessionType?.durationHours);
           totalCostTextController.updateValue(sessionType?.totalCost ?? 0);
           depositTextController.updateValue(sessionType?.deposit ?? 0);
           taxPercentController.updateValue(sessionType?.salesTaxPercent ?? 0);

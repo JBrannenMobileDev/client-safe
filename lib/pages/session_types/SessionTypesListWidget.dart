@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../models/SessionType.dart';
 import '../../utils/ColorConstants.dart';
+import '../../utils/TextFormatterUtil.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class SessionTypesListWidget extends StatelessWidget {
@@ -36,11 +37,6 @@ class SessionTypesListWidget extends StatelessWidget {
             Container(
               height: 56.0,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Row(
-
                     children: <Widget>[
                       Container(
                         alignment: Alignment.center,
@@ -49,17 +45,33 @@ class SessionTypesListWidget extends StatelessWidget {
                         width: 36.0,
                         child: Image.asset('assets/images/icons/job_type.png', color: Color(ColorConstants.getPrimaryGreyDark()),),
                       ),
-                      Container(
-                        child: TextDandyLight(
-                          type: TextDandyLight.MEDIUM_TEXT,
-                          text: sessionType.title,
-                          textAlign: TextAlign.start,
-                          color: textColor,
+                      Expanded(
+                        child: Container(
+                          height: 54.0,
+                          margin: const EdgeInsets.only(right: 32.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                child: TextDandyLight(
+                                  type: TextDandyLight.MEDIUM_TEXT,
+                                  text: sessionType.title,
+                                  textAlign: TextAlign.start,
+                                  color: textColor,
+                                ),
+                              ),
+                              TextDandyLight(
+                                type: TextDandyLight.EXTRA_SMALL_TEXT,
+                                text: 'Price: ${TextFormatterUtil.formatDecimalDigitsCurrency(sessionType.totalCost, 0)}     ${(sessionType.deposit > 0) ? 'Deposit: ${TextFormatterUtil.formatDecimalDigitsCurrency(sessionType.deposit, 0)}' : ''}',
+                                textAlign: TextAlign.start,
+                                color: Color(ColorConstants.getPrimaryBlack()),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
-                  ),
-                ],
               ),
             ),
           ],

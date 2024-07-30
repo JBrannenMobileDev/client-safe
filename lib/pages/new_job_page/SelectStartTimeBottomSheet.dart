@@ -13,7 +13,7 @@ class SelectStartTimeBottomSheet extends StatelessWidget {
       showPlusIcon: false,
       title: 'Select Start Time',
       dialogHeight: 532,
-      showDoneButton: false,
+      showActionButton: false,
     );
   }
 }

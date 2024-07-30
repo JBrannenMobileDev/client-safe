@@ -26,14 +26,12 @@ class NewJobPageState {
 
   final int? id;
   final String? documentId;
-  final int? pageViewIndex;
   final bool? saveButtonEnabled;
   final bool? shouldClear;
   final bool? comingFromClientDetails;
   final bool? isFinishedFetchingClients;
   final bool? isSelectedClientNew;
   final bool? isSelectedPriceProfileNew;
-  final bool? isSelectedSessionTypeNew;
   final String? errorState;
   final Client? selectedClient;
   final String? clientFirstName;
@@ -73,8 +71,6 @@ class NewJobPageState {
   final String? deviceSearchText;
   final Function()? onSavePressed;
   final Function()? onCancelPressed;
-  final Function()? onNextPressed;
-  final Function()? onBackPressed;
   final Function(Client)? onClientSelected;
   final Function(String)? onClientFirstNameTextChanged;
   final Function(String)? onClientLastNameTextChanged;
@@ -107,7 +103,6 @@ class NewJobPageState {
     @required this.documentId,
     @required this.comingFromClientDetails,
     @required this.documentPath,
-    @required this.pageViewIndex,
     @required this.saveButtonEnabled,
     @required this.shouldClear,
     @required this.isFinishedFetchingClients,
@@ -121,8 +116,6 @@ class NewJobPageState {
     @required this.selectedSessionType,
     @required this.onSavePressed,
     @required this.onCancelPressed,
-    @required this.onNextPressed,
-    @required this.onBackPressed,
     @required this.selectedClient,
     @required this.onClientSelected,
     @required this.onClearInputSelected,
@@ -157,7 +150,6 @@ class NewJobPageState {
     @required this.isSelectedClientNew,
     @required this.onCalendarEnabled,
     @required this.isSelectedPriceProfileNew,
-    @required this.isSelectedSessionTypeNew,
     @required this.profile,
     @required this.onSkipSelected,
     @required this.onClientLastNameTextChanged,
@@ -186,14 +178,12 @@ class NewJobPageState {
     int? id,
     String? documentId,
     String? documentPath,
-    int? pageViewIndex,
     bool? comingFromClientDetails,
     bool? saveButtonEnabled,
     bool? shouldClear,
     bool? isFinishedFetchingClients,
     bool? isSelectedClientNew,
     bool? isSelectedPriceProfileNew,
-    bool? isSelectedSessionTypeNew,
     String? errorState,
     Client? selectedClient,
     String? clientFirstName,
@@ -228,8 +218,6 @@ class NewJobPageState {
     Function(String)? onLeadSourceSelected,
     Function()? onSavePressed,
     Function()? onCancelPressed,
-    Function()? onNextPressed,
-    Function()? onBackPressed,
     Function(Client)? onClientSelected,
     Function()? onClearInputSelected,
     Function(PriceProfile)? onPriceProfileSelected,
@@ -264,7 +252,6 @@ class NewJobPageState {
     return NewJobPageState(
       id: id?? this.id,
       documentPath: documentPath ?? this.documentPath,
-      pageViewIndex: pageViewIndex?? this.pageViewIndex,
       saveButtonEnabled: saveButtonEnabled?? this.saveButtonEnabled,
       clientFirstName: clientFirstName?? this.clientFirstName,
       onClientFirstNameTextChanged: onClientFirstNameTextChanged?? this.onClientFirstNameTextChanged,
@@ -287,8 +274,6 @@ class NewJobPageState {
       eventList: eventList?? this.eventList,
       onSavePressed: onSavePressed?? this.onSavePressed,
       onCancelPressed: onCancelPressed?? this.onCancelPressed,
-      onNextPressed: onNextPressed?? this.onNextPressed,
-      onBackPressed: onBackPressed?? this.onBackPressed,
       onClientSelected:  onClientSelected?? this.onClientSelected,
       onClearInputSelected: onClearInputSelected?? this.onClearInputSelected,
       onPriceProfileSelected: onPriceProfileSelected?? this.onPriceProfileSelected,
@@ -316,7 +301,6 @@ class NewJobPageState {
       isSelectedClientNew: isSelectedClientNew ?? this.isSelectedClientNew,
       onCalendarEnabled: onCalendarEnabled ?? this.onCalendarEnabled,
       isSelectedPriceProfileNew: isSelectedPriceProfileNew ?? this.isSelectedPriceProfileNew,
-      isSelectedSessionTypeNew: isSelectedSessionTypeNew ?? this.isSelectedSessionTypeNew,
       profile: profile ?? this.profile,
       onSkipSelected: onSkipSelected ?? this.onSkipSelected,
       onClientEmailTextChanged: onClientEmailTextChanged ?? this.onClientEmailTextChanged,
@@ -349,7 +333,6 @@ class NewJobPageState {
         id: null,
         documentId: '',
         documentPath: '',
-        pageViewIndex: 0,
         clientFirstName: '',
         saveButtonEnabled: false,
         shouldClear: true,
@@ -376,8 +359,6 @@ class NewJobPageState {
         sessionTypes: const [],
         onSavePressed: null,
         onCancelPressed: null,
-        onNextPressed: null,
-        onBackPressed: null,
         onClientSelected: null,
         onClearInputSelected: null,
         onPriceProfileSelected: null,
@@ -401,7 +382,6 @@ class NewJobPageState {
         isSelectedClientNew: false,
         isSelectedPriceProfileNew: false,
         onCalendarEnabled: null,
-        isSelectedSessionTypeNew: false,
         onSkipSelected: null,
         onClientLastNameTextChanged: null,
         onClientPhoneTextChanged: null,
@@ -431,7 +411,6 @@ class NewJobPageState {
       id: store.state.newJobPageState!.id,
       documentId: store.state.newJobPageState!.documentId,
       documentPath: store.state.newJobPageState!.documentPath,
-      pageViewIndex: store.state.newJobPageState!.pageViewIndex,
       saveButtonEnabled: store.state.newJobPageState!.saveButtonEnabled,
       shouldClear: store.state.newJobPageState!.shouldClear,
       isFinishedFetchingClients: store.state.newJobPageState!.isFinishedFetchingClients,
@@ -464,7 +443,6 @@ class NewJobPageState {
       lon: store.state.newJobPageState!.lon,
       profile: store.state.newJobPageState!.profile,
       isSelectedClientNew: store.state.newJobPageState!.isSelectedClientNew,
-      isSelectedSessionTypeNew: store.state.newJobPageState!.isSelectedSessionTypeNew,
       isSelectedPriceProfileNew: store.state.newJobPageState!.isSelectedPriceProfileNew,
       selectedDeviceContact: store.state.newJobPageState!.selectedDeviceContact,
       deviceContacts: store.state.newJobPageState!.deviceContacts,
@@ -479,8 +457,6 @@ class NewJobPageState {
       customLeadSourceName: store.state.newJobPageState!.customLeadSourceName,
       onSavePressed: () => store.dispatch(SaveNewJobAction(store.state.newJobPageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newJobPageState)),
-      onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newJobPageState)),
-      onBackPressed: () => store.dispatch(DecrementPageViewIndex(store.state.newJobPageState)),
       onClientSelected: (client) => store.dispatch(ClientSelectedAction(store.state.newJobPageState, client)),
       onClearInputSelected: () => store.dispatch(ClearSearchInputActon(store.state.newJobPageState)),
       onPriceProfileSelected: (priceProfile) => store.dispatch(SetSelectedPriceProfile(store.state.newJobPageState, priceProfile)),
@@ -516,7 +492,6 @@ class NewJobPageState {
       onDeviceContactSelected.hashCode ^
       customLeadSourceName.hashCode ^
       onCustomLeadSourceTextChanged.hashCode ^
-      pageViewIndex.hashCode ^
       documentPath.hashCode ^
       saveButtonEnabled.hashCode ^
       shouldClear.hashCode ^
@@ -529,7 +504,6 @@ class NewJobPageState {
       allClients.hashCode ^
       deviceEvents.hashCode ^
       profile.hashCode ^
-      isSelectedSessionTypeNew.hashCode ^
       selectedPriceProfile.hashCode ^
       selectedLocation.hashCode ^
       filteredClients.hashCode ^
@@ -543,9 +517,7 @@ class NewJobPageState {
       currentJobStage.hashCode ^
       onSavePressed.hashCode ^
       onCancelPressed.hashCode ^
-      onNextPressed.hashCode ^
       instagramUrl.hashCode ^
-      onBackPressed.hashCode ^
       onClientSelected.hashCode ^
       onClearInputSelected.hashCode ^
       onLocationSelected.hashCode ^
@@ -590,7 +562,6 @@ class NewJobPageState {
           id == other.id &&
           documentId == other.documentId &&
           documentPath == other.documentPath &&
-          pageViewIndex == other.pageViewIndex &&
           saveButtonEnabled == other.saveButtonEnabled &&
           shouldClear == other.shouldClear &&
           isFinishedFetchingClients == other.isFinishedFetchingClients &&
@@ -609,7 +580,6 @@ class NewJobPageState {
           selectedPriceProfile == other.selectedPriceProfile &&
           selectedLocation == other.selectedLocation &&
           pricingProfiles == other.pricingProfiles &&
-          isSelectedSessionTypeNew == other.isSelectedSessionTypeNew &&
           locations == other.locations &&
           customLeadSourceName == other.customLeadSourceName &&
           onCustomLeadSourceTextChanged == other.onCustomLeadSourceTextChanged &&
@@ -628,8 +598,6 @@ class NewJobPageState {
           onSavePressed == other.onSavePressed &&
           isSelectedClientNew == other.isSelectedClientNew &&
           onCancelPressed == other.onCancelPressed &&
-          onNextPressed == other.onNextPressed &&
-          onBackPressed == other.onBackPressed &&
           onClientSelected == other.onClientSelected &&
           onClearInputSelected == other.onClearInputSelected &&
           onDateSelected == other.onDateSelected &&

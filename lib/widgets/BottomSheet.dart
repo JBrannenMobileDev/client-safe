@@ -6,11 +6,12 @@ import '../../widgets/TextDandyLight.dart';
 class BottomSheet extends StatefulWidget {
   final Widget body;
   final bool showPlusIcon;
-  final bool showDoneButton;
+  final bool showActionButton;
   final String title;
+  final String? actionButtonText;
   final double dialogHeight;
   final Function? plusAction;
-  final Function? doneAction;
+  final Function? actionButton;
 
   const BottomSheet({super.key,
     this.body = const SizedBox(),
@@ -18,13 +19,14 @@ class BottomSheet extends StatefulWidget {
     this.title = 'Title Not Provided',
     this.dialogHeight = 450,
     this.plusAction,
-    this.doneAction,
-    this.showDoneButton = false,
+    this.actionButton,
+    this.showActionButton = false,
+    this.actionButtonText = 'Done',
   });
 
   @override
   State<StatefulWidget> createState() {
-    return _BottomSheetState(body, showPlusIcon, title, dialogHeight, plusAction, doneAction, showDoneButton);
+    return _BottomSheetState(body, showPlusIcon, title, dialogHeight, plusAction, actionButton, showActionButton, actionButtonText);
   }
 }
 
@@ -35,6 +37,7 @@ class _BottomSheetState extends State<BottomSheet>
   final bool showPlusIcon;
   final bool showDoneButton;
   final String title;
+  final String? actionButtonText;
   final double dialogHeight;
   final Function? plusAction;
   final Function? doneAction;
@@ -46,7 +49,8 @@ class _BottomSheetState extends State<BottomSheet>
       this.dialogHeight,
       this.plusAction,
       this.doneAction,
-      this.showDoneButton
+      this.showDoneButton,
+      this.actionButtonText
   );
 
   @override
@@ -116,7 +120,7 @@ class _BottomSheetState extends State<BottomSheet>
                     ),
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      text: 'DONE',
+                      text: actionButtonText,
                       color: Color(ColorConstants.getPrimaryWhite()),
                     ),
                   ),

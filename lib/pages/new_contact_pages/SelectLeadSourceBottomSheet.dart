@@ -13,7 +13,7 @@ class SelectLeadSourceBottomSheet extends StatelessWidget {
       showPlusIcon: false,
       title: 'Select Lead Source',
       dialogHeight: 516,
-      showDoneButton: false,
+      showActionButton: false,
     );
   }
 }

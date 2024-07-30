@@ -16,7 +16,7 @@ class SelectSessionTypeBottomSheet extends StatelessWidget {
       },
       title: 'Select Session Type',
       dialogHeight: MediaQuery.of(context).size.height*0.8,
-      showDoneButton: false,
+      showActionButton: false,
     );
   }
 }

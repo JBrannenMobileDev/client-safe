@@ -12,8 +12,8 @@ class SelectDateBottomSheet extends StatelessWidget {
       showPlusIcon: false,
       title: 'Select Session Date',
       dialogHeight: MediaQuery.of(context).size.height-64,
-      showDoneButton: true,
-      doneAction: () {
+      showActionButton: true,
+      actionButton: () {
         Navigator.of(context).pop();
       },
     );

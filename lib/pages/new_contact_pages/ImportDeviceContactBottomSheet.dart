@@ -13,7 +13,7 @@ class ImportDeviceContactBottomSheet extends StatelessWidget {
       showPlusIcon: false,
       title: 'Select Device Contact',
       dialogHeight: MediaQuery.of(context).size.height-64,
-      showDoneButton: false,
+      showActionButton: false,
     );
   }
 }

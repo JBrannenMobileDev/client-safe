@@ -8,6 +8,7 @@ import 'package:dandylight/pages/new_job_page/SelectLocationBottomSheet.dart';
 import 'package:dandylight/pages/new_job_page/SelectPreviousClientBottomSheet.dart';
 import 'package:dandylight/pages/new_job_page/SelectSessionTypeBottomSheet.dart';
 import 'package:dandylight/pages/new_job_page/SelectStartTimeBottomSheet.dart';
+import 'package:dandylight/pages/new_job_page/SessionTypeIncompleteWarningBottomSheet.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/TextFormatterUtil.dart';
@@ -22,6 +23,7 @@ import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../models/Client.dart';
+import '../../models/SessionType.dart';
 import '../../utils/NavigationUtil.dart';
 import '../../utils/Shadows.dart';
 import '../../utils/permissions/UserPermissionsUtil.dart';
@@ -333,35 +335,37 @@ class _NewJobPageState extends State<NewJobPage> {
                 ),
                 !isTyping ? GestureDetector(
                   onTap: () {
-                    setState(() {
-                      if((pageState.leadSource?.isEmpty ?? true) && pageState.selectedClient == null) {
-                        leadSourceError = true;
-                      } else {
-                        leadSourceError = false;
-                      }
-                      if(pageState.selectedSessionType == null) {
-                        sessionTypeError = true;
-                      } else {
-                        sessionTypeError = false;
-                      }
-                      print('SelectedClient = ${pageState.selectedClient != null}  |  DeviceContactFN = ${pageState.deviceContactFirstName}');
-                      if(pageState.selectedClient == null && (pageState.deviceContactFirstName?.isEmpty ?? true)) {
-                        firstNameError = true;
-                        clientError = true;
-                      } else {
-                        firstNameError = false;
-                        clientError = false;
-                      }
-                    });
-                    print('---------------------\nClientError = $clientError\nFirstNameError = $firstNameError\nLeadSourceError = $leadSourceError\nsessionTypeError = $sessionTypeError');
-                    if(!clientError && !firstNameError && !leadSourceError && !sessionTypeError) {
-                      pageState.onSavePressed!();
-                      showSuccessAnimation();
+                    if(pageState.selectedSessionType != null && (pageState.selectedSessionType?.totalCost ?? 0) == 0) {
+                      showSessionTypeErrorBottomSheet(context, pageState.selectedSessionType!);
                     } else {
-                      if(clientError) DandyToastUtil.showErrorToast('Missing client info');
-                      else if(firstNameError) DandyToastUtil.showErrorToast('Missing client first name');
-                      else if(leadSourceError) DandyToastUtil.showErrorToast('Missing client lead source');
-                      else if(sessionTypeError) DandyToastUtil.showErrorToast('Missing session type');
+                      setState(() {
+                        if((pageState.leadSource?.isEmpty ?? true) && pageState.selectedClient == null) {
+                          leadSourceError = true;
+                        } else {
+                          leadSourceError = false;
+                        }
+                        if(pageState.selectedSessionType == null) {
+                          sessionTypeError = true;
+                        } else {
+                          sessionTypeError = false;
+                        }
+                        if(pageState.selectedClient == null && (pageState.deviceContactFirstName?.isEmpty ?? true)) {
+                          firstNameError = true;
+                          clientError = true;
+                        } else {
+                          firstNameError = false;
+                          clientError = false;
+                        }
+                      });
+                      if(!clientError && !firstNameError && !leadSourceError && !sessionTypeError) {
+                        pageState.onSavePressed!();
+                        showSuccessAnimation();
+                      } else {
+                        if(clientError) DandyToastUtil.showErrorToast('Missing client info');
+                        else if(firstNameError) DandyToastUtil.showErrorToast('Missing client first name');
+                        else if(leadSourceError) DandyToastUtil.showErrorToast('Missing client lead source');
+                        else if(sessionTypeError) DandyToastUtil.showErrorToast('Missing session type');
+                      }
                     }
                   },
                   child: Container(
@@ -449,6 +453,20 @@ class _NewJobPageState extends State<NewJobPage> {
           ),
         )
       ],
+    );
+  }
+
+  void showSessionTypeErrorBottomSheet(BuildContext context, SessionType sessionType) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return SessionTypeIncompleteWarningBottomSheet(sessionType: sessionType);
+      },
     );
   }
 

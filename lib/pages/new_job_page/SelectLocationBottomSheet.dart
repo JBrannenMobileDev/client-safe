@@ -18,7 +18,7 @@ class SelectLocationBottomSheet extends StatelessWidget {
       },
       title: 'Select Location',
       dialogHeight: MediaQuery.of(context).size.height-64,
-      showDoneButton: false,
+      showActionButton: false,
     );
   }
 }
