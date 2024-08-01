@@ -17,7 +17,7 @@ class StageStatsItem extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 42.0,
+        height: 36.0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

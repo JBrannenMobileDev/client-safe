@@ -30,7 +30,7 @@ class CalendarSelectionPageMiddleware extends MiddlewareClass<AppState> {
     profile.calendarEnabled = true;
     await ProfileDao.update(profile);
     CalendarSyncUtil.syncJobsToDeviceCalendars();
-    store.dispatch(FetchWeeklyDeviceEvents(store.state.calendarPageState!, DateTime.now(), true));
+    store.dispatch(FetchDeviceEvents(store.state.calendarPageState!, DateTime.now(), true));
   }
 
   void fetchCalendars(Store<AppState> store, NextDispatcher next) async{

@@ -21,8 +21,8 @@ class StageStatsHomeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
-      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+      margin: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8.0),
+      padding: const EdgeInsets.only(top: 0.0, bottom: 0.0),
       decoration: BoxDecoration(
           color: Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
           borderRadius: const BorderRadius.all(Radius.circular(12.0))),

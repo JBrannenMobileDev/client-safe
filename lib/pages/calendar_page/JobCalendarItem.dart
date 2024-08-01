@@ -3,6 +3,7 @@ import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/pages/calendar_page/CalendarPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -14,9 +15,7 @@ import '../../widgets/TextDandyLight.dart';
 class JobCalendarItem extends StatelessWidget{
   final Job? job;
   final EventDandyLight? eventDandyLight;
-  final double? paddingLeft;
-  final double? paddingRight;
-  JobCalendarItem({this.job, this.eventDandyLight, this.paddingLeft, this.paddingRight});
+  JobCalendarItem({this.job, this.eventDandyLight});
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +24,8 @@ class JobCalendarItem extends StatelessWidget{
       onPressed: () {
         if(job != null) {
           NavigationUtil.onJobTapped(context, false, job!.documentId!);
+        } else {
+          DandyToastUtil.showErrorToast('Not a Dandylight event');
         }
       },
       child: Padding(
@@ -33,13 +34,13 @@ class JobCalendarItem extends StatelessWidget{
           alignment: Alignment.centerRight,
           children: <Widget>[
             Row(
-              crossAxisAlignment: job != null ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
                   alignment: Alignment.topRight,
                   margin: EdgeInsets.only(right: 18.0, top: 4.0),
-                  height: 38.0,
-                  width: 38.0,
+                  height: 26.0,
+                  width: 26.0,
                   child: job != null ? job!.stage!.getStageImage(Color(ColorConstants.getPeachDark())) : Image.asset('assets/images/icons/calendar.png', color: Color(ColorConstants.getBlueLight()),),
                 ),
                 Flexible(
@@ -71,19 +72,13 @@ class JobCalendarItem extends StatelessWidget{
                       ),
                       job != null ? TextDandyLight(
                         type: TextDandyLight.SMALL_TEXT,
-                        text: 'Stage: ' + job!.stage!.stage!,
-                        textAlign: TextAlign.start,
-                        color: Color(ColorConstants.getPrimaryBlack()),
-                      ) : SizedBox(),
-                      job != null ? TextDandyLight(
-                        type: TextDandyLight.SMALL_TEXT,
                         text: _getSubtext(job!),
                         textAlign: TextAlign.start,
-                        color: job!.selectedDate != null && job!.selectedTime != null && job!.location != null && job!.sessionType != null
+                        color: job?.selectedDate != null && job?.selectedTime != null && job?.location != null && job?.sessionType != null
                             ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPeachDark()),
                       ) : TextDandyLight(
                         type: TextDandyLight.SMALL_TEXT,
-                        text: DateFormat('EEE, MMM d').format(eventDandyLight!.start!) + ' · ' + DateFormat('h:mm a').format(eventDandyLight!.start!) + ' - ' + DateFormat('h:mm a').format(eventDandyLight!.end!),
+                        text: '${DateFormat('h:mm a').format(eventDandyLight!.start!)} - ${DateFormat('h:mm a').format(eventDandyLight!.end!)}',
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.primary_bg_grey_dark),
                       ),
@@ -106,7 +101,15 @@ class JobCalendarItem extends StatelessWidget{
 
   String _getSubtext(Job job) {
     if(job.selectedDate != null && job.selectedTime != null && job.location != null && job.sessionType != null){
-      return DateFormat('EEE, MMM d').format(job.selectedDate!) + ' · ' + DateFormat('h:mm a').format(job.selectedTime!);
+      if((job.sessionType?.durationMinutes ?? 0) > 0 || (job.sessionType?.durationHours ?? 0) > 0) {
+        DateTime endTime = job.selectedTime!.add(Duration(
+          hours: job.sessionType?.durationHours ?? 0,
+          minutes: job.sessionType?.durationMinutes ?? 0,
+        ));
+        return '${DateFormat('h:mm a').format(job.selectedTime!)} - ${DateFormat('h:mm a').format(endTime)}';
+      } else {
+        return DateFormat('h:mm a').format(job.selectedTime!);
+      }
     }
     if(job.selectedDate == null){
       return 'Date not selected!';

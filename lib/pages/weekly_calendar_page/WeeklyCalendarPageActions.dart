@@ -20,16 +20,16 @@ class SetDeviceEventsAction {
   SetDeviceEventsAction(this.pageState, this.deviceEvents);
 }
 
-class FetchAllCalendarJobsAction{
+class FetchAllWeeklyCalendarJobsAction{
   final WeeklyCalendarPageState calendarPageState;
-  FetchAllCalendarJobsAction(this.calendarPageState);
+  FetchAllWeeklyCalendarJobsAction(this.calendarPageState);
 }
 
-class FetchDeviceEvents{
+class FetchWeeklyDeviceEvents{
   final WeeklyCalendarPageState calendarPageState;
-  final DateTime month;
+  final DateTime focusedDay;
   final bool calendarEnabled;
-  FetchDeviceEvents(this.calendarPageState, this.month, this.calendarEnabled);
+  FetchWeeklyDeviceEvents(this.calendarPageState, this.focusedDay, this.calendarEnabled);
 }
 
 class UpdateCalendarEnabledAction{

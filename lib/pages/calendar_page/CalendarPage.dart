@@ -80,10 +80,10 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
           if(!previousStatus.isGranted || !profile.calendarEnabled!) {
             UserOptionsUtil.showCalendarSelectionDialog(context, store.state.calendarPageState!.onCalendarEnabled);
           } else {
-            store.dispatch(FetchWeeklyDeviceEvents(store.state.calendarPageState!, DateTime.now(), store.state.dashboardPageState!.profile!.calendarEnabled!));
+            store.dispatch(FetchDeviceEvents(store.state.calendarPageState!, DateTime.now(), store.state.dashboardPageState!.profile!.calendarEnabled!));
           }
         }
-        store.dispatch(FetchAllWeeklyCalendarJobsAction(store.state.calendarPageState!));
+        store.dispatch(FetchAllCalendarJobsAction(store.state.calendarPageState!));
       },
       converter: (store) => CalendarPageState.fromStore(store),
       builder: (BuildContext context, CalendarPageState pageState) => Scaffold(

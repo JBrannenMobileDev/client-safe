@@ -88,10 +88,10 @@ class CalendarPageState{
       onAddNewJobSelected: () => store.dispatch(newJobActions.InitNewJobPageWithDateAction(store.state.newJobPageState!, store.state.calendarPageState!.selectedDate!)),
       onDateSelected: (selectedDate) => store.dispatch(SetSelectedDateAction(store.state.calendarPageState!, selectedDate)),
       onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState!, job.documentId!)),
-      onMonthChanged: (month, isCalendarEnabled) => store.dispatch(FetchWeeklyDeviceEvents(store.state.calendarPageState!, month, isCalendarEnabled)),
+      onMonthChanged: (month, isCalendarEnabled) => store.dispatch(FetchDeviceEvents(store.state.calendarPageState!, month, isCalendarEnabled)),
       onCalendarEnabled: (enabled) {
         store.dispatch(UpdateCalendarEnabledAction(store.state.calendarPageState!, enabled));
-        store.dispatch(FetchWeeklyDeviceEvents(store.state.calendarPageState!, DateTime.now(), enabled));
+        store.dispatch(FetchDeviceEvents(store.state.calendarPageState!, DateTime.now(), enabled));
       },
     );
   }

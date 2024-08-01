@@ -650,20 +650,23 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                   child: Container(
                                     margin: const EdgeInsets.only(left: 16, bottom: 16),
                                     child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Stack(
-                                          alignment: Alignment.center,
-                                          children: [
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                boxShadow: ElevationToShadow[2],
-                                                shape: BoxShape.circle,
-                                                color: Color(ColorConstants.getPrimaryWhite()),
+                                        SizedBox(
+                                          width: MediaQuery.of(context).size.width - 182,
+                                          child: Stack(
+                                            alignment: Alignment.centerLeft,
+                                            children: [
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  boxShadow: ElevationToShadow[2],
+                                                  shape: BoxShape.circle,
+                                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                                ),
+                                                width: 42,
+                                                height: 42,
                                               ),
-                                              width: 42,
-                                              height: 42,
-                                            ),
-                                            pageState.profile!.logoSelected! ? Container(
+                                              pageState.profile!.logoSelected! ? Container(
                                                 child: pageState.profile!.logoUrl != null && pageState.profile!.logoUrl!.isNotEmpty && pageState.profile!.hasSetupBrand! ? ClipRRect(
                                                   borderRadius: BorderRadius.circular(82.0),
                                                   child: Container(
@@ -719,15 +722,19 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                                   )
                                                 ],
                                               ),
-                                          ],
-                                        ),
-                                        Container(
-                                          margin: const EdgeInsets.only(left: 8, bottom: 2),
-                                          child: TextDandyLight(
-                                            type: TextDandyLight.MEDIUM_TEXT,
-                                            text: pageState.profile?.businessName ?? '',
-                                            fontFamily: pageState.profile?.selectedFontTheme?.mainFont!,
-                                            color: Color(ColorConstants.getPrimaryWhite()),
+                                              Container(
+                                                margin: const EdgeInsets.only(left: 48, bottom: 0),
+                                                child: TextDandyLight(
+                                                  type: TextDandyLight.SMALL_TEXT,
+                                                  // text: pageState.profile?.businessName ?? '',
+                                                  text: 'Vintage Vibes Photography',
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  fontFamily: pageState.profile?.selectedFontTheme?.mainFont!,
+                                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                         GestureDetector(
@@ -740,7 +747,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                             height: 32.0,
                                             width: 134,
                                             decoration: BoxDecoration(
-                                                color: Color(ColorConstants.getPrimaryGreyDark()),
+                                                color: Color(ColorConstants.getPrimaryWhite()),
                                                 borderRadius: const BorderRadius.all(Radius.circular(16.0))),
                                             child: Stack(
                                               alignment: Alignment.center,
@@ -752,14 +759,14 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                                       height: 32,
                                                       alignment: Alignment.center,
                                                       child: Shimmer.fromColors(
-                                                        baseColor: Color(ColorConstants.getPrimaryWhite()),
+                                                        baseColor: Color(ColorConstants.getPrimaryGreyDark()),
                                                         highlightColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
                                                         child: TextDandyLight(
                                                           type: TextDandyLight.SMALL_TEXT,
                                                           text: '2 New bookings!',
                                                           isBold: true,
                                                           textAlign: TextAlign.start,
-                                                          color: Color(ColorConstants.getPrimaryWhite()),
+                                                          color: Color(ColorConstants.getPrimaryBlack()),
                                                         ),
                                                       ),
                                                     ),
@@ -1045,8 +1052,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      margin: const EdgeInsets.only(left: 16, top: 16),
-                                      height: 32,
+                                      margin: const EdgeInsets.only(left: 16, top: 0),
                                       child: TextDandyLight(
                                         type: TextDandyLight.SMALL_TEXT,
                                         text: 'Pose Library',
@@ -1059,8 +1065,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                         );
                                       },
                                       child: Container(
-                                        margin: const EdgeInsets.only(left: 16, top: 16, right: 16),
-                                        height: 32,
+                                        margin: const EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 8),
                                         child: TextDandyLight(
                                           type: TextDandyLight.SMALL_TEXT,
                                           text: 'View all',

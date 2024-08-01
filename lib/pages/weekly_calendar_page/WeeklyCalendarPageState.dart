@@ -1,12 +1,12 @@
 import 'package:dandylight/models/EventDandyLight.dart';
 import 'package:dandylight/models/Job.dart';
-import 'package:dandylight/pages/calendar_page/CalendarPageActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart' as newJobActions;
 import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
+import 'WeeklyCalendarPageActions.dart';
 
 class WeeklyCalendarPageState{
   final bool? shouldClear;
@@ -18,7 +18,7 @@ class WeeklyCalendarPageState{
   final Function()? onAddNewJobSelected;
   final DateTime? selectedDate;
   final Function(Job)? onJobClicked;
-  final Function(DateTime, bool)? onMonthChanged;
+  final Function(DateTime, bool)? onWeekChanged;
   final Function(bool)? onCalendarEnabled;
 
   WeeklyCalendarPageState({
@@ -30,7 +30,7 @@ class WeeklyCalendarPageState{
     @required this.onJobClicked,
     @required this.jobs,
     @required this.deviceEvents,
-    @required this.onMonthChanged,
+    @required this.onWeekChanged,
     @required this.onCalendarEnabled,
     @required this.isCalendarEnabled,
   });
@@ -44,7 +44,7 @@ class WeeklyCalendarPageState{
     List<Event>? deviceEvents,
     Function()? onAddNewJobSelected,
     Function(Job)? onJobClicked,
-    Function(DateTime, bool)? onMonthChanged,
+    Function(DateTime, bool)? onWeekChanged,
     Function(bool)? onCalendarEnabled,
     bool? isCalendarEnabled,
   }){
@@ -57,7 +57,7 @@ class WeeklyCalendarPageState{
       onAddNewJobSelected: onAddNewJobSelected?? this.onAddNewJobSelected,
       onJobClicked: onJobClicked ?? this.onJobClicked,
       deviceEvents: deviceEvents ?? this.deviceEvents,
-      onMonthChanged: onMonthChanged ?? this.onMonthChanged,
+      onWeekChanged: onWeekChanged ?? this.onWeekChanged,
       onCalendarEnabled: onCalendarEnabled ?? this.onCalendarEnabled,
       isCalendarEnabled: isCalendarEnabled ?? this.isCalendarEnabled,
     );
@@ -72,26 +72,26 @@ class WeeklyCalendarPageState{
     onAddNewJobSelected: null,
     onJobClicked: null,
     deviceEvents: [],
-    onMonthChanged: null,
+    onWeekChanged: null,
     onCalendarEnabled: null,
     isCalendarEnabled: false,
   );
 
   factory WeeklyCalendarPageState.fromStore(Store<AppState> store) {
     return WeeklyCalendarPageState(
-      shouldClear: store.state.calendarPageState!.shouldClear,
-      eventList: store.state.calendarPageState!.eventList,
-      selectedDate: store.state.calendarPageState!.selectedDate,
-      jobs: store.state.calendarPageState!.jobs,
-      deviceEvents: store.state.calendarPageState!.deviceEvents,
-      isCalendarEnabled: store.state.calendarPageState!.isCalendarEnabled,
-      onAddNewJobSelected: () => store.dispatch(newJobActions.InitNewJobPageWithDateAction(store.state.newJobPageState!, store.state.calendarPageState!.selectedDate!)),
-      onDateSelected: (selectedDate) => store.dispatch(SetSelectedDateAction(store.state.calendarPageState!, selectedDate)),
+      shouldClear: store.state.weeklyCalendarPageState!.shouldClear,
+      eventList: store.state.weeklyCalendarPageState!.eventList,
+      selectedDate: store.state.weeklyCalendarPageState!.selectedDate,
+      jobs: store.state.weeklyCalendarPageState!.jobs,
+      deviceEvents: store.state.weeklyCalendarPageState!.deviceEvents,
+      isCalendarEnabled: store.state.weeklyCalendarPageState!.isCalendarEnabled,
+      onAddNewJobSelected: () => store.dispatch(newJobActions.InitNewJobPageWithDateAction(store.state.newJobPageState!, store.state.weeklyCalendarPageState!.selectedDate!)),
+      onDateSelected: (selectedDate) => store.dispatch(SetSelectedDateAction(store.state.weeklyCalendarPageState!, selectedDate)),
       onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState!, job.documentId!)),
-      onMonthChanged: (month, isCalendarEnabled) => store.dispatch(FetchWeeklyDeviceEvents(store.state.calendarPageState!, month, isCalendarEnabled)),
+      onWeekChanged: (focusedDay, isCalendarEnabled) => store.dispatch(FetchWeeklyDeviceEvents(store.state.weeklyCalendarPageState!, focusedDay, isCalendarEnabled)),
       onCalendarEnabled: (enabled) {
-        store.dispatch(UpdateCalendarEnabledAction(store.state.calendarPageState!, enabled));
-        store.dispatch(FetchWeeklyDeviceEvents(store.state.calendarPageState!, DateTime.now(), enabled));
+        store.dispatch(UpdateCalendarEnabledAction(store.state.weeklyCalendarPageState!, enabled));
+        store.dispatch(FetchWeeklyDeviceEvents(store.state.weeklyCalendarPageState!, DateTime.now(), enabled));
       },
     );
   }
@@ -107,7 +107,7 @@ class WeeklyCalendarPageState{
       deviceEvents.hashCode ^
       onJobClicked.hashCode ^
       isCalendarEnabled.hashCode ^
-      onMonthChanged.hashCode;
+      onWeekChanged.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -119,7 +119,7 @@ class WeeklyCalendarPageState{
               onDateSelected == other.onDateSelected &&
               selectedDate == other.selectedDate &&
               deviceEvents == other.deviceEvents &&
-              onMonthChanged == other.onMonthChanged &&
+              onWeekChanged == other.onWeekChanged &&
               onCalendarEnabled == other.onCalendarEnabled &&
               isCalendarEnabled == other.isCalendarEnabled &&
               onJobClicked == other.onJobClicked;

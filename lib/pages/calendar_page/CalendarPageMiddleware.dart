@@ -17,23 +17,23 @@ class CalendarPageMiddleware extends MiddlewareClass<AppState> {
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next){
-    if(action is FetchAllWeeklyCalendarJobsAction) {
+    if(action is FetchAllCalendarJobsAction) {
       _loadAll(store, action, next);
     }
-    if(action is FetchWeeklyDeviceEvents) {
+    if(action is FetchDeviceEvents) {
       _fetchDeviceEventsForMonth(store, action, next);
     }
   }
 
-  void _fetchDeviceEventsForMonth(Store<AppState> store, FetchWeeklyDeviceEvents action, NextDispatcher next) async {
-    DateTime startDate = DateTime(action.month.year, action.month.month - 1, 1);
-    DateTime endDate = DateTime(action.month.year, action.month.month + 1, 1);
+  void _fetchDeviceEventsForMonth(Store<AppState> store, FetchDeviceEvents action, NextDispatcher next) async {
+    DateTime startDate = DateTime(action.focusedDay.year, action.focusedDay.month - 1, 1);
+    DateTime endDate = DateTime(action.focusedDay.year, action.focusedDay.month + 1, 1);
     Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     if((profile != null && profile.calendarEnabled != null && profile.calendarEnabled!)) {
       List<Event> deviceEvents = await CalendarSyncUtil.getDeviceEventsForDateRange(startDate, endDate);
       store.dispatch(SetDeviceEventsAction(store.state.calendarPageState!, deviceEvents));
     }
-    store.dispatch(SetSelectedDateAction(store.state.calendarPageState!, action.month));
+    store.dispatch(SetSelectedDateAction(store.state.calendarPageState!, action.focusedDay));
   }
 
   void _loadAll(Store<AppState> store, action, NextDispatcher next) async {

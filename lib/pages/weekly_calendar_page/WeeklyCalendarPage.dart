@@ -1,6 +1,6 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/EventDandyLight.dart';
-import 'package:dandylight/pages/calendar_page/CalendarPageActions.dart';
+import 'package:dandylight/pages/weekly_calendar_page/DailyCalendarEventsBottomSheet.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,6 +14,7 @@ import '../../models/Profile.dart';
 import '../../utils/CalendarUtil.dart';
 import '../../utils/permissions/UserPermissionsUtil.dart';
 import '../../widgets/TextDandyLight.dart';
+import 'WeeklyCalendarPageActions.dart';
 import 'WeeklyCalendarPageState.dart';
 
 class WeeklyCalendarPage extends StatefulWidget {
@@ -45,21 +46,18 @@ class _WeeklyWeeklyCalendarPageState extends State<WeeklyCalendarPage> with Tick
     super.dispose();
   }
 
-  void _onDaySelected(DateTime day, List events, WeeklyCalendarPageState pageState) {
-    setState(() {
-      CalendarUtil.buildEventList(
-        pageState.selectedDate!,
-        pageState.eventList!,
-        pageState.selectedDate!.year,
-        pageState.selectedDate!.month,
-        pageState.selectedDate!.day,
-        pageState.jobs!,
-      );
-    });
-  }
-
-  void _FetchDeviceEvents() {
-
+  void _showDayEventsBottomSheet(BuildContext context, DateTime day) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return DailyCalendarEventsBottomSheet(day);
+      },
+    );
   }
 
   @override
@@ -72,12 +70,13 @@ class _WeeklyWeeklyCalendarPageState extends State<WeeklyCalendarPage> with Tick
         bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendarFullAccess, context: context, profile: profile);
         if(isGranted) {
           if(!previousStatus.isGranted || !profile.calendarEnabled!) {
-            UserOptionsUtil.showCalendarSelectionDialog(context, store.state.calendarPageState!.onCalendarEnabled);
+            UserOptionsUtil.showCalendarSelectionDialog(context, store.state.weeklyCalendarPageState!.onCalendarEnabled);
           } else {
-            store.dispatch(FetchWeeklyDeviceEvents(store.state.calendarPageState!, DateTime.now(), store.state.dashboardPageState!.profile!.calendarEnabled!));
+            print('Fetching device events');
+            store.dispatch(FetchWeeklyDeviceEvents(store.state.weeklyCalendarPageState!, DateTime.now(), store.state.dashboardPageState!.profile!.calendarEnabled!));
           }
         }
-        store.dispatch(FetchAllWeeklyCalendarJobsAction(store.state.calendarPageState!));
+        store.dispatch(FetchAllWeeklyCalendarJobsAction(store.state.weeklyCalendarPageState!));
       },
       converter: (store) => WeeklyCalendarPageState.fromStore(store),
       builder: (BuildContext context, WeeklyCalendarPageState pageState) => Container(
@@ -86,7 +85,7 @@ class _WeeklyWeeklyCalendarPageState extends State<WeeklyCalendarPage> with Tick
             color: Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5)
           ),
           margin: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
-          height: 116,
+          height: 108,
           child: _buildTableCalendarWithBuilders(pageState),
         ),
     );
@@ -99,18 +98,17 @@ class _WeeklyWeeklyCalendarPageState extends State<WeeklyCalendarPage> with Tick
       locale: 'en_US',
       eventLoader: (day) => _events!.where((event) => isSameDay(event.selectedDate,day)).toList(), //THIS IS IMPORTANT
       calendarFormat: CalendarFormat.week,
-      startingDayOfWeek: StartingDayOfWeek.sunday,
+      startingDayOfWeek: StartingDayOfWeek.monday,
       availableGestures: AvailableGestures.horizontalSwipe,
-      availableCalendarFormats: const {
-        CalendarFormat.month: '',
-        CalendarFormat.week: '',
-      },
       onPageChanged: (focusedDay) {
-        pageState.onMonthChanged!(focusedDay, pageState.isCalendarEnabled!);
+        print('month = ${focusedDay.month}   day = ${focusedDay.day}');
+        pageState.onWeekChanged!(focusedDay, pageState.isCalendarEnabled!);
+      },
+      onDaySelected: (DateTime selected, DateTime focused) {
+        _showDayEventsBottomSheet(context, selected);
       },
       firstDay: DateTime.utc(2010, 10, 16).toLocal(),
       lastDay: DateTime.utc(2100, 3, 14).toLocal(),
-      selectedDayPredicate: (day) => isSameDay(pageState.selectedDate, day),
       calendarStyle: CalendarStyle(
         outsideDaysVisible: true,
         outsideTextStyle: TextStyle().copyWith(
@@ -146,11 +144,11 @@ class _WeeklyWeeklyCalendarPageState extends State<WeeklyCalendarPage> with Tick
       ),
       daysOfWeekStyle: DaysOfWeekStyle(
         weekdayStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.getPrimaryBlack()),  fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
+          color: Color(ColorConstants.getPrimaryBlack()),  fontSize: 12,
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),),
         weekendStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.getPrimaryBlack()),  fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
+          color: Color(ColorConstants.getPrimaryBlack()),  fontSize: 12,
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),),
       ),
@@ -160,7 +158,7 @@ class _WeeklyWeeklyCalendarPageState extends State<WeeklyCalendarPage> with Tick
         leftChevronVisible: false,
         rightChevronVisible: false,
         titleTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.getPrimaryBlack()),  fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
+          color: Color(ColorConstants.getPrimaryGreyDark()),  fontSize: 12,
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),),
       ),
@@ -170,13 +168,11 @@ class _WeeklyWeeklyCalendarPageState extends State<WeeklyCalendarPage> with Tick
             opacity: Tween(begin: 0.0, end: 1.0).animate(_animationController!),
             child: Container(
               alignment: Alignment.center,
-              margin: const EdgeInsets.all(4.0),
+              margin: const EdgeInsets.all(8.0),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Color(ColorConstants.getPrimaryColor()),
+                color: Colors.transparent,
               ),
-              width: 100,
-              height: 100,
               child: Text(
                 '${date.day}',
                 style: TextStyle().copyWith(
@@ -194,7 +190,7 @@ class _WeeklyWeeklyCalendarPageState extends State<WeeklyCalendarPage> with Tick
             margin: const EdgeInsets.all(4.0),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Color(ColorConstants.getPeachDark()),
+              color: Color(ColorConstants.getPrimaryGreyDark()).withOpacity(0.5),
             ),
             width: 100,
             height: 100,
@@ -209,9 +205,7 @@ class _WeeklyWeeklyCalendarPageState extends State<WeeklyCalendarPage> with Tick
           );
         },
         markerBuilder: (context, date, events) {
-
           if (events.isNotEmpty) {
-
               return Positioned(
                 bottom: 1,
                 child: _buildEventsMarker(date, events),
@@ -220,7 +214,7 @@ class _WeeklyWeeklyCalendarPageState extends State<WeeklyCalendarPage> with Tick
 
           return SizedBox.shrink();
         },
-      ), focusedDay: DateTime.now(),
+      ), focusedDay: pageState.selectedDate ?? DateTime.now(),
     );
   }
 
@@ -267,7 +261,7 @@ class _WeeklyWeeklyCalendarPageState extends State<WeeklyCalendarPage> with Tick
       width: 8.0,
       height: 8.0,
       decoration: BoxDecoration(
-          shape: BoxShape.circle, color: Color(!event.isPersonalEvent! ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryBackgroundGrey())),
+          shape: BoxShape.circle, color: Color(!event.isPersonalEvent! ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryGreyDark())),
     );
   }
 }
