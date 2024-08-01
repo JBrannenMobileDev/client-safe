@@ -1,14 +1,11 @@
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPage.dart';
+import 'package:dandylight/pages/booking_page/BookingPage.dart';
 import 'package:dandylight/pages/collections_page/CollectionsPage.dart';
 import 'package:dandylight/pages/clients_page/ClientsPage.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPage.dart';
 import 'package:dandylight/pages/jobs_page/JobsPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
-
-import '../../utils/analytics/EventNames.dart';
-import '../../utils/analytics/EventSender.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -23,9 +20,9 @@ class _HomeState extends State<HomePage> {
   List<Widget> _children = [
     ClientsPage(),
     IncomeAndExpensesPage(),
-    DashboardPage(comingFromLogin: true),
-    JobsPage(),
-    CollectionsPage(),
+    const DashboardPage(comingFromLogin: true),
+    BookingPage(),
+    const CollectionsPage(),
   ];
 
   @override
@@ -126,7 +123,7 @@ class _HomeState extends State<HomePage> {
         ClientsPage(),
         IncomeAndExpensesPage(),
         DashboardPage(comingFromLogin: false),
-        JobsPage(comingFromMainNavigation: true),
+        BookingPage(),
         CollectionsPage(),
       ];
       _currentIndex = index;

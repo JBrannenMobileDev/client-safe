@@ -30,7 +30,7 @@ class RecentActivityCard extends StatelessWidget {
               NavigationUtil.onStageStatsSelected(context, pageState, 'Jobs This Week', null, false);
             },
             child: Container(
-              height: 84,
+              height: 64,
               padding: const EdgeInsets.only(left: 12, right: 12),
               width: MediaQuery.of(context).size.width/3 - 16,
               decoration: BoxDecoration(
@@ -41,13 +41,13 @@ class RecentActivityCard extends StatelessWidget {
                 children: [
                   const SizedBox(height: 4),
                   TextDandyLight(
-                    type: TextDandyLight.SMALL_TEXT,
+                    type: TextDandyLight.EXTRA_SMALL_TEXT,
                     color: Color(ColorConstants.getPrimaryGreyDark()),
-                    text: 'Jobs This Week',
+                    text: 'Jobs This\nWeek',
                     textAlign: TextAlign.center,
                   ),
                   TextDandyLight(
-                    type: TextDandyLight.LARGE_TEXT,
+                    type: TextDandyLight.MEDIUM_TEXT,
                     color: Color(ColorConstants.getPrimaryBlack()),
                     text: pageState.jobsThisWeek != null ? pageState.jobsThisWeek!.length.toString() : '',
                     textAlign: TextAlign.center,
@@ -92,7 +92,7 @@ class RecentActivityCard extends StatelessWidget {
               alignment: Alignment.topRight,
               children: [
                 Container(
-                  height: 84,
+                  height: 64,
                   padding: const EdgeInsets.only(left: 4, right: 4),
                   width: MediaQuery.of(context).size.width/3 - 16,
                   decoration: BoxDecoration(
@@ -103,13 +103,13 @@ class RecentActivityCard extends StatelessWidget {
                     children: [
                       const SizedBox(height: 4),
                       TextDandyLight(
-                        type: TextDandyLight.SMALL_TEXT,
+                        type: TextDandyLight.EXTRA_SMALL_TEXT,
                         color: Color(ColorConstants.getPrimaryGreyDark()),
-                        text: 'Signed Contracts',
+                        text: 'Signed\nContracts',
                         textAlign: TextAlign.center,
                       ),
                       TextDandyLight(
-                        type: TextDandyLight.LARGE_TEXT,
+                        type: TextDandyLight.MEDIUM_TEXT,
                         text: pageState.activeSignedContract != null ? pageState.activeSignedContract?.length.toString() : '0',
                         textAlign: TextAlign.center,
                         color: Color(ColorConstants.getPrimaryBlack()),
@@ -137,7 +137,7 @@ class RecentActivityCard extends StatelessWidget {
               alignment: Alignment.topRight,
               children: [
                 Container(
-                  height: 84,
+                  height: 64,
                   padding: const EdgeInsets.only(left: 4, right: 4),
                   width: MediaQuery.of(context).size.width/3 - 16,
                   decoration: BoxDecoration(
@@ -148,15 +148,15 @@ class RecentActivityCard extends StatelessWidget {
                     children: [
                       const SizedBox(height: 4),
                       TextDandyLight(
-                        type: TextDandyLight.SMALL_TEXT,
+                        type: TextDandyLight.EXTRA_SMALL_TEXT,
                         color: Color(ColorConstants.getPrimaryGreyDark()),
-                        text: 'Questionnaire Responses',
+                        text: 'Questionnaire\nResponses',
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         textAlign: TextAlign.center,
                       ),
                       TextDandyLight(
-                        type: TextDandyLight.LARGE_TEXT,
+                        type: TextDandyLight.MEDIUM_TEXT,
                         color: Color(ColorConstants.getPrimaryBlack()),
                         text: pageState.completedQuestionnaires != null ? pageState.completedQuestionnaires!.length.toString() : '0',
                         textAlign: TextAlign.center,

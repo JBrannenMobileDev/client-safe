@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/dashboard_page/ShowSessionMigrationMessageBottomSheet.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/BookingActivityCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/PoseLibraryCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/RecentActivityCard.dart';
+import 'package:dandylight/pages/weekly_calendar_page/WeeklyCalendarPage.dart';
 import 'package:http/http.dart' as http;
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
@@ -38,6 +40,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:showcaseview/showcaseview.dart';
 
 import '../../data_layer/api_clients/DandylightFunctionsClient.dart';
@@ -726,6 +729,54 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                             fontFamily: pageState.profile?.selectedFontTheme?.mainFont!,
                                             color: Color(ColorConstants.getPrimaryWhite()),
                                           ),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+
+                                          },
+                                          child: Container(
+                                            margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
+                                            padding: const EdgeInsets.only(left: 0),
+                                            height: 32.0,
+                                            width: 134,
+                                            decoration: BoxDecoration(
+                                                color: Color(ColorConstants.getPrimaryGreyDark()),
+                                                borderRadius: const BorderRadius.all(Radius.circular(16.0))),
+                                            child: Stack(
+                                              alignment: Alignment.center,
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Container(
+                                                      height: 32,
+                                                      alignment: Alignment.center,
+                                                      child: Shimmer.fromColors(
+                                                        baseColor: Color(ColorConstants.getPrimaryWhite()),
+                                                        highlightColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                                        child: TextDandyLight(
+                                                          type: TextDandyLight.SMALL_TEXT,
+                                                          text: '2 New bookings!',
+                                                          isBold: true,
+                                                          textAlign: TextAlign.start,
+                                                          color: Color(ColorConstants.getPrimaryWhite()),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                // Container(
+                                                //   width: 24,
+                                                //   margin: const EdgeInsets.only(right: 8),
+                                                //   alignment: Alignment.center,
+                                                //   child: Icon(
+                                                //     Icons.chevron_right,
+                                                //     color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                                //   ),
+                                                // )
+                                              ],
+                                            ),
+                                          ),
                                         )
                                       ],
                                     ),
@@ -906,7 +957,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                           ),
                         ],
                       ),
-                      pageState.areJobsLoaded! ? SliverList(
+                      pageState.areJobsLoaded ?? false ? SliverList(
                           delegate: SliverChildListDelegate(<Widget>[
                             SlideTransition(
                               position: offsetAnimationUp,
@@ -916,6 +967,8 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
+                                        backgroundColor: Color(ColorConstants.getPrimaryWhite()),
+                                        surfaceTintColor: Colors.transparent,
                                         title: TextDandyLight(
                                             type: TextDandyLight.LARGE_TEXT,
                                             text: 'Remove Progress Bar'
@@ -974,48 +1027,18 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                               ),
                             ),
                             const SizedBox(height: 16),
-                            // Container(
-                            //   margin: const EdgeInsets.only(left: 16),
-                            //   height: 32,
-                            //   child: TextDandyLight(
-                            //     type: TextDandyLight.SMALL_TEXT,
-                            //     text: 'Recent Activity',
-                            //   ),
-                            // ),
-                            const SizedBox(
-                              height: 0,
-                            ),
                             SlideTransition(
                                 position: offsetAnimationUp,
                                 child: const RecentActivityCard()
                             ),
-                            // Container(
-                            //   margin: const EdgeInsets.only(left: 16, top: 8),
-                            //   height: 32,
-                            //   child: TextDandyLight(
-                            //     type: TextDandyLight.SMALL_TEXT,
-                            //     text: 'My Jobs',
-                            //   ),
-                            // ),
                             SlideTransition(
-                              position: offsetAnimationUp,
-                              child: pageState.activeJobs == null || pageState.activeJobs!.isEmpty ? StartAJobButton(pageState: pageState) : const SizedBox(),
+                                position: offsetAnimationUp,
+                                child: WeeklyCalendarPage()
                             ),
                             SlideTransition(
                                 position: offsetAnimationUp,
                                 child: StageStatsHomeCard(pageState: pageState)
                             ),
-                            // SlideTransition(
-                            //     position: offsetAnimationUp,
-                            //     child:  Container(
-                            //         margin: const EdgeInsets.only(left: 16, top: 16),
-                            //         height: 32,
-                            //         child: TextDandyLight(
-                            //           type: TextDandyLight.SMALL_TEXT,
-                            //           text: 'Business Insights - ${DateTime.now().year}',
-                            //         ),
-                            //     )
-                            // ),
                             SlideTransition(
                                 position: offsetAnimationUp,
                                 child:  Row(
@@ -1051,6 +1074,17 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                             SlideTransition(
                                 position: offsetAnimationUp,
                                 child: const PoseLibraryCard()
+                            ),
+                            SlideTransition(
+                                position: offsetAnimationUp,
+                                child:  Container(
+                                  margin: const EdgeInsets.only(left: 16, top: 16),
+                                  height: 32,
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.SMALL_TEXT,
+                                    text: 'Business Insights - ${DateTime.now().year}',
+                                  ),
+                                )
                             ),
                             SlideTransition(
                                 position: offsetAnimationUp,

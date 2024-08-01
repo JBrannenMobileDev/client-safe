@@ -1,39 +1,39 @@
 import 'package:dandylight/models/Job.dart';
-import 'package:dandylight/pages/calendar_page/CalendarPageState.dart';
 import 'package:device_calendar/device_calendar.dart';
+import 'WeeklyCalendarPageState.dart';
 
 class SetSelectedDateAction{
-  final CalendarPageState pageState;
+  final WeeklyCalendarPageState pageState;
   final DateTime selectedDate;
   SetSelectedDateAction(this.pageState, this.selectedDate);
 }
 
 class SetJobsCalendarStateAction{
-  final CalendarPageState pageState;
+  final WeeklyCalendarPageState pageState;
   final List<Job> allJobs;
   SetJobsCalendarStateAction(this.pageState, this.allJobs);
 }
 
 class SetDeviceEventsAction {
-  final CalendarPageState pageState;
+  final WeeklyCalendarPageState pageState;
   final List<Event> deviceEvents;
   SetDeviceEventsAction(this.pageState, this.deviceEvents);
 }
 
-class FetchAllWeeklyCalendarJobsAction{
-  final CalendarPageState calendarPageState;
-  FetchAllWeeklyCalendarJobsAction(this.calendarPageState);
+class FetchAllCalendarJobsAction{
+  final WeeklyCalendarPageState calendarPageState;
+  FetchAllCalendarJobsAction(this.calendarPageState);
 }
 
-class FetchWeeklyDeviceEvents{
-  final CalendarPageState calendarPageState;
+class FetchDeviceEvents{
+  final WeeklyCalendarPageState calendarPageState;
   final DateTime month;
   final bool calendarEnabled;
-  FetchWeeklyDeviceEvents(this.calendarPageState, this.month, this.calendarEnabled);
+  FetchDeviceEvents(this.calendarPageState, this.month, this.calendarEnabled);
 }
 
 class UpdateCalendarEnabledAction{
-  final CalendarPageState pageState;
+  final WeeklyCalendarPageState pageState;
   final bool enabled;
   UpdateCalendarEnabledAction(this.pageState, this.enabled);
 }

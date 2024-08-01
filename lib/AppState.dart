@@ -1,5 +1,6 @@
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:dandylight/pages/answer_questionnaire_page/AnswerQuestionnairePageState.dart';
+import 'package:dandylight/pages/booking_page/BookingPageState.dart';
 import 'package:dandylight/pages/calendar_page/CalendarPageState.dart';
 import 'package:dandylight/pages/calendar_selection_page/CalendarSelectionPageState.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageState.dart';
@@ -43,6 +44,7 @@ import 'package:dandylight/pages/session_types/SessionTypesPageState.dart';
 import 'package:dandylight/pages/share_with_client_page/ShareWithClientPageState.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:dandylight/pages/upload_pose_page/UploadPosePageState.dart';
+import 'package:dandylight/pages/weekly_calendar_page/WeeklyCalendarPageState.dart';
 import 'package:dandylight/web/pages/ClientPortalPageState.dart';
 import 'package:meta/meta.dart';
 
@@ -97,6 +99,8 @@ class AppState {
   final NewQuestionPageState? newQuestionPageState;
   final SelectAPhotoPageState? selectAPhotoPageState;
   final AnswerQuestionnairePageState? answerQuestionnairePageState;
+  final BookingPageState? bookingPageState;
+  final WeeklyCalendarPageState? weeklyCalendarPageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -146,6 +150,8 @@ class AppState {
     @required this.newQuestionPageState,
     @required this.selectAPhotoPageState,
     @required this.answerQuestionnairePageState,
+    @required this.bookingPageState,
+    @required this.weeklyCalendarPageState,
   });
 
   factory AppState.initial() {
@@ -197,6 +203,8 @@ class AppState {
       newQuestionPageState: NewQuestionPageState.initial(),
       selectAPhotoPageState: SelectAPhotoPageState.initial(),
       answerQuestionnairePageState: AnswerQuestionnairePageState.initial(),
+      bookingPageState: BookingPageState.initial(),
+      weeklyCalendarPageState: WeeklyCalendarPageState.initial(),
     );
   }
 
@@ -248,6 +256,8 @@ class AppState {
     NewQuestionPageState? newQuestionPageState,
     SelectAPhotoPageState? selectAPhotoPageState,
     AnswerQuestionnairePageState? answerQuestionnairePageState,
+    BookingPageState? bookingPageState,
+    WeeklyCalendarPageState? weeklyCalendarPageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -297,6 +307,8 @@ class AppState {
       newQuestionPageState: newQuestionPageState ?? this.newQuestionPageState,
       selectAPhotoPageState: selectAPhotoPageState ?? this.selectAPhotoPageState,
       answerQuestionnairePageState: answerQuestionnairePageState ?? this.answerQuestionnairePageState,
+      bookingPageState: bookingPageState ?? this.bookingPageState,
+      weeklyCalendarPageState: weeklyCalendarPageState ?? this.weeklyCalendarPageState,
     );
   }
 
@@ -347,6 +359,8 @@ class AppState {
     newQuestionPageState.hashCode ^
     selectAPhotoPageState.hashCode ^
     answerQuestionnairePageState.hashCode ^
+    bookingPageState.hashCode ^
+    weeklyCalendarPageState.hashCode ^
     incomeAndExpensesPageState.hashCode ;
 
   @override
@@ -397,6 +411,8 @@ class AppState {
               questionnairesPageState == other.questionnairesPageState &&
               newQuestionnairePageState == other.newQuestionnairePageState &&
               selectAPhotoPageState == other.selectAPhotoPageState &&
+              bookingPageState == other.bookingPageState &&
               answerQuestionnairePageState == other.answerQuestionnairePageState &&
+              weeklyCalendarPageState == other.weeklyCalendarPageState &&
               incomeAndExpensesPageState == other.incomeAndExpensesPageState;
 }

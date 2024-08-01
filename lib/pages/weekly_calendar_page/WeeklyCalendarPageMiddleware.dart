@@ -1,8 +1,6 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
-import 'package:dandylight/data_layer/local_db/shared_preferences/DandylightSharedPrefs.dart';
-import 'package:dandylight/data_layer/local_db/shared_preferences/JobEventIdMap.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/calendar_page/CalendarPageActions.dart';
 import 'package:dandylight/utils/CalendarSyncUtil.dart';
@@ -13,7 +11,7 @@ import 'package:sembast/sembast.dart';
 
 import '../../models/Profile.dart';
 
-class CalendarPageMiddleware extends MiddlewareClass<AppState> {
+class WeeklyCalendarPageMiddleware extends MiddlewareClass<AppState> {
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next){

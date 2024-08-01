@@ -8,7 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
 
-class CalendarPageState{
+class WeeklyCalendarPageState{
   final bool? shouldClear;
   final List<EventDandyLight>? eventList;
   final List<Job>? jobs;
@@ -21,7 +21,7 @@ class CalendarPageState{
   final Function(DateTime, bool)? onMonthChanged;
   final Function(bool)? onCalendarEnabled;
 
-  CalendarPageState({
+  WeeklyCalendarPageState({
     @required this.shouldClear,
     @required this.eventList,
     @required this.onDateSelected,
@@ -35,7 +35,7 @@ class CalendarPageState{
     @required this.isCalendarEnabled,
   });
 
-  CalendarPageState copyWith({
+  WeeklyCalendarPageState copyWith({
     bool? shouldClear,
     List<EventDandyLight>? eventList,
     Function(DateTime)? onDateSelected,
@@ -48,7 +48,7 @@ class CalendarPageState{
     Function(bool)? onCalendarEnabled,
     bool? isCalendarEnabled,
   }){
-    return CalendarPageState(
+    return WeeklyCalendarPageState(
       shouldClear: shouldClear?? this.shouldClear,
       eventList: eventList?? this.eventList,
       onDateSelected: onDateSelected?? this.onDateSelected,
@@ -63,7 +63,7 @@ class CalendarPageState{
     );
   }
 
-  factory CalendarPageState.initial() => CalendarPageState(
+  factory WeeklyCalendarPageState.initial() => WeeklyCalendarPageState(
     shouldClear: true,
     eventList: [],
     jobs: [],
@@ -77,8 +77,8 @@ class CalendarPageState{
     isCalendarEnabled: false,
   );
 
-  factory CalendarPageState.fromStore(Store<AppState> store) {
-    return CalendarPageState(
+  factory WeeklyCalendarPageState.fromStore(Store<AppState> store) {
+    return WeeklyCalendarPageState(
       shouldClear: store.state.calendarPageState!.shouldClear,
       eventList: store.state.calendarPageState!.eventList,
       selectedDate: store.state.calendarPageState!.selectedDate,
@@ -112,7 +112,7 @@ class CalendarPageState{
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is CalendarPageState &&
+          other is WeeklyCalendarPageState &&
               shouldClear == other.shouldClear &&
               eventList == other.eventList &&
               jobs == other.jobs &&

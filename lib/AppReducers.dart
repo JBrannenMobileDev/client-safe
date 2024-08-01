@@ -1,6 +1,7 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensePageReducer.dart';
 import 'package:dandylight/pages/answer_questionnaire_page/AnswerQuestionnairePageReducer.dart';
+import 'package:dandylight/pages/booking_page/BookingPageReducer.dart';
 import 'package:dandylight/pages/calendar_page/CalendarPageReducer.dart';
 import 'package:dandylight/pages/calendar_selection_page/CalendarSelectionPageReducer.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageReducer.dart';
@@ -45,6 +46,7 @@ import 'package:dandylight/pages/session_types/SessionTypesPageReducer.dart';
 import 'package:dandylight/pages/share_with_client_page/ShareWithClientPageReducer.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageReducer.dart';
 import 'package:dandylight/pages/upload_pose_page/UploadPosePageReducer.dart';
+import 'package:dandylight/pages/weekly_calendar_page/WeeklyCalendarPageReducer.dart';
 import 'package:dandylight/web/pages/ClientPortalPageReducer.dart';
 
 AppState appReducers(AppState state, dynamic action) =>
@@ -96,4 +98,6 @@ AppState appReducers(AppState state, dynamic action) =>
         newQuestionPageState: newQuestionReducer(state.newQuestionPageState!, action),
         selectAPhotoPageState: selectAPhotoReducer(state.selectAPhotoPageState!, action),
         answerQuestionnairePageState: answerQuestionnaireReducer(state.answerQuestionnairePageState!, action),
+        bookingPageState: bookingPageReducer(state.bookingPageState!, action),
+        weeklyCalendarPageState: weeklyCalendarPageReducer(state.weeklyCalendarPageState!, action),
     );

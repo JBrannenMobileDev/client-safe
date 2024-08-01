@@ -89,6 +89,7 @@ import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageActions.da
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageMiddleware.dart';
 import 'package:dandylight/pages/upload_pose_page/UploadPoseActions.dart';
 import 'package:dandylight/pages/upload_pose_page/UploadPosePageMiddleware.dart';
+import 'package:dandylight/pages/weekly_calendar_page/WeeklyCalendarPageMiddleware.dart';
 import 'package:dandylight/web/pages/ClientPortalActions.dart';
 import 'package:dandylight/web/pages/ClientPortalPageMiddleware.dart';
 import 'package:redux/redux.dart';
@@ -143,8 +144,8 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, UpdateProfileWithShowcaseSeen>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, GetDeviceContactsAction>(NewContactPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchJobsAction>(JobsPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, FetchAllCalendarJobsAction>(CalendarPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, FetchDeviceEvents>(CalendarPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchAllWeeklyCalendarJobsAction>(CalendarPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchWeeklyDeviceEvents>(CalendarPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.SetSelectedDateAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.SetSelectedLocation>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveStageCompleted>(JobDetailsPageMiddleware()));
@@ -375,5 +376,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveCountryAnswerAction>(AnswerQuestionnairePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SubmitQuestionnaireAction>(AnswerQuestionnairePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveQuestionnaireProgressAction>(AnswerQuestionnairePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchAllWeeklyCalendarJobsAction>(WeeklyCalendarPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchWeeklyDeviceEvents>(WeeklyCalendarPageMiddleware()));
   return middlewareList;
 }

@@ -1,35 +1,29 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/EventDandyLight.dart';
-import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/calendar_page/CalendarPageActions.dart';
-import 'package:dandylight/pages/calendar_page/CalendarPageState.dart';
-import 'package:dandylight/pages/calendar_page/JobCalendarItem.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../models/Profile.dart';
 import '../../utils/CalendarUtil.dart';
-import '../../utils/NavigationUtil.dart';
 import '../../utils/permissions/UserPermissionsUtil.dart';
-import '../../utils/analytics/EventNames.dart';
-import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
+import 'WeeklyCalendarPageState.dart';
 
-class CalendarPage extends StatefulWidget {
+class WeeklyCalendarPage extends StatefulWidget {
   @override
-  _CalendarPageState createState() {
-    return _CalendarPageState();
+  _WeeklyWeeklyCalendarPageState createState() {
+    return _WeeklyWeeklyCalendarPageState();
   }
 }
 
-class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMixin {
+class _WeeklyWeeklyCalendarPageState extends State<WeeklyCalendarPage> with TickerProviderStateMixin {
   AnimationController? _animationController;
   List<EventDandyLight>? _events;
 
@@ -51,7 +45,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
     super.dispose();
   }
 
-  void _onDaySelected(DateTime day, List events, CalendarPageState pageState) {
+  void _onDaySelected(DateTime day, List events, WeeklyCalendarPageState pageState) {
     setState(() {
       CalendarUtil.buildEventList(
         pageState.selectedDate!,
@@ -71,7 +65,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
   @override
   Widget build(BuildContext context) {
 
-    return StoreConnector<AppState, CalendarPageState>(
+    return StoreConnector<AppState, WeeklyCalendarPageState>(
       onInit: (store) async {
         PermissionStatus previousStatus = await UserPermissionsUtil.getPermissionStatus(Permission.calendarFullAccess);
         Profile profile = store.state.dashboardPageState!.profile!;
@@ -85,86 +79,26 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
         }
         store.dispatch(FetchAllWeeklyCalendarJobsAction(store.state.calendarPageState!));
       },
-      converter: (store) => CalendarPageState.fromStore(store),
-      builder: (BuildContext context, CalendarPageState pageState) => Scaffold(
-        backgroundColor: Color(ColorConstants.getPrimaryWhite()),
-        body: Stack(
-          alignment: Alignment.topCenter,
-          children: <Widget>[
-            Container(
-              height: Device.get().isIphoneX ? 560.0 : 540.0,
-              color: Color(ColorConstants.getPrimaryWhite()),
-            ),
-            SafeArea(
-              child: Container(
-                margin: EdgeInsets.only(top: 32.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    _buildTableCalendarWithBuilders(pageState),
-                    const SizedBox(height: 8.0),
-                    Expanded(
-                        child: CalendarUtil.buildEventList(
-                            pageState.selectedDate!,
-                            pageState.eventList!,
-                            pageState.selectedDate!.year,
-                            pageState.selectedDate!.month,
-                            pageState.selectedDate!.day,
-                            pageState.jobs!,
-                        ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SafeArea(
-              child: Container(
-                margin: EdgeInsets.only(top: 16.0),
-                alignment: Alignment.topCenter,
-                child: TextDandyLight(
-                  type: TextDandyLight.LARGE_TEXT,
-                  text: "Calendar",
-                  color: Color(ColorConstants.getPrimaryBlack()),
-                ),
-              ),
-            ),
-            SafeArea(
-              child: Container(
-                alignment: Alignment.topLeft,
-                child: IconButton(
-                  icon: Icon(
-                      Icons.arrow_back_ios,
-                      color: Color(ColorConstants.getPrimaryBlack())
-                  ),
-                  tooltip: 'Add',
-                  onPressed: () {
-                    Navigator.of(context).pop(true);
-                  },
-                ),
-              ),
-            )
-          ],
+      converter: (store) => WeeklyCalendarPageState.fromStore(store),
+      builder: (BuildContext context, WeeklyCalendarPageState pageState) => Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5)
+          ),
+          margin: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
+          height: 116,
+          child: _buildTableCalendarWithBuilders(pageState),
         ),
-        floatingActionButton: FloatingActionButton(
-            elevation: 0.0,
-            child: Icon(Icons.add),
-            backgroundColor: Color(ColorConstants.getPrimaryColor()),
-            onPressed: () {
-              pageState.onAddNewJobSelected!();
-              NavigationUtil.showNewJobPage(context);
-              EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "Calendar Page"});
-            }),
-      ),
     );
   }
 
   // More advanced TableCalendar configuration (using Builders & Styles)
-  Widget _buildTableCalendarWithBuilders(CalendarPageState pageState) {
+  Widget _buildTableCalendarWithBuilders(WeeklyCalendarPageState pageState) {
     _events = pageState.eventList;
     return TableCalendar(
       locale: 'en_US',
       eventLoader: (day) => _events!.where((event) => isSameDay(event.selectedDate,day)).toList(), //THIS IS IMPORTANT
-      calendarFormat: CalendarFormat.month,
+      calendarFormat: CalendarFormat.week,
       startingDayOfWeek: StartingDayOfWeek.sunday,
       availableGestures: AvailableGestures.horizontalSwipe,
       availableCalendarFormats: const {
@@ -174,40 +108,39 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
       onPageChanged: (focusedDay) {
         pageState.onMonthChanged!(focusedDay, pageState.isCalendarEnabled!);
       },
-      focusedDay: pageState.selectedDate!,
       firstDay: DateTime.utc(2010, 10, 16).toLocal(),
       lastDay: DateTime.utc(2100, 3, 14).toLocal(),
       selectedDayPredicate: (day) => isSameDay(pageState.selectedDate, day),
       calendarStyle: CalendarStyle(
         outsideDaysVisible: true,
         outsideTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_bg_grey_dark),
-          fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          color: Color(ColorConstants.getPrimaryGreyDark()),
+          fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),
         ),
         defaultTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.getPrimaryBlack()),  fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          color: Color(ColorConstants.getPrimaryBlack()),  fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),),
         selectedTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_bg_grey_dark),  fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          color: Color(ColorConstants.getPrimaryBlack()),  fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),),
         disabledTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_bg_grey_dark),  fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          color: Color(ColorConstants.getPrimaryBlack()),  fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),),
         todayTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_bg_grey_dark),  fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          color: Color(ColorConstants.getPrimaryBlack()),  fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),),
         weekendTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.getPrimaryBlack()),  fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          color: Color(ColorConstants.getPrimaryBlack()),  fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),),
         holidayTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.getPrimaryBlack()),  fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          color: Color(ColorConstants.getPrimaryBlack()),  fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),),
       ),
@@ -224,8 +157,10 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
       headerStyle: HeaderStyle(
         titleCentered: true,
         formatButtonVisible: false,
+        leftChevronVisible: false,
+        rightChevronVisible: false,
         titleTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.getPrimaryBlack()),  fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+          color: Color(ColorConstants.getPrimaryBlack()),  fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),),
       ),
@@ -245,7 +180,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
               child: Text(
                 '${date.day}',
                 style: TextStyle().copyWith(
-                  fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+                  fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
                   fontFamily: TextDandyLight.getFontFamily(),
                   fontWeight: TextDandyLight.getFontWeight(),
                 ),
@@ -266,7 +201,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
             child: Text(
               '${date.day}',
               style: TextStyle().copyWith(
-                fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+                fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
                 fontFamily: TextDandyLight.getFontFamily(),
                 fontWeight: TextDandyLight.getFontWeight(),
               ),
@@ -285,12 +220,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
 
           return SizedBox.shrink();
         },
-      ),
-      onDaySelected: (date, time) {
-        pageState.onDateSelected!(date);
-        _onDaySelected(date, _events!.where((event) => isSameDay(event.selectedDate,date)).toList(), pageState);
-        _animationController!.forward(from: 0.0);
-      },
+      ), focusedDay: DateTime.now(),
     );
   }
 

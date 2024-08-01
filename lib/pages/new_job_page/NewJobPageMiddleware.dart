@@ -263,7 +263,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
 
       store.dispatch(LoadJobsAction(store.state.dashboardPageState));
       store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, store.state.newJobPageState!.selectedClient));
-      store.dispatch(calendar.FetchAllCalendarJobsAction(store.state.calendarPageState!));
+      store.dispatch(calendar.FetchAllWeeklyCalendarJobsAction(store.state.calendarPageState!));
       Job? jobWithDocumentId = await JobDao.getJobBycreatedDate(jobToSave.createdDate!);
       if(jobWithDocumentId != null) {
         store.dispatch(jobDetails.SetJobInfo(store.state.jobDetailsPageState, jobWithDocumentId.documentId));
