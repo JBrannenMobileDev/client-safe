@@ -1,14 +1,17 @@
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
+import 'BookingPageActions.dart';
 import 'BookingPageState.dart';
 
 class BookingPage extends StatefulWidget {
@@ -24,16 +27,19 @@ class _ClientDetailsPage extends State<BookingPage> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, BookingPageState>(
+      onInit: (store) {
+        store.dispatch(InitializeStateAction(store.state.bookingPageState));
+      },
       converter: (store) => BookingPageState.fromStore(store),
       builder: (BuildContext context, BookingPageState pageState) =>
           Scaffold(
             key: scaffoldKey,
-            backgroundColor: Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
+            backgroundColor: Color(ColorConstants.getPrimaryGreyLight()),
             body: CustomScrollView(
               slivers: <Widget>[
                 SliverAppBar(
                   backgroundColor: Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
-                  expandedHeight: 242.0,
+                  expandedHeight: 216.0,
                   pinned: false,
                   floating: false,
                   surfaceTintColor: Colors.transparent,
@@ -46,27 +52,17 @@ class _ClientDetailsPage extends State<BookingPage> {
                   actions: <Widget>[
                     GestureDetector(
                       onTap: () {
-                        pageState.onEditClientClicked!(pageState.client!);
-                        NavigationUtil.showNewContactPage(context, pageState.client);
-                        EventSender().sendEvent(eventName: EventNames.BT_ADD_NEW_CONTACT, properties: {EventNames.CONTACT_PARAM_COMING_FROM : "Client Details Page - Edit"});
+
                       },
                       child: Container(
                         margin: const EdgeInsets.only(right: 24.0),
                         height: 24.0,
                         width: 24.0,
                         child: Image.asset(
-                            'assets/images/icons/edit_icon_peach.png'),
+                            'assets/images/icons/edit_icon_peach.png', color: Color(ColorConstants.getPrimaryBlack())),
                       ),
                     ),
                   ],
-                  // leading: IconButton(
-                  //   icon: const Icon(Icons.close),
-                  //   color: Color(ColorConstants.getPrimaryBlack()),
-                  //   tooltip: 'Close',
-                  //   onPressed: () {
-                  //     Navigator.of(context).pop();
-                  //   },
-                  // ),
                   flexibleSpace: FlexibleSpaceBar(
                     collapseMode: CollapseMode.parallax,
                     background: Container(
@@ -85,7 +81,7 @@ class _ClientDetailsPage extends State<BookingPage> {
                 SliverList(
                   delegate: SliverChildListDelegate(
                     <Widget>[
-                      
+
                     ],
                   ),
                 ),
@@ -145,59 +141,45 @@ class _ClientDetailsPage extends State<BookingPage> {
             text: 'Booking Link',
           ),
         ),
-        Row(
-          children: [
-            Container(
-              margin: const EdgeInsets.only(left: 8),
-              width: MediaQuery.of(context).size.width-68,
-              child: TextDandyLight(
-                type: TextDandyLight.SMALL_TEXT,
-                textAlign: TextAlign.start,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                color: Color(ColorConstants.getPrimaryGreyDark()),
-                text: 'dandylight.com/booking/VintageVibesPhotography/23rdf23',
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(right: 4),
-              child: Icon(Icons.copy, color: Color(ColorConstants.getPrimaryGreyDark())),
-            )
-          ],
-        ),
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: 24,
-          margin: const EdgeInsets.only(top: 24, left: 8),
-          child: TextDandyLight(
-            type: TextDandyLight.SMALL_TEXT,
-            textAlign: TextAlign.start,
-            text: 'Availability this week',
-          ),
-        ),
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: 64,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5)
-          ),
+        GestureDetector(
+          onTap: () async {
+            await Clipboard.setData(ClipboardData(text: pageState.bookingLink ?? ''));
+            DandyToastUtil.showToast('Copied!', Color(ColorConstants.getPeachDark()));
+          },
           child: Row(
             children: [
-              dayItem('Mon', 0, false),
-              divider(),
-              dayItem('Tue', 1, false),
-              divider(),
-              dayItem('Wed', 2, false),
-              divider(),
-              dayItem('Thu', 3, true),
-              divider(),
-              dayItem('Fri', 4, true),
-              divider(),
-              dayItem('Sat', 5, true),
-              divider(),
-              dayItem('Sun', 6, false),
+              Container(
+                margin: const EdgeInsets.only(left: 8),
+                width: MediaQuery.of(context).size.width-68,
+                child: TextDandyLight(
+                  type: TextDandyLight.SMALL_TEXT,
+                  textAlign: TextAlign.start,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  color: Color(ColorConstants.getPrimaryGreyDark()),
+                  text: pageState.bookingLink,
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(right: 4),
+                child: Icon(Icons.copy, color: Color(ColorConstants.getPrimaryGreyDark())),
+              )
             ],
+          ),
+        ),
+        Container(
+          alignment: Alignment.center,
+          margin: EdgeInsets.only(top: 24),
+          height: 54,
+          width: 224,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: Color(ColorConstants.getPrimaryGreyDark()),
+          ),
+          child: TextDandyLight(
+            type: TextDandyLight.MEDIUM_TEXT,
+            text: 'Update Availability',
+            color: Color(ColorConstants.getPrimaryWhite()),
           ),
         )
       ],

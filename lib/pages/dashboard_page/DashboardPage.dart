@@ -739,7 +739,7 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                         ),
                                         GestureDetector(
                                           onTap: () {
-
+                                            NavigationUtil.showBookingPage(context);
                                           },
                                           child: Container(
                                             margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),

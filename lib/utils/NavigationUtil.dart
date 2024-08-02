@@ -47,6 +47,7 @@ import '../models/LocationDandy.dart';
 import '../models/Question.dart';
 import '../models/Report.dart';
 import '../models/SessionType.dart';
+import '../pages/booking_page/BookingPage.dart';
 import '../pages/contract_edit_page/ContractEditPage.dart';
 import '../pages/dashboard_page/DashboardPageState.dart';
 import '../pages/dashboard_page/widgets/ContractListPage.dart';
@@ -216,6 +217,10 @@ class NavigationUtil {
 
   static void showNewSessionTypePage(BuildContext context, SessionType? sessionType) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewSessionTypePage(sessionType)));
+  }
+
+  static void showBookingPage(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => BookingPage()));
   }
 
   static void showNewJobPage(BuildContext context, {Client? client}) async {

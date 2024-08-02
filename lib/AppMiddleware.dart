@@ -4,6 +4,8 @@ import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensePageMiddlewar
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:dandylight/pages/answer_questionnaire_page/AnswerQuestionnaireActions.dart';
 import 'package:dandylight/pages/answer_questionnaire_page/AnswerQuestionnairePageMiddleware.dart';
+import 'package:dandylight/pages/booking_page/BookingPageActions.dart';
+import 'package:dandylight/pages/booking_page/BookingPageMiddleware.dart' as booking;
 import 'package:dandylight/pages/calendar_page/CalendarPageActions.dart';
 import 'package:dandylight/pages/calendar_page/CalendarPageMiddleware.dart';
 import 'package:dandylight/pages/calendar_selection_page/CalendarSelectionActions.dart';
@@ -379,5 +381,6 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveQuestionnaireProgressAction>(AnswerQuestionnairePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchAllWeeklyCalendarJobsAction>(WeeklyCalendarPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchWeeklyDeviceEvents>(WeeklyCalendarPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, InitializeStateAction>(booking.BookingPageMiddleware()));
   return middlewareList;
 }
