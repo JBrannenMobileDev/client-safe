@@ -43,7 +43,7 @@ class TextFieldSimple extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Container(
           margin: const EdgeInsets.only(top: 0.0, bottom: 8.0),
-          height: 48,
+          height: height ?? 48,
           child: TextFormField(
             cursorColor: Color(ColorConstants.getPrimaryBlack()),
             enabled: enabled,
@@ -71,6 +71,7 @@ class TextFieldSimple extends StatelessWidget {
               contentPadding: const EdgeInsets.only(
                   left: 16.0,
                   bottom: 0.0,
+                  right: 8,
                   top: 24.0),
               fillColor: Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
               focusedBorder: OutlineInputBorder(

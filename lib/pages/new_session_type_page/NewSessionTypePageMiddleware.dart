@@ -13,6 +13,7 @@ import '../../models/Profile.dart';
 import '../../models/Progress.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../booking_page/BookingPageActions.dart';
 import '../dashboard_page/DashboardPageActions.dart';
 import '../new_job_page/NewJobPageActions.dart';
 import '../session_types/SessionTypesActions.dart';
@@ -70,6 +71,7 @@ class NewSessionTypePageMiddleware extends MiddlewareClass<AppState> {
 
     SessionType sessionTypeWithDocumentId = await SessionTypeDao.getByName(newSessionType.title);
     store.dispatch(UpdateWithNewSessionTypeAction(store.state.newJobPageState, sessionTypeWithDocumentId));
+    store.dispatch(UpdateBookingPageWithNewSessionTypeAction(store.state.bookingPageState, sessionTypeWithDocumentId));
 
     Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     if(profile != null && !profile.progress.createSessionType) {

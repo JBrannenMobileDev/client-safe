@@ -748,7 +748,9 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
                                             width: 134,
                                             decoration: BoxDecoration(
                                                 color: Color(ColorConstants.getPrimaryWhite()),
-                                                borderRadius: const BorderRadius.all(Radius.circular(16.0))),
+                                                borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+                                                boxShadow: ElevationToShadow[4],
+                                            ),
                                             child: Stack(
                                               alignment: Alignment.center,
                                               children: [

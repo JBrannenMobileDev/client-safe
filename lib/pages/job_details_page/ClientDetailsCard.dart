@@ -69,8 +69,8 @@ class ClientDetailsCard extends StatelessWidget {
                   children: <Widget>[
                     GestureDetector(
                         onTap: () {
-                          if(pageState!.client!.phone != null && pageState!.client!.phone!.isNotEmpty){
-                            onCallPressed(pageState!.client!.phone!);
+                          if(pageState!.client?.phone != null && (pageState!.client?.phone?.isNotEmpty ?? false)){
+                            onCallPressed(pageState!.client?.phone ?? '');
                           }else{
                             DandyToastUtil.showErrorToast('No phone number saved yet');
                           }
@@ -83,14 +83,14 @@ class ClientDetailsCard extends StatelessWidget {
                     ),
                     GestureDetector(
                         onTap: () {
-                          if(pageState!.client!.phone != null && pageState!.client!.phone!.isNotEmpty){
+                          if(pageState!.client?.phone != null && (pageState!.client?.phone?.isNotEmpty ?? false)){
                             showModalBottomSheet(
                               context: context,
                               isScrollControlled: true,
                               backgroundColor: Colors.transparent,
                               barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
                               builder: (context) {
-                                return SendMessageOptionsBottomSheet(SelectSavedResponseBottomSheet.TYPE_SMS, pageState!.client!.phone);
+                                return SendMessageOptionsBottomSheet(SelectSavedResponseBottomSheet.TYPE_SMS, pageState!.client?.phone);
                               },
                             );
                           }else{
@@ -105,14 +105,14 @@ class ClientDetailsCard extends StatelessWidget {
                     ),
                     GestureDetector(
                         onTap: () {
-                          if(pageState!.client!.email != null && pageState!.client!.email!.isNotEmpty){
+                          if(pageState!.client?.email != null && (pageState!.client?.email?.isNotEmpty ?? false)){
                             showModalBottomSheet(
                               context: context,
                               isScrollControlled: true,
                               backgroundColor: Colors.transparent,
                               barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
                               builder: (context) {
-                                return SendMessageOptionsBottomSheet(SelectSavedResponseBottomSheet.TYPE_EMAIL, pageState!.client!.email);
+                                return SendMessageOptionsBottomSheet(SelectSavedResponseBottomSheet.TYPE_EMAIL, pageState!.client?.email);
                               },
                             );
                           }else{
@@ -127,7 +127,7 @@ class ClientDetailsCard extends StatelessWidget {
                     ),
                     GestureDetector(
                         onTap: () {
-                          if(pageState!.client!.instagramProfileUrl != null && pageState!.client!.instagramProfileUrl!.isNotEmpty){
+                          if(pageState!.client?.instagramProfileUrl != null && (pageState!.client?.instagramProfileUrl?.isNotEmpty ?? false)){
                             pageState!.onInstagramSelected!();
                           }else{
                             DandyToastUtil.showErrorToast('No Instagram URL saved yet');

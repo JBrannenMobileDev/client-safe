@@ -620,4 +620,8 @@ class Profile{
   String getFullName() {
     return '${firstName ?? ''} ${lastName ?? ''}';
   }
+
+  String getBookingLink() {
+    return 'dandylight.com/booking/$businessName/$uid';
+  }
 }

@@ -39,7 +39,7 @@ class _ClientDetailsPage extends State<BookingPage> {
               slivers: <Widget>[
                 SliverAppBar(
                   backgroundColor: Color(ColorConstants.getPrimaryGreyLight()).withOpacity(0.5),
-                  expandedHeight: 216.0,
+                  expandedHeight: 258.0,
                   pinned: false,
                   floating: false,
                   surfaceTintColor: Colors.transparent,
@@ -52,7 +52,7 @@ class _ClientDetailsPage extends State<BookingPage> {
                   actions: <Widget>[
                     GestureDetector(
                       onTap: () {
-
+                        NavigationUtil.showBookingSetupPage(context);
                       },
                       child: Container(
                         margin: const EdgeInsets.only(right: 24.0),
@@ -95,21 +95,21 @@ class _ClientDetailsPage extends State<BookingPage> {
     return Column(
       children: [
         Container(
-          margin: const EdgeInsets.only(left: 42, right: 42, bottom: 24, top: 16),
+          margin: const EdgeInsets.only(left: 42, right: 42, bottom: 16, top: 16),
           child: TextDandyLight(
-            type: TextDandyLight.SMALL_TEXT,
+            type: TextDandyLight.MEDIUM_TEXT,
             textAlign: TextAlign.center,
             text: 'Lets get started by setting up your booking page!',
           ),
         ),
         GestureDetector(
           onTap: () {
-
+            NavigationUtil.showBookingSetupPage(context);
           },
           child: Container(
             alignment: Alignment.center,
             height: 54,
-            width: 232,
+            width: 224,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 color: Color(ColorConstants.getPrimaryGreyDark())
@@ -167,19 +167,44 @@ class _ClientDetailsPage extends State<BookingPage> {
             ],
           ),
         ),
-        Container(
-          alignment: Alignment.center,
-          margin: EdgeInsets.only(top: 24),
-          height: 54,
-          width: 224,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            color: Color(ColorConstants.getPrimaryGreyDark()),
+        GestureDetector(
+          onTap: () {
+
+          },
+          child: Container(
+            alignment: Alignment.center,
+            margin: EdgeInsets.only(top: 24),
+            padding: EdgeInsets.only(left: 16, right: 16),
+            height: 48,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Color(ColorConstants.getPrimaryGreyDark()),
+            ),
+            child: TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+              text: 'Update Availability',
+              color: Color(ColorConstants.getPrimaryWhite()),
+            ),
           ),
-          child: TextDandyLight(
-            type: TextDandyLight.MEDIUM_TEXT,
-            text: 'Update Availability',
-            color: Color(ColorConstants.getPrimaryWhite()),
+        ),
+        GestureDetector(
+          onTap: () {
+
+          },
+          child: Container(
+            alignment: Alignment.center,
+            margin: EdgeInsets.only(top: 8),
+            padding: EdgeInsets.only(left: 16, right: 16),
+            height: 48,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Color(ColorConstants.getPrimaryGreyDark()),
+            ),
+            child: TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+              text: 'Preview Booking Page',
+              color: Color(ColorConstants.getPrimaryWhite()),
+            ),
           ),
         )
       ],

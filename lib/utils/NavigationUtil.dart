@@ -6,6 +6,8 @@ import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPage.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/RecurringExpenseDetails.dart';
 import 'package:dandylight/pages/answer_questionnaire_page/AnswerQuestionnairePage.dart';
+import 'package:dandylight/pages/booking_page/BookingSetupPage.dart';
+import 'package:dandylight/pages/booking_page/NewOfferingPage.dart';
 import 'package:dandylight/pages/calendar_page/CalendarPage.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPage.dart';
 import 'package:dandylight/pages/client_details_page/JobHistoryListPage.dart';
@@ -221,6 +223,14 @@ class NavigationUtil {
 
   static void showBookingPage(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => BookingPage()));
+  }
+
+  static void showBookingSetupPage(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => BookingSetupPage()));
+  }
+
+  static void showNewOfferingPage(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewOfferingPage()));
   }
 
   static void showNewJobPage(BuildContext context, {Client? client}) async {

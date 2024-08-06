@@ -83,6 +83,17 @@ class _NewJobPageState extends State<NewJobPage> {
     });
   }
 
+
+  @override
+  void dispose() {
+    super.dispose();
+    firstNameFocusNode.removeListener((){});
+    lastNameFocusNode.removeListener((){});
+    phoneFocusNode.removeListener((){});
+    emailFocusNode.removeListener((){});
+    instagramUrlFocusNode.removeListener((){});
+  }
+
   void setIsTyping(bool hasFocus) {
     isTyping = hasFocus;
   }
