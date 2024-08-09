@@ -35,11 +35,13 @@ import 'package:sembast/sembast.dart';
 import 'package:version/version.dart';
 import 'package:http/http.dart' as http;
 
+import '../../data_layer/api_clients/DandylightFunctionsClient.dart';
 import '../../data_layer/api_clients/GoogleApiClient.dart';
 import '../../data_layer/local_db/daos/IncomeAndExpenseDao.dart';
 import '../../data_layer/local_db/daos/PoseLibraryGroupDao.dart';
 import '../../data_layer/local_db/daos/PoseSubmittedGroupDao.dart';
 import '../../data_layer/repositories/FileStorage.dart';
+import '../../data_layer/repositories/PendingEmailsRepository.dart';
 import '../../models/Charge.dart';
 import '../../models/Pose.dart';
 import '../../models/PoseLibraryGroup.dart';
@@ -172,6 +174,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       case Progress.PREVIEW_SAMPLE_JOB:
         if(!(profile?.progress.previewSampleJob ?? false)) {
           profile?.progress.previewSampleJob = true;
+          PendingEmailsRepository(functions: DandylightFunctionsApi(httpClient: http.Client())).sendNextStageEmail(Progress.getNext(Progress.PREVIEW_SAMPLE_JOB));
           EventSender().sendEvent(eventName: EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED, properties: {
             EventNames.GETTING_STARTED_CHECKLIST_ITEM_COMPLETED_PARAM : Progress.PREVIEW_SAMPLE_JOB,
           });

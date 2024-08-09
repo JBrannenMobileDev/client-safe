@@ -78,26 +78,6 @@ class PendingEmailDao extends Equatable{
     return false;
   }
 
-  static Future<PendingEmail?> getById(String pendingEmailDocumentId) async{
-    if((await getAll())!.isNotEmpty) {
-      final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', pendingEmailDocumentId));
-      final recordSnapshots = await _pendingEmailsStore.find(await _db, finder: finder);
-      // Making a List<profileId> out of List<RecordSnapshot>
-      List<PendingEmail> pendingEmails = recordSnapshots.map((snapshot) {
-        final pendingEmail = PendingEmail.fromMap(snapshot.value);
-        pendingEmail.id = snapshot.key;
-        return pendingEmail;
-      }).toList();
-      if(pendingEmails.isNotEmpty) {
-        return pendingEmails.elementAt(0);
-      } else {
-        return null;
-      }
-    } else {
-      return null;
-    }
-  }
-
   static Future<PendingEmail> update(PendingEmail pendingEmail) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
@@ -111,17 +91,6 @@ class PendingEmailDao extends Equatable{
     return pendingEmail;
   }
 
-  static Future updateLocalOnly(PendingEmail pendingEmail) async {
-    // For filtering by key (ID), RegEx, greater than, and many other criteria,
-    // we use a Finder.
-    final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', pendingEmail.documentId));
-    await _pendingEmailsStore.update(
-      await _db,
-      pendingEmail.toMap(),
-      finder: finder,
-    );
-  }
-
   static Future delete(String? documentId) async {
     final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', documentId));
     await _pendingEmailsStore.delete(
@@ -131,103 +100,7 @@ class PendingEmailDao extends Equatable{
     await PendingEmailCollection().delete(documentId);
   }
 
-  static Future<List<PendingEmail>?> getAll() async {
-    final recordSnapshots = await _pendingEmailsStore.find(await _db);
-
-    // Making a List<Client> out of List<RecordSnapshot>
-    return recordSnapshots.map((snapshot) {
-      final pendingEmail = PendingEmail.fromMap(snapshot.value);
-      pendingEmail.id = snapshot.key;
-      return pendingEmail;
-    }).toList();
-  }
-
-  static Future<void> syncAllFromFireStore() async {
-    List<PendingEmail>? allLocalPendingEmails = await getAll();
-    List<PendingEmail>? allFireStorePendingEmails = await PendingEmailCollection().getAll(UidUtil().getUid());
-
-    if(allLocalPendingEmails != null && allLocalPendingEmails.isNotEmpty) {
-      if(allFireStorePendingEmails != null && allFireStorePendingEmails.isNotEmpty) {
-        //both local and fireStore have PendingEmails
-        //fireStore is source of truth for this sync.
-        await _syncFireStoreToLocal(allLocalPendingEmails, allFireStorePendingEmails);
-      } else {
-        //all PendingEmails have been deleted in the cloud. Delete all local PendingEmails also.
-        _deleteAllLocalPendingEmails(allLocalPendingEmails);
-      }
-    } else {
-      if(allFireStorePendingEmails != null && allFireStorePendingEmails.isNotEmpty){
-        //no local PendingEmails but there are fireStore PendingEmails.
-        await _copyAllFireStorePendingEmailsToLocal(allFireStorePendingEmails);
-      } else {
-        //no PendingEmails in either database. nothing to sync.
-      }
-    }
-  }
-
-  static Future<void> _deleteAllLocalPendingEmails(List<PendingEmail> allLocalPendingEmails) async {
-    for(PendingEmail pendingEmail in allLocalPendingEmails) {
-      final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', pendingEmail.documentId));
-      await _pendingEmailsStore.delete(
-        await _db,
-        finder: finder,
-      );
-    }
-  }
-
-  static Future<void> _copyAllFireStorePendingEmailsToLocal(List<PendingEmail> allFireStorePendingEmails) async {
-    for (PendingEmail PendingEmailToSave in allFireStorePendingEmails) {
-      await _pendingEmailsStore.add(await _db, PendingEmailToSave.toMap());
-    }
-  }
-
-  static Future<void> _syncFireStoreToLocal(List<PendingEmail> allLocalPendingEmails, List<PendingEmail> allFireStorePendingEmails) async {
-    for(PendingEmail localPendingEmail in allLocalPendingEmails) {
-      //should only be 1 matching
-      List<PendingEmail> matchingFireStorePendingEmails = allFireStorePendingEmails.where((fireStorePendingEmail) => localPendingEmail.documentId == fireStorePendingEmail.documentId).toList();
-      if(matchingFireStorePendingEmails.isNotEmpty) {
-        PendingEmail fireStorePendingEmail = matchingFireStorePendingEmails.elementAt(0);
-        final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', fireStorePendingEmail.documentId));
-        await _pendingEmailsStore.update(
-          await _db,
-          fireStorePendingEmail.toMap(),
-          finder: finder,
-        );
-      } else {
-        //PendingEmail does nto exist on cloud. so delete from local.
-        final finder = sembast.Finder(filter: sembast.Filter.equals('documentId', localPendingEmail.documentId));
-        await _pendingEmailsStore.delete(
-          await _db,
-          finder: finder,
-        );
-      }
-    }
-
-    for(PendingEmail fireStorePendingEmail in allFireStorePendingEmails) {
-      List<PendingEmail> matchingLocalPendingEmails = allLocalPendingEmails.where((localPendingEmail) => localPendingEmail.documentId == fireStorePendingEmail.documentId).toList();
-      if(matchingLocalPendingEmails.isNotEmpty) {
-        //do nothing. PendingEmail already synced.
-      } else {
-        //add to local. does not exist in local and has not been synced yet.
-        fireStorePendingEmail.id = null;
-        await _pendingEmailsStore.add(await _db, fireStorePendingEmail.toMap());
-      }
-    }
-  }
-
   @override
   // TODO: implement props
   List<Object> get props => [];
-
-  static void deleteAllLocal() async {
-    List<PendingEmail>? pendingEmails = await getAll();
-    _deleteAllLocalPendingEmails(pendingEmails!);
-  }
-
-  static void deleteAllRemote() async {
-    List<PendingEmail>? pendingEmails = await getAll();
-    for(PendingEmail pendingEmail in pendingEmails!) {
-      await delete(pendingEmail.documentId);
-    }
-  }
 }

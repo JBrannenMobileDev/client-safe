@@ -4,6 +4,7 @@ import 'package:dandylight/models/PendingEmail.dart';
 import 'package:dandylight/utils/NotificationHelper.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import '../../models/Profile.dart';
+import '../../models/Progress.dart';
 import '../api_clients/DandylightFunctionsClient.dart';
 
 class PendingEmailsRepository {
@@ -45,37 +46,25 @@ class PendingEmailsRepository {
     }
   }
 
-  void sendNextStageEmail() async {
-    String uid = UidUtil().getUid();
-    Profile? profile = await ProfileDao.getMatchingProfile(uid);
-    PendingEmail? previousEmail = await PendingEmailDao.getPreviousStageEmailByUid(uid);
+  void sendNextStageEmail(Progress progress) async {
+    Profile? profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    String? typeToSend = PendingEmail.getNextUncompletedType(progress);
 
-    if(profile?.progress.canShow == true) {
-      if(previousEmail != null && profile != null) {
-        String? nextType = PendingEmail.getNextUncompletedType(profile.progress);
-        if(nextType != null && nextType != previousEmail.emailType) {
-          DateTime newSendDate = DateTime.now();
-          newSendDate = newSendDate.add(const Duration(days: 3));
-          previousEmail.sendDate = newSendDate;
-          previousEmail.emailType = nextType;
-          _sendEmailToUserScheduled(previousEmail);
-          NotificationHelper().scheduleNextTaskNotification(nextType, newSendDate);
-        }
-      } else if(previousEmail == null && profile != null && profile.email != null) {
-        String? nextType = PendingEmail.getNextUncompletedType(profile.progress);
-        if(nextType != null) {
-          DateTime sendDate = DateTime.now();
-          sendDate = sendDate.add(const Duration(days: 3));
-          PendingEmail pendingEmail = PendingEmail(
-            sendDate: sendDate,
-            emailType: nextType,
-            toAddress: profile.email!,
-            uid: uid,
-            photographerName: profile.firstName ?? '',
-          );
-          _sendEmailToUserScheduled(pendingEmail);
-          NotificationHelper().scheduleNextTaskNotification(nextType, sendDate);
-        }
+    if(profile != null && profile.progress.canShow == true && (profile.email?.isNotEmpty ?? false)) {
+      if (typeToSend != null && (profile.progress.canSend(typeToSend ?? ''))) {
+        DateTime sendDate = DateTime.now();
+        sendDate = sendDate.add(const Duration(days: 3));
+        String uid = UidUtil().getUid();
+        PendingEmail pendingEmail = PendingEmail(
+          sendDate: sendDate,
+          emailType: typeToSend,
+          toAddress: profile.email!,
+          uid: uid,
+          photographerName: profile.firstName ?? '',
+        );
+        await PendingEmailDao.delete(uid, typeToSend);
+        _sendEmailToUserScheduled(pendingEmail);
+        NotificationHelper().scheduleNextTaskNotification(typeToSend, sendDate);
       }
     }
   }

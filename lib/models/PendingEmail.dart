@@ -26,6 +26,7 @@ class PendingEmail{
   static const String TYPE_EMAIL_VERIFICATION_HELP = 'email_verification_help';
 
   int? id;
+  bool? isRev2 = true;
   String? documentId;
   DateTime sendDate;
   String emailType;
@@ -36,6 +37,7 @@ class PendingEmail{
   PendingEmail({
     this.id,
     this.documentId,
+    this.isRev2,
     required this.sendDate,
     required this.emailType,
     required this.toAddress,
@@ -50,6 +52,7 @@ class PendingEmail{
     return {
       'id' : id,
       'documentId' : documentId,
+      'isRev2' : isRev2,
       'sendDate' : sendDate.millisecondsSinceEpoch,
       'emailType' : emailType,
       'toAddress' : toAddress,
@@ -62,6 +65,7 @@ class PendingEmail{
     return PendingEmail(
       id: map['id'],
       documentId: map['documentId'],
+      isRev2: map['isRev2'] ?? false,
       sendDate: DateTime.fromMillisecondsSinceEpoch(map['sendDate']),
       emailType: map['emailType'],
       toAddress: map['toAddress'],
@@ -71,6 +75,22 @@ class PendingEmail{
   }
 
   static String? getNextUncompletedType(Progress progress) {
+    if(!progress.previewClientPortal) return PendingEmail.TYPE_VIEW_CLIENT_PORTAL;
+    if(!progress.previewSampleJob) return PendingEmail.TYPE_VIEW_EXAMPLE_JOB;
+    if(!progress.setupBrand) return PendingEmail.TYPE_SETUP_YOU_BRAND;
+    if(!progress.addClient) return PendingEmail.TYPE_ADD_FIRST_CLIENT;
+    if(!progress.createSessionType) return PendingEmail.TYPE_CREATE_SESSION_TYPE;
+    if(!progress.createJob) return PendingEmail.TYPE_CREATE_FIRST_JOB;
+    if(!progress.createContract) return PendingEmail.TYPE_CREATE_CONTRACT;
+    if(!progress.addContractToJob) return PendingEmail.TYPE_ADD_CONTRACT_TO_JOB;
+    if(!progress.addInvoiceToJob) return PendingEmail.TYPE_ADD_INVOICE_TO_JOB;
+    if(!progress.addQuestionnaireToJob) return PendingEmail.TYPE_ADD_QUESTIONNAIRE_TO_JOB;
+    if(!progress.addPosesToJob) return PendingEmail.TYPE_ADD_POSES_TO_JOB;
+    if(!progress.addLocationToJob) return PendingEmail.TYPE_ADD_LOCATION_TO_JOB;
+    return null;
+  }
+
+  static String? getLastCompletedType(Progress progress) {
     if(!progress.previewClientPortal) return PendingEmail.TYPE_VIEW_CLIENT_PORTAL;
     if(!progress.previewSampleJob) return PendingEmail.TYPE_VIEW_EXAMPLE_JOB;
     if(!progress.setupBrand) return PendingEmail.TYPE_SETUP_YOU_BRAND;

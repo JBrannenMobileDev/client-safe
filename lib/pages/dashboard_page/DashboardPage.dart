@@ -377,8 +377,6 @@ class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver,
               UserOptionsUtil.showCalendarSelectionDialog(context, null);
             }
           }
-
-          PendingEmailsRepository(functions: DandylightFunctionsApi(httpClient: http.Client())).sendNextStageEmail();
         },
         onDidChange: (previous, current) async {
           if(!hasSeenSessionMessage && (current.profile?.showSessionMigrationMessage ?? false)) {

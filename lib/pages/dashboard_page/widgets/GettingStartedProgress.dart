@@ -36,9 +36,6 @@ class GettingStartedProgress extends StatelessWidget {
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, DashboardPageState>(
   converter: (Store<AppState> store) => DashboardPageState.fromStore(store),
-  onDidChange: (previoius, current) {
-    PendingEmailsRepository(functions: DandylightFunctionsApi(httpClient: http.Client())).sendNextStageEmail();
-  },
   builder: (BuildContext context, DashboardPageState pageState) =>
       GestureDetector(
         onTap: () {
